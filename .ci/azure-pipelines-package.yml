@@ -35,4 +35,11 @@ jobs:
       sshEndpoint: repository
       sourceFolder: '$(Build.SourcesDirectory)/deployment/dist'
       contents: '**'
-      targetFolder: '/srv/repository/incoming/azure'
+      targetFolder: '/srv/repository/incoming/azure/$(BuildConfiguration)'
+
+  - task: SSH@0
+    displayName: 'Collect packages into repositories'
+    inputs:
+      sshEndpoint: repository
+      runOptions: 'inline'
+      inline: '/srv/repository/collect-server.azure.sh /srv/repository/incoming/azure $(Build.BuildNumber) unstable'
