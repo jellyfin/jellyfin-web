@@ -28,3 +28,11 @@ jobs:
     inputs:
       targetPath: '$(Build.SourcesDirectory)/deployment/dist'
       artifactName: 'jellyfin-web-$(BuildConfiguration)'
+
+  - task: CopyFilesOverSSH@0
+    displayName: 'Upload artifacts to repository server'
+    inputs:
+      sshEndpoint: repository
+      sourceFolder: '$(Build.SourcesDirectory)/deployment/dist'
+      contents: '**'
+      targetFolder: '/srv/repository/incoming/azure'
