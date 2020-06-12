@@ -42,6 +42,13 @@ jobs:
       contents: '**'
       targetFolder: '/srv/repository/incoming/azure/$(Build.BuildNumber)/$(BuildConfiguration)'
 
+- job: Collect
+  displayName: 'Collect Artifacts'
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
   - task: SSH@0
     displayName: 'Collect packages into repositories (unstable)'
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/package')
