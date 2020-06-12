@@ -22,11 +22,11 @@ jobs:
 
   - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/jellyfin -e IS_UNSTABLE="yes" -e BUILD_ID=$(Build.BuildNumber) jellyfin-web-$(BuildConfiguration)'
     displayName: 'Run Dockerfile (unstable)'
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/package')
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/master')
 
   - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/jellyfin -e IS_UNSTABLE="no" -e BUILD_ID=$(Build.BuildNumber) jellyfin-web-$(BuildConfiguration)'
     displayName: 'Run Dockerfile (stable)'
-    condition: ne(variables['Build.SourceBranch'], 'refs/heads/package')
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Release'
@@ -51,7 +51,7 @@ jobs:
   steps:
   - task: SSH@0
     displayName: 'Collect packages into repositories (unstable)'
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/package')
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/master')
     inputs:
       sshEndpoint: repository
       runOptions: 'inline'
@@ -59,7 +59,7 @@ jobs:
 
   - task: SSH@0
     displayName: 'Collect packages into repositories (stable)'
-    condition: ne(variables['Build.SourceBranch'], 'refs/heads/package')
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
     inputs:
       sshEndpoint: repository
       runOptions: 'inline'
