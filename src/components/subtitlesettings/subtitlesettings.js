@@ -135,7 +135,7 @@ function embed(options, self) {
         options.element.classList.add('subtitlesettings');
         options.element.innerHTML = globalize.translateDocument(template, 'core');
 
-        options.element.querySelector('form').addEventListener('submit', self.onSubmit );
+        options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
 
         options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
         options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
