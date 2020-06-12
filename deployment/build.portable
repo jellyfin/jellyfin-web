@@ -7,7 +7,7 @@ set -o xtrace
 pushd ${SOURCE_DIR}
 
 # get version
-if [[ ${GIT_BRANCH} == 'refs/heads/package' ]]; then
+if [[ ${IS_UNSTABLE} == 'yes' ]]; then
     version="${BUILD_ID}"
 else
     version="$( grep "version:" ./build.yaml | sed -E 's/version: "([0-9\.]+.*)"/\1/' )"

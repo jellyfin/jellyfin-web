@@ -20,8 +20,13 @@ jobs:
   - script: 'docker build -f deployment/Dockerfile.$(BuildConfiguration) -t jellyfin-web-$(BuildConfiguration) deployment'
     displayName: 'Build Dockerfile'
 
-  - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/jellyfin -e GIT_BRANCH=$(Build.SourceBranch) -e BUILD_ID=$(Build.BuildNumber) jellyfin-web-$(BuildConfiguration)'
-    displayName: 'Run Dockerfile'
+  - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/jellyfin -e IS_UNSTABLE="yes" -e BUILD_ID=$(Build.BuildNumber) jellyfin-web-$(BuildConfiguration)'
+    displayName: 'Run Dockerfile (unstable)'
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/package')
+
+  - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/jellyfin -e IS_UNSTABLE="no" -e BUILD_ID=$(Build.BuildNumber) jellyfin-web-$(BuildConfiguration)'
+    displayName: 'Run Dockerfile (stable)'
+    condition: ne(variables['Build.SourceBranch'], 'refs/heads/package')
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Release'
@@ -35,11 +40,20 @@ jobs:
       sshEndpoint: repository
       sourceFolder: '$(Build.SourcesDirectory)/deployment/dist'
       contents: '**'
-      targetFolder: '/srv/repository/incoming/azure/$(BuildConfiguration)'
+      targetFolder: '/srv/repository/incoming/azure/$(Build.BuildNumber)/$(BuildConfiguration)'
 
   - task: SSH@0
-    displayName: 'Collect packages into repositories'
+    displayName: 'Collect packages into repositories (unstable)'
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/package')
     inputs:
       sshEndpoint: repository
       runOptions: 'inline'
       inline: '/srv/repository/collect-server.azure.sh /srv/repository/incoming/azure $(Build.BuildNumber) unstable'
+
+  - task: SSH@0
+    displayName: 'Collect packages into repositories (stable)'
+    condition: ne(variables['Build.SourceBranch'], 'refs/heads/package')
+    inputs:
+      sshEndpoint: repository
+      runOptions: 'inline'
+      inline: '/srv/repository/collect-server.azure.sh /srv/repository/incoming/azure $(Build.BuildNumber)'
