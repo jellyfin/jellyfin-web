@@ -76,7 +76,7 @@ import recordingHelper from 'recordingHelper';
 
     function showProgramDialog(item) {
 
-        import('recordingCreator').then((recordingCreator) => {
+        import('recordingCreator').then(({default:recordingCreator}) => {
 
             recordingCreator.show(item.Id, item.ServerId);
         });
@@ -121,7 +121,7 @@ import recordingHelper from 'recordingHelper';
                 item.PlaylistItemId = elem ? elem.getAttribute('data-playlistitemid') : null;
             }
 
-            import('itemContextMenu').then((itemContextMenu) => {
+            import('itemContextMenu').then(({default: itemContextMenu}) => {
 
                 connectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
                     itemContextMenu.show(Object.assign({
@@ -169,7 +169,7 @@ import recordingHelper from 'recordingHelper';
 
         const item = getItemInfoFromCard(card);
 
-        import('playMenu').then((playMenu) => {
+        import('playMenu').then(({default: playMenu}) => {
 
             playMenu.show({
 
@@ -180,7 +180,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function sendToast(text) {
-        import('toast').then((toast) => {
+        import('toast').then(({default: toast}) => {
             toast(text);
         });
     }
@@ -293,7 +293,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function addToPlaylist(item) {
-        import('playlistEditor').then((playlistEditor) => {
+        import('playlistEditor').then(({default: playlistEditor}) => {
 
             new playlistEditor().show({
                 items: [item.Id],
@@ -322,18 +322,18 @@ import recordingHelper from 'recordingHelper';
 
             if (item.Type === 'Timer') {
                 if (item.ProgramId) {
-                    import('recordingCreator').then((recordingCreator) => {
+                    import('recordingCreator').then(({default: recordingCreator}) => {
 
                         recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
                     });
                 } else {
-                    import('recordingEditor').then((recordingEditor) => {
+                    import('recordingEditor').then(({default: recordingEditor}) => {
 
                         recordingEditor.show(item.Id, serverId).then(resolve, reject);
                     });
                 }
             } else {
-                import('metadataEditor').then((metadataEditor) => {
+                import('metadataEditor').then(({default: metadataEditor}) => {
 
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
