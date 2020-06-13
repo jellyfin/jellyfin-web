@@ -364,8 +364,8 @@ import 'emby-input';
         currentAvailableOptions = null;
         const isNewLibrary = null === libraryOptions;
         isNewLibrary && parent.classList.add('newlibrary');
-        return new Promise((resolve) => {
-            import('text!./libraryoptionseditor.template.html').then(({default: template}) => {
+        return import('text!./libraryoptionseditor.template.html').then(({default: template}) => {
+            return new Promise((resolve) => {
                 parent.innerHTML = globalize.translateDocument(template);
                 populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
                 const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];

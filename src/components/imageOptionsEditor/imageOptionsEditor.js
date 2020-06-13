@@ -92,8 +92,8 @@ import 'emby-input';
 export class editor {
     constructor() {
         this.show = (itemType, options, availableOptions) => {
-            return new Promise((resolve) => {
-                import('text!./components/imageOptionsEditor/imageOptionsEditor.template.html').then(({default: template}) => {
+            return import('text!./components/imageOptionsEditor/imageOptionsEditor.template.html').then(({default: template}) => {
+                return new Promise((resolve) => {
                     const dlg = dialogHelper.createDialog({
                         size: 'small',
                         removeOnClose: true,
