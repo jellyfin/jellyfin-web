@@ -1,13 +1,28 @@
-define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 'connectionManager', 'userSettings', 'appRouter', 'globalize', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (dom, shell, dialogHelper, loading, layoutManager, playbackManager, connectionManager, userSettings, appRouter, globalize) {
-    'use strict';
+import dom from 'dom';
+import dialogHelper from 'dialogHelper';
+import loading from 'loading';
+import layoutManager from 'layoutManager';
+import playbackManager from 'playbackManager';
+import connectionManager from 'connectionManager';
+import userSettings from 'userSettings';
+import appRouter from 'appRouter';
+import globalize from 'globalize';
+import 'emby-input';
+import 'paper-icon-button-light';
+import 'emby-select';
+import 'material-icons';
+import 'css!./../formdialog';
+import 'emby-button';
 
-    var currentServerId;
+/* eslint-disable indent */
+
+    let currentServerId;
 
     function onSubmit(e) {
-        var panel = dom.parentWithClass(this, 'dialog');
+        const panel = dom.parentWithClass(this, 'dialog');
 
-        var playlistId = panel.querySelector('#selectPlaylistToAddTo').value;
-        var apiClient = connectionManager.getApiClient(currentServerId);
+        const playlistId = panel.querySelector('#selectPlaylistToAddTo').value;
+        const apiClient = connectionManager.getApiClient(currentServerId);
 
         if (playlistId) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
@@ -23,7 +38,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
     function createPlaylist(apiClient, dlg) {
         loading.show();
 
-        var url = apiClient.getUrl('Playlists', {
+        const url = apiClient.getUrl('Playlists', {
             Name: dlg.querySelector('#txtNewPlaylistName').value,
             Ids: dlg.querySelector('.fldSelectedItemIds').value || '',
             userId: apiClient.getCurrentUserId()
@@ -34,10 +49,10 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
             type: 'POST',
             url: url,
             dataType: 'json'
-        }).then(function (result) {
+        }).then(result => {
             loading.hide();
 
-            var id = result.Id;
+            const id = result.Id;
             dlg.submitted = true;
             dialogHelper.close(dlg);
             redirectToPlaylist(apiClient, id);
@@ -49,7 +64,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
     }
 
     function addToPlaylist(apiClient, dlg, id) {
-        var itemIds = dlg.querySelector('.fldSelectedItemIds').value || '';
+        const itemIds = dlg.querySelector('.fldSelectedItemIds').value || '';
 
         if (id === 'queue') {
             playbackManager.queue({
@@ -63,7 +78,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
 
         loading.show();
 
-        var url = apiClient.getUrl('Playlists/' + id + '/Items', {
+        const url = apiClient.getUrl(`Playlists/${id}/Items`, {
             Ids: itemIds,
             userId: apiClient.getCurrentUserId()
         });
@@ -72,7 +87,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
             type: 'POST',
             url: url
 
-        }).then(function () {
+        }).then(() => {
             loading.hide();
 
             dlg.submitted = true;
@@ -85,36 +100,36 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
     }
 
     function populatePlaylists(editorOptions, panel) {
-        var select = panel.querySelector('#selectPlaylistToAddTo');
+        const select = panel.querySelector('#selectPlaylistToAddTo');
 
         loading.hide();
 
         panel.querySelector('.newPlaylistInfo').classList.add('hide');
 
-        var options = {
+        const options = {
             Recursive: true,
             IncludeItemTypes: 'Playlist',
             SortBy: 'SortName',
             EnableTotalRecordCount: false
         };
 
-        var apiClient = connectionManager.getApiClient(currentServerId);
-        apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-            var html = '';
+        const apiClient = connectionManager.getApiClient(currentServerId);
+        apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+            let html = '';
 
             if (editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) {
-                html += '<option value="queue">' + globalize.translate('AddToPlayQueue') + '</option>';
+                html += `<option value="queue">${globalize.translate('AddToPlayQueue')}</option>`;
             }
 
-            html += '<option value="">' + globalize.translate('OptionNew') + '</option>';
+            html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
-            html += result.Items.map(function (i) {
-                return '<option value="' + i.Id + '">' + i.Name + '</option>';
+            html += result.Items.map(i => {
+                return `<option value="${i.Id}">${i.Name}</option>`;
             });
 
             select.innerHTML = html;
 
-            var defaultValue = editorOptions.defaultValue;
+            let defaultValue = editorOptions.defaultValue;
             if (!defaultValue) {
                 defaultValue = userSettings.get('playlisteditor-lastplaylistid') || '';
             }
@@ -132,29 +147,29 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
     }
 
     function getEditorHtml(items) {
-        var html = '';
+        let html = '';
 
         html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
         html += '<div class="dialogContentInner dialog-content-centered">';
         html += '<form style="margin:auto;">';
 
         html += '<div class="fldSelectPlaylist selectContainer">';
-        var autoFocus = items.length ? ' autofocus' : '';
-        html += '<select is="emby-select" id="selectPlaylistToAddTo" label="' + globalize.translate('LabelPlaylist') + '"' + autoFocus + '></select>';
+        let autoFocus = items.length ? ' autofocus' : '';
+        html += `<select is="emby-select" id="selectPlaylistToAddTo" label="${globalize.translate('LabelPlaylist')}"${autoFocus}></select>`;
         html += '</div>';
 
         html += '<div class="newPlaylistInfo">';
 
         html += '<div class="inputContainer">';
         autoFocus = items.length ? '' : ' autofocus';
-        html += '<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('LabelName') + '"' + autoFocus + ' />';
+        html += `<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="${globalize.translate('LabelName')}"${autoFocus} />`;
         html += '</div>';
 
         // newPlaylistInfo
         html += '</div>';
 
         html += '<div class="formDialogFooter">';
-        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Add') + '</button>';
+        html += `<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">${globalize.translate('Add')}</button>`;
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';
@@ -187,7 +202,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
         } else {
             content.querySelector('.fldSelectPlaylist').classList.add('hide');
 
-            var selectPlaylistToAddTo = content.querySelector('#selectPlaylistToAddTo');
+            const selectPlaylistToAddTo = content.querySelector('#selectPlaylistToAddTo');
             selectPlaylistToAddTo.innerHTML = '';
             selectPlaylistToAddTo.value = '';
             triggerChange(selectPlaylistToAddTo);
@@ -195,72 +210,70 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
     }
 
     function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
+        import('scrollHelper').then(scrollHelper => {
+            const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function PlaylistEditor() {
+    class PlaylistEditor {
+        show(options) {
+            const items = options.items || {};
+            currentServerId = options.serverId;
 
+            const dialogOptions = {
+                removeOnClose: true,
+                scrollY: false
+            };
+
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'small';
+            }
+
+            const dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('formDialog');
+
+            let html = '';
+            const title = globalize.translate('HeaderAddToPlaylist');
+
+            html += '<div class="formDialogHeader">';
+            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<h3 class="formDialogHeaderTitle">';
+            html += title;
+            html += '</h3>';
+
+            html += '</div>';
+
+            html += getEditorHtml(items);
+
+            dlg.innerHTML = html;
+
+            initEditor(dlg, options, items);
+
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                dialogHelper.close(dlg);
+            });
+
+            if (layoutManager.tv) {
+                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+            }
+
+            return dialogHelper.open(dlg).then(() => {
+                if (layoutManager.tv) {
+                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                }
+
+                if (dlg.submitted) {
+                    return Promise.resolve();
+                }
+
+                return Promise.reject();
+            });
+        }
     }
 
-    PlaylistEditor.prototype.show = function (options) {
-        var items = options.items || {};
-        currentServerId = options.serverId;
-
-        var dialogOptions = {
-            removeOnClose: true,
-            scrollY: false
-        };
-
-        if (layoutManager.tv) {
-            dialogOptions.size = 'fullscreen';
-        } else {
-            dialogOptions.size = 'small';
-        }
-
-        var dlg = dialogHelper.createDialog(dialogOptions);
-
-        dlg.classList.add('formDialog');
-
-        var html = '';
-        var title = globalize.translate('HeaderAddToPlaylist');
-
-        html += '<div class="formDialogHeader">';
-        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
-        html += '<h3 class="formDialogHeaderTitle">';
-        html += title;
-        html += '</h3>';
-
-        html += '</div>';
-
-        html += getEditorHtml(items);
-
-        dlg.innerHTML = html;
-
-        initEditor(dlg, options, items);
-
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
-            dialogHelper.close(dlg);
-        });
-
-        if (layoutManager.tv) {
-            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-        }
-
-        return dialogHelper.open(dlg).then(function () {
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-            }
-
-            if (dlg.submitted) {
-                return Promise.resolve();
-            }
-
-            return Promise.reject();
-        });
-    };
-
-    return PlaylistEditor;
-});
+/* eslint-enable indent */
+export default PlaylistEditor;

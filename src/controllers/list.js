@@ -386,7 +386,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         var instance = this;
 
         require(['playlistEditor'], function (playlistEditor) {
-            new playlistEditor().show({
+            new playlistEditor.default().show({
                 items: [],
                 serverId: instance.params.serverId
             });

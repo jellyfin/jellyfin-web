@@ -242,7 +242,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             tabContent.querySelector('.btnNewCollection').addEventListener('click', function () {
                 require(['collectionEditor'], function (collectionEditor) {
                     var serverId = ApiClient.serverInfo().Id;
-                    new collectionEditor().show({
+                    new collectionEditor.default().show({
                         items: [],
                         serverId: serverId
                     });
