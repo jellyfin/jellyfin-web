@@ -817,5 +817,6 @@
     "MusicVideo": "موزیک ویدیو",
     "MusicArtist": "هنرمند موسیقی",
     "MusicAlbum": "آلبوم موسیقی",
-    "Movie": "فیلم"
+    "Movie": "فیلم",
+    "AddItemToCollectionHelp": "Add items to collections by searching for them and using their right-click or tap menus to add them to a collection."
 }
