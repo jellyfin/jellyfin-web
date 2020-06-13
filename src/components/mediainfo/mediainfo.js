@@ -645,7 +645,6 @@ import 'emby-button';
 
 export default {
     getMediaInfoHtml: getPrimaryMediaInfoHtml,
-    fill: fillPrimaryMediaInfo,
     getEndsAt: getEndsAt,
     getEndsAtFromPosition: getEndsAtFromPosition,
     getPrimaryMediaInfoHtml: getPrimaryMediaInfoHtml,
