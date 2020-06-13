@@ -141,7 +141,7 @@ import 'css!./style';
 
         options = options || {};
 
-        import('text!./imageUploader.template.html').then(({default: template}) => {
+        return import('text!./imageUploader.template.html').then(({default: template}) => {
 
             currentItemId = options.itemId;
             currentServerId = options.serverId;

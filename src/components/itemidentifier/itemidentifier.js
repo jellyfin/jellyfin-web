@@ -357,7 +357,7 @@ import 'cardStyle';
 
         loading.show();
 
-        import('text!./itemidentifier.template.html').then(({default: template}) => {
+        return import('text!./itemidentifier.template.html').then(({default: template}) => {
 
             const apiClient = getApiClient();
 
@@ -446,7 +446,7 @@ import 'cardStyle';
         currentItem = null;
         currentItemType = itemType;
 
-        import('text!./itemidentifier.template.html').then(({default: template}) => {
+        return import('text!./itemidentifier.template.html').then(({default: template}) => {
 
             const dialogOptions = {
                 size: 'small',

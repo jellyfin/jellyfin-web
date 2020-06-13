@@ -168,8 +168,8 @@ import 'flexStyles';
 
     export function show(itemId, serverId) {
         loading.show();
-        return new Promise((resolve, reject) => {
-            import('text!./itemMediaInfo.template.html').then(({default: template}) => {
+        return import('text!./itemMediaInfo.template.html').then(({default: template}) => {
+            return new Promise((resolve, reject) => {
                 loadMediaInfo(itemId, serverId, template).then(resolve, reject);
             });
         });
