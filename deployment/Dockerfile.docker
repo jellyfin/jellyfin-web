@@ -7,5 +7,6 @@ RUN apk add autoconf g++ make libpng-dev gifsicle alpine-sdk automake libtool ma
 
 WORKDIR ${SOURCE_DIR}/
 COPY . .
+RUN ls -al .
 
 RUN yarn install && mv dist ${ARTIFACT_DIR}
