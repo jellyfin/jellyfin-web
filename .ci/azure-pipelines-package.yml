@@ -1,6 +1,6 @@
 jobs:
-- job: Package
-  displayName: 'Package'
+- job: BuildPackage
+  displayName: 'Build Packages'
 
   strategy:
     matrix:
@@ -44,6 +44,53 @@ jobs:
       sourceFolder: '$(Build.SourcesDirectory)/deployment/dist'
       contents: '**'
       targetFolder: '/srv/repository/incoming/azure/$(Build.BuildNumber)/$(BuildConfiguration)'
+
+- job: BuildDocker
+  displayName: 'Build Docker'
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - script: 'docker build -f deployment/Dockerfile.docker -t jellyfin-web-unstable .'
+    displayName: 'Build Dockerfile (unstable)'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/package')
+
+  - script: 'docker build -f deployment/Dockerfile.docker -t jellyfin-web-stable .'
+    displayName: 'Build Dockerfile (stable)'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+
+  - script: 'docker push "jellyfin-web-unstable":"$(Build.BuildNumber)-all"'
+    displayName: 'Push Docker image (unstable)'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/package')
+
+  - script: 'docker push "jellyfin-web-stable":"$( sed "s|^refs/tags/v||g" <<<"$(Build.SourceBranch)" )-all"'
+    displayName: 'Push Docker image (stable)'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+
+  - script: 'docker manifest create --amend "jellyfin-web-unstable":"$(Build.BuildNumber)" "jellyfin-web-unstable":"$(Build.BuildNumber)"'
+    displayName: 'Create Docker manifest (unstable)'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/package')
+
+  - script: 'docker manifest create --amend "jellyfin-web-stable":"$( sed "s|^refs/tags/v||g" <<<"$(Build.SourceBranch)" )" "jellyfin-web-stable":"$( sed "s|^refs/tags/v||g" <<<"$(Build.SourceBranch)" )-all"'
+    displayName: 'Create Docker manifest (stable, versioned)'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+
+  - script: 'docker manifest create --amend "jellyfin-web-stable":"latest" "jellyfin-web-stable":"$( sed "s|^refs/tags/v||g" <<<"$(Build.SourceBranch)" )-all"'
+    displayName: 'Create Docker manifest (stable, latest)'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+
+  - script: 'docker manifest push --purge "jellyfin-web-unstable":"$(Build.BuildNumber)"'
+    displayName: 'Push Docker manifest (unstable)'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/package')
+
+  - script: 'docker manifest push --purge "jellyfin-web-stable":"$( sed "s|^refs/tags/v||g" <<<"$(Build.SourceBranch)" )"'
+    displayName: 'Push Docker manifest (stable, versioned)'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+
+  - script: 'docker manifest push --purge "jellyfin-web-stable":"latest"'
+    displayName: 'Push Docker manifest (stable, latest)'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
 
 - job: Collect
   displayName: 'Collect Artifacts'
