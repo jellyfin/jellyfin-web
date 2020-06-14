@@ -141,29 +141,29 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             return;
         }
 
-        playbackManager.getPlaybackMediaSources(item).then(function (mediaSources) {
-            instance._currentPlaybackMediaSources = mediaSources;
-            page.querySelector('.trackSelections').classList.remove('hide');
-            select.setLabel(globalize.translate('LabelVersion'));
-            var currentValue = select.value;
-            var selectedId = mediaSources[0].Id;
-            select.innerHTML = mediaSources.map(function (v) {
-                var selected = v.Id === selectedId ? ' selected' : '';
-                return '<option value="' + v.Id + '"' + selected + '>' + v.Name + '</option>';
-            }).join('');
+        var mediaSources = item.MediaSources;
+        instance._currentPlaybackMediaSources = mediaSources;
+        page.querySelector('.trackSelections').classList.remove('hide');
+        select.setLabel(globalize.translate('LabelVersion'));
+        var currentValue = select.value;
+        var selectedId = mediaSources[0].Id;
+        select.innerHTML = mediaSources.map(function (v) {
+            var selected = v.Id === selectedId ? ' selected' : '';
+            return '<option value="' + v.Id + '"' + selected + '>' + v.Name + '</option>';
+        }).join('');
 
-            if (mediaSources.length > 1) {
-                page.querySelector('.selectSourceContainer').classList.remove('hide');
-            } else {
-                page.querySelector('.selectSourceContainer').classList.add('hide');
-            }
+        if (mediaSources.length > 1) {
+            page.querySelector('.selectSourceContainer').classList.remove('hide');
+        } else {
+            page.querySelector('.selectSourceContainer').classList.add('hide');
+        }
 
-            if (select.value !== currentValue || forceReload) {
-                renderVideoSelections(page, mediaSources);
-                renderAudioSelections(page, mediaSources);
-                renderSubtitleSelections(page, mediaSources);
-            }
-        });
+        if (select.value !== currentValue || forceReload) {
+            renderVideoSelections(page, mediaSources);
+            renderAudioSelections(page, mediaSources);
+            renderSubtitleSelections(page, mediaSources);
+        }
+
     }
 
     function renderVideoSelections(page, mediaSources) {
