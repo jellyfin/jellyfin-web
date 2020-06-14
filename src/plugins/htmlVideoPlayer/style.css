@@ -33,6 +33,12 @@ video::-webkit-media-controls {
     text-shadow: 0.14em 0.14em 0.14em rgba(0, 0, 0, 1);
     -webkit-font-smoothing: antialiased;
     font-family: inherit;
+    line-height: normal; /* Restore value. See -webkit-media-text-track-container 'line-height' */
+}
+
+.htmlvideoplayer::-webkit-media-text-track-container {
+    font-size: 170% !important; /* Override element inline style */
+    line-height: 50%; /* Child element cannot set line height smaller than its parent has. This allow smaller values for children */
 }
 
 .htmlvideoplayer-moveupsubtitles::-webkit-media-text-track-display {

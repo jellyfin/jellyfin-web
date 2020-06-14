@@ -1,55 +1,30 @@
 define([], function () {
     'use strict';
 
-    function getTextStyles(settings, isCue) {
+    function getTextStyles(settings) {
 
         var list = [];
 
-        if (isCue) {
-            switch (settings.textSize || '') {
-
-                case 'smaller':
-                    list.push({ name: 'font-size', value: '.5em' });
-                    break;
-                case 'small':
-                    list.push({ name: 'font-size', value: '.7em' });
-                    break;
-                case 'large':
-                    list.push({ name: 'font-size', value: '1.3em' });
-                    break;
-                case 'larger':
-                    list.push({ name: 'font-size', value: '1.72em' });
-                    break;
-                case 'extralarge':
-                    list.push({ name: 'font-size', value: '2em' });
-                    break;
-                default:
-                case 'medium':
-                    break;
-            }
-        } else {
-            switch (settings.textSize || '') {
-
-                case 'smaller':
-                    list.push({ name: 'font-size', value: '.8em' });
-                    break;
-                case 'small':
-                    list.push({ name: 'font-size', value: 'inherit' });
-                    break;
-                case 'larger':
-                    list.push({ name: 'font-size', value: '2em' });
-                    break;
-                case 'extralarge':
-                    list.push({ name: 'font-size', value: '2.2em' });
-                    break;
-                case 'large':
-                    list.push({ name: 'font-size', value: '1.72em' });
-                    break;
-                default:
-                case 'medium':
-                    list.push({ name: 'font-size', value: '1.36em' });
-                    break;
-            }
+        switch (settings.textSize || '') {
+            case 'smaller':
+                list.push({ name: 'font-size', value: '.8em' });
+                break;
+            case 'small':
+                list.push({ name: 'font-size', value: 'inherit' });
+                break;
+            case 'larger':
+                list.push({ name: 'font-size', value: '2em' });
+                break;
+            case 'extralarge':
+                list.push({ name: 'font-size', value: '2.2em' });
+                break;
+            case 'large':
+                list.push({ name: 'font-size', value: '1.72em' });
+                break;
+            default:
+            case 'medium':
+                list.push({ name: 'font-size', value: '1.36em' });
+                break;
         }
 
         switch (settings.dropShadow || '') {
@@ -122,10 +97,10 @@ define([], function () {
         return [];
     }
 
-    function getStyles(settings, isCue) {
+    function getStyles(settings) {
 
         return {
-            text: getTextStyles(settings, isCue),
+            text: getTextStyles(settings),
             window: getWindowStyles(settings)
         };
     }
