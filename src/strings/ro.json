@@ -1549,5 +1549,9 @@
     "HeaderSyncPlayEnabled": "SyncPlay activat",
     "HeaderSyncPlaySelectGroup": "Alăturați-vă unui grup",
     "EnableDetailsBannerHelp": "Afișați o imagine de bandou în partea de sus a paginii cu detalii ale articolului.",
-    "EnableDetailsBanner": "Detalii Bandou"
+    "EnableDetailsBanner": "Detalii Bandou",
+    "EnableBlurhashHelp": "Imaginile care sunt în curs de încărcare vor fi afișate cu un marcaj întinat",
+    "EnableBlurhash": "Activați marcatoarele întinate pentru imagini",
+    "ShowMore": "Arată mai mult",
+    "ShowLess": "Arată mai puțin"
 }
