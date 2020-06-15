@@ -1551,5 +1551,7 @@
     "MessageSyncPlayErrorMedia": "Impossible d'activer SyncPlay ! Erreur média.",
     "MessageSyncPlayErrorMissingSession": "Impossible d'activer SyncPlay ! Session manquante.",
     "MessageSyncPlayErrorNoActivePlayer": "Aucun player actif trouvé. SyncPlay a été désactivé.",
-    "MessageSyncPlayErrorAccessingGroups": "Une erreur s'est produite pendant l'accès à la liste de groupes."
+    "MessageSyncPlayErrorAccessingGroups": "Une erreur s'est produite pendant l'accès à la liste de groupes.",
+    "ShowMore": "Voir plus",
+    "ShowLess": "Voir moins"
 }
