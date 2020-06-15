@@ -10,9 +10,10 @@ cp -a yarn.lock /tmp/yarn.lock
 
 # modify changelog to unstable configuration if IS_UNSTABLE
 if [[ ${IS_UNSTABLE} == 'yes' ]]; then
-    pushd debian/
-    # get the last PR ID
+    pushd debian
+
     PR_ID=$( git log --grep 'Merge pull request' --oneline --single-worktree --first-parent | head -1 | grep --color=none -Eo '#[0-9]+' | tr -d '#' )
+
     cat <<EOF >changelog
 jellyfin-web (${BUILD_ID}-unstable) unstable; urgency=medium
 
@@ -32,7 +33,7 @@ mv ../jellyfin*.{deb,dsc,tar.gz,buildinfo,changes} ${ARTIFACT_DIR}
 cp -a /tmp/yarn.lock yarn.lock
 
 if [[ ${IS_DOCKER} == YES ]]; then
-  chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}
+    chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}
 fi
 
 popd

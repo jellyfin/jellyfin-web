@@ -24,7 +24,7 @@ mkdir -p ${ARTIFACT_DIR}
 mv jellyfin[-_]*.tar.gz ${ARTIFACT_DIR}
 
 if [[ ${IS_DOCKER} == YES ]]; then
-  chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}
+    chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}
 fi
 
 popd
