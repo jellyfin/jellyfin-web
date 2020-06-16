@@ -80,6 +80,9 @@ jobs:
 
 - job: CollectArtifacts
   displayName: 'Collect Artifacts'
+  dependsOn:
+  - BuildPackage
+  - BuildDocker
 
   pool:
     vmImage: 'ubuntu-latest'
