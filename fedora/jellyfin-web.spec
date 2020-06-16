@@ -12,7 +12,7 @@ Source0:        jellyfin-web-%{version}.tar.gz
 %if 0%{?centos}
 BuildRequires:  yarn
 %else
-BuildRequires   nodejs-yarn
+BuildRequires:  nodejs-yarn
 %endif
 BuildArch:		noarch
 
