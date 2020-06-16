@@ -142,6 +142,7 @@
           "src/scripts/keyboardNavigation.js",
           "src/scripts/settings/appSettings.js",
           "src/scripts/settings/userSettings.js",
+          "src/scripts/themeLoader.js",
           "src/scripts/settings/webSettings.js"
         ],
         "plugins": [

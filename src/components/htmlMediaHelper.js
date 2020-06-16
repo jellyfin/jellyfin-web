@@ -4,8 +4,6 @@ import appSettings from 'appSettings' ;
 import browser from 'browser';
 import events from 'events';
 
-    'use strict';
-
     export function getSavedVolume() {
         return appSettings.get('volume') || 1;
     }
@@ -467,4 +465,4 @@ import events from 'events';
         return ranges;
     }
 
-
+/* eslint-enable indent */

@@ -4,8 +4,6 @@ import dom from 'dom';
 import appRouter from 'appRouter';
 import connectionManager from 'connectionManager';
 
-    'use strict';
-
     function onGroupedCardClick(e, card) {
         var itemId = card.getAttribute('data-id');
         var serverId = card.getAttribute('data-serverid');
@@ -43,3 +41,5 @@ import connectionManager from 'connectionManager';
             onGroupedCardClick(e, groupedCard);
         }
     }
+
+    /* eslint-enable indent */
