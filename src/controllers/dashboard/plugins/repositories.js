@@ -12,17 +12,6 @@ let repositories = [];
 
 function reloadList(page) {
     loading.show();
-
-    if (repositories.length) {
-        populateList({
-            listElement: page.querySelector('#repositories'),
-            noneElement: page.querySelector('#none'),
-            repositories: repositories
-        });
-
-        return;
-    }
-
     ApiClient.getJSON(ApiClient.getUrl('Repositories')).then(list => {
         repositories = list;
         populateList({
@@ -37,13 +26,15 @@ function reloadList(page) {
     });
 }
 
-function saveList() {
+function saveList(page) {
     loading.show();
     ApiClient.ajax({
         type: 'POST',
         url: ApiClient.getUrl('Repositories'),
         data: JSON.stringify(repositories),
         contentType: 'application/json'
+    }).then(response => {
+        reloadList(page);
     }).catch(error => {
         console.error('error saving repositories');
         loading.hide();
@@ -109,8 +100,7 @@ export default function(view, params) {
                 return r.Url !== button.id;
             });
 
-            saveList();
-            reloadList(save);
+            saveList(save);
         });
     });
 
@@ -130,11 +120,11 @@ export default function(view, params) {
         html += '</div>';
         html += '<form class="newPluginForm" style="margin:4em">';
         html += '<div class="inputContainer">';
-        html += `<input is="emby-input" type="text" id="txtRepositoryName" label="${globalize.translate('LabelRepositoryName')}" />`;
+        html += `<input is="emby-input" id="txtRepositoryName" label="${globalize.translate('LabelRepositoryName')}" type="text" required />`;
         html += `<div class="fieldDescription">${globalize.translate('LabelRepositoryNameHelp')}</div>`;
         html += '</div>';
         html += '<div class="inputContainer">';
-        html += `<input is="emby-input" type="url" id="txtRepositoryUrl" label="${globalize.translate('LabelRepositoryUrl')}" />`;
+        html += `<input is="emby-input" id="txtRepositoryUrl" label="${globalize.translate('LabelRepositoryUrl')}" type="url" required />`;
         html += `<div class="fieldDescription">${globalize.translate('LabelRepositoryUrlHelp')}</div>`;
         html += '</div>';
         html += `<button is="emby-button" type="submit" class="raised button-submit block"><span>${globalize.translate('ButtonSave')}</span></button>`;
@@ -153,8 +143,7 @@ export default function(view, params) {
                 Enabled: true
             });
 
-            saveList();
-            reloadList(view);
+            saveList(view);
             dialogHelper.close(dialog);
             return false;
         });
