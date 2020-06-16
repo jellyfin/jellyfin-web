@@ -1,4 +1,9 @@
-define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, connectionManager) {
+/* eslint-disable indent */
+
+import dom from 'dom';
+import appRouter from 'appRouter';
+import connectionManager from 'connectionManager';
+
     'use strict';
 
     function onGroupedCardClick(e, card) {
@@ -31,15 +36,10 @@ define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, conn
         }
     }
 
-    function onItemsContainerClick(e) {
+    export function onItemsContainerClick(e) {
         var groupedCard = dom.parentWithClass(e.target, 'groupedCard');
 
         if (groupedCard) {
             onGroupedCardClick(e, groupedCard);
         }
     }
-
-    return {
-        onItemsContainerClick: onItemsContainerClick
-    };
-});
