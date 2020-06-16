@@ -152,10 +152,6 @@ import 'css!./backdrop';
         setBackgroundContainerBackgroundEnabled();
     }
 
-    function getRandom(min, max) {
-        return Math.floor(Math.random() * (max - min) + min);
-    }
-
     let currentLoadingBackdrop;
     function setBackdropImage(url) {
         if (currentLoadingBackdrop) {
