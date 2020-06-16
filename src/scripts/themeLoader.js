@@ -27,4 +27,3 @@ pageClassOn('viewbeforeshow', 'page', function () {
 events.on(connectionManager, 'localusersignedin', function (e, user) {
     currentViewType = null;
 });
-
