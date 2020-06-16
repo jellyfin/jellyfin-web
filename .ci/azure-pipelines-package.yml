@@ -83,6 +83,7 @@ jobs:
   dependsOn:
   - BuildPackage
   - BuildDocker
+  condition: and(succeeded('BuildPackage'), succeeded('BuildDocker'))
 
   pool:
     vmImage: 'ubuntu-latest'
