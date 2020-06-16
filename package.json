@@ -93,6 +93,7 @@
           "src/components/accessSchedule/accessSchedule.js",
           "src/components/actionSheet/actionSheet.js",
           "src/components/autoFocuser.js",
+          "src/components/backdrop/backdrop.js",
           "src/components/cardbuilder/cardBuilder.js",
           "src/components/cardbuilder/chaptercardbuilder.js",
           "src/components/cardbuilder/peoplecardbuilder.js",

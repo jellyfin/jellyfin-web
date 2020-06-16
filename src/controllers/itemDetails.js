@@ -462,7 +462,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         if (dom.getWindowSize().innerWidth >= 1000) {
             backdrop.setBackdrops([item]);
         } else {
-            backdrop.clear();
+            backdrop.clearBackdrop();
         }
     }
 
