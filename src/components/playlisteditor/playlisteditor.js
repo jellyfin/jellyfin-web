@@ -4,7 +4,7 @@ import loading from 'loading';
 import layoutManager from 'layoutManager';
 import playbackManager from 'playbackManager';
 import connectionManager from 'connectionManager';
-import userSettings from 'userSettings';
+import * as userSettings from 'userSettings';
 import appRouter from 'appRouter';
 import globalize from 'globalize';
 import 'emby-input';
