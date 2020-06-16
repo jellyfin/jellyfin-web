@@ -80,6 +80,10 @@ jobs:
 
 - job: CollectArtifacts
   displayName: 'Collect Artifacts'
+  dependsOn:
+  - BuildPackage
+  - BuildDocker
+  condition: and(succeeded('BuildPackage'), succeeded('BuildDocker'))
 
   pool:
     vmImage: 'ubuntu-latest'
