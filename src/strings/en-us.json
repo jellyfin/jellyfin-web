@@ -225,6 +225,8 @@
     "EnableBackdropsHelp": "Display backdrops in the background of some pages while browsing the library.",
     "EnableCinemaMode": "Cinema mode",
     "EnableColorCodedBackgrounds": "Color coded backgrounds",
+    "EnableDecodingColorDepth10Hevc": "Enable 10-Bit hardware decoding for HEVC",
+    "EnableDecodingColorDepth10Vp9": "Enable 10-Bit hardware decoding for Vp9",
     "EnableDisplayMirroring": "Display mirroring",
     "EnableExternalVideoPlayers": "External video players",
     "EnableExternalVideoPlayersHelp": "An external player menu will be shown when starting video playback.",
@@ -1552,4 +1554,5 @@
     "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles.",
     "EnableBlurhash": "Enable blurred placeholders for images",
     "EnableBlurhashHelp": "Images that are still being loaded will be displayed with a blurred placeholder"
+
 }

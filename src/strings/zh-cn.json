@@ -1542,5 +1542,7 @@
     "LabelSyncPlayTimeOffset": "服务器时间偏移：",
     "HeaderSyncPlayEnabled": "同步播放已启用",
     "HeaderSyncPlaySelectGroup": "加入群组",
-    "EnableDetailsBannerHelp": "在项目详细信息页面的顶部显示横幅图片。"
+    "EnableDetailsBannerHelp": "在项目详细信息页面的顶部显示横幅图片。",
+    "EnableDecodingColorDepth10": "启用 10-Bit 硬件解码",
+    "EnableDecodingColorDepth10Help" : "在支持的硬件上启用 10-Bit 硬件解码。仅对 HEVC 和 VP9 格式起作用。如果你遇到了播放问题，请关闭这个选项。"
 }
