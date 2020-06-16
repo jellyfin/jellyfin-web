@@ -105,7 +105,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
             page.querySelector('#txtLocalAddress').value = config.LocalNetworkAddresses[0] || '';
             page.querySelector('#txtLanNetworks').value = (config.LocalNetworkSubnets || []).join(', ');
             page.querySelector('#txtExternalAddressFilter').value = (config.RemoteIPFilter || []).join(', ');
-            page.querySelector('#selectExternalAddressFilterMode').value = config.IsRemoteIPFilterBlacklist ? 'blacklist' : 'whitelist';
+            page.querySelector('#selectExternalAddressFilterMode').value = config.IsRemoteIPFilterBlacklist ? 'blocklist' : 'allowlist';
             page.querySelector('#chkRemoteAccess').checked = null == config.EnableRemoteAccess || config.EnableRemoteAccess;
             page.querySelector('#txtHttpsPort').value = config.HttpsPortNumber;
             page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
