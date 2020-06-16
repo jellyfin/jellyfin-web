@@ -66,7 +66,7 @@ function getRepositoryHtml(repository) {
     html += '<span class="material-icons listItemIcon open_in_new"></span>';
     html += '</a>';
     html += '<div class="listItemBody two-line">';
-    html += `<h3 class='listItemBodyText'>${repository.Name}</h3>`;
+    html += `<h3 class="listItemBodyText">${repository.Name}</h3>`;
     html += `<div class="listItemBodyText secondary">${repository.Url}</div>`;
     html += '</div>';
     html += `<button type="button" is="paper-icon-button-light" id="${repository.Url}" class="btnDelete" title="${globalize.translate('ButtonDelete')}"><span class="material-icons delete"></span></button>`;
