@@ -297,6 +297,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 buttonVisible(context.querySelector('.btnRewind'), false);
                 buttonVisible(context.querySelector('.btnFastForward'), false);
                 buttonVisible(context.querySelector('.nowPlayingInfoButtons').querySelector('.repeatToggleButton'), true);
+                buttonVisible(context.querySelector('.nowPlayingInfoButtons').querySelector('.btnShuffleMobile'), true);
             } else {
                 buttonVisible(context.querySelector('.btnRewind'), null != item);
                 buttonVisible(context.querySelector('.btnFastForward'), null != item);
@@ -495,6 +496,18 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             updateRepeatModeDisplay(playbackManager.getRepeatMode(player));
         }
 
+        function onShufflePlaylistModeChange() {
+            let shuffleMode = playbackManager.getPlaylistShuffleMode(this);
+            let context = dlg;
+            let shuffleButton = context.querySelector('.btnShuffle');
+            if ('Sorted' === shuffleMode) {
+                shuffleButton.classList.remove('shuffleButton-active');
+            } else if ('Shuffle' === shuffleMode) {
+                shuffleButton.classList.add('shuffleButton-active');
+            }
+            onPlaylistUpdate();
+        }
+
         function onPlaylistUpdate(e) {
             loadPlaylist(dlg, this);
         }
@@ -556,7 +569,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 events.off(player, 'playbackstart', onPlaybackStart);
                 events.off(player, 'statechange', onStateChanged);
                 events.off(player, 'repeatmodechange', onRepeatModeChange);
-                events.off(player, 'playlistitemremove', onPlaylistUpdate);
+                events.off(player, 'shuffleplaylistmodechange', onShufflePlaylistModeChange);
+                events.off(player, 'playlistitemremove', onPlaylistItemRemoved);
                 events.off(player, 'playlistitemmove', onPlaylistUpdate);
                 events.off(player, 'playbackstop', onPlaybackStopped);
                 events.off(player, 'volumechange', onVolumeChanged);
@@ -576,6 +590,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 events.on(player, 'playbackstart', onPlaybackStart);
                 events.on(player, 'statechange', onStateChanged);
                 events.on(player, 'repeatmodechange', onRepeatModeChange);
+                events.on(player, 'shuffleplaylistmodechange', onShufflePlaylistModeChange);
                 events.on(player, 'playlistitemremove', onPlaylistItemRemoved);
                 events.on(player, 'playlistitemmove', onPlaylistUpdate);
                 events.on(player, 'playbackstop', onPlaybackStopped);
@@ -676,6 +691,16 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     playbackManager.fastForward(currentPlayer);
                 }
             });
+            context.querySelector('.btnShuffle').addEventListener('click', function () {
+                if (currentPlayer) {
+                    if (playbackManager.getPlaylistShuffleMode(currentPlayer) === 'Sorted') {
+                        playbackManager.setPlaylistShuffleMode('Shuffle', currentPlayer);
+                    } else {
+                        playbackManager.setPlaylistShuffleMode('Sorted', currentPlayer);
+                    }
+                }
+            });
+
             context.querySelector('.btnPreviousTrack').addEventListener('click', function () {
                 console.log(currentPlayer);
                 if (currentPlayer) {

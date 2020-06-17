@@ -506,6 +506,13 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         });
     };
 
+    SessionPlayer.prototype.setPlaylistShuffleMode = function (mode) {
+
+        sendCommandByName(this, 'SetPlaylistShuffleMode', {
+            ShuffleMode: mode
+        });
+    };
+
     SessionPlayer.prototype.displayContent = function (options) {
 
         sendCommandByName(this, 'DisplayContent', options);

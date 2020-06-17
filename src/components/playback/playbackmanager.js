@@ -2097,6 +2097,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 state.PlayState.IsMuted = player.isMuted();
                 state.PlayState.IsPaused = player.paused();
                 state.PlayState.RepeatMode = self.getRepeatMode(player);
+                state.PlayState.ShuffleMode = self.getPlaylistShuffleMode(player);
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
@@ -3304,6 +3305,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             sendProgressUpdate(player, 'repeatmodechange');
         }
 
+        function onShufflePlaylistModeChange() {
+            var player = this;
+            sendProgressUpdate(player, 'shuffleplaylistmodechange');
+        }
+
         function onPlaylistItemMove(e) {
             var player = this;
             sendProgressUpdate(player, 'playlistitemmove', true);
@@ -3358,6 +3364,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 events.on(player, 'unpause', onPlaybackUnpause);
                 events.on(player, 'volumechange', onPlaybackVolumeChange);
                 events.on(player, 'repeatmodechange', onRepeatModeChange);
+                events.on(player, 'shuffleplaylistmodechange', onShufflePlaylistModeChange);
                 events.on(player, 'playlistitemmove', onPlaylistItemMove);
                 events.on(player, 'playlistitemremove', onPlaylistItemRemove);
                 events.on(player, 'playlistitemadd', onPlaylistItemAdd);
@@ -3370,6 +3377,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 events.on(player, 'unpause', onPlaybackUnpause);
                 events.on(player, 'volumechange', onPlaybackVolumeChange);
                 events.on(player, 'repeatmodechange', onRepeatModeChange);
+                events.on(player, 'shuffleplaylistmodechange', onShufflePlaylistModeChange);
                 events.on(player, 'playlistitemmove', onPlaylistItemMove);
                 events.on(player, 'playlistitemremove', onPlaylistItemRemove);
                 events.on(player, 'playlistitemadd', onPlaylistItemAdd);
@@ -3811,7 +3819,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         });
     };
 
-    PlaybackManager.prototype.shuffle = function (shuffleItem, player, queryOptions) {
+    PlaybackManager.prototype.shuffle = function (shuffleItem, player) {
 
         player = player || this._currentPlayer;
         if (player && player.shuffle) {
@@ -3878,6 +3886,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 'GoToSearch',
                 'DisplayMessage',
                 'SetRepeatMode',
+                'SetPlaylistShuffleMode',
                 'PlayMediaSource',
                 'PlayTrailers'
             ];
@@ -3930,6 +3939,27 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
 
         return this._playQueueManager.getRepeatMode();
+    };
+
+    PlaybackManager.prototype.setPlaylistShuffleMode = function (value, player) {
+
+        player = player || this._currentPlayer;
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.setShuffleMode(value);
+        }
+
+        this._playQueueManager.setShuffleMode(value);
+        events.trigger(player, 'shuffleplaylistmodechange');
+    };
+
+    PlaybackManager.prototype.getPlaylistShuffleMode = function (player) {
+
+        player = player || this._currentPlayer;
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.getPlaylistShuffleMode();
+        }
+
+        return this._playQueueManager.getShuffleMode();
     };
 
     PlaybackManager.prototype.trySetActiveDeviceName = function (name) {
@@ -3999,6 +4029,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         switch (cmd.Name) {
             case 'SetRepeatMode':
                 this.setRepeatMode(cmd.Arguments.RepeatMode, player);
+                break;
+            case 'SetPlaylistShuffleMode':
+                this.setPlaylistShuffleMode(cmd.Arguments.ShuffleMode, player);
                 break;
             case 'VolumeUp':
                 this.volumeUp(player);

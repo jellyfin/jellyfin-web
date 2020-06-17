@@ -24,8 +24,10 @@ define([], function () {
 
     function PlayQueueManager() {
 
+        this._sortedPlaylist = [];
         this._playlist = [];
         this._repeatMode = 'RepeatNone';
+        this._shuffleMode = 'Sorted';
     }
 
     PlayQueueManager.prototype.getPlaylist = function () {
@@ -54,6 +56,30 @@ define([], function () {
 
             this._playlist.push(items[i]);
         }
+    };
+
+    PlayQueueManager.prototype.shufflePlaylist = function () {
+        this._sortedPlaylist = [];
+        for (let item of this._playlist) {
+            this._sortedPlaylist.push(item);
+        }
+
+        for (let i = this._playlist.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * i);
+            const temp = this._playlist[i];
+            this._playlist[i] = this._playlist[j];
+            this._playlist[j] = temp;
+        }
+        this._shuffleMode = 'Shuffle';
+    };
+
+    PlayQueueManager.prototype.sortShuffledPlaylist = function () {
+        this._playlist = [];
+        for (let item of this._sortedPlaylist) {
+            this._playlist.push(item);
+        }
+        this._sortedPlaylist = [];
+        this._shuffleMode = 'Sorted';
     };
 
     function arrayInsertAt(destArray, pos, arrayToInsert) {
@@ -176,19 +202,37 @@ define([], function () {
 
     PlayQueueManager.prototype.reset = function () {
 
+        this._sortedPlaylist = [];
         this._playlist = [];
         this._currentPlaylistItemId = null;
         this._repeatMode = 'RepeatNone';
+        this._shuffleMode = 'Sorted';
     };
 
     PlayQueueManager.prototype.setRepeatMode = function (value) {
-
-        this._repeatMode = value;
+        if (value === 'RepeatOne' || value === 'RepeatAll' || value === 'RepeatNone') {
+            this._repeatMode = value;
+        } else {
+            throw new TypeError('invalid value provided for setRepeatMode');
+        }
     };
 
     PlayQueueManager.prototype.getRepeatMode = function () {
-
         return this._repeatMode;
+    };
+
+    PlayQueueManager.prototype.setShuffleMode = function (value) {
+        if (value === 'Sorted') {
+            this.sortShuffledPlaylist();
+        } else if (value === 'Shuffle') {
+            this.shufflePlaylist();
+        } else {
+            throw new TypeError('invalid value provided for setShuffleMode');
+        }
+    };
+
+    PlayQueueManager.prototype.getShuffleMode = function () {
+        return this._shuffleMode;
     };
 
     PlayQueueManager.prototype.getNextItemInfo = function () {

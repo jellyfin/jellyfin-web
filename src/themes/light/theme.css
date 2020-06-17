@@ -432,6 +432,10 @@ html {
     color: #4285f4;
 }
 
+.shuffleButton-active {
+    color: #4285f4 !important;
+}
+
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-color: #00a4dc !important;

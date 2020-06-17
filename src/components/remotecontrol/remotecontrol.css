@@ -298,7 +298,7 @@
         font-size: smaller;
     }
 
-    .nowPlayingInfoButtons .btnFastForward {
+    .nowPlayingInfoButtons .btnShuffleMobile {
         position: absolute;
         right: 0;
         margin-right: 0;

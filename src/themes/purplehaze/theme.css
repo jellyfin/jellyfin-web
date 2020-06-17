@@ -547,6 +547,10 @@ a[data-role=button] {
     color: #4285f4;
 }
 
+.shuffleButton-active {
+    color: #4285f4 !important;
+}
+
 .personCard .cardScalable {
     border-radius: 50%;
     border: 1px solid rgb(255, 255, 255);
