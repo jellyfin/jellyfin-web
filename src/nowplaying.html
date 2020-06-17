@@ -163,20 +163,14 @@
         </div>
         <div class="playlistSection">
             <div class="playlistSectionButton flex align-items-center justify-content-center">
-                <button id="togglePlaylist" is="paper-icon-button-light" class="btnTogglePlaylist" title="${ButtonTogglePlaylist}">
+                <button id="togglePlaylist" is="paper-icon-button-light" class="btnTogglePlaylist hide" title="${ButtonTogglePlaylist}">
                     <span class="material-icons queue_music"></span>
                 </button>
-                <button is="paper-icon-button-light" class="btnSavePlaylist" title="${ButtonSave}">
+                <button is="paper-icon-button-light" class="btnSavePlaylist hide" title="${ButtonSave}">
                     <span class="material-icons save"></span>
                 </button>
             </div>
             <div id="playlist" class="playlist itemsContainer vertical-list nowPlayingPlaylist hide" is="emby-itemscontainer" data-dragreorder="true"></div>
-            <div id="contextMenu" class="contextMenu itemsContainer vertical-list nowPlayingContextMenu hide" is="emby-itemscontainer">
-                <div class="listItem listItem-border contextMenuList contextMenuArtist">
-                </div>
-                <div class="listItem listItem-border contextMenuList contextMenuAlbum">
-                </div>
-            </div>
         </div>
     </div>
 </div>

@@ -1,5 +1,7 @@
 define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageLoader', 'playbackManager', 'nowPlayingHelper', 'events', 'connectionManager', 'apphost', 'globalize', 'layoutManager', 'userSettings', 'cardBuilder', 'itemContextMenu', 'cardStyle', 'emby-itemscontainer', 'css!./remotecontrol.css', 'emby-ratingbutton'], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings, cardBuilder, itemContextMenu) {
     'use strict';
+    var showMuteButton = true;
+    var showVolumeSlider = true;
 
     function showAudioMenu(context, player, button, item) {
         var currentIndex = playbackManager.getAudioStreamIndex(player);
@@ -130,10 +132,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                             }
                         }
                         context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
-                        context.querySelector('.contextMenuArtist').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons person"></span> ` + globalize.translate('ViewArtist') + '</a>';
                     }
                     context.querySelector('.nowPlayingAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}">${albumName}</a>`;
-                    context.querySelector('.contextMenuAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons album"></span> ` + globalize.translate('ViewAlbum') + '</a>';
                 }
                 context.querySelector('.nowPlayingSongName').innerHTML = songName;
             } else if (item.Type == 'Episode') {
@@ -167,10 +167,25 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             }) : null;
 
             console.debug('updateNowPlayingInfo');
+            var contextButton = context.querySelector('.btnToggleContextMenu');
+            var options = {
+                play: false,
+                queue: false,
+                openAlbum: false,
+                positionTo: contextButton
+            };
+            var apiClient = connectionManager.getApiClient(item.ServerId);
+            apiClient.getCurrentUser().then(function (user) {
+                contextButton.addEventListener('click', function () {
+                    itemContextMenu.show(Object.assign({
+                        item: item,
+                        user: user
+                    }, options));
+                });
+            });
             setImageUrl(context, state, url);
             if (item) {
                 backdrop.setBackdrops([item]);
-                var apiClient = connectionManager.getApiClient(item.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
                     var userData = fullItem.UserData || {};
                     var likes = null == userData.Likes ? '' : userData.Likes;
@@ -336,8 +351,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function updatePlayerVolumeState(context, isMuted, volumeLevel) {
             var view = context;
             var supportedCommands = currentPlayerSupportedCommands;
-            var showMuteButton = true;
-            var showVolumeSlider = true;
 
             if (-1 === supportedCommands.indexOf('Mute')) {
                 showMuteButton = false;
@@ -365,24 +378,28 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 buttonMuteIcon.classList.add('volume_up');
             }
 
-            if (showMuteButton) {
-                buttonMute.classList.remove('hide');
+            if (!showMuteButton && !showVolumeSlider) {
+                context.querySelector('.volumecontrol').classList.add('hide');
             } else {
-                buttonMute.classList.add('hide');
-            }
-
-            var nowPlayingVolumeSlider = context.querySelector('.nowPlayingVolumeSlider');
-            var nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
-
-            if (nowPlayingVolumeSlider) {
-                if (showVolumeSlider) {
-                    nowPlayingVolumeSliderContainer.classList.remove('hide');
+                if (showMuteButton) {
+                    buttonMute.classList.remove('hide');
                 } else {
-                    nowPlayingVolumeSliderContainer.classList.add('hide');
+                    buttonMute.classList.add('hide');
                 }
 
-                if (!nowPlayingVolumeSlider.dragging) {
-                    nowPlayingVolumeSlider.value = volumeLevel || 0;
+                var nowPlayingVolumeSlider = context.querySelector('.nowPlayingVolumeSlider');
+                var nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
+
+                if (nowPlayingVolumeSlider) {
+                    if (showVolumeSlider) {
+                        nowPlayingVolumeSliderContainer.classList.remove('hide');
+                    } else {
+                        nowPlayingVolumeSliderContainer.classList.add('hide');
+                    }
+
+                    if (!nowPlayingVolumeSlider.dragging) {
+                        nowPlayingVolumeSlider.value = volumeLevel || 0;
+                    }
                 }
             }
         }
@@ -435,11 +452,12 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     }],
                     dragHandle: true
                 });
-
-                if (items.length) {
-                    context.querySelector('.btnTogglePlaylist').classList.remove('hide');
-                } else {
-                    context.querySelector('.btnTogglePlaylist').classList.add('hide');
+                if (layoutManager.mobile) {
+                    if (items.length > 0) {
+                        context.querySelector('.btnTogglePlaylist').classList.remove('hide');
+                    } else {
+                        context.querySelector('.btnTogglePlaylist').classList.add('hide');
+                    }
                 }
 
                 var itemsContainer = context.querySelector('.playlist');
@@ -456,8 +474,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 }
 
                 imageLoader.lazyChildren(itemsContainer);
-                context.querySelector('.playlist').classList.add('hide');
-                context.querySelector('.contextMenu').classList.add('hide');
                 context.querySelector('.btnSavePlaylist').classList.add('hide');
             });
         }
@@ -713,7 +729,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 if (context.querySelector('.playlist').classList.contains('hide')) {
                     context.querySelector('.playlist').classList.remove('hide');
                     context.querySelector('.btnSavePlaylist').classList.remove('hide');
-                    context.querySelector('.contextMenu').classList.add('hide');
                     context.querySelector('.volumecontrol').classList.add('hide');
                     if (layoutManager.mobile) {
                         context.querySelector('.playlistSectionButton').classList.remove('playlistSectionButtonTransparent');
@@ -721,19 +736,12 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 } else {
                     context.querySelector('.playlist').classList.add('hide');
                     context.querySelector('.btnSavePlaylist').classList.add('hide');
-                    context.querySelector('.volumecontrol').classList.remove('hide');
+                    if (showMuteButton && showVolumeSlider) {
+                        context.querySelector('.volumecontrol').classList.remove('hide');
+                    }
                     if (layoutManager.mobile) {
                         context.querySelector('.playlistSectionButton').classList.add('playlistSectionButtonTransparent');
                     }
-                }
-            });
-            context.querySelector('.btnToggleContextMenu').addEventListener('click', function () {
-                if (context.querySelector('.contextMenu').classList.contains('hide')) {
-                    context.querySelector('.contextMenu').classList.remove('hide');
-                    context.querySelector('.btnSavePlaylist').classList.add('hide');
-                    context.querySelector('.playlist').classList.add('hide');
-                } else {
-                    context.querySelector('.contextMenu').classList.add('hide');
                 }
             });
         }
@@ -787,12 +795,17 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up"></span></button>`;
             volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
             volumecontrolHtml += '</div>';
+            let optionsSection = context.querySelector('.playlistSectionButton');
             if (!layoutManager.mobile) {
                 context.querySelector('.nowPlayingSecondaryButtons').innerHTML += volumecontrolHtml;
-                context.querySelector('.playlistSectionButton').innerHTML += contextmenuHtml;
+                optionsSection.innerHTML += contextmenuHtml;
+                optionsSection.classList.remove('align-items-center', 'justify-content-center');
+                optionsSection.classList.add('align-items-right', 'justify-content-flex-end');
+                context.querySelector('.playlist').classList.remove('hide');
             } else {
-                context.querySelector('.playlistSectionButton').innerHTML += volumecontrolHtml + contextmenuHtml;
-                context.querySelector('.playlistSectionButton').classList.add('playlistSectionButtonTransparent');
+                optionsSection.innerHTML += volumecontrolHtml + contextmenuHtml;
+                optionsSection.classList.add('playlistSectionButtonTransparent');
+                context.querySelector('.btnTogglePlaylist').classList.remove('hide');
             }
 
             bindEvents(context);
