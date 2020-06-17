@@ -364,6 +364,9 @@
         padding-left: 7.3%;
         padding-right: 7.3%;
     }
+    .playlistSectionButtonTransparent {
+        background: rgba(0, 0, 0, 0) !important;
+    }
 
     .playlistSectionButton .btnTogglePlaylist {
         font-size: larger;

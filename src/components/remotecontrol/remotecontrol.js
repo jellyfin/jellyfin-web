@@ -1,4 +1,4 @@
-define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageLoader', 'playbackManager', 'nowPlayingHelper', 'events', 'connectionManager', 'apphost', 'globalize', 'layoutManager', 'userSettings', 'cardBuilder', 'cardStyle', 'emby-itemscontainer', 'css!./remotecontrol.css', 'emby-ratingbutton'], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings, cardBuilder) {
+define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageLoader', 'playbackManager', 'nowPlayingHelper', 'events', 'connectionManager', 'apphost', 'globalize', 'layoutManager', 'userSettings', 'cardBuilder', 'itemContextMenu', 'cardStyle', 'emby-itemscontainer', 'css!./remotecontrol.css', 'emby-ratingbutton'], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings, cardBuilder, itemContextMenu) {
     'use strict';
 
     function showAudioMenu(context, player, button, item) {
@@ -119,18 +119,21 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 var songName = item.Name;
                 if (item.Album != null && item.Artists != null) {
                     var albumName = item.Album;
-                    var artistName;
                     if (item.ArtistItems != null) {
-                        artistName = item.ArtistItems[0].Name;
-                        context.querySelector('.nowPlayingAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}">${albumName}</a>`;
-                        context.querySelector('.nowPlayingArtist').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}">${artistName}</a>`;
-                        context.querySelector('.contextMenuAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons album"></span> ` + globalize.translate('ViewAlbum') + '</a>';
+                        var artistsSeries = '';
+                        for (let artist of item.ArtistItems) {
+                            let artistName = artist.Name;
+                            let artistId = artist.Id;
+                            artistsSeries += `<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=${artistId}&amp;serverId=${nowPlayingServerId}">${artistName}</a>`;
+                            if (artist !== item.ArtistItems.slice(-1)[0]) {
+                                artistsSeries += ', ';
+                            }
+                        }
+                        context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
                         context.querySelector('.contextMenuArtist').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons person"></span> ` + globalize.translate('ViewArtist') + '</a>';
-                    } else {
-                        artistName = item.Artists;
-                        context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
-                        context.querySelector('.nowPlayingArtist').innerHTML = artistName;
                     }
+                    context.querySelector('.nowPlayingAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}">${albumName}</a>`;
+                    context.querySelector('.contextMenuAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons album"></span> ` + globalize.translate('ViewAlbum') + '</a>';
                 }
                 context.querySelector('.nowPlayingSongName').innerHTML = songName;
             } else if (item.Type == 'Episode') {
@@ -703,10 +706,16 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     context.querySelector('.btnSavePlaylist').classList.remove('hide');
                     context.querySelector('.contextMenu').classList.add('hide');
                     context.querySelector('.volumecontrol').classList.add('hide');
+                    if (layoutManager.mobile) {
+                        context.querySelector('.playlistSectionButton').classList.remove('playlistSectionButtonTransparent');
+                    }
                 } else {
                     context.querySelector('.playlist').classList.add('hide');
                     context.querySelector('.btnSavePlaylist').classList.add('hide');
                     context.querySelector('.volumecontrol').classList.remove('hide');
+                    if (layoutManager.mobile) {
+                        context.querySelector('.playlistSectionButton').classList.add('playlistSectionButtonTransparent');
+                    }
                 }
             });
             context.querySelector('.btnToggleContextMenu').addEventListener('click', function () {
@@ -774,6 +783,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 context.querySelector('.playlistSectionButton').innerHTML += contextmenuHtml;
             } else {
                 context.querySelector('.playlistSectionButton').innerHTML += volumecontrolHtml + contextmenuHtml;
+                context.querySelector('.playlistSectionButton').classList.add('playlistSectionButtonTransparent');
             }
 
             bindEvents(context);
