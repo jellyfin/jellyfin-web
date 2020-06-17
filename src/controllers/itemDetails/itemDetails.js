@@ -28,15 +28,11 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function hideAll(page, className, show) {
-        var i;
-        var length;
-        var elems = page.querySelectorAll('.' + className);
-
-        for (i = 0, length = elems.length; i < length; i++) {
+        for (const elem of page.querySelectorAll('.' + className)) {
             if (show) {
-                elems[i].classList.remove('hide');
+                elem.classList.remove('hide');
             } else {
-                elems[i].classList.add('hide');
+                elem.classList.add('hide');
             }
         }
     }
@@ -75,7 +71,9 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             moreButton: false,
             recordButton: false
         });
-        return html += '</div>';
+        html += '</div>';
+
+        return html;
     }
 
     function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
@@ -143,9 +141,13 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         var mediaSources = item.MediaSources;
         instance._currentPlaybackMediaSources = mediaSources;
+
         page.querySelector('.trackSelections').classList.remove('hide');
+
         select.setLabel(globalize.translate('LabelVersion'));
+
         var currentValue = select.value;
+
         var selectedId = mediaSources[0].Id;
         select.innerHTML = mediaSources.map(function (v) {
             var selected = v.Id === selectedId ? ' selected' : '';
@@ -242,12 +244,24 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         select.setLabel(globalize.translate('LabelSubtitles'));
         var selectedId = null == mediaSource.DefaultSubtitleStreamIndex ? -1 : mediaSource.DefaultSubtitleStreamIndex;
 
-        if (tracks.length) {
+        var videoTracks = mediaSource.MediaStreams.filter(function (m) {
+            return 'Video' === m.Type;
+        });
+
+        // This only makes sence on Video items
+        if (videoTracks.length) {
             var selected = -1 === selectedId ? ' selected' : '';
             select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
                 selected = v.Index === selectedId ? ' selected' : '';
                 return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
             }).join('');
+
+            if (tracks.length > 1) {
+                select.removeAttribute('disabled');
+            } else {
+                select.setAttribute('disabled', 'disabled');
+            }
+
             page.querySelector('.selectSubtitlesContainer').classList.remove('hide');
         } else {
             select.innerHTML = '';
@@ -278,7 +292,12 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             var enableShuffle = item.IsFolder || -1 !== ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type);
             hideAll(page, 'btnShuffle', enableShuffle);
             canPlay = true;
-            hideAll(page, 'btnResume', item.UserData && item.UserData.PlaybackPositionTicks > 0);
+            if (item.UserData && item.UserData.PlaybackPositionTicks > 0) {
+                hideAll(page, 'btnResume', true);
+                for (const elem of page.querySelectorAll('.btnPlay')) {
+                    elem.querySelector('.detailButton-icon').classList.replace('play_arrow', 'replay');
+                }
+            }
         } else {
             hideAll(page, 'btnPlay');
             hideAll(page, 'btnResume');
@@ -324,8 +343,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     function getArtistLinksHtml(artists, serverId, context) {
         var html = [];
 
-        for (var i = 0, length = artists.length; i < length; i++) {
-            var artist = artists[i];
+        for (const artist of artists) {
             var href = appRouter.getRouteUrl(artist, {
                 context: context,
                 itemType: 'MusicArtist',
@@ -333,8 +351,9 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             });
             html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + artist.Name + '</a>');
         }
+        html = html.join(' / ');
 
-        return html = html.join(' / ');
+        return html;
     }
 
     /**
@@ -371,6 +390,8 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         if (item.SeriesName && 'Season' === item.Type) {
             parentRoute = appRouter.getRouteUrl({
+                Id: item.SeriesId,
+                Name: item.SeriesName,
                 Type: 'Series',
                 IsFolder: true,
                 ServerId: item.ServerId
@@ -414,36 +435,33 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             if (parentNameLast) {
                 // Music
                 if (layoutManager.mobile) {
-                    html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join('</br>') + '</h3>';
+                    html = '<h3 class="parentName musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
                 } else {
-                    html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join(' - ') + '</h3>';
+                    html = '<h3 class="parentName musicParentName">' + parentNameHtml.join(' - ') + '</h3>';
                 }
             } else {
-                if (layoutManager.mobile) {
-                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml.join('</br>') + '</h1>';
-                } else {
-                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + tvShowHtml + '</h1>';
-                }
+                html = '<h1 class="parentName">' + tvShowHtml + '</h1>';
             }
         }
 
         var name = itemHelper.getDisplayName(item, {
             includeParentInfo: false
         });
-        var offset = parentNameLast ? '.25em' : '.5em';
 
         if (html && !parentNameLast) {
-            if (!layoutManager.mobile && tvSeasonHtml) {
-                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + tvSeasonHtml + ' - ' + name + '</h3>';
+            if (tvSeasonHtml) {
+                html += '<h3 class="itemName infoText subTitle">' + tvSeasonHtml + ' - ' + name + '</h3>';
             } else {
-                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + name + '</h3>';
+                html += '<h3 class="itemName infoText subTitle">' + name + '</h3>';
             }
+        } else if (item.OriginalTitle && item.OriginalTitle != item.Name) {
+            html = '<h1 class="itemName infoText parentNameLast withOriginalTitle">' + name + '</h1>' + html;
         } else {
-            html = '<h1 class="itemName infoText" style="margin: .1em 0 ' + offset + ';">' + name + '</h1>' + html;
+            html = '<h1 class="itemName infoText parentNameLast">' + name + '</h1>' + html;
         }
 
         if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-            html += '<h4 class="itemName infoText" style="margin: -0.75em 0 0.25em;">' + item.OriginalTitle + '</h4>';
+            html += '<h4 class="itemName infoText originalTitle">' + item.OriginalTitle + '</h4>';
         }
 
         container.innerHTML = html;
@@ -511,7 +529,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         Emby.Page.setTitle('');
 
         // Start rendering the artwork first
-        renderImage(page, item, apiClient, user);
+        renderImage(page, item);
         renderLogo(page, item, apiClient);
         renderBackdrop(item);
         renderDetailPageBackdrop(page, item, apiClient);
@@ -672,7 +690,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
 
         if (item.ExternalUrls) {
-            for (let url of item.ExternalUrls) {
+            for (const url of item.ExternalUrls) {
                 links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${url.Name}</a>`);
             }
         }
@@ -691,7 +709,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
     }
 
-    function renderDetailImage(page, elem, item, apiClient, editable, imageLoader, indicators) {
+    function renderDetailImage(elem, item, imageLoader) {
         elem.classList.add('detailimg-hidemobile');
 
         const itemArray = [];
@@ -713,15 +731,11 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         imageLoader.lazyChildren(elem);
     }
 
-    function renderImage(page, item, apiClient, user) {
+    function renderImage(page, item) {
         renderDetailImage(
-            page,
             page.querySelector('.detailImageContainer'),
             item,
-            apiClient,
-            user.Policy.IsAdministrator && 'Photo' != item.MediaType,
-            imageLoader,
-            indicators
+            imageLoader
         );
     }
 
@@ -840,7 +854,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     function renderOverview(page, item) {
         var overviewElemnts = page.querySelectorAll('.overview');
 
-        for (let overviewElemnt of overviewElemnts) {
+        for (const overviewElemnt of overviewElemnts) {
             var overview = item.Overview || '';
 
             if (overview) {
@@ -861,10 +875,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
                 expandButton.addEventListener('click', toggleLineClamp.bind(null, overviewElemnt));
 
-                var anchors = overviewElemnt.querySelectorAll('a');
-
-                var anchors = overviewElemnt.querySelectorAll('a');
-                for (let anchor of anchors) {
+                for (const anchor of overviewElemnt.querySelectorAll('a')) {
                     anchor.setAttribute('target', '_blank');
                 }
             } else {
@@ -874,19 +885,9 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
     }
 
-    function renderGenres(page, item, context) {
-        context = context || inferContext(item);
-        var type;
+    function renderGenres(page, item, context = inferContext(item)) {
         var genres = item.GenreItems || [];
-
-        switch (context) {
-            case 'music':
-                type = 'MusicGenre';
-                break;
-
-            default:
-                type = 'Genre';
-        }
+        var type = context === 'music' ? 'MusicGenre' : 'Genre';
 
         var html = genres.map(function (p) {
             return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
@@ -973,7 +974,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     function renderMiscInfo(page, item) {
         const primaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-primary');
 
-        for (let miscInfo of primaryItemMiscInfo) {
+        for (const miscInfo of primaryItemMiscInfo) {
             mediaInfo.fillPrimaryMediaInfo(miscInfo, item, {
                 interactive: true,
                 episodeTitle: false,
@@ -989,7 +990,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         const secondaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-secondary');
 
-        for (let miscInfo of secondaryItemMiscInfo) {
+        for (const miscInfo of secondaryItemMiscInfo) {
             mediaInfo.fillSecondaryMediaInfo(miscInfo, item, {
                 interactive: true
             });
@@ -1313,8 +1314,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                     action: 'playallfromhere',
                     image: false,
                     artist: 'auto',
-                    containerAlbumArtists: item.AlbumArtists,
-                    addToListButton: true
+                    containerAlbumArtists: item.AlbumArtists
                 });
                 isList = true;
             } else if ('Series' == item.Type) {
@@ -1588,12 +1588,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function renderCollectionItems(page, parentItem, types, items) {
+        page.querySelector('.collectionItems').classList.remove('hide');
         page.querySelector('.collectionItems').innerHTML = '';
-        var i;
-        var length;
 
-        for (i = 0, length = types.length; i < length; i++) {
-            var type = types[i];
+        for (const type of types) {
             var typeItems = filterItemsByCollectionItemType(items, type);
 
             if (typeItems.length) {
@@ -1626,8 +1624,8 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             renderChildren(page, parentItem);
         };
 
-        for (i = 0, length = containers.length; i < length; i++) {
-            containers[i].notifyRefreshNeeded = notifyRefreshNeeded;
+        for (const container of containers) {
+            container.notifyRefreshNeeded = notifyRefreshNeeded;
         }
 
         // if nothing in the collection can be played hide play and shuffle buttons
@@ -1794,7 +1792,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     function bindAll(view, selector, eventName, fn) {
         var elems = view.querySelectorAll(selector);
 
-        for (let elem of elems) {
+        for (const elem of elems) {
             elem.addEventListener(eventName, fn);
         }
     }
@@ -1814,10 +1812,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             Promise.all([getPromise(apiClient, params), apiClient.getCurrentUser()]).then(([item, user]) => {
                 currentItem = item;
                 reloadFromItem(instance, page, params, item, user);
-
-                let detailImageContainer = page.querySelector('.detailImageContainer');
-                const overlayPlayButton = detailImageContainer.querySelector('.cardOverlayFab-primary');
-                overlayPlayButton.addEventListener('click', onPlayClick);
             }).catch((error) => {
                 console.error('failed to get item or current user: ', error);
             });
@@ -1883,15 +1877,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         function onShuffleClick() {
             playbackManager.shuffle(currentItem);
-        }
-
-        function onDeleteClick() {
-            require(['deleteHelper'], function (deleteHelper) {
-                deleteHelper.deleteItem({
-                    item: currentItem,
-                    navigate: true
-                });
-            });
         }
 
         function onCancelSeriesTimerClick() {

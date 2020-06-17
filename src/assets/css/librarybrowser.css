@@ -507,7 +507,23 @@
 
 .parentName {
     display: block;
-    margin-bottom: 0.5em;
+    margin: 0 0 0;
+}
+
+.layout-mobile .parentName {
+    margin: 0.6em 0 0;
+}
+
+.musicParentName {
+    margin: 0.15em 0 0.2em;
+}
+
+.layout-mobile .musicParentName {
+    margin: -0.25em 0 0.25em;
+}
+
+.layout-mobile .itemExternalLinks {
+    display: none;
 }
 
 .mainDetailButtons {
@@ -528,6 +544,35 @@
 .itemName {
     margin: 0.5em 0;
     font-weight: 600;
+}
+
+.itemName.originalTitle {
+    margin: 0.2em 0 0.2em;
+}
+
+.itemName.parentNameLast {
+    margin: 0 0 0;
+}
+
+.layout-mobile .itemName.parentNameLast {
+    margin: 0.4em 0 0.4em;
+}
+
+.layout-mobile h1.itemName,
+.layout-mobile h1.parentName {
+    font-size: 1.6em;
+}
+
+.itemName.parentNameLast.withOriginalTitle {
+    margin: 0 0 0;
+}
+
+.layout-mobile .itemName.parentNameLast.withOriginalTitle {
+    margin: 0.6em 0 0;
+}
+
+.layout-mobile .itemName.originalTitle {
+    margin: 0.5em 0 0.5em;
 }
 
 .nameContainer {
@@ -557,8 +602,16 @@
 }
 
 .layout-mobile .mainDetailButtons {
-    margin-top: 2em;
+    margin-top: 1em;
     margin-bottom: 0.5em;
+}
+
+.subTitle {
+    margin: 0.15em 0 0.2em;
+}
+
+.layout-mobile .subTitle {
+    margin: 0.2em 0 0.2em;
 }
 
 .detailPagePrimaryContainer {
@@ -571,7 +624,7 @@
 .layout-mobile .detailPagePrimaryContainer {
     display: block;
     position: relative;
-    padding: 2.5em 3.3% 1em;
+    padding: 0.5em 3.3% 0.5em;
 }
 
 .layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
@@ -611,6 +664,10 @@
 
 .detailPageSecondaryContainer {
     margin: 1.25em 0;
+}
+
+.layout-mobile .detailPageSecondaryContainer {
+    margin: 1em 0;
 }
 
 .detailImageContainer .card {
@@ -722,7 +779,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
 
 @media all and (max-width: 62.5em) {
     .parentName {
-        margin-bottom: 1em;
+        margin-bottom: 0;
     }
 
     .itemDetailPage {
@@ -983,6 +1040,10 @@ div.itemDetailGalleryLink.defaultCardBackground {
     margin-bottom: 2.7em;
 }
 
+.layout-mobile .verticalSection-extrabottompadding {
+    margin-bottom: 1em;
+}
+
 .sectionTitleButton,
 .sectionTitleIconButton {
     margin-right: 0 !important;
@@ -1008,7 +1069,12 @@ div.itemDetailGalleryLink.defaultCardBackground {
 
 div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     margin: 0;
-    padding-top: 1.25em;
+    padding-top: 0.5em;
+}
+
+.layout-mobile :not(.sectionTitleContainer-cards) > .sectionTitle-cards {
+    margin: 0;
+    padding-top: 0.5em;
 }
 
 .sectionTitleButton {

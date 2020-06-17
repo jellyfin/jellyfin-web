@@ -122,10 +122,10 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     var artistName;
                     if (item.ArtistItems != null) {
                         artistName = item.ArtistItems[0].Name;
-                        context.querySelector('.nowPlayingAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}">${albumName}</a>`;
-                        context.querySelector('.nowPlayingArtist').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}">${artistName}</a>`;
-                        context.querySelector('.contextMenuAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons album"></span> ` + globalize.translate('ViewAlbum') + '</a>';
-                        context.querySelector('.contextMenuArtist').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons person"></span> ` + globalize.translate('ViewArtist') + '</a>';
+                        context.querySelector('.nowPlayingAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}">${albumName}</a>`;
+                        context.querySelector('.nowPlayingArtist').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}">${artistName}</a>`;
+                        context.querySelector('.contextMenuAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons album"></span> ` + globalize.translate('ViewAlbum') + '</a>';
+                        context.querySelector('.contextMenuArtist').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons person"></span> ` + globalize.translate('ViewArtist') + '</a>';
                     } else {
                         artistName = item.Artists;
                         context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
@@ -136,12 +136,12 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             } else if (item.Type == 'Episode') {
                 if (item.SeasonName != null) {
                     var seasonName = item.SeasonName;
-                    context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeasonId + `&amp;serverId=${nowPlayingServerId}">${seasonName}</a>`;
+                    context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.SeasonId + `&amp;serverId=${nowPlayingServerId}">${seasonName}</a>`;
                 }
                 if (item.SeriesName != null) {
                     var seriesName = item.SeriesName;
                     if (item.SeriesId != null) {
-                        context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeriesId + `&amp;serverId=${nowPlayingServerId}">${seriesName}</a>`;
+                        context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.SeriesId + `&amp;serverId=${nowPlayingServerId}">${seriesName}</a>`;
                     } else {
                         context.querySelector('.nowPlayingSerie').innerHTML = seriesName;
                     }
