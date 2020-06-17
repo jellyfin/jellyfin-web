@@ -56,8 +56,8 @@
     text-align: left;
     flex-grow: 1;
     font-size: 92%;
-    margin-right: 2.4em;
-    margin-left: 1em;
+    margin-right: 1em;
+    margin-left: 0.2em;
 }
 
 .nowPlayingBarCenter {
@@ -159,7 +159,7 @@
     }
 
     .nowPlayingBarInfoContainer {
-        width: 70%;
+        width: 100%;
     }
 }
 
