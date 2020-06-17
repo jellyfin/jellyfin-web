@@ -117,8 +117,13 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         nowPlayingImageElement = elem.querySelector('.nowPlayingImage');
         nowPlayingTextElement = elem.querySelector('.nowPlayingBarText');
         nowPlayingUserData = elem.querySelector('.nowPlayingBarUserDataButtons');
-
+        positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         muteButton = elem.querySelector('.muteButton');
+        playPauseButtons = elem.querySelectorAll('.playPauseButton');
+        toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
+        volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
+        volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
+
         muteButton.addEventListener('click', function () {
 
             if (currentPlayer) {
@@ -134,7 +139,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         });
 
-        playPauseButtons = elem.querySelectorAll('.playPauseButton');
         playPauseButtons.forEach((button) => {
             button.addEventListener('click', onPlayPauseClick);
         });
@@ -147,9 +151,15 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         });
 
         elem.querySelector('.previousTrackButton').addEventListener('click', function () {
-
             if (currentPlayer) {
-                playbackManager.previousTrack(currentPlayer);
+                if (currentPlayer.id === 'htmlaudioplayer' && (currentPlayer._currentTime <= 5 || !playbackManager.previousTrack(currentPlayer))) {
+                    playbackManager.seekPercent(0, currentPlayer);
+                    // This is done automatically by playbackManager, however, setting this here
+                    // gives instant visual feedback
+                    positionSlider.value = 0;
+                } else {
+                    playbackManager.previousTrack(currentPlayer);
+                }
             }
         });
 
@@ -174,9 +184,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
-        volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
-        volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
-
         if (appHost.supports('physicalvolumecontrol')) {
             volumeSliderContainer.classList.add('hide');
         } else {
@@ -193,7 +200,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         volumeSlider.addEventListener('mousemove', setVolume);
         volumeSlider.addEventListener('touchmove', setVolume);
 
-        positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         positionSlider.addEventListener('change', function () {
 
             if (currentPlayer) {

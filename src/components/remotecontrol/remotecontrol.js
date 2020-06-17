@@ -606,6 +606,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
         function bindEvents(context) {
             var btnCommand = context.querySelectorAll('.btnCommand');
+            var positionSlider = context.querySelector('.nowPlayingPositionSlider');
 
             for (var i = 0, length = btnCommand.length; i < length; i++) {
                 btnCommand[i].addEventListener('click', onBtnCommandClick);
@@ -654,11 +655,19 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 }
             });
             context.querySelector('.btnPreviousTrack').addEventListener('click', function () {
+                console.log(currentPlayer);
                 if (currentPlayer) {
-                    playbackManager.previousTrack(currentPlayer);
+                    if (currentPlayer.id === 'htmlaudioplayer' && (currentPlayer._currentTime <= 5 || !playbackManager.previousTrack(currentPlayer))) {
+                        playbackManager.seekPercent(0, currentPlayer);
+                        // This is done automatically by playbackManager. However, setting this here
+                        // gives instant visual feedback
+                        positionSlider.value = 0;
+                    } else {
+                        playbackManager.previousTrack(currentPlayer);
+                    }
                 }
             });
-            context.querySelector('.nowPlayingPositionSlider').addEventListener('change', function () {
+            positionSlider.addEventListener('change', function () {
                 var value = this.value;
 
                 if (currentPlayer) {
@@ -667,7 +676,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 }
             });
 
-            context.querySelector('.nowPlayingPositionSlider').getBubbleText = function (value) {
+            positionSlider.getBubbleText = function (value) {
                 var state = lastPlayerState;
 
                 if (!state || !state.NowPlayingItem || !currentRuntimeTicks) {
