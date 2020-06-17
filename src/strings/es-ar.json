@@ -679,5 +679,17 @@
     "LabelAllowServerAutoRestartHelp": "El servidor solo se reiniciará durante los períodos de inactividad cuando no haya usuarios activos.",
     "LabelAllowServerAutoRestart": "Permita que el servidor se reinicie automáticamente para aplicar actualizaciones",
     "LabelAllowHWTranscoding": "Permitir transcodificación con hardware",
-    "LabelAlbumArtists": "Artistas del álbum:"
+    "LabelAlbumArtists": "Artistas del álbum:",
+    "LabelContentType": "Tipo de contenido:",
+    "LabelCommunityRating": "Valoración de la comunidad:",
+    "LabelCollection": "Colección:",
+    "LabelChannels": "Canales:",
+    "LabelCertificatePasswordHelp": "Si su certificado requiere una contraseña, ingrésela aquí.",
+    "LabelCertificatePassword": "Contraseña del certificado:",
+    "LabelCancelled": "Cancelado",
+    "LabelCachePath": "Ruta de caché:",
+    "LabelCache": "Caché:",
+    "LabelBurnSubtitles": "Grabar subtítulos:",
+    "LabelAudioBitDepth": "Profundidad de bits de audio:",
+    "LabelArtistsHelp": "Separar usando múltiples ;"
 }
