@@ -545,7 +545,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
                     var userData = item.UserData || {};
                     var likes = userData.Likes == null ? '' : userData.Likes;
-                    var contextButton = document.querySelector('.btnToggleContextMenu');
+                    var contextButton = document.querySelector('.nowPlayingBar').querySelector('.btnToggleContextMenu');
                     var options = {
                         play: false,
                         queue: false,
