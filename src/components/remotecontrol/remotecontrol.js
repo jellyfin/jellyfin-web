@@ -293,8 +293,14 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             buttonVisible(context.querySelector('.btnStop'), null != item);
             buttonVisible(context.querySelector('.btnNextTrack'), null != item);
             buttonVisible(context.querySelector('.btnPreviousTrack'), null != item);
-            buttonVisible(context.querySelector('.btnRewind'), null != item);
-            buttonVisible(context.querySelector('.btnFastForward'), null != item);
+            if (layoutManager.mobile) {
+                buttonVisible(context.querySelector('.btnRewind'), false);
+                buttonVisible(context.querySelector('.btnFastForward'), false);
+                buttonVisible(context.querySelector('.nowPlayingInfoButtons').querySelector('.repeatToggleButton'), true);
+            } else {
+                buttonVisible(context.querySelector('.btnRewind'), null != item);
+                buttonVisible(context.querySelector('.btnFastForward'), null != item);
+            }
             var positionSlider = context.querySelector('.nowPlayingPositionSlider');
 
             if (positionSlider && item && item.RunTimeTicks) {

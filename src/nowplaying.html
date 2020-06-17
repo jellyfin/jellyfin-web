@@ -29,6 +29,11 @@
                 <div class="nowPlayingButtonsContainer focuscontainer-x">
                 
                     <div class="nowPlayingInfoButtons">
+
+                        <button is="paper-icon-button-light" class="btnRepeatMobile btnCommand repeatToggleButton autoSize hide" title="${ButtonRepeat}"
+                            data-command="SetRepeatMode">
+                            <span class="material-icons repeat"></span>
+                        </button>
                     
                         <button is="paper-icon-button-light" class="btnRewind btnNowPlayingRewind btnPlayStateCommand autoSize" title="${Rewind}">
                             <span class="material-icons replay_10"></span>
@@ -72,7 +77,8 @@
                             <span class="material-icons fullscreen"></span>
                         </button>
 
-                        <button is="paper-icon-button-light" class="btnCommand repeatToggleButton autoSize" title="${ButtonRepeat}" data-command="SetRepeatMode">
+                        <button is="paper-icon-button-light" class="btnCommand repeatToggleButton autoSize" title="${ButtonRepeat}"
+                            data-command="SetRepeatMode">
                             <span class="material-icons repeat"></span>
                         </button>
 
