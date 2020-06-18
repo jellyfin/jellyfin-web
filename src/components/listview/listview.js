@@ -270,52 +270,54 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             if (options.image !== false) {
                 let imgData = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                let imgUrl = imgData.url;
-                let blurhash = imgData.blurhash;
-                let imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
+                if (imgData) {
+                    let imgUrl = imgData.url;
+                    let blurhash = imgData.blurhash;
+                    let imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
-                if (isLargeStyle && layoutManager.tv) {
-                    imageClass += ' listItemImage-large-tv';
+                    if (isLargeStyle && layoutManager.tv) {
+                        imageClass += ' listItemImage-large-tv';
+                    }
+
+                    var playOnImageClick = options.imagePlayButton && !layoutManager.tv;
+
+                    if (!clickEntireItem) {
+                        imageClass += ' itemAction';
+                    }
+
+                    var imageAction = playOnImageClick ? 'resume' : action;
+
+                    let blurhashAttrib = '';
+                    if (blurhash && blurhash.length > 0) {
+                        blurhashAttrib = 'data-blurhash="' + blurhash + '"';
+                    }
+
+                    if (imgUrl) {
+                        html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + ' item-icon>';
+                    } else {
+                        html += '<div class="' + imageClass + '">';
+                    }
+
+                    var indicatorsHtml = '';
+                    indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
+
+                    if (indicatorsHtml) {
+                        html += '<div class="indicators listItemIndicators">' + indicatorsHtml + '</div>';
+                    }
+
+                    if (playOnImageClick) {
+                        html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><span class="material-icons listItemImageButton-icon play_arrow"></span></button>';
+                    }
+
+                    var progressHtml = indicators.getProgressBarHtml(item, {
+                        containerClass: 'listItemProgressBar'
+                    });
+
+                    if (progressHtml) {
+                        html += progressHtml;
+                    }
+                    html += '</div>';
                 }
-
-                var playOnImageClick = options.imagePlayButton && !layoutManager.tv;
-
-                if (!clickEntireItem) {
-                    imageClass += ' itemAction';
-                }
-
-                var imageAction = playOnImageClick ? 'resume' : action;
-
-                let blurhashAttrib = '';
-                if (blurhash && blurhash.length > 0) {
-                    blurhashAttrib = 'data-blurhash="' + blurhash + '"';
-                }
-
-                if (imgUrl) {
-                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + ' item-icon>';
-                } else {
-                    html += '<div class="' + imageClass + '">';
-                }
-
-                var indicatorsHtml = '';
-                indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
-
-                if (indicatorsHtml) {
-                    html += '<div class="indicators listItemIndicators">' + indicatorsHtml + '</div>';
-                }
-
-                if (playOnImageClick) {
-                    html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><span class="material-icons listItemImageButton-icon play_arrow"></span></button>';
-                }
-
-                var progressHtml = indicators.getProgressBarHtml(item, {
-                    containerClass: 'listItemProgressBar'
-                });
-
-                if (progressHtml) {
-                    html += progressHtml;
-                }
-                html += '</div>';
             }
 
             if (options.showIndexNumberLeft) {
