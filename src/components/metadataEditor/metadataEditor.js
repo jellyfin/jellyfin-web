@@ -308,8 +308,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             }
         });
 
-        context.removeEventListener('submit', onEditorClick);
-        context.addEventListener('submit', onEditorClick);
+        context.removeEventListener('click', onEditorClick);
+        context.addEventListener('click', onEditorClick);
 
         var form = context.querySelector('form');
         form.removeEventListener('submit', onSubmit);
