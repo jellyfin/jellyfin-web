@@ -852,6 +852,10 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 context.querySelector('.btnTogglePlaylist').classList.remove('hide');
                 context.querySelector('.nowPlayingInfoButtons').insertAdjacentHTML('afterbegin', repeatButtonHtml);
                 context.querySelector('.nowPlayingInfoButtons').insertAdjacentHTML('beforeend', shuffleButtonHtml);
+                let childs = context.querySelectorAll('*');
+                for (let child of childs) {
+                    child.classList.add('mobilePlayer');
+                }
             }
 
             bindEvents(context);
