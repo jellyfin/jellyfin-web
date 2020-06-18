@@ -572,10 +572,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 var apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
                     var userData = item.UserData || {};
+                    var likes = userData.Likes == null ? '' : userData.Likes;
                     if (!layoutManager.mobile) {
-                        var likes = userData.Likes == null ? '' : userData.Likes;
-                        var contextButton = document.querySelector('.nowPlayingBar').querySelector('.btnToggleContextMenu');
-                        var options = {
+                        let contextButton = document.querySelector('.nowPlayingBar').querySelector('.btnToggleContextMenu');
+                        let options = {
                             play: false,
                             queue: false,
                             positionTo: contextButton
