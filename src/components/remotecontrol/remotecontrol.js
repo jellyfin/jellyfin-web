@@ -2,6 +2,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
     'use strict';
     var showMuteButton = true;
     var showVolumeSlider = true;
+    var shuffleButton;
 
     function showAudioMenu(context, player, button, item) {
         var currentIndex = playbackManager.getAudioStreamIndex(player);
@@ -296,8 +297,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             if (layoutManager.mobile) {
                 buttonVisible(context.querySelector('.btnRewind'), false);
                 buttonVisible(context.querySelector('.btnFastForward'), false);
-                buttonVisible(context.querySelector('.nowPlayingInfoButtons').querySelector('.repeatToggleButton'), true);
-                buttonVisible(context.querySelector('.nowPlayingInfoButtons').querySelector('.btnShuffleMobile'), true);
             } else {
                 buttonVisible(context.querySelector('.btnRewind'), null != item);
                 buttonVisible(context.querySelector('.btnFastForward'), null != item);
@@ -326,6 +325,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             }
 
             updateRepeatModeDisplay(playState.RepeatMode);
+            onShufflePlaylistModeChange();
             updateNowPlayingInfo(context, state);
         }
 
@@ -826,9 +826,11 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up"></span></button>`;
             volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
             volumecontrolHtml += '</div>';
+            let shuffleButtonHtml = `<button is="paper-icon-button-light" class="btnShuffle autoSize" title="${globalize.translate('ButtonShuffle')}"><span class="material-icons shuffle"></span></button>`;
+            let repeatButtonHtml = `<button is="paper-icon-button-light" class="btnCommand btnRepeat repeatToggleButton autoSize" title="${globalize.translate('ButtonRepeat')}" data-command="SetRepeatMode"><span class="material-icons repeat"></span></button>`;
             let optionsSection = context.querySelector('.playlistSectionButton');
             if (!layoutManager.mobile) {
-                context.querySelector('.nowPlayingSecondaryButtons').innerHTML += volumecontrolHtml;
+                context.querySelector('.nowPlayingSecondaryButtons').insertAdjacentHTML('beforeend', repeatButtonHtml + shuffleButtonHtml + volumecontrolHtml);
                 optionsSection.innerHTML += contextmenuHtml;
                 optionsSection.classList.remove('align-items-center', 'justify-content-center');
                 optionsSection.classList.add('align-items-right', 'justify-content-flex-end');
@@ -837,6 +839,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 optionsSection.innerHTML += volumecontrolHtml + contextmenuHtml;
                 optionsSection.classList.add('playlistSectionButtonTransparent');
                 context.querySelector('.btnTogglePlaylist').classList.remove('hide');
+                context.querySelector('.nowPlayingInfoButtons').insertAdjacentHTML('afterbegin', repeatButtonHtml);
+                context.querySelector('.nowPlayingInfoButtons').insertAdjacentHTML('beforeend', shuffleButtonHtml);
             }
 
             bindEvents(context);

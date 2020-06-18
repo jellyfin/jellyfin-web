@@ -47,7 +47,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
 
         html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><span class="material-icons stop"></span></button>';
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
+        if (!layoutManager.mobile) {
+            html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
+        }
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
         html += '</div>';
@@ -61,12 +63,17 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         html += '</div>';
 
         html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat"></span></button>';
+        html += '<button is="paper-icon-button-light" class="btnShuffle mediaButton"><span class="material-icons shuffle"></span></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
         html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
-        html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><span class="material-icons more_vert"></span></button>';
+        if (layoutManager.mobile) {
+            html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
+        } else {
+            html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><span class="material-icons more_vert"></span></button>';
+        }
 
         html += '</div>';
         html += '</div>';
@@ -159,6 +166,16 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                     positionSlider.value = 0;
                 } else {
                     playbackManager.previousTrack(currentPlayer);
+                }
+            }
+        });
+
+        elem.querySelector('.btnShuffle').addEventListener('click', function () {
+            if (currentPlayer) {
+                if (playbackManager.getPlaylistShuffleMode(currentPlayer) === 'Sorted') {
+                    playbackManager.setPlaylistShuffleMode('Shuffle', currentPlayer);
+                } else {
+                    playbackManager.setPlaylistShuffleMode('Sorted', currentPlayer);
                 }
             }
         });
@@ -263,6 +280,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 parentContainer.insertAdjacentHTML('afterbegin', getNowPlayingBarHtml());
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
+                if (layoutManager.mobile) {
+                    hideButton(nowPlayingBarElement.querySelector('.shuffle'));
+                }
+
                 if (browser.safari && browser.slow) {
                     // Not handled well here. The wrong elements receive events, bar doesn't update quickly enough, etc.
                     nowPlayingBarElement.classList.add('noMediaProgress');
@@ -316,6 +337,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         updateRepeatModeDisplay(playState.RepeatMode);
+        onPlaylistShuffleModeChange();
 
         updatePlayerVolumeState(playState.IsMuted, playState.VolumeLevel);
 
@@ -550,22 +572,24 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 var apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
                     var userData = item.UserData || {};
-                    var likes = userData.Likes == null ? '' : userData.Likes;
-                    var contextButton = document.querySelector('.nowPlayingBar').querySelector('.btnToggleContextMenu');
-                    var options = {
-                        play: false,
-                        queue: false,
-                        positionTo: contextButton
-                    };
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
-                    apiClient.getCurrentUser().then(function(user) {
-                        contextButton.addEventListener('click', function () {
-                            itemContextMenu.show(Object.assign({
-                                item: item,
-                                user: user
-                            }, options ));
+                    if (!layoutManager.mobile) {
+                        var likes = userData.Likes == null ? '' : userData.Likes;
+                        var contextButton = document.querySelector('.nowPlayingBar').querySelector('.btnToggleContextMenu');
+                        var options = {
+                            play: false,
+                            queue: false,
+                            positionTo: contextButton
+                        };
+                        apiClient.getCurrentUser().then(function (user) {
+                            contextButton.addEventListener('click', function () {
+                                itemContextMenu.show(Object.assign({
+                                    item: item,
+                                    user: user
+                                }, options));
+                            });
                         });
-                    });
+                    }
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
                 });
             }
         } else {
@@ -590,6 +614,18 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         var player = this;
 
         updateRepeatModeDisplay(playbackManager.getRepeatMode(player));
+    }
+
+    function onPlaylistShuffleModeChange() {
+        let shuffleMode = playbackManager.getPlaylistShuffleMode(this);
+        let context = nowPlayingBarElement;
+        let toggleShuffleButton = context.querySelector('.btnShuffle');
+
+        if ('Sorted' === shuffleMode) {
+            toggleShuffleButton.classList.remove('shuffleButton-active');
+        } else if ('Shuffle' === shuffleMode) {
+            toggleShuffleButton.classList.add('shuffleButton-active');
+        }
     }
 
     function showNowPlayingBar() {
@@ -697,6 +733,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             events.off(player, 'playbackstart', onPlaybackStart);
             events.off(player, 'statechange', onPlaybackStart);
             events.off(player, 'repeatmodechange', onRepeatModeChange);
+            events.off(player, 'shuffleplaylistmodechange', onPlaylistShuffleModeChange);
             events.off(player, 'playbackstop', onPlaybackStopped);
             events.off(player, 'volumechange', onVolumeChanged);
             events.off(player, 'pause', onPlayPauseStateChanged);
@@ -745,6 +782,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         events.on(player, 'playbackstart', onPlaybackStart);
         events.on(player, 'statechange', onPlaybackStart);
         events.on(player, 'repeatmodechange', onRepeatModeChange);
+        events.on(player, 'shuffleplaylistmodechange', onPlaylistShuffleModeChange);
         events.on(player, 'playbackstop', onPlaybackStopped);
         events.on(player, 'volumechange', onVolumeChanged);
         events.on(player, 'pause', onPlayPauseStateChanged);

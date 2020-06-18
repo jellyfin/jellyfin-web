@@ -290,7 +290,7 @@
         border-radius: 0;
     }
 
-    .nowPlayingInfoButtons .btnRepeatMobile {
+    .nowPlayingInfoButtons .btnRepeat {
         position: absolute;
         left: 0;
         margin-left: 0;
@@ -298,7 +298,7 @@
         font-size: smaller;
     }
 
-    .nowPlayingInfoButtons .btnShuffleMobile {
+    .nowPlayingInfoButtons .btnShuffle {
         position: absolute;
         right: 0;
         margin-right: 0;
