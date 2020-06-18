@@ -2,7 +2,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
     'use strict';
     var showMuteButton = true;
     var showVolumeSlider = true;
-    var shuffleButton;
 
     function showAudioMenu(context, player, button, item) {
         var currentIndex = playbackManager.getAudioStreamIndex(player);
@@ -704,17 +703,25 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 }
             });
 
-            context.querySelector('.btnPreviousTrack').addEventListener('click', function () {
-                console.log(currentPlayer);
+            context.querySelector('.btnPreviousTrack').addEventListener('click', function (e) {
                 if (currentPlayer) {
                     if (currentPlayer.id === 'htmlaudioplayer' && (currentPlayer._currentTime <= 5 || !playbackManager.previousTrack(currentPlayer))) {
+                        // Cancel this event if doubleclick is fired
+                        if (e.originalEvent.detail > 1) {
+                            return;
+                        }
                         playbackManager.seekPercent(0, currentPlayer);
-                        // This is done automatically by playbackManager. However, setting this here
-                        // gives instant visual feedback
+                        // This is done automatically by playbackManager. However, setting this here gives instant visual feedback
                         positionSlider.value = 0;
                     } else {
                         playbackManager.previousTrack(currentPlayer);
                     }
+                }
+            });
+
+            context.querySelector('.btnPreviousTrack').addEventListener('dblclick', function () {
+                if (currentPlayer) {
+                    playbackManager.previousTrack(currentPlayer);
                 }
             });
             positionSlider.addEventListener('change', function () {

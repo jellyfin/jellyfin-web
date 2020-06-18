@@ -157,16 +157,25 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         });
 
-        elem.querySelector('.previousTrackButton').addEventListener('click', function () {
+        elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
             if (currentPlayer) {
                 if (currentPlayer.id === 'htmlaudioplayer' && (currentPlayer._currentTime <= 5 || !playbackManager.previousTrack(currentPlayer))) {
+                    // Cancel this event if doubleclick is fired
+                    if (e.originalEvent.detail > 1) {
+                        return;
+                    }
                     playbackManager.seekPercent(0, currentPlayer);
-                    // This is done automatically by playbackManager, however, setting this here
-                    // gives instant visual feedback
+                    // This is done automatically by playbackManager, however, setting this here gives instant visual feedback
                     positionSlider.value = 0;
                 } else {
                     playbackManager.previousTrack(currentPlayer);
                 }
+            }
+        });
+
+        elem.querySelector('.previousTrackButton').addEventListener('dblclick', function () {
+            if (currentPlayer) {
+                playbackManager.previousTrack(currentPlayer);
             }
         });
 
