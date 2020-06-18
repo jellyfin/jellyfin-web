@@ -570,8 +570,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
             if (url) {
                 imageLoader.lazyImage(nowPlayingImageElement, url);
+                nowPlayingImageElement.style.display = null;
+                nowPlayingTextElement.style.marginLeft = null;
             } else {
                 nowPlayingImageElement.style.backgroundImage = '';
+                nowPlayingImageElement.style.display = 'none';
+                nowPlayingTextElement.style.marginLeft = '1em';
             }
         }
 
