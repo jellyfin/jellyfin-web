@@ -159,7 +159,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
             if (currentPlayer) {
-                if (currentPlayer.id === 'htmlaudioplayer' && (currentPlayer._currentTime <= 5 || !playbackManager.previousTrack(currentPlayer))) {
+                if (currentPlayer.id === 'htmlaudioplayer' && (currentPlayer._currentTime >= 5 || !playbackManager.previousTrack(currentPlayer))) {
                     // Cancel this event if doubleclick is fired
                     if (e.detail > 1 && playbackManager.previousTrack(currentPlayer)) {
                         return;
