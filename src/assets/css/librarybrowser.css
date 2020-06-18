@@ -821,20 +821,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 @media all and (min-width: 100em) {
-    .headerTop {
-        padding-left: 0.8em;
-        padding-right: 0.8em;
-    }
-
-    .headerTabs {
-        align-self: center;
-        width: auto;
-        align-items: center;
-        justify-content: center;
-        margin-top: -4.2em;
-        position: relative;
-    }
-
     .detailFloatingButton {
         display: none !important;
     }
