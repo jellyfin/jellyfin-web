@@ -707,7 +707,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 if (currentPlayer) {
                     if (currentPlayer.id === 'htmlaudioplayer' && (currentPlayer._currentTime <= 5 || !playbackManager.previousTrack(currentPlayer))) {
                         // Cancel this event if doubleclick is fired
-                        if (e.originalEvent.detail > 1) {
+                        if (e.originalEvent.detail > 1 && playbackManager.previousTrack(currentPlayer)) {
                             return;
                         }
                         playbackManager.seekPercent(0, currentPlayer);
