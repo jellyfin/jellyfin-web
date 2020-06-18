@@ -481,7 +481,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 }
 
                 imageLoader.lazyChildren(itemsContainer);
-                context.querySelector('.btnSavePlaylist').classList.add('hide');
             });
         }
 
@@ -835,6 +834,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 optionsSection.classList.remove('align-items-center', 'justify-content-center');
                 optionsSection.classList.add('align-items-right', 'justify-content-flex-end');
                 context.querySelector('.playlist').classList.remove('hide');
+                context.querySelector('.btnSavePlaylist').classList.remove('hide');
             } else {
                 optionsSection.innerHTML += volumecontrolHtml + contextmenuHtml;
                 optionsSection.classList.add('playlistSectionButtonTransparent');
