@@ -272,7 +272,7 @@
     }
 }
 
-@media all and (max-width: 84em) {
+@media all and (max-width: 100em) {
     .withSectionTabs .headerTop {
         padding-bottom: 0.55em;
     }
@@ -282,7 +282,7 @@
     }
 }
 
-@media all and (min-width: 84em) {
+@media all and (min-width: 100em) {
     .headerTop {
         padding: 0.8em 0.8em;
     }
@@ -820,7 +820,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     }
 }
 
-@media all and (min-width: 62.5em) {
+@media all and (min-width: 100em) {
     .headerTop {
         padding-left: 0.8em;
         padding-right: 0.8em;
