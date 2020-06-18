@@ -161,7 +161,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             if (currentPlayer) {
                 if (currentPlayer.id === 'htmlaudioplayer' && (currentPlayer._currentTime <= 5 || !playbackManager.previousTrack(currentPlayer))) {
                     // Cancel this event if doubleclick is fired
-                    if (e.originalEvent.detail > 1 && playbackManager.previousTrack(currentPlayer)) {
+                    if (e.detail > 1 && playbackManager.previousTrack(currentPlayer)) {
                         return;
                     }
                     playbackManager.seekPercent(0, currentPlayer);

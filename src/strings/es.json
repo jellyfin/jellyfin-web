@@ -1205,7 +1205,7 @@
     "ValueTimeLimitSingleHour": "Tiempo límite: 1 hora",
     "ValueVideoCodec": "Códec de video: {0}",
     "ViewAlbum": "Ver album",
-    "ViewArtist": "Ver artista",
+    "ViewAlbumArtist": "Ver artista del álbum",
     "ViewPlaybackInfo": "Ver información de la reproducción",
     "Watched": "Visto",
     "Wednesday": "Miércoles",
@@ -1560,5 +1560,6 @@
     "EnableDetailsBannerHelp": "Mostrar imagen de banner en el tope de la página de detalles del elemento.",
     "EnableDetailsBanner": "Barra de Detalles",
     "ShowMore": "Mostrar más",
-    "ShowLess": "Mostrar menos"
+    "ShowLess": "Mostrar menos",
+    "ViewAlbumArtist": "Ver artista del álbum"
 }
