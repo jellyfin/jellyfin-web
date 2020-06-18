@@ -168,7 +168,11 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             }) : null;
 
             console.debug('updateNowPlayingInfo');
-            var contextButton = context.querySelector('.btnToggleContextMenu');
+            let contextButton = context.querySelector('.btnToggleContextMenu');
+            // We remove the previous event listener by replacing the item in each update event
+            let contextButtonClone = contextButton.cloneNode(true);
+            contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
+            contextButton = context.querySelector('.btnToggleContextMenu');
             var options = {
                 play: false,
                 queue: false,

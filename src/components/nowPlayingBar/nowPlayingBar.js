@@ -575,6 +575,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                     var likes = userData.Likes == null ? '' : userData.Likes;
                     if (!layoutManager.mobile) {
                         let contextButton = document.querySelector('.nowPlayingBar').querySelector('.btnToggleContextMenu');
+                        // We remove the previous event listener by replacing the item in each update event
+                        let contextButtonClone = contextButton.cloneNode(true);
+                        contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
+                        contextButton = document.querySelector('.nowPlayingBar').querySelector('.btnToggleContextMenu');
                         let options = {
                             play: false,
                             queue: false,
