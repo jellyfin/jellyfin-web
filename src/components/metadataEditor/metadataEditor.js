@@ -212,7 +212,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     function addElementToList(source, sortCallback) {
         require(['prompt'], function (prompt) {
 
-            prompt({
+            prompt.default({
                 label: 'Value:'
             }).then(function (text) {
                 var list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');

@@ -47,7 +47,7 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
 
     function showNewKeyPrompt(page) {
         require(['prompt'], function (prompt) {
-            prompt({
+            prompt.default({
                 title: globalize.translate('HeaderNewApiKey'),
                 label: globalize.translate('LabelAppName'),
                 description: globalize.translate('LabelAppNameExample')

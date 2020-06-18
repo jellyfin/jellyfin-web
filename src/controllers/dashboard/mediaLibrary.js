@@ -66,7 +66,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
 
     function renameVirtualFolder(page, virtualFolder) {
         require(['prompt'], function (prompt) {
-            prompt({
+            prompt.default({
                 label: globalize.translate('LabelNewName'),
                 confirmText: globalize.translate('ButtonRename')
             }).then(function (newName) {

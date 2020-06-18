@@ -34,7 +34,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
 
     function showSendMessageForm(btn, session) {
         require(['prompt'], function (prompt) {
-            prompt({
+            prompt.default({
                 title: globalize.translate('HeaderSendMessage'),
                 label: globalize.translate('LabelMessageText'),
                 confirmText: globalize.translate('ButtonSend')
