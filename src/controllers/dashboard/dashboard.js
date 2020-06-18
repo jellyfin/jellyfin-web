@@ -708,7 +708,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         },
         restart: function (btn) {
             require(['confirm'], function (confirm) {
-                confirm({
+                confirm.default({
                     title: globalize.translate('HeaderRestart'),
                     text: globalize.translate('MessageConfirmRestart'),
                     confirmText: globalize.translate('ButtonRestart'),
@@ -723,7 +723,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         },
         shutdown: function (btn) {
             require(['confirm'], function (confirm) {
-                confirm({
+                confirm.default({
                     title: globalize.translate('HeaderShutdown'),
                     text: globalize.translate('MessageConfirmShutdown'),
                     confirmText: globalize.translate('ButtonShutdown'),

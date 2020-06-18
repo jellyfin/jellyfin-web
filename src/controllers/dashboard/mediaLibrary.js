@@ -38,7 +38,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         }
 
         require(['confirm'], function (confirm) {
-            confirm({
+            confirm.default({
 
                 text: msg,
                 title: globalize.translate('HeaderRemoveMediaFolder'),

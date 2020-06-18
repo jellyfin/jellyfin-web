@@ -142,7 +142,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
             var msg = globalize.translate('PasswordResetConfirmation');
 
             require(['confirm'], function (confirm) {
-                confirm(msg, globalize.translate('PasswordResetHeader')).then(function () {
+                confirm.default(msg, globalize.translate('PasswordResetHeader')).then(function () {
                     var userId = params.userId;
                     loading.show();
                     ApiClient.resetUserPassword(userId).then(function () {
@@ -161,7 +161,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
             var msg = globalize.translate('PinCodeResetConfirmation');
 
             require(['confirm'], function (confirm) {
-                confirm(msg, globalize.translate('HeaderPinCodeReset')).then(function () {
+                confirm.default(msg, globalize.translate('HeaderPinCodeReset')).then(function () {
                     var userId = params.userId;
                     loading.show();
                     ApiClient.resetEasyPassword(userId).then(function () {

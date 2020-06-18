@@ -3,7 +3,7 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
 
     function revoke(page, key) {
         require(['confirm'], function (confirm) {
-            confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
+            confirm.default(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
                 loading.show();
                 ApiClient.ajax({
                     type: 'DELETE',

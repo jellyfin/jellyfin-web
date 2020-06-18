@@ -9,7 +9,7 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'da
         var msg = globalize.translate('DeleteDeviceConfirmation');
 
         require(['confirm'], function (confirm) {
-            confirm({
+            confirm.default({
                 text: msg,
                 title: globalize.translate('HeaderDeleteDevice'),
                 confirmText: globalize.translate('ButtonDelete'),

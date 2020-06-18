@@ -96,6 +96,7 @@
           "src/components/cardbuilder/cardBuilder.js",
           "src/components/cardbuilder/chaptercardbuilder.js",
           "src/components/cardbuilder/peoplecardbuilder.js",
+          "src/components/confirm/confirm.js",
           "src/components/images/imageLoader.js",
           "src/components/indicators/indicators.js",
           "src/components/lazyLoader/lazyLoaderIntersectionObserver.js",
