@@ -857,7 +857,6 @@ var AppInfo = {};
         define('deleteHelper', [scriptsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
-        define('loadingDialog', [componentsPath + '/loadingDialog/loadingDialog'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
