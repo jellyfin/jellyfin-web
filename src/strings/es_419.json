@@ -1549,5 +1549,6 @@
     "Alerts": "Alertas",
     "EnableBlurhash": "Habilitar marcadores de posición borrosos para imágenes",
     "ShowMore": "Mostrar más",
-    "ShowLess": "Mostrar menos"
+    "ShowLess": "Mostrar menos",
+    "EnableBlurhashHelp": "Las imágenes que aún se están cargando se mostrarán con un marcador de posición borroso"
 }
