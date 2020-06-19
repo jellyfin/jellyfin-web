@@ -1546,5 +1546,8 @@
     "AllComplexFormats": "Todos los formatos complejos (ASS, SSA, VOBSUB, PGS, SUB, IDX...)",
     "AllChannels": "Todos los canales",
     "All": "Todo",
-    "Alerts": "Alertas"
+    "Alerts": "Alertas",
+    "EnableBlurhash": "Habilitar marcadores de posición borrosos para imágenes",
+    "ShowMore": "Mostrar más",
+    "ShowLess": "Mostrar menos"
 }
