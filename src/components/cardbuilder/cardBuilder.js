@@ -1397,7 +1397,7 @@ import 'programStyles';
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 
-            if (!options.disableIndicators || options.disableIndicators === false) {
+            if (options.disableIndicators !== true) {
                 let indicatorsHtml = '';
 
                 if (options.missingIndicator !== false) {
