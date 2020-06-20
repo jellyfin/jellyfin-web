@@ -1356,11 +1356,11 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                         items: result.Items,
                         showIndexNumber: false,
                         enableOverview: true,
+                        enablePlayedButton: false,
                         imageSize: 'large',
                         enableSideMediaInfo: false,
                         highlight: false,
                         action: layoutManager.tv ? 'resume' : 'none',
-                        infoButton: true,
                         imagePlayButton: true,
                         includeParentInfoInTitle: false
                     });
@@ -1386,6 +1386,9 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                     childrenItemsContainer.classList.add('vertical-wrap');
                     childrenItemsContainer.classList.remove('vertical-list');
                 }
+            }
+            if (layoutManager.mobile) {
+                childrenItemsContainer.classList.remove('padded-right');
             }
             childrenItemsContainer.innerHTML = html;
             imageLoader.lazyChildren(childrenItemsContainer);
