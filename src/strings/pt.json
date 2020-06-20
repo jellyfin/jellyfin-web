@@ -1,7 +1,6 @@
 {
     "HeaderTypeImageFetchers": "{0} Pesquisadores de Imagens",
     "HeaderSubtitleDownloads": "Transferências de Legendas",
-    "HeaderRestartingServer": "A reiniciar o servidor",
     "HeaderKodiMetadataHelp": "Para ativar ou desativar metadados, editar uma biblioteca nas configurações e localizar a seção dos metadados.",
     "HeaderFetcherSettings": "Definições do Pesquisador",
     "HeaderFavoritePeople": "Pessoas Preferidas",
@@ -121,7 +120,6 @@
     "RunAtStartup": "Executar no arranque",
     "Rewind": "Retroceder",
     "ResumeAt": "Retomar a partir de {0}",
-    "RestartPleaseWaitMessage": "Por favor aguarde enquanto o Servidor Jellyfin reinicia. Isto poderá demorar alguns minutos.",
     "RequiredForAllRemoteConnections": "Necessário para todas as ligações externas",
     "ReplaceExistingImages": "Substituir imagens existentes",
     "ReplaceAllMetadata": "Substituir todos os metadados",
