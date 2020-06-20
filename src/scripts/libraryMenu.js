@@ -16,7 +16,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
         html += `<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonCast')}"><span class="material-icons cast"></span></button>`;
         html += `<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide" title="${globalize.translate('ButtonSearch')}"><span class="material-icons search"></span></button>`;
-        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide" ><span class="material-icons person"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person"></span></button>';
         html += '</div>';
         html += '</div>';
         html += '<div class="headerTabs sectionTabs hide">';
