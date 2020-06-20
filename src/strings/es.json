@@ -1560,5 +1560,7 @@
     "EnableDetailsBannerHelp": "Mostrar imagen de banner en el tope de la página de detalles del elemento.",
     "EnableDetailsBanner": "Barra de Detalles",
     "ShowMore": "Mostrar más",
-    "ShowLess": "Mostrar menos"
+    "ShowLess": "Mostrar menos",
+    "ButtonSyncPlay": "SyncPlay",
+    "ButtonCast": "Enviar"
 }
