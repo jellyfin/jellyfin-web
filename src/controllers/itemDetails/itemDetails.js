@@ -1356,7 +1356,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                         items: result.Items,
                         showIndexNumber: false,
                         enableOverview: true,
-                        enablePlayedButton: false,
+                        enablePlayedButton: layoutManager.mobile ? false : true,
                         imageSize: 'large',
                         enableSideMediaInfo: false,
                         highlight: false,

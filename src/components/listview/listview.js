@@ -481,10 +481,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add"></span></button>';
                 }
 
-                if (options.moreButton !== false) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons more_vert"></span></button>';
-                }
-
                 if (options.infoButton) {
                     html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><span class="material-icons info_outline"></span></button>';
                 }
@@ -505,6 +501,10 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     if (itemHelper.canRate(item) && options.enableRatingButton !== false) {
                         html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
                     }
+                }
+
+                if (options.moreButton !== false) {
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons more_vert"></span></button>';
                 }
             }
             html += '</div>';
