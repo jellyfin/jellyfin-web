@@ -1269,7 +1269,7 @@
     "OptionAllowVideoPlaybackRemuxing": "Povoliť prehrávanie videa, ktoré vyžaduje konverziu bez opätovného enkódovania",
     "OptionAllowSyncTranscoding": "Povoliť sťahovanie a synchronizáciu medií, ktoré vyžadujú transkódovanie",
     "OptionAllowMediaPlaybackTranscodingHelp": "Obmedzenie prístupu ku transkódovaniu môže spôsobiť zlyhania prehrávania v Jellyfin aplikáciách kvôli nepodporovaným formátom medií.",
-    "MessageNoTrailersFound": "Neboli nájdené žiadne trailery. Nainštalujte Trailer kanál pre rozšírenie vášho filmového zážitku pridaním knižnice trailerov z internetu.",
+    "MessageNoTrailersFound": "Nainštalujte Trailer kanál pre rozšírenie vášho filmového zážitku pridaním knižnice trailerov z internetu.",
     "LanNetworksHelp": "Zoznam IP adries alebo IP/netmask záznamov pre všetky siete oddelené čiarkami ktoré budú považované za lokálnu sieť pri vynucovaní obmedzenia šírky pásma. Pokiaľ je toto nastavené, všetky ostatné IP adresy budú považované za vonkajšiu sieť a budú podliehať obmedzeniam šírky pásma vonkajšej siete. Pokiaľ pole ostane prázdne, podsieť serveru bude považovaná za lokálnu sieť.",
     "LabelUserAgent": "User agent:",
     "LabelEnableBlastAliveMessagesHelp": "Povolte v prípade, že server nie je viditeľný inými UPnP zariadeniami na vašej sieti.",
@@ -1555,5 +1555,12 @@
     "EnableBlurhashHelp": "Obrázky, ktoré sa stále načítavajú budú zobrazené ako dočasný obrázok s rozmazaným pozadím",
     "EnableBlurhash": "Povoliť obrázok s rozmazaným pozadím pre chýbajúce obrázky",
     "ShowMore": "Zobraziť viac",
-    "ShowLess": "Zobraziť menej"
+    "ShowLess": "Zobraziť menej",
+    "ButtonCast": "Prenášať",
+    "ButtonSyncPlay": "SyncPlay",
+    "MessageNoGenresAvailable": "Povoliť vybraným metadáta poskytovateľom stiahnuť žánre z internetu.",
+    "EnableFasterAnimationsHelp": "Použiť rýchlejšiu animáciu a prechody",
+    "EnableFasterAnimations": "Rýchlejšia animácia",
+    "EnableDecodingColorDepth10Vp9": "Povoliť 10-Bitové hardvérové dekódovanie pre Vp9",
+    "EnableDecodingColorDepth10Hevc": "Povoliť 10-Bitové hardvérové dekódovanie pre HEVC"
 }
