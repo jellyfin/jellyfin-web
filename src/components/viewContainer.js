@@ -187,8 +187,8 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
 
     function afterAnimate(allPages, newPageIndex) {
         for (var index = 0, length = allPages.length; index < length; index++) {
+            allPages[index].classList.remove('fadeout');
             if (newPageIndex !== index) {
-                allPages[index].classList.remove('fadeout');
                 allPages[index].classList.add('hide');
             }
         }
@@ -223,8 +223,6 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
                     selectedPageIndex = index;
 
                     if (!options.cancel && previousAnimatable) {
-                        //allPages[selected].classList.add('fadeout');
-                        //allPages[selected].addEventListener('transitionend');
                         afterAnimate(allPages, index);
                     }
 
