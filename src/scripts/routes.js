@@ -235,8 +235,8 @@ define([
     });
     defineRoute({
         alias: '/details',
-        path: '/controllers/itemDetails/itemDetails.html',
-        controller: 'itemDetails/itemDetails',
+        path: '/controllers/itemDetails/index.html',
+        controller: 'itemDetails/index',
         autoFocus: false,
         transition: 'fade'
     });
