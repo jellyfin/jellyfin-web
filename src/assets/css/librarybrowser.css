@@ -437,6 +437,7 @@
     background-attachment: fixed;
     height: 40vh;
     position: relative;
+    animation: backdrop-fadein 800ms ease-in normal both;
 }
 
 .layout-mobile .itemBackdrop {
@@ -952,6 +953,10 @@ div.itemDetailGalleryLink.defaultCardBackground {
     }
 }
 
+.detailVerticalSection .emby-scrollbuttons {
+    padding-top: 0.4em;
+}
+
 .layout-tv .detailVerticalSection {
     margin-bottom: 3.4em !important;
 }
@@ -1070,6 +1075,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
 div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     margin: 0;
     padding-top: 0.5em;
+    padding-bottom: 0.2em;
 }
 
 .layout-mobile :not(.sectionTitleContainer-cards) > .sectionTitle-cards {
