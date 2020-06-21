@@ -171,13 +171,13 @@ export class UserSettings {
      * @param {boolean|undefined} val - Flag to enable 'Fast Fade-in' or undefined.
      * @return {boolean} 'Fast Fade-in' state.
      */
-    enableFastFadein(val) {
+    enableFastAnimations(val) {
         if (val !== undefined) {
-            return this.set('fastFadein', val.toString(), false);
+            return this.set('fastAnimations', val.toString(), false);
         }
 
-        val = this.get('fastFadein', false);
-        return val !== 'false';
+        val = this.get('fastAnimations', false);
+        return val === 'true';
     }
 
     /**
@@ -457,7 +457,7 @@ export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSet
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
-export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
+export const enableFastAnimations = currentSettings.enableFastAnimations.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);

@@ -67,7 +67,7 @@ define(['userSettings', 'css!components/viewManager/viewContainer'], function (u
                     }
 
                     view.classList.add('mainAnimatedPage');
-                    if (userSettings.enableFastFadein()) {
+                    if (userSettings.enableFastAnimations()) {
                         view.classList.add('fadein-fast');
                     } else {
                         view.classList.add('fadein');
@@ -113,7 +113,7 @@ define(['userSettings', 'css!components/viewManager/viewContainer'], function (u
                         currentUrls[pageIndex] = options.url;
 
                         if (!options.cancel && previousAnimatable) {
-                            if (userSettings.enableFastFadein()) {
+                            if (userSettings.enableFastAnimations()) {
                                 allPages[selected].classList.add('fadeout-fast');
                             } else {
                                 allPages[selected].classList.add('fadeout');

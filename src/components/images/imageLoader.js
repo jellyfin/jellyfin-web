@@ -38,7 +38,7 @@ import 'css!./style';
 
             let child = target.appendChild(canvas);
             child.classList.add('blurhash-canvas');
-            if (userSettings.enableFastFadein()) {
+            if (userSettings.enableFastAnimations()) {
                 child.classList.add('lazy-blurhash-fadein-fast');
             } else {
                 child.classList.add('lazy-blurhash-fadein');
@@ -108,7 +108,7 @@ import 'css!./style';
 
             if (elem.classList.contains('non-blurhashable') || !userSettings.enableBlurhash()) {
                 elem.classList.remove('lazy-hidden');
-                if (userSettings.enableFastFadein()) {
+                if (userSettings.enableFastAnimations()) {
                     elem.classList.add('lazy-image-fadein-fast');
                 } else {
                     elem.classList.add('lazy-image-fadein');
