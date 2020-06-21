@@ -606,11 +606,11 @@
     margin-bottom: 0.5em;
 }
 
-.subTitle {
+.subtitle {
     margin: 0.15em 0 0.2em;
 }
 
-.layout-mobile .subTitle {
+.layout-mobile .subtitle {
     margin: 0.2em 0 0.2em;
 }
 

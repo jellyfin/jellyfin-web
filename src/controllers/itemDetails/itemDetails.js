@@ -450,9 +450,9 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         if (html && !parentNameLast) {
             if (tvSeasonHtml) {
-                html += '<h3 class="itemName infoText subTitle">' + tvSeasonHtml + ' - ' + name + '</h3>';
+                html += '<h3 class="itemName infoText subtitle">' + tvSeasonHtml + ' - ' + name + '</h3>';
             } else {
-                html += '<h3 class="itemName infoText subTitle">' + name + '</h3>';
+                html += '<h3 class="itemName infoText subtitle">' + name + '</h3>';
             }
         } else if (item.OriginalTitle && item.OriginalTitle != item.Name) {
             html = '<h1 class="itemName infoText parentNameLast withOriginalTitle">' + name + '</h1>' + html;
@@ -852,9 +852,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function renderOverview(page, item) {
-        var overviewElemnts = page.querySelectorAll('.overview');
-
-        for (const overviewElemnt of overviewElemnts) {
+        for (const overviewElemnt of page.querySelectorAll('.overview')) {
             var overview = item.Overview || '';
 
             if (overview) {
@@ -1357,6 +1355,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                         showIndexNumber: false,
                         enableOverview: true,
                         enablePlayedButton: layoutManager.mobile ? false : true,
+                        infoButton: layoutManager.mobile ? false : true,
                         imageSize: 'large',
                         enableSideMediaInfo: false,
                         highlight: false,
