@@ -862,7 +862,7 @@
     "MessageNoAvailablePlugins": "Keine verfügbaren Erweiterungen.",
     "MessageNoMovieSuggestionsAvailable": "Momentan sind keine Filmvorschläge verfügbar. Schaue und bewerte zuerst deine Filme. Komme danach zurück, um deine Filmvorschläge anzuschauen.",
     "MessageNoPluginsInstalled": "Du hast keine Plugins installiert.",
-    "MessageNoTrailersFound": "Keine Trailer gefunden. Installieren Sie den Trailer-Channel um Ihre Film-Bibliothek mit Trailer aus dem Internet zu erweitern.",
+    "MessageNoTrailersFound": "Installiere den Filmvorschau-Kanal um die Film-Bibliothek mit Filmvorschauen aus dem Internet zu erweitern.",
     "MessageNothingHere": "Nichts hier.",
     "MessagePasswordResetForUsers": "Die Passwörter der folgenden Benutzer wurden zurückgesetzt. Diese können sich nun mit den PIN-Codes anmelden, mit denen der Reset durchgeführt wurde.",
     "MessagePlayAccessRestricted": "Das Abspielen dieses Inhaltes ist derzeit eingeschränkt. Bitte kontaktiere deinen Server-Administrator für weitere Informationen.",
@@ -1576,5 +1576,7 @@
     "EnableBlurhash": "Verschwommene Platzhalter für Bilder erlauben",
     "EnableFasterAnimations": "Schnellere Animationen",
     "EnableDecodingColorDepth10Vp9": "Aktiviere 10-Bit-Hardware-Dekodierung für Vp9",
-    "EnableDecodingColorDepth10Hevc": "Aktiviere 10-Bit-Hardware-Dekodierung für HEVC"
+    "EnableDecodingColorDepth10Hevc": "Aktiviere 10-Bit-Hardware-Dekodierung für HEVC",
+    "MessageNoGenresAvailable": "Aktiviere einige Metadaten-Anbieter um Genres aus dem Internet zu holen.",
+    "EnableFasterAnimationsHelp": "Benutze schnellere Animationen und Übergänge"
 }
