@@ -24,7 +24,6 @@ button::-moz-focus-inner {
     contain: layout style;
     flex-shrink: 0;
     font-weight: inherit !important;
-    animation: fadein 0.5s;
 }
 
 .card:not(.show-animation) {
