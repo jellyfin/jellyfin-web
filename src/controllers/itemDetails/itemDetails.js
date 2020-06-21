@@ -292,8 +292,11 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             var enableShuffle = item.IsFolder || -1 !== ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type);
             hideAll(page, 'btnShuffle', enableShuffle);
             canPlay = true;
-            if (item.UserData && item.UserData.PlaybackPositionTicks > 0) {
-                hideAll(page, 'btnResume', true);
+
+            const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
+            hideAll(page, 'btnResume', isResumable);
+
+            if (isResumable) {
                 for (const elem of page.querySelectorAll('.btnPlay')) {
                     elem.querySelector('.detailButton-icon').classList.replace('play_arrow', 'replay');
                 }
