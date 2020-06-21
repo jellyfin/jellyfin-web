@@ -821,7 +821,7 @@
     "MessageNoAvailablePlugins": "No hay extensiones disponibles.",
     "MessageNoMovieSuggestionsAvailable": "No hay sugerencias de películas disponibles. Comience ver y calificar sus películas y vuelva para ver las recomendaciones.",
     "MessageNoPluginsInstalled": "No hay extensiones instaladas.",
-    "MessageNoTrailersFound": "No se han encontrado tráilers. Instala el canal de tráilers para mejorar su experiencia añadiendo una biblioteca de tráilers por internet.",
+    "MessageNoTrailersFound": "Instale el canal de tráilers para mejorar su experiencia cinematográfica agregando una biblioteca de tráilers de Internet.",
     "MessageNothingHere": "Nada aquí.",
     "MessagePasswordResetForUsers": "Se ha restablecido las contraseñas a los siguientes usuarios. Ahora pueden iniciar sesión con los códigos PIN que usaron para el restablecimiento.",
     "MessagePleaseEnsureInternetMetadata": "Asegúrate de que la descarga de etiquetas desde internet está activada.",
@@ -1562,5 +1562,8 @@
     "ShowMore": "Ver más",
     "ShowLess": "Ver menos",
     "ButtonSyncPlay": "SyncPlay",
-    "ButtonCast": "Enviar"
+    "ButtonCast": "Enviar",
+    "MessageNoGenresAvailable": "Permitir a algunos proveedores de metadatos extraer géneros de Internet.",
+    "EnableDecodingColorDepth10Vp9": "Habilite la decodificación por hardware de 10 bits para Vp9",
+    "EnableDecodingColorDepth10Hevc": "Habilite la decodificación por hardware de 10 bits para HEVC"
 }
