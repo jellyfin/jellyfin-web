@@ -50,8 +50,12 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-.mainAnimatedPage {
-    animation: fadein 0.5s;
+.fadein {
+    animation: fadein 0.7s;
+}
+
+.fadein-fast {
+    animation: fadein 0.7s;
 }
 
 .pageContainer {

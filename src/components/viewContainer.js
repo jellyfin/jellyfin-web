@@ -1,4 +1,4 @@
-define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewContainer'], function (browser, dom, layoutManager) {
+define(['userSettings', 'css!components/viewManager/viewContainer'], function (userSettings) {
     'use strict';
 
     function setControllerClass(view, options) {
@@ -67,6 +67,11 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
                     }
 
                     view.classList.add('mainAnimatedPage');
+                    if (userSettings.enableFastFadein()) {
+                        view.classList.add('fadein-fast');
+                    } else {
+                        view.classList.add('fadein');
+                    }
 
                     if (currentPage) {
                         if (newViewInfo.hasScript && window.$) {
@@ -108,7 +113,11 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
                         currentUrls[pageIndex] = options.url;
 
                         if (!options.cancel && previousAnimatable) {
-                            allPages[selected].classList.add('fadeout');
+                            if (userSettings.enableFastFadein()) {
+                                allPages[selected].classList.add('fadeout-fast');
+                            } else {
+                                allPages[selected].classList.add('fadeout');
+                            }
                             allPages[selected].addEventListener('transitionend', (event) => {
                                 // This fires events for all transitions, so filter for the one we want.
                                 if (event.target.classList.contains('page')) {
@@ -187,7 +196,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
 
     function afterAnimate(allPages, newPageIndex) {
         for (var index = 0, length = allPages.length; index < length; index++) {
-            allPages[index].classList.remove('fadeout');
+            allPages[index].classList.remove('fadeout', 'fadeout-fast');
             if (newPageIndex !== index) {
                 allPages[index].classList.add('hide');
             }
