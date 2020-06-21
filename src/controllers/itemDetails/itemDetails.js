@@ -649,9 +649,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     function renderLogo(page, item, apiClient) {
         var detailLogo = page.querySelector('.detailLogo');
 
-        var url = logoImageUrl(item, apiClient, {
-            maxWidth: detailLogo.clientWidth
-        });
+        var url = logoImageUrl(item, apiClient, {});
 
         if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
             detailLogo.classList.add('hide');
