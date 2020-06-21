@@ -30,4 +30,5 @@
     height: 100%;
     z-index: 100;
     pointer-events: none;
+    animation: fadein 0.1s;
 }

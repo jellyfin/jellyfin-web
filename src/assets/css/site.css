@@ -51,7 +51,7 @@ body {
 }
 
 .mainAnimatedPage {
-    contain: style size !important;
+    animation: fadein 0.5s;
 }
 
 .pageContainer {

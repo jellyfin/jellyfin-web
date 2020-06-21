@@ -38,7 +38,6 @@ import 'css!./style';
 
             let child = target.appendChild(canvas);
             child.classList.add('blurhash-canvas');
-            child.style.opacity = 1;
             if (userSettings.enableFastFadein()) {
                 child.classList.add('lazy-blurhash-fadein-fast');
             } else {

@@ -952,6 +952,10 @@ div.itemDetailGalleryLink.defaultCardBackground {
     flex-wrap: wrap;
 }
 
+.verticalSection {
+    animation: fadein 0.2s;
+}
+
 .verticalSection-extrabottompadding {
     margin-bottom: 2.7em;
 }

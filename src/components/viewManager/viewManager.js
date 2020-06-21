@@ -147,7 +147,6 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
         }
 
         viewContainer.loadView(options).then(function (view) {
-
             onViewChange(view, options);
         });
     };

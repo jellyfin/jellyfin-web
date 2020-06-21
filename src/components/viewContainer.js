@@ -108,7 +108,13 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
                         currentUrls[pageIndex] = options.url;
 
                         if (!options.cancel && previousAnimatable) {
-                            afterAnimate(allPages, pageIndex);
+                            allPages[selected].classList.add('fadeout');
+                            allPages[selected].addEventListener('transitionend', (event) => {
+                                // This fires events for all transitions, so filter for the one we want.
+                                if (event.target.classList.contains('page')) {
+                                    afterAnimate(allPages, pageIndex);
+                                }
+                            });
                         }
 
                         if (window.$) {
@@ -182,6 +188,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     function afterAnimate(allPages, newPageIndex) {
         for (var index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index) {
+                allPages[index].classList.remove('fadeout');
                 allPages[index].classList.add('hide');
             }
         }
@@ -216,6 +223,8 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
                     selectedPageIndex = index;
 
                     if (!options.cancel && previousAnimatable) {
+                        //allPages[selected].classList.add('fadeout');
+                        //allPages[selected].addEventListener('transitionend');
                         afterAnimate(allPages, index);
                     }
 
