@@ -1367,9 +1367,6 @@ import 'programStyles';
             let cardScalableClose = '';
 
             let cardContentClass = 'cardContent';
-            if (!options.cardLayout) {
-                cardContentClass += ' cardContent-shadow';
-            }
 
             let blurhashAttrib = '';
             if (blurhash && blurhash.length > 0) {
@@ -1390,7 +1387,7 @@ import 'programStyles';
 
             let cardScalableClass = 'cardScalable';
 
-            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
+            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 

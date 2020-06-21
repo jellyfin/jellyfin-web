@@ -548,17 +548,23 @@ a[data-role=button] {
 }
 
 .personCard .cardScalable {
-    border-radius: 50%;
+    border-radius: 50% !important;
     border: 1px solid rgb(255, 255, 255);
 }
 
-.cardContent:not(.defaultCardBackground) {
+.cardBox:not(.visualCardBox) .cardPadder {
     background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 1em;
 }
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-color: #ff77f1 !important;
+}
+
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: 1.5em;
 }
 
 .layout-desktop,
@@ -618,23 +624,9 @@ a[data-role=button] {
     right: 20%;
 }
 
-.cardPadder-square,
-.cardPadder-mixedSquare,
-.cardPadder-overflowSquare,
-.cardPadder-portrait,
-.cardPadder-mixedPortrait,
-.cardPadder-overflowPortrait,
-.cardPadder-banner,
-.cardPadder-backdrop,
-.cardPadder-mixedBackdrop,
-.cardPadder-smallBackdrop,
-.cardPadder-overflowBackdrop,
-.cardPadder-overflowSmallBackdrop {
-    background-color: #200c3d;
-}
-
 .personCard .cardPadder-overflowPortrait,
 .personCard .cardPadder-portrait {
     padding-bottom: 100%;
     contain: strict;
+    border-radius: 50% !important;
 }

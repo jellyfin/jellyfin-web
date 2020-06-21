@@ -453,18 +453,3 @@ html {
 .metadataSidebarIcon {
     color: #00a4dc;
 }
-
-.cardPadder-square,
-.cardPadder-mixedSquare,
-.cardPadder-overflowSquare,
-.cardPadder-portrait,
-.cardPadder-mixedPortrait,
-.cardPadder-overflowPortrait,
-.cardPadder-banner,
-.cardPadder-backdrop,
-.cardPadder-mixedBackdrop,
-.cardPadder-smallBackdrop,
-.cardPadder-overflowBackdrop,
-.cardPadder-overflowSmallBackdrop {
-    background-color: #202020;
-}

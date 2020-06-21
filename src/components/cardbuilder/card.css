@@ -209,6 +209,10 @@ button::-moz-focus-inner {
 }
 
 .cardContent:not(.defaultCardBackground) {
+    background-color: transparent;
+}
+
+.cardBox:not(.visualCardBox) .cardPadder {
     background-color: #242424;
 }
 
@@ -217,7 +221,8 @@ button::-moz-focus-inner {
     border-bottom-right-radius: 0;
 }
 
-.cardContent-shadow {
+.cardContent-shadow,
+.cardBox:not(.visualCardBox) .cardPadder {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
