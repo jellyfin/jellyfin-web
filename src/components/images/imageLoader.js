@@ -38,6 +38,7 @@ import 'css!./style';
 
             let child = target.appendChild(canvas);
             child.classList.add('blurhash-canvas');
+            child.style.opacity = 1;
             if (userSettings.enableFastAnimations()) {
                 child.classList.add('lazy-blurhash-fadein-fast');
             } else {
@@ -71,7 +72,9 @@ import 'css!./style';
         }
 
         if (userSettings.enableBlurhash()) {
-            if (!target.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
+            if (!target.classList.contains('blurhashed', 'non-blurhashable')
+                && blurhashstr
+                && target.querySelectorAll('canvas').length === 0) {
                 itemBlurhashing(target, blurhashstr);
             } else if (!blurhashstr && !target.classList.contains('blurhashed')) {
                 target.classList.add('non-blurhashable');
