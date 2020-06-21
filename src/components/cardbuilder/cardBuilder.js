@@ -368,9 +368,7 @@ import 'programStyles';
             let apiClient;
             let lastServerId;
 
-            for (let i = 0; i < items.length; i++) {
-
-                let item = items[i];
+            for (const [i, item] of items.entries()) {
                 let serverId = item.ServerId || options.serverId;
 
                 if (serverId !== lastServerId) {
@@ -541,7 +539,7 @@ import 'programStyles';
                 imgType = 'Backdrop';
                 imgTag = item.ParentBackdropImageTags[0];
                 itemId = item.ParentBackdropItemId;
-            } else if (item.ImageTags && item.ImageTags.Primary) {
+            } else if (item.ImageTags && item.ImageTags.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
                 imgType = 'Primary';
                 imgTag = item.ImageTags.Primary;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
@@ -556,7 +554,10 @@ import 'programStyles';
                         coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                     }
                 }
-
+            } else if (item.SeriesPrimaryImageTag) {
+                imgType = 'Primary';
+                imgTag = item.SeriesPrimaryImageTag;
+                itemId = item.SeriesId;
             } else if (item.PrimaryImageTag) {
                 imgType = 'Primary';
                 imgTag = item.PrimaryImageTag;
@@ -577,10 +578,6 @@ import 'programStyles';
                 imgType = 'Primary';
                 imgTag = item.ParentPrimaryImageTag;
                 itemId = item.ParentPrimaryImageItemId;
-            } else if (item.SeriesPrimaryImageTag) {
-                imgType = 'Primary';
-                imgTag = item.SeriesPrimaryImageTag;
-                itemId = item.SeriesId;
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
                 imgType = 'Primary';
                 imgTag = item.AlbumPrimaryImageTag;
