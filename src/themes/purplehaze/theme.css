@@ -344,11 +344,6 @@ a[data-role=button] {
     background: rgba(170, 170, 190, 0.2);
 }
 
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #f2b01e;
-}
-
 .emby-input,
 .emby-textarea {
     color: inherit;

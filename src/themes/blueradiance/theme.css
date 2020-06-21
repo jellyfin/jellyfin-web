@@ -261,11 +261,6 @@ html {
     background: rgba(170, 170, 190, 0.2);
 }
 
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #cb272a;
-}
-
 .emby-input,
 .emby-textarea {
     color: inherit;
