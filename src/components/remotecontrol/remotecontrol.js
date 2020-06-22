@@ -354,17 +354,19 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
         function updateRepeatModeDisplay(repeatMode) {
             var context = dlg;
-            var toggleRepeatButton = context.querySelector('.repeatToggleButton');
+            let toggleRepeatButtons = context.querySelectorAll('.repeatToggleButton');
 
-            if ('RepeatAll' == repeatMode) {
-                toggleRepeatButton.innerHTML = "<span class='material-icons repeat'></span>";
-                toggleRepeatButton.classList.add('repeatButton-active');
-            } else if ('RepeatOne' == repeatMode) {
-                toggleRepeatButton.innerHTML = "<span class='material-icons repeat_one'></span>";
-                toggleRepeatButton.classList.add('repeatButton-active');
-            } else {
-                toggleRepeatButton.innerHTML = "<span class='material-icons repeat'></span>";
-                toggleRepeatButton.classList.remove('repeatButton-active');
+            for (let toggleRepeatButton of toggleRepeatButtons) {
+                if ('RepeatAll' == repeatMode) {
+                    toggleRepeatButton.innerHTML = "<span class='material-icons repeat'></span>";
+                    toggleRepeatButton.classList.add('repeatButton-active');
+                } else if ('RepeatOne' == repeatMode) {
+                    toggleRepeatButton.innerHTML = "<span class='material-icons repeat_one'></span>";
+                    toggleRepeatButton.classList.add('repeatButton-active');
+                } else {
+                    toggleRepeatButton.innerHTML = "<span class='material-icons repeat'></span>";
+                    toggleRepeatButton.classList.remove('repeatButton-active');
+                }
             }
         }
 
@@ -511,11 +513,14 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function onShuffleQueueModeChange() {
             let shuffleMode = playbackManager.getQueueShuffleMode(this);
             let context = dlg;
-            let shuffleButton = context.querySelector('.btnShuffleQueue');
-            if ('Sorted' === shuffleMode) {
-                shuffleButton.classList.remove('shuffleQueue-active');
-            } else if ('Shuffle' === shuffleMode) {
-                shuffleButton.classList.add('shuffleQueue-active');
+            let shuffleButtons = context.querySelectorAll('.btnShuffleQueue');
+
+            for (let shuffleButton of shuffleButtons) {
+                if ('Sorted' === shuffleMode) {
+                    shuffleButton.classList.remove('shuffleQueue-active');
+                } else if ('Shuffle' === shuffleMode) {
+                    shuffleButton.classList.add('shuffleQueue-active');
+                }
             }
             onPlaylistUpdate();
         }
@@ -703,15 +708,17 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     playbackManager.fastForward(currentPlayer);
                 }
             });
-            context.querySelector('.btnShuffleQueue').addEventListener('click', function () {
-                if (currentPlayer) {
-                    if (playbackManager.getQueueShuffleMode(currentPlayer) === 'Sorted') {
-                        playbackManager.setQueueShuffleMode('Shuffle', currentPlayer);
-                    } else {
-                        playbackManager.setQueueShuffleMode('Sorted', currentPlayer);
+            for (let shuffleButton of context.querySelectorAll('.btnShuffleQueue')) {
+                shuffleButton.addEventListener('click', function () {
+                    if (currentPlayer) {
+                        if (playbackManager.getQueueShuffleMode(currentPlayer) === 'Sorted') {
+                            playbackManager.setQueueShuffleMode('Shuffle', currentPlayer);
+                        } else {
+                            playbackManager.setQueueShuffleMode('Sorted', currentPlayer);
+                        }
                     }
-                }
-            });
+                });
+            }
 
             context.querySelector('.btnPreviousTrack').addEventListener('click', function (e) {
                 if (currentPlayer) {
