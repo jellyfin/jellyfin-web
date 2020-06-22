@@ -69,7 +69,7 @@
     "jellyfin-apiclient": "^1.2.2",
     "jellyfin-noto": "https://github.com/jellyfin/jellyfin-noto",
     "jquery": "^3.5.1",
-    "jstree": "^3.3.7",
+    "jstree": "^3.3.10",
     "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-smarttv",
     "material-design-icons-iconfont": "^5.0.1",
     "native-promise-only": "^0.8.0-a",

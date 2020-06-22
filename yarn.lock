@@ -6352,10 +6352,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jstree@^3.3.7:
-  version "3.3.9"
-  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.9.tgz#62b47cad3c4fda390d021e5c4f98ee5b3365198a"
-  integrity sha512-jRIbhg+BHrIs1Wm6oiJt3oKTVBE6sWS0PCp2/RlkIUqsLUPWUYgV3q8LfKoi1/E+YMzGtP6BuK4okk+0mwfmhQ==
+jstree@^3.3.10:
+  version "3.3.10"
+  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.10.tgz#28d5b464a6bd4b5a93ccc2e978d005845596a408"
+  integrity sha512-TDhwTy24ZKCVei0gLRxnH5PQuX77nqlG7bhQh+UDTeOxC2xdhDrS1x7YtbjLVlSxmH7USnA/WIeVOGN/m3D0QA==
   dependencies:
     jquery ">=1.9.1"
 
