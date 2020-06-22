@@ -73,8 +73,7 @@ import 'css!./style';
 
         if (userSettings.enableBlurhash()) {
             if (!target.classList.contains('blurhashed', 'non-blurhashable')
-                && blurhashstr
-                && target.querySelectorAll('canvas').length === 0) {
+                && blurhashstr) {
                 itemBlurhashing(target, blurhashstr);
             } else if (!blurhashstr && !target.classList.contains('blurhashed')) {
                 target.classList.add('non-blurhashable');
