@@ -3,7 +3,8 @@ module.exports = {
     plugins: [
         'promise',
         'import',
-        'eslint-comments'
+        'eslint-comments',
+        'unicorn'
     ],
     env: {
         node: true,
@@ -36,6 +37,7 @@ module.exports = {
         'keyword-spacing': ['error'],
         'max-statements-per-line': ['error'],
         'no-floating-decimal': ['error'],
+        'unicorn/no-for-loop': ['error'],
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
         'no-trailing-spaces': ['error'],
@@ -193,4 +195,4 @@ module.exports = {
             }
         }
     ]
-}
+};

@@ -11,8 +11,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
     function populateLanguagesIntoSelect(select, languages) {
         var html = '';
         html += "<option value=''></option>";
-        for (var i = 0; i < languages.length; i++) {
-            var culture = languages[i];
+        for (const culture of languages) {
             html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
         }
         select.innerHTML = html;
@@ -20,8 +19,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
 
     function populateLanguagesIntoList(element, languages) {
         var html = '';
-        for (var i = 0; i < languages.length; i++) {
-            var culture = languages[i];
+        for (const culture of languages) {
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkSubtitleLanguage" data-lang="' + culture.ThreeLetterISOLanguageName.toLowerCase() + '" /><span>' + culture.DisplayName + '</span></label>';
         }
         element.innerHTML = html;
@@ -31,8 +29,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         return ApiClient.getCountries().then(function(allCountries) {
             var html = '';
             html += "<option value=''></option>";
-            for (var i = 0; i < allCountries.length; i++) {
-                var culture = allCountries[i];
+            for (const culture of allCountries) {
                 html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
             }
             select.innerHTML = html;
@@ -88,8 +85,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         if (!metadataSavers.length) return elem.innerHTML = '', elem.classList.add('hide'), false;
         html += '<h3 class="checkboxListLabel">' + globalize.translate('LabelMetadataSavers') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
-        for (var i = 0; i < metadataSavers.length; i++) {
-            var plugin = metadataSavers[i];
+        for (const plugin of metadataSavers) {
             html += '<label><input type="checkbox" data-defaultenabled="' + plugin.DefaultEnabled + '" is="emby-checkbox" class="chkMetadataSaver" data-pluginname="' + plugin.Name + '" ' + false + '><span>' + plugin.Name + '</span></label>';
         }
         html += '</div>';
@@ -136,8 +132,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
 
     function getTypeOptions(allOptions, type) {
         var allTypeOptions = allOptions.TypeOptions || [];
-        for (var i = 0; i < allTypeOptions.length; i++) {
-            var typeOptions = allTypeOptions[i];
+        for (const typeOptions of allTypeOptions) {
             if (typeOptions.Type === type) return typeOptions;
         }
         return null;
@@ -376,8 +371,8 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
 
     function setAdvancedVisible(parent, visible) {
         var elems = parent.querySelectorAll('.advanced');
-        for (var i = 0; i < elems.length; i++) {
-            visible ? elems[i].classList.remove('advancedHide') : elems[i].classList.add('advancedHide');
+        for (const elem of elems) {
+            visible ? elem.classList.remove('advancedHide') : elem.classList.add('advancedHide');
         }
     }
 
@@ -435,8 +430,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
 
     function setMetadataFetchersIntoOptions(parent, options) {
         var sections = parent.querySelectorAll('.metadataFetcher');
-        for (var i = 0; i < sections.length; i++) {
-            var section = sections[i];
+        for (const section of sections) {
             var type = section.getAttribute('data-type');
             var typeOptions = getTypeOptions(options, type);
             if (!typeOptions) {
@@ -459,8 +453,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
 
     function setImageFetchersIntoOptions(parent, options) {
         var sections = parent.querySelectorAll('.imageFetcher');
-        for (var i = 0; i < sections.length; i++) {
-            var section = sections[i];
+        for (const section of sections) {
             var type = section.getAttribute('data-type');
             var typeOptions = getTypeOptions(options, type);
             if (!typeOptions) {
@@ -484,8 +477,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
 
     function setImageOptionsIntoOptions(parent, options) {
         var originalTypeOptions = (currentLibraryOptions || {}).TypeOptions || [];
-        for (var i = 0; i < originalTypeOptions.length; i++) {
-            var originalTypeOption = originalTypeOptions[i];
+        for (const originalTypeOption of originalTypeOptions) {
             var typeOptions = getTypeOptions(options, originalTypeOption.Type);
 
             if (!typeOptions) {

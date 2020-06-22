@@ -84,8 +84,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
     function loadUserList(context, apiClient, users) {
         var html = '';
 
-        for (var i = 0; i < users.length; i++) {
-            var user = users[i];
+        for (const user of users) {
 
             // TODO move card creation code to Card component
             var cssClass = 'card squareCard scalableCard squareCard-scalable';

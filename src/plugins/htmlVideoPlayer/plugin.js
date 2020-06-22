@@ -980,9 +980,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if (videoElement) {
                 var allTracks = videoElement.textTracks || []; // get list of tracks
-                for (var i = 0; i < allTracks.length; i++) {
-
-                    var currentTrack = allTracks[i];
+                for (const currentTrack of allTracks) {
 
                     if (currentTrack.label.indexOf('manualTrack') !== -1) {
                         currentTrack.mode = 'disabled';
@@ -1255,9 +1253,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (trackEvents && subtitleTextElement) {
                 var ticks = timeMs * 10000;
                 var selectedTrackEvent;
-                for (var i = 0; i < trackEvents.length; i++) {
+                for (const currentTrackEvent of trackEvents) {
 
-                    var currentTrackEvent = trackEvents[i];
                     if (currentTrackEvent.StartPositionTicks <= ticks && currentTrackEvent.EndPositionTicks >= ticks) {
                         selectedTrackEvent = currentTrackEvent;
                         break;

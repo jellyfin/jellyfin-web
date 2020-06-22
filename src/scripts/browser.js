@@ -112,9 +112,9 @@ define([], function () {
         }
 
         if (animation === false && allowPrefix) {
-            for (var i = 0; i < domPrefixes.length; i++) {
-                if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
-                    pfx = domPrefixes[i];
+            for (const domPrefix of domPrefixes) {
+                if (elm.style[domPrefix + 'AnimationName'] !== undefined) {
+                    pfx = domPrefix;
                     animationstring = pfx + 'Animation';
                     keyframeprefix = '-' + pfx.toLowerCase() + '-';
                     animation = true;

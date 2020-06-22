@@ -18,8 +18,8 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
             var props = ['paddingTop', 'paddingBottom'];
             var offset = 0;
 
-            for (var i = 0; i < props.length; i++) {
-                offset += parseInt(style[props[i]]);
+            for (const prop of props) {
+                offset += parseInt(style[prop]);
             }
             return offset;
         };

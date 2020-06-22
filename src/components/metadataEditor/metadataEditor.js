@@ -874,7 +874,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             items = sortCallback(items);
         }
         var html = '';
-        for (var i = 0; i < items.length; i++) {
+        for (const [i, item] of items.entries()) {
             html += '<div class="listItem">';
 
             html += '<span class="material-icons listItemIcon live_tv" style="background-color:#333;"></span>';
@@ -882,7 +882,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             html += '<div class="listItemBody">';
 
             html += '<div class="textValue">';
-            html += items[i];
+            html += item;
             html += '</div>';
 
             html += '</div>';
@@ -935,9 +935,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     function getLockedFieldsHtml(fields, currentFields) {
 
         var html = '';
-        for (var i = 0; i < fields.length; i++) {
+        for (const field of fields) {
 
-            var field = fields[i];
             var name = field.name;
             var value = field.value || field.name;
             var checkedHtml = currentFields.indexOf(value) === -1 ? ' checked' : '';

@@ -6,8 +6,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderLibraries') + '</h3>';
         html += '<div class="checkboxList paperList" style="padding:.5em 1em;">';
 
-        for (var i = 0; i < mediaFolders.length; i++) {
-            var folder = mediaFolders[i];
+        for (const folder of mediaFolders) {
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '"/><span>' + folder.Name + '</span></label>';
         }
 
@@ -21,8 +20,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderChannels') + '</h3>';
         html += '<div class="checkboxList paperList" style="padding:.5em 1em;">';
 
-        for (var i = 0; i < channels.length; i++) {
-            var folder = channels[i];
+        for (const folder of channels) {
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkChannel" data-id="' + folder.Id + '"/><span>' + folder.Name + '</span></label>';
         }
 

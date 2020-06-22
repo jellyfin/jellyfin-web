@@ -966,13 +966,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         user: user
                     });
 
-                    for (var i = 0; i < responses.length; i++) {
+                    for (const subTargets of responses) {
 
-                        var subTargets = responses[i];
+                        for (const subTarget of subTargets) {
 
-                        for (var j = 0; j < subTargets.length; j++) {
-
-                            targets.push(subTargets[j]);
+                            targets.push(subTarget);
                         }
                     }
 

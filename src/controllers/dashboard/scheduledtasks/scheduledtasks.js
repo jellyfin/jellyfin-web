@@ -19,8 +19,7 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
 
         var currentCategory;
         var html = '';
-        for (var i = 0; i < tasks.length; i++) {
-            var task = tasks[i];
+        for (const [i, task] of tasks.entries()) {
             if (task.Category != currentCategory) {
                 currentCategory = task.Category;
                 if (currentCategory) {
@@ -116,8 +115,7 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
 
     return function(view, params) {
         function updateTasks(tasks) {
-            for (var i = 0; i < tasks.length; i++) {
-                var task = tasks[i];
+            for (const task of tasks) {
                 view.querySelector('#taskProgress' + task.Id).innerHTML = getTaskProgressHtml(task);
                 updateTaskButton(view.querySelector('#btnTask' + task.Id), task.State);
             }

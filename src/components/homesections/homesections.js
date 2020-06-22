@@ -87,10 +87,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function destroySections(elem) {
         var elems = elem.querySelectorAll('.itemsContainer');
-        for (var i = 0; i < elems.length; i++) {
-            elems[i].fetchData = null;
-            elems[i].parentContainer = null;
-            elems[i].getItemsHtml = null;
+        for (const elem_ of elems) {
+            elem_.fetchData = null;
+            elem_.parentContainer = null;
+            elem_.getItemsHtml = null;
         }
 
         elem.innerHTML = '';
@@ -98,8 +98,8 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function pause(elem) {
         var elems = elem.querySelectorAll('.itemsContainer');
-        for (var i = 0; i < elems.length; i++) {
-            elems[i].pause();
+        for (const elem_ of elems) {
+            elem_.pause();
         }
     }
 

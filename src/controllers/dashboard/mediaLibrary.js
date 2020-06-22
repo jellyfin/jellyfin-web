@@ -164,8 +164,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             showNameWithIcon: true
         });
 
-        for (var i = 0; i < virtualFolders.length; i++) {
-            var virtualFolder = virtualFolders[i];
+        for (const [i, virtualFolder] of virtualFolders.entries()) {
             html += getVirtualFolderHtml(page, virtualFolder, i);
         }
 

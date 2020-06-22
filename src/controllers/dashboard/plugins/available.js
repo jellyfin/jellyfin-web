@@ -58,8 +58,7 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
         var currentCategory = null;
         var html = '';
 
-        for (var i = 0; i < availablePlugins.length; i++) {
-            var plugin = availablePlugins[i];
+        for (const plugin of availablePlugins) {
             var category = plugin.categoryDisplayName;
             if (category != currentCategory) {
                 if (currentCategory) {

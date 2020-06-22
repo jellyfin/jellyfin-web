@@ -502,8 +502,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             var menuHtml = '';
             menuHtml += '<div class="drawerContent">';
 
-            for (var i = 0; i < items.length; i++) {
-                item = items[i];
+            for (const item_ of items) {
+                item = item_;
 
                 if (item.href) {
                     menuHtml += getToolsLinkHtml(item);

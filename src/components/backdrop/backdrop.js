@@ -229,8 +229,8 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
 
         // If you don't care about the order of the elements inside
         // the array, you should sort both arrays here.
-        for (var i = 0; i < a.length; ++i) {
-            if (a[i] !== b[i]) {
+        for (const [i, element] of a.entries()) {
+            if (element !== b[i]) {
                 return false;
             }
         }
