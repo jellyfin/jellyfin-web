@@ -175,10 +175,6 @@
     background: rgba(0, 0, 0, 0) !important;
 }
 
-.layout-mobile .btnShuffle {
-    display: unset !important;
-}
-
 .layout-mobile .playlistSection .playlist,
 .layout-mobile .playlistSection .contextMenu {
     position: absolute;
@@ -202,61 +198,81 @@
     padding-right: 7.3%;
 }
 
-.playlistSectionButton:not(>.layout-mobile) {
-    background: unset !important;
+.layout-desktop .playlistSectionButton,
+.layout-tv .playlistSectionButton {
+    background: none;
 }
 
-.nowPlayingPlaylist:not(>.layout-mobile) {
-    background: unset !important;
+.layout-desktop .nowPlayingPlaylist,
+.layout-tv .nowPlayingPlaylist {
+    background: none;
 }
 
 .layout-mobile .playlistSectionButton .btnTogglePlaylist {
     font-size: larger;
     margin: 0;
-    padding-left: 0;
 }
 
 .layout-mobile .playlistSectionButton .btnSavePlaylist {
     margin: 0;
     padding-right: 0;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    flex-grow: 1;
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
-    justify-content: flex-end;
+    border-radius: 0;
+}
+
+.layout-mobile .playlistSectionButton .volumecontrol {
+    margin: 0;
+    padding-right: 0;
     border-radius: 0;
 }
 
 .layout-mobile .playlistSectionButton .btnToggleContextMenu {
     font-size: larger;
     margin: 0;
-    padding-right: 0;
+}
+
+.layout-mobile .nowPlayingSecondaryButtons .btnShuffleQueue {
+    display: none;
+}
+
+.layout-mobile .nowPlayingSecondaryButtons .volumecontrol {
+    display: none;
+}
+
+.layout-mobile .nowPlayingSecondaryButtons .btnRepeat {
+    display: none;
+}
+
+.layout-desktop .nowPlayingInfoButtons .btnRepeat,
+.layout-tv .nowPlayingInfoButtons .btnRepeat {
+    display: none;
+}
+
+.layout-desktop .nowPlayingInfoButtons .btnShuffleQueue,
+.layout-tv .nowPlayingInfoButtons .btnShuffleQueue{
+    display: none;
+}
+
+.layout-desktop .playlistSectionButton .volumecontrol,
+.layout-tv .playlistSectionButton .volumecontrol {
+    display: none;
+}
+
+.nowPlayingSecondaryButtons {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
     flex-grow: 1;
     -webkit-box-pack: end;
     -webkit-justify-content: flex-end;
     justify-content: flex-end;
-    border-radius: 0;
+}
+
+.nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle {
+    display: none;
 }
 
 @media all and (min-width: 63em) {
     .nowPlayingPage {
         padding: 8em 0 0 0 !important;
-    }
-
-    .nowPlayingSecondaryButtons {
-        -webkit-box-flex: 1;
-        -webkit-flex-grow: 1;
-        flex-grow: 1;
-        -webkit-box-pack: end;
-        -webkit-justify-content: flex-end;
-        justify-content: flex-end;
-    }
-
-    .nowPlayingPageUserDataButtonsTitle {
-        display: none !important;
     }
 }
 
@@ -273,6 +289,10 @@
         display: flex;
         height: 100%;
         flex-direction: column;
+    }
+
+    .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle {
+        display: unset;
     }
 
     .nowPlayingInfoContainer {
@@ -362,7 +382,7 @@
         font-size: smaller;
     }
 
-    .nowPlayingInfoButtons .btnShuffle {
+    .nowPlayingInfoButtons .btnShuffleQueue {
         position: absolute;
         right: 0;
         margin-right: 0;
@@ -447,6 +467,10 @@
     background-image: url(../../assets/img/equalizer.gif) !important;
 }
 
+.playlistIndexIndicatorImage > * {
+    display: none;
+}
+
 .hideVideoButtons .videoButton {
     display: none;
 }
@@ -456,7 +480,6 @@
 }
 
 @media all and (max-width: 63em) {
-    .nowPlayingSecondaryButtons .nowPlayingPageUserDataButtons,
     .nowPlayingSecondaryButtons .repeatToggleButton,
     .nowPlayingInfoButtons .playlist .listItemMediaInfo,
     .nowPlayingInfoButtons .btnStop {

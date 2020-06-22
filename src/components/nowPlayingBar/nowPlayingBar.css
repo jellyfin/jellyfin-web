@@ -133,10 +133,7 @@
     .toggleRepeatButton {
         display: none !important;
     }
-}
-
-@media all and (max-width: 66em) {
-    .btnShuffle {
+    .nowPlayingBar .btnShuffleQueue {
         display: none !important;
     }
 }
@@ -152,15 +149,18 @@
     }
 }
 
+.layout-mobile .nowPlayingBarRight button:not(.playPauseButton, .nextTrackButton) {
+    display: none;
+}
+
+.layout-mobile .nowPlayingBarRight input,
+.layout-mobile .nowPlayingBarRight div {
+    display: none;
+}
+
 @media all and (max-width: 56em) {
     .nowPlayingBarCenter {
         display: none !important;
-    }
-}
-
-@media all and (min-width: 56em) {
-    .nowPlayingBarRight .playPauseButton {
-        display: none;
     }
 }
 

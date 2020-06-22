@@ -167,8 +167,9 @@ button::-moz-focus-inner {
     position: relative;
     background-clip: content-box !important;
     color: inherit;
+}
 
-    /* This is only needed for scalable cards */
+.cardImageContainer.cardScalable {
     height: 100%;
     contain: strict;
 }

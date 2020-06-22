@@ -29,6 +29,11 @@
                 <div class="nowPlayingButtonsContainer focuscontainer-x">
                 
                     <div class="nowPlayingInfoButtons">
+
+                        <button is="paper-icon-button-light" class="btnCommand btnRepeat repeatToggleButton autoSize" title="${ButtonRepeat}"
+                            data-command="SetRepeatMode">
+                            <span class="material-icons repeat"></span>
+                        </button>
                     
                         <button is="paper-icon-button-light" class="btnRewind btnNowPlayingRewind btnPlayStateCommand autoSize" title="${Rewind}">
                             <span class="material-icons replay_10"></span>
@@ -54,6 +59,10 @@
                             <span class="material-icons forward_30"></span>
                         </button>
 
+                        <button is="paper-icon-button-light" class="btnShuffleQueue autoSize" title="${ButtonShuffle}">
+                            <span class="material-icons shuffle"></span>
+                        </button>
+
                     </div>
 
                     <div class="nowPlayingSecondaryButtons">
@@ -70,6 +79,15 @@
 
                         <button is="paper-icon-button-light" class="btnToggleFullscreen videoButton btnPlayStateCommand autoSize" title="${ButtonFullscreen}" data-command="ToggleFullscreen">
                             <span class="material-icons fullscreen"></span>
+                        </button>
+
+                        <button is="paper-icon-button-light" class="btnShuffleQueue autoSize" title="${ButtonShuffle}">
+                            <span class="material-icons shuffle"></span>
+                        </button>
+
+                        <button is="paper-icon-button-light" class="btnCommand btnRepeat repeatToggleButton autoSize" title="${ButtonRepeat}"
+                            data-command="SetRepeatMode">
+                            <span class="material-icons repeat"></span>
                         </button>
 
                     </div>
@@ -164,6 +182,9 @@
                 </button>
                 <button is="paper-icon-button-light" class="btnSavePlaylist hide" title="${ButtonSave}">
                     <span class="material-icons save"></span>
+                </button>
+                <button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title="${ButtonToggleContextMenu}">
+                    <span class="material-icons more_vert"></span>
                 </button>
             </div>
             <div id="playlist" class="playlist itemsContainer vertical-list nowPlayingPlaylist hide" is="emby-itemscontainer" data-dragreorder="true"></div>

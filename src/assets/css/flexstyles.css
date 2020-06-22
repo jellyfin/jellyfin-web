@@ -42,6 +42,10 @@
     justify-content: flex-end;
 }
 
+.justify-content-space-between {
+    justify-content: space-between;
+}
+
 .flex-wrap-wrap {
     flex-wrap: wrap;
 }

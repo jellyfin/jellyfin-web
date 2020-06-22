@@ -63,7 +63,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         html += '</div>';
 
         html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat"></span></button>';
-        html += '<button is="paper-icon-button-light" class="btnShuffle mediaButton"><span class="material-icons shuffle"></span></button>';
+        html += '<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle"></span></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
@@ -179,7 +179,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         });
 
-        elem.querySelector('.btnShuffle').addEventListener('click', function () {
+        elem.querySelector('.btnShuffleQueue').addEventListener('click', function () {
             if (currentPlayer) {
                 if (playbackManager.getQueueShuffleMode(currentPlayer) === 'Sorted') {
                     playbackManager.setQueueShuffleMode('Shuffle', currentPlayer);
@@ -290,7 +290,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
                 if (layoutManager.mobile) {
-                    hideButton(nowPlayingBarElement.querySelector('.shuffle'));
+                    hideButton(nowPlayingBarElement.querySelector('.btnShuffleQueue'));
+                    hideButton(nowPlayingBarElement.querySelector('.nowPlayingBarCenter'));
                 }
 
                 if (browser.safari && browser.slow) {
@@ -634,12 +635,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     function onQueueShuffleModeChange() {
         let shuffleMode = playbackManager.getQueueShuffleMode(this);
         let context = nowPlayingBarElement;
-        let toggleShuffleButton = context.querySelector('.btnShuffle');
+        let toggleShuffleButton = context.querySelector('.btnShuffleQueue');
 
-        if ('Sorted' === shuffleMode) {
-            toggleShuffleButton.classList.remove('shuffleButton-active');
-        } else if ('Shuffle' === shuffleMode) {
-            toggleShuffleButton.classList.add('shuffleButton-active');
+        if (shuffleMode === 'Sorted') {
+            toggleShuffleButton.classList.remove('shuffleQueue-active');
+        } else if (shuffleMode === 'Shuffle') {
+            toggleShuffleButton.classList.add('shuffleQueue-active');
         }
     }
 
