@@ -79,7 +79,7 @@
     "screenfull": "^5.0.2",
     "shaka-player": "^2.5.13",
     "sortablejs": "^1.10.2",
-    "swiper": "^5.4.3",
+    "swiper": "^5.4.5",
     "webcomponents.js": "^0.7.24",
     "whatwg-fetch": "^3.0.0"
   },
