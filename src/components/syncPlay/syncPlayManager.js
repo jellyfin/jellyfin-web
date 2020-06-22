@@ -139,7 +139,7 @@ class SyncPlayManager {
                     return;
                 }
 
-                apiClient.sendSyncPlayCommand(sessionId, 'UpdatePing', {
+                apiClient.sendSyncPlayCommand('UpdatePing', {
                     Ping: ping
                 });
             }
@@ -447,7 +447,7 @@ class SyncPlayManager {
                     if (!success) {
                         console.warning('Error reporting playback state to server. Joining group will fail.');
                     }
-                    apiClient.sendSyncPlayCommand(sessionId, 'JoinGroup', {
+                    apiClient.sendSyncPlayCommand('JoinGroup', {
                         GroupId: groupId,
                         PlayingItemId: playingItemId
                     });
@@ -658,8 +658,7 @@ class SyncPlayManager {
      */
     playRequest (player) {
         var apiClient = connectionManager.currentApiClient();
-        var sessionId = getActivePlayerId();
-        apiClient.sendSyncPlayCommand(sessionId, 'PlayRequest');
+        apiClient.sendSyncPlayCommand('PlayRequest');
     }
 
     /**
@@ -667,8 +666,7 @@ class SyncPlayManager {
      */
     pauseRequest (player) {
         var apiClient = connectionManager.currentApiClient();
-        var sessionId = getActivePlayerId();
-        apiClient.sendSyncPlayCommand(sessionId, 'PauseRequest');
+        apiClient.sendSyncPlayCommand('PauseRequest');
         // Pause locally as well, to give the user some little control
         playbackManager._localUnpause(player);
     }
@@ -678,8 +676,7 @@ class SyncPlayManager {
      */
     seekRequest (PositionTicks, player) {
         var apiClient = connectionManager.currentApiClient();
-        var sessionId = getActivePlayerId();
-        apiClient.sendSyncPlayCommand(sessionId, 'SeekRequest', {
+        apiClient.sendSyncPlayCommand('SeekRequest', {
             PositionTicks: PositionTicks
         });
     }
