@@ -548,7 +548,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
             events.trigger(instance, 'playbackstop', [state]);
 
-            var state = instance.lastPlayerData.PlayState || {};
+            state = instance.lastPlayerData.PlayState || {};
             var volume = state.VolumeLevel || 0.5;
             var mute = state.IsMuted || false;
 
@@ -572,6 +572,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         bindEventForRelay(instance, 'unpause');
         bindEventForRelay(instance, 'volumechange');
         bindEventForRelay(instance, 'repeatmodechange');
+        bindEventForRelay(instance, 'shuffleplaylistmodechange');
 
         events.on(instance._castPlayer, 'playstatechange', function (e, data) {
 
@@ -651,6 +652,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
                 'SetSubtitleStreamIndex',
                 'DisplayContent',
                 'SetRepeatMode',
+                'SetPlaylistShuffleMode',
                 'EndSession',
                 'PlayMediaSource',
                 'PlayTrailers'
@@ -864,6 +866,12 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         return state.RepeatMode;
     };
 
+    ChromecastPlayer.prototype.getPlaylistShuffleMode = function () {
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.ShuffleMode;
+    };
+
     ChromecastPlayer.prototype.playTrailers = function (item) {
 
         this._castPlayer.sendMessage({
@@ -881,6 +889,15 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
                 RepeatMode: mode
             },
             command: 'SetRepeatMode'
+        });
+    };
+
+    ChromecastPlayer.prototype.setPlaylistShuffleMode = function (value) {
+        this._castPlayer.sendMessage({
+            options: {
+                ShuffleMode: value
+            },
+            command: 'SetPlaylistShuffleMode'
         });
     };
 
