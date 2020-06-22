@@ -244,7 +244,7 @@ import connectionManager from 'connectionManager';
 
         /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('seekto', function (object) {
-            let item = playbackManager.getPlayerState(playbackManager.getCurrentPlayer()).NowPlayingItem;
+            let item = playbackManager.getPlayerState(currentPlayer).NowPlayingItem;
             // Convert to ms
             let duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
             let wantedTime = object.seekTime * 1000;
