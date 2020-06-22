@@ -821,7 +821,7 @@
     "MessageNoAvailablePlugins": "No hay extensiones disponibles.",
     "MessageNoMovieSuggestionsAvailable": "No hay sugerencias de películas disponibles. Comience ver y calificar sus películas y vuelva para ver las recomendaciones.",
     "MessageNoPluginsInstalled": "No hay extensiones instaladas.",
-    "MessageNoTrailersFound": "No se han encontrado tráilers. Instala el canal de tráilers para mejorar su experiencia añadiendo una biblioteca de tráilers por internet.",
+    "MessageNoTrailersFound": "Instale el canal de tráilers para mejorar su experiencia cinematográfica agregando una biblioteca de tráilers de Internet.",
     "MessageNothingHere": "Nada aquí.",
     "MessagePasswordResetForUsers": "Se ha restablecido las contraseñas a los siguientes usuarios. Ahora pueden iniciar sesión con los códigos PIN que usaron para el restablecimiento.",
     "MessagePleaseEnsureInternetMetadata": "Asegúrate de que la descarga de etiquetas desde internet está activada.",
@@ -1351,7 +1351,6 @@
     "HeaderFavoriteSongs": "Canciones favoritas",
     "HeaderFavoriteVideos": "Vídeos favoritos",
     "HeaderHome": "Inicio",
-    "HeaderRestartingServer": "Reiniciando servidor",
     "LabelAuthProvider": "Proveedor de autenticación:",
     "LabelPasswordResetProvider": "Proveedor de restablecimiento de contraseña:",
     "LabelServerName": "Nombre del servidor:",
@@ -1397,7 +1396,6 @@
     "Premiere": "Estreno",
     "Raised": "Elevación",
     "RefreshDialogHelp": "Las etiquetas se actualizan basándose en las configuraciones y los servicios de internet activados desde el panel de control de Jellyfin.",
-    "RestartPleaseWaitMessage": "Por favor, espera mientras el servidor Jellyfin se reinicia. Esto puede tardar un minuto o dos.",
     "RunAtStartup": "Ejecutar al iniciar",
     "Series": "Series",
     "SeriesDisplayOrderHelp": "Ordena los episodios por fecha de emisión, orden de DVD o número absoluto.",
@@ -1559,6 +1557,11 @@
     "HeaderSyncPlaySelectGroup": "Unirse a un grupo",
     "EnableDetailsBannerHelp": "Mostrar imagen de banner en el tope de la página de detalles del elemento.",
     "EnableDetailsBanner": "Barra de Detalles",
-    "ShowMore": "Mostrar más",
-    "ShowLess": "Mostrar menos"
+    "ShowMore": "Ver más",
+    "ShowLess": "Ver menos",
+    "ButtonSyncPlay": "SyncPlay",
+    "ButtonCast": "Enviar",
+    "MessageNoGenresAvailable": "Permitir a algunos proveedores de metadatos extraer géneros de Internet.",
+    "EnableDecodingColorDepth10Vp9": "Habilite la decodificación por hardware de 10 bits para Vp9",
+    "EnableDecodingColorDepth10Hevc": "Habilite la decodificación por hardware de 10 bits para HEVC"
 }

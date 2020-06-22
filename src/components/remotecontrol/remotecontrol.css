@@ -157,16 +157,9 @@
 }
 
 .nowPlayingSecondaryButtons {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
     justify-content: flex-end;
     z-index: 0;
 }
@@ -248,22 +241,13 @@
 }
 
 .layout-desktop .nowPlayingInfoButtons .btnShuffleQueue,
-.layout-tv .nowPlayingInfoButtons .btnShuffleQueue{
+.layout-tv .nowPlayingInfoButtons .btnShuffleQueue {
     display: none;
 }
 
 .layout-desktop .playlistSectionButton .volumecontrol,
 .layout-tv .playlistSectionButton .volumecontrol {
     display: none;
-}
-
-.nowPlayingSecondaryButtons {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    flex-grow: 1;
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
-    justify-content: flex-end;
 }
 
 .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle {
@@ -289,10 +273,6 @@
         display: flex;
         height: 100%;
         flex-direction: column;
-    }
-
-    .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle {
-        display: unset;
     }
 
     .nowPlayingInfoContainer {
@@ -364,6 +344,7 @@
     .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle {
         width: 20%;
         font-size: large;
+        display: unset;
     }
 
     .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle button {
