@@ -3945,7 +3945,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         player = player || this._currentPlayer;
         if (player && !enableLocalPlaylistManagement(player)) {
-            return player.setShuffleMode(value);
+            return player.setQueueShuffleMode(value);
         }
 
         this._playQueueManager.setShuffleMode(value);

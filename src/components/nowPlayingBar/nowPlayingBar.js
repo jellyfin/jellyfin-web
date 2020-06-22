@@ -457,15 +457,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
     }
 
-    function getTextActionButton(item, text) {
-
-        if (!text) {
-            text = itemHelper.getDisplayName(item);
-        }
-
-        return `<a>${text}</a>`;
-    }
-
     function seriesImageUrl(item, options) {
 
         if (!item) {
@@ -541,18 +532,25 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         if (textLines.length > 1) {
             textLines[1].secondary = true;
         }
-        nowPlayingTextElement.innerHTML = textLines.map(function (nowPlayingName) {
 
-            var cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
-
-            if (nowPlayingName.item) {
-                var nowPlayingText = getTextActionButton(nowPlayingName.item, nowPlayingName.text);
-                return `<div ${cssClass}>${nowPlayingText}</div>`;
+        if (textLines) {
+            nowPlayingTextElement.innerHTML = '';
+            let itemText = document.createElement('div');
+            let secondaryText = document.createElement('div');
+            secondaryText.classList.add('nowPlayingBarSecondaryText');
+            if (textLines[0].text) {
+                let text = document.createElement('a');
+                text.innerHTML = textLines[0].text;
+                itemText.appendChild(text);
             }
-
-            return `<div ${cssClass}>${nowPlayingText}</div>`;
-
-        }).join('');
+            if (textLines[1].text) {
+                let text = document.createElement('a');
+                text.innerHTML = textLines[1].text;
+                secondaryText.appendChild(text);
+            }
+            nowPlayingTextElement.appendChild(itemText);
+            nowPlayingTextElement.appendChild(secondaryText);
+        }
 
         var imgHeight = 70;
 

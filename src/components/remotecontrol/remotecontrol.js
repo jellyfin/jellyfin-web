@@ -120,9 +120,9 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             if (item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
                 var songName = item.Name;
                 if (item.Album != null && item.Artists != null) {
+                    var artistsSeries = '';
                     var albumName = item.Album;
                     if (item.ArtistItems != null) {
-                        var artistsSeries = '';
                         for (let artist of item.ArtistItems) {
                             let artistName = artist.Name;
                             let artistId = artist.Id;
@@ -131,8 +131,18 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                                 artistsSeries += ', ';
                             }
                         }
-                        context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
+                    } else if (item.Artists) {
+                        // For some reason, Chromecast Player doesn't return a item.ArtistItems object, so we need to fallback
+                        // to normal item.Artists item.
+                        // TODO: Normalise fields returned by all the players
+                        for (let artist of item.Artists) {
+                            artistsSeries += `<a>${artist}</a>`;
+                            if (artist !== item.Artists.slice(-1)[0]) {
+                                artistsSeries += ', ';
+                            }
+                        }
                     }
+                    context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
                     context.querySelector('.nowPlayingAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}">${albumName}</a>`;
                 }
                 context.querySelector('.nowPlayingSongName').innerHTML = songName;
