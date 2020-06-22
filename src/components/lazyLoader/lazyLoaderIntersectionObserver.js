@@ -11,9 +11,9 @@
                 (entries) => {
                     entries.forEach(entry => {
                         callback(entry);
-                    },
-                    {rootMargin: '50%'});
-                });
+                    });
+                },
+                {rootMargin: '25%'});
 
             this.observer = observer;
         }
