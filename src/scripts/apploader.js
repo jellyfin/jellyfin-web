@@ -7,8 +7,8 @@
         }
 
         var script = document.createElement('script');
-        if (self.dashboardVersion) {
-            src += `?v=${self.dashboardVersion}`;
+        if (window.self.dashboardVersion) {
+            src += `?v=${window.self.dashboardVersion}`;
         }
         script.src = src;
 
@@ -36,10 +36,10 @@
         // Promise() being missing on some legacy browser, and a funky one
         // is Promise() present but buggy on WebOS 2
         window.Promise = undefined;
-        self.Promise = undefined;
+        window.self.Promise = undefined;
     }
 
-    if (!self.Promise) {
+    if (!window.self.Promise) {
         // Load Promise polyfill if they are not natively supported
         injectScriptElement(
             './libraries/npo.js',

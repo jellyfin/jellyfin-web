@@ -216,7 +216,7 @@ define([], function () {
         browser.tv = true;
     }
     browser.animate = typeof document !== 'undefined' && document.documentElement.animate != null;
-    browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || self.tizen != null;
+    browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || window.self.tizen != null;
     browser.web0s = userAgent.toLowerCase().indexOf('Web0S'.toLowerCase()) !== -1;
     browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
 

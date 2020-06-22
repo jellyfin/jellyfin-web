@@ -1,3 +1,5 @@
+const restrictedGlobals = require('confusing-browser-globals');
+
 module.exports = {
     root: true,
     plugins: [
@@ -38,6 +40,7 @@ module.exports = {
         'no-floating-decimal': ['error'],
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
+        'no-restricted-globals': ['error'].concat(restrictedGlobals),
         'no-trailing-spaces': ['error'],
         'one-var': ['error', 'never'],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
@@ -193,4 +196,4 @@ module.exports = {
             }
         }
     ]
-}
+};

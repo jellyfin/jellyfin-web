@@ -216,7 +216,7 @@ var Dashboard = {
         var capabilities = {
             PlayableMediaTypes: ['Audio', 'Video'],
             SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
-            SupportsPersistentIdentifier: 'cordova' === self.appMode || 'android' === self.appMode,
+            SupportsPersistentIdentifier: 'cordova' === window.self.appMode || 'android' === window.self.appMode,
             SupportsMediaControl: true
         };
         appHost.getPushTokenInfo();
@@ -388,9 +388,9 @@ var AppInfo = {};
     }
 
     function defineResizeObserver() {
-        if (self.ResizeObserver) {
+        if (window.self.ResizeObserver) {
             define('ResizeObserver', [], function () {
-                return self.ResizeObserver;
+                return window.self.ResizeObserver;
             });
         } else {
             define('ResizeObserver', ['resize-observer-polyfill'], returnFirstDependency);
@@ -475,8 +475,8 @@ var AppInfo = {};
     }
 
     function onGlobalizeInit(browser) {
-        if ('android' === self.appMode) {
-            if (-1 !== self.location.href.toString().toLowerCase().indexOf('start=backgroundsync')) {
+        if ('android' === window.self.appMode) {
+            if (-1 !== window.self.location.href.toString().toLowerCase().indexOf('start=backgroundsync')) {
                 return onAppReady(browser);
             }
         }
@@ -621,7 +621,7 @@ var AppInfo = {};
 
     function registerServiceWorker() {
         /* eslint-disable compat/compat */
-        if (navigator.serviceWorker && self.appMode !== 'cordova' && self.appMode !== 'android') {
+        if (navigator.serviceWorker && window.self.appMode !== 'cordova' && window.self.appMode !== 'android') {
             try {
                 navigator.serviceWorker.register('serviceworker.js');
             } catch (err) {
@@ -636,7 +636,7 @@ var AppInfo = {};
     function onWebComponentsReady() {
         initRequireWithBrowser();
 
-        if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
+        if (window.self.appMode === 'cordova' || window.self.appMode === 'android' || window.self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
         }
 

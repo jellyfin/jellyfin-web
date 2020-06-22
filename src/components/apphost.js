@@ -35,7 +35,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     function getDeviceProfile(item, options) {
         options = options || {};
 
-        if (self.Windows) {
+        if (window.self.Windows) {
             return getDeviceProfileForWindowsUwp(item);
         }
 
@@ -69,7 +69,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     function generateDeviceId() {
         var keys = [];
 
-        if (keys.push(navigator.userAgent), keys.push(new Date().getTime()), self.btoa) {
+        if (keys.push(navigator.userAgent), keys.push(new Date().getTime()), window.self.btoa) {
             var result = replaceAll(btoa(keys.join('|')), '=', '1');
             return Promise.resolve(result);
         }
@@ -447,9 +447,9 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
         }
     }, false);
 
-    if (self.addEventListener) {
-        self.addEventListener('focus', onAppVisible);
-        self.addEventListener('blur', onAppHidden);
+    if (window.self.addEventListener) {
+        window.self.addEventListener('focus', onAppVisible);
+        window.self.addEventListener('blur', onAppHidden);
     }
 
     return appHost;

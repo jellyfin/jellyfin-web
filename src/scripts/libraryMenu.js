@@ -788,7 +788,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function getNavDrawerOptions() {
-        var drawerWidth = screen.availWidth - 50;
+        var drawerWidth = window.screen.availWidth - 50;
         drawerWidth = Math.max(drawerWidth, 240);
         drawerWidth = Math.min(drawerWidth, 320);
         return {

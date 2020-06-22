@@ -16,7 +16,7 @@ define(['browser', 'dialog', 'globalize'], function(browser, dialog, globalize) 
             }
 
             var text = replaceAll(options.text || '', '<br/>', '\n');
-            var result = confirm(text);
+            var result = window.confirm(text);
 
             if (result) {
                 return Promise.resolve();

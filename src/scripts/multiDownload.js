@@ -32,7 +32,7 @@ define(['browser'], function (browser) {
         var a = document.createElement('a');
         a.href = url;
 
-        return location.hostname === a.hostname && location.protocol === a.protocol;
+        return window.location.hostname === a.hostname && window.location.protocol === a.protocol;
     }
 
     function download(url) {

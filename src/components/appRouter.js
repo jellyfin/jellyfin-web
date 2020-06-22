@@ -479,7 +479,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function getRequestFile() {
-        var path = self.location.pathname || '';
+        var path = window.self.location.pathname || '';
 
         var index = path.lastIndexOf('/');
         if (index !== -1) {
@@ -499,7 +499,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         return str.lastIndexOf(srch) === srch.length - 1;
     }
 
-    var baseRoute = self.location.href.split('?')[0].replace(getRequestFile(), '');
+    var baseRoute = window.self.location.href.split('?')[0].replace(getRequestFile(), '');
     // support hashbang
     baseRoute = baseRoute.split('#')[0];
     if (endsWith(baseRoute, '/') && !endsWith(baseRoute, '://')) {
@@ -569,7 +569,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             return false;
         }
         if (enableHistory()) {
-            return history.length > 1;
+            return window.history.length > 1;
         }
         return (page.len || 0) > 0;
     }
@@ -676,12 +676,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     function pushState(state, title, url) {
         state.navigate = false;
-        history.pushState(state, title, url);
+        window.history.pushState(state, title, url);
 
     }
 
     function setBaseRoute() {
-        var baseRoute = self.location.pathname.replace(getRequestFile(), '');
+        var baseRoute = window.self.location.pathname.replace(getRequestFile(), '');
         if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
             baseRoute = baseRoute.substring(0, baseRoute.length - 1);
         }

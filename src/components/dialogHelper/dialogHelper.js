@@ -84,9 +84,9 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
             }
 
             if (!self.closedByBack && isHistoryEnabled(dlg)) {
-                var state = history.state || {};
+                var state = window.history.state || {};
                 if (state.dialogId === hash) {
-                    history.back();
+                    window.history.back();
                 }
             }
 
@@ -217,7 +217,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
 
         if (isOpened(dlg)) {
             if (isHistoryEnabled(dlg)) {
-                history.back();
+                window.history.back();
             } else {
                 closeDialog(dlg);
             }

@@ -310,7 +310,7 @@ define(['browser'], function (browser) {
         var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
 
         var maxVideoWidth = browser.xboxOne ?
-            (self.screen ? self.screen.width : null) :
+            (window.self.screen ? window.self.screen.width : null) :
             null;
 
         if (options.maxVideoWidth) {

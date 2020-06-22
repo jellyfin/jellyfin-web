@@ -2,7 +2,7 @@ define(function () {
     'use strict';
 
     // hack to work around the server's auto-redirection feature
-    var addRedirectPrevention = self.dashboardVersion != null && self.Dashboard && !self.AppInfo.isNativeApp;
+    var addRedirectPrevention = window.self.dashboardVersion != null && window.self.Dashboard && !window.self.AppInfo.isNativeApp;
 
     return {
 

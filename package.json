@@ -15,6 +15,7 @@
     "babel-eslint": "^11.0.0-beta.2",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
+    "confusing-browser-globals": "^1.0.9",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.6.0",
     "cssnano": "^4.1.10",
