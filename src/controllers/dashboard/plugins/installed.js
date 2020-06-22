@@ -120,7 +120,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
             });
         }
 
-        if (removable == 'true') {
+        if (removable === 'true') {
             menuItems.push({
                 name: globalize.translate('ButtonUninstall'),
                 id: 'delete',
