@@ -72,8 +72,7 @@ import 'css!./style';
         }
 
         if (userSettings.enableBlurhash()) {
-            if (!target.classList.contains('blurhashed', 'non-blurhashable')
-                && blurhashstr) {
+            if (!target.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
                 itemBlurhashing(target, blurhashstr);
             } else if (!blurhashstr && !target.classList.contains('blurhashed')) {
                 target.classList.add('non-blurhashable');
