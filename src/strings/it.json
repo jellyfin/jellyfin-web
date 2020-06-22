@@ -1557,6 +1557,15 @@
     "ButtonSyncPlay": "SyncPlay",
     "EnableFasterAnimationsHelp": "Utilizza animazioni e transizioni veloci",
     "EnableFasterAnimations": "Animazioni veloci",
-    "EnableDecodingColorDepth10Vp9": "Abilita la decodifica hardware 10-Bit per Vp9",
-    "EnableDecodingColorDepth10Hevc": "Abilita la decodifica hardware 10-Bit per HEVC"
+    "EnableDecodingColorDepth10Vp9": "Abilita la decodifica hardware 10-Bit per VP9",
+    "EnableDecodingColorDepth10Hevc": "Abilita la decodifica hardware 10-Bit per HEVC",
+    "TabRepositories": "Repository",
+    "MessageNoGenresAvailable": "Abilita un metadata provider per recuperare i generi da internet.",
+    "MessageAddRepository": "Cliccare sul bottone vicino all'header se si intende aggiungere un nuovo repository.",
+    "LabelRepositoryNameHelp": "Nome personalizzato per distinguere questo repository dagli altri sul tuo server.",
+    "LabelRepositoryName": "Nome Repository",
+    "LabelRepositoryUrlHelp": "URL del repository manifest che si vuole includere.",
+    "LabelRepositoryUrl": "URL Repository",
+    "HeaderNewRepository": "Nuovo Repository",
+    "MessageNoRepositories": "Nessun repository."
 }
