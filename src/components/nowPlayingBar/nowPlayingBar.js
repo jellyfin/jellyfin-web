@@ -181,10 +181,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         elem.querySelector('.btnShuffle').addEventListener('click', function () {
             if (currentPlayer) {
-                if (playbackManager.getPlaylistShuffleMode(currentPlayer) === 'Sorted') {
-                    playbackManager.setPlaylistShuffleMode('Shuffle', currentPlayer);
+                if (playbackManager.getQueueShuffleMode(currentPlayer) === 'Sorted') {
+                    playbackManager.setQueueShuffleMode('Shuffle', currentPlayer);
                 } else {
-                    playbackManager.setPlaylistShuffleMode('Sorted', currentPlayer);
+                    playbackManager.setQueueShuffleMode('Sorted', currentPlayer);
                 }
             }
         });
@@ -346,7 +346,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         updateRepeatModeDisplay(playState.RepeatMode);
-        onPlaylistShuffleModeChange();
+        onQueueShuffleModeChange();
 
         updatePlayerVolumeState(playState.IsMuted, playState.VolumeLevel);
 
@@ -633,8 +633,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         updateRepeatModeDisplay(playbackManager.getRepeatMode(player));
     }
 
-    function onPlaylistShuffleModeChange() {
-        let shuffleMode = playbackManager.getPlaylistShuffleMode(this);
+    function onQueueShuffleModeChange() {
+        let shuffleMode = playbackManager.getQueueShuffleMode(this);
         let context = nowPlayingBarElement;
         let toggleShuffleButton = context.querySelector('.btnShuffle');
 
@@ -750,7 +750,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             events.off(player, 'playbackstart', onPlaybackStart);
             events.off(player, 'statechange', onPlaybackStart);
             events.off(player, 'repeatmodechange', onRepeatModeChange);
-            events.off(player, 'shuffleplaylistmodechange', onPlaylistShuffleModeChange);
+            events.off(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
             events.off(player, 'playbackstop', onPlaybackStopped);
             events.off(player, 'volumechange', onVolumeChanged);
             events.off(player, 'pause', onPlayPauseStateChanged);
@@ -799,7 +799,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         events.on(player, 'playbackstart', onPlaybackStart);
         events.on(player, 'statechange', onPlaybackStart);
         events.on(player, 'repeatmodechange', onRepeatModeChange);
-        events.on(player, 'shuffleplaylistmodechange', onPlaylistShuffleModeChange);
+        events.on(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
         events.on(player, 'playbackstop', onPlaybackStopped);
         events.on(player, 'volumechange', onVolumeChanged);
         events.on(player, 'pause', onPlayPauseStateChanged);

@@ -65,8 +65,8 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
             case 'SetRepeatMode':
                 playbackManager.setRepeatMode(cmd.Arguments.RepeatMode);
                 break;
-            case 'SetPlaylistShuffleMode':
-                playbackManager.setPlaylistShuffleMode(cmd.Arguments.ShuffleMode);
+            case 'SetQueueShuffleMode':
+                playbackManager.setQueueShuffleMode(cmd.Arguments.ShuffleMode);
                 break;
             case 'VolumeUp':
                 inputManager.trigger('volumeup');

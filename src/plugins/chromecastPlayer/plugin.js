@@ -572,7 +572,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         bindEventForRelay(instance, 'unpause');
         bindEventForRelay(instance, 'volumechange');
         bindEventForRelay(instance, 'repeatmodechange');
-        bindEventForRelay(instance, 'shuffleplaylistmodechange');
+        bindEventForRelay(instance, 'shufflequeuemodechange');
 
         events.on(instance._castPlayer, 'playstatechange', function (e, data) {
 
@@ -652,7 +652,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
                 'SetSubtitleStreamIndex',
                 'DisplayContent',
                 'SetRepeatMode',
-                'SetPlaylistShuffleMode',
+                'SetQueueShuffleMode',
                 'EndSession',
                 'PlayMediaSource',
                 'PlayTrailers'
@@ -866,7 +866,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         return state.RepeatMode;
     };
 
-    ChromecastPlayer.prototype.getPlaylistShuffleMode = function () {
+    ChromecastPlayer.prototype.getQueueShuffleMode = function () {
         var state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.ShuffleMode;
@@ -892,12 +892,12 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         });
     };
 
-    ChromecastPlayer.prototype.setPlaylistShuffleMode = function (value) {
+    ChromecastPlayer.prototype.setQueueShuffleMode = function (value) {
         this._castPlayer.sendMessage({
             options: {
                 ShuffleMode: value
             },
-            command: 'SetPlaylistShuffleMode'
+            command: 'SetQueueShuffleMode'
         });
     };
 
