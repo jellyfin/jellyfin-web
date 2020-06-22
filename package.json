@@ -5,7 +5,7 @@
   "repository": "https://github.com/jellyfin/jellyfin-web",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
-    "@babel/core": "^7.10.2",
+    "@babel/core": "^7.10.3",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/plugin-proposal-private-methods": "^7.10.1",
     "@babel/plugin-transform-modules-amd": "^7.9.6",
