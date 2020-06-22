@@ -168,7 +168,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getPortraitShape() {
-        return enableScrollX() ? 'autooverflow' : 'auto';
+        return enableScrollX() ? 'overflowPortrait' : 'portrait';
     }
 
     function getLibraryButtonsHtml(items) {
