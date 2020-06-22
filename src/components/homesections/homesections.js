@@ -22,6 +22,28 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
     }
 
+    function getSectionLimit(collectionType, shape) {
+        let screenWidth = dom.getWindowSize().innerWidth;
+        const screenHeight = dom.getWindowSize().innerHeight;
+
+        if (cardBuilder.isResizable(screenWidth)) {
+            const roundScreenTo = 100;
+            screenWidth = Math.floor(screenWidth / roundScreenTo) * roundScreenTo;
+        }
+
+        if (!shape) {
+            if (collectionType === 'movies' || collectionType === 'books' || collectionType === 'tvshows') {
+                shape = getPortraitShape();
+            } else if (collectionType === 'music' || collectionType === 'homevideos') {
+                shape = getSquareShape();
+            } else {
+                shape = getThumbShape();
+            }
+        }
+
+        return Math.round(cardBuilder.getPostersPerRow(shape, screenWidth, screenWidth > (screenHeight * 1.3))) * 3;
+    }
+
     function getAllSectionsToShow(userSettings, sectionCount) {
         var sections = [];
         for (var i = 0, length = sectionCount; i < length; i++) {
@@ -120,7 +142,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
-
         var section = allSections[index];
         var userId = user.Id;
 
@@ -155,20 +176,16 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         });
     }
 
-    function enableScrollX() {
-        return true;
-    }
-
     function getSquareShape() {
-        return enableScrollX() ? 'overflowSquare' : 'square';
+        return 'square';
     }
 
     function getThumbShape() {
-        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
+        return 'backdrop';
     }
 
     function getPortraitShape() {
-        return enableScrollX() ? 'overflowPortrait' : 'portrait';
+        return 'portrait';
     }
 
     function getLibraryButtonsHtml(items) {
@@ -200,35 +217,14 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         imageLoader.lazyChildren(elem);
     }
 
-    /**
-     * Returns a random integer between min (inclusive) and max (inclusive)
-     * Using Math.round() will give you a non-uniform distribution!
-     */
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
     function getFetchLatestItemsFn(serverId, parentId, collectionType) {
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
-            var limit = 16;
 
-            if (enableScrollX()) {
-                if (collectionType === 'music') {
-                    limit = 30;
-                }
-            } else {
-                if (collectionType === 'tvshows') {
-                    limit = 5;
-                } else if (collectionType === 'music') {
-                    limit = 9;
-                } else {
-                    limit = 8;
-                }
-            }
+            console.warn(getSectionLimit(collectionType));
 
             var options = {
-                Limit: limit,
+                Limit: getSectionLimit(collectionType),
                 Fields: 'PrimaryImageAspectRatio,BasicSyncInfo,Path',
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Thumb',
@@ -261,7 +257,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 overlayText: false,
                 centerText: !cardLayout,
                 overlayPlayButton: viewType !== 'photos',
-                allowBottomPadding: !enableScrollX() && !cardLayout,
+                allowBottomPadding: !cardLayout,
                 cardLayout: cardLayout,
                 showTitle: viewType !== 'photos',
                 showYear: viewType === 'movies' || viewType === 'tvshows' || !viewType,
@@ -289,16 +285,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
         html += '</div>';
 
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
-        } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
-        }
+        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
 
-        if (enableScrollX()) {
-            html += '</div>';
-        }
+        html += '</div>';
         html += '</div>';
 
         elem.innerHTML = html;
@@ -342,12 +332,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var html = '';
         if (userViews.length) {
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
-            if (enableScrollX()) {
-                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-                html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
-            } else {
-                html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
-            }
+
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
 
             html += cardBuilder.getCardsHtml({
                 items: userViews,
@@ -357,12 +344,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 overlayText: false,
                 lazy: true,
                 transition: false,
-                allowBottomPadding: !enableScrollX()
+                allowBottomPadding: true
             });
 
-            if (enableScrollX()) {
-                html += '</div>';
-            }
+            html += '</div>';
             html += '</div>';
         }
 
@@ -373,18 +358,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     function getContinueWatchingFetchFn(serverId) {
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
-            var screenWidth = dom.getWindowSize().innerWidth;
-
-            var limit;
-            if (enableScrollX()) {
-                limit = 12;
-            } else {
-                limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
-                limit = Math.min(limit, 5);
-            }
 
             var options = {
-                Limit: limit,
+                Limit: getSectionLimit(null, getThumbShape()),
                 Recursive: true,
                 Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 ImageTypeLimit: 1,
@@ -422,16 +398,11 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var html = '';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
-        } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
-        }
 
-        if (enableScrollX()) {
-            html += '</div>';
-        }
+        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
+
+        html += '</div>';
         html += '</div>';
 
         elem.classList.add('hide');
@@ -446,18 +417,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     function getContinueListeningFetchFn(serverId) {
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
-            var screenWidth = dom.getWindowSize().innerWidth;
-
-            var limit;
-            if (enableScrollX()) {
-                limit = 12;
-            } else {
-                limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
-                limit = Math.min(limit, 5);
-            }
 
             var options = {
-                Limit: limit,
+                Limit: getSectionLimit(null, getThumbShape()),
                 Recursive: true,
                 Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 ImageTypeLimit: 1,
@@ -495,16 +457,11 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var html = '';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="audioplayback,markplayed">';
-        } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="audioplayback,markplayed">';
-        }
 
-        if (enableScrollX()) {
-            html += '</div>';
-        }
+        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="audioplayback,markplayed">';
+
+        html += '</div>';
         html += '</div>';
 
         elem.classList.add('hide');
@@ -522,7 +479,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             return apiClient.getLiveTvRecommendedPrograms({
                 userId: apiClient.getCurrentUserId(),
                 IsAiring: true,
-                limit: 24,
+                limit: getSectionLimit(null, getThumbShape()),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Thumb,Backdrop',
                 EnableTotalRecordCount: false,
@@ -532,18 +489,17 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getOnNowItemsHtml(items) {
-        var cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
             preferThumb: 'auto',
             inheritThumb: false,
-            shape: (enableScrollX() ? 'autooverflow' : 'auto'),
+            shape: 'autooverflow',
             showParentTitleOrTitle: true,
             showTitle: true,
             centerText: true,
             coverImage: true,
             overlayText: false,
-            allowBottomPadding: !enableScrollX(),
+            allowBottomPadding: false,
             showAirTime: true,
             showChannelName: false,
             showAirDateTime: false,
@@ -559,13 +515,12 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             return Promise.resolve();
         }
 
-        var userId = user.Id;
         return apiClient.getLiveTvRecommendedPrograms({
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
-            limit: 1,
+            limit: getSectionLimit(null, getThumbShape()),
             ImageTypeLimit: 1,
-            EnableImageTypes: 'Primary,Thumb,Backdrop',
+            EnableImageTypes: 'Thumb,Backdrop,Primary',
             EnableTotalRecordCount: false,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio'
         }).then(function (result) {
@@ -581,12 +536,8 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LiveTV') + '</h2>';
                 html += '</div>';
 
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true" data-scrollbuttons="false">';
-                    html += '<div class="padded-top padded-bottom scrollSlider focuscontainer-x">';
-                } else {
-                    html += '<div class="padded-top padded-bottom focuscontainer-x">';
-                }
+                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true" data-scrollbuttons="false">';
+                html += '<div class="padded-top padded-bottom scrollSlider focuscontainer-x">';
 
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
                     serverId: apiClient.serverId(),
@@ -613,9 +564,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 }) + '" class="raised"><span>' + globalize.translate('Series') + '</span></a>';
 
                 html += '</div>';
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
+                html += '</div>';
                 html += '</div>';
                 html += '</div>';
 
@@ -638,16 +587,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 }
                 html += '</div>';
 
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-                    html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
-                } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-                }
-
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
+                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+                html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+                html += '</div>';
 
                 html += '</div>';
                 html += '</div>';
@@ -666,11 +608,11 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
-                Limit: enableScrollX() ? 24 : 15,
+                Limit: getSectionLimit(null, getThumbShape()),
                 Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo,Path',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
-                EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
+                EnableImageTypes: 'Backdrop,Banner,Thumb,Primary',
                 EnableTotalRecordCount: false
             });
         };
@@ -689,7 +631,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             overlayPlayButton: true,
             context: 'home',
             centerText: !cardLayout,
-            allowBottomPadding: !enableScrollX(),
+            allowBottomPadding: false,
             cardLayout: cardLayout
         });
     }
@@ -712,16 +654,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
         html += '</div>';
 
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
-        } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
-        }
+        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
 
-        if (enableScrollX()) {
-            html += '</div>';
-        }
+        html += '</div>';
         html += '</div>';
 
         elem.classList.add('hide');
@@ -738,7 +674,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             var apiClient = connectionManager.getApiClient(serverId);
             return apiClient.getLiveTvRecordings({
                 userId: apiClient.getCurrentUserId(),
-                Limit: enableScrollX() ? 12 : 5,
+                Limit: getSectionLimit(null, 'autooverflow'),
                 Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 EnableTotalRecordCount: false,
                 IsLibraryItem: activeRecordingsOnly ? null : false,
@@ -749,10 +685,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getLatestRecordingItemsHtml(activeRecordingsOnly) {
         return function (items) {
-            var cardLayout = false;
             return cardBuilder.getCardsHtml({
                 items: items,
-                shape: enableScrollX() ? 'autooverflow' : 'auto',
+                shape: 'autooverflow',
                 showTitle: true,
                 showParentTitle: true,
                 coverImage: true,
@@ -763,7 +698,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 showYear: true,
                 lines: 2,
                 overlayPlayButton: !activeRecordingsOnly,
-                allowBottomPadding: !enableScrollX(),
+                allowBottomPadding: false,
                 preferThumb: true,
                 cardLayout: false,
                 overlayMoreButton: activeRecordingsOnly,
@@ -784,16 +719,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + '</h2>';
         html += '</div>';
 
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
-        } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-        }
+        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
 
-        if (enableScrollX()) {
-            html += '</div>';
-        }
+        html += '</div>';
         html += '</div>';
 
         elem.classList.add('hide');

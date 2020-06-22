@@ -46,7 +46,7 @@ import 'programStyles';
          * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
          * @returns {number} Number of cards per row for an itemsContainer.
          */
-        function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
+        export function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
             switch (shape) {
                 case 'portrait':
                     if (layoutManager.tv) {
@@ -255,7 +255,7 @@ import 'programStyles';
          * @param {number} windowWidth - Width of the device's screen.
          * @returns {boolean} - Result of the check.
          */
-        function isResizable(windowWidth) {
+        export function isResizable(windowWidth) {
             const screen = window.screen;
             if (screen) {
                 const screenWidth = screen.availWidth;
@@ -1784,6 +1784,8 @@ import 'programStyles';
 /* eslint-enable indent */
 
 export default {
+    getPostersPerRow: getPostersPerRow,
+    isResizable: isResizable,
     getCardsHtml: getCardsHtml,
     getDefaultBackgroundClass: getDefaultBackgroundClass,
     getDefaultText: getDefaultText,
