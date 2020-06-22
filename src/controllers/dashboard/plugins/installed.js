@@ -37,7 +37,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
         })[0];
         var configPageUrl = configPage ? Dashboard.getConfigurationPageUrl(configPage.Name) : null;
         var html = '';
-        html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall  + "' class='card backdropCard'>";
+        html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' class='card backdropCard'>";
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
