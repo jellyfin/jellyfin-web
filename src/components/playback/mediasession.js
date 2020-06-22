@@ -241,6 +241,15 @@ import connectionManager from 'connectionManager';
         navigator.mediaSession.setActionHandler('seekforward', function () {
             execute('fastForward');
         });
+
+        /* eslint-disable-next-line compat/compat */
+        navigator.mediaSession.setActionHandler('seekto', function (object) {
+            let item = playbackManager.getPlayerState(playbackManager.getCurrentPlayer()).NowPlayingItem;
+            // Convert to ms
+            let duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
+            let wantedTime = object.seekTime*1000;
+            playbackManager.seekPercent(wantedTime/duration*100,currentPlayer);
+        });
     }
 
     events.on(playbackManager, 'playerchange', function () {
