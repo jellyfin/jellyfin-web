@@ -171,12 +171,16 @@
     z-index: 0;
 }
 
-.mobilePlayer.playlistSectionButtonTransparent {
+.layout-mobile .playlistSectionButtonTransparent {
     background: rgba(0, 0, 0, 0) !important;
 }
 
-.mobilePlayer.playlistSection .playlist,
-.mobilePlayer.playlistSection .contextMenu {
+.layout-mobile .btnShuffle {
+    display: unset !important;
+}
+
+.layout-mobile .playlistSection .playlist,
+.layout-mobile .playlistSection .contextMenu {
     position: absolute;
     top: 12.2em;
     bottom: 4.2em;
@@ -188,7 +192,7 @@
     z-index: 1000;
 }
 
-.mobilePlayer.playlistSectionButton {
+.layout-mobile .playlistSectionButton {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -198,21 +202,21 @@
     padding-right: 7.3%;
 }
 
-.playlistSectionButton:not(.mobilePlayer) {
+.playlistSectionButton:not(>.layout-mobile) {
     background: unset !important;
 }
 
-.nowPlayingPlaylist:not(.mobilePlayer) {
+.nowPlayingPlaylist:not(>.layout-mobile) {
     background: unset !important;
 }
 
-.mobilePlayer.playlistSectionButton .btnTogglePlaylist {
+.layout-mobile .playlistSectionButton .btnTogglePlaylist {
     font-size: larger;
     margin: 0;
     padding-left: 0;
 }
 
-.mobilePlayer.playlistSectionButton .btnSavePlaylist {
+.layout-mobile .playlistSectionButton .btnSavePlaylist {
     margin: 0;
     padding-right: 0;
     -webkit-box-flex: 1;
@@ -224,7 +228,7 @@
     border-radius: 0;
 }
 
-.mobilePlayer.playlistSectionButton .btnToggleContextMenu {
+.layout-mobile .playlistSectionButton .btnToggleContextMenu {
     font-size: larger;
     margin: 0;
     padding-right: 0;
