@@ -60,16 +60,22 @@ define([], function () {
 
     PlayQueueManager.prototype.shufflePlaylist = function () {
         this._sortedPlaylist = [];
+        let currentPlaylistItem = this._playlist[this.getCurrentPlaylistIndex()];
         for (let item of this._playlist) {
             this._sortedPlaylist.push(item);
         }
 
         for (let i = this._playlist.length - 1; i > 0; i--) {
+            if (this._playlist[i] === currentPlaylistItem) {
+                this._playlist.splice(i, 1);
+                continue;
+            }
             const j = Math.floor(Math.random() * i);
             const temp = this._playlist[i];
             this._playlist[i] = this._playlist[j];
             this._playlist[j] = temp;
         }
+        this._playlist.unshift(currentPlaylistItem);
         this._shuffleMode = 'Shuffle';
     };
 
