@@ -60,7 +60,7 @@
     "date-fns": "^2.14.0",
     "document-register-element": "^1.14.3",
     "epubjs": "^0.3.85",
-    "fast-text-encoding": "^1.0.1",
+    "fast-text-encoding": "^1.0.3",
     "flv.js": "^1.5.0",
     "headroom.js": "^0.11.0",
     "hls.js": "^0.13.1",
