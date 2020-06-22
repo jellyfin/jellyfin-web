@@ -19,9 +19,9 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
                     text.push('<br/>');
                     text.push(globalize.translate('LabelReasonForTranscoding'));
-                    session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
+                    for (const transcodeReason of session.TranscodingInfo.TranscodeReasons) {
                         text.push(globalize.translate(transcodeReason));
-                    });
+                    }
                 }
             }
 

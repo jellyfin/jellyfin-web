@@ -62,7 +62,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
         var mode = dlg.querySelector('#selectMetadataRefreshMode').value === 'scan' ? 'Default' : 'FullRefresh';
         var replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
 
-        options.itemIds.forEach(function (itemId) {
+        for (const itemId of options.itemIds) {
             apiClient.refreshItem(itemId, {
 
                 Recursive: true,
@@ -71,7 +71,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
                 ReplaceAllImages: replaceAllImages,
                 ReplaceAllMetadata: replaceAllMetadata
             });
-        });
+        }
 
         dialogHelper.close(dlg);
 

@@ -33,9 +33,9 @@ define(['events', 'globalize'], function (events, globalize) {
             instance.register(plugin);
 
             if (plugin.getRoutes) {
-                plugin.getRoutes().forEach(function (route) {
+                for (const route of plugin.getRoutes()) {
                     definePluginRoute(instance, route, plugin);
-                });
+                }
             }
 
             if (plugin.type === 'skin') {

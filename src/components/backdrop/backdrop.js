@@ -208,9 +208,11 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
             list.push(img);
         };
 
-        for (var i = 0, length = items.length; i < length; i++) {
-            var itemImages = getItemImageUrls(items[i], imageOptions);
-            itemImages.forEach(onImg);
+        for (const item of items) {
+            var itemImages = getItemImageUrls(item, imageOptions);
+            for (const itemImage of itemImages) {
+                onImg(itemImage);
+            }
         }
 
         return list;

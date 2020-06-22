@@ -410,11 +410,11 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
             inputManager.off(window, onInputCommand);
         });
         view.addEventListener('viewdestroy', function (e) {
-            tabControllers.forEach(function (t) {
-                if (t.destroy) {
-                    t.destroy();
+            for (const tabController of tabControllers) {
+                if (tabController.destroy) {
+                    tabController.destroy();
                 }
-            });
+            }
         });
     };
 });

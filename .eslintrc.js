@@ -4,7 +4,8 @@ module.exports = {
         'promise',
         'import',
         'eslint-comments',
-        'unicorn'
+        'unicorn',
+        'github'
     ],
     env: {
         node: true,
@@ -33,6 +34,7 @@ module.exports = {
         'comma-dangle': ['error', 'never'],
         'comma-spacing': ['error'],
         'eol-last': ['error'],
+        'github/array-foreach': ['error'],
         'indent': ['error', 4, { 'SwitchCase': 1 }],
         'keyword-spacing': ['error'],
         'max-statements-per-line': ['error'],

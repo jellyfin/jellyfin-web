@@ -54,13 +54,13 @@ define(['browser'], function (browser) {
 
         var delay = 0;
 
-        urls.forEach(function (url) {
+        for (const url of urls) {
             // the download init has to be sequential for firefox if the urls are not on the same domain
             if (browser.firefox && !sameDomain(url)) {
                 return setTimeout(download.bind(null, url), 100 * ++delay);
             }
 
             download(url);
-        });
+        }
     };
 });

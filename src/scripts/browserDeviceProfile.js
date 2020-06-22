@@ -496,16 +496,21 @@ define(['browser'], function (browser) {
         }
 
         // These are formats we can't test for but some devices will support
-        ['m2ts', 'wmv', 'ts', 'asf', 'avi', 'mpg', 'mpeg', 'flv', '3gp', 'mts', 'trp', 'vob', 'vro', 'mov'].map(function (container) {
+        const videoFormats = ['m2ts', 'wmv', 'ts', 'asf', 'avi', 'mpg', 'mpeg', 'flv', '3gp', 'mts', 'trp', 'vob', 'vro', 'mov'];
+
+        const videoFormatsProfileForVideoContainer = videoFormats.map(function (container) {
             return getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options);
         }).filter(function (i) {
             return i != null;
-        }).forEach(function (i) {
-            profile.DirectPlayProfiles.push(i);
         });
 
-        ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+        for (const videoFormat of videoFormatsProfileForVideoContainer) {
+            profile.DirectPlayProfiles.push(videoFormat);
+        }
 
+        const audioFormats = ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'];
+
+        for (const audioFormat of audioFormats.filter(canPlayAudioFormat)) {
             if (audioFormat === 'mp2') {
                 profile.DirectPlayProfiles.push({
                     Container: 'mp2,mp3',
@@ -533,7 +538,7 @@ define(['browser'], function (browser) {
                     Type: 'Audio'
                 });
             }
-        });
+        }
 
         profile.TranscodingProfiles = [];
 
@@ -556,7 +561,9 @@ define(['browser'], function (browser) {
         // For streaming, prioritize opus transcoding after mp3/aac. It is too problematic with random failures
         // But for static (offline sync), it will be just fine.
         // Prioritize aac higher because the encoder can accept more channels than mp3
-        ['aac', 'mp3', 'opus', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+        const streamingAudioFormats = ['aac', 'mp3', 'opus', 'wav'];
+
+        for (const audioFormat of streamingAudioFormats.filter(canPlayAudioFormat)) {
             profile.TranscodingProfiles.push({
                 Container: audioFormat,
                 Type: 'Audio',
@@ -565,18 +572,7 @@ define(['browser'], function (browser) {
                 Protocol: 'http',
                 MaxAudioChannels: physicalAudioChannels.toString()
             });
-        });
-
-        ['opus', 'mp3', 'aac', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
-            profile.TranscodingProfiles.push({
-                Container: audioFormat,
-                Type: 'Audio',
-                AudioCodec: audioFormat,
-                Context: 'Static',
-                Protocol: 'http',
-                MaxAudioChannels: physicalAudioChannels.toString()
-            });
-        });
+        }
 
         if (canPlayMkv && !browser.tizen && options.enableMkvProgressive !== false) {
             profile.TranscodingProfiles.push({
@@ -585,18 +581,6 @@ define(['browser'], function (browser) {
                 AudioCodec: videoAudioCodecs.join(','),
                 VideoCodec: mp4VideoCodecs.join(','),
                 Context: 'Streaming',
-                MaxAudioChannels: physicalAudioChannels.toString(),
-                CopyTimestamps: true
-            });
-        }
-
-        if (canPlayMkv) {
-            profile.TranscodingProfiles.push({
-                Container: 'mkv',
-                Type: 'Video',
-                AudioCodec: videoAudioCodecs.join(','),
-                VideoCodec: mp4VideoCodecs.join(','),
-                Context: 'Static',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 CopyTimestamps: true
             });
@@ -629,15 +613,6 @@ define(['browser'], function (browser) {
                 MaxAudioChannels: physicalAudioChannels.toString()
             });
         }
-
-        profile.TranscodingProfiles.push({
-            Container: 'mp4',
-            Type: 'Video',
-            AudioCodec: videoAudioCodecs.join(','),
-            VideoCodec: 'h264',
-            Context: 'Static',
-            Protocol: 'http'
-        });
 
         profile.ContainerProfiles = [];
 

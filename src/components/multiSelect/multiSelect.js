@@ -282,16 +282,16 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                                 combineVersions(apiClient, items);
                                 break;
                             case 'markplayed':
-                                items.forEach(function (itemId) {
-                                    apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
-                                });
+                                for (const item of items) {
+                                    apiClient.markPlayed(apiClient.getCurrentUserId(), item);
+                                }
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
                             case 'markunplayed':
-                                items.forEach(function (itemId) {
-                                    apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
-                                });
+                                for (const item of items) {
+                                    apiClient.markUnplayed(apiClient.getCurrentUserId(), item);
+                                }
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;

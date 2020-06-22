@@ -383,11 +383,11 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             inputManager.off(window, onInputCommand);
         });
         view.addEventListener('viewdestroy', function (evt) {
-            tabControllers.forEach(function (tabController) {
+            for (const tabController of tabControllers) {
                 if (tabController.destroy) {
                     tabController.destroy();
                 }
-            });
+            }
         });
     };
 });

@@ -200,9 +200,13 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
         events.on(apiClient, 'message', onMessageReceived);
     }
 
-    connectionManager.getApiClients().forEach(bindEvents);
+    for (const apiClient of connectionManager.getApiClients()) {
+        bindEvents(apiClient);
+    }
+
     events.on(connectionManager, 'apiclientcreated', function (e, newApiClient) {
         bindEvents(newApiClient);
     });
+
     return serverNotifications;
 });

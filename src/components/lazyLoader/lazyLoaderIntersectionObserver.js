@@ -9,11 +9,12 @@
 
             const observer = new IntersectionObserver(
                 (entries) => {
-                    entries.forEach(entry => {
+                    for (const entry of entries) {
                         callback(entry);
-                    },
-                    {rootMargin: '50%'});
-                });
+                    }
+                },
+                {rootMargin: '50%'}
+            );
 
             this.observer = observer;
         }
@@ -26,9 +27,9 @@
                 observer = this.observer;
             }
 
-            Array.from(elements).forEach(element => {
+            for (const element of Array.from(elements)) {
                 observer.observe(element);
-            });
+            }
         }
 
         destroyObserver() {

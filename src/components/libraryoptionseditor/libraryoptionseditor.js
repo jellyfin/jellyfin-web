@@ -106,7 +106,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         html += '<h3 class="checkboxListLabel">' + globalize.translate('LabelTypeMetadataDownloaders', globalize.translate(availableTypeOptions.Type)) + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        plugins.forEach((plugin, index) => {
+        for (const [index, plugin] of plugins) {
             html += '<div class="listItem metadataFetcherItem sortableOption" data-pluginname="' + plugin.Name + '">';
             var isChecked = libraryOptionsForType.MetadataFetchers ? -1 !== libraryOptionsForType.MetadataFetchers.indexOf(plugin.Name) : plugin.DefaultEnabled;
             var checkedHtml = isChecked ? ' checked="checked"' : '';
@@ -122,7 +122,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
                 html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonDown') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down"></span></button>';
             }
             html += '</div>';
-        });
+        }
 
         html += '</div>';
         html += '<div class="fieldDescription">' + globalize.translate('LabelMetadataDownloadersHelp') + '</div>';

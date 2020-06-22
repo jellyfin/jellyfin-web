@@ -329,11 +329,11 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             events.off(ApiClient, 'message', onWebSocketMessage);
         });
         view.addEventListener('viewdestroy', function (e) {
-            tabControllers.forEach(function (t) {
-                if (t.destroy) {
-                    t.destroy();
+            for (const tabController of tabControllers) {
+                if (tabController.destroy) {
+                    tabController.destroy();
                 }
-            });
+            }
         });
     };
 });

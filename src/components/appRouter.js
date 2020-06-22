@@ -307,8 +307,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function initApiClients() {
-
-        connectionManager.getApiClients().forEach(initApiClient);
+        for (const apiClient of connectionManager.getApiClients()) {
+            initApiClient(apiClient);
+        }
 
         events.on(connectionManager, 'apiclientcreated', onApiClientCreated);
     }

@@ -1,16 +1,15 @@
 define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (backdrop, mainTabsManager, layoutManager) {
     'use strict';
 
-    function onViewDestroy(e) {
-
+    function onViewDestroy() {
         var tabControllers = this.tabControllers;
 
         if (tabControllers) {
-            tabControllers.forEach(function (t) {
-                if (t.destroy) {
-                    t.destroy();
+            for (const tabController of tabControllers) {
+                if (tabController.destroy) {
+                    tabController.destroy();
                 }
-            });
+            }
 
             this.tabControllers = null;
         }
@@ -79,8 +78,7 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
 
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
-        view.addEventListener('viewbeforeshow', function (e) {
-
+        view.addEventListener('viewbeforeshow', function () {
             mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, onBeforeTabChange, onTabChange, false);
         });
 
@@ -92,8 +90,7 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
         view.addEventListener('viewdestroy', onViewDestroy.bind(this));
     }
 
-    TabbedView.prototype.onResume = function (options) {
-
+    TabbedView.prototype.onResume = function () {
         this.setTitle();
         backdrop.clear();
 

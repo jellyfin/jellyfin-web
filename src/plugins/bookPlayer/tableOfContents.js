@@ -41,14 +41,14 @@ export default class TableOfContents {
     replaceLinks(contents, f) {
         let links = contents.querySelectorAll('a[href]');
 
-        links.forEach((link) => {
+        for (const link of links) {
             let href = link.getAttribute('href');
 
             link.onclick = () => {
                 f(href);
                 return false;
             };
-        });
+        }
     }
 
     createMediaElement() {
@@ -66,13 +66,13 @@ export default class TableOfContents {
         tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><span class="material-icons bookplayerButtonIcon close"></span></button>';
         tocHtml += '</div>';
         tocHtml += '<ul class="toc">';
-        rendition.book.navigation.forEach((chapter) => {
+        for (const chapter of rendition.book.navigation) {
             tocHtml += '<li>';
             // Remove '../' from href
             let link = chapter.href.startsWith('../') ? chapter.href.substr(3) : chapter.href;
             tocHtml += `<a href="${rendition.book.path.directory + link}">${chapter.label}</a>`;
             tocHtml += '</li>';
-        });
+        }
 
         tocHtml += '</ul>';
         elem.innerHTML = tocHtml;

@@ -135,9 +135,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         });
 
         playPauseButtons = elem.querySelectorAll('.playPauseButton');
-        playPauseButtons.forEach((button) => {
+        for (const button of playPauseButtons) {
             button.addEventListener('click', onPlayPauseClick);
-        });
+        }
 
         elem.querySelector('.nextTrackButton').addEventListener('click', function () {
 
@@ -280,11 +280,11 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function updatePlayPauseState(isPaused) {
         if (playPauseButtons) {
-            playPauseButtons.forEach((button) => {
+            for (const button of playPauseButtons) {
                 const icon = button.querySelector('.material-icons');
                 icon.classList.remove('play_arrow', 'pause');
                 icon.classList.add(isPaused ? 'play_arrow' : 'pause');
-            });
+            }
         }
     }
 

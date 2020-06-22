@@ -638,11 +638,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if (currentTrack.cues) {
                 offsetValue = updateCurrentTrackOffset(offsetValue);
-                Array.from(currentTrack.cues)
-                    .forEach(function(cue) {
-                        cue.startTime -= offsetValue;
-                        cue.endTime -= offsetValue;
-                    });
+                for (const cue of Array.from(currentTrack.cues)) {
+                    cue.startTime -= offsetValue;
+                    cue.endTime -= offsetValue;
+                }
             }
         }
 
@@ -650,10 +649,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if (Array.isArray(trackEvents)) {
                 offsetValue = updateCurrentTrackOffset(offsetValue);
-                trackEvents.forEach(function(trackEvent) {
+                for (const trackEvent of trackEvents) {
                     trackEvent.StartPositionTicks -= offsetValue;
                     trackEvent.EndPositionTicks -= offsetValue;
-                });
+                }
             }
         }
 
@@ -1219,18 +1218,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             // download the track json
             fetchSubtitles(track, item).then(function (data) {
-
                 // show in ui
                 console.debug('downloaded ' + data.TrackEvents.length + ' track events');
                 // add some cues to show the text
                 // in safari, the cues need to be added before setting the track mode to showing
-                data.TrackEvents.forEach(function (trackEvent) {
-
+                for (const trackEvent of data.TrackEvents) {
                     var trackCueObject = window.VTTCue || window.TextTrackCue;
                     var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
                     trackElement.addCue(cue);
-                });
+                }
                 trackElement.mode = 'showing';
             });
         }

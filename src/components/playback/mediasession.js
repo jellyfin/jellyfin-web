@@ -66,12 +66,12 @@ import connectionManager from 'connectionManager';
     function getImageUrls(item, imageSizes = [96, 128, 192, 256, 384, 512]) {
         const list = [];
 
-        imageSizes.forEach((size) => {
+        for (const size of imageSizes) {
             const url = getImageUrl(item, {height: size});
             if (url !== null) {
                 list.push(url);
             }
-        });
+        }
 
         return list;
     }
