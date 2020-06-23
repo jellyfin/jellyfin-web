@@ -1367,9 +1367,6 @@ import 'programStyles';
             let cardScalableClose = '';
 
             let cardContentClass = 'cardContent';
-            if (!options.cardLayout) {
-                cardContentClass += ' cardContent-shadow';
-            }
 
             let blurhashAttrib = '';
             if (blurhash && blurhash.length > 0) {
@@ -1377,21 +1374,20 @@ import 'programStyles';
             }
 
             if (layoutManager.tv) {
-
                 // Don't use the IMG tag with safari because it puts a white border around it
                 cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
 
                 cardImageContainerClose = '</div>';
             } else {
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
+                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
                 cardImageContainerClose = '</button>';
             }
 
             let cardScalableClass = 'cardScalable';
 
-            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
+            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 
