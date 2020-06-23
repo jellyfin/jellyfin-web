@@ -465,11 +465,21 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function loadPlaylist(context, player) {
             getPlaylistItems(player).then(function (items) {
                 var html = '';
+                let favoritesEnabled = true;
+                if (layoutManager.mobile) {
+                    if (items.length > 0) {
+                        context.querySelector('.btnTogglePlaylist').classList.remove('hide');
+                    } else {
+                        context.querySelector('.btnTogglePlaylist').classList.add('hide');
+                    }
+                    favoritesEnabled = false;
+                }
+
                 html += listView.getListViewHtml({
                     items: items,
                     smallIcon: true,
                     action: 'setplaylistindex',
-                    enableUserDataButtons: false,
+                    enableUserDataButtons: favoritesEnabled,
                     rightButtons: [{
                         icon: 'remove_circle_outline',
                         title: globalize.translate('ButtonRemove'),
@@ -477,13 +487,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     }],
                     dragHandle: true
                 });
-                if (layoutManager.mobile) {
-                    if (items.length > 0) {
-                        context.querySelector('.btnTogglePlaylist').classList.remove('hide');
-                    } else {
-                        context.querySelector('.btnTogglePlaylist').classList.add('hide');
-                    }
-                }
 
                 var itemsContainer = context.querySelector('.playlist');
                 itemsContainer.innerHTML = html;
