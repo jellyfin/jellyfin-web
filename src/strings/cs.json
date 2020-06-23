@@ -1639,7 +1639,7 @@
     "MessageNoGenresAvailable": "Povolit některým poskytovatelům metadat stahovat informace o žánrech z Internetu.",
     "EnableFasterAnimationsHelp": "Použít rychlejší animace a přechody",
     "EnableFasterAnimations": "Rychlejší animace",
-    "EnableDecodingColorDepth10Vp9": "Povolit 10bitové hardwarové dekódování formátu VP9",
+    "EnableDecodingColorDepth10Vp9": "Povolit 10-bitové hardwarové dekódování formátu VP9",
     "EnableDecodingColorDepth10Hevc": "Povolit 10bitové hardwarové dekódování formátu HEVC",
     "TabRepositories": "Repozitáře",
     "MessageAddRepository": "Pokud chcete přidat repozitář, klikněte na tlačítko vedle záhlaví a vyplňte požadované informace.",
