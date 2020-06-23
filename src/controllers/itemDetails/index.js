@@ -174,7 +174,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             return m.Id === mediaSourceId;
         })[0];
         var tracks = mediaSource.MediaStreams.filter(function (m) {
-            return 'Video' === m.Type;
+            return m.Type === 'Video';
         });
         var select = page.querySelector('.selectVideo');
         select.setLabel(globalize.translate('LabelVideo'));
@@ -360,7 +360,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     /**
-     * Rneders the item's name block
+     * Renders the item's name block
      * @param {Object} item - Item used to render the name.
      * @param {HTMLDivElement} container - Container to render the information into.
      * @param {Object} context - Application context.
@@ -498,7 +498,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var hasbackdrop = false;
         var itemBackdropElement = page.querySelector('#itemBackdrop');
 
-        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
+        if (!layoutManager.mobile && ((!userSettings.enableBackdrops() && !userSettings.detailsBanner()) || (userSettings.enableBackdrops() && !userSettings.detailsBanner()))) {
             return false;
         }
 
