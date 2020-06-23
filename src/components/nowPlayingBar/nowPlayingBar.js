@@ -182,26 +182,22 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         elem.querySelector('.btnShuffleQueue').addEventListener('click', function () {
             if (currentPlayer) {
-                playbackManager.toggleQueueShuffleMode(currentPlayer);
+                playbackManager.toggleQueueShuffleMode();
             }
         });
 
         toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
         toggleRepeatButton.addEventListener('click', function () {
-
-            if (currentPlayer) {
-
-                switch (playbackManager.getRepeatMode(currentPlayer)) {
-                    case 'RepeatAll':
-                        playbackManager.setRepeatMode('RepeatOne', currentPlayer);
-                        break;
-                    case 'RepeatOne':
-                        playbackManager.setRepeatMode('RepeatNone', currentPlayer);
-                        break;
-                    default:
-                        playbackManager.setRepeatMode('RepeatAll', currentPlayer);
-                        break;
-                }
+            switch (playbackManager.getRepeatMode()) {
+                case 'RepeatAll':
+                    playbackManager.setRepeatMode('RepeatOne');
+                    break;
+                case 'RepeatOne':
+                    playbackManager.setRepeatMode('RepeatNone');
+                    break;
+                default:
+                    playbackManager.setRepeatMode('RepeatAll');
+                    break;
             }
         });
 
@@ -343,7 +339,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             toggleRepeatButton.classList.remove('hide');
         }
 
-        updateRepeatModeDisplay(playState.RepeatMode);
+        updateRepeatModeDisplay(playbackManager.getRepeatMode());
         onQueueShuffleModeChange();
 
         updatePlayerVolumeState(playState.IsMuted, playState.VolumeLevel);
@@ -378,8 +374,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             case 'RepeatNone':
                 toggleRepeatButtonIcon.classList.add('repeat');
                 toggleRepeatButton.classList.remove(cssClass);
-                break;
-            case undefined:
                 break;
             default:
                 throw new TypeError('invalid value for repeatMode');
@@ -627,19 +621,17 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         onStateChanged.call(player, e, state);
     }
 
-    function onRepeatModeChange(e) {
+    function onRepeatModeChange() {
 
         if (!isEnabled) {
             return;
         }
 
-        var player = this;
-
-        updateRepeatModeDisplay(playbackManager.getRepeatMode(player));
+        updateRepeatModeDisplay(playbackManager.getRepeatMode());
     }
 
     function onQueueShuffleModeChange() {
-        let shuffleMode = playbackManager.getQueueShuffleMode(this);
+        let shuffleMode = playbackManager.getQueueShuffleMode();
         let context = nowPlayingBarElement;
         let toggleShuffleButton = context.querySelector('.btnShuffleQueue');
 
@@ -649,8 +641,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 break;
             case 'Shuffle':
                 toggleShuffleButton.classList.add('shuffleQueue-active');
-                break;
-            case undefined:
                 break;
             default:
                 throw new TypeError('invalid value for shuffleMode');

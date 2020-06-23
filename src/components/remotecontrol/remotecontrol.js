@@ -250,20 +250,16 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
     var currentImgUrl;
     return function () {
-        function toggleRepeat(player) {
-            if (player) {
-                switch (playbackManager.getRepeatMode(player)) {
-                    case 'RepeatNone':
-                        playbackManager.setRepeatMode('RepeatAll', player);
-                        break;
-
-                    case 'RepeatAll':
-                        playbackManager.setRepeatMode('RepeatOne', player);
-                        break;
-
-                    case 'RepeatOne':
-                        playbackManager.setRepeatMode('RepeatNone', player);
-                }
+        function toggleRepeat() {
+            switch (playbackManager.getRepeatMode()) {
+                case 'RepeatNone':
+                    playbackManager.setRepeatMode('RepeatAll');
+                    break;
+                case 'RepeatAll':
+                    playbackManager.setRepeatMode('RepeatOne');
+                    break;
+                case 'RepeatOne':
+                    playbackManager.setRepeatMode('RepeatNone');
             }
         }
 
@@ -336,7 +332,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 context.classList.add('hideVideoButtons');
             }
 
-            updateRepeatModeDisplay(playState.RepeatMode);
+            updateRepeatModeDisplay(playbackManager.getRepeatMode());
             onShuffleQueueModeChange();
             updateNowPlayingInfo(context, state);
         }
@@ -367,18 +363,12 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 case 'RepeatNone':
                     repeatOn = false;
                     break;
-                case undefined:
-                    break;
                 default:
                     throw new TypeError('invalid value for repeatMode');
             }
 
             for (const toggleRepeatButton of toggleRepeatButtons) {
-                if (!repeatOn) {
-                    toggleRepeatButton.classList.remove(cssClass);
-                } else {
-                    toggleRepeatButton.classList.add(cssClass);
-                }
+                toggleRepeatButton.classList.toggle(cssClass, repeatOn);
                 toggleRepeatButton.innerHTML = innHtml;
             }
         }
@@ -518,25 +508,23 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             onStateChanged.call(player, e, state);
         }
 
-        function onRepeatModeChange(e) {
-            var player = this;
-            updateRepeatModeDisplay(playbackManager.getRepeatMode(player));
+        function onRepeatModeChange() {
+            updateRepeatModeDisplay(playbackManager.getRepeatMode());
         }
 
         function onShuffleQueueModeChange() {
             let shuffleMode = playbackManager.getQueueShuffleMode(this);
             let context = dlg;
+            const cssClass = 'shuffleQueue-active';
             let shuffleButtons = context.querySelectorAll('.btnShuffleQueue');
 
             for (let shuffleButton of shuffleButtons) {
                 switch (shuffleMode) {
                     case 'Sorted':
-                        shuffleButton.classList.remove('shuffleQueue-active');
+                        shuffleButton.classList.toggle(cssClass, false);
                         break;
                     case 'Shuffle':
-                        shuffleButton.classList.add('shuffleQueue-active');
-                        break;
-                    case undefined:
+                        shuffleButton.classList.toggle(cssClass, true);
                         break;
                     default:
                         throw new TypeError('invalid shuffle mode');
@@ -645,7 +633,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function onBtnCommandClick() {
             if (currentPlayer) {
                 if (this.classList.contains('repeatToggleButton')) {
-                    toggleRepeat(currentPlayer);
+                    toggleRepeat();
                 } else {
                     playbackManager.sendCommand({
                         Name: this.getAttribute('data-command')

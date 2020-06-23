@@ -3920,9 +3920,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         return info ? info.supportedCommands : [];
     };
 
-    PlaybackManager.prototype.setRepeatMode = function (value, player) {
-
-        player = player || this._currentPlayer;
+    PlaybackManager.prototype.setRepeatMode = function (value, player = this._currentPlayer) {
         if (player && !enableLocalPlaylistManagement(player)) {
             return player.setRepeatMode(value);
         }
@@ -3931,9 +3929,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         events.trigger(player, 'repeatmodechange');
     };
 
-    PlaybackManager.prototype.getRepeatMode = function (player) {
-
-        player = player || this._currentPlayer;
+    PlaybackManager.prototype.getRepeatMode = function (player = this._currentPlayer) {
         if (player && !enableLocalPlaylistManagement(player)) {
             return player.getRepeatMode();
         }

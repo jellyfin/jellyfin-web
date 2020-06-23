@@ -144,9 +144,7 @@ define([], function () {
 
     PlayQueueManager.prototype.removeFromPlaylist = function (playlistItemIds) {
 
-        var playlist = this.getPlaylist();
-
-        if (playlist.length <= playlistItemIds.length) {
+        if (this._playlist.length <= playlistItemIds.length) {
             return {
                 result: 'empty'
             };
@@ -155,14 +153,12 @@ define([], function () {
         var currentPlaylistItemId = this.getCurrentPlaylistItemId();
         var isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
 
-        if (this._sortedPlaylist.length <= playlistItemIds.length) {
-            this._sortedPlaylist = this._sortedPlaylist.splice(0).filter(function (item) {
-                return playlistItemIds.indexOf(item.PlaylistItemId) === -1;
-            });
-        }
+        this._sortedPlaylist = this._sortedPlaylist.filter(function (item) {
+            return !playlistItemIds.includes(item.PlaylistItemId);
+        });
 
-        this._playlist = playlist.filter(function (item) {
-            return playlistItemIds.indexOf(item.PlaylistItemId) === -1;
+        this._playlist = this._playlist.filter(function (item) {
+            return !playlistItemIds.includes(item.PlaylistItemId);
         });
 
         return {
