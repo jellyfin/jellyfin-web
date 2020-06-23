@@ -1573,7 +1573,7 @@
     "EnableBlurhashHelp": "Bilder, die noch nicht fertig geladen wurden, werden mit einem verschwommenen Platzhalter dargestellt",
     "EnableBlurhash": "Verschwommene Platzhalter für Bilder erlauben",
     "EnableFasterAnimations": "Schnellere Animationen",
-    "EnableDecodingColorDepth10Vp9": "Aktiviere 10-Bit-Hardware-Dekodierung für Vp9",
+    "EnableDecodingColorDepth10Vp9": "Aktiviere 10-Bit-Hardware-Dekodierung für VP9",
     "EnableDecodingColorDepth10Hevc": "Aktiviere 10-Bit-Hardware-Dekodierung für HEVC",
     "MessageNoGenresAvailable": "Aktiviere einige Metadaten-Anbieter um Genres aus dem Internet zu holen.",
     "EnableFasterAnimationsHelp": "Benutze schnellere Animationen und Übergänge",
