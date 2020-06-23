@@ -931,8 +931,8 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         var writersLabel = page.querySelector('.writersLabel');
         writersLabel.innerHTML = globalize.translate(writers.length > 1 ? 'Writers' : 'Writer');
-        var directorsValue = page.querySelector('.writers');
-        directorsValue.innerHTML = html;
+        var writersValue = page.querySelector('.writers');
+        writersValue.innerHTML = html;
 
         var writersGroup = page.querySelector('.writersGroup');
         if (writers.length) {
