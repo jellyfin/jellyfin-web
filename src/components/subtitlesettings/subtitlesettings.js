@@ -5,8 +5,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
         var html = '';
 
         html += "<option value=''>" + globalize.translate('AnyLanguage') + '</option>';
-        for (var i = 0, length = languages.length; i < length; i++) {
-            var culture = languages[i];
+        for (const culture of languages) {
             html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
         }
 
@@ -120,8 +119,8 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
         var view = dom.parentWithClass(e.target, 'subtitlesettings');
 
         var subtitlesHelp = view.querySelectorAll('.subtitlesHelp');
-        for (var i = 0, length = subtitlesHelp.length; i < length; i++) {
-            subtitlesHelp[i].classList.add('hide');
+        for (const element of subtitlesHelp) {
+            element.classList.add('hide');
         }
         view.querySelector('.subtitles' + this.value + 'Help').classList.remove('hide');
     }

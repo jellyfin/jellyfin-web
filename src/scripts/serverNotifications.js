@@ -183,7 +183,7 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
             processGeneralCommand(cmd, apiClient);
         } else if (msg.MessageType === 'UserDataChanged') {
             if (msg.Data.UserId === apiClient.getCurrentUserId()) {
-                for (var i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
+                for (var i = 0; i < msg.Data.UserDataList.length; i++) {
                     events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
                 }
             }

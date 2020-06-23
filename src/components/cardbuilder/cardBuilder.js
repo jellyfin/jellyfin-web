@@ -1719,8 +1719,8 @@ import 'programStyles';
         export function onUserDataChanged(userData, scope) {
             const cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
 
-            for (let i = 0, length = cards.length; i < length; i++) {
-                updateUserData(cards[i], userData);
+            for (const card of cards) {
+                updateUserData(card, userData);
             }
         }
 
@@ -1733,8 +1733,7 @@ import 'programStyles';
         export function onTimerCreated(programId, newTimerId, itemsContainer) {
             const cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
 
-            for (let i = 0, length = cells.length; i < length; i++) {
-                let cell = cells[i];
+            for (const cell of cells) {
                 const icon = cell.querySelector('.timerIndicator');
                 if (!icon) {
                     const indicatorsElem = ensureIndicators(cell);

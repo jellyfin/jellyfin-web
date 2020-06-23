@@ -13,9 +13,9 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
 
         var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
 
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (const elem of elems) {
 
-            elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
+            elem.querySelector('input').checked = settings[elem.getAttribute('data-settingname')] || false;
         }
 
         context.querySelector('.selectImageType').value = settings.imageType || 'primary';
@@ -24,8 +24,8 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
     function saveValues(context, settings, settingsKey) {
 
         var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
-        for (var i = 0, length = elems.length; i < length; i++) {
-            userSettings.set(settingsKey + '-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input').checked);
+        for (const elem of elems) {
+            userSettings.set(settingsKey + '-' + elem.getAttribute('data-settingname'), elem.querySelector('input').checked);
         }
 
         userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
@@ -87,13 +87,13 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
                 dlg.innerHTML = globalize.translateDocument(html, 'core');
 
                 var settingElements = dlg.querySelectorAll('.viewSetting');
-                for (var i = 0, length = settingElements.length; i < length; i++) {
-                    if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
-                        settingElements[i].classList.add('hide');
-                        settingElements[i].classList.add('hiddenFromViewSettings');
+                for (const settingElement of settingElements) {
+                    if (options.visibleSettings.indexOf(settingElement.getAttribute('data-settingname')) === -1) {
+                        settingElement.classList.add('hide');
+                        settingElement.classList.add('hiddenFromViewSettings');
                     } else {
-                        settingElements[i].classList.remove('hide');
-                        settingElements[i].classList.remove('hiddenFromViewSettings');
+                        settingElement.classList.remove('hide');
+                        settingElement.classList.remove('hiddenFromViewSettings');
                     }
                 }
 

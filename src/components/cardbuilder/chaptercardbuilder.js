@@ -52,13 +52,10 @@ import browser from 'browser';
 
         const apiClient = connectionManager.getApiClient(item.ServerId);
 
-        for (let i = 0, length = chapters.length; i < length; i++) {
-
+        for (const [i, chapter] of chapters.entries()) {
             if (options.rows && itemsInRow === 0) {
                 html += '<div class="cardColumn">';
             }
-
-            const chapter = chapters[i];
 
             html += buildChapterCard(item, apiClient, chapter, i, options, className, shape);
             itemsInRow++;

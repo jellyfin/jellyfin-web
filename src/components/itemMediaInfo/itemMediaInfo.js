@@ -30,8 +30,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             var size = (version.Size / (1024 * 1024)).toFixed(0) + ' MB';
             html += createAttribute(globalize.translate('MediaInfoSize'), size) + '<br/>';
         }
-        for (var i = 0, length = version.MediaStreams.length; i < length; i++) {
-            var stream = version.MediaStreams[i];
+        for (const stream of version.MediaStreams) {
             if (stream.Type === 'Data') {
                 continue;
             }

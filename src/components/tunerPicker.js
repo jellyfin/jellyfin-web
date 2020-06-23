@@ -75,12 +75,10 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
     }
 
     function renderDevices(view, devices) {
-        var i;
-        var length;
         var html = '';
 
-        for (i = 0, length = devices.length; i < length; i++) {
-            html += getDeviceHtml(devices[i]);
+        for (const device of devices) {
+            html += getDeviceHtml(device);
         }
 
         if (devices.length) {

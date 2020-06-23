@@ -83,9 +83,7 @@ define(['globalize'], function (globalize) {
 
         if (maxStreamingBitrate) {
             var selectedIndex = -1;
-            for (var i = 0, length = qualityOptions.length; i < length; i++) {
-
-                var option = qualityOptions[i];
+            for (const [i, option] of qualityOptions.entries()) {
 
                 if (selectedIndex === -1 && option.bitrate <= maxStreamingBitrate) {
                     selectedIndex = i;
@@ -137,9 +135,7 @@ define(['globalize'], function (globalize) {
 
         if (maxStreamingBitrate) {
             var selectedIndex = -1;
-            for (var i = 0, length = qualityOptions.length; i < length; i++) {
-
-                var option = qualityOptions[i];
+            for (const [i, option] of qualityOptions.entries()) {
 
                 if (selectedIndex === -1 && option.bitrate <= maxStreamingBitrate) {
                     selectedIndex = i;

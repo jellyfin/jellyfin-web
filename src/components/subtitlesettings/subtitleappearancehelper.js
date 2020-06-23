@@ -131,10 +131,7 @@ define([], function () {
     }
 
     function applyStyleList(styles, elem) {
-
-        for (var i = 0, length = styles.length; i < length; i++) {
-
-            var style = styles[i];
+        for (const style of styles) {
 
             elem.style[style.name] = style.value;
         }

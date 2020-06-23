@@ -12,13 +12,13 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         var foundCard = false;
         var startIndex;
 
-        for (var i = 0, length = cards.length; i < length; i++) {
-            if (cards[i] === card) {
+        for (const [i, card_] of cards.entries()) {
+            if (card_ === card) {
                 foundCard = true;
                 startIndex = i;
             }
             if (foundCard || !queue) {
-                ids.push(cards[i].getAttribute('data-id'));
+                ids.push(card_.getAttribute('data-id'));
             }
         }
 

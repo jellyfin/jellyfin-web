@@ -28,15 +28,13 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function hideAll(page, className, show) {
-        var i;
-        var length;
         var elems = page.querySelectorAll('.' + className);
 
-        for (i = 0, length = elems.length; i < length; i++) {
+        for (const elem of elems) {
             if (show) {
-                elems[i].classList.remove('hide');
+                elem.classList.remove('hide');
             } else {
-                elems[i].classList.add('hide');
+                elem.classList.add('hide');
             }
         }
     }
@@ -290,13 +288,9 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function reloadUserDataButtons(page, item) {
-        var i;
-        var length;
         var btnPlaystates = page.querySelectorAll('.btnPlaystate');
 
-        for (i = 0, length = btnPlaystates.length; i < length; i++) {
-            var btnPlaystate = btnPlaystates[i];
-
+        for (const btnPlaystate of btnPlaystates) {
             if (itemHelper.canMarkPlayed(item)) {
                 btnPlaystate.classList.remove('hide');
                 btnPlaystate.setItem(item);
@@ -308,9 +302,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         var btnUserRatings = page.querySelectorAll('.btnUserRating');
 
-        for (i = 0, length = btnUserRatings.length; i < length; i++) {
-            var btnUserRating = btnUserRatings[i];
-
+        for (const btnUserRating of btnUserRatings) {
             if (itemHelper.canRate(item)) {
                 btnUserRating.classList.remove('hide');
                 btnUserRating.setItem(item);
@@ -324,8 +316,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     function getArtistLinksHtml(artists, serverId, context) {
         var html = [];
 
-        for (var i = 0, length = artists.length; i < length; i++) {
-            var artist = artists[i];
+        for (const artist of artists) {
             var href = appRouter.getRouteUrl(artist, {
                 context: context,
                 itemType: 'MusicArtist',
@@ -713,7 +704,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             links.push('<a style="color:inherit;" is="emby-linkbutton" class="button-link" href="' + item.HomePageUrl + '" target="_blank">' + globalize.translate('ButtonWebsite') + '</a>');
         }
         if (item.ExternalUrls) {
-            for (var i = 0, length = item.ExternalUrls.length; i < length; i++) {
+            for (var i = 0; i < item.ExternalUrls.length; i++) {
                 var url = item.ExternalUrls[i];
                 links.push('<a style="color:inherit;" is="emby-linkbutton" class="button-link" href="' + url.Url + '" target="_blank">' + url.Name + '</a>');
             }
@@ -986,8 +977,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function renderOverview(elems, item) {
-        for (var i = 0, length = elems.length; i < length; i++) {
-            var elem = elems[i];
+        for (const elem of elems) {
             var overview = item.Overview || '';
 
             if (overview) {
@@ -1106,35 +1096,33 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var externalLinksElem = page.querySelector('.itemExternalLinks');
 
         renderOverview([overview], item);
-        var i;
-        var itemMiscInfo;
-        itemMiscInfo = page.querySelectorAll('.itemMiscInfo-primary');
+        var primaryItemMiscInfos = page.querySelectorAll('.itemMiscInfo-primary');
 
-        for (i = 0; i < itemMiscInfo.length; i++) {
-            mediaInfo.fillPrimaryMediaInfo(itemMiscInfo[i], item, {
+        for (const itemMiscInfo of primaryItemMiscInfos) {
+            mediaInfo.fillPrimaryMediaInfo(itemMiscInfo, item, {
                 interactive: true,
                 episodeTitle: false,
                 subtitles: false
             });
 
-            if (itemMiscInfo[i].innerHTML && 'SeriesTimer' !== item.Type) {
-                itemMiscInfo[i].classList.remove('hide');
+            if (itemMiscInfo.innerHTML && 'SeriesTimer' !== item.Type) {
+                itemMiscInfo.classList.remove('hide');
             } else {
-                itemMiscInfo[i].classList.add('hide');
+                itemMiscInfo.classList.add('hide');
             }
         }
 
-        itemMiscInfo = page.querySelectorAll('.itemMiscInfo-secondary');
+        var secondaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-secondary');
 
-        for (i = 0; i < itemMiscInfo.length; i++) {
-            mediaInfo.fillSecondaryMediaInfo(itemMiscInfo[i], item, {
+        for (const itemMiscInfo of secondaryItemMiscInfo) {
+            mediaInfo.fillSecondaryMediaInfo(itemMiscInfo, item, {
                 interactive: true
             });
 
-            if (itemMiscInfo[i].innerHTML && 'SeriesTimer' !== item.Type) {
-                itemMiscInfo[i].classList.remove('hide');
+            if (itemMiscInfo.innerHTML && 'SeriesTimer' !== item.Type) {
+                itemMiscInfo.classList.remove('hide');
             } else {
-                itemMiscInfo[i].classList.add('hide');
+                itemMiscInfo.classList.add('hide');
             }
         }
 
@@ -1365,8 +1353,8 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             tags = [];
         }
 
-        for (var i = 0, length = tags.length; i < length; i++) {
-            tagElements.push(tags[i]);
+        for (const tag of tags) {
+            tagElements.push(tag);
         }
 
         if (tagElements.length) {
@@ -1556,7 +1544,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var currentItems = [];
         var currentStartDate = null;
 
-        for (var i = 0, length = result.Items.length; i < length; i++) {
+        for (var i = 0; i < result.Items.length; i++) {
             var item = result.Items[i];
             var itemStartDate = datetime.parseISO8601Date(item.StartDate);
 
@@ -1703,11 +1691,8 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
     function renderCollectionItems(page, parentItem, types, items) {
         page.querySelector('.collectionItems').innerHTML = '';
-        var i;
-        var length;
 
-        for (i = 0, length = types.length; i < length; i++) {
-            var type = types[i];
+        for (const type of types) {
             var typeItems = filterItemsByCollectionItemType(items, type);
 
             if (typeItems.length) {
@@ -1740,8 +1725,8 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             renderChildren(page, parentItem);
         };
 
-        for (i = 0, length = containers.length; i < length; i++) {
-            containers[i].notifyRefreshNeeded = notifyRefreshNeeded;
+        for (const container of containers) {
+            container.notifyRefreshNeeded = notifyRefreshNeeded;
         }
 
         // if nothing in the collection can be played hide play and shuffle buttons
@@ -1906,12 +1891,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function bindAll(view, selector, eventName, fn) {
-        var i;
-        var length;
         var elems = view.querySelectorAll(selector);
 
-        for (i = 0, length = elems.length; i < length; i++) {
-            elems[i].addEventListener(eventName, fn);
+        for (const elem of elems) {
+            elem.addEventListener(eventName, fn);
         }
     }
 

@@ -40,8 +40,8 @@ define([], function () {
 
         var lower = userAgent.toLowerCase();
 
-        for (var i = 0, length = terms.length; i < length; i++) {
-            if (lower.indexOf(terms[i]) !== -1) {
+        for (const term of terms) {
+            if (lower.indexOf(term) !== -1) {
                 return true;
             }
         }
@@ -114,9 +114,8 @@ define([], function () {
         if (animation === false && allowPrefix) {
             for (const domPrefix of domPrefixes) {
                 if (elm.style[domPrefix + 'AnimationName'] !== undefined) {
-                    pfx = domPrefix;
-                    animationstring = pfx + 'Animation';
-                    keyframeprefix = '-' + pfx.toLowerCase() + '-';
+                    animationstring = domPrefix + 'Animation';
+                    keyframeprefix = '-' + domPrefix.toLowerCase() + '-';
                     animation = true;
                     break;
                 }

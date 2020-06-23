@@ -225,13 +225,10 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
     }
 
     function createSections(instance, elem, apiClient) {
-        var i;
-        var length;
         var sections = getSections();
         var html = '';
 
-        for (i = 0, length = sections.length; i < length; i++) {
-            var section = sections[i];
+        for (const section of sections) {
             var sectionClass = 'verticalSection';
 
             if (!section.showTitle) {
@@ -260,10 +257,10 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
         elem.innerHTML = html;
         var elems = elem.querySelectorAll('.itemsContainer');
 
-        for (i = 0, length = elems.length; i < length; i++) {
-            var itemsContainer = elems[i];
-            itemsContainer.fetchData = getFetchDataFn(sections[i]).bind(instance);
-            itemsContainer.getItemsHtml = getItemsHtmlFn(sections[i]).bind(instance);
+        for (const [index, elem] of elems.entries()) {
+            var itemsContainer = elem;
+            itemsContainer.fetchData = getFetchDataFn(sections[index]).bind(instance);
+            itemsContainer.getItemsHtml = getItemsHtmlFn(sections[index]).bind(instance);
             itemsContainer.parentContainer = dom.parentWithClass(itemsContainer, 'verticalSection');
         }
     }
@@ -273,8 +270,8 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
         var view = this.view;
         var elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-            promises.push(elems[i].resume(options));
+        for (const elem of elems) {
+            promises.push(elem.resume(options));
         }
 
         Promise.all(promises).then(function () {
@@ -287,8 +284,8 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
     FavoritesTab.prototype.onPause = function () {
         var elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-            elems[i].pause();
+        for (const elem of elems) {
+            elem.pause();
         }
     };
 
@@ -298,10 +295,10 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
         this.apiClient = null;
         var elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-            elems[i].fetchData = null;
-            elems[i].getItemsHtml = null;
-            elems[i].parentContainer = null;
+        for (const elem of elems) {
+            elem.fetchData = null;
+            elem.getItemsHtml = null;
+            elem.parentContainer = null;
         }
 
         this.sectionsContainer = null;

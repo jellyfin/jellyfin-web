@@ -31,7 +31,7 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
 
         var plugins = pluginManager.ofType("screensaver");
 
-        for (var i = 0, length = plugins.length; i < length; i++) {
+        for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
 
             if (plugin.id === option) {

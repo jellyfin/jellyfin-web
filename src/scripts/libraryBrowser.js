@@ -156,12 +156,10 @@ define(['userSettings', 'globalize'], function (userSettings, globalize) {
                 html += '<h2 style="margin:0 0 .5em;">';
                 html += globalize.translate('HeaderSortBy');
                 html += '</h2>';
-                var i;
-                var length;
                 var isChecked;
                 html += '<div>';
-                for (i = 0, length = options.items.length; i < length; i++) {
-                    var option = options.items[i];
+
+                for (const option of options.items) {
                     var radioValue = option.id.replace(',', '_');
                     isChecked = (options.query.SortBy || '').replace(',', '_') == radioValue ? ' checked' : '';
                     html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortBy" data-id="' + option.id + '" value="' + radioValue + '" class="menuSortBy" ' + isChecked + ' /><span>' + option.name + '</span></label>';
@@ -182,14 +180,14 @@ define(['userSettings', 'globalize'], function (userSettings, globalize) {
                 dialogHelper.open(dlg);
                 var sortBys = dlg.querySelectorAll('.menuSortBy');
 
-                for (i = 0, length = sortBys.length; i < length; i++) {
-                    sortBys[i].addEventListener('change', onSortByChange);
+                for (const sortBy of sortBys) {
+                    sortBy.addEventListener('change', onSortByChange);
                 }
 
                 var sortOrders = dlg.querySelectorAll('.menuSortOrder');
 
-                for (i = 0, length = sortOrders.length; i < length; i++) {
-                    sortOrders[i].addEventListener('change', onSortOrderChange);
+                for (const sortOrder of sortOrders) {
+                    sortOrder.addEventListener('change', onSortOrderChange);
                 }
             });
         }

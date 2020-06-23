@@ -39,14 +39,11 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
     }
 
     function renderUpcoming(elem, items) {
-        var i;
-        var length;
         var groups = [];
         var currentGroupName = '';
         var currentGroup = [];
 
-        for (i = 0, length = items.length; i < length; i++) {
-            var item = items[i];
+        for (const item of items) {
             var dateText = '';
 
             if (item.PremiereDate) {
@@ -79,8 +76,7 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
 
         var html = '';
 
-        for (i = 0, length = groups.length; i < length; i++) {
-            var group = groups[i];
+        for (const group of groups) {
             html += '<div class="verticalSection">';
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + '</h2>';
             var allowBottomPadding = true;

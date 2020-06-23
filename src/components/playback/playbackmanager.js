@@ -411,9 +411,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         var streamUrls = [];
 
-        for (var i = 0, length = items.length; i < length; i++) {
+        for (const [i, item] of items.entries()) {
 
-            var item = items[i];
             var streamUrl;
 
             if (item.MediaType === 'Audio' && !itemHelper.isLocalItem(item)) {
@@ -434,9 +433,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         return getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(function (streamUrls) {
 
-            for (var i = 0, length = items.length; i < length; i++) {
+            for (const [i, item] of items.entries()) {
 
-                var item = items[i];
                 var streamUrl = streamUrls[i];
 
                 if (streamUrl) {
@@ -559,8 +557,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         return Promise.all(promises).then(function (results) {
 
-            for (var i = 0, length = versions.length; i < length; i++) {
-                versions[i].enableDirectPlay = results[i] || false;
+            for (const [i, version] of versions.entries()) {
+                version.enableDirectPlay = results[i] || false;
             }
             var optimalVersion = versions.filter(function (v) {
 
@@ -1163,8 +1161,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 var supported = self.getSupportedAspectRatios(player);
 
                 var index = -1;
-                for (var i = 0, length = supported.length; i < length; i++) {
-                    if (supported[i].id === current) {
+                for (const [i, element] of supported.entries()) {
+                    if (element.id === current) {
                         index = i;
                         break;
                     }
@@ -1283,9 +1281,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var currentMediaSource = self.currentMediaSource(player);
             var mediaStreams = [];
-            var i;
-            var length;
-            for (i = 0, length = currentMediaSource.MediaStreams.length; i < length; i++) {
+            for (var i = 0; i < currentMediaSource.MediaStreams.length; i++) {
                 if (currentMediaSource.MediaStreams[i].Type === 'Audio') {
                     mediaStreams.push(currentMediaSource.MediaStreams[i]);
                 }
@@ -1298,8 +1294,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var currentStreamIndex = self.getAudioStreamIndex(player);
             var indexInList = -1;
-            for (i = 0, length = mediaStreams.length; i < length; i++) {
-                if (mediaStreams[i].Index === currentStreamIndex) {
+            for (const mediaStream of mediaStreams) {
+                if (mediaStream.Index === currentStreamIndex) {
                     indexInList = i;
                     break;
                 }
@@ -1328,9 +1324,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var currentMediaSource = self.currentMediaSource(player);
             var mediaStreams = [];
-            var i;
-            var length;
-            for (i = 0, length = currentMediaSource.MediaStreams.length; i < length; i++) {
+            for (var i = 0; i < currentMediaSource.MediaStreams.length; i++) {
                 if (currentMediaSource.MediaStreams[i].Type === 'Subtitle') {
                     mediaStreams.push(currentMediaSource.MediaStreams[i]);
                 }
@@ -1343,8 +1337,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var currentStreamIndex = self.getSubtitleStreamIndex(player);
             var indexInList = -1;
-            for (i = 0, length = mediaStreams.length; i < length; i++) {
-                if (mediaStreams[i].Index === currentStreamIndex) {
+            for (const mediaStream of mediaStreams) {
+                if (mediaStream.Index === currentStreamIndex) {
                     indexInList = i;
                     break;
                 }
@@ -1373,13 +1367,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         function isAudioStreamSupported(mediaSource, index, deviceProfile) {
 
             var mediaStream;
-            var i;
-            var length;
             var mediaStreams = mediaSource.MediaStreams;
 
-            for (i = 0, length = mediaStreams.length; i < length; i++) {
-                if (mediaStreams[i].Type === 'Audio' && mediaStreams[i].Index === index) {
-                    mediaStream = mediaStreams[i];
+            for (const mediaStream_ of mediaStreams) {
+                if (mediaStream_.Type === 'Audio' && mediaStream_.Index === index) {
+                    mediaStream = mediaStream_;
                     break;
                 }
             }
@@ -2636,9 +2628,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var tracks = [];
 
-            for (var i = 0, length = textStreams.length; i < length; i++) {
+            for (const textStream of textStreams) {
 
-                var textStream = textStreams[i];
                 var textStreamUrl;
 
                 if (itemHelper.isLocalItem(item)) {
@@ -2727,9 +2718,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             var newItemIndex;
             var playlist = self._playQueueManager.getPlaylist();
 
-            for (var i = 0, length = playlist.length; i < length; i++) {
-                if (playlist[i].PlaylistItemId === playlistItemId) {
-                    newItem = playlist[i];
+            for (const [i, element] of playlist.entries()) {
+                if (element.PlaylistItemId === playlistItemId) {
+                    newItem = element;
                     newItemIndex = i;
                     break;
                 }

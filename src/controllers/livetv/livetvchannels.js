@@ -72,16 +72,15 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'us
             var elem = context.querySelector('#items');
             elem.innerHTML = html;
             imageLoader.lazyChildren(elem);
-            var i;
-            var length;
-            var elems;
 
-            for (elems = context.querySelectorAll('.btnNextPage'), i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener('click', onNextPageClick);
+            var elems = context.querySelectorAll('.btnNextPage');
+            for (const elem of elems) {
+                elem.addEventListener('click', onNextPageClick);
             }
 
-            for (elems = context.querySelectorAll('.btnPreviousPage'), i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener('click', onPreviousPageClick);
+            var elems = context.querySelectorAll('.btnPreviousPage');
+            for (const elem of elems) {
+                elem.addEventListener('click', onPreviousPageClick);
             }
         }
 

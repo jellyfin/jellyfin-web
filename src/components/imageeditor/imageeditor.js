@@ -50,12 +50,11 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
 
             var btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
-            for (var i = 0, length = btnBrowseAllImages.length; i < length; i++) {
-
+            for (const btnBrowseAllImage of btnBrowseAllImages) {
                 if (providers.length) {
-                    btnBrowseAllImages[i].classList.remove('hide');
+                    btnBrowseAllImage.classList.remove('hide');
                 } else {
-                    btnBrowseAllImages[i].classList.add('hide');
+                    btnBrowseAllImage.classList.add('hide');
                 }
             }
 
@@ -237,9 +236,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         var tagName = layoutManager.tv ? 'button' : 'div';
         var enableFooterButtons = !layoutManager.tv;
 
-        for (var i = 0, length = images.length; i < length; i++) {
-
-            var image = images[i];
+        for (const [i, image] of images.entries()) {
 
             html += getCardHtml(image, i, length, apiClient, imageProviders, imageSize, tagName, enableFooterButtons);
         }
@@ -380,11 +377,11 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
         var uploadButtons = context.querySelectorAll('.btnOpenUploadMenu');
         var isFileInputSupported = appHost.supports('fileinput');
-        for (var i = 0, length = uploadButtons.length; i < length; i++) {
+        for (const uploadButton of uploadButtons) {
             if (isFileInputSupported) {
-                uploadButtons[i].classList.remove('hide');
+                uploadButton.classList.remove('hide');
             } else {
-                uploadButtons[i].classList.add('hide');
+                uploadButton.classList.add('hide');
             }
         }
 

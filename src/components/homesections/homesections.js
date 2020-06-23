@@ -24,7 +24,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getAllSectionsToShow(userSettings, sectionCount) {
         var sections = [];
-        for (var i = 0, length = sectionCount; i < length; i++) {
+        for (var i = 0; i < sectionCount.length; i++) {
             var section = userSettings.get('homesection' + i) || getDefaultSection(i);
             if (section === 'folders') {
                 section = getDefaultSection(0);
@@ -87,10 +87,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function destroySections(elem) {
         var elems = elem.querySelectorAll('.itemsContainer');
-        for (const elem_ of elems) {
-            elem_.fetchData = null;
-            elem_.parentContainer = null;
-            elem_.getItemsHtml = null;
+        for (const elem of elems) {
+            elem.fetchData = null;
+            elem.parentContainer = null;
+            elem.getItemsHtml = null;
         }
 
         elem.innerHTML = '';
@@ -98,19 +98,17 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function pause(elem) {
         var elems = elem.querySelectorAll('.itemsContainer');
-        for (const elem_ of elems) {
-            elem_.pause();
+        for (const elem of elems) {
+            elem.pause();
         }
     }
 
     function resume(elem, options) {
         var elems = elem.querySelectorAll('.itemsContainer');
-        var i;
-        var length;
         var promises = [];
 
-        for (i = 0, length = elems.length; i < length; i++) {
-            promises.push(elems[i].resume(options));
+        for (const elem_ of elems) {
+            promises.push(elem_.resume(options));
         }
 
         var promise = Promise.all(promises);
@@ -180,8 +178,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-multiselect="false">';
 
         // library card background images
-        for (var i = 0, length = items.length; i < length; i++) {
-            var item = items[i];
+        for (const item of items) {
             var icon = imageHelper.getLibraryIcon(item.CollectionType);
             html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '"></span><span class="homeLibraryText">' + item.Name + '</span></a>';
         }
@@ -313,8 +310,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         elem.classList.remove('verticalSection');
         var excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
 
-        for (var i = 0, length = userViews.length; i < length; i++) {
-            var item = userViews[i];
+        for (const item of userViews) {
             if (user.Configuration.LatestItemsExcludes.indexOf(item.Id) !== -1) {
                 continue;
             }

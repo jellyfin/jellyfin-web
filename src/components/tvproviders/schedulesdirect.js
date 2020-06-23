@@ -35,18 +35,16 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
 
         function setCountry(info) {
             ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/SchedulesDirect/Countries')).then(function (result) {
-                var i;
-                var length;
                 var countryList = [];
 
                 for (var region in result) {
                     var countries = result[region];
 
                     if (countries.length && 'ZZZ' !== region) {
-                        for (i = 0, length = countries.length; i < length; i++) {
+                        for (const country of countries) {
                             countryList.push({
-                                name: countries[i].fullName,
-                                value: countries[i].shortName
+                                name: country.fullName,
+                                value: country.shortName
                             });
                         }
                     }
@@ -233,8 +231,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
         function refreshTunerDevices(page, providerInfo, devices) {
             var html = '';
 
-            for (var i = 0, length = devices.length; i < length; i++) {
-                var device = devices[i];
+            for (const device of devices) {
                 html += '<div class="listItem">';
                 var enabledTuners = providerInfo.EnabledTuners || [];
                 var isChecked = providerInfo.EnableAllTuners || -1 !== enabledTuners.indexOf(device.Id);

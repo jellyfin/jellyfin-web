@@ -54,8 +54,8 @@
      * @returns {boolean} _true_ if class list contains one of specified names.
      */
     function containsAnyClass(classList, classNames) {
-        for (let i = 0, length = classNames.length; i < length; i++) {
-            if (classList.contains(classNames[i])) {
+        for (const className of classNames) {
+            if (classList.contains(className)) {
                 return true;
             }
         }

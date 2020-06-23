@@ -62,11 +62,9 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
                 categoryHtml += '</div>';
             }
 
-            for (var i = 0, length = stats.length; i < length; i++) {
+            for (const stat of stats) {
 
                 categoryHtml += '<div class="playerStats-stat">';
-
-                var stat = stats[i];
 
                 categoryHtml += '<div class="playerStats-stat-label">';
                 categoryHtml += stat.label;
@@ -381,9 +379,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
 
             categories.push(baseCategory);
 
-            for (var i = 0, length = playerStats.length; i < length; i++) {
-
-                var category = playerStats[i];
+            for (const category of playerStats) {
                 if (category.type === 'audio') {
                     category.name = 'Audio Info';
                 } else if (category.type === 'video') {

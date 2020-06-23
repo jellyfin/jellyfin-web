@@ -21,9 +21,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         html += "<option value=''>" + globalize.translate('AnyLanguage') + '</option>';
 
-        for (var i = 0, length = languages.length; i < length; i++) {
-
-            var culture = languages[i];
+        for (const culture of languages) {
 
             html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
         }

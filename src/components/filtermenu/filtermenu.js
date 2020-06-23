@@ -94,32 +94,27 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         context.querySelector('form').addEventListener('submit', onSubmit);
 
         var elems = context.querySelectorAll('.simpleFilter');
-        var i;
-        var length;
 
-        for (i = 0, length = elems.length; i < length; i++) {
-
-            if (elems[i].tagName === 'INPUT') {
-                elems[i].checked = settings[elems[i].getAttribute('data-settingname')] || false;
+        for (const elem of elems) {
+            if (elem.tagName === 'INPUT') {
+                elem.checked = settings[elem.getAttribute('data-settingname')] || false;
             } else {
-                elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
+                elem.querySelector('input').checked = settings[elem.getAttribute('data-settingname')] || false;
             }
         }
 
         var videoTypes = settings.VideoTypes ? settings.VideoTypes.split(',') : [];
         elems = context.querySelectorAll('.chkVideoTypeFilter');
 
-        for (i = 0, length = elems.length; i < length; i++) {
-
-            elems[i].checked = videoTypes.indexOf(elems[i].getAttribute('data-filter')) !== -1;
+        for (const elem of elems) {
+            elem.checked = videoTypes.indexOf(elem.getAttribute('data-filter')) !== -1;
         }
 
         var seriesStatuses = settings.SeriesStatus ? settings.SeriesStatus.split(',') : [];
         elems = context.querySelectorAll('.chkSeriesStatus');
 
-        for (i = 0, length = elems.length; i < length; i++) {
-
-            elems[i].checked = seriesStatuses.indexOf(elems[i].getAttribute('data-filter')) !== -1;
+        for (const elem of elems) {
+            elem.checked = seriesStatuses.indexOf(elem.getAttribute('data-filter')) !== -1;
         }
 
         if (context.querySelector('.basicFilterSection .viewSetting:not(.hide)')) {
@@ -138,14 +133,13 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
     function saveValues(context, settings, settingsKey) {
 
         var elems = context.querySelectorAll('.simpleFilter');
-        var i;
-        var length;
-        for (i = 0, length = elems.length; i < length; i++) {
 
-            if (elems[i].tagName === 'INPUT') {
-                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
+        for (const elem of elems) {
+
+            if (elem.tagName === 'INPUT') {
+                setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
             } else {
-                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
+                setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem.querySelector('input'));
             }
         }
 
@@ -153,10 +147,9 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         var videoTypes = [];
         elems = context.querySelectorAll('.chkVideoTypeFilter');
 
-        for (i = 0, length = elems.length; i < length; i++) {
-
-            if (elems[i].checked) {
-                videoTypes.push(elems[i].getAttribute('data-filter'));
+        for (const elem of elems) {
+            if (elem.checked) {
+                videoTypes.push(elem.getAttribute('data-filter'));
             }
         }
         userSettings.setFilter(settingsKey + '-filter-VideoTypes', videoTypes.join(','));
@@ -165,10 +158,9 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         var seriesStatuses = [];
         elems = context.querySelectorAll('.chkSeriesStatus');
 
-        for (i = 0, length = elems.length; i < length; i++) {
-
-            if (elems[i].checked) {
-                seriesStatuses.push(elems[i].getAttribute('data-filter'));
+        for (const elem of elems) {
+            if (elem.checked) {
+                seriesStatuses.push(elem.getAttribute('data-filter'));
             }
         }
 
@@ -176,10 +168,10 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         var genres = [];
         elems = context.querySelectorAll('.chkGenreFilter');
 
-        for (i = 0, length = elems.length; i < length; i++) {
+        for (const elem of elems) {
 
-            if (elems[i].checked) {
-                genres.push(elems[i].getAttribute('data-filter'));
+            if (elem.checked) {
+                genres.push(elem.getAttribute('data-filter'));
             }
         }
         userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
@@ -205,8 +197,8 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         var elems = focusManager.getFocusableElements(parent);
 
         var index = -1;
-        for (var i = 0, length = elems.length; i < length; i++) {
-            if (elems[i] === elem) {
+        for (const [i, elem_] of elems.entries()) {
+            if (elem_ === elem) {
                 index = i;
                 break;
             }
@@ -246,11 +238,11 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
     function bindCheckboxInput(context, on) {
 
         var elems = context.querySelectorAll('.checkboxList-verticalwrap');
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (const elem of elems) {
             if (on) {
-                inputManager.on(elems[i], onInputCommand);
+                inputManager.on(elem, onInputCommand);
             } else {
-                inputManager.off(elems[i], onInputCommand);
+                inputManager.off(elem, onInputCommand);
             }
         }
     }
@@ -289,11 +281,11 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
                 dlg.innerHTML = globalize.translateDocument(html, 'core');
 
                 var settingElements = dlg.querySelectorAll('.viewSetting');
-                for (var i = 0, length = settingElements.length; i < length; i++) {
-                    if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
-                        settingElements[i].classList.add('hide');
+                for (const settingElement of settingElements) {
+                    if (options.visibleSettings.indexOf(settingElement.getAttribute('data-settingname')) === -1) {
+                        settingElement.classList.add('hide');
                     } else {
-                        settingElements[i].classList.remove('hide');
+                        settingElement.classList.remove('hide');
                     }
                 }
 

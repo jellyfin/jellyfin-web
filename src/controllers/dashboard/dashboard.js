@@ -116,8 +116,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         var list = [];
         var minActiveDate = new Date().getTime() - 9e5;
 
-        for (var i = 0, length = sessions.length; i < length; i++) {
-            var session = sessions[i];
+        for (const session of sessions) {
 
             if (!session.NowPlayingItem && !session.UserId) {
                 continue;
@@ -214,8 +213,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             cardElem.classList.add('deadSession');
         }
 
-        for (var i = 0, length = sessions.length; i < length; i++) {
-            var session = sessions[i];
+        for (const session of sessions) {
             var rowId = 'session' + session.Id;
             var elem = view.querySelector('#' + rowId);
 
@@ -345,8 +343,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             view.querySelector('.runningTasksContainer').classList.add('hide');
         }
 
-        for (var i = 0, length = tasks.length; i < length; i++) {
-            var task = tasks[i];
+        for (const task of tasks) {
             html += '<p>';
             html += task.Name + '<br/>';
 
@@ -511,7 +508,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html.push(session.UserName);
             }
 
-            for (var i = 0, length = session.AdditionalUsers.length; i < length; i++) {
+            for (var i = 0; i < session.AdditionalUsers.length; i++) {
                 html.push(session.AdditionalUsers[i].UserName);
             }
 

@@ -134,8 +134,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
                 var html = '';
                 var items = result.Items;
 
-                for (var i = 0, length = items.length; i < length; i++) {
-                    var item = items[i];
+                for (const item of items) {
                     html += '<div class="verticalSection">';
                     html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
                     html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item, {

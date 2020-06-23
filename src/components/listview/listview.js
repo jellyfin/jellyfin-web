@@ -125,9 +125,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
         var largeTitleTagName = layoutManager.tv ? 'h2' : 'div';
 
-        for (var i = 0, length = textlines.length; i < length; i++) {
-
-            var text = textlines[i];
+        for (const [i, text] of textlines.entries()) {
 
             if (!text) {
                 continue;
@@ -142,7 +140,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             } else {
                 html += '<div class="secondary listItemBodyText">';
             }
-            html += (textlines[i] || '&nbsp;');
+            html += (text || '&nbsp;');
             if (i === 0 && isLargeStyle) {
                 html += '</' + largeTitleTagName + '>';
             } else {
@@ -154,11 +152,9 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
     }
 
     function getRightButtonsHtml(options) {
-
         var html = '';
 
-        for (var i = 0, length = options.rightButtons.length; i < length; i++) {
-
+        for (var i = 0; i < options.rightButtons.length; i++) {
             var button = options.rightButtons[i];
 
             html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="custom" data-customaction="' + button.id + '" title="' + button.title + '"><span class="material-icons ' + button.icon + '"></span></button>';
@@ -190,9 +186,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var enableContentWrapper = options.enableOverview && !layoutManager.tv;
         var containerAlbumArtistIds = (options.containerAlbumArtists || []).map(getId);
 
-        for (var i = 0, length = items.length; i < length; i++) {
-
-            var item = items[i];
+        for (const [i, item] of items.entries()) {
 
             var html = '';
 

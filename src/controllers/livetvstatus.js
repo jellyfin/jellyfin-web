@@ -98,8 +98,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
         if (providers.length) {
             html += '<div class="paperList">';
 
-            for (var i = 0, length = providers.length; i < length; i++) {
-                var provider = providers[i];
+            for (const provider of providers) {
                 html += '<div class="listItem">';
                 html += '<span class="listItemIcon material-icons dvr"></span>';
                 html += '<div class="listItemBody two-line">';

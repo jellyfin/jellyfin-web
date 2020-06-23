@@ -129,22 +129,21 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                         overlayPlayButton: true
                     });
                 }
-                var i;
-                var length;
+
                 var elems = tabContent.querySelectorAll('.paging');
 
-                for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].innerHTML = pagingHtml;
+                for (const elem of elems) {
+                    elem.innerHTML = pagingHtml;
                 }
 
                 elems = tabContent.querySelectorAll('.btnNextPage');
-                for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onNextPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll('.btnPreviousPage');
-                for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onPreviousPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onPreviousPageClick);
                 }
 
                 var itemsContainer = tabContent.querySelector('.itemsContainer');

@@ -248,8 +248,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         var currentType;
 
-        for (var i = 0, length = profiles.length; i < length; i++) {
-            var profile = profiles[i];
+        for (const [i, profile] of profiles.entries()) {
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + '</li>';
@@ -308,8 +307,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         var currentType;
 
-        for (var i = 0, length = profiles.length; i < length; i++) {
-            var profile = profiles[i];
+        for (const [i, profile] of profiles.entries()) {
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + '</li>';
@@ -394,8 +392,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         var currentType;
 
-        for (var i = 0, length = profiles.length; i < length; i++) {
-            var profile = profiles[i];
+        for (const [i, profile] of profiles.entries()) {
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + '</li>';
@@ -465,8 +462,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         var currentType;
 
-        for (var i = 0, length = profiles.length; i < length; i++) {
-            var profile = profiles[i];
+        for (const [i, profile] of profiles.entries()) {
             var type = profile.Type.replace('VideoAudio', 'Video Audio');
 
             if (type !== currentType) {
@@ -537,8 +533,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         var currentType;
 
-        for (var i = 0, length = profiles.length; i < length; i++) {
-            var profile = profiles[i];
+        for (const [i, profile] of profiles.entries()) {
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + '</li>';

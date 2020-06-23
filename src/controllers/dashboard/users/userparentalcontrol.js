@@ -2,15 +2,12 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     'use strict';
 
     function populateRatings(allParentalRatings, page) {
-        var html = '';
-        html += "<option value=''></option>";
-        var i;
-        var length;
+        var html = '<option value=""></option>';
         var rating;
         var ratings = [];
 
-        for (i = 0, length = allParentalRatings.length; i < length; i++) {
-            if (rating = allParentalRatings[i], ratings.length) {
+        for (const parentalRating of allParentalRatings) {
+            if (rating = parentalRating, ratings.length) {
                 var lastRating = ratings[ratings.length - 1];
 
                 if (lastRating.Value === rating.Value) {
@@ -25,8 +22,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
             });
         }
 
-        for (i = 0, length = ratings.length; i < length; i++) {
-            rating = ratings[i];
+        for (const rating of ratings) {
             html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
         }
 
@@ -60,8 +56,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderBlockItemsWithNoRating') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        for (var i = 0, length = items.length; i < length; i++) {
-            var item = items[i];
+        for (const item of items) {
             var checkedAttribute = -1 != user.Policy.BlockUnratedItems.indexOf(item.value) ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkUnratedItem" data-itemtype="' + item.value + '" type="checkbox"' + checkedAttribute + '><span>' + item.name + '</span></label>';
         }
@@ -79,8 +74,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
         var ratingValue = '';
 
         if (user.Policy.MaxParentalRating) {
-            for (var i = 0, length = allParentalRatings.length; i < length; i++) {
-                var rating = allParentalRatings[i];
+            for (const rating of allParentalRatings) {
 
                 if (user.Policy.MaxParentalRating >= rating.Value) {
                     ratingValue = rating.Value;

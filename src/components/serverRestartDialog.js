@@ -88,18 +88,15 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
 
         dlg.querySelector('.text').innerHTML = globalize.translate('RestartPleaseWaitMessage');
 
-        var i;
-        var length;
         var html = '';
-        for (i = 0, length = configuredButtons.length; i < length; i++) {
-            var item = configuredButtons[i];
-            var autoFocus = i === 0 ? ' autofocus' : '';
+        for (const [index, configuredButton] of configuredButtons.entries()) {
+            var autoFocus = index === 0 ? ' autofocus' : '';
             var buttonClass = 'btnOption raised formDialogFooterItem formDialogFooterItem-autosize';
 
-            if (item.type) {
-                buttonClass += ' button-' + item.type;
+            if (configuredButton.type) {
+                buttonClass += ' button-' + configuredButton.type;
             }
-            html += '<button is="emby-button" type="button" class="' + buttonClass + '" data-id="' + item.id + '"' + autoFocus + '>' + item.name + '</button>';
+            html += '<button is="emby-button" type="button" class="' + buttonClass + '" data-id="' + configuredButton.id + '"' + autoFocus + '>' + configuredButton.name + '</button>';
         }
 
         dlg.querySelector('.formDialogFooter').innerHTML = html;
@@ -109,8 +106,8 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
         }
 
         var buttons = dlg.querySelectorAll('.btnOption');
-        for (i = 0, length = buttons.length; i < length; i++) {
-            buttons[i].addEventListener('click', onButtonClick);
+        for (const button of buttons) {
+            button.addEventListener('click', onButtonClick);
         }
 
         var dlgPromise = dialogHelper.open(dlg);

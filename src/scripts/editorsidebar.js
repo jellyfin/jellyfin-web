@@ -122,9 +122,9 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
                 return getNode(n, state, false);
             });
             callback.call(scope, nodes);
-            for (var i = 0, length = nodes.length; i < length; i++) {
-                if (nodes[i].state.opened) {
-                    nodesToLoad.push(nodes[i].id);
+            for (const node of nodes) {
+                if (node.state.opened) {
+                    nodesToLoad.push(node.id);
                 }
             }
         });
@@ -163,9 +163,9 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
                 return getNode(n, state, n.Id == selectedId);
             });
             callback.call(scope, nodes);
-            for (var i = 0, length = nodes.length; i < length; i++) {
-                if (nodes[i].state.opened) {
-                    nodesToLoad.push(nodes[i].id);
+            for (const node_ of nodes) {
+                if (node_.state.opened) {
+                    nodesToLoad.push(node_.id);
                 }
             }
         });
@@ -250,8 +250,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
 
     function loadNodesToLoad(page, node) {
         var children = node.children;
-        for (var i = 0, length = children.length; i < length; i++) {
-            var child = children[i];
+        for (const child of children) {
             if (nodesToLoad.indexOf(child) != -1) {
                 nodesToLoad = nodesToLoad.filter(function (n) {
                     return n != child;

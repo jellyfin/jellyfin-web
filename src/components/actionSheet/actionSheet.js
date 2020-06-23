@@ -192,12 +192,8 @@ export function show(options) {
         menuItemClass += ' actionsheet-xlargeFont';
     }
 
-    // 'options.items' is HTMLOptionsCollection, so no fancy loops
-    for (let i = 0; i < options.items.length; i++) {
-        const item = options.items[i];
-
+    for (const [index, item] of options.items.entries()) {
         if (item.divider) {
-
             html += '<div class="actionsheetDivider"></div>';
             continue;
         }
@@ -208,7 +204,7 @@ export function show(options) {
         const optionId = item.id == null || item.id === '' ? item.value : item.id;
         html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
 
-        itemIcon = icons[i];
+        itemIcon = icons[index];
 
         if (itemIcon) {
             html += `<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ${itemIcon}"></span>`;

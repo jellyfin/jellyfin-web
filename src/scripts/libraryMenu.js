@@ -316,8 +316,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         var links = navDrawerScrollContainer.querySelectorAll('.navMenuOption');
         var currentViewId = viewManager.currentView().id;
 
-        for (var i = 0, length = links.length; i < length; i++) {
-            var link = links[i];
+        for (let link of links) {
             var selected = false;
             var pageIds = link.getAttribute('data-pageids');
 
@@ -458,8 +457,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function addPluginPagesToMainMenu(links, pluginItems, section) {
-        for (var i = 0, length = pluginItems.length; i < length; i++) {
-            var pluginItem = pluginItems[i];
+        for (const pluginItem of pluginItems) {
 
             if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
                 links.push({
@@ -498,12 +496,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
     function getToolsMenuHtml(apiClient) {
         return getToolsMenuLinks(apiClient).then(function (items) {
-            var item;
             var menuHtml = '';
             menuHtml += '<div class="drawerContent">';
 
-            for (const item_ of items) {
-                item = item_;
+            for (const item of items) {
 
                 if (item.href) {
                     menuHtml += getToolsLinkHtml(item);
@@ -541,8 +537,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             var items = result.Items;
             var list = [];
 
-            for (var i = 0, length = items.length; i < length; i++) {
-                var view = items[i];
+            for (const view of items) {
                 list.push(view);
 
                 if ('livetv' == view.CollectionType) {
@@ -663,8 +658,6 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function updateLibraryNavLinks(page) {
-        var i;
-        var length;
         var isLiveTvPage = page.classList.contains('liveTvPage');
         var isChannelsPage = page.classList.contains('channelsPage');
         var isEditorPage = page.classList.contains('metadataEditorPage');
@@ -672,8 +665,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         var id = isLiveTvPage || isChannelsPage || isEditorPage || isMySyncPage || page.classList.contains('allLibraryPage') ? '' : getTopParentId() || '';
         var elems = document.getElementsByClassName('lnkMediaFolder');
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-            var lnkMediaFolder = elems[i];
+        for (const lnkMediaFolder of elems) {
             var itemId = lnkMediaFolder.getAttribute('data-itemid');
 
             if (isChannelsPage && 'channels' === itemId) {

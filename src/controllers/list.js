@@ -171,9 +171,9 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             var values = instance.getSortValues();
             var sortBy = values.sortBy;
 
-            for (var i = 0, length = options.length; i < length; i++) {
-                if (sortBy === options[i].value) {
-                    btnSortText.innerHTML = globalize.translate('SortByValue', options[i].name);
+            for (const option of options) {
+                if (sortBy === option.value) {
+                    btnSortText.innerHTML = globalize.translate('SortByValue', option.name);
                     break;
                 }
             }
@@ -394,18 +394,18 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
     }
 
     function hideOrShowAll(elems, hide) {
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (const elem of elems) {
             if (hide) {
-                elems[i].classList.add('hide');
+                elem.classList.add('hide');
             } else {
-                elems[i].classList.remove('hide');
+                elem.classList.remove('hide');
             }
         }
     }
 
     function bindAll(elems, eventName, fn) {
-        for (var i = 0, length = elems.length; i < length; i++) {
-            elems[i].addEventListener(eventName, fn);
+        for (const elem of elems) {
+            elem.addEventListener(eventName, fn);
         }
     }
 
@@ -708,20 +708,17 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             this.itemsContainer.setAttribute('data-refreshinterval', '300000');
         }
 
-        var i;
-        var length;
         var btnViewSettings = view.querySelectorAll('.btnViewSettings');
 
-        for (i = 0, length = btnViewSettings.length; i < length; i++) {
-            btnViewSettings[i].addEventListener('click', showViewSettingsMenu.bind(this));
+        for (const btnViewSetting of btnViewSettings) {
+            btnViewSetting.addEventListener('click', showViewSettingsMenu.bind(this));
         }
 
         var filterButtons = view.querySelectorAll('.btnFilter');
         this.filterButtons = filterButtons;
         var hasVisibleFilters = this.getVisibleFilters().length;
 
-        for (i = 0, length = filterButtons.length; i < length; i++) {
-            var btnFilter = filterButtons[i];
+        for (const btnFilter of filterButtons) {
             btnFilter.addEventListener('click', showFilterMenu.bind(this));
 
             if (hasVisibleFilters) {
@@ -732,9 +729,9 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         }
 
         var sortButtons = view.querySelectorAll('.btnSort');
+        this.sortButtons = sortButtons;
 
-        for (this.sortButtons = sortButtons, i = 0, length = sortButtons.length; i < length; i++) {
-            var sortButton = sortButtons[i];
+        for (const sortButton of sortButtons) {
             sortButton.addEventListener('click', showSortMenu.bind(this));
 
             if ('nextup' !== params.type) {
@@ -1041,8 +1038,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         var filterButtons = this.filterButtons;
 
         if (filterButtons.length) {
-            for (var i = 0, length = filterButtons.length; i < length; i++) {
-                var btnFilter = filterButtons[i];
+            for (const btnFilter of filterButtons) {
                 var bubble = btnFilter.querySelector('.filterButtonBubble');
 
                 if (!bubble) {

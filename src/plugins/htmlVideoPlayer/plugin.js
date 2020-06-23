@@ -709,13 +709,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             var audioIndex = -1;
-            var i;
-            var length;
-            var stream;
-
-            for (i = 0, length = streams.length; i < length; i++) {
-                stream = streams[i];
-
+            for (const stream of streams) {
                 audioIndex++;
 
                 if (stream.Index === index) {
@@ -737,14 +731,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var elemAudioTracks = elem.audioTracks || [];
             console.debug('found ' + elemAudioTracks.length + ' audio tracks');
 
-            for (i = 0, length = elemAudioTracks.length; i < length; i++) {
-
-                if (audioIndex === i) {
-                    console.debug('setting audio track ' + i + ' to enabled');
-                    elemAudioTracks[i].enabled = true;
+            for (const [index, elemAudioTrack] of elemAudioTracks.entries()) {
+                if (audioIndex === index) {
+                    console.debug('setting audio track ' + index + ' to enabled');
+                    elemAudioTracks[index].enabled = true;
                 } else {
-                    console.debug('setting audio track ' + i + ' to disabled');
-                    elemAudioTracks[i].enabled = false;
+                    console.debug('setting audio track ' + index + ' to disabled');
+                    elemAudioTracks[index].enabled = false;
                 }
             }
         };

@@ -109,8 +109,8 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
             var eventNames = getChangedEvents(instance.lastPlayerData, session);
             instance.lastPlayerData = session;
 
-            for (var i = 0, length = eventNames.length; i < length; i++) {
-                events.trigger(instance, eventNames[i], [session]);
+            for (const eventName of eventNames) {
+                events.trigger(instance, eventName, [session]);
             }
 
         } else {

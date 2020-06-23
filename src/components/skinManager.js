@@ -56,8 +56,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'backdrop', 'globalize',
         var defaultTheme;
         var selectedTheme;
 
-        for (var i = 0, length = themes.length; i < length; i++) {
-            var theme = themes[i];
+        for (const theme of themes) {
             if (theme[isDefaultProperty]) {
                 defaultTheme = theme;
             }

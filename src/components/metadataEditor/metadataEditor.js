@@ -264,8 +264,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function bindAll(elems, eventName, fn) {
-        for (var i = 0, length = elems.length; i < length; i++) {
-            elems[i].addEventListener(eventName, fn);
+        for (const elem of elems) {
+            elem.addEventListener(eventName, fn);
         }
     }
 
@@ -366,9 +366,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         html += "<option value=''></option>";
 
-        for (var i = 0, length = allCountries.length; i < length; i++) {
-
-            var culture = allCountries[i];
+        for (const culture of allCountries) {
 
             html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
         }
@@ -382,9 +380,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         html += "<option value=''></option>";
 
-        for (var i = 0, length = languages.length; i < length; i++) {
-
-            var culture = languages[i];
+        for (const culture of languages) {
 
             html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
         }
@@ -417,9 +413,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         var providerIds = item.ProviderIds || {};
 
-        for (var i = 0, length = externalIds.length; i < length; i++) {
-
-            var idInfo = externalIds[i];
+        for (const idInfo of externalIds) {
 
             var id = 'txt1' + idInfo.Key;
             var formatString = idInfo.UrlFormatString || '';
@@ -823,16 +817,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         html += "<option value=''></option>";
 
         var ratings = [];
-        var i;
-        var length;
         var rating;
 
         var currentValueFound = false;
 
-        for (i = 0, length = allParentalRatings.length; i < length; i++) {
-
-            rating = allParentalRatings[i];
-
+        for (const rating of allParentalRatings) {
             ratings.push({ Name: rating.Name, Value: rating.Name });
 
             if (rating.Name === currentValue) {
@@ -844,10 +833,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             ratings.push({ Name: currentValue, Value: currentValue });
         }
 
-        for (i = 0, length = ratings.length; i < length; i++) {
-
-            rating = ratings[i];
-
+        for (const rating of ratings) {
             html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
         }
 
@@ -902,9 +888,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         var elem = context.querySelector('#peopleList');
 
-        for (var i = 0, length = people.length; i < length; i++) {
-
-            var person = people[i];
+        for (const [i, person] of people.entries()) {
 
             html += '<div class="listItem">';
 

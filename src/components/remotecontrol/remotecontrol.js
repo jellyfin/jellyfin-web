@@ -211,9 +211,9 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
     function updateSupportedCommands(context, commands) {
         var all = context.querySelectorAll('.btnCommand');
 
-        for (var i = 0, length = all.length; i < length; i++) {
-            var enableButton = -1 !== commands.indexOf(all[i].getAttribute('data-command'));
-            all[i].disabled = !enableButton;
+        for (const element of all) {
+            var enableButton = -1 !== commands.indexOf(element.getAttribute('data-command'));
+            element.disabled = !enableButton;
         }
     }
 
@@ -478,8 +478,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             var context = dlg;
             var playlistItemIds = info.playlistItemIds;
 
-            for (var i = 0, length = playlistItemIds.length; i < length; i++) {
-                var listItem = context.querySelector('.listItem[data-playlistItemId="' + playlistItemIds[i] + '"]');
+            for (const playlistItemId of playlistItemIds) {
+                var listItem = context.querySelector('.listItem[data-playlistItemId="' + playlistItemId + '"]');
 
                 if (listItem) {
                     listItem.parentNode.removeChild(listItem);
@@ -604,8 +604,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function bindEvents(context) {
             var btnCommand = context.querySelectorAll('.btnCommand');
 
-            for (var i = 0, length = btnCommand.length; i < length; i++) {
-                btnCommand[i].addEventListener('click', onBtnCommandClick);
+            for (const element of btnCommand) {
+                element.addEventListener('click', onBtnCommandClick);
             }
 
             context.querySelector('.btnToggleFullscreen').addEventListener('click', function (e) {

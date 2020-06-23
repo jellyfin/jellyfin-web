@@ -22,8 +22,7 @@ define(['loading', 'emby-checkbox', 'emby-button', 'emby-select'], function (loa
         var html = '';
         html += "<option value=''></option>";
 
-        for (var i = 0, length = languages.length; i < length; i++) {
-            var culture = languages[i];
+        for (const culture of languages) {
             html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
         }
 
@@ -34,8 +33,7 @@ define(['loading', 'emby-checkbox', 'emby-button', 'emby-select'], function (loa
         var html = '';
         html += "<option value=''></option>";
 
-        for (var i = 0, length = allCountries.length; i < length; i++) {
-            var culture = allCountries[i];
+        for (const culture of allCountries) {
             html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
         }
 

@@ -257,9 +257,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         var elem = context.querySelector('.perLibrarySettings');
         var html = '';
 
-        for (var i = 0, length = userViews.length; i < length; i++) {
-
-            html += getPerLibrarySettingsHtml(userViews[i], user, userSettings, apiClient);
+        for (const userView of userViews) {
+            html += getPerLibrarySettingsHtml(userView, user, userSettings, apiClient);
         }
 
         elem.innerHTML = html;
@@ -344,10 +343,9 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         var inputs = context.querySelectorAll(selector);
         var list = [];
 
-        for (var i = 0, length = inputs.length; i < length; i++) {
-
-            if (inputs[i].checked === isChecked) {
-                list.push(inputs[i]);
+        for (const input of inputs) {
+            if (input.checked === isChecked) {
+                list.push(input);
             }
 
         }
@@ -376,10 +374,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
         var viewItems = context.querySelectorAll('.viewItem');
         var orderedViews = [];
-        var i;
-        var length;
-        for (i = 0, length = viewItems.length; i < length; i++) {
-            orderedViews.push(viewItems[i].getAttribute('data-viewid'));
+        for (const viewItem of viewItems) {
+            orderedViews.push(viewItem.getAttribute('data-viewid'));
         }
 
         user.Configuration.OrderedViews = orderedViews;
@@ -395,8 +391,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         userSettingsInstance.set('homesection6', context.querySelector('#selectHomeSection7').value);
 
         var selectLandings = context.querySelectorAll('.selectLanding');
-        for (i = 0, length = selectLandings.length; i < length; i++) {
-            var selectLanding = selectLandings[i];
+        for (const selectLanding of selectLandings) {
             userSettingsInstance.set('landing-' + selectLanding.getAttribute('data-folderid'), selectLanding.value);
         }
 

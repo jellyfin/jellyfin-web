@@ -294,10 +294,8 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
         var element = this.options.element;
         var elems = element.querySelectorAll('.alphaPickerButton');
         var values = [];
-        for (var i = 0, length = elems.length; i < length; i++) {
-
-            values.push(elems[i].getAttribute('data-value'));
-
+        for (const elem of elems) {
+            values.push(elem.getAttribute('data-value'));
         }
 
         return values;

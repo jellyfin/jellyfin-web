@@ -61,22 +61,20 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                 sortButton: false,
                 filterButton: false
             });
-            var i;
-            var length;
             var elems = tabContent.querySelectorAll('.paging');
 
-            for (i = 0, length = elems.length; i < length; i++) {
-                elems[i].innerHTML = pagingHtml;
+            for (const elem of elems) {
+                elem.innerHTML = pagingHtml;
             }
 
             elems = tabContent.querySelectorAll('.btnNextPage');
-            for (i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener('click', onNextPageClick);
+            for (const elem of elems) {
+                elem.addEventListener('click', onNextPageClick);
             }
 
             elems = tabContent.querySelectorAll('.btnPreviousPage');
-            for (i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener('click', onPreviousPageClick);
+            for (const elem of elems) {
+                elem.addEventListener('click', onPreviousPageClick);
             }
 
             isLoading = false;

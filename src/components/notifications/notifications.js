@@ -150,9 +150,8 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
 
             var items = result.Items;
 
-            for (var i = 0, length = items.length ; i < length; i++) {
-
-                showNewItemNotification(items[i], apiClient);
+            for (const item of items) {
+                showNewItemNotification(item, apiClient);
             }
         });
     }

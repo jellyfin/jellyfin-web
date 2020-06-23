@@ -69,9 +69,8 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             var scrollPct = scrollLeft ? (scrollLeft / programGrid.scrollWidth) * 100 : 0;
 
-            for (var i = 0, length = programCells.length; i < length; i++) {
-
-                updateProgramCellOnScroll(programCells[i], scrollPct);
+            for (const programCell of programCells) {
+                updateProgramCellOnScroll(programCell, scrollPct);
             }
 
             isUpdatingProgramCellScroll = false;
@@ -462,8 +461,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var programsFound;
             var now = new Date().getTime();
 
-            for (var i = listInfo.startIndex, length = programs.length; i < length; i++) {
-
+            for (var i = listInfo.startIndex; i < programs.length; i++) {
                 var program = programs[i];
 
                 if (program.ChannelId !== channel.Id) {
@@ -599,12 +597,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function renderChannelHeaders(context, channels, apiClient) {
-
             var html = '';
 
-            for (var i = 0, length = channels.length; i < length; i++) {
-
-                var channel = channels[i];
+            for (const channel of channels) {
                 var hasChannelImage = channel.ImageTags.Primary;
 
                 var cssClass = 'guide-channelHeaderCell itemAction';
@@ -661,9 +656,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             var html = [];
 
-            for (var i = 0, length = channels.length; i < length; i++) {
+            for (const channel of channels) {
 
-                html.push(getChannelProgramsHtml(context, date, channels[i], programs, options, listInfo));
+                html.push(getChannelProgramsHtml(context, date, channel, programs, options, listInfo));
             }
 
             programGrid.innerHTML = html.join('');
@@ -678,8 +673,8 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var channelId = program.ChannelId;
             var channelIndex = -1;
 
-            for (var i = 0, length = channels.length; i < length; i++) {
-                if (channelId === channels[i].Id) {
+            for (const [i, channel] of channels.entries()) {
+                if (channelId === channel.Id) {
                     channelIndex = i;
                     break;
                 }
@@ -925,9 +920,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             // add 1 to avoid programs that are out of view to the left
             var currentScrollXPct = scrollXPct + 1;
 
-            for (var i = 0, length = elements.length; i < length; i++) {
-
-                var elem = elements[i];
+            for (const elem of elements) {
 
                 var left = (elem.style.left || '').replace('%', '');
                 left = left ? parseFloat(left) : 0;
@@ -1100,8 +1093,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             // find guide cells by program id, ensure timer icon
             var cells = options.element.querySelectorAll('.programCell[data-id="' + programId + '"]');
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
+            for (const cell of cells) {
 
                 var icon = cell.querySelector('.timerIcon');
                 if (!icon) {
@@ -1121,8 +1113,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var id = data.Id;
             // find guide cells by timer id, remove timer icon
             var cells = options.element.querySelectorAll('.programCell[data-timerid="' + id + '"]');
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
+            for (const cell of cells) {
                 var icon = cell.querySelector('.timerIcon');
                 if (icon) {
                     icon.parentNode.removeChild(icon);
@@ -1135,8 +1126,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var id = data.Id;
             // find guide cells by timer id, remove timer icon
             var cells = options.element.querySelectorAll('.programCell[data-seriestimerid="' + id + '"]');
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
+            for (const cell of cells) {
                 var icon = cell.querySelector('.seriesTimerIcon');
                 if (icon) {
                     icon.parentNode.removeChild(icon);

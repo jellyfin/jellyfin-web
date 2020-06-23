@@ -46,8 +46,7 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
                 if (path) {
                     html += getItem('lnkPath lnkDirectory', '', parentPath, '...');
                 }
-                for (var i = 0, length = folders.length; i < length; i++) {
-                    var folder = folders[i];
+                for (const folder of folders) {
                     var cssClass = 'File' === folder.Type ? 'lnkPath lnkFile' : 'lnkPath lnkDirectory';
                     html += getItem(cssClass, folder.Type, folder.Path, folder.Name);
                 }

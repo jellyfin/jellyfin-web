@@ -29,8 +29,7 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
             html += '<div class="paperList">';
         }
 
-        for (var i = 0, length = profiles.length; i < length; i++) {
-            var profile = profiles[i];
+        for (const profile of profiles) {
             html += '<div class="listItem listItem-border">';
             html += '<span class="listItemIcon material-icons live_tv"></span>';
             html += '<div class="listItemBody two-line">';

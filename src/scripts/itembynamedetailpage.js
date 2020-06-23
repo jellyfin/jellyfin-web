@@ -82,8 +82,8 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
         }).join('');
         var sectionElems = elem.querySelectorAll('.verticalSection');
 
-        for (var i = 0, length = sectionElems.length; i < length; i++) {
-            renderSection(page, item, sectionElems[i], sectionElems[i].getAttribute('data-type'));
+        for (const sectionElem of sectionElems) {
+            renderSection(page, item, sectionElem, sectionElem.getAttribute('data-type'));
         }
     }
 

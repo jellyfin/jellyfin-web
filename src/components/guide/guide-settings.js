@@ -6,11 +6,11 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
         var categories = [];
 
         var chkCategorys = context.querySelectorAll('.chkCategory');
-        for (var i = 0, length = chkCategorys.length; i < length; i++) {
+        for (const chkCategory of chkCategorys) {
 
-            var type = chkCategorys[i].getAttribute('data-type');
+            var type = chkCategory.getAttribute('data-type');
 
-            if (chkCategorys[i].checked) {
+            if (chkCategory.checked) {
                 categories.push(type);
             }
         }
@@ -29,52 +29,42 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
         var selectedCategories = options.categories || [];
 
         var chkCategorys = context.querySelectorAll('.chkCategory');
-        for (var i = 0, length = chkCategorys.length; i < length; i++) {
+        for (const chkCategory of chkCategorys) {
 
-            var type = chkCategorys[i].getAttribute('data-type');
+            var type = chkCategory.getAttribute('data-type');
 
-            chkCategorys[i].checked = !selectedCategories.length || selectedCategories.indexOf(type) !== -1;
+            chkCategory.checked = !selectedCategories.length || selectedCategories.indexOf(type) !== -1;
         }
     }
 
     function save(context) {
-
-        var i;
-        var length;
-
         var chkIndicators = context.querySelectorAll('.chkIndicator');
-        for (i = 0, length = chkIndicators.length; i < length; i++) {
-
-            var type = chkIndicators[i].getAttribute('data-type');
-            userSettings.set('guide-indicator-' + type, chkIndicators[i].checked);
+        for (const chkIndicator of chkIndicators) {
+            var type = chkIndicator.getAttribute('data-type');
+            userSettings.set('guide-indicator-' + type, chkIndicator.checked);
         }
 
         userSettings.set('guide-colorcodedbackgrounds', context.querySelector('.chkColorCodedBackgrounds').checked);
         userSettings.set('livetv-favoritechannelsattop', context.querySelector('.chkFavoriteChannelsAtTop').checked);
 
         var sortBys = context.querySelectorAll('.chkSortOrder');
-        for (i = 0, length = sortBys.length; i < length; i++) {
-            if (sortBys[i].checked) {
-                userSettings.set('livetv-channelorder', sortBys[i].value);
+        for (const sortBy of sortBys) {
+            if (sortBy.checked) {
+                userSettings.set('livetv-channelorder', sortBy.value);
                 break;
             }
         }
     }
 
     function load(context) {
-
-        var i;
-        var length;
-
         var chkIndicators = context.querySelectorAll('.chkIndicator');
-        for (i = 0, length = chkIndicators.length; i < length; i++) {
+        for (const chkIndicator of chkIndicators) {
+            var type = chkIndicator.getAttribute('data-type');
 
-            var type = chkIndicators[i].getAttribute('data-type');
-
-            if (chkIndicators[i].getAttribute('data-default') === 'true') {
-                chkIndicators[i].checked = userSettings.get('guide-indicator-' + type) !== 'false';
+            if (chkIndicator.getAttribute('data-default') === 'true') {
+                chkIndicator.checked = userSettings.get('guide-indicator-' + type) !== 'false';
             } else {
-                chkIndicators[i].checked = userSettings.get('guide-indicator-' + type) === 'true';
+                chkIndicator.checked = userSettings.get('guide-indicator-' + type) === 'true';
             }
         }
 
@@ -84,8 +74,8 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
         var sortByValue = userSettings.get('livetv-channelorder') || 'Number';
 
         var sortBys = context.querySelectorAll('.chkSortOrder');
-        for (i = 0, length = sortBys.length; i < length; i++) {
-            sortBys[i].checked = sortBys[i].value === sortByValue;
+        for (const sortBy of sortBys) {
+            sortBy.checked = sortBy.value === sortByValue;
         }
     }
 

@@ -13,8 +13,8 @@ define([], function () {
 
     function findPlaylistIndex(playlistItemId, list) {
 
-        for (var i = 0, length = list.length; i < length; i++) {
-            if (list[i].PlaylistItemId === playlistItemId) {
+        for (const [i, element] of list.entries()) {
+            if (element.PlaylistItemId === playlistItemId) {
                 return i;
             }
         }
@@ -36,9 +36,9 @@ define([], function () {
 
         items = items.slice(0);
 
-        for (var i = 0, length = items.length; i < length; i++) {
+        for (const item of items) {
 
-            addUniquePlaylistItemId(items[i]);
+            addUniquePlaylistItemId(item);
         }
 
         this._currentPlaylistItemId = null;
@@ -48,11 +48,11 @@ define([], function () {
 
     PlayQueueManager.prototype.queue = function (items) {
 
-        for (var i = 0, length = items.length; i < length; i++) {
+        for (const item of items) {
 
-            addUniquePlaylistItemId(items[i]);
+            addUniquePlaylistItemId(item);
 
-            this._playlist.push(items[i]);
+            this._playlist.push(item);
         }
     };
 
@@ -65,12 +65,8 @@ define([], function () {
     }
 
     PlayQueueManager.prototype.queueNext = function (items) {
-        var i;
-        var length;
-
-        for (i = 0, length = items.length; i < length; i++) {
-
-            addUniquePlaylistItemId(items[i]);
+        for (const item of items) {
+            addUniquePlaylistItemId(item);
         }
 
         var currentIndex = this.getCurrentPlaylistIndex();
@@ -146,8 +142,8 @@ define([], function () {
         var playlist = this.getPlaylist();
 
         var oldIndex;
-        for (var i = 0, length = playlist.length; i < length; i++) {
-            if (playlist[i].PlaylistItemId === playlistItemId) {
+        for (const [i, element] of playlist.entries()) {
+            if (element.PlaylistItemId === playlistItemId) {
                 oldIndex = i;
                 break;
             }

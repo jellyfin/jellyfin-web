@@ -45,15 +45,12 @@ define(['components/loading/loadingLegacy', 'browser', 'css!./loading'], functio
             layer3.classList.add('mdl-spinner__layer-3-active');
             layer4.classList.add('mdl-spinner__layer-4-active');
 
-            var i;
-            var length;
-
-            for (i = 0, length = circleLefts.length; i < length; i++) {
-                circleLefts[i].classList.add('mdl-spinner__circleLeft-active');
+            for (const circleLeft of circleLefts) {
+                circleLeft.classList.add('mdl-spinner__circleLeft-active');
             }
 
-            for (i = 0, length = circleRights.length; i < length; i++) {
-                circleRights[i].classList.add('mdl-spinner__circleRight-active');
+            for (const circleRight of circleRights) {
+                circleRight.classList.add('mdl-spinner__circleRight-active');
             }
         },
         hide: function () {
@@ -68,15 +65,12 @@ define(['components/loading/loadingLegacy', 'browser', 'css!./loading'], functio
                 elem.classList.remove('mdl-spinner__layer-3-active');
                 elem.classList.remove('mdl-spinner__layer-4-active');
 
-                var i;
-                var length;
-
-                for (i = 0, length = circleLefts.length; i < length; i++) {
-                    circleLefts[i].classList.remove('mdl-spinner__circleLeft-active');
+                for (const circleLeft of circleLefts) {
+                    circleLeft.classList.remove('mdl-spinner__circleLeft-active');
                 }
 
-                for (i = 0, length = circleRights.length; i < length; i++) {
-                    circleRights[i].classList.remove('mdl-spinner__circleRight-active');
+                for (const circleRight of circleRights) {
+                    circleRight.classList.remove('mdl-spinner__circleRight-active');
                 }
             }
         }

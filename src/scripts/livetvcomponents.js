@@ -9,10 +9,7 @@ define(['layoutManager', 'datetime', 'cardBuilder', 'apphost'], function (layout
         return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
-    function getTimersHtml(timers, options) {
-        options = options || {};
-        var i;
-        var length;
+    function getTimersHtml(timers, options = {}) {
         var items = timers.map(function (t) {
             t.Type = 'Timer';
             return t;
@@ -21,8 +18,7 @@ define(['layoutManager', 'datetime', 'cardBuilder', 'apphost'], function (layout
         var currentGroupName = '';
         var currentGroup = [];
 
-        for (i = 0, length = items.length; i < length; i++) {
-            var item = items[i];
+        for (const item of items) {
             var dateText = '';
 
             if (options.indexByDate !== false && item.StartDate) {
@@ -62,8 +58,7 @@ define(['layoutManager', 'datetime', 'cardBuilder', 'apphost'], function (layout
 
         var html = '';
 
-        for (i = 0, length = groups.length; i < length; i++) {
-            var group = groups[i];
+        for (const group of groups) {
             var supportsImageAnalysis = appHost.supports('imageanalysis');
             var cardLayout = appHost.preferVisualCards || supportsImageAnalysis;
 

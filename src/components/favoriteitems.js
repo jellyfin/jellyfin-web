@@ -197,15 +197,13 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
             });
         }
 
-        var i;
-        var length;
         var elem = page.querySelector('.favoriteSections');
 
         if (!elem.innerHTML) {
             var html = '';
 
-            for (i = 0, length = sections.length; i < length; i++) {
-                html += '<div class="verticalSection section' + sections[i].id + '"></div>';
+            for (const section of sections) {
+                html += '<div class="verticalSection section' + section.id + '"></div>';
             }
 
             elem.innerHTML = html;
@@ -213,8 +211,7 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
 
         var promises = [];
 
-        for (i = 0, length = sections.length; i < length; i++) {
-            var section = sections[i];
+        for (const section of sections) {
             elem = page.querySelector('.section' + section.id);
             promises.push(loadSection(elem, userId, topParentId, section, 1 === sections.length));
         }

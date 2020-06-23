@@ -16,10 +16,10 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             selectedItems = [];
             selectedElements = [];
             var elems = document.querySelectorAll('.itemSelectionPanel');
-            for (var i = 0, length = elems.length; i < length; i++) {
+            for (const elem of elems) {
 
-                var parent = elems[i].parentNode;
-                parent.removeChild(elems[i]);
+                var parent = elem.parentNode;
+                parent.removeChild(elem);
                 parent.classList.remove('withMultiSelect');
             }
         }
@@ -328,8 +328,8 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             }
         });
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-            elems[i].notifyRefreshNeeded(true);
+        for (const elem of elems) {
+            elem.notifyRefreshNeeded(true);
         }
     }
 
@@ -364,8 +364,8 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
 
         require(['emby-checkbox'], function () {
             var cards = document.querySelectorAll('.card');
-            for (var i = 0, length = cards.length; i < length; i++) {
-                showSelection(cards[i], initialCard === cards[i]);
+            for (const card of cards) {
+                showSelection(card, initialCard === card);
             }
 
             showSelectionCommands();

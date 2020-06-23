@@ -51,23 +51,19 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             dlg.querySelector('.dialogContentInner').classList.add('hide');
         }
 
-        var i;
-        var length;
         var html = '';
         var hasDescriptions = false;
 
-        for (i = 0, length = options.buttons.length; i < length; i++) {
-
-            var item = options.buttons[i];
-            var autoFocus = i === 0 ? ' autofocus' : '';
+        for (const [index, button] of options.buttons.entries()) {
+            var autoFocus = index === 0 ? ' autofocus' : '';
 
             var buttonClass = 'btnOption raised formDialogFooterItem formDialogFooterItem-autosize';
 
-            if (item.type) {
-                buttonClass += ' button-' + item.type;
+            if (button.type) {
+                buttonClass += ' button-' + button.type;
             }
 
-            if (item.description) {
+            if (button.description) {
                 hasDescriptions = true;
             }
 
@@ -75,10 +71,10 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
                 buttonClass += ' formDialogFooterItem-vertical formDialogFooterItem-nomarginbottom';
             }
 
-            html += '<button is="emby-button" type="button" class="' + buttonClass + '" data-id="' + item.id + '"' + autoFocus + '>' + item.name + '</button>';
+            html += '<button is="emby-button" type="button" class="' + buttonClass + '" data-id="' + button.id + '"' + autoFocus + '>' + button.name + '</button>';
 
-            if (item.description) {
-                html += '<div class="formDialogFooterItem formDialogFooterItem-autosize fieldDescription" style="margin-top:.25em!important;margin-bottom:1.25em!important;">' + item.description + '</div>';
+            if (button.description) {
+                html += '<div class="formDialogFooterItem formDialogFooterItem-autosize fieldDescription" style="margin-top:.25em!important;margin-bottom:1.25em!important;">' + button.description + '</div>';
             }
         }
 
@@ -94,9 +90,8 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             dialogHelper.close(dlg);
         }
 
-        var buttons = dlg.querySelectorAll('.btnOption');
-        for (i = 0, length = buttons.length; i < length; i++) {
-            buttons[i].addEventListener('click', onButtonClick);
+        for (const button of dlg.querySelectorAll('.btnOption')) {
+            button.addEventListener('click', onButtonClick);
         }
 
         return dialogHelper.open(dlg).then(function () {

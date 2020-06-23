@@ -195,8 +195,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     function initSuggestedTab(page, tabContent) {
         var containers = tabContent.querySelectorAll('.itemsContainer');
 
-        for (var i = 0, length = containers.length; i < length; i++) {
-            setScrollClasses(containers[i], enableScrollX());
+        for (const container of containers) {
+            setScrollClasses(container, enableScrollX());
         }
     }
 

@@ -45,7 +45,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             var html = '';
             html += '<div class="paperList">';
 
-            for (var i = 0, length = task.Triggers.length; i < length; i++) {
+            for (var i = 0; i < task.Triggers.length; i++) {
                 var trigger = task.Triggers[i];
 
                 html += '<div class="listItem listItem-border">';

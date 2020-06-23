@@ -220,9 +220,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
         context.querySelector('.noSearchResults').classList.add('hide');
 
-        for (var i = 0, length = results.length; i < length; i++) {
-
-            var result = results[i];
+        for (const [i, result] of results.entries()) {
 
             var provider = result.ProviderName;
 

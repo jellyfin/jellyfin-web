@@ -1219,8 +1219,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             var chapter;
             var index = -1;
 
-            for (var i = 0, length = chapters.length; i < length; i++) {
-                var currentChapter = chapters[i];
+            for (const [i, currentChapter] of chapters.entries()) {
 
                 if (positionTicks >= currentChapter.StartPositionTicks) {
                     chapter = currentChapter;

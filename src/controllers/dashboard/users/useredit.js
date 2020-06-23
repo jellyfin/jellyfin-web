@@ -5,21 +5,18 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         ApiClient.getJSON(ApiClient.getUrl('Channels', {
             SupportsMediaDeletion: true
         })).then(function (channelsResult) {
-            var i;
-            var length;
             var folder;
             var isChecked;
             var checkedAttribute;
             var html = '';
 
-            for (i = 0, length = mediaFolders.length; i < length; i++) {
-                folder = mediaFolders[i];
+            for (const folder of mediaFolders) {
                 isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
 
-            for (i = 0, length = channelsResult.Items.length; i < length; i++) {
+            for (var i = 0; i < channelsResult.Items.length; i++) {
                 folder = channelsResult.Items[i];
                 isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
                 checkedAttribute = isChecked ? ' checked="checked"' : '';

@@ -449,9 +449,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
             position = (position / runtime) * 100;
         }
 
-        for (var i = 0, length = ranges.length; i < length; i++) {
-
-            var range = ranges[i];
+        for (const range of ranges) {
 
             if (position != null) {
                 if (position >= range.end) {

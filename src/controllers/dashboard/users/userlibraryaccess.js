@@ -12,8 +12,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderLibraries') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        for (var i = 0, length = mediaFolders.length; i < length; i++) {
-            var folder = mediaFolders[i];
+        for (const folder of mediaFolders) {
             var isChecked = user.Policy.EnableAllFolders || -1 != user.Policy.EnabledFolders.indexOf(folder.Id);
             var checkedAttribute = isChecked ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
@@ -31,8 +30,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderChannels') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        for (var i = 0, length = channels.length; i < length; i++) {
-            var folder = channels[i];
+        for (const folder of channels) {
             var isChecked = user.Policy.EnableAllChannels || -1 != user.Policy.EnabledChannels.indexOf(folder.Id);
             var checkedAttribute = isChecked ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkChannel" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
@@ -55,8 +53,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderDevices') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        for (var i = 0, length = devices.length; i < length; i++) {
-            var device = devices[i];
+        for (const device of devices) {
             var checkedAttribute = user.Policy.EnableAllDevices || -1 != user.Policy.EnabledDevices.indexOf(device.Id) ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkDevice" data-id="' + device.Id + '" ' + checkedAttribute + '><span>' + device.Name + ' - ' + device.AppName + '</span></label>';
         }

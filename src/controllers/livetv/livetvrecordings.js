@@ -81,8 +81,8 @@ define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'sc
         var lastFullRender = 0;
         var moreButtons = tabContent.querySelectorAll('.more');
 
-        for (var i = 0, length = moreButtons.length; i < length; i++) {
-            moreButtons[i].addEventListener('click', onMoreClick);
+        for (const moreButton of moreButtons) {
+            moreButton.addEventListener('click', onMoreClick);
         }
 
         self.preRender = function () {

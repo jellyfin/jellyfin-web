@@ -6,8 +6,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         scopes.push(elem);
     }
 
-    function popScope(elem) {
-
+    function popScope() {
         if (scopes.length) {
             scopes.length -= 1;
         }
@@ -142,9 +141,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         var elems = (parent || getDefaultScope()).querySelectorAll(focusableQuery);
         var focusableElements = [];
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-
-            var elem = elems[i];
+        for (const elem of elems) {
 
             if (excludeClass && elem.classList.contains(excludeClass)) {
                 continue;
@@ -272,14 +269,10 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         var rect = getOffset(activeElement);
 
         // Get elements and work out x/y points
-        var cache = [];
         var point1x = parseFloat(rect.left) || 0;
         var point1y = parseFloat(rect.top) || 0;
         var point2x = parseFloat(point1x + rect.width - 1) || point1x;
         var point2y = parseFloat(point1y + rect.height - 1) || point1y;
-        // Shortcuts to help with compression
-        var min = Math.min;
-        var max = Math.max;
 
         var sourceMidX = rect.left + (rect.width / 2);
         var sourceMidY = rect.top + (rect.height / 2);
@@ -290,8 +283,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         var minDistance = maxDistance;
         var nearestElement;
 
-        for (var i = 0, length = focusable.length; i < length; i++) {
-            var curr = focusable[i];
+        for (const curr of focusable) {
 
             if (curr === activeElement) {
                 continue;
@@ -437,9 +429,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
         var elems = container.querySelectorAll(focusableSelector);
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-
-            var elem = elems[i];
+        for (const elem of elems) {
 
             if (isCurrentlyFocusableInternal(elem)) {
                 focus(elem);
@@ -452,9 +442,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
         var elems = [].slice.call(container.querySelectorAll(focusableSelector), 0).reverse();
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-
-            var elem = elems[i];
+        for (const elem of elems) {
 
             if (isCurrentlyFocusableInternal(elem)) {
                 focus(elem);
@@ -467,14 +455,8 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
         var elems = container.querySelectorAll(focusableSelector);
         var list = [];
-        var i;
-        var length;
-        var elem;
 
-        for (i = 0, length = elems.length; i < length; i++) {
-
-            elem = elems[i];
-
+        for (const elem of elems) {
             if (isCurrentlyFocusableInternal(elem)) {
                 list.push(elem);
             }
@@ -482,12 +464,9 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
         var currentIndex = -1;
 
-        for (i = 0, length = list.length; i < length; i++) {
-
-            elem = list[i];
-
+        for (const [index, elem] of list.entries()) {
             if (sourceElement === elem || elem.contains(sourceElement)) {
-                currentIndex = i;
+                currentIndex = index;
                 break;
             }
         }

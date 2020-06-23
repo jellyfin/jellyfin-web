@@ -21,35 +21,25 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             ProviderIds: {}
         };
 
-        var i;
-        var length;
-        var identifyField = page.querySelectorAll('.identifyField');
-        var value;
-        for (i = 0, length = identifyField.length; i < length; i++) {
-
-            value = identifyField[i].value;
-
-            if (value) {
-
-                if (identifyField[i].type === 'number') {
-                    value = parseInt(value);
+        var identifyFields = page.querySelectorAll('.identifyField');
+        for (let identifyField of identifyFields) {
+            if (identifyField.value) {
+                if (identifyField.type === 'number') {
+                    identifyField.value = parseInt(identifyField.value);
                 }
 
-                lookupInfo[identifyField[i].getAttribute('data-lookup')] = value;
+                lookupInfo[identifyField.getAttribute('data-lookup')] = identifyField.value;
             }
         }
 
         var hasId = false;
 
-        var txtLookupId = page.querySelectorAll('.txtLookupId');
-        for (i = 0, length = txtLookupId.length; i < length; i++) {
-
-            value = txtLookupId[i].value;
-
-            if (value) {
+        var txtLookupIds = page.querySelectorAll('.txtLookupId');
+        for (const txtLookupId of txtLookupIds) {
+            if (txtLookupId.value) {
                 hasId = true;
             }
-            lookupInfo.ProviderIds[txtLookupId[i].getAttribute('data-providerkey')] = value;
+            lookupInfo.ProviderIds[txtLookupId.value.getAttribute('data-providerkey')] = txtLookupId.value;
         }
 
         if (!hasId && !lookupInfo.Name) {
@@ -97,9 +87,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         page.querySelector('.dialogContentInner').classList.remove('dialog-content-centered');
 
         var html = '';
-        var i;
-        var length;
-        for (i = 0, length = results.length; i < length; i++) {
+        for (var i = 0; i < results.lengthngth; i++) {
 
             var result = results[i];
             html += getSearchResultHtml(result, i);
@@ -123,9 +111,8 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         }
 
         var searchImages = elem.querySelectorAll('.card');
-        for (i = 0, length = searchImages.length; i < length; i++) {
-
-            searchImages[i].addEventListener('click', onSearchImageClick);
+        for (const searchImage of searchImages) {
+            searchImage.addEventListener('click', onSearchImageClick);
         }
 
         if (layoutManager.tv) {
@@ -296,9 +283,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
             var html = '';
 
-            for (var i = 0, length = idList.length; i < length; i++) {
-
-                var idInfo = idList[i];
+            for (const idInfo of idList) {
 
                 var id = 'txtLookup' + idInfo.Key;
 

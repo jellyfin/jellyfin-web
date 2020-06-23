@@ -67,8 +67,7 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
 
         var html = '';
 
-        for (var i = 0, length = imagesResult.Images.length; i < length; i++) {
-
+        for (var i = 0; i < imagesResult.Images.length; i++) {
             html += getRemoteImageHtml(imagesResult.Images[i], imageType, apiClient);
         }
 

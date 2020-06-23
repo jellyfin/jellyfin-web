@@ -167,8 +167,6 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         var seconds = (ticks || 0) / 10000000;
 
         if (seconds) {
-            var src = (instance.currentSrc() || '').toLowerCase();
-
             // Appending #t=xxx to the query string doesn't seem to work with HLS
             // For plain video files, not all browsers support it either
 
@@ -440,7 +438,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
         offset = offset || 0;
 
-        for (var i = 0, length = seekable.length; i < length; i++) {
+        for (var i = 0; i < seekable.length; i++) {
 
             var start = seekable.start(i);
             var end = seekable.end(i);
