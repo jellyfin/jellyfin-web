@@ -434,6 +434,10 @@ html {
     color: #4285f4 !important;
 }
 
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: #0f3562;
+}
+
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-color: #fff !important;
