@@ -155,6 +155,12 @@ define([], function () {
         var currentPlaylistItemId = this.getCurrentPlaylistItemId();
         var isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
 
+        if (this._sortedPlaylist.length <= playlistItemIds.length) {
+            this._sortedPlaylist = this._sortedPlaylist.splice(0).filter(function (item) {
+                return playlistItemIds.indexOf(item.PlaylistItemId) === -1;
+            });
+        }
+
         this._playlist = playlist.filter(function (item) {
             return playlistItemIds.indexOf(item.PlaylistItemId) === -1;
         });

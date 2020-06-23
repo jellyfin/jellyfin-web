@@ -379,6 +379,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 toggleRepeatButtonIcon.classList.add('repeat');
                 toggleRepeatButton.classList.remove(cssClass);
                 break;
+            case undefined:
+                break;
             default:
                 throw new TypeError('invalid value for repeatMode');
         }
@@ -536,9 +538,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         var textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
         nowPlayingTextElement.innerHTML = '';
         if (textLines) {
+            let itemText = document.createElement('div');
             let secondaryText = document.createElement('div');
             secondaryText.classList.add('nowPlayingBarSecondaryText');
-            let itemText = document.createElement('div');
             if (textLines.length > 1) {
                 textLines[1].secondary = true;
                 if (textLines[1].text) {
@@ -549,11 +551,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
 
             if (textLines[0].text) {
-                if (textLines[0].text) {
-                    let text = document.createElement('a');
-                    text.innerHTML = textLines[0].text;
-                    itemText.appendChild(text);
-                }
+                let text = document.createElement('a');
+                text.innerHTML = textLines[0].text;
+                itemText.appendChild(text);
             }
             nowPlayingTextElement.appendChild(itemText);
             nowPlayingTextElement.appendChild(secondaryText);
@@ -649,6 +649,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 break;
             case 'Shuffle':
                 toggleShuffleButton.classList.add('shuffleQueue-active');
+                break;
+            case undefined:
                 break;
             default:
                 throw new TypeError('invalid value for shuffleMode');

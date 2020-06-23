@@ -356,7 +356,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             let toggleRepeatButtons = context.querySelectorAll('.repeatToggleButton');
             const cssClass = 'repeatButton-active';
             let innHtml = '<span class="material-icons repeat"></span>';
-            let repeatOn = undefined;
+            let repeatOn = true;
 
             switch (repeatMode) {
                 case 'RepeatAll':
@@ -365,14 +365,16 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     innHtml = '<span class="material-icons repeat_one"></span>';
                     break;
                 case 'RepeatNone':
-                    repeatOn = null;
+                    repeatOn = false;
+                    break;
+                case undefined:
                     break;
                 default:
                     throw new TypeError('invalid value for repeatMode');
             }
 
             for (const toggleRepeatButton of toggleRepeatButtons) {
-                if (repeatOn === null) {
+                if (!repeatOn) {
                     toggleRepeatButton.classList.remove(cssClass);
                 } else {
                     toggleRepeatButton.classList.add(cssClass);
@@ -533,6 +535,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                         break;
                     case 'Shuffle':
                         shuffleButton.classList.add('shuffleQueue-active');
+                        break;
+                    case undefined:
                         break;
                     default:
                         throw new TypeError('invalid shuffle mode');
