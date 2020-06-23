@@ -24,7 +24,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getAllSectionsToShow(userSettings, sectionCount) {
         var sections = [];
-        for (var i = 0; i < sectionCount.length; i++) {
+        for (var i = 0; i < sectionCount; i++) {
             var section = userSettings.get('homesection' + i) || getDefaultSection(i);
             if (section === 'folders') {
                 section = getDefaultSection(0);
@@ -51,8 +51,8 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
                 var promises = [];
                 var sections = getAllSectionsToShow(userSettings, sectionCount);
-                for (var i = 0; i < sections.length; i++) {
-                    promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
+                for (var j = 0; j < sections.length; j++) {
+                    promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, j));
                 }
 
                 return Promise.all(promises).then(function () {
