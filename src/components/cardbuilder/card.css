@@ -169,7 +169,7 @@ button::-moz-focus-inner {
     color: inherit;
 }
 
-.cardImageContainer.cardScalable {
+.cardScalable .cardImageContainer {
     height: 100%;
     contain: strict;
 }

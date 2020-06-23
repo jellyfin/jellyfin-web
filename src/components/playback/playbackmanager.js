@@ -3886,7 +3886,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 'GoToSearch',
                 'DisplayMessage',
                 'SetRepeatMode',
-                'SetQueueShuffleMode',
+                'SetShuffleQueue',
                 'PlayMediaSource',
                 'PlayTrailers'
             ];
@@ -3941,9 +3941,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         return this._playQueueManager.getRepeatMode();
     };
 
-    PlaybackManager.prototype.setQueueShuffleMode = function (value, player) {
-
-        player = player || this._currentPlayer;
+    PlaybackManager.prototype.setQueueShuffleMode = function (value, player = this._currentPlayer) {
         if (player && !enableLocalPlaylistManagement(player)) {
             return player.setQueueShuffleMode(value);
         }
@@ -3952,14 +3950,32 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         events.trigger(player, 'shufflequeuemodechange');
     };
 
-    PlaybackManager.prototype.getQueueShuffleMode = function (player) {
-
-        player = player || this._currentPlayer;
+    PlaybackManager.prototype.getQueueShuffleMode = function (player = this._currentPlayer) {
         if (player && !enableLocalPlaylistManagement(player)) {
             return player.getQueueShuffleMode();
         }
 
         return this._playQueueManager.getShuffleMode();
+    };
+
+    PlaybackManager.prototype.toggleQueueShuffleMode = function (player = this._currentPlayer) {
+        let currentvalue;
+        if (player && !enableLocalPlaylistManagement(player)) {
+            currentvalue = player.getQueueShuffleMode();
+            switch (currentvalue) {
+                case 'Shuffle':
+                    player.setQueueShuffleMode('Sorted');
+                    break;
+                case 'Sorted':
+                    player.setQueueShuffleMode('Shuffle');
+                    break;
+                default:
+                    throw new TypeError('current value for shufflequeue is invalid');
+            }
+        } else {
+            this._playQueueManager.toggleShuffleMode();
+        }
+        events.trigger(player, 'shufflequeuemodechange');
     };
 
     PlaybackManager.prototype.trySetActiveDeviceName = function (name) {
@@ -4030,7 +4046,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             case 'SetRepeatMode':
                 this.setRepeatMode(cmd.Arguments.RepeatMode, player);
                 break;
-            case 'SetQueueShuffleMode':
+            case 'SetShuffleQueue':
                 this.setQueueShuffleMode(cmd.Arguments.ShuffleMode, player);
                 break;
             case 'VolumeUp':

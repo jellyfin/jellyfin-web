@@ -508,7 +508,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
 
     SessionPlayer.prototype.setQueueShuffleMode = function (mode) {
 
-        sendCommandByName(this, 'SetQueueShuffleMode', {
+        sendCommandByName(this, 'SetShuffleQueue', {
             ShuffleMode: mode
         });
     };

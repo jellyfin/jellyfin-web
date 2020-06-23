@@ -652,7 +652,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
                 'SetSubtitleStreamIndex',
                 'DisplayContent',
                 'SetRepeatMode',
-                'SetQueueShuffleMode',
+                'SetShuffleQueue',
                 'EndSession',
                 'PlayMediaSource',
                 'PlayTrailers'
@@ -897,7 +897,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
             options: {
                 ShuffleMode: value
             },
-            command: 'SetQueueShuffleMode'
+            command: 'SetShuffleQueue'
         });
     };
 

@@ -165,7 +165,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                         return;
                     }
                     playbackManager.seekPercent(0, currentPlayer);
-                    // This is done automatically by playbackManager, however, setting this here gives instant visual feedback
+                    // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
+                    // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
                     positionSlider.value = 0;
                 } else {
                     playbackManager.previousTrack(currentPlayer);
@@ -181,11 +182,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         elem.querySelector('.btnShuffleQueue').addEventListener('click', function () {
             if (currentPlayer) {
-                if (playbackManager.getQueueShuffleMode(currentPlayer) === 'Sorted') {
-                    playbackManager.setQueueShuffleMode('Shuffle', currentPlayer);
-                } else {
-                    playbackManager.setQueueShuffleMode('Sorted', currentPlayer);
-                }
+                playbackManager.toggleQueueShuffleMode(currentPlayer);
             }
         });
 
@@ -367,16 +364,23 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function updateRepeatModeDisplay(repeatMode) {
         toggleRepeatButtonIcon.classList.remove('repeat', 'repeat_one');
+        const cssClass = 'repeatButton-active';
 
-        if (repeatMode === 'RepeatAll') {
-            toggleRepeatButtonIcon.classList.add('repeat');
-            toggleRepeatButton.classList.add('repeatButton-active');
-        } else if (repeatMode === 'RepeatOne') {
-            toggleRepeatButtonIcon.classList.add('repeat_one');
-            toggleRepeatButton.classList.add('repeatButton-active');
-        } else {
-            toggleRepeatButtonIcon.classList.add('repeat');
-            toggleRepeatButton.classList.remove('repeatButton-active');
+        switch (repeatMode) {
+            case 'RepeatAll':
+                toggleRepeatButtonIcon.classList.add('repeat');
+                toggleRepeatButton.classList.add(cssClass);
+                break;
+            case 'RepeatOne':
+                toggleRepeatButtonIcon.classList.add('repeat_one');
+                toggleRepeatButton.classList.add(cssClass);
+                break;
+            case 'RepeatNone':
+                toggleRepeatButtonIcon.classList.add('repeat');
+                toggleRepeatButton.classList.remove(cssClass);
+                break;
+            default:
+                throw new TypeError('invalid value for repeatMode');
         }
     }
 
@@ -530,24 +534,26 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         var nowPlayingItem = state.NowPlayingItem;
 
         var textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
-        if (textLines.length > 1) {
-            textLines[1].secondary = true;
-        }
-
+        nowPlayingTextElement.innerHTML = '';
         if (textLines) {
-            nowPlayingTextElement.innerHTML = '';
-            let itemText = document.createElement('div');
             let secondaryText = document.createElement('div');
             secondaryText.classList.add('nowPlayingBarSecondaryText');
-            if (textLines[0].text) {
-                let text = document.createElement('a');
-                text.innerHTML = textLines[0].text;
-                itemText.appendChild(text);
+            let itemText = document.createElement('div');
+            if (textLines.length > 1) {
+                textLines[1].secondary = true;
+                if (textLines[1].text) {
+                    let text = document.createElement('a');
+                    text.innerHTML = textLines[1].text;
+                    secondaryText.appendChild(text);
+                }
             }
-            if (textLines[1].text) {
-                let text = document.createElement('a');
-                text.innerHTML = textLines[1].text;
-                secondaryText.appendChild(text);
+
+            if (textLines[0].text) {
+                if (textLines[0].text) {
+                    let text = document.createElement('a');
+                    text.innerHTML = textLines[0].text;
+                    itemText.appendChild(text);
+                }
             }
             nowPlayingTextElement.appendChild(itemText);
             nowPlayingTextElement.appendChild(secondaryText);
@@ -586,11 +592,11 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                     var userData = item.UserData || {};
                     var likes = userData.Likes == null ? '' : userData.Likes;
                     if (!layoutManager.mobile) {
-                        let contextButton = document.querySelector('.nowPlayingBar').querySelector('.btnToggleContextMenu');
+                        let contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
                         // We remove the previous event listener by replacing the item in each update event
                         let contextButtonClone = contextButton.cloneNode(true);
                         contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
-                        contextButton = document.querySelector('.nowPlayingBar').querySelector('.btnToggleContextMenu');
+                        contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
                         let options = {
                             play: false,
                             queue: false,
@@ -637,10 +643,15 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         let context = nowPlayingBarElement;
         let toggleShuffleButton = context.querySelector('.btnShuffleQueue');
 
-        if (shuffleMode === 'Sorted') {
-            toggleShuffleButton.classList.remove('shuffleQueue-active');
-        } else if (shuffleMode === 'Shuffle') {
-            toggleShuffleButton.classList.add('shuffleQueue-active');
+        switch (shuffleMode) {
+            case 'Sorted':
+                toggleShuffleButton.classList.remove('shuffleQueue-active');
+                break;
+            case 'Shuffle':
+                toggleShuffleButton.classList.add('shuffleQueue-active');
+                break;
+            default:
+                throw new TypeError('invalid value for shuffleMode');
         }
     }
 

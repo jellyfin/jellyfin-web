@@ -123,7 +123,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     var artistsSeries = '';
                     var albumName = item.Album;
                     if (item.ArtistItems != null) {
-                        for (let artist of item.ArtistItems) {
+                        for (const artist of item.ArtistItems) {
                             let artistName = artist.Name;
                             let artistId = artist.Id;
                             artistsSeries += `<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=${artistId}&amp;serverId=${nowPlayingServerId}">${artistName}</a>`;
@@ -135,7 +135,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                         // For some reason, Chromecast Player doesn't return a item.ArtistItems object, so we need to fallback
                         // to normal item.Artists item.
                         // TODO: Normalise fields returned by all the players
-                        for (let artist of item.Artists) {
+                        for (const artist of item.Artists) {
                             artistsSeries += `<a>${artist}</a>`;
                             if (artist !== item.Artists.slice(-1)[0]) {
                                 artistsSeries += ', ';
@@ -176,7 +176,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 maxHeight: 300 * 2
             }) : null;
 
-            console.debug('updateNowPlayingInfo');
             let contextButton = context.querySelector('.btnToggleContextMenu');
             // We remove the previous event listener by replacing the item in each update event
             let contextButtonClone = contextButton.cloneNode(true);
@@ -355,18 +354,30 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function updateRepeatModeDisplay(repeatMode) {
             var context = dlg;
             let toggleRepeatButtons = context.querySelectorAll('.repeatToggleButton');
+            const cssClass = 'repeatButton-active';
+            let innHtml = '<span class="material-icons repeat"></span>';
+            let repeatOn = undefined;
 
-            for (let toggleRepeatButton of toggleRepeatButtons) {
-                if ('RepeatAll' == repeatMode) {
-                    toggleRepeatButton.innerHTML = "<span class='material-icons repeat'></span>";
-                    toggleRepeatButton.classList.add('repeatButton-active');
-                } else if ('RepeatOne' == repeatMode) {
-                    toggleRepeatButton.innerHTML = "<span class='material-icons repeat_one'></span>";
-                    toggleRepeatButton.classList.add('repeatButton-active');
+            switch (repeatMode) {
+                case 'RepeatAll':
+                    break;
+                case 'RepeatOne':
+                    innHtml = '<span class="material-icons repeat_one"></span>';
+                    break;
+                case 'RepeatNone':
+                    repeatOn = null;
+                    break;
+                default:
+                    throw new TypeError('invalid value for repeatMode');
+            }
+
+            for (const toggleRepeatButton of toggleRepeatButtons) {
+                if (repeatOn === null) {
+                    toggleRepeatButton.classList.remove(cssClass);
                 } else {
-                    toggleRepeatButton.innerHTML = "<span class='material-icons repeat'></span>";
-                    toggleRepeatButton.classList.remove('repeatButton-active');
+                    toggleRepeatButton.classList.add(cssClass);
                 }
+                toggleRepeatButton.innerHTML = innHtml;
             }
         }
 
@@ -516,10 +527,15 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             let shuffleButtons = context.querySelectorAll('.btnShuffleQueue');
 
             for (let shuffleButton of shuffleButtons) {
-                if ('Sorted' === shuffleMode) {
-                    shuffleButton.classList.remove('shuffleQueue-active');
-                } else if ('Shuffle' === shuffleMode) {
-                    shuffleButton.classList.add('shuffleQueue-active');
+                switch (shuffleMode) {
+                    case 'Sorted':
+                        shuffleButton.classList.remove('shuffleQueue-active');
+                        break;
+                    case 'Shuffle':
+                        shuffleButton.classList.add('shuffleQueue-active');
+                        break;
+                    default:
+                        throw new TypeError('invalid shuffle mode');
                 }
             }
             onPlaylistUpdate();
@@ -708,14 +724,10 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     playbackManager.fastForward(currentPlayer);
                 }
             });
-            for (let shuffleButton of context.querySelectorAll('.btnShuffleQueue')) {
+            for (const shuffleButton of context.querySelectorAll('.btnShuffleQueue')) {
                 shuffleButton.addEventListener('click', function () {
                     if (currentPlayer) {
-                        if (playbackManager.getQueueShuffleMode(currentPlayer) === 'Sorted') {
-                            playbackManager.setQueueShuffleMode('Shuffle', currentPlayer);
-                        } else {
-                            playbackManager.setQueueShuffleMode('Sorted', currentPlayer);
-                        }
+                        playbackManager.toggleQueueShuffleMode(currentPlayer);
                     }
                 });
             }
@@ -728,7 +740,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                             return;
                         }
                         playbackManager.seekPercent(0, currentPlayer);
-                        // This is done automatically by playbackManager. However, setting this here gives instant visual feedback
+                        // This is done automatically by playbackManager. However, setting this here gives instant visual feedback.
+                        // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
                         positionSlider.value = 0;
                     } else {
                         playbackManager.previousTrack(currentPlayer);
@@ -794,7 +807,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 } else {
                     context.querySelector('.playlist').classList.add('hide');
                     context.querySelector('.btnSavePlaylist').classList.add('hide');
-                    if (showMuteButton && showVolumeSlider) {
+                    if (showMuteButton || showVolumeSlider) {
                         context.querySelector('.volumecontrol').classList.remove('hide');
                     }
                     if (layoutManager.mobile) {

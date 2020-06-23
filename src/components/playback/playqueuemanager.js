@@ -60,16 +60,12 @@ define([], function () {
 
     PlayQueueManager.prototype.shufflePlaylist = function () {
         this._sortedPlaylist = [];
-        let currentPlaylistItem = this._playlist[this.getCurrentPlaylistIndex()];
-        for (let item of this._playlist) {
+        for (const item of this._playlist) {
             this._sortedPlaylist.push(item);
         }
+        const currentPlaylistItem = this._playlist.splice(this.getCurrentPlaylistIndex(), 1)[0];
 
         for (let i = this._playlist.length - 1; i > 0; i--) {
-            if (this._playlist[i] === currentPlaylistItem) {
-                this._playlist.splice(i, 1);
-                continue;
-            }
             const j = Math.floor(Math.random() * i);
             const temp = this._playlist[i];
             this._playlist[i] = this._playlist[j];
@@ -216,7 +212,8 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.setRepeatMode = function (value) {
-        if (value === 'RepeatOne' || value === 'RepeatAll' || value === 'RepeatNone') {
+        const repeatModes = ['RepeatOne', 'RepeatAll', 'RepeatNone'];
+        if (repeatModes.includes(value)) {
             this._repeatMode = value;
         } else {
             throw new TypeError('invalid value provided for setRepeatMode');
@@ -228,12 +225,28 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.setShuffleMode = function (value) {
-        if (value === 'Sorted') {
-            this.sortShuffledPlaylist();
-        } else if (value === 'Shuffle') {
-            this.shufflePlaylist();
-        } else {
-            throw new TypeError('invalid value provided for setShuffleMode');
+        switch (value) {
+            case 'Shuffle':
+                this.shufflePlaylist();
+                break;
+            case 'Sorted':
+                this.sortShuffledPlaylist();
+                break;
+            default:
+                throw new TypeError('invalid value provided to setShuffleMode');
+        }
+    };
+
+    PlayQueueManager.prototype.toggleShuffleMode = function () {
+        switch (this._shuffleMode) {
+            case 'Shuffle':
+                this.setShuffleMode('Sorted');
+                break;
+            case 'Sorted':
+                this.setShuffleMode('Shuffle');
+                break;
+            default:
+                throw new TypeError('current value for shufflequeue is invalid');
         }
     };
 
