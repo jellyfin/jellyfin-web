@@ -215,6 +215,12 @@ define([
         roles: 'admin',
         controller: 'dashboard/plugins/available'
     });
+    defineRoute({
+        path: '/repositories.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/plugins/repositories'
+    });
 
     defineRoute({
         path: '/home.html',

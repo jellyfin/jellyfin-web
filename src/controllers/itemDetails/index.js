@@ -429,6 +429,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         } else if (item.Album) {
             parentNameHtml.push(item.Album);
         }
+
         // FIXME: This whole section needs some refactoring, so it becames easier to scale across all form factors. See GH #1022
         var html = '';
         var tvShowHtml = parentNameHtml[0];

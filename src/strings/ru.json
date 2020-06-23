@@ -1183,7 +1183,6 @@
     "ReplaceAllMetadata": "Замена всех метаданных",
     "ReplaceExistingImages": "Замена имеющихся изображений",
     "RequiredForAllRemoteConnections": "Требуется для всех внешних подключений",
-    "RestartPleaseWaitMessage": "Подождите, пока Jellyfin Server выключится и перезапустится. Это может занять минуту или две.",
     "ResumeAt": "Возобновить с {0}",
     "Rewind": "Отмотать",
     "RunAtStartup": "Запускать при старте системы",
@@ -1388,7 +1387,6 @@
     "HeaderFavoriteSongs": "Избранные композиции",
     "HeaderFavoriteVideos": "Избранные видео",
     "HeaderHome": "Главное",
-    "HeaderRestartingServer": "Перезапустить сервер",
     "LabelAuthProvider": "Поставщик аутентификации:",
     "LabelPasswordResetProvider": "Поставщик сброса пароля:",
     "LabelServerName": "Имя сервера:",
@@ -1552,5 +1550,7 @@
     "MessageSyncPlayErrorMissingSession": "Не удалось включить SyncPlay! Отсутствует сеанс.",
     "MessageSyncPlayErrorNoActivePlayer": "Активный проигрыватель не найден. SyncPlay был отключен.",
     "ShowMore": "Показать больше",
-    "ShowLess": "Показать меньше"
+    "ShowLess": "Показать меньше",
+    "EnableBlurhashHelp": "Рисунки, которые всё ещё загружаются, будут отображаться с размытым заполнением",
+    "EnableBlurhash": "Включить размытые заполнители для изображений"
 }

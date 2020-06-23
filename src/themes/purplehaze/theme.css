@@ -543,13 +543,23 @@ a[data-role=button] {
 }
 
 .personCard .cardScalable {
-    border-radius: 50%;
+    border-radius: 50% !important;
     border: 1px solid rgb(255, 255, 255);
+}
+
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 1em;
 }
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-color: #ff77f1 !important;
+}
+
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: 1.5em;
 }
 
 .layout-desktop,
@@ -597,12 +607,6 @@ a[data-role=button] {
     width: 40vw;
 }
 
-.personCard .cardPadder-overflowPortrait,
-.personCard .cardPadder-portrait {
-    padding-bottom: 100%;
-    contain: strict;
-}
-
 .personCard .coveredImage {
     clip-path: circle(50% at 50% 50%);
 }
@@ -613,4 +617,11 @@ a[data-role=button] {
 
 .personCard .cardOverlayButton-br {
     right: 20%;
+}
+
+.personCard .cardPadder-overflowPortrait,
+.personCard .cardPadder-portrait {
+    padding-bottom: 100%;
+    contain: strict;
+    border-radius: 50% !important;
 }
