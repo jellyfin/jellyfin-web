@@ -187,3 +187,8 @@ _define('connectionManagerFactory', function () {
 _define('appStorage', function () {
     return apiclient.AppStorage;
 });
+
+var shallowEqual = require('shallow-equal/dist/index.esm');
+_define('shallow-equal', function () {
+    return shallowEqual;
+});

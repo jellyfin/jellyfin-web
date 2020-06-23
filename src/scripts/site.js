@@ -720,7 +720,8 @@ var AppInfo = {};
                     'events',
                     'credentialprovider',
                     'connectionManagerFactory',
-                    'appStorage'
+                    'appStorage',
+                    'shallow-equal'
                 ]
             },
             urlArgs: urlArgs,

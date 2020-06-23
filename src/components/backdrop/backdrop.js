@@ -1,4 +1,4 @@
-define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings', 'css!./backdrop'], function (browser, connectionManager, playbackManager, dom, userSettings) {
+define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings', 'shallow-equal', 'css!./backdrop'], function (browser, connectionManager, playbackManager, dom, userSettings, shallowEqual) {
     'use strict';
 
     function enableAnimation(elem) {
@@ -218,28 +218,6 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
         return list;
     }
 
-    function arraysEqual(a, b) {
-        if (a === b) {
-            return true;
-        }
-        if (a == null || b == null) {
-            return false;
-        }
-        if (a.length !== b.length) {
-            return false;
-        }
-
-        // If you don't care about the order of the elements inside
-        // the array, you should sort both arrays here.
-        for (const [i, element] of a.entries()) {
-            if (element !== b[i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     function enabled() {
         return userSettings.enableBackdrops();
     }
@@ -260,7 +238,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
     }
 
     function startRotation(images, enableImageRotation) {
-        if (arraysEqual(images, currentRotatingImages)) {
+        if (shallowEqual.shallowEqualArrays(images, currentRotatingImages)) {
             return;
         }
 
