@@ -22,7 +22,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
     }
 
-    function getSectionLimit(collectionType, shape) {
+    function getSectionLimit(collectionType, shape, multiplier = 3) {
         let screenWidth = dom.getWindowSize().innerWidth;
         const screenHeight = dom.getWindowSize().innerHeight;
 
@@ -41,7 +41,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             }
         }
 
-        return Math.round(cardBuilder.getPostersPerRow(shape, screenWidth, screenWidth > (screenHeight * 1.3))) * 3;
+        return Math.round(cardBuilder.getPostersPerRow(shape, screenWidth, screenWidth > (screenHeight * 1.3))) * multiplier;
     }
 
     function getAllSectionsToShow(userSettings, sectionCount) {
@@ -176,6 +176,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         });
     }
 
+    function enableScrollX() {
+        return true;
+    }
+
     function getSquareShape() {
         return 'square';
     }
@@ -221,10 +225,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
 
-            console.warn(getSectionLimit(collectionType));
+            var limit = enableScrollX() ? getSectionLimit(collectionType) : getSectionLimit(collectionType, null, 2);
 
             var options = {
-                Limit: getSectionLimit(collectionType),
+                Limit: limit,
                 Fields: 'PrimaryImageAspectRatio,BasicSyncInfo,Path',
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Thumb',
@@ -257,7 +261,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 overlayText: false,
                 centerText: !cardLayout,
                 overlayPlayButton: viewType !== 'photos',
-                allowBottomPadding: !cardLayout,
+                allowBottomPadding: !enableScrollX() && !cardLayout,
                 cardLayout: cardLayout,
                 showTitle: viewType !== 'photos',
                 showYear: viewType === 'movies' || viewType === 'tvshows' || !viewType,
@@ -285,10 +289,16 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
         html += '</div>';
 
-        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+        if (enableScrollX()) {
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+        } else {
+            html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
+        }
 
-        html += '</div>';
+        if (enableScrollX()) {
+            html += '</div>';
+        }
         html += '</div>';
 
         elem.innerHTML = html;
@@ -332,9 +342,12 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var html = '';
         if (userViews.length) {
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
-
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+            if (enableScrollX()) {
+                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+                html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+            } else {
+                html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
+            }
 
             html += cardBuilder.getCardsHtml({
                 items: userViews,
@@ -344,10 +357,12 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 overlayText: false,
                 lazy: true,
                 transition: false,
-                allowBottomPadding: true
+                allowBottomPadding: !enableScrollX()
             });
 
-            html += '</div>';
+            if (enableScrollX()) {
+                html += '</div>';
+            }
             html += '</div>';
         }
 
@@ -398,11 +413,16 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var html = '';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
+        if (enableScrollX()) {
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        } else {
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        }
 
-        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
-
-        html += '</div>';
+        if (enableScrollX()) {
+            html += '</div>';
+        }
         html += '</div>';
 
         elem.classList.add('hide');
@@ -457,11 +477,16 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var html = '';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
+        if (enableScrollX()) {
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="audioplayback,markplayed">';
+        } else {
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="audioplayback,markplayed">';
+        }
 
-        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="audioplayback,markplayed">';
-
-        html += '</div>';
+        if (enableScrollX()) {
+            html += '</div>';
+        }
         html += '</div>';
 
         elem.classList.add('hide');
@@ -493,13 +518,13 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             items: items,
             preferThumb: 'auto',
             inheritThumb: false,
-            shape: 'autooverflow',
+            shape: (enableScrollX() ? 'autooverflow' : 'auto'),
             showParentTitleOrTitle: true,
             showTitle: true,
             centerText: true,
             coverImage: true,
             overlayText: false,
-            allowBottomPadding: false,
+            allowBottomPadding: !enableScrollX(),
             showAirTime: true,
             showChannelName: false,
             showAirDateTime: false,
@@ -536,8 +561,12 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LiveTV') + '</h2>';
                 html += '</div>';
 
-                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true" data-scrollbuttons="false">';
-                html += '<div class="padded-top padded-bottom scrollSlider focuscontainer-x">';
+                if (enableScrollX()) {
+                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true" data-scrollbuttons="false">';
+                    html += '<div class="padded-top padded-bottom scrollSlider focuscontainer-x">';
+                } else {
+                    html += '<div class="padded-top padded-bottom focuscontainer-x">';
+                }
 
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
                     serverId: apiClient.serverId(),
@@ -564,7 +593,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 }) + '" class="raised"><span>' + globalize.translate('Series') + '</span></a>';
 
                 html += '</div>';
-                html += '</div>';
+                if (enableScrollX()) {
+                    html += '</div>';
+                }
                 html += '</div>';
                 html += '</div>';
 
@@ -587,9 +618,16 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 }
                 html += '</div>';
 
-                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-                html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
-                html += '</div>';
+                if (enableScrollX()) {
+                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+                    html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+                } else {
+                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
+                }
+
+                if (enableScrollX()) {
+                    html += '</div>';
+                }
 
                 html += '</div>';
                 html += '</div>';
@@ -631,7 +669,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             overlayPlayButton: true,
             context: 'home',
             centerText: !cardLayout,
-            allowBottomPadding: false,
+            allowBottomPadding: !enableScrollX(),
             cardLayout: cardLayout
         });
     }
@@ -654,10 +692,16 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
         html += '</div>';
 
-        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        if (enableScrollX()) {
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        } else {
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        }
 
-        html += '</div>';
+        if (enableScrollX()) {
+            html += '</div>';
+        }
         html += '</div>';
 
         elem.classList.add('hide');
@@ -687,7 +731,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         return function (items) {
             return cardBuilder.getCardsHtml({
                 items: items,
-                shape: 'autooverflow',
+                shape: enableScrollX() ? 'autooverflow' : 'auto',
                 showTitle: true,
                 showParentTitle: true,
                 coverImage: true,
@@ -698,7 +742,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 showYear: true,
                 lines: 2,
                 overlayPlayButton: !activeRecordingsOnly,
-                allowBottomPadding: false,
+                allowBottomPadding: !enableScrollX(),
                 preferThumb: true,
                 cardLayout: false,
                 overlayMoreButton: activeRecordingsOnly,
@@ -719,10 +763,16 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + '</h2>';
         html += '</div>';
 
-        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+        if (enableScrollX()) {
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+        } else {
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
+        }
 
-        html += '</div>';
+        if (enableScrollX()) {
+            html += '</div>';
+        }
         html += '</div>';
 
         elem.classList.add('hide');
