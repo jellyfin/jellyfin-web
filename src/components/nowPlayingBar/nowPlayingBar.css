@@ -154,6 +154,10 @@
     display: none;
 }
 
+.layout-desktop .nowPlayingBarRight .playPauseButton {
+    display: none;
+}
+
 .layout-mobile .nowPlayingBarRight input,
 .layout-mobile .nowPlayingBarRight div {
     display: none;

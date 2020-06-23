@@ -252,14 +252,16 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
     return function () {
         function toggleRepeat() {
             switch (playbackManager.getRepeatMode()) {
-                case 'RepeatNone':
-                    playbackManager.setRepeatMode('RepeatAll');
-                    break;
                 case 'RepeatAll':
                     playbackManager.setRepeatMode('RepeatOne');
                     break;
                 case 'RepeatOne':
                     playbackManager.setRepeatMode('RepeatNone');
+                    break;
+                default:
+                case 'RepeatNone':
+                    playbackManager.setRepeatMode('RepeatAll');
+                    break;
             }
         }
 
@@ -360,11 +362,10 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 case 'RepeatOne':
                     innHtml = '<span class="material-icons repeat_one"></span>';
                     break;
+                default:
                 case 'RepeatNone':
                     repeatOn = false;
                     break;
-                default:
-                    throw new TypeError('invalid value for repeatMode');
             }
 
             for (const toggleRepeatButton of toggleRepeatButtons) {
@@ -523,14 +524,13 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
             for (let shuffleButton of shuffleButtons) {
                 switch (shuffleMode) {
-                    case 'Sorted':
-                        shuffleButton.classList.toggle(cssClass, false);
-                        break;
                     case 'Shuffle':
                         shuffleButton.classList.toggle(cssClass, true);
                         break;
                     default:
-                        throw new TypeError('invalid shuffle mode');
+                    case 'Sorted':
+                        shuffleButton.classList.toggle(cssClass, false);
+                        break;
                 }
             }
             onPlaylistUpdate();
@@ -867,6 +867,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 optionsSection.classList.add('align-items-right', 'justify-content-flex-end');
                 context.querySelector('.playlist').classList.remove('hide');
                 context.querySelector('.btnSavePlaylist').classList.remove('hide');
+                context.classList.add('padded-bottom');
             } else {
                 optionsSection.querySelector('.btnTogglePlaylist').insertAdjacentHTML('afterend', volumecontrolHtml);
                 optionsSection.classList.add('playlistSectionButtonTransparent');

@@ -257,13 +257,13 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
                     return {
                         name: s.DeviceName,
                         deviceName: s.DeviceName,
-                        deviceType: s.DeviceType,
+                        deviceType: 'Remote Control',
                         id: s.Id,
                         playerName: name,
                         appName: s.Client,
                         playableMediaTypes: s.PlayableMediaTypes,
                         isLocalPlayer: false,
-                        supportedCommands: s.SupportedCommands,
+                        supportedCommands: s.Capabilities.SupportedCommands,
                         user: s.UserId ? {
 
                             Id: s.UserId,
