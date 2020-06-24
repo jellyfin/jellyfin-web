@@ -154,7 +154,8 @@
     display: none;
 }
 
-.layout-desktop .nowPlayingBarRight .playPauseButton {
+.layout-desktop .nowPlayingBarRight .playPauseButton,
+.layout-tv .nowPlayingBarRight .playPauseButton {
     display: none;
 }
 

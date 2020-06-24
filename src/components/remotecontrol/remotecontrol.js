@@ -518,8 +518,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     case 'Shuffle':
                         shuffleButton.classList.toggle(cssClass, true);
                         break;
-                    default:
                     case 'Sorted':
+                    default:
                         shuffleButton.classList.toggle(cssClass, false);
                         break;
                 }
