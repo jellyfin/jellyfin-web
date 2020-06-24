@@ -797,5 +797,7 @@
     "HeaderResponseProfileHelp": "Los perfiles de respuesta proporcionan una forma de personalizar la información enviada al dispositivo cuando se reproducen ciertos tipos de medios.",
     "HeaderKodiMetadataHelp": "Para habilitar o deshabilitar metadatos NFO, edite una biblioteca en la configuración de la biblioteca Jellyfin y localice la sección de ahorradores de metadatos.",
     "EnableDetailsBannerHelp": "Muestra una imagen de la pancarta en la parte superior de la página de detalles del elemento.",
-    "EnableDetailsBanner": "Detalles de la pancarta"
+    "EnableDetailsBanner": "Detalles de la pancarta",
+    "EnableDecodingColorDepth10Vp9": "Habilitar la decodificación por hardware de VP9 de 10-Bit",
+    "EnableDecodingColorDepth10Hevc": "Habilitar la decodificación por hardware de HEVC de 10-Bit"
 }
