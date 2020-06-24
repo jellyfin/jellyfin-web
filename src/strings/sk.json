@@ -1559,6 +1559,9 @@
     "MessageNoGenresAvailable": "Povoliť vybraným metadáta poskytovateľom stiahnuť žánre z internetu.",
     "EnableFasterAnimationsHelp": "Použiť rýchlejšiu animáciu a prechody",
     "EnableFasterAnimations": "Rýchlejšia animácia",
-    "EnableDecodingColorDepth10Vp9": "Povoliť 10-Bitové hardvérové dekódovanie pre Vp9",
-    "EnableDecodingColorDepth10Hevc": "Povoliť 10-Bitové hardvérové dekódovanie pre HEVC"
+    "EnableDecodingColorDepth10Vp9": "Povoliť 10-Bitové hardvérové dekódovanie pre VP9",
+    "EnableDecodingColorDepth10Hevc": "Povoliť 10-Bitové hardvérové dekódovanie pre HEVC",
+    "LabelRepositoryUrl": "URL adresa repozitára",
+    "HeaderNewRepository": "Nový repozitár",
+    "MessageNoRepositories": "Neexistujú žiadne repozitáre."
 }
