@@ -799,5 +799,14 @@
     "EnableDetailsBannerHelp": "Muestra una imagen de la pancarta en la parte superior de la página de detalles del elemento.",
     "EnableDetailsBanner": "Detalles de la pancarta",
     "EnableDecodingColorDepth10Vp9": "Habilitar la decodificación por hardware de VP9 de 10-Bit",
-    "EnableDecodingColorDepth10Hevc": "Habilitar la decodificación por hardware de HEVC de 10-Bit"
+    "EnableDecodingColorDepth10Hevc": "Habilitar la decodificación por hardware de HEVC de 10-Bit",
+    "LabelKodiMetadataEnableExtraThumbsHelp": "Al descargar imágenes, se pueden guardar en extrafanart y extrathumbs para obtener la máxima compatibilidad con Kodi.",
+    "LabelKodiMetadataEnableExtraThumbs": "Copiar extrafanart al campo extrathumbs",
+    "LabelKodiMetadataDateFormatHelp": "Todas las fechas dentro de los archivos NFO se analizarán usando este formato.",
+    "LabelKodiMetadataDateFormat": "Formato de fecha de lanzamiento:",
+    "LabelKidsCategories": "Categorías de niños:",
+    "LabelKeepUpTo": "Mantente al día con:",
+    "LabelInternetQuality": "Calidad de internet:",
+    "LabelDeathDate": "Fecha de muerte:",
+    "HeaderTypeImageFetchers": "{0} Buscadores de imágenes"
 }
