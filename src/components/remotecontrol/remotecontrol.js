@@ -258,10 +258,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 case 'RepeatOne':
                     playbackManager.setRepeatMode('RepeatNone');
                     break;
-                default:
                 case 'RepeatNone':
                     playbackManager.setRepeatMode('RepeatAll');
-                    break;
             }
         }
 
@@ -362,8 +360,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 case 'RepeatOne':
                     innHtml = '<span class="material-icons repeat_one"></span>';
                     break;
-                default:
                 case 'RepeatNone':
+                default:
                     repeatOn = false;
                     break;
             }
@@ -407,21 +405,14 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             if (!showMuteButton && !showVolumeSlider) {
                 context.querySelector('.volumecontrol').classList.add('hide');
             } else {
-                if (showMuteButton) {
-                    buttonMute.classList.remove('hide');
-                } else {
-                    buttonMute.classList.add('hide');
-                }
+                buttonMute.classList.toggle('hide', showMuteButton);
 
                 var nowPlayingVolumeSlider = context.querySelector('.nowPlayingVolumeSlider');
                 var nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
 
                 if (nowPlayingVolumeSlider) {
-                    if (showVolumeSlider) {
-                        nowPlayingVolumeSliderContainer.classList.remove('hide');
-                    } else {
-                        nowPlayingVolumeSliderContainer.classList.add('hide');
-                    }
+
+                    nowPlayingVolumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
 
                     if (!nowPlayingVolumeSlider.dragging) {
                         nowPlayingVolumeSlider.value = volumeLevel || 0;

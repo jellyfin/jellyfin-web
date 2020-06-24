@@ -195,7 +195,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 case 'RepeatOne':
                     playbackManager.setRepeatMode('RepeatNone');
                     break;
-                default:
                 case 'RepeatNone':
                     playbackManager.setRepeatMode('RepeatAll');
             }
@@ -203,11 +202,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
-        if (appHost.supports('physicalvolumecontrol')) {
-            volumeSliderContainer.classList.add('hide');
-        } else {
-            volumeSliderContainer.classList.remove('hide');
-        }
+        volumeSliderContainer.classList.toggle('hide', appHost.supports('physicalvolumecontrol'));
 
         function setVolume() {
             if (currentPlayer) {
@@ -371,8 +366,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 toggleRepeatButtonIcon.classList.add('repeat_one');
                 toggleRepeatButton.classList.add(cssClass);
                 break;
-            default:
             case 'RepeatNone':
+            default:
                 toggleRepeatButtonIcon.classList.add('repeat');
                 toggleRepeatButton.classList.remove(cssClass);
                 break;
@@ -445,11 +440,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // See bindEvents for why this is necessary
         if (volumeSlider) {
 
-            if (showVolumeSlider) {
-                volumeSliderContainer.classList.remove('hide');
-            } else {
-                volumeSliderContainer.classList.add('hide');
-            }
+            volumeSliderContainer.classList.toggle('hide', showVolumeSlider);
 
             if (!volumeSlider.dragging) {
                 volumeSlider.value = volumeLevel || 0;
@@ -630,6 +621,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function onQueueShuffleModeChange() {
+        if (!isEnabled) {
+            return;
+        }
+
         let shuffleMode = playbackManager.getQueueShuffleMode();
         let context = nowPlayingBarElement;
         const cssClass = 'shuffleQueue-active';
@@ -637,11 +632,11 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         switch (shuffleMode) {
             case 'Shuffle':
-                toggleShuffleButton.classList.toggle(cssClass, true);
+                toggleShuffleButton.classList.add(cssClass);
                 break;
-            default:
             case 'Sorted':
-                toggleShuffleButton.classList.toggle(cssClass, false);
+            default:
+                toggleShuffleButton.classList.remove(cssClass);
                 break;
         }
     }
