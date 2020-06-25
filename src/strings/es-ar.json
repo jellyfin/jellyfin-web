@@ -1287,5 +1287,6 @@
     "LabelAlbumArtHelp": "PN utilizado para la carátula del álbum, dentro del atributo dlna:profileID en upnp:albumArtURI. Algunos dispositivos requieren un valor específico, independientemente del tamaño de la imagen.",
     "LabelAirsBeforeSeason": "Aires antes de la temporada:",
     "LabelAirsBeforeEpisode": "Aires antes del episodio:",
-    "LabelAirsAfterSeason": "Aires después de la temporada:"
+    "LabelAirsAfterSeason": "Aires después de la temporada:",
+    "OptionEnableM2tsMode": "Habilitar el modo M2ts"
 }
