@@ -498,7 +498,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var hasbackdrop = false;
         var itemBackdropElement = page.querySelector('#itemBackdrop');
 
-        if (!layoutManager.mobile && ((!userSettings.enableBackdrops() && !userSettings.detailsBanner()) || (userSettings.enableBackdrops() && !userSettings.detailsBanner()))) {
+        if (!layoutManager.mobile && !userSettings.detailsBanner()) {
             return false;
         }
 

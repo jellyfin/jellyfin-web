@@ -671,6 +671,10 @@
     margin: 1em 0;
 }
 
+.layout-mobile .detailimg-hidemobile {
+    display: none;
+}
+
 .detailImageContainer .card {
     position: absolute;
     top: 50%;
@@ -742,14 +746,19 @@ div.itemDetailGalleryLink.defaultCardBackground {
         position: relative;
     }
 
-    .layout-desktop .detailPageWrapperContainer,
-    .layout-tv .detailPageWrapperContainer {
-        margin-top: 7.2em;
+    .layout-desktop .itemBackdrop,
+    .layout-tv .itemBackdrop {
+        height: 40vh;
     }
 
-    .layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
-    .layout-desktop #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer {
-        padding-left: 3.3%;
+    .layout-desktop .detailPageWrapperContainer,
+    .layout-tv .detailPageWrapperContainer {
+        margin-top: 0.1em;
+    }
+
+    .layout-desktop .detailImageContainer .card,
+    .layout-tv .detailImageContainer .card {
+        top: 10%;
     }
 
     .btnPlaySimple {
@@ -785,10 +794,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 
     .itemDetailPage {
         padding-top: 0 !important;
-    }
-
-    .detailimg-hidemobile {
-        display: none;
     }
 }
 
