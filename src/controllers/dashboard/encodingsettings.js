@@ -8,12 +8,20 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
         page.querySelector('#chkDecodingColorDepth10Hevc').checked = config.EnableDecodingColorDepth10Hevc;
         page.querySelector('#chkDecodingColorDepth10Vp9').checked = config.EnableDecodingColorDepth10Vp9;
         page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
+        page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
         $('#selectThreadCount', page).val(config.EncodingThreadCount);
         $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
         page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
         $('#txtTranscodingTempPath', page).val(systemInfo.TranscodingTempPath || '');
         $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
+        $('#txtOpenclDevice', page).val(config.OpenclDevice || '');
+        $('#selectTonemappingAlgorithm', page).val(config.TonemappingAlgorithm);
+        $('#selectTonemappingRange', page).val(config.TonemappingRange);
+        $('#txtTonemappingDesat', page).val(config.TonemappingDesat);
+        $('#txtTonemappingThreshold', page).val(config.TonemappingThreshold);
+        $('#txtTonemappingPeak', page).val(config.TonemappingPeak);
+        $('#txtTonemappingParam', page).val(config.TonemappingParam || '');
         page.querySelector('#selectEncoderPreset').value = config.EncoderPreset || '';
         page.querySelector('#txtH264Crf').value = config.H264Crf || '';
         page.querySelector('#selectDeinterlaceMethod').value = config.DeinterlaceMethod || '';
@@ -59,6 +67,14 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
                 config.EncodingThreadCount = $('#selectThreadCount', form).val();
                 config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
                 config.VaapiDevice = $('#txtVaapiDevice', form).val();
+                config.OpenclDevice = $('#txtOpenclDevice', form).val();
+                config.EnableTonemapping = form.querySelector('#chkTonemapping').checked;
+                config.TonemappingAlgorithm = form.querySelector('#selectTonemappingAlgorithm').value;
+                config.TonemappingRange = form.querySelector('#selectTonemappingRange').value;
+                config.TonemappingDesat = $('#txtTonemappingDesat', form).val();
+                config.TonemappingThreshold = $('#txtTonemappingThreshold', form).val();
+                config.TonemappingPeak = $('#txtTonemappingPeak', form).val();
+                config.TonemappingParam = $('#txtTonemappingParam', form).val();
                 config.EncoderPreset = form.querySelector('#selectEncoderPreset').value;
                 config.H264Crf = parseInt(form.querySelector('#txtH264Crf').value || '0');
                 config.DeinterlaceMethod = form.querySelector('#selectDeinterlaceMethod').value;
@@ -139,6 +155,16 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
             } else {
                 page.querySelector('.fldVaapiDevice').classList.add('hide');
                 page.querySelector('#txtVaapiDevice').removeAttribute('required');
+            }
+
+            if ('nvenc' == this.value) {
+                page.querySelector('.fldOpenclDevice').classList.remove('hide');
+                page.querySelector('#txtOpenclDevice').setAttribute('required', 'required');
+                page.querySelector('.tonemappingOptions').classList.remove('hide');
+            } else {
+                page.querySelector('.fldOpenclDevice').classList.add('hide');
+                page.querySelector('#txtOpenclDevice').removeAttribute('required');
+                page.querySelector('.tonemappingOptions').classList.add('hide');
             }
 
             if (this.value) {

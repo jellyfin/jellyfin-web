@@ -279,6 +279,34 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
             });
         }
 
+        if (videoStream.VideoRange) {
+            sessionStats.push({
+                label: globalize.translate('LabelVideoRange'),
+                value: videoStream.VideoRange
+            });
+        }
+
+        if (videoStream.ColorSpace) {
+            sessionStats.push({
+                label: globalize.translate('LabelColorSpace'),
+                value: videoStream.ColorSpace
+            });
+        }
+
+        if (videoStream.ColorTransfer) {
+            sessionStats.push({
+                label: globalize.translate('LabelColorTransfer'),
+                value: videoStream.ColorTransfer
+            });
+        }
+
+        if (videoStream.ColorPrimaries) {
+            sessionStats.push({
+                label: globalize.translate('LabelColorPrimaries'),
+                value: videoStream.ColorPrimaries
+            });
+        }
+
         var audioInfos = [];
 
         if (audioCodec) {
