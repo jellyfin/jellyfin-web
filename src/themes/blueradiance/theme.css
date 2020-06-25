@@ -131,23 +131,23 @@ html {
 }
 
 .defaultCardBackground1 {
-    background-color: #d2b019;
+    background-color: #213440;
 }
 
 .defaultCardBackground2 {
-    background-color: #338abb;
+    background-color: #8c6565;
 }
 
 .defaultCardBackground3 {
-    background-color: #6b689d;
+    background-color: #57778c;
 }
 
 .defaultCardBackground4 {
-    background-color: #dd452b;
+    background-color: #8c8c49;
 }
 
 .defaultCardBackground5 {
-    background-color: #5ccea9;
+    background-color: #404024;
 }
 
 .cardText-secondary,
@@ -448,6 +448,10 @@ html {
 
 .repeatButton-active {
     color: #4285f4;
+}
+
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .card:focus .cardBox.visualCardBox,

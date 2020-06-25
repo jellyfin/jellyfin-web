@@ -193,25 +193,6 @@ var Dashboard = {
             }).then(options.callback || function () {});
         });
     },
-    restartServer: function () {
-        var apiClient = window.ApiClient;
-
-        if (apiClient) {
-            require(['serverRestartDialog', 'events'], function (ServerRestartDialog, events) {
-                var dialog = new ServerRestartDialog({
-                    apiClient: apiClient
-                });
-                events.on(dialog, 'restarted', function () {
-                    if (AppInfo.isNativeApp) {
-                        apiClient.ensureWebSocket();
-                    } else {
-                        window.location.reload(true);
-                    }
-                });
-                dialog.show();
-            });
-        }
-    },
     capabilities: function (appHost) {
         var capabilities = {
             PlayableMediaTypes: ['Audio', 'Video'],
@@ -228,6 +209,28 @@ var Dashboard = {
         } else {
             Dashboard.navigate('selectserver.html');
         }
+    },
+    hideLoadingMsg: function() {
+        'use strict';
+        require(['loading'], function(loading) {
+            loading.hide();
+        });
+    },
+    showLoadingMsg: function() {
+        'use strict';
+        require(['loading'], function(loading) {
+            loading.show();
+        });
+    },
+    confirm: function(message, title, callback) {
+        'use strict';
+        require(['confirm'], function(confirm) {
+            confirm(message, title).then(function() {
+                callback(!0);
+            }).catch(function() {
+                callback(!1);
+            });
+        });
     }
 };
 
@@ -653,7 +656,7 @@ var AppInfo = {};
             playQueueManager: componentsPath + '/playback/playqueuemanager',
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
-            packageManager: componentsPath + '/packagemanager',
+            packageManager: componentsPath + '/packageManager',
             screensaverManager: componentsPath + '/screensavermanager',
             chromecastHelper: 'plugins/chromecastPlayer/chromecastHelpers'
         };
@@ -737,7 +740,6 @@ var AppInfo = {};
         // define legacy features
         // TODO delete the rest of these
         define('fnchecked', ['legacy/fnchecked'], returnFirstDependency);
-        define('legacyDashboard', ['legacy/dashboard'], returnFirstDependency);
         define('legacySelectMenu', ['legacy/selectmenu'], returnFirstDependency);
 
         // there are several objects that need to be instantiated
@@ -793,7 +795,6 @@ var AppInfo = {};
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
         define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
         define('collectionEditor', [componentsPath + '/collectionEditor/collectionEditor'], returnFirstDependency);
-        define('serverRestartDialog', [componentsPath + '/serverRestartDialog'], returnFirstDependency);
         define('playlistEditor', [componentsPath + '/playlisteditor/playlisteditor'], returnFirstDependency);
         define('recordingCreator', [componentsPath + '/recordingcreator/recordingcreator'], returnFirstDependency);
         define('recordingEditor', [componentsPath + '/recordingcreator/recordingeditor'], returnFirstDependency);
@@ -820,10 +821,10 @@ var AppInfo = {};
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
-        define('timeSyncManager', [componentsPath + '/syncplay/timeSyncManager'], returnDefault);
-        define('groupSelectionMenu', [componentsPath + '/syncplay/groupSelectionMenu'], returnFirstDependency);
-        define('syncPlayManager', [componentsPath + '/syncplay/syncPlayManager'], returnDefault);
-        define('playbackPermissionManager', [componentsPath + '/syncplay/playbackPermissionManager'], returnDefault);
+        define('timeSyncManager', [componentsPath + '/syncPlay/timeSyncManager'], returnDefault);
+        define('groupSelectionMenu', [componentsPath + '/syncPlay/groupSelectionMenu'], returnFirstDependency);
+        define('syncPlayManager', [componentsPath + '/syncPlay/syncPlayManager'], returnDefault);
+        define('playbackPermissionManager', [componentsPath + '/syncPlay/playbackPermissionManager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);
         define('playMenu', [componentsPath + '/playmenu'], returnFirstDependency);
@@ -836,7 +837,6 @@ var AppInfo = {};
         define('deleteHelper', [scriptsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
-        define('loadingDialog', [componentsPath + '/loadingDialog/loadingDialog'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
@@ -847,7 +847,7 @@ var AppInfo = {};
         define('userdataButtons', [componentsPath + '/userdatabuttons/userdatabuttons'], returnFirstDependency);
         define('listView', [componentsPath + '/listview/listview'], returnFirstDependency);
         define('indicators', [componentsPath + '/indicators/indicators'], returnFirstDependency);
-        define('viewSettings', [componentsPath + '/viewsettings/viewsettings'], returnFirstDependency);
+        define('viewSettings', [componentsPath + '/viewSettings/viewSettings'], returnFirstDependency);
         define('filterMenu', [componentsPath + '/filtermenu/filtermenu'], returnFirstDependency);
         define('sortMenu', [componentsPath + '/sortmenu/sortmenu'], returnFirstDependency);
         define('sanitizefilename', [componentsPath + '/sanitizeFilename'], returnFirstDependency);

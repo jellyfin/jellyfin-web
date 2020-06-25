@@ -70,6 +70,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
     function getImageUrl(item, width) {
 
         var apiClient = connectionManager.getApiClient(item.ServerId);
+        let itemId;
 
         var options = {
             maxWidth: width * 2,
@@ -77,45 +78,45 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         };
 
         if (item.ImageTags && item.ImageTags.Primary) {
-
             options.tag = item.ImageTags.Primary;
-            return apiClient.getScaledImageUrl(item.Id, options);
-        }
-
-        if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
+            itemId = item.Id;
+        } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.AlbumId, options);
+            itemId = item.AlbumId;
         } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
-
             options.tag = item.SeriesPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.SeriesId, options);
-
+            itemId = item.SeriesId;
         } else if (item.ParentPrimaryImageTag) {
-
             options.tag = item.ParentPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, options);
+            itemId = item.ParentPrimaryImageItemId;
         }
 
+        let blurHashes = item.ImageBlurHashes || {};
+        let blurhashstr = (blurHashes[options.type] || {})[options.tag];
+
+        if (itemId) {
+            return { url: apiClient.getScaledImageUrl(itemId, options), blurhash: blurhashstr };
+        }
         return null;
     }
 
     function getChannelImageUrl(item, width) {
 
         var apiClient = connectionManager.getApiClient(item.ServerId);
-
         var options = {
             maxWidth: width * 2,
             type: 'Primary'
         };
 
         if (item.ChannelId && item.ChannelPrimaryImageTag) {
-
             options.tag = item.ChannelPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.ChannelId, options);
         }
+        let blurHashes = item.ImageBlurHashes || {};
+        let blurhashstr = (blurHashes[options.type])[options.tag];
 
-        return null;
+        if (item.ChannelId) {
+            return { url: apiClient.getScaledImageUrl(item.ChannelId, options), blurhash: blurhashstr };
+        }
     }
 
     function getTextLinesHtml(textlines, isLargeStyle) {
@@ -268,8 +269,10 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (options.image !== false) {
-                var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
+                let imgData = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
+                let imgUrl = imgData.url;
+                let blurhash = imgData.blurhash;
+                let imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {
                     imageClass += ' listItemImage-large-tv';
@@ -283,8 +286,13 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                 var imageAction = playOnImageClick ? 'resume' : action;
 
+                let blurhashAttrib = '';
+                if (blurhash && blurhash.length > 0) {
+                    blurhashAttrib = 'data-blurhash="' + blurhash + '"';
+                }
+
                 if (imgUrl) {
-                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
+                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + ' item-icon>';
                 } else {
                     html += '<div class="' + imageClass + '">';
                 }

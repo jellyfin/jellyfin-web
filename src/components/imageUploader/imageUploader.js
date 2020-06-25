@@ -58,6 +58,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
                 var html = ['<img style="max-width:100%;max-height:100%;" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
 
                 page.querySelector('#imageOutput').innerHTML = html;
+                page.querySelector('#dropImageText').classList.add('hide');
                 page.querySelector('#fldUpload').classList.remove('hide');
             };
         })(file);

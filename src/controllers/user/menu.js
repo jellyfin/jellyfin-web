@@ -43,12 +43,6 @@ define(['apphost', 'connectionManager', 'layoutManager', 'listViewStyle', 'emby-
                 page.querySelector('.adminSection').classList.add('hide');
             }
 
-            if (layoutManager.mobile) {
-                page.querySelector('.headerUsername').classList.add('hide');
-                page.querySelector('.adminSection').classList.add('hide');
-                page.querySelector('.userSection').classList.add('hide');
-            }
-
             ApiClient.getUser(userId).then(function(user) {
                 page.querySelector('.headerUsername').innerHTML = user.Name;
                 if (!user.Policy.IsAdministrator) {

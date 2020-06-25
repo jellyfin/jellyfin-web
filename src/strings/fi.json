@@ -776,7 +776,6 @@
     "SaveSubtitlesIntoMediaFolders": "Tallenna tekstitykset mediakansioihin",
     "Saturday": "Lauantai",
     "ResumeAt": "Jatka kohdasta {0}",
-    "RestartPleaseWaitMessage": "Odota kunnes Jellyfin palvelin sammuu ja käynnistyy uudelleen. Tämä voi kestää hetken aikaa.",
     "RequiredForAllRemoteConnections": "Vaadittu kaikille etäyhteyksille",
     "ReplaceExistingImages": "Korvaa olemassaolevat kuvat",
     "ReplaceAllMetadata": "Korvaa kaikki metadata",
@@ -902,7 +901,6 @@
     "HeaderSecondsValue": "{0} Sekuntia",
     "HeaderRunningTasks": "Käynnissä olevat tehtävät",
     "HeaderRevisionHistory": "Versiohistoria",
-    "HeaderRestartingServer": "Uudelleenkäynnistetään palvelinta",
     "HeaderRemoveMediaFolder": "Poista mediakansio",
     "HeaderRemoteControl": "Etäohjaus",
     "HeaderPleaseSignIn": "Ole hyvä ja kirjaudu sisään",
@@ -1245,5 +1243,8 @@
     "FetchingData": "Noudetaan lisätietoja",
     "Features": "Ominaisuudet",
     "ErrorMessageStartHourGreaterThanEnd": "Loppumisajan on oltava myöhemmin kuin aloitusaika.",
-    "MediaInfoAnamorphic": "Anamorfinen"
+    "MediaInfoAnamorphic": "Anamorfinen",
+    "ErrorGettingTvLineups": "TV esiintyjälistan lataamisessa tapahtui virhe. Varmista, että tiedot on oikein ja yritä uudelleen.",
+    "EnableDetailsBannerHelp": "Näyttää julistekuvan yksityiskohdat -sivun ylälaidassa.",
+    "EnableDetailsBanner": "Yksityiskohtien banneri"
 }

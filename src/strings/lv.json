@@ -266,7 +266,6 @@
     "HeaderSeasons": "Sezonas",
     "HeaderSchedule": "Grafiks",
     "HeaderRevisionHistory": "Revīziju Vēsture",
-    "HeaderRestartingServer": "Restartē Serveri",
     "HeaderRestart": "Restartēt",
     "HeaderRemoveMediaLocation": "Noņemt Multvides Atrašanās Vietu",
     "HeaderRemoveMediaFolder": "Noņemt Multvides Mapi",
@@ -1232,7 +1231,5 @@
     "MessageUnauthorizedUser": "Jūs neesat autorizēti lai piekļūtu serverim šajā brīdī. Lūdzu sazinieties ar savu servera administratoru priekš papildus informācijas.",
     "MessageInstallPluginFromApp": "Šis paplašinājums ir jāuzstāda no lietotnes, kurā jūs to vēlaties izmantot.",
     "LabelEmbedAlbumArtDidl": "Ievietot albumu vākus iekš Didl",
-    "EnableFastImageFadeIn": "Ātra attēlu ieplūšana",
-    "EnableFastImageFadeInHelp": "Iespējot ātrāku ieplūšanas animāciju priekš ielādētiem attēliem",
     "LabelSelectFolderGroups": "Automātiski grupēt saturu no sekojošām datnēm skatos kā Filmas, Mūzika un TV:"
 }
