@@ -1056,5 +1056,20 @@
     "AspectRatio": "Omjer",
     "Ascending": "Uzlazno",
     "Art": "Grafike",
-    "Absolute": "Apsolutno"
+    "Absolute": "Apsolutno",
+    "CopyStreamURLSuccess": "URL uspješno kopiran.",
+    "CopyStreamURL": "Kopiraj URL streama",
+    "ContinueWatching": "Nastavi gledati",
+    "Connect": "Spoji",
+    "ClientSettings": "Postavke klijenta",
+    "ButtonTogglePlaylist": "Lista izvođenja",
+    "ButtonToggleContextMenu": "Više",
+    "ButtonSplit": "Odvoji",
+    "ButtonStop": "Stop",
+    "ButtonScanAllLibraries": "Skeniraj sve biblioteke",
+    "ButtonInfo": "Info",
+    "ButtonFilter": "Filtriraj",
+    "ButtonAddImage": "Dodaj sliku",
+    "Box": "Kutija",
+    "AskAdminToCreateLibrary": "Traži administratora da kreira biblioteku."
 }
