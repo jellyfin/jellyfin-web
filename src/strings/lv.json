@@ -602,14 +602,14 @@
     "AsManyAsPossible": "Cik vien iespējams",
     "Artists": "Izpildītāji",
     "Art": "Māksla",
-    "AroundTime": "Ap {0}",
+    "AroundTime": "Ap",
     "Anytime": "Jebkad",
     "AnyLanguage": "Jebkura Valoda",
     "AlwaysPlaySubtitles": "Vienmēr Rādīt",
     "AllowedRemoteAddressesHelp": "Ar komatiem atdalīts IP adrešu vai IP/tīkla masku saraksts, kas norāda uz tīkliem, kas var pieslēgties attālināti. Ja atstāts tukšs, visas attālinātās adreses tiks atļautas.",
     "AllowRemoteAccessHelp": "Ja atķeksēts, visi attālinātie savienojumi tiks bloķēti.",
     "AllowRemoteAccess": "Atļaut attālinātus savienojumus šim Jellyfin Serverim.",
-    "AllowOnTheFlySubtitleExtraction": " ",
+    "AllowOnTheFlySubtitleExtraction": "Atļaut subtitru izvilkšanu atskaņošanas laikā",
     "AllowMediaConversion": "Atļaut multimēdiju pārveidošanu",
     "AllLibraries": "Visas bibliotēkas",
     "AllLanguages": "Visas valodas",
@@ -1231,5 +1231,6 @@
     "MessageUnauthorizedUser": "Jūs neesat autorizēti lai piekļūtu serverim šajā brīdī. Lūdzu sazinieties ar savu servera administratoru priekš papildus informācijas.",
     "MessageInstallPluginFromApp": "Šis paplašinājums ir jāuzstāda no lietotnes, kurā jūs to vēlaties izmantot.",
     "LabelEmbedAlbumArtDidl": "Ievietot albumu vākus iekš Didl",
-    "LabelSelectFolderGroups": "Automātiski grupēt saturu no sekojošām datnēm skatos kā Filmas, Mūzika un TV:"
+    "LabelSelectFolderGroups": "Automātiski grupēt saturu no sekojošām datnēm skatos kā Filmas, Mūzika un TV:",
+    "AllowFfmpegThrottlingHelp": "Kad trans-kodējums vai remux tiek pietiekami tālu priekšā pašreizējai atskaņošanas vietai, process tiks pauzēts lai patērētu mazāk resursu. Tas ir noderīgākais skatoties bez biežas pārlēkšanas. Atspējo šo ja saskaries ar atskaņošanas problēmām."
 }
