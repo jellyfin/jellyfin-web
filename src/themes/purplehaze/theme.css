@@ -37,6 +37,8 @@ html {
 }
 
 .dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu,
 html {
     background-color: #230c33;
 }
@@ -219,23 +221,23 @@ a[data-role=button] {
 }
 
 .defaultCardBackground1 {
-    background-color: #d2b019;
+    background-color: #9c20ab;
 }
 
 .defaultCardBackground2 {
-    background-color: #338abb;
+    background-color: #d799de;
 }
 
 .defaultCardBackground3 {
-    background-color: #6b689d;
+    background-color: #412378;
 }
 
 .defaultCardBackground4 {
-    background-color: #dd452b;
+    background-color: #857b48;
 }
 
 .defaultCardBackground5 {
-    background-color: #5ccea9;
+    background-color: #ab8820;
 }
 
 .cardText-secondary,
@@ -269,7 +271,8 @@ a[data-role=button] {
     color: rgba(255, 255, 255, 0.87);
 }
 
-.appfooter {
+.appfooter,
+.playlistSectionButton {
     background: #06256f;
     color: #ccc;
     color: rgba(255, 255, 255, 0.78);
@@ -545,13 +548,23 @@ a[data-role=button] {
 }
 
 .personCard .cardScalable {
-    border-radius: 50%;
+    border-radius: 50% !important;
     border: 1px solid rgb(255, 255, 255);
+}
+
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 1em;
 }
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-color: #ff77f1 !important;
+}
+
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: 1.5em;
 }
 
 .layout-desktop,
@@ -599,12 +612,6 @@ a[data-role=button] {
     width: 40vw;
 }
 
-.personCard .cardPadder-overflowPortrait,
-.personCard .cardPadder-portrait {
-    padding-bottom: 100%;
-    contain: strict;
-}
-
 .personCard .coveredImage {
     clip-path: circle(50% at 50% 50%);
 }
@@ -615,4 +622,11 @@ a[data-role=button] {
 
 .personCard .cardOverlayButton-br {
     right: 20%;
+}
+
+.personCard .cardPadder-overflowPortrait,
+.personCard .cardPadder-portrait {
+    padding-bottom: 100%;
+    contain: strict;
+    border-radius: 50% !important;
 }

@@ -70,52 +70,53 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
     function getImageUrl(item, width) {
 
         var apiClient = connectionManager.getApiClient(item.ServerId);
+        let itemId;
 
         var options = {
             maxWidth: width * 2,
-            type: "Primary"
+            type: 'Primary'
         };
 
         if (item.ImageTags && item.ImageTags.Primary) {
-
             options.tag = item.ImageTags.Primary;
-            return apiClient.getScaledImageUrl(item.Id, options);
-        }
-
-        if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
+            itemId = item.Id;
+        } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.AlbumId, options);
+            itemId = item.AlbumId;
         } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
-
             options.tag = item.SeriesPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.SeriesId, options);
-
+            itemId = item.SeriesId;
         } else if (item.ParentPrimaryImageTag) {
-
             options.tag = item.ParentPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, options);
+            itemId = item.ParentPrimaryImageItemId;
         }
 
+        let blurHashes = item.ImageBlurHashes || {};
+        let blurhashstr = (blurHashes[options.type] || {})[options.tag];
+
+        if (itemId) {
+            return { url: apiClient.getScaledImageUrl(itemId, options), blurhash: blurhashstr };
+        }
         return null;
     }
 
     function getChannelImageUrl(item, width) {
 
         var apiClient = connectionManager.getApiClient(item.ServerId);
-
         var options = {
             maxWidth: width * 2,
-            type: "Primary"
+            type: 'Primary'
         };
 
         if (item.ChannelId && item.ChannelPrimaryImageTag) {
-
             options.tag = item.ChannelPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.ChannelId, options);
         }
+        let blurHashes = item.ImageBlurHashes || {};
+        let blurhashstr = (blurHashes[options.type])[options.tag];
 
-        return null;
+        if (item.ChannelId) {
+            return { url: apiClient.getScaledImageUrl(item.ChannelId, options), blurhash: blurhashstr };
+        }
     }
 
     function getTextLinesHtml(textlines, isLargeStyle) {
@@ -160,7 +161,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             var button = options.rightButtons[i];
 
-            html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="custom" data-customaction="' + button.id + '" title="' + button.title + '"><i class="material-icons">' + button.icon + '</i></button>';
+            html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="custom" data-customaction="' + button.id + '" title="' + button.title + '"><span class="material-icons ' + button.icon + '"></span></button>';
         }
 
         return html;
@@ -219,7 +220,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
             }
 
-            var cssClass = "listItem";
+            var cssClass = 'listItem';
 
             if (options.border || (options.highlight !== false && !layoutManager.tv)) {
                 cssClass += ' listItem-border';
@@ -236,7 +237,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             var downloadWidth = 80;
 
             if (isLargeStyle) {
-                cssClass += " listItem-largeImage";
+                cssClass += ' listItem-largeImage';
                 downloadWidth = 500;
             }
 
@@ -262,14 +263,16 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (!clickEntireItem && options.dragHandle) {
-                //html += '<button is="paper-icon-button-light" class="listViewDragHandle listItemButton"><i class="material-icons drag_handle"></i></button>';
+                //html += '<button is="paper-icon-button-light" class="listViewDragHandle listItemButton"><span class="material-icons drag_handle"></span></button>';
                 // Firefox and Edge are not allowing the button to be draggable
-                html += '<i class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent drag_handle"></i>';
+                html += '<span class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent drag_handle"></span>';
             }
 
             if (options.image !== false) {
-                var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
+                let imgData = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
+                let imgUrl = imgData.url;
+                let blurhash = imgData.blurhash;
+                let imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {
                     imageClass += ' listItemImage-large-tv';
@@ -283,8 +286,13 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                 var imageAction = playOnImageClick ? 'resume' : action;
 
+                let blurhashAttrib = '';
+                if (blurhash && blurhash.length > 0) {
+                    blurhashAttrib = 'data-blurhash="' + blurhash + '"';
+                }
+
                 if (imgUrl) {
-                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
+                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + ' item-icon>';
                 } else {
                     html += '<div class="' + imageClass + '">';
                 }
@@ -297,7 +305,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
 
                 if (playOnImageClick) {
-                    html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><i class="material-icons listItemImageButton-icon play_arrow"></i></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><span class="material-icons listItemImageButton-icon play_arrow"></span></button>';
                 }
 
                 var progressHtml = indicators.getProgressBarHtml(item, {
@@ -355,7 +363,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             });
 
             if (options.showIndexNumber && item.IndexNumber != null) {
-                displayName = item.IndexNumber + ". " + displayName;
+                displayName = item.IndexNumber + '. ' + displayName;
             }
 
             if (options.showParentTitle && options.parentTitleWithTitle) {
@@ -426,7 +434,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             html += '<div class="' + cssClass + '">';
 
-            var moreIcon = '&#xE5D3;';
+            const moreIcon = 'more_vert';
 
             html += getTextLinesHtml(textlines, isLargeStyle);
 
@@ -475,15 +483,15 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             if (!clickEntireItem) {
 
                 if (options.addToListButton) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><i class="material-icons playlist_add"></i></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add"></span></button>';
                 }
 
                 if (options.moreButton !== false) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><i class="material-icons">' + moreIcon + '</i></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons ' + moreIcon + '"></span></button>';
                 }
 
                 if (options.infoButton) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><i class="material-icons info_outline"></i></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><span class="material-icons info_outline"></span></button>';
                 }
 
                 if (options.rightButtons) {
@@ -496,11 +504,11 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     var likes = userData.Likes == null ? '' : userData.Likes;
 
                     if (itemHelper.canMarkPlayed(item)) {
-                        html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="material-icons">check</i></button>';
+                        html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons check"></span></button>';
                     }
 
                     if (itemHelper.canRate(item)) {
-                        html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons">favorite</i></button>';
+                        html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
                     }
                 }
             }

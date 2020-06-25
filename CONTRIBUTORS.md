@@ -34,6 +34,8 @@
  - [Ryan Hartzell](https://github.com/ryan-hartzell)
  - [Thibault Nocchi](https://github.com/ThibaultNocchi)
  - [MrTimscampi](https://github.com/MrTimscampi)
+ - [Sarab Singh](https://github.com/sarab97)
+ - [Andrei Oanca](https://github.com/OancaAndrei)
 
 # Emby Contributors
 

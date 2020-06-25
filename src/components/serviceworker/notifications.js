@@ -20,7 +20,7 @@
                 case 'restart':
                     return apiClient.restartServer();
                 default:
-                    clients.openWindow("/");
+                    clients.openWindow('/');
                     return Promise.resolve();
             }
         });
@@ -35,7 +35,7 @@
         var action = event.action;
 
         if (!action) {
-            clients.openWindow("/");
+            clients.openWindow('/');
             event.waitUntil(Promise.resolve());
             return;
         }

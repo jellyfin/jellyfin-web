@@ -1,5 +1,5 @@
-define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-itemscontainer"], function (events, libraryBrowser, imageLoader, listView, loading) {
-    "use strict";
+define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userSettings', 'globalize', 'emby-itemscontainer'], function (events, libraryBrowser, imageLoader, listView, loading, userSettings, globalize) {
+    'use strict';
 
     return function (view, params, tabContent) {
         function getPageData(context) {
@@ -9,17 +9,21 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
             if (!pageData) {
                 pageData = data[key] = {
                     query: {
-                        SortBy: "Album,SortName",
-                        SortOrder: "Ascending",
-                        IncludeItemTypes: "Audio",
+                        SortBy: 'Album,SortName',
+                        SortOrder: 'Ascending',
+                        IncludeItemTypes: 'Audio',
                         Recursive: true,
-                        Fields: "AudioInfo,ParentId",
-                        Limit: 100,
+                        Fields: 'AudioInfo,ParentId',
                         StartIndex: 0,
                         ImageTypeLimit: 1,
-                        EnableImageTypes: "Primary"
+                        EnableImageTypes: 'Primary'
                     }
                 };
+
+                if (userSettings.libraryPageSize() > 0) {
+                    pageData.query['Limit'] = userSettings.libraryPageSize();
+                }
+
                 pageData.query.ParentId = params.topParentId;
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
@@ -33,7 +37,7 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
 
         function getSavedQueryKey(context) {
             if (!context.savedQueryKey) {
-                context.savedQueryKey = libraryBrowser.getSavedQueryKey("songs");
+                context.savedQueryKey = libraryBrowser.getSavedQueryKey('songs');
             }
 
             return context.savedQueryKey;
@@ -49,7 +53,9 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                         return;
                     }
 
-                    query.StartIndex += query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex += query.Limit;
+                    }
                     reloadItems(tabContent);
                 }
 
@@ -58,7 +64,9 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                         return;
                     }
 
-                    query.StartIndex -= query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                    }
                     reloadItems(tabContent);
                 }
 
@@ -77,35 +85,35 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                 });
                 var html = listView.getListViewHtml({
                     items: result.Items,
-                    action: "playallfromhere",
+                    action: 'playallfromhere',
                     smallIcon: true,
                     artist: true,
                     addToListButton: true
                 });
-                var elems = tabContent.querySelectorAll(".paging");
+                var elems = tabContent.querySelectorAll('.paging');
 
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
                 }
 
-                elems = tabContent.querySelectorAll(".btnNextPage");
+                elems = tabContent.querySelectorAll('.btnNextPage');
                 for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener("click", onNextPageClick);
+                    elems[i].addEventListener('click', onNextPageClick);
                 }
 
-                elems = tabContent.querySelectorAll(".btnPreviousPage");
+                elems = tabContent.querySelectorAll('.btnPreviousPage');
                 for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener("click", onPreviousPageClick);
+                    elems[i].addEventListener('click', onPreviousPageClick);
                 }
 
-                var itemsContainer = tabContent.querySelector(".itemsContainer");
+                var itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
                 loading.hide();
                 isLoading = false;
 
-                require(["autoFocuser"], function (autoFocuser) {
+                require(['autoFocuser'], function (autoFocuser) {
                     autoFocuser.autoFocus(page);
                 });
             });
@@ -116,13 +124,13 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
         var isLoading = false;
 
         self.showFilterMenu = function () {
-            require(["components/filterdialog/filterdialog"], function (filterDialogFactory) {
+            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
-                    mode: "songs",
+                    mode: 'songs',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, "filterchange", function () {
+                events.on(filterDialog, 'filterchange', function () {
                     getQuery(tabContent).StartIndex = 0;
                     reloadItems(tabContent);
                 });
@@ -135,38 +143,38 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
         };
 
         function initPage(tabContent) {
-            tabContent.querySelector(".btnFilter").addEventListener("click", function () {
+            tabContent.querySelector('.btnFilter').addEventListener('click', function () {
                 self.showFilterMenu();
             });
-            tabContent.querySelector(".btnSort").addEventListener("click", function (e) {
+            tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: Globalize.translate("OptionTrackName"),
-                        id: "Name"
+                        name: globalize.translate('OptionTrackName'),
+                        id: 'Name'
                     }, {
-                        name: Globalize.translate("OptionAlbum"),
-                        id: "Album,SortName"
+                        name: globalize.translate('OptionAlbum'),
+                        id: 'Album,SortName'
                     }, {
-                        name: Globalize.translate("OptionAlbumArtist"),
-                        id: "AlbumArtist,Album,SortName"
+                        name: globalize.translate('OptionAlbumArtist'),
+                        id: 'AlbumArtist,Album,SortName'
                     }, {
-                        name: Globalize.translate("OptionArtist"),
-                        id: "Artist,Album,SortName"
+                        name: globalize.translate('OptionArtist'),
+                        id: 'Artist,Album,SortName'
                     }, {
-                        name: Globalize.translate("OptionDateAdded"),
-                        id: "DateCreated,SortName"
+                        name: globalize.translate('OptionDateAdded'),
+                        id: 'DateCreated,SortName'
                     }, {
-                        name: Globalize.translate("OptionDatePlayed"),
-                        id: "DatePlayed,SortName"
+                        name: globalize.translate('OptionDatePlayed'),
+                        id: 'DatePlayed,SortName'
                     }, {
-                        name: Globalize.translate("OptionPlayCount"),
-                        id: "PlayCount,SortName"
+                        name: globalize.translate('OptionPlayCount'),
+                        id: 'PlayCount,SortName'
                     }, {
-                        name: Globalize.translate("OptionReleaseDate"),
-                        id: "PremiereDate,AlbumArtist,Album,SortName"
+                        name: globalize.translate('OptionReleaseDate'),
+                        id: 'PremiereDate,AlbumArtist,Album,SortName'
                     }, {
-                        name: Globalize.translate("OptionRuntime"),
-                        id: "Runtime,AlbumArtist,Album,SortName"
+                        name: globalize.translate('OptionRuntime'),
+                        id: 'Runtime,AlbumArtist,Album,SortName'
                     }],
                     callback: function () {
                         getQuery(tabContent).StartIndex = 0;

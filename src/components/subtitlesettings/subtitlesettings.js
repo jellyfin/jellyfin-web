@@ -1,13 +1,13 @@
 define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loading', 'connectionManager', 'subtitleAppearanceHelper', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-input', 'emby-checkbox', 'flexStyles'], function (require, globalize, appSettings, appHost, focusManager, loading, connectionManager, subtitleAppearanceHelper, dom, events) {
-    "use strict";
+    'use strict';
 
     function populateLanguages(select, languages) {
-        var html = "";
+        var html = '';
 
-        html += "<option value=''>" + globalize.translate('AnyLanguage') + "</option>";
+        html += "<option value=''>" + globalize.translate('AnyLanguage') + '</option>';
         for (var i = 0, length = languages.length; i < length; i++) {
             var culture = languages[i];
-            html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + "</option>";
+            html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
         }
 
         select.innerHTML = html;
@@ -37,8 +37,8 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
             populateLanguages(selectSubtitleLanguage, allCultures);
 
-            selectSubtitleLanguage.value = user.Configuration.SubtitleLanguagePreference || "";
-            context.querySelector('#selectSubtitlePlaybackMode').value = user.Configuration.SubtitleMode || "";
+            selectSubtitleLanguage.value = user.Configuration.SubtitleLanguagePreference || '';
+            context.querySelector('#selectSubtitlePlaybackMode').value = user.Configuration.SubtitleMode || '';
 
             context.querySelector('#selectSubtitlePlaybackMode').dispatchEvent(new CustomEvent('change', {}));
 

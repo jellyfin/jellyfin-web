@@ -1,13 +1,23 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browser'], function (datetime, imageLoader, connectionManager, layoutManager, browser) {
-    'use strict';
+/* eslint-disable indent */
 
-    var enableFocusTransform = !browser.slow && !browser.edge;
+/**
+ * Module for building cards from item data.
+ * @module components/cardBuilder/chaptercardbuilder
+ */
 
-    function buildChapterCardsHtml(item, chapters, options) {
+import datetime from 'datetime';
+import imageLoader from 'imageLoader';
+import connectionManager from 'connectionManager';
+import layoutManager from 'layoutManager';
+import browser from 'browser';
+
+    const enableFocusTransform = !browser.slow && !browser.edge;
+
+     function buildChapterCardsHtml(item, chapters, options) {
 
         // TODO move card creation code to Card component
 
-        var className = 'card itemAction chapterCard';
+        let className = 'card itemAction chapterCard';
 
         if (layoutManager.tv) {
             className += ' show-focus';
@@ -17,12 +27,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             }
         }
 
-        var mediaStreams = ((item.MediaSources || [])[0] || {}).MediaStreams || [];
-        var videoStream = mediaStreams.filter(function (i) {
-            return i.Type === 'Video';
+        const mediaStreams = ((item.MediaSources || [])[0] || {}).MediaStreams || [];
+        const videoStream = mediaStreams.filter(({Type}) => {
+            return Type === 'Video';
         })[0] || {};
 
-        var shape = (options.backdropShape || 'backdrop');
+        let shape = (options.backdropShape || 'backdrop');
 
         if (videoStream.Width && videoStream.Height) {
 
@@ -31,24 +41,24 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             }
         }
 
-        className += ' ' + shape + 'Card';
+        className += ` ${shape}Card`;
 
         if (options.block || options.rows) {
             className += ' block';
         }
 
-        var html = '';
-        var itemsInRow = 0;
+        let html = '';
+        let itemsInRow = 0;
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = connectionManager.getApiClient(item.ServerId);
 
-        for (var i = 0, length = chapters.length; i < length; i++) {
+        for (let i = 0, length = chapters.length; i < length; i++) {
 
             if (options.rows && itemsInRow === 0) {
                 html += '<div class="cardColumn">';
             }
 
-            var chapter = chapters[i];
+            const chapter = chapters[i];
 
             html += buildChapterCard(item, apiClient, chapter, i, options, className, shape);
             itemsInRow++;
@@ -62,50 +72,50 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         return html;
     }
 
-    function getImgUrl(item, chapter, index, maxWidth, apiClient) {
+    function getImgUrl({Id}, {ImageTag}, index, maxWidth, apiClient) {
 
-        if (chapter.ImageTag) {
+        if (ImageTag) {
 
-            return apiClient.getScaledImageUrl(item.Id, {
+            return apiClient.getScaledImageUrl(Id, {
 
                 maxWidth: maxWidth * 2,
-                tag: chapter.ImageTag,
-                type: "Chapter",
-                index: index
+                tag: ImageTag,
+                type: 'Chapter',
+                index
             });
         }
 
         return null;
     }
 
-    function buildChapterCard(item, apiClient, chapter, index, options, className, shape) {
+    function buildChapterCard(item, apiClient, chapter, index, {width, coverImage}, className, shape) {
 
-        var imgUrl = getImgUrl(item, chapter, index, options.width || 400, apiClient);
+        const imgUrl = getImgUrl(item, chapter, index, width || 400, apiClient);
 
-        var cardImageContainerClass = 'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';
-        if (options.coverImage) {
+        let cardImageContainerClass = 'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';
+        if (coverImage) {
             cardImageContainerClass += ' coveredImage';
         }
-        var dataAttributes = ' data-action="play" data-isfolder="' + item.IsFolder + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-positionticks="' + chapter.StartPositionTicks + '"';
-        var cardImageContainer = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + '">');
+        const dataAttributes = ` data-action="play" data-isfolder="${item.IsFolder}" data-id="${item.Id}" data-serverid="${item.ServerId}" data-type="${item.Type}" data-mediatype="${item.MediaType}" data-positionticks="${chapter.StartPositionTicks}"`;
+        let cardImageContainer = imgUrl ? (`<div class="${cardImageContainerClass} lazy" data-src="${imgUrl}">`) : (`<div class="${cardImageContainerClass}">`);
 
         if (!imgUrl) {
-            cardImageContainer += '<i class="material-icons cardImageIcon local_movies"></i>';
+            cardImageContainer += '<span class="material-icons cardImageIcon local_movies"></span>';
         }
 
-        var nameHtml = '';
-        nameHtml += '<div class="cardText">' + chapter.Name + '</div>';
-        nameHtml += '<div class="cardText">' + datetime.getDisplayRunningTime(chapter.StartPositionTicks) + '</div>';
+        let nameHtml = '';
+        nameHtml += `<div class="cardText">${chapter.Name}</div>`;
+        nameHtml += `<div class="cardText">${datetime.getDisplayRunningTime(chapter.StartPositionTicks)}</div>`;
 
-        var cardBoxCssClass = 'cardBox';
-        var cardScalableClass = 'cardScalable';
+        const cardBoxCssClass = 'cardBox';
+        const cardScalableClass = 'cardScalable';
 
-        var html = '<button type="button" class="' + className + '"' + dataAttributes + '><div class="' + cardBoxCssClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainer + '</div><div class="innerCardFooter">' + nameHtml + '</div></div></div></button>';
+        const html = `<button type="button" class="${className}"${dataAttributes}><div class="${cardBoxCssClass}"><div class="${cardScalableClass}"><div class="cardPadder-${shape}"></div>${cardImageContainer}</div><div class="innerCardFooter">${nameHtml}</div></div></div></button>`;
 
         return html;
     }
 
-    function buildChapterCards(item, chapters, options) {
+    export function buildChapterCards(item, chapters, options) {
 
         if (options.parentContainer) {
             // Abort if the container has been disposed
@@ -121,15 +131,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             }
         }
 
-        var html = buildChapterCardsHtml(item, chapters, options);
+        const html = buildChapterCardsHtml(item, chapters, options);
 
         options.itemsContainer.innerHTML = html;
 
         imageLoader.lazyChildren(options.itemsContainer);
     }
 
-    return {
-        buildChapterCards: buildChapterCards
-    };
+/* eslint-enable indent */
 
-});
+export default {
+    buildChapterCards: buildChapterCards
+};
+

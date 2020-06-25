@@ -1,16 +1,16 @@
-define(["browser", "dom", "layoutManager", "css!components/viewManager/viewContainer"], function (browser, dom, layoutManager) {
-    "use strict";
+define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewContainer'], function (browser, dom, layoutManager) {
+    'use strict';
 
     function setControllerClass(view, options) {
         if (options.controllerFactory) {
             return Promise.resolve();
         }
 
-        var controllerUrl = view.getAttribute("data-controller");
+        var controllerUrl = view.getAttribute('data-controller');
 
         if (controllerUrl) {
-            if (0 === controllerUrl.indexOf("__plugin/")) {
-                controllerUrl = controllerUrl.substring("__plugin/".length);
+            if (0 === controllerUrl.indexOf('__plugin/')) {
+                controllerUrl = controllerUrl.substring('__plugin/'.length);
             }
 
             controllerUrl = Dashboard.getConfigurationResourceUrl(controllerUrl);
@@ -38,21 +38,17 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
                 pageIndex = 0;
             }
 
-            var isPluginpage = -1 !== options.url.toLowerCase().indexOf("/configurationpage");
+            var isPluginpage = -1 !== options.url.toLowerCase().indexOf('/configurationpage');
             var newViewInfo = normalizeNewView(options, isPluginpage);
             var newView = newViewInfo.elem;
             var modulesToLoad = [];
 
-            if (isPluginpage) {
-                modulesToLoad.push("legacyDashboard");
-            }
-
             if (newViewInfo.hasjQuerySelect) {
-                modulesToLoad.push("legacySelectMenu");
+                modulesToLoad.push('legacySelectMenu');
             }
 
             if (newViewInfo.hasjQueryChecked) {
-                modulesToLoad.push("fnchecked");
+                modulesToLoad.push('fnchecked');
             }
 
             return new Promise(function (resolve) {
@@ -65,12 +61,12 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
 
                     var view = newView;
 
-                    if ("string" == typeof view) {
-                        view = document.createElement("div");
+                    if ('string' == typeof view) {
+                        view = document.createElement('div');
                         view.innerHTML = newView;
                     }
 
-                    view.classList.add("mainAnimatedPage");
+                    view.classList.add('mainAnimatedPage');
 
                     if (currentPage) {
                         if (newViewInfo.hasScript && window.$) {
@@ -88,17 +84,17 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
                     }
 
                     if (options.type) {
-                        view.setAttribute("data-type", options.type);
+                        view.setAttribute('data-type', options.type);
                     }
 
                     var properties = [];
 
                     if (options.fullscreen) {
-                        properties.push("fullscreen");
+                        properties.push('fullscreen');
                     }
 
                     if (properties.length) {
-                        view.setAttribute("data-properties", properties.join(","));
+                        view.setAttribute('data-properties', properties.join(','));
                     }
 
                     allPages[pageIndex] = view;
@@ -133,11 +129,11 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
 
     function parseHtml(html, hasScript) {
         if (hasScript) {
-            html = replaceAll(html, "\x3c!--<script", "<script");
-            html = replaceAll(html, "<\/script>--\x3e", "<\/script>");
+            html = replaceAll(html, '\x3c!--<script', '<script');
+            html = replaceAll(html, '<\/script>--\x3e', '<\/script>');
         }
 
-        var wrapper = document.createElement("div");
+        var wrapper = document.createElement('div');
         wrapper.innerHTML = html;
         return wrapper.querySelector('div[data-role="page"]');
     }
@@ -149,11 +145,11 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
             return viewHtml;
         }
 
-        var hasScript = -1 !== viewHtml.indexOf("<script");
+        var hasScript = -1 !== viewHtml.indexOf('<script');
         var elem = parseHtml(viewHtml, hasScript);
 
         if (hasScript) {
-            hasScript = null != elem.querySelector("script");
+            hasScript = null != elem.querySelector('script');
         }
 
         var hasjQuery = false;
@@ -161,9 +157,9 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
         var hasjQueryChecked = false;
 
         if (isPluginpage) {
-            hasjQuery = -1 != viewHtml.indexOf("jQuery") || -1 != viewHtml.indexOf("$(") || -1 != viewHtml.indexOf("$.");
-            hasjQueryChecked = -1 != viewHtml.indexOf(".checked(");
-            hasjQuerySelect = -1 != viewHtml.indexOf(".selectmenu(");
+            hasjQuery = -1 != viewHtml.indexOf('jQuery') || -1 != viewHtml.indexOf('$(') || -1 != viewHtml.indexOf('$.');
+            hasjQueryChecked = -1 != viewHtml.indexOf('.checked(');
+            hasjQuerySelect = -1 != viewHtml.indexOf('.selectmenu(');
         }
 
         return {
@@ -178,7 +174,7 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
     function beforeAnimate(allPages, newPageIndex, oldPageIndex) {
         for (var index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index && oldPageIndex !== index) {
-                allPages[index].classList.add("hide");
+                allPages[index].classList.add('hide');
             }
         }
     }
@@ -186,7 +182,7 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
     function afterAnimate(allPages, newPageIndex) {
         for (var index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index) {
-                allPages[index].classList.add("hide");
+                allPages[index].classList.add('hide');
             }
         }
     }
@@ -216,7 +212,7 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
                     }
 
                     beforeAnimate(allPages, index, selected);
-                    animatable.classList.remove("hide");
+                    animatable.classList.remove('hide');
                     selectedPageIndex = index;
 
                     if (!options.cancel && previousAnimatable) {
@@ -237,24 +233,24 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
     }
 
     function triggerDestroy(view) {
-        view.dispatchEvent(new CustomEvent("viewdestroy", {}));
+        view.dispatchEvent(new CustomEvent('viewdestroy', {}));
     }
 
     function reset() {
         allPages = [];
         currentUrls = [];
-        mainAnimatedPages.innerHTML = "";
+        mainAnimatedPages.innerHTML = '';
         selectedPageIndex = -1;
     }
 
     var onBeforeChange;
-    var mainAnimatedPages = document.querySelector(".mainAnimatedPages");
+    var mainAnimatedPages = document.querySelector('.mainAnimatedPages');
     var allPages = [];
     var currentUrls = [];
     var pageContainerCount = 3;
     var selectedPageIndex = -1;
     reset();
-    mainAnimatedPages.classList.remove("hide");
+    mainAnimatedPages.classList.remove('hide');
     return {
         loadView: loadView,
         tryRestoreView: tryRestoreView,

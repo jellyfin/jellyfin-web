@@ -5,6 +5,17 @@ html {
     height: 100%;
 }
 
+.clipForScreenReader {
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+}
+
 .material-icons {
     /* Fix font ligatures on older WebOS versions */
     -webkit-font-feature-settings: "liga";
@@ -95,4 +106,30 @@ div[data-role=page] {
     margin-left: auto;
     margin-right: auto;
     width: 85%;
+}
+
+.headroom {
+    will-change: transform;
+    transition: transform 200ms linear;
+}
+
+.headroom--pinned {
+    transform: translateY(0%);
+}
+
+.headroom--unpinned {
+    transform: translateY(-100%);
+}
+
+.drawerContent {
+    /* make sure the bottom of the drawer is visible when music is playing */
+    padding-bottom: 4em;
+}
+
+.force-scroll {
+    overflow-y: scroll;
+}
+
+.hide-scroll {
+    overflow-y: hidden;
 }

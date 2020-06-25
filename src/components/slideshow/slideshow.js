@@ -2,8 +2,19 @@
  * Image viewer component
  * @module components/slideshow/slideshow
  */
-define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputManager, connectionManager, layoutManager, focusManager, browser, appHost) {
+define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'dom', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputManager, connectionManager, layoutManager, focusManager, browser, appHost, dom) {
     'use strict';
+
+    /**
+     * Name of transition event.
+     */
+    const transitionEndEventName = dom.whichTransitionEvent();
+
+    /**
+     * Flag to use fake image to fix blurry zoomed image.
+     * At least WebKit doesn't restore quality for zoomed images.
+     */
+    const useFakeZoomImage = browser.safari;
 
     /**
      * Retrieves an item's image URL from the API.
@@ -14,7 +25,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      */
     function getImageUrl(item, options, apiClient) {
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (typeof (item) === 'string') {
             return apiClient.getScaledImageUrl(item, options);
@@ -45,7 +56,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      */
     function getBackdropImageUrl(item, options, apiClient) {
         options = options || {};
-        options.type = options.type || "Backdrop";
+        options.type = options.type || 'Backdrop';
 
         // If not resizing, get the original image
         if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
@@ -66,17 +77,17 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      * @param {object} item - Item used to generate the image URL.
      * @returns {string} URL of the item's image.
      */
-    function getImgUrl(item) {
+    function getImgUrl(item, user) {
         var apiClient = connectionManager.getApiClient(item.ServerId);
         var imageOptions = {};
 
         if (item.BackdropImageTags && item.BackdropImageTags.length) {
             return getBackdropImageUrl(item, imageOptions, apiClient);
         } else {
-            if (item.MediaType === 'Photo') {
+            if (item.MediaType === 'Photo' && user && user.Policy.EnableContentDownloading) {
                 return apiClient.getItemDownloadUrl(item.Id);
             }
-            imageOptions.type = "Primary";
+            imageOptions.type = 'Primary';
             return getImageUrl(item, imageOptions, apiClient);
         }
     }
@@ -92,7 +103,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
     function getIcon(icon, cssClass, canFocus, autoFocus) {
         var tabIndex = canFocus ? '' : ' tabindex="-1"';
         autoFocus = autoFocus ? ' autofocus' : '';
-        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><i class="material-icons slideshowButtonIcon ' + icon + '"></i></button>';
+        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '"></span></button>';
     }
 
     /**
@@ -123,7 +134,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         var _osdOpen = false;
 
         // Use autoplay on Chromecast since it is non-interactive.
-        options.interactive = !browser.chromecast;
+        if (browser.chromecast) options.interactive = false;
 
         /**
          * Creates the HTML markup for the dialog and the OSD.
@@ -155,7 +166,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                 html += '<div class="topActionButtons">';
                 if (actionButtonsOnTop) {
-                    if (appHost.supports('filedownload')) {
+                    if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                         html += getIcon('file_download', 'btnDownload slideshowButton', true);
                     }
                     if (appHost.supports('sharing')) {
@@ -169,7 +180,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     html += '<div class="slideshowBottomBar hide">';
 
                     html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                    if (appHost.supports('filedownload')) {
+                    if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                         html += getIcon('file_download', 'btnDownload slideshowButton', true);
                     }
                     if (appHost.supports('sharing')) {
@@ -224,9 +235,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Handles OSD changes when the autoplay is started.
          */
         function onAutoplayStart() {
-            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause i');
+            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
             if (btnSlideshowPause) {
-                btnSlideshowPause.classList.replace("play_arrow", "pause");
+                btnSlideshowPause.classList.replace('play_arrow', 'pause');
             }
         }
 
@@ -234,9 +245,44 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Handles OSD changes when the autoplay is stopped.
          */
         function onAutoplayStop() {
-            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause i');
+            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
             if (btnSlideshowPause) {
-                btnSlideshowPause.classList.replace("pause", "play_arrow");
+                btnSlideshowPause.classList.replace('pause', 'play_arrow');
+            }
+        }
+
+        /**
+         * Handles zoom changes.
+         */
+        function onZoomChange(scale, imageEl, slideEl) {
+            const zoomImage = slideEl.querySelector('.swiper-zoom-fakeimg');
+
+            if (zoomImage) {
+                zoomImage.style.width = zoomImage.style.height = scale * 100 + '%';
+
+                if (scale > 1) {
+                    if (zoomImage.classList.contains('swiper-zoom-fakeimg-hidden')) {
+                        // Await for Swiper style changes
+                        setTimeout(() => {
+                            const callback = () => {
+                                imageEl.removeEventListener(transitionEndEventName, callback);
+                                zoomImage.classList.remove('swiper-zoom-fakeimg-hidden');
+                            };
+
+                            // Swiper set 'transition-duration: 300ms' for auto zoom
+                            // and 'transition-duration: 0s' for touch zoom
+                            const transitionDuration = parseFloat(imageEl.style.transitionDuration.replace(/[a-z]/i, ''));
+
+                            if (transitionDuration > 0) {
+                                imageEl.addEventListener(transitionEndEventName, callback);
+                            } else {
+                                callback();
+                            }
+                        }, 0);
+                    }
+                } else {
+                    zoomImage.classList.add('swiper-zoom-fakeimg-hidden');
+                }
             }
         }
 
@@ -258,6 +304,10 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     direction: 'horizontal',
                     // Loop is disabled due to the virtual slides option not supporting it.
                     loop: false,
+                    zoom: {
+                        minRatio: 1,
+                        toggle: true
+                    },
                     autoplay: !options.interactive,
                     keyboard: {
                         enabled: true
@@ -283,6 +333,10 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                 swiperInstance.on('autoplayStart', onAutoplayStart);
                 swiperInstance.on('autoplayStop', onAutoplayStop);
+
+                if (useFakeZoomImage) {
+                    swiperInstance.on('zoomChange', onZoomChange);
+                }
             });
         }
 
@@ -307,8 +361,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          */
         function getSwiperSlideHtmlFromItem(item) {
             return getSwiperSlideHtmlFromSlide({
-                imageUrl: getImgUrl(item),
-                originalImage: getImgUrl(item, true),
+                originalImage: getImgUrl(item, currentOptions.user),
                 //title: item.Name,
                 //description: item.Overview
                 Id: item.Id,
@@ -324,7 +377,10 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         function getSwiperSlideHtmlFromSlide(item) {
             var html = '';
             html += '<div class="swiper-slide" data-original="' + item.originalImage + '" data-itemid="' + item.Id + '" data-serverid="' + item.ServerId + '">';
-            html += '<div class="slider-zoom-container">';
+            html += '<div class="swiper-zoom-container">';
+            if (useFakeZoomImage) {
+                html += `<div class="swiper-zoom-fakeimg swiper-zoom-fakeimg-hidden" style="background-image: url('${item.originalImage}')"></div>`;
+            }
             html += '<img src="' + item.originalImage + '" class="swiper-slide-img">';
             html += '</div>';
             if (item.title || item.subtitle) {
@@ -414,7 +470,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Toggles the autoplay feature of the Swiper instance.
          */
         function playPause() {
-            var paused = !dialog.querySelector('.btnSlideshowPause i').classList.contains("pause");
+            var paused = !dialog.querySelector('.btnSlideshowPause .material-icons').classList.contains('pause');
             if (paused) {
                 play();
             } else {
@@ -434,6 +490,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             inputManager.off(window, onInputCommand);
             document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
+            // Shows page scrollbar
+            document.body.classList.remove('hide-scroll');
+            document.body.classList.add('force-scroll');
         }
 
         /**
@@ -599,13 +658,15 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          */
         self.show = function () {
             createElements(options);
+            // Hides page scrollbar
+            document.body.classList.remove('force-scroll');
+            document.body.classList.add('hide-scroll');
         };
 
         /**
          * Hides the slideshow element.
          */
         self.hide = function () {
-            var dialog = dialog;
             if (dialog) {
                 dialogHelper.close(dialog);
             }

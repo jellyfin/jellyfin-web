@@ -148,10 +148,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         this.classList.add('mdl-slider');
         this.classList.add('mdl-js-slider');
 
-        if (browser.noFlex) {
-            this.classList.add('slider-no-webkit-thumb');
-        }
-        if (browser.edge || browser.msie) {
+        if (browser.edge) {
             this.classList.add('slider-browser-edge');
         }
         if (!layoutManager.mobile) {

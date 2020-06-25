@@ -435,7 +435,6 @@
     "HeaderResponseProfile": "レスポンスプロファイル",
     "HeaderResponseProfileHelp": "レスポンスプロファイルは、特定の種類のメディアを再生するときにデバイスに送信される情報をカスタマイズする方法を提供します。",
     "HeaderRestart": "リスタート",
-    "HeaderRestartingServer": "サーバーの再起動",
     "HeaderRevisionHistory": "更新履歴",
     "HeaderRunningTasks": "実行中のタスク",
     "HeaderScenes": "シーン",
@@ -1139,5 +1138,10 @@
     "LabelEnableBlastAliveMessages": "アライブメッセージを配信する",
     "LabelDateAddedBehaviorHelp": "メタデータある場合、これらのオプションの前にメタデータ使います。",
     "AskAdminToCreateLibrary": "管理者にライブラリを作成する依頼をしてください。",
-    "AllowFfmpegThrottling": "トランスコードをスロットルする"
+    "AllowFfmpegThrottling": "トランスコードをスロットルする",
+    "Episode": "エピソード",
+    "ClientSettings": "クライアント設定",
+    "Artist": "アーティスト",
+    "AlbumArtist": "アルバム アーティスト",
+    "Album": "アルバム"
 }

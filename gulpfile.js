@@ -1,5 +1,3 @@
-'use strict';
-
 const { src, dest, series, parallel, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
 const del = require('del');
@@ -10,8 +8,8 @@ const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
 const sourcemaps = require('gulp-sourcemaps');
 const mode = require('gulp-mode')({
-    modes: ["development", "production"],
-    default: "development",
+    modes: ['development', 'production'],
+    default: 'development',
     verbose: false
 });
 const stream = require('webpack-stream');
@@ -47,7 +45,7 @@ const options = {
         query: ['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg']
     },
     copy: {
-        query: ['src/**/*.json', 'src/**/*.ico']
+        query: ['src/**/*.json', 'src/**/*.ico', 'src/**/*.mp3']
     },
     injectBundle: {
         query: 'src/index.html'
@@ -57,12 +55,12 @@ const options = {
 function serve() {
     browserSync.init({
         server: {
-            baseDir: "./dist"
+            baseDir: './dist'
         },
         port: 8080
     });
 
-    let events = ['add', 'change'];
+    const events = ['add', 'change'];
 
     watch(options.javascript.query).on('all', function (event, path) {
         if (events.includes(event)) {
@@ -105,7 +103,7 @@ function clean() {
     return del(['dist/']);
 }
 
-let pipelineJavascript = lazypipe()
+const pipelineJavascript = lazypipe()
     .pipe(function () {
         return mode.development(sourcemaps.init({ loadMaps: true }));
     })
@@ -140,7 +138,7 @@ function apploader(standalone) {
             .pipe(pipelineJavascript())
             .pipe(dest('dist/'))
             .pipe(browserSync.stream());
-    };
+    }
 
     task.displayName = 'apploader';
 
@@ -193,9 +191,9 @@ function injectBundle() {
 }
 
 function build(standalone) {
-    return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy), injectBundle);
+    return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy));
 }
 
-exports.default = build(false);
-exports.standalone = build(true);
+exports.default = series(build(false), injectBundle);
+exports.standalone = series(build(true), injectBundle);
 exports.serve = series(exports.standalone, serve);

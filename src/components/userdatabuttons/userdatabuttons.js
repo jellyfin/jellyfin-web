@@ -30,7 +30,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
 
         iconCssClass += 'material-icons';
 
-        return '<button title="' + tooltip + '" data-itemid="' + itemId + '" data-serverid="' + serverId + '" is="' + is + '" data-method="' + method + '" class="' + className + '"><i class="' + iconCssClass + '">' + icon + '</i></button>';
+        return '<button title="' + tooltip + '" data-itemid="' + itemId + '" data-serverid="' + serverId + '" is="' + is + '" data-method="' + method + '" class="' + className + '"><span class="' + iconCssClass + ' ' + icon + '"></span></button>';
     }
 
     function onContainerClick(e) {
@@ -90,10 +90,10 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
             return html;
         }
 
-        var btnCssClass = "btnUserData";
+        var btnCssClass = 'btnUserData';
 
         if (cssClass) {
-            btnCssClass += " " + cssClass;
+            btnCssClass += ' ' + cssClass;
         }
 
         var iconCssClass = options.iconCssClass;

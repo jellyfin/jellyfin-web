@@ -51,7 +51,9 @@ html {
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-.dialog {
+.dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu {
     background-color: #f0f0f0;
 }
 
@@ -183,7 +185,8 @@ html {
     color: rgba(255, 255, 255, 0.87);
 }
 
-.appfooter {
+.appfooter,
+.playlistSectionButton {
     background: #282828;
     color: #ccc;
     color: rgba(255, 255, 255, 0.78);
@@ -427,6 +430,10 @@ html {
 
 .repeatButton-active {
     color: #4285f4;
+}
+
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: #fff;
 }
 
 .card:focus .cardBox.visualCardBox,

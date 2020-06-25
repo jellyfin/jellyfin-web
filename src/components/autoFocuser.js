@@ -5,8 +5,8 @@
  * @module components/autoFocuser
  */
 
-import focusManager from "focusManager";
-import layoutManager from "layoutManager";
+import focusManager from 'focusManager';
+import layoutManager from 'layoutManager';
 
     /**
      * Previously selected element.
@@ -28,11 +28,11 @@ import layoutManager from "layoutManager";
             return;
         }
 
-        window.addEventListener("focusin", function (e) {
+        window.addEventListener('focusin', function (e) {
             activeElement = e.target;
         });
 
-        console.debug("AutoFocuser enabled");
+        console.debug('AutoFocuser enabled');
     }
 
     /**
@@ -51,21 +51,21 @@ import layoutManager from "layoutManager";
 
         if (activeElement) {
             // These elements are recreated
-            if (activeElement.classList.contains("btnPreviousPage")) {
-                candidates.push(container.querySelector(".btnPreviousPage"));
-                candidates.push(container.querySelector(".btnNextPage"));
-            } else if (activeElement.classList.contains("btnNextPage")) {
-                candidates.push(container.querySelector(".btnNextPage"));
-                candidates.push(container.querySelector(".btnPreviousPage"));
-            } else if (activeElement.classList.contains("btnSelectView")) {
-                candidates.push(container.querySelector(".btnSelectView"));
+            if (activeElement.classList.contains('btnPreviousPage')) {
+                candidates.push(container.querySelector('.btnPreviousPage'));
+                candidates.push(container.querySelector('.btnNextPage'));
+            } else if (activeElement.classList.contains('btnNextPage')) {
+                candidates.push(container.querySelector('.btnNextPage'));
+                candidates.push(container.querySelector('.btnPreviousPage'));
+            } else if (activeElement.classList.contains('btnSelectView')) {
+                candidates.push(container.querySelector('.btnSelectView'));
             }
 
             candidates.push(activeElement);
         }
 
-        candidates = candidates.concat(Array.from(container.querySelectorAll(".btnResume")));
-        candidates = candidates.concat(Array.from(container.querySelectorAll(".btnPlay")));
+        candidates = candidates.concat(Array.from(container.querySelectorAll('.btnResume')));
+        candidates = candidates.concat(Array.from(container.querySelectorAll('.btnPlay')));
 
         let focusedElement;
 
@@ -81,7 +81,7 @@ import layoutManager from "layoutManager";
 
         if (!focusedElement) {
             // FIXME: Multiple itemsContainers
-            const itemsContainer = container.querySelector(".itemsContainer");
+            const itemsContainer = container.querySelector('.itemsContainer');
 
             if (itemsContainer) {
                 focusedElement = focusManager.autoFocus(itemsContainer);

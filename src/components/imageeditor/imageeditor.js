@@ -99,10 +99,10 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
         var html = '';
 
-        var cssClass = "card scalableCard imageEditorCard";
+        var cssClass = 'card scalableCard imageEditorCard';
         var cardBoxCssClass = 'cardBox visualCardBox';
 
-        cssClass += " backdropCard backdropCard-scalable";
+        cssClass += ' backdropCard backdropCard-scalable';
 
         if (tagName === 'button') {
             cssClass += ' btnImageCard';
@@ -132,7 +132,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
         var imageUrl = getImageUrl(currentItem, apiClient, image.ImageType, image.ImageIndex, { maxWidth: imageSize });
 
-        html += '<div class="cardImageContainer" style="background-image:url(\'' + imageUrl + '\');background-position:center bottom;"></div>';
+        html += '<div class="cardImageContainer" style="background-image:url(\'' + imageUrl + '\');background-position:center center;background-size:contain;"></div>';
 
         html += '</div>';
         html += '</div>';
@@ -152,26 +152,26 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         if (enableFooterButtons) {
             html += '<div class="cardText cardTextCentered">';
 
-            if (image.ImageType === "Backdrop" || image.ImageType === "Screenshot") {
+            if (image.ImageType === 'Backdrop' || image.ImageType === 'Screenshot') {
 
                 if (index > 0) {
-                    html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('MoveLeft') + '"><i class="material-icons chevron_left"></i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left"></span></button>';
                 } else {
-                    html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveLeft') + '"><i class="material-icons chevron_left"></i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left"></span></button>';
                 }
 
                 if (index < numImages - 1) {
-                    html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex + 1) + '" title="' + globalize.translate('MoveRight') + '"><i class="material-icons chevron_right"></i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex + 1) + '" title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right"></span></button>';
                 } else {
-                    html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><i class="material-icons chevron_right"></i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right"></span></button>';
                 }
             } else {
                 if (imageProviders.length) {
-                    html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><i class="material-icons">search</i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><span class="material-icons search"></span></button>';
                 }
             }
 
-            html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : "null") + '" class="btnDeleteImage autoSize" title="' + globalize.translate('Delete') + '"><i class="material-icons">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : 'null') + '" class="btnDeleteImage autoSize" title="' + globalize.translate('Delete') + '"><span class="material-icons delete"></span></button>';
             html += '</div>';
         }
 
@@ -251,7 +251,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     function renderStandardImages(page, apiClient, item, imageInfos, imageProviders) {
 
         var images = imageInfos.filter(function (i) {
-            return i.ImageType !== "Screenshot" && i.ImageType !== "Backdrop" && i.ImageType !== "Chapter";
+            return i.ImageType !== 'Screenshot' && i.ImageType !== 'Backdrop' && i.ImageType !== 'Chapter';
         });
 
         renderImages(page, item, apiClient, images, imageProviders, page.querySelector('#images'));
@@ -260,7 +260,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     function renderBackdrops(page, apiClient, item, imageInfos, imageProviders) {
 
         var images = imageInfos.filter(function (i) {
-            return i.ImageType === "Backdrop";
+            return i.ImageType === 'Backdrop';
 
         }).sort(function (a, b) {
             return a.ImageIndex - b.ImageIndex;
@@ -277,7 +277,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     function renderScreenshots(page, apiClient, item, imageInfos, imageProviders) {
 
         var images = imageInfos.filter(function (i) {
-            return i.ImageType === "Screenshot";
+            return i.ImageType === 'Screenshot';
 
         }).sort(function (a, b) {
             return a.ImageIndex - b.ImageIndex;
@@ -425,7 +425,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         addListeners(context, 'btnDeleteImage', 'click', function () {
             var type = this.getAttribute('data-imagetype');
             var index = this.getAttribute('data-index');
-            index = index === "null" ? null : parseInt(index);
+            index = index === 'null' ? null : parseInt(index);
             var apiClient = connectionManager.getApiClient(currentItem.ServerId);
             deleteImage(context, currentItem.Id, type, index, apiClient, true);
         });
@@ -457,7 +457,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                 if (layoutManager.tv) {
                     dialogOptions.size = 'fullscreen';
                 } else {
-                    dialogOptions.size = 'fullscreen-border';
+                    dialogOptions.size = 'small';
                 }
 
                 var dlg = dialogHelper.createDialog(dialogOptions);

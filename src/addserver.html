@@ -1,9 +1,9 @@
 <div data-role="page" class="page standalonePage">
     <div class="padded-left padded-right padded-bottom-page">
-        <form class="addServerForm" style="margin: 0 auto;">
+        <form class="addServerForm" style="margin: 0 auto;" novalidate>
             <h1>${HeaderConnectToServer}</h1>
             <div class="inputContainer">
-                <input is="emby-input" type="text" id="txtServerHost" required="required" label="${LabelServerHost}" autocomplete="off" spellcheck="false" autocapitalize="none" autocorrect="off" />
+                <input is="emby-input" type="url" id="txtServerHost" required="required" label="${LabelServerHost}"/>
                 <div class="fieldDescription">${LabelServerHostHelp}</div>
             </div>
             <br />

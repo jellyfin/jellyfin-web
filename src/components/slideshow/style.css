@@ -40,20 +40,6 @@
     text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
-.swiper-slide-img {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    -ms-transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-}
-
 .slideshowButtonIcon {
     color: #fff;
     opacity: 0.7;
@@ -137,4 +123,20 @@
 
 .slideSubtitle {
     color: #ccc;
+}
+
+.swiper-zoom-fakeimg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.swiper-zoom-fakeimg-hidden {
+    display: none;
 }

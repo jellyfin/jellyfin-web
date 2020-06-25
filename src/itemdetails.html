@@ -1,7 +1,7 @@
 <div id="itemDetailPage" data-role="page" class="page libraryPage itemDetailPage noSecondaryNavPage selfBackdropPage noBackdrop" data-backbutton="true">
     <div id="itemBackdrop" class="itemBackdrop">
         <button is="emby-button" type="button" class="btnPlay detailFloatingButton hide fab autoSize" title="${ButtonPlay}" data-mode="resume">
-            <i class="material-icons play_arrow"></i>
+            <span class="material-icons play_arrow"></span>
         </button>
     </div>
 
@@ -10,98 +10,98 @@
         <div class="detailPagePrimaryContainer padded-left padded-right">
             <div class="infoWrapper infoText">
                 <div class="nameContainer"></div>
-                <div class="itemMiscInfo itemMiscInfo-primary"></div>
-                <div class="itemMiscInfo itemMiscInfo-secondary"></div>
+                <div class="itemMiscInfo itemMiscInfo-primary" style="margin-bottom: 0.6em"></div>
+                <div class="itemMiscInfo itemMiscInfo-secondary" style="margin-bottom: 0.6em"></div>
             </div>
 
             <div class="mainDetailButtons">
                 <button is="emby-button" type="button" class="button-flat btnResume hide detailButton detailButtonHideonMobile" data-mode="resume">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon play_arrow"></i>
+                        <span class="material-icons detailButton-icon play_arrow"></span>
                         <div class="detailButton-text">${ButtonResume}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnPlay hide detailButton detailButtonHideonMobile" data-mode="play">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon play_arrow"></i>
+                        <span class="material-icons detailButton-icon play_arrow"></span>
                         <div class="detailButton-text">${ButtonPlay}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnDownload hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon get_app"></i>
+                        <span class="material-icons detailButton-icon get_app"></span>
                         <div class="detailButton-text">${ButtonDownload}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnPlayTrailer hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon">theaters</i>
+                        <span class="material-icons detailButton-icon theaters"></span>
                         <div class="detailButton-text">${ButtonTrailer}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnInstantMix hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon">explore</i>
+                        <span class="material-icons detailButton-icon explore"></span>
                         <div class="detailButton-text">${HeaderInstantMix}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnShuffle hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon">shuffle</i>
+                        <span class="material-icons detailButton-icon shuffle"></span>
                         <div class="detailButton-text">${ButtonShuffle}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnCancelSeriesTimer hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon">delete</i>
+                        <span class="material-icons detailButton-icon delete"></span>
                         <div class="detailButton-text">${CancelSeries}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnCancelTimer hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon">stop</i>
+                        <span class="material-icons detailButton-icon stop"></span>
                         <div class="detailButton-text">${StopRecording}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnDeleteItem hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon">delete</i>
+                        <span class="material-icons detailButton-icon delete"></span>
                         <div class="detailButton-text">${Delete}</div>
                     </div>
                 </button>
 
                 <button is="emby-playstatebutton" type="button" class="button-flat btnPlaystate hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon">check</i>
+                        <span class="material-icons detailButton-icon check"></span>
                         <div class="detailButton-text button-text"></div>
                     </div>
                 </button>
 
                 <button is="emby-ratingbutton" type="button" class="button-flat btnUserRating hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon">favorite</i>
+                        <span class="material-icons detailButton-icon favorite"></span>
                         <div class="detailButton-text button-text">${Rate}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnSplitVersions hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon call_split"></i>
+                        <span class="material-icons detailButton-icon call_split"></span>
                         <div class="detailButton-text">${ButtonSplit}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnMoreCommands hide detailButton">
                     <div class="detailButton-content">
-                        <i class="material-icons detailButton-icon"></i>
+                        <span class="material-icons detailButton-icon more_vert"></span>
                         <div class="detailButton-text">${ButtonMore}</div>
                     </div>
                 </button>
@@ -136,7 +136,7 @@
                             <div class="selectContainer selectAudioContainer hide trackSelectionFieldContainer flex-shrink-zero">
                                 <select is="emby-select" class="selectAudio detailTrackSelect" label=""></select>
                             </div>
-                            <div class="selectContainer selectSubtitlesContainer hide trackSelectionFieldContainer">
+                            <div class="selectContainer selectSubtitlesContainer hide trackSelectionFieldContainer flex-shrink-zero">
                                 <select is="emby-select" class="selectSubtitles detailTrackSelect" label=""></select>
                             </div>
                         </form>
@@ -148,6 +148,9 @@
                             <p class="itemGenres"></p>
                             <h3 class="tagline"></h3>
                             <p class="overview"></p>
+                            <div class="overview-controls">
+                                <a class="overview-expand hide" is="emby-linkbutton" href="#">${ShowMore}</a>
+                            </div>
                             <p id="itemBirthday"></p>
                             <p id="itemBirthLocation"></p>
                             <p id="itemDeathDate"></p>

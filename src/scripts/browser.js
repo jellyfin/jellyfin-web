@@ -14,15 +14,11 @@ define([], function () {
             return true;
         }
 
-        if (userAgent.indexOf('nintendo') !== -1) {
-            return true;
-        }
-
         if (userAgent.indexOf('viera') !== -1) {
             return true;
         }
 
-        if (userAgent.indexOf('webos') !== -1) {
+        if (userAgent.indexOf('web0s') !== -1) {
             return true;
         }
 
@@ -51,45 +47,6 @@ define([], function () {
         }
 
         return false;
-    }
-
-    function isStyleSupported(prop, value) {
-
-        if (typeof window === 'undefined') {
-            return false;
-        }
-
-        // If no value is supplied, use "inherit"
-        value = arguments.length === 2 ? value : 'inherit';
-        // Try the native standard method first
-        if ('CSS' in window && 'supports' in window.CSS) {
-            return window.CSS.supports(prop, value);
-        }
-        // Check Opera's native method
-        if ('supportsCSS' in window) {
-            return window.supportsCSS(prop, value);
-        }
-
-        // need try/catch because it's failing on tizen
-
-        try {
-            // Convert to camel-case for DOM interactions
-            var camel = prop.replace(/-([a-z]|[0-9])/ig, function (all, letter) {
-                return (letter + '').toUpperCase();
-            });
-            // Check if the property is supported
-            var support = (camel in el.style);
-            // Create test element
-            var el = document.createElement('div');
-            // Assign the property and value to invoke
-            // the CSS interpreter
-            el.style.cssText = prop + ':' + value;
-            // Ensure both the property and value are
-            // supported and return
-            return support && (el.style[camel] !== '');
-        } catch (err) {
-            return false;
-        }
     }
 
     function hasKeyboard(browser) {
@@ -132,7 +89,7 @@ define([], function () {
     var _supportsCssAnimation;
     var _supportsCssAnimationWithPrefix;
     function supportsCssAnimation(allowPrefix) {
-
+        // TODO: Assess if this is still needed, as all of our targets should natively support CSS animations.
         if (allowPrefix) {
             if (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false) {
                 return _supportsCssAnimationWithPrefix;
@@ -184,8 +141,7 @@ define([], function () {
             /(chrome)[ \/]([\w.]+)/.exec(ua) ||
             /(safari)[ \/]([\w.]+)/.exec(ua) ||
             /(firefox)[ \/]([\w.]+)/.exec(ua) ||
-            /(msie) ([\w.]+)/.exec(ua) ||
-            ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
+            ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
             [];
 
         var versionMatch = /(version)[ \/]([\w.]+)/.exec(ua);
@@ -196,18 +152,10 @@ define([], function () {
             /(android)/.exec(ua) ||
             [];
 
-        var browser = match[1] || "";
+        var browser = match[1] || '';
 
-        if (browser === "edge") {
-            platform_match = [""];
-        } else {
-            if (ua.indexOf("windows phone") !== -1 || ua.indexOf("iemobile") !== -1) {
-
-                // http://www.neowin.net/news/ie11-fakes-user-agent-to-fool-gmail-in-windows-phone-81-gdr1-update
-                browser = "msie";
-            } else if (ua.indexOf("like gecko") !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {
-                browser = "msie";
-            }
+        if (browser === 'edge') {
+            platform_match = [''];
         }
 
         if (browser === 'opr') {
@@ -219,7 +167,7 @@ define([], function () {
             version = versionMatch[2];
         }
 
-        version = version || match[2] || "0";
+        version = version || match[2] || '0';
 
         var versionMajor = parseInt(version.split('.')[0]);
 
@@ -230,7 +178,7 @@ define([], function () {
         return {
             browser: browser,
             version: version,
-            platform: platform_match[0] || "",
+            platform: platform_match[0] || '',
             versionMajor: versionMajor
         };
     };
@@ -250,11 +198,11 @@ define([], function () {
         browser[matched.platform] = true;
     }
 
-    if (!browser.chrome && !browser.msie && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf("webkit") !== -1) {
+    if (!browser.chrome && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf('webkit') !== -1) {
         browser.safari = true;
     }
 
-    if (userAgent.toLowerCase().indexOf("playstation 4") !== -1) {
+    if (userAgent.toLowerCase().indexOf('playstation 4') !== -1) {
         browser.ps4 = true;
         browser.tv = true;
     }
@@ -263,7 +211,10 @@ define([], function () {
         browser.mobile = true;
     }
 
-    browser.xboxOne = userAgent.toLowerCase().indexOf('xbox') !== -1;
+    if (userAgent.toLowerCase().indexOf('xbox') !== -1) {
+        browser.xboxOne = true;
+        browser.tv = true;
+    }
     browser.animate = typeof document !== 'undefined' && document.documentElement.animate != null;
     browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || self.tizen != null;
     browser.web0s = userAgent.toLowerCase().indexOf('Web0S'.toLowerCase()) !== -1;
@@ -283,15 +234,12 @@ define([], function () {
     browser.tv = isTv();
     browser.operaTv = browser.tv && userAgent.toLowerCase().indexOf('opr/') !== -1;
 
-    if (!isStyleSupported('display', 'flex')) {
-        browser.noFlex = true;
-    }
-
     if (browser.mobile || browser.tv) {
         browser.slow = true;
     }
 
     if (typeof document !== 'undefined') {
+        /* eslint-disable-next-line compat/compat */
         if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
             browser.touch = true;
         }

@@ -5,7 +5,7 @@
                 <div class="verticalSection">
                     <div class="sectionTitleContainer flex align-items-center">
                         <h2 class="sectionTitle">${HeaderProfileInformation}</h2>
-                        <a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Dlna-profiles">${Help}</a>
+                        <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Dlna-profiles">${Help}</a>
                     </div>
                 </div>
                 <div data-role="controlgroup" data-type="horizontal" data-mini="true">
@@ -98,7 +98,7 @@
                             <div>
                                 <h2 style="vertical-align:middle;display:inline-block;">${HeaderHttpHeaders}</h2>
                                 <button is="emby-button" type="button" class="fab btnAddIdentificationHttpHeader submit sectionTitleButton" style="margin-left:1em;" title="${ButtonAdd}">
-                                    <i class="material-icons">add</i>
+                                    <span class="material-icons add"></span>
                                 </button>
                             </div>
                             <div class="httpHeaderIdentificationList"></div>
@@ -221,7 +221,7 @@
                             <div>
                                 <h2 style="vertical-align:middle;display:inline-block;">${HeaderXmlDocumentAttributes}</h2>
                                 <button is="emby-button" type="button" class="fab btnAddXmlDocumentAttribute submit sectionTitleButton" style="margin-left:1em;" title="${ButtonAdd}">
-                                    <i class="material-icons">add</i>
+                                    <span class="material-icons add"></span>
                                 </button>
                             </div>
                             <div class="xmlDocumentAttributeList"></div>
@@ -272,7 +272,7 @@
             </form>
         </div>
     </div>
-    <div data-role="popup" id="popupEditDirectPlayProfile" class="dialog dialog-fixedSize dialog-medium-tall hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="popupEditDirectPlayProfile" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
         <form class="editDirectPlayProfileForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3 class="sectionTitle">${HeaderDirectPlayProfile}</h3>
@@ -312,7 +312,7 @@
             </div>
         </form>
     </div>
-    <div data-role="popup" id="transcodingProfilePopup" class="dialog dialog-fixedSize dialog-medium-tall hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="transcodingProfilePopup" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
         <form class="transcodingProfileForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3 class="sectionTitle">${HeaderTranscodingProfile}</h3>
@@ -394,7 +394,7 @@
             </div>
         </form>
     </div>
-    <div data-role="popup" id="containerProfilePopup" class="dialog dialog-fixedSize dialog-medium-tall hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="containerProfilePopup" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
         <form class="containerProfileForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3 class="sectionTitle">${HeaderContainerProfile}</h3>
@@ -426,7 +426,7 @@
             </div>
         </form>
     </div>
-    <div data-role="popup" id="codecProfilePopup" class="dialog dialog-fixedSize dialog-medium-tall hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="codecProfilePopup" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
         <form class="codecProfileForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3 class="sectionTitle">${HeaderCodecProfile}</h3>
@@ -455,7 +455,7 @@
             </div>
         </form>
     </div>
-    <div data-role="popup" id="responseProfilePopup" class="dialog dialog-fixedSize dialog-medium-tall hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="responseProfilePopup" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
         <form class="editResponseProfileForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3 class="sectionTitle">${HeaderResponseProfile}</h3>
@@ -495,7 +495,7 @@
             </div>
         </form>
     </div>
-    <div data-role="popup" id="identificationHeaderPopup" class="dialog dialog-fixedSize dialog-medium-tall hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="identificationHeaderPopup" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
         <form class="identificationHeaderForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3 class="sectionTitle">${HeaderIdentificationHeader}</h3>
@@ -525,7 +525,7 @@
             </div>
         </form>
     </div>
-    <div data-role="popup" id="xmlAttributePopup" class="dialog dialog-fixedSize dialog-medium-tall hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="xmlAttributePopup" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
         <form class="xmlAttributeForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3 class="sectionTitle">${HeaderXmlDocumentAttribute}</h3>
@@ -548,7 +548,7 @@
             </div>
         </form>
     </div>
-    <div data-role="popup" id="subtitleProfilePopup" class="dialog dialog-fixedSize dialog-medium-tall hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="subtitleProfilePopup" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
         <form class="subtitleProfileForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3 class="sectionTitle">${HeaderSubtitleProfile}</h3>
