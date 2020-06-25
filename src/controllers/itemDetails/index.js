@@ -692,6 +692,7 @@ import 'emby-select';
         if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
             detailLogo.classList.add('hide');
         } else if (url) {
+            console.warn(url);
             detailLogo.classList.remove('hide');
             imageLoader.setLazyImage(detailLogo, url);
         } else {

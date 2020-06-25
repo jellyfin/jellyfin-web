@@ -4,7 +4,11 @@ import dom from 'dom';
 import layoutManager from 'layoutManager';
 import imageLoader from 'imageLoader';
 import globalize from 'globalize';
+import mediaInfo from 'mediaInfo';
+import playbackManager from 'playbackManager';
 import appRouter from 'appRouter';
+import libraryMenu from 'libraryMenu';
+import swiper from 'swiper';
 import imageHelper from 'scripts/imagehelper';
 import 'paper-icon-button-light';
 import 'emby-itemscontainer';
@@ -30,6 +34,8 @@ import 'css!./homesections';
                 return 'latestmedia';
             case 6:
                 return 'none';
+            case 7:
+                return 'parallax';
             default:
                 return '';
         }
@@ -152,6 +158,8 @@ import 'css!./homesections';
             loadNextUp(elem, apiClient, userId);
         } else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
+        } else if (section === 'parallax') {
+            loadParallax(elem, apiClient, user);
         } else {
             elem.innerHTML = '';
             return Promise.resolve();
@@ -309,6 +317,137 @@ import 'css!./homesections';
         itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType);
         itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.Type, parent.CollectionType);
         itemsContainer.parentContainer = elem;
+    }
+
+    function loadParallax(elem, apiClient, user) {
+        var options = {
+            Limit: 5,
+            Fields: 'Taglines,Overview,PrimaryImageAspectRatio,Path',
+            ImageTypeLimit: 1,
+            EnableImageTypes: 'Backdrop,Logo'
+        };
+
+        apiClient.getLatestItems(options).then((results) => {
+            renderParallax(elem, apiClient, results);
+        });
+    }
+
+    function logoImageUrl(item, apiClient, options) {
+        options = options || {};
+        options.type = 'Logo';
+
+        if (item.ImageTags && item.ImageTags.Logo) {
+            options.tag = item.ImageTags.Logo;
+            return apiClient.getScaledImageUrl(item.Id, options);
+        }
+
+        if (item.ParentLogoImageTag) {
+            options.tag = item.ParentLogoImageTag;
+            return apiClient.getScaledImageUrl(item.ParentLogoItemId, options);
+        }
+
+        return null;
+    }
+
+    function renderParallax(elem, apiClient, items) {
+        let html = '<div class="swiper-container home-parallax-container">';
+        html += '<div class="swiper-wrapper">';
+        html += '</div>';
+        html += '</div>';
+        elem.innerHTML = html;
+        elem.classList.add('parallaxSection');
+        if (elem.classList.contains('section0')) {
+            libraryMenu.setTransparentMenu(true);
+            elem.classList.add('topParallaxSection');
+        }
+
+        const swiperWrapperr = elem.querySelector('.swiper-wrapper');
+
+        for (const item of items) {
+            let html = '';
+            const imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId || item.Id, {
+                type: 'Backdrop',
+                maxWidth: dom.getScreenWidth(),
+                index: 0,
+                tag: item.ParentBackdropImageTags ? item.ParentBackdropImageTags[0] : item.BackdropImageTags[0]
+            });
+            const logoUrl = logoImageUrl(item, apiClient);
+
+            let subtitle;
+            if (item.Taglines[0]) {
+                subtitle = item.Taglines[0];
+            } else if (item.Type === 'Episode') {
+                subtitle = item.Name;
+            } else {
+                subtitle = false;
+            }
+
+            const slide = document.createElement('div');
+            slide.classList.add('swiper-slide');
+
+            if (imgUrl) {
+                html += `<div class="image" style="background-image: url(${imgUrl});"></div>`;
+                html += '<div class="image-overlay"></div>';
+            }
+
+            html += '<div class="infoContainer">';
+
+            if (logoUrl) {
+                html += `<div class="title logo" style="background-image:url(${logoUrl})"></div>`;
+            } else {
+                html += '<div class="titleContainer">';
+                html += `<div class="title">${item.SeriesName || item.Name}</div>`;
+                html += '</div>';
+            }
+
+            html += `<div class="itemMiscInfo itemMiscInfo-primary">${mediaInfo.getPrimaryMediaInfoHtml(item)}</div>`;
+
+            if (subtitle) {
+                html += `<div class="subtitle">${subtitle}</div>`;
+            }
+            if (item.Overview) {
+                html += `<div class="text">${item.Overview}</div>`;
+            }
+
+            html += '<div class="buttons">';
+            if (playbackManager.canPlay(item)) {
+                html += `<button is="emby-button" class="raised btnPlay button-submit block emby-button">
+                            <span>Play</span>
+                        </button>`;
+            }
+            html += `<button is="emby-button" class="raised btnDetails block emby-button">
+                        <span>View details</span>
+                    </button>`;
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+
+            slide.innerHTML = html;
+
+            swiperWrapperr.appendChild(slide);
+        }
+
+        const swiperPagniation = document.createElement('div');
+        swiperPagniation.classList.add('swiper-pagination');
+        swiperWrapperr.appendChild(swiperPagniation);
+
+        const parallaxSwiperElemnt = elem.querySelector('.swiper-container');
+
+        new swiper(parallaxSwiperElemnt, {
+            direction: 'horizontal',
+            autoplay: {
+                delay: 10000
+            },
+            loop: true,
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            }
+        });
     }
 
     function loadRecentlyAdded(elem, apiClient, user, userViews) {
