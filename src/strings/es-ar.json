@@ -1431,5 +1431,16 @@
     "OptionEstimateContentLength": "Estimar la longitud del contenido al transcodificar",
     "OptionEquals": "Igual a",
     "OptionEnded": "Terminó",
-    "OptionEnableM2tsModeHelp": "Habilite el modo m2ts al codificar en mpegts."
+    "OptionEnableM2tsModeHelp": "Habilite el modo m2ts al codificar en mpegts.",
+    "ReplaceExistingImages": "Reemplazar imágenes existentes",
+    "ReplaceAllMetadata": "Reemplazar todos los metadatos",
+    "RepeatOne": "Repetir uno",
+    "RepeatMode": "Modo de repetición",
+    "RepeatEpisodes": "Repetir episodios",
+    "RepeatAll": "Repetir todo",
+    "Repeat": "Repetir",
+    "RemoveFromPlaylist": "Eliminar de la lista de reproducción",
+    "RemoveFromCollection": "Eliminar de la colección",
+    "RememberMe": "Recuérdame",
+    "ReleaseGroup": "Grupo de lanzamiento"
 }
