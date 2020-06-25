@@ -1050,5 +1050,11 @@
     "Alerts": "Upozorenja",
     "AlbumArtist": "Izvođač na albumu",
     "Album": "Album",
-    "AddToPlayQueue": "Dodaj u red izvođenja"
+    "AddToPlayQueue": "Dodaj u red izvođenja",
+    "Banner": "Zaglavlje",
+    "AutoBasedOnLanguageSetting": "Automatski (prema jezičnim postavkama)",
+    "AspectRatio": "Omjer",
+    "Ascending": "Uzlazno",
+    "Art": "Grafike",
+    "Absolute": "Apsolutno"
 }
