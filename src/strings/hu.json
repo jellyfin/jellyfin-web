@@ -1562,6 +1562,14 @@
     "MessageNoGenresAvailable": "Engedélyezz néhány metaadat szolgáltatót, hogy műfaj adatokat tölthess le az internetről.",
     "EnableFasterAnimationsHelp": "Gyorsabb animációk és áttűnések használata",
     "EnableFasterAnimations": "Gyorsabb animációk",
-    "EnableDecodingColorDepth10Vp9": "10 bites hardveres dekódolás engedélyezése Vp9-hez",
-    "EnableDecodingColorDepth10Hevc": "10 bites hardveres dekódolás engedélyezése HEVC-hez"
+    "EnableDecodingColorDepth10Vp9": "10 bites hardveres dekódolás engedélyezése VP9-hez",
+    "EnableDecodingColorDepth10Hevc": "10 bites hardveres dekódolás engedélyezése HEVC-hez",
+    "TabRepositories": "Tárolók",
+    "MessageAddRepository": "Ha új tárolót szeretnél hozzáadni, kattints a gombra a fejlécben, és add meg a szükséges adatokat.",
+    "LabelRepositoryNameHelp": "Egy egyedi név, amivel megkülönböztetheted a tárolót a többi, a szervezhez hozzáadott tárolótól.",
+    "LabelRepositoryName": "Tároló neve",
+    "LabelRepositoryUrlHelp": "A hivatkozni kívánt tároló manifeszt helye.",
+    "LabelRepositoryUrl": "Tároló URL-je",
+    "HeaderNewRepository": "Új tároló",
+    "MessageNoRepositories": "Nincs tároló."
 }
