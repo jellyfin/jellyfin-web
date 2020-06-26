@@ -1237,5 +1237,6 @@
     "ConfirmEndPlayerSession": "Da li želite ugasiti Jellyfin na {0}?",
     "CommunityRating": "Rejting zajednice",
     "Browse": "Pretraži",
-    "BoxRear": "Kutija (stražnja)"
+    "BoxRear": "Kutija (stražnja)",
+    "ButtonSyncPlay": "SyncPlay"
 }
