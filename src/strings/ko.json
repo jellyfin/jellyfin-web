@@ -1429,5 +1429,6 @@
     "ButtonToggleContextMenu": "더보기",
     "Rate": "평",
     "PerfectMatch": "정확히 일치",
-    "OtherArtist": "다른 아티스트"
+    "OtherArtist": "다른 아티스트",
+    "ButtonSyncPlay": "SyncPlay"
 }
