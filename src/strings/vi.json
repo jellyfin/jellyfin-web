@@ -825,5 +825,6 @@
     "LabelMaxStreamingBitrateHelp": "Thiết lập bitrate tối đa khi truyền tải.",
     "LabelMaxStreamingBitrate": "Chất lượng phát tối đa:",
     "LabelMaxScreenshotsPerItem": "Số lượng ảnh chụp tối đa mỗi mục:",
-    "LabelMaxResumePercentageHelp": "Nội dung sẽ được cho là đã kết thúc nếu ngừng phát sau thời gian này."
+    "LabelMaxResumePercentageHelp": "Nội dung sẽ được cho là đã kết thúc nếu ngừng phát sau thời gian này.",
+    "ButtonSyncPlay": "SyncPlay"
 }
