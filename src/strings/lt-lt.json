@@ -1014,5 +1014,6 @@
     "ButtonToggleContextMenu": "Daugiau",
     "ButtonSplit": "Skirstyti",
     "AskAdminToCreateLibrary": "Prašyti administratoriaus, kad sukurtų mediateka.",
-    "Album": "Albumas"
+    "Album": "Albumas",
+    "ButtonSyncPlay": "SyncPlay"
 }
