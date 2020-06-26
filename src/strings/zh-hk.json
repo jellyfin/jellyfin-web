@@ -491,5 +491,10 @@
     "Backdrops": "背景",
     "Backdrop": "背景",
     "AlwaysPlaySubtitles": "經常播放",
-    "Display": "顯示"
+    "Display": "顯示",
+    "EnableBackdrops": "背景",
+    "EditImages": "更改圖片",
+    "DownloadsValue": "下載數目 {0}",
+    "Download": "下載",
+    "DisplayInMyMedia": "在主頁顯示"
 }
