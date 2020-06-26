@@ -218,8 +218,8 @@ import 'flexStyles';
         });
     }
 
-    class CollectionEditor {
-        show(options) {
+    export class showEditor {
+        constructor(options) {
 
             const items = options.items || {};
             currentServerId = options.serverId;
@@ -285,4 +285,4 @@ import 'flexStyles';
     }
 
 /* eslint-enable indent */
-export default CollectionEditor;
+export default showEditor;

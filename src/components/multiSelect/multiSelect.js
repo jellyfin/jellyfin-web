@@ -255,7 +255,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                         switch (id) {
                             case 'addtocollection':
                                 require(['collectionEditor'], function (collectionEditor) {
-                                    new collectionEditor.default().show({
+                                    new collectionEditor.showEditor({
                                         items: items,
                                         serverId: serverId
                                     });
@@ -265,7 +265,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                                 break;
                             case 'playlist':
                                 require(['playlistEditor'], function (playlistEditor) {
-                                    new playlistEditor.default().show({
+                                    new playlistEditor.showEditor({
                                         items: items,
                                         serverId: serverId
                                     });

@@ -216,8 +216,8 @@ import 'emby-button';
         });
     }
 
-    class PlaylistEditor {
-        show(options) {
+    export class showEditor {
+        constructor(options) {
             const items = options.items || {};
             currentServerId = options.serverId;
 
@@ -276,4 +276,4 @@ import 'emby-button';
     }
 
 /* eslint-enable indent */
-export default PlaylistEditor;
+export default showEditor;
