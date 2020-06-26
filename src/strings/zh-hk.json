@@ -496,5 +496,6 @@
     "EditImages": "更改圖片",
     "DownloadsValue": "下載數目 {0}",
     "Download": "下載",
-    "DisplayInMyMedia": "在主頁顯示"
+    "DisplayInMyMedia": "在主頁顯示",
+    "ButtonSyncPlay": "SyncPlay"
 }
