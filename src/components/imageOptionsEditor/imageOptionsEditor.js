@@ -89,31 +89,29 @@ import 'emby-input';
         });
     }
 
-export class editor {
-    constructor() {
-        this.show = (itemType, options, availableOptions) => {
-            return import('text!./components/imageOptionsEditor/imageOptionsEditor.template.html').then(({default: template}) => {
-                return new Promise((resolve) => {
-                    const dlg = dialogHelper.createDialog({
-                        size: 'small',
-                        removeOnClose: true,
-                        scrollY: false
-                    });
-                    dlg.classList.add('formDialog');
-                    dlg.innerHTML = globalize.translateDocument(template);
-                    dlg.addEventListener('close', () => {
-                        saveValues(dlg, options);
-                    });
-                    loadValues(dlg, itemType, options, availableOptions);
-                    dialogHelper.open(dlg).then(resolve, resolve);
-                    dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                        dialogHelper.close(dlg);
-                    });
+export class showEditor {
+    constructor(itemType, options, availableOptions) {
+        return import('text!./components/imageOptionsEditor/imageOptionsEditor.template.html').then(({default: template}) => {
+            return new Promise((resolve) => {
+                const dlg = dialogHelper.createDialog({
+                    size: 'small',
+                    removeOnClose: true,
+                    scrollY: false
+                });
+                dlg.classList.add('formDialog');
+                dlg.innerHTML = globalize.translateDocument(template);
+                dlg.addEventListener('close', () => {
+                    saveValues(dlg, options);
+                });
+                loadValues(dlg, itemType, options, availableOptions);
+                dialogHelper.open(dlg).then(resolve, resolve);
+                dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                    dialogHelper.close(dlg);
                 });
             });
-        };
+        });
     }
 }
 
 /* eslint-enable indent */
-export default editor;
+export default showEditor;

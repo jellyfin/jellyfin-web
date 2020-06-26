@@ -306,7 +306,7 @@ import 'emby-input';
     }
 
     function showImageOptionsForType(type) {
-        import('imageoptionseditor').then(({default: ImageOptionsEditor}) => {
+        import('imageoptionseditor').then(ImageOptionsEditor => {
             let typeOptions = getTypeOptions(currentLibraryOptions, type);
             if (!typeOptions) {
                 typeOptions = {
@@ -315,8 +315,7 @@ import 'emby-input';
                 currentLibraryOptions.TypeOptions.push(typeOptions);
             }
             const availableOptions = getTypeOptions(currentAvailableOptions || {}, type);
-            const imageOptionsEditor = new ImageOptionsEditor();
-            imageOptionsEditor.show(type, typeOptions, availableOptions);
+            new ImageOptionsEditor.showEditor(type, typeOptions, availableOptions);
         });
     }
 
