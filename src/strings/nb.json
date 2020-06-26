@@ -1552,5 +1552,6 @@
     "HeaderDVR": "Opptak",
     "ApiKeysCaption": "Liste over aktive API-nøkler",
     "EnableDetailsBannerHelp": "Viser et bildebanner øverst på detaljsiden.",
-    "EnableDetailsBanner": "Detaljebanner"
+    "EnableDetailsBanner": "Detaljebanner",
+    "ButtonSyncPlay": "SyncPlay"
 }
