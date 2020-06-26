@@ -1552,5 +1552,6 @@
     "HeaderSyncPlayEnabled": "SyncPlay habilitado",
     "HeaderSyncPlaySelectGroup": "Unirse a un grupo",
     "EnableDetailsBannerHelp": "Mostrar una imagen banner en la parte superior de la página de detalles del elemento.",
-    "EnableDetailsBanner": "Banner de detalles"
+    "EnableDetailsBanner": "Banner de detalles",
+    "ButtonSyncPlay": "SyncPlay"
 }
