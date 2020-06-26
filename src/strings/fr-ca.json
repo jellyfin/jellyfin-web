@@ -198,5 +198,6 @@
     "HeaderFavoriteShows": "Séries favorites",
     "HeaderFavoriteEpisodes": "Épisodes favoris",
     "HeaderFavoriteArtists": "Artistes favoris",
-    "HeaderFavoriteAlbums": "Albums favoris"
+    "HeaderFavoriteAlbums": "Albums favoris",
+    "ButtonSyncPlay": "SyncPlay"
 }
