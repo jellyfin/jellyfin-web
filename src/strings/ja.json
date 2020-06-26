@@ -1143,5 +1143,6 @@
     "ClientSettings": "クライアント設定",
     "Artist": "アーティスト",
     "AlbumArtist": "アルバム アーティスト",
-    "Album": "アルバム"
+    "Album": "アルバム",
+    "ButtonSyncPlay": "SyncPlay"
 }
