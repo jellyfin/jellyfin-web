@@ -1232,5 +1232,6 @@
     "MessageInstallPluginFromApp": "Šis paplašinājums ir jāuzstāda no lietotnes, kurā jūs to vēlaties izmantot.",
     "LabelEmbedAlbumArtDidl": "Ievietot albumu vākus iekš Didl",
     "LabelSelectFolderGroups": "Automātiski grupēt saturu no sekojošām datnēm skatos kā Filmas, Mūzika un TV:",
-    "AllowFfmpegThrottlingHelp": "Kad trans-kodējums vai remux tiek pietiekami tālu priekšā pašreizējai atskaņošanas vietai, process tiks pauzēts lai patērētu mazāk resursu. Tas ir noderīgākais skatoties bez biežas pārlēkšanas. Atspējo šo ja saskaries ar atskaņošanas problēmām."
+    "AllowFfmpegThrottlingHelp": "Kad trans-kodējums vai remux tiek pietiekami tālu priekšā pašreizējai atskaņošanas vietai, process tiks pauzēts lai patērētu mazāk resursu. Tas ir noderīgākais skatoties bez biežas pārlēkšanas. Atspējo šo ja saskaries ar atskaņošanas problēmām.",
+    "ButtonSyncPlay": "SyncPlay"
 }
