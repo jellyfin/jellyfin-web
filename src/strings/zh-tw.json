@@ -1655,5 +1655,6 @@
     "New": "新增",
     "ApiKeysCaption": "目前已啟用的API金鑰列表",
     "ButtonTogglePlaylist": "播放清單",
-    "ButtonToggleContextMenu": "更多"
+    "ButtonToggleContextMenu": "更多",
+    "ButtonSyncPlay": "SyncPlay"
 }
