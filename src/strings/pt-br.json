@@ -1511,7 +1511,7 @@
     "LabelNightly": "Nightly",
     "LabelStable": "Estável",
     "LabelChromecastVersion": "Versão do Chromecast",
-    "LabelEnableHttpsHelp": "Habilita que o servidor escute na porta HTTPS configurada. Um certificado válido também deve ser configurado para que isso entre em vigor.",
+    "LabelEnableHttpsHelp": "Permite que o servidor escute na porta HTTPS configurada. Um certificado válido também deve ser configurado para que isso entre em vigor.",
     "LabelEnableHttps": "Habilitar HTTPS",
     "HeaderServerAddressSettings": "Configurações da localização do servidor",
     "HeaderRemoteAccessSettings": "Configurações de acesso remoto",
