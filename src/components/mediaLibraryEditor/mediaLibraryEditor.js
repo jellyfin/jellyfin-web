@@ -247,5 +247,5 @@ export class editor {
     let hasChanges = false;
     let isCreating = false;
 
- /* eslint-enable indent */
+/* eslint-enable indent */
 export default editor;
