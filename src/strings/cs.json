@@ -1635,7 +1635,7 @@
     "EnableBlurhashHelp": "Nenačtené obrázky budou zobrazeny pomocí neurčitých zástupných obrázků",
     "EnableBlurhash": "Povolit zástupné obrázky",
     "ButtonCast": "Přehrát v zařízení",
-    "ButtonSyncPlay": "Synchronizace přehrávání",
+    "ButtonSyncPlay": "SyncPlay",
     "MessageNoGenresAvailable": "Povolit některým poskytovatelům metadat stahovat informace o žánrech z Internetu.",
     "EnableFasterAnimationsHelp": "Použít rychlejší animace a přechody",
     "EnableFasterAnimations": "Rychlejší animace",
