@@ -40,7 +40,7 @@ import 'scrollStyles';
             try {
                 parentNode.removeChild(elem);
             } catch (err) {
-                console.error(`error removing dialog element: ${err}`);
+                console.error('error removing dialog element: ' + err);
             }
         }
     }
@@ -496,13 +496,15 @@ import 'scrollStyles';
         return dlg;
     }
 
+    export function setOnOpen(val) {
+        globalOnOpenCallback = val;
+    }
+
 /* eslint-enable indent */
 
 export default {
     open: open,
     close: close,
     createDialog: createDialog,
-    setOnOpen: function (val) {
-        globalOnOpenCallback = val;
-    }
+    setOnOpen: setOnOpen
 };
