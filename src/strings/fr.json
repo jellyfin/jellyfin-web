@@ -1506,7 +1506,7 @@
     "HeaderFavoritePlaylists": "Listes de lecture favorites",
     "TabDVR": "DVR",
     "LabelChromecastVersion": "Version de Chromecast",
-    "LabelEnableHttpsHelp": "Autorise le serveur à écouter les requêtes HTTPS sur le port configurée. Un certificat valide doit être configuré pour permettre ce mode de fonctionnement.",
+    "LabelEnableHttpsHelp": "Autorise le serveur à écouter les requêtes HTTPS sur le port configuré. Un certificat valide doit être configuré pour permettre ce mode de fonctionnement.",
     "LabelEnableHttps": "Activer HTTPS",
     "HeaderServerAddressSettings": "Paramètres adresses serveur",
     "HeaderRemoteAccessSettings": "Paramètres d'accès distant",
