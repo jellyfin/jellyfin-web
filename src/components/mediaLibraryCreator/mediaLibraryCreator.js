@@ -194,37 +194,35 @@ import 'flexStyles';
         });
     }
 
-export class editor {
-    constructor() {
-        this.show = options => {
-            return new Promise((resolve) => {
-                currentOptions = options;
-                currentResolve = resolve;
-                hasChanges = false;
-                import('text!./components/mediaLibraryCreator/mediaLibraryCreator.template.html').then(({default: template}) => {
-                    const dlg = dialogHelper.createDialog({
-                        size: 'small',
-                        modal: false,
-                        removeOnClose: true,
-                        scrollY: false
-                    });
-                    dlg.classList.add('ui-body-a');
-                    dlg.classList.add('background-theme-a');
-                    dlg.classList.add('dlg-librarycreator');
-                    dlg.classList.add('formDialog');
-                    dlg.innerHTML = globalize.translateDocument(template);
-                    initEditor(dlg, options.collectionTypeOptions);
-                    dlg.addEventListener('close', onDialogClosed);
-                    dialogHelper.open(dlg);
-                    dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                        dialogHelper.close(dlg);
-                    });
-                    pathInfos = [];
-                    renderPaths(dlg);
-                    initLibraryOptions(dlg);
+export class showEditor {
+    constructor(options) {
+        return new Promise((resolve) => {
+            currentOptions = options;
+            currentResolve = resolve;
+            hasChanges = false;
+            import('text!./components/mediaLibraryCreator/mediaLibraryCreator.template.html').then(({default: template}) => {
+                const dlg = dialogHelper.createDialog({
+                    size: 'small',
+                    modal: false,
+                    removeOnClose: true,
+                    scrollY: false
                 });
+                dlg.classList.add('ui-body-a');
+                dlg.classList.add('background-theme-a');
+                dlg.classList.add('dlg-librarycreator');
+                dlg.classList.add('formDialog');
+                dlg.innerHTML = globalize.translateDocument(template);
+                initEditor(dlg, options.collectionTypeOptions);
+                dlg.addEventListener('close', onDialogClosed);
+                dialogHelper.open(dlg);
+                dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                    dialogHelper.close(dlg);
+                });
+                pathInfos = [];
+                renderPaths(dlg);
+                initLibraryOptions(dlg);
             });
-        };
+        });
     }
 }
 
@@ -235,4 +233,4 @@ export class editor {
     let isCreating = false;
 
 /* eslint-enable indent */
-export default editor;
+export default showEditor;

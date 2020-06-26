@@ -209,36 +209,34 @@ import 'flexStyles';
         currentDeferred.resolveWith(null, [hasChanges]);
     }
 
-export class editor {
-    constructor() {
-        this.show = options => {
-            const deferred = jQuery.Deferred();
-            currentOptions = options;
-            currentDeferred = deferred;
-            hasChanges = false;
-            import('text!./components/mediaLibraryEditor/mediaLibraryEditor.template.html').then(({default: template}) => {
-                const dlg = dialogHelper.createDialog({
-                    size: 'small',
-                    modal: false,
-                    removeOnClose: true,
-                    scrollY: false
-                });
-                dlg.classList.add('dlg-libraryeditor');
-                dlg.classList.add('ui-body-a');
-                dlg.classList.add('background-theme-a');
-                dlg.classList.add('formDialog');
-                dlg.innerHTML = globalize.translateDocument(template);
-                dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.library.Name;
-                initEditor(dlg, options);
-                dlg.addEventListener('close', onDialogClosed);
-                dialogHelper.open(dlg);
-                dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                    dialogHelper.close(dlg);
-                });
-                refreshLibraryFromServer(dlg);
+export class showEditor {
+    constructor(options) {
+        const deferred = jQuery.Deferred();
+        currentOptions = options;
+        currentDeferred = deferred;
+        hasChanges = false;
+        import('text!./components/mediaLibraryEditor/mediaLibraryEditor.template.html').then(({default: template}) => {
+            const dlg = dialogHelper.createDialog({
+                size: 'small',
+                modal: false,
+                removeOnClose: true,
+                scrollY: false
             });
-            return deferred.promise();
-        };
+            dlg.classList.add('dlg-libraryeditor');
+            dlg.classList.add('ui-body-a');
+            dlg.classList.add('background-theme-a');
+            dlg.classList.add('formDialog');
+            dlg.innerHTML = globalize.translateDocument(template);
+            dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.library.Name;
+            initEditor(dlg, options);
+            dlg.addEventListener('close', onDialogClosed);
+            dialogHelper.open(dlg);
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                dialogHelper.close(dlg);
+            });
+            refreshLibraryFromServer(dlg);
+        });
+        return deferred.promise();
     }
 }
 
@@ -248,4 +246,4 @@ export class editor {
     let isCreating = false;
 
 /* eslint-enable indent */
-export default editor;
+export default showEditor;
