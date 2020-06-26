@@ -1555,7 +1555,7 @@
     "EnableBlurhashHelp": "Les images qui sont encore en cours de chargement seront remplacées par une image générique floue",
     "EnableBlurhash": "Utilise des images génériques floues à la place des images",
     "ButtonCast": "Diffuser",
-    "ButtonSyncPlay": "Lecture synchronisée",
+    "ButtonSyncPlay": "SyncPlay",
     "TabRepositories": "Dépôts",
     "MessageNoGenresAvailable": "Utiliser des fournisseurs de métadonnées pour récupérer les genres depuis internet.",
     "MessageAddRepository": "Si vous souhaitez ajouter un dépôt, cliquez sur le bouton près de l'entête et renseignez les informations demandées.",
