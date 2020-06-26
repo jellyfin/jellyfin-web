@@ -1275,5 +1275,6 @@
     "Episode": "Epizoda",
     "EnableDetailsBannerHelp": "Prikaži sliko pasice na vrhu strani podrobnosti.",
     "EnableDetailsBanner": "Pasica podrobnosti",
-    "DeinterlaceMethodHelp": "Izberite način razpletanja pri prekodiranju prepletenih vsebin."
+    "DeinterlaceMethodHelp": "Izberite način razpletanja pri prekodiranju prepletenih vsebin.",
+    "ButtonSyncPlay": "SyncPlay"
 }
