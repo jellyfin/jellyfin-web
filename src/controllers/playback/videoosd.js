@@ -1341,7 +1341,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 });
             } catch (e) {
                 require(['appRouter'], function(appRouter) {
-                    window.location.href = 'index.html';
+                    appRouter.goHome()
                 });
             }
         });
