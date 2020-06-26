@@ -1452,5 +1452,6 @@
     "AllowFfmpegThrottlingHelp": "Suspende o processo de transcodificação assim que este avance o suficiente após o ponto de reprodução atual, para poupança de recursos. Esta funcionalidade é mais útil quando a reprodução é maioritariamente contínua, sem avançar ou recuar manualmente. Desative esta opção caso haja problemas de reprodução.",
     "AllowFfmpegThrottling": "Reduzir Taxa de Transcodificação",
     "PreferEmbeddedTitlesOverFileNamesHelp": "Determina o título a apresentar por defeito quando não é possível carregar metadados locais nem da Internet.",
-    "OptionSaveMetadataAsHiddenHelp": "Alterar esta definição apenas afetará metadados guardados futuramente. Ficheiros existentes serão atualizados assim que forem alterados pelo Servidor Jellyfin."
+    "OptionSaveMetadataAsHiddenHelp": "Alterar esta definição apenas afetará metadados guardados futuramente. Ficheiros existentes serão atualizados assim que forem alterados pelo Servidor Jellyfin.",
+    "ButtonSyncPlay": "SyncPlay"
 }
