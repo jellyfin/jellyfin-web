@@ -497,5 +497,11 @@
     "DownloadsValue": "下載數目 {0}",
     "Download": "下載",
     "DisplayInMyMedia": "在主頁顯示",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "ButtonDown": "向下",
+    "BurnSubtitlesHelp": "確定若服務器對視頻進行轉碼時是否嵌入字幕。 關閉這功能將使用更少時間。 選擇'自動'可嵌入基於圖像的格式字幕（VOBSUB，PGS，SUB，IDX等）和某些ASS或SSA字幕。",
+    "BrowsePluginCatalogMessage": "瀏覽我們的插件目錄以查看可用的插件。",
+    "BoxRear": "盒裝(背面)",
+    "BoxSet": "套裝",
+    "Box": "盒裝"
 }
