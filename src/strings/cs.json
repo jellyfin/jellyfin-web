@@ -1648,5 +1648,6 @@
     "LabelRepositoryUrlHelp": "Umístění manifestu repozitáře, který chcete zahrnout.",
     "LabelRepositoryUrl": "URL adresa repozitáře",
     "HeaderNewRepository": "Nový repozitář",
-    "MessageNoRepositories": "Neexistují žádné repozitáře."
+    "MessageNoRepositories": "Neexistují žádné repozitáře.",
+    "ButtonPlayer": "Přehrávač"
 }
