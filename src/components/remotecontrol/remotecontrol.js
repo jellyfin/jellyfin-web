@@ -589,7 +589,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             require(['playlistEditor'], function (playlistEditor) {
                 getSaveablePlaylistItems().then(function (items) {
                     var serverId = items.length ? items[0].ServerId : ApiClient.serverId();
-                    new playlistEditor().show({
+                    new playlistEditor.showEditor({
                         items: items.map(function (i) {
                             return i.Id;
                         }),
