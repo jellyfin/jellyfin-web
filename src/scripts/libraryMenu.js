@@ -12,10 +12,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         html += '</div>';
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
-        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons sync_disabled"></span></button>';
+        html += `<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonSyncPlay')}"><span class="material-icons sync_disabled"></span></button>`;
         html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
-        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast"></span></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search"></span></button>';
+        html += `<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonCast')}"><span class="material-icons cast"></span></button>`;
+        html += `<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide" title="${globalize.translate('ButtonSearch')}"><span class="material-icons search"></span></button>`;
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person"></span></button>';
         html += '</div>';
         html += '</div>';
@@ -64,7 +64,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                 updateHeaderUserButton(url);
                 hasImage = true;
             }
-
+            headerUserButton.title = user.name;
             headerUserButton.classList.remove('hide');
         } else {
             headerUserButton.classList.add('hide');
@@ -834,6 +834,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     var headerAudioPlayerButton;
     var headerSyncButton;
     var enableLibraryNavDrawer = layoutManager.desktop;
+    var enableLibraryNavDrawerHome = !layoutManager.tv;
     var skinHeader = document.querySelector('.skinHeader');
     var requiresUserRefresh = true;
     var lastOpenTime = new Date().getTime();
@@ -920,7 +921,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             refreshDashboardInfoInDrawer(apiClient);
         } else {
             if (mainDrawerButton) {
-                if (enableLibraryNavDrawer || isHomePage) {
+                if (enableLibraryNavDrawer || (isHomePage && enableLibraryNavDrawerHome)) {
                     mainDrawerButton.classList.remove('hide');
                 } else {
                     mainDrawerButton.classList.add('hide');

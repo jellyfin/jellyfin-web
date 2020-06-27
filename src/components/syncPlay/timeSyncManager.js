@@ -65,8 +65,6 @@ class TimeSyncManager {
         this.pings = 0; // number of pings
         this.measurement = null; // current time sync
         this.measurements = [];
-
-        this.startPing();
     }
 
     /**

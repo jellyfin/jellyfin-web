@@ -51,8 +51,8 @@
     "LabelNightly": "Nocturno",
     "HeaderVideos": "Videos",
     "Director": "Director",
-    "Depressed": "Presionado",
-    "BoxSet": "Box Set",
+    "Depressed": "No presionado",
+    "BoxSet": "Caja",
     "UnsupportedPlayback": "Jellyfin no puede desencriptar contenido protegido por DRM de todas formas todo el contenido será intentado, incluyendo los títulos protegidos. Algunos archivos pueden aparecer completamente en negro debido al encriptado o características no soportadas, como títulos interactivos.",
     "OnApplicationStartup": "Cuando se inicia la aplicación",
     "EveryXHours": "Cada {0} horas",
@@ -564,7 +564,6 @@
     "RunAtStartup": "Ejecutar al iniciar",
     "Rewind": "Rebobinar",
     "ResumeAt": "Reanudar desde {0}",
-    "RestartPleaseWaitMessage": "Por favor, espera mientras el servidor Jellyfin se apaga y reinicia. Esto puede tomar un minuto o dos.",
     "ReplaceExistingImages": "Reemplazar imágenes existentes",
     "ReplaceAllMetadata": "Reemplazar todos los metadatos",
     "RepeatOne": "Repetir uno",
@@ -1074,7 +1073,6 @@
     "HeaderScenes": "Escenas",
     "HeaderRunningTasks": "Tareas en ejecución",
     "HeaderRevisionHistory": "Historial de versiones",
-    "HeaderRestartingServer": "Reiniciando servidor",
     "HeaderRestart": "Reiniciar",
     "HeaderResponseProfileHelp": "Los perfiles de respuesta proporcionan un medio para personalizar la información enviada al dispositivo cuando se reproducen ciertos tipos de medios.",
     "HeaderResponseProfile": "Perfil de respuesta",
@@ -1546,5 +1544,9 @@
     "AllComplexFormats": "Todos los formatos complejos (ASS, SSA, VOBSUB, PGS, SUB, IDX...)",
     "AllChannels": "Todos los canales",
     "All": "Todo",
-    "Alerts": "Alertas"
+    "Alerts": "Alertas",
+    "EnableBlurhash": "Habilitar marcadores de posición borrosos para imágenes",
+    "ShowMore": "Mostrar más",
+    "ShowLess": "Mostrar menos",
+    "EnableBlurhashHelp": "Las imágenes que aún se están cargando se mostrarán con un marcador de posición borroso"
 }

@@ -567,7 +567,6 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             row.querySelector('.sessionNowPlayingTime').innerHTML = DashboardPage.getSessionNowPlayingTime(session);
             row.querySelector('.sessionUserName').innerHTML = DashboardPage.getUsersHtml(session);
             row.querySelector('.sessionAppSecondaryText').innerHTML = DashboardPage.getAppSecondaryText(session);
-            row.querySelector('.sessionTranscodingFramerate').innerHTML = session.TranscodingInfo && session.TranscodingInfo.Framerate ? session.TranscodingInfo.Framerate + ' fps' : '';
             var nowPlayingName = DashboardPage.getNowPlayingName(session);
             var nowPlayingInfoElem = row.querySelector('.sessionNowPlayingInfo');
 
