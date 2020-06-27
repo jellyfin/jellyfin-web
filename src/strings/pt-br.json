@@ -1567,5 +1567,6 @@
     "LabelRepositoryUrlHelp": "A localização do manifesto do repositório que você deseja incluir.",
     "LabelRepositoryUrl": "URL do repositório",
     "HeaderNewRepository": "Novo repositório",
-    "MessageNoRepositories": "Não há repositórios."
+    "MessageNoRepositories": "Não há repositórios.",
+    "ButtonPlayer": "Reprodutor"
 }
