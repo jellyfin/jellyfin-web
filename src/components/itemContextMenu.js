@@ -403,7 +403,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     break;
                 case 'moremediainfo':
                     require(['itemMediaInfo'], function (itemMediaInfo) {
-                        itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                        itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'refresh':

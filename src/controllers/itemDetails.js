@@ -141,29 +141,29 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             return;
         }
 
-        playbackManager.getPlaybackMediaSources(item).then(function (mediaSources) {
-            instance._currentPlaybackMediaSources = mediaSources;
-            page.querySelector('.trackSelections').classList.remove('hide');
-            select.setLabel(globalize.translate('LabelVersion'));
-            var currentValue = select.value;
-            var selectedId = mediaSources[0].Id;
-            select.innerHTML = mediaSources.map(function (v) {
-                var selected = v.Id === selectedId ? ' selected' : '';
-                return '<option value="' + v.Id + '"' + selected + '>' + v.Name + '</option>';
-            }).join('');
+        var mediaSources = item.MediaSources;
+        instance._currentPlaybackMediaSources = mediaSources;
+        page.querySelector('.trackSelections').classList.remove('hide');
+        select.setLabel(globalize.translate('LabelVersion'));
+        var currentValue = select.value;
+        var selectedId = mediaSources[0].Id;
+        select.innerHTML = mediaSources.map(function (v) {
+            var selected = v.Id === selectedId ? ' selected' : '';
+            return '<option value="' + v.Id + '"' + selected + '>' + v.Name + '</option>';
+        }).join('');
 
-            if (mediaSources.length > 1) {
-                page.querySelector('.selectSourceContainer').classList.remove('hide');
-            } else {
-                page.querySelector('.selectSourceContainer').classList.add('hide');
-            }
+        if (mediaSources.length > 1) {
+            page.querySelector('.selectSourceContainer').classList.remove('hide');
+        } else {
+            page.querySelector('.selectSourceContainer').classList.add('hide');
+        }
 
-            if (select.value !== currentValue || forceReload) {
-                renderVideoSelections(page, mediaSources);
-                renderAudioSelections(page, mediaSources);
-                renderSubtitleSelections(page, mediaSources);
-            }
-        });
+        if (select.value !== currentValue || forceReload) {
+            renderVideoSelections(page, mediaSources);
+            renderAudioSelections(page, mediaSources);
+            renderSubtitleSelections(page, mediaSources);
+        }
+
     }
 
     function renderVideoSelections(page, mediaSources) {
@@ -400,6 +400,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         } else if (item.Album) {
             parentNameHtml.push(item.Album);
         }
+
         // FIXME: This whole section needs some refactoring, so it becames easier to scale across all form factors. See GH #1022
         var html = '';
         var tvShowHtml = parentNameHtml[0];
@@ -415,9 +416,9 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 }
             } else {
                 if (layoutManager.mobile) {
-                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml.join('</br>') + '</h1>';
+                    html = '<h1 class="parentName" style="margin: 0.2em 0 0">' + parentNameHtml.join('</br>') + '</h1>';
                 } else {
-                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + tvShowHtml + '</h1>';
+                    html = '<h1 class="parentName" style="margin: 0.2em 0 0">' + tvShowHtml + '</h1>';
                 }
             }
         }
@@ -425,20 +426,19 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var name = itemHelper.getDisplayName(item, {
             includeParentInfo: false
         });
-        var offset = parentNameLast ? '.25em' : '.5em';
 
         if (html && !parentNameLast) {
             if (!layoutManager.mobile && tvSeasonHtml) {
-                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + tvSeasonHtml + ' - ' + name + '</h3>';
+                html += '<h3 class="itemName infoText" style="margin: 0.2em 0 0">' + tvSeasonHtml + ' - ' + name + '</h3>';
             } else {
-                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + name + '</h3>';
+                html += '<h3 class="itemName infoText" style="margin: 0.2em 0 0">' + name + '</h3>';
             }
         } else {
-            html = '<h1 class="itemName infoText" style="margin: .1em 0 ' + offset + ';">' + name + '</h1>' + html;
+            html = '<h1 class="itemName infoText" style="margin: 0.4em 0 0">' + name + '</h1>' + html;
         }
 
         if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-            html += '<h4 class="itemName infoText" style="margin: -' + offset + ' 0 0;">' + item.OriginalTitle + '</h4>';
+            html += '<h4 class="itemName infoText" style="margin: 0 0 0;">' + item.OriginalTitle + '</h4>';
         }
 
         container.innerHTML = html;
@@ -1106,10 +1106,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var externalLinksElem = page.querySelector('.itemExternalLinks');
 
         renderOverview([overview], item);
+
         var i;
         var itemMiscInfo;
         itemMiscInfo = page.querySelectorAll('.itemMiscInfo-primary');
-
         for (i = 0; i < itemMiscInfo.length; i++) {
             mediaInfo.fillPrimaryMediaInfo(itemMiscInfo[i], item, {
                 interactive: true,
@@ -1125,7 +1125,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
 
         itemMiscInfo = page.querySelectorAll('.itemMiscInfo-secondary');
-
         for (i = 0; i < itemMiscInfo.length; i++) {
             mediaInfo.fillSecondaryMediaInfo(itemMiscInfo[i], item, {
                 interactive: true
