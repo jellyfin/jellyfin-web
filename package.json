@@ -96,6 +96,8 @@
           "src/components/cardbuilder/cardBuilder.js",
           "src/components/cardbuilder/chaptercardbuilder.js",
           "src/components/cardbuilder/peoplecardbuilder.js",
+          "src/components/dialog/dialog.js",
+          "src/components/dialogHelper/dialogHelper.js",
           "src/components/channelMapper/channelMapper.js",
           "src/components/images/imageLoader.js",
           "src/components/indicators/indicators.js",
