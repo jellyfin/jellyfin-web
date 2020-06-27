@@ -1563,5 +1563,6 @@
     "ButtonCast": "Enviar",
     "MessageNoGenresAvailable": "Permitir a algunos proveedores de metadatos extraer géneros de Internet.",
     "EnableDecodingColorDepth10Vp9": "Habilite la decodificación por hardware de 10 bits para Vp9",
-    "EnableDecodingColorDepth10Hevc": "Habilite la decodificación por hardware de 10 bits para HEVC"
+    "EnableDecodingColorDepth10Hevc": "Habilite la decodificación por hardware de 10 bits para HEVC",
+    "ButtonPlayer": "Reproductor"
 }
