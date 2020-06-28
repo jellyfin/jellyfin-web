@@ -65,6 +65,9 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
                     event.preventDefault();
                 }
             }
+
+            // FIXME: TV layout will require special handling for navigation keys. But now field is not focusable
+            event.stopPropagation();
         });
 
         subtitleSyncTextField.blur = function() {
