@@ -247,7 +247,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     var mainAnimatedPages = document.querySelector('.mainAnimatedPages');
     var allPages = [];
     var currentUrls = [];
-    var pageContainerCount = 3;
+    var pageContainerCount = 1;
     var selectedPageIndex = -1;
     reset();
     mainAnimatedPages.classList.remove('hide');
