@@ -184,7 +184,7 @@ define(['loading', 'listView', 'cardBuilder', 'libraryMenu', 'libraryBrowser', '
         view.querySelector('.btnNewPlaylist').addEventListener('click', function () {
             require(['playlistEditor'], function (playlistEditor) {
                 var serverId = ApiClient.serverInfo().Id;
-                new playlistEditor().show({
+                new playlistEditor.showEditor({
                     items: [],
                     serverId: serverId
                 });

@@ -252,12 +252,6 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html += '</div>';
                 html += '</div>';
 
-                if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
-                    html += '<div class="sessionTranscodingFramerate">' + session.TranscodingInfo.Framerate + ' fps</div>';
-                } else {
-                    html += '<div class="sessionTranscodingFramerate"></div>';
-                }
-
                 html += '<div class="sessionNowPlayingDetails">';
                 var nowPlayingName = DashboardPage.getNowPlayingName(session);
                 html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">';
@@ -573,7 +567,6 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             row.querySelector('.sessionNowPlayingTime').innerHTML = DashboardPage.getSessionNowPlayingTime(session);
             row.querySelector('.sessionUserName').innerHTML = DashboardPage.getUsersHtml(session);
             row.querySelector('.sessionAppSecondaryText').innerHTML = DashboardPage.getAppSecondaryText(session);
-            row.querySelector('.sessionTranscodingFramerate').innerHTML = session.TranscodingInfo && session.TranscodingInfo.Framerate ? session.TranscodingInfo.Framerate + ' fps' : '';
             var nowPlayingName = DashboardPage.getNowPlayingName(session);
             var nowPlayingInfoElem = row.querySelector('.sessionNowPlayingInfo');
 

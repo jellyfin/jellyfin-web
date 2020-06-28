@@ -43,10 +43,6 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
             var newView = newViewInfo.elem;
             var modulesToLoad = [];
 
-            if (isPluginpage) {
-                modulesToLoad.push('legacyDashboard');
-            }
-
             if (newViewInfo.hasjQuerySelect) {
                 modulesToLoad.push('legacySelectMenu');
             }
