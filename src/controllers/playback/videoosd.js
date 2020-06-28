@@ -333,13 +333,21 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             osdPoster.innerHTML = '';
         }
 
+        let osdLockCount = 0;
+
         function showOsd() {
             slideDownToShow(headerElement);
             showMainOsdControls();
-            startOsdHideTimer();
+            if (!osdLockCount) {
+                startOsdHideTimer();
+            }
         }
 
         function hideOsd() {
+            if (osdLockCount) {
+                return;
+            }
+
             slideUpToHide(headerElement);
             hideMainOsdControls();
         }
@@ -349,6 +357,19 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 hideOsd();
             } else if (!currentVisibleMenu) {
                 showOsd();
+            }
+        }
+
+        function lockOsd() {
+            osdLockCount++;
+            stopOsdHideTimer();
+        }
+
+        function unlockOsd() {
+            osdLockCount--;
+            // Restart hide timer if OSD is currently visible
+            if (currentVisibleMenu && !osdLockCount) {
+                startOsdHideTimer();
             }
         }
 
@@ -1196,10 +1217,20 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
         function onWindowMouseDown(e) {
             clickedElement = e.srcElement;
+            lockOsd();
+        }
+
+        function onWindowMouseUp() {
+            unlockOsd();
         }
 
         function onWindowTouchStart(e) {
             clickedElement = e.srcElement;
+            lockOsd();
+        }
+
+        function onWindowTouchEnd() {
+            unlockOsd();
         }
 
         function getImgUrl(item, chapter, index, maxWidth, apiClient) {
@@ -1336,8 +1367,16 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 dom.addEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
                     passive: true
                 });
+                dom.addEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
+                    passive: true
+                });
                 dom.addEventListener(window, 'touchstart', onWindowTouchStart, {
                     passive: true
+                });
+                ['touchend', 'touchcancel'].forEach((event) => {
+                    dom.addEventListener(window, event, onWindowTouchEnd, {
+                        passive: true
+                    });
                 });
             } catch (e) {
                 require(['appRouter'], function(appRouter) {
@@ -1356,8 +1395,16 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             dom.removeEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
                 passive: true
             });
+            dom.removeEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
+                passive: true
+            });
             dom.removeEventListener(window, 'touchstart', onWindowTouchStart, {
                 passive: true
+            });
+            ['touchend', 'touchcancel'].forEach((event) => {
+                dom.removeEventListener(window, event, onWindowTouchEnd, {
+                    passive: true
+                });
             });
             stopOsdHideTimer();
             headerElement.classList.remove('osdHeader');
