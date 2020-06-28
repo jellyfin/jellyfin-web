@@ -1,5 +1,8 @@
-define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, connectionManager) {
-    'use strict';
+/* eslint-disable indent */
+
+import dom from 'dom';
+import appRouter from 'appRouter';
+import connectionManager from 'connectionManager';
 
     function onGroupedCardClick(e, card) {
         var itemId = card.getAttribute('data-id');
@@ -31,7 +34,7 @@ define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, conn
         }
     }
 
-    function onItemsContainerClick(e) {
+    export function onItemsContainerClick(e) {
         var groupedCard = dom.parentWithClass(e.target, 'groupedCard');
 
         if (groupedCard) {
@@ -39,7 +42,4 @@ define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, conn
         }
     }
 
-    return {
-        onItemsContainerClick: onItemsContainerClick
-    };
-});
+/* eslint-enable indent */
