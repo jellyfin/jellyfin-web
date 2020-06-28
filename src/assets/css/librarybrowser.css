@@ -671,7 +671,7 @@
     margin: 1em 0;
 }
 
-.layout-mobile .detailimg-hidemobile {
+.layout-mobile .detailImageContainer {
     display: none;
 }
 

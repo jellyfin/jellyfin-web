@@ -712,8 +712,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function renderDetailImage(elem, item, imageLoader) {
-        elem.classList.add('detailimg-hidemobile');
-
         const itemArray = [];
         itemArray.push(item);
         const cardHtml = cardBuilder.getCardsHtml(itemArray, {
