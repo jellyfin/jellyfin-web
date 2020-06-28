@@ -1568,5 +1568,6 @@
     "LabelRepositoryUrl": "URL do repositório",
     "HeaderNewRepository": "Novo repositório",
     "MessageNoRepositories": "Não há repositórios.",
-    "ButtonPlayer": "Reprodutor"
+    "ButtonPlayer": "Reprodutor",
+    "Writers": "Escritores"
 }
