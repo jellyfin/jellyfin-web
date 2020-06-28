@@ -1572,5 +1572,6 @@
     "LabelRepositoryUrlHelp": "La ubicación del repositorio que desea incluir.",
     "LabelRepositoryUrl": "URL del repositorio",
     "HeaderNewRepository": "Nuevo repositorio",
-    "MessageNoRepositories": "Sin repositorios."
+    "MessageNoRepositories": "Sin repositorios.",
+    "Writers": "Escritores"
 }
