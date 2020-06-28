@@ -42,4 +42,4 @@ import connectionManager from 'connectionManager';
         }
     }
 
-    /* eslint-enable indent */
+/* eslint-enable indent */
