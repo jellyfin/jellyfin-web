@@ -1569,5 +1569,6 @@
     "LabelRepositoryNameHelp": "Vlastné pomenovanie, ktoré slúži na odlíšenie tohto repozitára od ostatných repozitárov pridaných na vašom serveri.",
     "LabelRepositoryName": "Názov repozitára",
     "LabelRepositoryUrlHelp": "Umiestnenie manifestu repozitára, ktorý chcete zahrnúť.",
-    "ButtonPlayer": "Prehrávač"
+    "ButtonPlayer": "Prehrávač",
+    "Writers": "Scenáristi"
 }
