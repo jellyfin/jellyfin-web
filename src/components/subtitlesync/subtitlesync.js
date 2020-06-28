@@ -87,14 +87,6 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
                 getOffsetFromPercentage(this.value));
         });
 
-        subtitleSyncSlider.addEventListener('touchmove', function () {
-            // set new offset
-            playbackManager.setSubtitleOffset(getOffsetFromPercentage(this.value), player);
-            // synchronize with textField value
-            subtitleSyncTextField.updateOffset(
-                getOffsetFromPercentage(this.value));
-        });
-
         subtitleSyncSlider.getBubbleHtml = function (value) {
             var newOffset = getOffsetFromPercentage(value);
             return '<h1 class="sliderBubbleText">' +
