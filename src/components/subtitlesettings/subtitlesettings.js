@@ -16,7 +16,7 @@ import 'emby-checkbox';
 import 'flexStyles';
 
 /**
- * Subtitle settings
+ * Subtitle settings.
  * @module components/subtitleSettings/subtitleSettings
  */
 
@@ -40,7 +40,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
             context.querySelector('.fldBurnIn').classList.remove('hide');
         }
 
-        let selectSubtitleLanguage = context.querySelector( '#selectSubtitleLanguage' );
+        let selectSubtitleLanguage = context.querySelector('#selectSubtitleLanguage');
 
         settingsHelper.populateLanguages(selectSubtitleLanguage, allCultures);
 
@@ -67,7 +67,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
 
 function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient) {
 
-    let appearanceSettings = userSettingsInstance.getSubtitleAppearanceSettings( appearanceKey );
+    let appearanceSettings = userSettingsInstance.getSubtitleAppearanceSettings(appearanceKey);
     appearanceSettings = Object.assign(appearanceSettings, getSubtitleAppearanceObject(context));
 
     userSettingsInstance.setSubtitleAppearanceSettings(appearanceSettings, appearanceKey);
@@ -105,9 +105,9 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
 
 function onSubtitleModeChange(e) {
 
-    let view = dom.parentWithClass( e.target, 'subtitlesettings' );
+    let view = dom.parentWithClass(e.target, 'subtitlesettings');
 
-    let subtitlesHelp = view.querySelectorAll( '.subtitlesHelp' );
+    let subtitlesHelp = view.querySelectorAll('.subtitlesHelp');
     for (let i = 0, length = subtitlesHelp.length; i < length; i++) {
         subtitlesHelp[i].classList.add('hide');
     }
@@ -116,13 +116,13 @@ function onSubtitleModeChange(e) {
 
 function onAppearanceFieldChange(e) {
 
-    let view = dom.parentWithClass( e.target, 'subtitlesettings' );
+    let view = dom.parentWithClass(e.target, 'subtitlesettings');
 
-    let appearanceSettings = getSubtitleAppearanceObject( view );
+    let appearanceSettings = getSubtitleAppearanceObject(view);
 
     let elements = {
-        window: view.querySelector( '.subtitleappearance-preview-window' ),
-        text: view.querySelector( '.subtitleappearance-preview-text' )
+        window: view.querySelector('.subtitleappearance-preview-window'),
+        text: view.querySelector('.subtitleappearance-preview-text')
     };
 
     subtitleAppearanceHelper.applyStyles(elements, appearanceSettings);
@@ -176,14 +176,14 @@ export class SubtitleSettings {
         loading.show();
 
         let userId = self.options.userId;
-        let apiClient = connectionManager.getApiClient( self.options.serverId );
+        let apiClient = connectionManager.getApiClient(self.options.serverId);
         let userSettings = self.options.userSettings;
 
         apiClient.getUser(userId).then(function (user) {
             userSettings.setUserInfo(userId, apiClient).then(function () {
                 self.dataLoaded = true;
 
-                let appearanceSettings = userSettings.getSubtitleAppearanceSettings( self.options.appearanceKey );
+                let appearanceSettings = userSettings.getSubtitleAppearanceSettings(self.options.appearanceKey);
 
                 loadForm(context, user, userSettings, appearanceSettings, apiClient);
             });
@@ -191,14 +191,14 @@ export class SubtitleSettings {
     }
 
     submit() {
-        this.onSubmit( null );
+        this.onSubmit(null);
     }
 
     destroy() {
         this.options = null;
     }
 
-    onSubmit( e ) {
+    onSubmit(e) {
         const self = this;
         let apiClient = connectionManager.getApiClient(self.options.serverId);
         let userId = self.options.userId;

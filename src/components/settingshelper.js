@@ -1,18 +1,16 @@
 import globalize from 'globalize';
+
 /**
- * Helper for handling settings
+ * Helper for handling settings.
  * @module components/settingsHelper
  */
-export function populateLanguages(select, languages) {
 
+export function populateLanguages(select, languages) {
     let html = '';
 
     html += "<option value=''>" + globalize.translate('AnyLanguage') + '</option>';
-
     for (let i = 0, length = languages.length; i < length; i++) {
-
         const culture = languages[i];
-
         html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
     }
 

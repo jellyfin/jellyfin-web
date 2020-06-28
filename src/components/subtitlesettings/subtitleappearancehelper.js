@@ -1,7 +1,8 @@
 /**
- * Subtitle settings visual helper
+ * Subtitle settings visual helper.
  * @module components/subtitleSettings/subtitleAppearanceHelper
  */
+
 function getTextStyles(settings, isCue) {
 
     let list = [];
