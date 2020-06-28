@@ -649,7 +649,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function setTrackEventsSubtitleOffset(trackEvents, offsetValue) {
 
             if (Array.isArray(trackEvents)) {
-                offsetValue = updateCurrentTrackOffset(offsetValue);
+                offsetValue = updateCurrentTrackOffset(offsetValue) * 1e7; // ticks
                 trackEvents.forEach(function(trackEvent) {
                     trackEvent.StartPositionTicks -= offsetValue;
                     trackEvent.EndPositionTicks -= offsetValue;
