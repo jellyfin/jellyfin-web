@@ -1525,7 +1525,7 @@
     "EnableBlurhash": "Mostrar una representación de las imágenes mientras cargan",
     "EnableBlurhashHelp": "Aparecerá una representación de los colores de las imágenes antes de que terminen de cargar",
     "HeaderDVR": "DVR",
-    "SyncPlayAccessHelp": "Selecciona los permisos de este usuario para utilizar SyncPlay. SyncPlay te permite sincronizar la reproducción entre varios dispositivos.",
+    "SyncPlayAccessHelp": "Selecciona el nivel de acceso de este usuario para utilizar SyncPlay. SyncPlay te permite sincronizar la reproducción entre varios dispositivos.",
     "MessageSyncPlayErrorMedia": "¡No se pudo activar SyncPlay! Error de medio.",
     "MessageSyncPlayErrorMissingSession": "¡No se pudo activar SyncPlay! Sesión desconectada.",
     "MessageSyncPlayErrorNoActivePlayer": "No hay reproductor activo. SyncPlay ha sido desactivado.",
@@ -1562,7 +1562,15 @@
     "ButtonSyncPlay": "SyncPlay",
     "ButtonCast": "Enviar",
     "MessageNoGenresAvailable": "Permitir a algunos proveedores de metadatos extraer géneros de Internet.",
-    "EnableDecodingColorDepth10Vp9": "Habilite la decodificación por hardware de 10 bits para Vp9",
+    "EnableDecodingColorDepth10Vp9": "Habilite la decodificación por hardware de 10 bits para VP9",
     "EnableDecodingColorDepth10Hevc": "Habilite la decodificación por hardware de 10 bits para HEVC",
-    "ButtonPlayer": "Reproductor"
+    "ButtonPlayer": "Reproductor",
+    "TabRepositories": "Repositorios",
+    "MessageAddRepository": "Si desea agregar un repositorio, haga click en el botón cerca del encabezado y complete la información requerida.",
+    "LabelRepositoryNameHelp": "Un nombre personalizado para distinguir este repositorio de otros agregados a su servidor.",
+    "LabelRepositoryName": "Nombre del repositorio",
+    "LabelRepositoryUrlHelp": "La ubicación del repositorio que desea incluir.",
+    "LabelRepositoryUrl": "URL del repositorio",
+    "HeaderNewRepository": "Nuevo repositorio",
+    "MessageNoRepositories": "Sin repositorios."
 }
