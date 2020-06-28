@@ -1648,5 +1648,7 @@
     "Runtime": "Tiempo de ejecución",
     "RunAtStartup": "Ejecutar en el arranque",
     "Rewind": "Rebobinar",
-    "ResumeAt": "Reanudar desde {0}"
+    "ResumeAt": "Reanudar desde {0}",
+    "ButtonPlayer": "Reproductor",
+    "Writers": "Escritores"
 }
