@@ -110,7 +110,7 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
                 switch (result.State) {
                     case 'SignedIn':
                         Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
-                        Dashboard.navigate('home.html');
+                        appRouter.goHome();
                         break;
 
                     case 'ServerSignIn':

@@ -230,6 +230,13 @@ define([
         type: 'home'
     });
     defineRoute({
+        path: '/layouts/tv/home/home.html',
+        autoFocus: false,
+        controller: 'layouts/tv/home/home',
+        transition: 'fade',
+        type: 'home'
+    });
+    defineRoute({
         path: '/search.html',
         controller: 'searchpage'
     });

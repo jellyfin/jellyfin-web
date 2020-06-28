@@ -1,4 +1,4 @@
-define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layoutManager', 'browser', 'globalize', 'cardStyle', 'emby-checkbox'], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, browser, globalize) {
+define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'appRouter', 'layoutManager', 'browser', 'globalize', 'cardStyle', 'emby-checkbox'], function (appHost, appSettings, dom, connectionManager, loading, appRouter, layoutManager, browser, globalize) {
     'use strict';
 
     var enableFocusTransform = !browser.slow && !browser.edge;
@@ -13,7 +13,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
             if (user.Policy.IsAdministrator && !serverId) {
                 newUrl = 'dashboard.html';
             } else {
-                newUrl = 'home.html';
+                newUrl = appRouter.goHome();
             }
 
             loading.hide();

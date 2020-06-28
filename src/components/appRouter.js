@@ -1,4 +1,4 @@
-define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
+define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, layoutManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
     var appRouter = {
@@ -154,10 +154,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
         if (!isBackNav) {
             // Don't force a new view for home due to the back menu
-            //if (route.type !== 'home') {
-            onNewViewNeeded();
-            return;
-            //}
+            if (route.type !== 'home') {
+                onNewViewNeeded();
+                return;
+            }
         }
         viewManager.tryRestoreView(currentRequest, function () {
 
@@ -185,6 +185,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 alert(msg);
             });
         }
+    }
+
+    function getHomeRoute() {
+        if (layoutManager.tv) {
+            return '/layouts/tv/home/home.html';
+        } else {
+            return '/home.html';
+        }
+    }
+
+    function goHome() {
+        return show(getHomeRoute());
     }
 
     function showForcedLogoutMessage(msg) {
@@ -714,6 +726,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     appRouter.addRoute = addRoute;
     appRouter.param = param;
     appRouter.back = back;
+    appRouter.goHome = goHome;
     appRouter.show = show;
     appRouter.showDirect = showDirect;
     appRouter.start = start;
