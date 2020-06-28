@@ -155,8 +155,8 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }
 
     function mapChannels(page, providerId) {
-        require(['components/channelMapper/channelMapper'], function (channelmapper) {
-            new channelmapper({
+        require(['components/channelMapper/channelMapper'], function (channelMapper) {
+            new channelMapper.default({
                 serverId: ApiClient.serverInfo().Id,
                 providerId: providerId
             }).show();

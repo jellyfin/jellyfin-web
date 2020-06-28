@@ -319,7 +319,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             switch (id) {
                 case 'addtocollection':
                     require(['collectionEditor'], function (collectionEditor) {
-                        new collectionEditor().show({
+                        new collectionEditor.showEditor({
                             items: [itemId],
                             serverId: serverId
                         }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
@@ -327,7 +327,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     break;
                 case 'addtoplaylist':
                     require(['playlistEditor'], function (playlistEditor) {
-                        new playlistEditor().show({
+                        new playlistEditor.showEditor({
                             items: [itemId],
                             serverId: serverId
                         }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
@@ -403,7 +403,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     break;
                 case 'moremediainfo':
                     require(['itemMediaInfo'], function (itemMediaInfo) {
-                        itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                        itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'refresh':

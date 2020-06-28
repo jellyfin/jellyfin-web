@@ -543,5 +543,9 @@
     "LabelAllowServerAutoRestart": "Leyfa netþjóni að endurræsa sig sjálfkrafa til þess að uppfæra sig",
     "LabelAllowHWTranscoding": "Leyfa vélbúnaðarumkóðun",
     "Label3DFormat": "3D snið:",
-    "HeaderIdentification": "Auðkenning"
+    "HeaderIdentification": "Auðkenning",
+    "ConfirmDeleteItems": "Ef þessum skrám er eytt verða þær fjarlægðar úr bæði stýrikerfinu og miðlasafninu. Ertu viss um að þú viljir halda áfram?",
+    "CommunityRating": "Mat samfélagsins",
+    "ButtonStart": "Byrja",
+    "BoxSet": "Kassasett"
 }

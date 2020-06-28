@@ -109,9 +109,7 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
     }
 
     EmbyInputPrototype.attachedCallback = function () {
-
         this.labelElement.htmlFor = this.id;
-
         onChange.call(this);
     };
 

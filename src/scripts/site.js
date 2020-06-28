@@ -193,25 +193,6 @@ var Dashboard = {
             }).then(options.callback || function () {});
         });
     },
-    restartServer: function () {
-        var apiClient = window.ApiClient;
-
-        if (apiClient) {
-            require(['serverRestartDialog', 'events'], function (ServerRestartDialog, events) {
-                var dialog = new ServerRestartDialog({
-                    apiClient: apiClient
-                });
-                events.on(dialog, 'restarted', function () {
-                    if (AppInfo.isNativeApp) {
-                        apiClient.ensureWebSocket();
-                    } else {
-                        window.location.reload(true);
-                    }
-                });
-                dialog.show();
-            });
-        }
-    },
     capabilities: function (appHost) {
         var capabilities = {
             PlayableMediaTypes: ['Audio', 'Video'],
@@ -814,7 +795,6 @@ var AppInfo = {};
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
         define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
         define('collectionEditor', [componentsPath + '/collectionEditor/collectionEditor'], returnFirstDependency);
-        define('serverRestartDialog', [componentsPath + '/serverRestartDialog'], returnFirstDependency);
         define('playlistEditor', [componentsPath + '/playlisteditor/playlisteditor'], returnFirstDependency);
         define('recordingCreator', [componentsPath + '/recordingcreator/recordingcreator'], returnFirstDependency);
         define('recordingEditor', [componentsPath + '/recordingcreator/recordingeditor'], returnFirstDependency);
@@ -858,7 +838,6 @@ var AppInfo = {};
         define('deleteHelper', [scriptsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
-        define('loadingDialog', [componentsPath + '/loadingDialog/loadingDialog'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
