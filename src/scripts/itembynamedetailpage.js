@@ -71,12 +71,12 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
 
             html += '<div class="' + sectionClass + '" data-type="' + section.type + '">';
             html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
-            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">';
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += section.name;
             html += '</h2>';
             html += '<a is="emby-linkbutton" href="#" class="clearLink hide" style="margin-left:1em;vertical-align:middle;"><button is="emby-button" type="button" class="raised more raised-mini noIcon">' + globalize.translate('ButtonMore') + '</button></a>';
             html += '</div>';
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-right">';
             html += '</div>';
             return html += '</div>';
         }).join('');
