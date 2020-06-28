@@ -334,7 +334,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         return apiClient.getItems(apiClient.getCurrentUserId(), fetchOptions).then(function (unwatchedMovies) {
             var promises = [];
 
-            for (let unwatchedMovie in unwatchedMovies.Items) {
+            for (let unwatchedMovie of unwatchedMovies.Items) {
                 const remoteTrailers = getRemoteTrailers(unwatchedMovie);
 
                 promises.push(getAllTrailers(unwatchedMovie, remoteTrailers));
