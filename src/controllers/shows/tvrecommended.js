@@ -7,8 +7,6 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }, {
             name: globalize.translate('TabSuggestions')
         }, {
-            name: globalize.translate('TabLatest')
-        }, {
             name: globalize.translate('TabUpcoming')
         }, {
             name: globalize.translate('TabGenres')
@@ -27,14 +25,11 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             case 'suggestions':
                 return 1;
 
-            case 'latest':
-                return 2;
-
             case 'favorites':
                 return 1;
 
             case 'genres':
-                return 4;
+                return 3;
 
             default:
                 return 0;
@@ -59,101 +54,159 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }
     }
 
+    function initSuggestedTab(page, tabContent) {
+        var containers = tabContent.querySelectorAll('.itemsContainer');
+
+        for (var i = 0, length = containers.length; i < length; i++) {
+            setScrollClasses(containers[i], enableScrollX());
+        }
+    }
+
+    function loadSuggestionsTab(view, params, tabContent) {
+        var parentId = params.topParentId;
+        var userId = ApiClient.getCurrentUserId();
+        console.debug('loadSuggestionsTab');
+        loadResume(tabContent, userId, parentId);
+        loadLatest(tabContent, userId, parentId);
+        loadNextUp(tabContent, userId, parentId);
+    }
+
+    function loadResume(view, userId, parentId) {
+        var screenWidth = dom.getWindowSize().innerWidth;
+        var options = {
+            SortBy: 'DatePlayed',
+            SortOrder: 'Descending',
+            IncludeItemTypes: 'Episode',
+            Filters: 'IsResumable',
+            Limit: screenWidth >= 1920 ? 5 : screenWidth >= 1600 ? 5 : 3,
+            Recursive: true,
+            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+            CollapseBoxSetItems: false,
+            ParentId: parentId,
+            ImageTypeLimit: 1,
+            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
+            EnableTotalRecordCount: false
+        };
+        ApiClient.getItems(userId, options).then(function (result) {
+            if (result.Items.length) {
+                view.querySelector('#resumableSection').classList.remove('hide');
+            } else {
+                view.querySelector('#resumableSection').classList.add('hide');
+            }
+
+            var allowBottomPadding = !enableScrollX();
+            var container = view.querySelector('#resumableItems');
+            cardBuilder.buildCards(result.Items, {
+                itemsContainer: container,
+                preferThumb: true,
+                shape: getThumbShape(),
+                scalable: true,
+                overlayPlayButton: true,
+                allowBottomPadding: allowBottomPadding,
+                cardLayout: false,
+                showTitle: true,
+                showYear: true,
+                centerText: true
+            });
+            loading.hide();
+
+            require(['autoFocuser'], function (autoFocuser) {
+                autoFocuser.autoFocus(view);
+            });
+        });
+    }
+
+    function loadLatest(view, userId, parentId) {
+        var options = {
+            userId: userId,
+            IncludeItemTypes: 'Episode',
+            Limit: 30,
+            Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+            ParentId: parentId,
+            ImageTypeLimit: 1,
+            EnableImageTypes: 'Primary,Backdrop,Thumb'
+        };
+        ApiClient.getLatestItems(options).then(function (items) {
+            var section = view.querySelector('#latestItemsSection');
+            var allowBottomPadding = !enableScrollX();
+            var container = section.querySelector('#latestEpisodesItems');
+            cardBuilder.buildCards(items, {
+                parentContainer: section,
+                itemsContainer: container,
+                items: items,
+                shape: 'backdrop',
+                preferThumb: true,
+                showTitle: true,
+                showSeriesYear: true,
+                showParentTitle: true,
+                overlayText: false,
+                cardLayout: false,
+                allowBottomPadding: allowBottomPadding,
+                showUnplayedIndicator: false,
+                showChildCountIndicator: true,
+                centerText: true,
+                lazy: true,
+                overlayPlayButton: true,
+                lines: 2
+            });
+            loading.hide();
+
+            require(['autoFocuser'], function (autoFocuser) {
+                autoFocuser.autoFocus(view);
+            });
+        });
+    }
+
+    function loadNextUp(view, userId, parentId) {
+        var query = {
+            userId: userId,
+            Limit: 24,
+            Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo',
+            ParentId: parentId,
+            ImageTypeLimit: 1,
+            EnableImageTypes: 'Primary,Backdrop,Thumb',
+            EnableTotalRecordCount: false
+        };
+        query.ParentId = libraryMenu.getTopParentId();
+        ApiClient.getNextUpEpisodes(query).then(function (result) {
+            if (result.Items.length) {
+                view.querySelector('.noNextUpItems').classList.add('hide');
+            } else {
+                view.querySelector('.noNextUpItems').classList.remove('hide');
+            }
+
+            var section = view.querySelector('#nextUpItemsSection');
+            var container = section.querySelector('#nextUpItems');
+            cardBuilder.buildCards(result.Items, {
+                parentContainer: section,
+                itemsContainer: container,
+                preferThumb: true,
+                shape: 'backdrop',
+                scalable: true,
+                showTitle: true,
+                showParentTitle: true,
+                overlayText: false,
+                centerText: true,
+                overlayPlayButton: true,
+                cardLayout: false
+            });
+            loading.hide();
+
+            require(['autoFocuser'], function (autoFocuser) {
+                autoFocuser.autoFocus(view);
+            });
+        });
+    }
+
+    function enableScrollX() {
+        return !layoutManager.desktop;
+    }
+
+    function getThumbShape() {
+        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
+    }
+
     return function (view, params) {
-        function reload() {
-            loading.show();
-            loadResume();
-            loadNextUp();
-        }
-
-        function loadNextUp() {
-            var query = {
-                Limit: 24,
-                Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo',
-                UserId: ApiClient.getCurrentUserId(),
-                ImageTypeLimit: 1,
-                EnableImageTypes: 'Primary,Backdrop,Thumb',
-                EnableTotalRecordCount: false
-            };
-            query.ParentId = libraryMenu.getTopParentId();
-            ApiClient.getNextUpEpisodes(query).then(function (result) {
-                if (result.Items.length) {
-                    view.querySelector('.noNextUpItems').classList.add('hide');
-                } else {
-                    view.querySelector('.noNextUpItems').classList.remove('hide');
-                }
-
-                var container = view.querySelector('#nextUpItems');
-                cardBuilder.buildCards(result.Items, {
-                    itemsContainer: container,
-                    preferThumb: true,
-                    shape: 'backdrop',
-                    scalable: true,
-                    showTitle: true,
-                    showParentTitle: true,
-                    overlayText: false,
-                    centerText: true,
-                    overlayPlayButton: true,
-                    cardLayout: false
-                });
-                loading.hide();
-
-                require(['autoFocuser'], function (autoFocuser) {
-                    autoFocuser.autoFocus(view);
-                });
-            });
-        }
-
-        function enableScrollX() {
-            return !layoutManager.desktop;
-        }
-
-        function getThumbShape() {
-            return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
-        }
-
-        function loadResume() {
-            var parentId = libraryMenu.getTopParentId();
-            var screenWidth = dom.getWindowSize().innerWidth;
-            var limit = screenWidth >= 1600 ? 5 : 6;
-            var options = {
-                SortBy: 'DatePlayed',
-                SortOrder: 'Descending',
-                IncludeItemTypes: 'Episode',
-                Filters: 'IsResumable',
-                Limit: limit,
-                Recursive: true,
-                Fields: 'PrimaryImageAspectRatio,SeriesInfo,UserData,BasicSyncInfo',
-                ExcludeLocationTypes: 'Virtual',
-                ParentId: parentId,
-                ImageTypeLimit: 1,
-                EnableImageTypes: 'Primary,Backdrop,Thumb',
-                EnableTotalRecordCount: false
-            };
-            ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-                if (result.Items.length) {
-                    view.querySelector('#resumableSection').classList.remove('hide');
-                } else {
-                    view.querySelector('#resumableSection').classList.add('hide');
-                }
-
-                var allowBottomPadding = !enableScrollX();
-                var container = view.querySelector('#resumableItems');
-                cardBuilder.buildCards(result.Items, {
-                    itemsContainer: container,
-                    preferThumb: true,
-                    shape: getThumbShape(),
-                    scalable: true,
-                    showTitle: true,
-                    showParentTitle: true,
-                    overlayText: false,
-                    centerText: true,
-                    overlayPlayButton: true,
-                    allowBottomPadding: allowBottomPadding,
-                    cardLayout: false
-                });
-            });
-        }
 
         function onBeforeTabChange(e) {
             preLoadTab(view, parseInt(e.detail.selectedTabIndex));
@@ -184,26 +237,22 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
                     break;
 
                 case 2:
-                    depends.push('controllers/shows/tvlatest');
-                    break;
-
-                case 3:
                     depends.push('controllers/shows/tvupcoming');
                     break;
 
-                case 4:
+                case 3:
                     depends.push('controllers/shows/tvgenres');
                     break;
 
-                case 5:
+                case 4:
                     depends.push('controllers/shows/tvstudios');
                     break;
 
-                case 6:
+                case 5:
                     depends.push('controllers/shows/episodes');
                     break;
 
-                case 7:
+                case 6:
                     depends.push('scripts/searchtab');
             }
 
@@ -222,7 +271,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
 
                     if (index === 1) {
                         controller = self;
-                    } else if (index === 7) {
+                    } else if (index === 6) {
                         controller = new controllerFactory(view, tabContent, {
                             collectionType: 'tvshows',
                             parentId: params.topParentId
@@ -289,19 +338,20 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         var self = this;
         var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
         var initialTabIndex = currentTabIndex;
+        var suggestionsTabIndex = 1;
 
         self.initTab = function () {
-            var tabContent = self.tabContent;
-            setScrollClasses(tabContent.querySelector('#resumableItems'), enableScrollX());
+            var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            initSuggestedTab(view, tabContent);
         };
 
         self.renderTab = function () {
-            reload();
+            var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            loadSuggestionsTab(view, params, tabContent);
         };
 
         var tabControllers = [];
         var renderedTabs = [];
-        setScrollClasses(view.querySelector('#resumableItems'), enableScrollX());
         view.addEventListener('viewshow', function (e) {
             isViewRestored = e.detail.isRestored;
             initTabs();
