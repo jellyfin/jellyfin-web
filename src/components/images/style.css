@@ -23,11 +23,11 @@
 }
 
 .lazy-blurhash-fadein-fast {
-    animation: fadein 0.2s;
+    animation: fadein 0.1s;
 }
 
 .lazy-blurhash-fadein {
-    animation: fadein 0.7s;
+    animation: fadein 0.4s;
 }
 
 .blurhash-canvas {
