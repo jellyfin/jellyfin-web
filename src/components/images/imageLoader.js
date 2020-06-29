@@ -36,18 +36,18 @@ import 'css!./style';
             imgData.data.set(pixels);
             ctx.putImageData(imgData, 0, 0);
 
-            let child = target.parentNode.insertBefore(canvas, target);
-            child.classList.add('blurhash-canvas');
-            if (userSettings.enableFastFadein()) {
-                child.classList.add('lazy-blurhash-fadein-fast');
-            } else {
-                child.classList.add('lazy-blurhash-fadein');
-            }
+            requestAnimationFrame(() => {
+                canvas.classList.add('blurhash-canvas');
+                if (userSettings.enableFastFadein()) {
+                    canvas.classList.add('lazy-blurhash-fadein-fast');
+                } else {
+                    canvas.classList.add('lazy-blurhash-fadein');
+                }
 
-            child.style.opacity = 1;
-
-            target.classList.add('blurhashed');
-            target.removeAttribute('data-blurhash');
+                target.parentNode.insertBefore(canvas, target);
+                target.classList.add('blurhashed');
+                target.removeAttribute('data-blurhash');
+            });
         }
     }
 
