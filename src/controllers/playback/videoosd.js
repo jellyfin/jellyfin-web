@@ -1319,9 +1319,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         var headerElement = document.querySelector('.skinHeader');
         var osdBottomElement = document.querySelector('.videoOsdBottom-maincontrols');
 
+        nowPlayingPositionSlider.enableKeyboardDragging();
+        nowPlayingVolumeSlider.enableKeyboardDragging();
+
         if (layoutManager.tv) {
             nowPlayingPositionSlider.classList.add('focusable');
-            nowPlayingPositionSlider.enableKeyboardDragging();
         }
 
         view.addEventListener('viewbeforeshow', function (e) {
@@ -1456,16 +1458,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }, options);
         }
 
-        function setVolume() {
-            playbackManager.setVolume(this.value, currentPlayer);
-        }
-
         view.querySelector('.buttonMute').addEventListener('click', function () {
             playbackManager.toggleMute(currentPlayer);
         });
-        nowPlayingVolumeSlider.addEventListener('change', setVolume);
-        nowPlayingVolumeSlider.addEventListener('mousemove', setVolume);
-        nowPlayingVolumeSlider.addEventListener('touchmove', setVolume);
+
+        nowPlayingVolumeSlider.addEventListener('input', (e) => {
+            playbackManager.setVolume(e.target.value, currentPlayer);
+        });
 
         nowPlayingPositionSlider.addEventListener('change', function () {
             var player = currentPlayer;
