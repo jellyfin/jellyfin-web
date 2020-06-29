@@ -119,9 +119,9 @@ import 'css!./style';
     }
 
     export function lazyChildren(elem) {
-        for (const lazyElem of elem.getElementsByClassName('lazy')) {
-            if (userSettings.enableBlurhash()) {
-                var blurhashstr = lazyElem.getAttribute('data-blurhash');
+        if (userSettings.enableBlurhash()) {
+            for (const lazyElem of elem.getElementsByClassName('lazy')) {
+                const blurhashstr = lazyElem.getAttribute('data-blurhash');
                 if (!lazyElem.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
                     itemBlurhashing(lazyElem, blurhashstr);
                 } else if (!blurhashstr && !lazyElem.classList.contains('blurhashed')) {
