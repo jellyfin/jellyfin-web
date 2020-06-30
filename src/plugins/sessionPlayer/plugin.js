@@ -257,7 +257,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
                     return {
                         name: s.DeviceName,
                         deviceName: s.DeviceName,
-                        deviceType: 'Remote Control',
+                        deviceType: s.DeviceType,
                         id: s.Id,
                         playerName: name,
                         appName: s.Client,
