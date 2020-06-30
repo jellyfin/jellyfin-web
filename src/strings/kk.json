@@ -1543,5 +1543,6 @@
     "HeaderRemoteAccessSettings": "Qashyqtan qatynaý parametrleri",
     "HeaderHttpsSettings": "HTTPS parametrleri",
     "HeaderFavoritePlaylists": "Tańdaýly oınatý tizimder",
-    "HeaderDVR": "DVR"
+    "HeaderDVR": "DVR",
+    "ButtonSyncPlay": "SyncPlay"
 }

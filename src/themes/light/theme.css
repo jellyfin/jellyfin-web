@@ -221,7 +221,7 @@ html {
     color: #fff !important;
 }
 
-.detailSticky {
+.detailRibbon {
     background-color: #303030;
     color: #ccc;
     color: rgba(255, 255, 255, 0.87);
@@ -248,11 +248,6 @@ html {
 .mediaInfoText {
     color: #333;
     background: #fff;
-}
-
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #cb272a;
 }
 
 .emby-input,

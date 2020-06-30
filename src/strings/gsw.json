@@ -165,5 +165,6 @@
     "VersionNumber": "Version {0}",
     "Absolute": "Absolut",
     "Actor": "Schauspiler",
-    "AccessRestrictedTryAgainLater": "Zuegriff isch momentan beschränkt. Probier bitte später nomau. "
+    "AccessRestrictedTryAgainLater": "Zuegriff isch momentan beschränkt. Probier bitte später nomau. ",
+    "ButtonSyncPlay": "SyncPlay"
 }

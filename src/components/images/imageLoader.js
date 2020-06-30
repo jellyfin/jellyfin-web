@@ -212,8 +212,15 @@ import 'css!./style';
         }
     }
 
+    export function setLazyImage(element, url) {
+        element.classList.add('lazy');
+        element.setAttribute('data-src', url);
+        lazyImage(element);
+    }
+
 /* eslint-enable indent */
 export default {
+    serLazyImage: setLazyImage,
     fillImages: fillImages,
     fillImage: fillImage,
     lazyImage: lazyImage,

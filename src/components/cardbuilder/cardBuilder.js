@@ -1310,7 +1310,7 @@ import 'programStyles';
             }
 
             const mediaSourceCount = item.MediaSourceCount || 1;
-            if (mediaSourceCount > 1) {
+            if (mediaSourceCount > 1 && options.disableIndicators !== true) {
                 innerCardFooter += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
             }
 
@@ -1391,34 +1391,36 @@ import 'programStyles';
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 
-            let indicatorsHtml = '';
+            if (options.disableIndicators !== true) {
+                let indicatorsHtml = '';
 
-            if (options.missingIndicator !== false) {
-                indicatorsHtml += indicators.getMissingIndicator(item);
-            }
+                if (options.missingIndicator !== false) {
+                    indicatorsHtml += indicators.getMissingIndicator(item);
+                }
 
-            indicatorsHtml += indicators.getSyncIndicator(item);
-            indicatorsHtml += indicators.getTimerIndicator(item);
+                indicatorsHtml += indicators.getSyncIndicator(item);
+                indicatorsHtml += indicators.getTimerIndicator(item);
 
-            indicatorsHtml += indicators.getTypeIndicator(item);
+                indicatorsHtml += indicators.getTypeIndicator(item);
 
-            if (options.showGroupCount) {
+                if (options.showGroupCount) {
 
-                indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
-                    minCount: 1
-                });
-            } else {
-                indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
-            }
+                    indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
+                        minCount: 1
+                    });
+                } else {
+                    indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
+                }
 
-            if (item.Type === 'CollectionFolder' || item.CollectionType) {
-                const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
-                indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
-                requireRefreshIndicator();
-            }
+                if (item.Type === 'CollectionFolder' || item.CollectionType) {
+                    const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
+                    indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
+                    requireRefreshIndicator();
+                }
 
-            if (indicatorsHtml) {
-                cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
+                if (indicatorsHtml) {
+                    cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
+                }
             }
 
             if (!imgUrl) {
@@ -1467,7 +1469,7 @@ import 'programStyles';
             let additionalCardContent = '';
 
             if (layoutManager.desktop) {
-                additionalCardContent += getHoverMenuHtml(item, action);
+                additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
@@ -1477,9 +1479,10 @@ import 'programStyles';
          * Generates HTML markup for the card overlay.
          * @param {object} item - Item used to generate the card overlay.
          * @param {string} action - Action assigned to the overlay.
+         * @param {Array} options - Card builder options.
          * @returns {string} HTML markup of the card overlay.
          */
-        function getHoverMenuHtml(item, action) {
+        function getHoverMenuHtml(item, action, options) {
             let html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
@@ -1494,12 +1497,12 @@ import 'programStyles';
 
             const userData = item.UserData || {};
 
-            if (itemHelper.canMarkPlayed(item)) {
+            if (itemHelper.canMarkPlayed(item) && !options.disableHoverMenu) {
                 require(['emby-playstatebutton']);
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
 
-            if (itemHelper.canRate(item)) {
+            if (itemHelper.canRate(item) && !options.disableHoverMenu) {
 
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
@@ -1507,7 +1510,9 @@ import 'programStyles';
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';
+            if (!options.disableHoverMenu) {
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';
+            }
 
             html += '</div>';
             html += '</div>';

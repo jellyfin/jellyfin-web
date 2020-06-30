@@ -1015,7 +1015,7 @@
     "LabelEnableDlnaServerHelp": "允許網絡上的 UPnP 設備瀏覽和播放內容。",
     "LabelEnableHardwareDecodingFor": "為以下啟用硬體解碼：",
     "LabelEpisodeNumber": "集：",
-    "LabelBaseUrlHelp": "您可以在此處新增自訂路徑來進入伺服器。",
+    "LabelBaseUrlHelp": "您可以在此處自訂伺服器URL路徑的子目錄。",
     "LabelExtractChaptersDuringLibraryScan": "於媒體庫掃描時擷取章節圖片",
     "LabelHttpsPort": "本地 HTTPS 端口：",
     "LabelFailed": "失敗",
@@ -1655,5 +1655,6 @@
     "New": "新增",
     "ApiKeysCaption": "目前已啟用的API金鑰列表",
     "ButtonTogglePlaylist": "播放清單",
-    "ButtonToggleContextMenu": "更多"
+    "ButtonToggleContextMenu": "更多",
+    "ButtonSyncPlay": "SyncPlay"
 }

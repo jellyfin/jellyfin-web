@@ -1246,5 +1246,6 @@
     "MediaInfoAnamorphic": "Anamorfinen",
     "ErrorGettingTvLineups": "TV esiintyjälistan lataamisessa tapahtui virhe. Varmista, että tiedot on oikein ja yritä uudelleen.",
     "EnableDetailsBannerHelp": "Näyttää julistekuvan yksityiskohdat -sivun ylälaidassa.",
-    "EnableDetailsBanner": "Yksityiskohtien banneri"
+    "EnableDetailsBanner": "Yksityiskohtien banneri",
+    "ButtonSyncPlay": "SyncPlay"
 }

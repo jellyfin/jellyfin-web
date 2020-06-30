@@ -15,7 +15,7 @@ define([
     'detailtablecss'], function () {
 
     function defineRoute(newRoute) {
-        var path = newRoute.path;
+        var path = newRoute.alias ? newRoute.alias : newRoute.path;
         console.debug('defining route: ' + path);
         newRoute.dictionary = 'core';
         Emby.Page.addRoute(path, newRoute);
@@ -240,8 +240,9 @@ define([
         transition: 'fade'
     });
     defineRoute({
-        path: '/itemdetails.html',
-        controller: 'itemDetails',
+        alias: '/details',
+        path: '/controllers/itemDetails/index.html',
+        controller: 'itemDetails/index',
         autoFocus: false,
         transition: 'fade'
     });

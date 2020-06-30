@@ -1038,7 +1038,7 @@ var AppInfo = {};
                 }
 
                 if ('SeriesTimer' == itemType) {
-                    return 'itemdetails.html?seriesTimerId=' + id + '&serverId=' + serverId;
+                    return 'details?seriesTimerId=' + id + '&serverId=' + serverId;
                 }
 
                 if ('livetv' == item.CollectionType) {
@@ -1108,13 +1108,13 @@ var AppInfo = {};
                 var itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
 
                 if (itemTypes.indexOf(itemType) >= 0) {
-                    return 'itemdetails.html?id=' + id + '&serverId=' + serverId;
+                    return 'details?id=' + id + '&serverId=' + serverId;
                 }
 
                 var contextSuffix = context ? '&context=' + context : '';
 
                 if ('Series' == itemType || 'Season' == itemType || 'Episode' == itemType) {
-                    return 'itemdetails.html?id=' + id + contextSuffix + '&serverId=' + serverId;
+                    return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;
                 }
 
                 if (item.IsFolder) {
@@ -1125,7 +1125,7 @@ var AppInfo = {};
                     return '#';
                 }
 
-                return 'itemdetails.html?id=' + id + '&serverId=' + serverId;
+                return 'details?id=' + id + '&serverId=' + serverId;
             };
 
             appRouter.showItem = showItem;

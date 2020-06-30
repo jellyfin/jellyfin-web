@@ -1479,5 +1479,6 @@
     "DeinterlaceMethodHelp": "Wybierz metodę usuwania przeplotu używaną podczas transkodowania.",
     "ClientSettings": "Ustawienia klienta",
     "ButtonTogglePlaylist": "Playlista",
-    "ButtonToggleContextMenu": "Więcej"
+    "ButtonToggleContextMenu": "Więcej",
+    "ButtonSyncPlay": "SyncPlay"
 }

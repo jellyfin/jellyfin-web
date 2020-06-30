@@ -126,7 +126,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                         for (const artist of item.ArtistItems) {
                             let artistName = artist.Name;
                             let artistId = artist.Id;
-                            artistsSeries += `<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=${artistId}&amp;serverId=${nowPlayingServerId}">${artistName}</a>`;
+                            artistsSeries += `<a class="button-link emby-button" is="emby-linkbutton" href="details?id=${artistId}&serverId=${nowPlayingServerId}">${artistName}</a>`;
                             if (artist !== item.ArtistItems.slice(-1)[0]) {
                                 artistsSeries += ', ';
                             }
@@ -143,18 +143,18 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                         }
                     }
                     context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
-                    context.querySelector('.nowPlayingAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}">${albumName}</a>`;
+                    context.querySelector('.nowPlayingAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">${albumName}</a>`;
                 }
                 context.querySelector('.nowPlayingSongName').innerHTML = songName;
             } else if (item.Type == 'Episode') {
                 if (item.SeasonName != null) {
                     var seasonName = item.SeasonName;
-                    context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeasonId + `&amp;serverId=${nowPlayingServerId}">${seasonName}</a>`;
+                    context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.SeasonId + `&serverId=${nowPlayingServerId}">${seasonName}</a>`;
                 }
                 if (item.SeriesName != null) {
                     var seriesName = item.SeriesName;
                     if (item.SeriesId != null) {
-                        context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeriesId + `&amp;serverId=${nowPlayingServerId}">${seriesName}</a>`;
+                        context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.SeriesId + `&serverId=${nowPlayingServerId}">${seriesName}</a>`;
                     } else {
                         context.querySelector('.nowPlayingSerie').innerHTML = seriesName;
                     }
@@ -562,7 +562,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
             if (!state.NextMediaType) {
                 updatePlayerState(player, dlg, {});
-                //onPlaylistUpdate();
                 Emby.Page.back();
             }
         }

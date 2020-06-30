@@ -22,7 +22,7 @@ define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, conn
                     return void appRouter.showItem(items[0]);
                 }
 
-                var url = 'itemdetails.html?id=' + itemId + '&serverId=' + serverId;
+                var url = 'details?id=' + itemId + '&serverId=' + serverId;
                 Dashboard.navigate(url);
             });
             e.stopPropagation();
