@@ -1563,5 +1563,10 @@
     "LabelRepositoryUrlHelp": "Locația manifestului repertoriului pe care doriți să o includeți.",
     "LabelRepositoryUrl": "URL Repertoriu",
     "HeaderNewRepository": "Repertoriu Nou",
-    "MessageNoRepositories": "Fără repertoriu."
+    "MessageNoRepositories": "Fără repertoriu.",
+    "ButtonPlayer": "Redare",
+    "Writers": "Scriitori",
+    "TabRepositories": "Repertorii",
+    "MessageAddRepository": "Dacă doriți să adăugați un repertoriu, faceți clic pe butonul de lângă antet și completați informațiile solicitate.",
+    "LabelRepositoryNameHelp": "Un nume personalizat pentru a distinge acest repertoriu de altele adăugate la serverul dvs."
 }
