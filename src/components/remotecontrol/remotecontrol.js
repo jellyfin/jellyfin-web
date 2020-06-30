@@ -333,7 +333,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             }
 
             updateRepeatModeDisplay(playbackManager.getRepeatMode());
-            onShuffleQueueModeChange();
+            onShuffleQueueModeChange(false);
             updateNowPlayingInfo(context, state);
         }
 
@@ -405,7 +405,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             if (!showMuteButton && !showVolumeSlider) {
                 context.querySelector('.volumecontrol').classList.add('hide');
             } else {
-                buttonMute.classList.toggle('hide', showMuteButton);
+                buttonMute.classList.toggle('hide', !showMuteButton);
 
                 var nowPlayingVolumeSlider = context.querySelector('.nowPlayingVolumeSlider');
                 var nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
@@ -481,7 +481,16 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 });
 
                 var itemsContainer = context.querySelector('.playlist');
+                let focusedItemPlaylistId = itemsContainer.querySelector('button:focus');
                 itemsContainer.innerHTML = html;
+                if (focusedItemPlaylistId !== null) {
+                    focusedItemPlaylistId = focusedItemPlaylistId.getAttribute('data-playlistitemid');
+                    const newFocusedItem = itemsContainer.querySelector(`button[data-playlistitemid=${focusedItemPlaylistId}]`);
+                    if (newFocusedItem !== null) {
+                        newFocusedItem.focus();
+                    }
+                }
+
                 var playlistItemId = playbackManager.getCurrentPlaylistItemId(player);
 
                 if (playlistItemId) {
@@ -507,7 +516,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             updateRepeatModeDisplay(playbackManager.getRepeatMode());
         }
 
-        function onShuffleQueueModeChange() {
+        function onShuffleQueueModeChange(updateView = true) {
             let shuffleMode = playbackManager.getQueueShuffleMode(this);
             let context = dlg;
             const cssClass = 'shuffleQueue-active';
@@ -516,15 +525,18 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             for (let shuffleButton of shuffleButtons) {
                 switch (shuffleMode) {
                     case 'Shuffle':
-                        shuffleButton.classList.toggle(cssClass, true);
+                        shuffleButton.classList.add(cssClass);
                         break;
                     case 'Sorted':
                     default:
-                        shuffleButton.classList.toggle(cssClass, false);
+                        shuffleButton.classList.remove(cssClass);
                         break;
                 }
             }
-            onPlaylistUpdate();
+
+            if (updateView) {
+                onPlaylistUpdate();
+            }
         }
 
         function onPlaylistUpdate(e) {
@@ -550,7 +562,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
             if (!state.NextMediaType) {
                 updatePlayerState(player, dlg, {});
-                loadPlaylist(dlg);
+                //onPlaylistUpdate();
                 Emby.Page.back();
             }
         }
@@ -562,7 +574,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function onStateChanged(event, state) {
             var player = this;
             updatePlayerState(player, dlg, state);
-            loadPlaylist(dlg, player);
+            onPlaylistUpdate();
         }
 
         function onTimeUpdate(e) {
@@ -720,7 +732,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
             context.querySelector('.btnPreviousTrack').addEventListener('click', function (e) {
                 if (currentPlayer) {
-                    if (currentPlayer.id === 'htmlaudioplayer' && (currentPlayer._currentTime >= 5 || !playbackManager.previousTrack(currentPlayer))) {
+                    if (lastPlayerState.NowPlayingItem.MediaType === 'Audio' && (currentPlayer._currentTime >= 5 || !playbackManager.previousTrack(currentPlayer))) {
                         // Cancel this event if doubleclick is fired
                         if (e.detail > 1 && playbackManager.previousTrack(currentPlayer)) {
                             return;
