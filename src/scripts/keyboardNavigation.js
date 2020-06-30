@@ -78,7 +78,7 @@ export function isNavigationKey(key) {
 }
 
 export function enable() {
-    document.addEventListener('keydown', function (e) {
+    window.addEventListener('keydown', function (e) {
         const key = getKeyName(e);
 
         // Ignore navigation keys for non-TV

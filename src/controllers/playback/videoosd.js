@@ -1101,7 +1101,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
          */
         var clickedElement;
 
-        function onWindowKeyDown(e) {
+        function onKeyDown(e) {
             clickedElement = e.srcElement;
 
             var key = keyboardnavigation.getKeyName(e);
@@ -1212,6 +1212,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                     var percent = parseInt(key, 10) * 10;
                     playbackManager.seekPercent(percent, currentPlayer);
                     break;
+            }
+        }
+
+        function onKeyDownCapture() {
+            // Restart hide timer if OSD is currently visible
+            if (currentVisibleMenu) {
+                showOsd();
             }
         }
 
@@ -1343,9 +1350,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         var headerElement = document.querySelector('.skinHeader');
         var osdBottomElement = document.querySelector('.videoOsdBottom-maincontrols');
 
+        nowPlayingPositionSlider.enableKeyboardDragging();
+        nowPlayingVolumeSlider.enableKeyboardDragging();
+
         if (layoutManager.tv) {
             nowPlayingPositionSlider.classList.add('focusable');
-            nowPlayingPositionSlider.enableKeyboardDragging();
         }
 
         view.addEventListener('viewbeforeshow', function (e) {
@@ -1361,7 +1370,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 });
                 showOsd();
                 inputManager.on(window, onInputCommand);
-                dom.addEventListener(window, 'keydown', onWindowKeyDown, {
+                document.addEventListener('keydown', onKeyDown);
+                dom.addEventListener(document, 'keydown', onKeyDownCapture, {
                     capture: true
                 });
                 dom.addEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
@@ -1389,7 +1399,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 statsOverlay.enabled(false);
             }
 
-            dom.removeEventListener(window, 'keydown', onWindowKeyDown, {
+            document.removeEventListener('keydown', onKeyDown);
+            dom.removeEventListener(document, 'keydown', onKeyDownCapture, {
                 capture: true
             });
             dom.removeEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
@@ -1494,16 +1505,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }, options);
         }
 
-        function setVolume() {
-            playbackManager.setVolume(this.value, currentPlayer);
-        }
-
         view.querySelector('.buttonMute').addEventListener('click', function () {
             playbackManager.toggleMute(currentPlayer);
         });
-        nowPlayingVolumeSlider.addEventListener('change', setVolume);
-        nowPlayingVolumeSlider.addEventListener('mousemove', setVolume);
-        nowPlayingVolumeSlider.addEventListener('touchmove', setVolume);
+
+        nowPlayingVolumeSlider.addEventListener('input', (e) => {
+            playbackManager.setVolume(e.target.value, currentPlayer);
+        });
 
         nowPlayingPositionSlider.addEventListener('change', function () {
             var player = currentPlayer;
