@@ -178,9 +178,13 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
             let contextButton = context.querySelector('.btnToggleContextMenu');
             // We remove the previous event listener by replacing the item in each update event
+            const autoFocusContextButton = document.activeElement === contextButton;
             let contextButtonClone = contextButton.cloneNode(true);
             contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
             contextButton = context.querySelector('.btnToggleContextMenu');
+            if (autoFocusContextButton) {
+                contextButton.focus();
+            }
             var options = {
                 play: false,
                 queue: false,
