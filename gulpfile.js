@@ -184,7 +184,12 @@ function copy(query) {
 function injectBundle() {
     return src(options.injectBundle.query, { base: './src/' })
         .pipe(inject(
-            src(['src/scripts/apploader.js'], { read: false }, { base: './src/' }), { relative: true }
+            src(['src/scripts/apploader.js'], { read: false }, { base: './src/' }), {
+                relative: true,
+                transform: function (filepath) {
+                    return `<script src="${filepath}" defer></script>`;
+                }
+            }
         ))
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
