@@ -6,7 +6,7 @@ define(function () {
 
     return {
 
-        load: function (url, req, load, config) {
+        load: async function (url, req, load, config) {
 
             if (url.indexOf('://') === -1) {
                 url = config.baseUrl + url;
@@ -26,14 +26,10 @@ define(function () {
                 url += 'r=0';
             }
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
+            const response = await fetch(url);
+            const textContent = await response.text();
 
-            xhr.onload = function (e) {
-                load(this.response);
-            };
-
-            xhr.send();
+            load(textContent);
         },
 
         normalize: function (name, normalize) {

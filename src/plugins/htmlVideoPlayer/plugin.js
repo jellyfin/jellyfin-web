@@ -1017,31 +1017,22 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
-        function fetchSubtitles(track, item) {
+        async function fetchSubtitles(track, item) {
             if (window.Windows && itemHelper.isLocalItem(item)) {
                 return fetchSubtitlesUwp(track, item);
             }
 
             incrementFetchQueue();
-            return new Promise(function (resolve, reject) {
-                var xhr = new XMLHttpRequest();
+            var url = getTextTrackUrl(track, item, '.js');
 
-                var url = getTextTrackUrl(track, item, '.js');
-
-                xhr.open('GET', url, true);
-
-                xhr.onload = function (e) {
-                    resolve(JSON.parse(this.response));
-                    decrementFetchQueue();
-                };
-
-                xhr.onerror = function (e) {
-                    reject(e);
-                    decrementFetchQueue();
-                };
-
-                xhr.send();
-            });
+            try {
+                const response = await fetch(url);
+                decrementFetchQueue();
+                return await response.json;
+            } catch (error) {
+                decrementFetchQueue();
+                throw new Error(error);
+            }
         }
 
         function setTrackForDisplay(videoElement, track) {

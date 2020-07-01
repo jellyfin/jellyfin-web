@@ -24,53 +24,43 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
         appSettings.set(settingsKey, JSON.stringify(manifestUrls));
     }
 
-    function loadPackage(packageManager, url, throwError) {
+    async function loadPackage(packageManager, url, throwError) {
+        var originalUrl = url;
+        url += url.indexOf('?') === -1 ? '?' : '&';
+        url += 't=' + new Date().getTime();
 
-        return new Promise(function (resolve, reject) {
+        try {
+            const response = await fetch(url);
 
-            var xhr = new XMLHttpRequest();
-            var originalUrl = url;
-            url += url.indexOf('?') === -1 ? '?' : '&';
-            url += 't=' + new Date().getTime();
+            if (response.status < 400) {
+                var pkg = response.json();
+                pkg.url = originalUrl;
 
-            xhr.open('GET', url, true);
+                addPackage(packageManager, pkg);
 
-            var onError = function () {
-
-                if (throwError === true) {
-                    reject();
-                } else {
-                    removeUrl(originalUrl);
-                    resolve();
+                var plugins = pkg.plugins || [];
+                if (pkg.plugin) {
+                    plugins.push(pkg.plugin);
                 }
-            };
-
-            xhr.onload = function (e) {
-                if (this.status < 400) {
-
-                    var pkg = JSON.parse(this.response);
-                    pkg.url = originalUrl;
-
-                    addPackage(packageManager, pkg);
-
-                    var plugins = pkg.plugins || [];
-                    if (pkg.plugin) {
-                        plugins.push(pkg.plugin);
-                    }
-                    var promises = plugins.map(function (pluginUrl) {
-                        return pluginManager.loadPlugin(packageManager.mapPath(pkg, pluginUrl));
-                    });
-                    Promise.all(promises).then(resolve, resolve);
-
-                } else {
-                    onError();
-                }
-            };
-
-            xhr.onerror = onError;
-
-            xhr.send();
-        });
+                var promises = plugins.map(function (pluginUrl) {
+                    return pluginManager.loadPlugin(packageManager.mapPath(pkg, pluginUrl));
+                });
+                Promise.all(promises).then(() => {
+                    return;
+                }).catch(() => {
+                    return;
+                });
+            } else {
+                throw new Error(`fetch failed with status code ${response.status}`);
+            }
+        } catch (error) {
+            if (throwError === true) {
+                throw new Error(error);
+            } else {
+                removeUrl(originalUrl);
+                return;
+            }
+        }
     }
 
     function PackageManager() {

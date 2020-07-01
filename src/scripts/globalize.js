@@ -153,9 +153,8 @@ define(['userSettings', 'events'], function (userSettings, events) {
             });
         }
 
-        return new Promise(function (resolve, reject) {
+        async function getTranslationFile(resolve, reject) {
             if (!filtered.length) {
-                resolve();
                 return;
             }
 
@@ -164,22 +163,17 @@ define(['userSettings', 'events'], function (userSettings, events) {
             url += url.indexOf('?') === -1 ? '?' : '&';
             url += 'v=' + cacheParam;
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
+            const response = await fetch(url);
+            const jsonConntent = await response.json();
 
-            xhr.onload = function (e) {
-                if (this.status < 400) {
-                    resolve(JSON.parse(this.response));
-                } else {
-                    resolve({});
-                }
-            };
+            if (response.status < 400) {
+                return jsonConntent;
+            } else {
+                return {};
+            }
+        }
 
-            xhr.onerror = function () {
-                resolve({});
-            };
-            xhr.send();
-        });
+        return getTranslationFile();
     }
 
     function translateKey(key) {
