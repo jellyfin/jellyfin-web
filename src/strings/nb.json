@@ -1553,5 +1553,14 @@
     "ApiKeysCaption": "Liste over aktive API-nøkler",
     "EnableDetailsBannerHelp": "Viser et bildebanner øverst på detaljsiden.",
     "EnableDetailsBanner": "Detaljebanner",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "LabelRepositoryName": "Navn på kilde",
+    "LabelRepositoryUrlHelp": "Lokasjonen til kilde-manifestet som du ønsker å inkludere.",
+    "LabelRepositoryUrl": "URL for kilde",
+    "HeaderNewRepository": "Ny kilde",
+    "MessageNoRepositories": "Ingen kilder.",
+    "EnableFasterAnimationsHelp": "Bruk raskere animasjoner og overganger",
+    "EnableFasterAnimations": "Raskere animasjoner",
+    "EnableDecodingColorDepth10Vp9": "Aktiver maskinvaredekoding for VP9",
+    "EnableDecodingColorDepth10Hevc": "Aktiver maskinvaredekoding for 10-Bit HEVC"
 }
