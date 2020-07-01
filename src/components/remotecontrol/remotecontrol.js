@@ -195,12 +195,14 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 positionTo: contextButton
             };
             var apiClient = connectionManager.getApiClient(item.ServerId);
-            apiClient.getCurrentUser().then(function (user) {
-                contextButton.addEventListener('click', function () {
-                    itemContextMenu.show(Object.assign({
-                        item: item,
-                        user: user
-                    }, options));
+            apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
+                apiClient.getCurrentUser().then(function (user) {
+                    contextButton.addEventListener('click', function () {
+                        itemContextMenu.show(Object.assign({
+                            item: fullItem,
+                            user: user
+                        }, options));
+                    });
                 });
             });
             setImageUrl(context, state, url);
