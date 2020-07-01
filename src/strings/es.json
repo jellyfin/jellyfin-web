@@ -1574,5 +1574,6 @@
     "HeaderNewRepository": "Nuevo repositorio",
     "MessageNoRepositories": "Sin repositorios.",
     "Writers": "Escritores",
-    "StopPlayback": "Detener la reproducción"
+    "StopPlayback": "Detener la reproducción",
+    "ClearQueue": "Borrar la cola"
 }

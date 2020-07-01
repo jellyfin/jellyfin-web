@@ -3971,6 +3971,15 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         events.trigger(player, 'shufflequeuemodechange');
     };
 
+    PlaybackManager.prototype.clearQueue = function (clearCurrentItem = false, player = this._currentPlayer) {
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.clearQueue(clearCurrentItem);
+        }
+
+        this._playQueueManager.clearPlaylist(clearCurrentItem);
+        events.trigger(player, 'playlistitemremove');
+    };
+
     PlaybackManager.prototype.trySetActiveDeviceName = function (name) {
 
         name = normalizeName(name);

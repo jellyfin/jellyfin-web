@@ -28,12 +28,21 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
-        if (playbackManager.getCurrentPlayer() !== null && options.stopPlayback) {
-            commands.push({
-                name: globalize.translate('StopPlayback'),
-                id: 'stopPlayback',
-                icon: 'stop'
-            });
+        if (playbackManager.getCurrentPlayer() !== null) {
+            if (options.stopPlayback) {
+                commands.push({
+                    name: globalize.translate('StopPlayback'),
+                    id: 'stopPlayback',
+                    icon: 'stop'
+                });
+            }
+            if (options.clearQueue) {
+                commands.push({
+                    name: globalize.translate('ClearQueue'),
+                    id: 'clearQueue',
+                    icon: 'clear_all'
+                });
+            }
         }
 
         if (playbackManager.canQueue(item)) {
@@ -434,6 +443,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     break;
                 case 'stopPlayback':
                     playbackManager.stop();
+                    break;
+                case 'clearQueue':
+                    playbackManager.clearQueue();
                     break;
                 case 'record':
                     require(['recordingCreator'], function (recordingCreator) {

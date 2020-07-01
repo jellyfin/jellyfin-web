@@ -584,6 +584,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                         let options = {
                             play: false,
                             queue: false,
+                            clearQueue: true,
                             positionTo: contextButton
                         };
                         apiClient.getCurrentUser().then(function (user) {

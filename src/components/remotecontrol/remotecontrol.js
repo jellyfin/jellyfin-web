@@ -190,6 +190,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 play: false,
                 queue: false,
                 stopPlayback: stopPlayback,
+                clearQueue: true,
                 openAlbum: false,
                 positionTo: contextButton
             };
@@ -551,14 +552,18 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
         function onPlaylistItemRemoved(e, info) {
             var context = dlg;
-            var playlistItemIds = info.playlistItemIds;
+            if (info !== undefined) {
+                var playlistItemIds = info.playlistItemIds;
 
-            for (var i = 0, length = playlistItemIds.length; i < length; i++) {
-                var listItem = context.querySelector('.listItem[data-playlistItemId="' + playlistItemIds[i] + '"]');
+                for (var i = 0, length = playlistItemIds.length; i < length; i++) {
+                    var listItem = context.querySelector('.listItem[data-playlistItemId="' + playlistItemIds[i] + '"]');
 
-                if (listItem) {
-                    listItem.parentNode.removeChild(listItem);
+                    if (listItem) {
+                        listItem.parentNode.removeChild(listItem);
+                    }
                 }
+            } else {
+                onPlaylistUpdate();
             }
         }
 

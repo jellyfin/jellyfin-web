@@ -1564,5 +1564,6 @@
     "ButtonSyncPlay": "SyncPlay",
     "ButtonCast": "Cast",
     "ButtonPlayer": "Player",
-    "StopPlayback": "Stop playback"
+    "StopPlayback": "Stop playback",
+    "ClearQueue": "Clear queue"
 }

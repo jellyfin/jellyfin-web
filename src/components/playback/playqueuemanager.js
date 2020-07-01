@@ -84,6 +84,14 @@ define([], function () {
         this._shuffleMode = 'Sorted';
     };
 
+    PlayQueueManager.prototype.clearPlaylist = function (clearCurrentItem = false) {
+        const currentPlaylistItem = this._playlist.splice(this.getCurrentPlaylistIndex(), 1)[0];
+        this._playlist = [];
+        if (!clearCurrentItem) {
+            this._playlist.push(currentPlaylistItem);
+        }
+    };
+
     function arrayInsertAt(destArray, pos, arrayToInsert) {
         var args = [];
         args.push(pos); // where to insert
