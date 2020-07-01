@@ -185,7 +185,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             if (autoFocusContextButton) {
                 contextButton.focus();
             }
-            let stopPlayback = false || layoutManager.mobile;
+            const stopPlayback = !!layoutManager.mobile;
             var options = {
                 play: false,
                 queue: false,
