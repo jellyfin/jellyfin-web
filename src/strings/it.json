@@ -1567,5 +1567,6 @@
     "LabelRepositoryUrlHelp": "URL del repository manifest che si vuole includere.",
     "LabelRepositoryUrl": "URL Repository",
     "HeaderNewRepository": "Nuovo Repository",
-    "MessageNoRepositories": "Nessun repository."
+    "MessageNoRepositories": "Nessun repository.",
+    "ButtonPlayer": "Player"
 }

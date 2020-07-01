@@ -818,5 +818,6 @@
     "AllowFfmpegThrottling": "Transcodes de l’acceleració",
     "AllowOnTheFlySubtitleExtractionHelp": "Els subtítols incrustats es poden extreure de vídeos i entregar-los a clients en text senzill per tal d'evitar la transcodificació de vídeo. En alguns sistemes, això pot trigar molt i fer que la reproducció de vídeo s’aturi durant el procés d’extracció. Desactiveu-ho per tenir subtítols incrustats incrustats amb la transcodificació de vídeo quan no són compatibles amb el dispositiu client de forma nativa.",
     "AlbumArtist": "Album artista",
-    "Album": "Album"
+    "Album": "Album",
+    "ButtonSyncPlay": "SyncPlay"
 }

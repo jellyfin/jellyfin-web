@@ -1608,5 +1608,6 @@
     "Filter": "Filtrer",
     "New": "Nye",
     "ButtonTogglePlaylist": "Spilleliste",
-    "ButtonToggleContextMenu": "Mere"
+    "ButtonToggleContextMenu": "Mere",
+    "ButtonSyncPlay": "SyncPlay"
 }

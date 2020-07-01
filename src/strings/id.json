@@ -204,5 +204,6 @@
     "Alerts": "Peringatan",
     "AddedOnValue": "Ditambahkan {0}",
     "AllowFfmpegThrottling": "Transcode Tercekik",
-    "AllowOnTheFlySubtitleExtractionHelp": "Subtitle yang melekat di video dapat dikeluarkan dan dikirimkan kepada klien dalam bentuk text biasa dengan tujuan untuk menghalau terjadinya transcoding pada video. Pada beberapa system ini membutuhkan waktu yang lama dan dapat menyebabkan video playback menjadi terhenti dikarenakan proses ekstraksi. Non-aktifkan fitur ini untuk membiarkan subtitle langsung dilekatkan kepada video dengan cara transcoding ketika klien tidak mendukung fitur ini."
+    "AllowOnTheFlySubtitleExtractionHelp": "Subtitle yang melekat di video dapat dikeluarkan dan dikirimkan kepada klien dalam bentuk text biasa dengan tujuan untuk menghalau terjadinya transcoding pada video. Pada beberapa system ini membutuhkan waktu yang lama dan dapat menyebabkan video playback menjadi terhenti dikarenakan proses ekstraksi. Non-aktifkan fitur ini untuk membiarkan subtitle langsung dilekatkan kepada video dengan cara transcoding ketika klien tidak mendukung fitur ini.",
+    "ButtonSyncPlay": "SyncPlay"
 }

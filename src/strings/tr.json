@@ -768,5 +768,6 @@
     "LabelSkipIfAudioTrackPresent": "Varsayılan ses izi indirme diliyle uyuşuyorsa atla",
     "LabelSize": "Boyut:",
     "LabelSimultaneousConnectionLimit": "Eşzamanlı yayın limiti:",
-    "LabelServerName": "Sunucu adı:"
+    "LabelServerName": "Sunucu adı:",
+    "ButtonSyncPlay": "SyncPlay"
 }

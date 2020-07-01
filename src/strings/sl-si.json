@@ -77,7 +77,7 @@
     "Alerts": "Alarmi",
     "All": "Vse",
     "AllChannels": "Vsi kanali",
-    "AllComplexFormats": "Vsi kompleksni formati (ASS, SSA, VOBSUB, PGS, SUB/IDX, itd.)",
+    "AllComplexFormats": "Vsi kompleksni formati (ASS, SSA, VOBSUB, PGS, SUB, IDX, itd.)",
     "AllEpisodes": "Vse epizode",
     "AllLanguages": "Vsi jeziki",
     "AllLibraries": "Vse knjižnice",
@@ -1275,5 +1275,6 @@
     "Episode": "Epizoda",
     "EnableDetailsBannerHelp": "Prikaži sliko pasice na vrhu strani podrobnosti.",
     "EnableDetailsBanner": "Pasica podrobnosti",
-    "DeinterlaceMethodHelp": "Izberite način razpletanja pri prekodiranju prepletenih vsebin."
+    "DeinterlaceMethodHelp": "Izberite način razpletanja pri prekodiranju prepletenih vsebin.",
+    "ButtonSyncPlay": "SyncPlay"
 }

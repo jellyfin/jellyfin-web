@@ -1513,5 +1513,6 @@
     "HeaderServerAddressSettings": "Serveradressinställningar",
     "HeaderRemoteAccessSettings": "Inställningar för fjärråtkomst",
     "HeaderHttpsSettings": "HTTPS-inställningar",
-    "HeaderDVR": "PVR"
+    "HeaderDVR": "PVR",
+    "ButtonSyncPlay": "SyncPlay"
 }

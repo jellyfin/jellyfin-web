@@ -922,7 +922,7 @@
     "ValueSpecialEpisodeName": "خاص - {0}",
     "HeaderFavoriteAlbums": "الألبومات المفضلة",
     "HeaderAlbumArtists": "فناني الألبومات",
-    "Genres": "الأنواع",
+    "Genres": "التضنيفات",
     "Folders": "المجلدات",
     "Favorites": "المفضلة",
     "Collections": "مجموعات",
@@ -964,7 +964,7 @@
     "AllEpisodes": "كل الحلقات",
     "AllComplexFormats": "جميع التنسيقات المعقدة (ASS ، SSA ، VOBSUB ، PGS ، SUB / IDX ، ...)",
     "AllChannels": "كل القنوات",
-    "Albums": "ألبومات",
+    "Albums": "البومات",
     "Aired": "عرضت",
     "AirDate": "تاريخ العرض",
     "AddedOnValue": "أضيفت",
@@ -1151,5 +1151,6 @@
     "DisplayInOtherHomeScreenSections": "عرض في أقسام الشاشة الرئيسية مثل أحدث الوسائط واستمر في المشاهدة",
     "DisplayInMyMedia": "عرض على الشاشة الرئيسية",
     "Display": "عرض",
-    "Dislike": "لم يعجبنى"
+    "Dislike": "لم يعجبنى",
+    "ButtonSyncPlay": "SyncPlay"
 }

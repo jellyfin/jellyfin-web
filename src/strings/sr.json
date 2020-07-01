@@ -194,5 +194,6 @@
     "AlbumArtist": "Извођач албума",
     "Album": "Албум",
     "AirDate": "Премијера",
-    "AdditionalNotificationServices": "Прегледајте каталог додатака да бисте инсталирали сервисе за обавештења."
+    "AdditionalNotificationServices": "Прегледајте каталог додатака да бисте инсталирали сервисе за обавештења.",
+    "ButtonSyncPlay": "SyncPlay"
 }

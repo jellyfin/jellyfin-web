@@ -1586,5 +1586,7 @@
     "LabelRepositoryName": "Name des Repository",
     "LabelRepositoryUrl": "URL des Repository",
     "HeaderNewRepository": "Neues Repository",
-    "MessageNoRepositories": "Keine Repositories."
+    "MessageNoRepositories": "Keine Repositories.",
+    "ButtonPlayer": "Player",
+    "Writers": "Autoren"
 }
