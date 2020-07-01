@@ -28,6 +28,14 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
+        if (playbackManager.getCurrentPlayer() !== null && options.stopPlayback) {
+            commands.push({
+                name: globalize.translate('StopPlayback'),
+                id: 'stopPlayback',
+                icon: 'stop'
+            });
+        }
+
         if (playbackManager.canQueue(item)) {
             if (options.queue !== false) {
                 commands.push({
@@ -44,13 +52,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     icon: 'playlist_add'
                 });
             }
-
-            //if (options.queueAllFromHere) {
-            //    commands.push({
-            //        name: globalize.translate("QueueAllFromHere"),
-            //        id: "queueallfromhere"
-            //    });
-            //}
         }
 
         if (item.IsFolder || item.Type === 'MusicArtist' || item.Type === 'MusicGenre') {
@@ -430,6 +431,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 case 'queuenext':
                     play(item, false, true, true);
                     getResolveFunction(resolve, id)();
+                    break;
+                case 'stopPlayback':
+                    playbackManager.stop();
                     break;
                 case 'record':
                     require(['recordingCreator'], function (recordingCreator) {

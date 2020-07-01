@@ -1573,5 +1573,6 @@
     "LabelRepositoryUrl": "URL del repositorio",
     "HeaderNewRepository": "Nuevo repositorio",
     "MessageNoRepositories": "Sin repositorios.",
-    "Writers": "Escritores"
+    "Writers": "Escritores",
+    "StopPlayback": "Detener la reproducción"
 }
