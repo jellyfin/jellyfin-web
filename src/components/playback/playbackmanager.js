@@ -2878,11 +2878,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             }
         };
 
-        self.queue = function (options, player) {
+        self.queue = function (options, player = this._currentPlayer) {
             queue(options, '', player);
         };
 
-        self.queueNext = function (options, player) {
+        self.queueNext = function (options, player = this._currentPlayer) {
             queue(options, 'next', player);
         };
 
@@ -2970,6 +2970,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             } else {
                 self._playQueueManager.queue(items);
             }
+            events.trigger(player, 'playlistitemadd');
         }
 
         function onPlayerProgressInterval() {

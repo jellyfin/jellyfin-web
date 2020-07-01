@@ -615,6 +615,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 events.off(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
                 events.off(player, 'playlistitemremove', onPlaylistItemRemoved);
                 events.off(player, 'playlistitemmove', onPlaylistUpdate);
+                events.off(player, 'playlistitemadd', onPlaylistUpdate);
                 events.off(player, 'playbackstop', onPlaybackStopped);
                 events.off(player, 'volumechange', onVolumeChanged);
                 events.off(player, 'pause', onPlayPauseStateChanged);
@@ -636,6 +637,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
                 events.on(player, 'playlistitemremove', onPlaylistItemRemoved);
                 events.on(player, 'playlistitemmove', onPlaylistUpdate);
+                events.on(player, 'playlistitemadd', onPlaylistUpdate);
                 events.on(player, 'playbackstop', onPlaybackStopped);
                 events.on(player, 'volumechange', onVolumeChanged);
                 events.on(player, 'pause', onPlayPauseStateChanged);
