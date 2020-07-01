@@ -12,7 +12,7 @@ import 'css!./style';
         fillImageElement(elem, source);
     }
 
-    async function itemBlurhashing(target, blurhashstr) {
+    function itemBlurhashing(target, blurhashstr) {
         if (blurhash.isBlurhashValid(blurhashstr)) {
             // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
             // improving the performance and reducing the memory usage, while retaining almost full blur quality.
@@ -36,24 +36,18 @@ import 'css!./style';
             imgData.data.set(pixels);
             ctx.putImageData(imgData, 0, 0);
 
-            let child = target.appendChild(canvas);
-            child.classList.add('blurhash-canvas');
-            child.style.opacity = 1;
-            if (userSettings.enableFastFadein()) {
-                child.classList.add('lazy-blurhash-fadein-fast');
-            } else {
-                child.classList.add('lazy-blurhash-fadein');
-            }
+            requestAnimationFrame(() => {
+                canvas.classList.add('blurhash-canvas');
+                if (userSettings.enableFastFadein()) {
+                    canvas.classList.add('lazy-blurhash-fadein-fast');
+                } else {
+                    canvas.classList.add('lazy-blurhash-fadein');
+                }
 
-            target.classList.add('blurhashed');
-            target.removeAttribute('data-blurhash');
-        }
-    }
-
-    function switchCanvas(elem) {
-        let child = elem.getElementsByClassName('blurhash-canvas')[0];
-        if (child) {
-            child.style.opacity = elem.getAttribute('data-src') ? 1 : 0;
+                target.parentNode.insertBefore(canvas, target);
+                target.classList.add('blurhashed');
+                target.removeAttribute('data-blurhash');
+            });
         }
     }
 
@@ -66,23 +60,16 @@ import 'css!./style';
 
         if (target) {
             source = target.getAttribute('data-src');
-            var blurhashstr = target.getAttribute('data-blurhash');
         } else {
             source = entry;
-        }
-
-        if (userSettings.enableBlurhash()) {
-            if (!target.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
-                itemBlurhashing(target, blurhashstr);
-            } else if (!blurhashstr && !target.classList.contains('blurhashed')) {
-                target.classList.add('non-blurhashable');
-            }
         }
 
         if (entry.intersectionRatio > 0) {
             if (source) fillImageElement(target, source);
         } else if (!source) {
-            emptyImageElement(target);
+            requestAnimationFrame(() => {
+                emptyImageElement(target);
+            });
         }
     }
 
@@ -94,29 +81,24 @@ import 'css!./style';
         let preloaderImg = new Image();
         preloaderImg.src = url;
 
-        // This is necessary here, so changing blurhash settings without reloading the page works
-        if (!userSettings.enableBlurhash() || elem.classList.contains('non-blurhashable')) {
-            elem.classList.add('lazy-hidden');
-        }
+        elem.classList.add('lazy-hidden');
 
         preloaderImg.addEventListener('load', () => {
-            if (elem.tagName !== 'IMG') {
-                elem.style.backgroundImage = "url('" + url + "')";
-            } else {
-                elem.setAttribute('src', url);
-            }
-            elem.removeAttribute('data-src');
+            requestAnimationFrame(() => {
+                if (elem.tagName !== 'IMG') {
+                    elem.style.backgroundImage = "url('" + url + "')";
+                } else {
+                    elem.setAttribute('src', url);
+                }
+                elem.removeAttribute('data-src');
 
-            if (elem.classList.contains('non-blurhashable') || !userSettings.enableBlurhash()) {
                 elem.classList.remove('lazy-hidden');
                 if (userSettings.enableFastFadein()) {
                     elem.classList.add('lazy-image-fadein-fast');
                 } else {
                     elem.classList.add('lazy-image-fadein');
                 }
-            } else {
-                switchCanvas(elem);
-            }
+            });
         });
     }
 
@@ -132,15 +114,21 @@ import 'css!./style';
         }
         elem.setAttribute('data-src', url);
 
-        if (elem.classList.contains('non-blurhashable') || !userSettings.enableBlurhash()) {
-            elem.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
-            elem.classList.add('lazy-hidden');
-        } else {
-            switchCanvas(elem);
-        }
+        elem.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
+        elem.classList.add('lazy-hidden');
     }
 
     export function lazyChildren(elem) {
+        if (userSettings.enableBlurhash()) {
+            for (const lazyElem of elem.getElementsByClassName('lazy')) {
+                const blurhashstr = lazyElem.getAttribute('data-blurhash');
+                if (!lazyElem.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
+                    itemBlurhashing(lazyElem, blurhashstr);
+                } else if (!blurhashstr && !lazyElem.classList.contains('blurhashed')) {
+                    lazyElem.classList.add('non-blurhashable');
+                }
+            }
+        }
         lazyLoader.lazyChildren(elem, fillImage);
     }
 
