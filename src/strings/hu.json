@@ -1571,5 +1571,6 @@
     "LabelRepositoryUrlHelp": "A hivatkozni kívánt tároló manifeszt helye.",
     "LabelRepositoryUrl": "Tároló URL-je",
     "HeaderNewRepository": "Új tároló",
-    "MessageNoRepositories": "Nincs tároló."
+    "MessageNoRepositories": "Nincs tároló.",
+    "Writers": "Írók"
 }
