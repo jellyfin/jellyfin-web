@@ -563,6 +563,7 @@
     "LabelAllowServerAutoRestartHelp": "The server will only restart during idle periods when no users are active.",
     "LabelAllowedRemoteAddresses": "Remote IP address filter:",
     "LabelAllowedRemoteAddressesMode": "Remote IP address filter mode:",
+    "LabelApplyIgnorePatterns": "Apply ignore patterns",
     "LabelAppName": "App name",
     "LabelAppNameExample": "Example: Sickbeard, Sonarr",
     "LabelArtists": "Artists:",

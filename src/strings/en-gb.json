@@ -859,6 +859,7 @@
     "LabelDay": "Day:",
     "LabelDateTimeLocale": "Date time locale:",
     "LabelCustomDeviceDisplayNameHelp": "Supply a custom display name or leave empty to use the name reported by the device.",
+    "LabelApplyIgnorePatterns": "Apply ignore patterns",
     "HeaderYears": "Years",
     "HeaderVideos": "Videos",
     "HeaderVideoTypes": "Video Types",

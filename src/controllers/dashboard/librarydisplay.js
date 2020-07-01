@@ -24,6 +24,7 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
                 view.querySelector('.chkGroupMoviesIntoCollections').checked = config.EnableGroupingIntoCollections;
                 view.querySelector('.chkDisplaySpecialsWithinSeasons').checked = config.DisplaySpecialsWithinSeasons;
                 view.querySelector('.chkExternalContentInSuggestions').checked = config.EnableExternalContentInSuggestions;
+                view.querySelector('.chkApplyIgnorePatterns').checked = config.ApplyIgnorePatterns;
                 view.querySelector('#chkSaveMetadataHidden').checked = config.SaveMetadataHidden;
             });
             ApiClient.getNamedConfiguration('metadata').then(function(metadata) {
@@ -39,6 +40,7 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
                 config.EnableGroupingIntoCollections = form.querySelector('.chkGroupMoviesIntoCollections').checked;
                 config.DisplaySpecialsWithinSeasons = form.querySelector('.chkDisplaySpecialsWithinSeasons').checked;
                 config.EnableExternalContentInSuggestions = form.querySelector('.chkExternalContentInSuggestions').checked;
+                config.ApplyIgnorePatterns = form.querySelector('.chkApplyIgnorePatterns').checked;
                 config.SaveMetadataHidden = form.querySelector('#chkSaveMetadataHidden').checked;
                 ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
             });
