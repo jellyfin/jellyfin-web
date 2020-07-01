@@ -729,7 +729,7 @@
     "MessageNoAvailablePlugins": "Ingen tilgjengelige programtillegg.",
     "MessageNoMovieSuggestionsAvailable": "Ingen filmforslag er tilgjengelige enda. Begynn å se og vurdere filmer, og kom tilbake hit etterpå for se anbefalingene dine.",
     "MessageNoPluginsInstalled": "Du har ingen programtillegg installert.",
-    "MessageNoTrailersFound": "Ingen trailere funnet. Installer trailer-tilleggskanalen for å forbedre filmopplevelsen ved å legge til et bibliotek med trailere fra Internett.",
+    "MessageNoTrailersFound": "Installer trailer-tilleggskanalen for å forbedre filmopplevelsen ved å legge til et bibliotek med trailere fra Internett.",
     "MessageNothingHere": "Ingenting her.",
     "MessagePasswordResetForUsers": "Følgende brukere har fått passordet sitt tilbakestilt. De kan nå logge inn med PIN-kodene som ble brukt til å utføre tilbakestillingen.",
     "MessagePlayAccessRestricted": "Avspilling av dette innholdet er for tiden begrenset. Ta kontakt med serverens administrator for mer informasjon.",
@@ -1449,7 +1449,7 @@
     "HeaderFavoritePeople": "Favorittpersoner",
     "Raised": "Opphøyet",
     "ButtonSplit": "Del opp",
-    "SelectAdminUsername": "Vennligst velg et brukernavn for administrator kontoen. ",
+    "SelectAdminUsername": "Vennligst velg et brukernavn for administrator-kontoen.",
     "HeaderNavigation": "Navigering",
     "MessageConfirmAppExit": "Vil du avslutte?",
     "CopyStreamURLError": "Det var en feil under kopiering av URL'en.",
@@ -1562,5 +1562,12 @@
     "EnableFasterAnimationsHelp": "Bruk raskere animasjoner og overganger",
     "EnableFasterAnimations": "Raskere animasjoner",
     "EnableDecodingColorDepth10Vp9": "Aktiver maskinvaredekoding for VP9",
-    "EnableDecodingColorDepth10Hevc": "Aktiver maskinvaredekoding for 10-Bit HEVC"
+    "EnableDecodingColorDepth10Hevc": "Aktiver maskinvaredekoding for 10-Bit HEVC",
+    "ButtonPlayer": "Spiller",
+    "ButtonCast": "Rollebesetning",
+    "Writers": "Forfattere",
+    "TabRepositories": "Kilder",
+    "MessageNoGenresAvailable": "Aktiver noen metadata-kilder for å hente sjangre fra internett.",
+    "MessageAddRepository": "Hvis du ønsker å legge til en ny kilde klikker du på knappen ved siden av overskriften og fyller ut forespurt informasjon.",
+    "LabelRepositoryNameHelp": "Et egendefinert navn for å skille denne kilden fra andre som er lagt til på serveren din."
 }
