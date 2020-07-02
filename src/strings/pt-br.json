@@ -1569,5 +1569,8 @@
     "HeaderNewRepository": "Novo repositório",
     "MessageNoRepositories": "Não há repositórios.",
     "ButtonPlayer": "Reprodutor",
-    "Writers": "Escritores"
+    "Writers": "Escritores",
+    "ClearQueue": "Limpar fila",
+    "StopPlayback": "Parar reprodução",
+    "ViewAlbumArtist": "Ver artista do álbum"
 }
