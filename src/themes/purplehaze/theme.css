@@ -542,6 +542,10 @@ a[data-role=button] {
     color: #4285f4;
 }
 
+.shuffleQueue-active {
+    color: #4285f4 !important;
+}
+
 .personCard .cardScalable {
     border-radius: 50% !important;
     border: 1px solid rgb(255, 255, 255);

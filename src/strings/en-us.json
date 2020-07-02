@@ -1527,7 +1527,7 @@
     "Vertical": "Vertical",
     "VideoRange": "Video range",
     "ViewAlbum": "View album",
-    "ViewArtist": "View artist",
+    "ViewAlbumArtist": "View album artist",
     "ViewPlaybackInfo": "View playback info",
     "Watched": "Watched",
     "Wednesday": "Wednesday",
@@ -1563,5 +1563,7 @@
     "EnableBlurhashHelp": "Images that are still being loaded will be displayed with a blurred placeholder",
     "ButtonSyncPlay": "SyncPlay",
     "ButtonCast": "Cast",
-    "ButtonPlayer": "Player"
+    "ButtonPlayer": "Player",
+    "StopPlayback": "Stop playback",
+    "ClearQueue": "Clear queue"
 }

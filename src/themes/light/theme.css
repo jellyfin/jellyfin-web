@@ -427,6 +427,10 @@ html {
     color: #4285f4;
 }
 
+.shuffleQueue-active {
+    color: #4285f4 !important;
+}
+
 .cardBox:not(.visualCardBox) .cardPadder {
     background-color: #fff;
 }

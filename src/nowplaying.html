@@ -26,9 +26,14 @@
                     <div class="runtime"></div>
                 </div>
                 
-                <div class="nowPlayingButtonsContainer focuscontainer-x">
+                <div class="nowPlayingButtonsContainer focuscontainer-x justify-content-space-between">
                 
                     <div class="nowPlayingInfoButtons">
+
+                        <button is="paper-icon-button-light" class="btnCommand btnRepeat repeatToggleButton autoSize" title="${ButtonRepeat}"
+                            data-command="SetRepeatMode">
+                            <span class="material-icons repeat"></span>
+                        </button>
                     
                         <button is="paper-icon-button-light" class="btnRewind btnNowPlayingRewind btnPlayStateCommand autoSize" title="${Rewind}">
                             <span class="material-icons replay_10"></span>
@@ -53,7 +58,11 @@
                         <button is="paper-icon-button-light" class="btnPlayStateCommand btnFastForward btnNowPlayingFastForward autoSize" title="${FastForward}">
                             <span class="material-icons forward_30"></span>
                         </button>
-                    
+
+                        <button is="paper-icon-button-light" class="btnShuffleQueue autoSize" title="${ButtonShuffle}">
+                            <span class="material-icons shuffle"></span>
+                        </button>
+
                     </div>
 
                     <div class="nowPlayingSecondaryButtons">
@@ -72,7 +81,12 @@
                             <span class="material-icons fullscreen"></span>
                         </button>
 
-                        <button is="paper-icon-button-light" class="btnCommand repeatToggleButton autoSize" title="${ButtonRepeat}" data-command="SetRepeatMode">
+                        <button is="paper-icon-button-light" class="btnShuffleQueue autoSize" title="${ButtonShuffle}">
+                            <span class="material-icons shuffle"></span>
+                        </button>
+
+                        <button is="paper-icon-button-light" class="btnCommand btnRepeat repeatToggleButton autoSize" title="${ButtonRepeat}"
+                            data-command="SetRepeatMode">
                             <span class="material-icons repeat"></span>
                         </button>
 
@@ -162,21 +176,18 @@
             </div>
         </div>
         <div class="playlistSection">
-            <div class="playlistSectionButton flex align-items-center justify-content-center">
-                <button id="togglePlaylist" is="paper-icon-button-light" class="btnTogglePlaylist" title="${ButtonTogglePlaylist}">
+            <div class="playlistSectionButton flex align-items-center justify-content-center focuscontainer-x">
+                <button id="togglePlaylist" is="paper-icon-button-light" class="btnTogglePlaylist hide" title="${ButtonTogglePlaylist}">
                     <span class="material-icons queue_music"></span>
                 </button>
-                <button is="paper-icon-button-light" class="btnSavePlaylist" title="${ButtonSave}">
+                <button is="paper-icon-button-light" class="btnSavePlaylist hide" title="${ButtonSave}">
                     <span class="material-icons save"></span>
+                </button>
+                <button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title="${ButtonToggleContextMenu}">
+                    <span class="material-icons more_vert"></span>
                 </button>
             </div>
             <div id="playlist" class="playlist itemsContainer vertical-list nowPlayingPlaylist hide" is="emby-itemscontainer" data-dragreorder="true"></div>
-            <div id="contextMenu" class="contextMenu itemsContainer vertical-list nowPlayingContextMenu hide" is="emby-itemscontainer">
-                <div class="listItem listItem-border contextMenuList contextMenuArtist">
-                </div>
-                <div class="listItem listItem-border contextMenuList contextMenuAlbum">
-                </div>
-            </div>
         </div>
     </div>
 </div>

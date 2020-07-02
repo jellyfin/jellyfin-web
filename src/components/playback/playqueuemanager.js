@@ -24,8 +24,10 @@ define([], function () {
 
     function PlayQueueManager() {
 
+        this._sortedPlaylist = [];
         this._playlist = [];
         this._repeatMode = 'RepeatNone';
+        this._shuffleMode = 'Sorted';
     }
 
     PlayQueueManager.prototype.getPlaylist = function () {
@@ -53,6 +55,40 @@ define([], function () {
             addUniquePlaylistItemId(items[i]);
 
             this._playlist.push(items[i]);
+        }
+    };
+
+    PlayQueueManager.prototype.shufflePlaylist = function () {
+        this._sortedPlaylist = [];
+        for (const item of this._playlist) {
+            this._sortedPlaylist.push(item);
+        }
+        const currentPlaylistItem = this._playlist.splice(this.getCurrentPlaylistIndex(), 1)[0];
+
+        for (let i = this._playlist.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * i);
+            const temp = this._playlist[i];
+            this._playlist[i] = this._playlist[j];
+            this._playlist[j] = temp;
+        }
+        this._playlist.unshift(currentPlaylistItem);
+        this._shuffleMode = 'Shuffle';
+    };
+
+    PlayQueueManager.prototype.sortShuffledPlaylist = function () {
+        this._playlist = [];
+        for (let item of this._sortedPlaylist) {
+            this._playlist.push(item);
+        }
+        this._sortedPlaylist = [];
+        this._shuffleMode = 'Sorted';
+    };
+
+    PlayQueueManager.prototype.clearPlaylist = function (clearCurrentItem = false) {
+        const currentPlaylistItem = this._playlist.splice(this.getCurrentPlaylistIndex(), 1)[0];
+        this._playlist = [];
+        if (!clearCurrentItem) {
+            this._playlist.push(currentPlaylistItem);
         }
     };
 
@@ -116,9 +152,7 @@ define([], function () {
 
     PlayQueueManager.prototype.removeFromPlaylist = function (playlistItemIds) {
 
-        var playlist = this.getPlaylist();
-
-        if (playlist.length <= playlistItemIds.length) {
+        if (this._playlist.length <= playlistItemIds.length) {
             return {
                 result: 'empty'
             };
@@ -127,8 +161,12 @@ define([], function () {
         var currentPlaylistItemId = this.getCurrentPlaylistItemId();
         var isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
 
-        this._playlist = playlist.filter(function (item) {
-            return playlistItemIds.indexOf(item.PlaylistItemId) === -1;
+        this._sortedPlaylist = this._sortedPlaylist.filter(function (item) {
+            return !playlistItemIds.includes(item.PlaylistItemId);
+        });
+
+        this._playlist = this._playlist.filter(function (item) {
+            return !playlistItemIds.includes(item.PlaylistItemId);
         });
 
         return {
@@ -176,19 +214,54 @@ define([], function () {
 
     PlayQueueManager.prototype.reset = function () {
 
+        this._sortedPlaylist = [];
         this._playlist = [];
         this._currentPlaylistItemId = null;
         this._repeatMode = 'RepeatNone';
+        this._shuffleMode = 'Sorted';
     };
 
     PlayQueueManager.prototype.setRepeatMode = function (value) {
-
-        this._repeatMode = value;
+        const repeatModes = ['RepeatOne', 'RepeatAll', 'RepeatNone'];
+        if (repeatModes.includes(value)) {
+            this._repeatMode = value;
+        } else {
+            throw new TypeError('invalid value provided for setRepeatMode');
+        }
     };
 
     PlayQueueManager.prototype.getRepeatMode = function () {
-
         return this._repeatMode;
+    };
+
+    PlayQueueManager.prototype.setShuffleMode = function (value) {
+        switch (value) {
+            case 'Shuffle':
+                this.shufflePlaylist();
+                break;
+            case 'Sorted':
+                this.sortShuffledPlaylist();
+                break;
+            default:
+                throw new TypeError('invalid value provided to setShuffleMode');
+        }
+    };
+
+    PlayQueueManager.prototype.toggleShuffleMode = function () {
+        switch (this._shuffleMode) {
+            case 'Shuffle':
+                this.setShuffleMode('Sorted');
+                break;
+            case 'Sorted':
+                this.setShuffleMode('Shuffle');
+                break;
+            default:
+                throw new TypeError('current value for shufflequeue is invalid');
+        }
+    };
+
+    PlayQueueManager.prototype.getShuffleMode = function () {
+        return this._shuffleMode;
     };
 
     PlayQueueManager.prototype.getNextItemInfo = function () {

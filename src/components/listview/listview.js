@@ -1,4 +1,4 @@
-define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost) {
+define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'cardBuilder', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, cardBuilder) {
     'use strict';
 
     function getIndex(item, options) {
@@ -267,8 +267,12 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             if (options.image !== false) {
                 let imgData = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                let imgUrl = imgData.url;
-                let blurhash = imgData.blurhash;
+                let imgUrl;
+                let blurhash;
+                if (imgData) {
+                    imgUrl = imgData.url;
+                    blurhash = imgData.blurhash;
+                }
                 let imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {
@@ -291,7 +295,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 if (imgUrl) {
                     html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + ' item-icon>';
                 } else {
-                    html += '<div class="' + imageClass + '">';
+                    html += '<div class="' + imageClass + ' cardImageContainer ' + cardBuilder.getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
                 }
 
                 var indicatorsHtml = '';

@@ -1537,6 +1537,8 @@ import 'programStyles';
                 case 'MusicArtist':
                 case 'Person':
                     return '<span class="cardImageIcon material-icons person"></span>';
+                case 'Audio':
+                    return '<span class="cardImageIcon material-icons audiotrack"></span>';
                 case 'Movie':
                     return '<span class="cardImageIcon material-icons movie"></span>';
                 case 'Series':

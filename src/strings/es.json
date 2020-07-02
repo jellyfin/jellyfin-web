@@ -1205,7 +1205,7 @@
     "ValueTimeLimitSingleHour": "Tiempo límite: 1 hora",
     "ValueVideoCodec": "Códec de video: {0}",
     "ViewAlbum": "Ver album",
-    "ViewArtist": "Ver artista",
+    "ViewAlbumArtist": "Ver artista del álbum",
     "ViewPlaybackInfo": "Ver información de la reproducción",
     "Watched": "Visto",
     "Wednesday": "Miércoles",
@@ -1573,5 +1573,7 @@
     "LabelRepositoryUrl": "URL del repositorio",
     "HeaderNewRepository": "Nuevo repositorio",
     "MessageNoRepositories": "Sin repositorios.",
-    "Writers": "Escritores"
+    "Writers": "Escritores",
+    "StopPlayback": "Detener la reproducción",
+    "ClearQueue": "Borrar la cola"
 }
