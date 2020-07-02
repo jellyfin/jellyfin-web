@@ -252,7 +252,7 @@ import 'material-icons';
                         try {
                             btn = element.querySelector(`.alphaPickerButton[data-value='${value}']`);
                         } catch (err) {
-                            console.error(`error in querySelector: ${err}`);
+                            console.error('error in querySelector:', err);
                         }
 
                         if (btn && btn !== selected) {
