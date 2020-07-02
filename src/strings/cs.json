@@ -1650,5 +1650,8 @@
     "HeaderNewRepository": "Nový repozitář",
     "MessageNoRepositories": "Neexistují žádné repozitáře.",
     "ButtonPlayer": "Přehrávač",
-    "Writers": "Scénáristé"
+    "Writers": "Scénáristé",
+    "ClearQueue": "Vymazat frontu",
+    "StopPlayback": "Zastavit přehrávání",
+    "ViewAlbumArtist": "Zobrazit interpreta alba"
 }
