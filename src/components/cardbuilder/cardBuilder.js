@@ -1547,6 +1547,10 @@ import 'programStyles';
                     return '<span class="cardImageIcon material-icons book"></span>';
                 case 'Folder':
                     return '<span class="cardImageIcon material-icons folder"></span>';
+                case 'BoxSet':
+                    return '<span class="cardImageIcon material-icons collections"></span>';
+                case 'Playlist':
+                    return '<span class="cardImageIcon material-icons queue_music"></span>';
             }
 
             if (options && options.defaultCardImageIcon) {
