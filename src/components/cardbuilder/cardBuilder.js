@@ -1551,6 +1551,8 @@ import 'programStyles';
                     return '<span class="cardImageIcon material-icons collections"></span>';
                 case 'Playlist':
                     return '<span class="cardImageIcon material-icons queue_music"></span>';
+                case 'PhotoAlbum':
+                    return '<span class="cardImageIcon material-icons photo_album"></span>';
             }
 
             if (options && options.defaultCardImageIcon) {
