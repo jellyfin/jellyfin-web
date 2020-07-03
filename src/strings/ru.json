@@ -1567,5 +1567,8 @@
     "EnableFasterAnimationsHelp": "Использовать ускоренную анимацию и переходы",
     "EnableFasterAnimations": "Ускоренная анимация",
     "EnableDecodingColorDepth10Vp9": "Включить аппаратный декодер VP9 10-Bit",
-    "EnableDecodingColorDepth10Hevc": "Включить аппаратный декодер HEVC 10-Bit"
+    "EnableDecodingColorDepth10Hevc": "Включить аппаратный декодер HEVC 10-Bit",
+    "StopPlayback": "Остановить проигрывание",
+    "Writers": "Сценаристы",
+    "ViewAlbumArtist": "Посмотреть альбом исполнителя"
 }
