@@ -1570,5 +1570,8 @@
     "LabelRepositoryName": "Názov repozitára",
     "LabelRepositoryUrlHelp": "Umiestnenie manifestu repozitára, ktorý chcete zahrnúť.",
     "ButtonPlayer": "Prehrávač",
-    "Writers": "Scenáristi"
+    "Writers": "Scenáristi",
+    "ClearQueue": "Vymazať frontu",
+    "StopPlayback": "Zastaviť prehrávanie",
+    "ViewAlbumArtist": "Zobraziť interpreta albumu"
 }
