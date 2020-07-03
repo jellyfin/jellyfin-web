@@ -691,7 +691,6 @@ var AppInfo = {};
                     'jellyfin-noto',
                     'date-fns',
                     'page',
-                    'polyfill',
                     'fast-text-encoding',
                     'intersection-observer',
                     'classlist-polyfill',
@@ -710,7 +709,6 @@ var AppInfo = {};
         });
 
         require(['fetch']);
-        require(['polyfill']);
         require(['fast-text-encoding']);
         require(['intersection-observer']);
         require(['classlist-polyfill']);
