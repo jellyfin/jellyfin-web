@@ -103,6 +103,7 @@ div[data-role=page] {
     margin-left: auto;
     margin-right: auto;
     width: 85%;
+    user-select: text;
 }
 
 .headroom {

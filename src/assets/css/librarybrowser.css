@@ -1274,3 +1274,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
         -webkit-line-clamp: 6;
     }
 }
+
+.detailTableApiKeyCell {
+    user-select: text;
+}

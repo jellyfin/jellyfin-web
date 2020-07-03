@@ -22,7 +22,7 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
             html += '<td class="detailTableBodyCell">';
             html += '<button type="button" is="emby-button" data-token="' + item.AccessToken + '" class="raised raised-mini btnRevoke" data-mini="true" title="' + globalize.translate('ButtonRevoke') + '" style="margin:0;">' + globalize.translate('ButtonRevoke') + '</button>';
             html += '</td>';
-            html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
+            html += '<td class="detailTableBodyCell detailTableApiKeyCell" style="vertical-align:middle;">';
             html += item.AccessToken;
             html += '</td>';
             html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';

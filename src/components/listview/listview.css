@@ -232,6 +232,7 @@
 
 .paperList {
     margin: 0.5em auto;
+    user-select: text;
 }
 
 .paperList-clear {
