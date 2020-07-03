@@ -3710,7 +3710,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         return textStreamUrl;
     };
 
-    PlaybackManager.prototype.stop = function (player = this._currentPlayer) {
+    PlaybackManager.prototype.stop = function (player) {
+        player = player || this._currentPlayer;
+
         if (player) {
 
             if (enableLocalPlaylistManagement(player)) {
