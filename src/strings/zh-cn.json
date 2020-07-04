@@ -1357,7 +1357,7 @@
     "LabelKeepUpTo": "保持：",
     "LabelPasswordResetProvider": "密码重置提供者：",
     "LabelPersonRoleHelp": "示例：冰淇淋卡车司机",
-    "LabelSelectFolderGroups": "自动将来自下列文件夹的内容分组至电影、音乐、电视等视图中",
+    "LabelSelectFolderGroups": "自动将来自下列文件夹的内容分组至电影、音乐、电视等视图中：",
     "LabelSelectFolderGroupsHelp": "未选中的文件夹将显示在自身的视图中。",
     "LabelUserLoginAttemptsBeforeLockout": "用户被封禁前可尝试的次数：",
     "DashboardVersionNumber": "版本：{0}",
@@ -1516,7 +1516,7 @@
     "LabelRequireHttpsHelp": "开启后服务器将自动将所有 HTTP 请求重定向到 HTTPS。如果服务器没有启用 HTTPS 则不生效。",
     "LabelRequireHttps": "强制 HTTPS",
     "LabelStable": "稳定版",
-    "LabelEnableHttpsHelp": "开启服务器对所配置HTTPS 端口的监听。必须配置有效的证书才会生效。",
+    "LabelEnableHttpsHelp": "开启服务器对所配置 HTTPS 端口的监听。必须配置有效的证书才会生效。",
     "LabelEnableHttps": "启用 HTTPS",
     "LabelChromecastVersion": "Chromecast版本",
     "HeaderDVR": "DVR",
@@ -1573,5 +1573,10 @@
     "LabelRepositoryUrlHelp": "您要添加的存储库清单的位置。",
     "LabelRepositoryUrl": "存储库 URL",
     "MessageNoRepositories": "暂无存储库。",
-    "LabelSyncPlayAccess": "同步播放访问控制"
+    "LabelSyncPlayAccess": "同步播放访问控制",
+    "ButtonPlayer": "播放器",
+    "ClearQueue": "清空队列",
+    "StopPlayback": "停止播放",
+    "Writers": "作者",
+    "ViewAlbumArtist": "查看专辑艺术家"
 }
