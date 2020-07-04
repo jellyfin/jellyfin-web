@@ -1572,5 +1572,8 @@
     "LabelRepositoryUrl": "Tároló URL-je",
     "HeaderNewRepository": "Új tároló",
     "MessageNoRepositories": "Nincs tároló.",
-    "Writers": "Írók"
+    "Writers": "Írók",
+    "ClearQueue": "Sor ürítése",
+    "StopPlayback": "Lejátszás leállítása",
+    "ViewAlbumArtist": "Album előadójának megtekintése"
 }
