@@ -1550,7 +1550,7 @@ import 'programStyles';
                 case 'BoxSet':
                     return '<span class="cardImageIcon material-icons collections"></span>';
                 case 'Playlist':
-                    return '<span class="cardImageIcon material-icons queue_music"></span>';
+                    return '<span class="cardImageIcon material-icons view_list"></span>';
                 case 'PhotoAlbum':
                     return '<span class="cardImageIcon material-icons photo_album"></span>';
             }
