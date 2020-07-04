@@ -1569,5 +1569,6 @@
     "HeaderNewRepository": "Nuovo Repository",
     "MessageNoRepositories": "Nessun repository.",
     "ButtonPlayer": "Player",
-    "ViewAlbumArtist": "Visualizza artista dell'album"
+    "ViewAlbumArtist": "Visualizza artista dell'album",
+    "Writers": "Scrittori"
 }
