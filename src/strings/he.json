@@ -772,5 +772,8 @@
     "LabelSoundEffects": "אפקטי סאונד:",
     "ButtonTogglePlaylist": "רשימת ניגון",
     "ButtonToggleContextMenu": "עוד",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "ButtonPlayer": "נגן",
+    "StopPlayback": "הפסק הפעלה",
+    "ClearQueue": "נקה תור"
 }
