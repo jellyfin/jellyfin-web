@@ -224,6 +224,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             });
 
             inputManager.on(window, onInputCommand);
+            /* eslint-disable-next-line compat/compat */
             document.addEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
 
             dialog.addEventListener('close', onDialogClosed);
@@ -489,6 +490,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             }
 
             inputManager.off(window, onInputCommand);
+            /* eslint-disable-next-line compat/compat */
             document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
             // Shows page scrollbar
             document.body.classList.remove('hide-scroll');
