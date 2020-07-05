@@ -670,7 +670,6 @@ var AppInfo = {};
             },
             bundles: {
                 bundle: [
-                    //'document-register-element',
                     'fetch',
                     'flvjs',
                     'jstree',
