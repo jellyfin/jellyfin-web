@@ -1247,5 +1247,20 @@
     "ErrorGettingTvLineups": "TV esiintyjälistan lataamisessa tapahtui virhe. Varmista, että tiedot on oikein ja yritä uudelleen.",
     "EnableDetailsBannerHelp": "Näyttää julistekuvan yksityiskohdat -sivun ylälaidassa.",
     "EnableDetailsBanner": "Yksityiskohtien banneri",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "HeaderAccessSchedule": "Käyttöoikeusaikataulu",
+    "HeaderAccessScheduleHelp": "Luo käyttöoikeusaikataulu rajoittaaksesi käyttöä tietylle aikavälille.",
+    "HardwareAccelerationWarning": "Hardwarekiihdytyksen käyttöönotto voi aiheuttaa epävakautta joissain ympäristöissä. Varmista että sekä käyttöjärjestelmäsi että videoajurisi ovat ajan tasalla. Mikäli huomaat ongelmia videotoistossa säädettyäsi tätä asetusta, sinun täytyy muuttaa asetus takaisin kohtaan \"Ei mitään\".",
+    "EncoderPresetHelp": "Valitse nopeampi arvo kohentaaksesi suorituskykyä tai hitaampi arvo parantaaksesi kuvanlaatua.",
+    "H264CrfHelp": "Constant Rate Factor (CRF) on x264 -enkooderin kuvanlaadun vakioasetus. Voit valita arvon lukujen 0 ja 51 väliltä, jossa matalammat arvot tarkoittavat parempaa kuvanlaatua (suurempien tiedostokokojen hinnalla). Järkevät arvot ovat väliltä 18-28. Vakioarvo x264:lle on 23, joten voit käyttää sitä lähtökohtana.",
+    "GuideProviderSelectListings": "Valitse listaukset",
+    "GuideProviderLogin": "Kirjaudu",
+    "GuestStar": "Vieraileva tähti",
+    "GroupVersions": "Ryhmitä versiot",
+    "FFmpegSavePathNotFound": "Emme löytäneet FFmpegiä syöttämästäsi tiedostopolusta. Huomioi, että myös FFprobe vaaditaan ja sen täytyy sijaita samassa kansiossa. Nämä komponentit jaetaan normaalisti samassa paketissa. Varmista, että syöttämäsi polku on oikein ja yritä uudestaan.",
+    "ErrorSavingTvProvider": "TV-palveluntarjoajaa lisättäessä tapahtui virhe. Varmista sen saatavuus ja yritä uudestaan.",
+    "ErrorPleaseSelectLineup": "Valitse lineup ja yritä uudestaan. Mikäli lineuppeja ei ole saatavilla, varmista että käyttäjätunnuksesi, salasanasi sekä postinumerosi ovat oikein.",
+    "ErrorAddingListingsToSchedulesDirect": "Lineuppia Schedules Direct -käyttäjätunnuksellesi lisättäessä ilmeni virhe. Schedules Direct sallii vain rajallisen määrän lineuppeja yhdelle käyttäjätunnukselle. Mikäli haluat jatkaa, voit esimerkiksi kirjautua Schedules Direct -sivustolle ja poistaa muita listauksia käyttäjätunnukseltasi.",
+    "EnableDecodingColorDepth10Vp9": "Salli 10-bittinen hardware dekoodaus (VP9)",
+    "EnableDecodingColorDepth10Hevc": "Salli 10-bittinen hardware dekoodaus (HEVC)"
 }
