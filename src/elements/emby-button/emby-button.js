@@ -1,4 +1,4 @@
-define(['browser', 'dom', 'layoutManager', 'shell', 'appRouter', 'apphost', 'css!./emby-button', 'registerElement'], function (browser, dom, layoutManager, shell, appRouter, appHost) {
+define(['browser', 'dom', 'layoutManager', 'shell', 'appRouter', 'apphost', 'css!./emby-button', 'webcomponents'], function (browser, dom, layoutManager, shell, appRouter, appHost) {
     'use strict';
 
     var EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
