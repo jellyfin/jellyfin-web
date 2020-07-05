@@ -91,11 +91,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             itemId = item.ParentPrimaryImageItemId;
         }
 
-        let blurHashes = item.ImageBlurHashes || {};
-        let blurhashstr = (blurHashes[options.type] || {})[options.tag];
-
         if (itemId) {
-            return { url: apiClient.getScaledImageUrl(itemId, options), blurhash: blurhashstr };
+            return apiClient.getScaledImageUrl(itemId, options);
         }
         return null;
     }
@@ -111,16 +108,13 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         if (item.ChannelId && item.ChannelPrimaryImageTag) {
             options.tag = item.ChannelPrimaryImageTag;
         }
-        let blurHashes = item.ImageBlurHashes || {};
-        let blurhashstr = (blurHashes[options.type])[options.tag];
 
         if (item.ChannelId) {
-            return { url: apiClient.getScaledImageUrl(item.ChannelId, options), blurhash: blurhashstr };
+            return apiClient.getScaledImageUrl(item.ChannelId, options);
         }
     }
 
     function getTextLinesHtml(textlines, isLargeStyle) {
-
         var html = '';
 
         var largeTitleTagName = layoutManager.tv ? 'h2' : 'div';
@@ -266,14 +260,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (options.image !== false) {
-                let imgData = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                let imgUrl;
-                let blurhash;
-                if (imgData) {
-                    imgUrl = imgData.url;
-                    blurhash = imgData.blurhash;
-                }
-                let imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
+                var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
+                var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {
                     imageClass += ' listItemImage-large-tv';
@@ -287,13 +275,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                 var imageAction = playOnImageClick ? 'resume' : action;
 
-                let blurhashAttrib = '';
-                if (blurhash && blurhash.length > 0) {
-                    blurhashAttrib = 'data-blurhash="' + blurhash + '"';
-                }
-
                 if (imgUrl) {
-                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + ' item-icon>';
+                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
                 } else {
                     html += '<div class="' + imageClass + ' cardImageContainer ' + cardBuilder.getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
                 }
