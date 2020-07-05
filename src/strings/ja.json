@@ -1172,5 +1172,9 @@
     "EnableDetailsBannerHelp": "項目の詳細ページのトップに、バナー画像を表示します。",
     "EnableDetailsBanner": "詳細画面バナー",
     "EnableDecodingColorDepth10Vp9": "VP9 の10ビット ハードウェア デコードを有効に",
-    "EnableDecodingColorDepth10Hevc": "HEVC の 10ビット ハードウェア デコードを有効に"
+    "EnableDecodingColorDepth10Hevc": "HEVC の 10ビット ハードウェア デコードを有効に",
+    "LabelEnableBlastAliveMessagesHelp": "ネットワーク上の他の UPnP デバイスによってサーバーが確実に検出されない場合、この設定を有効にします。",
+    "LabelEnableAutomaticPortMapHelp": "ルーター上のパブリックポートを、UPnP 経由でサーバーのローカルポートに自動的に転送します。これはルータのモデルやネットワーク構成によっては動作しない場合があります。変更はサーバーを再起動するまで適用されません。",
+    "LabelEmbedAlbumArtDidlHelp": "一部のデバイスでは、アルバムアートを取得するためにこの方法が好まれています。その他のデバイスでは、このオプションを有効にしても再生できない場合があります。",
+    "LabelDownMixAudioScaleHelp": "ダウンミックス時にオーディオの音量を増幅します。値が 1 の場合、元の音量を維持します。"
 }
