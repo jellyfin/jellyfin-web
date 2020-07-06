@@ -66,6 +66,10 @@ html {
     color: #00a4dc;
 }
 
+.emby-scrollbuttons .paper-icon-button-light {
+    color: #000000;
+}
+
 .fab,
 .raised {
     background: #d8d8d8;
@@ -234,7 +238,7 @@ html {
 }
 
 .listItem-border {
-    border-color: #f0f0f0 !important;
+    border-color: #a7a7a7 !important;
 }
 
 .listItem:focus {
