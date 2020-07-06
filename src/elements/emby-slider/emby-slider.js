@@ -158,6 +158,16 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
             this.classList.add('show-focus');
         }
 
+        const topContainer = dom.parentWithClass(this, 'sliderContainer-settings');
+
+        if (topContainer && this.getAttribute('label')) {
+            const label = this.ownerDocument.createElement('label');
+            label.innerHTML = this.getAttribute('label');
+            label.classList.add('sliderLabel');
+            label.htmlFor = this.id;
+            topContainer.insertBefore(label, topContainer.firstChild);
+        }
+
         var containerElement = this.parentNode;
         containerElement.classList.add('mdl-slider-container');
 

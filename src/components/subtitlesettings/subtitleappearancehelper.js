@@ -1,7 +1,7 @@
 define([], function () {
     'use strict';
 
-    function getTextStyles(settings) {
+    function getTextStyles(settings, preview) {
 
         var list = [];
 
@@ -89,19 +89,44 @@ define([], function () {
                 break;
         }
 
+        if (!preview) {
+            const pos = parseInt(settings.verticalPosition);
+            const lineHeight = 1.35; // FIXME: It is better to read this value from element
+            const line = Math.abs(pos * lineHeight);
+            if (pos < 0) {
+                list.push({ name: 'min-height', value: `${line}em` });
+                list.push({ name: 'margin-top', value: '' });
+            } else {
+                list.push({ name: 'min-height', value: '' });
+                list.push({ name: 'margin-top', value: `${line}em` });
+            }
+        }
+
         return list;
     }
 
-    function getWindowStyles(settings) {
+    function getWindowStyles(settings, preview) {
+        const list = [];
 
-        return [];
+        if (!preview) {
+            const pos = parseInt(settings.verticalPosition);
+            if (pos < 0) {
+                list.push({ name: 'top', value: '' });
+                list.push({ name: 'bottom', value: '0' });
+            } else {
+                list.push({ name: 'top', value: '0' });
+                list.push({ name: 'bottom', value: '' });
+            }
+        }
+
+        return list;
     }
 
-    function getStyles(settings) {
+    function getStyles(settings, preview) {
 
         return {
-            text: getTextStyles(settings),
-            window: getWindowStyles(settings)
+            text: getTextStyles(settings, preview),
+            window: getWindowStyles(settings, preview)
         };
     }
 
@@ -117,7 +142,7 @@ define([], function () {
 
     function applyStyles(elements, appearanceSettings) {
 
-        var styles = getStyles(appearanceSettings);
+        var styles = getStyles(appearanceSettings, !!elements.preview);
 
         if (elements.text) {
             applyStyleList(styles.text, elements.text);

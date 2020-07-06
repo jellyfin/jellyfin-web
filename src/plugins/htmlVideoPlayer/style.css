@@ -41,14 +41,14 @@ video::-webkit-media-controls {
     line-height: 50%; /* Child element cannot set line height smaller than its parent has. This allow smaller values for children */
 }
 
-.htmlvideoplayer-moveupsubtitles::-webkit-media-text-track-display {
-    /* style the text itself */
-    margin-top: -2em;
+.htmlvideoplayer::-webkit-media-text-track-display {
+    max-width: 70%;
+    margin-left: 15%;
 }
 
 .videoSubtitles {
     position: fixed;
-    bottom: 10%;
+    bottom: 0;
     text-align: center;
     left: 0;
     right: 0;
@@ -59,7 +59,6 @@ video::-webkit-media-controls {
 .videoSubtitlesInner {
     max-width: 70%;
     background-color: rgba(0, 0, 0, 0.8);
-    padding: 0.25em;
     margin: auto;
     display: inline-block;
 }

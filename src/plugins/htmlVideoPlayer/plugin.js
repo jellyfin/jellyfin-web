@@ -1154,9 +1154,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var html = selector + '::cue {';
 
             html += appearance.text.map(function (s) {
-
-                return s.name + ':' + s.value + '!important;';
-
+                if (s.value !== undefined && s.value !== '') {
+                    return s.name + ':' + s.value + '!important;';
+                } else {
+                    return '';
+                }
             }).join('');
 
             html += '}';
@@ -1221,19 +1223,28 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             // download the track json
             fetchSubtitles(track, item).then(function (data) {
+                require(['userSettings'], (userSettings) => {
+                    // show in ui
+                    console.debug('downloaded ' + data.TrackEvents.length + ' track events');
 
-                // show in ui
-                console.debug('downloaded ' + data.TrackEvents.length + ' track events');
-                // add some cues to show the text
-                // in safari, the cues need to be added before setting the track mode to showing
-                data.TrackEvents.forEach(function (trackEvent) {
+                    const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+                    const cueLine = parseInt(subtitleAppearance.verticalPosition);
 
-                    var trackCueObject = window.VTTCue || window.TextTrackCue;
-                    var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+                    // add some cues to show the text
+                    // in safari, the cues need to be added before setting the track mode to showing
+                    data.TrackEvents.forEach(function (trackEvent) {
+                        var trackCueObject = window.VTTCue || window.TextTrackCue;
+                        var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
-                    trackElement.addCue(cue);
+                        if (cue.line === 'auto') {
+                            cue.line = cueLine;
+                        }
+
+                        trackElement.addCue(cue);
+                    });
+
+                    trackElement.mode = 'showing';
                 });
-                trackElement.mode = 'showing';
             });
         }
 
@@ -1319,10 +1330,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                         var html = '';
                         var cssClass = 'htmlvideoplayer';
-
-                        if (!browser.chromecast) {
-                            cssClass += ' htmlvideoplayer-moveupsubtitles';
-                        }
 
                         // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
                         if (!appHost.supports('htmlvideoautoplay')) {

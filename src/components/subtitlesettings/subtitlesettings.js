@@ -1,4 +1,4 @@
-define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loading', 'connectionManager', 'subtitleAppearanceHelper', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-input', 'emby-checkbox', 'flexStyles'], function (require, globalize, appSettings, appHost, focusManager, loading, connectionManager, subtitleAppearanceHelper, dom, events) {
+define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loading', 'connectionManager', 'subtitleAppearanceHelper', 'dom', 'events', 'layoutManager', 'listViewStyle', 'emby-select', 'emby-input', 'emby-checkbox', 'emby-slider', 'flexStyles'], function (require, globalize, appSettings, appHost, focusManager, loading, connectionManager, subtitleAppearanceHelper, dom, events, layoutManager) {
     'use strict';
 
     function populateLanguages(select, languages) {
@@ -21,6 +21,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
         appearanceSettings.font = context.querySelector('#selectFont').value;
         appearanceSettings.textBackground = context.querySelector('#inputTextBackground').value;
         appearanceSettings.textColor = context.querySelector('#inputTextColor').value;
+        appearanceSettings.verticalPosition = context.querySelector('#sliderVerticalPosition').value;
 
         return appearanceSettings;
     }
@@ -47,6 +48,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
             context.querySelector('#inputTextBackground').value = appearanceSettings.textBackground || 'transparent';
             context.querySelector('#inputTextColor').value = appearanceSettings.textColor || '#ffffff';
             context.querySelector('#selectFont').value = appearanceSettings.font || '';
+            context.querySelector('#sliderVerticalPosition').value = appearanceSettings.verticalPosition;
 
             context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
 
@@ -134,10 +136,45 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
         var elements = {
             window: view.querySelector('.subtitleappearance-preview-window'),
-            text: view.querySelector('.subtitleappearance-preview-text')
+            text: view.querySelector('.subtitleappearance-preview-text'),
+            preview: true
         };
 
         subtitleAppearanceHelper.applyStyles(elements, appearanceSettings);
+
+        subtitleAppearanceHelper.applyStyles({
+            window: view.querySelector('.subtitleappearance-fullpreview-window'),
+            text: view.querySelector('.subtitleappearance-fullpreview-text')
+        }, appearanceSettings);
+    }
+
+    const subtitlePreviewDelay = 1000;
+    let subtitlePreviewTimer;
+
+    function showSubtitlePreview(persistent) {
+        clearTimeout(subtitlePreviewTimer);
+
+        this._fullPreview.classList.remove('subtitleappearance-fullpreview-hide');
+
+        if (persistent) {
+            this._refFullPreview++;
+        }
+
+        if (this._refFullPreview === 0) {
+            subtitlePreviewTimer = setTimeout(hideSubtitlePreview.bind(this), subtitlePreviewDelay);
+        }
+    }
+
+    function hideSubtitlePreview(persistent) {
+        clearTimeout(subtitlePreviewTimer);
+
+        if (persistent) {
+            this._refFullPreview--;
+        }
+
+        if (this._refFullPreview === 0) {
+            this._fullPreview.classList.add('subtitleappearance-fullpreview-hide');
+        }
     }
 
     function embed(options, self) {
@@ -162,6 +199,36 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
             if (appHost.supports('subtitleappearancesettings')) {
                 options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
+
+                self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');
+                self._refFullPreview = 0;
+
+                const sliderVerticalPosition = options.element.querySelector('#sliderVerticalPosition');
+                sliderVerticalPosition.addEventListener('input', onAppearanceFieldChange);
+                sliderVerticalPosition.addEventListener('input', () => showSubtitlePreview.call(self));
+
+                const eventPrefix = window.PointerEvent ? 'pointer' : 'mouse';
+                sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSubtitlePreview.call(self, true));
+                sliderVerticalPosition.addEventListener(`${eventPrefix}leave`, () => hideSubtitlePreview.call(self, true));
+
+                if (layoutManager.tv) {
+                    sliderVerticalPosition.addEventListener('focus', () => showSubtitlePreview.call(self, true));
+                    sliderVerticalPosition.addEventListener('blur', () => hideSubtitlePreview.call(self, true));
+
+                    // Give CustomElements time to attach
+                    setTimeout(() => {
+                        sliderVerticalPosition.classList.add('focusable');
+                        sliderVerticalPosition.enableKeyboardDragging();
+                    }, 0);
+                }
+
+                options.element.querySelector('.chkPreview').addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        showSubtitlePreview.call(self, true);
+                    } else {
+                        hideSubtitlePreview.call(self, true);
+                    }
+                });
             }
 
             self.loadData();

@@ -15,6 +15,10 @@ function saveServerPreferences(instance) {
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
 }
 
+const defaultSubtitleAppearanceSettings = {
+    verticalPosition: -3
+};
+
 export class UserSettings {
     constructor() {
     }
@@ -412,7 +416,7 @@ export class UserSettings {
      */
     getSubtitleAppearanceSettings(key) {
         key = key || 'localplayersubtitleappearance3';
-        return JSON.parse(this.get(key, false) || '{}');
+        return Object.assign(defaultSubtitleAppearanceSettings, JSON.parse(this.get(key, false) || '{}'));
     }
 
     /**
