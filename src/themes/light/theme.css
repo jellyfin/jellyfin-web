@@ -57,6 +57,10 @@ html {
     background-color: #f0f0f0;
 }
 
+.emby-scrollbuttons .paper-icon-button-light {
+    color: #000;
+}
+
 .paper-icon-button-light:hover:not(:disabled) {
     color: #00a4dc;
     background-color: rgba(0, 164, 220, 0.2);
@@ -64,10 +68,6 @@ html {
 
 .paper-icon-button-light.show-focus:focus {
     color: #00a4dc;
-}
-
-.emby-scrollbuttons .paper-icon-button-light {
-    color: #000000;
 }
 
 .fab,
