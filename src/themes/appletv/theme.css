@@ -464,7 +464,7 @@ html {
 }
 
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
-    border-radius:  1rem;
+    border-radius: 1rem;
 }
 
 .blurhash-canvas {
