@@ -178,6 +178,10 @@
     width: 100%;
 }
 
+.layout-tv .sectionTabs {
+    width: 55%;
+}
+
 .selectedMediaFolder {
     background-color: #f2f2f2 !important;
 }
@@ -279,6 +283,10 @@
 
     .sectionTabs {
         font-size: 83.5%;
+    }
+
+    .layout-tv .sectionTabs {
+        width: 100%;
     }
 }
 
