@@ -3,6 +3,10 @@ html {
     margin: 0;
     padding: 0;
     height: 100%;
+}
+
+.layout-mobile,
+.layout-tv {
     user-select: none;
 }
 
