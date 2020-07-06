@@ -221,12 +221,14 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         html += '</div>';
         html += '</div>';
 
-        var numLines = 2;
+        var numLines = 3;
         if (currentItemType === 'MusicAlbum') {
             numLines++;
         }
 
         var lines = [result.Name];
+
+        lines.push(result.SearchProviderName);
 
         if (result.AlbumArtist) {
             lines.push(result.AlbumArtist.Name);
