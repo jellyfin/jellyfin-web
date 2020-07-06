@@ -387,8 +387,6 @@ var AppInfo = {};
         define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
         define('shell', [scriptsPath + '/shell'], returnFirstDependency);
 
-        define('registerElement', ['document-register-element'], returnFirstDependency);
-
         define('alert', [componentsPath + '/alert'], returnFirstDependency);
 
         defineResizeObserver();
@@ -672,7 +670,6 @@ var AppInfo = {};
             },
             bundles: {
                 bundle: [
-                    'document-register-element',
                     'fetch',
                     'flvjs',
                     'jstree',

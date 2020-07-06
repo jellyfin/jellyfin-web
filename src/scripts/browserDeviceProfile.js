@@ -60,7 +60,7 @@ define(['browser'], function (browser) {
 
     function canPlayHlsWithMSE() {
         // text tracks don’t work with this in firefox
-        return window.MediaSource != null;
+        return window.MediaSource != null; /* eslint-disable-line compat/compat */
     }
 
     function supportsAc3(videoTestElement) {

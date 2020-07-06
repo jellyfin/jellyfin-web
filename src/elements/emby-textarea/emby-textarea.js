@@ -1,4 +1,4 @@
-define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'emby-input'], function (layoutManager, browser) {
+define(['layoutManager', 'browser', 'css!./emby-textarea', 'webcomponents', 'emby-input'], function (layoutManager, browser) {
     'use strict';
 
     function autoGrow(textarea, maxLines) {

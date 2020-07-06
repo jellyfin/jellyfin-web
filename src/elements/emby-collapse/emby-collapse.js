@@ -1,4 +1,4 @@
-define(['browser', 'css!./emby-collapse', 'registerElement', 'emby-button'], function (browser) {
+define(['browser', 'css!./emby-collapse', 'webcomponents', 'emby-button'], function (browser) {
     'use strict';
 
     var EmbyButtonPrototype = Object.create(HTMLDivElement.prototype);

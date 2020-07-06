@@ -1365,6 +1365,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             try {
                 events.on(playbackManager, 'playerchange', onPlayerChange);
                 bindToPlayer(playbackManager.getCurrentPlayer());
+                /* eslint-disable-next-line compat/compat */
                 dom.addEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
                     passive: true
                 });
@@ -1374,9 +1375,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 dom.addEventListener(document, 'keydown', onKeyDownCapture, {
                     capture: true
                 });
+                /* eslint-disable-next-line compat/compat */
                 dom.addEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
                     passive: true
                 });
+                /* eslint-disable-next-line compat/compat */
                 dom.addEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
                     passive: true
                 });
@@ -1403,9 +1406,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             dom.removeEventListener(document, 'keydown', onKeyDownCapture, {
                 capture: true
             });
+            /* eslint-disable-next-line compat/compat */
             dom.removeEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
                 passive: true
             });
+            /* eslint-disable-next-line compat/compat */
             dom.removeEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
                 passive: true
             });
@@ -1420,6 +1425,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             stopOsdHideTimer();
             headerElement.classList.remove('osdHeader');
             headerElement.classList.remove('osdHeader-hidden');
+            /* eslint-disable-next-line compat/compat */
             dom.removeEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
                 passive: true
             });
@@ -1455,6 +1461,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             destroySubtitleSync();
         });
         var lastPointerDown = 0;
+        /* eslint-disable-next-line compat/compat */
         dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
             if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
                 return void showOsd();

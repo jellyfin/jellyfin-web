@@ -4,12 +4,6 @@
 // Use define from require.js not webpack's define
 var _define = window.define;
 
-// document-register-element
-var docRegister = require('document-register-element');
-_define('document-register-element', function() {
-    return docRegister;
-});
-
 // fetch
 var fetch = require('whatwg-fetch');
 _define('fetch', function() {
@@ -65,12 +59,6 @@ _define('resize-observer-polyfill', function() {
     return resize;
 });
 
-// shaka
-var shaka = require('shaka-player');
-_define('shaka', function() {
-    return shaka;
-});
-
 // swiper
 var swiper = require('swiper/js/swiper');
 require('swiper/css/swiper.min.css');
@@ -88,6 +76,12 @@ _define('sortable', function() {
 var webcomponents = require('webcomponents.js/webcomponents-lite');
 _define('webcomponents', function() {
     return webcomponents;
+});
+
+// shaka
+var shaka = require('shaka-player');
+_define('shaka', function() {
+    return shaka;
 });
 
 // libass-wasm
