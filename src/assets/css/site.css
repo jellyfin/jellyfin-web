@@ -3,6 +3,11 @@ html {
     margin: 0;
     padding: 0;
     height: 100%;
+}
+
+.layout-mobile,
+.layout-tv {
+    -webkit-touch-callout: none;
     user-select: none;
 }
 
@@ -33,12 +38,6 @@ html {
 
 html {
     line-height: 1.35;
-}
-
-.layout-mobile,
-.layout-tv {
-    -webkit-touch-callout: none;
-    user-select: none;
 }
 
 body {
