@@ -1650,5 +1650,8 @@
     "Rewind": "Rebobinar",
     "ResumeAt": "Reanudar desde {0}",
     "ButtonPlayer": "Reproductor",
-    "Writers": "Escritores"
+    "Writers": "Escritores",
+    "ClearQueue": "Eliminar cola",
+    "StopPlayback": "Detener la reproducción",
+    "ViewAlbumArtist": "Ver artista del álbum"
 }
