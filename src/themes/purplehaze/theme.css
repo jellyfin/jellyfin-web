@@ -567,7 +567,7 @@ a[data-role=button] {
 
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
-    border-radius: 1.5em;
+    border-radius: 1.3em;
 }
 
 .layout-desktop,

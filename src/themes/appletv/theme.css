@@ -463,6 +463,11 @@ html {
     border-color: #00a4dc !important;
 }
 
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: 1rem;
+}
+
 .blurhash-canvas {
     border-radius: 0.5rem;
 }
