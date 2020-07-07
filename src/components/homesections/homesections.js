@@ -342,16 +342,11 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var html = '';
         if (userViews.length) {
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
-            if (enableScrollX()) {
-                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-                html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
-            } else {
-                html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
-            }
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
 
             html += cardBuilder.getCardsHtml({
                 items: userViews,
-                shape: getThumbShape(),
+                shape: shape,
                 showTitle: true,
                 centerText: true,
                 overlayText: false,
@@ -360,9 +355,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 allowBottomPadding: !enableScrollX()
             });
 
-            if (enableScrollX()) {
-                html += '</div>';
-            }
             html += '</div>';
         }
 
