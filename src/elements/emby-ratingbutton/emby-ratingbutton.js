@@ -1,5 +1,10 @@
-define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby-button'], function (connectionManager, serverNotifications, events, globalize, EmbyButtonPrototype) {
-    'use strict';
+import connectionManager from 'connectionManager';
+import serverNotifications from 'serverNotifications';
+import events from 'events';
+import globalize from 'globalize';
+import EmbyButtonPrototype from 'emby-button';
+
+/* eslint-disable indent */
 
     function addNotificationEvent(instance, name, handler) {
 
@@ -199,4 +204,5 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         prototype: EmbyRatingButtonPrototype,
         extends: 'button'
     });
-});
+
+/* eslint-enable indent */

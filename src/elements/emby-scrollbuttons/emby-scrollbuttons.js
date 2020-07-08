@@ -1,5 +1,10 @@
-define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', 'paper-icon-button-light'], function (layoutManager, dom) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import dom from 'dom';
+import 'css!./emby-scrollbuttons';
+import 'registerElement';
+import 'paper-icon-button-light';
+
+/* eslint-disable indent */
 
     var EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
 
@@ -175,4 +180,5 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         prototype: EmbyScrollButtonsPrototype,
         extends: 'div'
     });
-});
+
+/* eslint-enable indent */

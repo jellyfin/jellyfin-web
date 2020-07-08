@@ -1,5 +1,10 @@
-define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registerElement'], function (layoutManager, browser, actionsheet) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import browser from 'browser';
+import actionsheet from 'actionsheet';
+import 'css!./emby-select';
+import 'registerElement';
+
+/* eslint-disable indent */
 
     var EmbySelectPrototype = Object.create(HTMLSelectElement.prototype);
 
@@ -159,4 +164,5 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
         prototype: EmbySelectPrototype,
         extends: 'select'
     });
-});
+
+/* eslint-enable indent */
