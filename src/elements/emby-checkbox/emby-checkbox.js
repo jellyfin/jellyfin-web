@@ -2,7 +2,7 @@ import browser from 'browser';
 import dom from 'dom';
 import 'css!./emby-checkbox';
 import 'registerElement';
-    
+
 /* eslint-disable indent */
 
     var EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
