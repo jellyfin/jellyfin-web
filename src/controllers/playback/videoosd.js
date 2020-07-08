@@ -1102,7 +1102,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         var clickedElement;
 
         function onKeyDown(e) {
-            clickedElement = e.srcElement;
+            clickedElement = e.target;
 
             var key = keyboardnavigation.getKeyName(e);
 
@@ -1223,7 +1223,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function onWindowMouseDown(e) {
-            clickedElement = e.srcElement;
+            clickedElement = e.target;
             lockOsd();
         }
 
@@ -1232,7 +1232,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function onWindowTouchStart(e) {
-            clickedElement = e.srcElement;
+            clickedElement = e.target;
             lockOsd();
         }
 
