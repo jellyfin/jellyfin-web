@@ -31,4 +31,4 @@ import globalize from 'globalize';
         });
     };
 
-/* eslint-ensable indent */
+/* eslint-enable indent */

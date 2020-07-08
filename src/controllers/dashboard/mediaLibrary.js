@@ -1,8 +1,19 @@
-define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'globalize', 'dom', 'indicators', 'scripts/imagehelper', 'cardStyle', 'emby-itemrefreshindicator'], function ($, appHost, taskButton, loading, libraryMenu, globalize, dom, indicators, imageHelper) {
-    'use strict';
+import $ from 'jQuery';
+import appHost from 'apphost';
+import taskButton from 'scripts/taskbutton';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import dom from 'dom';
+import indicators from 'indicators';
+import imageHelper from 'scripts/imagehelper';
+import 'cardStyle';
+import 'emby-itemrefreshindicator';
+
+/* eslint-disable indent */
 
     function addVirtualFolder(page) {
-        require(['medialibrarycreator'], function (medialibrarycreator) {
+        import('medialibrarycreator').then(({default: medialibrarycreator}) => {
             new medialibrarycreator.showEditor({
                 collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                     return !f.hidden;
@@ -17,7 +28,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function editVirtualFolder(page, virtualFolder) {
-        require(['medialibraryeditor'], function (medialibraryeditor) {
+        import('medialibraryeditor').then(({default:medialibraryeditor }) => {
             new medialibraryeditor.showEditor({
                 refresh: shouldRefreshLibraryAfterChanges(page),
                 library: virtualFolder
@@ -37,7 +48,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             msg += virtualFolder.Locations.join('<br/>');
         }
 
-        require(['confirm'], function (confirm) {
+        import('confirm').then(({default: confirm}) => {
             confirm({
 
                 text: msg,
@@ -55,7 +66,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function refreshVirtualFolder(page, virtualFolder) {
-        require(['refreshDialog'], function (refreshDialog) {
+        import('refreshDialog').then(({default: refreshDialog}) => {
             new refreshDialog({
                 itemIds: [virtualFolder.ItemId],
                 serverId: ApiClient.serverId(),
@@ -65,7 +76,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function renameVirtualFolder(page, virtualFolder) {
-        require(['prompt'], function (prompt) {
+        import('prompt').then(({default: prompt}) => {
             prompt({
                 label: globalize.translate('LabelNewName'),
                 confirmText: globalize.translate('ButtonRename')
@@ -111,7 +122,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             icon: 'refresh'
         });
 
-        require(['actionsheet'], function (actionsheet) {
+        import('actionsheet').then(({default: actionsheet}) => {
             actionsheet.show({
                 items: menuItems,
                 positionTo: elem,
@@ -192,7 +203,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function editImages(page, virtualFolder) {
-        require(['imageEditor'], function (imageEditor) {
+        import('imageEditor').then(({default: imageEditor}) => {
             imageEditor.show({
                 itemId: virtualFolder.ItemId,
                 serverId: ApiClient.serverId()
@@ -388,4 +399,5 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             button: page.querySelector('.btnRefresh')
         });
     });
-});
+
+/* eslint-enable indent */
