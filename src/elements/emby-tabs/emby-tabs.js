@@ -1,5 +1,13 @@
-define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'registerElement', 'css!./emby-tabs', 'scrollStyles'], function (dom, scroller, browser, layoutManager, focusManager) {
-    'use strict';
+import dom from 'dom';
+import scroller from 'scroller';
+import browser from 'browser';
+import layoutManager from 'layoutManager';
+import focusManager from 'focusManager';
+import 'registerElement';
+import 'css!./emby-tabs';
+import 'scrollStyles';
+
+/* eslint-disable indent */
 
     var EmbyTabs = Object.create(HTMLDivElement.prototype);
     var buttonClass = 'emby-tab-button';
@@ -338,4 +346,5 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
         prototype: EmbyTabs,
         extends: 'div'
     });
-});
+
+/* eslint-enable indent */

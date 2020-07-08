@@ -1,5 +1,13 @@
-define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'registerElement', 'css!./emby-scroller'], function (scroller, dom, layoutManager, inputManager, focusManager, browser) {
-    'use strict';
+import scroller from 'scroller';
+import dom from 'dom';
+import layoutManager from 'layoutManager';
+import inputManager from 'inputManager';
+import focusManager from 'focusManager';
+import browser from 'browser';
+import 'registerElement';
+import 'css!./emby-scroller';
+
+/* eslint-disable indent */
 
     var ScrollerPrototype = Object.create(HTMLDivElement.prototype);
 
@@ -189,4 +197,5 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         prototype: ScrollerPrototype,
         extends: 'div'
     });
-});
+
+/* eslint-enable indent */

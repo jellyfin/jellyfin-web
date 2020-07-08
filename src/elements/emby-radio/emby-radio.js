@@ -1,5 +1,8 @@
-define(['layoutManager', 'css!./emby-radio', 'registerElement'], function (layoutManager) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import 'css!./emby-radio';
+import 'registerElement';
+
+/* eslint-disable indent */
 
     var EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
 
@@ -76,4 +79,5 @@ define(['layoutManager', 'css!./emby-radio', 'registerElement'], function (layou
         prototype: EmbyRadioPrototype,
         extends: 'input'
     });
-});
+
+/* eslint-enable indent */
