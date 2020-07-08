@@ -1,7 +1,17 @@
-define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 'playbackManager', 'loading', 'appSettings', 'browser', 'actionsheet'], function (appHost, globalize, connectionManager, itemHelper, appRouter, playbackManager, loading, appSettings, browser, actionsheet) {
-    'use strict';
+import appHost from 'apphost';
+import globalize from 'globalize';
+import connectionManager from 'connectionManager';
+import itemHelper from 'itemHelper';
+import appRouter from 'appRouter';
+import playbackManager from 'playbackManager';
+import loading from 'loading';
+import appSettings from 'appSettings';
+import browser from 'browser';
+import actionsheet from 'actionsheet';
 
-    function getCommands(options) {
+/* eslint-disable indent */
+
+    export function getCommands(options) {
         var item = options.item;
         var user = options.user;
 
@@ -583,7 +593,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    function show(options) {
+    export function show(options) {
         var commands = getCommands(options);
         if (!commands.length) {
             return Promise.reject();
@@ -598,8 +608,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    return {
-        getCommands: getCommands,
-        show: show
-    };
-});
+/* eslint-enable indent */
+
+export default {
+    getCommands: getCommands,
+    show: show
+};

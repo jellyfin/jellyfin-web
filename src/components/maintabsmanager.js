@@ -1,5 +1,10 @@
-define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, browser, events) {
-    'use strict';
+import dom from 'dom';
+import browser from 'browser';
+import events from 'events';
+import 'emby-tabs';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     var tabOwnerView;
     var queryScope = document.querySelector('.skinHeader');
@@ -96,7 +101,7 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
         });
     }
 
-    function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
+    export function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
 
         var enableInFooter = enableTabsInFooter();
 
@@ -241,7 +246,7 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
         };
     }
 
-    function selectedTabIndex(index) {
+    export function selectedTabIndex(index) {
 
         var tabsContainerElem = headerTabsContainer;
 
@@ -256,13 +261,8 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
         }
     }
 
-    function getTabsElement() {
+    export function getTabsElement() {
         return document.querySelector('.tabs-viewmenubar');
     }
 
-    return {
-        setTabs: setTabs,
-        getTabsElement: getTabsElement,
-        selectedTabIndex: selectedTabIndex
-    };
-});
+/* eslint-enable indent */
