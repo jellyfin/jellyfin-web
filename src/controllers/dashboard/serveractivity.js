@@ -1,7 +1,9 @@
-define(['components/activitylog', 'globalize'], function (ActivityLog, globalize) {
-    'use strict';
+import ActivityLog from 'components/activitylog';
+import globalize from 'globalize';
 
-    return function (view, params) {
+/* eslint-disable indent */
+
+    export default function (view, params) {
         var activityLog;
 
         if (params.useractivity !== 'false') {
@@ -28,4 +30,5 @@ define(['components/activitylog', 'globalize'], function (ActivityLog, globalize
             activityLog = null;
         });
     };
-});
+
+/* eslint-ensable indent */

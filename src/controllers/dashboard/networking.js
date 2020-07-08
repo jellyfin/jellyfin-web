@@ -1,5 +1,10 @@
-define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], function (loading, libraryMenu, globalize) {
-    'use strict';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import 'emby-checkbox';
+import 'emby-select';
+
+/* eslint-disable indent */
 
     function onSubmit(e) {
         var form = this;
@@ -97,7 +102,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
         }
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function loadPage(page, config) {
             page.querySelector('#txtPortNumber').value = config.HttpServerPortNumber;
             page.querySelector('#txtPublicPort').value = config.PublicPort;
@@ -159,4 +164,5 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
             });
         });
     };
-});
+
+/* eslint-enable indent */
