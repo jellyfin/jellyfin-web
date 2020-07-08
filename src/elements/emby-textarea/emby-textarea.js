@@ -1,5 +1,10 @@
-define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'emby-input'], function (layoutManager, browser) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import browser from 'browser';
+import 'css!./emby-textarea';
+import 'registerElement';
+import 'emby-input';
+
+/* eslint-disable indent */
 
     function autoGrow(textarea, maxLines) {
         var self = this;
@@ -136,4 +141,5 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
         prototype: EmbyTextAreaPrototype,
         extends: 'textarea'
     });
-});
+
+/* eslint-enable indent */

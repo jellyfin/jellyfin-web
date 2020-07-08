@@ -1,5 +1,7 @@
-define(['css!./emby-toggle', 'registerElement'], function () {
-    'use strict';
+import 'css!./emby-toggle';
+import 'registerElement';
+
+/* eslint-disable indent */
 
     var EmbyTogglePrototype = Object.create(HTMLInputElement.prototype);
 
@@ -47,4 +49,5 @@ define(['css!./emby-toggle', 'registerElement'], function () {
         prototype: EmbyTogglePrototype,
         extends: 'input'
     });
-});
+
+/* eslint-enable indent */

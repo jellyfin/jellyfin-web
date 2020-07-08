@@ -1,5 +1,9 @@
-define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (browser, dom) {
-    'use strict';
+import browser from 'browser';
+import dom from 'dom';
+import 'css!./emby-checkbox';
+import 'registerElement';
+    
+/* eslint-disable indent */
 
     var EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
 
@@ -103,4 +107,5 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
         prototype: EmbyCheckboxPrototype,
         extends: 'input'
     });
-});
+
+/* eslint-enable indent */
