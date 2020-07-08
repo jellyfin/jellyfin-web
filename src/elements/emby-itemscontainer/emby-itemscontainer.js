@@ -1,5 +1,18 @@
-define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'registerElement'], function (itemShortcuts, inputManager, connectionManager, playbackManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
-    'use strict';
+import itemShortcuts from 'itemShortcuts';
+import inputManager from 'inputManager';
+import connectionManager from 'connectionManager';
+import playbackManager from 'playbackManager';
+import imageLoader from 'imageLoader';
+import layoutManager from 'layoutManager';
+import browser from 'browser';
+import dom from 'dom';
+import loading from 'loading';
+import focusManager from 'focusManager';
+import serverNotifications from 'serverNotifications';
+import events from 'events';
+import 'registerElement';
+
+/* eslint-disable indent */
 
     var ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
 
@@ -62,7 +75,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         }
 
         var self = this;
-        require(['multiSelect'], function (MultiSelect) {
+        import('multiSelect').then(({default: MultiSelect}) => {
             self.multiSelect = new MultiSelect({
                 container: self,
                 bindOnClick: false
@@ -122,7 +135,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         }
 
         var self = this;
-        require(['sortable'], function (Sortable) {
+        import('sortable').then(({default: Sortable}) => {
             self.sortable = new Sortable(self, {
                 draggable: '.listItem',
                 handle: '.listViewDragHandle',
@@ -139,7 +152,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
 
         var itemsContainer = this;
 
-        require(['cardBuilder'], function (cardBuilder) {
+        import('cardBuilder').then(({default: cardBuilder}) => {
             cardBuilder.onUserDataChanged(userData, itemsContainer);
         });
 
@@ -175,7 +188,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         // This could be null, not supported by all tv providers
         var newTimerId = data.Id;
 
-        require(['cardBuilder'], function (cardBuilder) {
+        import('cardBuilder').then(({default: cardBuilder}) => {
             cardBuilder.onTimerCreated(programId, newTimerId, itemsContainer);
         });
     }
@@ -195,7 +208,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
             return;
         }
 
-        require(['cardBuilder'], function (cardBuilder) {
+        import('cardBuilder').then(({default: cardBuilder}) => {
             cardBuilder.onTimerCancelled(data.Id, itemsContainer);
         });
     }
@@ -207,7 +220,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
             return;
         }
 
-        require(['cardBuilder'], function (cardBuilder) {
+        import('cardBuilder').then(({default: cardBuilder}) => {
             cardBuilder.onSeriesTimerCancelled(data.Id, itemsContainer);
         });
     }
@@ -479,4 +492,5 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         prototype: ItemsContainerPrototype,
         extends: 'div'
     });
-});
+
+/* eslint-enable indent */
