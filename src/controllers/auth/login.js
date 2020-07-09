@@ -1,5 +1,15 @@
-define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layoutManager', 'browser', 'globalize', 'cardStyle', 'emby-checkbox'], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, browser, globalize) {
-    'use strict';
+import appHost from 'apphost';
+import appSettings from 'appSettings';
+import dom from 'dom';
+import connectionManager from 'connectionManager';
+import loading from 'loading';
+import layoutManager from 'layoutManager';
+import browser from 'browser';
+import globalize from 'globalize';
+import 'cardStyle';
+import 'emby-checkbox';
+
+/* eslint-disable indent */
 
     var enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -26,7 +36,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
 
             const UnauthorizedOrForbidden = [401, 403];
             if (UnauthorizedOrForbidden.includes(response.status)) {
-                require(['toast'], function (toast) {
+                import('toast').then(({default: toast}) => {
                     const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
                     toast(globalize.translate(messageKey));
                 });
@@ -131,7 +141,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         context.querySelector('#divUsers').innerHTML = html;
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function getApiClient() {
             var serverId = params.serverid;
 
@@ -147,7 +157,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
             view.querySelector('.manualLoginForm').classList.add('hide');
             view.querySelector('.btnManual').classList.remove('hide');
 
-            require(['autoFocuser'], function (autoFocuser) {
+            import('autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(view);
             });
         }
@@ -216,4 +226,5 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
             });
         });
     };
-});
+
+/* eslint-enable indent */

@@ -1,5 +1,22 @@
-define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focusManager', 'connectionManager', 'globalize', 'actionsheet', 'dom', 'browser', 'material-icons', 'flexStyles', 'emby-scroller', 'emby-itemscontainer', 'cardStyle', 'emby-button'], function (loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom, browser) {
-    'use strict';
+import loading from 'loading';
+import appRouter from 'appRouter';
+import layoutManager from 'layoutManager';
+import appSettings from 'appSettings';
+import appHost from 'apphost';
+import focusManager from 'focusManager';
+import connectionManager from 'connectionManager';
+import globalize from 'globalize';
+import actionSheet from 'actionsheet';
+import dom from 'dom';
+import browser from 'browser';
+import 'material-icons';
+import 'flexStyles';
+import 'emby-scroller';
+import 'emby-itemscontainer';
+import 'cardStyle';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     var enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -89,7 +106,7 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
     }
 
     function alertTextWithOptions(options) {
-        require(['alert'], function (alert) {
+        import('alert').then(({default: alert}) => {
             alert(options);
         });
     }
@@ -98,7 +115,7 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
         alertText(globalize.translate('MessageUnableToConnectToServer'));
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function connectToServer(server) {
             loading.show();
             connectionManager.connectToServer(server, {
@@ -205,4 +222,5 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
             }
         });
     };
-});
+
+/* eslint-enable indent */

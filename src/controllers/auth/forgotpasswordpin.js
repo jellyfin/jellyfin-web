@@ -1,5 +1,6 @@
-define(['globalize'], function (globalize) {
-    'use strict';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
 
     function processForgotPasswordResult(result) {
         if (result.Success) {
@@ -22,7 +23,7 @@ define(['globalize'], function (globalize) {
         });
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function onSubmit(e) {
             ApiClient.ajax({
                 type: 'POST',
@@ -38,4 +39,5 @@ define(['globalize'], function (globalize) {
 
         view.querySelector('form').addEventListener('submit', onSubmit);
     };
-});
+
+/* eslint-disable indent */

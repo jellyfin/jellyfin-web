@@ -1,5 +1,10 @@
-define(['appSettings', 'loading', 'browser', 'globalize', 'emby-button'], function(appSettings, loading, browser, globalize) {
-    'use strict';
+import appSettings from 'appSettings';
+import loading from 'loading';
+import browser from 'browser';
+import globalize from 'globalize';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function handleConnectionResult(page, result) {
         loading.hide();
@@ -42,11 +47,11 @@ define(['appSettings', 'loading', 'browser', 'globalize', 'emby-button'], functi
         });
     }
 
-    return function(view, params) {
+    export default function(view, params) {
         view.querySelector('.addServerForm').addEventListener('submit', onServerSubmit);
         view.querySelector('.btnCancel').addEventListener('click', goBack);
 
-        require(['autoFocuser'], function (autoFocuser) {
+        import('autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(view);
         });
 
@@ -57,9 +62,10 @@ define(['appSettings', 'loading', 'browser', 'globalize', 'emby-button'], functi
         }
 
         function goBack() {
-            require(['appRouter'], function(appRouter) {
+            import('appRouter').then(({default: appRouter}) => {
                 appRouter.back();
             });
         }
     };
-});
+
+/* eslint-enable indent */
