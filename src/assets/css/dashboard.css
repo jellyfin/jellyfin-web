@@ -236,10 +236,10 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .localUsers .cardText-secondary {
-    white-space: pre-wrap
+    white-space: pre-wrap;
 }
 
-.customCssContainer textarea{
+.customCssContainer textarea {
     resize: none;
 }
 
