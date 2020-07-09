@@ -1,5 +1,11 @@
-define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', 'emby-button'], function(globalize, loading, libraryMenu) {
-    'use strict';
+import globalize from 'globalize';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import 'emby-checkbox';
+import 'emby-button';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function getTabs() {
         return [{
@@ -17,7 +23,7 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
         }];
     }
 
-    return function(view, params) {
+    export default function(view, params) {
         function loadData() {
             ApiClient.getServerConfiguration().then(function(config) {
                 view.querySelector('.chkFolderView').checked = config.EnableFolderView;
@@ -64,4 +70,5 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
             });
         });
     };
-});
+
+    /* eslint-enable indent */

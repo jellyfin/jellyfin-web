@@ -131,6 +131,8 @@
           "src/components/syncPlay/timeSyncManager.js",
           "src/controllers/dashboard/logs.js",
           "src/controllers/user/subtitles.js",
+          "src/controllers/dashboard/general.js",
+          "src/controllers/dashboard/librarydisplay.js",
           "src/controllers/dashboard/metadataImages.js",
           "src/controllers/dashboard/metadatanfo.js",
           "src/controllers/dashboard/plugins/repositories.js",

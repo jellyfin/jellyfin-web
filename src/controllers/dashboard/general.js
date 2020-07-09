@@ -1,5 +1,13 @@
-define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emby-input', 'emby-select', 'emby-button'], function ($, loading, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import globalize from 'globalize';
+import 'emby-checkbox';
+import 'emby-textarea';
+import 'emby-input';
+import 'emby-select';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function loadPage(page, config, languageOptions, systemInfo) {
         page.querySelector('#txtServerName').value = systemInfo.ServerName;
@@ -43,7 +51,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
                     });
                 });
             }, function () {
-                require(['alert'], function (alert) {
+                import('alert').then(({default: alert}) => {
                     alert(globalize.translate('DefaultErrorMessage'));
                 });
 
@@ -56,9 +64,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
     var currentBrandingOptions;
     var currentLanguage;
     var brandingConfigKey = 'branding';
-    return function (view, params) {
+    export default function (view, params) {
         $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
-            require(['directorybrowser'], function (directoryBrowser) {
+            import('directorybrowser').then(({default: directoryBrowser}) => {
                 var picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {
@@ -75,7 +83,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
             });
         });
         $('#btnSelectMetadataPath', view).on('click.selectDirectory', function () {
-            require(['directorybrowser'], function (directoryBrowser) {
+            import('directorybrowser').then(({default: directoryBrowser}) => {
                 var picker = new directoryBrowser();
                 picker.show({
                     path: $('#txtMetadataPath', view).val(),
@@ -113,4 +121,5 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
             });
         });
     };
-});
+
+/* eslint-enable indent */
