@@ -207,7 +207,6 @@ define(['dom', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageLoade
             });
             setImageUrl(context, state, url);
             if (item) {
-                console.warn(item);
                 if (item.Type === 'Audio') {
                     var imgUrl = apiClient.getScaledImageUrl(item.Id, {
                         type: 'Primary',
@@ -215,8 +214,6 @@ define(['dom', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageLoade
                         index: 0,
                         tag: item.AlbumPrimaryImageTag[0]
                     });
-
-                    console.warn(imgUrl);
 
                     backdrop.setBackdrop(imgUrl);
                 } else {
