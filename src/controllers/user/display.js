@@ -1,10 +1,13 @@
-define(['displaySettings', 'userSettings', 'autoFocuser'], function (DisplaySettings, userSettings, autoFocuser) {
-    'use strict';
+import DisplaySettings from 'displaySettings';
+import * as userSettings from 'userSettings';
+import autoFocuser from 'autoFocuser';
+
+/* eslint-disable indent */
 
     // Shortcuts
     const UserSettings = userSettings.UserSettings;
 
-    return function (view, params) {
+    export default function (view, params) {
         function onBeforeUnload(e) {
             if (hasChanges) {
                 e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
@@ -26,8 +29,8 @@ define(['displaySettings', 'userSettings', 'autoFocuser'], function (DisplaySett
                     userId: userId,
                     element: view.querySelector('.settingsContainer'),
                     userSettings: currentSettings,
-                    enableSaveButton: false,
-                    enableSaveConfirmation: false,
+                    enableSaveButton: true,
+                    enableSaveConfirmation: true,
                     autoFocus: autoFocuser.isEnabled()
                 });
             }
@@ -49,5 +52,6 @@ define(['displaySettings', 'userSettings', 'autoFocuser'], function (DisplaySett
                 settingsInstance = null;
             }
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

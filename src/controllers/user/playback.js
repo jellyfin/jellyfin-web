@@ -1,10 +1,17 @@
-define(['playbackSettings', 'dom', 'globalize', 'loading', 'userSettings', 'autoFocuser', 'listViewStyle'], function (PlaybackSettings, dom, globalize, loading, userSettings, autoFocuser) {
-    'use strict';
+import PlaybackSettings from 'playbackSettings';
+import dom from 'dom';
+import globalize from 'globalize';
+import loading from 'loading';
+import * as userSettings from 'userSettings';
+import autoFocuser from 'autoFocuser';
+import 'listViewStyle';
+
+/* eslint-disable indent */
 
     // Shortcuts
     const UserSettings = userSettings.UserSettings;
 
-    return function (view, params) {
+    export default function (view, params) {
         function onBeforeUnload(e) {
             if (hasChanges) {
                 e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
@@ -26,8 +33,8 @@ define(['playbackSettings', 'dom', 'globalize', 'loading', 'userSettings', 'auto
                     userId: userId,
                     element: view.querySelector('.settingsContainer'),
                     userSettings: currentSettings,
-                    enableSaveButton: false,
-                    enableSaveConfirmation: false,
+                    enableSaveButton: true,
+                    enableSaveConfirmation: true,
                     autoFocus: autoFocuser.isEnabled()
                 });
             }
@@ -48,5 +55,6 @@ define(['playbackSettings', 'dom', 'globalize', 'loading', 'userSettings', 'auto
                 settingsInstance = null;
             }
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

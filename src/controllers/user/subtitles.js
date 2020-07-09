@@ -1,10 +1,13 @@
-define(['subtitleSettings', 'userSettings', 'autoFocuser'], function (SubtitleSettings, userSettings, autoFocuser) {
-    'use strict';
+import SubtitleSettings from 'subtitleSettings';
+import * as userSettings from 'userSettings';
+import autoFocuser from 'autoFocuser';
+
+/* eslint-disable indent */
 
     // Shortcuts
     const UserSettings = userSettings.UserSettings;
 
-    return function (view, params) {
+    export default function (view, params) {
         function onBeforeUnload(e) {
             if (hasChanges) {
                 e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
@@ -26,8 +29,8 @@ define(['subtitleSettings', 'userSettings', 'autoFocuser'], function (SubtitleSe
                     userId: userId,
                     element: view.querySelector('.settingsContainer'),
                     userSettings: currentSettings,
-                    enableSaveButton: false,
-                    enableSaveConfirmation: false,
+                    enableSaveButton: true,
+                    enableSaveConfirmation: true,
                     autoFocus: autoFocuser.isEnabled()
                 });
             }
@@ -48,5 +51,6 @@ define(['subtitleSettings', 'userSettings', 'autoFocuser'], function (SubtitleSe
                 subtitleSettingsInstance = null;
             }
         });
-    };
-});
+    }
+
+/* eslint-enable indent */
