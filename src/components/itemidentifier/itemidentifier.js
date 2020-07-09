@@ -440,7 +440,7 @@ import 'cardStyle';
         }
     }
 
-    //TODO investigate where was used this?
+    // TODO investigate where this was used
     function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
 
         currentItem = null;
@@ -547,4 +547,3 @@ export default {
     show: show,
     showFindNew: showFindNew
 };
-
