@@ -1,5 +1,10 @@
-define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading, libraryMenu, globalize) {
-    'use strict';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import 'emby-button';
+
+
+/* eslint-disable indent */
 
     function loadUser(page, params) {
         var userid = params.userId;
@@ -48,7 +53,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
 
                 page.querySelector('.chkEnableLocalEasyPassword').checked = user.Configuration.EnableLocalPassword;
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(page);
                 });
             });
@@ -58,7 +63,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
         page.querySelector('#txtNewPasswordConfirm').value = '';
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function saveEasyPassword() {
             var userId = params.userId;
             var easyPassword = view.querySelector('#txtEasyPassword').value;
@@ -78,7 +83,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
                 ApiClient.updateUserConfiguration(user.Id, user.Configuration).then(function () {
                     loading.hide();
 
-                    require(['toast'], function (toast) {
+                    import('toast').then(({default: toast}) => {
                         toast(globalize.translate('MessageSettingsSaved'));
                     });
 
@@ -101,7 +106,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
             ApiClient.updateUserPassword(userId, currentPassword, newPassword).then(function () {
                 loading.hide();
 
-                require(['toast'], function (toast) {
+                import('toast').then(({default: toast}) => {
                     toast(globalize.translate('PasswordSaved'));
                 });
 
@@ -119,7 +124,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
             var form = this;
 
             if (form.querySelector('#txtNewPassword').value != form.querySelector('#txtNewPasswordConfirm').value) {
-                require(['toast'], function (toast) {
+                import('toast').then(({default: toast}) => {
                     toast(globalize.translate('PasswordMatchError'));
                 });
             } else {
@@ -140,8 +145,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
 
         function resetPassword() {
             var msg = globalize.translate('PasswordResetConfirmation');
-
-            require(['confirm'], function (confirm) {
+            import('confirm').then(({default: confirm}) => {
                 confirm(msg, globalize.translate('PasswordResetHeader')).then(function () {
                     var userId = params.userId;
                     loading.show();
@@ -160,7 +164,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
         function resetEasyPassword() {
             var msg = globalize.translate('PinCodeResetConfirmation');
 
-            require(['confirm'], function (confirm) {
+            import('confirm').then(({default: confirm}) => {
                 confirm(msg, globalize.translate('HeaderPinCodeReset')).then(function () {
                     var userId = params.userId;
                     loading.show();
@@ -184,4 +188,5 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
             loadUser(view, params);
         });
     };
-});
+
+/* eslint-enable indent */

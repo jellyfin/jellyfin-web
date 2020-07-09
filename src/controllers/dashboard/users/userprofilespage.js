@@ -1,10 +1,20 @@
-define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-button-light', 'cardStyle', 'emby-button', 'indicators', 'flexStyles'], function (loading, dom, globalize, datefns, dfnshelper) {
-    'use strict';
+import loading from 'loading';
+import dom from 'dom';
+import globalize from 'globalize';
+import * as datefns from 'date-fns';
+import dfnshelper from 'dfnshelper';
+import 'paper-icon-button-light';
+import 'cardStyle';
+import 'emby-button';
+import 'indicators';
+import 'flexStyles';
+
+/* eslint-disable indent */
 
     function deleteUser(page, id) {
         var msg = globalize.translate('DeleteUserConfirmation');
 
-        require(['confirm'], function (confirm) {
+        import('confirm').then(({default: confirm}) => {
             confirm({
                 title: globalize.translate('DeleteUser'),
                 text: msg,
@@ -45,7 +55,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
             icon: 'delete'
         });
 
-        require(['actionsheet'], function (actionsheet) {
+        import('actionsheet').then(({default: actionsheet}) => {
             actionsheet.show({
                 items: menuItems,
                 positionTo: card,
@@ -153,7 +163,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
             icon: 'delete'
         });
 
-        require(['actionsheet'], function (actionsheet) {
+        import('actionsheet').then(({default: actionsheet}) => {
             var card = dom.parentWithClass(elem, 'card');
             var page = dom.parentWithClass(card, 'page');
             var id = card.getAttribute('data-id');
@@ -236,7 +246,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
     }
 
     function showInvitePopup(page) {
-        require(['components/guestinviter/guestinviter'], function (guestinviter) {
+        import('components/guestinviter/guestinviter').then(({default: guestinviter}) => {
             guestinviter.show().then(function () {
                 loadData(page);
             });
@@ -266,4 +276,5 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
     pageIdOn('pagebeforeshow', 'userProfilesPage', function () {
         loadData(this);
     });
-});
+ 
+/* eslint-enable indent */

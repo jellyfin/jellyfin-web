@@ -136,6 +136,8 @@
           "src/controllers/dashboard/users/userlibraryaccess.js",
           "src/controllers/dashboard/users/usernew.js",
           "src/controllers/dashboard/users/userparentalcontrol.js",
+          "src/controllers/dashboard/users/userpasswordpage.js",
+          "src/controllers/dashboard/users/userprofilespage.js",
           "src/plugins/bookPlayer/plugin.js",
           "src/plugins/bookPlayer/tableOfContents.js",
           "src/plugins/photoPlayer/plugin.js",
