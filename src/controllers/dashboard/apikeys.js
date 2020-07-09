@@ -1,8 +1,14 @@
-define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button'], function (datetime, loading, libraryMenu, dom, globalize) {
-    'use strict';
+import datetime from 'datetime';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import dom from 'dom';
+import globalize from 'globalize';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function revoke(page, key) {
-        require(['confirm'], function (confirm) {
+        import('confirm').then(({default: confirm}) => {
             confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
                 loading.show();
                 ApiClient.ajax({
@@ -46,7 +52,7 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
     }
 
     function showNewKeyPrompt(page) {
-        require(['prompt'], function (prompt) {
+        import('prompt').then(({default: prompt}) => {
             prompt({
                 title: globalize.translate('HeaderNewApiKey'),
                 label: globalize.translate('LabelAppName'),
@@ -80,4 +86,5 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
     pageIdOn('pagebeforeshow', 'apiKeysPage', function () {
         loadData(this);
     });
-});
+
+/* eslint-enable indent */

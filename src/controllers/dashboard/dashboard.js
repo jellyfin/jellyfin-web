@@ -1,8 +1,29 @@
-define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'loading', 'connectionManager', 'playMethodHelper', 'cardBuilder', 'imageLoader', 'components/activitylog', 'scripts/imagehelper', 'indicators', 'listViewStyle', 'emby-button', 'flexStyles', 'emby-button', 'emby-itemscontainer'], function (datetime, events, itemHelper, serverNotifications, dom, globalize, datefns, dfnshelper, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
-    'use strict';
+import datetime from 'datetime';
+import events from 'events';
+import itemHelper from 'itemHelper';
+import serverNotifications from 'serverNotifications';
+import dom from 'dom';
+import globalize from 'globalize';
+import * as datefns from 'date-fns';
+import dfnshelper from 'dfnshelper';
+import loading from 'loading';
+import connectionManager from 'connectionManager';
+import playMethodHelper from 'playMethodHelper';
+import cardBuilder from 'cardBuilder';
+import imageLoader from 'imageLoader';
+import ActivityLog from 'components/activitylog';
+import imageHelper from 'scripts/imagehelper';
+import indicators from 'indicators';
+import 'listViewStyle';
+import 'emby-button';
+import 'flexStyles';
+import 'emby-button';
+import 'emby-itemscontainer';
+
+/* eslint-disable indent */
 
     function showPlaybackInfo(btn, session) {
-        require(['alert'], function (alert) {
+        import('alert').then(({default: Alert}) => {
             var title;
             var text = [];
             var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
@@ -33,7 +54,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function showSendMessageForm(btn, session) {
-        require(['prompt'], function (prompt) {
+        import('prompt').then(({default: prompt}) => {
             prompt({
                 title: globalize.translate('HeaderSendMessage'),
                 label: globalize.translate('LabelMessageText'),
@@ -50,7 +71,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function showOptionsMenu(btn, session) {
-        require(['actionsheet'], function (actionsheet) {
+        import('actionsheet').then(({default: actionsheet}) => {
             var menuItems = [];
 
             if (session.ServerId && session.DeviceId !== connectionManager.deviceId()) {
@@ -706,7 +727,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             });
         },
         restart: function (btn) {
-            require(['confirm'], function (confirm) {
+            import('confirm').then(({default: confirm}) => {
                 confirm({
                     title: globalize.translate('HeaderRestart'),
                     text: globalize.translate('MessageConfirmRestart'),
@@ -721,7 +742,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             });
         },
         shutdown: function (btn) {
-            require(['confirm'], function (confirm) {
+            import('confirm').then(({default: confirm}) => {
                 confirm({
                     title: globalize.translate('HeaderShutdown'),
                     text: globalize.translate('MessageConfirmShutdown'),
@@ -736,7 +757,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             });
         }
     };
-    return function (view, params) {
+    export default function (view, params) {
         function onRestartRequired(evt, apiClient) {
             console.debug('onRestartRequired not implemented', evt, apiClient);
         }
@@ -843,5 +864,6 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 serverActivityLog.destroy();
             }
         });
-    };
-});
+    }
+
+/* eslint-enable indent */
