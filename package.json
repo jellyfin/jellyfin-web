@@ -92,6 +92,7 @@
         "test": [
           "src/components/accessSchedule/accessSchedule.js",
           "src/components/actionSheet/actionSheet.js",
+          "src/components/alphaPicker/alphaPicker.js",
           "src/components/autoFocuser.js",
           "src/components/cardbuilder/cardBuilder.js",
           "src/components/cardbuilder/chaptercardbuilder.js",
