@@ -1,5 +1,15 @@
-define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'date-fns', 'dfnshelper', 'emby-button', 'emby-itemscontainer', 'cardStyle'], function (loading, dom, libraryMenu, globalize, imageHelper, datefns, dfnshelper) {
-    'use strict';
+import loading from 'loading';
+import dom from 'dom';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import imageHelper from 'scripts/imagehelper';
+import * as datefns from 'date-fns';
+import dfnshelper from 'dfnshelper';
+import 'emby-button';
+import 'emby-itemscontainer';
+import 'cardStyle';
+
+/* eslint-disable indent */
 
     function canDelete(deviceId) {
         return deviceId !== ApiClient.deviceId();
@@ -8,7 +18,7 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'da
     function deleteDevice(page, id) {
         var msg = globalize.translate('DeleteDeviceConfirmation');
 
-        require(['confirm'], function (confirm) {
+        import('confirm').then(({default: confirm}) => {
             confirm({
                 text: msg,
                 title: globalize.translate('HeaderDeleteDevice'),
@@ -47,7 +57,7 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'da
             });
         }
 
-        require(['actionsheet'], function (actionsheet) {
+        import('actionsheet').then(({default: actionsheet}) => {
             actionsheet.show({
                 items: menuItems,
                 positionTo: btn,
@@ -125,7 +135,7 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'da
     }
 
     var canEdit = ApiClient.isMinServerVersion('3.4.1.31');
-    return function (view, params) {
+    export default function (view, params) {
         view.querySelector('.devicesList').addEventListener('click', function (e) {
             var btnDeviceMenu = dom.parentWithClass(e.target, 'btnDeviceMenu');
 
@@ -137,4 +147,5 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'da
             loadData(this);
         });
     };
-});
+
+/* eslint-enable indent */

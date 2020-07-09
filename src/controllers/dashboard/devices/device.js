@@ -1,5 +1,10 @@
-define(['loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button'], function (loading, libraryMenu, dom) {
-    'use strict';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import dom from 'dom';
+import 'emby-input';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function load(page, device, deviceOptions) {
         page.querySelector('#txtCustomName', page).value = deviceOptions.CustomName || '';
@@ -43,8 +48,9 @@ define(['loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button'], function 
         return false;
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         view.querySelector('form').addEventListener('submit', onSubmit);
         view.addEventListener('viewshow', loadData);
     };
-});
+
+/* eslint-enable indent */

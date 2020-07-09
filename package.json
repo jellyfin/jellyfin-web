@@ -132,6 +132,8 @@
           "src/controllers/dashboard/logs.js",
           "src/controllers/user/subtitles.js",
           "src/controllers/dashboard/plugins/repositories.js",
+          "src/controllers/dashboard/devices/devices.js",
+          "src/controllers/dashboard/devices/device.js",
           "src/plugins/bookPlayer/plugin.js",
           "src/plugins/bookPlayer/tableOfContents.js",
           "src/plugins/photoPlayer/plugin.js",
