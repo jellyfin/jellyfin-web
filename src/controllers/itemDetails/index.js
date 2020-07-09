@@ -488,6 +488,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     function renderBackdrop(item) {
         if (dom.getWindowSize().innerWidth >= 1000) {
             backdrop.setBackdrops([item]);
+            libraryMenu.setBlurryBackdrop(false);
         } else {
             backdrop.clear();
         }
@@ -2019,6 +2020,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             events.off(apiClient, 'message', onWebSocketMessage);
             events.off(playbackManager, 'playerchange', onPlayerChange);
             libraryMenu.setTransparentMenu(false);
+            libraryMenu.setBlurryBackdrop(true);
         });
         view.addEventListener('viewdestroy', function () {
             currentItem = null;

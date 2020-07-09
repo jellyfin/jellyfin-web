@@ -2,6 +2,10 @@
     contain: layout style size;
 }
 
+.blurryBackdrop .backdropContainer {
+    filter: blur(15px);
+}
+
 .backdropImage {
     background-repeat: no-repeat;
     background-position: center center;

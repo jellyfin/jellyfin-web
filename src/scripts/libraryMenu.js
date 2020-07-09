@@ -898,6 +898,13 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             } else {
                 skinHeader.classList.remove('semiTransparent');
             }
+        },
+        setBlurryBackdrop: function (blurry) {
+            if (blurry) {
+                document.body.classList.add('blurryBackdrop');
+            } else {
+                document.body.classList.remove('blurryBackdrop');
+            }
         }
     };
     var currentPageType;
