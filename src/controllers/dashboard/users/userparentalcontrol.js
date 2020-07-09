@@ -1,5 +1,13 @@
-define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewStyle', 'paper-icon-button-light'], function ($, datetime, loading, libraryMenu, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import datetime from 'datetime';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import 'listViewStyle';
+import 'paper-icon-button-light';
+
+
+/* eslint-disable indent */
 
     function populateRatings(allParentalRatings, page) {
         var html = '';
@@ -158,7 +166,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     function onSaveComplete(page) {
         loading.hide();
 
-        require(['toast'], function (toast) {
+        import('toast').then(({default: toast}) => {
             toast(globalize.translate('SettingsSaved'));
         });
     }
@@ -190,8 +198,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
 
     function showSchedulePopup(page, schedule, index) {
         schedule = schedule || {};
-
-        require(['components/accessSchedule/accessSchedule'], function (accessschedule) {
+        import('components/accessSchedule/accessSchedule').then(({default: accessschedule}) => {
             accessschedule.show({
                 schedule: schedule
             }).then(function (updatedSchedule) {
@@ -224,7 +231,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     }
 
     function showBlockedTagPopup(page) {
-        require(['prompt'], function (prompt) {
+        import('prompt').then(({default: prompt}) => {
             prompt({
                 label: globalize.translate('LabelTag')
             }).then(function (value) {
@@ -268,4 +275,5 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
             loadUser(page, responses[0], responses[1]);
         });
     });
-});
+
+/* eslint-enable indent */

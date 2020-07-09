@@ -1,5 +1,9 @@
-define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import globalize from 'globalize';
+import 'emby-checkbox';
+
+/* eslint-disable indent */
 
     function loadMediaFolders(page, mediaFolders) {
         var html = '';
@@ -84,7 +88,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
                 Dashboard.navigate('useredit.html?userId=' + user.Id);
             });
         }, function (response) {
-            require(['toast'], function (toast) {
+            import('toast').then(({default: toast}) => {
                 toast(globalize.translate('DefaultErrorMessage'));
             });
 
@@ -123,4 +127,5 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
     }).on('pageshow', '#newUserPage', function () {
         loadData(this);
     });
-});
+
+/* eslint-enable indent */
