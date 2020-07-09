@@ -1,4 +1,4 @@
-define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageLoader', 'playbackManager', 'nowPlayingHelper', 'events', 'connectionManager', 'apphost', 'globalize', 'layoutManager', 'userSettings', 'cardBuilder', 'itemContextMenu', 'cardStyle', 'emby-itemscontainer', 'css!./remotecontrol.css', 'emby-ratingbutton'], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings, cardBuilder, itemContextMenu) {
+define(['dom', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageLoader', 'playbackManager', 'nowPlayingHelper', 'events', 'connectionManager', 'apphost', 'globalize', 'layoutManager', 'userSettings', 'cardBuilder', 'itemContextMenu', 'cardStyle', 'emby-itemscontainer', 'css!./remotecontrol.css', 'emby-ratingbutton'], function (dom, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings, cardBuilder, itemContextMenu) {
     'use strict';
     var showMuteButton = true;
     var showVolumeSlider = true;
@@ -207,7 +207,21 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             });
             setImageUrl(context, state, url);
             if (item) {
-                backdrop.setBackdrops([item]);
+                console.warn(item);
+                if (item.Type === 'Audio') {
+                    var imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                        type: 'Primary',
+                        maxWidth: dom.getScreenWidth(),
+                        index: 0,
+                        tag: item.AlbumPrimaryImageTag[0]
+                    });
+
+                    console.warn(imgUrl);
+
+                    backdrop.setBackdrop(imgUrl);
+                } else {
+                    backdrop.setBackdrops([item]);
+                }
                 apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
                     var userData = fullItem.UserData || {};
                     var likes = null == userData.Likes ? '' : userData.Likes;
