@@ -1,5 +1,9 @@
-define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, libraryMenu, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
 
     function triggerChange(select) {
         var evt = document.createEvent('HTMLEvents');
@@ -84,7 +88,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     function onSaveComplete(page) {
         loading.hide();
 
-        require(['toast'], function (toast) {
+        import('toast').then(({default: toast}) => {
             toast(globalize.translate('SettingsSaved'));
         });
     }
@@ -175,4 +179,5 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             loadUser(page, responses[0], responses[1], responses[2].Items, responses[3].Items, responses[4].Items);
         });
     });
-});
+
+/* eslint-enable indent */

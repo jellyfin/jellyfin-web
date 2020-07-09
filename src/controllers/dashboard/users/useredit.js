@@ -1,5 +1,9 @@
-define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, libraryMenu, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
 
     function loadDeleteFolders(page, user, mediaFolders) {
         ApiClient.getJSON(ApiClient.getUrl('Channels', {
@@ -112,7 +116,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         Dashboard.navigate('userprofiles.html');
         loading.hide();
 
-        require(['toast'], function (toast) {
+        import('toast').then(({default: toast}) => {
             toast(globalize.translate('SettingsSaved'));
         });
     }
@@ -197,4 +201,5 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }).on('pagebeforeshow', '#editUserPage', function () {
         loadData(this);
     });
-});
+
+/* eslint-enable indent */
