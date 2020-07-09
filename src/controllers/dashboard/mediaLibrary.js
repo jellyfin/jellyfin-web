@@ -14,7 +14,7 @@ import 'emby-itemrefreshindicator';
 
     function addVirtualFolder(page) {
         import('medialibrarycreator').then(({default: medialibrarycreator}) => {
-            new medialibrarycreator.showEditor({
+            new medialibrarycreator({
                 collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                     return !f.hidden;
                 }),
@@ -28,8 +28,8 @@ import 'emby-itemrefreshindicator';
     }
 
     function editVirtualFolder(page, virtualFolder) {
-        import('medialibraryeditor').then(({default:medialibraryeditor }) => {
-            new medialibraryeditor.showEditor({
+        import('medialibraryeditor').then(({default: medialibraryeditor}) => {
+            new medialibraryeditor({
                 refresh: shouldRefreshLibraryAfterChanges(page),
                 library: virtualFolder
             }).then(function (hasChanges) {
@@ -41,7 +41,7 @@ import 'emby-itemrefreshindicator';
     }
 
     function deleteVirtualFolder(page, virtualFolder) {
-        var msg = globalize.translate('MessageAreYouSureYouWishToRemoveMediaFolder');
+        let msg = globalize.translate('MessageAreYouSureYouWishToRemoveMediaFolder');
 
         if (virtualFolder.Locations.length) {
             msg += '<br/><br/>' + globalize.translate('MessageTheFollowingLocationWillBeRemovedFromLibrary') + '<br/><br/>';
@@ -57,7 +57,7 @@ import 'emby-itemrefreshindicator';
                 primary: 'delete'
 
             }).then(function () {
-                var refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
+                const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
                 ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange).then(function () {
                     reloadLibrary(page);
                 });
@@ -82,7 +82,7 @@ import 'emby-itemrefreshindicator';
                 confirmText: globalize.translate('ButtonRename')
             }).then(function (newName) {
                 if (newName && newName != virtualFolder.Name) {
-                    var refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
+                    const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
                     ApiClient.renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange).then(function () {
                         reloadLibrary(page);
                     });
@@ -92,10 +92,10 @@ import 'emby-itemrefreshindicator';
     }
 
     function showCardMenu(page, elem, virtualFolders) {
-        var card = dom.parentWithClass(elem, 'card');
-        var index = parseInt(card.getAttribute('data-index'));
-        var virtualFolder = virtualFolders[index];
-        var menuItems = [];
+        const card = dom.parentWithClass(elem, 'card');
+        const index = parseInt(card.getAttribute('data-index'));
+        const virtualFolder = virtualFolders[index];
+        const menuItems = [];
         menuItems.push({
             name: globalize.translate('ButtonEditImages'),
             id: 'editimages',
@@ -164,7 +164,7 @@ import 'emby-itemrefreshindicator';
     }
 
     function reloadVirtualFolders(page, virtualFolders) {
-        var html = '';
+        let html = '';
         virtualFolders.push({
             Name: globalize.translate('ButtonAddMediaLibrary'),
             icon: 'add_circle',
@@ -175,12 +175,12 @@ import 'emby-itemrefreshindicator';
             showNameWithIcon: true
         });
 
-        for (var i = 0; i < virtualFolders.length; i++) {
-            var virtualFolder = virtualFolders[i];
+        for (let i = 0; i < virtualFolders.length; i++) {
+            const virtualFolder = virtualFolders[i];
             html += getVirtualFolderHtml(page, virtualFolder, i);
         }
 
-        var divVirtualFolders = page.querySelector('#divVirtualFolders');
+        const divVirtualFolders = page.querySelector('#divVirtualFolders');
         divVirtualFolders.innerHTML = html;
         divVirtualFolders.classList.add('itemsContainer');
         divVirtualFolders.classList.add('vertical-wrap');
@@ -191,9 +191,9 @@ import 'emby-itemrefreshindicator';
             addVirtualFolder(page);
         });
         $('.editLibrary', divVirtualFolders).on('click', function () {
-            var card = $(this).parents('.card')[0];
-            var index = parseInt(card.getAttribute('data-index'));
-            var virtualFolder = virtualFolders[index];
+            const card = $(this).parents('.card')[0];
+            const index = parseInt(card.getAttribute('data-index'));
+            const virtualFolder = virtualFolders[index];
 
             if (virtualFolder.ItemId) {
                 editVirtualFolder(page, virtualFolder);
@@ -251,8 +251,8 @@ import 'emby-itemrefreshindicator';
     }
 
     function getVirtualFolderHtml(page, virtualFolder, index) {
-        var html = '';
-        var style = '';
+        let html = '';
+        let style = '';
 
         if (page.classList.contains('wizardPage')) {
             style += 'min-width:33.3%;';
@@ -263,7 +263,7 @@ import 'emby-itemrefreshindicator';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
         html += '<div class="cardContent">';
-        var imgUrl = '';
+        let imgUrl = '';
 
         if (virtualFolder.PrimaryImageItemId) {
             imgUrl = ApiClient.getScaledImageUrl(virtualFolder.PrimaryImageItemId, {
@@ -272,7 +272,7 @@ import 'emby-itemrefreshindicator';
             });
         }
 
-        var hasCardImageContainer;
+        let hasCardImageContainer;
 
         if (imgUrl) {
             html += '<div class="cardImageContainer editLibrary" style="cursor:pointer;background-image:url(\'' + imgUrl + "');\">";
@@ -322,7 +322,7 @@ import 'emby-itemrefreshindicator';
         }
 
         html += '</div>';
-        var typeName = getCollectionTypeOptions().filter(function (t) {
+        let typeName = getCollectionTypeOptions().filter(function (t) {
             return t.value == virtualFolder.CollectionType;
         })[0];
         typeName = typeName ? typeName.name : globalize.translate('FolderTypeUnset');
@@ -382,7 +382,7 @@ import 'emby-itemrefreshindicator';
     });
     pageIdOn('pageshow', 'mediaLibraryPage', function () {
         libraryMenu.setTabs('librarysetup', 0, getTabs);
-        var page = this;
+        const page = this;
         taskButton({
             mode: 'on',
             progressElem: page.querySelector('.refreshProgress'),
@@ -391,7 +391,7 @@ import 'emby-itemrefreshindicator';
         });
     });
     pageIdOn('pagebeforehide', 'mediaLibraryPage', function () {
-        var page = this;
+        const page = this;
         taskButton({
             mode: 'off',
             progressElem: page.querySelector('.refreshProgress'),

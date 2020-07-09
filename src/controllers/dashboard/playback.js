@@ -14,7 +14,7 @@ import globalize from 'globalize';
 
     function onSubmit() {
         loading.show();
-        var form = this;
+        const form = this;
         ApiClient.getServerConfiguration().then(function (config) {
             config.MinResumePct = $('#txtMinResumePct', form).val();
             config.MaxResumePct = $('#txtMaxResumePct', form).val();
@@ -44,7 +44,7 @@ import globalize from 'globalize';
     }).on('pageshow', '#playbackConfigurationPage', function () {
         loading.show();
         libraryMenu.setTabs('playback', 1, getTabs);
-        var page = this;
+        const page = this;
         ApiClient.getServerConfiguration().then(function (config) {
             loadPage(page, config);
         });

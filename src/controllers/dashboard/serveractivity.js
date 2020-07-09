@@ -4,7 +4,7 @@ import globalize from 'globalize';
 /* eslint-disable indent */
 
     export default function (view, params) {
-        var activityLog;
+        let activityLog;
 
         if (params.useractivity !== 'false') {
             view.querySelector('.activityItems').setAttribute('data-useractivity', 'true');
@@ -29,6 +29,6 @@ import globalize from 'globalize';
 
             activityLog = null;
         });
-    };
+    }
 
 /* eslint-enable indent */
