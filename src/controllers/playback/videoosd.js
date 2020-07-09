@@ -333,21 +333,17 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             osdPoster.innerHTML = '';
         }
 
-        let osdLockCount = 0;
+        let mouseIsDown = false;
 
         function showOsd() {
             slideDownToShow(headerElement);
             showMainOsdControls();
-            if (!osdLockCount) {
+            if (!mouseIsDown) {
                 startOsdHideTimer();
             }
         }
 
         function hideOsd() {
-            if (osdLockCount) {
-                return;
-            }
-
             slideUpToHide(headerElement);
             hideMainOsdControls();
         }
@@ -357,19 +353,6 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 hideOsd();
             } else if (!currentVisibleMenu) {
                 showOsd();
-            }
-        }
-
-        function lockOsd() {
-            osdLockCount++;
-            stopOsdHideTimer();
-        }
-
-        function unlockOsd() {
-            osdLockCount--;
-            // Restart hide timer if OSD is currently visible
-            if (currentVisibleMenu && !osdLockCount) {
-                startOsdHideTimer();
             }
         }
 
@@ -441,6 +424,17 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 if (document.activeElement) {
                     document.activeElement.blur();
                 }
+            }
+        }
+
+        // TODO: Move all idle-related code to `inputManager` or `idleManager` or `idleHelper` (per dialog thing) and listen event from there.
+
+        function resetIdle() {
+            // Restart hide timer if OSD is currently visible
+            if (currentVisibleMenu && !mouseIsDown) {
+                startOsdHideTimer();
+            } else {
+                stopOsdHideTimer();
             }
         }
 
@@ -1216,28 +1210,35 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function onKeyDownCapture() {
-            // Restart hide timer if OSD is currently visible
-            if (currentVisibleMenu) {
-                showOsd();
-            }
+            resetIdle();
         }
 
         function onWindowMouseDown(e) {
             clickedElement = e.target;
-            lockOsd();
+            mouseIsDown = true;
+            resetIdle();
         }
 
         function onWindowMouseUp() {
-            unlockOsd();
+            mouseIsDown = false;
+            resetIdle();
         }
 
         function onWindowTouchStart(e) {
             clickedElement = e.target;
-            lockOsd();
+            mouseIsDown = true;
+            resetIdle();
         }
 
         function onWindowTouchEnd() {
-            unlockOsd();
+            mouseIsDown = false;
+            resetIdle();
+        }
+
+        function onWindowDragEnd() {
+            // mousedown -> dragstart -> dragend !!! no mouseup :(
+            mouseIsDown = false;
+            resetIdle();
         }
 
         function getImgUrl(item, chapter, index, maxWidth, apiClient) {
@@ -1373,23 +1374,32 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 inputManager.on(window, onInputCommand);
                 document.addEventListener('keydown', onKeyDown);
                 dom.addEventListener(document, 'keydown', onKeyDownCapture, {
-                    capture: true
+                    capture: true,
+                    passive: true
                 });
                 /* eslint-disable-next-line compat/compat */
                 dom.addEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
+                    capture: true,
                     passive: true
                 });
                 /* eslint-disable-next-line compat/compat */
                 dom.addEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
+                    capture: true,
                     passive: true
                 });
                 dom.addEventListener(window, 'touchstart', onWindowTouchStart, {
+                    capture: true,
                     passive: true
                 });
                 ['touchend', 'touchcancel'].forEach((event) => {
                     dom.addEventListener(window, event, onWindowTouchEnd, {
+                        capture: true,
                         passive: true
                     });
+                });
+                dom.addEventListener(window, 'dragend', onWindowDragEnd, {
+                    capture: true,
+                    passive: true
                 });
             } catch (e) {
                 require(['appRouter'], function(appRouter) {
@@ -1404,23 +1414,32 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
             document.removeEventListener('keydown', onKeyDown);
             dom.removeEventListener(document, 'keydown', onKeyDownCapture, {
-                capture: true
+                capture: true,
+                passive: true
             });
             /* eslint-disable-next-line compat/compat */
             dom.removeEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
+                capture: true,
                 passive: true
             });
             /* eslint-disable-next-line compat/compat */
             dom.removeEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
+                capture: true,
                 passive: true
             });
             dom.removeEventListener(window, 'touchstart', onWindowTouchStart, {
+                capture: true,
                 passive: true
             });
             ['touchend', 'touchcancel'].forEach((event) => {
                 dom.removeEventListener(window, event, onWindowTouchEnd, {
+                    capture: true,
                     passive: true
                 });
+            });
+            dom.removeEventListener(window, 'dragend', onWindowDragEnd, {
+                capture: true,
+                passive: true
             });
             stopOsdHideTimer();
             headerElement.classList.remove('osdHeader');
