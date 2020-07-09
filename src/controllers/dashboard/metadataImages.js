@@ -1,5 +1,11 @@
-define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize', 'listViewStyle'], function($, dom, loading, libraryMenu, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import dom from 'dom';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import 'listViewStyle';
+
+/* eslint-disable indent */
 
     function populateLanguages(select) {
         return ApiClient.getCultures().then(function(languages) {
@@ -67,4 +73,5 @@ define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize', 'listViewStyle']
         loading.show();
         loadPage(this);
     });
-});
+
+/* eslint-enable indent */

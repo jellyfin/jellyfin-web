@@ -1,5 +1,9 @@
-define(['jQuery', 'libraryMenu', 'loading', 'globalize'], function ($, libraryMenu, loading, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import libraryMenu from 'libraryMenu';
+import loading from 'loading';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
 
     function loadPage(page, config) {
         $('#txtRemoteClientBitrateLimit', page).val(config.RemoteClientBitrateLimit / 1e6 || '');
@@ -40,4 +44,5 @@ define(['jQuery', 'libraryMenu', 'loading', 'globalize'], function ($, libraryMe
             loadPage(page, config);
         });
     });
-});
+
+/* eslint-enable indent */

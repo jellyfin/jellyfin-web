@@ -1,5 +1,9 @@
-define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, libraryMenu, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
 
     function loadPage(page, config, users) {
         var html = '<option value="" selected="selected">' + globalize.translate('OptionNone') + '</option>';
@@ -35,7 +39,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         var msg = [];
         msg.push(globalize.translate('MetadataSettingChangeHelp'));
 
-        require(['alert'], function (alert) {
+        import('alert').then(({default: alert}) => {
             alert({
                 text: msg.join('<br/><br/>')
             });
@@ -71,4 +75,5 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             loadPage(page, responses[1], responses[0]);
         });
     });
-});
+
+/* eslint-enable indent */
