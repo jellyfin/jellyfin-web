@@ -1,4 +1,4 @@
-var ProgramCellPrototype = Object.create(HTMLButtonElement.prototype);
+const ProgramCellPrototype = Object.create(HTMLButtonElement.prototype);
 
 ProgramCellPrototype.detachedCallback = function () {
     this.posLeft = null;
