@@ -83,7 +83,7 @@ define(['controllers/dashboard/users/userpasswordpage', 'loading', 'libraryMenu'
 
     return function (view, params) {
         reloadUser(view);
-        new UserPasswordPage(view, params);
+        new UserPasswordPage.default(view, params);
         view.querySelector('#btnDeleteImage').addEventListener('click', function () {
             require(['confirm'], function (confirm) {
                 confirm(globalize.translate('DeleteImageConfirmation'), globalize.translate('DeleteImage')).then(function () {

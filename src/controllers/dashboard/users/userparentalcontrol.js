@@ -6,7 +6,6 @@ import globalize from 'globalize';
 import 'listViewStyle';
 import 'paper-icon-button-light';
 
-
 /* eslint-disable indent */
 
     function populateRatings(allParentalRatings, page) {

@@ -276,5 +276,5 @@ import 'flexStyles';
     pageIdOn('pagebeforeshow', 'userProfilesPage', function () {
         loadData(this);
     });
- 
+
 /* eslint-enable indent */

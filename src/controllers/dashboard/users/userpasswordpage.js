@@ -3,7 +3,6 @@ import libraryMenu from 'libraryMenu';
 import globalize from 'globalize';
 import 'emby-button';
 
-
 /* eslint-disable indent */
 
     function loadUser(page, params) {
@@ -187,6 +186,6 @@ import 'emby-button';
         view.addEventListener('viewshow', function () {
             loadUser(view, params);
         });
-    };
+    }
 
 /* eslint-enable indent */
