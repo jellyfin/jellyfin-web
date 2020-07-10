@@ -168,7 +168,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getPortraitShape() {
-        return enableScrollX() ? 'autooverflow' : 'auto';
+        return enableScrollX() ? 'overflowPortrait' : 'portrait';
     }
 
     function getLibraryButtonsHtml(items) {
@@ -254,7 +254,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             return cardBuilder.getCardsHtml({
                 items: items,
                 shape: shape,
-                preferThumb: viewType !== 'movies' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
+                preferThumb: viewType !== 'movies' && viewType !== 'tvshows' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
                 showUnplayedIndicator: false,
                 showChildCountIndicator: true,
                 context: 'home',

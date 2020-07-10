@@ -834,6 +834,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     var headerAudioPlayerButton;
     var headerSyncButton;
     var enableLibraryNavDrawer = layoutManager.desktop;
+    var enableLibraryNavDrawerHome = !layoutManager.tv;
     var skinHeader = document.querySelector('.skinHeader');
     var requiresUserRefresh = true;
     var lastOpenTime = new Date().getTime();
@@ -920,7 +921,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             refreshDashboardInfoInDrawer(apiClient);
         } else {
             if (mainDrawerButton) {
-                if (enableLibraryNavDrawer || isHomePage) {
+                if (enableLibraryNavDrawer || (isHomePage && enableLibraryNavDrawerHome)) {
                     mainDrawerButton.classList.remove('hide');
                 } else {
                     mainDrawerButton.classList.add('hide');

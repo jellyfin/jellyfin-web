@@ -31,7 +31,7 @@ define(['browser', 'dialog', 'globalize'], function (browser, dialog, globalize)
 
             options.buttons = items;
 
-            return dialog(options).then(function (result) {
+            return dialog.show(options).then(function (result) {
                 if (result === 'ok') {
                     return Promise.resolve();
                 }
