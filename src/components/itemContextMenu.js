@@ -12,13 +12,13 @@ import actionsheet from 'actionsheet';
 /* eslint-disable indent */
 
     export function getCommands(options) {
-        var item = options.item;
-        var user = options.user;
+        const item = options.item;
+        const user = options.user;
 
-        var canPlay = playbackManager.canPlay(item);
-        var restrictOptions = (browser.operaTv || browser.web0s) && !user.Policy.IsAdministrator;
+        const canPlay = playbackManager.canPlay(item);
+        const restrictOptions = (browser.operaTv || browser.web0s) && !user.Policy.IsAdministrator;
 
-        var commands = [];
+        let commands = [];
 
         if (canPlay && item.MediaType !== 'Photo') {
             if (options.play !== false) {
@@ -171,10 +171,10 @@ import actionsheet from 'actionsheet';
             });
         }
 
-        var canEdit = itemHelper.canEdit(user, item);
+        const canEdit = itemHelper.canEdit(user, item);
         if (canEdit) {
             if (options.edit !== false && item.Type !== 'SeriesTimer') {
-                var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
+                const text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
                 commands.push({
                     name: text,
                     id: 'edit',
@@ -321,31 +321,31 @@ import actionsheet from 'actionsheet';
     }
 
     function executeCommand(item, id, options) {
-        var itemId = item.Id;
-        var serverId = item.ServerId;
-        var apiClient = connectionManager.getApiClient(serverId);
+        const itemId = item.Id;
+        const serverId = item.ServerId;
+        const apiClient = connectionManager.getApiClient(serverId);
 
         return new Promise(function (resolve, reject) {
             switch (id) {
                 case 'addtocollection':
-                    require(['collectionEditor'], function (collectionEditor) {
-                        new collectionEditor.showEditor({
+                    import('collectionEditor').then(({default: collectionEditor}) => {
+                        new collectionEditor({
                             items: [itemId],
                             serverId: serverId
                         }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'addtoplaylist':
-                    require(['playlistEditor'], function (playlistEditor) {
-                        new playlistEditor.showEditor({
+                    import('playlistEditor').then(({default: playlistEditor}) => {
+                        new playlistEditor({
                             items: [itemId],
                             serverId: serverId
                         }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'download':
-                    require(['fileDownloader'], function (fileDownloader) {
-                        var downloadHref = apiClient.getItemDownloadUrl(itemId);
+                    import('fileDownloader').then(({default: fileDownloader}) => {
+                        const downloadHref = apiClient.getItemDownloadUrl(itemId);
                         fileDownloader.download([{
                             url: downloadHref,
                             itemId: itemId,
@@ -357,16 +357,16 @@ import actionsheet from 'actionsheet';
                     });
                     break;
                 case 'copy-stream':
-                    var downloadHref = apiClient.getItemDownloadUrl(itemId);
-                    var textAreaCopy = function () {
-                        var textArea = document.createElement('textarea');
+                    const downloadHref = apiClient.getItemDownloadUrl(itemId);
+                    const textAreaCopy = function () {
+                        let textArea = document.createElement('textarea');
                         textArea.value = downloadHref;
                         document.body.appendChild(textArea);
                         textArea.focus();
                         textArea.select();
 
                         if (document.execCommand('copy')) {
-                            require(['toast'], function (toast) {
+                            import('toast').then(({default: toast}) => {
                                 toast(globalize.translate('CopyStreamURLSuccess'));
                             });
                         } else {
@@ -381,7 +381,7 @@ import actionsheet from 'actionsheet';
                     } else {
                         /* eslint-disable-next-line compat/compat */
                         navigator.clipboard.writeText(downloadHref).then(function () {
-                            require(['toast'], function (toast) {
+                            import('toast').then(({default: toast}) => {
                                 toast(globalize.translate('CopyStreamURLSuccess'));
                             });
                         }).catch(function () {
@@ -391,7 +391,7 @@ import actionsheet from 'actionsheet';
                     getResolveFunction(resolve, id)();
                     break;
                 case 'editsubtitles':
-                    require(['subtitleEditor'], function (subtitleEditor) {
+                    import('subtitleEditor').then(({default: subtitleEditor}) => {
                         subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
@@ -399,7 +399,7 @@ import actionsheet from 'actionsheet';
                     editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
                 case 'editimages':
-                    require(['imageEditor'], function (imageEditor) {
+                    import('imageEditor').then(({default: imageEditor}) => {
                         imageEditor.show({
                             itemId: itemId,
                             serverId: serverId
@@ -407,12 +407,12 @@ import actionsheet from 'actionsheet';
                     });
                     break;
                 case 'identify':
-                    require(['itemIdentifier'], function (itemIdentifier) {
+                    import('itemIdentifier').then(({default:itemIdentifier }) => {
                         itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'moremediainfo':
-                    require(['itemMediaInfo'], function (itemMediaInfo) {
+                    import('itemMediaInfo').then(({default: itemMediaInfo}) => {
                         itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id), getResolveFunction(resolve, id));
                     });
                     break;
@@ -441,7 +441,7 @@ import actionsheet from 'actionsheet';
                     getResolveFunction(resolve, id)();
                     break;
                 case 'record':
-                    require(['recordingCreator'], function (recordingCreator) {
+                    import('recordingCreator').then(({default: recordingCreator}) => {
                         recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
@@ -512,8 +512,8 @@ import actionsheet from 'actionsheet';
     }
 
     function deleteTimer(apiClient, item, resolve, command) {
-        require(['recordingHelper'], function (recordingHelper) {
-            var timerId = item.TimerId || item.Id;
+        import('recordingHelper').then(({default: recordingHelper}) => {
+            const timerId = item.TimerId || item.Id;
             recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
                 getResolveFunction(resolve, command, true)();
             });
@@ -521,7 +521,7 @@ import actionsheet from 'actionsheet';
     }
 
     function deleteSeriesTimer(apiClient, item, resolve, command) {
-        require(['recordingHelper'], function (recordingHelper) {
+        import('recordingHelper').then(({default: recordingHelper}) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
                 getResolveFunction(resolve, command, true)();
             });
@@ -529,9 +529,9 @@ import actionsheet from 'actionsheet';
     }
 
     function play(item, resume, queue, queueNext) {
-        var method = queue ? (queueNext ? 'queueNext' : 'queue') : 'play';
+        const method = queue ? (queueNext ? 'queueNext' : 'queue') : 'play';
 
-        var startPosition = 0;
+        let startPosition = 0;
         if (resume && item.UserData && item.UserData.PlaybackPositionTicks) {
             startPosition = item.UserData.PlaybackPositionTicks;
         }
@@ -552,18 +552,18 @@ import actionsheet from 'actionsheet';
 
     function editItem(apiClient, item) {
         return new Promise(function (resolve, reject) {
-            var serverId = apiClient.serverInfo().Id;
+            const serverId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
-                require(['recordingEditor'], function (recordingEditor) {
+                import('recordingEditor').then(({default: recordingEditor}) => {
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             } else if (item.Type === 'SeriesTimer') {
-                require(['seriesRecordingEditor'], function (recordingEditor) {
+                import('seriesRecordingEditor').then(({default: recordingEditor}) => {
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             } else {
-                require(['metadataEditor'], function (metadataEditor) {
+                import('metadataEditor').then(({default: metadataEditor}) => {
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             }
@@ -572,7 +572,7 @@ import actionsheet from 'actionsheet';
 
     function deleteItem(apiClient, item) {
         return new Promise(function (resolve, reject) {
-            require(['deleteHelper'], function (deleteHelper) {
+            import('deleteHelper').then(({default: deleteHelper}) => {
                 deleteHelper.deleteItem({
                     item: item,
                     navigate: false
@@ -584,7 +584,7 @@ import actionsheet from 'actionsheet';
     }
 
     function refresh(apiClient, item) {
-        require(['refreshDialog'], function (refreshDialog) {
+        import('refreshDialog').then(({default: refreshDialog}) => {
             new refreshDialog({
                 itemIds: [item.Id],
                 serverId: apiClient.serverInfo().Id,
@@ -594,7 +594,7 @@ import actionsheet from 'actionsheet';
     }
 
     export function show(options) {
-        var commands = getCommands(options);
+        const commands = getCommands(options);
         if (!commands.length) {
             return Promise.reject();
         }
