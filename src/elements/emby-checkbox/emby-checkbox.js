@@ -52,7 +52,7 @@ import 'registerElement';
 
         const labelTextElement = labelElement.querySelector('span');
 
-        const outlineClass = 'checkboxOutline';
+        let outlineClass = 'checkboxOutline';
 
         const customClass = this.getAttribute('data-outlineclass');
         if (customClass) {
