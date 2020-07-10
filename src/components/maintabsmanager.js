@@ -76,13 +76,13 @@ import 'emby-button';
 
         // implement without hammer
         const pageCount = getTabContainersFn().length;
-        onSwipeLeft = function (e, target) {
+        const onSwipeLeft = function (e, target) {
             if (allowSwipe(target) && view.contains(target)) {
                 tabsElem.selectNext();
             }
         };
 
-        onSwipeRight = function (e, target) {
+        const onSwipeRight = function (e, target) {
             if (allowSwipe(target) && view.contains(target)) {
                 tabsElem.selectPrevious();
             }
