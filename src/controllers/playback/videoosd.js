@@ -45,6 +45,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         return null;
     }
 
+    function getOpenedDialog() {
+        return document.querySelector('.dialogContainer .dialog.opened');
+    }
+
     return function (view, params) {
         function onVerticalSwipe(e, elem, data) {
             var player = currentPlayer;
@@ -338,9 +342,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         function showOsd() {
             slideDownToShow(headerElement);
             showMainOsdControls();
-            if (!mouseIsDown) {
-                startOsdHideTimer();
-            }
+            resetIdle();
         }
 
         function hideOsd() {
@@ -430,8 +432,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         // TODO: Move all idle-related code to `inputManager` or `idleManager` or `idleHelper` (per dialog thing) and listen event from there.
 
         function resetIdle() {
-            // Restart hide timer if OSD is currently visible
-            if (currentVisibleMenu && !mouseIsDown) {
+            // Restart hide timer if OSD is currently visible and there is no opened dialog
+            if (currentVisibleMenu && !mouseIsDown && !getOpenedDialog()) {
                 startOsdHideTimer();
             } else {
                 stopOsdHideTimer();
@@ -954,7 +956,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                         stats: true,
                         suboffset: showSubOffset,
                         onOption: onSettingsOption
+                    }).finally(() => {
+                        resetIdle();
                     });
+
+                    setTimeout(resetIdle, 0);
                 }
             });
         }
@@ -1023,7 +1029,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                     if (index !== currentIndex) {
                         playbackManager.setAudioStreamIndex(index, player);
                     }
+                }).finally(() => {
+                    resetIdle();
                 });
+
+                setTimeout(resetIdle, 0);
             });
         }
 
@@ -1067,7 +1077,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                     }
 
                     toggleSubtitleSync();
+                }).finally(() => {
+                    resetIdle();
                 });
+
+                setTimeout(resetIdle, 0);
             });
         }
 
@@ -1118,7 +1132,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 case 'Escape':
                 case 'Back':
                     // Ignore key when some dialog is opened
-                    if (currentVisibleMenu === 'osd' && !document.querySelector('.dialogContainer')) {
+                    if (currentVisibleMenu === 'osd' && !getOpenedDialog()) {
                         hideOsd();
                         e.stopPropagation();
                     }
