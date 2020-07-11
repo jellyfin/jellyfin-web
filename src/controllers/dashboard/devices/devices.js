@@ -16,7 +16,7 @@ import 'cardStyle';
     }
 
     function deleteDevice(page, id) {
-        var msg = globalize.translate('DeleteDeviceConfirmation');
+        const msg = globalize.translate('DeleteDeviceConfirmation');
 
         import('confirm').then(({default: confirm}) => {
             confirm({
@@ -39,7 +39,7 @@ import 'cardStyle';
     }
 
     function showDeviceMenu(view, btn, deviceId) {
-        var menuItems = [];
+        let menuItems = [];
 
         if (canEdit) {
             menuItems.push({
@@ -76,15 +76,15 @@ import 'cardStyle';
     }
 
     function load(page, devices) {
-        var html = '';
+        let html = '';
         html += devices.map(function (device) {
-            var deviceHtml = '';
+            let deviceHtml = '';
             deviceHtml += "<div data-id='" + device.Id + "' class='card backdropCard'>";
             deviceHtml += '<div class="cardBox visualCardBox">';
             deviceHtml += '<div class="cardScalable">';
             deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
             deviceHtml += '<a is="emby-linkbutton" href="' + (canEdit ? 'device.html?id=' + device.Id : '#') + '" class="cardContent cardImageContainer">';
-            var iconUrl = imageHelper.getDeviceIcon(device);
+            const iconUrl = imageHelper.getDeviceIcon(device);
 
             if (iconUrl) {
                 deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">";
@@ -134,10 +134,10 @@ import 'cardStyle';
         });
     }
 
-    var canEdit = ApiClient.isMinServerVersion('3.4.1.31');
+    const canEdit = ApiClient.isMinServerVersion('3.4.1.31');
     export default function (view, params) {
         view.querySelector('.devicesList').addEventListener('click', function (e) {
-            var btnDeviceMenu = dom.parentWithClass(e.target, 'btnDeviceMenu');
+            const btnDeviceMenu = dom.parentWithClass(e.target, 'btnDeviceMenu');
 
             if (btnDeviceMenu) {
                 showDeviceMenu(view, btnDeviceMenu, btnDeviceMenu.getAttribute('data-id'));
@@ -146,6 +146,6 @@ import 'cardStyle';
         view.addEventListener('viewshow', function () {
             loadData(this);
         });
-    };
+    }
 
 /* eslint-enable indent */

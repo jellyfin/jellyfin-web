@@ -12,13 +12,13 @@ import 'emby-button';
     }
 
     function loadData() {
-        var page = this;
+        const page = this;
         loading.show();
-        var id = getParameterByName('id');
-        var promise1 = ApiClient.getJSON(ApiClient.getUrl('Devices/Info', {
+        const id = getParameterByName('id');
+        const promise1 = ApiClient.getJSON(ApiClient.getUrl('Devices/Info', {
             Id: id
         }));
-        var promise2 = ApiClient.getJSON(ApiClient.getUrl('Devices/Options', {
+        const promise2 = ApiClient.getJSON(ApiClient.getUrl('Devices/Options', {
             Id: id
         }));
         Promise.all([promise1, promise2]).then(function (responses) {
@@ -28,7 +28,7 @@ import 'emby-button';
     }
 
     function save(page) {
-        var id = getParameterByName('id');
+        const id = getParameterByName('id');
         ApiClient.ajax({
             url: ApiClient.getUrl('Devices/Options', {
                 Id: id
@@ -42,7 +42,7 @@ import 'emby-button';
     }
 
     function onSubmit(e) {
-        var form = this;
+        const form = this;
         save(dom.parentWithClass(form, 'page'));
         e.preventDefault();
         return false;
@@ -51,6 +51,6 @@ import 'emby-button';
     export default function (view, params) {
         view.querySelector('form').addEventListener('submit', onSubmit);
         view.addEventListener('viewshow', loadData);
-    };
+    }
 
 /* eslint-enable indent */
