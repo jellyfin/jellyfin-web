@@ -22,8 +22,8 @@ import 'emby-button';
     }
 
     function renderKeys(page, keys) {
-        var rows = keys.map(function (item) {
-            var html = '';
+        const rows = keys.map(function (item) {
+            let html = '';
             html += '<tr class="detailTableBodyRow detailTableBodyRow-shaded">';
             html += '<td class="detailTableBodyCell">';
             html += '<button type="button" is="emby-button" data-token="' + item.AccessToken + '" class="raised raised-mini btnRevoke" data-mini="true" title="' + globalize.translate('ButtonRevoke') + '" style="margin:0;">' + globalize.translate('ButtonRevoke') + '</button>';
@@ -35,7 +35,7 @@ import 'emby-button';
             html += item.AppName || '';
             html += '</td>';
             html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
-            var date = datetime.parseISO8601Date(item.DateCreated, true);
+            const date = datetime.parseISO8601Date(item.DateCreated, true);
             html += datetime.toLocaleDateString(date) + ' ' + datetime.getDisplayTime(date);
             html += '</td>';
             return html += '</tr>';
@@ -71,12 +71,12 @@ import 'emby-button';
     }
 
     pageIdOn('pageinit', 'apiKeysPage', function () {
-        var page = this;
+        const page = this;
         page.querySelector('.btnNewKey').addEventListener('click', function () {
             showNewKeyPrompt(page);
         });
         page.querySelector('.tblApiKeys').addEventListener('click', function (e) {
-            var btnRevoke = dom.parentWithClass(e.target, 'btnRevoke');
+            const btnRevoke = dom.parentWithClass(e.target, 'btnRevoke');
 
             if (btnRevoke) {
                 revoke(page, btnRevoke.getAttribute('data-token'));

@@ -32,7 +32,7 @@ import libraryMenu from 'libraryMenu';
 
     function onSaveEncodingPathFailure(response) {
         loading.hide();
-        var msg = '';
+        let msg = '';
         msg = globalize.translate('FFmpegSavePathNotFound');
 
         import('alert').then(({default: alert}) => {
@@ -54,9 +54,9 @@ import libraryMenu from 'libraryMenu';
     }
 
     function onSubmit() {
-        var form = this;
+        const form = this;
 
-        var onDecoderConfirmed = function () {
+        const onDecoderConfirmed = function () {
             loading.show();
             ApiClient.getNamedConfiguration('encoding').then(function (config) {
                 config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
@@ -105,7 +105,7 @@ import libraryMenu from 'libraryMenu';
 
     function setDecodingCodecsVisible(context, value) {
         value = value || '';
-        var any;
+        let any;
         Array.prototype.forEach.call(context.querySelectorAll('.chkDecodeCodec'), function (c) {
             if (-1 === c.getAttribute('data-types').split(',').indexOf(value)) {
                 dom.parentWithTag(c, 'LABEL').classList.add('hide');
@@ -136,7 +136,7 @@ import libraryMenu from 'libraryMenu';
     }
 
     $(document).on('pageinit', '#encodingSettingsPage', function () {
-        var page = this;
+        const page = this;
         page.querySelector('#selectVideoDecoder').addEventListener('change', function () {
             if ('vaapi' == this.value) {
                 page.querySelector('.fldVaapiDevice').classList.remove('hide');
@@ -156,7 +156,7 @@ import libraryMenu from 'libraryMenu';
         });
         $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
             import('directorybrowser').then(({default: directoryBrowser}) => {
-                var picker = new directoryBrowser();
+                const picker = new directoryBrowser();
                 picker.show({
                     includeFiles: true,
                     callback: function (path) {
@@ -171,7 +171,7 @@ import libraryMenu from 'libraryMenu';
         });
         $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
             import('directorybrowser').then(({default: directoryBrowser}) => {
-                var picker = new directoryBrowser();
+                const picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -190,7 +190,7 @@ import libraryMenu from 'libraryMenu';
     }).on('pageshow', '#encodingSettingsPage', function () {
         loading.show();
         libraryMenu.setTabs('playback', 0, getTabs);
-        var page = this;
+        const page = this;
         ApiClient.getNamedConfiguration('encoding').then(function (config) {
             ApiClient.getSystemInfo().then(function (systemInfo) {
                 loadPage(page, config, systemInfo);
