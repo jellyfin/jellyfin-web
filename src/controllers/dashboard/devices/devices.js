@@ -10,7 +10,7 @@ import 'cardStyle';
 
 /* eslint-disable indent */
 
-    // Local cache of loaded 
+    // Local cache of loaded
     let deviceIds = [];
 
     function canDelete(deviceId) {
