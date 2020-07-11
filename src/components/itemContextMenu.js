@@ -407,7 +407,7 @@ import actionsheet from 'actionsheet';
                     });
                     break;
                 case 'identify':
-                    import('itemIdentifier').then(({default:itemIdentifier }) => {
+                    import('itemIdentifier').then(({default: itemIdentifier}) => {
                         itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
