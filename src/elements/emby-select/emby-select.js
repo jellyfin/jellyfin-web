@@ -6,7 +6,7 @@ import 'registerElement';
 
 /* eslint-disable indent */
 
-    var EmbySelectPrototype = Object.create(HTMLSelectElement.prototype);
+    const EmbySelectPrototype = Object.create(HTMLSelectElement.prototype);
 
     function enableNativeMenu() {
 
@@ -32,7 +32,7 @@ import 'registerElement';
     }
 
     function triggerChange(select) {
-        var evt = document.createEvent('HTMLEvents');
+        const evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
     }
@@ -44,8 +44,8 @@ import 'registerElement';
 
     function showActionSheet(select) {
 
-        var labelElem = getLabel(select);
-        var title = labelElem ? (labelElem.textContent || labelElem.innerText) : null;
+        const labelElem = getLabel(select);
+        const title = labelElem ? (labelElem.textContent || labelElem.innerText) : null;
 
         actionsheet.show({
             items: select.options,
@@ -59,7 +59,7 @@ import 'registerElement';
     }
 
     function getLabel(select) {
-        var elem = select.previousSibling;
+        let elem = select.previousSibling;
         while (elem && elem.tagName !== 'LABEL') {
             elem = elem.previousSibling;
         }
@@ -67,21 +67,20 @@ import 'registerElement';
     }
 
     function onFocus(e) {
-        var label = getLabel(this);
+        const label = getLabel(this);
         if (label) {
             label.classList.add('selectLabelFocused');
         }
     }
 
     function onBlur(e) {
-        var label = getLabel(this);
+        const label = getLabel(this);
         if (label) {
             label.classList.remove('selectLabelFocused');
         }
     }
 
     function onMouseDown(e) {
-
         // e.button=0 for primary (left) mouse button click
         if (!e.button && !enableNativeMenu()) {
             e.preventDefault();
@@ -90,9 +89,7 @@ import 'registerElement';
     }
 
     function onKeyDown(e) {
-
         switch (e.keyCode) {
-
             case 13:
                 if (!enableNativeMenu()) {
                     e.preventDefault();
@@ -112,7 +109,7 @@ import 'registerElement';
         }
     }
 
-    var inputId = 0;
+    let inputId = 0;
 
     EmbySelectPrototype.createdCallback = function () {
 
@@ -142,7 +139,7 @@ import 'registerElement';
 
         this.classList.add('emby-select');
 
-        var label = this.ownerDocument.createElement('label');
+        const label = this.ownerDocument.createElement('label');
         label.innerHTML = this.getAttribute('label') || '';
         label.classList.add('selectLabel');
         label.htmlFor = this.id;
@@ -155,7 +152,7 @@ import 'registerElement';
 
     EmbySelectPrototype.setLabel = function (text) {
 
-        var label = this.parentNode.querySelector('label');
+        const label = this.parentNode.querySelector('label');
 
         label.innerHTML = text;
     };
