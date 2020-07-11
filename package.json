@@ -97,6 +97,7 @@
           "src/components/cardbuilder/cardBuilder.js",
           "src/components/cardbuilder/chaptercardbuilder.js",
           "src/components/cardbuilder/peoplecardbuilder.js",
+          "src/components/directorybrowser/directorybrowser.js",
           "src/components/collectionEditor/collectionEditor.js",
           "src/components/dialog/dialog.js",
           "src/components/dialogHelper/dialogHelper.js",
