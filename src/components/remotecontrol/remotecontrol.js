@@ -359,7 +359,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function updateRepeatModeDisplay(repeatMode) {
             var context = dlg;
             let toggleRepeatButtons = context.querySelectorAll('.repeatToggleButton');
-            const cssClass = 'repeatButton-active';
+            const cssClass = 'buttonActive';
             let innHtml = '<span class="material-icons repeat"></span>';
             let repeatOn = true;
 
@@ -528,7 +528,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function onShuffleQueueModeChange(updateView = true) {
             let shuffleMode = playbackManager.getQueueShuffleMode(this);
             let context = dlg;
-            const cssClass = 'shuffleQueue-active';
+            const cssClass = 'buttonActive';
             let shuffleButtons = context.querySelectorAll('.btnShuffleQueue');
 
             for (let shuffleButton of shuffleButtons) {
