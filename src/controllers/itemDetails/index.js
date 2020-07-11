@@ -53,11 +53,13 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             user: user,
             share: true
         };
+
         return options;
     }
 
     function getProgramScheduleHtml(items) {
         var html = '';
+
         html += '<div is="emby-itemscontainer" class="itemsContainer vertical-list" data-contextmenu="false">';
         html += listView.getListViewHtml({
             items: items,
@@ -71,6 +73,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             moreButton: false,
             recordButton: false
         });
+
         html += '</div>';
 
         return html;
@@ -143,7 +146,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         instance._currentPlaybackMediaSources = mediaSources;
 
         page.querySelector('.trackSelections').classList.remove('hide');
-
         select.setLabel(globalize.translate('LabelVersion'));
 
         var currentValue = select.value;
@@ -165,7 +167,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             renderAudioSelections(page, mediaSources);
             renderSubtitleSelections(page, mediaSources);
         }
-
     }
 
     function renderVideoSelections(page, mediaSources) {
@@ -173,9 +174,11 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var mediaSource = mediaSources.filter(function (m) {
             return m.Id === mediaSourceId;
         })[0];
+
         var tracks = mediaSource.MediaStreams.filter(function (m) {
             return m.Type === 'Video';
         });
+
         var select = page.querySelector('.selectVideo');
         select.setLabel(globalize.translate('LabelVideo'));
         var selectedId = tracks.length ? tracks[0].Index : -1;
@@ -727,7 +730,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         });
 
         elem.innerHTML = cardHtml;
-
         imageLoader.lazyChildren(elem);
     }
 
