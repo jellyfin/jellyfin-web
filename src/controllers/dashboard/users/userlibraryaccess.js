@@ -6,39 +6,39 @@ import globalize from 'globalize';
 /* eslint-disable indent */
 
     function triggerChange(select) {
-        var evt = document.createEvent('HTMLEvents');
+        const evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
     }
 
     function loadMediaFolders(page, user, mediaFolders) {
-        var html = '';
+        let html = '';
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderLibraries') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        for (var i = 0, length = mediaFolders.length; i < length; i++) {
-            var folder = mediaFolders[i];
-            var isChecked = user.Policy.EnableAllFolders || -1 != user.Policy.EnabledFolders.indexOf(folder.Id);
-            var checkedAttribute = isChecked ? ' checked="checked"' : '';
+        for (let i = 0, length = mediaFolders.length; i < length; i++) {
+            const folder = mediaFolders[i];
+            const isChecked = user.Policy.EnableAllFolders || -1 != user.Policy.EnabledFolders.indexOf(folder.Id);
+            const checkedAttribute = isChecked ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
         }
 
         html += '</div>';
         page.querySelector('.folderAccess').innerHTML = html;
-        var chkEnableAllFolders = page.querySelector('#chkEnableAllFolders');
+        const chkEnableAllFolders = page.querySelector('#chkEnableAllFolders');
         chkEnableAllFolders.checked = user.Policy.EnableAllFolders;
         triggerChange(chkEnableAllFolders);
     }
 
     function loadChannels(page, user, channels) {
-        var html = '';
+        let html = '';
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderChannels') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        for (var i = 0, length = channels.length; i < length; i++) {
-            var folder = channels[i];
-            var isChecked = user.Policy.EnableAllChannels || -1 != user.Policy.EnabledChannels.indexOf(folder.Id);
-            var checkedAttribute = isChecked ? ' checked="checked"' : '';
+        for (let i = 0, length = channels.length; i < length; i++) {
+            const folder = channels[i];
+            const isChecked = user.Policy.EnableAllChannels || -1 != user.Policy.EnabledChannels.indexOf(folder.Id);
+            const checkedAttribute = isChecked ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkChannel" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
         }
 
@@ -55,13 +55,13 @@ import globalize from 'globalize';
     }
 
     function loadDevices(page, user, devices) {
-        var html = '';
+        let html = '';
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderDevices') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        for (var i = 0, length = devices.length; i < length; i++) {
-            var device = devices[i];
-            var checkedAttribute = user.Policy.EnableAllDevices || -1 != user.Policy.EnabledDevices.indexOf(device.Id) ? ' checked="checked"' : '';
+        for (let i = 0, length = devices.length; i < length; i++) {
+            const device = devices[i];
+            const checkedAttribute = user.Policy.EnableAllDevices || -1 != user.Policy.EnabledDevices.indexOf(device.Id) ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkDevice" data-id="' + device.Id + '" ' + checkedAttribute + '><span>' + device.Name + ' - ' + device.AppName + '</span></label>';
         }
 
@@ -120,9 +120,9 @@ import globalize from 'globalize';
     }
 
     function onSubmit() {
-        var page = $(this).parents('.page');
+        const page = $(this).parents('.page');
         loading.show();
-        var userId = getParameterByName('userId');
+        const userId = getParameterByName('userId');
         ApiClient.getUser(userId).then(function (result) {
             saveUser(result, page);
         });
@@ -130,7 +130,7 @@ import globalize from 'globalize';
     }
 
     $(document).on('pageinit', '#userLibraryAccessPage', function () {
-        var page = this;
+        const page = this;
         $('#chkEnableAllDevices', page).on('change', function () {
             if (this.checked) {
                 $('.deviceAccessListContainer', page).hide();
@@ -154,27 +154,27 @@ import globalize from 'globalize';
         });
         $('.userLibraryAccessForm').off('submit', onSubmit).on('submit', onSubmit);
     }).on('pageshow', '#userLibraryAccessPage', function () {
-        var page = this;
+        const page = this;
         loading.show();
-        var promise1;
-        var userId = getParameterByName('userId');
+        let promise1;
+        const userId = getParameterByName('userId');
 
         if (userId) {
             promise1 = ApiClient.getUser(userId);
         } else {
-            var deferred = $.Deferred();
+            const deferred = $.Deferred();
             deferred.resolveWith(null, [{
                 Configuration: {}
             }]);
             promise1 = deferred.promise();
         }
 
-        var promise2 = Dashboard.getCurrentUser();
-        var promise4 = ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders', {
+        const promise2 = Dashboard.getCurrentUser();
+        const promise4 = ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
         }));
-        var promise5 = ApiClient.getJSON(ApiClient.getUrl('Channels'));
-        var promise6 = ApiClient.getJSON(ApiClient.getUrl('Devices'));
+        const promise5 = ApiClient.getJSON(ApiClient.getUrl('Channels'));
+        const promise6 = ApiClient.getJSON(ApiClient.getUrl('Devices'));
         Promise.all([promise1, promise2, promise4, promise5, promise6]).then(function (responses) {
             loadUser(page, responses[0], responses[1], responses[2].Items, responses[3].Items, responses[4].Items);
         });

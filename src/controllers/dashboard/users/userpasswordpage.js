@@ -6,13 +6,13 @@ import 'emby-button';
 /* eslint-disable indent */
 
     function loadUser(page, params) {
-        var userid = params.userId;
+        const userid = params.userId;
         ApiClient.getUser(userid).then(function (user) {
             Dashboard.getCurrentUser().then(function (loggedInUser) {
                 libraryMenu.setTitle(user.Name);
                 page.querySelector('.username').innerHTML = user.Name;
-                var showPasswordSection = true;
-                var showLocalAccessSection = false;
+                let showPasswordSection = true;
+                let showLocalAccessSection = false;
 
                 if ('Guest' == user.ConnectLinkType) {
                     page.querySelector('.localAccessSection').classList.add('hide');
@@ -38,7 +38,7 @@ import 'emby-button';
                     page.querySelector('.localAccessSection').classList.add('hide');
                 }
 
-                var txtEasyPassword = page.querySelector('#txtEasyPassword');
+                const txtEasyPassword = page.querySelector('#txtEasyPassword');
                 txtEasyPassword.value = '';
 
                 if (user.HasConfiguredEasyPassword) {
@@ -64,8 +64,8 @@ import 'emby-button';
 
     export default function (view, params) {
         function saveEasyPassword() {
-            var userId = params.userId;
-            var easyPassword = view.querySelector('#txtEasyPassword').value;
+            const userId = params.userId;
+            const easyPassword = view.querySelector('#txtEasyPassword').value;
 
             if (easyPassword) {
                 ApiClient.updateEasyPassword(userId, easyPassword).then(function () {
@@ -92,9 +92,9 @@ import 'emby-button';
         }
 
         function savePassword() {
-            var userId = params.userId;
-            var currentPassword = view.querySelector('#txtCurrentPassword').value;
-            var newPassword = view.querySelector('#txtNewPassword').value;
+            const userId = params.userId;
+            let currentPassword = view.querySelector('#txtCurrentPassword').value;
+            const newPassword = view.querySelector('#txtNewPassword').value;
 
             if (view.querySelector('#fldCurrentPassword').classList.contains('hide')) {
                 // Firefox does not respect autocomplete=off, so clear it if the field is supposed to be hidden (and blank)
@@ -120,7 +120,7 @@ import 'emby-button';
         }
 
         function onSubmit(e) {
-            var form = this;
+            const form = this;
 
             if (form.querySelector('#txtNewPassword').value != form.querySelector('#txtNewPasswordConfirm').value) {
                 import('toast').then(({default: toast}) => {
@@ -143,10 +143,10 @@ import 'emby-button';
         }
 
         function resetPassword() {
-            var msg = globalize.translate('PasswordResetConfirmation');
+            const msg = globalize.translate('PasswordResetConfirmation');
             import('confirm').then(({default: confirm}) => {
                 confirm(msg, globalize.translate('PasswordResetHeader')).then(function () {
-                    var userId = params.userId;
+                    const userId = params.userId;
                     loading.show();
                     ApiClient.resetUserPassword(userId).then(function () {
                         loading.hide();
@@ -161,11 +161,11 @@ import 'emby-button';
         }
 
         function resetEasyPassword() {
-            var msg = globalize.translate('PinCodeResetConfirmation');
+            const msg = globalize.translate('PinCodeResetConfirmation');
 
             import('confirm').then(({default: confirm}) => {
                 confirm(msg, globalize.translate('HeaderPinCodeReset')).then(function () {
-                    var userId = params.userId;
+                    const userId = params.userId;
                     loading.show();
                     ApiClient.resetEasyPassword(userId).then(function () {
                         loading.hide();

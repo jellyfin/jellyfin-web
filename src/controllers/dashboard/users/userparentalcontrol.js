@@ -9,16 +9,14 @@ import 'paper-icon-button-light';
 /* eslint-disable indent */
 
     function populateRatings(allParentalRatings, page) {
-        var html = '';
+        let html = '';
         html += "<option value=''></option>";
-        var i;
-        var length;
-        var rating;
-        var ratings = [];
+        let rating;
+        const ratings = [];
 
-        for (i = 0, length = allParentalRatings.length; i < length; i++) {
+        for (let i = 0, length = allParentalRatings.length; i < length; i++) {
             if (rating = allParentalRatings[i], ratings.length) {
-                var lastRating = ratings[ratings.length - 1];
+                const lastRating = ratings[ratings.length - 1];
 
                 if (lastRating.Value === rating.Value) {
                     lastRating.Name += '/' + rating.Name;
@@ -32,7 +30,7 @@ import 'paper-icon-button-light';
             });
         }
 
-        for (i = 0, length = ratings.length; i < length; i++) {
+        for (let i = 0, length = ratings.length; i < length; i++) {
             rating = ratings[i];
             html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
         }
@@ -41,7 +39,7 @@ import 'paper-icon-button-light';
     }
 
     function loadUnratedItems(page, user) {
-        var items = [{
+        const items = [{
             name: globalize.translate('OptionBlockBooks'),
             value: 'Book'
         }, {
@@ -63,13 +61,13 @@ import 'paper-icon-button-light';
             name: globalize.translate('OptionBlockTvShows'),
             value: 'Series'
         }];
-        var html = '';
+        let html = '';
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderBlockItemsWithNoRating') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        for (var i = 0, length = items.length; i < length; i++) {
-            var item = items[i];
-            var checkedAttribute = -1 != user.Policy.BlockUnratedItems.indexOf(item.value) ? ' checked="checked"' : '';
+        for (let i = 0, length = items.length; i < length; i++) {
+            const item = items[i];
+            const checkedAttribute = -1 != user.Policy.BlockUnratedItems.indexOf(item.value) ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkUnratedItem" data-itemtype="' + item.value + '" type="checkbox"' + checkedAttribute + '><span>' + item.name + '</span></label>';
         }
 
@@ -83,11 +81,11 @@ import 'paper-icon-button-light';
         loadUnratedItems(page, user);
         loadBlockedTags(page, user.Policy.BlockedTags);
         populateRatings(allParentalRatings, page);
-        var ratingValue = '';
+        let ratingValue = '';
 
         if (user.Policy.MaxParentalRating) {
-            for (var i = 0, length = allParentalRatings.length; i < length; i++) {
-                var rating = allParentalRatings[i];
+            for (let i = 0, length = allParentalRatings.length; i < length; i++) {
+                const rating = allParentalRatings[i];
 
                 if (user.Policy.MaxParentalRating >= rating.Value) {
                     ratingValue = rating.Value;
@@ -108,8 +106,8 @@ import 'paper-icon-button-light';
     }
 
     function loadBlockedTags(page, tags) {
-        var html = tags.map(function (h) {
-            var li = '<div class="listItem">';
+        let html = tags.map(function (h) {
+            let li = '<div class="listItem">';
             li += '<div class="listItemBody">';
             li += '<h3 class="listItemBodyText">';
             li += h;
@@ -123,10 +121,10 @@ import 'paper-icon-button-light';
             html = '<div class="paperList">' + html + '</div>';
         }
 
-        var elem = $('.blockedTags', page).html(html).trigger('create');
+        const elem = $('.blockedTags', page).html(html).trigger('create');
         $('.btnDeleteTag', elem).on('click', function () {
-            var tag = this.getAttribute('data-tag');
-            var newTags = tags.filter(function (t) {
+            const tag = this.getAttribute('data-tag');
+            const newTags = tags.filter(function (t) {
                 return t != tag;
             });
             loadBlockedTags(page, newTags);
@@ -139,10 +137,10 @@ import 'paper-icon-button-light';
     }
 
     function renderAccessSchedule(page, schedules) {
-        var html = '';
-        var index = 0;
+        let html = '';
+        let index = 0;
         html += schedules.map(function (a) {
-            var itemHtml = '';
+            let itemHtml = '';
             itemHtml += '<div class="liSchedule listItem" data-day="' + a.DayOfWeek + '" data-start="' + a.StartHour + '" data-end="' + a.EndHour + '">';
             itemHtml += '<div class="listItemBody two-line">';
             itemHtml += '<h3 class="listItemBodyText">';
@@ -155,7 +153,7 @@ import 'paper-icon-button-light';
             index++;
             return itemHtml;
         }).join('');
-        var accessScheduleList = page.querySelector('.accessScheduleList');
+        const accessScheduleList = page.querySelector('.accessScheduleList');
         accessScheduleList.innerHTML = html;
         $('.btnDelete', accessScheduleList).on('click', function () {
             deleteAccessSchedule(page, schedules, parseInt(this.getAttribute('data-index')));
@@ -185,8 +183,8 @@ import 'paper-icon-button-light';
     }
 
     function getDisplayTime(hours) {
-        var minutes = 0;
-        var pct = hours % 1;
+        let minutes = 0;
+        const pct = hours % 1;
 
         if (pct) {
             minutes = parseInt(60 * pct);
@@ -201,7 +199,7 @@ import 'paper-icon-button-light';
             accessschedule.show({
                 schedule: schedule
             }).then(function (updatedSchedule) {
-                var schedules = getSchedulesFromPage(page);
+                const schedules = getSchedulesFromPage(page);
 
                 if (-1 == index) {
                     index = schedules.length;
@@ -234,7 +232,7 @@ import 'paper-icon-button-light';
             prompt({
                 label: globalize.translate('LabelTag')
             }).then(function (value) {
-                var tags = getBlockedTagsFromPage(page);
+                const tags = getBlockedTagsFromPage(page);
 
                 if (-1 == tags.indexOf(value)) {
                     tags.push(value);
@@ -246,9 +244,9 @@ import 'paper-icon-button-light';
 
     window.UserParentalControlPage = {
         onSubmit: function () {
-            var page = $(this).parents('.page');
+            const page = $(this).parents('.page');
             loading.show();
-            var userId = getParameterByName('userId');
+            const userId = getParameterByName('userId');
             ApiClient.getUser(userId).then(function (result) {
                 saveUser(result, page);
             });
@@ -256,7 +254,7 @@ import 'paper-icon-button-light';
         }
     };
     $(document).on('pageinit', '#userParentalControlPage', function () {
-        var page = this;
+        const page = this;
         $('.btnAddSchedule', page).on('click', function () {
             showSchedulePopup(page, {}, -1);
         });
@@ -265,11 +263,11 @@ import 'paper-icon-button-light';
         });
         $('.userParentalControlForm').off('submit', UserParentalControlPage.onSubmit).on('submit', UserParentalControlPage.onSubmit);
     }).on('pageshow', '#userParentalControlPage', function () {
-        var page = this;
+        const page = this;
         loading.show();
-        var userId = getParameterByName('userId');
-        var promise1 = ApiClient.getUser(userId);
-        var promise2 = ApiClient.getParentalRatings();
+        const userId = getParameterByName('userId');
+        const promise1 = ApiClient.getUser(userId);
+        const promise2 = ApiClient.getParentalRatings();
         Promise.all([promise1, promise2]).then(function (responses) {
             loadUser(page, responses[0], responses[1]);
         });

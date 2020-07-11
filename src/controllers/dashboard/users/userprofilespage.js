@@ -12,7 +12,7 @@ import 'flexStyles';
 /* eslint-disable indent */
 
     function deleteUser(page, id) {
-        var msg = globalize.translate('DeleteUserConfirmation');
+        const msg = globalize.translate('DeleteUserConfirmation');
 
         import('confirm').then(({default: confirm}) => {
             confirm({
@@ -30,10 +30,10 @@ import 'flexStyles';
     }
 
     function showUserMenu(elem) {
-        var card = dom.parentWithClass(elem, 'card');
-        var page = dom.parentWithClass(card, 'page');
-        var userId = card.getAttribute('data-userid');
-        var menuItems = [];
+        const card = dom.parentWithClass(elem, 'card');
+        const page = dom.parentWithClass(card, 'page');
+        const userId = card.getAttribute('data-userid');
+        const menuItems = [];
         menuItems.push({
             name: globalize.translate('ButtonOpen'),
             id: 'open',
@@ -82,8 +82,8 @@ import 'flexStyles';
     }
 
     function getUserHtml(user, addConnectIndicator) {
-        var html = '';
-        var cssClass = 'card squareCard scalableCard squareCard-scalable';
+        let html = '';
+        let cssClass = 'card squareCard scalableCard squareCard-scalable';
 
         if (user.Policy.IsDisabled) {
             cssClass += ' grayscale';
@@ -94,7 +94,7 @@ import 'flexStyles';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
         html += '<a is="emby-linkbutton" class="cardContent" href="useredit.html?userId=' + user.Id + '">';
-        var imgUrl;
+        let imgUrl;
 
         if (user.PrimaryImageTag) {
             imgUrl = ApiClient.getUserImageUrl(user.Id, {
@@ -104,7 +104,7 @@ import 'flexStyles';
             });
         }
 
-        var imageClass = 'cardImage';
+        let imageClass = 'cardImage';
 
         if (user.Policy.IsDisabled) {
             imageClass += ' disabledUser';
@@ -128,7 +128,7 @@ import 'flexStyles';
         html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu flex-shrink-zero"><span class="material-icons more_vert"></span></button>';
         html += '</div>';
         html += '<div class="cardText cardText-secondary">';
-        var lastSeen = getLastSeenText(user.LastActivityDate);
+        const lastSeen = getLastSeenText(user.LastActivityDate);
         html += '' != lastSeen ? lastSeen : '&nbsp;';
         html += '</div>';
         html += '</div>';
@@ -156,7 +156,7 @@ import 'flexStyles';
     }
 
     function showPendingUserMenu(elem) {
-        var menuItems = [];
+        const menuItems = [];
         menuItems.push({
             name: globalize.translate('ButtonCancel'),
             id: 'delete',
@@ -164,9 +164,9 @@ import 'flexStyles';
         });
 
         import('actionsheet').then(({default: actionsheet}) => {
-            var card = dom.parentWithClass(elem, 'card');
-            var page = dom.parentWithClass(card, 'page');
-            var id = card.getAttribute('data-id');
+            const card = dom.parentWithClass(elem, 'card');
+            const page = dom.parentWithClass(card, 'page');
+            const id = card.getAttribute('data-id');
             actionsheet.show({
                 items: menuItems,
                 positionTo: card,
@@ -181,7 +181,7 @@ import 'flexStyles';
     }
 
     function getPendingUserHtml(user) {
-        var html = '';
+        let html = '';
         html += "<div data-id='" + user.Id + "' class='card squareCard scalableCard squareCard-scalable'>";
         html += '<div class="cardBox cardBox-bottompadded visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
@@ -254,19 +254,19 @@ import 'flexStyles';
     }
 
     pageIdOn('pageinit', 'userProfilesPage', function () {
-        var page = this;
+        const page = this;
         page.querySelector('.btnAddUser').addEventListener('click', function() {
             Dashboard.navigate('usernew.html');
         });
         page.querySelector('.localUsers').addEventListener('click', function (e__e) {
-            var btnUserMenu = dom.parentWithClass(e__e.target, 'btnUserMenu');
+            const btnUserMenu = dom.parentWithClass(e__e.target, 'btnUserMenu');
 
             if (btnUserMenu) {
                 showUserMenu(btnUserMenu);
             }
         });
         page.querySelector('.pending').addEventListener('click', function (e__r) {
-            var btnUserMenu = dom.parentWithClass(e__r.target, 'btnUserMenu');
+            const btnUserMenu = dom.parentWithClass(e__r.target, 'btnUserMenu');
 
             if (btnUserMenu) {
                 showPendingUserMenu(btnUserMenu);
