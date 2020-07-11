@@ -3,7 +3,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
 
     function addVirtualFolder(page) {
         require(['medialibrarycreator'], function (medialibrarycreator) {
-            new medialibrarycreator().show({
+            new medialibrarycreator.showEditor({
                 collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                     return !f.hidden;
                 }),
@@ -18,7 +18,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
 
     function editVirtualFolder(page, virtualFolder) {
         require(['medialibraryeditor'], function (medialibraryeditor) {
-            new medialibraryeditor().show({
+            new medialibraryeditor.showEditor({
                 refresh: shouldRefreshLibraryAfterChanges(page),
                 library: virtualFolder
             }).then(function (hasChanges) {

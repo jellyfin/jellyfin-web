@@ -121,6 +121,11 @@ div[data-role=page] {
     transform: translateY(-100%);
 }
 
+.drawerContent {
+    /* make sure the bottom of the drawer is visible when music is playing */
+    padding-bottom: 4em;
+}
+
 .force-scroll {
     overflow-y: scroll;
 }

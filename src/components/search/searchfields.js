@@ -43,7 +43,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPick
 
     function initAlphaPicker(alphaPickerElement, instance) {
 
-        instance.alphaPicker = new AlphaPicker({
+        instance.alphaPicker = new AlphaPicker.default({
             element: alphaPickerElement,
             mode: 'keyboard'
         });
