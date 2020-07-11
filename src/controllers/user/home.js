@@ -18,10 +18,10 @@ import 'listViewStyle';
             }
         }
 
-        var homescreenSettingsInstance;
-        var hasChanges;
-        var userId = params.userId || ApiClient.getCurrentUserId();
-        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
+        let homescreenSettingsInstance;
+        let hasChanges;
+        const userId = params.userId || ApiClient.getCurrentUserId();
+        const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
         view.addEventListener('viewshow', function () {
             window.addEventListener('beforeunload', onBeforeUnload);
 
@@ -39,16 +39,11 @@ import 'listViewStyle';
                 });
             }
         });
+
         view.addEventListener('change', function () {
             hasChanges = true;
         });
-        view.addEventListener('viewbeforehide', function () {
-            hasChanges = false;
 
-            if (homescreenSettingsInstance) {
-                homescreenSettingsInstance.submit();
-            }
-        });
         view.addEventListener('viewdestroy', function () {
             if (homescreenSettingsInstance) {
                 homescreenSettingsInstance.destroy();

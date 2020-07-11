@@ -14,10 +14,10 @@ import autoFocuser from 'autoFocuser';
             }
         }
 
-        var settingsInstance;
-        var hasChanges;
-        var userId = params.userId || ApiClient.getCurrentUserId();
-        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
+        let settingsInstance;
+        let hasChanges;
+        const userId = params.userId || ApiClient.getCurrentUserId();
+        const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
         view.addEventListener('viewshow', function () {
             window.addEventListener('beforeunload', onBeforeUnload);
 
@@ -35,17 +35,11 @@ import autoFocuser from 'autoFocuser';
                 });
             }
         });
+
         view.addEventListener('change', function () {
             hasChanges = true;
         });
-        view.addEventListener('viewbeforehide', function () {
-            window.removeEventListener('beforeunload', onBeforeUnload);
-            hasChanges = false;
 
-            if (settingsInstance) {
-                settingsInstance.submit();
-            }
-        });
         view.addEventListener('viewdestroy', function () {
             if (settingsInstance) {
                 settingsInstance.destroy();

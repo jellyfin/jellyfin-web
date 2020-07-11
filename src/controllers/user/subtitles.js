@@ -14,10 +14,10 @@ import autoFocuser from 'autoFocuser';
             }
         }
 
-        var subtitleSettingsInstance;
-        var hasChanges;
-        var userId = params.userId || ApiClient.getCurrentUserId();
-        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
+        let subtitleSettingsInstance;
+        let hasChanges;
+        const userId = params.userId || ApiClient.getCurrentUserId();
+        const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
         view.addEventListener('viewshow', function () {
             window.addEventListener('beforeunload', onBeforeUnload);
 
@@ -35,16 +35,11 @@ import autoFocuser from 'autoFocuser';
                 });
             }
         });
+
         view.addEventListener('change', function () {
             hasChanges = true;
         });
-        view.addEventListener('viewbeforehide', function () {
-            hasChanges = false;
 
-            if (subtitleSettingsInstance) {
-                subtitleSettingsInstance.submit();
-            }
-        });
         view.addEventListener('viewdestroy', function () {
             if (subtitleSettingsInstance) {
                 subtitleSettingsInstance.destroy();
