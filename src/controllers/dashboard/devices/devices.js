@@ -10,8 +10,39 @@ import 'cardStyle';
 
 /* eslint-disable indent */
 
+    // Local cache of loaded 
+    let deviceIds = [];
+
     function canDelete(deviceId) {
         return deviceId !== ApiClient.deviceId();
+    }
+
+    function deleteViaApi(id) {
+        return ApiClient.ajax({
+            type: 'DELETE',
+            url: ApiClient.getUrl('Devices', {
+                Id: id
+            })
+        });
+    }
+
+    function deleteAllDevices(page) {
+        let msg = globalize.translate('DeleteDevicesConfirmation');
+
+        require(['confirm'], async function (confirm) {
+            await confirm({
+                text: msg,
+                title: globalize.translate('HeaderDeleteDevices'),
+                confirmText: globalize.translate('ButtonDelete'),
+                primary: 'delete'
+            });
+
+            loading.show();
+            await Promise.all(
+                deviceIds.filter(canDelete).map((id) => deleteViaApi(id))
+            );
+            loadData(page);
+        });
     }
 
     function deleteDevice(page, id) {
@@ -23,16 +54,10 @@ import 'cardStyle';
                 title: globalize.translate('HeaderDeleteDevice'),
                 confirmText: globalize.translate('Delete'),
                 primary: 'delete'
-            }).then(function () {
+            }).then(async () => {
                 loading.show();
-                ApiClient.ajax({
-                    type: 'DELETE',
-                    url: ApiClient.getUrl('Devices', {
-                        Id: id
-                    })
-                }).then(function () {
-                    loadData(page);
-                });
+                await deleteViaApi(id);
+                loadData(page);
             });
         });
     }
@@ -129,6 +154,7 @@ import 'cardStyle';
         loading.show();
         ApiClient.getJSON(ApiClient.getUrl('Devices')).then(function (result) {
             load(page, result.Items);
+            deviceIds = result.Items.map((device) => device.Id);
             loading.hide();
         });
     }
@@ -145,6 +171,9 @@ import 'cardStyle';
         view.addEventListener('viewshow', function () {
             loadData(this);
         });
-    }
 
+        view.querySelector('#deviceDeleteAll').addEventListener('click', function() {
+            deleteAllDevices(view);
+        });
+    }
 /* eslint-enable indent */
