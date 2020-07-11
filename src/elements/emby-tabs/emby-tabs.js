@@ -9,9 +9,9 @@ import 'scrollStyles';
 
 /* eslint-disable indent */
 
-    var EmbyTabs = Object.create(HTMLDivElement.prototype);
-    var buttonClass = 'emby-tab-button';
-    var activeButtonClass = buttonClass + '-active';
+    let EmbyTabs = Object.create(HTMLDivElement.prototype);
+    const buttonClass = 'emby-tab-button';
+    const activeButtonClass = buttonClass + '-active';
 
     function setActiveTabButton(tabs, newButton, oldButton, animate) {
 
@@ -24,14 +24,14 @@ import 'scrollStyles';
     }
 
     function removeActivePanelClass(tabs, index) {
-        var tabPanel = getTabPanel(tabs, index);
+        let tabPanel = getTabPanel(tabs, index);
         if (tabPanel) {
             tabPanel.classList.remove('is-active');
         }
     }
 
     function addActivePanelClass(tabs, index) {
-        var tabPanel = getTabPanel(tabs, index);
+        let tabPanel = getTabPanel(tabs, index);
         if (tabPanel) {
             tabPanel.classList.add('is-active');
         }
@@ -39,9 +39,9 @@ import 'scrollStyles';
 
     function fadeInRight(elem) {
 
-        var pct = browser.mobile ? '4%' : '0.5%';
+        const pct = browser.mobile ? '4%' : '0.5%';
 
-        var keyframes = [
+        const keyframes = [
             { opacity: '0', transform: 'translate3d(' + pct + ', 0, 0)', offset: 0 },
             { opacity: '1', transform: 'none', offset: 1 }];
 
@@ -64,7 +64,7 @@ import 'scrollStyles';
             removeActivePanelClass(tabs, previousIndex);
         }
 
-        var newPanel = getTabPanel(tabs, index);
+        let newPanel = getTabPanel(tabs, index);
 
         if (newPanel) {
             // animate new panel ?
@@ -78,10 +78,10 @@ import 'scrollStyles';
 
     function onClick(e) {
 
-        var tabs = this;
+        const tabs = this;
 
-        var current = tabs.querySelector('.' + activeButtonClass);
-        var tabButton = dom.parentWithClass(e.target, buttonClass);
+        const current = tabs.querySelector('.' + activeButtonClass);
+        const tabButton = dom.parentWithClass(e.target, buttonClass);
 
         if (tabButton && tabButton !== current) {
 
@@ -89,11 +89,11 @@ import 'scrollStyles';
                 current.classList.remove(activeButtonClass);
             }
 
-            var previousIndex = current ? parseInt(current.getAttribute('data-index')) : null;
+            const previousIndex = current ? parseInt(current.getAttribute('data-index')) : null;
 
             setActiveTabButton(tabs, tabButton, current, true);
 
-            var index = parseInt(tabButton.getAttribute('data-index'));
+            const index = parseInt(tabButton.getAttribute('data-index'));
 
             triggerBeforeTabChange(tabs, index, previousIndex);
 
@@ -123,7 +123,7 @@ import 'scrollStyles';
             return;
         }
 
-        var contentScrollSlider = tabs.querySelector('.emby-tabs-slider');
+        const contentScrollSlider = tabs.querySelector('.emby-tabs-slider');
         if (contentScrollSlider) {
             tabs.scroller = new scroller(tabs, {
                 horizontal: 1,
@@ -168,7 +168,7 @@ import 'scrollStyles';
 
     EmbyTabs.focus = function () {
 
-        var selected = this.querySelector('.' + activeButtonClass);
+        const selected = this.querySelector('.' + activeButtonClass);
 
         if (selected) {
             focusManager.focus(selected);
@@ -188,16 +188,16 @@ import 'scrollStyles';
 
         initScroller(this);
 
-        var current = this.querySelector('.' + activeButtonClass);
-        var currentIndex = current ? parseInt(current.getAttribute('data-index')) : parseInt(this.getAttribute('data-index') || '0');
+        const current = this.querySelector('.' + activeButtonClass);
+        const currentIndex = current ? parseInt(current.getAttribute('data-index')) : parseInt(this.getAttribute('data-index') || '0');
 
         if (currentIndex !== -1) {
 
             this.selectedTabIndex = currentIndex;
 
-            var tabButtons = this.querySelectorAll('.' + buttonClass);
+            const tabButtons = this.querySelectorAll('.' + buttonClass);
 
-            var newTabButton = tabButtons[currentIndex];
+            const newTabButton = tabButtons[currentIndex];
 
             if (newTabButton) {
                 setActiveTabButton(this, newTabButton, current, false);
@@ -229,18 +229,18 @@ import 'scrollStyles';
 
     EmbyTabs.selectedIndex = function (selected, triggerEvent) {
 
-        var tabs = this;
+        const tabs = this;
 
         if (selected == null) {
 
             return tabs.selectedTabIndex || 0;
         }
 
-        var current = tabs.selectedIndex();
+        const current = tabs.selectedIndex();
 
         tabs.selectedTabIndex = selected;
 
-        var tabButtons = tabs.querySelectorAll('.' + buttonClass);
+        const tabButtons = tabs.querySelectorAll('.' + buttonClass);
 
         if (current === selected || triggerEvent === false) {
 
@@ -252,7 +252,7 @@ import 'scrollStyles';
                 }
             }));
 
-            var currentTabButton = tabButtons[current];
+            let currentTabButton = tabButtons[current];
             setActiveTabButton(tabs, tabButtons[selected], currentTabButton, false);
 
             if (current !== selected && currentTabButton) {
@@ -270,7 +270,7 @@ import 'scrollStyles';
 
     function getSibling(elem, method) {
 
-        var sibling = elem[method];
+        let sibling = elem[method];
 
         while (sibling) {
             if (sibling.classList.contains(buttonClass)) {
@@ -288,9 +288,9 @@ import 'scrollStyles';
 
     EmbyTabs.selectNext = function () {
 
-        var current = getSelectedTabButton(this);
+        const current = getSelectedTabButton(this);
 
-        var sibling = getSibling(current, 'nextSibling');
+        const sibling = getSibling(current, 'nextSibling');
 
         if (sibling) {
             onClick.call(this, {
@@ -301,9 +301,9 @@ import 'scrollStyles';
 
     EmbyTabs.selectPrevious = function () {
 
-        var current = getSelectedTabButton(this);
+        const current = getSelectedTabButton(this);
 
-        var sibling = getSibling(current, 'previousSibling');
+        const sibling = getSibling(current, 'previousSibling');
 
         if (sibling) {
             onClick.call(this, {
@@ -314,14 +314,14 @@ import 'scrollStyles';
 
     EmbyTabs.triggerBeforeTabChange = function (selected) {
 
-        var tabs = this;
+        const tabs = this;
 
         triggerBeforeTabChange(tabs, tabs.selectedIndex());
     };
 
     EmbyTabs.triggerTabChange = function (selected) {
 
-        var tabs = this;
+        const tabs = this;
 
         tabs.dispatchEvent(new CustomEvent('tabchange', {
             detail: {
@@ -332,8 +332,8 @@ import 'scrollStyles';
 
     EmbyTabs.setTabEnabled = function (index, enabled) {
 
-        var tabs = this;
-        var btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
+        const tabs = this;
+        const btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
 
         if (enabled) {
             btn.classList.remove('hide');

@@ -4,7 +4,7 @@ import 'registerElement';
 
 /* eslint-disable indent */
 
-    var EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
+    let EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
 
     function onKeyDown(e) {
 
@@ -26,7 +26,7 @@ import 'registerElement';
     }
 
     EmbyRadioPrototype.attachedCallback = function () {
-        var showFocus = !layoutManager.mobile;
+        const showFocus = !layoutManager.mobile;
 
         if (this.getAttribute('data-radio') === 'true') {
             return;
@@ -36,7 +36,7 @@ import 'registerElement';
 
         this.classList.add('mdl-radio__button');
 
-        var labelElement = this.parentNode;
+        let labelElement = this.parentNode;
         //labelElement.classList.add('"mdl-radio mdl-js-radio mdl-js-ripple-effect');
         labelElement.classList.add('mdl-radio');
         labelElement.classList.add('mdl-js-radio');
@@ -45,12 +45,12 @@ import 'registerElement';
             labelElement.classList.add('show-focus');
         }
 
-        var labelTextElement = labelElement.querySelector('span');
+        let labelTextElement = labelElement.querySelector('span');
 
         labelTextElement.classList.add('radioButtonLabel');
         labelTextElement.classList.add('mdl-radio__label');
 
-        var html = '';
+        let html = '';
 
         html += '<div class="mdl-radio__circles">';
 

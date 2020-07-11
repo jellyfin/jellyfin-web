@@ -9,7 +9,7 @@ import 'css!./emby-scroller';
 
 /* eslint-disable indent */
 
-    var ScrollerPrototype = Object.create(HTMLDivElement.prototype);
+    let ScrollerPrototype = Object.create(HTMLDivElement.prototype);
 
     ScrollerPrototype.createdCallback = function () {
         this.classList.add('emby-scroller');
@@ -17,7 +17,7 @@ import 'css!./emby-scroller';
 
     function initCenterFocus(elem, scrollerInstance) {
         dom.addEventListener(elem, 'focus', function (e) {
-            var focused = focusManager.focusableParent(e.target);
+            const focused = focusManager.focusableParent(e.target);
             if (focused) {
                 scrollerInstance.toCenter(focused);
             }
@@ -88,7 +88,7 @@ import 'css!./emby-scroller';
     };
 
     function onInputCommand(e) {
-        var cmd = e.detail.command;
+        const cmd = e.detail.command;
         if (cmd === 'end') {
             focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
             e.preventDefault();
@@ -109,18 +109,18 @@ import 'css!./emby-scroller';
             inputManager.on(this, onInputCommand);
         }
 
-        var horizontal = this.getAttribute('data-horizontal') !== 'false';
+        const horizontal = this.getAttribute('data-horizontal') !== 'false';
 
-        var slider = this.querySelector('.scrollSlider');
+        const slider = this.querySelector('.scrollSlider');
 
         if (horizontal) {
             slider.style['white-space'] = 'nowrap';
         }
 
-        var scrollFrame = this;
-        var enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
+        const scrollFrame = this;
+        const enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
 
-        var options = {
+        const options = {
             horizontal: horizontal,
             mouseDragging: 1,
             mouseWheel: this.getAttribute('data-mousewheel') !== 'false',
@@ -162,14 +162,14 @@ import 'css!./emby-scroller';
     }
 
     ScrollerPrototype.pause = function () {
-        var headroom = this.headroom;
+        const headroom = this.headroom;
         if (headroom) {
             headroom.pause();
         }
     };
 
     ScrollerPrototype.resume = function () {
-        var headroom = this.headroom;
+        const headroom = this.headroom;
         if (headroom) {
             headroom.resume();
         }
@@ -180,13 +180,13 @@ import 'css!./emby-scroller';
             inputManager.off(this, onInputCommand);
         }
 
-        var headroom = this.headroom;
+        const headroom = this.headroom;
         if (headroom) {
             headroom.destroy();
             this.headroom = null;
         }
 
-        var scrollerInstance = this.scroller;
+        const scrollerInstance = this.scroller;
         if (scrollerInstance) {
             scrollerInstance.destroy();
             this.scroller = null;
