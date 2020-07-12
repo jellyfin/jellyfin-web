@@ -1,5 +1,19 @@
-define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'dom', 'userSettings', 'cardBuilder', 'playbackManager', 'mainTabsManager', 'globalize', 'scrollStyles', 'emby-itemscontainer', 'emby-button'], function (events, inputManager, libraryMenu, layoutManager, loading, dom, userSettings, cardBuilder, playbackManager, mainTabsManager, globalize) {
-    'use strict';
+import events from 'events';
+import inputManager from 'inputManager';
+import libraryMenu from 'libraryMenu';
+import layoutManager from 'layoutManager';
+import loading from 'loading';
+import dom from 'dom';
+import * as userSettings from 'userSettings';
+import cardBuilder from 'cardBuilder';
+import playbackManager from 'playbackManager';
+import mainTabsManager from 'mainTabsManager';
+import globalize from 'globalize';
+import 'scrollStyles';
+import 'emby-itemscontainer';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function getTabs() {
         return [{
@@ -59,7 +73,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function reload() {
             loading.show();
             loadResume();
@@ -67,7 +81,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }
 
         function loadNextUp() {
-            var query = {
+            const query = {
                 Limit: 24,
                 Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo',
                 UserId: ApiClient.getCurrentUserId(),
@@ -83,7 +97,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
                     view.querySelector('.noNextUpItems').classList.remove('hide');
                 }
 
-                var container = view.querySelector('#nextUpItems');
+                const container = view.querySelector('#nextUpItems');
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: container,
                     preferThumb: true,
@@ -98,7 +112,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
                 });
                 loading.hide();
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(view);
                 });
             });
@@ -113,10 +127,10 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }
 
         function loadResume() {
-            var parentId = libraryMenu.getTopParentId();
-            var screenWidth = dom.getWindowSize().innerWidth;
-            var limit = screenWidth >= 1600 ? 5 : 6;
-            var options = {
+            const parentId = libraryMenu.getTopParentId();
+            const screenWidth = dom.getWindowSize().innerWidth;
+            const limit = screenWidth >= 1600 ? 5 : 6;
+            const options = {
                 SortBy: 'DatePlayed',
                 SortOrder: 'Descending',
                 IncludeItemTypes: 'Episode',
@@ -137,8 +151,8 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
                     view.querySelector('#resumableSection').classList.add('hide');
                 }
 
-                var allowBottomPadding = !enableScrollX();
-                var container = view.querySelector('#resumableItems');
+                const allowBottomPadding = !enableScrollX();
+                const container = view.querySelector('#resumableItems');
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: container,
                     preferThumb: true,
@@ -160,7 +174,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }
 
         function onTabChange(e) {
-            var newIndex = parseInt(e.detail.selectedTabIndex);
+            const newIndex = parseInt(e.detail.selectedTabIndex);
             loadTab(view, newIndex);
         }
 
@@ -173,49 +187,51 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }
 
         function getTabController(page, index, callback) {
-            var depends = [];
+            let depends;
 
             switch (index) {
                 case 0:
-                    depends.push('controllers/shows/tvshows');
+                    depends = 'controllers/shows/tvshows';
                     break;
 
                 case 1:
+                    depends = 'controllers/shows/tvrecommended';
                     break;
 
                 case 2:
-                    depends.push('controllers/shows/tvlatest');
+                    depends = 'controllers/shows/tvlatest';
                     break;
 
                 case 3:
-                    depends.push('controllers/shows/tvupcoming');
+                    depends = 'controllers/shows/tvupcoming';
                     break;
 
                 case 4:
-                    depends.push('controllers/shows/tvgenres');
+                    depends = 'controllers/shows/tvgenres';
                     break;
 
                 case 5:
-                    depends.push('controllers/shows/tvstudios');
+                    depends = 'controllers/shows/tvstudios';
                     break;
 
                 case 6:
-                    depends.push('controllers/shows/episodes');
+                    depends = 'controllers/shows/episodes';
                     break;
 
                 case 7:
-                    depends.push('scripts/searchtab');
+                    depends = 'scripts/searchtab';
             }
 
-            require(depends, function (controllerFactory) {
-                var tabContent;
+            import(depends).then(({default: controllerFactory}) => {
+                console.log('using controller factory from ' + depends)
+                let tabContent;
 
                 if (index === 1) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
 
-                var controller = tabControllers[index];
+                let controller = tabControllers[index];
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
@@ -270,7 +286,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }
 
         function onWebSocketMessage(e, data) {
-            var msg = data;
+            const msg = data;
 
             if (msg.MessageType === 'UserDataChanged' && msg.Data.UserId == ApiClient.getCurrentUserId()) {
                 renderedTabs = [];
@@ -285,13 +301,13 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             }
         }
 
-        var isViewRestored;
-        var self = this;
-        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        var initialTabIndex = currentTabIndex;
+        let isViewRestored;
+        const self = this;
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        let initialTabIndex = currentTabIndex;
 
         self.initTab = function () {
-            var tabContent = self.tabContent;
+            const tabContent = self.tabContent;
             setScrollClasses(tabContent.querySelector('#resumableItems'), enableScrollX());
         };
 
@@ -299,14 +315,14 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             reload();
         };
 
-        var tabControllers = [];
-        var renderedTabs = [];
+        const tabControllers = [];
+        let renderedTabs = [];
         setScrollClasses(view.querySelector('#resumableItems'), enableScrollX());
         view.addEventListener('viewshow', function (e) {
             isViewRestored = e.detail.isRestored;
             initTabs();
             if (!view.getAttribute('data-title')) {
-                var parentId = params.topParentId;
+                const parentId = params.topParentId;
 
                 if (parentId) {
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
@@ -335,5 +351,6 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
                 }
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */
