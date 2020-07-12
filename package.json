@@ -143,6 +143,7 @@
           "src/controllers/shows/tvrecommended.js",
           "src/controllers/shows/tvshows.js",
           "src/controllers/shows/tvstudios.js",
+          "src/controllers/shows/tvupcoming.js",
           "src/plugins/bookPlayer/plugin.js",
           "src/plugins/bookPlayer/tableOfContents.js",
           "src/plugins/photoPlayer/plugin.js",
