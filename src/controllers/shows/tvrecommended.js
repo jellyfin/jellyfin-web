@@ -223,7 +223,6 @@ import 'emby-button';
             }
 
             import(depends).then(({default: controllerFactory}) => {
-                console.log('using controller factory from ' + depends)
                 let tabContent;
 
                 if (index === 1) {

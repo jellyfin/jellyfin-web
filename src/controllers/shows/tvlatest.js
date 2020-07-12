@@ -53,7 +53,6 @@ import imageLoader from 'imageLoader';
     }
 
     export default function (view, params, tabContent) {
-        console.log(tabContent)
         const self = this;
         let latestPromise;
 
