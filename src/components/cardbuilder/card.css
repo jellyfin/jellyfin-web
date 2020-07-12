@@ -503,14 +503,14 @@ button::-moz-focus-inner {
 
     .squareCard,
     .portraitCard {
-        width: 33.333333333333333333333333333333%;
+        width: 50%;
     }
 }
 
 @media (min-width: 43.75em) {
     .squareCard,
     .portraitCard {
-        width: 25%;
+        width: 50%;
     }
 }
 
@@ -527,7 +527,7 @@ button::-moz-focus-inner {
 
     .squareCard,
     .portraitCard {
-        width: 20%;
+        width: 33.333333333333333333333333333333%;
     }
 
     .smallBackdropCard {
@@ -548,7 +548,7 @@ button::-moz-focus-inner {
 
     .squareCard,
     .portraitCard {
-        width: 16.666666666666666666666666666667%;
+        width: 20%;
     }
 
     .bannerCard {
@@ -563,7 +563,7 @@ button::-moz-focus-inner {
 @media (min-width: 87.5em) {
     .squareCard,
     .portraitCard {
-        width: 14.285714285714285714285714285714%;
+        width: 20%;
     }
 
     .smallBackdropCard {
@@ -582,14 +582,14 @@ button::-moz-focus-inner {
 
     .squareCard,
     .portraitCard {
-        width: 12.5%;
+        width: 20%;
     }
 }
 
 @media (min-width: 120em) {
     .squareCard,
     .portraitCard {
-        width: 11.111111111111111111111111111111%;
+        width: 12.5%;
     }
 }
 
@@ -600,7 +600,7 @@ button::-moz-focus-inner {
 
     .squareCard,
     .portraitCard {
-        width: 10%;
+        width: 12%;
     }
 }
 
