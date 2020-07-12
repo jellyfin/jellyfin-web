@@ -1468,7 +1468,7 @@ import 'programStyles';
 
             let additionalCardContent = '';
 
-            if (layoutManager.desktop) {
+            if (layoutManager.desktop && !options.disableHoverMenu) {
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
@@ -1483,7 +1483,6 @@ import 'programStyles';
          * @returns {string} HTML markup of the card overlay.
          */
         function getHoverMenuHtml(item, action, options) {
-            if (options.disableHoverMenu) return;
             let html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';

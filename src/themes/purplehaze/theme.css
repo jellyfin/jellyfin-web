@@ -543,7 +543,7 @@ a[data-role=button] {
 }
 
 .buttonActive {
-    color: #4285f4;
+    color: #00a4dc !important;
 }
 
 .personCard .cardScalable {
