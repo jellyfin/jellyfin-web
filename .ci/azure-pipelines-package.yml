@@ -36,6 +36,14 @@ jobs:
       targetPath: '$(Build.SourcesDirectory)/deployment/dist'
       artifactName: 'jellyfin-web-$(BuildConfiguration)'
 
+  - task: SSH@0
+    displayName: 'Create target directory on repository server'
+    condition: or(startsWith(variables['Build.SourceBranch'], 'refs/tags'), startsWith(variables['Build.SourceBranch'], 'refs/heads/master'))
+    inputs:
+      sshEndpoint: repository
+      runOptions: 'inline'
+      inline: 'mkdir -p /srv/repository/incoming/azure/$(Build.BuildNumber)/$(BuildConfiguration)'
+
   - task: CopyFilesOverSSH@0
     displayName: 'Upload artifacts to repository server'
     condition: or(startsWith(variables['Build.SourceBranch'], 'refs/tags'), startsWith(variables['Build.SourceBranch'], 'refs/heads/master'))
