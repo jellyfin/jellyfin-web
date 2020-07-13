@@ -1561,5 +1561,12 @@
     "EnableFasterAnimationsHelp": "Usar animaciones y transiciones más rápidas",
     "EnableFasterAnimations": "Animaciones más rápidas",
     "EnableDecodingColorDepth10Vp9": "Habilitar la decodificación de hardware de 10-Bit para VP9",
-    "EnableDecodingColorDepth10Hevc": "Habilitar la decodificación de hardware de 10-Bit para HEVC"
+    "EnableDecodingColorDepth10Hevc": "Habilitar la decodificación de hardware de 10-Bit para HEVC",
+    "ClearQueue": "Limpiar cola",
+    "StopPlayback": "Detener reproducción",
+    "ButtonPlayer": "Reproducir",
+    "ButtonCast": "Emitir",
+    "Writers": "Escritores",
+    "ViewAlbumArtist": "Ver Álbum de Artista",
+    "TabRepositories": "Repositorios"
 }
