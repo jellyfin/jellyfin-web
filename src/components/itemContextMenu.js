@@ -356,7 +356,7 @@ import actionsheet from 'actionsheet';
                         getResolveFunction(getResolveFunction(resolve, id), id)();
                     });
                     break;
-                case 'copy-stream':
+                case 'copy-stream': {
                     const downloadHref = apiClient.getItemDownloadUrl(itemId);
                     const textAreaCopy = function () {
                         let textArea = document.createElement('textarea');
@@ -390,6 +390,7 @@ import actionsheet from 'actionsheet';
                     }
                     getResolveFunction(resolve, id)();
                     break;
+                }
                 case 'editsubtitles':
                     import('subtitleEditor').then(({default: subtitleEditor}) => {
                         subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
