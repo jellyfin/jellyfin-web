@@ -212,6 +212,7 @@ class SyncPlayManager {
         if (!this.lastPlaybackWaiting) {
             this.lastPlaybackWaiting = new Date();
         }
+
         events.trigger(this, 'waiting');
     }
 
@@ -288,6 +289,7 @@ class SyncPlayManager {
                 player.setPlaybackRate(this.localPlayerPlaybackRate);
                 this.localPlayerPlaybackRate = 1.0;
             }
+
             this.currentPlayer = null;
             this.playbackRateSupported = false;
         }
@@ -433,6 +435,7 @@ class SyncPlayManager {
                     });
                     return;
                 }
+
                 // Get playing item id
                 let playingItemId;
                 try {
@@ -619,6 +622,7 @@ class SyncPlayManager {
         if (this.currentPlayer) {
             this.currentPlayer.setPlaybackRate(1);
         }
+
         this.clearSyncIcon();
     }
 
