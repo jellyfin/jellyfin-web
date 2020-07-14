@@ -140,7 +140,7 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
             var index = 0;
 
             var indexAttribute = selectedIndex == null ? '' : (' data-index="' + selectedIndex + '"');
-            var tabsHtml = '<div is="emby-tabs"' + indexAttribute + ' class="tabs-viewmenubar"><div class="emby-tabs-slider scrollX" style="white-space:nowrap;">' + getTabsFn().map(function (t) {
+            var tabsHtml = '<div is="emby-tabs"' + indexAttribute + ' class="tabs-viewmenubar"><div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {
 
                 var tabClass = 'emby-tab-button';
 
