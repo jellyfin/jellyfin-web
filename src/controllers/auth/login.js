@@ -7,18 +7,10 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         loading.show();
         apiClient.authenticateUserByName(username, password).then(function (result) {
             var user = result.User;
-            var serverId = getParameterByName('serverid');
-            var newUrl;
-
-            if (user.Policy.IsAdministrator && !serverId) {
-                newUrl = 'dashboard.html';
-            } else {
-                newUrl = 'home.html';
-            }
-
             loading.hide();
+
             Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
-            Dashboard.navigate(newUrl);
+            Dashboard.navigate('home.html');
         }, function (response) {
             page.querySelector('#txtManualName').value = '';
             page.querySelector('#txtManualPassword').value = '';

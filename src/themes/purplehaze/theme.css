@@ -542,12 +542,8 @@ a[data-role=button] {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
-}
-
-.shuffleQueue-active {
-    color: #4285f4 !important;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .personCard .cardScalable {

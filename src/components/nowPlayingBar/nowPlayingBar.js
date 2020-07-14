@@ -72,7 +72,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         if (layoutManager.mobile) {
             html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
         } else {
-            html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><span class="material-icons more_vert"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton"><span class="material-icons more_vert"></span></button>';
         }
 
         html += '</div>';
@@ -355,7 +355,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function updateRepeatModeDisplay(repeatMode) {
         toggleRepeatButtonIcon.classList.remove('repeat', 'repeat_one');
-        const cssClass = 'repeatButton-active';
+        const cssClass = 'buttonActive';
 
         switch (repeatMode) {
             case 'RepeatAll':
@@ -375,18 +375,14 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
-
         // See bindEvents for why this is necessary
         if (positionSlider && !positionSlider.dragging) {
             if (runtimeTicks) {
-
                 var pct = positionTicks / runtimeTicks;
                 pct *= 100;
 
                 positionSlider.value = pct;
-
             } else {
-
                 positionSlider.value = 0;
             }
         }
@@ -396,9 +392,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         if (currentTimeElement) {
-
             var timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
-
             if (runtimeTicks) {
                 timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
             }
@@ -606,14 +600,11 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onPlaybackStart(e, state) {
         console.debug('nowplaying event: ' + e.type);
-
         var player = this;
-
         onStateChanged.call(player, e, state);
     }
 
     function onRepeatModeChange() {
-
         if (!isEnabled) {
             return;
         }
@@ -628,9 +619,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         let shuffleMode = playbackManager.getQueueShuffleMode();
         let context = nowPlayingBarElement;
-        const cssClass = 'shuffleQueue-active';
+        const cssClass = 'buttonActive';
         let toggleShuffleButton = context.querySelector('.btnShuffleQueue');
-
         switch (shuffleMode) {
             case 'Shuffle':
                 toggleShuffleButton.classList.add(cssClass);
@@ -643,7 +633,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function showNowPlayingBar() {
-
         if (!isVisibilityAllowed) {
             hideNowPlayingBar();
             return;
