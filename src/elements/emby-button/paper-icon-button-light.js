@@ -1,7 +1,10 @@
-define(['layoutManager', 'css!./emby-button', 'registerElement'], function (layoutManager) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import 'css!./emby-button';
+import 'registerElement';
 
-    var EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
+/* eslint-disable indent */
+
+    const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
 
     EmbyButtonPrototype.createdCallback = function () {
         this.classList.add('paper-icon-button-light');
@@ -15,4 +18,5 @@ define(['layoutManager', 'css!./emby-button', 'registerElement'], function (layo
         prototype: EmbyButtonPrototype,
         extends: 'button'
     });
-});
+
+/* eslint-enable indent */
