@@ -51,7 +51,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
 
         instance.itemsContainer = view.querySelector('.itemsContainer');
 
-        instance.alphaPicker = new AlphaPicker({
+        instance.alphaPicker = new AlphaPicker.default({
             element: instance.alphaPickerElement,
             itemsContainer: instance.itemsContainer,
             itemClass: 'card'
