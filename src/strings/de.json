@@ -1588,5 +1588,8 @@
     "HeaderNewRepository": "Neues Repository",
     "MessageNoRepositories": "Keine Repositories.",
     "ButtonPlayer": "Player",
-    "Writers": "Autoren"
+    "Writers": "Autoren",
+    "ClearQueue": "Wiedergabeliste leeren",
+    "StopPlayback": "Wiedergabe anhalten",
+    "ViewAlbumArtist": "Zeige Albumkünstler"
 }
