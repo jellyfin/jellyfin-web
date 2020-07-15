@@ -136,7 +136,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
         });
         view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     includeFiles: true,
                     includeDirectories: true,
