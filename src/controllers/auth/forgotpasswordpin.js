@@ -4,7 +4,7 @@ import globalize from 'globalize';
 
     function processForgotPasswordResult(result) {
         if (result.Success) {
-            var msg = globalize.translate('MessagePasswordResetForUsers');
+            let msg = globalize.translate('MessagePasswordResetForUsers');
             msg += '<br/>';
             msg += '<br/>';
             msg += result.UsersReset.join('<br/>');
@@ -38,6 +38,6 @@ import globalize from 'globalize';
         }
 
         view.querySelector('form').addEventListener('submit', onSubmit);
-    };
+    }
 
-/* eslint-disable indent */
+/* eslint-enable indent */

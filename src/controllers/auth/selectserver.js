@@ -18,10 +18,10 @@ import 'emby-button';
 
 /* eslint-disable indent */
 
-    var enableFocusTransform = !browser.slow && !browser.edge;
+    const enableFocusTransform = !browser.slow && !browser.edge;
 
     function renderSelectServerItems(view, servers) {
-        var items = servers.map(function (server) {
+        const items = servers.map(function (server) {
             return {
                 name: server.Name,
                 showIcon: true,
@@ -31,8 +31,8 @@ import 'emby-button';
                 server: server
             };
         });
-        var html = items.map(function (item) {
-            var cardImageContainer;
+        let html = items.map(function (item) {
+            let cardImageContainer;
 
             if (item.showIcon) {
                 cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '"></span>';
@@ -42,7 +42,7 @@ import 'emby-button';
 
             // TODO move card creation code to Card component
 
-            var cssClass = 'card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable';
+            let cssClass = 'card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable';
 
             if (layoutManager.tv) {
                 cssClass += ' show-focus';
@@ -52,10 +52,10 @@ import 'emby-button';
                 }
             }
 
-            var cardBoxCssClass = 'cardBox';
+            const cardBoxCssClass = 'cardBox';
 
-            var innerOpening = '<div class="' + cardBoxCssClass + '">';
-            var cardContainer = '';
+            const innerOpening = '<div class="' + cardBoxCssClass + '">';
+            let cardContainer = '';
             cardContainer += '<button raised class="' + cssClass + '" style="display:inline-block;" data-id="' + item.id + '" data-url="' + (item.url || '') + '" data-cardtype="' + item.cardType + '">';
             cardContainer += innerOpening;
             cardContainer += '<div class="cardScalable">';
@@ -72,7 +72,7 @@ import 'emby-button';
             cardContainer += '</div></div></button>';
             return cardContainer;
         }).join('');
-        var itemsContainer = view.querySelector('.servers');
+        const itemsContainer = view.querySelector('.servers');
 
         if (!items.length) {
             html = '<p>' + globalize.translate('MessageNoServersAvailable') + '</p>';
@@ -122,7 +122,7 @@ import 'emby-button';
                 enableAutoLogin: appSettings.enableAutoLogin()
             }).then(function (result) {
                 loading.hide();
-                var apiClient = result.ApiClient;
+                const apiClient = result.ApiClient;
 
                 switch (result.State) {
                     case 'SignedIn':
@@ -157,7 +157,7 @@ import 'emby-button';
         }
 
         function onServerClick(server) {
-            var menuItems = [];
+            const menuItems = [];
             menuItems.push({
                 name: globalize.translate('Connect'),
                 id: 'connect'
@@ -195,10 +195,10 @@ import 'emby-button';
             connectionManager.getAvailableServers().then(onServersRetrieved);
         }
 
-        var servers;
+        let servers;
         updatePageStyle(view, params);
         view.addEventListener('viewshow', function (e) {
-            var isRestored = e.detail.isRestored;
+            const isRestored = e.detail.isRestored;
             appRouter.setTitle(null);
 
             if (!isRestored) {
@@ -206,21 +206,21 @@ import 'emby-button';
             }
         });
         view.querySelector('.servers').addEventListener('click', function (e) {
-            var card = dom.parentWithClass(e.target, 'card');
+            const card = dom.parentWithClass(e.target, 'card');
 
             if (card) {
-                var url = card.getAttribute('data-url');
+                const url = card.getAttribute('data-url');
 
                 if (url) {
                     appRouter.show(url);
                 } else {
-                    var id = card.getAttribute('data-id');
+                    const id = card.getAttribute('data-id');
                     onServerClick(servers.filter(function (s) {
                         return s.Id === id;
                     })[0]);
                 }
             }
         });
-    };
+    }
 
 /* eslint-enable indent */

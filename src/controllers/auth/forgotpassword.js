@@ -18,7 +18,7 @@ import globalize from 'globalize';
         }
 
         if ('PinCode' == result.Action) {
-            var msg = globalize.translate('MessageForgotPasswordFileCreated');
+            let msg = globalize.translate('MessageForgotPasswordFileCreated');
             msg += '<br/>';
             msg += '<br/>';
             msg += 'Enter PIN here to finish Password Reset<br/>';
@@ -50,6 +50,6 @@ import globalize from 'globalize';
         }
 
         view.querySelector('form').addEventListener('submit', onSubmit);
-    };
+    }
 
 /* eslint-enable indent */

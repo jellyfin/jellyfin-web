@@ -9,11 +9,12 @@ import 'emby-button';
     function handleConnectionResult(page, result) {
         loading.hide();
         switch (result.State) {
-            case 'SignedIn':
-                var apiClient = result.ApiClient;
+            case 'SignedIn': {
+                const apiClient = result.ApiClient;
                 Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
                 Dashboard.navigate('home.html');
                 break;
+            }
             case 'ServerSignIn':
                 Dashboard.navigate('login.html?serverid=' + result.Servers[0].Id, false, 'none');
                 break;
@@ -35,7 +36,7 @@ import 'emby-button';
 
     function submitServer(page) {
         loading.show();
-        var host = page.querySelector('#txtServerHost').value;
+        const host = page.querySelector('#txtServerHost').value;
         ConnectionManager.connectToAddress(host, {
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function(result) {
@@ -66,6 +67,6 @@ import 'emby-button';
                 appRouter.back();
             });
         }
-    };
+    }
 
 /* eslint-enable indent */
