@@ -1,7 +1,8 @@
-define(['globalize'], function (globalize) {
-    'use strict';
+import globalize from 'globalize';
 
-    function parseISO8601Date(s, toLocal) {
+/*eslint-disable indent */
+
+    export function parseISO8601Date(s, toLocal) {
 
         // parenthese matches:
         // year month day    hours minutes seconds
@@ -58,7 +59,7 @@ define(['globalize'], function (globalize) {
         return new Date(ms);
     }
 
-    function getDisplayRunningTime(ticks) {
+    export function getDisplayRunningTime(ticks) {
         var ticksPerHour = 36000000000;
         var ticksPerMinute = 600000000;
         var ticksPerSecond = 10000000;
@@ -118,7 +119,7 @@ define(['globalize'], function (globalize) {
         return list;
     }
 
-    function toLocaleString(date, options) {
+    export function toLocaleString(date, options) {
 
         if (!date) {
             throw new Error('date cannot be null');
@@ -138,7 +139,7 @@ define(['globalize'], function (globalize) {
         return date.toLocaleString();
     }
 
-    function toLocaleDateString(date, options) {
+    export function toLocaleDateString(date, options) {
 
         if (!date) {
             throw new Error('date cannot be null');
@@ -172,7 +173,7 @@ define(['globalize'], function (globalize) {
         return date.toLocaleDateString();
     }
 
-    function toLocaleTimeString(date, options) {
+    export function toLocaleTimeString(date, options) {
 
         if (!date) {
             throw new Error('date cannot be null');
@@ -192,7 +193,7 @@ define(['globalize'], function (globalize) {
         return date.toLocaleTimeString();
     }
 
-    function getDisplayTime(date) {
+    export function getDisplayTime(date) {
 
         if (!date) {
             throw new Error('date cannot be null');
@@ -253,7 +254,7 @@ define(['globalize'], function (globalize) {
         return time;
     }
 
-    function isRelativeDay(date, offsetInDays) {
+    export function isRelativeDay(date, offsetInDays) {
 
         if (!date) {
             throw new Error('date cannot be null');
@@ -267,7 +268,7 @@ define(['globalize'], function (globalize) {
         return date.getFullYear() === yesterday.getFullYear() && date.getMonth() === yesterday.getMonth() && date.getDate() === day;
     }
 
-    return {
+    export default {
         parseISO8601Date: parseISO8601Date,
         getDisplayRunningTime: getDisplayRunningTime,
         toLocaleDateString: toLocaleDateString,
@@ -279,4 +280,5 @@ define(['globalize'], function (globalize) {
             return toLocaleTimeStringSupportsLocales;
         }
     };
-});
+
+/*eslint-enable indent */

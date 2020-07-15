@@ -92,6 +92,7 @@
         "test": [
           "src/components/accessSchedule/accessSchedule.js",
           "src/components/actionSheet/actionSheet.js",
+          "src/components/activitylog.js",
           "src/components/alphaPicker/alphaPicker.js",
           "src/components/autoFocuser.js",
           "src/components/cardbuilder/cardBuilder.js",
@@ -150,6 +151,7 @@
           "src/plugins/bookPlayer/plugin.js",
           "src/plugins/bookPlayer/tableOfContents.js",
           "src/plugins/photoPlayer/plugin.js",
+          "src/scripts/datetime.js",
           "src/scripts/deleteHelper.js",
           "src/scripts/dfnshelper.js",
           "src/scripts/dom.js",

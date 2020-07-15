@@ -14,7 +14,7 @@ define(['components/activitylog', 'globalize'], function (ActivityLog, globalize
 
         view.addEventListener('viewshow', function () {
             if (!activityLog) {
-                activityLog = new ActivityLog({
+                activityLog = new ActivityLog.default({
                     serverId: ApiClient.serverId(),
                     element: view.querySelector('.activityItems')
                 });

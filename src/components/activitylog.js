@@ -1,5 +1,15 @@
-define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 'serverNotifications', 'connectionManager', 'emby-button', 'listViewStyle'], function (events, globalize, dom, datefns, dfnshelper, userSettings, serverNotifications, connectionManager) {
-    'use strict';
+import events from 'events';
+import globalize from 'globalize';
+import dom from 'dom';
+import * as datefns from 'date-fns';
+import dfnshelper from 'dfnshelper';
+import userSettings from 'userSettings';
+import serverNotifications from 'serverNotifications';
+import connectionManager from 'connectionManager';
+import 'emby-button';
+import 'listViewStyle';
+
+/*eslint-disable indent */
 
     function getEntryHtml(entry, apiClient) {
         var html = '';
@@ -125,7 +135,9 @@ define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 
         });
     }
 
-    function ActivityLog(options) {
+class ActivityLog {
+    constructor(options) {
+        console.log(options)
         this.options = options;
         var element = options.element;
         element.classList.add('activityLogListWidget');
@@ -137,8 +149,7 @@ define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 
         events.on(serverNotifications, 'ActivityLogEntry', onUpdate);
         apiClient.sendMessage('ActivityLogEntryStart', '0,1500');
     }
-
-    ActivityLog.prototype.destroy = function () {
+    destroy() {
         var options = this.options;
 
         if (options) {
@@ -154,7 +165,9 @@ define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 
 
         this.items = null;
         this.options = null;
-    };
+    }
+}
 
-    return ActivityLog;
-});
+export default ActivityLog;
+
+/*eslint-enable indent */
