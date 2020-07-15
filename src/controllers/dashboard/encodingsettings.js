@@ -151,7 +151,7 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
         });
         $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     includeFiles: true,
                     callback: function (path) {
@@ -166,7 +166,7 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
         });
         $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     callback: function (path) {
                         if (path) {
