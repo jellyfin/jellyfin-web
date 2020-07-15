@@ -215,7 +215,7 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
         });
         view.querySelector('.btnSelectPath').addEventListener('click', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     includeFiles: true,
                     callback: function (path) {

@@ -1,10 +1,26 @@
-define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', 'layoutManager', 'globalize', 'require', 'emby-button', 'emby-select', 'formDialogStyle', 'css!./style'], function (dialogHelper, connectionManager, dom, loading, scrollHelper, layoutManager, globalize, require) {
-    'use strict';
+/* eslint-disable indent */
 
-    var currentItemId;
-    var currentServerId;
-    var currentFile;
-    var hasChanges = false;
+/**
+ * Module for imageUploader.
+ * @module components/imageUploader/imageUploader
+ */
+
+import dialogHelper from 'dialogHelper';
+import connectionManager from 'connectionManager';
+import dom from 'dom';
+import loading from 'loading';
+import scrollHelper from 'scrollHelper';
+import layoutManager from 'layoutManager';
+import globalize from 'globalize';
+import 'emby-button';
+import 'emby-select';
+import 'formDialogStyle';
+import 'css!./style';
+
+    let currentItemId;
+    let currentServerId;
+    let currentFile;
+    let hasChanges = false;
 
     function onFileReaderError(evt) {
 
@@ -12,14 +28,14 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
         switch (evt.target.error.code) {
             case evt.target.error.NOT_FOUND_ERR:
-                require(['toast'], function (toast) {
+                import('toast').then(({default: toast}) => {
                     toast(globalize.translate('MessageFileReadError'));
                 });
                 break;
             case evt.target.error.ABORT_ERR:
                 break; // noop
             default:
-                require(['toast'], function (toast) {
+                import('toast').then(({default: toast}) => {
                     toast(globalize.translate('MessageFileReadError'));
                 });
                 break;
@@ -28,7 +44,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
     function setFiles(page, files) {
 
-        var file = files[0];
+        const file = files[0];
 
         if (!file || !file.type.match('image.*')) {
             page.querySelector('#imageOutput').innerHTML = '';
@@ -39,23 +55,23 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
         currentFile = file;
 
-        var reader = new FileReader();
+        const reader = new FileReader();
 
         reader.onerror = onFileReaderError;
-        reader.onloadstart = function () {
+        reader.onloadstart = () => {
             page.querySelector('#fldUpload').classList.add('hide');
         };
-        reader.onabort = function () {
+        reader.onabort = () => {
             loading.hide();
             console.debug('File read cancelled');
         };
 
         // Closure to capture the file information.
-        reader.onload = (function (theFile) {
-            return function (e) {
+        reader.onload = (theFile => {
+            return e => {
 
                 // Render thumbnail.
-                var html = ['<img style="max-width:100%;max-height:100%;" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
+                const html = ['<img style="max-width:100%;max-height:100%;" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
 
                 page.querySelector('#imageOutput').innerHTML = html;
                 page.querySelector('#dropImageText').classList.add('hide');
@@ -69,14 +85,14 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
     function onSubmit(e) {
 
-        var file = currentFile;
+        const file = currentFile;
 
         if (!file) {
             return false;
         }
 
         if (!file.type.startsWith('image/')) {
-            require(['toast'], function (toast) {
+            import('toast').then(({default: toast}) => {
                 toast(globalize.translate('MessageImageFileTypeAllowed'));
             });
             e.preventDefault();
@@ -85,18 +101,18 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
         loading.show();
 
-        var dlg = dom.parentWithClass(this, 'dialog');
+        const dlg = dom.parentWithClass(this, 'dialog');
 
-        var imageType = dlg.querySelector('#selectImageType').value;
+        const imageType = dlg.querySelector('#selectImageType').value;
         if (imageType === 'None') {
-            require(['toast'], function(toast) {
+            import('toast').then(({default: toast}) => {
                 toast(globalize.translate('MessageImageTypeNotSelected'));
             });
             e.preventDefault();
             return false;
         }
 
-        connectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(function () {
+        connectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
 
             dlg.querySelector('#uploadImage').value = '';
 
@@ -117,21 +133,21 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
             setFiles(page, this.files);
         });
 
-        page.querySelector('.btnBrowse').addEventListener('click', function () {
+        page.querySelector('.btnBrowse').addEventListener('click', () => {
             page.querySelector('#uploadImage').click();
         });
     }
 
-    function showEditor(options, resolve, reject) {
+    function showEditor(options, resolve) {
 
         options = options || {};
 
-        require(['text!./imageUploader.template.html'], function (template) {
+        return import('text!./imageUploader.template.html').then(({default: template}) => {
 
             currentItemId = options.itemId;
             currentServerId = options.serverId;
 
-            var dialogOptions = {
+            const dialogOptions = {
                 removeOnClose: true
             };
 
@@ -141,7 +157,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
                 dialogOptions.size = 'small';
             }
 
-            var dlg = dialogHelper.createDialog(dialogOptions);
+            const dlg = dialogHelper.createDialog(dialogOptions);
 
             dlg.classList.add('formDialog');
 
@@ -152,7 +168,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
             }
 
             // Has to be assigned a z-index after the call to .open()
-            dlg.addEventListener('close', function () {
+            dlg.addEventListener('close', () => {
 
                 if (layoutManager.tv) {
                     scrollHelper.centerFocus.off(dlg, false);
@@ -168,22 +184,24 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
             dlg.querySelector('#selectImageType').value = options.imageType || 'Primary';
 
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
 
                 dialogHelper.close(dlg);
             });
         });
     }
 
-    return {
-        show: function (options) {
+    export function show(options) {
 
-            return new Promise(function (resolve, reject) {
+        return new Promise(resolve => {
 
-                hasChanges = false;
+            hasChanges = false;
 
-                showEditor(options, resolve, reject);
-            });
-        }
-    };
-});
+            showEditor(options, resolve);
+        });
+    }
+
+/* eslint-enable indent */
+export default {
+    show: show
+};
