@@ -59,7 +59,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
     return function (view, params) {
         $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -76,7 +76,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
         });
         $('#btnSelectMetadataPath', view).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     path: $('#txtMetadataPath', view).val(),
                     networkSharePath: $('#txtMetadataNetworkPath', view).val(),
