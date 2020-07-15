@@ -338,7 +338,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         if (selection.length < 2) {
 
             require(['alert'], function (alert) {
-                alert({
+                alert.default({
                     text: globalize.translate('PleaseSelectTwoItems')
                 });
             });

@@ -36,7 +36,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         msg.push(globalize.translate('MetadataSettingChangeHelp'));
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 text: msg.join('<br/><br/>')
             });
         });

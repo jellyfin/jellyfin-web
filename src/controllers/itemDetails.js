@@ -1787,7 +1787,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         imageLoader.lazyChildren(collectionItems);
         collectionItems.querySelector('.btnAddToCollection').addEventListener('click', function () {
             require(['alert'], function (alert) {
-                alert({
+                alert.default({
                     text: globalize.translate('AddItemToCollectionHelp'),
                     html: globalize.translate('AddItemToCollectionHelp') + '<br/><br/><a is="emby-linkbutton" class="button-link" target="_blank" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections">' + globalize.translate('ButtonLearnMore') + '</a>'
                 });

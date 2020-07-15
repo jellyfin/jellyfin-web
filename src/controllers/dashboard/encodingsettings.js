@@ -86,7 +86,7 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
 
         if ($('#selectVideoDecoder', form).val()) {
             require(['alert'], function (alert) {
-                alert({
+                alert.default({
                     title: globalize.translate('TitleHardwareAcceleration'),
                     text: globalize.translate('HardwareAccelerationWarning')
                 }).then(onDecoderConfirmed);

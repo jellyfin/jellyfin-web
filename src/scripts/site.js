@@ -187,7 +187,7 @@ var Dashboard = {
         }
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 title: options.title || Globalize.translate('HeaderAlert'),
                 text: options.message
             }).then(options.callback || function () {});

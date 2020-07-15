@@ -128,7 +128,7 @@ import 'listViewStyle';
     }
 
     function showItemOverview(item) {
-        require(['alert'], function (alert) {
+        import('alert').then(({default: alert})=> {
             alert({
                 text: item.Overview
             });
@@ -137,7 +137,6 @@ import 'listViewStyle';
 
 class ActivityLog {
     constructor(options) {
-        console.log(options)
         this.options = options;
         var element = options.element;
         element.classList.add('activityLogListWidget');

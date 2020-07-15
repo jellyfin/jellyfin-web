@@ -53,7 +53,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 break;
             case 'ServerUpdateNeeded':
                 require(['alert'], function (alert) {
-                    alert({
+                    alert.default({
                         text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
                         html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                     }).then(function () {
