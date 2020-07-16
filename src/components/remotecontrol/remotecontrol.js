@@ -397,7 +397,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 showVolumeSlider = false;
             }
 
-            if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
+            if (currentPlayer.isLocalPlayer && appHost.default.supports('physicalvolumecontrol')) {
                 showMuteButton = false;
                 showVolumeSlider = false;
             }

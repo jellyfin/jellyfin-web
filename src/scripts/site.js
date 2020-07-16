@@ -200,8 +200,8 @@ var Dashboard = {
             SupportsPersistentIdentifier: self.appMode === 'cordova' || self.appMode === 'android',
             SupportsMediaControl: true
         };
-        appHost.getPushTokenInfo();
-        return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
+        appHost.default.getPushTokenInfo();
+        return capabilities = Object.assign(capabilities, appHost.default.getPushTokenInfo());
     },
     selectServer: function () {
         if (window.NativeShell && typeof window.NativeShell.selectServer === 'function') {
@@ -271,17 +271,17 @@ function initClient() {
     }
 
     function createConnectionManager() {
-        return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
+        return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, appHost, credentialProvider, events, userSettings) {
             var credentialProviderInstance = new credentialProvider();
-            var promises = [apphost.getSyncProfile(), apphost.init()];
+            var promises = [appHost.default.getSyncProfile(), appHost.default.init()];
 
             return Promise.all(promises).then(function (responses) {
                 var deviceProfile = responses[0];
-                var capabilities = Dashboard.capabilities(apphost);
+                var capabilities = Dashboard.capabilities(appHost);
 
                 capabilities.DeviceProfile = deviceProfile;
 
-                var connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities);
+                var connectionManager = new ConnectionManager(credentialProviderInstance, appHost.default.appName(), appHost.default.appVersion(), appHost.default.deviceName(), appHost.default.deviceId(), capabilities);
 
                 defineConnectionManager(connectionManager);
                 bindConnectionManagerEvents(connectionManager, events, userSettings);
@@ -292,7 +292,7 @@ function initClient() {
                     return require(['apiclient'], function (apiClientFactory) {
                         console.debug('creating ApiClient singleton');
 
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId());
+                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), appHost.default.appName(), appHost.default.appVersion(), appHost.default.deviceName(), appHost.default.deviceId());
 
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
@@ -350,8 +350,8 @@ function initClient() {
     }
 
     function getLayoutManager(layoutManager, appHost) {
-        if (appHost.getDefaultLayout) {
-            layoutManager.defaultLayout = appHost.getDefaultLayout();
+        if (appHost.default.getDefaultLayout) {
+            layoutManager.defaultLayout = appHost.default.getDefaultLayout();
         }
 
         layoutManager.init();
@@ -538,13 +538,13 @@ function initClient() {
                     require(['components/nowPlayingBar/nowPlayingBar']);
                 }
 
-                if (appHost.supports('remotecontrol')) {
+                if (appHost.default.supports('remotecontrol')) {
                     require(['playerSelectionMenu', 'components/playback/remotecontrolautoplay']);
                 }
 
                 require(['libraries/screensavermanager']);
 
-                if (!appHost.supports('physicalvolumecontrol') || browser.touch) {
+                if (!appHost.default.supports('physicalvolumecontrol') || browser.touch) {
                     require(['components/playback/volumeosd']);
                 }
 

@@ -334,8 +334,8 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.getDeviceProfile = function (item) {
-        if (appHost.getDeviceProfile) {
-            return appHost.getDeviceProfile(item);
+        if (appHost.default.getDeviceProfile) {
+            return appHost.default.getDeviceProfile(item);
         }
 
         return getDefaultProfile();

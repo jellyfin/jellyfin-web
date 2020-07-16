@@ -187,7 +187,7 @@ require(['apphost'], function (appHost) {
             return false;
         }
 
-        if (appHost.getWindowState() === 'Minimized') {
+        if (appHost.default.getWindowState() === 'Minimized') {
             return false;
         }
 

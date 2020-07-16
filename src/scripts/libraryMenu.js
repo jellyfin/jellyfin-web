@@ -277,7 +277,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             html += globalize.translate('HeaderUser');
             html += '</h3>';
 
-            if (appHost.supports('multiserver')) {
+            if (appHost.default.supports('multiserver')) {
                 html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSelectServer') + '</span></a>';
             }
 
@@ -589,7 +589,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             showBySelector('.lnkSyncToOtherDevices', false);
         }
 
-        if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {
+        if (user.Policy.EnableContentDownloading && appHost.default.supports('sync')) {
             showBySelector('.libraryMenuDownloads', true);
         } else {
             showBySelector('.libraryMenuDownloads', false);

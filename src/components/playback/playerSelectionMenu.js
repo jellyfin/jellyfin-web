@@ -121,7 +121,7 @@ export function show(button) {
 
             // Unfortunately we can't allow the url to change or chromecast will throw a security error
             // Might be able to solve this in the future by moving the dialogs to hashbangs
-            if (!(!browser.chrome && !browser.edgeChromium || appHost.supports('castmenuhashchange'))) {
+            if (!(!browser.chrome && !browser.edgeChromium || appHost.default.supports('castmenuhashchange'))) {
                 menuOptions.enableHistory = false;
             }
 

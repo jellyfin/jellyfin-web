@@ -105,7 +105,7 @@ export default function(view, params) {
     });
 
     view.querySelector('.btnNewRepository').addEventListener('click', () => {
-        let dialog = dialogHelper.createDialog({
+        const dialog = dialogHelper.createDialog({
             scrollY: false,
             size: 'large',
             modal: false,

@@ -39,7 +39,7 @@ import appHost from 'apphost';
         dom.removeEventListener(scope, 'command', fn, {});
     }
 
-    let commandTimes = {};
+    const commandTimes = {};
 
     function checkCommandTime(command) {
         const last = commandTimes[command] || 0;
@@ -113,7 +113,7 @@ import appHost from 'apphost';
             'back': () => {
                 if (appRouter.canGoBack()) {
                     appRouter.back();
-                } else if (appHost.supports('exit')) {
+                } else if (appHost.default.supports('exit')) {
                     appHost.exit();
                 }
             },

@@ -329,8 +329,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
 
         if (shouldExitApp) {
-            if (appHost.supports('exit')) {
-                appHost.exit();
+            if (appHost.default.supports('exit')) {
+                appHost.default.exit();
                 return;
             }
             return;

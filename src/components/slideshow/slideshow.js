@@ -113,7 +113,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      */
     function setUserScalable(scalable) {
         try {
-            appHost.setUserScalable(scalable);
+            appHost.default.setUserScalable(scalable);
         } catch (err) {
             console.error('error in appHost.setUserScalable: ' + err);
         }
@@ -162,10 +162,10 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                 html += '<div class="topActionButtons">';
                 if (actionButtonsOnTop) {
-                    if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
+                    if (appHost.default.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                         html += getIcon('file_download', 'btnDownload slideshowButton', true);
                     }
-                    if (appHost.supports('sharing')) {
+                    if (appHost.default.supports('sharing')) {
                         html += getIcon('share', 'btnShare slideshowButton', true);
                     }
                 }
@@ -176,10 +176,10 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     html += '<div class="slideshowBottomBar hide">';
 
                     html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                    if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
+                    if (appHost.default.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                         html += getIcon('file_download', 'btnDownload slideshowButton', true);
                     }
-                    if (appHost.supports('sharing')) {
+                    if (appHost.default.supports('sharing')) {
                         html += getIcon('share', 'btnShare slideshowButton', true);
                     }
 

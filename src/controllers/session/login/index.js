@@ -199,7 +199,7 @@ import 'emby-checkbox';
             loading.show();
             libraryMenu.setTransparentMenu(true);
 
-            if (!appHost.supports('multiserver')) {
+            if (!appHost.default.supports('multiserver')) {
                 view.querySelector('.btnSelectServer').classList.add('hide');
             }
 

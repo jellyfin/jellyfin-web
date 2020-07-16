@@ -3520,7 +3520,7 @@ class PlaybackManager {
                 'PlayTrailers'
             ];
 
-            if (apphost.supports('fullscreenchange')) {
+            if (appHost.default.supports('fullscreenchange')) {
                 list.push('ToggleFullscreen');
             }
 

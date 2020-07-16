@@ -158,7 +158,7 @@ import actionsheet from 'actionsheet';
         }
 
         // Books are promoted to major download Button and therefor excluded in the context menu
-        if ((item.CanDownload && appHost.supports('filedownload')) && item.Type !== 'Book') {
+        if ((item.CanDownload && appHost.default.supports('filedownload')) && item.Type !== 'Book') {
             commands.push({
                 name: globalize.translate('Download'),
                 id: 'download',

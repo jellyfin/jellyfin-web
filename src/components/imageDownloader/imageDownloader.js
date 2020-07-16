@@ -208,7 +208,7 @@ import 'cardStyle';
         html += '<div class="cardPadder-' + shape + '"></div>';
         html += '<div class="cardContent">';
 
-        if (layoutManager.tv || !appHost.supports('externallinks')) {
+        if (layoutManager.tv || !appHost.default.supports('externallinks')) {
             html += '<div class="cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center center;background-size:contain;"></div>';
         } else {
             html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center center;background-size:contain"></a>';

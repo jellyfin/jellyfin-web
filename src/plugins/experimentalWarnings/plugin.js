@@ -12,7 +12,7 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     }
 
     function showMessage(text, userSettingsKey, appHostFeature) {
-        if (appHost.supports(appHostFeature)) {
+        if (appHost.default.supports(appHostFeature)) {
             return Promise.resolve();
         }
 

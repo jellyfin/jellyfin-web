@@ -75,13 +75,13 @@ import 'emby-button';
             context.querySelector('.languageSection').classList.add('hide');
         }
 
-        if (appHost.supports('displaymode')) {
+        if (appHost.default.supports('displaymode')) {
             context.querySelector('.fldDisplayMode').classList.remove('hide');
         } else {
             context.querySelector('.fldDisplayMode').classList.add('hide');
         }
 
-        if (appHost.supports('externallinks')) {
+        if (appHost.default.supports('externallinks')) {
             context.querySelector('.learnHowToContributeContainer').classList.remove('hide');
         } else {
             context.querySelector('.learnHowToContributeContainer').classList.add('hide');
@@ -136,7 +136,7 @@ import 'emby-button';
     function saveUser(context, user, userSettingsInstance, apiClient) {
         user.Configuration.DisplayMissingEpisodes = context.querySelector('.chkDisplayMissingEpisodes').checked;
 
-        if (appHost.supports('displaylanguage')) {
+        if (appHost.default.supports('displaylanguage')) {
             userSettingsInstance.language(context.querySelector('#selectLanguage').value);
         }
 
