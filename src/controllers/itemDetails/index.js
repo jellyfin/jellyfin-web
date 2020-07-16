@@ -726,7 +726,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             disableIndicators: true,
             disableHoverMenu: true,
             overlayPlayButton: true,
-            width: dom.getWindowSize().innerWidth * 0.25
+            width: dom.getWindowSize().innerWidth * 0.5
         });
 
         elem.innerHTML = cardHtml;
