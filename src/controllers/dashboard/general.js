@@ -24,7 +24,7 @@ import 'emby-button';
 
     function onSubmit() {
         loading.show();
-        var form = this;
+        const form = this;
         $(form).parents('.page');
         ApiClient.getServerConfiguration().then(function (config) {
             config.ServerName = $('#txtServerName', form).val();
@@ -32,7 +32,7 @@ import 'emby-button';
             config.CachePath = form.querySelector('#txtCachePath').value;
             config.MetadataPath = $('#txtMetadataPath', form).val();
             config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
-            var requiresReload = config.UICulture !== currentLanguage;
+            let requiresReload = config.UICulture !== currentLanguage;
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;
@@ -61,13 +61,13 @@ import 'emby-button';
         return false;
     }
 
-    var currentBrandingOptions;
-    var currentLanguage;
-    var brandingConfigKey = 'branding';
+    let currentBrandingOptions;
+    let currentLanguage;
+    const brandingConfigKey = 'branding';
     export default function (view, params) {
         $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
             import('directorybrowser').then(({default: directoryBrowser}) => {
-                var picker = new directoryBrowser();
+                const picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -84,7 +84,7 @@ import 'emby-button';
         });
         $('#btnSelectMetadataPath', view).on('click.selectDirectory', function () {
             import('directorybrowser').then(({default: directoryBrowser}) => {
-                var picker = new directoryBrowser();
+                const picker = new directoryBrowser();
                 picker.show({
                     path: $('#txtMetadataPath', view).val(),
                     networkSharePath: $('#txtMetadataNetworkPath', view).val(),
@@ -108,9 +108,9 @@ import 'emby-button';
         });
         $('.dashboardGeneralForm', view).off('submit', onSubmit).on('submit', onSubmit);
         view.addEventListener('viewshow', function () {
-            var promiseConfig = ApiClient.getServerConfiguration();
-            var promiseLanguageOptions = ApiClient.getJSON(ApiClient.getUrl('Localization/Options'));
-            var promiseSystemInfo = ApiClient.getSystemInfo();
+            const promiseConfig = ApiClient.getServerConfiguration();
+            const promiseLanguageOptions = ApiClient.getJSON(ApiClient.getUrl('Localization/Options'));
+            const promiseSystemInfo = ApiClient.getSystemInfo();
             Promise.all([promiseConfig, promiseLanguageOptions, promiseSystemInfo]).then(function (responses) {
                 loadPage(view, responses[0], responses[1], responses[2]);
             });
@@ -120,6 +120,6 @@ import 'emby-button';
                 view.querySelector('#txtCustomCss').value = config.CustomCss || '';
             });
         });
-    };
+    }
 
 /* eslint-enable indent */

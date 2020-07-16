@@ -12,7 +12,7 @@ import globalize from 'globalize';
 
     function onSubmit() {
         loading.show();
-        var form = this;
+        const form = this;
         ApiClient.getServerConfiguration().then(function (config) {
             config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($('#txtRemoteClientBitrateLimit', form).val() || '0'));
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
@@ -39,7 +39,7 @@ import globalize from 'globalize';
     }).on('pageshow', '#streamingSettingsPage', function () {
         loading.show();
         libraryMenu.setTabs('playback', 2, getTabs);
-        var page = this;
+        const page = this;
         ApiClient.getServerConfiguration().then(function (config) {
             loadPage(page, config);
         });

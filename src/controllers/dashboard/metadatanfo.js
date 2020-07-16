@@ -6,7 +6,7 @@ import globalize from 'globalize';
 /* eslint-disable indent */
 
     function loadPage(page, config, users) {
-        var html = '<option value="" selected="selected">' + globalize.translate('OptionNone') + '</option>';
+        let html = '<option value="" selected="selected">' + globalize.translate('OptionNone') + '</option>';
         html += users.map(function (user) {
             return '<option value="' + user.Id + '">' + user.Name + '</option>';
         }).join('');
@@ -20,7 +20,7 @@ import globalize from 'globalize';
 
     function onSubmit() {
         loading.show();
-        var form = this;
+        const form = this;
         ApiClient.getNamedConfiguration(metadataKey).then(function (config) {
             config.UserId = $('#selectUser', form).val() || null;
             config.ReleaseDateFormat = $('#selectReleaseDateFormat', form).val();
@@ -36,7 +36,7 @@ import globalize from 'globalize';
     }
 
     function showConfirmMessage(config) {
-        var msg = [];
+        const msg = [];
         msg.push(globalize.translate('MetadataSettingChangeHelp'));
 
         import('alert').then(({default: alert}) => {
@@ -62,15 +62,15 @@ import globalize from 'globalize';
         }];
     }
 
-    var metadataKey = 'xbmcmetadata';
+    const metadataKey = 'xbmcmetadata';
     $(document).on('pageinit', '#metadataNfoPage', function () {
         $('.metadataNfoForm').off('submit', onSubmit).on('submit', onSubmit);
     }).on('pageshow', '#metadataNfoPage', function () {
         libraryMenu.setTabs('metadata', 3, getTabs);
         loading.show();
-        var page = this;
-        var promise1 = ApiClient.getUsers();
-        var promise2 = ApiClient.getNamedConfiguration(metadataKey);
+        const page = this;
+        const promise1 = ApiClient.getUsers();
+        const promise2 = ApiClient.getNamedConfiguration(metadataKey);
         Promise.all([promise1, promise2]).then(function (responses) {
             loadPage(page, responses[1], responses[0]);
         });

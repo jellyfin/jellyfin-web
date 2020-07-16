@@ -3,7 +3,6 @@ import loading from 'loading';
 import libraryMenu from 'libraryMenu';
 import 'emby-checkbox';
 import 'emby-button';
-import 'emby-button';
 
 /* eslint-disable indent */
 
@@ -39,7 +38,7 @@ import 'emby-button';
 
         view.querySelector('form').addEventListener('submit', function(e) {
             loading.show();
-            var form = this;
+            const form = this;
             ApiClient.getServerConfiguration().then(function(config) {
                 config.EnableFolderView = form.querySelector('.chkFolderView').checked;
                 config.EnableGroupingIntoCollections = form.querySelector('.chkGroupMoviesIntoCollections').checked;
@@ -69,6 +68,6 @@ import 'emby-button';
                 }
             });
         });
-    };
+    }
 
     /* eslint-enable indent */
