@@ -204,15 +204,11 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         volumeSliderContainer.classList.toggle('hide', appHost.supports('physicalvolumecontrol'));
 
-        function setVolume() {
+        volumeSlider.addEventListener('input', (e) => {
             if (currentPlayer) {
-                currentPlayer.setVolume(this.value);
+                currentPlayer.setVolume(e.target.value);
             }
-        }
-
-        volumeSlider.addEventListener('change', setVolume);
-        volumeSlider.addEventListener('mousemove', setVolume);
-        volumeSlider.addEventListener('touchmove', setVolume);
+        });
 
         positionSlider.addEventListener('change', function () {
 
