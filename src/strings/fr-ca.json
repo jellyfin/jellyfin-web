@@ -139,7 +139,7 @@
     "BoxRear": "Dos de boîtier",
     "Browse": "Parcourir",
     "BrowsePluginCatalogMessage": "Explorer notre catalogue des plugins pour voir les plugins disponibles.",
-    "AllowHWTranscodingHelp": "Permet au récepteur TV de transcoder les flux à la volée. Cela peut aider à réduire le transcodage requis par le serveur.",
+    "AllowHWTranscodingHelp": "Permets au syntonisateur de transcoder les flux à la volée. Cela peut aider à réduire le transcodage requis par le serveur.",
     "BurnSubtitlesHelp": "Détermine si le serveur doit graver les sous-titres lors du transcodage vidéo. Éviter ceci améliorera les performances du serveur. Sélectionnez Auto pour graver les formats basés sur l'image (par exemple, VOBSUB, PGS, SUB/IDX etc) ainsi que certains sous-titres ASS/SSA.",
     "ButtonAccept": "Accepter",
     "ButtonAdd": "Ajouter",
