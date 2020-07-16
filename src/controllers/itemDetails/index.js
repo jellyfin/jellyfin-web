@@ -726,7 +726,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             disableIndicators: true,
             disableHoverMenu: true,
             overlayPlayButton: true,
-            width: dom.getWindowSize().innerWidth * 0.25
+            width: dom.getWindowSize().innerWidth * 0.5
         });
 
         elem.innerHTML = cardHtml;
@@ -1361,7 +1361,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                         imageSize: 'large',
                         enableSideMediaInfo: false,
                         highlight: false,
-                        action: layoutManager.tv ? 'resume' : 'none',
+                        action: !layoutManager.desktop ? 'link' : 'none',
                         imagePlayButton: true,
                         includeParentInfoInTitle: false
                     });

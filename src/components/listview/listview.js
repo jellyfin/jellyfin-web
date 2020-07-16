@@ -273,7 +273,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     imageClass += ' itemAction';
                 }
 
-                var imageAction = playOnImageClick ? 'resume' : action;
+                var imageAction = playOnImageClick ? 'link' : action;
 
                 if (imgUrl) {
                     html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
