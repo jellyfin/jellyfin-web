@@ -227,7 +227,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             setQuality = true;
         }
 
-        if (setQuality || !options.quality) {
+        if (setQuality && !options.quality) {
             options.quality = 90;
         }
     }
