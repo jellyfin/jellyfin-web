@@ -788,13 +788,10 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 return datetime.getDisplayRunningTime(ticks);
             };
 
-            function setVolume() {
-                playbackManager.setVolume(this.value, currentPlayer);
-            }
+            context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {
+                playbackManager.setVolume(e.target.value, currentPlayer);
+            });
 
-            context.querySelector('.nowPlayingVolumeSlider').addEventListener('change', setVolume);
-            context.querySelector('.nowPlayingVolumeSlider').addEventListener('mousemove', setVolume);
-            context.querySelector('.nowPlayingVolumeSlider').addEventListener('touchmove', setVolume);
             context.querySelector('.buttonMute').addEventListener('click', function () {
                 playbackManager.toggleMute(currentPlayer);
             });
