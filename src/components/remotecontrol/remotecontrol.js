@@ -494,7 +494,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 itemsContainer.innerHTML = html;
                 if (focusedItemPlaylistId !== null) {
                     focusedItemPlaylistId = focusedItemPlaylistId.getAttribute('data-playlistitemid');
-                    const newFocusedItem = itemsContainer.querySelector(`button[data-playlistitemid=${focusedItemPlaylistId}]`);
+                    const newFocusedItem = itemsContainer.querySelector(`button[data-playlistitemid="${focusedItemPlaylistId}"]`);
                     if (newFocusedItem !== null) {
                         newFocusedItem.focus();
                     }
@@ -503,7 +503,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 var playlistItemId = playbackManager.getCurrentPlaylistItemId(player);
 
                 if (playlistItemId) {
-                    var img = itemsContainer.querySelector('.listItem[data-playlistItemId="' + playlistItemId + '"] .listItemImage');
+                    var img = itemsContainer.querySelector(`.listItem[data-playlistItemId="${playlistItemId}"] .listItemImage`);
 
                     if (img) {
                         img.classList.remove('lazy');
