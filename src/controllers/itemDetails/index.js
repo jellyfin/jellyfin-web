@@ -1361,7 +1361,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                         imageSize: 'large',
                         enableSideMediaInfo: false,
                         highlight: false,
-                        action: layoutManager.tv ? 'link' : 'none',
+                        action: !layoutManager.desktop ? 'link' : 'none',
                         imagePlayButton: true,
                         includeParentInfoInTitle: false
                     });
