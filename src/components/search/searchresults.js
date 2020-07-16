@@ -464,7 +464,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             showTitle: true,
             overlayText: false,
             centerText: true,
-            action: 'play'
 
         });
 
