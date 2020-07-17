@@ -165,6 +165,11 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             context.querySelector('.fldThemeVideo').classList.add('hide');
         }
 
+        if (appHost.supports('darktheme')) {
+            context.querySelector('.followSystemTheme').classList.remove('hide');
+            context.querySelector('.selectDarkTheme').classList.remove('hide');
+        }
+
         context.querySelector('.chkRunAtStartup').checked = appSettings.runAtStartup();
 
         var selectTheme = context.querySelector('#selectTheme');
@@ -194,7 +199,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
         selectDashboardTheme.value = userSettings.dashboardTheme() || '';
         selectTheme.value = userSettings.theme() || '';
-        selectDarkTheme.value = userSettings.darkTheme() || '';     
+        selectDarkTheme.value = userSettings.darkTheme() || '';
 
         context.querySelector('.selectLayout').value = layoutManager.getSavedLayout() || '';
 

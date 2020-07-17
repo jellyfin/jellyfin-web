@@ -1,4 +1,4 @@
-define(['userSettings', 'skinManager', 'connectionManager', 'events'], function (userSettings, skinManager, connectionManager, events) {
+define(['userSettings', 'skinManager', 'connectionManager', 'apphost', 'events'], function (userSettings, skinManager, connectionManager, appHost, events) {
     'use strict';
 
     var currentViewType;
@@ -16,11 +16,8 @@ define(['userSettings', 'skinManager', 'connectionManager', 'events'], function 
                 context = 'serverdashboard';
             } else {
                 theme = userSettings.theme();
-                var sysTheme = userSettings.followSystemTheme();
-                if (true === sysTheme) {
-                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        theme = userSettings.darkTheme();
-                    }
+                if (userSettings.followSystemTheme() === true && appHost.useDarkTheme() === true) {
+                    theme = userSettings.darkTheme();
                 }
             }
 

@@ -195,11 +195,23 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
         }
     }
 
+    function useDarkTheme() {
+        if (window.matchMedia('(prefers-color-scheme)').media !== 'not all') {
+            return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? true : false;
+        } else {
+            return false;
+        }
+    }
+
     var supportedFeatures = function () {
         var features = [];
 
         if (navigator.share) {
             features.push('sharing');
+        }
+
+        if (window.matchMedia('(prefers-color-scheme)').media !== 'not all') {
+            features.push('darktheme');
         }
 
         if (!browser.edgeUwp && !browser.tv && !browser.xboxOne && !browser.ps4) {
@@ -400,6 +412,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
                 metaThemeColor.setAttribute('content', color);
             }
         },
+        useDarkTheme: useDarkTheme,
         setUserScalable: function (scalable) {
             if (!browser.tv) {
                 var att = scalable ? 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes' : 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no';
