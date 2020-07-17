@@ -113,5 +113,7 @@
     "AllowOnTheFlySubtitleExtraction": "मक्खी पर उपशीर्षक निष्कर्षण की अनुमति दें",
     "Album": "एल्बम",
     "AddItemToCollectionHelp": "उनके लिए खोज करके संग्रह में आइटम जोड़ें और उन्हें संग्रह में जोड़ने के लिए उनके राइट-क्लिक या टैप मेनू का उपयोग करें।",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "BrowsePluginCatalogMessage": "उपलब्ध प्लगिन्स देखने के लिए हमारे कैटलॉग को ब्राउज़ करें.",
+    "Browse": "ब्राउज़"
 }
