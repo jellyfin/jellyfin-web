@@ -121,6 +121,7 @@
           "src/components/playback/playmethodhelper.js",
           "src/components/playback/remotecontrolautoplay.js",
           "src/components/playback/volumeosd.js",
+          "src/components/playerstats/playerstats.js",
           "src/components/playlisteditor/playlisteditor.js",
           "src/components/groupedcards.js",
           "src/components/htmlMediaHelper.js",

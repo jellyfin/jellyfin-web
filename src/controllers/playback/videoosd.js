@@ -964,7 +964,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                     if (statsOverlay) {
                         statsOverlay.toggle();
                     } else {
-                        statsOverlay = new PlayerStats({
+                        statsOverlay = new PlayerStats.default({
                             player: player
                         });
                     }
