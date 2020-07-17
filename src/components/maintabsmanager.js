@@ -85,7 +85,7 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
 
         require(['touchHelper'], function (TouchHelper) {
 
-            var touchHelper = new TouchHelper(view.parentNode.parentNode);
+            var touchHelper = new TouchHelper.default(view.parentNode.parentNode);
 
             events.on(touchHelper, 'swipeleft', onSwipeLeft);
             events.on(touchHelper, 'swiperight', onSwipeRight);

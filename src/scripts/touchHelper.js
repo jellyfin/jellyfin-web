@@ -1,12 +1,12 @@
-define(['dom', 'events'], function (dom, events) {
-    'use strict';
+import dom from 'dom';
+import events from 'events';
 
-    function getTouches(e) {
+function getTouches(e) {
+    return e.changedTouches || e.targetTouches || e.touches;
+}
 
-        return e.changedTouches || e.targetTouches || e.touches;
-    }
-
-    function TouchHelper(elem, options) {
+class TouchHelper {
+    constructor(elem, options) {
 
         options = options || {};
         var touchTarget;
@@ -138,8 +138,7 @@ define(['dom', 'events'], function (dom, events) {
             passive: true
         });
     }
-
-    TouchHelper.prototype.destroy = function () {
+    destroy() {
 
         var elem = this.elem;
 
@@ -165,7 +164,7 @@ define(['dom', 'events'], function (dom, events) {
         this.touchEnd = null;
 
         this.elem = null;
-    };
+    }
+}
 
-    return TouchHelper;
-});
+export default TouchHelper;

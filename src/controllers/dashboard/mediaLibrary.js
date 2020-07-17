@@ -372,7 +372,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     pageIdOn('pageshow', 'mediaLibraryPage', function () {
         libraryMenu.setTabs('librarysetup', 0, getTabs);
         var page = this;
-        taskButton({
+        taskButton.default({
             mode: 'on',
             progressElem: page.querySelector('.refreshProgress'),
             taskKey: 'RefreshLibrary',
@@ -381,7 +381,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     });
     pageIdOn('pagebeforehide', 'mediaLibraryPage', function () {
         var page = this;
-        taskButton({
+        taskButton.default({
             mode: 'off',
             progressElem: page.querySelector('.refreshProgress'),
             taskKey: 'RefreshLibrary',

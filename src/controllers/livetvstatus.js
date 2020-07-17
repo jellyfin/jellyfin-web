@@ -303,7 +303,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }).on('pageshow', '#liveTvStatusPage', function () {
         var page = this;
         reload(page);
-        taskButton({
+        taskButton.default({
             mode: 'on',
             progressElem: page.querySelector('.refreshGuideProgress'),
             taskKey: 'RefreshGuide',
@@ -311,7 +311,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
         });
     }).on('pagehide', '#liveTvStatusPage', function () {
         var page = this;
-        taskButton({
+        taskButton.default({
             mode: 'off',
             progressElem: page.querySelector('.refreshGuideProgress'),
             taskKey: 'RefreshGuide',
