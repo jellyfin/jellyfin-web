@@ -47,7 +47,7 @@
     "BirthLocation": "生まれた場所",
     "BirthPlaceValue": "生まれた場所: {0}",
     "Blacklist": "ブラックリスト",
-    "BookLibraryHelp": "オーディオブックとテキストブックに対応しています。{0}Jellyfinブック命名ガイド{1}.",
+    "BookLibraryHelp": "オーディオブックとテキストブックに対応しています。{0} の資料、ブック命名ガイド {1} を参照。",
     "Books": "ブック",
     "Box": "ボックス",
     "BoxRear": "ボックス(後)",
@@ -1176,5 +1176,10 @@
     "LabelEnableBlastAliveMessagesHelp": "ネットワーク上の他の UPnP デバイスによってサーバーが確実に検出されない場合、この設定を有効にします。",
     "LabelEnableAutomaticPortMapHelp": "ルーター上のパブリックポートを、UPnP 経由でサーバーのローカルポートに自動的に転送します。これはルータのモデルやネットワーク構成によっては動作しない場合があります。変更はサーバーを再起動するまで適用されません。",
     "LabelEmbedAlbumArtDidlHelp": "一部のデバイスでは、アルバムアートを取得するためにこの方法が好まれています。その他のデバイスでは、このオプションを有効にしても再生できない場合があります。",
-    "LabelDownMixAudioScaleHelp": "ダウンミックス時にオーディオの音量を増幅します。値が 1 の場合、元の音量を維持します。"
+    "LabelDownMixAudioScaleHelp": "ダウンミックス時にオーディオの音量を増幅します。値が 1 の場合、元の音量を維持します。",
+    "LabelEnableHttps": "HTTPS を有効にする",
+    "LabelEnableDlnaPlayToHelp": "ネットワーク内のデバイスを検出し、それらをリモートコントロールできるようにします。",
+    "LabelEnableDlnaPlayTo": "DLNA 再生を有効にする",
+    "LabelEnableDlnaDebugLoggingHelp": "巨大なログファイルを作成します。トラブルシューティングでの必要な際にだけ使用してください。",
+    "LabelEnableDlnaClientDiscoveryIntervalHelp": "Jellyfin が実行する SSDP 検索の間隔を決めます（秒単位）。"
 }
