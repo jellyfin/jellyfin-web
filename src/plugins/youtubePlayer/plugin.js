@@ -24,7 +24,7 @@ function createMediaElement(instance, options) {
 
         if (!dlg) {
 
-            require(['css!./style'], function () {
+            import('css!./style').then(() => {
 
                 loading.show();
 
@@ -127,7 +127,7 @@ function onPlaying(instance, playOptions, resolve) {
             instance.videoDialog.classList.remove('onTop');
         }
 
-        require(['loading'], function (loading) {
+        import('loading').then(({default: loading}) => {
 
             loading.hide();
         });
@@ -138,7 +138,7 @@ function setCurrentSrc(instance, elem, options) {
 
     return new Promise(function (resolve, reject) {
 
-        require(['queryString'], function (queryString) {
+        import('queryString').then(({default: queryString}) => {
 
             instance._currentSrc = options.url;
             const params = queryString.parse(options.url.split('?')[1]);
