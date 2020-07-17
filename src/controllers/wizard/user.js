@@ -35,7 +35,7 @@ function onSubmit(e) {
     const form = this;
 
     if (form.querySelector('#txtManualPassword').value != form.querySelector('#txtPasswordConfirm').value) {
-        require(['toast'], function (toast) {
+        import('toast').then(({default: toast}) => {
             toast(globalize.translate('PasswordMatchError'));
         });
     } else {
