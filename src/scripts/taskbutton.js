@@ -13,7 +13,7 @@ export default function (options) {
     }
 
     function updateTasks(tasks) {
-        var task = tasks.filter(function (t) {
+        const task = tasks.filter(function (t) {
             return t.Key == options.taskKey;
         })[0];
 
@@ -36,7 +36,7 @@ export default function (options) {
         }
 
         button.setAttribute('data-taskid', task.Id);
-        var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
+        const progress = (task.CurrentProgressPercentage || 0).toFixed(1);
 
         if (options.progressElem) {
             options.progressElem.value = progress;
@@ -49,7 +49,7 @@ export default function (options) {
         }
 
         if (options.lastResultElem) {
-            var lastResult = task.LastExecutionResult ? task.LastExecutionResult.Status : '';
+            const lastResult = task.LastExecutionResult ? task.LastExecutionResult.Status : '';
 
             if (lastResult == 'Failed') {
                 options.lastResultElem.html('<span style="color:#FF0000;">(' + globalize.translate('LabelFailed') + ')</span>');
@@ -77,9 +77,9 @@ export default function (options) {
         }
     }
 
-    var pollInterval;
-    var button = options.button;
-    var serverId = ApiClient.serverId();
+    let pollInterval;
+    const button = options.button;
+    const serverId = ApiClient.serverId();
 
     function onPollIntervalFired() {
         if (!connectionManager.getApiClient(serverId).isMessageChannelOpen()) {
@@ -88,7 +88,7 @@ export default function (options) {
     }
 
     function startInterval() {
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = connectionManager.getApiClient(serverId);
 
         if (pollInterval) {
             clearInterval(pollInterval);
