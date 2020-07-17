@@ -278,6 +278,10 @@
         flex-direction: column;
     }
 
+    .layout-desktop .nowPlayingPageUserDataButtons {
+        display: none;
+    }
+
     .nowPlayingInfoContainer {
         -webkit-box-orient: vertical !important;
         -webkit-box-direction: normal !important;
