@@ -139,7 +139,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-input', 'listVi
             var page = $(e.target).parents('.xmltvForm')[0];
 
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     includeFiles: true,
                     callback: function (path) {

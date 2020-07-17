@@ -1,7 +1,11 @@
-define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (browser, dom) {
-    'use strict';
+import browser from 'browser';
+import dom from 'dom';
+import 'css!./emby-checkbox';
+import 'registerElement';
 
-    var EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
+/* eslint-disable indent */
+
+    let EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
 
     function onKeyDown(e) {
         // Don't submit form on enter
@@ -19,10 +23,10 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
         }
     }
 
-    var enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s ? true : false;
+    const enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s ? true : false;
 
     function forceRefresh(loading) {
-        var elem = this.parentNode;
+        let elem = this.parentNode;
 
         elem.style.webkitAnimationName = 'repaintChrome';
         elem.style.webkitAnimationDelay = (loading === true ? '500ms' : '');
@@ -43,22 +47,22 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
 
         this.classList.add('emby-checkbox');
 
-        var labelElement = this.parentNode;
+        const labelElement = this.parentNode;
         labelElement.classList.add('emby-checkbox-label');
 
-        var labelTextElement = labelElement.querySelector('span');
+        const labelTextElement = labelElement.querySelector('span');
 
-        var outlineClass = 'checkboxOutline';
+        let outlineClass = 'checkboxOutline';
 
-        var customClass = this.getAttribute('data-outlineclass');
+        const customClass = this.getAttribute('data-outlineclass');
         if (customClass) {
             outlineClass += ' ' + customClass;
         }
 
-        var checkedIcon = this.getAttribute('data-checkedicon') || 'check';
-        var uncheckedIcon = this.getAttribute('data-uncheckedicon') || '';
-        var checkHtml = '<span class="material-icons checkboxIcon checkboxIcon-checked ' + checkedIcon + '"></span>';
-        var uncheckedHtml = '<span class="material-icons checkboxIcon checkboxIcon-unchecked ' + uncheckedIcon + '"></span>';
+        const checkedIcon = this.getAttribute('data-checkedicon') || 'check';
+        const uncheckedIcon = this.getAttribute('data-uncheckedicon') || '';
+        const checkHtml = '<span class="material-icons checkboxIcon checkboxIcon-checked ' + checkedIcon + '"></span>';
+        const uncheckedHtml = '<span class="material-icons checkboxIcon checkboxIcon-unchecked ' + uncheckedIcon + '"></span>';
         labelElement.insertAdjacentHTML('beforeend', '<span class="' + outlineClass + '">' + checkHtml + uncheckedHtml + '</span>');
 
         labelTextElement.classList.add('checkboxLabel');
@@ -103,4 +107,5 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
         prototype: EmbyCheckboxPrototype,
         extends: 'input'
     });
-});
+
+/* eslint-enable indent */
