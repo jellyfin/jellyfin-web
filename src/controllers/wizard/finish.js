@@ -1,18 +1,16 @@
-define(['loading'], function (loading) {
-    'use strict';
+import loading from 'loading';
 
-    function onFinish() {
-        loading.show();
-        ApiClient.ajax({
-            url: ApiClient.getUrl('Startup/Complete'),
-            type: 'POST'
-        }).then(function () {
-            loading.hide();
-            window.location.href = 'index.html';
-        });
-    }
+function onFinish() {
+    loading.show();
+    ApiClient.ajax({
+        url: ApiClient.getUrl('Startup/Complete'),
+        type: 'POST'
+    }).then(function () {
+        loading.hide();
+        window.location.href = 'index.html';
+    });
+}
 
-    return function (view, params) {
-        view.querySelector('.btnWizardNext').addEventListener('click', onFinish);
-    };
-});
+export default function (view, params) {
+    view.querySelector('.btnWizardNext').addEventListener('click', onFinish);
+}
