@@ -554,7 +554,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 });
             } else {
                 require(['metadataEditor'], function (metadataEditor) {
-                    metadataEditor.show(item.Id, serverId).then(resolve, reject);
+                    metadataEditor.default.show(item.Id, serverId).then(resolve, reject);
                 });
             }
         });
