@@ -5,7 +5,7 @@ import 'webcomponents';
 
 /* eslint-disable indent */
 
-    let EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
+    const EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
 
     function onKeyDown(e) {
         // Don't submit form on enter
@@ -26,7 +26,7 @@ import 'webcomponents';
     const enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s ? true : false;
 
     function forceRefresh(loading) {
-        let elem = this.parentNode;
+        const elem = this.parentNode;
 
         elem.style.webkitAnimationName = 'repaintChrome';
         elem.style.webkitAnimationDelay = (loading === true ? '500ms' : '');

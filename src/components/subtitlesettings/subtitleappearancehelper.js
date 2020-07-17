@@ -4,7 +4,7 @@
  */
 
 function getTextStyles(settings, isCue) {
-    let list = [];
+    const list = [];
 
     if (isCue) {
         switch (settings.textSize || '') {
@@ -123,14 +123,14 @@ export function getStyles(settings, isCue) {
 
 function applyStyleList(styles, elem) {
     for (let i = 0, length = styles.length; i < length; i++) {
-        let style = styles[i];
+        const style = styles[i];
 
         elem.style[style.name] = style.value;
     }
 }
 
 export function applyStyles(elements, appearanceSettings) {
-    let styles = getStyles(appearanceSettings);
+    const styles = getStyles(appearanceSettings);
 
     if (elements.text) {
         applyStyleList(styles.text, elements.text);

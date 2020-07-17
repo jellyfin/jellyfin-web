@@ -391,11 +391,8 @@ import 'scrollStyles';
             dlg.setAttribute('data-autofocus', 'true');
         }
 
-        let defaultEntryAnimation;
-        let defaultExitAnimation;
-
-        defaultEntryAnimation = 'scaleup';
-        defaultExitAnimation = 'scaledown';
+        const defaultEntryAnimation = 'scaleup';
+        const defaultExitAnimation = 'scaledown';
         const entryAnimation = options.entryAnimation || defaultEntryAnimation;
         const exitAnimation = options.exitAnimation || defaultExitAnimation;
 
