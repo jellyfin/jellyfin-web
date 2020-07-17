@@ -1181,5 +1181,13 @@
     "LabelEnableDlnaPlayToHelp": "ネットワーク内のデバイスを検出し、それらをリモートコントロールできるようにします。",
     "LabelEnableDlnaPlayTo": "DLNA 再生を有効にする",
     "LabelEnableDlnaDebugLoggingHelp": "巨大なログファイルを作成します。トラブルシューティングでの必要な際にだけ使用してください。",
-    "LabelEnableDlnaClientDiscoveryIntervalHelp": "Jellyfin が実行する SSDP 検索の間隔を決めます（秒単位）。"
+    "LabelEnableDlnaClientDiscoveryIntervalHelp": "Jellyfin が実行する SSDP 検索の間隔を決めます（秒単位）。",
+    "LabelGroupMoviesIntoCollectionsHelp": "ムービーリストを表示する際、コレクションに属するムービーを1つのグループとして表示します。",
+    "LabelServerNameHelp": "この名前はサーバーを識別するために使用します。デフォルトではサーバーのコンピュータ名です。",
+    "LabelExtractChaptersDuringLibraryScanHelp": "ライブラリー スキャン中に動画を取り込んだときに、チャプター画像を生成します。もしくは、スケジュールタスクの中でチャプター画像を抽出することで、通常のライブラリー スキャンをより速く完了させることができます。",
+    "LabelExtractChaptersDuringLibraryScan": "ライブラリーをスキャンしながら、チャプター画像を生成する",
+    "LabelBaseUrlHelp": "サーバーの URL にカスタム サブディレクトリを加えます。例 : <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
+    "LabelEnableSingleImageInDidlLimitHelp": "Didl 内に複数の画像が埋め込まれている場合、一部のデバイスでは正しくレンダリングされません。",
+    "LabelEnableRealtimeMonitorHelp": "ファイルへの変更は、サポートされているファイルシステム上ですぐに処理されます。",
+    "LabelEnableHttpsHelp": "構成された HTTPS ポートからサーバーがリッスンするのを有効にします。この機能を有効にするには、適切な証明書を設定する必要があります。"
 }
