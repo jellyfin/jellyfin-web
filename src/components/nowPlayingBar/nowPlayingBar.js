@@ -1,5 +1,20 @@
-define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'itemContextMenu', 'paper-icon-button-light', 'emby-ratingbutton'], function (require, datetime, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager, itemContextMenu) {
-    'use strict';
+import require from 'require';
+import datetime from 'datetime';
+import itemHelper from 'itemHelper';
+import events from 'events';
+import browser from 'browser';
+import imageLoader from 'imageLoader';
+import layoutManager from 'layoutManager';
+import playbackManager from 'playbackManager';
+import nowPlayingHelper from 'nowPlayingHelper';
+import appHost from 'apphost';
+import dom from 'dom';
+import connectionManager from 'connectionManager';
+import itemContextMenu from 'itemContextMenu';
+import 'paper-icon-button-light';
+import 'emby-ratingbutton';
+
+/* eslint-disable indent */
 
     var currentPlayer;
     var currentPlayerSupportedCommands = [];
@@ -230,7 +245,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function showRemoteControl() {
 
-        require(['appRouter'], function (appRouter) {
+        import('appRouter').then(({default: appRouter}) => {
             appRouter.showNowPlaying();
         });
     }
@@ -244,7 +259,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         return new Promise(function (resolve, reject) {
 
-            require(['appFooter-shared', 'itemShortcuts', 'css!./nowPlayingBar.css', 'emby-slider'], function (appfooter, itemShortcuts) {
+            import('appFooter-shared','itemShortcuts','css!./nowPlayingBar.css','emby-slider').then(({default: appfooter, itemShortcuts}) => {
 
                 var parentContainer = appfooter.element;
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
@@ -771,4 +786,5 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         }
     });
-});
+
+/* eslint-enable indent */

@@ -111,6 +111,7 @@
           "src/components/lazyLoader/lazyLoaderIntersectionObserver.js",
           "src/components/mediaLibraryCreator/mediaLibraryCreator.js",
           "src/components/mediaLibraryEditor/mediaLibraryEditor.js",
+          "src/components/nowPlayingBar/nowPlayingBar.js",
           "src/components/listview/listview.js",
           "src/components/playback/brightnessosd.js",
           "src/components/playback/mediasession.js",
