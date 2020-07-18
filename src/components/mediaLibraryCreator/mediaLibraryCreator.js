@@ -52,7 +52,9 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
     }
 
     function initEditor(page, collectionTypeOptions) {
-        $('#selectCollectionType', page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val('').on('change', function () {
+        $('#selectCollectionType', page).innerHTML = getCollectionTypeOptionsHtml(collectionTypeOptions);
+
+        $('#selectCollectionType', page).val('').on('change', function () {
             var value = this.value;
             var dlg = $(this).parents('.dialog')[0];
             libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value == 'mixed' ? '' : value);
@@ -72,7 +74,7 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
                     var folderOption = collectionTypeOptions.filter(function (i) {
                         return i.value == value;
                     })[0];
-                    $('.collectionTypeFieldDescription', dlg).html(folderOption.message || '');
+                    $('.collectionTypeFieldDescription', dlg).innerHTML = folderOption.message || '';
                 }
             }
         });

@@ -26,7 +26,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
 
-            $('.deleteAccess', page).html(html).trigger('create');
+            const deleteAccess = $('.deleteAccess', page);
+            deleteAccess.innerHtml = html;
+            deleteAccess.trigger('create');
             $('#chkEnableDeleteAllFolders', page).prop('checked', user.Policy.EnableContentDeletion);
         });
     }

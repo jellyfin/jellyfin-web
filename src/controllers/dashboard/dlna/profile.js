@@ -68,7 +68,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         var usersHtml = '<option></option>' + users.map(function (u) {
             return '<option value="' + u.Id + '">' + u.Name + '</option>';
         }).join('');
-        $('#selectUser', page).html(usersHtml).val(profile.UserId || '');
+        $('#selectUser', page).innerHtml = usersHtml;
+        $('#selectUser', page).val(profile.UserId || '');
         renderSubProfiles(page, profile);
     }
 
@@ -86,7 +87,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
             index++;
             return li;
         }).join('') + '</div>';
-        var elem = $('.httpHeaderIdentificationList', page).html(html).trigger('create');
+        var elem = $('.httpHeaderIdentificationList', page);
+        elem.innerHtml = html;
+        elem.trigger('create');
         $('.btnDeleteIdentificationHeader', elem).on('click', function () {
             var itemIndex = parseInt(this.getAttribute('data-index'));
             currentProfile.Identification.Headers.splice(itemIndex, 1);
@@ -139,7 +142,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
             li += '<button type="button" is="paper-icon-button-light" class="btnDeleteXmlAttribute listItemButton" data-index="0"><span class="material-icons delete"></span></button>';
             return li += '</div>';
         }).join('') + '</div>';
-        var elem = $('.xmlDocumentAttributeList', page).html(html).trigger('create');
+        var elem = $('.xmlDocumentAttributeList', page);
+        elem.innerHtml = html;
+        elem.trigger('create');
         $('.btnDeleteXmlAttribute', elem).on('click', function () {
             var itemIndex = parseInt(this.getAttribute('data-index'));
             currentProfile.XmlRootAttributes.splice(itemIndex, 1);
@@ -183,7 +188,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
             index++;
             return li;
         }).join('') + '</div>';
-        var elem = $('.subtitleProfileList', page).html(html).trigger('create');
+        var elem = $('.subtitleProfileList', page);
+        elem.innerHtml = html;
+        elem.trigger('create');
         $('.btnDeleteProfile', elem).on('click', function () {
             var itemIndex = parseInt(this.getAttribute('data-index'));
             currentProfile.SubtitleProfiles.splice(itemIndex, 1);
@@ -275,7 +282,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         }
 
         html += '</ul>';
-        var elem = $('.directPlayProfiles', page).html(html).trigger('create');
+        var elem = $('.directPlayProfiles', page);
+        elem.innerHtml = html;
+        elem.trigger('create');
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
             deleteDirectPlayProfile(page, index);
@@ -336,7 +345,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         }
 
         html += '</ul>';
-        var elem = $('.transcodingProfiles', page).html(html).trigger('create');
+        var elem = $('.transcodingProfiles', page);
+        elem.innerHtml = html;
+        elem.trigger('create');
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
             deleteTranscodingProfile(page, index);
@@ -420,7 +431,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         }
 
         html += '</ul>';
-        var elem = $('.containerProfiles', page).html(html).trigger('create');
+        var elem = $('.containerProfiles', page);
+        elem.innerHtml(html);
+        elem.trigger('create');
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
             deleteContainerProfile(page, index);
@@ -492,7 +505,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         }
 
         html += '</ul>';
-        var elem = $('.codecProfiles', page).html(html).trigger('create');
+        var elem = $('.codecProfiles', page);
+        elem.innerHtml(html);
+        elem.trigger('create');
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
             deleteCodecProfile(page, index);
@@ -572,7 +587,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         }
 
         html += '</ul>';
-        var elem = $('.mediaProfiles', page).html(html).trigger('create');
+        var elem = $('.mediaProfiles', page);
+        elem.innerHtml = html;
+        elem.trigger('create');
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
             deleteResponseProfile(page, index);

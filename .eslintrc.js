@@ -67,7 +67,7 @@ module.exports = {
         'jquery/no-grep': 'error',
         'jquery/no-has': 'error',
         'jquery/no-hide': 'error',
-        //'jquery/no-html': 'error',
+        'jquery/no-html': 'error',
         'jquery/no-in-array': 'error',
         'jquery/no-is-array': 'error',
         'jquery/no-is-function': 'error',

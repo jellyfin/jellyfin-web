@@ -39,7 +39,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         }
 
         html += '</div>';
-        $('.channelAccess', page).show().html(html);
+        const channelAccess = $('.channelAccess', page);
+        channelAccess.show();
+        channelAccess.innerHtml = html;
 
         if (channels.length) {
             $('.channelAccessContainer', page).show();
@@ -62,7 +64,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         }
 
         html += '</div>';
-        $('.deviceAccess', page).show().html(html);
+        const deviceAccess = $('.deviceAccess', page);
+        deviceAccess.show();
+        deviceAccess.innerHtml(html);
         $('#chkEnableAllDevices', page).prop('checked', user.Policy.EnableAllDevices);
 
         if (user.Policy.IsAdministrator) {

@@ -11,7 +11,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
             html += '<div style="margin-bottom:1.5em;">' + version.changelog + '</div>';
         }
 
-        $('#revisionHistory', page).html(html);
+        $('#revisionHistory', page).innerHtml = html;
     }
 
     function populateVersions(packageInfo, page, installedPlugin) {
@@ -22,7 +22,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
             html += '<option value="' + version.version + '">' + version.version + '</option>';
         }
 
-        var selectmenu = $('#selectVersion', page).html(html);
+        var selectmenu = $('#selectVersion', page);
+        selectmenu.innerHtml = html;
 
         if (!installedPlugin) {
             const currentVersion = page.querySelector('#pCurrentVersion');
@@ -44,22 +45,26 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         populateVersions(pkg, page, installedPlugin);
         populateHistory(pkg, page);
 
-        $('.pluginName', page).html(pkg.name);
+        $('.pluginName', page).innerHtml = pkg.name;
         page.querySelector('#btnInstallDiv').classList.remove('hide');
         page.querySelector('#pSelectVersion').classList.remove('hide');
 
         if (pkg.overview) {
-            $('#overview', page).show().html(pkg.overview);
+            const overview = $('#overview', page);
+            overview.show();
+            overview.innerHtml = pkg.overview;
         } else {
             page.querySelector('#overview').classList.add('hide');
         }
 
-        $('#description', page).html(pkg.description);
-        $('#developer', page).html(pkg.owner);
+        $('#description', page).innerHtml = pkg.description;
+        $('#developer', page).innerHtml = pkg.owner;
 
         if (installedPlugin) {
             var currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');
-            $('#pCurrentVersion', page).show().html(currentVersionText);
+            const currentVersion = $('#pCurrentVersion', page);
+            currentVersion.show();
+            currentVersion.innerHtml = currentVersionText;
         } else {
             const currentVersion = page.querySelector('#pCurrentVersion');
             currentVersion.classList.add('hide');
@@ -76,7 +81,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
     }
 
     function performInstallation(page, name, guid, version) {
-        var developer = $('#developer', page).html().toLowerCase();
+        var developer = $('#developer', page).innerHtml.toLowerCase();
 
         var alertCallback = function () {
             loading.show();

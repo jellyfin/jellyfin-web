@@ -6,7 +6,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         html += users.map(function (user) {
             return '<option value="' + user.Id + '">' + user.Name + '</option>';
         }).join('');
-        $('#selectUser', page).html(html).val(config.UserId || '');
+        const elem = $('#selectUser', page);
+        elem.innerHtml = html;
+        elem.val(config.UserId || '');
         $('#selectReleaseDateFormat', page).val(config.ReleaseDateFormat);
         page.querySelector('#chkSaveImagePaths').checked = config.SaveImagePathsInNfo;
         page.querySelector('#chkEnablePathSubstitution').checked = config.EnablePathSubstitution;

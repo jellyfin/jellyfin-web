@@ -32,8 +32,8 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             });
         },
         loadScheduledTask: function (view, task) {
-            $('.taskName', view).html(task.Name);
-            $('#pTaskDescription', view).html(task.Description);
+            $('.taskName', view).innerHtml = task.Name;
+            $('#pTaskDescription', view).innerHtml = task.Description;
 
             require(['listViewStyle'], function () {
                 ScheduledTaskPage.loadTaskTriggers(view, task);

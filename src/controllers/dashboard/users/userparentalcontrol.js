@@ -30,7 +30,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
             html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
         }
 
-        $('#selectMaxParentalRating', page).html(html);
+        $('#selectMaxParentalRating', page).innerHtml = html;
     }
 
     function loadUnratedItems(page, user) {
@@ -67,7 +67,9 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
         }
 
         html += '</div>';
-        $('.blockUnratedItems', page).html(html).trigger('create');
+        const blockUnratedItems = $('.blockUnratedItems', page);
+        blockUnratedItems.innerHtml = html;
+        blockUnratedItems.trigger('create');
     }
 
     function loadUser(page, user, allParentalRatings) {
@@ -116,7 +118,9 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
             html = '<div class="paperList">' + html + '</div>';
         }
 
-        var elem = $('.blockedTags', page).html(html).trigger('create');
+        var elem = $('.blockedTags', page);
+        elem.innerHtml = html;
+        elem.trigger('create');
         $('.btnDeleteTag', elem).on('click', function () {
             var tag = this.getAttribute('data-tag');
             var newTags = tags.filter(function (t) {

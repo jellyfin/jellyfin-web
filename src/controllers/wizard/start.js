@@ -2,9 +2,11 @@ define(['jQuery', 'loading', 'emby-button', 'emby-select'], function ($, loading
     'use strict';
 
     function loadPage(page, config, languageOptions) {
-        $('#selectLocalizationLanguage', page).html(languageOptions.map(function (l) {
+        const selectLocalizationLanguage = $('#selectLocalizationLanguage', page);
+        selectLocalizationLanguage.innerHtml = languageOptions.map(function (l) {
             return '<option value="' + l.Value + '">' + l.Name + '</option>';
-        })).val(config.UICulture);
+        });
+        selectLocalizationLanguage.val(config.UICulture);
         loading.hide();
     }
 

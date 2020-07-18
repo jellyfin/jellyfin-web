@@ -63,9 +63,11 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
 
                     return 0;
                 });
-                $('#selectCountry', page).html(countryList.map(function (c) {
+                const selectCountry = $('#selectCountry', page);
+                selectCountry.innerHtml = countryList.map(function (c) {
                     return '<option value="' + c.value + '">' + c.name + '</option>';
-                }).join('')).val(info.Country || '');
+                }).join('');
+                selectCountry.val(info.Country || '');
                 $(page.querySelector('.txtZipCode')).trigger('change');
             }, function () { // ApiClient.getJSON() error handler
                 Dashboard.alert({
@@ -192,7 +194,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
 
         function refreshListings(value) {
             if (!value) {
-                return void $('#selectListing', page).html('');
+                $('#selectListing', page).innerHtml = '';
+                return;
             }
 
             loading.show();
@@ -205,9 +208,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                 }),
                 dataType: 'json'
             }).then(function (result) {
-                $('#selectListing', page).html(result.map(function (o) {
+                $('#selectListing', page).innerHtml = result.map(function (o) {
                     return '<option value="' + o.Id + '">' + o.Name + '</option>';
-                }));
+                });
 
                 if (listingsId) {
                     $('#selectListing', page).val(listingsId);
@@ -296,7 +299,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                     page.querySelector('.selectTunersSection').classList.remove('hide');
                 }
             });
-            $('.createAccountHelp', page).html(globalize.translate('MessageCreateAccountAt', '<a is="emby-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>'));
+            $('.createAccountHelp', page).innerHtml = globalize.translate('MessageCreateAccountAt', '<a is="emby-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>');
             reload();
         };
     };

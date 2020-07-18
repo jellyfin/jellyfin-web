@@ -12,7 +12,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         }
 
         html += '</div>';
-        $('.folderAccess', page).html(html).trigger('create');
+        const folderAccess = $('.folderAccess', page);
+        folderAccess.innerHtml = html;
+        folderAccess.trigger('create');
         $('#chkEnableAllFolders', page).prop('checked', false);
     }
 
@@ -27,7 +29,10 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         }
 
         html += '</div>';
-        $('.channelAccess', page).show().html(html).trigger('create');
+        const channelAccess = $('.channelAccess', page);
+        channelAccess.show();
+        channelAccess.innerHtml = html;
+        channelAccess.trigger('create');
 
         if (channels.length) {
             $('.channelAccessContainer', page).show();

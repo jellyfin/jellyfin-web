@@ -6,9 +6,11 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
         page.querySelector('#txtCachePath').value = systemInfo.CachePath || '';
         $('#txtMetadataPath', page).val(systemInfo.InternalMetadataPath || '');
         $('#txtMetadataNetworkPath', page).val(systemInfo.MetadataNetworkPath || '');
-        $('#selectLocalizationLanguage', page).html(languageOptions.map(function (language) {
+        const elem = $('#selectLocalizationLanguage', page);
+        elem.innerHtml = languageOptions.map(function (language) {
             return '<option value="' + language.Value + '">' + language.Name + '</option>';
-        })).val(config.UICulture);
+        });
+        elem.val(config.UICulture);
         currentLanguage = config.UICulture;
 
         loading.hide();

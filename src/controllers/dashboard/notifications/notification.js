@@ -36,7 +36,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
                 page.querySelector('.monitorUsers').classList.add('hide');
             }
 
-            $('.notificationType', page).html(typeInfo.Name || 'Unknown Notification');
+            $('.notificationType', page).innerHtml = typeInfo.Name || 'Unknown Notification';
 
             if (!notificationConfig) {
                 notificationConfig = {
