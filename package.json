@@ -166,6 +166,7 @@
           "src/components/fetchhelper.js",
           "src/scripts/editorsidebar.js",
           "src/scripts/globalize.js",
+          "src/scripts/playlists.js",
           "src/scripts/keyboardNavigation.js",
           "src/scripts/settings/appSettings.js",
           "src/scripts/settings/userSettings.js",

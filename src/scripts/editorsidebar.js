@@ -183,7 +183,7 @@ import 'material-icons';
     }
 
     function initializeTree(page, currentUser, openItems, selectedId) {
-        require(['jstree'], function () {
+        import('jstree').then(() => {
             initializeTreeInternal(page, currentUser, openItems, selectedId);
         });
     }
@@ -303,7 +303,7 @@ import 'material-icons';
     $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
         updateEditorNode(this, item);
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
-        require(['css!assets/css/metadataeditor.css']);
+        import('css!assets/css/metadataeditor.css');
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
         var page = this;
         Dashboard.getCurrentUser().then(function (user) {
