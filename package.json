@@ -141,6 +141,8 @@
           "src/controllers/dashboard/dashboard.js",
           "src/controllers/dashboard/encodingsettings.js",
           "src/controllers/dashboard/logs.js",
+          "src/controllers/user/menu.js",
+          "src/controllers/user/profile.js",
           "src/controllers/user/subtitles.js",
           "src/controllers/dashboard/plugins/repositories.js",
           "src/elements/emby-checkbox/emby-checkbox.js",
