@@ -2,7 +2,7 @@ define(['jQuery', 'libraryMenu', 'loading', 'globalize'], function ($, libraryMe
     'use strict';
 
     function loadPage(page, config) {
-        $('#txtRemoteClientBitrateLimit', page).val(config.RemoteClientBitrateLimit / 1e6 || '');
+        page.querySelector('#txtRemoteClientBitrateLimit').value = config.RemoteClientBitrateLimit / 1e6 || '';
         loading.hide();
     }
 
@@ -10,7 +10,7 @@ define(['jQuery', 'libraryMenu', 'loading', 'globalize'], function ($, libraryMe
         loading.show();
         var form = this;
         ApiClient.getServerConfiguration().then(function (config) {
-            config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($('#txtRemoteClientBitrateLimit', form).val() || '0'));
+            config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat(form.querySelector('#txtRemoteClientBitrateLimit').value || '0'));
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
         });
 

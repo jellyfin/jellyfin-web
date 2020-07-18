@@ -86,7 +86,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         page.querySelector('.lnkEditUserPreferences').setAttribute('href', `mypreferencesmenu.html?userId=${user.Id}`);
         libraryMenu.setTitle(user.Name);
         page.querySelector('.username').innerHTML = user.Name;
-        $('#txtUserName', page).val(user.Name);
+        page.querySelector('#txtUserName').value = user.Name;
         $('#chkIsAdmin', page).prop('checked', user.Policy.IsAdministrator);
         $('#chkDisabled', page).prop('checked', user.Policy.IsDisabled);
         $('#chkIsHidden', page).prop('checked', user.Policy.IsHidden);
@@ -104,9 +104,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         $('#chkEnableSyncTranscoding', page).prop('checked', user.Policy.EnableSyncTranscoding);
         $('#chkEnableConversion', page).prop('checked', user.Policy.EnableMediaConversion || false);
         $('#chkEnableSharing', page).prop('checked', user.Policy.EnablePublicSharing);
-        $('#txtRemoteClientBitrateLimit', page).val(user.Policy.RemoteClientBitrateLimit / 1e6 || '');
-        $('#txtLoginAttemptsBeforeLockout', page).val(user.Policy.LoginAttemptsBeforeLockout || '0');
-        $('#selectSyncPlayAccess').val(user.Policy.SyncPlayAccess);
+        page.querySelector('#txtRemoteClientBitrateLimit').value = user.Policy.RemoteClientBitrateLimit / 1e6 || '';
+        page.querySelector('#txtLoginAttemptsBeforeLockout').value = user.Policy.LoginAttemptsBeforeLockout || '0';
+        page.querySelector('#selectSyncPlayAccess').value = user.Policy.SyncPlayAccess;
         loading.hide();
     }
 
@@ -120,7 +120,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }
 
     function saveUser(user, page) {
-        user.Name = $('#txtUserName', page).val();
+        user.Name = page.querySelector('#txtUserName').value;
         user.Policy.IsAdministrator = $('#chkIsAdmin', page).matches(':checked');
         user.Policy.IsHidden = $('#chkIsHidden', page).matches(':checked');
         user.Policy.IsDisabled = $('#chkDisabled', page).matches(':checked');
@@ -138,8 +138,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         user.Policy.EnableMediaConversion = $('#chkEnableConversion', page).matches(':checked');
         user.Policy.EnablePublicSharing = $('#chkEnableSharing', page).matches(':checked');
         user.Policy.EnableRemoteAccess = $('#chkRemoteAccess', page).matches(':checked');
-        user.Policy.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($('#txtRemoteClientBitrateLimit', page).val() || '0'));
-        user.Policy.LoginAttemptsBeforeLockout = parseInt($('#txtLoginAttemptsBeforeLockout', page).val() || '0');
+        user.Policy.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat(page.querySelector('#txtRemoteClientBitrateLimit').value || '0'));
+        user.Policy.LoginAttemptsBeforeLockout = parseInt(page.querySelector('#txtLoginAttemptsBeforeLockout').value || '0');
         user.Policy.AuthenticationProviderId = page.querySelector('.selectLoginProvider').value;
         user.Policy.PasswordResetProviderId = page.querySelector('.selectPasswordResetProvider').value;
         user.Policy.EnableContentDeletion = $('#chkEnableDeleteAllFolders', page).matches(':checked');

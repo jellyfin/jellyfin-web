@@ -122,7 +122,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
                     return plugin.Name == name;
                 })[0];
 
-                var version = $('#selectVersion', page).val();
+                var version = page.querySelector('#selectVersion').value;
                 if (installedPlugin) {
                     if (installedPlugin.Version === version) {
                         loading.hide();

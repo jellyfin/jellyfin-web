@@ -8,12 +8,12 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
         page.querySelector('#chkDecodingColorDepth10Hevc').checked = config.EnableDecodingColorDepth10Hevc;
         page.querySelector('#chkDecodingColorDepth10Vp9').checked = config.EnableDecodingColorDepth10Vp9;
         page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
-        $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
-        $('#selectThreadCount', page).val(config.EncodingThreadCount);
-        $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
+        page.querySelector('#selectVideoDecoder').value = config.HardwareAccelerationType;
+        page.querySelector('#selectThreadCount').value = config.EncodingThreadCount;
+        page.querySelector('#txtDownMixAudioBoost').value = config.DownMixAudioBoost;
         page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
-        $('#txtTranscodingTempPath', page).val(systemInfo.TranscodingTempPath || '');
-        $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
+        page.querySelector('#txtTranscodingTempPath').value = systemInfo.TranscodingTempPath || '';
+        page.querySelector('#txtVaapiDevice').value = config.VaapiDevice || '';
         page.querySelector('#selectEncoderPreset').value = config.EncoderPreset || '';
         page.querySelector('#txtH264Crf').value = config.H264Crf || '';
         page.querySelector('#selectDeinterlaceMethod').value = config.DeinterlaceMethod || '';
@@ -54,13 +54,13 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
         var onDecoderConfirmed = function () {
             loading.show();
             ApiClient.getNamedConfiguration('encoding').then(function (config) {
-                config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
-                config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();
-                config.EncodingThreadCount = $('#selectThreadCount', form).val();
-                config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
-                config.VaapiDevice = $('#txtVaapiDevice', form).val();
+                config.DownMixAudioBoost = form.querySelector('#txtDownMixAudioBoost').value;
+                config.TranscodingTempPath = form.querySelector('#txtTranscodingTempPath').value;
+                config.EncodingThreadCount = form.querySelector('#selectThreadCount').value;
+                config.HardwareAccelerationType = form.querySelector('#selectVideoDecoder').value;
+                config.VaapiDevice = form.querySelector('#txtVaapiDevice').value;
                 config.EncoderPreset = form.querySelector('#selectEncoderPreset').value;
-                config.H264Crf = parseInt(form.querySelector('#txtH264Crf').value || '0');
+                config.H264Crf = parseInt(form.querySelector('#txtH264Crf').value || '0', 10);
                 config.DeinterlaceMethod = form.querySelector('#selectDeinterlaceMethod').value;
                 config.EnableSubtitleExtraction = form.querySelector('#chkEnableSubtitleExtraction').checked;
                 config.EnableThrottling = form.querySelector('#chkEnableThrottling').checked;
@@ -84,7 +84,7 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
             });
         };
 
-        if ($('#selectVideoDecoder', form).val()) {
+        if (form.querySelector('#selectVideoDecoder').value) {
             require(['alert'], function (alert) {
                 alert({
                     title: globalize.translate('TitleHardwareAcceleration'),
@@ -156,7 +156,7 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
                     includeFiles: true,
                     callback: function (path) {
                         if (path) {
-                            $('.txtEncoderPath', page).val(path);
+                            page.querySelector('.txtEncoderPath').value = path;
                         }
 
                         picker.close();
@@ -170,7 +170,7 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
                 picker.show({
                     callback: function (path) {
                         if (path) {
-                            $('#txtTranscodingTempPath', page).val(path);
+                            page.querySelector('#txtTranscodingTempPath').value = path;
                         }
 
                         picker.close();

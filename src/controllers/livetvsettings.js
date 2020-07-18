@@ -4,9 +4,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
     function loadPage(page, config) {
         page.querySelector('.liveTvSettingsForm').classList.remove('hide');
         page.querySelector('.noLiveTvServices').classList.add('hide');
-        $('#selectGuideDays', page).val(config.GuideDays || '');
-        $('#txtPrePaddingMinutes', page).val(config.PrePaddingSeconds / 60);
-        $('#txtPostPaddingMinutes', page).val(config.PostPaddingSeconds / 60);
+        page.querySelector('#selectGuideDays').value = config.GuideDays || '';
+        page.querySelector('#txtPrePaddingMinutes').value = config.PrePaddingSeconds / 60;
+        page.querySelector('#txtPostPaddingMinutes').value = config.PostPaddingSeconds / 60;
         page.querySelector('#txtRecordingPath').value = config.RecordingPath || '';
         page.querySelector('#txtMovieRecordingPath').value = config.MovieRecordingPath || '';
         page.querySelector('#txtSeriesRecordingPath').value = config.SeriesRecordingPath || '';
@@ -19,7 +19,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
         loading.show();
         var form = this;
         ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            config.GuideDays = $('#selectGuideDays', form).val() || null;
+            config.GuideDays = form.querySelector('#selectGuideDays').value || null;
             var recordingPath = form.querySelector('#txtRecordingPath').value || null;
             var movieRecordingPath = form.querySelector('#txtMovieRecordingPath').value || null;
             var seriesRecordingPath = form.querySelector('#txtSeriesRecordingPath').value || null;
@@ -28,10 +28,10 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
             config.MovieRecordingPath = movieRecordingPath;
             config.SeriesRecordingPath = seriesRecordingPath;
             config.RecordingEncodingFormat = 'mkv';
-            config.PrePaddingSeconds = 60 * $('#txtPrePaddingMinutes', form).val();
-            config.PostPaddingSeconds = 60 * $('#txtPostPaddingMinutes', form).val();
-            config.RecordingPostProcessor = $('#txtPostProcessor', form).val();
-            config.RecordingPostProcessorArguments = $('#txtPostProcessorArguments', form).val();
+            config.PrePaddingSeconds = 60 * form.querySelector('#txtPrePaddingMinutes').value;
+            config.PostPaddingSeconds = 60 * form.querySelector('#txtPostPaddingMinutes').value;
+            config.RecordingPostProcessor = form.querySelector('#txtPostProcessor').value;
+            config.RecordingPostProcessorArguments = form.querySelector('#txtPostProcessorArguments').value;
             ApiClient.updateNamedConfiguration('livetv', config).then(function () {
                 Dashboard.processServerConfigurationUpdateResult();
                 showSaveMessage(recordingPathChanged);
@@ -63,7 +63,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
                 picker.show({
                     callback: function (path) {
                         if (path) {
-                            $('#txtRecordingPath', page).val(path);
+                            page.querySelector('#txtRecordingPath').value = path;
                         }
 
                         picker.close();
@@ -78,7 +78,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
                 picker.show({
                     callback: function (path) {
                         if (path) {
-                            $('#txtMovieRecordingPath', page).val(path);
+                            page.querySelector('#txtMovieRecordingPath').value = path;
                         }
 
                         picker.close();
@@ -93,7 +93,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
                 picker.show({
                     callback: function (path) {
                         if (path) {
-                            $('#txtSeriesRecordingPath', page).val(path);
+                            page.querySelector('#txtSeriesRecordingPath').value = path;
                         }
 
                         picker.close();
@@ -109,7 +109,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
                     includeFiles: true,
                     callback: function (path) {
                         if (path) {
-                            $('#txtPostProcessor', page).val(path);
+                            page.querySelector('#txtPostProcessor').value = path;
                         }
 
                         picker.close();

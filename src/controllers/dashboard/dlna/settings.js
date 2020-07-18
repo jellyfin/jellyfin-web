@@ -4,10 +4,10 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     function loadPage(page, config, users) {
         page.querySelector('#chkEnablePlayTo').checked = config.EnablePlayTo;
         page.querySelector('#chkEnableDlnaDebugLogging').checked = config.EnableDebugLog;
-        $('#txtClientDiscoveryInterval', page).val(config.ClientDiscoveryIntervalSeconds);
+        page.querySelector('#txtClientDiscoveryInterval').value = config.ClientDiscoveryIntervalSeconds;
         $('#chkEnableServer', page).prop('checked', config.EnableServer);
         $('#chkBlastAliveMessages', page).prop('checked', config.BlastAliveMessages);
-        $('#txtBlastInterval', page).val(config.BlastAliveMessageIntervalSeconds);
+        page.querySelector('#txtBlastInterval').value = config.BlastAliveMessageIntervalSeconds;
         var usersHtml = users.map(function (u) {
             return '<option value="' + u.Id + '">' + u.Name + '</option>';
         }).join('');
@@ -23,11 +23,11 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         ApiClient.getNamedConfiguration('dlna').then(function (config) {
             config.EnablePlayTo = form.querySelector('#chkEnablePlayTo').checked;
             config.EnableDebugLog = form.querySelector('#chkEnableDlnaDebugLogging').checked;
-            config.ClientDiscoveryIntervalSeconds = $('#txtClientDiscoveryInterval', form).val();
+            config.ClientDiscoveryIntervalSeconds = form.querySelector('#txtClientDiscoveryInterval').value;
             config.EnableServer = $('#chkEnableServer', form).matches(':checked');
             config.BlastAliveMessages = $('#chkBlastAliveMessages', form).matches(':checked');
-            config.BlastAliveMessageIntervalSeconds = $('#txtBlastInterval', form).val();
-            config.DefaultUserId = $('#selectUser', form).val();
+            config.BlastAliveMessageIntervalSeconds = form.querySelector('#txtBlastInterval').value;
+            config.DefaultUserId = form.querySelector('#selectUser', form).value;
             ApiClient.updateNamedConfiguration('dlna', config).then(Dashboard.processServerConfigurationUpdateResult);
         });
         return false;

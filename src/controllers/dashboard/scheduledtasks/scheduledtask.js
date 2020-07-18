@@ -124,7 +124,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             return datetime.getDisplayTime(now);
         },
         showAddTriggerPopup: function (view) {
-            $('#selectTriggerType', view).val('DailyTrigger');
+            view.querySelector('#selectTriggerType').value = 'DailyTrigger';
             view.querySelector('#selectTriggerType').dispatchEvent(new CustomEvent('change', {}));
             view.querySelector('#popupAddTrigger').classList.remove('hide');
         },
@@ -180,21 +180,21 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
         },
         getTriggerToAdd: function (page) {
             var trigger = {
-                Type: $('#selectTriggerType', page).val()
+                Type: page.querySelector('#selectTriggerType', page).val()
             };
 
             if (trigger.Type == 'DailyTrigger') {
-                trigger.TimeOfDayTicks = $('#selectTimeOfDay', page).val();
+                trigger.TimeOfDayTicks = page.querySelector('#selectTimeOfDay').value;
             } else if (trigger.Type == 'WeeklyTrigger') {
-                trigger.DayOfWeek = $('#selectDayOfWeek', page).val();
-                trigger.TimeOfDayTicks = $('#selectTimeOfDay', page).val();
+                trigger.DayOfWeek = page.querySelector('#selectDayOfWeek').value;
+                trigger.TimeOfDayTicks = page.querySelector('#selectTimeOfDay').value;
             } else if (trigger.Type == 'SystemEventTrigger') {
-                trigger.SystemEvent = $('#selectSystemEvent', page).val();
+                trigger.SystemEvent = page.querySelector('#selectSystemEvent').value;
             } else if (trigger.Type == 'IntervalTrigger') {
-                trigger.IntervalTicks = $('#selectInterval', page).val();
+                trigger.IntervalTicks = page.querySelector('#selectInterval').value;
             }
 
-            var timeLimit = $('#txtTimeLimit', page).val() || '0';
+            var timeLimit = page.querySelector('#txtTimeLimit', page).value || '0';
             timeLimit = parseFloat(timeLimit) * 3600000;
 
             trigger.MaxRuntimeMs = timeLimit || null;

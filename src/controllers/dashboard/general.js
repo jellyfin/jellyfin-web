@@ -4,8 +4,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
     function loadPage(page, config, languageOptions, systemInfo) {
         page.querySelector('#txtServerName').value = systemInfo.ServerName;
         page.querySelector('#txtCachePath').value = systemInfo.CachePath || '';
-        $('#txtMetadataPath', page).val(systemInfo.InternalMetadataPath || '');
-        $('#txtMetadataNetworkPath', page).val(systemInfo.MetadataNetworkPath || '');
+        page.querySelector('#txtMetadataPath').value = systemInfo.InternalMetadataPath || '';
+        page.querySelector('#txtMetadataNetworkPath').value = systemInfo.MetadataNetworkPath || '';
         const elem = $('#selectLocalizationLanguage', page);
         elem.innerHtml = languageOptions.map(function (language) {
             return '<option value="' + language.Value + '">' + language.Name + '</option>';
@@ -20,11 +20,11 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
         loading.show();
         var form = this;
         ApiClient.getServerConfiguration().then(function (config) {
-            config.ServerName = $('#txtServerName', form).val();
-            config.UICulture = $('#selectLocalizationLanguage', form).val();
+            config.ServerName = form.querySelector('#txtServerName').value;
+            config.UICulture = form.querySelector('#selectLocalizationLanguage').value;
             config.CachePath = form.querySelector('#txtCachePath').value;
-            config.MetadataPath = $('#txtMetadataPath', form).val();
-            config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
+            config.MetadataPath = form.querySelector('#txtMetadataPath').value;
+            config.MetadataNetworkPath = form.querySelector('#txtMetadataNetworkPath').value;
             var requiresReload = config.UICulture !== currentLanguage;
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
@@ -79,15 +79,15 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
             require(['directorybrowser'], function (directoryBrowser) {
                 var picker = new directoryBrowser();
                 picker.show({
-                    path: $('#txtMetadataPath', view).val(),
-                    networkSharePath: $('#txtMetadataNetworkPath', view).val(),
+                    path: view.querySelector('#txtMetadataPath').value,
+                    networkSharePath: view.querySelector('#txtMetadataNetworkPath').value,
                     callback: function (path, networkPath) {
                         if (path) {
-                            $('#txtMetadataPath', view).val(path);
+                            view.querySelector('#txtMetadataPath').value = path;
                         }
 
                         if (networkPath) {
-                            $('#txtMetadataNetworkPath', view).val(networkPath);
+                            view.querySelector('#txtMetadataNetworkPath').value = networkPath;
                         }
 
                         picker.close();

@@ -43,7 +43,7 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
                 ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
             });
             ApiClient.getNamedConfiguration('metadata').then(function(config) {
-                config.UseFileCreationTimeForDateAdded = '1' === $('#selectDateAdded', form).val();
+                config.UseFileCreationTimeForDateAdded = form.querySelector('#selectDateAdded').value === '1';
                 ApiClient.updateNamedConfiguration('metadata', config);
             });
 

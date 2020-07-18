@@ -9,7 +9,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                     return i.Id === providerId;
                 })[0] || {};
                 listingsId = info.ListingsId;
-                $('#selectListing', page).val(info.ListingsId || '');
+                page.querySelector('#selectListing').value = info.ListingsId || '';
                 page.querySelector('.txtUser').value = info.Username || '';
                 page.querySelector('.txtPass').value = '';
                 page.querySelector('.txtZipCode').value = info.ZipCode || '';
@@ -139,7 +139,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
         }
 
         function submitListingsForm() {
-            var selectedListingsId = $('#selectListing', page).val();
+            var selectedListingsId = page.querySelector('#selectListing').value;
 
             if (!selectedListingsId) {
                 return void Dashboard.alert({
@@ -154,7 +154,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                     return i.Id === id;
                 })[0];
                 info.ZipCode = page.querySelector('.txtZipCode').value;
-                info.Country = $('#selectCountry', page).val();
+                info.Country = page.querySelector('#selectCountry').value;
                 info.ListingsId = selectedListingsId;
                 info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
 
@@ -204,7 +204,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                 url: ApiClient.getUrl('LiveTv/ListingProviders/Lineups', {
                     Id: providerId,
                     Location: value,
-                    Country: $('#selectCountry', page).val()
+                    Country: page.querySelector('#selectCountry').value
                 }),
                 dataType: 'json'
             }).then(function (result) {
@@ -213,7 +213,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                 });
 
                 if (listingsId) {
-                    $('#selectListing', page).val(listingsId);
+                    page.querySelector('#selectListing', page).value = listingsId;
                 }
 
                 loading.hide();

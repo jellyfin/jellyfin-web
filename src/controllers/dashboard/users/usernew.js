@@ -44,8 +44,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
     }
 
     function loadUser(page) {
-        $('#txtUsername', page).val('');
-        $('#txtPassword', page).val('');
+        page.querySelector('#txtUsername').value = '';
+        page.querySelector('#txtPassword').value = '';
         loading.show();
         var promiseFolders = ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
@@ -60,8 +60,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
 
     function saveUser(page) {
         var user = {};
-        user.Name = $('#txtUsername', page).val();
-        user.Password = $('#txtPassword', page).val();
+        user.Name = page.querySelector('#txtUsername').value;
+        user.Password = page.querySelector('#txtPassword').value;
         ApiClient.createUser(user).then(function (user) {
             user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).matches(':checked');
             user.Policy.EnabledFolders = [];

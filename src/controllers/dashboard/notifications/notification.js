@@ -50,8 +50,9 @@ define(['jQuery', 'emby-checkbox'], function ($) {
             fillItems($('.monitorUsersList', page), users, 'chkMonitor', 'chkMonitor', notificationConfig.DisabledMonitorUsers);
             fillItems($('.sendToUsersList', page), users, 'chkSendTo', 'chkSendTo', notificationConfig.SendToUsers, true);
             fillItems($('.servicesList', page), services, 'chkService', 'chkService', notificationConfig.DisabledServices);
-            $('#chkEnabled', page).prop('checked', notificationConfig.Enabled || false);
-            $('#selectUsers', page).val(notificationConfig.SendToUserMode).trigger('change');
+            page.querySelector('#chkEnabled').checked = notificationConfig.Enabled || false;
+            page.querySelector('#selectUsers').value = notificationConfig.SendToUserMode;
+            page.querySelector('#selectUsers').trigger('change');
         });
     }
 
@@ -73,8 +74,8 @@ define(['jQuery', 'emby-checkbox'], function ($) {
                 notificationOptions.Options.push(notificationConfig);
             }
 
-            notificationConfig.Enabled = $('#chkEnabled', page).matches(':checked');
-            notificationConfig.SendToUserMode = $('#selectUsers', page).val();
+            notificationConfig.Enabled = page.querySelector('#chkEnabled').matches(':checked');
+            notificationConfig.SendToUserMode = page.querySelector('#selectUsers').value;
             notificationConfig.DisabledMonitorUsers = Array.prototype.filter.call(page.querySelectorAll('.chkMonitor'), function (c) {
                 return !c.checked;
             }).map(function (c) {

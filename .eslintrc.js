@@ -90,7 +90,7 @@ module.exports = {
         'jquery/no-toggle': 'error',
         //'jquery/no-trigger': 'error',
         'jquery/no-trim': 'error',
-        //'jquery/no-val': 'error',
+        'jquery/no-val': 'error',
         'jquery/no-when': 'error',
         'jquery/no-wrap': 'error'
     },

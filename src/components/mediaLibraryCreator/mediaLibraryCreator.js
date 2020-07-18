@@ -20,8 +20,8 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
         isCreating = true;
         loading.show();
         var dlg = dom.parentWithClass(this, 'dlg-librarycreator');
-        var name = $('#txtValue', dlg).val();
-        var type = $('#selectCollectionType', dlg).val();
+        var name = dlg.querySelector('#txtValue').value;
+        var type = dlg.querySelector('#selectCollectionType').value;
 
         if (type == 'mixed') {
             type = null;
@@ -52,9 +52,11 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
     }
 
     function initEditor(page, collectionTypeOptions) {
-        $('#selectCollectionType', page).innerHTML = getCollectionTypeOptionsHtml(collectionTypeOptions);
+        const selectCollectionType = $('#selectCollectionType', page);
+        selectCollectionType.innerHTML = getCollectionTypeOptionsHtml(collectionTypeOptions);
 
-        $('#selectCollectionType', page).val('').on('change', function () {
+        selectCollectionType.value = '';
+        selectCollectionType.on('change', function () {
             var value = this.value;
             var dlg = this.closest('.dialog');
             libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value == 'mixed' ? '' : value);
@@ -70,7 +72,7 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
 
                 if (index != -1) {
                     var name = this.options[index].innerHTML.replace('*', '').replace('&amp;', '&');
-                    $('#txtValue', dlg).val(name);
+                    dlg.querySelector('#txtValue').value = name;
                     var folderOption = collectionTypeOptions.filter(function (i) {
                         return i.value == value;
                     })[0];

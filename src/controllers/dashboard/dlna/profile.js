@@ -19,7 +19,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
     }
 
     function renderProfile(page, profile, users) {
-        $('#txtName', page).val(profile.Name);
+        page.querySelector('#txtName').value = profile.Name;
         for (const checkbox of page.querySelectorAll('.chkMediaType')) {
             checkbox.checked = -1 != (profile.SupportedMediaTypes || '').split(',').indexOf(checkbox.getAttribute('data-value'));
         }
@@ -29,37 +29,37 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         var idInfo = profile.Identification || {};
         renderIdentificationHeaders(page, idInfo.Headers || []);
         renderSubtitleProfiles(page, profile.SubtitleProfiles || []);
-        $('#txtInfoFriendlyName', page).val(profile.FriendlyName || '');
-        $('#txtInfoModelName', page).val(profile.ModelName || '');
-        $('#txtInfoModelNumber', page).val(profile.ModelNumber || '');
-        $('#txtInfoModelDescription', page).val(profile.ModelDescription || '');
-        $('#txtInfoModelUrl', page).val(profile.ModelUrl || '');
-        $('#txtInfoManufacturer', page).val(profile.Manufacturer || '');
-        $('#txtInfoManufacturerUrl', page).val(profile.ManufacturerUrl || '');
-        $('#txtInfoSerialNumber', page).val(profile.SerialNumber || '');
-        $('#txtIdFriendlyName', page).val(idInfo.FriendlyName || '');
-        $('#txtIdModelName', page).val(idInfo.ModelName || '');
-        $('#txtIdModelNumber', page).val(idInfo.ModelNumber || '');
-        $('#txtIdModelDescription', page).val(idInfo.ModelDescription || '');
-        $('#txtIdModelUrl', page).val(idInfo.ModelUrl || '');
-        $('#txtIdManufacturer', page).val(idInfo.Manufacturer || '');
-        $('#txtIdManufacturerUrl', page).val(idInfo.ManufacturerUrl || '');
-        $('#txtIdSerialNumber', page).val(idInfo.SerialNumber || '');
-        $('#txtIdDeviceDescription', page).val(idInfo.DeviceDescription || '');
-        $('#txtAlbumArtPn', page).val(profile.AlbumArtPn || '');
-        $('#txtAlbumArtMaxWidth', page).val(profile.MaxAlbumArtWidth || '');
-        $('#txtAlbumArtMaxHeight', page).val(profile.MaxAlbumArtHeight || '');
-        $('#txtIconMaxWidth', page).val(profile.MaxIconWidth || '');
-        $('#txtIconMaxHeight', page).val(profile.MaxIconHeight || '');
-        $('#chkIgnoreTranscodeByteRangeRequests', page).prop('checked', profile.IgnoreTranscodeByteRangeRequests);
-        $('#txtMaxAllowedBitrate', page).val(profile.MaxStreamingBitrate || '');
-        $('#txtMusicStreamingTranscodingBitrate', page).val(profile.MusicStreamingTranscodingBitrate || '');
-        $('#chkRequiresPlainFolders', page).prop('checked', profile.RequiresPlainFolders);
-        $('#chkRequiresPlainVideoItems', page).prop('checked', profile.RequiresPlainVideoItems);
-        $('#txtProtocolInfo', page).val(profile.ProtocolInfo || '');
-        $('#txtXDlnaCap', page).val(profile.XDlnaCap || '');
-        $('#txtXDlnaDoc', page).val(profile.XDlnaDoc || '');
-        $('#txtSonyAggregationFlags', page).val(profile.SonyAggregationFlags || '');
+        page.querySelector('#txtInfoFriendlyName').value = profile.FriendlyName || '';
+        page.querySelector('#txtInfoModelName').value = profile.ModelName || '';
+        page.querySelector('#txtInfoModelNumber').value = profile.ModelNumber || '';
+        page.querySelector('#txtInfoModelDescription').value = profile.ModelDescription || '';
+        page.querySelector('#txtInfoModelUrl').value = profile.ModelUrl || '';
+        page.querySelector('#txtInfoManufacturer').value = profile.Manufacturer || '';
+        page.querySelector('#txtInfoManufacturerUrl').value = profile.ManufacturerUrl || '';
+        page.querySelector('#txtInfoSerialNumber').value = profile.SerialNumber || '';
+        page.querySelector('#txtIdFriendlyName').value = idInfo.FriendlyName || '';
+        page.querySelector('#txtIdModelName').value = idInfo.ModelName || '';
+        page.querySelector('#txtIdModelNumber').value = idInfo.ModelNumber || '';
+        page.querySelector('#txtIdModelDescription').value = idInfo.ModelDescription || '';
+        page.querySelector('#txtIdModelUrl').value = idInfo.ModelUrl || '';
+        page.querySelector('#txtIdManufacturer').value = idInfo.Manufacturer || '';
+        page.querySelector('#txtIdManufacturerUrl').value = idInfo.ManufacturerUrl || '';
+        page.querySelector('#txtIdSerialNumber').value = idInfo.SerialNumber || '';
+        page.querySelector('#txtIdDeviceDescription').value = idInfo.DeviceDescription || '';
+        page.querySelector('#txtAlbumArtPn').value = profile.AlbumArtPn || '';
+        page.querySelector('#txtAlbumArtMaxWidth').value = profile.MaxAlbumArtWidth || '';
+        page.querySelector('#txtAlbumArtMaxHeight').value = profile.MaxAlbumArtHeight || '';
+        page.querySelector('#txtIconMaxWidth').value = profile.MaxIconWidth || '';
+        page.querySelector('#txtIconMaxHeight').value = profile.MaxIconHeight || '';
+        page.querySelector('#chkIgnoreTranscodeByteRangeRequests').checked = profile.IgnoreTranscodeByteRangeRequests;
+        page.querySelector('#txtMaxAllowedBitrate').value = profile.MaxStreamingBitrate || '';
+        page.querySelector('#txtMusicStreamingTranscodingBitrate').value = profile.MusicStreamingTranscodingBitrate || '';
+        page.querySelector('#chkRequiresPlainFolders').checked = profile.RequiresPlainFolders;
+        page.querySelector('#chkRequiresPlainVideoItems').checked = profile.RequiresPlainVideoItems;
+        page.querySelector('#txtProtocolInfo').value = profile.ProtocolInfo || '';
+        page.querySelector('#txtXDlnaCap').value = profile.XDlnaCap || '';
+        page.querySelector('#txtXDlnaDoc').value = profile.XDlnaDoc || '';
+        page.querySelector('#txtSonyAggregationFlags').value = profile.SonyAggregationFlags || '';
         profile.DirectPlayProfiles = profile.DirectPlayProfiles || [];
         profile.TranscodingProfiles = profile.TranscodingProfiles || [];
         profile.ContainerProfiles = profile.ContainerProfiles || [];
@@ -68,8 +68,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         var usersHtml = '<option></option>' + users.map(function (u) {
             return '<option value="' + u.Id + '">' + u.Name + '</option>';
         }).join('');
-        $('#selectUser', page).innerHtml = usersHtml;
-        $('#selectUser', page).val(profile.UserId || '');
+        page.querySelector('#selectUser').innerHtml = usersHtml;
+        page.querySelector('#selectUser').value = profile.UserId || '';
         renderSubProfiles(page, profile);
     }
 
@@ -110,16 +110,16 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         header = header || {};
         currentSubProfile = header;
         var popup = $('#identificationHeaderPopup', page);
-        $('#txtIdentificationHeaderName', popup).val(header.Name || '');
-        $('#txtIdentificationHeaderValue', popup).val(header.Value || '');
-        $('#selectMatchType', popup).val(header.Match || 'Equals');
+        popup.querySelector('#txtIdentificationHeaderName').value = header.Name || '';
+        popup.querySelector('#txtIdentificationHeaderValue').value = header.Value || '';
+        popup.querySelector('#selectMatchType').value = header.Match || 'Equals';
         openPopup(popup[0]);
     }
 
     function saveIdentificationHeader(page) {
-        currentSubProfile.Name = $('#txtIdentificationHeaderName', page).val();
-        currentSubProfile.Value = $('#txtIdentificationHeaderValue', page).val();
-        currentSubProfile.Match = $('#selectMatchType', page).val();
+        currentSubProfile.Name = page.querySelector('#txtIdentificationHeaderName').value;
+        currentSubProfile.Value = page.querySelector('#txtIdentificationHeaderValue').value;
+        currentSubProfile.Match = page.querySelector('#selectMatchType').value;
 
         if (isSubProfileNew) {
             currentProfile.Identification = currentProfile.Identification || {};
@@ -157,14 +157,14 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         attribute = attribute || {};
         currentSubProfile = attribute;
         var popup = $('#xmlAttributePopup', page);
-        $('#txtXmlAttributeName', popup).val(attribute.Name || '');
-        $('#txtXmlAttributeValue', popup).val(attribute.Value || '');
+        popup.querySelector('#txtXmlAttributeName').value = attribute.Name || '';
+        popup.querySelector('#txtXmlAttributeValue').value = attribute.Value || '';
         openPopup(popup[0]);
     }
 
     function saveXmlDocumentAttribute(page) {
-        currentSubProfile.Name = $('#txtXmlAttributeName', page).val();
-        currentSubProfile.Value = $('#txtXmlAttributeValue', page).val();
+        currentSubProfile.Name = page.querySelector('#txtXmlAttributeName').value;
+        currentSubProfile.Value = page.querySelector('#txtXmlAttributeValue').value;
 
         if (isSubProfileNew) {
             currentProfile.XmlRootAttributes.push(currentSubProfile);
@@ -207,16 +207,16 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         profile = profile || {};
         currentSubProfile = profile;
         var popup = $('#subtitleProfilePopup', page);
-        $('#txtSubtitleProfileFormat', popup).val(profile.Format || '');
-        $('#selectSubtitleProfileMethod', popup).val(profile.Method || '');
-        $('#selectSubtitleProfileDidlMode', popup).val(profile.DidlMode || '');
+        popup.querySelector('#txtSubtitleProfileFormat').value = profile.Format || '';
+        popup.querySelector('#selectSubtitleProfileMethod').value = profile.Method || '';
+        popup.querySelector('#selectSubtitleProfileDidlMode').value = profile.DidlMode || '';
         openPopup(popup[0]);
     }
 
     function saveSubtitleProfile(page) {
-        currentSubProfile.Format = $('#txtSubtitleProfileFormat', page).val();
-        currentSubProfile.Method = $('#selectSubtitleProfileMethod', page).val();
-        currentSubProfile.DidlMode = $('#selectSubtitleProfileDidlMode', page).val();
+        currentSubProfile.Format = page.querySelector('#txtSubtitleProfileFormat').value;
+        currentSubProfile.Method = page.querySelector('#selectSubtitleProfileMethod').value;
+        currentSubProfile.DidlMode = page.querySelector('#selectSubtitleProfileDidlMode').value;
 
         if (isSubProfileNew) {
             currentProfile.SubtitleProfiles.push(currentSubProfile);
@@ -236,10 +236,10 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
     }
 
     function saveDirectPlayProfile(page) {
-        currentSubProfile.Type = $('#selectDirectPlayProfileType', page).val();
-        currentSubProfile.Container = $('#txtDirectPlayContainer', page).val();
-        currentSubProfile.AudioCodec = $('#txtDirectPlayAudioCodec', page).val();
-        currentSubProfile.VideoCodec = $('#txtDirectPlayVideoCodec', page).val();
+        currentSubProfile.Type = page.querySelector('#selectDirectPlayProfileType').value;
+        currentSubProfile.Container = page.querySelector('#txtDirectPlayContainer').value;
+        currentSubProfile.AudioCodec = page.querySelector('#txtDirectPlayAudioCodec').value;
+        currentSubProfile.VideoCodec = page.querySelector('#txtDirectPlayVideoCodec').value;
 
         if (isSubProfileNew) {
             currentProfile.DirectPlayProfiles.push(currentSubProfile);
@@ -305,10 +305,11 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         directPlayProfile = directPlayProfile || {};
         currentSubProfile = directPlayProfile;
         var popup = $('#popupEditDirectPlayProfile', page);
-        $('#selectDirectPlayProfileType', popup).val(directPlayProfile.Type || 'Video').trigger('change');
-        $('#txtDirectPlayContainer', popup).val(directPlayProfile.Container || '');
-        $('#txtDirectPlayAudioCodec', popup).val(directPlayProfile.AudioCodec || '');
-        $('#txtDirectPlayVideoCodec', popup).val(directPlayProfile.VideoCodec || '');
+        popup.querySelector('#selectDirectPlayProfileType').value = directPlayProfile.Type || 'Video';
+        popup.querySelector('#selectDirectPlayProfileType').trigger('change');
+        popup.querySelector('#txtDirectPlayContainer').value = directPlayProfile.Container || '';
+        popup.querySelector('#txtDirectPlayAudioCodec').value = directPlayProfile.AudioCodec || '';
+        popup.querySelector('#txtDirectPlayVideoCodec').value = directPlayProfile.VideoCodec || '';
         openPopup(popup[0]);
     }
 
@@ -363,11 +364,12 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         transcodingProfile = transcodingProfile || {};
         currentSubProfile = transcodingProfile;
         var popup = $('#transcodingProfilePopup', page);
-        $('#selectTranscodingProfileType', popup).val(transcodingProfile.Type || 'Video').trigger('change');
-        $('#txtTranscodingContainer', popup).val(transcodingProfile.Container || '');
-        $('#txtTranscodingAudioCodec', popup).val(transcodingProfile.AudioCodec || '');
-        $('#txtTranscodingVideoCodec', popup).val(transcodingProfile.VideoCodec || '');
-        $('#selectTranscodingProtocol', popup).val(transcodingProfile.Protocol || 'Http');
+        popup.querySelector('#selectTranscodingProfileType').value = transcodingProfile.Type || 'Video';
+        popup.querySelector('#selectTranscodingProfileType').trigger('change');
+        popup.querySelector('#txtTranscodingContainer').value = transcodingProfile.Container || '';
+        popup.querySelector('#txtTranscodingAudioCodec').value = transcodingProfile.AudioCodec || '';
+        popup.querySelector('#txtTranscodingVideoCodec').value = transcodingProfile.VideoCodec || '';
+        popup.querySelector('#selectTranscodingProtocol').value = transcodingProfile.Protocol || 'Http';
         $('#chkEnableMpegtsM2TsMode', popup).prop('checked', transcodingProfile.EnableMpegtsM2TsMode || false);
         $('#chkEstimateContentLength', popup).prop('checked', transcodingProfile.EstimateContentLength || false);
         $('#chkReportByteRangeRequests', popup).prop('checked', 'Bytes' == transcodingProfile.TranscodeSeekInfo);
@@ -381,11 +383,11 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
     }
 
     function saveTranscodingProfile(page) {
-        currentSubProfile.Type = $('#selectTranscodingProfileType', page).val();
-        currentSubProfile.Container = $('#txtTranscodingContainer', page).val();
-        currentSubProfile.AudioCodec = $('#txtTranscodingAudioCodec', page).val();
-        currentSubProfile.VideoCodec = $('#txtTranscodingVideoCodec', page).val();
-        currentSubProfile.Protocol = $('#selectTranscodingProtocol', page).val();
+        currentSubProfile.Type = page.querySelector('#selectTranscodingProfileType').value;
+        currentSubProfile.Container = page.querySelector('#txtTranscodingContainer').value;
+        currentSubProfile.AudioCodec = page.querySelector('#txtTranscodingAudioCodec').value;
+        currentSubProfile.VideoCodec = page.querySelector('#txtTranscodingVideoCodec').value;
+        currentSubProfile.Protocol = page.querySelector('#selectTranscodingProtocol').value;
         currentSubProfile.Context = 'Streaming';
         currentSubProfile.EnableMpegtsM2TsMode = $('#chkEnableMpegtsM2TsMode', page).matches(':checked');
         currentSubProfile.EstimateContentLength = $('#chkEstimateContentLength', page).matches(':checked');
@@ -454,15 +456,16 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         containerProfile = containerProfile || {};
         currentSubProfile = containerProfile;
         var popup = $('#containerProfilePopup', page);
-        $('#selectContainerProfileType', popup).val(containerProfile.Type || 'Video').trigger('change');
-        $('#txtContainerProfileContainer', popup).val(containerProfile.Container || '');
-        $('.radioTabButton:first', popup).trigger('click');
+        popup.querySelector('#selectContainerProfileType').value = containerProfile.Type || 'Video';
+        popup.querySelector('#selectContainerProfileType').trigger('change');
+        popup.querySelector('#txtContainerProfileContainer').value = containerProfile.Container || '';
+        popup.querySelector('.radioTabButton:first').trigger('click');
         openPopup(popup[0]);
     }
 
     function saveContainerProfile(page) {
-        currentSubProfile.Type = $('#selectContainerProfileType', page).val();
-        currentSubProfile.Container = $('#txtContainerProfileContainer', page).val();
+        currentSubProfile.Type = page.querySelector('#selectContainerProfileType').value;
+        currentSubProfile.Container = page.querySelector('#txtContainerProfileContainer').value;
 
         if (isSubProfileNew) {
             currentProfile.ContainerProfiles.push(currentSubProfile);
@@ -528,15 +531,16 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         codecProfile = codecProfile || {};
         currentSubProfile = codecProfile;
         var popup = $('#codecProfilePopup', page);
-        $('#selectCodecProfileType', popup).val(codecProfile.Type || 'Video').trigger('change');
-        $('#txtCodecProfileCodec', popup).val(codecProfile.Codec || '');
-        $('.radioTabButton:first', popup).trigger('click');
+        popup.querySelector('#selectCodecProfileType').value = codecProfile.Type || 'Video';
+        popup.querySelector('#selectCodecProfileType').trigger('change');
+        popup.querySelector('#txtCodecProfileCodec').value = codecProfile.Codec || '';
+        popup.querySelector('.radioTabButton:first').trigger('click');
         openPopup(popup[0]);
     }
 
     function saveCodecProfile(page) {
-        currentSubProfile.Type = $('#selectCodecProfileType', page).val();
-        currentSubProfile.Codec = $('#txtCodecProfileCodec', page).val();
+        currentSubProfile.Type = page.querySelector('#selectCodecProfileType').value;
+        currentSubProfile.Codec = page.querySelector('#txtCodecProfileCodec').value;
 
         if (isSubProfileNew) {
             currentProfile.CodecProfiles.push(currentSubProfile);
@@ -610,19 +614,20 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         responseProfile = responseProfile || {};
         currentSubProfile = responseProfile;
         var popup = $('#responseProfilePopup', page);
-        $('#selectResponseProfileType', popup).val(responseProfile.Type || 'Video').trigger('change');
-        $('#txtResponseProfileContainer', popup).val(responseProfile.Container || '');
-        $('#txtResponseProfileAudioCodec', popup).val(responseProfile.AudioCodec || '');
-        $('#txtResponseProfileVideoCodec', popup).val(responseProfile.VideoCodec || '');
-        $('.radioTabButton:first', popup).trigger('click');
+        popup.querySelector('#selectResponseProfileType').value = responseProfile.Type || 'Video';
+        popup.querySelector('#selectResponseProfileType').trigger('change');
+        popup.querySelector('#txtResponseProfileContainer').value = responseProfile.Container || '';
+        popup.querySelector('#txtResponseProfileAudioCodec').value = responseProfile.AudioCodec || '';
+        popup.querySelector('#txtResponseProfileVideoCodec').value = responseProfile.VideoCodec || '';
+        popup.querySelector('.radioTabButton:first').trigger('click');
         openPopup(popup[0]);
     }
 
     function saveResponseProfile(page) {
-        currentSubProfile.Type = $('#selectResponseProfileType', page).val();
-        currentSubProfile.Container = $('#txtResponseProfileContainer', page).val();
-        currentSubProfile.AudioCodec = $('#txtResponseProfileAudioCodec', page).val();
-        currentSubProfile.VideoCodec = $('#txtResponseProfileVideoCodec', page).val();
+        currentSubProfile.Type = page.querySelector('#selectResponseProfileType').value;
+        currentSubProfile.Container = page.querySelector('#txtResponseProfileContainer').value;
+        currentSubProfile.AudioCodec = page.querySelector('#txtResponseProfileAudioCodec').value;
+        currentSubProfile.VideoCodec = page.querySelector('#txtResponseProfileVideoCodec').value;
 
         if (isSubProfileNew) {
             currentProfile.ResponseProfiles.push(currentSubProfile);
@@ -663,45 +668,45 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
     }
 
     function updateProfile(page, profile) {
-        profile.Name = $('#txtName', page).val();
-        profile.EnableAlbumArtInDidl = $('#chkEnableAlbumArtInDidl', page).matches(':checked');
-        profile.EnableSingleAlbumArtLimit = $('#chkEnableSingleImageLimit', page).matches(':checked');
+        profile.Name = page.querySelector('#txtName').value;
+        profile.EnableAlbumArtInDidl = page.querySelector('#chkEnableAlbumArtInDidl').matches(':checked');
+        profile.EnableSingleAlbumArtLimit = page.querySelector('#chkEnableSingleImageLimit').matches(':checked');
         profile.SupportedMediaTypes = $('.chkMediaType:checked', page).get().map(function (c) {
             return c.getAttribute('data-value');
         }).join(',');
         profile.Identification = profile.Identification || {};
-        profile.FriendlyName = $('#txtInfoFriendlyName', page).val();
-        profile.ModelName = $('#txtInfoModelName', page).val();
-        profile.ModelNumber = $('#txtInfoModelNumber', page).val();
-        profile.ModelDescription = $('#txtInfoModelDescription', page).val();
-        profile.ModelUrl = $('#txtInfoModelUrl', page).val();
-        profile.Manufacturer = $('#txtInfoManufacturer', page).val();
-        profile.ManufacturerUrl = $('#txtInfoManufacturerUrl', page).val();
-        profile.SerialNumber = $('#txtInfoSerialNumber', page).val();
-        profile.Identification.FriendlyName = $('#txtIdFriendlyName', page).val();
-        profile.Identification.ModelName = $('#txtIdModelName', page).val();
-        profile.Identification.ModelNumber = $('#txtIdModelNumber', page).val();
-        profile.Identification.ModelDescription = $('#txtIdModelDescription', page).val();
-        profile.Identification.ModelUrl = $('#txtIdModelUrl', page).val();
-        profile.Identification.Manufacturer = $('#txtIdManufacturer', page).val();
-        profile.Identification.ManufacturerUrl = $('#txtIdManufacturerUrl', page).val();
-        profile.Identification.SerialNumber = $('#txtIdSerialNumber', page).val();
-        profile.Identification.DeviceDescription = $('#txtIdDeviceDescription', page).val();
-        profile.AlbumArtPn = $('#txtAlbumArtPn', page).val();
-        profile.MaxAlbumArtWidth = $('#txtAlbumArtMaxWidth', page).val();
-        profile.MaxAlbumArtHeight = $('#txtAlbumArtMaxHeight', page).val();
-        profile.MaxIconWidth = $('#txtIconMaxWidth', page).val();
-        profile.MaxIconHeight = $('#txtIconMaxHeight', page).val();
-        profile.RequiresPlainFolders = $('#chkRequiresPlainFolders', page).matches(':checked');
-        profile.RequiresPlainVideoItems = $('#chkRequiresPlainVideoItems', page).matches(':checked');
-        profile.IgnoreTranscodeByteRangeRequests = $('#chkIgnoreTranscodeByteRangeRequests', page).matches(':checked');
-        profile.MaxStreamingBitrate = $('#txtMaxAllowedBitrate', page).val();
-        profile.MusicStreamingTranscodingBitrate = $('#txtMusicStreamingTranscodingBitrate', page).val();
-        profile.ProtocolInfo = $('#txtProtocolInfo', page).val();
-        profile.XDlnaCap = $('#txtXDlnaCap', page).val();
-        profile.XDlnaDoc = $('#txtXDlnaDoc', page).val();
-        profile.SonyAggregationFlags = $('#txtSonyAggregationFlags', page).val();
-        profile.UserId = $('#selectUser', page).val();
+        profile.FriendlyName = page.querySelector('#txtInfoFriendlyName').value;
+        profile.ModelName = page.querySelector('#txtInfoModelName').value;
+        profile.ModelNumber = page.querySelector('#txtInfoModelNumber').value;
+        profile.ModelDescription = page.querySelector('#txtInfoModelDescription').value;
+        profile.ModelUrl = page.querySelector('#txtInfoModelUrl').value;
+        profile.Manufacturer = page.querySelector('#txtInfoManufacturer').value;
+        profile.ManufacturerUrl = page.querySelector('#txtInfoManufacturerUrl').value;
+        profile.SerialNumber = page.querySelector('#txtInfoSerialNumber').value;
+        profile.Identification.FriendlyName = page.querySelector('#txtIdFriendlyName').value;
+        profile.Identification.ModelName = page.querySelector('#txtIdModelName').value;
+        profile.Identification.ModelNumber = page.querySelector('#txtIdModelNumber').value;
+        profile.Identification.ModelDescription = page.querySelector('#txtIdModelDescription').value;
+        profile.Identification.ModelUrl = page.querySelector('#txtIdModelUrl').value;
+        profile.Identification.Manufacturer = page.querySelector('#txtIdManufacturer').value;
+        profile.Identification.ManufacturerUrl = page.querySelector('#txtIdManufacturerUrl').value;
+        profile.Identification.SerialNumber = page.querySelector('#txtIdSerialNumber').value;
+        profile.Identification.DeviceDescription = page.querySelector('#txtIdDeviceDescription').value;
+        profile.AlbumArtPn = page.querySelector('#txtAlbumArtPn').value;
+        profile.MaxAlbumArtWidth = page.querySelector('#txtAlbumArtMaxWidth').value;
+        profile.MaxAlbumArtHeight = page.querySelector('#txtAlbumArtMaxHeight').value;
+        profile.MaxIconWidth = page.querySelector('#txtIconMaxWidth').value;
+        profile.MaxIconHeight = page.querySelector('#txtIconMaxHeight').value;
+        profile.RequiresPlainFolders = page.querySelector('#chkRequiresPlainFolders').matches(':checked');
+        profile.RequiresPlainVideoItems = page.querySelector('#chkRequiresPlainVideoItems').matches(':checked');
+        profile.IgnoreTranscodeByteRangeRequests = page.querySelector('#chkIgnoreTranscodeByteRangeRequests').matches(':checked');
+        profile.MaxStreamingBitrate = page.querySelector('#txtMaxAllowedBitrate').value;
+        profile.MusicStreamingTranscodingBitrate = page.querySelector('#txtMusicStreamingTranscodingBitrate').value;
+        profile.ProtocolInfo = page.querySelector('#txtProtocolInfo').value;
+        profile.XDlnaCap = page.querySelector('#txtXDlnaCap').value;
+        profile.XDlnaDoc = page.querySelector('#txtXDlnaDoc').value;
+        profile.SonyAggregationFlags = page.querySelector('#txtSonyAggregationFlags').value;
+        profile.UserId = page.querySelector('#selectUser').value;
     }
 
     var currentProfile;

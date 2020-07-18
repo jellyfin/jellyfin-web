@@ -9,7 +9,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         const elem = $('#selectUser', page);
         elem.innerHtml = html;
         elem.val(config.UserId || '');
-        $('#selectReleaseDateFormat', page).val(config.ReleaseDateFormat);
+        page.querySelector('#selectReleaseDateFormat').value = config.ReleaseDateFormat;
         page.querySelector('#chkSaveImagePaths').checked = config.SaveImagePathsInNfo;
         page.querySelector('#chkEnablePathSubstitution').checked = config.EnablePathSubstitution;
         page.querySelector('#chkEnableExtraThumbs').checked = config.EnableExtraThumbsDuplication;
@@ -20,8 +20,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         loading.show();
         var form = this;
         ApiClient.getNamedConfiguration(metadataKey).then(function (config) {
-            config.UserId = $('#selectUser', form).val() || null;
-            config.ReleaseDateFormat = $('#selectReleaseDateFormat', form).val();
+            config.UserId = form.querySelector('#selectUser').value || null;
+            config.ReleaseDateFormat = form.querySelector('#selectReleaseDateFormat').value;
             config.SaveImagePathsInNfo = form.querySelector('#chkSaveImagePaths').checked;
             config.EnablePathSubstitution = form.querySelector('#chkEnablePathSubstitution').checked;
             config.EnableExtraThumbsDuplication = form.querySelector('#chkEnableExtraThumbs').checked;

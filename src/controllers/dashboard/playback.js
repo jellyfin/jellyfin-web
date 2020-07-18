@@ -2,9 +2,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     'use strict';
 
     function loadPage(page, config) {
-        $('#txtMinResumePct', page).val(config.MinResumePct);
-        $('#txtMaxResumePct', page).val(config.MaxResumePct);
-        $('#txtMinResumeDuration', page).val(config.MinResumeDurationSeconds);
+        page.querySelector('#txtMinResumePct', page).value = config.MinResumePct;
+        page.querySelector('#txtMaxResumePct', page).value = config.MaxResumePct;
+        page.querySelector('#txtMinResumeDuration', page).value = config.MinResumeDurationSeconds;
         loading.hide();
     }
 
@@ -12,9 +12,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         loading.show();
         var form = this;
         ApiClient.getServerConfiguration().then(function (config) {
-            config.MinResumePct = $('#txtMinResumePct', form).val();
-            config.MaxResumePct = $('#txtMaxResumePct', form).val();
-            config.MinResumeDurationSeconds = $('#txtMinResumeDuration', form).val();
+            config.MinResumePct = form.querySelector('#txtMinResumePct').value;
+            config.MaxResumePct = form.querySelector('#txtMaxResumePct').value;
+            config.MinResumeDurationSeconds = form.querySelector('#txtMinResumeDuration').value;
 
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
         });
