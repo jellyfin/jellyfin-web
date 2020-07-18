@@ -141,7 +141,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         user.Policy.AuthenticationProviderId = page.querySelector('.selectLoginProvider').value;
         user.Policy.PasswordResetProviderId = page.querySelector('.selectPasswordResetProvider').value;
         user.Policy.EnableContentDeletion = $('#chkEnableDeleteAllFolders', page).is(':checked');
-        user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : $('.chkFolder', page).get().filter(function (c) {
+        user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');

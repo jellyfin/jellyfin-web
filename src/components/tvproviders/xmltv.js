@@ -69,11 +69,17 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-input', 'listVi
                 info.NewsCategories = getCategories(page.querySelector('.txtNews'));
                 info.SportsCategories = getCategories(page.querySelector('.txtSports'));
                 info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
-                info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (tuner) {
-                    return tuner.checked;
-                }).map(function (tuner) {
-                    return tuner.getAttribute('data-id');
-                });
+
+                let enabledTuners = [];
+                if (!info.EnableAllTuners) {
+                    enabledTuners = Array.prototype.filter.call(page.querySelectorAll('.chkTuner'), (tuner) => {
+                        return tuner.checked;
+                    }).map((tuner) => {
+                        return tuner.getAttribute('data-id');
+                    });
+                }
+                info.EnabledTuners = enabledTuners;
+
                 ApiClient.ajax({
                     type: 'POST',
                     url: ApiClient.getUrl('LiveTv/ListingProviders', {

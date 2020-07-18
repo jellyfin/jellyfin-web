@@ -155,11 +155,17 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                 info.Country = $('#selectCountry', page).val();
                 info.ListingsId = selectedListingsId;
                 info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
-                info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (i) {
-                    return i.checked;
-                }).map(function (i) {
-                    return i.getAttribute('data-id');
-                });
+
+                let enabledTuners = [];
+                if (!info.EnableAllTuners) {
+                    enabledTuners = Array.prototype.filter.call(page.querySelectorAll('.chkTuner'), (tuner) => {
+                        return tuner.checked;
+                    }).map((tuner) => {
+                        return tuner.getAttribute('data-id');
+                    });
+                }
+
+                info.EnabledTuners = enabledTuners;
                 ApiClient.ajax({
                     type: 'POST',
                     url: ApiClient.getUrl('LiveTv/ListingProviders', {

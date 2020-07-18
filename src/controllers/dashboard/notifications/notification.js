@@ -75,17 +75,17 @@ define(['jQuery', 'emby-checkbox'], function ($) {
 
             notificationConfig.Enabled = $('#chkEnabled', page).is(':checked');
             notificationConfig.SendToUserMode = $('#selectUsers', page).val();
-            notificationConfig.DisabledMonitorUsers = $('.chkMonitor', page).get().filter(function (c) {
+            notificationConfig.DisabledMonitorUsers = Array.prototype.filter.call(page.querySelectorAll('.chkMonitor'), function (c) {
                 return !c.checked;
             }).map(function (c) {
                 return c.getAttribute('data-itemid');
             });
-            notificationConfig.SendToUsers = $('.chkSendTo', page).get().filter(function (c) {
+            notificationConfig.SendToUsers = Array.prototype.filter.call(page.querySelectorAll('.chkSendTo'), function (c) {
                 return c.checked;
             }).map(function (c) {
                 return c.getAttribute('data-itemid');
             });
-            notificationConfig.DisabledServices = $('.chkService', page).get().filter(function (c) {
+            notificationConfig.DisabledServices = Array.prototype.filter.call(page.querySelectorAll('.chkService'), function (c) {
                 return !c.checked;
             }).map(function (c) {
                 return c.getAttribute('data-itemid');

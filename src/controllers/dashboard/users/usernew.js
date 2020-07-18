@@ -62,7 +62,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
             user.Policy.EnabledFolders = [];
 
             if (!user.Policy.EnableAllFolders) {
-                user.Policy.EnabledFolders = $('.chkFolder', page).get().filter(function (i) {
+                user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (i) {
                     return i.checked;
                 }).map(function (i) {
                     return i.getAttribute('data-id');
@@ -73,7 +73,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
             user.Policy.EnabledChannels = [];
 
             if (!user.Policy.EnableAllChannels) {
-                user.Policy.EnabledChannels = $('.chkChannel', page).get().filter(function (i) {
+                user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (i) {
                     return i.checked;
                 }).map(function (i) {
                     return i.getAttribute('data-id');

@@ -165,7 +165,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
 
     function saveUser(user, page) {
         user.Policy.MaxParentalRating = $('#selectMaxParentalRating', page).val() || null;
-        user.Policy.BlockUnratedItems = $('.chkUnratedItem', page).get().filter(function (i) {
+        user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
             return i.checked;
         }).map(function (i) {
             return i.getAttribute('data-itemtype');

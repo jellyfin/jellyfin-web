@@ -91,19 +91,19 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
 
     function saveUser(user, page) {
         user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).is(':checked');
-        user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : $('.chkFolder', page).get().filter(function (c) {
+        user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
         });
         user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).is(':checked');
-        user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : $('.chkChannel', page).get().filter(function (c) {
+        user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
         });
         user.Policy.EnableAllDevices = $('#chkEnableAllDevices', page).is(':checked');
-        user.Policy.EnabledDevices = user.Policy.EnableAllDevices ? [] : $('.chkDevice', page).get().filter(function (c) {
+        user.Policy.EnabledDevices = user.Policy.EnableAllDevices ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkDevice'), function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
