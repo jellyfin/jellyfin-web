@@ -45,7 +45,7 @@ module.exports = {
         'semi': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
-        // jQuery Reemoval
+        // jQuery Removal
         'jquery/no-ajax': 'error',
         'jquery/no-ajax-events': 'error',
         'jquery/no-animate': 'error',
@@ -80,6 +80,19 @@ module.exports = {
         //'jquery/no-prop': 'error',
         'jquery/no-proxy': 'error',
         'jquery/no-ready': 'error',
+        'jquery/no-serialize': 'error',
+        //'jquery/no-show': 'error',
+        'jquery/no-size': 'error',
+        //'jquery/no-sizzle': 'error',
+        'jquery/no-slide': 'error',
+        'jquery/no-submit': 'error',
+        'jquery/no-text': 'error',
+        'jquery/no-toggle': 'error',
+        //'jquery/no-trigger': 'error',
+        'jquery/no-trim': 'error',
+        //'jquery/no-val': 'error',
+        'jquery/no-when': 'error',
+        'jquery/no-wrap': 'error'
     },
     overrides: [
         {
