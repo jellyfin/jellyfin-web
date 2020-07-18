@@ -147,35 +147,35 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
         },
         refreshTriggerFields: function (page, triggerType) {
             if (triggerType == 'DailyTrigger') {
-                $('#fldTimeOfDay', page).show();
-                $('#fldDayOfWeek', page).classList.add('hide');
-                $('#fldSelectSystemEvent', page).classList.add('hide');
-                $('#fldSelectInterval', page).classList.add('hide');
+                page.querySelector('#fldTimeOfDay').classList.remove('hide');
+                page.querySelector('#fldDayOfWeek').classList.add('hide');
+                page.querySelector('#fldSelectSystemEvent').classList.add('hide');
+                page.querySelector('#fldSelectInterval').classList.add('hide');
                 page.querySelector('#selectTimeOfDay').setAttribute('required', 'required');
             } else if (triggerType == 'WeeklyTrigger') {
-                $('#fldTimeOfDay', page).show();
-                $('#fldDayOfWeek', page).show();
-                $('#fldSelectSystemEvent', page).classList.add('hide');
-                $('#fldSelectInterval', page).classList.add('hide');
+                page.querySelector('#fldTimeOfDay').classList.remove('hide');
+                page.querySelector('#fldDayOfWeek').classList.remove('hide');
+                page.querySelector('#fldSelectSystemEvent').classList.add('hide');
+                page.querySelector('#fldSelectInterval').classList.add('hide');
                 page.querySelector('#selectTimeOfDay').setAttribute('required', 'required');
             } else if (triggerType == 'SystemEventTrigger') {
-                $('#fldTimeOfDay', page).classList.add('hide');
-                $('#fldDayOfWeek', page).classList.add('hide');
-                $('#fldSelectSystemEvent', page).show();
-                $('#fldSelectInterval', page).classList.add('hide');
-                $('#selectTimeOfDay', page).removeAttr('required');
+                page.querySelector('#fldTimeOfDay').classList.add('hide');
+                page.querySelector('#fldDayOfWeek').classList.add('hide');
+                page.querySelector('#fldSelectSystemEvent').classList.remove('hide');
+                page.querySelector('#fldSelectInterval').classList.add('hide');
+                page.querySelector('#selectTimeOfDay').removeAttribute('required');
             } else if (triggerType == 'IntervalTrigger') {
-                $('#fldTimeOfDay', page).classList.add('hide');
-                $('#fldDayOfWeek', page).classList.add('hide');
-                $('#fldSelectSystemEvent', page).classList.add('hide');
-                $('#fldSelectInterval', page).show();
-                $('#selectTimeOfDay', page).removeAttr('required');
+                page.querySelector('#fldTimeOfDay').classList.add('hide');
+                page.querySelector('#fldDayOfWeek').classList.add('hide');
+                page.querySelector('#fldSelectSystemEvent').classList.add('hide');
+                page.querySelector('#fldSelectInterval').classList.remove('hide');
+                page.querySelector('#selectTimeOfDay').removeAttribute('required');
             } else if (triggerType == 'StartupTrigger') {
-                $('#fldTimeOfDay', page).classList.add('hide');
-                $('#fldDayOfWeek', page).classList.add('hide');
-                $('#fldSelectSystemEvent', page).classList.add('hide');
-                $('#fldSelectInterval', page).classList.add('hide');
-                $('#selectTimeOfDay', page).removeAttr('required');
+                page.querySelector('#fldTimeOfDay').classList.add('hide');
+                page.querySelector('#fldDayOfWeek').classList.add('hide');
+                page.querySelector('#fldSelectSystemEvent').classList.add('hide');
+                page.querySelector('#fldSelectInterval').classList.add('hide');
+                page.querySelector('#selectTimeOfDay').removeAttribute('required');
             }
         },
         getTriggerToAdd: function (page) {

@@ -31,7 +31,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
             })[0] || {};
 
             if (typeInfo.IsBasedOnUserEvent) {
-                $('.monitorUsers', page).show();
+                page.querySelector('.monitorUsers').classList.remove('hide');
             } else {
                 page.querySelector('.monitorUsers').classList.add('hide');
             }
@@ -107,7 +107,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
         var page = this;
         $('#selectUsers', page).on('change', function () {
             if ('Custom' == this.value) {
-                $('.selectCustomUsers', page).show();
+                page.querySelector('.selectCustomUsers').classList.remove('hide');
             } else {
                 page.querySelector('.selectCustomUsers').classList.add('hide');
             }

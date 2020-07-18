@@ -44,9 +44,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         channelAccess.innerHtml = html;
 
         if (channels.length) {
-            $('.channelAccessContainer', page).show();
+            page.querySelector('.channelAccessContainer').classList.remove('hide');
         } else {
-            $('.channelAccessContainer', page).classList.add('hide');
+            page.querySelector('.channelAccessContainer').classList.add('hide');
         }
 
         $('#chkEnableAllChannels', page).prop('checked', user.Policy.EnableAllChannels);
@@ -133,16 +133,16 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         var page = this;
         $('#chkEnableAllDevices', page).on('change', function () {
             if (this.checked) {
-                $('.deviceAccessListContainer', page).classList.add('hide');
+                page.querySelector('.deviceAccessListContainer').classList.add('hide');
             } else {
-                $('.deviceAccessListContainer', page).show();
+                page.querySelector('.deviceAccessListContainer').classList.remove('hide');
             }
         });
         $('#chkEnableAllChannels', page).on('change', function () {
             if (this.checked) {
-                $('.channelAccessListContainer', page).classList.add('hide');
+                page.querySelector('.channelAccessListContainer').classList.add('hide');
             } else {
-                $('.channelAccessListContainer', page).show();
+                page.querySelector('.channelAccessListContainer').classList.remove('hide');
             }
         });
         page.querySelector('#chkEnableAllFolders').addEventListener('change', function () {

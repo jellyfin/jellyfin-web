@@ -81,7 +81,7 @@ module.exports = {
         'jquery/no-proxy': 'error',
         'jquery/no-ready': 'error',
         'jquery/no-serialize': 'error',
-        //'jquery/no-show': 'error',
+        'jquery/no-show': 'error',
         'jquery/no-size': 'error',
         //'jquery/no-sizzle': 'error',
         'jquery/no-slide': 'error',

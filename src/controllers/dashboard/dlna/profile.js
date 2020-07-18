@@ -723,7 +723,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         });
         $('#selectDirectPlayProfileType', page).on('change', function () {
             if ('Video' == this.value) {
-                $('#fldDirectPlayVideoCodec', page).show();
+                page.querySelector('#fldDirectPlayVideoCodec').classList.remove('hide');
             } else {
                 page.querySelector('#fldDirectPlayVideoCodec').classList.add('hide');
             }
@@ -731,14 +731,14 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
             if ('Photo' == this.value) {
                 page.querySelector('#fldDirectPlayAudioCodec').classList.add('hide');
             } else {
-                $('#fldDirectPlayAudioCodec', page).show();
+                page.querySelector('#fldDirectPlayAudioCodec').classList.remove('hide');
             }
         });
         $('#selectTranscodingProfileType', page).on('change', function () {
             if ('Video' == this.value) {
-                $('#fldTranscodingVideoCodec', page).show();
-                $('#fldTranscodingProtocol', page).show();
-                $('#fldEnableMpegtsM2TsMode', page).show();
+                page.querySelector('#fldTranscodingVideoCodec').classList.remove('hide');
+                page.querySelector('#fldTranscodingProtocol').classList.remove('hide');
+                page.querySelector('#fldEnableMpegtsM2TsMode').classList.remove('hide');
             } else {
                 page.querySelector('#fldTranscodingVideoCodec').classList.add('hide');
                 page.querySelector('#fldTranscodingProtocol').classList.add('hide');
@@ -750,14 +750,14 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
                 page.querySelector('#fldEstimateContentLength').classList.add('hide');
                 page.querySelector('#fldReportByteRangeRequests').classList.add('hide');
             } else {
-                $('#fldTranscodingAudioCodec', page).show();
-                $('#fldEstimateContentLength', page).show();
-                $('#fldReportByteRangeRequests', page).show();
+                page.querySelector('#fldTranscodingAudioCodec').classList.remove('hide');
+                page.querySelector('#fldEstimateContentLength').classList.remove('hide');
+                page.querySelector('#fldReportByteRangeRequests').classList.remove('hide');
             }
         });
         $('#selectResponseProfileType', page).on('change', function () {
             if ('Video' == this.value) {
-                $('#fldResponseProfileVideoCodec', page).show();
+                page.querySelector('#fldResponseProfileVideoCodec').classList.remove('hide');
             } else {
                 page.querySelector('#fldResponseProfileVideoCodec').classList.add('hide');
             }
@@ -765,7 +765,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
             if ('Photo' == this.value) {
                 page.querySelector('#fldResponseProfileAudioCodec').classList.add('hide');
             } else {
-                $('#fldResponseProfileAudioCodec', page).show();
+                page.querySelector('#fldResponseProfileAudioCodec').classList.remove('hide');
             }
         });
         $('.btnAddDirectPlayProfile', page).on('click', function () {

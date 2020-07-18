@@ -76,13 +76,13 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         });
 
         if (user.Policy.IsDisabled) {
-            $('.disabledUserBanner', page).show();
+            page.querySelector('.disabledUserBanner').classList.remove('hide');
         } else {
-            $('.disabledUserBanner', page).classList.add('hide');
+            page.querySelector('.disabledUserBanner').classList.add('hide');
         }
 
         $('#txtUserName', page).prop('disabled', '').removeAttr('disabled');
-        $('#fldConnectInfo', page).show();
+        page.querySelector('#fldConnectInfo').classList.remove('hide');
         page.querySelector('.lnkEditUserPreferences').setAttribute('href', `mypreferencesmenu.html?userId=${user.Id}`);
         libraryMenu.setTitle(user.Name);
         page.querySelector('.username').innerHTML = user.Name;
@@ -184,9 +184,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         var page = this;
         $('#chkEnableDeleteAllFolders', this).on('change', function () {
             if (this.checked) {
-                $('.deleteAccess', page).classList.add('hide');
+                page.querySelector('.deleteAccess').classList.add('hide');
             } else {
-                $('.deleteAccess', page).show();
+                page.querySelector('.deleteAccess').classList.remove('hide');
             }
         });
         ApiClient.getServerConfiguration().then(function (config) {

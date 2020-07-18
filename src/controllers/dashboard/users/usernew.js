@@ -35,9 +35,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         channelAccess.trigger('create');
 
         if (channels.length) {
-            $('.channelAccessContainer', page).show();
+            page.querySelector('.channelAccessContainer').classList.remove('hide');
         } else {
-            $('.channelAccessContainer', page).classList.add('hide');
+            page.querySelector('.channelAccessContainer').classList.add('hide');
         }
 
         $('#chkEnableAllChannels', page).prop('checked', false);
@@ -112,16 +112,16 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         var page = this;
         $('#chkEnableAllChannels', page).on('change', function () {
             if (this.checked) {
-                $('.channelAccessListContainer', page).classList.add('hide');
+                page.querySelector('.channelAccessListContainer').classList.add('hide');
             } else {
-                $('.channelAccessListContainer', page).show();
+                page.querySelector('.channelAccessListContainer').classList.remove('hide');
             }
         });
         $('#chkEnableAllFolders', page).on('change', function () {
             if (this.checked) {
-                $('.folderAccessListContainer', page).classList.add('hide');
+                page.querySelector('.folderAccessListContainer').classList.add('hide');
             } else {
-                $('.folderAccessListContainer', page).show();
+                page.querySelector('.folderAccessListContainer').classList.remove('hide');
             }
         });
         $('.newUserProfileForm').off('submit', onSubmit).on('submit', onSubmit);
