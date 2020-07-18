@@ -3,7 +3,7 @@ import loading from 'loading';
 import events from 'events';
 import globalize from 'globalize';
 import serverNotifications from 'serverNotifications';
-import datefns from 'date-fns';
+import * as datefns from 'date-fns';
 import dfnshelper from 'dfnshelper';
 import 'listViewStyle';
 import 'emby-button';
