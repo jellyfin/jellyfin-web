@@ -432,7 +432,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
 
         html += '</ul>';
         var elem = $('.containerProfiles', page);
-        elem.innerHtml(html);
+        elem.innerHtml = html;
         elem.trigger('create');
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
@@ -506,7 +506,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
 
         html += '</ul>';
         var elem = $('.codecProfiles', page);
-        elem.innerHtml(html);
+        elem.innerHtml = html;
         elem.trigger('create');
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');

@@ -66,7 +66,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         html += '</div>';
         const deviceAccess = $('.deviceAccess', page);
         deviceAccess.show();
-        deviceAccess.innerHtml(html);
+        deviceAccess.innerHtml = html;
         $('#chkEnableAllDevices', page).prop('checked', user.Policy.EnableAllDevices);
 
         if (user.Policy.IsAdministrator) {
