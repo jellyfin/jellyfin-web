@@ -20,9 +20,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
 
     function renderProfile(page, profile, users) {
         $('#txtName', page).val(profile.Name);
-        $('.chkMediaType', page).each(function () {
-            this.checked = -1 != (profile.SupportedMediaTypes || '').split(',').indexOf(this.getAttribute('data-value'));
-        });
+        for (const checkbox of page.querySelectorAll('.chkMediaType')) {
+            checkbox.checked = -1 != (profile.SupportedMediaTypes || '').split(',').indexOf(checkbox.getAttribute('data-value'));
+        }
         $('#chkEnableAlbumArtInDidl', page).prop('checked', profile.EnableAlbumArtInDidl);
         $('#chkEnableSingleImageLimit', page).prop('checked', profile.EnableSingleAlbumArtLimit);
         renderXmlDocumentAttributes(page, profile.XmlRootAttributes || []);

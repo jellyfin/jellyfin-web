@@ -57,6 +57,9 @@ module.exports = {
         'jquery/no-css': 'error',
         'jquery/no-data': 'error',
         'jquery/no-deferred': 'error',
+        'jquery/no-delegate': 'error',
+        'jquery/no-each': 'error',
+        'jquery/no-extend': 'error',
     },
     overrides: [
         {
