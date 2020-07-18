@@ -1,5 +1,13 @@
-define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby-button', 'emby-select'], function ($, loading, datetime, dom, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import datetime from 'datetime';
+import dom from 'dom';
+import globalize from 'globalize';
+import 'emby-input';
+import 'emby-button';
+import 'emby-select';
+
+/* eslint-disable indent */
 
     function fillTimeOfDay(select) {
 
@@ -202,7 +210,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             return trigger;
         }
     };
-    return function (view, params) {
+    export default function (view, params) {
         function onSubmit(e) {
             loading.show();
             var id = getParameterByName('id');
@@ -235,5 +243,6 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
         view.addEventListener('viewshow', function () {
             ScheduledTaskPage.refreshScheduledTask(view);
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

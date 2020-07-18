@@ -1,5 +1,14 @@
-define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date-fns', 'dfnshelper', 'listViewStyle', 'emby-button'], function ($, loading, events, globalize, serverNotifications, datefns, dfnshelper) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import events from 'events';
+import globalize from 'globalize';
+import serverNotifications from 'serverNotifications';
+import datefns from 'date-fns';
+import dfnshelper from 'dfnshelper';
+import 'listViewStyle';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function reloadList(page) {
         ApiClient.getScheduledTasks({
@@ -114,7 +123,7 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
         $(elem).parents('.listItem')[0].setAttribute('data-status', state);
     }
 
-    return function(view, params) {
+    export default function(view, params) {
         function updateTasks(tasks) {
             for (var i = 0; i < tasks.length; i++) {
                 var task = tasks[i];
@@ -178,5 +187,6 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
             reloadList(view);
             events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
         });
-    };
-});
+    }
+
+/* eslint-enable indent */
