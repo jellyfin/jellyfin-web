@@ -44,7 +44,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         if (channels.length) {
             $('.channelAccessContainer', page).show();
         } else {
-            $('.channelAccessContainer', page).hide();
+            $('.channelAccessContainer', page).classList.add('hide');
         }
 
         $('#chkEnableAllChannels', page).prop('checked', user.Policy.EnableAllChannels);
@@ -129,14 +129,14 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         var page = this;
         $('#chkEnableAllDevices', page).on('change', function () {
             if (this.checked) {
-                $('.deviceAccessListContainer', page).hide();
+                $('.deviceAccessListContainer', page).classList.add('hide');
             } else {
                 $('.deviceAccessListContainer', page).show();
             }
         });
         $('#chkEnableAllChannels', page).on('change', function () {
             if (this.checked) {
-                $('.channelAccessListContainer', page).hide();
+                $('.channelAccessListContainer', page).classList.add('hide');
             } else {
                 $('.channelAccessListContainer', page).show();
             }

@@ -76,7 +76,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         if (user.Policy.IsDisabled) {
             $('.disabledUserBanner', page).show();
         } else {
-            $('.disabledUserBanner', page).hide();
+            $('.disabledUserBanner', page).classList.add('hide');
         }
 
         $('#txtUserName', page).prop('disabled', '').removeAttr('disabled');
@@ -182,7 +182,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         var page = this;
         $('#chkEnableDeleteAllFolders', this).on('change', function () {
             if (this.checked) {
-                $('.deleteAccess', page).hide();
+                $('.deleteAccess', page).classList.add('hide');
             } else {
                 $('.deleteAccess', page).show();
             }

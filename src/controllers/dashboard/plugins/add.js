@@ -25,7 +25,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         var selectmenu = $('#selectVersion', page).html(html);
 
         if (!installedPlugin) {
-            $('#pCurrentVersion', page).hide().html('');
+            const currentVersion = page.querySelector('#pCurrentVersion');
+            currentVersion.classList.add('hide');
+            currentVersion.innerHtml = '';
         }
 
         var packageVersion = packageInfo.versions[0];
@@ -49,7 +51,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         if (pkg.overview) {
             $('#overview', page).show().html(pkg.overview);
         } else {
-            $('#overview', page).hide();
+            page.querySelector('#overview').classList.add('hide');
         }
 
         $('#description', page).html(pkg.description);
@@ -59,7 +61,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
             var currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');
             $('#pCurrentVersion', page).show().html(currentVersionText);
         } else {
-            $('#pCurrentVersion', page).hide().html('');
+            const currentVersion = page.querySelector('#pCurrentVersion');
+            currentVersion.classList.add('hide');
+            currentVersion.innerHtml = '';
         }
 
         loading.hide();

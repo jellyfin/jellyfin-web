@@ -3,7 +3,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
 
     function loadPage(page, config) {
         $('.liveTvSettingsForm', page).show();
-        $('.noLiveTvServices', page).hide();
+        $('.noLiveTvServices', page).classList.add('hide');
         $('#selectGuideDays', page).val(config.GuideDays || '');
         $('#txtPrePaddingMinutes', page).val(config.PrePaddingSeconds / 60);
         $('#txtPostPaddingMinutes', page).val(config.PostPaddingSeconds / 60);

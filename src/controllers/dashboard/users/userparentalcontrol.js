@@ -91,7 +91,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
         $('#selectMaxParentalRating', page).val(ratingValue);
 
         if (user.Policy.IsAdministrator) {
-            $('.accessScheduleSection', page).hide();
+            $('.accessScheduleSection', page).classList.add('hide');
         } else {
             $('.accessScheduleSection', page).show();
         }

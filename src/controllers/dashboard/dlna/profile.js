@@ -708,11 +708,11 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
             if ('Video' == this.value) {
                 $('#fldDirectPlayVideoCodec', page).show();
             } else {
-                $('#fldDirectPlayVideoCodec', page).hide();
+                page.querySelector('#fldDirectPlayVideoCodec').classList.add('hide');
             }
 
             if ('Photo' == this.value) {
-                $('#fldDirectPlayAudioCodec', page).hide();
+                page.querySelector('#fldDirectPlayAudioCodec').classList.add('hide');
             } else {
                 $('#fldDirectPlayAudioCodec', page).show();
             }
@@ -723,15 +723,15 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
                 $('#fldTranscodingProtocol', page).show();
                 $('#fldEnableMpegtsM2TsMode', page).show();
             } else {
-                $('#fldTranscodingVideoCodec', page).hide();
-                $('#fldTranscodingProtocol', page).hide();
-                $('#fldEnableMpegtsM2TsMode', page).hide();
+                page.querySelector('#fldTranscodingVideoCodec').classList.add('hide');
+                page.querySelector('#fldTranscodingProtocol').classList.add('hide');
+                page.querySelector('#fldEnableMpegtsM2TsMode').classList.add('hide');
             }
 
             if ('Photo' == this.value) {
-                $('#fldTranscodingAudioCodec', page).hide();
-                $('#fldEstimateContentLength', page).hide();
-                $('#fldReportByteRangeRequests', page).hide();
+                page.querySelector('#fldTranscodingAudioCodec').classList.add('hide');
+                page.querySelector('#fldEstimateContentLength').classList.add('hide');
+                page.querySelector('#fldReportByteRangeRequests').classList.add('hide');
             } else {
                 $('#fldTranscodingAudioCodec', page).show();
                 $('#fldEstimateContentLength', page).show();
@@ -742,11 +742,11 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
             if ('Video' == this.value) {
                 $('#fldResponseProfileVideoCodec', page).show();
             } else {
-                $('#fldResponseProfileVideoCodec', page).hide();
+                page.querySelector('#fldResponseProfileVideoCodec').classList.add('hide');
             }
 
             if ('Photo' == this.value) {
-                $('#fldResponseProfileAudioCodec', page).hide();
+                page.querySelector('#fldResponseProfileAudioCodec').classList.add('hide');
             } else {
                 $('#fldResponseProfileAudioCodec', page).show();
             }

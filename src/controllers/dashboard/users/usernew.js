@@ -32,7 +32,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         if (channels.length) {
             $('.channelAccessContainer', page).show();
         } else {
-            $('.channelAccessContainer', page).hide();
+            $('.channelAccessContainer', page).classList.add('hide');
         }
 
         $('#chkEnableAllChannels', page).prop('checked', false);
@@ -107,14 +107,14 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         var page = this;
         $('#chkEnableAllChannels', page).on('change', function () {
             if (this.checked) {
-                $('.channelAccessListContainer', page).hide();
+                $('.channelAccessListContainer', page).classList.add('hide');
             } else {
                 $('.channelAccessListContainer', page).show();
             }
         });
         $('#chkEnableAllFolders', page).on('change', function () {
             if (this.checked) {
-                $('.folderAccessListContainer', page).hide();
+                $('.folderAccessListContainer', page).classList.add('hide');
             } else {
                 $('.folderAccessListContainer', page).show();
             }

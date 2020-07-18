@@ -33,7 +33,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
             if (typeInfo.IsBasedOnUserEvent) {
                 $('.monitorUsers', page).show();
             } else {
-                $('.monitorUsers', page).hide();
+                page.querySelector('.monitorUsers').classList.add('hide');
             }
 
             $('.notificationType', page).html(typeInfo.Name || 'Unknown Notification');
@@ -109,7 +109,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
             if ('Custom' == this.value) {
                 $('.selectCustomUsers', page).show();
             } else {
-                $('.selectCustomUsers', page).hide();
+                page.querySelector('.selectCustomUsers').classList.add('hide');
             }
         });
         $('.notificationSettingForm').off('submit', onSubmit).on('submit', onSubmit);

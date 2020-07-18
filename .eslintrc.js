@@ -65,6 +65,13 @@ module.exports = {
         'jquery/no-find': 'error',
         'jquery/no-global-eval': 'error',
         'jquery/no-grep': 'error',
+        'jquery/no-has': 'error',
+        'jquery/no-hide': 'error',
+        //'jquery/no-html': 'error',
+        'jquery/no-in-array': 'error',
+        'jquery/no-is-array': 'error',
+        'jquery/no-is-function': 'error',
+        //'jquery/no-is': 'error',
     },
     overrides: [
         {
