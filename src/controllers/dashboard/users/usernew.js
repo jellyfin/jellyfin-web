@@ -63,7 +63,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         user.Name = $('#txtUsername', page).val();
         user.Password = $('#txtPassword', page).val();
         ApiClient.createUser(user).then(function (user) {
-            user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).is(':checked');
+            user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).matches(':checked');
             user.Policy.EnabledFolders = [];
 
             if (!user.Policy.EnableAllFolders) {
@@ -74,7 +74,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
                 });
             }
 
-            user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).is(':checked');
+            user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).matches(':checked');
             user.Policy.EnabledChannels = [];
 
             if (!user.Policy.EnableAllChannels) {

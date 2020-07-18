@@ -73,7 +73,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
                 notificationOptions.Options.push(notificationConfig);
             }
 
-            notificationConfig.Enabled = $('#chkEnabled', page).is(':checked');
+            notificationConfig.Enabled = $('#chkEnabled', page).matches(':checked');
             notificationConfig.SendToUserMode = $('#selectUsers', page).val();
             notificationConfig.DisabledMonitorUsers = Array.prototype.filter.call(page.querySelectorAll('.chkMonitor'), function (c) {
                 return !c.checked;

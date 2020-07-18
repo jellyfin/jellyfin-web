@@ -24,8 +24,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             config.EnablePlayTo = form.querySelector('#chkEnablePlayTo').checked;
             config.EnableDebugLog = form.querySelector('#chkEnableDlnaDebugLogging').checked;
             config.ClientDiscoveryIntervalSeconds = $('#txtClientDiscoveryInterval', form).val();
-            config.EnableServer = $('#chkEnableServer', form).is(':checked');
-            config.BlastAliveMessages = $('#chkBlastAliveMessages', form).is(':checked');
+            config.EnableServer = $('#chkEnableServer', form).matches(':checked');
+            config.BlastAliveMessages = $('#chkBlastAliveMessages', form).matches(':checked');
             config.BlastAliveMessageIntervalSeconds = $('#txtBlastInterval', form).val();
             config.DefaultUserId = $('#selectUser', form).val();
             ApiClient.updateNamedConfiguration('dlna', config).then(Dashboard.processServerConfigurationUpdateResult);

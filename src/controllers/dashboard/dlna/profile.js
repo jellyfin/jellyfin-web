@@ -387,9 +387,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         currentSubProfile.VideoCodec = $('#txtTranscodingVideoCodec', page).val();
         currentSubProfile.Protocol = $('#selectTranscodingProtocol', page).val();
         currentSubProfile.Context = 'Streaming';
-        currentSubProfile.EnableMpegtsM2TsMode = $('#chkEnableMpegtsM2TsMode', page).is(':checked');
-        currentSubProfile.EstimateContentLength = $('#chkEstimateContentLength', page).is(':checked');
-        currentSubProfile.TranscodeSeekInfo = $('#chkReportByteRangeRequests', page).is(':checked') ? 'Bytes' : 'Auto';
+        currentSubProfile.EnableMpegtsM2TsMode = $('#chkEnableMpegtsM2TsMode', page).matches(':checked');
+        currentSubProfile.EstimateContentLength = $('#chkEstimateContentLength', page).matches(':checked');
+        currentSubProfile.TranscodeSeekInfo = $('#chkReportByteRangeRequests', page).matches(':checked') ? 'Bytes' : 'Auto';
 
         if (isSubProfileNew) {
             currentProfile.TranscodingProfiles.push(currentSubProfile);
@@ -664,8 +664,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
 
     function updateProfile(page, profile) {
         profile.Name = $('#txtName', page).val();
-        profile.EnableAlbumArtInDidl = $('#chkEnableAlbumArtInDidl', page).is(':checked');
-        profile.EnableSingleAlbumArtLimit = $('#chkEnableSingleImageLimit', page).is(':checked');
+        profile.EnableAlbumArtInDidl = $('#chkEnableAlbumArtInDidl', page).matches(':checked');
+        profile.EnableSingleAlbumArtLimit = $('#chkEnableSingleImageLimit', page).matches(':checked');
         profile.SupportedMediaTypes = $('.chkMediaType:checked', page).get().map(function (c) {
             return c.getAttribute('data-value');
         }).join(',');
@@ -692,9 +692,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         profile.MaxAlbumArtHeight = $('#txtAlbumArtMaxHeight', page).val();
         profile.MaxIconWidth = $('#txtIconMaxWidth', page).val();
         profile.MaxIconHeight = $('#txtIconMaxHeight', page).val();
-        profile.RequiresPlainFolders = $('#chkRequiresPlainFolders', page).is(':checked');
-        profile.RequiresPlainVideoItems = $('#chkRequiresPlainVideoItems', page).is(':checked');
-        profile.IgnoreTranscodeByteRangeRequests = $('#chkIgnoreTranscodeByteRangeRequests', page).is(':checked');
+        profile.RequiresPlainFolders = $('#chkRequiresPlainFolders', page).matches(':checked');
+        profile.RequiresPlainVideoItems = $('#chkRequiresPlainVideoItems', page).matches(':checked');
+        profile.IgnoreTranscodeByteRangeRequests = $('#chkIgnoreTranscodeByteRangeRequests', page).matches(':checked');
         profile.MaxStreamingBitrate = $('#txtMaxAllowedBitrate', page).val();
         profile.MusicStreamingTranscodingBitrate = $('#txtMusicStreamingTranscodingBitrate', page).val();
         profile.ProtocolInfo = $('#txtProtocolInfo', page).val();
