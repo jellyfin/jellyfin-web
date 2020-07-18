@@ -32,7 +32,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         const channelAccess = $('.channelAccess', page);
         channelAccess.show();
         channelAccess.innerHtml = html;
-        channelAccess.trigger('create');
+        channelAccess.dispatchEvent(new Event('create'));
 
         if (channels.length) {
             page.querySelector('.channelAccessContainer').classList.remove('hide');

@@ -9,7 +9,8 @@ define(['jQuery', 'emby-checkbox'], function ($) {
             return '<label><input is="emby-checkbox" class="' + cssClass + '" type="checkbox" data-itemid="' + u.Id + '"' + checkedHtml + '/><span>' + u.Name + '</span></label>';
         }).join('');
         html += '</div>';
-        elem.html(html).trigger('create');
+        elem.innerHtml = html;
+        elem.dispatchEvent(new Event('create'));
     }
 
     function reload(page) {
@@ -52,7 +53,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
             fillItems($('.servicesList', page), services, 'chkService', 'chkService', notificationConfig.DisabledServices);
             page.querySelector('#chkEnabled').checked = notificationConfig.Enabled || false;
             page.querySelector('#selectUsers').value = notificationConfig.SendToUserMode;
-            page.querySelector('#selectUsers').trigger('change');
+            page.querySelector('#selectUsers').dispatchEvent(new Event('change'));
         });
     }
 

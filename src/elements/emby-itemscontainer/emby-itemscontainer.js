@@ -24,7 +24,6 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
     }
 
     function onContextMenu(e) {
-        var itemsContainer = this;
         var target = e.target;
         var card = dom.parentWithAttribute(target, 'data-id');
 

@@ -28,7 +28,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
 
             const deleteAccess = page.querySelector('.deleteAccess');
             deleteAccess.innerHtml = html;
-            deleteAccess.trigger('create');
+            deleteAccess.dispatchEvent(new Event('create'));
             page.querySelector('#chkEnableDeleteAllFolders').checked = user.Policy.EnableContentDeletion;
         });
     }

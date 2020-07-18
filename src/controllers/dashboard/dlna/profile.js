@@ -89,7 +89,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         }).join('') + '</div>';
         var elem = page.querySelector('.httpHeaderIdentificationList');
         elem.innerHtml = html;
-        elem.trigger('create');
+        elem.dispatchEvent(new Event('create'));
         $('.btnDeleteIdentificationHeader', elem).on('click', function () {
             var itemIndex = parseInt(this.getAttribute('data-index'));
             currentProfile.Identification.Headers.splice(itemIndex, 1);
@@ -144,7 +144,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         }).join('') + '</div>';
         var elem = page.querySelector('.xmlDocumentAttributeList');
         elem.innerHtml = html;
-        elem.trigger('create');
+        elem.dispatchEvent(new Event('create'));
         $('.btnDeleteXmlAttribute', elem).on('click', function () {
             var itemIndex = parseInt(this.getAttribute('data-index'));
             currentProfile.XmlRootAttributes.splice(itemIndex, 1);
@@ -190,7 +190,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         }).join('') + '</div>';
         var elem = page.querySelector('.subtitleProfileList');
         elem.innerHtml = html;
-        elem.trigger('create');
+        elem.dispatchEvent(new Event('create'));
         $('.btnDeleteProfile', elem).on('click', function () {
             var itemIndex = parseInt(this.getAttribute('data-index'));
             currentProfile.SubtitleProfiles.splice(itemIndex, 1);
@@ -284,7 +284,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         html += '</ul>';
         var elem = page.querySelector('.directPlayProfiles');
         elem.innerHtml = html;
-        elem.trigger('create');
+        elem.dispatchEvent(new Event('create'));
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
             deleteDirectPlayProfile(page, index);
@@ -306,7 +306,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         currentSubProfile = directPlayProfile;
         var popup = $('#popupEditDirectPlayProfile', page);
         popup.querySelector('#selectDirectPlayProfileType').value = directPlayProfile.Type || 'Video';
-        popup.querySelector('#selectDirectPlayProfileType').trigger('change');
+        popup.querySelector('#selectDirectPlayProfileType').dispatchEvent(new Event('change'));
         popup.querySelector('#txtDirectPlayContainer').value = directPlayProfile.Container || '';
         popup.querySelector('#txtDirectPlayAudioCodec').value = directPlayProfile.AudioCodec || '';
         popup.querySelector('#txtDirectPlayVideoCodec').value = directPlayProfile.VideoCodec || '';
@@ -348,7 +348,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         html += '</ul>';
         var elem = page.querySelector('.transcodingProfiles');
         elem.innerHtml = html;
-        elem.trigger('create');
+        elem.dispatchEvent(new Event('create'));
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
             deleteTranscodingProfile(page, index);
@@ -365,7 +365,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         currentSubProfile = transcodingProfile;
         var popup = $('#transcodingProfilePopup', page);
         popup.querySelector('#selectTranscodingProfileType').value = transcodingProfile.Type || 'Video';
-        popup.querySelector('#selectTranscodingProfileType').trigger('change');
+        popup.querySelector('#selectTranscodingProfileType').dispatchEvent(new Event('change'));
         popup.querySelector('#txtTranscodingContainer').value = transcodingProfile.Container || '';
         popup.querySelector('#txtTranscodingAudioCodec').value = transcodingProfile.AudioCodec || '';
         popup.querySelector('#txtTranscodingVideoCodec').value = transcodingProfile.VideoCodec || '';
@@ -435,7 +435,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         html += '</ul>';
         var elem = page.querySelector('.containerProfiles');
         elem.innerHtml = html;
-        elem.trigger('create');
+        elem.dispatchEvent(new Event('create'));
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
             deleteContainerProfile(page, index);
@@ -457,9 +457,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         currentSubProfile = containerProfile;
         var popup = $('#containerProfilePopup', page);
         popup.querySelector('#selectContainerProfileType').value = containerProfile.Type || 'Video';
-        popup.querySelector('#selectContainerProfileType').trigger('change');
+        popup.querySelector('#selectContainerProfileType').dispatchEvent(new Event('change'));
         popup.querySelector('#txtContainerProfileContainer').value = containerProfile.Container || '';
-        popup.querySelector('.radioTabButton:first').trigger('click');
+        popup.querySelector('.radioTabButton:first').dispatchEvent(new Event('click'));
         openPopup(popup[0]);
     }
 
@@ -510,7 +510,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         html += '</ul>';
         var elem = page.querySelector('.codecProfiles');
         elem.innerHtml = html;
-        elem.trigger('create');
+        elem.dispatchEvent(new Event('create'));
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
             deleteCodecProfile(page, index);
@@ -532,9 +532,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         currentSubProfile = codecProfile;
         var popup = $('#codecProfilePopup', page);
         popup.querySelector('#selectCodecProfileType').value = codecProfile.Type || 'Video';
-        popup.querySelector('#selectCodecProfileType').trigger('change');
+        popup.querySelector('#selectCodecProfileType').dispatchEvent(new Event('change'));
         popup.querySelector('#txtCodecProfileCodec').value = codecProfile.Codec || '';
-        popup.querySelector('.radioTabButton:first').trigger('click');
+        popup.querySelector('.radioTabButton:first').dispatchEvent(new Event('click'));
         openPopup(popup[0]);
     }
 
@@ -593,7 +593,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         html += '</ul>';
         var elem = page.querySelector('.mediaProfiles');
         elem.innerHtml = html;
-        elem.trigger('create');
+        elem.dispatchEvent(new Event('create'));
         $('.btnDeleteProfile', elem).on('click', function () {
             var index = this.getAttribute('data-profileindex');
             deleteResponseProfile(page, index);
@@ -615,11 +615,11 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         currentSubProfile = responseProfile;
         var popup = $('#responseProfilePopup', page);
         popup.querySelector('#selectResponseProfileType').value = responseProfile.Type || 'Video';
-        popup.querySelector('#selectResponseProfileType').trigger('change');
+        popup.querySelector('#selectResponseProfileType').dispatchEvent(new Event('change'));
         popup.querySelector('#txtResponseProfileContainer').value = responseProfile.Container || '';
         popup.querySelector('#txtResponseProfileAudioCodec').value = responseProfile.AudioCodec || '';
         popup.querySelector('#txtResponseProfileVideoCodec').value = responseProfile.VideoCodec || '';
-        popup.querySelector('.radioTabButton:first').trigger('click');
+        popup.querySelector('.radioTabButton:first').dispatchEvent(new Event('click'));
         openPopup(popup[0]);
     }
 
