@@ -16,31 +16,31 @@ import 'emby-ratingbutton';
 
 /* eslint-disable indent */
 
-    var currentPlayer;
-    var currentPlayerSupportedCommands = [];
+    let currentPlayer;
+    let currentPlayerSupportedCommands = [];
 
-    var currentTimeElement;
-    var nowPlayingImageElement;
-    var nowPlayingTextElement;
-    var nowPlayingUserData;
-    var muteButton;
-    var volumeSlider;
-    var volumeSliderContainer;
-    var playPauseButtons;
-    var positionSlider;
-    var toggleRepeatButton;
-    var toggleRepeatButtonIcon;
+    let currentTimeElement;
+    let nowPlayingImageElement;
+    let nowPlayingTextElement;
+    let nowPlayingUserData;
+    let muteButton;
+    let volumeSlider;
+    let volumeSliderContainer;
+    let playPauseButtons;
+    let positionSlider;
+    let toggleRepeatButton;
+    let toggleRepeatButtonIcon;
 
-    var lastUpdateTime = 0;
-    var lastPlayerState = {};
-    var isEnabled;
-    var currentRuntimeTicks = 0;
+    let lastUpdateTime = 0;
+    let lastPlayerState = {};
+    let isEnabled;
+    let currentRuntimeTicks = 0;
 
-    var isVisibilityAllowed = true;
+    let isVisibilityAllowed = true;
 
     function getNowPlayingBarHtml() {
 
-        var html = '';
+        let html = '';
 
         html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
 
@@ -213,7 +213,7 @@ import 'emby-ratingbutton';
 
             if (currentPlayer) {
 
-                var newPercent = parseFloat(this.value);
+                const newPercent = parseFloat(this.value);
 
                 playbackManager.seekPercent(newPercent, currentPlayer);
             }
@@ -222,13 +222,13 @@ import 'emby-ratingbutton';
 
         positionSlider.getBubbleText = function (value) {
 
-            var state = lastPlayerState;
+            const state = lastPlayerState;
 
             if (!state || !state.NowPlayingItem || !currentRuntimeTicks) {
                 return '--:--';
             }
 
-            var ticks = currentRuntimeTicks;
+            let ticks = currentRuntimeTicks;
             ticks /= 100;
             ticks *= value;
 
@@ -250,7 +250,7 @@ import 'emby-ratingbutton';
         });
     }
 
-    var nowPlayingBarElement;
+    let nowPlayingBarElement;
     function getNowPlayingBar() {
 
         if (nowPlayingBarElement) {
@@ -258,10 +258,15 @@ import 'emby-ratingbutton';
         }
 
         return new Promise(function (resolve, reject) {
-
-            import('appFooter-shared','itemShortcuts','css!./nowPlayingBar.css','emby-slider').then(({default: appfooter, itemShortcuts}) => {
-
-                var parentContainer = appfooter.element;
+            Promise.all([
+                import('appFooter-shared'),
+                import('itemShortcuts'),
+                import('css!./nowPlayingBar.css'),
+                import('emby-slider')
+            ])
+            .then(([appfooter, itemShortcuts]) => {
+                console.log(appfooter);
+                const parentContainer = appfooter.element;
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
                 if (nowPlayingBarElement) {
@@ -309,13 +314,13 @@ import 'emby-ratingbutton';
 
         lastPlayerState = state;
 
-        var playerInfo = playbackManager.getPlayerInfo();
+        const playerInfo = playbackManager.getPlayerInfo();
 
-        var playState = state.PlayState || {};
+        const playState = state.PlayState || {};
 
         updatePlayPauseState(playState.IsPaused);
 
-        var supportedCommands = playerInfo.supportedCommands;
+        const supportedCommands = playerInfo.supportedCommands;
         currentPlayerSupportedCommands = supportedCommands;
 
         if (supportedCommands.indexOf('SetRepeatMode') === -1) {
@@ -332,11 +337,11 @@ import 'emby-ratingbutton';
             positionSlider.disabled = !playState.CanSeek;
 
             // determines if both forward and backward buffer progress will be visible
-            var isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
+            const isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
             positionSlider.setIsClear(isProgressClear);
         }
 
-        var nowPlayingItem = state.NowPlayingItem || {};
+        const nowPlayingItem = state.NowPlayingItem || {};
         updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
 
         updateNowPlayingInfo(state);
@@ -363,7 +368,7 @@ import 'emby-ratingbutton';
         if (positionSlider && !positionSlider.dragging) {
             if (runtimeTicks) {
 
-                var pct = positionTicks / runtimeTicks;
+                let pct = positionTicks / runtimeTicks;
                 pct *= 100;
 
                 positionSlider.value = pct;
@@ -380,7 +385,7 @@ import 'emby-ratingbutton';
 
         if (currentTimeElement) {
 
-            var timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+            let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
 
             if (runtimeTicks) {
                 timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
@@ -392,10 +397,10 @@ import 'emby-ratingbutton';
 
     function updatePlayerVolumeState(isMuted, volumeLevel) {
 
-        var supportedCommands = currentPlayerSupportedCommands;
+        const supportedCommands = currentPlayerSupportedCommands;
 
-        var showMuteButton = true;
-        var showVolumeSlider = true;
+        let showMuteButton = true;
+        let showVolumeSlider = true;
 
         if (supportedCommands.indexOf('ToggleMute') === -1) {
             showMuteButton = false;
@@ -510,37 +515,37 @@ import 'emby-ratingbutton';
         return null;
     }
 
-    var currentImgUrl;
+    let currentImgUrl;
     function updateNowPlayingInfo(state) {
 
-        var nowPlayingItem = state.NowPlayingItem;
+        const nowPlayingItem = state.NowPlayingItem;
 
-        var textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
+        const textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
         if (textLines.length > 1) {
             textLines[1].secondary = true;
         }
         nowPlayingTextElement.innerHTML = textLines.map(function (nowPlayingName) {
 
-            var cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
+            const cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
 
             if (nowPlayingName.item) {
-                var nowPlayingText = getTextActionButton(nowPlayingName.item, nowPlayingName.text);
+                const nowPlayingText = getTextActionButton(nowPlayingName.item, nowPlayingName.text);
                 return `<div ${cssClass}>${nowPlayingText}</div>`;
             }
-
+            let nowPlayingText = '';
             return `<div ${cssClass}>${nowPlayingText}</div>`;
 
         }).join('');
 
-        var imgHeight = 70;
+        const imgHeight = 70;
 
-        var url = nowPlayingItem ? (seriesImageUrl(nowPlayingItem, {
+        const url = nowPlayingItem ? (seriesImageUrl(nowPlayingItem, {
             height: imgHeight
         }) || imageUrl(nowPlayingItem, {
             height: imgHeight
         })) : null;
 
-        var isRefreshing = false;
+        let isRefreshing = false;
 
         if (url !== currentImgUrl) {
             currentImgUrl = url;
@@ -556,12 +561,12 @@ import 'emby-ratingbutton';
         if (nowPlayingItem.Id) {
             if (isRefreshing) {
 
-                var apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
+                const apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-                    var userData = item.UserData || {};
-                    var likes = userData.Likes == null ? '' : userData.Likes;
-                    var contextButton = document.querySelector('.btnToggleContextMenu');
-                    var options = {
+                    const userData = item.UserData || {};
+                    const likes = userData.Likes == null ? '' : userData.Likes;
+                    const contextButton = document.querySelector('.btnToggleContextMenu');
+                    const options = {
                         play: false,
                         queue: false,
                         positionTo: contextButton
@@ -585,7 +590,7 @@ import 'emby-ratingbutton';
     function onPlaybackStart(e, state) {
         console.debug('nowplaying event: ' + e.type);
 
-        var player = this;
+        const player = this;
 
         onStateChanged.call(player, e, state);
     }
@@ -596,7 +601,7 @@ import 'emby-ratingbutton';
             return;
         }
 
-        var player = this;
+        const player = this;
 
         updateRepeatModeDisplay(playbackManager.getRepeatMode(player));
     }
@@ -619,7 +624,7 @@ import 'emby-ratingbutton';
         // in the event of a stop->play command
 
         // Don't call getNowPlayingBar here because we don't want to end up creating it just to hide it
-        var elem = document.getElementsByClassName('nowPlayingBar')[0];
+        const elem = document.getElementsByClassName('nowPlayingBar')[0];
         if (elem) {
 
             slideDown(elem);
@@ -629,7 +634,7 @@ import 'emby-ratingbutton';
     function onPlaybackStopped(e, state) {
 
         console.debug('nowplaying event: ' + e.type);
-        var player = this;
+        const player = this;
 
         if (player.isLocalPlayer) {
             if (state.NextMediaType !== 'Audio') {
@@ -648,14 +653,14 @@ import 'emby-ratingbutton';
             return;
         }
 
-        var player = this;
+        const player = this;
         updatePlayPauseState(player.paused());
     }
 
     function onStateChanged(event, state) {
 
         console.debug('nowplaying event: ' + event.type);
-        var player = this;
+        const player = this;
 
         if (!state.NowPlayingItem || layoutManager.tv) {
             hideNowPlayingBar();
@@ -686,21 +691,21 @@ import 'emby-ratingbutton';
         }
 
         // Try to avoid hammering the document with changes
-        var now = new Date().getTime();
+        const now = new Date().getTime();
         if ((now - lastUpdateTime) < 700) {
 
             return;
         }
         lastUpdateTime = now;
 
-        var player = this;
+        const player = this;
         currentRuntimeTicks = playbackManager.duration(player);
         updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks, playbackManager.getBufferedRanges(player));
     }
 
     function releaseCurrentPlayer() {
 
-        var player = currentPlayer;
+        const player = currentPlayer;
 
         if (player) {
             events.off(player, 'playbackstart', onPlaybackStart);
@@ -723,14 +728,14 @@ import 'emby-ratingbutton';
             return;
         }
 
-        var player = this;
+        const player = this;
 
         updatePlayerVolumeState(player.isMuted(), player.getVolume());
     }
 
     function refreshFromPlayer(player) {
 
-        var state = playbackManager.getPlayerState(player);
+        const state = playbackManager.getPlayerState(player);
 
         onStateChanged.call(player, { type: 'init' }, state);
     }
