@@ -1,5 +1,9 @@
-define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime, $, globalize) {
-    'use strict';
+import datetime from 'datetime';
+import $ from 'jQuery';
+import globalize from 'globalize';
+import 'material-icons';
+
+/* eslint-disable indent */
 
     function getNode(item, folderState, selected) {
         var htmlName = getNodeInnerHtml(item);
@@ -331,4 +335,5 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
         getCurrentItemId: getCurrentItemId,
         setCurrentItemId: setCurrentItemId
     };
-});
+
+/* eslint-enable indent */
