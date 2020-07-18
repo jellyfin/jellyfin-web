@@ -126,7 +126,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
         showAddTriggerPopup: function (view) {
             $('#selectTriggerType', view).val('DailyTrigger');
             view.querySelector('#selectTriggerType').dispatchEvent(new CustomEvent('change', {}));
-            $('#popupAddTrigger', view).removeClass('hide');
+            view.querySelector('#popupAddTrigger').classList.remove('hide');
         },
         confirmDeleteTrigger: function (view, index) {
             require(['confirm'], function (confirm) {
@@ -151,13 +151,13 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
                 $('#fldDayOfWeek', page).hide();
                 $('#fldSelectSystemEvent', page).hide();
                 $('#fldSelectInterval', page).hide();
-                $('#selectTimeOfDay', page).attr('required', 'required');
+                page.querySelector('#selectTimeOfDay').setAttribute('required', 'required');
             } else if (triggerType == 'WeeklyTrigger') {
                 $('#fldTimeOfDay', page).show();
                 $('#fldDayOfWeek', page).show();
                 $('#fldSelectSystemEvent', page).hide();
                 $('#fldSelectInterval', page).hide();
-                $('#selectTimeOfDay', page).attr('required', 'required');
+                page.querySelector('#selectTimeOfDay').setAttribute('required', 'required');
             } else if (triggerType == 'SystemEventTrigger') {
                 $('#fldTimeOfDay', page).hide();
                 $('#fldDayOfWeek', page).hide();
@@ -209,7 +209,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.push(ScheduledTaskPage.getTriggerToAdd(view));
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
-                    $('#popupAddTrigger').addClass('hide');
+                    document.querySelector('#popupAddTrigger').classList.add('hide');
                     ScheduledTaskPage.refreshScheduledTask(view);
                 });
             });

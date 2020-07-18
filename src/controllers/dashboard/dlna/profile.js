@@ -695,8 +695,10 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
     $(document).on('pageinit', '#dlnaProfilePage', function () {
         var page = this;
         $('.radioTabButton', page).on('click', function () {
-            $(this).siblings().removeClass('ui-btn-active');
-            $(this).addClass('ui-btn-active');
+            for (const sibling of this.parentNode.children) {
+                if (sibling !== this) sibling.classList.remove('ui-btn-active');
+            }
+            this.classList.add('ui-btn-active');
             var value = 'A' == this.tagName ? this.getAttribute('data-value') : this.value;
             var elem = $('.' + value, page);
             elem.siblings('.tabContent').hide();

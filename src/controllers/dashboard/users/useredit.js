@@ -81,7 +81,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
 
         $('#txtUserName', page).prop('disabled', '').removeAttr('disabled');
         $('#fldConnectInfo', page).show();
-        $('.lnkEditUserPreferences', page).attr('href', 'mypreferencesmenu.html?userId=' + user.Id);
+        page.querySelector('.lnkEditUserPreferences').setAttribute('href', `mypreferencesmenu.html?userId=${user.Id}`);
         libraryMenu.setTitle(user.Name);
         page.querySelector('.username').innerHTML = user.Name;
         $('#txtUserName', page).val(user.Name);

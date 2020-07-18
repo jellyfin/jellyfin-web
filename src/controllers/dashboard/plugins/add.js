@@ -43,8 +43,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         populateHistory(pkg, page);
 
         $('.pluginName', page).html(pkg.name);
-        $('#btnInstallDiv', page).removeClass('hide');
-        $('#pSelectVersion', page).removeClass('hide');
+        page.querySelector('#btnInstallDiv').classList.remove('hide');
+        page.querySelector('#pSelectVersion').classList.remove('hide');
 
         if (pkg.overview) {
             $('#overview', page).show().html(pkg.overview);

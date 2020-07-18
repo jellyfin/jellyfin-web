@@ -3,7 +3,8 @@ module.exports = {
     plugins: [
         'promise',
         'import',
-        'eslint-comments'
+        'eslint-comments',
+        'jquery'
     ],
     env: {
         node: true,
@@ -43,7 +44,14 @@ module.exports = {
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         'semi': ['error'],
         'space-before-blocks': ['error'],
-        'space-infix-ops': 'error'
+        'space-infix-ops': 'error',
+        // jQuery Reemoval
+        'jquery/no-ajax': 'error',
+        'jquery/no-ajax-events': 'error',
+        'jquery/no-animate': 'error',
+        'jquery/no-attr': 'error',
+        'jquery/no-bind': 'error',
+        'jquery/no-class': 'error',
     },
     overrides: [
         {
