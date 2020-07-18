@@ -29,8 +29,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         }
 
         html += '</div>';
-        const channelAccess = $('.channelAccess', page);
-        channelAccess.show();
+        const channelAccess = page.querySelector('.channelAccess');
+        channelAccess.classList.remove('hide');
         channelAccess.innerHtml = html;
         channelAccess.dispatchEvent(new Event('create'));
 

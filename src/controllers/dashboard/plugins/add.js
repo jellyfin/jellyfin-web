@@ -57,8 +57,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
             page.querySelector('#overview').classList.add('hide');
         }
 
-        $('#description', page).innerHtml = pkg.description;
-        $('#developer', page).innerHtml = pkg.owner;
+        page.querySelector('#description').innerHtml = pkg.description;
+        page.querySelector('#developer').innerHtml = pkg.owner;
 
         if (installedPlugin) {
             var currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');

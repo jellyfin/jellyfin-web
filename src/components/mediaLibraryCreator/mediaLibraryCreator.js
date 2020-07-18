@@ -52,7 +52,7 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
     }
 
     function initEditor(page, collectionTypeOptions) {
-        const selectCollectionType = $('#selectCollectionType', page);
+        const selectCollectionType = page.querySelector('#selectCollectionType');
         selectCollectionType.innerHTML = getCollectionTypeOptionsHtml(collectionTypeOptions);
 
         selectCollectionType.value = '';
@@ -76,7 +76,7 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
                     var folderOption = collectionTypeOptions.filter(function (i) {
                         return i.value == value;
                     })[0];
-                    $('.collectionTypeFieldDescription', dlg).innerHTML = folderOption.message || '';
+                    dlg.querySelector('.collectionTypeFieldDescription').innerHTML = folderOption.message || '';
                 }
             }
         });

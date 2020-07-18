@@ -389,9 +389,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         currentSubProfile.VideoCodec = page.querySelector('#txtTranscodingVideoCodec').value;
         currentSubProfile.Protocol = page.querySelector('#selectTranscodingProtocol').value;
         currentSubProfile.Context = 'Streaming';
-        currentSubProfile.EnableMpegtsM2TsMode = $('#chkEnableMpegtsM2TsMode', page).matches(':checked');
-        currentSubProfile.EstimateContentLength = $('#chkEstimateContentLength', page).matches(':checked');
-        currentSubProfile.TranscodeSeekInfo = $('#chkReportByteRangeRequests', page).matches(':checked') ? 'Bytes' : 'Auto';
+        currentSubProfile.EnableMpegtsM2TsMode = page.querySelector('#chkEnableMpegtsM2TsMode').matches(':checked');
+        currentSubProfile.EstimateContentLength = page.querySelector('#chkEstimateContentLength').matches(':checked');
+        currentSubProfile.TranscodeSeekInfo = page.querySelector('#chkReportByteRangeRequests').matches(':checked') ? 'Bytes' : 'Auto';
 
         if (isSubProfileNew) {
             currentProfile.TranscodingProfiles.push(currentSubProfile);
