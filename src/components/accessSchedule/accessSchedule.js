@@ -67,7 +67,7 @@ import 'formDialogStyle';
                 });
                 dlg.classList.add('formDialog');
                 let html = '';
-                html += globalize.translateDocument(template);
+                html += globalize.translateHtml(template);
                 dlg.innerHTML = html;
                 populateHours(dlg);
                 loadSchedule(dlg, options.schedule);

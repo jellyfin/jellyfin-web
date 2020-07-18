@@ -62,7 +62,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPick
 
         require(['text!./searchfields.template.html'], function (template) {
 
-            var html = globalize.translateDocument(template, 'core');
+            var html = globalize.translateHtml(template, 'core');
 
             if (browser.tizen || browser.orsay) {
                 html = html.replace('<input ', '<input readonly ');

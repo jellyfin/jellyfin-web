@@ -150,7 +150,7 @@ import 'flexStyles';
             const dlg = dialogHelper.createDialog(dialogOptions);
             dlg.classList.add('formDialog');
             let html = '';
-            html += globalize.translateDocument(template, 'core');
+            html += globalize.translateHtml(template, 'core');
             dlg.innerHTML = html;
             if (layoutManager.tv) {
                 dlg.querySelector('.formDialogContent');

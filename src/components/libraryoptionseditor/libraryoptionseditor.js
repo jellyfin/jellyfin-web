@@ -359,7 +359,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
             xhr.open('GET', 'components/libraryoptionseditor/libraryoptionseditor.template.html', true);
             xhr.onload = function(e) {
                 var template = this.response;
-                parent.innerHTML = globalize.translateDocument(template);
+                parent.innerHTML = globalize.translateHtml(template);
                 populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
                 var promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
                 Promise.all(promises).then(function() {

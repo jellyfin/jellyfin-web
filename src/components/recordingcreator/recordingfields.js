@@ -219,7 +219,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
             require(['text!./recordingfields.template.html'], function (template) {
                 var options = self.options;
                 var context = options.parent;
-                context.innerHTML = globalize.translateDocument(template, 'core');
+                context.innerHTML = globalize.translateHtml(template, 'core');
 
                 context.querySelector('.singleRecordingButton').addEventListener('click', onRecordChange.bind(self));
                 context.querySelector('.seriesRecordingButton').addEventListener('click', onRecordSeriesChange.bind(self));

@@ -31,7 +31,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
                 var html = '';
                 var submitted = false;
 
-                html += globalize.translateDocument(template, 'core');
+                html += globalize.translateHtml(template, 'core');
 
                 dlg.innerHTML = html;
 

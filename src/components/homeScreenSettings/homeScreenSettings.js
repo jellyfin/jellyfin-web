@@ -472,7 +472,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 template = template.replace('{section' + i + 'label}', globalize.translate('LabelHomeScreenSectionValue', i));
             }
 
-            options.element.innerHTML = globalize.translateDocument(template, 'core');
+            options.element.innerHTML = globalize.translateHtml(template, 'core');
 
             options.element.querySelector('.viewOrderList').addEventListener('click', onSectionOrderListClick);
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));

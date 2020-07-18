@@ -382,7 +382,7 @@ import 'cardStyle';
                 dlg.classList.add('recordingDialog');
 
                 let html = '';
-                html += globalize.translateDocument(template, 'core');
+                html += globalize.translateHtml(template, 'core');
 
                 dlg.innerHTML = html;
 
@@ -464,7 +464,7 @@ import 'cardStyle';
             dlg.classList.add('recordingDialog');
 
             let html = '';
-            html += globalize.translateDocument(template, 'core');
+            html += globalize.translateHtml(template, 'core');
 
             dlg.innerHTML = html;
 

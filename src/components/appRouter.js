@@ -465,7 +465,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     function loadContent(ctx, route, html, request) {
 
-        html = globalize.translateDocument(html, route.dictionary);
+        html = globalize.translateHtml(html, route.dictionary);
         request.view = html;
 
         viewManager.loadView(request);

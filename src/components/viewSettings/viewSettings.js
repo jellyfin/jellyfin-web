@@ -84,7 +84,7 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
 
                 html += template;
 
-                dlg.innerHTML = globalize.translateDocument(html, 'core');
+                dlg.innerHTML = globalize.translateHtml(html, 'core');
 
                 var settingElements = dlg.querySelectorAll('.viewSetting');
                 for (var i = 0, length = settingElements.length; i < length; i++) {
