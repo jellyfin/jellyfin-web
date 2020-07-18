@@ -68,7 +68,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                     return '<option value="' + c.value + '">' + c.name + '</option>';
                 }).join('');
                 selectCountry.val(info.Country || '');
-                $(page.querySelector('.txtZipCode')).trigger('change');
+                page.querySelector('.txtZipCode').dispatchEvent(new Event('change'));
             }, function () { // ApiClient.getJSON() error handler
                 Dashboard.alert({
                     message: globalize.translate('ErrorGettingTvLineups')

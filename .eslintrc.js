@@ -88,7 +88,7 @@ module.exports = {
         'jquery/no-submit': 'error',
         'jquery/no-text': 'error',
         'jquery/no-toggle': 'error',
-        //'jquery/no-trigger': 'error',
+        'jquery/no-trigger': 'error',
         'jquery/no-trim': 'error',
         'jquery/no-val': 'error',
         'jquery/no-when': 'error',

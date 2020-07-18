@@ -373,7 +373,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         popup.querySelector('#chkEnableMpegtsM2TsMode').checked = transcodingProfile.EnableMpegtsM2TsMode || false;
         popup.querySelector('#chkEstimateContentLength').checked = transcodingProfile.EstimateContentLength || false;
         popup.querySelector('#chkReportByteRangeRequests').checked = transcodingProfile.TranscodeSeekInfo === 'Bytes';
-        $('.radioTabButton', popup).first().trigger('click');
+        popup.querySelector('.radioTabButton').dispatchEvent(new Event('click'));
         openPopup(popup[0]);
     }
 
@@ -808,7 +808,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         $('.subtitleProfileForm').off('submit', DlnaProfilePage.onSubtitleProfileFormSubmit).on('submit', DlnaProfilePage.onSubtitleProfileFormSubmit);
     }).on('pageshow', '#dlnaProfilePage', function () {
         var page = this;
-        $('#radioInfo', page).trigger('click');
+        page.querySelector('#radioInfo').dispatchEvent(new Event('click'));
         loadProfile(page);
     });
     window.DlnaProfilePage = {

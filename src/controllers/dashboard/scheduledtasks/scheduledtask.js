@@ -218,7 +218,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
 
         view.querySelector('.addTriggerForm').addEventListener('submit', onSubmit);
         fillTimeOfDay(view.querySelector('#selectTimeOfDay'));
-        $(view.querySelector('#popupAddTrigger').parentNode).trigger('create');
+        view.querySelector('#popupAddTrigger').parentNode.dispatchEvent(new Event('create'));
         view.querySelector('.selectTriggerType').addEventListener('change', function () {
             ScheduledTaskPage.refreshTriggerFields(view, this.value);
         });

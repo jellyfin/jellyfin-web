@@ -63,12 +63,6 @@ define(['userSettings', 'globalize'], function (userSettings, globalize) {
                             bubbles: true,
                             cancelable: false
                         }));
-
-                        if (!dispatchEvent) {
-                            if (window.$) {
-                                $(button).trigger('layoutchange', [id]);
-                            }
-                        }
                     }
                 });
             });

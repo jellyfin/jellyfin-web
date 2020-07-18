@@ -174,7 +174,7 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
 
     function initLibraryOptions(dlg) {
         libraryoptionseditor.embed(dlg.querySelector('.libraryOptions')).then(function () {
-            $('#selectCollectionType', dlg).trigger('change');
+            dlg.querySelector('#selectCollectionType').dispatchEvent(new Event('change'));
             onToggleAdvancedChange.call(dlg.querySelector('.chkAdvanced'));
         });
     }
