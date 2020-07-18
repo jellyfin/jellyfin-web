@@ -5,8 +5,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         page.querySelector('#chkEnablePlayTo').checked = config.EnablePlayTo;
         page.querySelector('#chkEnableDlnaDebugLogging').checked = config.EnableDebugLog;
         page.querySelector('#txtClientDiscoveryInterval').value = config.ClientDiscoveryIntervalSeconds;
-        $('#chkEnableServer', page).prop('checked', config.EnableServer);
-        $('#chkBlastAliveMessages', page).prop('checked', config.BlastAliveMessages);
+        page.querySelector('#chkEnableServer').checked = config.EnableServer;
+        page.querySelector('#chkBlastAliveMessages').checked = config.BlastAliveMessages;
         page.querySelector('#txtBlastInterval').value = config.BlastAliveMessageIntervalSeconds;
         var usersHtml = users.map(function (u) {
             return '<option value="' + u.Id + '">' + u.Name + '</option>';

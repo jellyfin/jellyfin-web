@@ -49,7 +49,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             page.querySelector('.channelAccessContainer').classList.add('hide');
         }
 
-        $('#chkEnableAllChannels', page).prop('checked', user.Policy.EnableAllChannels);
+        page.querySelector('#chkEnableAllChannels').checked = user.Policy.EnableAllChannels;
     }
 
     function loadDevices(page, user, devices) {
@@ -67,7 +67,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         const deviceAccess = $('.deviceAccess', page);
         deviceAccess.show();
         deviceAccess.innerHtml = html;
-        $('#chkEnableAllDevices', page).prop('checked', user.Policy.EnableAllDevices);
+        page.querySelector('#chkEnableAllDevices').checked = user.Policy.EnableAllDevices;
 
         if (user.Policy.IsAdministrator) {
             page.querySelector('.deviceAccessContainer').classList.add('hide');

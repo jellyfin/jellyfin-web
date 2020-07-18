@@ -77,7 +77,7 @@ module.exports = {
         'jquery/no-parent': 'error',
         'jquery/no-parents': 'error',
         'jquery/no-parse-html': 'error',
-        //'jquery/no-prop': 'error',
+        'jquery/no-prop': 'error',
         'jquery/no-proxy': 'error',
         'jquery/no-ready': 'error',
         'jquery/no-serialize': 'error',

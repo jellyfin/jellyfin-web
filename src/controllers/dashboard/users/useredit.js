@@ -29,7 +29,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             const deleteAccess = $('.deleteAccess', page);
             deleteAccess.innerHtml = html;
             deleteAccess.trigger('create');
-            $('#chkEnableDeleteAllFolders', page).prop('checked', user.Policy.EnableContentDeletion);
+            page.querySelector('#chkEnableDeleteAllFolders').checked = user.Policy.EnableContentDeletion;
         });
     }
 
@@ -81,29 +81,29 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             page.querySelector('.disabledUserBanner').classList.add('hide');
         }
 
-        $('#txtUserName', page).prop('disabled', '').removeAttr('disabled');
+        page.querySelector('#txtUserName').removeAttribute('disabled');
         page.querySelector('#fldConnectInfo').classList.remove('hide');
         page.querySelector('.lnkEditUserPreferences').setAttribute('href', `mypreferencesmenu.html?userId=${user.Id}`);
         libraryMenu.setTitle(user.Name);
         page.querySelector('.username').innerHTML = user.Name;
         page.querySelector('#txtUserName').value = user.Name;
-        $('#chkIsAdmin', page).prop('checked', user.Policy.IsAdministrator);
-        $('#chkDisabled', page).prop('checked', user.Policy.IsDisabled);
-        $('#chkIsHidden', page).prop('checked', user.Policy.IsHidden);
-        $('#chkRemoteControlSharedDevices', page).prop('checked', user.Policy.EnableSharedDeviceControl);
-        $('#chkEnableRemoteControlOtherUsers', page).prop('checked', user.Policy.EnableRemoteControlOfOtherUsers);
-        $('#chkEnableDownloading', page).prop('checked', user.Policy.EnableContentDownloading);
-        $('#chkManageLiveTv', page).prop('checked', user.Policy.EnableLiveTvManagement);
-        $('#chkEnableLiveTvAccess', page).prop('checked', user.Policy.EnableLiveTvAccess);
-        $('#chkEnableMediaPlayback', page).prop('checked', user.Policy.EnableMediaPlayback);
-        $('#chkEnableAudioPlaybackTranscoding', page).prop('checked', user.Policy.EnableAudioPlaybackTranscoding);
-        $('#chkEnableVideoPlaybackTranscoding', page).prop('checked', user.Policy.EnableVideoPlaybackTranscoding);
-        $('#chkEnableVideoPlaybackRemuxing', page).prop('checked', user.Policy.EnablePlaybackRemuxing);
-        $('#chkForceRemoteSourceTranscoding', page).prop('checked', user.Policy.ForceRemoteSourceTranscoding);
-        $('#chkRemoteAccess', page).prop('checked', null == user.Policy.EnableRemoteAccess || user.Policy.EnableRemoteAccess);
-        $('#chkEnableSyncTranscoding', page).prop('checked', user.Policy.EnableSyncTranscoding);
-        $('#chkEnableConversion', page).prop('checked', user.Policy.EnableMediaConversion || false);
-        $('#chkEnableSharing', page).prop('checked', user.Policy.EnablePublicSharing);
+        page.querySelector('#chkIsAdmin').checked = user.Policy.IsAdministrator;
+        page.querySelector('#chkDisabled').checked = user.Policy.IsDisabled;
+        page.querySelector('#chkIsHidden').checked = user.Policy.IsHidden;
+        page.querySelector('#chkRemoteControlSharedDevices').checked = user.Policy.EnableSharedDeviceControl;
+        page.querySelector('#chkEnableRemoteControlOtherUsers').checked = user.Policy.EnableRemoteControlOfOtherUsers;
+        page.querySelector('#chkEnableDownloading').checked = user.Policy.EnableContentDownloading;
+        page.querySelector('#chkManageLiveTv').checked = user.Policy.EnableLiveTvManagement;
+        page.querySelector('#chkEnableLiveTvAccess').checked = user.Policy.EnableLiveTvAccess;
+        page.querySelector('#chkEnableMediaPlayback').checked = user.Policy.EnableMediaPlayback;
+        page.querySelector('#chkEnableAudioPlaybackTranscoding').checked = user.Policy.EnableAudioPlaybackTranscoding;
+        page.querySelector('#chkEnableVideoPlaybackTranscoding').checked = user.Policy.EnableVideoPlaybackTranscoding;
+        page.querySelector('#chkEnableVideoPlaybackRemuxing').checked = user.Policy.EnablePlaybackRemuxing;
+        page.querySelector('#chkForceRemoteSourceTranscoding').checked = user.Policy.ForceRemoteSourceTranscoding;
+        page.querySelector('#chkRemoteAccess').checked = null == user.Policy.EnableRemoteAccess || user.Policy.EnableRemoteAccess;
+        page.querySelector('#chkEnableSyncTranscoding').checked = user.Policy.EnableSyncTranscoding;
+        page.querySelector('#chkEnableConversion').checked = user.Policy.EnableMediaConversion || false;
+        page.querySelector('#chkEnableSharing').checked = user.Policy.EnablePublicSharing;
         page.querySelector('#txtRemoteClientBitrateLimit').value = user.Policy.RemoteClientBitrateLimit / 1e6 || '';
         page.querySelector('#txtLoginAttemptsBeforeLockout').value = user.Policy.LoginAttemptsBeforeLockout || '0';
         page.querySelector('#selectSyncPlayAccess').value = user.Policy.SyncPlayAccess;

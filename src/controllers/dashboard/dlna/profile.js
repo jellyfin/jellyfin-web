@@ -23,8 +23,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         for (const checkbox of page.querySelectorAll('.chkMediaType')) {
             checkbox.checked = -1 != (profile.SupportedMediaTypes || '').split(',').indexOf(checkbox.getAttribute('data-value'));
         }
-        $('#chkEnableAlbumArtInDidl', page).prop('checked', profile.EnableAlbumArtInDidl);
-        $('#chkEnableSingleImageLimit', page).prop('checked', profile.EnableSingleAlbumArtLimit);
+        page.querySelector('#chkEnableAlbumArtInDidl').checked = profile.EnableAlbumArtInDidl;
+        page.querySelector('#chkEnableSingleImageLimit').checked = profile.EnableSingleAlbumArtLimit;
         renderXmlDocumentAttributes(page, profile.XmlRootAttributes || []);
         var idInfo = profile.Identification || {};
         renderIdentificationHeaders(page, idInfo.Headers || []);
@@ -370,9 +370,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         popup.querySelector('#txtTranscodingAudioCodec').value = transcodingProfile.AudioCodec || '';
         popup.querySelector('#txtTranscodingVideoCodec').value = transcodingProfile.VideoCodec || '';
         popup.querySelector('#selectTranscodingProtocol').value = transcodingProfile.Protocol || 'Http';
-        $('#chkEnableMpegtsM2TsMode', popup).prop('checked', transcodingProfile.EnableMpegtsM2TsMode || false);
-        $('#chkEstimateContentLength', popup).prop('checked', transcodingProfile.EstimateContentLength || false);
-        $('#chkReportByteRangeRequests', popup).prop('checked', 'Bytes' == transcodingProfile.TranscodeSeekInfo);
+        popup.querySelector('#chkEnableMpegtsM2TsMode').checked = transcodingProfile.EnableMpegtsM2TsMode || false;
+        popup.querySelector('#chkEstimateContentLength').checked = transcodingProfile.EstimateContentLength || false;
+        popup.querySelector('#chkReportByteRangeRequests').checked = transcodingProfile.TranscodeSeekInfo === 'Bytes';
         $('.radioTabButton', popup).first().trigger('click');
         openPopup(popup[0]);
     }

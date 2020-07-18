@@ -15,7 +15,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         const folderAccess = $('.folderAccess', page);
         folderAccess.innerHtml = html;
         folderAccess.trigger('create');
-        $('#chkEnableAllFolders', page).prop('checked', false);
+        page.querySelector('#chkEnableAllFolders').checked = false;
     }
 
     function loadChannels(page, channels) {
@@ -40,7 +40,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
             page.querySelector('.channelAccessContainer').classList.add('hide');
         }
 
-        $('#chkEnableAllChannels', page).prop('checked', false);
+        page.querySelector('#chkEnableAllChannels').checked = false;
     }
 
     function loadUser(page) {
