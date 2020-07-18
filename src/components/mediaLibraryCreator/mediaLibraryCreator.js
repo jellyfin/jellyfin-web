@@ -56,7 +56,7 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
 
         $('#selectCollectionType', page).val('').on('change', function () {
             var value = this.value;
-            var dlg = $(this).parents('.dialog')[0];
+            var dlg = this.closest('.dialog');
             libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value == 'mixed' ? '' : value);
 
             if (value) {

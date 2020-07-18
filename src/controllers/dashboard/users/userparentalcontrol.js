@@ -244,7 +244,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
 
     window.UserParentalControlPage = {
         onSubmit: function () {
-            var page = $(this).parents('.page');
+            var page = this.closest('.page');
             loading.show();
             var userId = getParameterByName('userId');
             ApiClient.getUser(userId).then(function (result) {

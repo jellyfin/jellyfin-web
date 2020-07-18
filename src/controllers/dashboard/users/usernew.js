@@ -98,7 +98,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
     }
 
     function onSubmit() {
-        var page = $(this).parents('.page')[0];
+        var page = this.closest('.page');
         loading.show();
         saveUser(page);
         return false;

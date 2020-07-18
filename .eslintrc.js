@@ -72,6 +72,14 @@ module.exports = {
         'jquery/no-is-array': 'error',
         'jquery/no-is-function': 'error',
         'jquery/no-is': 'error',
+        'jquery/no-merge': 'error',
+        'jquery/no-param': 'error',
+        'jquery/no-parent': 'error',
+        'jquery/no-parents': 'error',
+        'jquery/no-parse-html': 'error',
+        //'jquery/no-prop': 'error',
+        'jquery/no-proxy': 'error',
+        'jquery/no-ready': 'error',
     },
     overrides: [
         {

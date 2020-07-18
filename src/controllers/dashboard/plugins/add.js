@@ -114,7 +114,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
     return function (view, params) {
         $('.addPluginForm', view).on('submit', function () {
             loading.show();
-            var page = $(this).parents('#addPluginPage')[0];
+            var page = this.closest('#addPluginPage');
             var name = params.name;
             var guid = params.guid;
             ApiClient.getInstalledPlugins().then(function (plugins) {

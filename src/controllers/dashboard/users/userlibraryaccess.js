@@ -120,7 +120,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }
 
     function onSubmit() {
-        var page = $(this).parents('.page');
+        var page = this.closest('.page');
         loading.show();
         var userId = getParameterByName('userId');
         ApiClient.getUser(userId).then(function (result) {

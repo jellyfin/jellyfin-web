@@ -111,7 +111,8 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
             setTaskButtonIcon(elem, 'play_arrow');
             elem.title = globalize.translate('ButtonStart');
         }
-        $(elem).parents('.listItem')[0].setAttribute('data-status', state);
+        const listItem = elem.closest('.listItem');
+        listItem.setAttribute('data-status', state);
     }
 
     return function(view, params) {

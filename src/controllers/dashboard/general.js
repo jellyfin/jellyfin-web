@@ -19,7 +19,6 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
     function onSubmit() {
         loading.show();
         var form = this;
-        $(form).parents('.page');
         ApiClient.getServerConfiguration().then(function (config) {
             config.ServerName = $('#txtServerName', form).val();
             config.UICulture = $('#selectLocalizationLanguage', form).val();

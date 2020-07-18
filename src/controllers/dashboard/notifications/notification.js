@@ -98,7 +98,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
     }
 
     function onSubmit() {
-        save($(this).parents('.page'));
+        save(this.closest('.page'));
         return false;
     }
 

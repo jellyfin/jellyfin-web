@@ -142,7 +142,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-input', 'listVi
         }
 
         function onSelectPathClick(e) {
-            var page = $(e.target).parents('.xmltvForm')[0];
+            var page = e.target.closest('.xmltvForm');
 
             require(['directorybrowser'], function (directoryBrowser) {
                 var picker = new directoryBrowser();

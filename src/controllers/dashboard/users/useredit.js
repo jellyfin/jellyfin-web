@@ -157,7 +157,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }
 
     function onSubmit() {
-        var page = $(this).parents('.page')[0];
+        var page = this.closest('.page')[0];
         loading.show();
         getUser().then(function (result) {
             saveUser(result, page);

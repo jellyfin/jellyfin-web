@@ -180,7 +180,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             addVirtualFolder(page);
         });
         $('.editLibrary', divVirtualFolders).on('click', function () {
-            var card = $(this).parents('.card')[0];
+            var card = this.closest('.card');
             var index = parseInt(card.getAttribute('data-index'));
             var virtualFolder = virtualFolders[index];
 

@@ -809,39 +809,39 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
     window.DlnaProfilePage = {
         onSubmit: function () {
             loading.show();
-            saveProfile($(this).parents('.page'), currentProfile);
+            saveProfile(this.closest('.page'), currentProfile);
             return false;
         },
         onDirectPlayFormSubmit: function () {
-            saveDirectPlayProfile($(this).parents('.page'));
+            saveDirectPlayProfile(this.closest('.page'));
             return false;
         },
         onTranscodingProfileFormSubmit: function () {
-            saveTranscodingProfile($(this).parents('.page'));
+            saveTranscodingProfile(this.closest('.page'));
             return false;
         },
         onContainerProfileFormSubmit: function () {
-            saveContainerProfile($(this).parents('.page'));
+            saveContainerProfile(this.closest('.page'));
             return false;
         },
         onCodecProfileFormSubmit: function () {
-            saveCodecProfile($(this).parents('.page'));
+            saveCodecProfile(this.closest('.page'));
             return false;
         },
         onResponseProfileFormSubmit: function () {
-            saveResponseProfile($(this).parents('.page'));
+            saveResponseProfile(this.closest('.page'));
             return false;
         },
         onIdentificationHeaderFormSubmit: function () {
-            saveIdentificationHeader($(this).parents('.page'));
+            saveIdentificationHeader(this.closest('.page'));
             return false;
         },
         onXmlAttributeFormSubmit: function () {
-            saveXmlDocumentAttribute($(this).parents('.page'));
+            saveXmlDocumentAttribute(this.closest('.page'));
             return false;
         },
         onSubtitleProfileFormSubmit: function () {
-            saveSubtitleProfile($(this).parents('.page'));
+            saveSubtitleProfile(this.closest('.page'));
             return false;
         }
     };

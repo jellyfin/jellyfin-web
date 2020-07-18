@@ -26,7 +26,7 @@ define(['jQuery', 'loading', 'emby-button', 'emby-select'], function ($, loading
     }
 
     function onSubmit() {
-        save($(this).parents('.page'));
+        save(this.closest('.page'));
         return false;
     }
 

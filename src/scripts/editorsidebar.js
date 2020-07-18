@@ -207,7 +207,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     }
 
     function onNodeOpen(event, data) {
-        var page = $(this).parents('.page')[0];
+        var page = this.closest('.page');
         var node = data.node;
         if (node.children) {
             loadNodesToLoad(page, node);
@@ -219,7 +219,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     }
 
     function onNodeLoad(event, data) {
-        var page = $(this).parents('.page')[0];
+        var page = this.closest('.page');
         var node = data.node;
         if (node.children) {
             loadNodesToLoad(page, node);
