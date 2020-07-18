@@ -235,9 +235,6 @@ import appHost from 'apphost';
         }
     }
 
-    // Alias for backward compatibility
-    export const trigger = handleCommand;
-
     dom.addEventListener(document, 'click', notify, {
         passive: true
     });
@@ -245,8 +242,7 @@ import appHost from 'apphost';
 /* eslint-enable indent */
 
 export default {
-    trigger: handleCommand,
-    handle: handleCommand,
+    handleCommand: handleCommand,
     notify: notify,
     notifyMouseMove: notifyMouseMove,
     idleTime: idleTime,
