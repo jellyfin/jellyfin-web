@@ -1569,5 +1569,8 @@
     "TabRepositories": "Kilder",
     "MessageNoGenresAvailable": "Aktiver noen metadata-kilder for å hente sjangre fra internett.",
     "MessageAddRepository": "Hvis du ønsker å legge til en ny kilde klikker du på knappen ved siden av overskriften og fyller ut forespurt informasjon.",
-    "LabelRepositoryNameHelp": "Et egendefinert navn for å skille denne kilden fra andre som er lagt til på serveren din."
+    "LabelRepositoryNameHelp": "Et egendefinert navn for å skille denne kilden fra andre som er lagt til på serveren din.",
+    "ClearQueue": "Tøm køen",
+    "ViewAlbumArtist": "Vis albumartist",
+    "StopPlayback": "Stopp avspilling"
 }
