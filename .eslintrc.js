@@ -52,6 +52,11 @@ module.exports = {
         'jquery/no-attr': 'error',
         'jquery/no-bind': 'error',
         'jquery/no-class': 'error',
+        'jquery/no-clone': 'error',
+        'jquery/no-closest': 'error',
+        'jquery/no-css': 'error',
+        'jquery/no-data': 'error',
+        'jquery/no-deferred': 'error',
     },
     overrides: [
         {

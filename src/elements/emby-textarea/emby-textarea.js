@@ -55,7 +55,7 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'webcomponents', 'emb
                 newHeight = textarea.scrollHeight/* - offset*/;
                 hasGrown = true;
             }
-            $('.customCssContainer').css('height', newHeight + 'px');
+            document.querySelector('.customCssContainer').style.height = `${newHeight}px`;
             textarea.style.height = newHeight + 'px';
         }
 

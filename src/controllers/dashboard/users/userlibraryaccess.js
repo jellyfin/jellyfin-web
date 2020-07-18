@@ -158,11 +158,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         if (userId) {
             promise1 = ApiClient.getUser(userId);
         } else {
-            var deferred = $.Deferred();
-            deferred.resolveWith(null, [{
+            promise1 = Promise.resolve({
                 Configuration: {}
-            }]);
-            promise1 = deferred.promise();
+            });
         }
 
         var promise2 = Dashboard.getCurrentUser();
