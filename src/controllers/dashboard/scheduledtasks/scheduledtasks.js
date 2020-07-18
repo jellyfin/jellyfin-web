@@ -26,10 +26,10 @@ import 'emby-button';
             return a == b ? 0 : a < b ? -1 : 1;
         });
 
-        var currentCategory;
-        var html = '';
-        for (var i = 0; i < tasks.length; i++) {
-            var task = tasks[i];
+        let currentCategory;
+        let html = '';
+        for (let i = 0; i < tasks.length; i++) {
+            const task = tasks[i];
             if (task.Category != currentCategory) {
                 currentCategory = task.Category;
                 if (currentCategory) {
@@ -72,11 +72,11 @@ import 'emby-button';
     }
 
     function getTaskProgressHtml(task) {
-        var html = '';
+        let html = '';
         if (task.State === 'Idle') {
             if (task.LastExecutionResult) {
-                var endtime = Date.parse(task.LastExecutionResult.EndTimeUtc);
-                var starttime = Date.parse(task.LastExecutionResult.StartTimeUtc);
+                const endtime = Date.parse(task.LastExecutionResult.EndTimeUtc);
+                const starttime = Date.parse(task.LastExecutionResult.StartTimeUtc);
                 html += globalize.translate('LabelScheduledTaskLastRan', datefns.formatDistanceToNow(endtime, dfnshelper.localeWithSuffix),
                     datefns.formatDistance(starttime, endtime, { locale: dfnshelper.getLocale() }));
                 if (task.LastExecutionResult.Status === 'Failed') {
@@ -88,7 +88,7 @@ import 'emby-button';
                 }
             }
         } else if (task.State === 'Running') {
-            var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
+            const progress = (task.CurrentProgressPercentage || 0).toFixed(1);
             html += '<div style="display:flex;align-items:center;">';
             html += '<div class="taskProgressOuter" title="' + progress + '%" style="flex-grow:1;">';
             html += '<div class="taskProgressInner" style="width:' + progress + '%;">';
@@ -103,7 +103,7 @@ import 'emby-button';
     }
 
     function setTaskButtonIcon(button, icon) {
-        var inner = button.querySelector('.material-icons');
+        let inner = button.querySelector('.material-icons');
         inner.classList.remove('stop', 'play_arrow');
         inner.classList.add(icon);
     }
@@ -125,8 +125,8 @@ import 'emby-button';
 
     export default function(view, params) {
         function updateTasks(tasks) {
-            for (var i = 0; i < tasks.length; i++) {
-                var task = tasks[i];
+            for (let i = 0; i < tasks.length; i++) {
+                const task = tasks[i];
                 view.querySelector('#taskProgress' + task.Id).innerHTML = getTaskProgressHtml(task);
                 updateTaskButton(view.querySelector('#btnTask' + task.Id), task.State);
             }
@@ -155,12 +155,12 @@ import 'emby-button';
             pollInterval && clearInterval(pollInterval);
         }
 
-        var pollInterval;
-        var serverId = ApiClient.serverId();
+        let pollInterval;
+        const serverId = ApiClient.serverId();
 
         $('.divScheduledTasks', view).on('click', '.btnStartTask', function() {
-            var button = this;
-            var id = button.getAttribute('data-taskid');
+            const button = this;
+            let id = button.getAttribute('data-taskid');
             ApiClient.startScheduledTask(id).then(function() {
                 updateTaskButton(button, 'Running');
                 reloadList(view);
@@ -168,8 +168,8 @@ import 'emby-button';
         });
 
         $('.divScheduledTasks', view).on('click', '.btnStopTask', function() {
-            var button = this;
-            var id = button.getAttribute('data-taskid');
+            const button = this;
+            let id = button.getAttribute('data-taskid');
             ApiClient.stopScheduledTask(id).then(function() {
                 updateTaskButton(button, '');
                 reloadList(view);

@@ -11,9 +11,9 @@ import 'emby-select';
 
     function fillTimeOfDay(select) {
 
-        var options = [];
+        const options = [];
 
-        for (var i = 0; i < 86400000; i += 900000) {
+        for (let i = 0; i < 86400000; i += 900000) {
             options.push({
                 name: ScheduledTaskPage.getDisplayTime(i * 10000),
                 value: i * 10000
@@ -26,15 +26,15 @@ import 'emby-select';
     }
 
     Array.prototype.remove = function (from, to) {
-        var rest = this.slice((to || from) + 1 || this.length);
+        const rest = this.slice((to || from) + 1 || this.length);
         this.length = from < 0 ? this.length + from : from;
         return this.push.apply(this, rest);
     };
 
-    var ScheduledTaskPage = {
+    const ScheduledTaskPage = {
         refreshScheduledTask: function (view) {
             loading.show();
-            var id = getParameterByName('id');
+            let id = getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 ScheduledTaskPage.loadScheduledTask(view, task);
             });
@@ -50,11 +50,11 @@ import 'emby-select';
             loading.hide();
         },
         loadTaskTriggers: function (context, task) {
-            var html = '';
+            let html = '';
             html += '<div class="paperList">';
 
-            for (var i = 0, length = task.Triggers.length; i < length; i++) {
-                var trigger = task.Triggers[i];
+            for (let i = 0, length = task.Triggers.length; i < length; i++) {
+                const trigger = task.Triggers[i];
 
                 html += '<div class="listItem listItem-border">';
                 html += '<span class="material-icons listItemIcon schedule"></span>';
@@ -66,7 +66,7 @@ import 'emby-select';
                 html += "<div class='listItemBodyText'>" + ScheduledTaskPage.getTriggerFriendlyName(trigger) + '</div>';
                 if (trigger.MaxRuntimeMs) {
                     html += '<div class="listItemBodyText secondary">';
-                    var hours = trigger.MaxRuntimeTicks / 36e9;
+                    const hours = trigger.MaxRuntimeTicks / 36e9;
                     if (hours == 1) {
                         html += globalize.translate('ValueTimeLimitSingleHour');
                     } else {
@@ -100,7 +100,7 @@ import 'emby-select';
 
             if (trigger.Type == 'IntervalTrigger') {
 
-                var hours = trigger.IntervalTicks / 36e9;
+                const hours = trigger.IntervalTicks / 36e9;
 
                 if (hours == 0.25) {
                     return globalize.translate('EveryXMinutes', '15');
@@ -125,8 +125,8 @@ import 'emby-select';
             return trigger.Type;
         },
         getDisplayTime: function (ticks) {
-            var ms = ticks / 1e4;
-            var now = new Date();
+            const ms = ticks / 1e4;
+            const now = new Date();
             now.setHours(0, 0, 0, 0);
             now.setTime(now.getTime() + ms);
             return datetime.getDisplayTime(now);
@@ -145,7 +145,7 @@ import 'emby-select';
         },
         deleteTrigger: function (view, index) {
             loading.show();
-            var id = getParameterByName('id');
+            let id = getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.remove(index);
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
@@ -187,7 +187,7 @@ import 'emby-select';
             }
         },
         getTriggerToAdd: function (page) {
-            var trigger = {
+            const trigger = {
                 Type: $('#selectTriggerType', page).val()
             };
 
@@ -202,7 +202,7 @@ import 'emby-select';
                 trigger.IntervalTicks = $('#selectInterval', page).val();
             }
 
-            var timeLimit = $('#txtTimeLimit', page).val() || '0';
+            let timeLimit = $('#txtTimeLimit', page).val() || '0';
             timeLimit = parseFloat(timeLimit) * 3600000;
 
             trigger.MaxRuntimeMs = timeLimit || null;
@@ -213,7 +213,7 @@ import 'emby-select';
     export default function (view, params) {
         function onSubmit(e) {
             loading.show();
-            var id = getParameterByName('id');
+            let id = getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.push(ScheduledTaskPage.getTriggerToAdd(view));
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
@@ -234,7 +234,7 @@ import 'emby-select';
             ScheduledTaskPage.showAddTriggerPopup(view);
         });
         view.addEventListener('click', function (e) {
-            var btnDeleteTrigger = dom.parentWithClass(e.target, 'btnDeleteTrigger');
+            const btnDeleteTrigger = dom.parentWithClass(e.target, 'btnDeleteTrigger');
 
             if (btnDeleteTrigger) {
                 ScheduledTaskPage.confirmDeleteTrigger(view, parseInt(btnDeleteTrigger.getAttribute('data-index')));
