@@ -39,8 +39,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         }
 
         html += '</div>';
-        const channelAccess = $('.channelAccess', page);
-        channelAccess.show();
+        const channelAccess = page.querySelector('.channelAccess');
+        channelAccess.classList.remove('hide');
         channelAccess.innerHtml = html;
 
         if (channels.length) {
@@ -64,8 +64,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         }
 
         html += '</div>';
-        const deviceAccess = $('.deviceAccess', page);
-        deviceAccess.show();
+        const deviceAccess = page.querySelector('.deviceAccess');
+        deviceAccess.classList.remove('hide');
         deviceAccess.innerHtml = html;
         page.querySelector('#chkEnableAllDevices').checked = user.Policy.EnableAllDevices;
 
@@ -94,19 +94,19 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }
 
     function saveUser(user, page) {
-        user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).matches(':checked');
+        user.Policy.EnableAllFolders = page.querySelector('#chkEnableAllFolders').matches(':checked');
         user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
         });
-        user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).matches(':checked');
+        user.Policy.EnableAllChannels = page.querySelector('#chkEnableAllChannels').matches(':checked');
         user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
         });
-        user.Policy.EnableAllDevices = $('#chkEnableAllDevices', page).matches(':checked');
+        user.Policy.EnableAllDevices = page.querySelector('#chkEnableAllDevices').matches(':checked');
         user.Policy.EnabledDevices = user.Policy.EnableAllDevices ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkDevice'), function (c) {
             return c.checked;
         }).map(function (c) {

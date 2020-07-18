@@ -119,7 +119,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
             html += '</div>';
         }
 
-        var elem = $('.providerList', page);
+        var elem = page.querySelector('.providerList');
         elem.innerHtml = html;
         $('.btnOptions', elem).on('click', function () {
             var id = this.getAttribute('data-id');

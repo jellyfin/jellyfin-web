@@ -12,9 +12,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         }
 
         html += '</div>';
-        const folderAccess = $('.folderAccess', page);
+        const folderAccess = page.querySelector('.folderAccess');
         folderAccess.innerHtml = html;
-        folderAccess.trigger('create');
+        folderAccess.dispatchEvent(new Event('create'));
         page.querySelector('#chkEnableAllFolders').checked = false;
     }
 
@@ -63,7 +63,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading
         user.Name = page.querySelector('#txtUsername').value;
         user.Password = page.querySelector('#txtPassword').value;
         ApiClient.createUser(user).then(function (user) {
-            user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).matches(':checked');
+            user.Policy.EnableAllFolders = page.querySelector('#chkEnableAllFolders').matches(':checked');
             user.Policy.EnabledFolders = [];
 
             if (!user.Policy.EnableAllFolders) {

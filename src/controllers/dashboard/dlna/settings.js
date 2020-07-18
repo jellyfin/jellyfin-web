@@ -11,7 +11,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         var usersHtml = users.map(function (u) {
             return '<option value="' + u.Id + '">' + u.Name + '</option>';
         }).join('');
-        const elem = $('#selectUser', page);
+        const elem = page.querySelector('#selectUser');
         elem.innerHtml = usersHtml;
         elem.val(config.DefaultUserId || '');
         loading.hide();

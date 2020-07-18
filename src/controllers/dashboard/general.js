@@ -6,7 +6,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
         page.querySelector('#txtCachePath').value = systemInfo.CachePath || '';
         page.querySelector('#txtMetadataPath').value = systemInfo.InternalMetadataPath || '';
         page.querySelector('#txtMetadataNetworkPath').value = systemInfo.MetadataNetworkPath || '';
-        const elem = $('#selectLocalizationLanguage', page);
+        const elem = page.querySelector('#selectLocalizationLanguage');
         elem.innerHtml = languageOptions.map(function (language) {
             return '<option value="' + language.Value + '">' + language.Name + '</option>';
         });

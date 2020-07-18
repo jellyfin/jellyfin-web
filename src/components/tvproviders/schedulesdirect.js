@@ -63,7 +63,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
 
                     return 0;
                 });
-                const selectCountry = $('#selectCountry', page);
+                const selectCountry = page.querySelector('#selectCountry');
                 selectCountry.innerHtml = countryList.map(function (c) {
                     return '<option value="' + c.value + '">' + c.name + '</option>';
                 }).join('');
@@ -194,7 +194,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
 
         function refreshListings(value) {
             if (!value) {
-                $('#selectListing', page).innerHtml = '';
+                page.querySelector('#selectListing').innerHtml = '';
                 return;
             }
 
@@ -208,7 +208,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                 }),
                 dataType: 'json'
             }).then(function (result) {
-                $('#selectListing', page).innerHtml = result.map(function (o) {
+                page.querySelector('#selectListing').innerHtml = result.map(function (o) {
                     return '<option value="' + o.Id + '">' + o.Name + '</option>';
                 });
 
@@ -299,7 +299,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                     page.querySelector('.selectTunersSection').classList.remove('hide');
                 }
             });
-            $('.createAccountHelp', page).innerHtml = globalize.translate('MessageCreateAccountAt', '<a is="emby-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>');
+            page.querySelector('.createAccountHelp').innerHtml = globalize.translate('MessageCreateAccountAt', '<a is="emby-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>');
             reload();
         };
     };

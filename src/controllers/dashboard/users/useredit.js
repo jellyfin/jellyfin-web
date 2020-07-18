@@ -26,7 +26,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
 
-            const deleteAccess = $('.deleteAccess', page);
+            const deleteAccess = page.querySelector('.deleteAccess');
             deleteAccess.innerHtml = html;
             deleteAccess.trigger('create');
             page.querySelector('#chkEnableDeleteAllFolders').checked = user.Policy.EnableContentDeletion;
@@ -121,28 +121,28 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
 
     function saveUser(user, page) {
         user.Name = page.querySelector('#txtUserName').value;
-        user.Policy.IsAdministrator = $('#chkIsAdmin', page).matches(':checked');
-        user.Policy.IsHidden = $('#chkIsHidden', page).matches(':checked');
-        user.Policy.IsDisabled = $('#chkDisabled', page).matches(':checked');
-        user.Policy.EnableRemoteControlOfOtherUsers = $('#chkEnableRemoteControlOtherUsers', page).matches(':checked');
-        user.Policy.EnableLiveTvManagement = $('#chkManageLiveTv', page).matches(':checked');
-        user.Policy.EnableLiveTvAccess = $('#chkEnableLiveTvAccess', page).matches(':checked');
-        user.Policy.EnableSharedDeviceControl = $('#chkRemoteControlSharedDevices', page).matches(':checked');
-        user.Policy.EnableMediaPlayback = $('#chkEnableMediaPlayback', page).matches(':checked');
-        user.Policy.EnableAudioPlaybackTranscoding = $('#chkEnableAudioPlaybackTranscoding', page).matches(':checked');
-        user.Policy.EnableVideoPlaybackTranscoding = $('#chkEnableVideoPlaybackTranscoding', page).matches(':checked');
-        user.Policy.EnablePlaybackRemuxing = $('#chkEnableVideoPlaybackRemuxing', page).matches(':checked');
-        user.Policy.ForceRemoteSourceTranscoding = $('#chkForceRemoteSourceTranscoding', page).matches(':checked');
-        user.Policy.EnableContentDownloading = $('#chkEnableDownloading', page).matches(':checked');
-        user.Policy.EnableSyncTranscoding = $('#chkEnableSyncTranscoding', page).matches(':checked');
-        user.Policy.EnableMediaConversion = $('#chkEnableConversion', page).matches(':checked');
-        user.Policy.EnablePublicSharing = $('#chkEnableSharing', page).matches(':checked');
-        user.Policy.EnableRemoteAccess = $('#chkRemoteAccess', page).matches(':checked');
+        user.Policy.IsAdministrator = page.querySelector('#chkIsAdmin').matches(':checked');
+        user.Policy.IsHidden = page.querySelector('#chkIsHidden').matches(':checked');
+        user.Policy.IsDisabled = page.querySelector('#chkDisabled').matches(':checked');
+        user.Policy.EnableRemoteControlOfOtherUsers = page.querySelector('#chkEnableRemoteControlOtherUsers').matches(':checked');
+        user.Policy.EnableLiveTvManagement = page.querySelector('#chkManageLiveTv').matches(':checked');
+        user.Policy.EnableLiveTvAccess = page.querySelector('#chkEnableLiveTvAccess').matches(':checked');
+        user.Policy.EnableSharedDeviceControl = page.querySelector('#chkRemoteControlSharedDevices').matches(':checked');
+        user.Policy.EnableMediaPlayback = page.querySelector('#chkEnableMediaPlayback').matches(':checked');
+        user.Policy.EnableAudioPlaybackTranscoding = page.querySelector('#chkEnableAudioPlaybackTranscoding').matches(':checked');
+        user.Policy.EnableVideoPlaybackTranscoding = page.querySelector('#chkEnableVideoPlaybackTranscoding').matches(':checked');
+        user.Policy.EnablePlaybackRemuxing = page.querySelector('#chkEnableVideoPlaybackRemuxing').matches(':checked');
+        user.Policy.ForceRemoteSourceTranscoding = page.querySelector('#chkForceRemoteSourceTranscoding').matches(':checked');
+        user.Policy.EnableContentDownloading = page.querySelectorpage.querySelector('#chkEnableDownloading').matches(':checked');
+        user.Policy.EnableSyncTranscoding = page.querySelector('#chkEnableSyncTranscoding').matches(':checked');
+        user.Policy.EnableMediaConversion = page.querySelector('#chkEnableConversion').matches(':checked');
+        user.Policy.EnablePublicSharing = page.querySelector('#chkEnableSharing').matches(':checked');
+        user.Policy.EnableRemoteAccess = page.querySelector('#chkRemoteAccess').matches(':checked');
         user.Policy.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat(page.querySelector('#txtRemoteClientBitrateLimit').value || '0'));
         user.Policy.LoginAttemptsBeforeLockout = parseInt(page.querySelector('#txtLoginAttemptsBeforeLockout').value || '0');
         user.Policy.AuthenticationProviderId = page.querySelector('.selectLoginProvider').value;
         user.Policy.PasswordResetProviderId = page.querySelector('.selectPasswordResetProvider').value;
-        user.Policy.EnableContentDeletion = $('#chkEnableDeleteAllFolders', page).matches(':checked');
+        user.Policy.EnableContentDeletion = page.querySelector('#chkEnableDeleteAllFolders').matches(':checked');
         user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
             return c.checked;
         }).map(function (c) {

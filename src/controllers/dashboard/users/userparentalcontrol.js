@@ -30,7 +30,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
             html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
         }
 
-        $('#selectMaxParentalRating', page).innerHtml = html;
+        page.querySelector('#selectMaxParentalRating').innerHtml = html;
     }
 
     function loadUnratedItems(page, user) {
@@ -67,9 +67,9 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
         }
 
         html += '</div>';
-        const blockUnratedItems = $('.blockUnratedItems', page);
+        const blockUnratedItems = page.querySelector('.blockUnratedItems');
         blockUnratedItems.innerHtml = html;
-        blockUnratedItems.trigger('create');
+        blockUnratedItems.dispatchEvent(new Event('create'));
     }
 
     function loadUser(page, user, allParentalRatings) {
@@ -118,9 +118,9 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
             html = '<div class="paperList">' + html + '</div>';
         }
 
-        var elem = $('.blockedTags', page);
+        var elem = page.querySelector('.blockedTags');
         elem.innerHtml = html;
-        elem.trigger('create');
+        elem.dispatchEvent(new Event('create'));
         $('.btnDeleteTag', elem).on('click', function () {
             var tag = this.getAttribute('data-tag');
             var newTags = tags.filter(function (t) {

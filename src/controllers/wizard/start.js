@@ -2,7 +2,7 @@ define(['jQuery', 'loading', 'emby-button', 'emby-select'], function ($, loading
     'use strict';
 
     function loadPage(page, config, languageOptions) {
-        const selectLocalizationLanguage = $('#selectLocalizationLanguage', page);
+        const selectLocalizationLanguage = page.querySelector('#selectLocalizationLanguage');
         selectLocalizationLanguage.innerHtml = languageOptions.map(function (l) {
             return '<option value="' + l.Value + '">' + l.Name + '</option>';
         });

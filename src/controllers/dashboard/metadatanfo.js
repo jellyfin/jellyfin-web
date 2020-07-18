@@ -6,7 +6,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         html += users.map(function (user) {
             return '<option value="' + user.Id + '">' + user.Name + '</option>';
         }).join('');
-        const elem = $('#selectUser', page);
+        const elem = page.querySelector('#selectUser');
         elem.innerHtml = html;
         elem.val(config.UserId || '');
         page.querySelector('#selectReleaseDateFormat').value = config.ReleaseDateFormat;
