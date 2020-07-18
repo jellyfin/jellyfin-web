@@ -373,7 +373,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
         $('#chkEnableMpegtsM2TsMode', popup).prop('checked', transcodingProfile.EnableMpegtsM2TsMode || false);
         $('#chkEstimateContentLength', popup).prop('checked', transcodingProfile.EstimateContentLength || false);
         $('#chkReportByteRangeRequests', popup).prop('checked', 'Bytes' == transcodingProfile.TranscodeSeekInfo);
-        $('.radioTabButton:first', popup).trigger('click');
+        $('.radioTabButton', popup).first().trigger('click');
         openPopup(popup[0]);
     }
 

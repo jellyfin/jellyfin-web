@@ -83,7 +83,7 @@ module.exports = {
         'jquery/no-serialize': 'error',
         'jquery/no-show': 'error',
         'jquery/no-size': 'error',
-        //'jquery/no-sizzle': 'error',
+        'jquery/no-sizzle': 'error',
         'jquery/no-slide': 'error',
         'jquery/no-submit': 'error',
         'jquery/no-text': 'error',
