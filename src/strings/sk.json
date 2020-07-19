@@ -1528,7 +1528,7 @@
     "MessageSyncPlayGroupDoesNotExist": "Pripojenie ku skupine zlyhalo, pretože skupina neexistuje.",
     "MessageSyncPlayPlaybackPermissionRequired": "K prehrávaniu je potrebné povolenie.",
     "MessageSyncPlayNoGroupsAvailable": "Nie je dostupná žiadna skupina. Skúste najskôr začať niečo prehrávať.",
-    "MessageSyncPlayGroupWait": "Prehrávanie používateľa <b>{0}</b> sa načítava...",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> sa načítava…",
     "MessageSyncPlayUserLeft": "Používateľ <b>{0}</b> opustil skupinu.",
     "MessageSyncPlayUserJoined": "Používateľ <b>{0}</b> sa pripojil k skupine.",
     "MessageSyncPlayDisabled": "SyncPlay zakázaný.",
