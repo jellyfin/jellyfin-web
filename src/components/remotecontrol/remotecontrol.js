@@ -127,8 +127,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 if (item.Artists != null) {
                     if (item.ArtistItems != null) {
                         for (const artist of item.ArtistItems) {
-                            let artistName = artist.Name;
-                            let artistId = artist.Id;
+                            const artistName = artist.Name;
+                            const artistId = artist.Id;
                             artistsSeries += `<a class="button-link emby-button" is="emby-linkbutton" href="details?id=${artistId}&serverId=${nowPlayingServerId}">${artistName}</a>`;
                             if (artist !== item.ArtistItems.slice(-1)[0]) {
                                 artistsSeries += ', ';
@@ -185,7 +185,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             let contextButton = context.querySelector('.btnToggleContextMenu');
             // We remove the previous event listener by replacing the item in each update event
             const autoFocusContextButton = document.activeElement === contextButton;
-            let contextButtonClone = contextButton.cloneNode(true);
+            const contextButtonClone = contextButton.cloneNode(true);
             contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
             contextButton = context.querySelector('.btnToggleContextMenu');
             if (autoFocusContextButton) {
@@ -362,7 +362,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
         function updateRepeatModeDisplay(repeatMode) {
             var context = dlg;
-            let toggleRepeatButtons = context.querySelectorAll('.repeatToggleButton');
+            const toggleRepeatButtons = context.querySelectorAll('.repeatToggleButton');
             const cssClass = 'buttonActive';
             let innHtml = '<span class="material-icons repeat"></span>';
             let repeatOn = true;
@@ -529,12 +529,12 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         }
 
         function onShuffleQueueModeChange(updateView = true) {
-            let shuffleMode = playbackManager.getQueueShuffleMode(this);
-            let context = dlg;
+            const shuffleMode = playbackManager.getQueueShuffleMode(this);
+            const context = dlg;
             const cssClass = 'buttonActive';
-            let shuffleButtons = context.querySelectorAll('.btnShuffleQueue');
+            const shuffleButtons = context.querySelectorAll('.btnShuffleQueue');
 
-            for (let shuffleButton of shuffleButtons) {
+            for (const shuffleButton of shuffleButtons) {
                 switch (shuffleMode) {
                     case 'Shuffle':
                         shuffleButton.classList.add(cssClass);
@@ -873,15 +873,11 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         }
 
         function init(ownerView, context) {
-<<<<<<< HEAD
-=======
-            const contextmenuHtml = `<button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title=${globalize.translate('ButtonToggleContextMenu')}><span class="material-icons more_vert"></span></button>`;
->>>>>>> 4f0443b2d... Fix linting errors
             let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
             volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up"></span></button>`;
             volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
             volumecontrolHtml += '</div>';
-            let optionsSection = context.querySelector('.playlistSectionButton');
+            const optionsSection = context.querySelector('.playlistSectionButton');
             if (!layoutManager.mobile) {
                 context.querySelector('.nowPlayingSecondaryButtons').insertAdjacentHTML('beforeend', volumecontrolHtml);
                 optionsSection.classList.remove('align-items-center', 'justify-content-center');

@@ -907,7 +907,7 @@ import 'flexStyles';
     }
 
     function populatePeople(context, people) {
-        let lastType = '';
+        const lastType = '';
         let html = '';
 
         const elem = context.querySelector('#peopleList');

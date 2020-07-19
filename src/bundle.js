@@ -78,12 +78,6 @@ _define('webcomponents', function() {
     return webcomponents;
 });
 
-// shaka
-const shaka = require('shaka-player');
-_define('shaka', function() {
-    return shaka;
-});
-
 // libass-wasm
 const libassWasm = require('libass-wasm');
 _define('JavascriptSubtitlesOctopus', function() {
