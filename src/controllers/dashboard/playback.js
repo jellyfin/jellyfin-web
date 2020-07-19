@@ -1,5 +1,9 @@
-define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, libraryMenu, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
 
     function loadPage(page, config) {
         $('#txtMinResumePct', page).val(config.MinResumePct);
@@ -10,7 +14,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
 
     function onSubmit() {
         loading.show();
-        var form = this;
+        const form = this;
         ApiClient.getServerConfiguration().then(function (config) {
             config.MinResumePct = $('#txtMinResumePct', form).val();
             config.MaxResumePct = $('#txtMaxResumePct', form).val();
@@ -40,9 +44,10 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }).on('pageshow', '#playbackConfigurationPage', function () {
         loading.show();
         libraryMenu.setTabs('playback', 1, getTabs);
-        var page = this;
+        const page = this;
         ApiClient.getServerConfiguration().then(function (config) {
             loadPage(page, config);
         });
     });
-});
+
+/* eslint-enable indent */
