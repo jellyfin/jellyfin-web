@@ -355,7 +355,7 @@ import 'css!./homesections';
         });
     }
 
-    export function loadLibraryTiles(elem, apiCdflient, user, userSettings, shape, userViews, allSections) {
+    export function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
         let html = '';
         if (userViews.length) {
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
