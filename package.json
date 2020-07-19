@@ -105,7 +105,6 @@
           "src/components/dialogHelper/dialogHelper.js",
           "src/components/homesections/homesections.js",
           "src/components/images/imageLoader.js",
-          "",
           "src/components/imageUploader/imageUploader.js",
           "src/components/indicators/indicators.js",
           "src/components/itemidentifier/itemidentifier.js",
