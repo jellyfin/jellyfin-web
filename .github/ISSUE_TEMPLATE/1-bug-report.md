@@ -1,16 +1,13 @@
 ---
 name: Bug report
-about: Create a bug report
-title: ''
+about: You have noticed a general issue or regression, and would like to report it
 labels: bug
-assignees: ''
-
 ---
 
 **Describe the bug**
 <!-- A clear and concise description of what the bug is. -->
 
-**To Reproduce**
+**Steps to Reproduce**
 <!-- Steps to reproduce the behavior: -->
 1. Go to '...'
 2. Click on '....'
@@ -27,9 +24,9 @@ assignees: ''
 <!-- If applicable, add screenshots to help explain your problem. -->
 
 **System (please complete the following information):**
- - OS: [e.g. Docker, Debian, Windows]
+ - Platform: [e.g. Linux, Windows, iPhone, Tizen]
  - Browser: [e.g. Firefox, Chrome, Safari]
- - Jellyfin Version: [e.g. 10.0.1]
+ - Jellyfin Version: [e.g. 10.6.0]
 
 **Additional context**
 <!-- Add any other context about the problem here. -->

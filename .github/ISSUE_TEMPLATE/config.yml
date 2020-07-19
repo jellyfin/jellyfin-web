@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: You have a feature request
+    url: https://features.jellyfin.org/
+    about: Please head over to our feature request hub to vote on or submit a feature.
+  - name: You need help with Jellyfin
+    url: https://matrix.to/#/#jellyfin-troubleshooting:matrix.org%22
+    about: Please join the troubleshooting Matrix channel to get some help.
