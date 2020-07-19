@@ -95,7 +95,7 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
     TabbedView.prototype.onResume = function (options) {
 
         this.setTitle();
-        backdrop.clear();
+        backdrop.clearBackdrop();
 
         var currentTabController = this.currentTabController;
 
