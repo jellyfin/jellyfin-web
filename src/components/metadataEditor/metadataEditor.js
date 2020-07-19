@@ -233,7 +233,7 @@ import 'flexStyles';
     function addElementToList(source, sortCallback) {
         require(['prompt'], function (prompt) {
 
-            prompt({
+            prompt.default({
                 label: 'Value:'
             }).then(function (text) {
                 const list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
