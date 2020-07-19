@@ -21,7 +21,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     };
 
     function beginConnectionWizard() {
-        backdrop.clear();
+        backdrop.clearBackdrop();
         loading.show();
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
@@ -657,7 +657,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
 
         if (level === 'full' || level === 2) {
-            backdrop.clear(true);
+            backdrop.clearBackdrop(true);
             document.documentElement.classList.add('transparentDocument');
             backgroundContainer.classList.add('backgroundContainer-transparent');
             backdropContainer.classList.add('hide');

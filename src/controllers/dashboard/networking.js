@@ -1,12 +1,17 @@
-define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], function (loading, libraryMenu, globalize) {
-    'use strict';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import 'emby-checkbox';
+import 'emby-select';
+
+/* eslint-disable indent */
 
     function onSubmit(e) {
-        var form = this;
-        var localAddress = form.querySelector('#txtLocalAddress').value;
-        var enableUpnp = form.querySelector('#chkEnableUpnp').checked;
+        const form = this;
+        const localAddress = form.querySelector('#txtLocalAddress').value;
+        const enableUpnp = form.querySelector('#chkEnableUpnp').checked;
         confirmSelections(localAddress, enableUpnp, function () {
-            var validationResult = getValidationAlert(form);
+            const validationResult = getValidationAlert(form);
 
             if (validationResult) {
                 showAlertText(validationResult);
@@ -47,7 +52,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
     }
 
     function triggerChange(select) {
-        var evt = document.createEvent('HTMLEvents');
+        const evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
     }
@@ -65,8 +70,8 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
     }
 
     function validateHttps(form) {
-        var certPath = form.querySelector('#txtCertificatePath').value || null;
-        var httpsEnabled = form.querySelector('#chkEnableHttps').checked;
+        const certPath = form.querySelector('#txtCertificatePath').value || null;
+        const httpsEnabled = form.querySelector('#chkEnableHttps').checked;
 
         if (httpsEnabled && !certPath) {
             return showAlertText({
@@ -97,7 +102,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
         }
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function loadPage(page, config) {
             page.querySelector('#txtPortNumber').value = config.HttpServerPortNumber;
             page.querySelector('#txtPublicPort').value = config.PublicPort;
@@ -111,7 +116,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
             page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
             page.querySelector('#chkRequireHttps').checked = config.RequireHttps;
             page.querySelector('#txtBaseUrl').value = config.BaseUrl || '';
-            var txtCertificatePath = page.querySelector('#txtCertificatePath');
+            const txtCertificatePath = page.querySelector('#txtCertificatePath');
             txtCertificatePath.value = config.CertificatePath || '';
             page.querySelector('#txtCertPassword').value = config.CertificatePassword || '';
             page.querySelector('#chkEnableUpnp').checked = config.EnableUPnP;
@@ -136,7 +141,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
         });
         view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser.default();
+                const picker = new directoryBrowser();
                 picker.show({
                     includeFiles: true,
                     includeDirectories: true,
@@ -158,5 +163,6 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
                 loadPage(view, config);
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */
