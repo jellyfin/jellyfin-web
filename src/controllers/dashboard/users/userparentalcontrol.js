@@ -225,7 +225,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
 
     function showBlockedTagPopup(page) {
         require(['prompt'], function (prompt) {
-            prompt({
+            prompt.default({
                 label: globalize.translate('LabelTag')
             }).then(function (value) {
                 var tags = getBlockedTagsFromPage(page);

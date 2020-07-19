@@ -1,16 +1,21 @@
-define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby-button'], function (connectionManager, serverNotifications, events, globalize, EmbyButtonPrototype) {
-    'use strict';
+import connectionManager from 'connectionManager';
+import serverNotifications from 'serverNotifications';
+import events from 'events';
+import globalize from 'globalize';
+import EmbyButtonPrototype from 'emby-button';
+
+/* eslint-disable indent */
 
     function addNotificationEvent(instance, name, handler) {
 
-        var localHandler = handler.bind(instance);
+        const localHandler = handler.bind(instance);
         events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
     function removeNotificationEvent(instance, name) {
 
-        var handler = instance[name];
+        const handler = instance[name];
         if (handler) {
             events.off(serverNotifications, name, handler);
             instance[name] = null;
@@ -24,13 +29,13 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
     function onClick(e) {
 
-        var button = this;
-        var id = button.getAttribute('data-id');
-        var serverId = button.getAttribute('data-serverid');
-        var apiClient = connectionManager.getApiClient(serverId);
+        const button = this;
+        const id = button.getAttribute('data-id');
+        const serverId = button.getAttribute('data-serverid');
+        const apiClient = connectionManager.getApiClient(serverId);
 
-        var likes = this.getAttribute('data-likes');
-        var isFavorite = this.getAttribute('data-isfavorite') === 'true';
+        let likes = this.getAttribute('data-likes');
+        const isFavorite = this.getAttribute('data-isfavorite') === 'true';
         if (likes === 'true') {
             likes = true;
         } else if (likes === 'false') {
@@ -47,7 +52,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
     function onUserDataChanged(e, apiClient, userData) {
 
-        var button = this;
+        const button = this;
 
         if (userData.ItemId === button.getAttribute('data-id')) {
 
@@ -57,7 +62,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
     function setState(button, likes, isFavorite, updateAttribute) {
 
-        var icon = button.querySelector('.material-icons');
+        const icon = button.querySelector('.material-icons');
 
         if (isFavorite) {
 
@@ -106,7 +111,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     function setTitle(button) {
         button.title = globalize.translate('Favorite');
 
-        var text = button.querySelector('.button-text');
+        const text = button.querySelector('.button-text');
         if (text) {
             text.innerHTML = button.title;
         }
@@ -126,7 +131,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         addNotificationEvent(button, 'UserDataChanged', onUserDataChanged);
     }
 
-    var EmbyRatingButtonPrototype = Object.create(EmbyButtonPrototype);
+    const EmbyRatingButtonPrototype = Object.create(EmbyButtonPrototype);
 
     EmbyRatingButtonPrototype.createdCallback = function () {
 
@@ -143,12 +148,12 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             EmbyButtonPrototype.attachedCallback.call(this);
         }
 
-        var itemId = this.getAttribute('data-id');
-        var serverId = this.getAttribute('data-serverid');
+        const itemId = this.getAttribute('data-id');
+        const serverId = this.getAttribute('data-serverid');
         if (itemId && serverId) {
 
-            var likes = this.getAttribute('data-likes');
-            var isFavorite = this.getAttribute('data-isfavorite') === 'true';
+            let likes = this.getAttribute('data-likes');
+            const isFavorite = this.getAttribute('data-isfavorite') === 'true';
             if (likes === 'true') {
                 likes = true;
             } else if (likes === 'false') {
@@ -181,7 +186,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             this.setAttribute('data-id', item.Id);
             this.setAttribute('data-serverid', item.ServerId);
 
-            var userData = item.UserData || {};
+            const userData = item.UserData || {};
             setState(this, userData.Likes, userData.IsFavorite);
             bindEvents(this);
 
@@ -199,4 +204,5 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         prototype: EmbyRatingButtonPrototype,
         extends: 'button'
     });
-});
+
+/* eslint-enable indent */

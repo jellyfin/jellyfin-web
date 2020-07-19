@@ -50,7 +50,7 @@ define(['backdrop', 'userSettings', 'libraryMenu'], function (backdrop, userSett
                         return i;
                     }));
                 } else {
-                    backdrop.clear();
+                    backdrop.clearBackdrop();
                 }
             });
         }
@@ -67,10 +67,10 @@ define(['backdrop', 'userSettings', 'libraryMenu'], function (backdrop, userSett
                     showBackdrop(type, parentId);
                 } else {
                     page.classList.remove('backdropPage');
-                    backdrop.clear();
+                    backdrop.clearBackdrop();
                 }
             } else {
-                backdrop.clear();
+                backdrop.clearBackdrop();
             }
         }
     });

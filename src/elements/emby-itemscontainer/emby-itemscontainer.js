@@ -63,7 +63,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
 
         var self = this;
         require(['multiSelect'], function (MultiSelect) {
-            self.multiSelect = new MultiSelect({
+            self.multiSelect = new MultiSelect.default({
                 container: self,
                 bindOnClick: false
             });

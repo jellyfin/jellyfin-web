@@ -59,7 +59,7 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
 
     function deleteProfile(page, id) {
         require(['confirm'], function (confirm) {
-            confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
+            confirm.default(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
                 loading.show();
                 ApiClient.ajax({
                     type: 'DELETE',

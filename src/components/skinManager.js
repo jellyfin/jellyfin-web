@@ -84,7 +84,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'backdrop', 'globalize',
             currentSound = null;
         }
 
-        backdrop.clear();
+        backdrop.clearBackdrop();
     }
 
     function onThemeLoaded() {
