@@ -121,6 +121,7 @@
           "src/controllers/music/musicgenres.js",
           "src/controllers/music/musicplaylists.js",
           "src/controllers/music/musicrecommended.js",
+          "src/controllers/music/songs.js",
           "src/controllers/user/display.js",
           "src/controllers/user/home.js",
           "src/controllers/user/playback.js",
