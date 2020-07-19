@@ -85,7 +85,7 @@ import 'emby-select';
 
     function showAlertText(options) {
         return new Promise(function (resolve, reject) {
-            require(['alert'], function (alert) {
+            import('alert').then(({default: alert}) => {
                 alert(options).then(resolve, reject);
             });
         });
@@ -140,8 +140,8 @@ import 'emby-select';
             }
         });
         view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
-            require(['directorybrowser'], function (directoryBrowser) {
-                const picker = new directoryBrowser();
+            import('directorybrowser').then(({default: directoryBrowser}) => {
+                const picker = new directoryBrowser.default();
                 picker.show({
                     includeFiles: true,
                     includeDirectories: true,
