@@ -21,7 +21,7 @@ define(['playbackSettings', 'dom', 'globalize', 'loading', 'userSettings', 'auto
             if (settingsInstance) {
                 settingsInstance.loadData();
             } else {
-                settingsInstance = new PlaybackSettings({
+                settingsInstance = new PlaybackSettings.default({
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector('.settingsContainer'),

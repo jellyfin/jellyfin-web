@@ -462,7 +462,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         if (dom.getWindowSize().innerWidth >= 1000) {
             backdrop.setBackdrops([item]);
         } else {
-            backdrop.clear();
+            backdrop.clearBackdrop();
         }
     }
 
@@ -1935,7 +1935,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         function splitVersions(instance, page, apiClient, params) {
             require(['confirm'], function (confirm) {
-                confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
+                confirm.default('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
                     loading.show();
                     apiClient.ajax({
                         type: 'DELETE',

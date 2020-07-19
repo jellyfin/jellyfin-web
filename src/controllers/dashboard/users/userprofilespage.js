@@ -5,7 +5,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
         var msg = globalize.translate('DeleteUserConfirmation');
 
         require(['confirm'], function (confirm) {
-            confirm({
+            confirm.default({
                 title: globalize.translate('DeleteUser'),
                 text: msg,
                 confirmText: globalize.translate('ButtonDelete'),
