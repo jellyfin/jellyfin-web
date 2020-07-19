@@ -9,7 +9,7 @@ import connectionManager from 'connectionManager';
 import 'emby-button';
 import 'listViewStyle';
 
-/*eslint-disable indent */
+/* eslint-disable indent */
 
     function getEntryHtml(entry, apiClient) {
         var html = '';
