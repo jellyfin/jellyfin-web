@@ -1,9 +1,20 @@
-define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'globalize', 'dom', 'indicators', 'scripts/imagehelper', 'cardStyle', 'emby-itemrefreshindicator'], function ($, appHost, taskButton, loading, libraryMenu, globalize, dom, indicators, imageHelper) {
-    'use strict';
+import $ from 'jQuery';
+import appHost from 'apphost';
+import taskButton from 'scripts/taskbutton';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import dom from 'dom';
+import indicators from 'indicators';
+import imageHelper from 'scripts/imagehelper';
+import 'cardStyle';
+import 'emby-itemrefreshindicator';
+
+/* eslint-disable indent */
 
     function addVirtualFolder(page) {
-        require(['medialibrarycreator'], function (medialibrarycreator) {
-            new medialibrarycreator.showEditor({
+        import('medialibrarycreator').then(({default: medialibrarycreator}) => {
+            new medialibrarycreator({
                 collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                     return !f.hidden;
                 }),
@@ -17,8 +28,8 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function editVirtualFolder(page, virtualFolder) {
-        require(['medialibraryeditor'], function (medialibraryeditor) {
-            new medialibraryeditor.showEditor({
+        import('medialibraryeditor').then(({default: medialibraryeditor}) => {
+            new medialibraryeditor({
                 refresh: shouldRefreshLibraryAfterChanges(page),
                 library: virtualFolder
             }).then(function (hasChanges) {
@@ -30,14 +41,14 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function deleteVirtualFolder(page, virtualFolder) {
-        var msg = globalize.translate('MessageAreYouSureYouWishToRemoveMediaFolder');
+        let msg = globalize.translate('MessageAreYouSureYouWishToRemoveMediaFolder');
 
         if (virtualFolder.Locations.length) {
             msg += '<br/><br/>' + globalize.translate('MessageTheFollowingLocationWillBeRemovedFromLibrary') + '<br/><br/>';
             msg += virtualFolder.Locations.join('<br/>');
         }
 
-        require(['confirm'], function (confirm) {
+        import('confirm').then(({default: confirm}) => {
             confirm({
 
                 text: msg,
@@ -46,7 +57,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
                 primary: 'delete'
 
             }).then(function () {
-                var refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
+                const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
                 ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange).then(function () {
                     reloadLibrary(page);
                 });
@@ -55,7 +66,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function refreshVirtualFolder(page, virtualFolder) {
-        require(['refreshDialog'], function (refreshDialog) {
+        import('refreshDialog').then(({default: refreshDialog}) => {
             new refreshDialog({
                 itemIds: [virtualFolder.ItemId],
                 serverId: ApiClient.serverId(),
@@ -65,13 +76,13 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function renameVirtualFolder(page, virtualFolder) {
-        require(['prompt'], function (prompt) {
+        import('prompt').then(({default: prompt}) => {
             prompt({
                 label: globalize.translate('LabelNewName'),
                 confirmText: globalize.translate('ButtonRename')
             }).then(function (newName) {
                 if (newName && newName != virtualFolder.Name) {
-                    var refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
+                    const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
                     ApiClient.renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange).then(function () {
                         reloadLibrary(page);
                     });
@@ -81,10 +92,10 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function showCardMenu(page, elem, virtualFolders) {
-        var card = dom.parentWithClass(elem, 'card');
-        var index = parseInt(card.getAttribute('data-index'));
-        var virtualFolder = virtualFolders[index];
-        var menuItems = [];
+        const card = dom.parentWithClass(elem, 'card');
+        const index = parseInt(card.getAttribute('data-index'));
+        const virtualFolder = virtualFolders[index];
+        const menuItems = [];
         menuItems.push({
             name: globalize.translate('ButtonEditImages'),
             id: 'editimages',
@@ -111,7 +122,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             icon: 'refresh'
         });
 
-        require(['actionsheet'], function (actionsheet) {
+        import('actionsheet').then(({default: actionsheet}) => {
             actionsheet.show({
                 items: menuItems,
                 positionTo: elem,
@@ -153,7 +164,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function reloadVirtualFolders(page, virtualFolders) {
-        var html = '';
+        let html = '';
         virtualFolders.push({
             Name: globalize.translate('ButtonAddMediaLibrary'),
             icon: 'add_circle',
@@ -164,12 +175,12 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             showNameWithIcon: true
         });
 
-        for (var i = 0; i < virtualFolders.length; i++) {
-            var virtualFolder = virtualFolders[i];
+        for (let i = 0; i < virtualFolders.length; i++) {
+            const virtualFolder = virtualFolders[i];
             html += getVirtualFolderHtml(page, virtualFolder, i);
         }
 
-        var divVirtualFolders = page.querySelector('#divVirtualFolders');
+        const divVirtualFolders = page.querySelector('#divVirtualFolders');
         divVirtualFolders.innerHTML = html;
         divVirtualFolders.classList.add('itemsContainer');
         divVirtualFolders.classList.add('vertical-wrap');
@@ -180,9 +191,9 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             addVirtualFolder(page);
         });
         $('.editLibrary', divVirtualFolders).on('click', function () {
-            var card = $(this).parents('.card')[0];
-            var index = parseInt(card.getAttribute('data-index'));
-            var virtualFolder = virtualFolders[index];
+            const card = $(this).parents('.card')[0];
+            const index = parseInt(card.getAttribute('data-index'));
+            const virtualFolder = virtualFolders[index];
 
             if (virtualFolder.ItemId) {
                 editVirtualFolder(page, virtualFolder);
@@ -192,7 +203,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function editImages(page, virtualFolder) {
-        require(['imageEditor'], function (imageEditor) {
+        import('imageEditor').then(({default: imageEditor}) => {
             imageEditor.show({
                 itemId: virtualFolder.ItemId,
                 serverId: ApiClient.serverId()
@@ -240,8 +251,8 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     }
 
     function getVirtualFolderHtml(page, virtualFolder, index) {
-        var html = '';
-        var style = '';
+        let html = '';
+        let style = '';
 
         if (page.classList.contains('wizardPage')) {
             style += 'min-width:33.3%;';
@@ -252,7 +263,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
         html += '<div class="cardContent">';
-        var imgUrl = '';
+        let imgUrl = '';
 
         if (virtualFolder.PrimaryImageItemId) {
             imgUrl = ApiClient.getScaledImageUrl(virtualFolder.PrimaryImageItemId, {
@@ -261,7 +272,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             });
         }
 
-        var hasCardImageContainer;
+        let hasCardImageContainer;
 
         if (imgUrl) {
             html += '<div class="cardImageContainer editLibrary" style="cursor:pointer;background-image:url(\'' + imgUrl + "');\">";
@@ -311,7 +322,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         }
 
         html += '</div>';
-        var typeName = getCollectionTypeOptions().filter(function (t) {
+        let typeName = getCollectionTypeOptions().filter(function (t) {
             return t.value == virtualFolder.CollectionType;
         })[0];
         typeName = typeName ? typeName.name : globalize.translate('FolderTypeUnset');
@@ -371,7 +382,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
     });
     pageIdOn('pageshow', 'mediaLibraryPage', function () {
         libraryMenu.setTabs('librarysetup', 0, getTabs);
-        var page = this;
+        const page = this;
         taskButton({
             mode: 'on',
             progressElem: page.querySelector('.refreshProgress'),
@@ -380,7 +391,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         });
     });
     pageIdOn('pagebeforehide', 'mediaLibraryPage', function () {
-        var page = this;
+        const page = this;
         taskButton({
             mode: 'off',
             progressElem: page.querySelector('.refreshProgress'),
@@ -388,4 +399,5 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             button: page.querySelector('.btnRefresh')
         });
     });
-});
+
+/* eslint-enable indent */
