@@ -128,7 +128,7 @@ import 'listViewStyle';
     }
 
     function showItemOverview(item) {
-        import('alert').then(({default: alert})=> {
+        import('alert').then(({default: alert}) => {
             alert({
                 text: item.Overview
             });
