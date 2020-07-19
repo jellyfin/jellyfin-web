@@ -1,5 +1,11 @@
-define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-button'], function ($, globalize, loading, libraryMenu) {
-    'use strict';
+import $ from 'jQuery';
+import globalize from 'globalize';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import 'listViewStyle';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function loadProfiles(page) {
         loading.show();
@@ -23,14 +29,14 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
     }
 
     function renderProfiles(page, element, profiles) {
-        var html = '';
+        let html = '';
 
         if (profiles.length) {
             html += '<div class="paperList">';
         }
 
-        for (var i = 0, length = profiles.length; i < length; i++) {
-            var profile = profiles[i];
+        for (let i = 0, length = profiles.length; i < length; i++) {
+            let profile = profiles[i];
             html += '<div class="listItem listItem-border">';
             html += '<span class="listItemIcon material-icons live_tv"></span>';
             html += '<div class="listItemBody two-line">';
@@ -52,14 +58,14 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
 
         element.innerHTML = html;
         $('.btnDeleteProfile', element).on('click', function () {
-            var id = this.getAttribute('data-profileid');
+            const id = this.getAttribute('data-profileid');
             deleteProfile(page, id);
         });
     }
 
     function deleteProfile(page, id) {
-        require(['confirm'], function (confirm) {
-            confirm.default(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
+        import('confirm').then(({default: confirm}) => {
+            confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
                 loading.show();
                 ApiClient.ajax({
                     type: 'DELETE',
@@ -86,4 +92,5 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
         libraryMenu.setTabs('dlna', 1, getTabs);
         loadProfiles(this);
     });
-});
+
+/* eslint-enable indent */
