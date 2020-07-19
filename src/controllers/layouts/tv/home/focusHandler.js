@@ -4,7 +4,6 @@ import {getlogoImageUrl} from './imagehelper';
 import backdrop from 'backdrop';
 import mediaInfo from 'mediaInfo';
 import focusManager from 'focusManager';
-import scrollHelper from 'scrollHelper';
 import browser from 'browser';
 
 export class FocusHandler {
@@ -16,7 +15,6 @@ export class FocusHandler {
         parent.addEventListener('focus', onFocusIn, true);
         parent.addEventListener('blur', onFocusOut, true);
         const selectedItemInfoInner = options.selectedItemInfoInner;
-        const selectedIndexElement = options.selectedIndexElement;
         const enableAnimations = (() => {
             if (browser.animate && !browser.slow) {
                 return true;
@@ -27,20 +25,12 @@ export class FocusHandler {
             const focused = focusManager.focusableParent(target);
             focusedElement = focused;
             if (focused) {
-                if (selectedIndexElement) {
-                    const index = focused.getAttribute('data-index');
-                    if (index) {
-                        selectedIndexElement.innerHTML = 1 + parseInt(index);
-                    }
-                }
-                if (options.scroller) {
-                    const now = new Date().getTime();
-                    const animate = now - lastFocus > 50;
-                    options.scroller.toCenter(focused, !animate);
-                    lastFocus = now;
-                } else if (options.scrollElement) {
-                    scrollHelper.toCenter(options.scrollElement, focused, options.horizontal);
-                }
+
+                const now = new Date().getTime();
+                const animate = now - lastFocus > 50;
+                options.scroller.toCenter(focused, !animate);
+                lastFocus = now;
+
                 startZoomTimer();
             }
         }
