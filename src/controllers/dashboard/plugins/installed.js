@@ -5,7 +5,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
         var msg = globalize.translate('UninstallPluginConfirmation', name);
 
         require(['confirm'], function (confirm) {
-            confirm({
+            confirm.default({
                 title: globalize.translate('UninstallPluginHeader'),
                 text: msg,
                 primary: 'delete',

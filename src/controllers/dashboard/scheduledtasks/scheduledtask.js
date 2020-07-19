@@ -130,7 +130,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
         },
         confirmDeleteTrigger: function (view, index) {
             require(['confirm'], function (confirm) {
-                confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
+                confirm.default(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
                     ScheduledTaskPage.deleteTrigger(view, index);
                 });
             });
