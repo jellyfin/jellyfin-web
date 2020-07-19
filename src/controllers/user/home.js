@@ -21,7 +21,7 @@ define(['homescreenSettings', 'dom', 'globalize', 'loading', 'userSettings', 'au
             if (homescreenSettingsInstance) {
                 homescreenSettingsInstance.loadData();
             } else {
-                homescreenSettingsInstance = new HomescreenSettings({
+                homescreenSettingsInstance = new HomescreenSettings.default({
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector('.homeScreenSettingsContainer'),
