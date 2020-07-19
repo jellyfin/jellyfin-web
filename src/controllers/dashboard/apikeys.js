@@ -1,9 +1,15 @@
-define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button'], function (datetime, loading, libraryMenu, dom, globalize) {
-    'use strict';
+import datetime from 'datetime';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import dom from 'dom';
+import globalize from 'globalize';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function revoke(page, key) {
-        require(['confirm'], function (confirm) {
-            confirm.default(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
+        import('confirm').then(({default: confirm}) => {
+            confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
                 loading.show();
                 ApiClient.ajax({
                     type: 'DELETE',
@@ -16,8 +22,8 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
     }
 
     function renderKeys(page, keys) {
-        var rows = keys.map(function (item) {
-            var html = '';
+        const rows = keys.map(function (item) {
+            let html = '';
             html += '<tr class="detailTableBodyRow detailTableBodyRow-shaded">';
             html += '<td class="detailTableBodyCell">';
             html += '<button type="button" is="emby-button" data-token="' + item.AccessToken + '" class="raised raised-mini btnRevoke" data-mini="true" title="' + globalize.translate('ButtonRevoke') + '" style="margin:0;">' + globalize.translate('ButtonRevoke') + '</button>';
@@ -29,7 +35,7 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
             html += item.AppName || '';
             html += '</td>';
             html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
-            var date = datetime.parseISO8601Date(item.DateCreated, true);
+            const date = datetime.parseISO8601Date(item.DateCreated, true);
             html += datetime.toLocaleDateString(date) + ' ' + datetime.getDisplayTime(date);
             html += '</td>';
             return html += '</tr>';
@@ -46,8 +52,8 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
     }
 
     function showNewKeyPrompt(page) {
-        require(['prompt'], function (prompt) {
-            prompt.default({
+        import('prompt').then(({default: prompt}) => {
+            prompt({
                 title: globalize.translate('HeaderNewApiKey'),
                 label: globalize.translate('LabelAppName'),
                 description: globalize.translate('LabelAppNameExample')
@@ -65,12 +71,12 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
     }
 
     pageIdOn('pageinit', 'apiKeysPage', function () {
-        var page = this;
+        const page = this;
         page.querySelector('.btnNewKey').addEventListener('click', function () {
             showNewKeyPrompt(page);
         });
         page.querySelector('.tblApiKeys').addEventListener('click', function (e) {
-            var btnRevoke = dom.parentWithClass(e.target, 'btnRevoke');
+            const btnRevoke = dom.parentWithClass(e.target, 'btnRevoke');
 
             if (btnRevoke) {
                 revoke(page, btnRevoke.getAttribute('data-token'));
@@ -80,4 +86,5 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
     pageIdOn('pagebeforeshow', 'apiKeysPage', function () {
         loadData(this);
     });
-});
+
+/* eslint-enable indent */
