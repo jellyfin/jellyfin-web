@@ -55,7 +55,6 @@ import 'emby-input';
                 textarea.style.overflowY = 'hidden';
                 textarea.style.height = 'auto';
                 newHeight = textarea.scrollHeight/* - offset*/;
-                hasGrown = true;
             }
             $('.customCssContainer').css('height', newHeight + 'px');
             textarea.style.height = newHeight + 'px';

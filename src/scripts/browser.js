@@ -102,7 +102,6 @@ define([], function () {
 
         var animation = false;
         var domPrefixes = ['Webkit', 'O', 'Moz'];
-        var pfx = '';
         var elm = document.createElement('div');
 
         if (elm.style.animationName !== undefined) {
@@ -112,7 +111,6 @@ define([], function () {
         if (animation === false && allowPrefix) {
             for (var i = 0; i < domPrefixes.length; i++) {
                 if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
-                    pfx = domPrefixes[i];
                     animation = true;
                     break;
                 }
