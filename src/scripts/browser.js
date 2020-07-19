@@ -101,8 +101,6 @@ define([], function () {
         }
 
         var animation = false;
-        var animationstring = 'animation';
-        var keyframeprefix = '';
         var domPrefixes = ['Webkit', 'O', 'Moz'];
         var pfx = '';
         var elm = document.createElement('div');
@@ -115,8 +113,6 @@ define([], function () {
             for (var i = 0; i < domPrefixes.length; i++) {
                 if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
                     pfx = domPrefixes[i];
-                    animationstring = pfx + 'Animation';
-                    keyframeprefix = '-' + pfx.toLowerCase() + '-';
                     animation = true;
                     break;
                 }

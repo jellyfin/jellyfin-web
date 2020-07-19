@@ -148,9 +148,7 @@ import 'emby-checkbox';
 
         let html = '';
 
-        let index = 0;
-
-        html += result.Items.map(view => {
+        html += result.Items.map((view) => {
 
             let currentHtml = '';
 
@@ -171,7 +169,6 @@ import 'emby-checkbox';
 
             currentHtml += '</div>';
 
-            index++;
             return currentHtml;
 
         }).join('');
@@ -305,8 +302,6 @@ import 'emby-checkbox';
             const viewItem = dom.parentWithClass(target, 'viewItem');
 
             if (viewItem) {
-                const ul = dom.parentWithClass(viewItem, 'paperList');
-
                 if (target.classList.contains('btnViewItemDown')) {
 
                     const next = viewItem.nextSibling;

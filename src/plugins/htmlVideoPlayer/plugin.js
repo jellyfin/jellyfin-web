@@ -1,3 +1,4 @@
+
 define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper', 'screenfull', 'globalize'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper, screenfull, globalize) {
     'use strict';
     /* globals cast */
@@ -15,25 +16,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 console.error('error removing dialog element: ' + err);
             }
         }
-    }
-
-    var _supportsTextTracks;
-    function supportsTextTracks() {
-
-        if (_supportsTextTracks == null) {
-            _supportsTextTracks = document.createElement('video').textTracks != null;
-        }
-
-        // For now, until ready
-        return _supportsTextTracks;
-    }
-
-    function supportsCanvas() {
-        return !!document.createElement('canvas').getContext;
-    }
-
-    function supportsWebWorkers() {
-        return !!window.Worker;
     }
 
     function enableNativeTrackSupport(currentSrc, track) {
@@ -129,11 +111,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         return useHtml ? result.replace(/\n/gi, '<br>') : result;
     }
 
-    function setTracks(elem, tracks, item, mediaSource) {
-
-        elem.innerHTML = getTracksHtml(tracks, item, mediaSource);
-    }
-
     function getTextTrackUrl(track, item, format) {
 
         if (itemHelper.isLocalItem(item) && track.Path) {
@@ -146,22 +123,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         return url;
-    }
-
-    function getTracksHtml(tracks, item, mediaSource) {
-        return tracks.map(function (t) {
-
-            if (t.DeliveryMethod !== 'External') {
-                return '';
-            }
-
-            var defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
-
-            var language = t.Language || 'und';
-            var label = t.Language || 'und';
-            return '<track id="textTrack' + t.Index + '" label="' + label + '" kind="subtitles" src="' + getTextTrackUrl(t, item) + '" srclang="' + language + '"' + defaultAttribute + '></track>';
-
-        }).join('');
     }
 
     function getDefaultProfile() {
@@ -191,12 +152,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         var videoDialog;
 
-        var winJsPlaybackItem;
-
         var subtitleTrackIndexToSetOnPlaying;
         var audioTrackIndexToSetOnPlaying;
 
-        var lastCustomTrackMs = 0;
         var currentClock;
         var currentSubtitlesOctopus;
         var currentAssRenderer;
@@ -334,8 +292,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         xhrSetup: function(xhr, xhr_url) {
                             xhr.withCredentials = true;
                         }
-                        //appendErrorMaxRetry: 6,
-                        //debug: true
                     });
                     hls.loadSource(url);
                     hls.attachMedia(elem);
@@ -343,55 +299,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
 
                     self._hlsPlayer = hls;
-
-                    // This is needed in setCurrentTrackElement
-                    self._currentSrc = url;
-                });
-            });
-        }
-
-        function onShakaError(event) {
-
-            var error = event.detail;
-            console.error('Error code', error.code, 'object', error);
-        }
-
-        function setSrcWithShakaPlayer(instance, elem, options, url) {
-
-            return new Promise(function (resolve, reject) {
-
-                require(['shaka'], function () {
-                    /* globals shaka */
-
-                    var player = new shaka.Player(elem);
-
-                    //player.configure({
-                    //    abr: {
-                    //        enabled: false
-                    //    },
-                    //    streaming: {
-
-                    //        failureCallback: function () {
-                    //            alert(2);
-                    //        }
-                    //    }
-                    //});
-
-                    //shaka.log.setLevel(6);
-
-                    // Listen for error events.
-                    player.addEventListener('error', onShakaError);
-
-                    // Try to load a manifest.
-                    // This is an asynchronous process.
-                    player.load(url).then(function () {
-
-                        // This runs if the asynchronous load is successful.
-                        resolve();
-
-                    }, reject);
-
-                    self._shakaPlayer = player;
 
                     // This is needed in setCurrentTrackElement
                     self._currentSrc = url;
@@ -441,7 +348,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var media = event.data.media || {};
             var url = media.contentId;
             var contentType = media.contentType.toLowerCase();
-            var options = media.customData;
 
             var protocol;
             var ext = 'm3u8';
@@ -486,12 +392,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             mediaManager.defaultOnLoad = mediaManager.onLoad.bind(mediaManager);
             mediaManager.onLoad = onMediaManagerLoadMedia.bind(self);
 
-            //mediaManager.defaultOnPlay = mediaManager.onPlay.bind(mediaManager);
-            //mediaManager.onPlay = function (event) {
-            //    // TODO ???
-            //    mediaManager.defaultOnPlay(event);
-            //};
-
             mediaManager.defaultOnStop = mediaManager.onStop.bind(mediaManager);
             mediaManager.onStop = function (event) {
                 playbackManager.stop();
@@ -516,8 +416,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             htmlMediaHelper.destroyFlvPlayer(self);
             htmlMediaHelper.destroyCastPlayer(self);
 
-            var tracks = getMediaStreamTextTracks(options.mediaSource);
-
             subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
             if (subtitleTrackIndexToSetOnPlaying != null && subtitleTrackIndexToSetOnPlaying >= 0) {
                 var initialSubtitleStream = options.mediaSource.MediaStreams[subtitleTrackIndexToSetOnPlaying];
@@ -535,14 +433,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 elem.crossOrigin = crossOrigin;
             }
 
-            /*if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
-
-                setTracks(elem, tracks, options.item, options.mediaSource);
-
-                return setSrcWithShakaPlayer(self, elem, options, val);
-
-            } else*/ if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
-
+            if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
                 return setCurrentSrcChromecast(self, elem, options, val);
             } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
                 return setSrcWithHlsJs(self, elem, options, val);
@@ -1062,7 +953,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             destroyCustomTrack(videoElement);
             customTrackIndex = track.Index;
             renderTracksEvents(videoElement, track, item);
-            lastCustomTrackMs = 0;
         }
 
         function renderSsaAss(videoElement, track, item) {

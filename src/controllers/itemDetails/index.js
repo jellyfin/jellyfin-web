@@ -1678,6 +1678,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             require(['alert'], function (alert) {
                 alert.default({
                     text: globalize.translate('AddItemToCollectionHelp'),
+                    // TODO: Change to Jellyfin docs
                     html: globalize.translate('AddItemToCollectionHelp') + '<br/><br/><a is="emby-linkbutton" class="button-link" target="_blank" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections">' + globalize.translate('ButtonLearnMore') + '</a>'
                 });
             });

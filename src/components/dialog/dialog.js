@@ -45,9 +45,9 @@ import 'flexStyles';
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
-        //dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
-        //    dialogHelper.close(dlg);
-        //});
+        dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+            dialogHelper.close(dlg);
+        });
 
         if (options.title) {
             dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.title || '';

@@ -1,14 +1,7 @@
 define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (connectionManager, globalize, userSettings, appHost) {
     'use strict';
 
-    function getRequirePromise(deps) {
-
-        return new Promise(function (resolve, reject) {
-
-            require(deps, resolve);
-        });
-    }
-
+    // TODO: Replace with date-fns
     // https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
     function getWeek(date) {
         var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -26,6 +19,7 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
 
         var now = new Date();
 
+        // TODO: Use date-fns
         userSettingsKey += now.getFullYear() + '-w' + getWeek(now);
 
         if (userSettings.get(userSettingsKey, false) === '1') {

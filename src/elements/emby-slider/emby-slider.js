@@ -146,8 +146,9 @@ import 'emby-input';
             return;
         }
 
+        // TODO: Not sure what this is trying to accomplish.
         if (enableWidthWithTransform == null) {
-            //enableWidthWithTransform = browser.supportsCssAnimation();
+            enableWidthWithTransform = browser.supportsCssAnimation();
         }
 
         this.setAttribute('data-embyslider', 'true');

@@ -777,7 +777,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         var players = [];
         var currentTargetInfo;
-        var lastLocalPlayer;
         var currentPairingId = null;
 
         this._playNextAfterEnded = true;
@@ -1029,10 +1028,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             if (targetInfo) {
                 console.debug('Active player: ' + JSON.stringify(targetInfo));
-            }
-
-            if (player && player.isLocalPlayer) {
-                lastLocalPlayer = player;
             }
 
             if (previousPlayer) {
@@ -4076,8 +4071,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
                 break;
             case 'SetMaxStreamingBitrate':
-                // todo
-                //this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
+                this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
                 break;
             case 'ToggleFullscreen':
                 this.toggleFullscreen(player);

@@ -872,12 +872,10 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         if (item === undefined) {
             this.slideTo(this._pos[location], immediate);
         } else {
-
-            //if (!transform) {
-
-            //    item.scrollIntoView();
-            //    return;
-            //}
+            if (!transform) {
+                item.scrollIntoView();
+                return;
+            }
 
             var itemPos = this.getPos(item);
 

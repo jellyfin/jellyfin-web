@@ -100,12 +100,12 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
 
     }, true);
 
-    //Events.on(playbackManager, 'playbackstart', function (e, player) {
-    //    var item = playbackManager.currentItem(player);
-    //    // User played something manually
-    //    if (currentThemeIds.indexOf(item.Id) == -1) {
-    //        currentOwnerId = null;
-    //    }
-    //});
+    Events.on(playbackManager, 'playbackstart', function (e, player) {
+        var item = playbackManager.currentItem(player);
+        // User played something manually
+        if (currentThemeIds.indexOf(item.Id) == -1) {
+            currentOwnerId = null;
+        }
+    });
 
 });

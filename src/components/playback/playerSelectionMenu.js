@@ -182,7 +182,6 @@ function disconnectFromPlayer(currentDeviceName) {
 
             dialog({
                 buttons: menuItems,
-                //positionTo: positionTo,
                 text: globalize.translate('ConfirmEndPlayerSession', currentDeviceName)
 
             }).then(function (id) {

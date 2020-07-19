@@ -112,22 +112,6 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
             }
         }
 
-        //var tooltipLike = globalize.translate('Like');
-        //var tooltipDislike = globalize.translate('Dislike');
-
-        //if (typeof userData.Likes == "undefined") {
-        //    html += getUserDataButtonHtml('markDislike', itemId, serverId, btnCssClass + ' btnUserData btnDislike', 'thumb-down', tooltipDislike);
-        //    html += getUserDataButtonHtml('markLike', itemId, serverId, btnCssClass + ' btnUserData btnLike', 'thumb-up', tooltipLike);
-        //}
-        //else if (userData.Likes) {
-        //    html += getUserDataButtonHtml('markDislike', itemId, serverId, btnCssClass + ' btnUserData btnDislike', 'thumb-down', tooltipDislike);
-        //    html += getUserDataButtonHtml('markLike', itemId, serverId, btnCssClass + ' btnUserData btnLike btnUserDataOn', 'thumb-up', tooltipLike);
-        //}
-        //else {
-        //    html += getUserDataButtonHtml('markDislike', itemId, serverId, btnCssClass + ' btnUserData btnDislike btnUserDataOn', 'thumb-down', tooltipDislike);
-        //    html += getUserDataButtonHtml('markLike', itemId, serverId, btnCssClass + ' btnUserData btnLike', 'thumb-up', tooltipLike);
-        //}
-
         var tooltipFavorite = globalize.translate('Favorite');
         if (userData.IsFavorite) {
 

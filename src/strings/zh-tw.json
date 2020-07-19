@@ -821,7 +821,6 @@
     "ValueSpecialEpisodeName": "特典 - {0}",
     "AuthProviderHelp": "選擇用於驗證使用者密碼的身份驗證提供者。",
     "HeaderParentalRatings": "家長評級",
-    "HeaderPendingInvitations": "等待邀請",
     "HeaderProfile": "設定檔",
     "HeaderProfileInformation": "設定檔信息",
     "HeaderProfileServerSettingsHelp": "這些數值將控制 Jellyfin 伺服器如何呈現給設備。",

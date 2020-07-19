@@ -257,12 +257,6 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             features.push('fullscreenchange');
         }
 
-        if (browser.chrome || browser.edge && !browser.slow) {
-            if (!browser.noAnimation && !browser.edgeUwp && !browser.xboxOne) {
-                features.push('imageanalysis');
-            }
-        }
-
         if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile) {
             features.push('physicalvolumecontrol');
         }

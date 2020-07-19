@@ -16,9 +16,6 @@ import 'emby-button';
         return false;
     }
 
-    function getTabsContainerElem() {
-    }
-
     function ensureElements(enableInFooter) {
 
         if (enableInFooter) {
@@ -27,7 +24,6 @@ import 'emby-button';
                 footerTabsContainer.classList.add('footerTabs');
                 footerTabsContainer.classList.add('sectionTabs');
                 footerTabsContainer.classList.add('hide');
-                //appFooter.add(footerTabsContainer);
             }
         }
 
@@ -75,7 +71,6 @@ import 'emby-button';
         }
 
         // implement without hammer
-        const pageCount = getTabContainersFn().length;
         const onSwipeLeft = function (e, target) {
             if (allowSwipe(target) && view.contains(target)) {
                 tabsElem.selectNext();
@@ -193,12 +188,6 @@ import 'emby-button';
 
                 const newPanel = tabContainers[e.detail.selectedTabIndex];
 
-                //if (e.detail.previousIndex != null && e.detail.previousIndex != e.detail.selectedTabIndex) {
-                //    if (newPanel.animate && (animateTabs || []).indexOf(e.detail.selectedTabIndex) != -1) {
-                //        fadeInRight(newPanel);
-                //    }
-                //}
-
                 if (newPanel) {
                     newPanel.classList.add('is-active');
                 }
@@ -220,10 +209,6 @@ import 'emby-button';
                     tabsElem.addEventListener('ready', onViewTabsReady);
                 }
             }
-
-            //if (enableSwipe !== false) {
-            //    libraryBrowser.configureSwipeTabs(ownerpage, tabs);
-            //}
 
             return {
                 tabsContainer: tabsContainerElem,

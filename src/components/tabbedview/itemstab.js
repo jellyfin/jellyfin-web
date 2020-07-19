@@ -286,9 +286,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         bindAll(view.querySelectorAll('.btnShuffle'), 'click', shuffle.bind(this));
     }
 
-    function getSettingValue(key, defaultValue) {
-    }
-
     ItemsTab.prototype.getViewSettings = function () {
 
         var basekey = this.getSettingsKey();
@@ -507,16 +504,10 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getFilterMenuOptions = function () {
-
-        var params = this.params;
-
-        return {
-
-        };
+        return {};
     };
 
     ItemsTab.prototype.getItemTypes = function () {
-
         return [];
     };
 

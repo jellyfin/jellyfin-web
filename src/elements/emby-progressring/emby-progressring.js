@@ -13,23 +13,22 @@ import 'webcomponents';
         import('text!./emby-progressring.template.html').then(({default: template}) => {
             instance.innerHTML = template;
 
-            //if (window.MutationObserver) {
-            //    // create an observer instance
-            //    var observer = new MutationObserver(function (mutations) {
-            //        mutations.forEach(function (mutation) {
+            if (window.MutationObserver) {
+                // create an observer instance
+                var observer = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (mutation) {
+                        instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
+                    });
+                });
 
-            //            instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
-            //        });
-            //    });
+                // configuration of the observer:
+                var config = { attributes: true, childList: false, characterData: false };
 
-            //    // configuration of the observer:
-            //    var config = { attributes: true, childList: false, characterData: false };
+                // pass in the target node, as well as the observer options
+                observer.observe(instance, config);
 
-            //    // pass in the target node, as well as the observer options
-            //    observer.observe(instance, config);
-
-            //    instance.observer = observer;
-            //}
+                instance.observer = observer;
+            }
 
             instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
         });

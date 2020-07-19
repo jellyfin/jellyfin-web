@@ -59,23 +59,6 @@ define(['pluginManager'], function (pluginManager) {
             return elem.animate(keyframes, timing);
         }
 
-        function shake(elem, iterations) {
-            var keyframes = [
-                { transform: 'translate3d(0, 0, 0)', offset: 0 },
-                { transform: 'translate3d(-10px, 0, 0)', offset: 0.1 },
-                { transform: 'translate3d(10px, 0, 0)', offset: 0.2 },
-                { transform: 'translate3d(-10px, 0, 0)', offset: 0.3 },
-                { transform: 'translate3d(10px, 0, 0)', offset: 0.4 },
-                { transform: 'translate3d(-10px, 0, 0)', offset: 0.5 },
-                { transform: 'translate3d(10px, 0, 0)', offset: 0.6 },
-                { transform: 'translate3d(-10px, 0, 0)', offset: 0.7 },
-                { transform: 'translate3d(10px, 0, 0)', offset: 0.8 },
-                { transform: 'translate3d(-10px, 0, 0)', offset: 0.9 },
-                { transform: 'translate3d(0, 0, 0)', offset: 1 }];
-            var timing = { duration: 900, iterations: iterations };
-            return elem.animate(keyframes, timing);
-        }
-
         function swing(elem, iterations) {
             var keyframes = [
                 { transform: 'translate(0%)', offset: 0 },
@@ -118,7 +101,6 @@ define(['pluginManager'], function (pluginManager) {
         }
 
         function rotateIn(elem, iterations) {
-            var transformOrigin = elem.style['transform-origin'];
             var keyframes = [{ transform: 'rotate3d(0, 0, 1, -200deg)', opacity: '0', transformOrigin: 'center', offset: 0 },
                 { transform: 'none', opacity: '1', transformOrigin: 'center', offset: 1 }];
             var timing = { duration: 900, iterations: iterations };
@@ -126,7 +108,6 @@ define(['pluginManager'], function (pluginManager) {
         }
 
         function rotateOut(elem, iterations) {
-            var transformOrigin = elem.style['transform-origin'];
             var keyframes = [{ transform: 'none', opacity: '1', transformOrigin: 'center', offset: 0 },
                 { transform: 'rotate3d(0, 0, 1, 200deg)', opacity: '0', transformOrigin: 'center', offset: 1 }];
             var timing = { duration: 900, iterations: iterations };

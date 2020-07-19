@@ -270,8 +270,6 @@ import 'emby-playstatebutton';
             }
 
             if (!clickEntireItem && options.dragHandle) {
-                //html += '<button is="paper-icon-button-light" class="listViewDragHandle listItemButton"><span class="material-icons drag_handle"></span></button>';
-                // Firefox and Edge are not allowing the button to be draggable
                 html += '<span class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent drag_handle"></span>';
             }
 

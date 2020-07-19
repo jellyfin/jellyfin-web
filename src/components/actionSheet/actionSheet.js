@@ -255,8 +255,6 @@ export function show(options) {
         });
     }
 
-    // Seeing an issue in some non-chrome browsers where this is requiring a double click
-    //var eventName = browser.firefox ? 'mousedown' : 'click';
     let selectedId;
 
     let timeout;

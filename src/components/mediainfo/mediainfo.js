@@ -568,10 +568,6 @@ import 'emby-button';
             });
         }
 
-        //if (mediaSource.Container) {
-        //    html += '<div class="mediaInfoIcon mediaInfoText">' + mediaSource.Container + '</div>';
-        //}
-
         const resolutionText = getResolutionText(videoStream);
         if (resolutionText) {
             list.push({

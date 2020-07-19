@@ -11,11 +11,7 @@ import 'emby-button';
         elem.classList.remove('hide');
         elem.classList.add('expanded');
         elem.style.height = 'auto';
-        const height = elem.offsetHeight + 'px';
-        elem.style.height = '0';
-
-        // trigger reflow
-        const newHeight = elem.offsetHeight;
+        var height = elem.offsetHeight + 'px';
         elem.style.height = height;
 
         setTimeout(function () {
@@ -28,15 +24,12 @@ import 'emby-button';
         }, 300);
 
         const icon = button.querySelector('.material-icons');
-        //icon.innerHTML = 'expand_less';
         icon.classList.add('emby-collapse-expandIconExpanded');
     }
 
     function slideUpToHide(button, elem) {
 
         elem.style.height = elem.offsetHeight + 'px';
-        // trigger reflow
-        const newHeight = elem.offsetHeight;
 
         elem.classList.remove('expanded');
         elem.style.height = '0';
@@ -50,7 +43,6 @@ import 'emby-button';
         }, 300);
 
         const icon = button.querySelector('.material-icons');
-        //icon.innerHTML = 'expand_more';
         icon.classList.remove('emby-collapse-expandIconExpanded');
     }
 

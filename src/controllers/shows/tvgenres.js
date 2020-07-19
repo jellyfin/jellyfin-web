@@ -85,8 +85,6 @@ import 'emby-button';
                 ParentId: params.topParentId
             };
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-                const supportsImageAnalysis = appHost.supports('imageanalysis');
-
                 if (viewStyle == 'Thumb') {
                     cardBuilder.buildCards(result.Items, {
                         itemsContainer: elem,

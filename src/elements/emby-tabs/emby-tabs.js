@@ -29,13 +29,6 @@ import 'scrollStyles';
         }
     }
 
-    function addActivePanelClass(tabs, index) {
-        let tabPanel = getTabPanel(tabs, index);
-        if (tabPanel) {
-            tabPanel.classList.add('is-active');
-        }
-    }
-
     function fadeInRight(elem) {
 
         const pct = browser.mobile ? '4%' : '0.5%';
@@ -263,7 +256,6 @@ import 'scrollStyles';
             onClick.call(tabs, {
                 target: tabButtons[selected]
             });
-            //tabButtons[selected].click();
         }
     };
 
@@ -330,8 +322,6 @@ import 'scrollStyles';
     };
 
     EmbyTabs.setTabEnabled = function (index, enabled) {
-
-        const tabs = this;
         const btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
 
         if (enabled) {

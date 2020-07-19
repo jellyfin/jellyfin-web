@@ -37,7 +37,6 @@ import 'webcomponents';
         this.classList.add('mdl-radio__button');
 
         let labelElement = this.parentNode;
-        //labelElement.classList.add('"mdl-radio mdl-js-radio mdl-js-ripple-effect');
         labelElement.classList.add('mdl-radio');
         labelElement.classList.add('mdl-js-radio');
         labelElement.classList.add('mdl-js-ripple-effect');

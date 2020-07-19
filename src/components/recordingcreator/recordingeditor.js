@@ -19,9 +19,6 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function renderTimer(context, item, apiClient) {
-
-        var program = item.ProgramInfo || {};
-
         context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
         context.querySelector('#txtPostPaddingMinutes').value = item.PostPaddingSeconds / 60;
 

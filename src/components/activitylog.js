@@ -69,6 +69,7 @@ import 'listViewStyle';
         const minDate = new Date();
         const hasUserId = 'false' !== elem.getAttribute('data-useractivity');
 
+        // TODO: Use date-fns
         if (hasUserId) {
             minDate.setTime(minDate.getTime() - 24 * 60 * 60 * 1000); // one day back
         } else {

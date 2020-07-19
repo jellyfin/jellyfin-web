@@ -270,7 +270,6 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         // end footer
 
         html += '</div>';
-        //html += '</div>';
 
         html += '</' + tagName + '>';
 

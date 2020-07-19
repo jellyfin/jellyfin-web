@@ -47,7 +47,6 @@ import 'emby-input';
                 return;
             }
             let newHeight = 0;
-            let hasGrown = false;
 
             if ((textarea.scrollHeight - offset) > self.maxAllowedHeight) {
                 textarea.style.overflowY = 'scroll';

@@ -18,7 +18,6 @@ import 'webcomponents';
 
     function onClick(e) {
         const itemsContainer = this;
-        const target = e.target;
         let multiSelect = itemsContainer.multiSelect;
 
         if (multiSelect) {

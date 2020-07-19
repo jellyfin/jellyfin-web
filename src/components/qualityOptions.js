@@ -14,7 +14,6 @@ define(['globalize'], function (globalize) {
         }
 
         var maxAllowedWidth = videoWidth || 4096;
-        //var maxAllowedHeight = videoHeight || 2304;
 
         var qualityOptions = [];
 

@@ -153,15 +153,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         };
 
         if (!isBackNav) {
-            // Don't force a new view for home due to the back menu
-            //if (route.type !== 'home') {
             onNewViewNeeded();
             return;
-            //}
         }
         viewManager.tryRestoreView(currentRequest, function () {
-
-            // done
             currentRouteInfo = {
                 route: route,
                 path: ctx.path
@@ -309,8 +304,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
             page({
                 click: options.click !== false,
-                hashbang: options.hashbang !== false,
-                enableHistory: enableHistory()
+                hashbang: options.hashbang !== false
             });
         }).catch().then(function() {
             loading.hide();
@@ -318,10 +312,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function enableHistory() {
-
-        //if (browser.edgeUwp) {
-        //    return false;
-        //}
 
         // shows status bar on navigation
         if (browser.xboxOne) {

@@ -95,11 +95,6 @@ import 'emby-button';
         }
     }
 
-    function showGeneralError() {
-        loading.hide();
-        alertText(globalize.translate('DefaultErrorMessage'));
-    }
-
     function alertText(text) {
         alertTextWithOptions({
             text: text

@@ -140,8 +140,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
                             xhrSetup: function(xhr, url) {
                                 xhr.withCredentials = true;
                             }
-                            //appendErrorMaxRetry: 6,
-                            //debug: true
                         });
                         hls.loadSource(val);
                         hls.attachMedia(elem);
