@@ -141,7 +141,7 @@ import 'emby-select';
         });
         view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
             import('directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser.default();
+                const picker = new directoryBrowser();
                 picker.show({
                     includeFiles: true,
                     includeDirectories: true,
