@@ -152,6 +152,8 @@
           "src/controllers/dashboard/networking.js",
           "src/controllers/dashboard/playback.js",
           "src/controllers/dashboard/plugins/repositories.js",
+          "src/controllers/dashboard/devices/devices.js",
+          "src/controllers/dashboard/devices/device.js",
           "src/controllers/dashboard/serveractivity.js",
           "src/elements/emby-tabs/emby-tabs.js",
           "src/elements/emby-scroller/emby-scroller.js",
