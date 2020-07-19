@@ -118,6 +118,7 @@
           "src/controllers/dashboard/plugins/repositories.js",
           "src/controllers/music/musicalbums.js",
           "src/controllers/music/musicrecommended.js",
+          "src/controllers/music/musicartists.js",
           "src/controllers/user/display.js",
           "src/controllers/user/home.js",
           "src/controllers/user/playback.js",
