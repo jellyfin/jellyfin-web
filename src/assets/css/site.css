@@ -129,3 +129,7 @@ div[data-role=page] {
 .hide-scroll {
     overflow-y: hidden;
 }
+
+.w-100 {
+    width: 100%;
+}

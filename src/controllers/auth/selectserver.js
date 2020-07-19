@@ -1,4 +1,4 @@
-define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focusManager', 'connectionManager', 'globalize', 'actionsheet', 'dom', 'browser', 'material-icons', 'flexStyles', 'emby-scroller', 'emby-itemscontainer', 'cardStyle', 'emby-button'], function (loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom, browser) {
+define(['loading', 'appRouter', 'layoutManager', 'libraryMenu', 'appSettings', 'apphost', 'focusManager', 'connectionManager', 'globalize', 'actionsheet', 'dom', 'browser', 'material-icons', 'flexStyles', 'emby-scroller', 'emby-itemscontainer', 'cardStyle', 'emby-button'], function (loading, appRouter, layoutManager, libraryMenu, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom, browser) {
     'use strict';
 
     var enableFocusTransform = !browser.slow && !browser.edge;
@@ -183,6 +183,7 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
         view.addEventListener('viewshow', function (e) {
             var isRestored = e.detail.isRestored;
             appRouter.setTitle(null);
+            libraryMenu.setTransparentMenu(true);
 
             if (!isRestored) {
                 loadServers();
