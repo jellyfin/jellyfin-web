@@ -200,7 +200,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
         require(['confirm'], function (confirm) {
 
-            confirm({
+            confirm.default({
 
                 text: globalize.translate('ConfirmDeleteImage'),
                 confirmText: globalize.translate('Delete'),

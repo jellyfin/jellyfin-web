@@ -21,7 +21,7 @@ define(['displaySettings', 'userSettings', 'autoFocuser'], function (DisplaySett
             if (settingsInstance) {
                 settingsInstance.loadData();
             } else {
-                settingsInstance = new DisplaySettings({
+                settingsInstance = new DisplaySettings.default({
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector('.settingsContainer'),
