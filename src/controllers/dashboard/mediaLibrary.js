@@ -50,12 +50,10 @@ import 'emby-itemrefreshindicator';
 
         import('confirm').then(({default: confirm}) => {
             confirm({
-
                 text: msg,
                 title: globalize.translate('HeaderRemoveMediaFolder'),
                 confirmText: globalize.translate('Delete'),
                 primary: 'delete'
-
             }).then(function () {
                 const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
                 ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange).then(function () {
