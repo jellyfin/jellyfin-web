@@ -1,7 +1,7 @@
 import appSettings from 'appSettings';
 import browser from 'browser';
 import events from 'events';
-import htmlMediaHelper from 'htmlMediaHelper';
+import * as htmlMediaHelper from 'htmlMediaHelper';
 import * as webSettings from 'webSettings';
 import globalize from 'globalize';
 
