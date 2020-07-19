@@ -116,6 +116,7 @@
           "src/components/syncPlay/timeSyncManager.js",
           "src/controllers/dashboard/logs.js",
           "src/controllers/dashboard/plugins/repositories.js",
+          "src/controllers/music/musicalbums.js",
           "src/controllers/music/musicrecommended.js",
           "src/controllers/user/display.js",
           "src/controllers/user/home.js",
