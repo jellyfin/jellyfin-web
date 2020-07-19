@@ -155,6 +155,8 @@
           "src/controllers/dashboard/networking.js",
           "src/controllers/dashboard/playback.js",
           "src/controllers/dashboard/plugins/repositories.js",
+          "src/controllers/dashboard/scheduledtasks/scheduledtask.js",
+          "src/controllers/dashboard/scheduledtasks/scheduledtasks.js",
           "src/controllers/dashboard/dlna/profile.js",
           "src/controllers/dashboard/dlna/profiles.js",
           "src/controllers/dashboard/dlna/settings.js",
