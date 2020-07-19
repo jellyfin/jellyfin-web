@@ -138,7 +138,7 @@ import 'emby-select';
         },
         confirmDeleteTrigger: function (view, index) {
             require(['confirm'], function (confirm) {
-                confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
+                confirm.default(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
                     ScheduledTaskPage.deleteTrigger(view, index);
                 });
             });
