@@ -1,10 +1,27 @@
-define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focusManager', 'connectionManager', 'globalize', 'actionsheet', 'dom', 'browser', 'material-icons', 'flexStyles', 'emby-scroller', 'emby-itemscontainer', 'cardStyle', 'emby-button'], function (loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom, browser) {
-    'use strict';
+import loading from 'loading';
+import appRouter from 'appRouter';
+import layoutManager from 'layoutManager';
+import appSettings from 'appSettings';
+import appHost from 'apphost';
+import focusManager from 'focusManager';
+import connectionManager from 'connectionManager';
+import globalize from 'globalize';
+import actionSheet from 'actionsheet';
+import dom from 'dom';
+import browser from 'browser';
+import 'material-icons';
+import 'flexStyles';
+import 'emby-scroller';
+import 'emby-itemscontainer';
+import 'cardStyle';
+import 'emby-button';
 
-    var enableFocusTransform = !browser.slow && !browser.edge;
+/* eslint-disable indent */
+
+    const enableFocusTransform = !browser.slow && !browser.edge;
 
     function renderSelectServerItems(view, servers) {
-        var items = servers.map(function (server) {
+        const items = servers.map(function (server) {
             return {
                 name: server.Name,
                 showIcon: true,
@@ -14,8 +31,8 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
                 server: server
             };
         });
-        var html = items.map(function (item) {
-            var cardImageContainer;
+        let html = items.map(function (item) {
+            let cardImageContainer;
 
             if (item.showIcon) {
                 cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '"></span>';
@@ -25,7 +42,7 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
 
             // TODO move card creation code to Card component
 
-            var cssClass = 'card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable';
+            let cssClass = 'card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable';
 
             if (layoutManager.tv) {
                 cssClass += ' show-focus';
@@ -35,10 +52,10 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
                 }
             }
 
-            var cardBoxCssClass = 'cardBox';
+            const cardBoxCssClass = 'cardBox';
 
-            var innerOpening = '<div class="' + cardBoxCssClass + '">';
-            var cardContainer = '';
+            const innerOpening = '<div class="' + cardBoxCssClass + '">';
+            let cardContainer = '';
             cardContainer += '<button raised class="' + cssClass + '" style="display:inline-block;" data-id="' + item.id + '" data-url="' + (item.url || '') + '" data-cardtype="' + item.cardType + '">';
             cardContainer += innerOpening;
             cardContainer += '<div class="cardScalable">';
@@ -55,7 +72,7 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
             cardContainer += '</div></div></button>';
             return cardContainer;
         }).join('');
-        var itemsContainer = view.querySelector('.servers');
+        const itemsContainer = view.querySelector('.servers');
 
         if (!items.length) {
             html = '<p>' + globalize.translate('MessageNoServersAvailable') + '</p>';
@@ -89,7 +106,7 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
     }
 
     function alertTextWithOptions(options) {
-        require(['alert'], function (alert) {
+        import('alert').then(({default: alert}) => {
             alert(options);
         });
     }
@@ -98,14 +115,14 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
         alertText(globalize.translate('MessageUnableToConnectToServer'));
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function connectToServer(server) {
             loading.show();
             connectionManager.connectToServer(server, {
                 enableAutoLogin: appSettings.enableAutoLogin()
             }).then(function (result) {
                 loading.hide();
-                var apiClient = result.ApiClient;
+                const apiClient = result.ApiClient;
 
                 switch (result.State) {
                     case 'SignedIn':
@@ -140,7 +157,7 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
         }
 
         function onServerClick(server) {
-            var menuItems = [];
+            const menuItems = [];
             menuItems.push({
                 name: globalize.translate('Connect'),
                 id: 'connect'
@@ -178,10 +195,10 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
             connectionManager.getAvailableServers().then(onServersRetrieved);
         }
 
-        var servers;
+        let servers;
         updatePageStyle(view, params);
         view.addEventListener('viewshow', function (e) {
-            var isRestored = e.detail.isRestored;
+            const isRestored = e.detail.isRestored;
             appRouter.setTitle(null);
 
             if (!isRestored) {
@@ -189,20 +206,21 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
             }
         });
         view.querySelector('.servers').addEventListener('click', function (e) {
-            var card = dom.parentWithClass(e.target, 'card');
+            const card = dom.parentWithClass(e.target, 'card');
 
             if (card) {
-                var url = card.getAttribute('data-url');
+                const url = card.getAttribute('data-url');
 
                 if (url) {
                     appRouter.show(url);
                 } else {
-                    var id = card.getAttribute('data-id');
+                    const id = card.getAttribute('data-id');
                     onServerClick(servers.filter(function (s) {
                         return s.Id === id;
                     })[0]);
                 }
             }
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

@@ -1,8 +1,12 @@
-define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, libraryMenu, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
 
     function loadPage(page, config, users) {
-        var html = '<option value="" selected="selected">' + globalize.translate('OptionNone') + '</option>';
+        let html = '<option value="" selected="selected">' + globalize.translate('OptionNone') + '</option>';
         html += users.map(function (user) {
             return '<option value="' + user.Id + '">' + user.Name + '</option>';
         }).join('');
@@ -16,7 +20,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
 
     function onSubmit() {
         loading.show();
-        var form = this;
+        const form = this;
         ApiClient.getNamedConfiguration(metadataKey).then(function (config) {
             config.UserId = $('#selectUser', form).val() || null;
             config.ReleaseDateFormat = $('#selectReleaseDateFormat', form).val();
@@ -32,11 +36,11 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }
 
     function showConfirmMessage(config) {
-        var msg = [];
+        const msg = [];
         msg.push(globalize.translate('MetadataSettingChangeHelp'));
 
-        require(['alert'], function (alert) {
-            alert.default({
+        import('alert').then(({default: alert}) => {
+            alert({
                 text: msg.join('<br/><br/>')
             });
         });
@@ -58,17 +62,18 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         }];
     }
 
-    var metadataKey = 'xbmcmetadata';
+    const metadataKey = 'xbmcmetadata';
     $(document).on('pageinit', '#metadataNfoPage', function () {
         $('.metadataNfoForm').off('submit', onSubmit).on('submit', onSubmit);
     }).on('pageshow', '#metadataNfoPage', function () {
         libraryMenu.setTabs('metadata', 3, getTabs);
         loading.show();
-        var page = this;
-        var promise1 = ApiClient.getUsers();
-        var promise2 = ApiClient.getNamedConfiguration(metadataKey);
+        const page = this;
+        const promise1 = ApiClient.getUsers();
+        const promise2 = ApiClient.getNamedConfiguration(metadataKey);
         Promise.all([promise1, promise2]).then(function (responses) {
             loadPage(page, responses[1], responses[0]);
         });
     });
-});
+
+/* eslint-enable indent */
