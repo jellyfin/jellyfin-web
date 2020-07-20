@@ -40,8 +40,9 @@ export class PhotosView {
             }
             return loadAll(element, apiClient, parentId);
         };
-        this.destroy = () => { };
     }
+
+    destroy = () => { };
 }
 
 export default PhotosView;

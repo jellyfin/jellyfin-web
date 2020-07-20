@@ -37,8 +37,9 @@ export class CollectionsView {
             }
             return loadAll(element, apiClient, parentId);
         };
-        this.destroy = () => { };
     }
+
+    destroy() { }
 }
 
 export default CollectionsView;

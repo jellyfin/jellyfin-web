@@ -41,8 +41,9 @@ export class PlaylistsView {
             }
             return loadAll(element, parentId);
         };
-        this.destroy = () => { };
     }
+
+    destroy() { }
 }
 
 export default PlaylistsView;

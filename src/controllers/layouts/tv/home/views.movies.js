@@ -72,7 +72,7 @@ function loadSpotlight(instance, element, apiClient, parentId) {
     };
     return apiClient.getItems(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const card = element.querySelector('.wideSpotlightCard');
-        instance.spotlight = new Spotlight(card, Items, 767);
+        instance.spotlight = new Spotlight(card, Items);
         return;
     });
 }
@@ -130,27 +130,6 @@ function getRecommendationHtml({Items, RecommendationType, BaselineItemName}) {
     return html;
 }
 
-function loadImages(element, apiClient, parentId) {
-    return apiClient.getItems(apiClient.getCurrentUserId(), {
-        SortBy: 'IsFavoriteOrLiked,Random',
-        IncludeItemTypes: 'Movie',
-        Limit: 2,
-        Recursive: true,
-        ParentId: parentId,
-        EnableImageTypes: 'Backdrop',
-        ImageTypes: 'Backdrop'
-    }).then(({Items}) => {
-        const items = Items;
-        if (items.length > 0) {
-            element.querySelector('.movieFavoritesCard .cardImage').style.backgroundImage = `url('${getbackdropImageUrl(items[0])}')`;
-        }
-        if (items.length > 1) {
-            element.querySelector('.allMoviesCard .cardImage').style.backgroundImage = `url('${getbackdropImageUrl(items[1])}')`;
-        }
-        return;
-    });
-}
-
 function gotoMoviesView(tab, parentId) {
     appRouter.show(`/movies.html?tab=${tab}&parentid=${parentId}`);
 }
@@ -173,7 +152,6 @@ export class MoviesView {
             return Promise.all(promises);
         };
         loadSpotlight(this, element, apiClient, parentId);
-        loadImages(element, apiClient, parentId);
         element.querySelector('.allMoviesCard').addEventListener('click', () => {
             gotoMoviesView('0', parentId);
         });
@@ -183,12 +161,13 @@ export class MoviesView {
         element.querySelector('.movieGenresCard').addEventListener('click', () => {
             gotoMoviesView('5', parentId);
         });
-        this.destroy = function () {
-            if (this.spotlight) {
-                this.spotlight.destroy();
-                this.spotlight = null;
-            }
-        };
+    }
+
+    destroy () {
+        if (this.spotlight) {
+            this.spotlight.destroy();
+            this.spotlight = null;
+        }
     }
 }
 

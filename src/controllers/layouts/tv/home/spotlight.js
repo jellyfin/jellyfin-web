@@ -2,16 +2,14 @@ import {getbackdropImageUrl} from './imagehelper';
 import itemShortcuts from 'itemShortcuts';
 import browser from 'browser';
 
-function loadItemIntoSpotlight(card, item, width) {
+function loadItemIntoSpotlight(card, item) {
     if (!item.BackdropImageTags || !item.BackdropImageTags.length) {
         return;
     }
     if (document.activeElement === card) {
         card.dispatchEvent(new CustomEvent('focus'));
     }
-    const imgUrl = getbackdropImageUrl(item, {
-        maxWidth: width
-    });
+    const imgUrl = getbackdropImageUrl(item);
     const cardImageContainer = card.querySelector('.cardImage');
     const newCardImageContainer = document.createElement('div');
     newCardImageContainer.className = cardImageContainer.className;
@@ -48,21 +46,20 @@ function loadItemIntoSpotlight(card, item, width) {
     }
 }
 export class Spotlight {
-    constructor(card, items, width) {
+    constructor(card, items) {
         itemShortcuts.on(card);
         this.items = items;
         this.card = card;
-        this.width = width;
         this.start();
     }
+
     start() {
         const items = this.items;
         const card = this.card;
-        const width = this.width;
         if (!items.length) {
             return;
         }
-        loadItemIntoSpotlight(card, items[0], width);
+        loadItemIntoSpotlight(card, items[0]);
         if (items.length === 1) {
             return;
         }
@@ -73,10 +70,10 @@ export class Spotlight {
         const intervalMs = browser.animate ? 10000 : 30000;
         this.interval = setInterval(this.onInterval.bind(this), intervalMs);
     }
+
     onInterval() {
         const items = this.items;
         const card = this.card;
-        const width = this.width;
         if (!document.body.contains(card)) {
             clearInterval(this.interval);
             return;
@@ -84,9 +81,10 @@ export class Spotlight {
         if (this.index >= items.length) {
             this.index = 0;
         }
-        loadItemIntoSpotlight(card, items[this.index], width);
+        loadItemIntoSpotlight(card, items[this.index]);
         this.index++;
     }
+
     destroy() {
         itemShortcuts.off(this.card);
         if (this.interval) {

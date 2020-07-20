@@ -18,9 +18,9 @@ function loadAll(element, apiClient, parentId) {
         cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
-            shape: 'backdrop',
+            shape: 'portrait',
             overlayText: true,
-            rows: 3,
+            rows: 2,
             scalable: false,
             coverImage: true,
             showTitle: true
@@ -40,8 +40,9 @@ export class BooksView {
             }
             return loadAll(element, apiClient, parentId);
         };
-        this.destroy = () => { };
     }
+
+    destroy() { }
 }
 
 export default BooksView;

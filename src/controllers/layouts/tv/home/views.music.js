@@ -238,8 +238,10 @@ export class MusicView {
         element.querySelector('.songCard').addEventListener('click', () => {
             gotoMusicView('5', parentId);
         });
-        this.destroy = () => { };
     }
+
+    destroy() { }
+
 }
 
 export default MusicView;

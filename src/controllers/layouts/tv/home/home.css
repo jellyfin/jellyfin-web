@@ -167,6 +167,8 @@
     margin: 0.3em !important;
 }
 
+.allMoviesCard .cardImageContainer,
+.allSeriesCard .cardImageContainer,
 .guideCard .cardImageContainer,
 .artistsCard .cardImageContainer {
     background: #00a4dc;
@@ -177,6 +179,8 @@
     background: #c51d1d;
 }
 
+.movieFavoritesCard .cardImageContainer,
+.tvEpisodesCard .cardImageContainer,
 .channelsLiveTvCard .cardImageContainer,
 .albumsCard .cardImageContainer {
     background: #92f4369a;

@@ -167,27 +167,6 @@ function loadSpotlight(instance, element, apiClient, parentId) {
     });
 }
 
-function loadImages(element, apiClient, parentId) {
-    return apiClient.getItems(apiClient.getCurrentUserId(), {
-        SortBy: 'IsFavoriteOrLiked,Random',
-        IncludeItemTypes: 'Series',
-        Limit: 2,
-        Recursive: true,
-        ParentId: parentId,
-        EnableImageTypes: 'Backdrop',
-        ImageTypes: 'Backdrop'
-    }).then(({Items}) => {
-        const items = Items;
-        if (items.length > 0) {
-            element.querySelector('.tvEpisodesCard .cardImage').style.backgroundImage = `url('${getbackdropImageUrl(items[0])}')`;
-        }
-        if (items.length > 1) {
-            element.querySelector('.allSeriesCard .cardImage').style.backgroundImage = `url('${getbackdropImageUrl(items[1])}')`;
-        }
-        return;
-    });
-}
-
 function gotoTvView(tab, parentId) {
     appRouter.show(`/tv.html?tab=${tab}&parentid=${parentId}`);
 }
@@ -197,15 +176,16 @@ export class TvView {
         if (autoFocus) {
             focusManager.autoFocus(element);
         }
-        this.loadData = () => Promise.all([
-            loadResume(element, apiClient, parentId),
-            loadNextUp(element, apiClient, parentId),
-            loadLatest(element, apiClient, parentId),
-            loadFavoriteSeries(element, apiClient, parentId),
-            loadFavoriteEpisode(element, apiClient, parentId)
-        ]);
+        this.loadData = () => {
+            return Promise.all([
+                loadResume(element, apiClient, parentId),
+                loadNextUp(element, apiClient, parentId),
+                loadLatest(element, apiClient, parentId),
+                loadFavoriteSeries(element, apiClient, parentId),
+                loadFavoriteEpisode(element, apiClient, parentId)
+            ]);
+        };
         loadSpotlight(this, element, apiClient, parentId);
-        loadImages(element, apiClient, parentId);
         element.querySelector('.allSeriesCard').addEventListener('click', () => {
             gotoTvView('0', parentId);
         });
@@ -215,12 +195,13 @@ export class TvView {
         element.querySelector('.tvGenresCard').addEventListener('click', () => {
             gotoTvView('4', parentId);
         });
-        this.destroy = function () {
-            if (this.spotlight) {
-                this.spotlight.destroy();
-                this.spotlight = null;
-            }
-        };
+    }
+
+    destroy () {
+        if (this.spotlight) {
+            this.spotlight.destroy();
+            this.spotlight = null;
+        }
     }
 }
 
