@@ -13,8 +13,8 @@ question in these venues:
 If you didn't find an answer in the resources above, contributors and other
 users are reachable through the following channels:
 
-* [#jellyfin-troubleshooting:matrix.org](https://matrix.to/#/#jellyfin-troubleshooting:matrix.org%22) or [on IRC](https://webchat.freenode.net/#jellyfin)
-* [#jellyfin:matrix.org on Matrix](https://matrix.to/#/#jellyfin:matrix.org) or [on IRC](https://webchat.freenode.net/#jellyfin-troubleshooting)
+* #jellyfin on [Matrix](https://matrix.to/#/#jellyfin:matrix.org%22) or [IRC](https://webchat.freenode.net/#jellyfin)
+* #jellyfin-troubleshooting on [Matrix](https://matrix.to/#/#jellyfin-troubleshooting:matrix.org) or [IRC](https://webchat.freenode.net/#jellyfin-troubleshooting)
 * [/r/jellyfin on Reddit](https://www.reddit.com/r/jellyfin)
 
 GitHub issues are for tracking enhancements and bugs, not general support.
