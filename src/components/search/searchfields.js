@@ -9,7 +9,7 @@ import 'flexStyles';
 import 'material-icons';
 import 'css!./searchfields';
 
-/* eslint-disable indent*/
+/* eslint-disable indent */
 
     function onSearchTimeout() {
 

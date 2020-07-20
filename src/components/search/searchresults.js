@@ -645,4 +645,4 @@ class SearchResults {
 
 export default SearchResults;
 
-/*eslint-enable indent*/
+/* eslint-enable indent */
