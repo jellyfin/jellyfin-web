@@ -4,5 +4,5 @@ contact_links:
     url: https://features.jellyfin.org/
     about: Please head over to our feature request hub to vote on or submit a feature.
   - name: You need help with Jellyfin
-    url: https://matrix.to/#/#jellyfin-troubleshooting:matrix.org%22
+    url: https://matrix.to/#/#jellyfin-troubleshooting:matrix.org
     about: Please join the troubleshooting Matrix channel to get some help.
