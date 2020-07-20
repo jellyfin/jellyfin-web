@@ -12,10 +12,10 @@ import 'listViewStyle';
 /* eslint-disable indent */
 
     function getEntryHtml(entry, apiClient) {
-        var html = '';
+        let html = '';
         html += '<div class="listItem listItem-border">';
-        var color = '#00a4dc';
-        var icon = 'notifications';
+        let color = '#00a4dc';
+        let icon = 'notifications';
 
         if ('Error' == entry.Severity || 'Fatal' == entry.Severity || 'Warn' == entry.Severity) {
             color = '#cc0000';
@@ -66,8 +66,8 @@ import 'listViewStyle';
         }
 
         limit = limit || parseInt(elem.getAttribute('data-activitylimit') || '7');
-        var minDate = new Date();
-        var hasUserId = 'false' !== elem.getAttribute('data-useractivity');
+        const minDate = new Date();
+        const hasUserId = 'false' !== elem.getAttribute('data-useractivity');
 
         if (hasUserId) {
             minDate.setTime(minDate.getTime() - 24 * 60 * 60 * 1000); // one day back
@@ -84,7 +84,7 @@ import 'listViewStyle';
             elem.setAttribute('data-activitystartindex', startIndex);
             elem.setAttribute('data-activitylimit', limit);
             if (!startIndex) {
-                var activityContainer = dom.parentWithClass(elem, 'activityContainer');
+                const activityContainer = dom.parentWithClass(elem, 'activityContainer');
 
                 if (activityContainer) {
                     if (result.Items.length) {
@@ -101,7 +101,7 @@ import 'listViewStyle';
     }
 
     function onActivityLogUpdate(e, apiClient, data) {
-        var options = this.options;
+        const options = this.options;
 
         if (options && options.serverId === apiClient.serverId()) {
             reloadData(this, options.element, apiClient);
@@ -109,14 +109,14 @@ import 'listViewStyle';
     }
 
     function onListClick(e) {
-        var btnEntryInfo = dom.parentWithClass(e.target, 'btnEntryInfo');
+        const btnEntryInfo = dom.parentWithClass(e.target, 'btnEntryInfo');
 
         if (btnEntryInfo) {
-            var id = btnEntryInfo.getAttribute('data-id');
-            var items = this.items;
+            const id = btnEntryInfo.getAttribute('data-id');
+            const items = this.items;
 
             if (items) {
-                var item = items.filter(function (i) {
+                const item = items.filter(function (i) {
                     return i.Id.toString() === id;
                 })[0];
 
@@ -138,25 +138,25 @@ import 'listViewStyle';
 class ActivityLog {
     constructor(options) {
         this.options = options;
-        var element = options.element;
+        const element = options.element;
         element.classList.add('activityLogListWidget');
         element.addEventListener('click', onListClick.bind(this));
-        var apiClient = connectionManager.getApiClient(options.serverId);
+        const apiClient = connectionManager.getApiClient(options.serverId);
         reloadData(this, element, apiClient);
-        var onUpdate = onActivityLogUpdate.bind(this);
+        const onUpdate = onActivityLogUpdate.bind(this);
         this.updateFn = onUpdate;
         events.on(serverNotifications, 'ActivityLogEntry', onUpdate);
         apiClient.sendMessage('ActivityLogEntryStart', '0,1500');
     }
     destroy() {
-        var options = this.options;
+        const options = this.options;
 
         if (options) {
             options.element.classList.remove('activityLogListWidget');
             connectionManager.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
         }
 
-        var onUpdate = this.updateFn;
+        const onUpdate = this.updateFn;
 
         if (onUpdate) {
             events.off(serverNotifications, 'ActivityLogEntry', onUpdate);
@@ -169,4 +169,4 @@ class ActivityLog {
 
 export default ActivityLog;
 
-/*eslint-enable indent */
+/* eslint-enable indent */
