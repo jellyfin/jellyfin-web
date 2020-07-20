@@ -116,7 +116,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function showSearch() {
-        inputManager.trigger('search');
+        inputManager.handleCommand('search');
     }
 
     function onHeaderUserButtonClick(e) {

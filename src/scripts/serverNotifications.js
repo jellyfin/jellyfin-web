@@ -36,28 +36,28 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
         console.debug('Received command: ' + cmd.Name);
         switch (cmd.Name) {
             case 'Select':
-                inputManager.trigger('select');
+                inputManager.handleCommand('select');
                 return;
             case 'Back':
-                inputManager.trigger('back');
+                inputManager.handleCommand('back');
                 return;
             case 'MoveUp':
-                inputManager.trigger('up');
+                inputManager.handleCommand('up');
                 return;
             case 'MoveDown':
-                inputManager.trigger('down');
+                inputManager.handleCommand('down');
                 return;
             case 'MoveLeft':
-                inputManager.trigger('left');
+                inputManager.handleCommand('left');
                 return;
             case 'MoveRight':
-                inputManager.trigger('right');
+                inputManager.handleCommand('right');
                 return;
             case 'PageUp':
-                inputManager.trigger('pageup');
+                inputManager.handleCommand('pageup');
                 return;
             case 'PageDown':
-                inputManager.trigger('pagedown');
+                inputManager.handleCommand('pagedown');
                 return;
             case 'PlayTrailers':
                 playTrailers(apiClient, cmd.Arguments.ItemId);
@@ -69,25 +69,25 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
                 playbackManager.setQueueShuffleMode(cmd.Arguments.ShuffleMode);
                 break;
             case 'VolumeUp':
-                inputManager.trigger('volumeup');
+                inputManager.handleCommand('volumeup');
                 return;
             case 'VolumeDown':
-                inputManager.trigger('volumedown');
+                inputManager.handleCommand('volumedown');
                 return;
             case 'ChannelUp':
-                inputManager.trigger('channelup');
+                inputManager.handleCommand('channelup');
                 return;
             case 'ChannelDown':
-                inputManager.trigger('channeldown');
+                inputManager.handleCommand('channeldown');
                 return;
             case 'Mute':
-                inputManager.trigger('mute');
+                inputManager.handleCommand('mute');
                 return;
             case 'Unmute':
-                inputManager.trigger('unmute');
+                inputManager.handleCommand('unmute');
                 return;
             case 'ToggleMute':
-                inputManager.trigger('togglemute');
+                inputManager.handleCommand('togglemute');
                 return;
             case 'SetVolume':
                 notifyApp();
@@ -102,19 +102,19 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
                 playbackManager.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index));
                 break;
             case 'ToggleFullscreen':
-                inputManager.trigger('togglefullscreen');
+                inputManager.handleCommand('togglefullscreen');
                 return;
             case 'GoHome':
-                inputManager.trigger('home');
+                inputManager.handleCommand('home');
                 return;
             case 'GoToSettings':
-                inputManager.trigger('settings');
+                inputManager.handleCommand('settings');
                 return;
             case 'DisplayContent':
                 displayContent(cmd, apiClient);
                 break;
             case 'GoToSearch':
-                inputManager.trigger('search');
+                inputManager.handleCommand('search');
                 return;
             case 'DisplayMessage':
                 displayMessage(cmd);
@@ -165,19 +165,19 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
             }
         } else if (msg.MessageType === 'Playstate') {
             if (msg.Data.Command === 'Stop') {
-                inputManager.trigger('stop');
+                inputManager.handleCommand('stop');
             } else if (msg.Data.Command === 'Pause') {
-                inputManager.trigger('pause');
+                inputManager.handleCommand('pause');
             } else if (msg.Data.Command === 'Unpause') {
-                inputManager.trigger('play');
+                inputManager.handleCommand('play');
             } else if (msg.Data.Command === 'PlayPause') {
-                inputManager.trigger('playpause');
+                inputManager.handleCommand('playpause');
             } else if (msg.Data.Command === 'Seek') {
                 playbackManager.seek(msg.Data.SeekPositionTicks);
             } else if (msg.Data.Command === 'NextTrack') {
-                inputManager.trigger('next');
+                inputManager.handleCommand('next');
             } else if (msg.Data.Command === 'PreviousTrack') {
-                inputManager.trigger('previous');
+                inputManager.handleCommand('previous');
             } else {
                 notifyApp();
             }
