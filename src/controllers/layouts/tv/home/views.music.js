@@ -240,8 +240,7 @@ export class MusicView {
         });
     }
 
-    destroy() { }
-
+    destroy() {}
 }
 
 export default MusicView;

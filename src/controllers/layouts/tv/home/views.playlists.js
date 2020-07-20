@@ -43,7 +43,7 @@ export class PlaylistsView {
         };
     }
 
-    destroy() { }
+    destroy() {}
 }
 
 export default PlaylistsView;

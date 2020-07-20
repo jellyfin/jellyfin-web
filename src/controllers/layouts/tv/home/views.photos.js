@@ -42,7 +42,7 @@ export class PhotosView {
         };
     }
 
-    destroy = () => { };
+    destroy() {}
 }
 
 export default PhotosView;

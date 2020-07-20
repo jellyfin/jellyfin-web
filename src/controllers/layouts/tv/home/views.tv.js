@@ -1,5 +1,4 @@
 import {Spotlight} from './spotlight';
-import {getbackdropImageUrl} from './imagehelper';
 import cardBuilder from 'cardBuilder';
 import focusManager from 'focusManager';
 import appRouter from 'appRouter';

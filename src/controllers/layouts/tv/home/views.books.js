@@ -42,7 +42,7 @@ export class BooksView {
         };
     }
 
-    destroy() { }
+    destroy() {}
 }
 
 export default BooksView;

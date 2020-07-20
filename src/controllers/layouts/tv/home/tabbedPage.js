@@ -196,6 +196,6 @@ export class TabbedPage {
             this.headerScroller = null;
         }
     }
-
 }
+
 export default TabbedPage;

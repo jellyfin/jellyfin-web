@@ -1,7 +1,6 @@
 import globalize from 'globalize';
 import {Spotlight} from './spotlight';
 import imageLoader from 'imageLoader';
-import {getbackdropImageUrl} from './imagehelper';
 import focusManager from 'focusManager';
 import cardBuilder from 'cardBuilder';
 import appRouter from 'appRouter';
