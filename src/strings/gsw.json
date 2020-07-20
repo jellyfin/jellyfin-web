@@ -164,7 +164,13 @@
     "ValueSpecialEpisodeName": "Extra - {0}",
     "VersionNumber": "Version {0}",
     "Absolute": "Absolut",
-    "Actor": "Schauspiler",
-    "AccessRestrictedTryAgainLater": "Zuegriff isch momentan beschränkt. Probier bitte später nomau. ",
-    "ButtonSyncPlay": "SyncPlay"
+    "Actor": "Schauspieler",
+    "AccessRestrictedTryAgainLater": "Zuegriff isch momentan beschränkt. Probiers bitte spöter nomol.",
+    "ButtonSyncPlay": "SyncPlay",
+    "AdditionalNotificationServices": "Durchsuech de Plugin Katalog zum zuesätzlichi Benochrichtigungsdienst zinstalliere.",
+    "AddedOnValue": "hinzuegfüegt",
+    "AddToPlaylist": "Zur Playlist hinzuefüege",
+    "AddToPlayQueue": "Zur Warteschlange hinzuefüege",
+    "AddToCollection": "Zur Collection hinzuefüege",
+    "Add": "hinzuefüege"
 }
