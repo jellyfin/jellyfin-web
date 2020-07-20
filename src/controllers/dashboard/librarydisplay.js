@@ -70,4 +70,4 @@ import 'emby-button';
         });
     }
 
-    /* eslint-enable indent */
+/* eslint-enable indent */
