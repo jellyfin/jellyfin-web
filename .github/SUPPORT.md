@@ -19,6 +19,6 @@ users are reachable through the following channels:
 
 GitHub issues are for tracking enhancements and bugs, not general support.
 
-The open source license grants you the freedom to use Jellyfin. It does not
-guarantee commitments of other people's time. Please be respectful and manage
-your expectations.
+The open source license grants you the freedom to use Jellyfin.
+It does not guarantee commitments of other people's time.
+Please be respectful and manage your expectations.
