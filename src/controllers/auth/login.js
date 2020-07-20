@@ -1,4 +1,4 @@
-define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layoutManager', 'browser', 'globalize', 'cardStyle', 'emby-checkbox'], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, browser, globalize) {
+define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layoutManager', 'libraryMenu', 'browser', 'globalize', 'cardStyle', 'emby-checkbox'], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, libraryMenu, browser, globalize) {
     'use strict';
 
     var enableFocusTransform = !browser.slow && !browser.edge;
@@ -186,6 +186,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         });
         view.addEventListener('viewshow', function (e) {
             loading.show();
+            libraryMenu.setTransparentMenu(true);
 
             if (!appHost.supports('multiserver')) {
                 view.querySelector('.btnSelectServer').classList.add('hide');
@@ -206,6 +207,9 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
             apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
                 view.querySelector('.disclaimer').textContent = options.LoginDisclaimer || '';
             });
+        });
+        view.addEventListener('viewhide', function (e) {
+            libraryMenu.setTransparentMenu(false);
         });
     };
 });
