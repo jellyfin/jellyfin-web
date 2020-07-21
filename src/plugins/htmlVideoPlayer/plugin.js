@@ -1073,6 +1073,7 @@ function supportsTextTracks() {
 
             this.customTrackIndex = -1;
             this.currentClock = null;
+            this.currentSubtitlesOctopus = null;
             this._currentAspectRatio = null;
 
             const octopus = this.currentSubtitlesOctopus;
