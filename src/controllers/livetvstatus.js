@@ -49,7 +49,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
         var message = globalize.translate('MessageConfirmDeleteTunerDevice');
 
         require(['confirm'], function (confirm) {
-            confirm(message, globalize.translate('HeaderDeleteDevice')).then(function () {
+            confirm.default(message, globalize.translate('HeaderDeleteDevice')).then(function () {
                 loading.show();
                 ApiClient.ajax({
                     type: 'DELETE',
@@ -167,7 +167,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
         var message = globalize.translate('MessageConfirmDeleteGuideProvider');
 
         require(['confirm'], function (confirm) {
-            confirm(message, globalize.translate('HeaderDeleteProvider')).then(function () {
+            confirm.default(message, globalize.translate('HeaderDeleteProvider')).then(function () {
                 loading.show();
                 ApiClient.ajax({
                     type: 'DELETE',

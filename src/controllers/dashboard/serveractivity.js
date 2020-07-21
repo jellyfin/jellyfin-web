@@ -1,8 +1,10 @@
-define(['components/activitylog', 'globalize'], function (ActivityLog, globalize) {
-    'use strict';
+import ActivityLog from 'components/activitylog';
+import globalize from 'globalize';
 
-    return function (view, params) {
-        var activityLog;
+/* eslint-disable indent */
+
+    export default function (view, params) {
+        let activityLog;
 
         if (params.useractivity !== 'false') {
             view.querySelector('.activityItems').setAttribute('data-useractivity', 'true');
@@ -14,7 +16,7 @@ define(['components/activitylog', 'globalize'], function (ActivityLog, globalize
 
         view.addEventListener('viewshow', function () {
             if (!activityLog) {
-                activityLog = new ActivityLog({
+                activityLog = new ActivityLog.default({
                     serverId: ApiClient.serverId(),
                     element: view.querySelector('.activityItems')
                 });
@@ -27,5 +29,6 @@ define(['components/activitylog', 'globalize'], function (ActivityLog, globalize
 
             activityLog = null;
         });
-    };
-});
+    }
+
+/* eslint-enable indent */
