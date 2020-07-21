@@ -1,15 +1,15 @@
-import browser from "browser";
-import events from "events";
-import appHost from "apphost";
-import loading from "loading";
-import dom from "dom";
-import playbackManager from "playbackManager";
-import appRouter from "appRouter";
-import connectionManager from "connectionManager";
-import htmlMediaHelper from "htmlMediaHelper";
-import itemHelper from "itemHelper";
-import screenfull from "screenfull";
-import globalize from "globalize";
+import browser from 'browser';
+import events from 'events';
+import appHost from 'apphost';
+import loading from 'loading';
+import dom from 'dom';
+import playbackManager from 'playbackManager';
+import appRouter from 'appRouter';
+import connectionManager from 'connectionManager';
+import htmlMediaHelper from 'htmlMediaHelper';
+import itemHelper from 'itemHelper';
+import screenfull from 'screenfull';
+import globalize from 'globalize';
 
 /* eslint-disable indent */
 
@@ -92,7 +92,7 @@ function supportsTextTracks() {
         }
 
         if (track) {
-            const format = (track.Codec || "").toLowerCase();
+            const format = (track.Codec || '').toLowerCase();
             if (format === 'ssa' || format === 'ass') {
                 return false;
             }
@@ -139,7 +139,7 @@ function supportsTextTracks() {
     }
 
     function normalizeTrackEventText(text, useHtml) {
-        const result = text.replace(/\\N/gi, "\n").replace(/\r/gi, "");
+        const result = text.replace(/\\N/gi, '\n').replace(/\r/gi, '');
         return useHtml ? result.replace(/\n/gi, '<br>') : result;
     }
 
@@ -169,17 +169,17 @@ function supportsTextTracks() {
                 return '';
             }
 
-            const defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? " default" : "";
+            const defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
 
-            const language = t.Language || "und";
-            const label = t.Language || "und";
+            const language = t.Language || 'und';
+            const label = t.Language || 'und';
             return '<track id="textTrack' + t.Index + '" label="' + label + '" kind="subtitles" src="' + getTextTrackUrl(t, item) + '" srclang="' + language + '"' + defaultAttribute + '></track>';
 
         }).join('');
     }
 
     function getDefaultProfile() {
-        return import("browserdeviceprofile").then(profileBuilder => {
+        return import('browserdeviceprofile').then(profileBuilder => {
 
             return profileBuilder({});
         });
@@ -230,7 +230,7 @@ function supportsTextTracks() {
         incrementFetchQueue() {
             if (this._fetchQueue <= 0) {
                 this.isFetching = true;
-                events.trigger(this, "beginFetch");
+                events.trigger(this, 'beginFetch');
             }
 
             this._fetchQueue++;
@@ -244,7 +244,7 @@ function supportsTextTracks() {
 
             if (this._fetchQueue <= 0) {
                 this.isFetching = false;
-                events.trigger(this, "endFetch");
+                events.trigger(this, 'endFetch');
             }
         }
 
@@ -252,7 +252,7 @@ function supportsTextTracks() {
          * @private
          */
         updateVideoUrl(streamInfo) {
-            const isHls = streamInfo.url.toLowerCase().includes(".m3u8");
+            const isHls = streamInfo.url.toLowerCase().includes('.m3u8');
 
             const mediaSource = streamInfo.mediaSource;
             const item = streamInfo.item;
@@ -262,7 +262,7 @@ function supportsTextTracks() {
             // Edit: Also seeing stalls from hls.js
             if (mediaSource && item && !mediaSource.RunTimeTicks && isHls && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
 
-                const hlsPlaylistUrl = streamInfo.url.replace("master.m3u8", "live.m3u8");
+                const hlsPlaylistUrl = streamInfo.url.replace('master.m3u8', 'live.m3u8');
 
                 loading.show();
 
@@ -310,11 +310,11 @@ function supportsTextTracks() {
         setSrcWithFlvJs(instance, elem, options, url) {
             return import('flvjs').then(flvjs => {
                 const flvPlayer = flvjs.createPlayer({
-                        type: "flv",
+                        type: 'flv',
                         url: url
                     },
                     {
-                        seekType: "range",
+                        seekType: 'range',
                         lazyLoad: false
                     });
 
@@ -454,13 +454,13 @@ function supportsTextTracks() {
             const options = media.customData;
 
             let protocol;
-            const ext = "m3u8";
+            const ext = 'm3u8';
 
             const mediaElement = this._mediaElement;
 
             const host = new cast.player.api.Host({
-                "url": url,
-                "mediaElement": mediaElement
+                'url': url,
+                'mediaElement': mediaElement
             });
 
             if (ext === 'm3u8' ||
@@ -623,7 +623,7 @@ function supportsTextTracks() {
             // if .ass currently rendering
             if (this.currentSubtitlesOctopus) {
                 this.updateCurrentTrackOffset(offsetValue);
-                this.currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;;
+                this.currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
             } else {
                 const trackElement = this.getTextTrack();
                 // if .vtt currently rendering
@@ -687,7 +687,7 @@ function supportsTextTracks() {
          */
         isAudioStreamSupported(stream, deviceProfile) {
 
-            const codec = (stream.Codec || "").toLowerCase();
+            const codec = (stream.Codec || '').toLowerCase();
 
             if (!codec) {
                 return true;
@@ -926,7 +926,7 @@ function supportsTextTracks() {
 
                 htmlMediaHelper.seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, function () {
                     if (this.currentSubtitlesOctopus) {
-                        this.currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + currentTrackOffset;
+                        this.currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.currentTrackOffset;
                         this.currentSubtitlesOctopus.resize();
                         this.currentSubtitlesOctopus.resetRenderAheadCache(false);
                     }
@@ -1005,9 +1005,9 @@ function supportsTextTracks() {
             /**
              * @type {HTMLMediaElement}
              */
-            const elem = e.target
+            const elem = e.target;
             const errorCode = elem.error ? (elem.error.code || 0) : 0;
-            const errorMessage = elem.error ? (elem.error.message || "") : "";
+            const errorMessage = elem.error ? (elem.error.message || '') : '';
             console.error('media element error: ' + errorCode.toString() + ' ' + errorMessage);
 
             let type;
@@ -1111,7 +1111,7 @@ function supportsTextTracks() {
             return new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
 
-                const url = getTextTrackUrl(track, item, ".js");
+                const url = getTextTrackUrl(track, item, '.js');
 
                 xhr.open('GET', url, true);
 
@@ -1173,7 +1173,7 @@ function supportsTextTracks() {
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
                 // new octopus options; override all, even defaults
-                renderMode: "blend",
+                renderMode: 'blend',
                 dropAllAnimations: false,
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
@@ -1225,7 +1225,7 @@ function supportsTextTracks() {
         renderSubtitlesWithCustomElement(videoElement, track, item) {
             this.fetchSubtitles(track, item).then((data) => {
                 if (!this.videoSubtitlesElem) {
-                    const subtitlesContainer = document.createElement("div");
+                    const subtitlesContainer = document.createElement('div');
                     subtitlesContainer.classList.add('videoSubtitles');
                     subtitlesContainer.innerHTML = '<div class="videoSubtitlesInner"></div>';
                     this.videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
@@ -1253,7 +1253,7 @@ function supportsTextTracks() {
          */
         getCueCss(appearance, selector) {
 
-            let html = selector + "::cue {";
+            let html = selector + '::cue {';
 
             html += appearance.text.map(function (s) {
 
@@ -1271,9 +1271,9 @@ function supportsTextTracks() {
          */
         setCueAppearance() {
             Promise.all([import('userSettings'), import('subtitleAppearanceHelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
-                const elementId = this.id + "-cuestyle";
+                const elementId = this.id + '-cuestyle';
 
-                let styleElem = document.querySelector("#" + elementId);
+                let styleElem = document.querySelector('#' + elementId);
                 if (!styleElem) {
                     styleElem = document.createElement('style');
                     styleElem.id = elementId;
@@ -1290,7 +1290,7 @@ function supportsTextTracks() {
          */
         renderTracksEvents(videoElement, track, item) {
             if (!itemHelper.isLocalItem(item) || track.IsExternal) {
-                const format = (track.Codec || "").toLowerCase();
+                const format = (track.Codec || '').toLowerCase();
                 if (format === 'ssa' || format === 'ass') {
                     this.renderSsaAss(videoElement, track, item);
                     return;
@@ -1408,13 +1408,13 @@ function supportsTextTracks() {
          * @private
          */
         createMediaElement(options) {
-            const dlg = document.querySelector(".videoPlayerContainer");
+            const dlg = document.querySelector('.videoPlayerContainer');
 
                 if (!dlg) {
                     return import('css!./style').then(() => {
                         loading.show();
 
-                        const dlg = document.createElement("div");
+                        const dlg = document.createElement('div');
 
                         dlg.classList.add('videoPlayerContainer');
 
@@ -1422,8 +1422,8 @@ function supportsTextTracks() {
                             dlg.classList.add('videoPlayerContainer-onTop');
                         }
 
-                        let html = "";
-                        let cssClass = "htmlvideoplayer";
+                        let html = '';
+                        let cssClass = 'htmlvideoplayer';
 
                         if (!browser.chromecast) {
                             cssClass += ' htmlvideoplayer-moveupsubtitles';
@@ -1440,7 +1440,7 @@ function supportsTextTracks() {
                         html += '</video>';
 
                         dlg.innerHTML = html;
-                        const videoElement = dlg.querySelector("video");
+                        const videoElement = dlg.querySelector('video');
 
                         videoElement.volume = htmlMediaHelper.getSavedVolume();
                         videoElement.addEventListener('timeupdate', this.onTimeUpdate);
@@ -1528,8 +1528,8 @@ function supportsTextTracks() {
     static getSupportedFeatures() {
         const list = [];
 
-        const video = document.createElement("video");
-        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function" || document.pictureInPictureEnabled) {
+        const video = document.createElement('video');
+        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' || document.pictureInPictureEnabled) {
             list.push('PictureInPicture');
         } else if (window.Windows) {
             if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {
@@ -1546,7 +1546,7 @@ function supportsTextTracks() {
         }
 
         list.push('SetBrightness');
-        list.push("SetAspectRatio");
+        list.push('SetAspectRatio');
 
         return list;
     }
@@ -1627,8 +1627,8 @@ function supportsTextTracks() {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
         } else {
-            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
-                video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
+            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
+                video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
             }
         }
     }
@@ -1641,7 +1641,7 @@ function supportsTextTracks() {
         } else {
             const video = this._mediaElement;
             if (video) {
-                return video.webkitPresentationMode === "picture-in-picture";
+                return video.webkitPresentationMode === 'picture-in-picture';
             }
         }
 
@@ -1663,11 +1663,11 @@ function supportsTextTracks() {
             if (video) {
                 if (isEnabled) {
                     video.requestAirPlay().catch(function(err) {
-                        console.error("Error requesting AirPlay", err);
+                        console.error('Error requesting AirPlay', err);
                     });
                 } else {
                     document.exitAirPLay().catch(function(err) {
-                        console.error("Error exiting AirPlay", err);
+                        console.error('Error exiting AirPlay', err);
                     });
                 }
             }
@@ -1686,7 +1686,7 @@ function supportsTextTracks() {
             let rawValue = val;
             rawValue = Math.max(20, rawValue);
 
-            const cssValue = rawValue >= 100 ? "none" : (rawValue / 100);
+            const cssValue = rawValue >= 100 ? 'none' : (rawValue / 100);
             elem.style['-webkit-filter'] = 'brightness(' + cssValue + ');';
             elem.style.filter = 'brightness(' + cssValue + ')';
             elem.brightnessValue = val;
@@ -1762,7 +1762,7 @@ function supportsTextTracks() {
         if (mediaElement) {
             mediaElement.playbackRate = value;
         }
-    };
+    }
 
     getPlaybackRate() {
         const mediaElement = this._mediaElement;
@@ -1770,7 +1770,7 @@ function supportsTextTracks() {
             return mediaElement.playbackRate;
         }
         return null;
-    };
+    }
 
     setVolume(val) {
         const mediaElement = this._mediaElement;
@@ -1812,29 +1812,29 @@ function supportsTextTracks() {
     setAspectRatio(val) {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
-            if ("auto" === val) {
-                mediaElement.style.removeProperty("object-fit");
+            if ('auto' === val) {
+                mediaElement.style.removeProperty('object-fit');
             } else {
-                mediaElement.style["object-fit"] = val;
+                mediaElement.style['object-fit'] = val;
             }
         }
         this._currentAspectRatio = val;
     }
 
     getAspectRatio() {
-        return this._currentAspectRatio || "auto";
+        return this._currentAspectRatio || 'auto';
     }
 
     getSupportedAspectRatios() {
         return [{
-            name: "Auto",
-            id: "auto"
+            name: 'Auto',
+            id: 'auto'
         }, {
-            name: "Cover",
-            id: "cover"
+            name: 'Cover',
+            id: 'cover'
         }, {
-            name: "Fill",
-            id: "fill"
+            name: 'Fill',
+            id: 'fill'
         }];
     }
 
@@ -1869,20 +1869,20 @@ function supportsTextTracks() {
 
         const mediaCategory = {
             stats: [],
-            type: "media"
+            type: 'media'
         };
         categories.push(mediaCategory);
 
         if (playOptions.url) {
             //  create an anchor element (note: no need to append this element to the document)
-            let link = document.createElement("a");
+            let link = document.createElement('a');
             //  set href to any path
             link.setAttribute('href', playOptions.url);
-            const protocol = (link.protocol || "").replace(":", "");
+            const protocol = (link.protocol || '').replace(':', '');
 
             if (protocol) {
                 mediaCategory.stats.push({
-                    label: globalize.translate("LabelProtocol"),
+                    label: globalize.translate('LabelProtocol'),
                     value: protocol
                 });
             }
@@ -1892,19 +1892,19 @@ function supportsTextTracks() {
 
         if (this._hlsPlayer || this._shakaPlayer) {
             mediaCategory.stats.push({
-                label: globalize.translate("LabelStreamType"),
+                label: globalize.translate('LabelStreamType'),
                 value: 'HLS'
             });
         } else {
             mediaCategory.stats.push({
-                label: globalize.translate("LabelStreamType"),
+                label: globalize.translate('LabelStreamType'),
                 value: 'Video'
             });
         }
 
         const videoCategory = {
             stats: [],
-            type: "video"
+            type: 'video'
         };
         categories.push(videoCategory);
 
@@ -1915,7 +1915,7 @@ function supportsTextTracks() {
         // Don't show player dimensions on smart TVs because the app UI could be lower resolution than the video and this causes users to think there is a problem
         if (width && height && !browser.tv) {
             videoCategory.stats.push({
-                label: globalize.translate("LabelPlayerDimensions"),
+                label: globalize.translate('LabelPlayerDimensions'),
                 value: width + 'x' + height
             });
         }
@@ -1925,7 +1925,7 @@ function supportsTextTracks() {
 
         if (width && height) {
             videoCategory.stats.push({
-                label: globalize.translate("LabelVideoResolution"),
+                label: globalize.translate('LabelVideoResolution'),
                 value: width + 'x' + height
             });
         }
@@ -1935,20 +1935,20 @@ function supportsTextTracks() {
 
             const droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
             videoCategory.stats.push({
-                label: globalize.translate("LabelDroppedFrames"),
+                label: globalize.translate('LabelDroppedFrames'),
                 value: droppedVideoFrames
             });
 
             const corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
             videoCategory.stats.push({
-                label: globalize.translate("LabelCorruptedFrames"),
+                label: globalize.translate('LabelCorruptedFrames'),
                 value: corruptedVideoFrames
             });
         }
 
         const audioCategory = {
             stats: [],
-            type: "audio"
+            type: 'audio'
         };
         categories.push(audioCategory);
 
