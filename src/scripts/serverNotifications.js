@@ -15,7 +15,7 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
             });
         } else {
             require(['alert'], function (alert) {
-                alert({ title: args.Header, text: args.Text });
+                alert.default({ title: args.Header, text: args.Text });
             });
         }
     }
