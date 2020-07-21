@@ -346,6 +346,7 @@ import 'css!./multiSelect';
 
             import('alert').then(({default: alert}) => {
                 alert({
+
                     text: globalize.translate('PleaseSelectTwoItems')
                 });
             });
