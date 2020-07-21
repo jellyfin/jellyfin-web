@@ -59,8 +59,7 @@ import 'formDialogStyle';
 
     export function show(options) {
         return new Promise((resolve, reject) => {
-            // TODO: remove require
-            require(['text!./components/accessSchedule/accessSchedule.template.html'], template => {
+            import('text!./components/accessSchedule/accessSchedule.template.html').then(({default: template}) => {
                 const dlg = dialogHelper.createDialog({
                     removeOnClose: true,
                     size: 'small'

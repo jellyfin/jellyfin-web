@@ -70,7 +70,7 @@ import 'css!./searchfields';
 
     function embed(elem, instance, options) {
 
-        require(['text!./searchfields.template.html'], function (template) {
+        import('text!./searchfields.template.html').then(({default: template}) => {
 
             let html = globalize.translateDocument(template, 'core');
 
