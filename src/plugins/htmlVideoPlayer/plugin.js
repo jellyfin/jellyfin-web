@@ -1184,7 +1184,7 @@ function supportsTextTracks() {
                 resizeVariation: 0.2,
                 renderAhead: 90
             };
-            import('JavascriptSubtitlesOctopus').then(SubtitlesOctopus => {
+            import('JavascriptSubtitlesOctopus').then(({default: SubtitlesOctopus}) => {
                 this.currentSubtitlesOctopus = new SubtitlesOctopus(options);
             });
         }
