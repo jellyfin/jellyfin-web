@@ -1,14 +1,20 @@
-define(['appSettings', 'loading', 'browser', 'globalize', 'emby-button'], function(appSettings, loading, browser, globalize) {
-    'use strict';
+import appSettings from 'appSettings';
+import loading from 'loading';
+import browser from 'browser';
+import globalize from 'globalize';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function handleConnectionResult(page, result) {
         loading.hide();
         switch (result.State) {
-            case 'SignedIn':
-                var apiClient = result.ApiClient;
+            case 'SignedIn': {
+                const apiClient = result.ApiClient;
                 Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
                 Dashboard.navigate('home.html');
                 break;
+            }
             case 'ServerSignIn':
                 Dashboard.navigate('login.html?serverid=' + result.Servers[0].Id, false, 'none');
                 break;
@@ -30,7 +36,7 @@ define(['appSettings', 'loading', 'browser', 'globalize', 'emby-button'], functi
 
     function submitServer(page) {
         loading.show();
-        var host = page.querySelector('#txtServerHost').value;
+        const host = page.querySelector('#txtServerHost').value;
         ConnectionManager.connectToAddress(host, {
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function(result) {
@@ -42,11 +48,11 @@ define(['appSettings', 'loading', 'browser', 'globalize', 'emby-button'], functi
         });
     }
 
-    return function(view, params) {
+    export default function(view, params) {
         view.querySelector('.addServerForm').addEventListener('submit', onServerSubmit);
         view.querySelector('.btnCancel').addEventListener('click', goBack);
 
-        require(['autoFocuser'], function (autoFocuser) {
+        import('autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(view);
         });
 
@@ -57,9 +63,10 @@ define(['appSettings', 'loading', 'browser', 'globalize', 'emby-button'], functi
         }
 
         function goBack() {
-            require(['appRouter'], function(appRouter) {
+            import('appRouter').then(({default: appRouter}) => {
                 appRouter.back();
             });
         }
-    };
-});
+    }
+
+/* eslint-enable indent */
