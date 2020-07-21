@@ -91,7 +91,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
             msg += globalize.translate('PleaseConfirmPluginInstallation');
 
             require(['confirm'], function (confirm) {
-                confirm(msg, globalize.translate('HeaderConfirmPluginInstallation')).then(function () {
+                confirm.default(msg, globalize.translate('HeaderConfirmPluginInstallation')).then(function () {
                     alertCallback();
                 }, function () {
                     console.debug('plugin not installed');

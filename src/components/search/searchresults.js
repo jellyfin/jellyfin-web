@@ -1,9 +1,19 @@
-define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'appRouter', 'emby-scroller', 'emby-itemscontainer', 'emby-button'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder, appRouter) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import globalize from 'globalize';
+import require from 'require';
+import events from 'events';
+import connectionManager from 'connectionManager';
+import cardBuilder from 'cardBuilder';
+import appRouter from 'appRouter';
+import 'emby-scroller';
+import 'emby-itemscontainer';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function loadSuggestions(instance, context, apiClient) {
 
-        var options = {
+        const options = {
 
             SortBy: 'IsFavoriteOrLiked,Random',
             IncludeItemTypes: 'Movie,Series,MusicArtist',
@@ -21,18 +31,18 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 result.Items = [];
             }
 
-            var html = result.Items.map(function (i) {
+            const html = result.Items.map(function (i) {
 
-                var href = appRouter.getRouteUrl(i);
+                const href = appRouter.getRouteUrl(i);
 
-                var itemHtml = '<div><a is="emby-linkbutton" class="button-link" style="display:inline-block;padding:.5em 1em;" href="' + href + '">';
+                let itemHtml = '<div><a is="emby-linkbutton" class="button-link" style="display:inline-block;padding:.5em 1em;" href="' + href + '">';
                 itemHtml += i.Name;
                 itemHtml += '</a></div>';
                 return itemHtml;
 
             }).join('');
 
-            var searchSuggestions = context.querySelector('.searchSuggestions');
+            const searchSuggestions = context.querySelector('.searchSuggestions');
             searchSuggestions.querySelector('.searchSuggestionsList').innerHTML = html;
 
             if (result.Items.length) {
@@ -49,9 +59,9 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             });
         }
 
-        var allowSearch = true;
+        let allowSearch = true;
 
-        var queryIncludeItemTypes = query.IncludeItemTypes;
+        const queryIncludeItemTypes = query.IncludeItemTypes;
 
         if (instance.options.collectionType === 'tvshows') {
             if (query.IncludeArtists) {
@@ -127,7 +137,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             query.EnableTotalRecordCount = false;
             query.ImageTypeLimit = 1;
 
-            var methodName = 'getItems';
+            let methodName = 'getItems';
 
             if (!query.IncludeMedia) {
                 if (query.IncludePeople) {
@@ -566,9 +576,9 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
 
         section = context.querySelector(section);
 
-        var items = result.Items || result.SearchHints;
+        const items = result.Items || result.SearchHints;
 
-        var itemsContainer = section.querySelector('.itemsContainer');
+        const itemsContainer = section.querySelector('.itemsContainer');
 
         cardBuilder.buildCards(items, Object.assign({
 
@@ -588,7 +598,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
     }
 
     function replaceAll(originalString, strReplace, strWith) {
-        var reg = new RegExp(strReplace, 'ig');
+        const reg = new RegExp(strReplace, 'ig');
         return originalString.replace(reg, strWith);
     }
 
@@ -601,7 +611,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
             }
 
-            var html = globalize.translateHtml(template, 'core');
+            const html = globalize.translateHtml(template, 'core');
 
             elem.innerHTML = html;
 
@@ -610,28 +620,29 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
     }
 
-    function SearchResults(options) {
+class SearchResults {
+    constructor(options) {
 
         this.options = options;
         embed(options.element, this, options);
     }
+    search(value) {
 
-    SearchResults.prototype.search = function (value) {
-
-        var apiClient = connectionManager.getApiClient(this.options.serverId);
+        const apiClient = connectionManager.getApiClient(this.options.serverId);
 
         search(this, apiClient, this.options.element, value);
-    };
+    }
+    destroy() {
 
-    SearchResults.prototype.destroy = function () {
-
-        var options = this.options;
+        const options = this.options;
         if (options) {
             options.element.classList.remove('searchFields');
         }
         this.options = null;
 
-    };
+    }
+}
 
-    return SearchResults;
-});
+export default SearchResults;
+
+/* eslint-enable indent */

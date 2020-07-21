@@ -1,31 +1,42 @@
-define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', 'globalize', 'loading', 'connectionManager', 'dom', 'events', 'emby-select', 'emby-checkbox'], function (require, browser, appSettings, appHost, focusManager, qualityoptions, globalize, loading, connectionManager, dom, events) {
-    'use strict';
+import browser from 'browser';
+import appSettings from 'appSettings';
+import appHost from 'apphost';
+import focusManager from 'focusManager';
+import qualityoptions from 'qualityoptions';
+import globalize from 'globalize';
+import loading from 'loading';
+import connectionManager from 'connectionManager';
+import events from 'events';
+import 'emby-select';
+import 'emby-checkbox';
+
+/* eslint-disable indent */
 
     function fillSkipLengths(select) {
 
-        var options = [5, 10, 15, 20, 25, 30];
+        const options = [5, 10, 15, 20, 25, 30];
 
-        select.innerHTML = options.map(function (option) {
+        select.innerHTML = options.map(option => {
             return {
                 name: globalize.translate('ValueSeconds', option),
                 value: option * 1000
             };
-        }).map(function (o) {
-            return '<option value="' + o.value + '">' + o.name + '</option>';
+        }).map(o => {
+            return `<option value="${o.value}">${o.name}</option>`;
         }).join('');
     }
 
     function populateLanguages(select, languages) {
 
-        var html = '';
+        let html = '';
 
-        html += "<option value=''>" + globalize.translate('AnyLanguage') + '</option>';
+        html += `<option value=''>${globalize.translate('AnyLanguage')}</option>`;
 
-        for (var i = 0, length = languages.length; i < length; i++) {
+        for (let i = 0, length = languages.length; i < length; i++) {
 
-            var culture = languages[i];
+            const culture = languages[i];
 
-            html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
+            html += `<option value='${culture.ThreeLetterISOLanguageName}'>${culture.DisplayName}</option>`;
         }
 
         select.innerHTML = html;
@@ -33,7 +44,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
     function setMaxBitrateIntoField(select, isInNetwork, mediatype) {
 
-        var options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
+        const options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
 
             currentMaxBitrate: appSettings.maxStreamingBitrate(isInNetwork, mediatype),
             isAutomaticBitrateEnabled: appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype),
@@ -47,10 +58,10 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         });
 
-        select.innerHTML = options.map(function (i) {
+        select.innerHTML = options.map(i => {
 
             // render empty string instead of 0 for the auto option
-            return '<option value="' + (i.bitrate || '') + '">' + i.name + '</option>';
+            return `<option value="${i.bitrate || ''}">${i.name}</option>`;
         }).join('');
 
         if (appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype)) {
@@ -62,23 +73,23 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
     function fillChromecastQuality(select) {
 
-        var options = qualityoptions.getVideoQualityOptions({
+        const options = qualityoptions.getVideoQualityOptions({
 
             currentMaxBitrate: appSettings.maxChromecastBitrate(),
             isAutomaticBitrateEnabled: !appSettings.maxChromecastBitrate(),
             enableAuto: true
         });
 
-        select.innerHTML = options.map(function (i) {
+        select.innerHTML = options.map(i => {
 
             // render empty string instead of 0 for the auto option
-            return '<option value="' + (i.bitrate || '') + '">' + i.name + '</option>';
+            return `<option value="${i.bitrate || ''}">${i.name}</option>`;
         }).join('');
 
         select.value = appSettings.maxChromecastBitrate() || '';
     }
 
-    function setMaxBitrateFromField(select, isInNetwork, mediatype, value) {
+    function setMaxBitrateFromField(select, isInNetwork, mediatype) {
 
         if (select.value) {
             appSettings.maxStreamingBitrate(isInNetwork, mediatype, select.value);
@@ -110,7 +121,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
             return;
         }
 
-        apiClient.getEndpointInfo().then(function (endpointInfo) {
+        apiClient.getEndpointInfo().then(endpointInfo => {
 
             if (endpointInfo.IsInNetwork) {
 
@@ -133,7 +144,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         });
     }
 
-    function showOrHideEpisodesField(context, user, apiClient) {
+    function showOrHideEpisodesField(context) {
 
         if (browser.tizen || browser.web0s) {
             context.querySelector('.fldEpisodeAutoPlay').classList.add('hide');
@@ -145,12 +156,12 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
     function loadForm(context, user, userSettings, apiClient) {
 
-        var loggedInUserId = apiClient.getCurrentUserId();
-        var userId = user.Id;
+        const loggedInUserId = apiClient.getCurrentUserId();
+        const userId = user.Id;
 
         showHideQualityFields(context, user, apiClient);
 
-        apiClient.getCultures().then(function (allCultures) {
+        apiClient.getCultures().then(allCultures => {
 
             populateLanguages(context.querySelector('#selectAudioLanguage'), allCultures);
 
@@ -159,7 +170,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         });
 
         // hide cinema mode options if disabled at server level
-        apiClient.getNamedConfiguration('cinemamode').then(function (cinemaConfig) {
+        apiClient.getNamedConfiguration('cinemamode').then(cinemaConfig => {
 
             if (cinemaConfig.EnableIntrosForMovies || cinemaConfig.EnableIntrosForEpisodes) {
                 context.querySelector('.cinemaModeOptions').classList.remove('hide');
@@ -204,18 +215,18 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         fillChromecastQuality(context.querySelector('.selectChromecastVideoQuality'));
 
-        var selectChromecastVersion = context.querySelector('.selectChromecastVersion');
+        const selectChromecastVersion = context.querySelector('.selectChromecastVersion');
         selectChromecastVersion.value = userSettings.chromecastVersion();
 
-        var selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
+        const selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
         fillSkipLengths(selectSkipForwardLength);
         selectSkipForwardLength.value = userSettings.skipForwardLength();
 
-        var selectSkipBackLength = context.querySelector('.selectSkipBackLength');
+        const selectSkipBackLength = context.querySelector('.selectSkipBackLength');
         fillSkipLengths(selectSkipBackLength);
         selectSkipBackLength.value = userSettings.skipBackLength();
 
-        showOrHideEpisodesField(context, user, apiClient);
+        showOrHideEpisodesField(context);
 
         loading.hide();
     }
@@ -248,20 +259,20 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         loading.show();
 
-        apiClient.getUser(userId).then(function (user) {
+        apiClient.getUser(userId).then(user => {
 
-            saveUser(context, user, userSettings, apiClient).then(function () {
+            saveUser(context, user, userSettings, apiClient).then(() => {
 
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    require(['toast'], function (toast) {
+                    import('toast').then(({default: toast}) => {
                         toast(globalize.translate('SettingsSaved'));
                     });
                 }
 
                 events.trigger(instance, 'saved');
 
-            }, function () {
+            }, () => {
                 loading.hide();
             });
         });
@@ -269,14 +280,14 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
     function onSubmit(e) {
 
-        var self = this;
-        var apiClient = connectionManager.getApiClient(self.options.serverId);
-        var userId = self.options.userId;
-        var userSettings = self.options.userSettings;
+        const self = this;
+        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const userId = self.options.userId;
+        const userSettings = self.options.userSettings;
 
-        userSettings.setUserInfo(userId, apiClient).then(function () {
+        userSettings.setUserInfo(userId, apiClient).then(() => {
 
-            var enableSaveConfirmation = self.options.enableSaveConfirmation;
+            const enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
 
@@ -289,7 +300,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
     function embed(options, self) {
 
-        require(['text!./playbackSettings.template.html'], function (template) {
+        return import('text!./playbackSettings.template.html').then(({default: template}) => {
 
             options.element.innerHTML = globalize.translateHtml(template, 'core');
 
@@ -307,43 +318,43 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         });
     }
 
-    function PlaybackSettings(options) {
+    class PlaybackSettings {
+        constructor(options) {
+            this.options = options;
+            embed(options, this);
+        }
 
-        this.options = options;
+        loadData() {
 
-        embed(options, this);
+            const self = this;
+            const context = self.options.element;
+
+            loading.show();
+
+            const userId = self.options.userId;
+            const apiClient = connectionManager.getApiClient(self.options.serverId);
+            const userSettings = self.options.userSettings;
+
+            apiClient.getUser(userId).then(user => {
+
+                userSettings.setUserInfo(userId, apiClient).then(() => {
+
+                    self.dataLoaded = true;
+
+                    loadForm(context, user, userSettings, apiClient);
+                });
+            });
+        }
+
+        submit() {
+            onSubmit.call(this);
+        }
+
+        destroy() {
+
+            this.options = null;
+        }
     }
 
-    PlaybackSettings.prototype.loadData = function () {
-
-        var self = this;
-        var context = self.options.element;
-
-        loading.show();
-
-        var userId = self.options.userId;
-        var apiClient = connectionManager.getApiClient(self.options.serverId);
-        var userSettings = self.options.userSettings;
-
-        apiClient.getUser(userId).then(function (user) {
-
-            userSettings.setUserInfo(userId, apiClient).then(function () {
-
-                self.dataLoaded = true;
-
-                loadForm(context, user, userSettings, apiClient);
-            });
-        });
-    };
-
-    PlaybackSettings.prototype.submit = function () {
-        onSubmit.call(this);
-    };
-
-    PlaybackSettings.prototype.destroy = function () {
-
-        this.options = null;
-    };
-
-    return PlaybackSettings;
-});
+/* eslint-enable indent */
+export default PlaybackSettings;

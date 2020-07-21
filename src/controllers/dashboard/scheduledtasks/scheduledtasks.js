@@ -1,5 +1,14 @@
-define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date-fns', 'dfnshelper', 'listViewStyle', 'emby-button'], function ($, loading, events, globalize, serverNotifications, datefns, dfnshelper) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import events from 'events';
+import globalize from 'globalize';
+import serverNotifications from 'serverNotifications';
+import * as datefns from 'date-fns';
+import dfnshelper from 'dfnshelper';
+import 'listViewStyle';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function reloadList(page) {
         ApiClient.getScheduledTasks({
@@ -17,10 +26,10 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
             return a == b ? 0 : a < b ? -1 : 1;
         });
 
-        var currentCategory;
-        var html = '';
-        for (var i = 0; i < tasks.length; i++) {
-            var task = tasks[i];
+        let currentCategory;
+        let html = '';
+        for (let i = 0; i < tasks.length; i++) {
+            const task = tasks[i];
             if (task.Category != currentCategory) {
                 currentCategory = task.Category;
                 if (currentCategory) {
@@ -63,11 +72,11 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
     }
 
     function getTaskProgressHtml(task) {
-        var html = '';
+        let html = '';
         if (task.State === 'Idle') {
             if (task.LastExecutionResult) {
-                var endtime = Date.parse(task.LastExecutionResult.EndTimeUtc);
-                var starttime = Date.parse(task.LastExecutionResult.StartTimeUtc);
+                const endtime = Date.parse(task.LastExecutionResult.EndTimeUtc);
+                const starttime = Date.parse(task.LastExecutionResult.StartTimeUtc);
                 html += globalize.translate('LabelScheduledTaskLastRan', datefns.formatDistanceToNow(endtime, dfnshelper.localeWithSuffix),
                     datefns.formatDistance(starttime, endtime, { locale: dfnshelper.getLocale() }));
                 if (task.LastExecutionResult.Status === 'Failed') {
@@ -79,7 +88,7 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
                 }
             }
         } else if (task.State === 'Running') {
-            var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
+            const progress = (task.CurrentProgressPercentage || 0).toFixed(1);
             html += '<div style="display:flex;align-items:center;">';
             html += '<div class="taskProgressOuter" title="' + progress + '%" style="flex-grow:1;">';
             html += '<div class="taskProgressInner" style="width:' + progress + '%;">';
@@ -94,7 +103,7 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
     }
 
     function setTaskButtonIcon(button, icon) {
-        var inner = button.querySelector('.material-icons');
+        let inner = button.querySelector('.material-icons');
         inner.classList.remove('stop', 'play_arrow');
         inner.classList.add(icon);
     }
@@ -114,10 +123,10 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
         $(elem).parents('.listItem')[0].setAttribute('data-status', state);
     }
 
-    return function(view, params) {
+    export default function(view, params) {
         function updateTasks(tasks) {
-            for (var i = 0; i < tasks.length; i++) {
-                var task = tasks[i];
+            for (let i = 0; i < tasks.length; i++) {
+                const task = tasks[i];
                 view.querySelector('#taskProgress' + task.Id).innerHTML = getTaskProgressHtml(task);
                 updateTaskButton(view.querySelector('#btnTask' + task.Id), task.State);
             }
@@ -146,12 +155,12 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
             pollInterval && clearInterval(pollInterval);
         }
 
-        var pollInterval;
-        var serverId = ApiClient.serverId();
+        let pollInterval;
+        const serverId = ApiClient.serverId();
 
         $('.divScheduledTasks', view).on('click', '.btnStartTask', function() {
-            var button = this;
-            var id = button.getAttribute('data-taskid');
+            const button = this;
+            let id = button.getAttribute('data-taskid');
             ApiClient.startScheduledTask(id).then(function() {
                 updateTaskButton(button, 'Running');
                 reloadList(view);
@@ -159,8 +168,8 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
         });
 
         $('.divScheduledTasks', view).on('click', '.btnStopTask', function() {
-            var button = this;
-            var id = button.getAttribute('data-taskid');
+            const button = this;
+            let id = button.getAttribute('data-taskid');
             ApiClient.stopScheduledTask(id).then(function() {
                 updateTaskButton(button, '');
                 reloadList(view);
@@ -178,5 +187,6 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'date
             reloadList(view);
             events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

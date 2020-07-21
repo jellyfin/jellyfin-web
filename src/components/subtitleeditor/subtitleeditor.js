@@ -69,7 +69,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
         require(['confirm'], function (confirm) {
 
-            confirm({
+            confirm.default({
 
                 title: globalize.translate('ConfirmDeletion'),
                 text: msg,

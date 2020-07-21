@@ -150,7 +150,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
     function alertText(text, title) {
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 text: text,
                 title: title
             });
