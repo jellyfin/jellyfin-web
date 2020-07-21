@@ -86,7 +86,7 @@ define(['controllers/dashboard/users/userpasswordpage', 'loading', 'libraryMenu'
         new UserPasswordPage.default(view, params);
         view.querySelector('#btnDeleteImage').addEventListener('click', function () {
             require(['confirm'], function (confirm) {
-                confirm(globalize.translate('DeleteImageConfirmation'), globalize.translate('DeleteImage')).then(function () {
+                confirm.default(globalize.translate('DeleteImageConfirmation'), globalize.translate('DeleteImage')).then(function () {
                     loading.show();
                     var userId = getParameterByName('userId');
                     ApiClient.deleteUserImage(userId, 'primary').then(function () {

@@ -1,12 +1,18 @@
-define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize', 'listViewStyle'], function($, dom, loading, libraryMenu, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import dom from 'dom';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import 'listViewStyle';
+
+/* eslint-disable indent */
 
     function populateLanguages(select) {
         return ApiClient.getCultures().then(function(languages) {
-            var html = '';
+            let html = '';
             html += "<option value=''></option>";
-            for (var i = 0, length = languages.length; i < length; i++) {
-                var culture = languages[i];
+            for (let i = 0, length = languages.length; i < length; i++) {
+                const culture = languages[i];
                 html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
             }
             select.innerHTML = html;
@@ -15,10 +21,10 @@ define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize', 'listViewStyle']
 
     function populateCountries(select) {
         return ApiClient.getCountries().then(function(allCountries) {
-            var html = '';
+            let html = '';
             html += "<option value=''></option>";
-            for (var i = 0, length = allCountries.length; i < length; i++) {
-                var culture = allCountries[i];
+            for (let i = 0, length = allCountries.length; i < length; i++) {
+                const culture = allCountries[i];
                 html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
             }
             select.innerHTML = html;
@@ -26,9 +32,9 @@ define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize', 'listViewStyle']
     }
 
     function loadPage(page) {
-        var promises = [ApiClient.getServerConfiguration(), populateLanguages(page.querySelector('#selectLanguage')), populateCountries(page.querySelector('#selectCountry'))];
+        const promises = [ApiClient.getServerConfiguration(), populateLanguages(page.querySelector('#selectLanguage')), populateCountries(page.querySelector('#selectCountry'))];
         Promise.all(promises).then(function(responses) {
-            var config = responses[0];
+            const config = responses[0];
             page.querySelector('#selectLanguage').value = config.PreferredMetadataLanguage || '';
             page.querySelector('#selectCountry').value = config.MetadataCountryCode || '';
             loading.hide();
@@ -36,7 +42,7 @@ define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize', 'listViewStyle']
     }
 
     function onSubmit() {
-        var form = this;
+        const form = this;
         return loading.show(), ApiClient.getServerConfiguration().then(function(config) {
             config.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
             config.MetadataCountryCode = form.querySelector('#selectCountry').value;
@@ -67,4 +73,5 @@ define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize', 'listViewStyle']
         loading.show();
         loadPage(this);
     });
-});
+
+/* eslint-enable indent */
