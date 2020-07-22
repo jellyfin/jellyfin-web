@@ -66,7 +66,7 @@ import 'emby-button';
 
                 miscInfo.push(text);
             } catch (e) {
-                console.error(`error parsing date: ${item.StartDate}`);
+                console.error('error parsing date:', item.StartDate);
             }
         }
 
@@ -152,7 +152,7 @@ import 'emby-button';
                     text = datetime.toLocaleDateString(date);
                     miscInfo.push(text);
                 } catch (e) {
-                    console.error(`error parsing date: ${item.PremiereDate}`);
+                    console.error('error parsing date:', item.PremiereDate);
                 }
             }
         }
@@ -185,7 +185,7 @@ import 'emby-button';
                     miscInfo.push(text);
                 }
             } catch (e) {
-                console.error(`error parsing date: ${item.StartDate}`);
+                console.error('error parsing date:', item.StartDate);
             }
         }
 
@@ -209,7 +209,7 @@ import 'emby-button';
                         }
 
                     } catch (e) {
-                        console.error(`error parsing date: ${item.EndDate}`);
+                        console.error('error parsing date:', item.EndDate);
                     }
                 }
 
@@ -257,7 +257,7 @@ import 'emby-button';
                     text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
                     miscInfo.push(text);
                 } catch (e) {
-                    console.error(`error parsing date: ${item.PremiereDate}`);
+                    console.error('error parsing date:', item.PremiereDate);
                 }
             } else if (item.ProductionYear) {
                 miscInfo.push(item.ProductionYear);
@@ -276,7 +276,7 @@ import 'emby-button';
                         text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
                         miscInfo.push(text);
                     } catch (e) {
-                        console.error(`error parsing date: ${item.PremiereDate}`);
+                        console.error('error parsing date:', item.PremiereDate);
                     }
                 }
             }
