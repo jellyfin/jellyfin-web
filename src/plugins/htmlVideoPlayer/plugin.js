@@ -179,7 +179,7 @@ function supportsTextTracks() {
     }
 
     function getDefaultProfile() {
-        return import('browserdeviceprofile').then(profileBuilder => {
+        return import('browserdeviceprofile').then(({default: profileBuilder}) => {
 
             return profileBuilder({});
         });
@@ -308,7 +308,7 @@ function supportsTextTracks() {
          * @private
          */
         setSrcWithFlvJs(instance, elem, options, url) {
-            return import('flvjs').then(flvjs => {
+            return import('flvjs').then(({default: flvjs}) => {
                 const flvPlayer = flvjs.createPlayer({
                         type: 'flv',
                         url: url
@@ -1073,7 +1073,6 @@ function supportsTextTracks() {
 
             this.customTrackIndex = -1;
             this.currentClock = null;
-            this.currentSubtitlesOctopus = null;
             this._currentAspectRatio = null;
 
             const octopus = this.currentSubtitlesOctopus;
