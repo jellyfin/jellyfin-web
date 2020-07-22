@@ -156,7 +156,7 @@ import 'css!./emby-scroller';
     };
 
     function loadScrollButtons(scroller) {
-        require(['emby-scrollbuttons'], function () {
+        import('emby-scrollbuttons').then(() => {
             scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
         });
     }
