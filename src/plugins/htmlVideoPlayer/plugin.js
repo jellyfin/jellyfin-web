@@ -924,7 +924,7 @@ function supportsTextTracks() {
 
                 loading.hide();
 
-                htmlMediaHelper.seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, function () {
+                htmlMediaHelper.seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
                     if (this.currentSubtitlesOctopus) {
                         this.currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.currentTrackOffset;
                         this.currentSubtitlesOctopus.resize();
