@@ -102,7 +102,7 @@ function supportsTextTracks() {
     }
 
     function requireHlsPlayer(callback) {
-        require(['hlsjs'], function (hls) {
+        import('hlsjs').then(({default: hls}) => {
             window.Hls = hls;
             callback();
         });
