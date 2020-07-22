@@ -7,7 +7,7 @@ function alertText(options) {
 
     return new Promise(function (resolve, reject) {
 
-        require(['alert'], function (alert) {
+        import('alert').then(({default: alert}) => {
             alert(options).then(resolve, resolve);
         });
     });

@@ -11,7 +11,7 @@ import 'webcomponents';
         this.classList.add('progressring');
         const instance = this;
 
-        require(['text!./emby-progressring.template.html'], function (template) {
+        import('text!./emby-progressring.template.html').then(({default: template}) => {
             instance.innerHTML = template;
 
             //if (window.MutationObserver) {

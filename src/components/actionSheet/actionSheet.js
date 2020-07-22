@@ -73,7 +73,7 @@ function getPosition(options, dlg) {
 }
 
 function centerFocus(elem, horiz, on) {
-    require(['scrollHelper'], function (scrollHelper) {
+    import('scrollHelper').then(({default: scrollHelper}) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
