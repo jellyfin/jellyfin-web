@@ -25,7 +25,7 @@ function tryRemoveElement(elem) {
             try {
                 parentNode.removeChild(elem);
             } catch (err) {
-                console.error('error removing dialog element: ' + err);
+                console.error(`error removing dialog element: ${err}`);
             }
         }
     }
@@ -173,7 +173,7 @@ function supportsTextTracks() {
 
             const language = t.Language || 'und';
             const label = t.Language || 'und';
-            return '<track id="textTrack' + t.Index + '" label="' + label + '" kind="subtitles" src="' + getTextTrackUrl(t, item) + '" srclang="' + language + '"' + defaultAttribute + '></track>';
+            return `<track id="textTrack${t.Index}" label="${label}" kind="subtitles" src="${getTextTrackUrl(t, item)}" srclang="${language}"${defaultAttribute}></track>`;
 
         }).join('');
     }
