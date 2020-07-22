@@ -649,7 +649,7 @@
     "LabelEnableDlnaClientDiscoveryInterval": "Interval odkrivanja sprejemnikov (sekunde)",
     "LabelEnableBlastAliveMessagesHelp": "Omogočite, če imajo UPnP naprave težave z zaznavanjem strežnika v omrežju.",
     "LabelEnableBlastAliveMessages": "Oddajaj sporočila o dostopnosti",
-    "LabelEnableAutomaticPortMapHelp": "Poskuša avtomatično povezati javna vrata z lokalnimi preko UPnP. To ne deluje z nekaterimi usmerjevalniki. Spremembe bodo uveljavljene po ponovnem zagonu strežnika.",
+    "LabelEnableAutomaticPortMapHelp": "Avtomatično posreduje javna vrata na vašem usmerjevalnuku z lokalnimi vrati strežnika preko UPnP. To ne deluje z nekaterimi usmerjevalniki ali omrežnimi nastavitvami. Spremembe bodo uveljavljene po ponovnem zagonu strežnika.",
     "LabelEnableAutomaticPortMap": "Omogoči avtomatično mapiranje vrat",
     "LabelEmbedAlbumArtDidl": "Vdelaj grafike albuma v Didl",
     "LabelEasyPinCode": "Enostavna PIN koda:",
@@ -762,7 +762,7 @@
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Omogoči zamenjavo poti za poti slik glede na nastavitve zamenjave poti strežnika.",
     "LabelKodiMetadataSaveImagePaths": "Shrani poti slik znotraj nfo datotek",
     "LabelMetadataDownloadersHelp": "Omogoči in uredi želene vire metapodatkov po prioriteti. Viri z nižjo prioriteto bodo uporabljeni zgolj za dopolnjevanje manjkajočih informacij.",
-    "LabelBaseUrlHelp": "Tukaj lahko dodate podmapo po meri, za dostop do strežnika z bolj unikatnega URL naslova.",
+    "LabelBaseUrlHelp": "Doda podnaslov po meri na konec URL-ja strežnika. Na primer: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
     "LabelExtractChaptersDuringLibraryScanHelp": "Ustvari slike poglavij med uvozom videov pri preiskovanju knjižnjice. Sicer bodo ustvarjene med načrtovanim opravilom, kar omogoča hitrejše preiskovanje knjižnjice.",
     "LabelForgotPasswordUsernameHelp": "Vpišite svoje uporabniško ime, v kolikor se ga spomnite.",
     "LabelInNetworkSignInWithEasyPasswordHelp": "Uporabi enostavno PIN kodo za prijavo v naprave znotraj lokalnega omrežja. Vaše geslo bo potrebno zgolj za prijave zunaj domačega omrežja. Če pustite prazno, za prijavo v domačem omrežju omrežju ne boste potrebovali gesla.",
@@ -1292,5 +1292,8 @@
     "HeaderNavigation": "Navigacija",
     "HeaderItems": "Vsebine",
     "EnableDecodingColorDepth10Vp9": "Omogoči strojno dekodiranje za 10-bit VP9",
-    "EnableDecodingColorDepth10Hevc": "Omogoči strojno dekodiranje za 10-bit HEVC"
+    "EnableDecodingColorDepth10Hevc": "Omogoči strojno dekodiranje za 10-bit HEVC",
+    "LabelEnableHttpsHelp": "Omogoči strežniku, da posluša na nastavljenih HTTPS vratih. Za uveljavitev te možnosti mora biti nastavljen tudi veljaven certifikat.",
+    "LabelEnableHttps": "Omogoči HTTPS",
+    "LabelEmbedAlbumArtDidlHelp": "Nekatere naprave delujejo bolje s tem načinom pridobivanja grafike albuma. Pri drugih predvajanje morda ne bo delovalo v tem načinu."
 }
