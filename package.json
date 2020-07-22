@@ -122,6 +122,8 @@
           "src/components/maintabsmanager.js",
           "src/components/mediaLibraryCreator/mediaLibraryCreator.js",
           "src/components/mediaLibraryEditor/mediaLibraryEditor.js",
+          "src/components/metadataEditor/metadataEditor.js",
+          "src/components/metadataEditor/personEditor.js",
           "src/components/nowPlayingBar/nowPlayingBar.js",
           "src/components/listview/listview.js",
           "src/components/playback/brightnessosd.js",
