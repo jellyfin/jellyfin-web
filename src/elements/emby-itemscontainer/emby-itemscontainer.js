@@ -30,7 +30,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
 
         // check for serverId, it won't be present on selectserver
         if (card && card.getAttribute('data-serverid')) {
-            inputManager.trigger('menu', {
+            inputManager.handleCommand('menu', {
                 sourceElement: card
             });
 

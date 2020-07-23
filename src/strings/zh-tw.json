@@ -1656,5 +1656,21 @@
     "ApiKeysCaption": "目前已啟用的API金鑰列表",
     "ButtonTogglePlaylist": "播放清單",
     "ButtonToggleContextMenu": "更多",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "LabelRequireHttpsHelp": "如果選中，伺服器將自動將所有通過HTTP的請求重定向到HTTPS。 如果伺服器未在HTTPS上偵聽則此項無效。",
+    "EnableFasterAnimationsHelp": "使用更快的動畫和過渡效果",
+    "EnableFasterAnimations": "更快的動畫",
+    "LabelRequireHttps": "要求HTTPS",
+    "LabelNightly": "每日更新版",
+    "LabelStable": "穩定版",
+    "LabelChromecastVersion": "Chromecast版本",
+    "LabelEnableHttpsHelp": "使伺服器能夠偵聽已配置的HTTPS端口。 要使其生效，必須配置一個有效的證書。",
+    "LabelEnableHttps": "啟用HTTPS",
+    "HeaderServerAddressSettings": "伺服器地址設定",
+    "HeaderRemoteAccessSettings": "遠程訪問設定",
+    "HeaderHttpsSettings": "HTTPS設定",
+    "EnableDetailsBannerHelp": "在項目詳細信息頁面的頂部顯示橫幅圖像。",
+    "EnableDetailsBanner": "詳情橫幅",
+    "EnableDecodingColorDepth10Vp9": "啟用10比特VP9硬體解碼",
+    "EnableDecodingColorDepth10Hevc": "啟用10比特HEVC硬體解碼"
 }

@@ -1468,7 +1468,7 @@ import 'programStyles';
 
             let additionalCardContent = '';
 
-            if (layoutManager.desktop) {
+            if (layoutManager.desktop && !options.disableHoverMenu) {
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
@@ -1497,12 +1497,12 @@ import 'programStyles';
 
             const userData = item.UserData || {};
 
-            if (itemHelper.canMarkPlayed(item) && !options.disableHoverMenu) {
+            if (itemHelper.canMarkPlayed(item)) {
                 require(['emby-playstatebutton']);
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
 
-            if (itemHelper.canRate(item) && !options.disableHoverMenu) {
+            if (itemHelper.canRate(item)) {
 
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
@@ -1510,10 +1510,7 @@ import 'programStyles';
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 
-            if (!options.disableHoverMenu) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';
-            }
-
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';
             html += '</div>';
             html += '</div>';
 

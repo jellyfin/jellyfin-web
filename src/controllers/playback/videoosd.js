@@ -1,5 +1,26 @@
-define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'events', 'connectionManager', 'browser', 'globalize', 'apphost', 'layoutManager', 'userSettings', 'keyboardnavigation', 'scrollStyles', 'emby-slider', 'paper-icon-button-light', 'css!assets/css/videoosd'], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings, keyboardnavigation) {
-    'use strict';
+import playbackManager from 'playbackManager';
+import dom from 'dom';
+import inputManager from 'inputManager';
+import datetime from 'datetime';
+import itemHelper from 'itemHelper';
+import mediaInfo from 'mediaInfo';
+import focusManager from 'focusManager';
+import imageLoader from 'imageLoader';
+import scrollHelper from 'scrollHelper';
+import events from 'events';
+import connectionManager from 'connectionManager';
+import browser from 'browser';
+import globalize from 'globalize';
+import appHost from 'apphost';
+import layoutManager from 'layoutManager';
+import * as userSettings from 'userSettings';
+import keyboardnavigation from 'keyboardnavigation';
+import 'scrollStyles';
+import 'emby-slider';
+import 'paper-icon-button-light';
+import 'css!assets/css/videoosd';
+
+/* eslint-disable indent */
 
     function seriesImageUrl(item, options) {
         if ('Episode' !== item.Type) {
@@ -49,13 +70,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         return document.querySelector('.dialogContainer .dialog.opened');
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function onVerticalSwipe(e, elem, data) {
-            var player = currentPlayer;
+            const player = currentPlayer;
 
             if (player) {
-                var deltaY = data.currentDeltaY;
-                var windowSize = dom.getWindowSize();
+                const deltaY = data.currentDeltaY;
+                const windowSize = dom.getWindowSize();
 
                 if (supportsBrightnessChange && data.clientX < windowSize.innerWidth / 2) {
                     return void doBrightnessTouch(deltaY, player, windowSize.innerHeight);
@@ -66,23 +87,23 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function doBrightnessTouch(deltaY, player, viewHeight) {
-            var delta = -deltaY / viewHeight * 100;
-            var newValue = playbackManager.getBrightness(player) + delta;
+            const delta = -deltaY / viewHeight * 100;
+            let newValue = playbackManager.getBrightness(player) + delta;
             newValue = Math.min(newValue, 100);
             newValue = Math.max(newValue, 0);
             playbackManager.setBrightness(newValue, player);
         }
 
         function doVolumeTouch(deltaY, player, viewHeight) {
-            var delta = -deltaY / viewHeight * 100;
-            var newValue = playbackManager.getVolume(player) + delta;
+            const delta = -deltaY / viewHeight * 100;
+            let newValue = playbackManager.getVolume(player) + delta;
             newValue = Math.min(newValue, 100);
             newValue = Math.max(newValue, 0);
             playbackManager.setVolume(newValue, player);
         }
 
         function onDoubleClick(e) {
-            var clientX = e.clientX;
+            const clientX = e.clientX;
 
             if (null != clientX) {
                 if (clientX < dom.getWindowSize().innerWidth / 2) {
@@ -98,7 +119,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
         function getDisplayItem(item) {
             if ('TvChannel' === item.Type) {
-                var apiClient = connectionManager.getApiClient(item.ServerId);
+                const apiClient = connectionManager.getApiClient(item.ServerId);
                 return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
                     return {
                         originalItem: refreshedItem,
@@ -124,7 +145,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
             connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
-                    require(['recordingButton'], function (RecordingButton) {
+                    import('recordingButton').then(({default: RecordingButton}) => {
                         if (recordingButtonManager) {
                             return void recordingButtonManager.refreshItem(item);
                         }
@@ -140,22 +161,22 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function updateDisplayItem(itemInfo) {
-            var item = itemInfo.originalItem;
+            const item = itemInfo.originalItem;
             currentItem = item;
-            var displayItem = itemInfo.displayItem || item;
+            const displayItem = itemInfo.displayItem || item;
             updateRecordingButton(displayItem);
             setPoster(displayItem, item);
-            var parentName = displayItem.SeriesName || displayItem.Album;
+            let parentName = displayItem.SeriesName || displayItem.Album;
 
             if (displayItem.EpisodeTitle || displayItem.IsSeries) {
                 parentName = displayItem.Name;
             }
 
             setTitle(displayItem, parentName);
-            var titleElement;
-            var osdTitle = view.querySelector('.osdTitle');
+            let titleElement;
+            const osdTitle = view.querySelector('.osdTitle');
             titleElement = osdTitle;
-            var displayName = itemHelper.getDisplayName(displayItem, {
+            let displayName = itemHelper.getDisplayName(displayItem, {
                 includeParentInfo: 'Program' !== displayItem.Type,
                 includeIndexNumber: 'Program' !== displayItem.Type
             });
@@ -172,7 +193,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 titleElement.classList.add('hide');
             }
 
-            var mediaInfoHtml = mediaInfo.getPrimaryMediaInfoHtml(displayItem, {
+            const mediaInfoHtml = mediaInfo.getPrimaryMediaInfoHtml(displayItem, {
                 runtime: false,
                 subtitles: false,
                 tomatoes: false,
@@ -182,7 +203,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 episodeTitleIndexNumber: 'Program' !== displayItem.Type,
                 programIndicator: false
             });
-            var osdMediaInfo = view.querySelector('.osdMediaInfo');
+            const osdMediaInfo = view.querySelector('.osdMediaInfo');
             osdMediaInfo.innerHTML = mediaInfoHtml;
 
             if (mediaInfoHtml) {
@@ -191,8 +212,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 osdMediaInfo.classList.add('hide');
             }
 
-            var secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
-            var secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(displayItem, {
+            const secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
+            const secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(displayItem, {
                 startDate: false,
                 programTime: false
             });
@@ -240,7 +261,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function setDisplayTime(elem, date) {
-            var html;
+            let html;
 
             if (date) {
                 date = datetime.parseISO8601Date(date);
@@ -255,7 +276,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function updateNowPlayingInfo(player, state) {
-            var item = state.NowPlayingItem;
+            const item = state.NowPlayingItem;
 
             currentItem = item;
             if (!item) {
@@ -298,7 +319,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         function setTitle(item, parentName) {
             Emby.Page.setTitle(parentName || '');
 
-            var documentTitle = parentName || (item ? item.Name : null);
+            const documentTitle = parentName || (item ? item.Name : null);
 
             if (documentTitle) {
                 document.title = documentTitle;
@@ -306,10 +327,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function setPoster(item, secondaryItem) {
-            var osdPoster = view.querySelector('.osdPoster');
+            const osdPoster = view.querySelector('.osdPoster');
 
             if (item) {
-                var imgUrl = seriesImageUrl(item, {
+                let imgUrl = seriesImageUrl(item, {
                     maxWidth: osdPoster.clientWidth * 2,
                     type: 'Primary'
                 }) || seriesImageUrl(item, {
@@ -385,7 +406,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function onHideAnimationComplete(e) {
-            var elem = e.target;
+            const elem = e.target;
             if (elem != osdBottomElement)
                 return;
             elem.classList.add('hide');
@@ -396,7 +417,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
         function showMainOsdControls() {
             if (!currentVisibleMenu) {
-                var elem = osdBottomElement;
+                const elem = osdBottomElement;
                 currentVisibleMenu = 'osd';
                 clearHideAnimationEventListeners(elem);
                 elem.classList.remove('hide');
@@ -413,7 +434,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
         function hideMainOsdControls() {
             if ('osd' === currentVisibleMenu) {
-                var elem = osdBottomElement;
+                const elem = osdBottomElement;
                 clearHideAnimationEventListeners(elem);
                 elem.classList.add('videoOsdBottom-hidden');
                 dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
@@ -442,9 +463,9 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
         function onPointerMove(e) {
             if ('mouse' === (e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse'))) {
-                var eventX = e.screenX || 0;
-                var eventY = e.screenY || 0;
-                var obj = lastPointerMoveData;
+                const eventX = e.screenX || 0;
+                const eventY = e.screenY || 0;
+                const obj = lastPointerMoveData;
 
                 if (!obj) {
                     lastPointerMoveData = {
@@ -465,7 +486,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function onInputCommand(e) {
-            var player = currentPlayer;
+            const player = currentPlayer;
 
             switch (e.detail.command) {
                 case 'left':
@@ -524,7 +545,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function onRecordingCommand() {
-            var btnRecord = view.querySelector('.btnRecord');
+            const btnRecord = view.querySelector('.btnRecord');
 
             if (!btnRecord.classList.contains('hide')) {
                 btnRecord.click();
@@ -551,7 +572,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function onStateChanged(event, state) {
-            var player = this;
+            const player = this;
 
             if (state.NowPlayingItem) {
                 isEnabled = true;
@@ -569,21 +590,21 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
         function onVolumeChanged(e) {
             if (isEnabled) {
-                var player = this;
+                const player = this;
                 updatePlayerVolumeState(player, player.isMuted(), player.getVolume());
             }
         }
 
         function onPlaybackStart(e, state) {
             console.debug('nowplaying event: ' + e.type);
-            var player = this;
+            const player = this;
             onStateChanged.call(player, e, state);
             resetUpNextDialog();
         }
 
         function resetUpNextDialog() {
             comingUpNextDisplayed = false;
-            var dlg = currentUpNextDialog;
+            const dlg = currentUpNextDialog;
 
             if (dlg) {
                 dlg.destroy();
@@ -603,8 +624,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function onMediaStreamsChanged(e) {
-            var player = this;
-            var state = playbackManager.getPlayerState(player);
+            const player = this;
+            const state = playbackManager.getPlayerState(player);
             onStateChanged.call(player, {
                 type: 'init'
             }, state);
@@ -624,7 +645,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 currentPlayer = player;
                 if (!player) return;
             }
-            var state = playbackManager.getPlayerState(player);
+            const state = playbackManager.getPlayerState(player);
             onStateChanged.call(player, {
                 type: 'init'
             }, state);
@@ -649,7 +670,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             destroyStats();
             destroySubtitleSync();
             resetUpNextDialog();
-            var player = currentPlayer;
+            const player = currentPlayer;
 
             if (player) {
                 events.off(player, 'playbackstart', onPlaybackStart);
@@ -667,15 +688,15 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         function onTimeUpdate(e) {
             // Test for 'currentItem' is required for Firefox since its player spams 'timeupdate' events even being at breakpoint
             if (isEnabled && currentItem) {
-                var now = new Date().getTime();
+                const now = new Date().getTime();
 
                 if (!(now - lastUpdateTime < 700)) {
                     lastUpdateTime = now;
-                    var player = this;
+                    const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
-                    var currentTime = playbackManager.currentTime(player);
+                    const currentTime = playbackManager.currentTime(player);
                     updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getBufferedRanges(player));
-                    var item = currentItem;
+                    const item = currentItem;
                     refreshProgramInfoIfNeeded(player, item);
                     showComingUpNextIfNeeded(player, item, currentTime, currentRuntimeTicks);
                 }
@@ -684,9 +705,9 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
         function showComingUpNextIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
             if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && 'Episode' === currentItem.Type && userSettings.enableNextVideoInfoOverlay()) {
-                var showAtSecondsLeft = runtimeTicks >= 3e10 ? 40 : runtimeTicks >= 24e9 ? 35 : 30;
-                var showAtTicks = runtimeTicks - 1e3 * showAtSecondsLeft * 1e4;
-                var timeRemainingTicks = runtimeTicks - currentTimeTicks;
+                const showAtSecondsLeft = runtimeTicks >= 3e10 ? 40 : runtimeTicks >= 24e9 ? 35 : 30;
+                const showAtTicks = runtimeTicks - 1e3 * showAtSecondsLeft * 1e4;
+                const timeRemainingTicks = runtimeTicks - currentTimeTicks;
 
                 if (currentTimeTicks >= showAtTicks && runtimeTicks >= 6e9 && timeRemainingTicks >= 2e8) {
                     showComingUpNext(player);
@@ -701,7 +722,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function showComingUpNext(player) {
-            require(['upNextDialog'], function (UpNextDialog) {
+            import('upNextDialog').then(({default: UpNextDialog}) => {
                 if (!(currentVisibleMenu || currentUpNextDialog)) {
                     currentVisibleMenu = 'upnext';
                     comingUpNextDisplayed = true;
@@ -719,15 +740,15 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
         function refreshProgramInfoIfNeeded(player, item) {
             if ('TvChannel' === item.Type) {
-                var program = item.CurrentProgram;
+                const program = item.CurrentProgram;
 
                 if (program && program.EndDate) {
                     try {
-                        var endDate = datetime.parseISO8601Date(program.EndDate);
+                        const endDate = datetime.parseISO8601Date(program.EndDate);
 
                         if (new Date().getTime() >= endDate.getTime()) {
                             console.debug('program info needs to be refreshed');
-                            var state = playbackManager.getPlayerState(player);
+                            const state = playbackManager.getPlayerState(player);
                             onStateChanged.call(player, {
                                 type: 'init'
                             }, state);
@@ -755,9 +776,9 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function updatePlayerStateInternal(event, player, state) {
-            var playState = state.PlayState || {};
+            const playState = state.PlayState || {};
             updatePlayPauseState(playState.IsPaused);
-            var supportedCommands = playbackManager.getSupportedCommands(player);
+            const supportedCommands = playbackManager.getSupportedCommands(player);
             currentPlayerSupportedCommands = supportedCommands;
             supportsBrightnessChange = -1 !== supportedCommands.indexOf('SetBrightness');
             updatePlayerVolumeState(player, playState.IsMuted, playState.VolumeLevel);
@@ -768,7 +789,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
             btnFastForward.disabled = !playState.CanSeek;
             btnRewind.disabled = !playState.CanSeek;
-            var nowPlayingItem = state.NowPlayingItem || {};
+            const nowPlayingItem = state.NowPlayingItem || {};
             playbackStartTimeTicks = playState.PlaybackStartTimeTicks;
             updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.BufferedRanges || []);
             updateNowPlayingInfo(player, state);
@@ -779,7 +800,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 view.querySelector('.btnVideoOsdSettings').classList.add('hide');
             }
 
-            var isProgressClear = state.MediaSource && null == state.MediaSource.RunTimeTicks;
+            const isProgressClear = state.MediaSource && null == state.MediaSource.RunTimeTicks;
             nowPlayingPositionSlider.setIsClear(isProgressClear);
 
             if (nowPlayingItem.RunTimeTicks) {
@@ -816,12 +837,12 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             if (enableProgressByTimeOfDay) {
                 if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
                     if (programStartDateMs && programEndDateMs) {
-                        var currentTimeMs = (playbackStartTimeTicks + (positionTicks || 0)) / 1e4;
-                        var programRuntimeMs = programEndDateMs - programStartDateMs;
+                        const currentTimeMs = (playbackStartTimeTicks + (positionTicks || 0)) / 1e4;
+                        const programRuntimeMs = programEndDateMs - programStartDateMs;
 
                         if (nowPlayingPositionSlider.value = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs), bufferedRanges.length) {
-                            var rangeStart = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, (playbackStartTimeTicks + (bufferedRanges[0].start || 0)) / 1e4);
-                            var rangeEnd = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, (playbackStartTimeTicks + (bufferedRanges[0].end || 0)) / 1e4);
+                            const rangeStart = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, (playbackStartTimeTicks + (bufferedRanges[0].start || 0)) / 1e4);
+                            const rangeEnd = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, (playbackStartTimeTicks + (bufferedRanges[0].end || 0)) / 1e4);
                             nowPlayingPositionSlider.setBufferedRanges([{
                                 start: rangeStart,
                                 end: rangeEnd
@@ -840,7 +861,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             } else {
                 if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
                     if (runtimeTicks) {
-                        var pct = positionTicks / runtimeTicks;
+                        let pct = positionTicks / runtimeTicks;
                         pct *= 100;
                         nowPlayingPositionSlider.value = pct;
                     } else {
@@ -864,9 +885,9 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function updatePlayerVolumeState(player, isMuted, volumeLevel) {
-            var supportedCommands = currentPlayerSupportedCommands;
-            var showMuteButton = true;
-            var showVolumeSlider = true;
+            const supportedCommands = currentPlayerSupportedCommands;
+            let showMuteButton = true;
+            let showVolumeSlider = true;
 
             if (-1 === supportedCommands.indexOf('Mute')) {
                 showMuteButton = false;
@@ -914,8 +935,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function updatePlaylist(player) {
-            var btnPreviousTrack = view.querySelector('.btnPreviousTrack');
-            var btnNextTrack = view.querySelector('.btnNextTrack');
+            const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
+            const btnNextTrack = view.querySelector('.btnNextTrack');
             btnPreviousTrack.classList.remove('hide');
             btnNextTrack.classList.remove('hide');
             btnNextTrack.disabled = false;
@@ -928,7 +949,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 return;
             }
 
-            var html = datetime.getDisplayRunningTime(ticks);
+            let html = datetime.getDisplayRunningTime(ticks);
 
             if (divider) {
                 html = '&nbsp;/&nbsp;' + html;
@@ -938,15 +959,15 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function onSettingsButtonClick(e) {
-            var btn = this;
+            const btn = this;
 
-            require(['playerSettingsMenu'], function (playerSettingsMenu) {
-                var player = currentPlayer;
+            import('playerSettingsMenu').then(({default: playerSettingsMenu}) => {
+                const player = currentPlayer;
 
                 if (player) {
 
                     // show subtitle offset feature only if player and media support it
-                    var showSubOffset = playbackManager.supportSubtitleOffset(player) &&
+                    const showSubOffset = playbackManager.supportSubtitleOffset(player) &&
                         playbackManager.canHandleOffsetOnCurrentSubtitle(player);
 
                     playerSettingsMenu.show({
@@ -969,7 +990,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             if ('stats' === selectedOption) {
                 toggleStats();
             } else if ('suboffset' === selectedOption) {
-                var player = currentPlayer;
+                const player = currentPlayer;
                 if (player) {
                     playbackManager.enableShowingSubtitleOffset(player);
                     toggleSubtitleSync();
@@ -978,8 +999,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function toggleStats() {
-            require(['playerStats'], function (PlayerStats) {
-                var player = currentPlayer;
+            import('playerStats').then(({default: PlayerStats}) => {
+                const player = currentPlayer;
 
                 if (player) {
                     if (statsOverlay) {
@@ -1001,11 +1022,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function showAudioTrackSelection() {
-            var player = currentPlayer;
-            var audioTracks = playbackManager.audioTracks(player);
-            var currentIndex = playbackManager.getAudioStreamIndex(player);
-            var menuItems = audioTracks.map(function (stream) {
-                var opt = {
+            const player = currentPlayer;
+            const audioTracks = playbackManager.audioTracks(player);
+            const currentIndex = playbackManager.getAudioStreamIndex(player);
+            const menuItems = audioTracks.map(function (stream) {
+                const opt = {
                     name: stream.DisplayTitle,
                     id: stream.Index
                 };
@@ -1016,15 +1037,15 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
                 return opt;
             });
-            var positionTo = this;
+            const positionTo = this;
 
-            require(['actionsheet'], function (actionsheet) {
+            import('actionsheet').then(({default: actionsheet}) => {
                 actionsheet.show({
                     items: menuItems,
                     title: globalize.translate('Audio'),
                     positionTo: positionTo
                 }).then(function (id) {
-                    var index = parseInt(id);
+                    const index = parseInt(id);
 
                     if (index !== currentIndex) {
                         playbackManager.setAudioStreamIndex(index, player);
@@ -1038,9 +1059,9 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function showSubtitleTrackSelection() {
-            var player = currentPlayer;
-            var streams = playbackManager.subtitleTracks(player);
-            var currentIndex = playbackManager.getSubtitleStreamIndex(player);
+            const player = currentPlayer;
+            const streams = playbackManager.subtitleTracks(player);
+            let currentIndex = playbackManager.getSubtitleStreamIndex(player);
 
             if (null == currentIndex) {
                 currentIndex = -1;
@@ -1050,8 +1071,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 Index: -1,
                 DisplayTitle: globalize.translate('Off')
             });
-            var menuItems = streams.map(function (stream) {
-                var opt = {
+            const menuItems = streams.map(function (stream) {
+                const opt = {
                     name: stream.DisplayTitle,
                     id: stream.Index
                 };
@@ -1062,15 +1083,15 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
                 return opt;
             });
-            var positionTo = this;
+            const positionTo = this;
 
-            require(['actionsheet'], function (actionsheet) {
+            import('actionsheet').then(({default: actionsheet}) => {
                 actionsheet.show({
                     title: globalize.translate('Subtitles'),
                     items: menuItems,
                     positionTo: positionTo
                 }).then(function (id) {
-                    var index = parseInt(id);
+                    const index = parseInt(id);
 
                     if (index !== currentIndex) {
                         playbackManager.setSubtitleStreamIndex(index, player);
@@ -1086,8 +1107,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function toggleSubtitleSync(action) {
-            require(['subtitleSync'], function (SubtitleSync) {
-                var player = currentPlayer;
+            import('subtitleSync').then(({default: SubtitleSync}) => {
+                const player = currentPlayer;
                 if (subtitleSyncOverlay) {
                     subtitleSyncOverlay.toggle(action);
                 } else if (player) {
@@ -1107,12 +1128,12 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
          * Clicked element.
          * To skip 'click' handling on Firefox/Edge.
          */
-        var clickedElement;
+        let clickedElement;
 
         function onKeyDown(e) {
             clickedElement = e.target;
 
-            var key = keyboardnavigation.getKeyName(e);
+            const key = keyboardnavigation.getKeyName(e);
 
             if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
@@ -1216,10 +1237,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 case '6':
                 case '7':
                 case '8':
-                case '9':
-                    var percent = parseInt(key, 10) * 10;
+                case '9': {
+                    const percent = parseInt(key, 10) * 10;
                     playbackManager.seekPercent(percent, currentPlayer);
                     break;
+                }
             }
         }
 
@@ -1269,11 +1291,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         }
 
         function getChapterBubbleHtml(apiClient, item, chapters, positionTicks) {
-            var chapter;
-            var index = -1;
+            let chapter;
+            let index = -1;
 
-            for (var i = 0, length = chapters.length; i < length; i++) {
-                var currentChapter = chapters[i];
+            for (let i = 0, length = chapters.length; i < length; i++) {
+                const currentChapter = chapters[i];
 
                 if (positionTicks >= currentChapter.StartPositionTicks) {
                     chapter = currentChapter;
@@ -1285,10 +1307,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 return null;
             }
 
-            var src = getImgUrl(item, chapter, index, 400, apiClient);
+            const src = getImgUrl(item, chapter, index, 400, apiClient);
 
             if (src) {
-                var html = '<div class="chapterThumbContainer">';
+                let html = '<div class="chapterThumbContainer">';
                 html += '<img class="chapterThumb" src="' + src + '" />';
                 html += '<div class="chapterThumbTextContainer">';
                 html += '<div class="chapterThumbText chapterThumbText-dim">';
@@ -1304,15 +1326,15 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             return null;
         }
 
-        var playPauseClickTimeout;
+        let playPauseClickTimeout;
         function onViewHideStopPlayback() {
             if (playbackManager.isPlayingVideo()) {
-                require(['shell'], function (shell) {
+                import('shell').then(({default: shell}) => {
                     shell.disableFullscreen();
                 });
 
                 clearTimeout(playPauseClickTimeout);
-                var player = currentPlayer;
+                const player = currentPlayer;
                 view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
                 releaseCurrentPlayer();
                 playbackManager.stop(player);
@@ -1327,43 +1349,43 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        require(['shell'], function (shell) {
+        import('shell').then(({default: shell}) => {
             shell.enableFullscreen();
         });
 
-        var currentPlayer;
-        var comingUpNextDisplayed;
-        var currentUpNextDialog;
-        var isEnabled;
-        var currentItem;
-        var recordingButtonManager;
-        var enableProgressByTimeOfDay;
-        var supportsBrightnessChange;
-        var currentVisibleMenu;
-        var statsOverlay;
-        var osdHideTimeout;
-        var lastPointerMoveData;
-        var self = this;
-        var currentPlayerSupportedCommands = [];
-        var currentRuntimeTicks = 0;
-        var lastUpdateTime = 0;
-        var programStartDateMs = 0;
-        var programEndDateMs = 0;
-        var playbackStartTimeTicks = 0;
-        var subtitleSyncOverlay;
-        var nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
-        var nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
-        var nowPlayingPositionSlider = view.querySelector('.osdPositionSlider');
-        var nowPlayingPositionText = view.querySelector('.osdPositionText');
-        var nowPlayingDurationText = view.querySelector('.osdDurationText');
-        var startTimeText = view.querySelector('.startTimeText');
-        var endTimeText = view.querySelector('.endTimeText');
-        var endsAtText = view.querySelector('.endsAtText');
-        var btnRewind = view.querySelector('.btnRewind');
-        var btnFastForward = view.querySelector('.btnFastForward');
-        var transitionEndEventName = dom.whichTransitionEvent();
-        var headerElement = document.querySelector('.skinHeader');
-        var osdBottomElement = document.querySelector('.videoOsdBottom-maincontrols');
+        let currentPlayer;
+        let comingUpNextDisplayed;
+        let currentUpNextDialog;
+        let isEnabled;
+        let currentItem;
+        let recordingButtonManager;
+        let enableProgressByTimeOfDay;
+        let supportsBrightnessChange;
+        let currentVisibleMenu;
+        let statsOverlay;
+        let osdHideTimeout;
+        let lastPointerMoveData;
+        const self = this;
+        let currentPlayerSupportedCommands = [];
+        let currentRuntimeTicks = 0;
+        let lastUpdateTime = 0;
+        let programStartDateMs = 0;
+        let programEndDateMs = 0;
+        let playbackStartTimeTicks = 0;
+        let subtitleSyncOverlay;
+        const nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
+        const nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
+        const nowPlayingPositionSlider = view.querySelector('.osdPositionSlider');
+        const nowPlayingPositionText = view.querySelector('.osdPositionText');
+        const nowPlayingDurationText = view.querySelector('.osdDurationText');
+        const startTimeText = view.querySelector('.startTimeText');
+        const endTimeText = view.querySelector('.endTimeText');
+        const endsAtText = view.querySelector('.endsAtText');
+        const btnRewind = view.querySelector('.btnRewind');
+        const btnFastForward = view.querySelector('.btnFastForward');
+        const transitionEndEventName = dom.whichTransitionEvent();
+        const headerElement = document.querySelector('.skinHeader');
+        const osdBottomElement = document.querySelector('.videoOsdBottom-maincontrols');
 
         nowPlayingPositionSlider.enableKeyboardDragging();
         nowPlayingVolumeSlider.enableKeyboardDragging();
@@ -1416,7 +1438,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                     passive: true
                 });
             } catch (e) {
-                require(['appRouter'], function(appRouter) {
+                import('appRouter').then(({default: appRouter}) => {
                     appRouter.goHome();
                 });
             }
@@ -1493,15 +1515,15 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             destroyStats();
             destroySubtitleSync();
         });
-        var lastPointerDown = 0;
+        let lastPointerDown = 0;
         /* eslint-disable-next-line compat/compat */
         dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
             if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
                 return void showOsd();
             }
 
-            var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
-            var now = new Date().getTime();
+            const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
+            const now = new Date().getTime();
 
             switch (pointerType) {
                 case 'touch':
@@ -1539,7 +1561,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         if (browser.touch) {
             dom.addEventListener(view, 'dblclick', onDoubleClick, {});
         } else {
-            var options = { passive: true };
+            const options = { passive: true };
             dom.addEventListener(view, 'dblclick', function () {
                 playbackManager.toggleFullscreen(currentPlayer);
             }, options);
@@ -1554,13 +1576,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         });
 
         nowPlayingPositionSlider.addEventListener('change', function () {
-            var player = currentPlayer;
+            const player = currentPlayer;
 
             if (player) {
-                var newPercent = parseFloat(this.value);
+                const newPercent = parseFloat(this.value);
 
                 if (enableProgressByTimeOfDay) {
-                    var seekAirTimeTicks = newPercent / 100 * (programEndDateMs - programStartDateMs) * 1e4;
+                    let seekAirTimeTicks = newPercent / 100 * (programEndDateMs - programStartDateMs) * 1e4;
                     seekAirTimeTicks += 1e4 * programStartDateMs;
                     seekAirTimeTicks -= playbackStartTimeTicks;
                     playbackManager.seek(seekAirTimeTicks, player);
@@ -1574,7 +1596,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             showOsd();
             if (enableProgressByTimeOfDay) {
                 if (programStartDateMs && programEndDateMs) {
-                    var ms = programEndDateMs - programStartDateMs;
+                    let ms = programEndDateMs - programStartDateMs;
                     ms /= 100;
                     ms *= value;
                     ms += programStartDateMs;
@@ -1588,13 +1610,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 return '--:--';
             }
 
-            var ticks = currentRuntimeTicks;
+            let ticks = currentRuntimeTicks;
             ticks /= 100;
             ticks *= value;
-            var item = currentItem;
+            const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
-                var html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+                let html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
                 if (html) {
                     return html;
@@ -1627,7 +1649,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
 
         if (browser.touch) {
             (function () {
-                require(['touchHelper'], function (TouchHelper) {
+                import('touchHelper').then(({default: TouchHelper}) => {
                     self.touchHelper = new TouchHelper(view, {
                         swipeYThreshold: 30,
                         triggerOnMove: true,
@@ -1639,5 +1661,6 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 });
             })();
         }
-    };
-});
+    }
+
+/* eslint-enable indent */

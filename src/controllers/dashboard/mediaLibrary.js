@@ -161,7 +161,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             showType: false,
             showLocations: false,
             showMenu: false,
-            showNameWithIcon: true
+            showNameWithIcon: false
         });
 
         for (var i = 0; i < virtualFolders.length; i++) {
@@ -176,7 +176,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         $('.btnCardMenu', divVirtualFolders).on('click', function () {
             showCardMenu(page, this, virtualFolders);
         });
-        divVirtualFolders.querySelector('.addLibrary').addEventListener('click', function () {
+        divVirtualFolders.querySelector('#addLibrary').addEventListener('click', function () {
             addVirtualFolder(page);
         });
         $('.editLibrary', divVirtualFolders).on('click', function () {
@@ -247,7 +247,12 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             style += 'min-width:33.3%;';
         }
 
-        html += '<div class="card backdropCard scalableCard backdropCard-scalable" style="' + style + '" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
+        if (virtualFolder.Locations.length == 0) {
+            html += '<div id="addLibrary" class="card backdropCard scalableCard backdropCard-scalable" style="' + style + '" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
+        } else {
+            html += '<div class="card backdropCard scalableCard backdropCard-scalable" style="' + style + '" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
+        }
+
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';

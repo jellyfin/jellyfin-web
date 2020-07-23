@@ -72,7 +72,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         const now = (new Date).getTime();
 
         if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= reportPlaybackLogDelay) {
-            console.debug(method + '-' + JSON.stringify(info));
             reportPlaybackLastMethod = method;
             reportPlaybackLastTime = now;
         }

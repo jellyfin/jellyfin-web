@@ -1574,5 +1574,10 @@
     "EnableDetailsBannerHelp": "Display a banner image at the top of the item details page.",
     "EnableDetailsBanner": "Details Banner",
     "EnableDecodingColorDepth10Vp9": "Enable 10-Bit hardware decoding for VP9",
-    "EnableDecodingColorDepth10Hevc": "Enable 10-Bit hardware decoding for HEVC"
+    "EnableDecodingColorDepth10Hevc": "Enable 10-Bit hardware decoding for HEVC",
+    "ViewAlbumArtist": "View album artist",
+    "ClearQueue": "Clear queue",
+    "StopPlayback": "Stop playback",
+    "ButtonPlayer": "Player",
+    "Writers": "Writers"
 }

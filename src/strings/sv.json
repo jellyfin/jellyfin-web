@@ -1518,5 +1518,8 @@
     "LabelStable": "Stabil",
     "HeaderSyncPlaySelectGroup": "Gå med i en grupp",
     "EnableDecodingColorDepth10Vp9": "Aktivera 10-Bitars hårdvaru avcodning för VP9",
-    "EnableDecodingColorDepth10Hevc": "Aktivera 10-Bitars hårdvaru avcodning för HEVC"
+    "EnableDecodingColorDepth10Hevc": "Aktivera 10-Bitars hårdvaru avcodning för HEVC",
+    "HeaderSyncPlayEnabled": "SyncPlay  påslaget",
+    "EnableDetailsBannerHelp": "Visa en bannerbild högst upp på sidan för detaljsidan .",
+    "EnableDetailsBanner": "Information banner"
 }

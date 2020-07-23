@@ -53,11 +53,13 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             user: user,
             share: true
         };
+
         return options;
     }
 
     function getProgramScheduleHtml(items) {
         var html = '';
+
         html += '<div is="emby-itemscontainer" class="itemsContainer vertical-list" data-contextmenu="false">';
         html += listView.getListViewHtml({
             items: items,
@@ -71,6 +73,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             moreButton: false,
             recordButton: false
         });
+
         html += '</div>';
 
         return html;
@@ -143,7 +146,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         instance._currentPlaybackMediaSources = mediaSources;
 
         page.querySelector('.trackSelections').classList.remove('hide');
-
         select.setLabel(globalize.translate('LabelVersion'));
 
         var currentValue = select.value;
@@ -165,7 +167,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             renderAudioSelections(page, mediaSources);
             renderSubtitleSelections(page, mediaSources);
         }
-
     }
 
     function renderVideoSelections(page, mediaSources) {
@@ -173,9 +174,11 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var mediaSource = mediaSources.filter(function (m) {
             return m.Id === mediaSourceId;
         })[0];
+
         var tracks = mediaSource.MediaStreams.filter(function (m) {
             return m.Type === 'Video';
         });
+
         var select = page.querySelector('.selectVideo');
         select.setLabel(globalize.translate('LabelVideo'));
         var selectedId = tracks.length ? tracks[0].Index : -1;
@@ -248,7 +251,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             return 'Video' === m.Type;
         });
 
-        // This only makes sence on Video items
+        // This only makes sense on Video items
         if (videoTracks.length) {
             var selected = -1 === selectedId ? ' selected' : '';
             select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
@@ -256,7 +259,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
             }).join('');
 
-            if (tracks.length > 1) {
+            if (tracks.length > 0) {
                 select.removeAttribute('disabled');
             } else {
                 select.setAttribute('disabled', 'disabled');
@@ -723,11 +726,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             disableIndicators: true,
             disableHoverMenu: true,
             overlayPlayButton: true,
-            width: dom.getWindowSize().innerWidth * 0.25
+            width: dom.getWindowSize().innerWidth * 0.5
         });
 
         elem.innerHTML = cardHtml;
-
         imageLoader.lazyChildren(elem);
     }
 
@@ -1359,7 +1361,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                         imageSize: 'large',
                         enableSideMediaInfo: false,
                         highlight: false,
-                        action: layoutManager.tv ? 'resume' : 'none',
+                        action: !layoutManager.desktop ? 'link' : 'none',
                         imagePlayButton: true,
                         includeParentInfoInTitle: false
                     });

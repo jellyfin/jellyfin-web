@@ -1537,7 +1537,7 @@
     "MessageSyncPlayGroupDoesNotExist": "Impossible de rejoindre le groupe car il n'existe pas.",
     "MessageSyncPlayPlaybackPermissionRequired": "Autorisation de lecture requise.",
     "MessageSyncPlayNoGroupsAvailable": "Aucun groupe disponible. Commencez par lire quelque chose.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> est en train de charger...",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> est en train de charger…",
     "MessageSyncPlayUserLeft": "<b>{0}</b> a quitté le groupe.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> a rejoint le groupe.",
     "MessageSyncPlayDisabled": "SyncPlay désactivé.",
@@ -1545,7 +1545,7 @@
     "LabelSyncPlayAccess": "Accès SyncPlay",
     "LabelSyncPlayAccessNone": "Désactivé pour cet utilisateur",
     "LabelSyncPlayAccessJoinGroups": "Autoriser l'utilisateur à rejoindre un groupe",
-    "SyncPlayAccessHelp": "Sélectionner le niveau d'accès de cet utilisateur pour la fonctionnalité SyncPlay. SyncPlay permet de synchroniser la lecture avec d'autres utilisateurs.",
+    "SyncPlayAccessHelp": "Sélectionner le niveau d'accès de cet utilisateur pour la fonctionnalité SyncPlay. SyncPlay permet de synchroniser la lecture avec d'autres appareils.",
     "MessageSyncPlayErrorMedia": "Impossible d'activer SyncPlay ! Erreur média.",
     "MessageSyncPlayErrorMissingSession": "Impossible d'activer SyncPlay ! Session manquante.",
     "MessageSyncPlayErrorNoActivePlayer": "Aucun lecteur actif trouvé. SyncPlay a été désactivé.",
@@ -1568,5 +1568,10 @@
     "EnableFasterAnimationsHelp": "Utiliser des animations et des transitions plus rapides",
     "EnableFasterAnimations": "Animations plus rapides",
     "EnableDecodingColorDepth10Vp9": "Activer le décodage hardware 10-Bit pour VP9",
-    "EnableDecodingColorDepth10Hevc": "Activer le décodage hardware 10-Bit pour HEVC"
+    "EnableDecodingColorDepth10Hevc": "Activer le décodage hardware 10-Bit pour HEVC",
+    "ClearQueue": "Vider la file d'attente",
+    "StopPlayback": "Arrêter",
+    "ButtonPlayer": "Démarrer",
+    "Writers": "Écrivains",
+    "ViewAlbumArtist": "Voir l'album de l'artiste"
 }
