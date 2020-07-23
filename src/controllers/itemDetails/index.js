@@ -1740,7 +1740,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     function getVideosHtml(items) {
         var html = cardBuilder.getCardsHtml({
             items: items,
-            shape: 'overflowSquare',
+            shape: 'autooverflow',
             showTitle: true,
             action: 'play',
             overlayText: false,
