@@ -28,7 +28,7 @@ import events from 'events';
     }
 
     export function enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
-        var key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
+        const key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
         if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
                 val = true;
@@ -45,7 +45,7 @@ import events from 'events';
     }
 
     export function maxStreamingBitrate(isInNetwork, mediaType, val) {
-        var key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
+        const key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
         if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
                 //  nothing to do, this is always a max value
@@ -67,7 +67,7 @@ import events from 'events';
             this.set('maxStaticMusicBitrate', val);
         }
 
-        var defaultValue = 320000;
+        const defaultValue = 320000;
         return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
     }
 
@@ -118,7 +118,7 @@ import events from 'events';
     }
 
     export function set(name, value, userId) {
-        var currentValue = this.get(name, userId);
+        const currentValue = this.get(name, userId);
         appStorage.setItem(getKey(name, userId), value);
 
         if (currentValue !== value) {

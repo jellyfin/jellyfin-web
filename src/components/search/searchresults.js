@@ -604,7 +604,7 @@ import 'emby-button';
 
     function embed(elem, instance, options) {
 
-        require(['text!./searchresults.template.html'], function (template) {
+        import('text!./searchresults.template.html').then(({default: template}) => {
 
             if (!enableScrollX()) {
                 template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');

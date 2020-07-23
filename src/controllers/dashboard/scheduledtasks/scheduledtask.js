@@ -43,7 +43,7 @@ import 'emby-select';
             $('.taskName', view).html(task.Name);
             $('#pTaskDescription', view).html(task.Description);
 
-            require(['listViewStyle'], function () {
+            import('listViewStyle').then(() => {
                 ScheduledTaskPage.loadTaskTriggers(view, task);
             });
 
@@ -137,7 +137,7 @@ import 'emby-select';
             $('#popupAddTrigger', view).removeClass('hide');
         },
         confirmDeleteTrigger: function (view, index) {
-            require(['confirm'], function (confirm) {
+            import('confirm').then(({default: confirm}) => {
                 confirm.default(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
                     ScheduledTaskPage.deleteTrigger(view, index);
                 });
