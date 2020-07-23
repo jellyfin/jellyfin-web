@@ -1151,7 +1151,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             context.classList.add('tvguide');
 
-            context.innerHTML = globalize.translateDocument(template, 'core');
+            context.innerHTML = globalize.translateHtml(template, 'core');
 
             programGrid = context.querySelector('.programGrid');
             var timeslotHeaders = context.querySelector('.timeslotHeaders');

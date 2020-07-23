@@ -611,7 +611,7 @@ import 'emby-button';
                 template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
             }
 
-            const html = globalize.translateDocument(template, 'core');
+            const html = globalize.translateHtml(template, 'core');
 
             elem.innerHTML = html;
 

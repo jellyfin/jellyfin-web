@@ -39,7 +39,7 @@ import 'css!./../formdialog';
                 let html = '';
                 let submitted = false;
 
-                html += globalize.translateDocument(template, 'core');
+                html += globalize.translateHtml(template, 'core');
 
                 dlg.innerHTML = html;
 

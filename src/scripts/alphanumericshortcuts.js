@@ -1,110 +1,111 @@
-define(['dom', 'focusManager'], function (dom, focusManager) {
-    'use strict';
+import dom from 'dom';
+import focusManager from 'focusManager';
 
-    var inputDisplayElement;
-    var currentDisplayText = '';
-    var currentDisplayTextContainer;
+let inputDisplayElement;
+let currentDisplayText = '';
+let currentDisplayTextContainer;
 
-    function onKeyDown(e) {
+function onKeyDown(e) {
 
-        if (e.ctrlKey) {
-            return;
-        }
-        if (e.shiftKey) {
-            return;
-        }
-        if (e.altKey) {
-            return;
-        }
-
-        var key = e.key;
-        var chr = key ? alphanumeric(key) : null;
-
-        if (chr) {
-
-            chr = chr.toString().toUpperCase();
-
-            if (chr.length === 1) {
-                currentDisplayTextContainer = this.options.itemsContainer;
-                onAlphanumericKeyPress(e, chr);
-            }
-        }
+    if (e.ctrlKey) {
+        return;
+    }
+    if (e.shiftKey) {
+        return;
+    }
+    if (e.altKey) {
+        return;
     }
 
-    function alphanumeric(value) {
-        var letterNumber = /^[0-9a-zA-Z]+$/;
-        return value.match(letterNumber);
-    }
+    const key = e.key;
+    let chr = key ? alphanumeric(key) : null;
 
-    function ensureInputDisplayElement() {
-        if (!inputDisplayElement) {
-            inputDisplayElement = document.createElement('div');
-            inputDisplayElement.classList.add('alphanumeric-shortcut');
-            inputDisplayElement.classList.add('hide');
+    if (chr) {
 
-            document.body.appendChild(inputDisplayElement);
+        chr = chr.toString().toUpperCase();
+
+        if (chr.length === 1) {
+            currentDisplayTextContainer = this.options.itemsContainer;
+            onAlphanumericKeyPress(e, chr);
         }
     }
+}
 
-    var alpanumericShortcutTimeout;
-    function clearAlphaNumericShortcutTimeout() {
-        if (alpanumericShortcutTimeout) {
-            clearTimeout(alpanumericShortcutTimeout);
-            alpanumericShortcutTimeout = null;
-        }
-    }
-    function resetAlphaNumericShortcutTimeout() {
-        clearAlphaNumericShortcutTimeout();
-        alpanumericShortcutTimeout = setTimeout(onAlphanumericShortcutTimeout, 2000);
-    }
+function alphanumeric(value) {
+    const letterNumber = /^[0-9a-zA-Z]+$/;
+    return value.match(letterNumber);
+}
 
-    function onAlphanumericKeyPress(e, chr) {
-        if (currentDisplayText.length >= 3) {
-            return;
-        }
-        ensureInputDisplayElement();
-        currentDisplayText += chr;
-        inputDisplayElement.innerHTML = currentDisplayText;
-        inputDisplayElement.classList.remove('hide');
-        resetAlphaNumericShortcutTimeout();
-    }
-
-    function onAlphanumericShortcutTimeout() {
-        var value = currentDisplayText;
-        var container = currentDisplayTextContainer;
-
-        currentDisplayText = '';
-        currentDisplayTextContainer = null;
-        inputDisplayElement.innerHTML = '';
+function ensureInputDisplayElement() {
+    if (!inputDisplayElement) {
+        inputDisplayElement = document.createElement('div');
+        inputDisplayElement.classList.add('alphanumeric-shortcut');
         inputDisplayElement.classList.add('hide');
-        clearAlphaNumericShortcutTimeout();
-        selectByShortcutValue(container, value);
+
+        document.body.appendChild(inputDisplayElement);
+    }
+}
+
+let alpanumericShortcutTimeout;
+function clearAlphaNumericShortcutTimeout() {
+    if (alpanumericShortcutTimeout) {
+        clearTimeout(alpanumericShortcutTimeout);
+        alpanumericShortcutTimeout = null;
+    }
+}
+function resetAlphaNumericShortcutTimeout() {
+    clearAlphaNumericShortcutTimeout();
+    alpanumericShortcutTimeout = setTimeout(onAlphanumericShortcutTimeout, 2000);
+}
+
+function onAlphanumericKeyPress(e, chr) {
+    if (currentDisplayText.length >= 3) {
+        return;
+    }
+    ensureInputDisplayElement();
+    currentDisplayText += chr;
+    inputDisplayElement.innerHTML = currentDisplayText;
+    inputDisplayElement.classList.remove('hide');
+    resetAlphaNumericShortcutTimeout();
+}
+
+function onAlphanumericShortcutTimeout() {
+    const value = currentDisplayText;
+    const container = currentDisplayTextContainer;
+
+    currentDisplayText = '';
+    currentDisplayTextContainer = null;
+    inputDisplayElement.innerHTML = '';
+    inputDisplayElement.classList.add('hide');
+    clearAlphaNumericShortcutTimeout();
+    selectByShortcutValue(container, value);
+}
+
+function selectByShortcutValue(container, value) {
+
+    value = value.toUpperCase();
+
+    let focusElem;
+    if (value === '#') {
+
+        focusElem = container.querySelector('*[data-prefix]');
     }
 
-    function selectByShortcutValue(container, value) {
-
-        value = value.toUpperCase();
-
-        var focusElem;
-        if (value === '#') {
-
-            focusElem = container.querySelector('*[data-prefix]');
-        }
-
-        if (!focusElem) {
-            focusElem = container.querySelector('*[data-prefix^=\'' + value + '\']');
-        }
-
-        if (focusElem) {
-            focusManager.focus(focusElem);
-        }
+    if (!focusElem) {
+        focusElem = container.querySelector('*[data-prefix^=\'' + value + '\']');
     }
 
-    function AlphaNumericShortcuts(options) {
+    if (focusElem) {
+        focusManager.focus(focusElem);
+    }
+}
+
+class AlphaNumericShortcuts {
+    constructor(options) {
 
         this.options = options;
 
-        var keyDownHandler = onKeyDown.bind(this);
+        const keyDownHandler = onKeyDown.bind(this);
 
         dom.addEventListener(window, 'keydown', keyDownHandler, {
             passive: true
@@ -112,10 +113,9 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
 
         this.keyDownHandler = keyDownHandler;
     }
+    destroy() {
 
-    AlphaNumericShortcuts.prototype.destroy = function () {
-
-        var keyDownHandler = this.keyDownHandler;
+        const keyDownHandler = this.keyDownHandler;
 
         if (keyDownHandler) {
             dom.removeEventListener(window, 'keydown', keyDownHandler, {
@@ -124,7 +124,7 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
             this.keyDownHandler = null;
         }
         this.options = null;
-    };
+    }
+}
 
-    return AlphaNumericShortcuts;
-});
+export default AlphaNumericShortcuts;
