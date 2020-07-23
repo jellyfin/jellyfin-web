@@ -1696,7 +1696,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             if (result.Items.length) {
                 page.querySelector('#musicVideosCollapsible').classList.remove('hide');
                 var musicVideosContent = page.querySelector('.musicVideosContent');
-                musicVideosContent.innerHTML = getVideosHtml(result.Items, user);
+                musicVideosContent.innerHTML = getVideosHtml(result.Items);
                 imageLoader.lazyChildren(musicVideosContent);
             } else {
                 page.querySelector('#musicVideosCollapsible').classList.add('hide');
@@ -1709,7 +1709,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             if (result.Items.length) {
                 page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
                 var additionalPartsContent = page.querySelector('#additionalPartsContent');
-                additionalPartsContent.innerHTML = getVideosHtml(result.Items, user);
+                additionalPartsContent.innerHTML = getVideosHtml(result.Items);
                 imageLoader.lazyChildren(additionalPartsContent);
             } else {
                 page.querySelector('#additionalPartsCollapsible').classList.add('hide');
@@ -1926,17 +1926,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         function onPlayerChange() {
             renderTrackSelections(view, self, currentItem);
             setTrailerButtonVisibility(view, currentItem);
-        }
-
-        function editImages() {
-            return new Promise(function (resolve, reject) {
-                require(['imageEditor'], function (imageEditor) {
-                    imageEditor.show({
-                        itemId: currentItem.Id,
-                        serverId: currentItem.ServerId
-                    }).then(resolve, reject);
-                });
-            });
         }
 
         function onWebSocketMessage(e, data) {
