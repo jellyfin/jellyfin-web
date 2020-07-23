@@ -1,5 +1,5 @@
 ---
-name: Technical discussion
+name: Technical Discussion
 about: You want to discuss technical aspects of changes you intend to make
 labels: enhancement
 ---

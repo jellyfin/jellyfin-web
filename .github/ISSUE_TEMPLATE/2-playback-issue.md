@@ -1,10 +1,10 @@
 ---
-name: Playback issue
+name: Playback Issue
 about: You have playback issues with some files
 labels: playback
 ---
 
-**Describe the bug**
+**Describe The Bug**
 <!-- A clear and concise description of what the bug is. -->
 
 **Media Information**
@@ -18,5 +18,5 @@ labels: playback
  - Browser: [e.g. Firefox, Chrome, Safari]
  - Jellyfin Version: [e.g. 10.6.0]
 
-**Additional context**
+**Additional Context**
 <!-- Add any other context about the problem here. -->
