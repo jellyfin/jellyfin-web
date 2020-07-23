@@ -116,6 +116,8 @@
           "src/components/syncPlay/timeSyncManager.js",
           "src/controllers/dashboard/logs.js",
           "src/controllers/dashboard/plugins/repositories.js",
+          "src/controllers/playback/nowplaying.js",
+          "src/controllers/playback/videoosd.js",
           "src/controllers/user/display.js",
           "src/controllers/user/home.js",
           "src/controllers/user/playback.js",
