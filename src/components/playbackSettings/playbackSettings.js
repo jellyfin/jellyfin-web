@@ -302,7 +302,7 @@ import 'emby-checkbox';
 
         return import('text!./playbackSettings.template.html').then(({default: template}) => {
 
-            options.element.innerHTML = globalize.translateDocument(template, 'core');
+            options.element.innerHTML = globalize.translateHtml(template, 'core');
 
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
 

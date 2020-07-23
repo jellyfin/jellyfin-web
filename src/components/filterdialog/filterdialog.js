@@ -412,7 +412,7 @@ import 'css!./style.css';
                     dlg.classList.add('background-theme-a');
                     dlg.classList.add('formDialog');
                     dlg.classList.add('filterDialog');
-                    dlg.innerHTML = globalize.translateDocument(template);
+                    dlg.innerHTML = globalize.translateHtml(template);
                     setVisibility(dlg, this.options);
                     dialogHelper.open(dlg);
                     dlg.addEventListener('close', resolve);

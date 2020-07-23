@@ -70,9 +70,9 @@ import 'css!./searchfields';
 
     function embed(elem, instance, options) {
 
-        require(['text!./searchfields.template.html'], function (template) {
+        import('text!./searchfields.template.html').then(({default: template}) => {
 
-            let html = globalize.translateDocument(template, 'core');
+            let html = globalize.translateHtml(template, 'core');
 
             if (browser.tizen || browser.orsay) {
                 html = html.replace('<input ', '<input readonly ');

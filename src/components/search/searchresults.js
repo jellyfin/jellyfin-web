@@ -604,14 +604,14 @@ import 'emby-button';
 
     function embed(elem, instance, options) {
 
-        require(['text!./searchresults.template.html'], function (template) {
+        import('text!./searchresults.template.html').then(({default: template}) => {
 
             if (!enableScrollX()) {
                 template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');
                 template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
             }
 
-            const html = globalize.translateDocument(template, 'core');
+            const html = globalize.translateHtml(template, 'core');
 
             elem.innerHTML = html;
 

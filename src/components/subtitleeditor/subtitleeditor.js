@@ -448,7 +448,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             dlg.classList.add('formDialog');
             dlg.classList.add('subtitleEditorDialog');
 
-            dlg.innerHTML = globalize.translateDocument(template, 'core');
+            dlg.innerHTML = globalize.translateHtml(template, 'core');
 
             dlg.querySelector('.originalSubtitleFileLabel').innerHTML = globalize.translate('File');
 

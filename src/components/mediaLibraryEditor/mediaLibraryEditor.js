@@ -226,7 +226,7 @@ export class showEditor {
             dlg.classList.add('ui-body-a');
             dlg.classList.add('background-theme-a');
             dlg.classList.add('formDialog');
-            dlg.innerHTML = globalize.translateDocument(template);
+            dlg.innerHTML = globalize.translateHtml(template);
             dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.library.Name;
             initEditor(dlg, options);
             dlg.addEventListener('close', onDialogClosed);

@@ -380,6 +380,7 @@ import 'emby-itemrefreshindicator';
     });
     pageIdOn('pageshow', 'mediaLibraryPage', function () {
         libraryMenu.setTabs('librarysetup', 0, getTabs);
+
         const page = this;
         taskButton({
             mode: 'on',
@@ -389,6 +390,7 @@ import 'emby-itemrefreshindicator';
         });
     });
     pageIdOn('pagebeforehide', 'mediaLibraryPage', function () {
+
         const page = this;
         taskButton({
             mode: 'off',

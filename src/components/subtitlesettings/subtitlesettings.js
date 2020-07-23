@@ -90,7 +90,7 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
 
             loading.hide();
             if (enableSaveConfirmation) {
-                require(['toast'], function (toast) {
+                import('toast').then(({default: toast}) => {
                     toast(globalize.translate('SettingsSaved'));
                 });
             }
@@ -130,10 +130,10 @@ function onAppearanceFieldChange(e) {
 
 function embed(options, self) {
 
-    require(['text!./subtitlesettings.template.html'], function (template) {
+    import('text!./subtitlesettings.template.html').then(({default: template}) => {
 
         options.element.classList.add('subtitlesettings');
-        options.element.innerHTML = globalize.translateDocument(template, 'core');
+        options.element.innerHTML = globalize.translateHtml(template, 'core');
 
         options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
 

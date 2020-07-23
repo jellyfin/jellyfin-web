@@ -157,7 +157,7 @@ import 'emby-button';
     }
 
     function alertTextWithOptions(options) {
-        require(['alert'], alert => {
+        import('alert').then(({default: alert}) => {
             alert(options);
         });
     }

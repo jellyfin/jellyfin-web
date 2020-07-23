@@ -1160,10 +1160,10 @@ import 'programStyles';
         /**
          * Imports the refresh indicator element.
          */
-        function requireRefreshIndicator() {
+        function importRefreshIndicator() {
             if (!refreshIndicatorLoaded) {
                 refreshIndicatorLoaded = true;
-                require(['emby-itemrefreshindicator']);
+                import('emby-itemrefreshindicator');
             }
         }
 
@@ -1414,7 +1414,7 @@ import 'programStyles';
             if (item.Type === 'CollectionFolder' || item.CollectionType) {
                 const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
                 indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
-                requireRefreshIndicator();
+                importRefreshIndicator();
             }
 
             if (indicatorsHtml) {
@@ -1495,7 +1495,7 @@ import 'programStyles';
             const userData = item.UserData || {};
 
             if (itemHelper.canMarkPlayed(item)) {
-                require(['emby-playstatebutton']);
+                import('emby-playstatebutton');
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
 
@@ -1503,7 +1503,7 @@ import 'programStyles';
 
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
-                require(['emby-ratingbutton']);
+                import('emby-ratingbutton');
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 
