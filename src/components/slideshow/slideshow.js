@@ -131,9 +131,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         /** Last coordinates of the mouse pointer. */
         var lastMouseMoveData;
 
-        // Use autoplay on Chromecast since it is non-interactive.
-        if (browser.chromecast) options.interactive = false;
-
         /**
          * Creates the HTML markup for the dialog and the OSD.
          * @param {Object} options - Options used to create the dialog and slideshow.

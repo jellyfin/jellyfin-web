@@ -8,25 +8,10 @@ import 'emby-button';
 
     let tabOwnerView;
     const queryScope = document.querySelector('.skinHeader');
-    let footerTabsContainer;
     let headerTabsContainer;
     let tabsElem;
 
-    function enableTabsInFooter() {
-        return false;
-    }
-
-    function ensureElements(enableInFooter) {
-
-        if (enableInFooter) {
-            if (!footerTabsContainer) {
-                footerTabsContainer = document.createElement('div');
-                footerTabsContainer.classList.add('footerTabs');
-                footerTabsContainer.classList.add('sectionTabs');
-                footerTabsContainer.classList.add('hide');
-            }
-        }
-
+    function ensureElements() {
         if (!headerTabsContainer) {
             headerTabsContainer = queryScope.querySelector('.headerTabs');
         }
@@ -97,9 +82,6 @@ import 'emby-button';
     }
 
     export function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
-
-        const enableInFooter = enableTabsInFooter();
-
         if (!view) {
             if (tabOwnerView) {
 
@@ -107,17 +89,12 @@ import 'emby-button';
                     headerTabsContainer = queryScope.querySelector('.headerTabs');
                 }
 
-                ensureElements(enableInFooter);
+                ensureElements();
 
                 document.body.classList.remove('withSectionTabs');
 
                 headerTabsContainer.innerHTML = '';
                 headerTabsContainer.classList.add('hide');
-
-                if (footerTabsContainer) {
-                    footerTabsContainer.innerHTML = '';
-                    footerTabsContainer.classList.add('hide');
-                }
 
                 tabOwnerView = null;
             }
@@ -127,9 +104,9 @@ import 'emby-button';
             };
         }
 
-        ensureElements(enableInFooter);
+        ensureElements();
 
-        const tabsContainerElem = enableInFooter ? footerTabsContainer : headerTabsContainer;
+        const tabsContainerElem = headerTabsContainer;
 
         if (!tabOwnerView) {
             tabsContainerElem.classList.remove('hide');

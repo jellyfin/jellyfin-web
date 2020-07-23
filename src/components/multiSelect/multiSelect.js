@@ -580,9 +580,6 @@ import 'css!./multiSelect';
             dom.removeEventListener(element, 'touchend', onTouchEnd, {
                 passive: true
             });
-            dom.removeEventListener(element, 'touchcancel', onTouchEnd, {
-                passive: true
-            });
             dom.removeEventListener(element, 'mousedown', onMouseDown, {
                 passive: true
             });

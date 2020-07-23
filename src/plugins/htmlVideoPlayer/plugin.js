@@ -32,13 +32,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
-        // subs getting blocked due to CORS
-        if (browser.chromecast) {
-            if ((currentSrc || '').toLowerCase().indexOf('.m3u8') !== -1) {
-                return false;
-            }
-        }
-
         if (browser.ps4) {
             return false;
         }
@@ -306,35 +299,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
-        function setCurrentSrcChromecast(instance, elem, options, url) {
-
-            elem.autoplay = true;
-
-            var lrd = new cast.receiver.MediaManager.LoadRequestData();
-            lrd.currentTime = (options.playerStartPositionTicks || 0) / 10000000;
-            lrd.autoplay = true;
-            lrd.media = new cast.receiver.media.MediaInformation();
-
-            lrd.media.contentId = url;
-            lrd.media.contentType = options.mimeType;
-            lrd.media.streamType = cast.receiver.media.StreamType.OTHER;
-            lrd.media.customData = options;
-
-            console.debug('loading media url into media manager');
-
-            try {
-                mediaManager.load(lrd);
-                // This is needed in setCurrentTrackElement
-                self._currentSrc = url;
-
-                return Promise.resolve();
-            } catch (err) {
-
-                console.debug('media manager error: ' + err);
-                return Promise.reject();
-            }
-        }
-
         // Adapted from : https://github.com/googlecast/CastReferencePlayer/blob/master/player.js
         function onMediaManagerLoadMedia(event) {
 
@@ -433,9 +397,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 elem.crossOrigin = crossOrigin;
             }
 
-            if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
-                return setCurrentSrcChromecast(self, elem, options, val);
-            } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
+            if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
                 return setSrcWithHlsJs(self, elem, options, val);
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
 
@@ -1210,10 +1172,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         var html = '';
                         var cssClass = 'htmlvideoplayer';
 
-                        if (!browser.chromecast) {
-                            cssClass += ' htmlvideoplayer-moveupsubtitles';
-                        }
-
                         // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
                         if (!appHost.supports('htmlvideoautoplay')) {
                             html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
@@ -1749,10 +1707,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             categories: categories
         });
     };
-
-    if (browser.chromecast) {
-        mediaManager = new cast.receiver.MediaManager(document.createElement('video'));
-    }
 
     return HtmlVideoPlayer;
 });

@@ -253,7 +253,5 @@ define([], function () {
         }
     }
 
-    browser.chromecast = browser.chrome && userAgent.toLowerCase().indexOf('crkey') !== -1;
-
     return browser;
 });
