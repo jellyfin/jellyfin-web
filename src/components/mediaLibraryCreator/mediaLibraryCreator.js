@@ -211,7 +211,7 @@ export class showEditor {
                 dlg.classList.add('background-theme-a');
                 dlg.classList.add('dlg-librarycreator');
                 dlg.classList.add('formDialog');
-                dlg.innerHTML = globalize.translateDocument(template);
+                dlg.innerHTML = globalize.translateHtml(template);
                 initEditor(dlg, options.collectionTypeOptions);
                 dlg.addEventListener('close', onDialogClosed);
                 dialogHelper.open(dlg);

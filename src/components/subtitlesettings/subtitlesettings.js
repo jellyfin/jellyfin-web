@@ -133,7 +133,7 @@ function embed(options, self) {
     import('text!./subtitlesettings.template.html').then(({default: template}) => {
 
         options.element.classList.add('subtitlesettings');
-        options.element.innerHTML = globalize.translateDocument(template, 'core');
+        options.element.innerHTML = globalize.translateHtml(template, 'core');
 
         options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
 

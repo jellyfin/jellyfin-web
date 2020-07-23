@@ -464,7 +464,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
                 dlg.classList.add('formDialog');
 
-                dlg.innerHTML = globalize.translateDocument(template, 'core');
+                dlg.innerHTML = globalize.translateHtml(template, 'core');
 
                 if (layoutManager.tv) {
                     scrollHelper.centerFocus.on(dlg, false);
