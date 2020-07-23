@@ -306,7 +306,7 @@ import 'emby-input';
     }
 
     function showImageOptionsForType(type) {
-        import('imageoptionseditor').then(ImageOptionsEditor => {
+        import('imageoptionseditor').then(({default: ImageOptionsEditor}) => {
             let typeOptions = getTypeOptions(currentLibraryOptions, type);
             if (!typeOptions) {
                 typeOptions = {
@@ -315,7 +315,8 @@ import 'emby-input';
                 currentLibraryOptions.TypeOptions.push(typeOptions);
             }
             const availableOptions = getTypeOptions(currentAvailableOptions || {}, type);
-            new ImageOptionsEditor.showEditor(type, typeOptions, availableOptions);
+            const imageOptionsEditor = new ImageOptionsEditor();
+            imageOptionsEditor.show(type, typeOptions, availableOptions);
         });
     }
 
@@ -356,25 +357,23 @@ import 'emby-input';
         parent.querySelector('.imageFetchers').addEventListener('click', onImageFetchersContainerClick);
     }
 
-    export function embed(parent, contentType, libraryOptions) {
+    export async function embed(parent, contentType, libraryOptions) {
         currentLibraryOptions = {
             TypeOptions: []
         };
         currentAvailableOptions = null;
         const isNewLibrary = null === libraryOptions;
         isNewLibrary && parent.classList.add('newlibrary');
-        return import('text!./libraryoptionseditor.template.html').then(({default: template}) => {
-            return new Promise((resolve) => {
-                parent.innerHTML = globalize.translateDocument(template);
-                populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
-                const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
-                Promise.all(promises).then(() => {
-                    return setContentType(parent, contentType).then(() => {
-                        libraryOptions && setLibraryOptions(parent, libraryOptions);
-                        bindEvents(parent);
-                        resolve();
-                    });
-                });
+        const response = await fetch('components/libraryoptionseditor/libraryoptionseditor.template.html');
+        const template = await response.text();
+        parent.innerHTML = globalize.translateDocument(template);
+        populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
+        const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
+        Promise.all(promises).then(function() {
+            return setContentType(parent, contentType).then(function() {
+                libraryOptions && setLibraryOptions(parent, libraryOptions);
+                bindEvents(parent);
+                return;
             });
         });
     }

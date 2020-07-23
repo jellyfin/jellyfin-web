@@ -89,29 +89,37 @@ import 'emby-input';
         });
     }
 
-export class showEditor {
-    constructor(itemType, options, availableOptions) {
-        return import('text!./components/imageOptionsEditor/imageOptionsEditor.template.html').then(({default: template}) => {
-            return new Promise((resolve) => {
-                const dlg = dialogHelper.createDialog({
-                    size: 'small',
-                    removeOnClose: true,
-                    scrollY: false
-                });
-                dlg.classList.add('formDialog');
-                dlg.innerHTML = globalize.translateDocument(template);
-                dlg.addEventListener('close', () => {
-                    saveValues(dlg, options);
-                });
-                loadValues(dlg, itemType, options, availableOptions);
-                dialogHelper.open(dlg).then(resolve, resolve);
-                dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                    dialogHelper.close(dlg);
-                });
-            });
+    async function showEditor(itemType, options, availableOptions) {
+        const response = await fetch('components/imageOptionsEditor/imageOptionsEditor.template.html');
+        const template = await response.text();
+
+        var dlg = dialogHelper.createDialog({
+            size: 'small',
+            removeOnClose: true,
+            scrollY: false
         });
+        dlg.classList.add('formDialog');
+        dlg.innerHTML = globalize.translateDocument(template);
+        dlg.addEventListener('close', function () {
+            saveValues(dlg, options);
+        });
+        loadValues(dlg, itemType, options, availableOptions);
+        dialogHelper.open(dlg).then(() => {
+            return;
+        }).catch(() => {
+            return;
+        });
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+            dialogHelper.close(dlg);
+        });
+
+    }
+
+export class editor {
+    constructor() {
+        this.show = showEditor;
     }
 }
 
 /* eslint-enable indent */
-export default showEditor;
+export default editor;
