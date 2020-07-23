@@ -331,7 +331,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         }
 
         if (this.enableAlphaNumericShortcuts !== false) {
-            this.alphaNumericShortcuts = new AlphaNumericShortcuts({
+            this.alphaNumericShortcuts = new AlphaNumericShortcuts.default({
                 itemsContainer: this.itemsContainer
             });
         }
@@ -561,7 +561,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
 
         var alphaNumericShortcuts = this.alphaNumericShortcuts;
         if (alphaNumericShortcuts) {
-            alphaNumericShortcuts.destroy();
+            alphaNumericShortcuts.default.destroy();
             this.alphaNumericShortcuts = null;
         }
     };
