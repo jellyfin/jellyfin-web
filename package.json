@@ -118,6 +118,7 @@
           "src/components/itemidentifier/itemidentifier.js",
           "src/components/itemMediaInfo/itemMediaInfo.js",
           "src/components/lazyLoader/lazyLoaderIntersectionObserver.js",
+          "src/components/mediainfo/mediainfo.js",
           "src/components/multiSelect/multiSelect.js",
           "src/components/maintabsmanager.js",
           "src/components/mediaLibraryCreator/mediaLibraryCreator.js",
