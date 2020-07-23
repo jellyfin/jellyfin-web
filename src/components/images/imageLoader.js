@@ -120,7 +120,7 @@ import 'css!./style';
 
     export function lazyChildren(elem) {
         if (userSettings.enableBlurhash()) {
-            for (const lazyElem of elem.getElementsByClassName('lazy')) {
+            for (const lazyElem of elem.querySelectorAll('.lazy')) {
                 const blurhashstr = lazyElem.getAttribute('data-blurhash');
                 if (!lazyElem.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
                     itemBlurhashing(lazyElem, blurhashstr);
