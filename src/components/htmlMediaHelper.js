@@ -246,19 +246,6 @@ import events from 'events';
         }
     }
 
-    export function destroyShakaPlayer(instance) {
-        var player = instance._shakaPlayer;
-        if (player) {
-            try {
-                player.destroy();
-            } catch (err) {
-                console.error(err);
-            }
-
-            instance._shakaPlayer = null;
-        }
-    }
-
     export function destroyHlsPlayer(instance) {
         var player = instance._hlsPlayer;
         if (player) {
@@ -389,7 +376,6 @@ import events from 'events';
 
         destroyHlsPlayer(instance);
         destroyFlvPlayer(instance);
-        destroyShakaPlayer(instance);
         destroyCastPlayer(instance);
 
         var stopInfo = {

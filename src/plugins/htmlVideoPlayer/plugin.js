@@ -1633,7 +1633,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             link = null;
         }
 
-        if (this._hlsPlayer || this._shakaPlayer) {
+        if (this._hlsPlayer) {
             mediaCategory.stats.push({
                 label: globalize.translate('LabelStreamType'),
                 value: 'HLS'

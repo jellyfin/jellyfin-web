@@ -677,7 +677,6 @@ function initClient() {
                     'howler',
                     'native-promise-only',
                     'resize-observer-polyfill',
-                    'shaka',
                     'swiper',
                     'queryString',
                     'sortable',

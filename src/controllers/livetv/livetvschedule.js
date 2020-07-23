@@ -36,8 +36,8 @@ define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'sc
             showTitle: true,
             showParentTitle: true,
             coverImage: true,
-            cardLayout: appHost.preferVisualCards,
-            centerText: !appHost.preferVisualCards,
+            cardLayout: false,
+            centerText: false,
             allowBottomPadding: !enableScrollX(),
             preferThumb: 'auto'
         }, cardOptions || {}));
