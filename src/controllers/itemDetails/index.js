@@ -251,7 +251,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             return 'Video' === m.Type;
         });
 
-        // This only makes sence on Video items
+        // This only makes sense on Video items
         if (videoTracks.length) {
             var selected = -1 === selectedId ? ' selected' : '';
             select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
@@ -259,7 +259,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
             }).join('');
 
-            if (tracks.length > 1) {
+            if (tracks.length > 0) {
                 select.removeAttribute('disabled');
             } else {
                 select.setAttribute('disabled', 'disabled');
