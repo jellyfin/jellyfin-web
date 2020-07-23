@@ -1,18 +1,30 @@
-define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'globalize', 'loading', 'dom', 'recordingHelper'], function (playbackManager, inputManager, connectionManager, appRouter, globalize, loading, dom, recordingHelper) {
-    'use strict';
+/* eslint-disable indent */
+
+/**
+ * Module shortcuts.
+ * @module components/shortcuts
+ */
+
+import playbackManager from 'playbackManager';
+import inputManager from 'inputManager';
+import connectionManager from 'connectionManager';
+import appRouter from 'appRouter';
+import globalize from 'globalize';
+import dom from 'dom';
+import recordingHelper from 'recordingHelper';
 
     function playAllFromHere(card, serverId, queue) {
 
-        var parent = card.parentNode;
-        var className = card.classList.length ? ('.' + card.classList[0]) : '';
-        var cards = parent.querySelectorAll(className + '[data-id]');
+        const parent = card.parentNode;
+        const className = card.classList.length ? (`.${card.classList[0]}`) : '';
+        const cards = parent.querySelectorAll(`${className}[data-id]`);
 
-        var ids = [];
+        const ids = [];
 
-        var foundCard = false;
-        var startIndex;
+        let foundCard = false;
+        let startIndex;
 
-        for (var i = 0, length = cards.length; i < length; i++) {
+        for (let i = 0, length = cards.length; i < length; i++) {
             if (cards[i] === card) {
                 foundCard = true;
                 startIndex = i;
@@ -22,12 +34,12 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
             }
         }
 
-        var itemsContainer = dom.parentWithClass(card, 'itemsContainer');
+        const itemsContainer = dom.parentWithClass(card, 'itemsContainer');
         if (itemsContainer && itemsContainer.fetchData) {
 
-            var queryOptions = queue ? { StartIndex: startIndex } : {};
+            const queryOptions = queue ? { StartIndex: startIndex } : {};
 
-            return itemsContainer.fetchData(queryOptions).then(function (result) {
+            return itemsContainer.fetchData(queryOptions).then(result => {
 
                 if (queue) {
                     return playbackManager.queue({
@@ -64,7 +76,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
 
     function showProgramDialog(item) {
 
-        require(['recordingCreator'], function (recordingCreator) {
+        import('recordingCreator').then(({default:recordingCreator}) => {
 
             recordingCreator.show(item.Id, item.ServerId);
         });
@@ -73,11 +85,11 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
     function getItem(button) {
 
         button = dom.parentWithAttribute(button, 'data-id');
-        var serverId = button.getAttribute('data-serverid');
-        var id = button.getAttribute('data-id');
-        var type = button.getAttribute('data-type');
+        const serverId = button.getAttribute('data-serverid');
+        const id = button.getAttribute('data-id');
+        const type = button.getAttribute('data-type');
 
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = connectionManager.getApiClient(serverId);
 
         if (type === 'Timer') {
             return apiClient.getLiveTvTimer(id);
@@ -99,19 +111,19 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
 
     function showContextMenu(card, options) {
 
-        getItem(card).then(function (item) {
+        getItem(card).then(item => {
 
-            var playlistId = card.getAttribute('data-playlistid');
-            var collectionId = card.getAttribute('data-collectionid');
+            const playlistId = card.getAttribute('data-playlistid');
+            const collectionId = card.getAttribute('data-collectionid');
 
             if (playlistId) {
-                var elem = dom.parentWithAttribute(card, 'data-playlistitemid');
+                const elem = dom.parentWithAttribute(card, 'data-playlistitemid');
                 item.PlaylistItemId = elem ? elem.getAttribute('data-playlistitemid') : null;
             }
 
-            require(['itemContextMenu'], function (itemContextMenu) {
+            import('itemContextMenu').then(({default: itemContextMenu}) => {
 
-                connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+                connectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
                     itemContextMenu.show(Object.assign({
                         item: item,
                         play: true,
@@ -122,9 +134,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                         collectionId: collectionId,
                         user: user
 
-                    }, options || {})).then(function (result) {
-
-                        var itemsContainer;
+                    }, options || {})).then(result => {
 
                         if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
                             executeAction(card, options.positionTo, result.command);
@@ -157,9 +167,9 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
 
     function showPlayMenu(card, target) {
 
-        var item = getItemInfoFromCard(card);
+        const item = getItemInfoFromCard(card);
 
-        require(['playMenu'], function (playMenu) {
+        import('playMenu').then(({default: playMenu}) => {
 
             playMenu.show({
 
@@ -170,7 +180,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
     }
 
     function sendToast(text) {
-        require(['toast'], function (toast) {
+        import('toast').then(({default: toast}) => {
             toast(text);
         });
     }
@@ -179,19 +189,19 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
 
         target = target || card;
 
-        var id = card.getAttribute('data-id');
+        let id = card.getAttribute('data-id');
 
         if (!id) {
             card = dom.parentWithAttribute(card, 'data-id');
             id = card.getAttribute('data-id');
         }
 
-        var item = getItemInfoFromCard(card);
+        const item = getItemInfoFromCard(card);
 
-        var serverId = item.ServerId;
-        var type = item.Type;
+        const serverId = item.ServerId;
+        const type = item.Type;
 
-        var playableItemId = type === 'Program' ? item.ChannelId : item.Id;
+        const playableItemId = type === 'Program' ? item.ChannelId : item.Id;
 
         if (item.MediaType === 'Photo' && action === 'link') {
             action = 'play';
@@ -213,7 +223,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
             });
         } else if (action === 'play' || action === 'resume') {
 
-            var startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0');
+            const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0');
 
             playbackManager.play({
                 ids: [playableItemId],
@@ -244,7 +254,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
             onRecordCommand(serverId, id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
         } else if (action === 'menu') {
 
-            var options = target.getAttribute('data-playoptions') === 'false' ?
+            const options = target.getAttribute('data-playoptions') === 'false' ?
                 {
                     shuffle: false,
                     instantMix: false,
@@ -261,7 +271,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         } else if (action === 'playmenu') {
             showPlayMenu(card, target);
         } else if (action === 'edit') {
-            getItem(target).then(function (item) {
+            getItem(target).then(item => {
                 editItem(item, serverId);
             });
         } else if (action === 'playtrailer') {
@@ -270,9 +280,9 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
             getItem(target).then(addToPlaylist);
         } else if (action === 'custom') {
 
-            var customAction = target.getAttribute('data-customaction');
+            const customAction = target.getAttribute('data-customaction');
 
-            card.dispatchEvent(new CustomEvent('action-' + customAction, {
+            card.dispatchEvent(new CustomEvent(`action-${customAction}`, {
                 detail: {
                     playlistItemId: card.getAttribute('data-playlistitemid')
                 },
@@ -283,7 +293,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
     }
 
     function addToPlaylist(item) {
-        require(['playlistEditor'], function (playlistEditor) {
+        import('playlistEditor').then(({default: playlistEditor}) => {
 
             new playlistEditor().show({
                 items: [item.Id],
@@ -295,35 +305,35 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
 
     function playTrailer(item) {
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = connectionManager.getApiClient(item.ServerId);
 
-        apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (trailers) {
+        apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(trailers => {
             playbackManager.play({ items: trailers });
         });
     }
 
     function editItem(item, serverId) {
 
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = connectionManager.getApiClient(serverId);
 
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
 
-            var serverId = apiClient.serverInfo().Id;
+            const serverId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
                 if (item.ProgramId) {
-                    require(['recordingCreator'], function (recordingCreator) {
+                    import('recordingCreator').then(({default: recordingCreator}) => {
 
                         recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
                     });
                 } else {
-                    require(['recordingEditor'], function (recordingEditor) {
+                    import('recordingEditor').then(({default: recordingEditor}) => {
 
                         recordingEditor.show(item.Id, serverId).then(resolve, reject);
                     });
                 }
             } else {
-                require(['metadataEditor'], function (metadataEditor) {
+                import('metadataEditor').then(({default: metadataEditor}) => {
 
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
@@ -335,19 +345,19 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
 
         if (type === 'Program' || timerId || seriesTimerId) {
 
-            var programId = type === 'Program' ? id : null;
+            const programId = type === 'Program' ? id : null;
             recordingHelper.toggleRecording(serverId, programId, timerId, seriesTimerId);
         }
     }
 
-    function onClick(e) {
+    export function onClick(e) {
 
-        var card = dom.parentWithClass(e.target, 'itemAction');
+        const card = dom.parentWithClass(e.target, 'itemAction');
 
         if (card) {
 
-            var actionElement = card;
-            var action = actionElement.getAttribute('data-action');
+            let actionElement = card;
+            let action = actionElement.getAttribute('data-action');
 
             if (!action) {
                 actionElement = dom.parentWithAttribute(actionElement, 'data-action');
@@ -368,12 +378,12 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
 
     function onCommand(e) {
 
-        var cmd = e.detail.command;
+        const cmd = e.detail.command;
 
         if (cmd === 'play' || cmd === 'resume' || cmd === 'record' || cmd === 'menu' || cmd === 'info') {
 
-            var target = e.target;
-            var card = dom.parentWithClass(target, 'itemAction') || dom.parentWithAttribute(target, 'data-id');
+            const target = e.target;
+            const card = dom.parentWithClass(target, 'itemAction') || dom.parentWithAttribute(target, 'data-id');
 
             if (card) {
                 e.preventDefault();
@@ -383,7 +393,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
     }
 
-    function on(context, options) {
+    export function on(context, options) {
 
         options = options || {};
 
@@ -396,7 +406,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
     }
 
-    function off(context, options) {
+    export function off(context, options) {
         options = options || {};
 
         context.removeEventListener('click', onClick);
@@ -406,23 +416,24 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
     }
 
-    function getShortcutAttributesHtml(item, serverId) {
+    export function getShortcutAttributesHtml(item, serverId) {
 
-        var html = 'data-id="' + item.Id + '" data-serverid="' + (serverId || item.ServerId) + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '"';
+        let html = `data-id="${item.Id}" data-serverid="${serverId || item.ServerId}" data-type="${item.Type}" data-mediatype="${item.MediaType}" data-channelid="${item.ChannelId}" data-isfolder="${item.IsFolder}"`;
 
-        var collectionType = item.CollectionType;
+        const collectionType = item.CollectionType;
         if (collectionType) {
-            html += ' data-collectiontype="' + collectionType + '"';
+            html += ` data-collectiontype="${collectionType}"`;
         }
 
         return html;
     }
 
-    return {
-        on: on,
-        off: off,
-        onClick: onClick,
-        getShortcutAttributesHtml: getShortcutAttributesHtml
-    };
+/* eslint-enable indent */
 
-});
+export default {
+    on: on,
+    off: off,
+    onClick: onClick,
+    getShortcutAttributesHtml: getShortcutAttributesHtml
+};
+

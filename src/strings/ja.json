@@ -435,7 +435,6 @@
     "HeaderResponseProfile": "レスポンスプロファイル",
     "HeaderResponseProfileHelp": "レスポンスプロファイルは、特定の種類のメディアを再生するときにデバイスに送信される情報をカスタマイズする方法を提供します。",
     "HeaderRestart": "リスタート",
-    "HeaderRestartingServer": "サーバーの再起動",
     "HeaderRevisionHistory": "更新履歴",
     "HeaderRunningTasks": "実行中のタスク",
     "HeaderScenes": "シーン",

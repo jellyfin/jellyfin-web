@@ -1,0 +1,29 @@
+jobs:
+- job: Lint
+  displayName: 'Lint'
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: NodeTool@0
+    displayName: 'Install Node'
+    inputs:
+      versionSpec: '12.x'
+
+  - task: Cache@2
+    displayName: 'Check Cache'
+    inputs:
+      key: 'yarn | yarn.lock'
+      path: 'node_modules'
+      cacheHitVar: CACHE_RESTORED
+
+  - script: 'yarn install --frozen-lockfile'
+    displayName: 'Install Dependencies'
+    condition: ne(variables.CACHE_RESTORED, 'true')
+
+  - script: 'yarn run lint --quiet'
+    displayName: 'Run ESLint'
+
+  - script: 'yarn run stylelint'
+    displayName: 'Run Stylelint'

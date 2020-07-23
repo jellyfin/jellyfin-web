@@ -799,9 +799,9 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .detailImageProgressContainer {
-    position: absolute;
     bottom: 0;
-    width: 22.786458333333332vw;
+    margin-top: -0.4vw;
+    width: 100%;
 }
 
 .detailButton-text {

@@ -1,17 +1,20 @@
-define(['appSettings', 'browser', 'events'], function (appSettings, browser, events) {
-    'use strict';
+/* eslint-disable indent */
 
-    function getSavedVolume() {
+import appSettings from 'appSettings' ;
+import browser from 'browser';
+import events from 'events';
+
+    export function getSavedVolume() {
         return appSettings.get('volume') || 1;
     }
 
-    function saveVolume(value) {
+    export function saveVolume(value) {
         if (value) {
             appSettings.set('volume', value);
         }
     }
 
-    function getCrossOriginValue(mediaSource) {
+    export function getCrossOriginValue(mediaSource) {
         if (mediaSource.IsRemote) {
             return null;
         }
@@ -30,7 +33,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         return false;
     }
 
-    function enableHlsShakaPlayer(item, mediaSource, mediaType) {
+    export function enableHlsShakaPlayer(item, mediaSource, mediaType) {
         /* eslint-disable-next-line compat/compat */
         if (!!window.MediaSource && !!MediaSource.isTypeSupported) {
 
@@ -56,7 +59,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         return false;
     }
 
-    function enableHlsJsPlayer(runTimeTicks, mediaType) {
+    export function enableHlsJsPlayer(runTimeTicks, mediaType) {
 
         if (window.MediaSource == null) {
             return false;
@@ -98,7 +101,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
     var recoverDecodingErrorDate;
     var recoverSwapAudioCodecDate;
-    function handleHlsJsMediaError(instance, reject) {
+    export function handleHlsJsMediaError(instance, reject) {
 
         var hlsPlayer = instance._hlsPlayer;
 
@@ -134,7 +137,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
-    function onErrorInternal(instance, type) {
+    export function onErrorInternal(instance, type) {
 
         // Needed for video
         if (instance.destroyCustomTrack) {
@@ -148,7 +151,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         ]);
     }
 
-    function isValidDuration(duration) {
+    export function isValidDuration(duration) {
         if (duration && !isNaN(duration) && duration !== Number.POSITIVE_INFINITY && duration !== Number.NEGATIVE_INFINITY) {
             return true;
         }
@@ -162,7 +165,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
-    function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
+    export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
 
         var seconds = (ticks || 0) / 10000000;
 
@@ -200,7 +203,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
-    function applySrc(elem, src, options) {
+    export function applySrc(elem, src, options) {
 
         if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
 
@@ -228,7 +231,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         elem.addEventListener('error', onErrorFn);
     }
 
-    function playWithPromise(elem, onErrorFn) {
+    export function playWithPromise(elem, onErrorFn) {
 
         try {
             var promise = elem.play();
@@ -256,7 +259,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
-    function destroyCastPlayer(instance) {
+    export function destroyCastPlayer(instance) {
 
         var player = instance._castPlayer;
         if (player) {
@@ -270,7 +273,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
-    function destroyShakaPlayer(instance) {
+    export function destroyShakaPlayer(instance) {
         var player = instance._shakaPlayer;
         if (player) {
             try {
@@ -283,7 +286,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
-    function destroyHlsPlayer(instance) {
+    export function destroyHlsPlayer(instance) {
         var player = instance._hlsPlayer;
         if (player) {
             try {
@@ -296,7 +299,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
-    function destroyFlvPlayer(instance) {
+    export function destroyFlvPlayer(instance) {
         var player = instance._flvPlayer;
         if (player) {
             try {
@@ -311,7 +314,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
-    function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, reject) {
+    export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, reject) {
 
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             playWithPromise(elem, onErrorFn).then(resolve, function () {
@@ -403,7 +406,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         });
     }
 
-    function onEndedInternal(instance, elem, onErrorFn) {
+    export function onEndedInternal(instance, elem, onErrorFn) {
 
         elem.removeEventListener('error', onErrorFn);
 
@@ -427,7 +430,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         instance._currentPlayOptions = null;
     }
 
-    function getBufferedRanges(instance, elem) {
+    export function getBufferedRanges(instance, elem) {
 
         var ranges = [];
         var seekable = elem.buffered || [];
@@ -462,23 +465,4 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         return ranges;
     }
 
-    return {
-        getSavedVolume: getSavedVolume,
-        saveVolume: saveVolume,
-        enableHlsJsPlayer: enableHlsJsPlayer,
-        enableHlsShakaPlayer: enableHlsShakaPlayer,
-        handleHlsJsMediaError: handleHlsJsMediaError,
-        isValidDuration: isValidDuration,
-        onErrorInternal: onErrorInternal,
-        seekOnPlaybackStart: seekOnPlaybackStart,
-        applySrc: applySrc,
-        playWithPromise: playWithPromise,
-        destroyHlsPlayer: destroyHlsPlayer,
-        destroyFlvPlayer: destroyFlvPlayer,
-        destroyCastPlayer: destroyCastPlayer,
-        bindEventsToHlsPlayer: bindEventsToHlsPlayer,
-        onEndedInternal: onEndedInternal,
-        getCrossOriginValue: getCrossOriginValue,
-        getBufferedRanges: getBufferedRanges
-    };
-});
+/* eslint-enable indent */

@@ -964,7 +964,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                     if (statsOverlay) {
                         statsOverlay.toggle();
                     } else {
-                        statsOverlay = new PlayerStats({
+                        statsOverlay = new PlayerStats.default({
                             player: player
                         });
                     }
@@ -1533,7 +1533,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         if (browser.touch) {
             (function () {
                 require(['touchHelper'], function (TouchHelper) {
-                    self.touchHelper = new TouchHelper(view, {
+                    self.touchHelper = new TouchHelper.default(view, {
                         swipeYThreshold: 30,
                         triggerOnMove: true,
                         preventDefaultOnMove: true,

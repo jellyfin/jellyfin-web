@@ -1,4 +1,4 @@
-define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager', 'cardBuilder', 'loading', 'connectionManager', 'alphaNumericShortcuts', 'scroller', 'playbackManager', 'alphaPicker', 'emby-itemscontainer', 'emby-scroller'], function (globalize, listView, layoutManager, userSettings, focusManager, cardBuilder, loading, connectionManager, AlphaNumericShortcuts, scroller, playbackManager, alphaPicker) {
+define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager', 'cardBuilder', 'loading', 'connectionManager', 'alphaNumericShortcuts', 'scroller', 'playbackManager', 'alphaPicker', 'emby-itemscontainer', 'emby-scroller'], function (globalize, listView, layoutManager, userSettings, focusManager, cardBuilder, loading, connectionManager, AlphaNumericShortcuts, scroller, playbackManager, AlphaPicker) {
     'use strict';
 
     function getInitialLiveTvQuery(instance, params) {
@@ -386,7 +386,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         var instance = this;
 
         require(['playlistEditor'], function (playlistEditor) {
-            new playlistEditor().show({
+            new playlistEditor.showEditor({
                 items: [],
                 serverId: instance.params.serverId
             });
@@ -544,7 +544,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             alphaPickerElement.classList.add('focuscontainer-right');
             self.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
 
-            self.alphaPicker = new alphaPicker({
+            self.alphaPicker = new AlphaPicker.default({
                 element: alphaPickerElement,
                 itemsContainer: layoutManager.tv ? self.itemsContainer : null,
                 itemClass: 'card',
@@ -803,7 +803,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
                 bindAll(view.querySelectorAll('.btnShuffle'), 'click', shuffle);
             }
 
-            this.alphaNumericShortcuts = new AlphaNumericShortcuts({
+            this.alphaNumericShortcuts = new AlphaNumericShortcuts.default({
                 itemsContainer: self.itemsContainer
             });
         });
@@ -817,7 +817,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             var alphaNumericShortcuts = self.alphaNumericShortcuts;
 
             if (alphaNumericShortcuts) {
-                alphaNumericShortcuts.destroy();
+                alphaNumericShortcuts.default.destroy();
                 self.alphaNumericShortcuts = null;
             }
         });

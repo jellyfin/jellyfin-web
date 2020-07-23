@@ -1,15 +1,16 @@
-define(['globalize'], function (globalize) {
-    'use strict';
+import globalize from 'globalize';
 
-    function parseISO8601Date(s, toLocal) {
+/* eslint-disable indent */
+
+    export function parseISO8601Date(s, toLocal) {
 
         // parenthese matches:
         // year month day    hours minutes seconds
         // dotmilliseconds
         // tzstring plusminus hours minutes
-        var re = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|([+-])(\d{2}):(\d{2}))?/;
+        const re = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|([+-])(\d{2}):(\d{2}))?/;
 
-        var d = s.match(re);
+        const d = s.match(re);
 
         // "2010-12-07T11:00:00.000-09:00" parses to:
         //  ["2010-12-07T11:00:00.000-09:00", "2010", "12", "07", "11",
@@ -24,8 +25,8 @@ define(['globalize'], function (globalize) {
         }
 
         // parse strings, leading zeros into proper ints
-        var a = [1, 2, 3, 4, 5, 6, 10, 11];
-        for (var i in a) {
+        const a = [1, 2, 3, 4, 5, 6, 10, 11];
+        for (let i in a) {
             d[a[i]] = parseInt(d[a[i]], 10);
         }
         d[7] = parseFloat(d[7]);
@@ -33,7 +34,7 @@ define(['globalize'], function (globalize) {
         // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
         // note that month is 0-11, not 1-12
         // see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date/UTC
-        var ms = Date.UTC(d[1], d[2] - 1, d[3], d[4], d[5], d[6]);
+        let ms = Date.UTC(d[1], d[2] - 1, d[3], d[4], d[5], d[6]);
 
         // if there are milliseconds, add them
         if (d[7] > 0) {
@@ -42,7 +43,7 @@ define(['globalize'], function (globalize) {
 
         // if there's a timezone, calculate it
         if (d[8] !== 'Z' && d[10]) {
-            var offset = d[10] * 60 * 60 * 1000;
+            let offset = d[10] * 60 * 60 * 1000;
             if (d[11]) {
                 offset += d[11] * 60 * 1000;
             }
@@ -58,14 +59,14 @@ define(['globalize'], function (globalize) {
         return new Date(ms);
     }
 
-    function getDisplayRunningTime(ticks) {
-        var ticksPerHour = 36000000000;
-        var ticksPerMinute = 600000000;
-        var ticksPerSecond = 10000000;
+    export function getDisplayRunningTime(ticks) {
+        const ticksPerHour = 36000000000;
+        const ticksPerMinute = 600000000;
+        const ticksPerSecond = 10000000;
 
-        var parts = [];
+        const parts = [];
 
-        var hours = ticks / ticksPerHour;
+        let hours = ticks / ticksPerHour;
         hours = Math.floor(hours);
 
         if (hours) {
@@ -74,7 +75,7 @@ define(['globalize'], function (globalize) {
 
         ticks -= (hours * ticksPerHour);
 
-        var minutes = ticks / ticksPerMinute;
+        let minutes = ticks / ticksPerMinute;
         minutes = Math.floor(minutes);
 
         ticks -= (minutes * ticksPerMinute);
@@ -84,7 +85,7 @@ define(['globalize'], function (globalize) {
         }
         parts.push(minutes);
 
-        var seconds = ticks / ticksPerSecond;
+        let seconds = ticks / ticksPerSecond;
         seconds = Math.floor(seconds);
 
         if (seconds < 10) {
@@ -95,7 +96,7 @@ define(['globalize'], function (globalize) {
         return parts.join(':');
     }
 
-    var toLocaleTimeStringSupportsLocales = function () {
+    const toLocaleTimeStringSupportsLocales = function () {
         try {
             new Date().toLocaleTimeString('i');
         } catch (e) {
@@ -106,9 +107,9 @@ define(['globalize'], function (globalize) {
 
     function getOptionList(options) {
 
-        var list = [];
+        const list = [];
 
-        for (var i in options) {
+        for (const i in options) {
             list.push({
                 name: i,
                 value: options[i]
@@ -118,7 +119,7 @@ define(['globalize'], function (globalize) {
         return list;
     }
 
-    function toLocaleString(date, options) {
+    export function toLocaleString(date, options) {
 
         if (!date) {
             throw new Error('date cannot be null');
@@ -128,7 +129,7 @@ define(['globalize'], function (globalize) {
 
         if (toLocaleTimeStringSupportsLocales) {
 
-            var currentLocale = globalize.getCurrentDateTimeLocale();
+            const currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
                 return date.toLocaleString(currentLocale, options);
@@ -138,7 +139,7 @@ define(['globalize'], function (globalize) {
         return date.toLocaleString();
     }
 
-    function toLocaleDateString(date, options) {
+    export function toLocaleDateString(date, options) {
 
         if (!date) {
             throw new Error('date cannot be null');
@@ -148,7 +149,7 @@ define(['globalize'], function (globalize) {
 
         if (toLocaleTimeStringSupportsLocales) {
 
-            var currentLocale = globalize.getCurrentDateTimeLocale();
+            const currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
                 return date.toLocaleDateString(currentLocale, options);
@@ -156,9 +157,9 @@ define(['globalize'], function (globalize) {
         }
 
         // This is essentially a hard-coded polyfill
-        var optionList = getOptionList(options);
+        const optionList = getOptionList(options);
         if (optionList.length === 1 && optionList[0].name === 'weekday') {
-            var weekday = [];
+            const weekday = [];
             weekday[0] = 'Sun';
             weekday[1] = 'Mon';
             weekday[2] = 'Tue';
@@ -172,7 +173,7 @@ define(['globalize'], function (globalize) {
         return date.toLocaleDateString();
     }
 
-    function toLocaleTimeString(date, options) {
+    export function toLocaleTimeString(date, options) {
 
         if (!date) {
             throw new Error('date cannot be null');
@@ -182,7 +183,7 @@ define(['globalize'], function (globalize) {
 
         if (toLocaleTimeStringSupportsLocales) {
 
-            var currentLocale = globalize.getCurrentDateTimeLocale();
+            const currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
                 return date.toLocaleTimeString(currentLocale, options);
@@ -192,7 +193,7 @@ define(['globalize'], function (globalize) {
         return date.toLocaleTimeString();
     }
 
-    function getDisplayTime(date) {
+    export function getDisplayTime(date) {
 
         if (!date) {
             throw new Error('date cannot be null');
@@ -217,19 +218,19 @@ define(['globalize'], function (globalize) {
             });
         }
 
-        var time = toLocaleTimeString(date);
+        let time = toLocaleTimeString(date);
 
-        var timeLower = time.toLowerCase();
+        const timeLower = time.toLowerCase();
 
         if (timeLower.indexOf('am') !== -1 || timeLower.indexOf('pm') !== -1) {
 
             time = timeLower;
-            var hour = date.getHours() % 12;
-            var suffix = date.getHours() > 11 ? 'pm' : 'am';
+            let hour = date.getHours() % 12;
+            const suffix = date.getHours() > 11 ? 'pm' : 'am';
             if (!hour) {
                 hour = 12;
             }
-            var minutes = date.getMinutes();
+            let minutes = date.getMinutes();
 
             if (minutes < 10) {
                 minutes = '0' + minutes;
@@ -239,7 +240,7 @@ define(['globalize'], function (globalize) {
             time = hour + minutes + suffix;
         } else {
 
-            var timeParts = time.split(':');
+            const timeParts = time.split(':');
 
             // Trim off seconds
             if (timeParts.length > 2) {
@@ -253,21 +254,21 @@ define(['globalize'], function (globalize) {
         return time;
     }
 
-    function isRelativeDay(date, offsetInDays) {
+    export function isRelativeDay(date, offsetInDays) {
 
         if (!date) {
             throw new Error('date cannot be null');
         }
 
-        var yesterday = new Date();
-        var day = yesterday.getDate() + offsetInDays;
+        const yesterday = new Date();
+        const day = yesterday.getDate() + offsetInDays;
 
         yesterday.setDate(day); // automatically adjusts month/year appropriately
 
         return date.getFullYear() === yesterday.getFullYear() && date.getMonth() === yesterday.getMonth() && date.getDate() === day;
     }
 
-    return {
+    export default {
         parseISO8601Date: parseISO8601Date,
         getDisplayRunningTime: getDisplayRunningTime,
         toLocaleDateString: toLocaleDateString,
@@ -279,4 +280,5 @@ define(['globalize'], function (globalize) {
             return toLocaleTimeStringSupportsLocales;
         }
     };
-});
+
+/* eslint-enable indent */

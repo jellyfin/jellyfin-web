@@ -1,5 +1,9 @@
-define(['browser', 'dialog', 'globalize'], function(browser, dialog, globalize) {
-    'use strict';
+import browser from 'browser';
+import dialog from 'dialog';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
+export default (() => {
 
     function replaceAll(str, find, replace) {
         return str.split(find).join(replace);
@@ -7,7 +11,7 @@ define(['browser', 'dialog', 'globalize'], function(browser, dialog, globalize) 
 
     if (browser.tv && window.confirm) {
         // Use the native confirm dialog
-        return function (options) {
+        return options => {
             if (typeof options === 'string') {
                 options = {
                     title: '',
@@ -15,8 +19,8 @@ define(['browser', 'dialog', 'globalize'], function(browser, dialog, globalize) 
                 };
             }
 
-            var text = replaceAll(options.text || '', '<br/>', '\n');
-            var result = confirm(text);
+            const text = replaceAll(options.text || '', '<br/>', '\n');
+            const result = confirm(text);
 
             if (result) {
                 return Promise.resolve();
@@ -26,8 +30,8 @@ define(['browser', 'dialog', 'globalize'], function(browser, dialog, globalize) 
         };
     } else {
         // Use our own dialog
-        return function (text, title) {
-            var options;
+        return (text, title) => {
+            let options;
             if (typeof text === 'string') {
                 options = {
                     title: title,
@@ -37,7 +41,7 @@ define(['browser', 'dialog', 'globalize'], function(browser, dialog, globalize) 
                 options = text;
             }
 
-            var items = [];
+            const items = [];
 
             items.push({
                 name: options.cancelText || globalize.translate('ButtonCancel'),
@@ -53,7 +57,7 @@ define(['browser', 'dialog', 'globalize'], function(browser, dialog, globalize) 
 
             options.buttons = items;
 
-            return dialog(options).then(function (result) {
+            return dialog.show(options).then(result => {
                 if (result === 'ok') {
                     return Promise.resolve();
                 }
@@ -62,4 +66,5 @@ define(['browser', 'dialog', 'globalize'], function(browser, dialog, globalize) 
             });
         };
     }
-});
+})();
+/* eslint-enable indent */

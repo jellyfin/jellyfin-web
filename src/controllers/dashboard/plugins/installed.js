@@ -5,7 +5,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
         var msg = globalize.translate('UninstallPluginConfirmation', name);
 
         require(['confirm'], function (confirm) {
-            confirm({
+            confirm.default({
                 title: globalize.translate('UninstallPluginHeader'),
                 text: msg,
                 primary: 'delete',
@@ -37,18 +37,22 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
         })[0];
         var configPageUrl = configPage ? Dashboard.getConfigurationPageUrl(configPage.Name) : null;
         var html = '';
-        html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' class='card backdropCard'>";
+        html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' class='card backdropCard'>";
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
-        html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer">';
+        html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
         html += '<span class="cardImageIcon material-icons folder"></span>';
         html += configPageUrl ? '</a>' : '</div>';
         html += '</div>';
         html += '<div class="cardFooter">';
-        html += '<div style="text-align:right; float:right;padding-top:5px;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert"></span></button>';
-        html += '</div>';
+
+        if (configPage || plugin.CanUninstall) {
+            html += '<div style="text-align:right; float:right;padding-top:5px;">';
+            html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert"></span></button>';
+            html += '</div>';
+        }
+
         html += "<div class='cardText'>";
         html += configPage && configPage.DisplayName ? configPage.DisplayName : plugin.Name;
         html += '</div>';
@@ -104,6 +108,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
         var card = dom.parentWithClass(elem, 'card');
         var id = card.getAttribute('data-id');
         var name = card.getAttribute('data-name');
+        var removable = card.getAttribute('data-removable');
         var configHref = card.querySelector('.cardContent').getAttribute('href');
         var menuItems = [];
 
@@ -115,11 +120,13 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
             });
         }
 
-        menuItems.push({
-            name: globalize.translate('ButtonUninstall'),
-            id: 'delete',
-            icon: 'delete'
-        });
+        if (removable === 'true') {
+            menuItems.push({
+                name: globalize.translate('ButtonUninstall'),
+                id: 'delete',
+                icon: 'delete'
+            });
+        }
 
         require(['actionsheet'], function (actionsheet) {
             actionsheet.show({
@@ -153,6 +160,9 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
         }, {
             href: 'availableplugins.html',
             name: globalize.translate('TabCatalog')
+        }, {
+            href: 'repositories.html',
+            name: globalize.translate('TabRepositories')
         }];
     }
 

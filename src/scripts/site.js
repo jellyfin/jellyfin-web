@@ -187,30 +187,11 @@ var Dashboard = {
         }
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 title: options.title || Globalize.translate('HeaderAlert'),
                 text: options.message
             }).then(options.callback || function () {});
         });
-    },
-    restartServer: function () {
-        var apiClient = window.ApiClient;
-
-        if (apiClient) {
-            require(['serverRestartDialog', 'events'], function (ServerRestartDialog, events) {
-                var dialog = new ServerRestartDialog({
-                    apiClient: apiClient
-                });
-                events.on(dialog, 'restarted', function () {
-                    if (AppInfo.isNativeApp) {
-                        apiClient.ensureWebSocket();
-                    } else {
-                        window.location.reload(true);
-                    }
-                });
-                dialog.show();
-            });
-        }
     },
     capabilities: function (appHost) {
         var capabilities = {
@@ -441,7 +422,7 @@ var AppInfo = {};
                 require(['globalize', 'browser'], function (globalize, browser) {
                     window.Globalize = globalize;
                     loadCoreDictionary(globalize).then(function () {
-                        onGlobalizeInit(browser);
+                        onGlobalizeInit(browser, globalize);
                     });
                 });
                 require(['keyboardnavigation'], function(keyboardnavigation) {
@@ -474,14 +455,14 @@ var AppInfo = {};
         });
     }
 
-    function onGlobalizeInit(browser) {
+    function onGlobalizeInit(browser, globalize) {
         if ('android' === self.appMode) {
             if (-1 !== self.location.href.toString().toLowerCase().indexOf('start=backgroundsync')) {
                 return onAppReady(browser);
             }
         }
 
-        document.title = Globalize.translateDocument(document.title, 'core');
+        document.title = globalize.translateHtml(document.title, 'core');
 
         if (browser.tv && !browser.android) {
             console.debug('using system fonts with explicit sizes');
@@ -814,7 +795,6 @@ var AppInfo = {};
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
         define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
         define('collectionEditor', [componentsPath + '/collectionEditor/collectionEditor'], returnFirstDependency);
-        define('serverRestartDialog', [componentsPath + '/serverRestartDialog'], returnFirstDependency);
         define('playlistEditor', [componentsPath + '/playlisteditor/playlisteditor'], returnFirstDependency);
         define('recordingCreator', [componentsPath + '/recordingcreator/recordingcreator'], returnFirstDependency);
         define('recordingEditor', [componentsPath + '/recordingcreator/recordingeditor'], returnFirstDependency);
@@ -837,6 +817,7 @@ var AppInfo = {};
         define('upNextDialog', [componentsPath + '/upnextdialog/upnextdialog'], returnFirstDependency);
         define('subtitleAppearanceHelper', [componentsPath + '/subtitlesettings/subtitleappearancehelper'], returnFirstDependency);
         define('subtitleSettings', [componentsPath + '/subtitlesettings/subtitlesettings'], returnFirstDependency);
+        define('settingsHelper', [componentsPath + '/settingshelper'], returnFirstDependency);
         define('displaySettings', [componentsPath + '/displaySettings/displaySettings'], returnFirstDependency);
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
@@ -857,7 +838,6 @@ var AppInfo = {};
         define('deleteHelper', [scriptsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
-        define('loadingDialog', [componentsPath + '/loadingDialog/loadingDialog'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
