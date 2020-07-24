@@ -1,25 +1,27 @@
-define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, libraryMenu, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
 
     function loadDeleteFolders(page, user, mediaFolders) {
         ApiClient.getJSON(ApiClient.getUrl('Channels', {
             SupportsMediaDeletion: true
         })).then(function (channelsResult) {
-            var i;
-            var length;
-            var folder;
-            var isChecked;
-            var checkedAttribute;
-            var html = '';
+            let folder;
+            let isChecked;
+            let checkedAttribute;
+            let html = '';
 
-            for (i = 0, length = mediaFolders.length; i < length; i++) {
+            for (let i = 0, length = mediaFolders.length; i < length; i++) {
                 folder = mediaFolders[i];
                 isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
 
-            for (i = 0, length = channelsResult.Items.length; i < length; i++) {
+            for (let i = 0, length = channelsResult.Items.length; i < length; i++) {
                 folder = channelsResult.Items[i];
                 isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
@@ -38,9 +40,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             page.querySelector('.fldSelectLoginProvider').classList.add('hide');
         }
 
-        var currentProviderId = user.Policy.AuthenticationProviderId;
+        const currentProviderId = user.Policy.AuthenticationProviderId;
         page.querySelector('.selectLoginProvider').innerHTML = providers.map(function (provider) {
-            var selected = provider.Id === currentProviderId || providers.length < 2 ? ' selected' : '';
+            const selected = provider.Id === currentProviderId || providers.length < 2 ? ' selected' : '';
             return '<option value="' + provider.Id + '"' + selected + '>' + provider.Name + '</option>';
         });
     }
@@ -52,15 +54,14 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             page.querySelector('.fldSelectPasswordResetProvider').classList.add('hide');
         }
 
-        var currentProviderId = user.Policy.PasswordResetProviderId;
+        const currentProviderId = user.Policy.PasswordResetProviderId;
         page.querySelector('.selectPasswordResetProvider').innerHTML = providers.map(function (provider) {
-            var selected = provider.Id === currentProviderId || providers.length < 2 ? ' selected' : '';
+            const selected = provider.Id === currentProviderId || providers.length < 2 ? ' selected' : '';
             return '<option value="' + provider.Id + '"' + selected + '>' + provider.Name + '</option>';
         });
     }
 
     function loadUser(page, user) {
-        currentUser = user;
         ApiClient.getJSON(ApiClient.getUrl('Auth/Providers')).then(function (providers) {
             loadAuthProviders(page, user, providers);
         });
@@ -112,7 +113,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         Dashboard.navigate('userprofiles.html');
         loading.hide();
 
-        require(['toast'], function (toast) {
+        import('toast').then(({default: toast}) => {
             toast(globalize.translate('SettingsSaved'));
         });
     }
@@ -155,7 +156,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }
 
     function onSubmit() {
-        var page = $(this).parents('.page')[0];
+        const page = $(this).parents('.page')[0];
         loading.show();
         getUser().then(function (result) {
             saveUser(result, page);
@@ -164,7 +165,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }
 
     function getUser() {
-        var userId = getParameterByName('userId');
+        const userId = getParameterByName('userId');
         return ApiClient.getUser(userId);
     }
 
@@ -175,11 +176,10 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         });
     }
 
-    var currentUser;
     $(document).on('pageinit', '#editUserPage', function () {
         $('.editUserProfileForm').off('submit', onSubmit).on('submit', onSubmit);
         this.querySelector('.sharingHelp').innerHTML = globalize.translate('OptionAllowLinkSharingHelp', 30);
-        var page = this;
+        const page = this;
         $('#chkEnableDeleteAllFolders', this).on('change', function () {
             if (this.checked) {
                 $('.deleteAccess', page).hide();
@@ -197,4 +197,5 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }).on('pagebeforeshow', '#editUserPage', function () {
         loadData(this);
     });
-});
+
+/* eslint-enable indent */

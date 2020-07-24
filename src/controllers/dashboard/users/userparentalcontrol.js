@@ -1,17 +1,22 @@
-define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewStyle', 'paper-icon-button-light'], function ($, datetime, loading, libraryMenu, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import datetime from 'datetime';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import 'listViewStyle';
+import 'paper-icon-button-light';
+
+/* eslint-disable indent */
 
     function populateRatings(allParentalRatings, page) {
-        var html = '';
+        let html = '';
         html += "<option value=''></option>";
-        var i;
-        var length;
-        var rating;
-        var ratings = [];
+        let rating;
+        const ratings = [];
 
-        for (i = 0, length = allParentalRatings.length; i < length; i++) {
+        for (let i = 0, length = allParentalRatings.length; i < length; i++) {
             if (rating = allParentalRatings[i], ratings.length) {
-                var lastRating = ratings[ratings.length - 1];
+                const lastRating = ratings[ratings.length - 1];
 
                 if (lastRating.Value === rating.Value) {
                     lastRating.Name += '/' + rating.Name;
@@ -25,7 +30,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
             });
         }
 
-        for (i = 0, length = ratings.length; i < length; i++) {
+        for (let i = 0, length = ratings.length; i < length; i++) {
             rating = ratings[i];
             html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
         }
@@ -34,7 +39,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     }
 
     function loadUnratedItems(page, user) {
-        var items = [{
+        const items = [{
             name: globalize.translate('OptionBlockBooks'),
             value: 'Book'
         }, {
@@ -56,13 +61,13 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
             name: globalize.translate('OptionBlockTvShows'),
             value: 'Series'
         }];
-        var html = '';
+        let html = '';
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderBlockItemsWithNoRating') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        for (var i = 0, length = items.length; i < length; i++) {
-            var item = items[i];
-            var checkedAttribute = -1 != user.Policy.BlockUnratedItems.indexOf(item.value) ? ' checked="checked"' : '';
+        for (let i = 0, length = items.length; i < length; i++) {
+            const item = items[i];
+            const checkedAttribute = -1 != user.Policy.BlockUnratedItems.indexOf(item.value) ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkUnratedItem" data-itemtype="' + item.value + '" type="checkbox"' + checkedAttribute + '><span>' + item.name + '</span></label>';
         }
 
@@ -76,11 +81,11 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
         loadUnratedItems(page, user);
         loadBlockedTags(page, user.Policy.BlockedTags);
         populateRatings(allParentalRatings, page);
-        var ratingValue = '';
+        let ratingValue = '';
 
         if (user.Policy.MaxParentalRating) {
-            for (var i = 0, length = allParentalRatings.length; i < length; i++) {
-                var rating = allParentalRatings[i];
+            for (let i = 0, length = allParentalRatings.length; i < length; i++) {
+                const rating = allParentalRatings[i];
 
                 if (user.Policy.MaxParentalRating >= rating.Value) {
                     ratingValue = rating.Value;
@@ -101,8 +106,8 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     }
 
     function loadBlockedTags(page, tags) {
-        var html = tags.map(function (h) {
-            var li = '<div class="listItem">';
+        let html = tags.map(function (h) {
+            let li = '<div class="listItem">';
             li += '<div class="listItemBody">';
             li += '<h3 class="listItemBodyText">';
             li += h;
@@ -116,10 +121,10 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
             html = '<div class="paperList">' + html + '</div>';
         }
 
-        var elem = $('.blockedTags', page).html(html).trigger('create');
+        const elem = $('.blockedTags', page).html(html).trigger('create');
         $('.btnDeleteTag', elem).on('click', function () {
-            var tag = this.getAttribute('data-tag');
-            var newTags = tags.filter(function (t) {
+            const tag = this.getAttribute('data-tag');
+            const newTags = tags.filter(function (t) {
                 return t != tag;
             });
             loadBlockedTags(page, newTags);
@@ -132,10 +137,10 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     }
 
     function renderAccessSchedule(page, schedules) {
-        var html = '';
-        var index = 0;
+        let html = '';
+        let index = 0;
         html += schedules.map(function (a) {
-            var itemHtml = '';
+            let itemHtml = '';
             itemHtml += '<div class="liSchedule listItem" data-day="' + a.DayOfWeek + '" data-start="' + a.StartHour + '" data-end="' + a.EndHour + '">';
             itemHtml += '<div class="listItemBody two-line">';
             itemHtml += '<h3 class="listItemBodyText">';
@@ -148,7 +153,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
             index++;
             return itemHtml;
         }).join('');
-        var accessScheduleList = page.querySelector('.accessScheduleList');
+        const accessScheduleList = page.querySelector('.accessScheduleList');
         accessScheduleList.innerHTML = html;
         $('.btnDelete', accessScheduleList).on('click', function () {
             deleteAccessSchedule(page, schedules, parseInt(this.getAttribute('data-index')));
@@ -158,7 +163,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     function onSaveComplete(page) {
         loading.hide();
 
-        require(['toast'], function (toast) {
+        import('toast').then(({default: toast}) => {
             toast(globalize.translate('SettingsSaved'));
         });
     }
@@ -178,8 +183,8 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     }
 
     function getDisplayTime(hours) {
-        var minutes = 0;
-        var pct = hours % 1;
+        let minutes = 0;
+        const pct = hours % 1;
 
         if (pct) {
             minutes = parseInt(60 * pct);
@@ -190,12 +195,11 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
 
     function showSchedulePopup(page, schedule, index) {
         schedule = schedule || {};
-
-        require(['components/accessSchedule/accessSchedule'], function (accessschedule) {
+        import('components/accessSchedule/accessSchedule').then(({default: accessschedule}) => {
             accessschedule.show({
                 schedule: schedule
             }).then(function (updatedSchedule) {
-                var schedules = getSchedulesFromPage(page);
+                const schedules = getSchedulesFromPage(page);
 
                 if (-1 == index) {
                     index = schedules.length;
@@ -224,11 +228,12 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     }
 
     function showBlockedTagPopup(page) {
-        require(['prompt'], function (prompt) {
-            prompt.default({
+
+        import('prompt').then(({default: prompt}) => {
+            prompt({
                 label: globalize.translate('LabelTag')
             }).then(function (value) {
-                var tags = getBlockedTagsFromPage(page);
+                const tags = getBlockedTagsFromPage(page);
 
                 if (-1 == tags.indexOf(value)) {
                     tags.push(value);
@@ -240,9 +245,9 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
 
     window.UserParentalControlPage = {
         onSubmit: function () {
-            var page = $(this).parents('.page');
+            const page = $(this).parents('.page');
             loading.show();
-            var userId = getParameterByName('userId');
+            const userId = getParameterByName('userId');
             ApiClient.getUser(userId).then(function (result) {
                 saveUser(result, page);
             });
@@ -250,7 +255,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
         }
     };
     $(document).on('pageinit', '#userParentalControlPage', function () {
-        var page = this;
+        const page = this;
         $('.btnAddSchedule', page).on('click', function () {
             showSchedulePopup(page, {}, -1);
         });
@@ -259,13 +264,14 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
         });
         $('.userParentalControlForm').off('submit', UserParentalControlPage.onSubmit).on('submit', UserParentalControlPage.onSubmit);
     }).on('pageshow', '#userParentalControlPage', function () {
-        var page = this;
+        const page = this;
         loading.show();
-        var userId = getParameterByName('userId');
-        var promise1 = ApiClient.getUser(userId);
-        var promise2 = ApiClient.getParentalRatings();
+        const userId = getParameterByName('userId');
+        const promise1 = ApiClient.getUser(userId);
+        const promise2 = ApiClient.getParentalRatings();
         Promise.all([promise1, promise2]).then(function (responses) {
             loadUser(page, responses[0], responses[1]);
         });
     });
-});
+
+/* eslint-enable indent */
