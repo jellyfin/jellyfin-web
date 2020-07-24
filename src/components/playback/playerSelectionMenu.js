@@ -118,7 +118,7 @@ export function show(button) {
 
         });
 
-        require(['actionsheet'], function (actionsheet) {
+        import('actionsheet').then(({default: actionsheet}) => {
 
             loading.hide();
 
@@ -153,8 +153,12 @@ export function show(button) {
 }
 
 function showActivePlayerMenu(playerInfo) {
-
-    require(['dialogHelper', 'dialog', 'emby-checkbox', 'emby-button'], function (dialogHelper) {
+    Promise.all([
+        import('dialogHelper'),
+        import('dialog'),
+        import('emby-checkbox'),
+        import('emby-button')
+    ]).then(([dialogHelper]) => {
         showActivePlayerMenuInternal(dialogHelper, playerInfo);
     });
 }
@@ -163,7 +167,7 @@ function disconnectFromPlayer(currentDeviceName) {
 
     if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
 
-        require(['dialog'], function (dialog) {
+        import('dialog').then(({default: dialog}) => {
 
             var menuItems = [];
 

@@ -168,7 +168,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             var dlg = options.context;
 
             dlg.classList.add('hide');
-            dlg.innerHTML = globalize.translateDocument(template, 'core');
+            dlg.innerHTML = globalize.translateHtml(template, 'core');
 
             dlg.querySelector('.formDialogHeader').classList.add('hide');
             dlg.querySelector('.formDialogFooter').classList.add('hide');
@@ -221,7 +221,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
 
                 var html = '';
 
-                html += globalize.translateDocument(template, 'core');
+                html += globalize.translateHtml(template, 'core');
 
                 dlg.innerHTML = html;
 

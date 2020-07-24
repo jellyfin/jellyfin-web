@@ -132,6 +132,7 @@ module.exports = {
                     'Object.getOwnPropertyDescriptor',
                     'Object.getPrototypeOf',
                     'Object.keys',
+                    'Object.entries',
                     'Object.getOwnPropertyNames',
                     'Function.name',
                     'Function.hasInstance',
@@ -192,4 +193,4 @@ module.exports = {
             }
         }
     ]
-}
+};

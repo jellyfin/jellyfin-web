@@ -86,7 +86,7 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'us
         }
 
         function showFilterMenu(context) {
-            require(['components/filterdialog/filterdialog'], function (filterDialogFactory) {
+            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(),
                     mode: 'livetvchannels',

@@ -1,4 +1,4 @@
-define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, userSettings, globalize) {
+define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, AlphaPicker, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
     return function (view, params, tabContent) {
@@ -158,7 +158,12 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 }
 
                 if (!result.Items.length) {
-                    html = '<p style="text-align:center;">' + globalize.translate('MessageNoTrailersFound') + '</p>';
+                    html = '';
+
+                    html += '<div class="noItemsMessage centerMessage">';
+                    html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
+                    html += '<p>' + globalize.translate('MessageNoTrailersFound') + '</p>';
+                    html += '</div>';
                 }
 
                 var itemsContainer = tabContent.querySelector('.itemsContainer');
@@ -180,7 +185,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
         var isLoading = false;
 
         self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function (filterDialogFactory) {
+            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'movies',
@@ -208,7 +213,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 query.StartIndex = 0;
                 reloadItems();
             });
-            self.alphaPicker = new alphaPicker({
+            self.alphaPicker = new AlphaPicker.default({
                 element: alphaPickerElement,
                 valueChangeEvent: 'click'
             });

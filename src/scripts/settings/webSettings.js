@@ -2,7 +2,7 @@ let data;
 
 function getConfig() {
     if (data) return Promise.resolve(data);
-    return fetch('/config.json?nocache=' + new Date().getUTCMilliseconds()).then(response => {
+    return fetch('config.json?nocache=' + new Date().getUTCMilliseconds()).then(response => {
         data = response.json();
         return data;
     }).catch(error => {
@@ -12,7 +12,7 @@ function getConfig() {
 }
 
 function getDefaultConfig() {
-    return fetch('/config.template.json').then(function (response) {
+    return fetch('config.template.json').then(function (response) {
         data = response.json();
         return data;
     });

@@ -368,9 +368,7 @@ import 'programStyles';
             let apiClient;
             let lastServerId;
 
-            for (let i = 0; i < items.length; i++) {
-
-                let item = items[i];
+            for (const [i, item] of items.entries()) {
                 let serverId = item.ServerId || options.serverId;
 
                 if (serverId !== lastServerId) {
@@ -541,7 +539,7 @@ import 'programStyles';
                 imgType = 'Backdrop';
                 imgTag = item.ParentBackdropImageTags[0];
                 itemId = item.ParentBackdropItemId;
-            } else if (item.ImageTags && item.ImageTags.Primary) {
+            } else if (item.ImageTags && item.ImageTags.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
                 imgType = 'Primary';
                 imgTag = item.ImageTags.Primary;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
@@ -556,7 +554,10 @@ import 'programStyles';
                         coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                     }
                 }
-
+            } else if (item.SeriesPrimaryImageTag) {
+                imgType = 'Primary';
+                imgTag = item.SeriesPrimaryImageTag;
+                itemId = item.SeriesId;
             } else if (item.PrimaryImageTag) {
                 imgType = 'Primary';
                 imgTag = item.PrimaryImageTag;
@@ -577,10 +578,6 @@ import 'programStyles';
                 imgType = 'Primary';
                 imgTag = item.ParentPrimaryImageTag;
                 itemId = item.ParentPrimaryImageItemId;
-            } else if (item.SeriesPrimaryImageTag) {
-                imgType = 'Primary';
-                imgTag = item.SeriesPrimaryImageTag;
-                itemId = item.SeriesId;
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
                 imgType = 'Primary';
                 imgTag = item.AlbumPrimaryImageTag;
@@ -1163,10 +1160,10 @@ import 'programStyles';
         /**
          * Imports the refresh indicator element.
          */
-        function requireRefreshIndicator() {
+        function importRefreshIndicator() {
             if (!refreshIndicatorLoaded) {
                 refreshIndicatorLoaded = true;
-                require(['emby-itemrefreshindicator']);
+                import('emby-itemrefreshindicator');
             }
         }
 
@@ -1370,9 +1367,6 @@ import 'programStyles';
             let cardScalableClose = '';
 
             let cardContentClass = 'cardContent';
-            if (!options.cardLayout) {
-                cardContentClass += ' cardContent-shadow';
-            }
 
             let blurhashAttrib = '';
             if (blurhash && blurhash.length > 0) {
@@ -1380,21 +1374,20 @@ import 'programStyles';
             }
 
             if (layoutManager.tv) {
-
                 // Don't use the IMG tag with safari because it puts a white border around it
                 cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
 
                 cardImageContainerClose = '</div>';
             } else {
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
+                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
                 cardImageContainerClose = '</button>';
             }
 
             let cardScalableClass = 'cardScalable';
 
-            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
+            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 
@@ -1421,7 +1414,7 @@ import 'programStyles';
             if (item.Type === 'CollectionFolder' || item.CollectionType) {
                 const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
                 indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
-                requireRefreshIndicator();
+                importRefreshIndicator();
             }
 
             if (indicatorsHtml) {
@@ -1502,7 +1495,7 @@ import 'programStyles';
             const userData = item.UserData || {};
 
             if (itemHelper.canMarkPlayed(item)) {
-                require(['emby-playstatebutton']);
+                import('emby-playstatebutton');
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
 
@@ -1510,7 +1503,7 @@ import 'programStyles';
 
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
-                require(['emby-ratingbutton']);
+                import('emby-ratingbutton');
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 

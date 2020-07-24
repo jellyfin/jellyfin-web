@@ -1,6 +1,9 @@
 define(['homescreenSettings', 'dom', 'globalize', 'loading', 'userSettings', 'autoFocuser', 'listViewStyle'], function (HomescreenSettings, dom, globalize, loading, userSettings, autoFocuser) {
     'use strict';
 
+    // Shortcuts
+    const UserSettings = userSettings.UserSettings;
+
     return function (view, params) {
         function onBeforeUnload(e) {
             if (hasChanges) {
@@ -11,14 +14,14 @@ define(['homescreenSettings', 'dom', 'globalize', 'loading', 'userSettings', 'au
         var homescreenSettingsInstance;
         var hasChanges;
         var userId = params.userId || ApiClient.getCurrentUserId();
-        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new userSettings();
+        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
         view.addEventListener('viewshow', function () {
             window.addEventListener('beforeunload', onBeforeUnload);
 
             if (homescreenSettingsInstance) {
                 homescreenSettingsInstance.loadData();
             } else {
-                homescreenSettingsInstance = new HomescreenSettings({
+                homescreenSettingsInstance = new HomescreenSettings.default({
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector('.homeScreenSettingsContainer'),

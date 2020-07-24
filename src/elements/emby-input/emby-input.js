@@ -1,18 +1,23 @@
-define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'], function (layoutManager, browser, dom) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import browser from 'browser';
+import dom from 'dom';
+import 'css!./emby-input';
+import 'registerElement';
 
-    var EmbyInputPrototype = Object.create(HTMLInputElement.prototype);
+/* eslint-disable indent */
 
-    var inputId = 0;
-    var supportsFloatingLabel = false;
+    const EmbyInputPrototype = Object.create(HTMLInputElement.prototype);
+
+    let inputId = 0;
+    let supportsFloatingLabel = false;
 
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
 
-        var descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+        const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
 
         // descriptor returning null in webos
         if (descriptor && descriptor.configurable) {
-            var baseSetMethod = descriptor.set;
+            const baseSetMethod = descriptor.set;
             descriptor.set = function (value) {
                 baseSetMethod.call(this, value);
 
@@ -39,9 +44,9 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
 
         this.classList.add('emby-input');
 
-        var parentNode = this.parentNode;
-        var document = this.ownerDocument;
-        var label = document.createElement('label');
+        const parentNode = this.parentNode;
+        const document = this.ownerDocument;
+        const label = document.createElement('label');
         label.innerHTML = this.getAttribute('label') || '';
         label.classList.add('inputLabel');
         label.classList.add('inputLabelUnfocused');
@@ -95,12 +100,12 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
 
     function onChange() {
 
-        var label = this.labelElement;
+        const label = this.labelElement;
         if (this.value) {
             label.classList.remove('inputLabel-float');
         } else {
 
-            var instanceSupportsFloat = supportsFloatingLabel && this.type !== 'date' && this.type !== 'time';
+            const instanceSupportsFloat = supportsFloatingLabel && this.type !== 'date' && this.type !== 'time';
 
             if (instanceSupportsFloat) {
                 label.classList.add('inputLabel-float');
@@ -109,9 +114,7 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
     }
 
     EmbyInputPrototype.attachedCallback = function () {
-
         this.labelElement.htmlFor = this.id;
-
         onChange.call(this);
     };
 
@@ -123,4 +126,5 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
         prototype: EmbyInputPrototype,
         extends: 'input'
     });
-});
+
+/* eslint-enable indent */

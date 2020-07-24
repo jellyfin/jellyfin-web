@@ -1,49 +1,63 @@
-define(['subtitleSettings', 'userSettings', 'autoFocuser'], function (SubtitleSettings, userSettings, autoFocuser) {
-    'use strict';
+import subtitleSettings from 'subtitleSettings';
+import {UserSettings, currentSettings as userSettings} from 'userSettings';
+import autoFocuser from 'autoFocuser';
 
-    return function (view, params) {
-        function onBeforeUnload(e) {
-            if (hasChanges) {
-                e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
-            }
+export class SubtitleController {
+    constructor(view, params) {
+        this.userId = params.userId || ApiClient.getCurrentUserId();
+        this.currentSettings = this.userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
+        this.hasChanges = false;
+        this.subtitleSettingsInstance = null;
+        this.view = view;
+
+        view.addEventListener('viewshow', this.viewShow.bind(this));
+        view.addEventListener('change', this.change.bind(this));
+        view.addEventListener('viewbeforehide', this.viewBeforeHide.bind(this));
+        view.addEventListener('viewdestroy', this.viewDestroy.bind(this));
+    }
+
+    viewShow() {
+        window.addEventListener('beforeunload', this.beforeUnload.bind(this));
+
+        if (this.subtitleSettingsInstance) {
+            this.subtitleSettingsInstance.loadData();
+        } else {
+            this.subtitleSettingsInstance = new subtitleSettings({
+                serverId: ApiClient.serverId(),
+                userId: this.userId,
+                element: this.view.querySelector('.settingsContainer'),
+                userSettings: this.currentSettings,
+                enableSaveButton: false,
+                enableSaveConfirmation: false,
+                autoFocus: autoFocuser.isEnabled()
+            });
         }
+    }
 
-        var subtitleSettingsInstance;
-        var hasChanges;
-        var userId = params.userId || ApiClient.getCurrentUserId();
-        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new userSettings();
-        view.addEventListener('viewshow', function () {
-            window.addEventListener('beforeunload', onBeforeUnload);
+    viewDestroy() {
+        if (this.subtitleSettingsInstance) {
+            this.subtitleSettingsInstance.destroy();
+            this.subtitleSettingsInstance = null;
+        }
+    }
 
-            if (subtitleSettingsInstance) {
-                subtitleSettingsInstance.loadData();
-            } else {
-                subtitleSettingsInstance = new SubtitleSettings({
-                    serverId: ApiClient.serverId(),
-                    userId: userId,
-                    element: view.querySelector('.settingsContainer'),
-                    userSettings: currentSettings,
-                    enableSaveButton: false,
-                    enableSaveConfirmation: false,
-                    autoFocus: autoFocuser.isEnabled()
-                });
-            }
-        });
-        view.addEventListener('change', function () {
-            hasChanges = true;
-        });
-        view.addEventListener('viewbeforehide', function () {
-            hasChanges = false;
+    viewBeforeHide() {
+        this.hasChanges = false;
 
-            if (subtitleSettingsInstance) {
-                subtitleSettingsInstance.submit();
-            }
-        });
-        view.addEventListener('viewdestroy', function () {
-            if (subtitleSettingsInstance) {
-                subtitleSettingsInstance.destroy();
-                subtitleSettingsInstance = null;
-            }
-        });
-    };
-});
+        if (this.subtitleSettingsInstance) {
+            this.subtitleSettingsInstance.submit();
+        }
+    }
+
+    change() {
+        this.hasChanges = true;
+    }
+
+    beforeUnload(e) {
+        if (this.hasChanges) {
+            e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
+        }
+    }
+}
+
+export default SubtitleController;

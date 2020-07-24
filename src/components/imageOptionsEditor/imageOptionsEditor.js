@@ -99,7 +99,7 @@ import 'emby-input';
             scrollY: false
         });
         dlg.classList.add('formDialog');
-        dlg.innerHTML = globalize.translateDocument(template);
+        dlg.innerHTML = globalize.translateHtml(template);
         dlg.addEventListener('close', function () {
             saveValues(dlg, options);
         });
@@ -112,7 +112,6 @@ import 'emby-input';
         dlg.querySelector('.btnCancel').addEventListener('click', function () {
             dialogHelper.close(dlg);
         });
-
     }
 
 export class editor {

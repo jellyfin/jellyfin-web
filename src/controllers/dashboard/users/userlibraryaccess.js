@@ -47,7 +47,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             $('.channelAccessContainer', page).hide();
         }
 
-        $('#chkEnableAllChannels', page).checked = user.Policy.EnableAllChannels;
+        $('#chkEnableAllChannels', page).prop('checked', user.Policy.EnableAllChannels);
     }
 
     function loadDevices(page, user, devices) {
@@ -63,7 +63,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
 
         html += '</div>';
         $('.deviceAccess', page).show().html(html);
-        $('#chkEnableAllDevices', page).checked = user.Policy.EnableAllDevices;
+        $('#chkEnableAllDevices', page).prop('checked', user.Policy.EnableAllDevices);
 
         if (user.Policy.IsAdministrator) {
             page.querySelector('.deviceAccessContainer').classList.add('hide');
@@ -90,19 +90,19 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }
 
     function saveUser(user, page) {
-        user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).checked;
+        user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).is(':checked');
         user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : $('.chkFolder', page).get().filter(function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
         });
-        user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).checked;
+        user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).is(':checked');
         user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : $('.chkChannel', page).get().filter(function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
         });
-        user.Policy.EnableAllDevices = $('#chkEnableAllDevices', page).checked;
+        user.Policy.EnableAllDevices = $('#chkEnableAllDevices', page).is(':checked');
         user.Policy.EnabledDevices = user.Policy.EnableAllDevices ? [] : $('.chkDevice', page).get().filter(function (c) {
             return c.checked;
         }).map(function (c) {

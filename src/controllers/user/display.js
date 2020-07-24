@@ -1,6 +1,9 @@
 define(['displaySettings', 'userSettings', 'autoFocuser'], function (DisplaySettings, userSettings, autoFocuser) {
     'use strict';
 
+    // Shortcuts
+    const UserSettings = userSettings.UserSettings;
+
     return function (view, params) {
         function onBeforeUnload(e) {
             if (hasChanges) {
@@ -11,14 +14,14 @@ define(['displaySettings', 'userSettings', 'autoFocuser'], function (DisplaySett
         var settingsInstance;
         var hasChanges;
         var userId = params.userId || ApiClient.getCurrentUserId();
-        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new userSettings();
+        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
         view.addEventListener('viewshow', function () {
             window.addEventListener('beforeunload', onBeforeUnload);
 
             if (settingsInstance) {
                 settingsInstance.loadData();
             } else {
-                settingsInstance = new DisplaySettings({
+                settingsInstance = new DisplaySettings.default({
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector('.settingsContainer'),

@@ -1,6 +1,6 @@
 import dialogHelper from 'dialogHelper';
 
-export default class TableOfContent {
+export default class TableOfContents {
     constructor(bookPlayer) {
         this._bookPlayer = bookPlayer;
         this._rendition = bookPlayer._rendition;
@@ -59,6 +59,7 @@ export default class TableOfContent {
             autoFocus: false,
             removeOnClose: true
         });
+
         elem.id = 'dialogToc';
 
         let tocHtml = '<div class="topRightActionButtons">';
@@ -72,6 +73,7 @@ export default class TableOfContent {
             tocHtml += `<a href="${rendition.book.path.directory + link}">${chapter.label}</a>`;
             tocHtml += '</li>';
         });
+
         tocHtml += '</ul>';
         elem.innerHTML = tocHtml;
 
@@ -84,7 +86,6 @@ export default class TableOfContent {
         this._elem = elem;
 
         this.bindEvents();
-
         dialogHelper.open(elem);
     }
 }

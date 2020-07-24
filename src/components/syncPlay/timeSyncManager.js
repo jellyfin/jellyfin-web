@@ -1,6 +1,6 @@
 /**
  * Module that manages time syncing with server.
- * @module components/syncplay/timeSyncManager
+ * @module components/syncPlay/timeSyncManager
  */
 
 import events from 'events';
@@ -65,8 +65,6 @@ class TimeSyncManager {
         this.pings = 0; // number of pings
         this.measurement = null; // current time sync
         this.measurements = [];
-
-        this.startPing();
     }
 
     /**

@@ -709,7 +709,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     function showPlaybackInfoErrorMessage(instance, errorCode, playNextTrack) {
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 text: globalize.translate('PlaybackError' + errorCode),
                 title: globalize.translate('HeaderPlaybackError')
             }).then(function () {
@@ -1907,11 +1907,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Photo,Video',
-                    Limit: 500
-
+                    MediaTypes: 'Photo,Video'
                 }).then(function (result) {
-
                     var items = result.Items;
 
                     var index = items.map(function (i) {
