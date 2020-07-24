@@ -236,7 +236,6 @@
           "src/elements/emby-select/emby-select.js",
           "src/elements/emby-slider/emby-slider.js",
           "src/elements/emby-tabs/emby-tabs.js",
-          "src/elements/emby-tabs/emby-tabs.js",
           "src/elements/emby-textarea/emby-textarea.js",
           "src/elements/emby-toggle/emby-toggle.js",
           "src/plugins/backdropScreensaver/plugin.js",
