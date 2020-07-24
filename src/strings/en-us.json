@@ -1565,5 +1565,11 @@
     "ButtonCast": "Cast",
     "ButtonPlayer": "Player",
     "StopPlayback": "Stop playback",
-    "ClearQueue": "Clear queue"
+    "ClearQueue": "Clear queue",
+    "HeaderSelectFallbackFontPath" : "Select Fallback Font File Path",
+    "HeaderSelectFallbackFontPathHelp": "Browse or enter the path of the fallback font file to use for rendering ASS/SSA subtitles.",
+    "LabelFallbackFontPath": "Fallback font file path:",
+    "LabelFallbackFontPathHelp": "Specify a custom path of the fallback font file to use for rendering ASS/SSA subtitles. The maximum allowed size is 10 Megabytes. It is recommended to use the lightweight and web-friendly woff2 format font. Leave it blank unless the font is rendered incorrectly.",
+    "EnableFallbackFont" : "Enable fallback fonts",
+    "EnableFallbackFontHelp" : "Enable custom alternate fonts. This can avoid the problem of incorrect subtitle rendering."
 }

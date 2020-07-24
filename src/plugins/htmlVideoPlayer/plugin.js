@@ -1066,14 +1066,20 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function renderSsaAss(videoElement, track, item) {
+            var avaliableFonts = new Array();
             var attachments = self._currentPlayOptions.mediaSource.MediaAttachments || [];
+            attachments.map(function (i) {
+                // embedded font url
+                return avaliableFonts.push(i.DeliveryUrl);
+            });
             var apiClient = connectionManager.getApiClient(item);
+            var fallbackFont = apiClient.getUrl('/FallbackFont/Font', {
+                api_key: apiClient.accessToken()
+            });
             var options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                fonts: attachments.map(function (i) {
-                    return apiClient.getUrl(i.DeliveryUrl);
-                }),
+                fonts: avaliableFonts,
                 workerUrl: appRouter.baseUrl() + '/libraries/subtitles-octopus-worker.js',
                 legacyWorkerUrl: appRouter.baseUrl() + '/libraries/subtitles-octopus-worker-legacy.js',
                 onError: function() {
@@ -1094,7 +1100,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 renderAhead: 90
             };
             require(['JavascriptSubtitlesOctopus'], function(SubtitlesOctopus) {
-                currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                apiClient.getNamedConfiguration('encoding').then(function (config) {
+                    if (config.EnableFallbackFont) {
+                        avaliableFonts.push(fallbackFont);
+                    }
+
+                    currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                });
             });
         }
 
