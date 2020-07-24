@@ -126,13 +126,12 @@ import 'material-icons';
             let alphaFocusedElement;
             let alphaFocusTimeout;
 
-            function onAlphaFocusTimeout() {
-
+            function onAlphaFocusTimeout(instance) {
                 alphaFocusTimeout = null;
 
                 if (document.activeElement === alphaFocusedElement) {
                     const value = alphaFocusedElement.getAttribute('data-value');
-                    this.value(value, true);
+                    instance.value(value, true);
                 }
             }
 
@@ -177,7 +176,7 @@ import 'material-icons';
 
                 if (alphaPickerButton) {
                     alphaFocusedElement = alphaPickerButton;
-                    alphaFocusTimeout = setTimeout(onAlphaFocusTimeout, 600);
+                    alphaFocusTimeout = setTimeout(onAlphaFocusTimeout.bind(null, this), 600);
                 }
             }
 
