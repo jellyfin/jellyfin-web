@@ -734,11 +734,6 @@ var AppInfo = {};
         define('cardStyle', ['css!' + componentsPath + '/cardbuilder/card'], returnFirstDependency);
         define('flexStyles', ['css!assets/css/flexstyles'], returnFirstDependency);
 
-        // define legacy features
-        // TODO delete the rest of these
-        define('fnchecked', ['legacy/fnchecked'], returnFirstDependency);
-        define('legacySelectMenu', ['legacy/selectmenu'], returnFirstDependency);
-
         // there are several objects that need to be instantiated
         // TODO find a better way to do this
         define('appFooter', [componentsPath + '/appFooter/appFooter'], returnFirstDependency);
