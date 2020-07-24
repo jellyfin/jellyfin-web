@@ -311,21 +311,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         });
     }
 
-    function enableHistory() {
-
-        // shows status bar on navigation
-        if (browser.xboxOne) {
-            return false;
-        }
-
-        // Does not support history
-        if (browser.orsay) {
-            return false;
-        }
-
-        return true;
-    }
-
     function enableNativeHistory() {
         return false;
     }
@@ -525,9 +510,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         if (!document.querySelector('.dialogContainer') && startPages.indexOf(curr.type) !== -1) {
             return false;
         }
-        if (enableHistory()) {
-            return history.length > 1;
-        }
+
         return (page.len || 0) > 0;
     }
 
