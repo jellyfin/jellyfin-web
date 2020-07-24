@@ -62,7 +62,9 @@ import 'emby-ratingbutton';
         html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
 
         html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><span class="material-icons stop"></span></button>';
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
+        if (!layoutManager.mobile) {
+            html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
+        }
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
         html += '</div>';
@@ -76,12 +78,17 @@ import 'emby-ratingbutton';
         html += '</div>';
 
         html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat"></span></button>';
+        html += '<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle"></span></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
         html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
-        html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><span class="material-icons more_vert"></span></button>';
+        if (layoutManager.mobile) {
+            html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
+        } else {
+            html += '<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton"><span class="material-icons more_vert"></span></button>';
+        }
 
         html += '</div>';
         html += '</div>';
@@ -132,8 +139,13 @@ import 'emby-ratingbutton';
         nowPlayingImageElement = elem.querySelector('.nowPlayingImage');
         nowPlayingTextElement = elem.querySelector('.nowPlayingBarText');
         nowPlayingUserData = elem.querySelector('.nowPlayingBarUserDataButtons');
-
+        positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         muteButton = elem.querySelector('.muteButton');
+        playPauseButtons = elem.querySelectorAll('.playPauseButton');
+        toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
+        volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
+        volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
+
         muteButton.addEventListener('click', function () {
 
             if (currentPlayer) {
@@ -149,7 +161,6 @@ import 'emby-ratingbutton';
             }
         });
 
-        playPauseButtons = elem.querySelectorAll('.playPauseButton');
         playPauseButtons.forEach((button) => {
             button.addEventListener('click', onPlayPauseClick);
         });
@@ -161,54 +172,59 @@ import 'emby-ratingbutton';
             }
         });
 
-        elem.querySelector('.previousTrackButton').addEventListener('click', function () {
+        elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
+            if (currentPlayer) {
+                if (lastPlayerState.NowPlayingItem.MediaType === 'Audio' && (currentPlayer._currentTime >= 5 || !playbackManager.previousTrack(currentPlayer))) {
+                    // Cancel this event if doubleclick is fired
+                    if (e.detail > 1 && playbackManager.previousTrack(currentPlayer)) {
+                        return;
+                    }
+                    playbackManager.seekPercent(0, currentPlayer);
+                    // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
+                    // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
+                    positionSlider.value = 0;
+                } else {
+                    playbackManager.previousTrack(currentPlayer);
+                }
+            }
+        });
 
+        elem.querySelector('.previousTrackButton').addEventListener('dblclick', function () {
             if (currentPlayer) {
                 playbackManager.previousTrack(currentPlayer);
             }
         });
 
+        elem.querySelector('.btnShuffleQueue').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.toggleQueueShuffleMode();
+            }
+        });
+
         toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
         toggleRepeatButton.addEventListener('click', function () {
-
-            if (currentPlayer) {
-
-                switch (playbackManager.getRepeatMode(currentPlayer)) {
-                    case 'RepeatAll':
-                        playbackManager.setRepeatMode('RepeatOne', currentPlayer);
-                        break;
-                    case 'RepeatOne':
-                        playbackManager.setRepeatMode('RepeatNone', currentPlayer);
-                        break;
-                    default:
-                        playbackManager.setRepeatMode('RepeatAll', currentPlayer);
-                        break;
-                }
+            switch (playbackManager.getRepeatMode()) {
+                case 'RepeatAll':
+                    playbackManager.setRepeatMode('RepeatOne');
+                    break;
+                case 'RepeatOne':
+                    playbackManager.setRepeatMode('RepeatNone');
+                    break;
+                case 'RepeatNone':
+                    playbackManager.setRepeatMode('RepeatAll');
             }
         });
 
         toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
-        volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
-        volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
+        volumeSliderContainer.classList.toggle('hide', appHost.supports('physicalvolumecontrol'));
 
-        if (appHost.supports('physicalvolumecontrol')) {
-            volumeSliderContainer.classList.add('hide');
-        } else {
-            volumeSliderContainer.classList.remove('hide');
-        }
-
-        function setVolume() {
+        volumeSlider.addEventListener('input', (e) => {
             if (currentPlayer) {
-                currentPlayer.setVolume(this.value);
+                currentPlayer.setVolume(e.target.value);
             }
-        }
+        });
 
-        volumeSlider.addEventListener('change', setVolume);
-        volumeSlider.addEventListener('mousemove', setVolume);
-        volumeSlider.addEventListener('touchmove', setVolume);
-
-        positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         positionSlider.addEventListener('change', function () {
 
             if (currentPlayer) {
@@ -277,6 +293,11 @@ import 'emby-ratingbutton';
                 parentContainer.insertAdjacentHTML('afterbegin', getNowPlayingBarHtml());
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
+                if (layoutManager.mobile) {
+                    hideButton(nowPlayingBarElement.querySelector('.btnShuffleQueue'));
+                    hideButton(nowPlayingBarElement.querySelector('.nowPlayingBarCenter'));
+                }
+
                 if (browser.safari && browser.slow) {
                     // Not handled well here. The wrong elements receive events, bar doesn't update quickly enough, etc.
                     nowPlayingBarElement.classList.add('noMediaProgress');
@@ -329,7 +350,8 @@ import 'emby-ratingbutton';
             toggleRepeatButton.classList.remove('hide');
         }
 
-        updateRepeatModeDisplay(playState.RepeatMode);
+        updateRepeatModeDisplay(playbackManager.getRepeatMode());
+        onQueueShuffleModeChange();
 
         updatePlayerVolumeState(playState.IsMuted, playState.VolumeLevel);
 
@@ -349,32 +371,39 @@ import 'emby-ratingbutton';
 
     function updateRepeatModeDisplay(repeatMode) {
         toggleRepeatButtonIcon.classList.remove('repeat', 'repeat_one');
+        const cssClass = 'buttonActive';
 
-        if (repeatMode === 'RepeatAll') {
-            toggleRepeatButtonIcon.classList.add('repeat');
-            toggleRepeatButton.classList.add('repeatButton-active');
-        } else if (repeatMode === 'RepeatOne') {
-            toggleRepeatButtonIcon.classList.add('repeat_one');
-            toggleRepeatButton.classList.add('repeatButton-active');
-        } else {
-            toggleRepeatButtonIcon.classList.add('repeat');
-            toggleRepeatButton.classList.remove('repeatButton-active');
+        switch (repeatMode) {
+            case 'RepeatAll':
+                toggleRepeatButtonIcon.classList.add('repeat');
+                toggleRepeatButton.classList.add(cssClass);
+                break;
+            case 'RepeatOne':
+                toggleRepeatButtonIcon.classList.add('repeat_one');
+                toggleRepeatButton.classList.add(cssClass);
+                break;
+            case 'RepeatNone':
+            default:
+                toggleRepeatButtonIcon.classList.add('repeat');
+                toggleRepeatButton.classList.remove(cssClass);
+                break;
         }
     }
 
     function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
-
         // See bindEvents for why this is necessary
         if (positionSlider && !positionSlider.dragging) {
             if (runtimeTicks) {
+<<<<<<< HEAD
 
                 let pct = positionTicks / runtimeTicks;
+=======
+                var pct = positionTicks / runtimeTicks;
+>>>>>>> upstream/master
                 pct *= 100;
 
                 positionSlider.value = pct;
-
             } else {
-
                 positionSlider.value = 0;
             }
         }
@@ -384,9 +413,13 @@ import 'emby-ratingbutton';
         }
 
         if (currentTimeElement) {
+<<<<<<< HEAD
 
             let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
 
+=======
+            var timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+>>>>>>> upstream/master
             if (runtimeTicks) {
                 timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
             }
@@ -428,25 +461,12 @@ import 'emby-ratingbutton';
         // See bindEvents for why this is necessary
         if (volumeSlider) {
 
-            if (showVolumeSlider) {
-                volumeSliderContainer.classList.remove('hide');
-            } else {
-                volumeSliderContainer.classList.add('hide');
-            }
+            volumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
 
             if (!volumeSlider.dragging) {
                 volumeSlider.value = volumeLevel || 0;
             }
         }
-    }
-
-    function getTextActionButton(item, text) {
-
-        if (!text) {
-            text = itemHelper.getDisplayName(item);
-        }
-
-        return `<a>${text}</a>`;
     }
 
     function seriesImageUrl(item, options) {
@@ -520,6 +540,7 @@ import 'emby-ratingbutton';
 
         const nowPlayingItem = state.NowPlayingItem;
 
+<<<<<<< HEAD
         const textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
         if (textLines.length > 1) {
             textLines[1].secondary = true;
@@ -536,6 +557,31 @@ import 'emby-ratingbutton';
             return `<div ${cssClass}>${nowPlayingText}</div>`;
 
         }).join('');
+=======
+        var textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
+        nowPlayingTextElement.innerHTML = '';
+        if (textLines) {
+            let itemText = document.createElement('div');
+            let secondaryText = document.createElement('div');
+            secondaryText.classList.add('nowPlayingBarSecondaryText');
+            if (textLines.length > 1) {
+                textLines[1].secondary = true;
+                if (textLines[1].text) {
+                    let text = document.createElement('a');
+                    text.innerHTML = textLines[1].text;
+                    secondaryText.appendChild(text);
+                }
+            }
+
+            if (textLines[0].text) {
+                let text = document.createElement('a');
+                text.innerHTML = textLines[0].text;
+                itemText.appendChild(text);
+            }
+            nowPlayingTextElement.appendChild(itemText);
+            nowPlayingTextElement.appendChild(secondaryText);
+        }
+>>>>>>> upstream/master
 
         const imgHeight = 70;
 
@@ -553,8 +599,12 @@ import 'emby-ratingbutton';
 
             if (url) {
                 imageLoader.lazyImage(nowPlayingImageElement, url);
+                nowPlayingImageElement.style.display = null;
+                nowPlayingTextElement.style.marginLeft = null;
             } else {
                 nowPlayingImageElement.style.backgroundImage = '';
+                nowPlayingImageElement.style.display = 'none';
+                nowPlayingTextElement.style.marginLeft = '1em';
             }
         }
 
@@ -563,6 +613,7 @@ import 'emby-ratingbutton';
 
                 const apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
+<<<<<<< HEAD
                     const userData = item.UserData || {};
                     const likes = userData.Likes == null ? '' : userData.Likes;
                     const contextButton = document.querySelector('.btnToggleContextMenu');
@@ -578,8 +629,32 @@ import 'emby-ratingbutton';
                                 item: item,
                                 user: user
                             }, options ));
+=======
+                    var userData = item.UserData || {};
+                    var likes = userData.Likes == null ? '' : userData.Likes;
+                    if (!layoutManager.mobile) {
+                        let contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
+                        // We remove the previous event listener by replacing the item in each update event
+                        let contextButtonClone = contextButton.cloneNode(true);
+                        contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
+                        contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
+                        let options = {
+                            play: false,
+                            queue: false,
+                            clearQueue: true,
+                            positionTo: contextButton
+                        };
+                        apiClient.getCurrentUser().then(function (user) {
+                            contextButton.addEventListener('click', function () {
+                                itemContextMenu.show(Object.assign({
+                                    item: item,
+                                    user: user
+                                }, options));
+                            });
+>>>>>>> upstream/master
                         });
-                    });
+                    }
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
                 });
             }
         } else {
@@ -589,25 +664,49 @@ import 'emby-ratingbutton';
 
     function onPlaybackStart(e, state) {
         console.debug('nowplaying event: ' + e.type);
+<<<<<<< HEAD
 
         const player = this;
 
+=======
+        var player = this;
+>>>>>>> upstream/master
         onStateChanged.call(player, e, state);
     }
 
-    function onRepeatModeChange(e) {
-
+    function onRepeatModeChange() {
         if (!isEnabled) {
             return;
         }
 
+<<<<<<< HEAD
         const player = this;
+=======
+        updateRepeatModeDisplay(playbackManager.getRepeatMode());
+    }
 
-        updateRepeatModeDisplay(playbackManager.getRepeatMode(player));
+    function onQueueShuffleModeChange() {
+        if (!isEnabled) {
+            return;
+        }
+>>>>>>> upstream/master
+
+        let shuffleMode = playbackManager.getQueueShuffleMode();
+        let context = nowPlayingBarElement;
+        const cssClass = 'buttonActive';
+        let toggleShuffleButton = context.querySelector('.btnShuffleQueue');
+        switch (shuffleMode) {
+            case 'Shuffle':
+                toggleShuffleButton.classList.add(cssClass);
+                break;
+            case 'Sorted':
+            default:
+                toggleShuffleButton.classList.remove(cssClass);
+                break;
+        }
     }
 
     function showNowPlayingBar() {
-
         if (!isVisibilityAllowed) {
             hideNowPlayingBar();
             return;
@@ -711,6 +810,7 @@ import 'emby-ratingbutton';
             events.off(player, 'playbackstart', onPlaybackStart);
             events.off(player, 'statechange', onPlaybackStart);
             events.off(player, 'repeatmodechange', onRepeatModeChange);
+            events.off(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
             events.off(player, 'playbackstop', onPlaybackStopped);
             events.off(player, 'volumechange', onVolumeChanged);
             events.off(player, 'pause', onPlayPauseStateChanged);
@@ -759,6 +859,7 @@ import 'emby-ratingbutton';
         events.on(player, 'playbackstart', onPlaybackStart);
         events.on(player, 'statechange', onPlaybackStart);
         events.on(player, 'repeatmodechange', onRepeatModeChange);
+        events.on(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
         events.on(player, 'playbackstop', onPlaybackStopped);
         events.on(player, 'volumechange', onVolumeChanged);
         events.on(player, 'pause', onPlayPauseStateChanged);

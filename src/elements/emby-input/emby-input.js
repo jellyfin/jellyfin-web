@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import layoutManager from 'layoutManager';
 import browser from 'browser';
 import dom from 'dom';
 import 'css!./emby-input';
 import 'registerElement';
+=======
+define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'webcomponents'], function (layoutManager, browser, dom) {
+    'use strict';
+>>>>>>> upstream/master
 
 /* eslint-disable indent */
 

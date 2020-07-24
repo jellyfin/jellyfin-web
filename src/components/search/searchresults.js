@@ -474,7 +474,7 @@ import 'emby-button';
             showTitle: true,
             overlayText: false,
             centerText: true,
-            action: 'play'
+            overlayPlayButton: true
 
         });
 

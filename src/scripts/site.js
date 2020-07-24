@@ -196,7 +196,7 @@ var Dashboard = {
     capabilities: function (appHost) {
         var capabilities = {
             PlayableMediaTypes: ['Audio', 'Video'],
-            SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
+            SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
             SupportsPersistentIdentifier: 'cordova' === self.appMode || 'android' === self.appMode,
             SupportsMediaControl: true
         };
@@ -386,8 +386,6 @@ var AppInfo = {};
 
         define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
         define('shell', [scriptsPath + '/shell'], returnFirstDependency);
-
-        define('registerElement', ['document-register-element'], returnFirstDependency);
 
         define('alert', [componentsPath + '/alert'], returnFirstDependency);
 
@@ -672,7 +670,6 @@ var AppInfo = {};
             },
             bundles: {
                 bundle: [
-                    'document-register-element',
                     'fetch',
                     'flvjs',
                     'jstree',
@@ -1039,7 +1036,7 @@ var AppInfo = {};
                 }
 
                 if ('SeriesTimer' == itemType) {
-                    return 'itemdetails.html?seriesTimerId=' + id + '&serverId=' + serverId;
+                    return 'details?seriesTimerId=' + id + '&serverId=' + serverId;
                 }
 
                 if ('livetv' == item.CollectionType) {
@@ -1109,13 +1106,13 @@ var AppInfo = {};
                 var itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
 
                 if (itemTypes.indexOf(itemType) >= 0) {
-                    return 'itemdetails.html?id=' + id + '&serverId=' + serverId;
+                    return 'details?id=' + id + '&serverId=' + serverId;
                 }
 
                 var contextSuffix = context ? '&context=' + context : '';
 
                 if ('Series' == itemType || 'Season' == itemType || 'Episode' == itemType) {
-                    return 'itemdetails.html?id=' + id + contextSuffix + '&serverId=' + serverId;
+                    return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;
                 }
 
                 if (item.IsFolder) {
@@ -1126,7 +1123,7 @@ var AppInfo = {};
                     return '#';
                 }
 
-                return 'itemdetails.html?id=' + id + '&serverId=' + serverId;
+                return 'details?id=' + id + '&serverId=' + serverId;
             };
 
             appRouter.showItem = showItem;

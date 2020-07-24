@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import browser from 'browser';
 import dom from 'dom';
 import 'css!./emby-checkbox';
 import 'registerElement';
+=======
+define(['browser', 'dom', 'css!./emby-checkbox', 'webcomponents'], function (browser, dom) {
+    'use strict';
+>>>>>>> upstream/master
 
 /* eslint-disable indent */
 

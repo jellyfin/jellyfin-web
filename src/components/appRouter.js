@@ -222,46 +222,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function normalizeImageOptions(options) {
-        var scaleFactor = browser.tv ? 0.8 : 1;
-
         var setQuality;
-        if (options.maxWidth) {
-            options.maxWidth = Math.round(options.maxWidth * scaleFactor);
+        if (options.maxWidth || options.width || options.maxHeight || options.height) {
             setQuality = true;
         }
 
-        if (options.width) {
-            options.width = Math.round(options.width * scaleFactor);
-            setQuality = true;
-        }
-
-        if (options.maxHeight) {
-            options.maxHeight = Math.round(options.maxHeight * scaleFactor);
-            setQuality = true;
-        }
-
-        if (options.height) {
-            options.height = Math.round(options.height * scaleFactor);
-            setQuality = true;
-        }
-
-        if (setQuality) {
-            var quality;
-            var type = options.type || 'Primary';
-
-            if (browser.tv || browser.slow) {
-                // TODO: wtf
-                if (browser.chrome) {
-                    // webp support
-                    quality = type === 'Primary' ? 40 : 50;
-                } else {
-                    quality = type === 'Backdrop' ? 60 : 50;
-                }
-            } else {
-                quality = type === 'Backdrop' ? 70 : 90;
-            }
-
-            options.quality = quality;
+        if (setQuality && !options.quality) {
+            options.quality = 90;
         }
     }
 

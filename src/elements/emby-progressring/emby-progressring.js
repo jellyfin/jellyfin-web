@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import require from 'require';
 import 'css!./emby-progressring';
 import 'webcomponents';
+=======
+define(['require', 'css!./emby-progressring', 'webcomponents'], function (require) {
+    'use strict';
+>>>>>>> upstream/master
 
 /* eslint-disable indent */
 

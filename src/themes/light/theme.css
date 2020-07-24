@@ -57,6 +57,10 @@ html {
     background-color: #f0f0f0;
 }
 
+.emby-scrollbuttons .paper-icon-button-light {
+    color: #000;
+}
+
 .paper-icon-button-light:hover:not(:disabled) {
     color: #00a4dc;
     background-color: rgba(0, 164, 220, 0.2);
@@ -221,7 +225,7 @@ html {
     color: #fff !important;
 }
 
-.detailSticky {
+.detailRibbon {
     background-color: #303030;
     color: #ccc;
     color: rgba(255, 255, 255, 0.87);
@@ -234,7 +238,7 @@ html {
 }
 
 .listItem-border {
-    border-color: #f0f0f0 !important;
+    border-color: #a7a7a7 !important;
 }
 
 .listItem:focus {
@@ -248,11 +252,6 @@ html {
 .mediaInfoText {
     color: #333;
     background: #fff;
-}
-
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #cb272a;
 }
 
 .emby-input,
@@ -428,8 +427,8 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .cardBox:not(.visualCardBox) .cardPadder {

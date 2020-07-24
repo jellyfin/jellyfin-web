@@ -266,6 +266,43 @@ import 'flexStyles';
         });
     }
 
+    function afterDeleted(context, item) {
+        var parentId = item.ParentId || item.SeasonId || item.SeriesId;
+
+        if (parentId) {
+            reload(context, parentId, item.ServerId);
+        } else {
+            require(['appRouter'], function (appRouter) {
+                appRouter.goHome();
+            });
+        }
+    }
+
+    function showMoreMenu(context, button, user) {
+        require(['itemContextMenu'], function (itemContextMenu) {
+            var item = currentItem;
+
+            itemContextMenu.show({
+                item: item,
+                positionTo: button,
+                edit: false,
+                editImages: true,
+                editSubtitles: true,
+                sync: false,
+                share: false,
+                play: false,
+                queue: false,
+                user: user
+            }).then(function (result) {
+                if (result.deleted) {
+                    afterDeleted(context, item);
+                } else if (result.updated) {
+                    reload(context, item.Id, item.ServerId);
+                }
+            });
+        });
+    }
+
     function onEditorClick(e) {
 
         const btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
@@ -291,7 +328,6 @@ import 'flexStyles';
     }
 
     function init(context, apiClient) {
-
         context.querySelector('.externalIds').addEventListener('click', function (e) {
             const btnOpenExternalId = dom.parentWithClass(e.target, 'btnOpenExternalId');
             if (btnOpenExternalId) {
@@ -315,13 +351,17 @@ import 'flexStyles';
             closeDialog(false);
         });
 
-        context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
+        context.querySelector('.btnMore').addEventListener('click', function (e) {
+            getApiClient().getCurrentUser().then(function (user) {
+                showMoreMenu(context, e.target, user);
+            });
+        });
 
+        context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
             context.querySelector('.btnSave').click();
         });
 
         context.querySelector('#chkLockData').addEventListener('click', function (e) {
-
             if (!e.target.checked) {
                 showElement('.providerSettingsContainer');
             } else {
@@ -1107,6 +1147,7 @@ import 'flexStyles';
                     elem.innerHTML = globalize.translateHtml(template, 'core');
 
                     elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
+                    elem.querySelector('.btnClose').classList.add('hide');
                     elem.querySelector('.btnHeaderSave').classList.remove('hide');
                     elem.querySelector('.btnCancel').classList.add('hide');
 

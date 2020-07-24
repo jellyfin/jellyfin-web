@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import layoutManager from 'layoutManager';
 import dom from 'dom';
 import 'css!./emby-scrollbuttons';
 import 'registerElement';
 import 'paper-icon-button-light';
+=======
+define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'webcomponents', 'paper-icon-button-light'], function (layoutManager, dom) {
+    'use strict';
+>>>>>>> upstream/master
 
 /* eslint-disable indent */
 

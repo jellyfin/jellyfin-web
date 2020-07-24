@@ -1,12 +1,18 @@
+.subtitleSync {
+    position: absolute;
+    width: 100%;
+}
+
 .subtitleSyncContainer {
     width: 40%;
-    margin-left: 30%;
-    margin-right: 30%;
+    min-width: 18em;
+    margin-left: auto;
+    margin-right: auto;
     height: 4.2em;
     background: rgba(28, 28, 28, 0.8);
     border-radius: 0.3em;
     color: #fff;
-    position: absolute;
+    position: relative;
 }
 
 .subtitleSync-closeButton {

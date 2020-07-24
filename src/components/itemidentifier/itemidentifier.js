@@ -240,12 +240,18 @@ import 'cardStyle';
         html += '</div>';
         html += '</div>';
 
+<<<<<<< HEAD
         let numLines = 2;
+=======
+        var numLines = 3;
+>>>>>>> upstream/master
         if (currentItemType === 'MusicAlbum') {
             numLines++;
         }
 
         const lines = [result.Name];
+
+        lines.push(result.SearchProviderName);
 
         if (result.AlbumArtist) {
             lines.push(result.AlbumArtist.Name);

@@ -1436,8 +1436,8 @@
     "LabelTranscodingFramerate": "Transkodowanie w kl/s:",
     "LabelSize": "Wielkość:",
     "LabelPleaseRestart": "Zmiany zaczną obowiązywać po ręcznym przeładowaniu klienta WWW.",
-    "LabelPlayMethod": "Meroda odtwarzania:",
-    "LabelPlayer": "Gracz:",
+    "LabelPlayMethod": "Metoda odtwarzania:",
+    "LabelPlayer": "Odtwarzacz:",
     "LabelBaseUrlHelp": "Możesz tutaj dodać niestandardowy podkatalog, aby uzyskać dostęp do serwera z bardziej unikalnego adresu URL.",
     "LabelBaseUrl": "Podstawowy adres URL:",
     "LabelBitrate": "Bitrate:",
@@ -1479,5 +1479,6 @@
     "DeinterlaceMethodHelp": "Wybierz metodę usuwania przeplotu używaną podczas transkodowania.",
     "ClientSettings": "Ustawienia klienta",
     "ButtonTogglePlaylist": "Playlista",
-    "ButtonToggleContextMenu": "Więcej"
+    "ButtonToggleContextMenu": "Więcej",
+    "ButtonSyncPlay": "SyncPlay"
 }

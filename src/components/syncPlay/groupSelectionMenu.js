@@ -37,7 +37,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
         console.debug('No item is currently playing.');
     }
 
-    apiClient.sendSyncPlayCommand(sessionId, 'ListGroups').then(function (response) {
+    apiClient.getSyncPlayGroups().then(function (response) {
         response.json().then(function (groups) {
             var menuItems = groups.map(function (group) {
                 return {
@@ -83,9 +83,9 @@ function showNewJoinGroupSelection (button, user, apiClient) {
 
             actionsheet.show(menuOptions).then(function (id) {
                 if (id == 'new-group') {
-                    apiClient.sendSyncPlayCommand(sessionId, 'NewGroup');
-                } else {
-                    apiClient.sendSyncPlayCommand(sessionId, 'JoinGroup', {
+                    apiClient.createSyncPlayGroup();
+                } else if (id) {
+                    apiClient.joinSyncPlayGroup({
                         GroupId: id,
                         PlayingItemId: playingItemId
                     });
@@ -140,7 +140,7 @@ function showLeaveGroupSelection (button, user, apiClient) {
 
     actionsheet.show(menuOptions).then(function (id) {
         if (id == 'leave-group') {
-            apiClient.sendSyncPlayCommand(sessionId, 'LeaveGroup');
+            apiClient.leaveSyncPlayGroup();
         }
     }).catch((error) => {
         console.error('SyncPlay: unexpected error showing group menu:', error);

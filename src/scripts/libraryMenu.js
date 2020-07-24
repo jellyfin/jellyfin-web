@@ -13,7 +13,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
         html += `<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonSyncPlay')}"><span class="material-icons sync_disabled"></span></button>`;
-        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
+        html += `<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonPlayer')}"><span class="material-icons music_note"></span></button>`;
         html += `<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonCast')}"><span class="material-icons cast"></span></button>`;
         html += `<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide" title="${globalize.translate('ButtonSearch')}"><span class="material-icons search"></span></button>`;
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person"></span></button>';
@@ -89,7 +89,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
             var policy = user.Policy ? user.Policy : user.localUser.Policy;
 
-            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None') {
+            var apiClient = getCurrentApiClient();
+            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
                 headerSyncButton.classList.remove('hide');
             }
         } else {
@@ -116,7 +117,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function showSearch() {
-        inputManager.trigger('search');
+        inputManager.handleCommand('search');
     }
 
     function onHeaderUserButtonClick(e) {
@@ -967,8 +968,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         updateUserInHeader();
     });
     events.on(playbackManager, 'playerchange', updateCastIcon);
+
     events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
     events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
+
     loadNavDrawer();
     return LibraryMenu;
 });

@@ -97,5 +97,7 @@
     "ButtonRemove": "काढून टाका",
     "ButtonPreviousTrack": "मागचा ट्रॅक",
     "ButtonPlay": "प्ले",
-    "ButtonPause": "पॉझ"
+    "ButtonPause": "पॉझ",
+    "ButtonSyncPlay": "SyncPlay",
+    "Collections": "संग्रह"
 }

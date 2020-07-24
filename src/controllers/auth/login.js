@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import appHost from 'apphost';
 import appSettings from 'appSettings';
 import dom from 'dom';
@@ -8,6 +9,10 @@ import browser from 'browser';
 import globalize from 'globalize';
 import 'cardStyle';
 import 'emby-checkbox';
+=======
+define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layoutManager', 'libraryMenu', 'browser', 'globalize', 'cardStyle', 'emby-checkbox'], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, libraryMenu, browser, globalize) {
+    'use strict';
+>>>>>>> upstream/master
 
 /* eslint-disable indent */
 
@@ -16,6 +21,7 @@ import 'emby-checkbox';
     function authenticateUserByName(page, apiClient, username, password) {
         loading.show();
         apiClient.authenticateUserByName(username, password).then(function (result) {
+<<<<<<< HEAD
             const user = result.User;
             const serverId = getParameterByName('serverid');
             let newUrl;
@@ -26,9 +32,13 @@ import 'emby-checkbox';
                 newUrl = 'home.html';
             }
 
+=======
+            var user = result.User;
+>>>>>>> upstream/master
             loading.hide();
+
             Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
-            Dashboard.navigate(newUrl);
+            Dashboard.navigate('home.html');
         }, function (response) {
             page.querySelector('#txtManualName').value = '';
             page.querySelector('#txtManualPassword').value = '';
@@ -204,6 +214,7 @@ import 'emby-checkbox';
         });
         view.addEventListener('viewshow', function (e) {
             loading.show();
+            libraryMenu.setTransparentMenu(true);
 
             if (!appHost.supports('multiserver')) {
                 view.querySelector('.btnSelectServer').classList.add('hide');
@@ -225,6 +236,14 @@ import 'emby-checkbox';
                 view.querySelector('.disclaimer').textContent = options.LoginDisclaimer || '';
             });
         });
+<<<<<<< HEAD
     }
 
 /* eslint-enable indent */
+=======
+        view.addEventListener('viewhide', function (e) {
+            libraryMenu.setTransparentMenu(false);
+        });
+    };
+});
+>>>>>>> upstream/master

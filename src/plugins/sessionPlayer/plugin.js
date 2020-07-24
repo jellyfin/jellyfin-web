@@ -263,7 +263,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
                         appName: s.Client,
                         playableMediaTypes: s.PlayableMediaTypes,
                         isLocalPlayer: false,
-                        supportedCommands: s.SupportedCommands,
+                        supportedCommands: s.Capabilities.SupportedCommands,
                         user: s.UserId ? {
 
                             Id: s.UserId,
@@ -504,6 +504,17 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         sendCommandByName(this, 'SetRepeatMode', {
             RepeatMode: mode
         });
+    };
+
+    SessionPlayer.prototype.setQueueShuffleMode = function (mode) {
+
+        sendCommandByName(this, 'SetShuffleQueue', {
+            ShuffleMode: mode
+        });
+    };
+
+    SessionPlayer.prototype.getQueueShuffleMode = function () {
+
     };
 
     SessionPlayer.prototype.displayContent = function (options) {

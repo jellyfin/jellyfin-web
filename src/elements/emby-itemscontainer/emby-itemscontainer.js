@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import itemShortcuts from 'itemShortcuts';
 import inputManager from 'inputManager';
 import connectionManager from 'connectionManager';
@@ -15,6 +16,12 @@ import 'registerElement';
 /* eslint-disable indent */
 
     const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
+=======
+define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'webcomponents'], function (itemShortcuts, inputManager, connectionManager, playbackManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
+    'use strict';
+
+    var ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
+>>>>>>> upstream/master
 
     function onClick(e) {
         const itemsContainer = this;
@@ -42,7 +49,7 @@ import 'registerElement';
 
         // check for serverId, it won't be present on selectserver
         if (card && card.getAttribute('data-serverid')) {
-            inputManager.trigger('menu', {
+            inputManager.handleCommand('menu', {
                 sourceElement: card
             });
 

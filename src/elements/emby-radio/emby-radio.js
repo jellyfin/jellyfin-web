@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import layoutManager from 'layoutManager';
 import 'css!./emby-radio';
 import 'registerElement';
+=======
+define(['layoutManager', 'css!./emby-radio', 'webcomponents'], function (layoutManager) {
+    'use strict';
+>>>>>>> upstream/master
 
 /* eslint-disable indent */
 

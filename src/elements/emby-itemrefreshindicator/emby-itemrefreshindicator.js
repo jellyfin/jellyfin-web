@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import EmbyProgressRing from 'emby-progressring';
 import dom from 'dom';
 import serverNotifications from 'serverNotifications';
@@ -5,6 +6,10 @@ import events from 'events';
 import 'registerElement';
 
 /* eslint-disable indent */
+=======
+define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'webcomponents'], function (EmbyProgressRing, dom, serverNotifications, events) {
+    'use strict';
+>>>>>>> upstream/master
 
     function addNotificationEvent(instance, name, handler) {
 

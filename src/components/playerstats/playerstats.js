@@ -415,7 +415,8 @@ import 'css!./playerstats';
                 name: 'Original Media Info'
             });
 
-            if (syncPlayManager.isSyncPlayEnabled()) {
+            var apiClient = connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+            if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),
                     name: 'SyncPlay Info'

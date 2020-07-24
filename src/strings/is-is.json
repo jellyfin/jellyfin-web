@@ -547,5 +547,6 @@
     "ConfirmDeleteItems": "Ef þessum skrám er eytt verða þær fjarlægðar úr bæði stýrikerfinu og miðlasafninu. Ertu viss um að þú viljir halda áfram?",
     "CommunityRating": "Mat samfélagsins",
     "ButtonStart": "Byrja",
-    "BoxSet": "Kassasett"
+    "BoxSet": "Kassasett",
+    "ButtonSyncPlay": "SyncPlay"
 }

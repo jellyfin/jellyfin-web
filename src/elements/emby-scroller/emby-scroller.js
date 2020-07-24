@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import scroller from 'scroller';
 import dom from 'dom';
 import layoutManager from 'layoutManager';
@@ -6,6 +7,10 @@ import focusManager from 'focusManager';
 import browser from 'browser';
 import 'registerElement';
 import 'css!./emby-scroller';
+=======
+define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'webcomponents', 'css!./emby-scroller'], function (scroller, dom, layoutManager, inputManager, focusManager, browser) {
+    'use strict';
+>>>>>>> upstream/master
 
 /* eslint-disable indent */
 
