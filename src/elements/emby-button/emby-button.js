@@ -1,16 +1,10 @@
-<<<<<<< HEAD
-import browser from 'browser';
 import dom from 'dom';
 import layoutManager from 'layoutManager';
 import shell from 'shell';
 import appRouter from 'appRouter';
 import appHost from 'apphost';
 import 'css!./emby-button';
-import 'registerElement';
-=======
-define(['browser', 'dom', 'layoutManager', 'shell', 'appRouter', 'apphost', 'css!./emby-button', 'webcomponents'], function (browser, dom, layoutManager, shell, appRouter, appHost) {
-    'use strict';
->>>>>>> upstream/master
+import 'webcomponents';
 
 const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
 const EmbyLinkButtonPrototype = Object.create(HTMLAnchorElement.prototype);

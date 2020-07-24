@@ -1616,13 +1616,8 @@ import 'css!assets/css/videoosd';
 
         if (browser.touch) {
             (function () {
-<<<<<<< HEAD
-                require(['touchHelper'], function (TouchHelper) {
-                    self.touchHelper = new TouchHelper.default(view, {
-=======
                 import('touchHelper').then(({default: TouchHelper}) => {
                     self.touchHelper = new TouchHelper(view, {
->>>>>>> upstream/master
                         swipeYThreshold: 30,
                         triggerOnMove: true,
                         preventDefaultOnMove: true,

@@ -394,12 +394,7 @@ import 'emby-ratingbutton';
         // See bindEvents for why this is necessary
         if (positionSlider && !positionSlider.dragging) {
             if (runtimeTicks) {
-<<<<<<< HEAD
-
                 let pct = positionTicks / runtimeTicks;
-=======
-                var pct = positionTicks / runtimeTicks;
->>>>>>> upstream/master
                 pct *= 100;
 
                 positionSlider.value = pct;
@@ -413,13 +408,7 @@ import 'emby-ratingbutton';
         }
 
         if (currentTimeElement) {
-<<<<<<< HEAD
-
             let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
-
-=======
-            var timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
->>>>>>> upstream/master
             if (runtimeTicks) {
                 timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
             }
@@ -540,25 +529,7 @@ import 'emby-ratingbutton';
 
         const nowPlayingItem = state.NowPlayingItem;
 
-<<<<<<< HEAD
         const textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
-        if (textLines.length > 1) {
-            textLines[1].secondary = true;
-        }
-        nowPlayingTextElement.innerHTML = textLines.map(function (nowPlayingName) {
-
-            const cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
-
-            if (nowPlayingName.item) {
-                const nowPlayingText = getTextActionButton(nowPlayingName.item, nowPlayingName.text);
-                return `<div ${cssClass}>${nowPlayingText}</div>`;
-            }
-            let nowPlayingText = '';
-            return `<div ${cssClass}>${nowPlayingText}</div>`;
-
-        }).join('');
-=======
-        var textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
         nowPlayingTextElement.innerHTML = '';
         if (textLines) {
             let itemText = document.createElement('div');
@@ -581,7 +552,6 @@ import 'emby-ratingbutton';
             nowPlayingTextElement.appendChild(itemText);
             nowPlayingTextElement.appendChild(secondaryText);
         }
->>>>>>> upstream/master
 
         const imgHeight = 70;
 
@@ -613,25 +583,8 @@ import 'emby-ratingbutton';
 
                 const apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-<<<<<<< HEAD
                     const userData = item.UserData || {};
                     const likes = userData.Likes == null ? '' : userData.Likes;
-                    const contextButton = document.querySelector('.btnToggleContextMenu');
-                    const options = {
-                        play: false,
-                        queue: false,
-                        positionTo: contextButton
-                    };
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
-                    apiClient.getCurrentUser().then(function(user) {
-                        contextButton.addEventListener('click', function () {
-                            itemContextMenu.show(Object.assign({
-                                item: item,
-                                user: user
-                            }, options ));
-=======
-                    var userData = item.UserData || {};
-                    var likes = userData.Likes == null ? '' : userData.Likes;
                     if (!layoutManager.mobile) {
                         let contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
                         // We remove the previous event listener by replacing the item in each update event
@@ -651,7 +604,6 @@ import 'emby-ratingbutton';
                                     user: user
                                 }, options));
                             });
->>>>>>> upstream/master
                         });
                     }
                     nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
@@ -664,13 +616,7 @@ import 'emby-ratingbutton';
 
     function onPlaybackStart(e, state) {
         console.debug('nowplaying event: ' + e.type);
-<<<<<<< HEAD
-
-        const player = this;
-
-=======
         var player = this;
->>>>>>> upstream/master
         onStateChanged.call(player, e, state);
     }
 
@@ -679,9 +625,6 @@ import 'emby-ratingbutton';
             return;
         }
 
-<<<<<<< HEAD
-        const player = this;
-=======
         updateRepeatModeDisplay(playbackManager.getRepeatMode());
     }
 
@@ -689,7 +632,6 @@ import 'emby-ratingbutton';
         if (!isEnabled) {
             return;
         }
->>>>>>> upstream/master
 
         let shuffleMode = playbackManager.getQueueShuffleMode();
         let context = nowPlayingBarElement;

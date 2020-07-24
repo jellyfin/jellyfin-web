@@ -1412,19 +1412,11 @@ import 'programStyles';
                     indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
                 }
 
-<<<<<<< HEAD
-            if (item.Type === 'CollectionFolder' || item.CollectionType) {
-                const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
-                indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
-                importRefreshIndicator();
-            }
-=======
                 if (item.Type === 'CollectionFolder' || item.CollectionType) {
                     const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
                     indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
-                    requireRefreshIndicator();
+                    importRefreshIndicator();
                 }
->>>>>>> upstream/master
 
                 if (indicatorsHtml) {
                     cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';

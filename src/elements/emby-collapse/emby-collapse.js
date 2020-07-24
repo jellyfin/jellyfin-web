@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-import browser from 'browser';
 import 'css!./emby-collapse';
-import 'registerElement';
+import 'webcomponents';
 import 'emby-button';
-=======
-define(['browser', 'css!./emby-collapse', 'webcomponents', 'emby-button'], function (browser) {
-    'use strict';
->>>>>>> upstream/master
 
 /* eslint-disable indent */
 

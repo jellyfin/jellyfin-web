@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 import layoutManager from 'layoutManager';
 import browser from 'browser';
 import actionsheet from 'actionsheet';
 import 'css!./emby-select';
-import 'registerElement';
-=======
-define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'webcomponents'], function (layoutManager, browser, actionsheet) {
-    'use strict';
->>>>>>> upstream/master
+import 'webcomponents';
 
 /* eslint-disable indent */
 

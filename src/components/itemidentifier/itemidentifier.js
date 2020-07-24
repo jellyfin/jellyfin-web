@@ -240,11 +240,7 @@ import 'cardStyle';
         html += '</div>';
         html += '</div>';
 
-<<<<<<< HEAD
-        let numLines = 2;
-=======
-        var numLines = 3;
->>>>>>> upstream/master
+        let numLines = 3;
         if (currentItemType === 'MusicAlbum') {
             numLines++;
         }

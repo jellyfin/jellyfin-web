@@ -1,7 +1,7 @@
-<<<<<<< HEAD
 import loading from 'loading';
 import appRouter from 'appRouter';
 import layoutManager from 'layoutManager';
+import libraryMenu from 'libraryMenu';
 import appSettings from 'appSettings';
 import appHost from 'apphost';
 import focusManager from 'focusManager';
@@ -20,12 +20,6 @@ import 'emby-button';
 /* eslint-disable indent */
 
     const enableFocusTransform = !browser.slow && !browser.edge;
-=======
-define(['loading', 'appRouter', 'layoutManager', 'libraryMenu', 'appSettings', 'apphost', 'focusManager', 'connectionManager', 'globalize', 'actionsheet', 'dom', 'browser', 'material-icons', 'flexStyles', 'emby-scroller', 'emby-itemscontainer', 'cardStyle', 'emby-button'], function (loading, appRouter, layoutManager, libraryMenu, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom, browser) {
-    'use strict';
-
-    var enableFocusTransform = !browser.slow && !browser.edge;
->>>>>>> upstream/master
 
     function renderSelectServerItems(view, servers) {
         const items = servers.map(function (server) {

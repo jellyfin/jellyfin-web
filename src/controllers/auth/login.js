@@ -1,18 +1,14 @@
-<<<<<<< HEAD
 import appHost from 'apphost';
 import appSettings from 'appSettings';
 import dom from 'dom';
 import connectionManager from 'connectionManager';
 import loading from 'loading';
 import layoutManager from 'layoutManager';
+import libraryMenu from 'libraryMenu';
 import browser from 'browser';
 import globalize from 'globalize';
 import 'cardStyle';
 import 'emby-checkbox';
-=======
-define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layoutManager', 'libraryMenu', 'browser', 'globalize', 'cardStyle', 'emby-checkbox'], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, libraryMenu, browser, globalize) {
-    'use strict';
->>>>>>> upstream/master
 
 /* eslint-disable indent */
 
@@ -21,20 +17,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
     function authenticateUserByName(page, apiClient, username, password) {
         loading.show();
         apiClient.authenticateUserByName(username, password).then(function (result) {
-<<<<<<< HEAD
-            const user = result.User;
-            const serverId = getParameterByName('serverid');
-            let newUrl;
-
-            if (user.Policy.IsAdministrator && !serverId) {
-                newUrl = 'dashboard.html';
-            } else {
-                newUrl = 'home.html';
-            }
-
-=======
             var user = result.User;
->>>>>>> upstream/master
             loading.hide();
 
             Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
@@ -236,14 +219,9 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
                 view.querySelector('.disclaimer').textContent = options.LoginDisclaimer || '';
             });
         });
-<<<<<<< HEAD
-    }
-
-/* eslint-enable indent */
-=======
         view.addEventListener('viewhide', function (e) {
             libraryMenu.setTransparentMenu(false);
         });
-    };
-});
->>>>>>> upstream/master
+    }
+
+/* eslint-enable indent */

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import browser from 'browser';
 import dom from 'dom';
 import layoutManager from 'layoutManager';
@@ -6,10 +5,6 @@ import keyboardnavigation from 'keyboardnavigation';
 import 'css!./emby-slider';
 import 'webcomponents';
 import 'emby-input';
-=======
-define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-slider', 'webcomponents', 'emby-input'], function (browser, dom, layoutManager, keyboardnavigation) {
-    'use strict';
->>>>>>> upstream/master
 
 /* eslint-disable indent */
 

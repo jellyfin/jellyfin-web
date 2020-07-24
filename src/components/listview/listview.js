@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* eslint-disable indent */
 
 /**
@@ -13,13 +12,10 @@ import connectionManager from 'connectionManager';
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
 import datetime from 'datetime';
+import cardBuilder from 'cardBuilder';
 import 'css!./listview';
 import 'emby-ratingbutton';
 import 'emby-playstatebutton';
-=======
-define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'cardBuilder', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, cardBuilder) {
-    'use strict';
->>>>>>> upstream/master
 
     function getIndex(item, options) {
 
@@ -135,23 +131,11 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
     }
 
     function getTextLinesHtml(textlines, isLargeStyle) {
-<<<<<<< HEAD
-
         let html = '';
-=======
-        var html = '';
->>>>>>> upstream/master
 
         const largeTitleTagName = layoutManager.tv ? 'h2' : 'div';
 
-<<<<<<< HEAD
-        for (let i = 0, length = textlines.length; i < length; i++) {
-
-            const text = textlines[i];
-
-=======
         for (const [i, text] of textlines.entries()) {
->>>>>>> upstream/master
             if (!text) {
                 continue;
             }
@@ -305,26 +289,12 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     imageClass += ' itemAction';
                 }
 
-<<<<<<< HEAD
-                const imageAction = playOnImageClick ? 'resume' : action;
-
-                let blurhashAttrib = '';
-                if (blurhash && blurhash.length > 0) {
-                    blurhashAttrib = `data-blurhash="${blurhash}"`;
-                }
-
-                if (imgUrl) {
-                    html += `<div data-action="${imageAction}" class="${imageClass} lazy" data-src="${imgUrl}" ${blurhashAttrib} item-icon>`;
-                } else {
-                    html += `<div class="${imageClass}">`;
-=======
-                var imageAction = playOnImageClick ? 'link' : action;
+                const imageAction = playOnImageClick ? 'link' : action;
 
                 if (imgUrl) {
                     html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
                 } else {
                     html += '<div class="' + imageClass + ' cardImageContainer ' + cardBuilder.getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
->>>>>>> upstream/master
                 }
 
                 let indicatorsHtml = '';
@@ -518,13 +488,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add"></span></button>';
                 }
 
-<<<<<<< HEAD
-                if (options.moreButton !== false) {
-                    html += `<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons ${moreIcon}"></span></button>`;
-                }
-
-=======
->>>>>>> upstream/master
                 if (options.infoButton) {
                     html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><span class="material-icons info_outline"></span></button>';
                 }
@@ -538,21 +501,12 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     const userData = item.UserData || {};
                     const likes = userData.Likes == null ? '' : userData.Likes;
 
-<<<<<<< HEAD
-                    if (itemHelper.canMarkPlayed(item)) {
-                        html += `<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="${item.Id}" data-serverid="${item.ServerId}" data-itemtype="${item.Type}" data-played="${userData.Played}"><span class="material-icons check"></span></button>`;
-                    }
-
-                    if (itemHelper.canRate(item)) {
-                        html += `<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="${item.Id}" data-serverid="${item.ServerId}" data-itemtype="${item.Type}" data-likes="${likes}" data-isfavorite="${userData.IsFavorite}"><span class="material-icons favorite"></span></button>`;
-=======
                     if (itemHelper.canMarkPlayed(item) && options.enablePlayedButton !== false) {
                         html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons check"></span></button>';
                     }
 
                     if (itemHelper.canRate(item) && options.enableRatingButton !== false) {
                         html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
->>>>>>> upstream/master
                     }
                 }
 

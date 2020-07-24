@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import layoutManager from 'layoutManager';
 import 'css!./emby-button';
-import 'registerElement';
-=======
-define(['layoutManager', 'css!./emby-button', 'webcomponents'], function (layoutManager) {
-    'use strict';
->>>>>>> upstream/master
+import 'webcomponents';
 
 const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
 

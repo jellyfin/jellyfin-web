@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import 'css!./emby-toggle';
-import 'registerElement';
-=======
-define(['css!./emby-toggle', 'webcomponents'], function () {
-    'use strict';
->>>>>>> upstream/master
+import 'webcomponents';
 
 /* eslint-disable indent */
 

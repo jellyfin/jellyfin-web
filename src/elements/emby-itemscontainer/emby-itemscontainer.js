@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import itemShortcuts from 'itemShortcuts';
 import inputManager from 'inputManager';
 import connectionManager from 'connectionManager';
@@ -11,17 +10,11 @@ import loading from 'loading';
 import focusManager from 'focusManager';
 import serverNotifications from 'serverNotifications';
 import events from 'events';
-import 'registerElement';
+import 'webcomponents';
 
 /* eslint-disable indent */
 
     const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
-=======
-define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'webcomponents'], function (itemShortcuts, inputManager, connectionManager, playbackManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
-    'use strict';
-
-    var ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
->>>>>>> upstream/master
 
     function onClick(e) {
         const itemsContainer = this;

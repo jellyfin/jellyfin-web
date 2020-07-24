@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-import layoutManager from 'layoutManager';
-import browser from 'browser';
 import 'css!./emby-textarea';
-import 'registerElement';
+import 'webcomponents';
 import 'emby-input';
 
 /* eslint-disable indent */
-=======
-define(['layoutManager', 'browser', 'css!./emby-textarea', 'webcomponents', 'emby-input'], function (layoutManager, browser) {
-    'use strict';
->>>>>>> upstream/master
 
     function autoGrow(textarea, maxLines) {
         const self = this;

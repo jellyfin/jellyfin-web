@@ -189,17 +189,7 @@ import 'emby-itemscontainer';
     function reloadSystemInfo(view, apiClient) {
         apiClient.getSystemInfo().then(function (systemInfo) {
             view.querySelector('#serverName').innerHTML = globalize.translate('DashboardServerName', systemInfo.ServerName);
-<<<<<<< HEAD
-            let localizedVersion = globalize.translate('DashboardVersionNumber', systemInfo.Version);
-
-            if (systemInfo.SystemUpdateLevel !== 'Release') {
-                localizedVersion += ' ' + systemInfo.SystemUpdateLevel;
-            }
-
-            view.querySelector('#versionNumber').innerHTML = localizedVersion;
-=======
             view.querySelector('#versionNumber').innerHTML = globalize.translate('DashboardVersionNumber', systemInfo.Version);
->>>>>>> upstream/master
             view.querySelector('#operatingSystem').innerHTML = globalize.translate('DashboardOperatingSystem', systemInfo.OperatingSystem);
             view.querySelector('#architecture').innerHTML = globalize.translate('DashboardArchitecture', systemInfo.SystemArchitecture);
 
