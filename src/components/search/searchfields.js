@@ -1,6 +1,5 @@
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
-import require from 'require';
 import events from 'events';
 import browser from 'browser';
 import AlphaPicker from 'alphaPicker';
@@ -53,7 +52,7 @@ import 'css!./searchfields';
 
     function initAlphaPicker(alphaPickerElement, instance) {
 
-        instance.alphaPicker = new AlphaPicker.default({
+        instance.alphaPicker = new AlphaPicker({
             element: alphaPickerElement,
             mode: 'keyboard'
         });

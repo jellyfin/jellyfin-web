@@ -281,7 +281,6 @@ import 'emby-ratingbutton';
                 import('emby-slider')
             ])
             .then(([appfooter, itemShortcuts]) => {
-                console.log(appfooter);
                 const parentContainer = appfooter.element;
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 

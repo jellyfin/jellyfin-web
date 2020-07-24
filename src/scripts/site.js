@@ -360,7 +360,7 @@ var AppInfo = {};
         return layoutManager;
     }
 
-    function createSharedAppFooter(appFooter) {
+    function createSharedAppFooter({default: appFooter}) {
         return new appFooter({});
     }
 

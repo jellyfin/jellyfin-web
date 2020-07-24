@@ -24,7 +24,7 @@ import autoFocuser from 'autoFocuser';
             if (settingsInstance) {
                 settingsInstance.loadData();
             } else {
-                settingsInstance = new DisplaySettings.default({
+                settingsInstance = new DisplaySettings({
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector('.settingsContainer'),

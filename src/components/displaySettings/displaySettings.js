@@ -286,7 +286,7 @@ import 'emby-button';
 
     async function embed(options, self) {
         const { default: template } = await import('text!./displaySettings.template.html');
-        options.element.innerHTML = globalize.translateDocument(template, 'core');
+        options.element.innerHTML = globalize.translateHtml(template, 'core');
         options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
         if (options.enableSaveButton) {
             options.element.querySelector('.btnSave').classList.remove('hide');
