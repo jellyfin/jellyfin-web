@@ -3647,6 +3647,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         this.seek(parseInt(ticks), player);
     };
 
+    PlaybackManager.prototype.seekMs = function (ms, player) {
+
+        player = player || this._currentPlayer;
+
+        var ticks = ms * 10000;
+        this.seek(ticks, player);
+    };
+
     PlaybackManager.prototype.playTrailers = function (item) {
 
         var player = this._currentPlayer;

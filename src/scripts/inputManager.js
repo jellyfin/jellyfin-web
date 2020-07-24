@@ -201,6 +201,9 @@ import appHost from 'apphost';
             'rewind': () => {
                 playbackManager.rewind();
             },
+            'seek': () => {
+                playbackManager.seekMs(options);
+            },
             'togglefullscreen': () => {
                 playbackManager.toggleFullscreen();
             },
