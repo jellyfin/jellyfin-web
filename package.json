@@ -238,7 +238,6 @@
           "src/elements/emby-textarea/emby-textarea.js",
           "src/elements/emby-toggle/emby-toggle.js",
           "src/plugins/backdropScreensaver/plugin.js",
-          "src/plugins/backdropScreensaver/plugin.js",
           "src/plugins/bookPlayer/plugin.js",
           "src/plugins/bookPlayer/tableOfContents.js",
           "src/plugins/photoPlayer/plugin.js",
