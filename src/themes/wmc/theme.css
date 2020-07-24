@@ -209,7 +209,7 @@ html {
     color: #fff !important;
 }
 
-.detailSticky {
+.detailRibbon {
     background-color: #081b3b;
 }
 
@@ -241,11 +241,6 @@ html {
 .mediaInfoText {
     color: #ddd;
     background: rgba(170, 170, 190, 0.2);
-}
-
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #cb272a;
 }
 
 .emby-input,
@@ -426,8 +421,8 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .cardBox:not(.visualCardBox) .cardPadder {

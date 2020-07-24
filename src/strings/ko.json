@@ -810,7 +810,7 @@
     "AirDate": "방영 일자",
     "Aired": "방영됨",
     "Alerts": "알림",
-    "AllComplexFormats": "모든 복잡한 포맷 (ASS, SSA, VOBSUB, PGS, SUB, IDX)",
+    "AllComplexFormats": "모든 복잡한 포맷 (ASS, SSA, VOBSUB, PGS, SUB, IDX,...)",
     "AllLibraries": "모든 라이브러리",
     "AllowMediaConversion": "미디어 변환 허용",
     "AllowOnTheFlySubtitleExtraction": "실시간 자막 추출 허용",
@@ -821,7 +821,7 @@
     "AlwaysPlaySubtitles": "항상 표시",
     "AlwaysPlaySubtitlesHelp": "오디오 언어를 불문하고 언어 설정에 적합한 자막을 불러옵니다.",
     "AnyLanguage": "모든 언어",
-    "AroundTime": "대략 {0}",
+    "AroundTime": "대략",
     "Art": "아트",
     "AsManyAsPossible": "최대한 많이",
     "Ascending": "오름차순",
@@ -1429,5 +1429,9 @@
     "ButtonToggleContextMenu": "더보기",
     "Rate": "평",
     "PerfectMatch": "정확히 일치",
-    "OtherArtist": "다른 아티스트"
+    "OtherArtist": "다른 아티스트",
+    "ButtonSyncPlay": "SyncPlay",
+    "HeaderDVR": "DVR",
+    "EnableDecodingColorDepth10Vp9": "10비트 VP9하드웨어 디코딩 사용합니다",
+    "EnableDecodingColorDepth10Hevc": "10비트 HEVC하드웨어 디코딩 사용합니다"
 }

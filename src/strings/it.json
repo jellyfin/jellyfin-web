@@ -1156,7 +1156,7 @@
     "SortChannelsBy": "Ordina canali per:",
     "SortName": "Nome ordinamento",
     "Sports": "Sport",
-    "StopRecording": "Ferma registrazione",
+    "StopRecording": "Interrompi registrazione",
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Queste impostazioni si applicano anche a qualsiasi riproduzione di Chromecast avviata da questo dispositivo.",
     "SubtitleAppearanceSettingsDisclaimer": "Queste impostazioni non si applicano a sottotitoli grafici (PGS, DVD, ecc.) o sottotitoli ASS/SSA che hanno i propri stili.",
     "SubtitleDownloadersHelp": "Abilita e classifica i tuoi downloader di sottotitoli preferiti in ordine di priorità.",
@@ -1567,5 +1567,10 @@
     "LabelRepositoryUrlHelp": "URL del repository manifest che si vuole includere.",
     "LabelRepositoryUrl": "URL Repository",
     "HeaderNewRepository": "Nuovo Repository",
-    "MessageNoRepositories": "Nessun repository."
+    "MessageNoRepositories": "Nessun repository.",
+    "ButtonPlayer": "Player",
+    "ViewAlbumArtist": "Visualizza artista dell'album",
+    "Writers": "Scrittori",
+    "ClearQueue": "Svuota la coda",
+    "StopPlayback": "Interrompi riproduzione"
 }

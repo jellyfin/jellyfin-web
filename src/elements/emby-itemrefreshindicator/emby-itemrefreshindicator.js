@@ -1,4 +1,4 @@
-define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'registerElement'], function (EmbyProgressRing, dom, serverNotifications, events) {
+define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'webcomponents'], function (EmbyProgressRing, dom, serverNotifications, events) {
     'use strict';
 
     function addNotificationEvent(instance, name, handler) {

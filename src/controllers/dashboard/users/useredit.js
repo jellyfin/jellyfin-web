@@ -104,7 +104,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         $('#chkEnableSharing', page).prop('checked', user.Policy.EnablePublicSharing);
         $('#txtRemoteClientBitrateLimit', page).val(user.Policy.RemoteClientBitrateLimit / 1e6 || '');
         $('#txtLoginAttemptsBeforeLockout', page).val(user.Policy.LoginAttemptsBeforeLockout || '0');
-        $('#selectSyncPlayAccess').val(user.Policy.SyncPlayAccess);
+        if (ApiClient.isMinServerVersion('10.6.0')) {
+            $('#selectSyncPlayAccess').val(user.Policy.SyncPlayAccess);
+        }
         loading.hide();
     }
 
@@ -146,7 +148,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         }).map(function (c) {
             return c.getAttribute('data-id');
         });
-        user.Policy.SyncPlayAccess = page.querySelector('#selectSyncPlayAccess').value;
+        if (ApiClient.isMinServerVersion('10.6.0')) {
+            user.Policy.SyncPlayAccess = page.querySelector('#selectSyncPlayAccess').value;
+        }
         ApiClient.updateUser(user).then(function () {
             ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
                 onSaveComplete(page, user);

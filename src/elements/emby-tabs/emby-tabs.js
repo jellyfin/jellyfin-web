@@ -1,4 +1,4 @@
-define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'registerElement', 'css!./emby-tabs', 'scrollStyles'], function (dom, scroller, browser, layoutManager, focusManager) {
+define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcomponents', 'css!./emby-tabs', 'scrollStyles'], function (dom, scroller, browser, layoutManager, focusManager) {
     'use strict';
 
     var EmbyTabs = Object.create(HTMLDivElement.prototype);

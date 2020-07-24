@@ -16,7 +16,7 @@ function getOffsets(elems) {
         return results;
     }
 
-    for (let elem of elems) {
+    for (const elem of elems) {
         let box = elem.getBoundingClientRect();
 
         results.push({
@@ -135,7 +135,7 @@ export function show(options) {
     let renderIcon = false;
     let icons = [];
     let itemIcon;
-    for (let item of options.items) {
+    for (const item of options.items) {
 
         itemIcon = item.icon || (item.selected ? 'check' : null);
 

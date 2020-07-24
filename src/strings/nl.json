@@ -846,7 +846,7 @@
     "MessageNoAvailablePlugins": "Geen beschikbare Plugins.",
     "MessageNoMovieSuggestionsAvailable": "Er zijn momenteel geen film suggesties beschikbaar. Begin met het bekijken en waardeer uw films, kom daarna terug om uw aanbevelingen te bekijken.",
     "MessageNoPluginsInstalled": "U heeft geen plugins geïnstalleerd.",
-    "MessageNoTrailersFound": "Geen trailers gevonden. Installeer het Trailers kanaal om uw film ervaring te verbeteren door middel van het toevoegen van een bibliotheek met internet trailers.",
+    "MessageNoTrailersFound": "Installeer het Trailers kanaal om uw film ervaring te verbeteren door middel van het toevoegen van een bibliotheek met internet trailers.",
     "MessageNothingHere": "Lijst is leeg.",
     "MessagePasswordResetForUsers": "De volgende gebruikers hebben hun wachtwoord laten herstellen. Zij kunnen nu inloggen met de pin codes die gebruikt werden om de herstel te voltooien.",
     "MessagePlayAccessRestricted": "Afspelen hiervan is op dit moment niet toegestaan. Neem contact op met uw server beheerder voor meer informatie.",
@@ -1558,5 +1558,13 @@
     "HeaderRemoteAccessSettings": "Externe toegang instellingen",
     "HeaderHttpsSettings": "HTTPS instellingen",
     "HeaderDVR": "DVR",
-    "ApiKeysCaption": "Lijst met de momenteel ingeschakelde API-sleutels"
+    "ApiKeysCaption": "Lijst met de momenteel ingeschakelde API-sleutels",
+    "ButtonSyncPlay": "SyncPlay",
+    "ShowMore": "Laat meer zien",
+    "ShowLess": "Laat minder zien",
+    "MessageNoGenresAvailable": "Stel sommige metadataproviders in staat om genres van internet te halen.",
+    "EnableFasterAnimationsHelp": "Gebruik snellere animaties en overgangen",
+    "EnableFasterAnimations": "Snellere animaties",
+    "EnableDecodingColorDepth10Vp9": "Schakel 10-bits hardwarecodering in voor VP9",
+    "EnableDecodingColorDepth10Hevc": "Schakel 10-bits hardwarecodering in voor HEVC"
 }

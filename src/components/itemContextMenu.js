@@ -28,6 +28,23 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
+        if (playbackManager.getCurrentPlayer() !== null) {
+            if (options.stopPlayback) {
+                commands.push({
+                    name: globalize.translate('StopPlayback'),
+                    id: 'stopPlayback',
+                    icon: 'stop'
+                });
+            }
+            if (options.clearQueue) {
+                commands.push({
+                    name: globalize.translate('ClearQueue'),
+                    id: 'clearQueue',
+                    icon: 'clear_all'
+                });
+            }
+        }
+
         if (playbackManager.canQueue(item)) {
             if (options.queue !== false) {
                 commands.push({
@@ -44,13 +61,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     icon: 'playlist_add'
                 });
             }
-
-            //if (options.queueAllFromHere) {
-            //    commands.push({
-            //        name: globalize.translate("QueueAllFromHere"),
-            //        id: "queueallfromhere"
-            //    });
-            //}
         }
 
         if (item.IsFolder || item.Type === 'MusicArtist' || item.Type === 'MusicGenre') {
@@ -288,10 +298,11 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 icon: 'album'
             });
         }
-
-        if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
+        // Show Album Artist by default, as a song can have multiple artists, which specific one would this option refer to?
+        // Although some albums can have multiple artists, it's not as common as songs.
+        if (options.openArtist !== false && item.AlbumArtists && item.AlbumArtists.length) {
             commands.push({
-                name: globalize.translate('ViewArtist'),
+                name: globalize.translate('ViewAlbumArtist'),
                 id: 'artist',
                 icon: 'person'
             });
@@ -430,6 +441,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     play(item, false, true, true);
                     getResolveFunction(resolve, id)();
                     break;
+                case 'stopPlayback':
+                    playbackManager.stop();
+                    break;
+                case 'clearQueue':
+                    playbackManager.clearQueue();
+                    break;
                 case 'record':
                     require(['recordingCreator'], function (recordingCreator) {
                         recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
@@ -458,7 +475,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     getResolveFunction(resolve, id)();
                     break;
                 case 'artist':
-                    appRouter.showItem(item.ArtistItems[0].Id, item.ServerId);
+                    appRouter.showItem(item.AlbumArtists[0].Id, item.ServerId);
                     getResolveFunction(resolve, id)();
                     break;
                 case 'playallfromhere':

@@ -1,4 +1,4 @@
-define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registerElement'], function (layoutManager, browser, actionsheet) {
+define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'webcomponents'], function (layoutManager, browser, actionsheet) {
     'use strict';
 
     var EmbySelectPrototype = Object.create(HTMLSelectElement.prototype);

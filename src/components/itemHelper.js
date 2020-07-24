@@ -1,13 +1,11 @@
 define(['apphost', 'globalize'], function (appHost, globalize) {
     'use strict';
 
-    function getDisplayName(item, options) {
+    function getDisplayName(item, options = {}) {
 
         if (!item) {
             throw new Error('null item passed into getDisplayName');
         }
-
-        options = options || {};
 
         if (item.Type === 'Timer') {
             item = item.ProgramInfo || item;

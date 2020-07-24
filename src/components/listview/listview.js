@@ -1,4 +1,4 @@
-define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost) {
+define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'cardBuilder', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, cardBuilder) {
     'use strict';
 
     function getIndex(item, options) {
@@ -91,11 +91,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             itemId = item.ParentPrimaryImageItemId;
         }
 
-        let blurHashes = item.ImageBlurHashes || {};
-        let blurhashstr = (blurHashes[options.type] || {})[options.tag];
-
         if (itemId) {
-            return { url: apiClient.getScaledImageUrl(itemId, options), blurhash: blurhashstr };
+            return apiClient.getScaledImageUrl(itemId, options);
         }
         return null;
     }
@@ -111,24 +108,18 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         if (item.ChannelId && item.ChannelPrimaryImageTag) {
             options.tag = item.ChannelPrimaryImageTag;
         }
-        let blurHashes = item.ImageBlurHashes || {};
-        let blurhashstr = (blurHashes[options.type])[options.tag];
 
         if (item.ChannelId) {
-            return { url: apiClient.getScaledImageUrl(item.ChannelId, options), blurhash: blurhashstr };
+            return apiClient.getScaledImageUrl(item.ChannelId, options);
         }
     }
 
     function getTextLinesHtml(textlines, isLargeStyle) {
-
         var html = '';
 
         var largeTitleTagName = layoutManager.tv ? 'h2' : 'div';
 
-        for (var i = 0, length = textlines.length; i < length; i++) {
-
-            var text = textlines[i];
-
+        for (const [i, text] of textlines.entries()) {
             if (!text) {
                 continue;
             }
@@ -269,10 +260,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (options.image !== false) {
-                let imgData = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                let imgUrl = imgData.url;
-                let blurhash = imgData.blurhash;
-                let imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
+                var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
+                var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {
                     imageClass += ' listItemImage-large-tv';
@@ -284,17 +273,12 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     imageClass += ' itemAction';
                 }
 
-                var imageAction = playOnImageClick ? 'resume' : action;
-
-                let blurhashAttrib = '';
-                if (blurhash && blurhash.length > 0) {
-                    blurhashAttrib = 'data-blurhash="' + blurhash + '"';
-                }
+                var imageAction = playOnImageClick ? 'link' : action;
 
                 if (imgUrl) {
-                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + ' item-icon>';
+                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
                 } else {
-                    html += '<div class="' + imageClass + '">';
+                    html += '<div class="' + imageClass + ' cardImageContainer ' + cardBuilder.getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
                 }
 
                 var indicatorsHtml = '';
@@ -434,8 +418,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             html += '<div class="' + cssClass + '">';
 
-            const moreIcon = 'more_vert';
-
             html += getTextLinesHtml(textlines, isLargeStyle);
 
             if (options.mediaInfo !== false) {
@@ -486,10 +468,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add"></span></button>';
                 }
 
-                if (options.moreButton !== false) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons ' + moreIcon + '"></span></button>';
-                }
-
                 if (options.infoButton) {
                     html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><span class="material-icons info_outline"></span></button>';
                 }
@@ -503,13 +481,17 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     var userData = item.UserData || {};
                     var likes = userData.Likes == null ? '' : userData.Likes;
 
-                    if (itemHelper.canMarkPlayed(item)) {
+                    if (itemHelper.canMarkPlayed(item) && options.enablePlayedButton !== false) {
                         html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons check"></span></button>';
                     }
 
-                    if (itemHelper.canRate(item)) {
+                    if (itemHelper.canRate(item) && options.enableRatingButton !== false) {
                         html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
                     }
+                }
+
+                if (options.moreButton !== false) {
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons more_vert"></span></button>';
                 }
             }
             html += '</div>';

@@ -1527,7 +1527,7 @@
     "MessageSyncPlayGroupDoesNotExist": "Nu a reușit să se alăture grupului, deoarece nu există.",
     "MessageSyncPlayPlaybackPermissionRequired": "Este necesară permisiunea de redare.",
     "MessageSyncPlayNoGroupsAvailable": "Nu există grupuri disponibile. Începe să redai ceva mai întâi.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> se încarcă...",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> se încarcă…",
     "MessageSyncPlayUserLeft": "<b>{0}</b> a părăsit grupul.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> s-a alăturat grupului.",
     "MessageSyncPlayDisabled": "SyncPlay dezactivat.",
@@ -1558,5 +1558,18 @@
     "EnableFasterAnimationsHelp": "Utilizați animații și tranziții mai rapide",
     "EnableFasterAnimations": "Animații mai rapide",
     "EnableDecodingColorDepth10Vp9": "Activați decodarea hardware pe 10 biți pentru VP9",
-    "EnableDecodingColorDepth10Hevc": "Activați decodarea hardware pe 10 biți pentru HEVC"
+    "EnableDecodingColorDepth10Hevc": "Activați decodarea hardware pe 10 biți pentru HEVC",
+    "LabelRepositoryName": "Nume Repertoriu",
+    "LabelRepositoryUrlHelp": "Locația manifestului repertoriului pe care doriți să o includeți.",
+    "LabelRepositoryUrl": "URL Repertoriu",
+    "HeaderNewRepository": "Repertoriu Nou",
+    "MessageNoRepositories": "Fără repertoriu.",
+    "ButtonPlayer": "Redare",
+    "Writers": "Scriitori",
+    "TabRepositories": "Repertorii",
+    "MessageAddRepository": "Dacă doriți să adăugați un repertoriu, faceți clic pe butonul de lângă antet și completați informațiile solicitate.",
+    "LabelRepositoryNameHelp": "Un nume personalizat pentru a distinge acest repertoriu de altele adăugate la serverul dvs.",
+    "ClearQueue": "Golește lista de redare",
+    "StopPlayback": "Oprește redarea",
+    "ViewAlbumArtist": "Vezi artistul albumului"
 }

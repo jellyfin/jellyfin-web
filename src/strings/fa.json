@@ -1553,5 +1553,6 @@
     "EnableFastImageFadeIn": "Faster animations",
     "EnableFastImageFadeInHelp": "Use faster animations and transitions",
     "EnableBlurhash": "Enable blurred placeholders for images",
-    "EnableBlurhashHelp": "Images that are still being loaded will be displayed with a blurred placeholder"
+    "EnableBlurhashHelp": "Images that are still being loaded will be displayed with a blurred placeholder",
+    "ButtonSyncPlay": "SyncPlay"
 }

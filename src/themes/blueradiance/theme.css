@@ -223,7 +223,7 @@ html {
     color: #fff !important;
 }
 
-.detailSticky {
+.detailRibbon {
     background: #303030;
     background: -webkit-gradient(linear, left top, right top, from(#291a31), color-stop(#033664), color-stop(#011432), color-stop(#141a3a), to(#291a31));
     background: -webkit-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
@@ -259,11 +259,6 @@ html {
 .mediaInfoText {
     color: #ddd;
     background: rgba(170, 170, 190, 0.2);
-}
-
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #cb272a;
 }
 
 .emby-input,
@@ -446,8 +441,8 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .cardBox:not(.visualCardBox) .cardPadder {

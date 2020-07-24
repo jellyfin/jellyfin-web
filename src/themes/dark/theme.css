@@ -109,7 +109,7 @@ html {
 .formDialogHeader:not(.formDialogHeader-clear),
 .paperList,
 .visualCardBox {
-    background-color: #242424;
+    background-color: #202020;
 }
 
 .defaultCardBackground1 {
@@ -203,11 +203,11 @@ html {
     background: rgba(30, 30, 30, 0.9);
 }
 
-.detailSticky {
+.detailRibbon {
     background: rgba(32, 32, 32, 0.8);
 }
 
-.noBackdrop .detailSticky {
+.noBackdrop .detailRibbon {
     background: #202020;
 }
 
@@ -234,11 +234,6 @@ html {
 .mediaInfoText {
     color: #ddd;
     background: rgba(170, 170, 190, 0.2);
-}
-
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #cb272a;
 }
 
 .emby-input,
@@ -417,8 +412,8 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .card:focus .cardBox.visualCardBox,
@@ -437,6 +432,7 @@ html {
 
 .layout-desktop ::-webkit-scrollbar {
     width: 0.4em;
+    height: 0.4em;
 }
 
 ::-webkit-scrollbar-thumb:horizontal,
@@ -452,4 +448,9 @@ html {
 
 .metadataSidebarIcon {
     color: #00a4dc;
+}
+
+.emby-button.detailFloatingButton {
+    background-color: #00a4dc;
+    color: #fff;
 }

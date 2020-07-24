@@ -1416,5 +1416,6 @@
     "HeaderDVR": "DVR",
     "ApiKeysCaption": "Lista das chaves de API ativadas no momento",
     "ButtonTogglePlaylist": "Lista de leitura",
-    "ButtonToggleContextMenu": "Mais"
+    "ButtonToggleContextMenu": "Mais",
+    "ButtonSyncPlay": "SyncPlay"
 }
