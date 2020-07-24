@@ -66,6 +66,10 @@ import 'css!assets/css/videoosd';
         return null;
     }
 
+    function getOpenedDialog() {
+        return document.querySelector('.dialogContainer .dialog.opened');
+    }
+
     export default function (view, params) {
         function onVerticalSwipe(e, elem, data) {
             const player = currentPlayer;
@@ -354,21 +358,15 @@ import 'css!assets/css/videoosd';
             osdPoster.innerHTML = '';
         }
 
-        let osdLockCount = 0;
+        let mouseIsDown = false;
 
         function showOsd() {
             slideDownToShow(headerElement);
             showMainOsdControls();
-            if (!osdLockCount) {
-                startOsdHideTimer();
-            }
+            resetIdle();
         }
 
         function hideOsd() {
-            if (osdLockCount) {
-                return;
-            }
-
             slideUpToHide(headerElement);
             hideMainOsdControls();
         }
@@ -378,19 +376,6 @@ import 'css!assets/css/videoosd';
                 hideOsd();
             } else if (!currentVisibleMenu) {
                 showOsd();
-            }
-        }
-
-        function lockOsd() {
-            osdLockCount++;
-            stopOsdHideTimer();
-        }
-
-        function unlockOsd() {
-            osdLockCount--;
-            // Restart hide timer if OSD is currently visible
-            if (currentVisibleMenu && !osdLockCount) {
-                startOsdHideTimer();
             }
         }
 
@@ -462,6 +447,17 @@ import 'css!assets/css/videoosd';
                 if (document.activeElement) {
                     document.activeElement.blur();
                 }
+            }
+        }
+
+        // TODO: Move all idle-related code to `inputManager` or `idleManager` or `idleHelper` (per dialog thing) and listen event from there.
+
+        function resetIdle() {
+            // Restart hide timer if OSD is currently visible and there is no opened dialog
+            if (currentVisibleMenu && !mouseIsDown && !getOpenedDialog()) {
+                startOsdHideTimer();
+            } else {
+                stopOsdHideTimer();
             }
         }
 
@@ -981,7 +977,11 @@ import 'css!assets/css/videoosd';
                         stats: true,
                         suboffset: showSubOffset,
                         onOption: onSettingsOption
+                    }).finally(() => {
+                        resetIdle();
                     });
+
+                    setTimeout(resetIdle, 0);
                 }
             });
         }
@@ -1050,7 +1050,11 @@ import 'css!assets/css/videoosd';
                     if (index !== currentIndex) {
                         playbackManager.setAudioStreamIndex(index, player);
                     }
+                }).finally(() => {
+                    resetIdle();
                 });
+
+                setTimeout(resetIdle, 0);
             });
         }
 
@@ -1094,7 +1098,11 @@ import 'css!assets/css/videoosd';
                     }
 
                     toggleSubtitleSync();
+                }).finally(() => {
+                    resetIdle();
                 });
+
+                setTimeout(resetIdle, 0);
             });
         }
 
@@ -1123,7 +1131,7 @@ import 'css!assets/css/videoosd';
         let clickedElement;
 
         function onKeyDown(e) {
-            clickedElement = e.srcElement;
+            clickedElement = e.target;
 
             const key = keyboardnavigation.getKeyName(e);
 
@@ -1145,7 +1153,7 @@ import 'css!assets/css/videoosd';
                 case 'Escape':
                 case 'Back':
                     // Ignore key when some dialog is opened
-                    if (currentVisibleMenu === 'osd' && !document.querySelector('.dialogContainer')) {
+                    if (currentVisibleMenu === 'osd' && !getOpenedDialog()) {
                         hideOsd();
                         e.stopPropagation();
                     }
@@ -1238,28 +1246,35 @@ import 'css!assets/css/videoosd';
         }
 
         function onKeyDownCapture() {
-            // Restart hide timer if OSD is currently visible
-            if (currentVisibleMenu) {
-                showOsd();
-            }
+            resetIdle();
         }
 
         function onWindowMouseDown(e) {
-            clickedElement = e.srcElement;
-            lockOsd();
+            clickedElement = e.target;
+            mouseIsDown = true;
+            resetIdle();
         }
 
         function onWindowMouseUp() {
-            unlockOsd();
+            mouseIsDown = false;
+            resetIdle();
         }
 
         function onWindowTouchStart(e) {
-            clickedElement = e.srcElement;
-            lockOsd();
+            clickedElement = e.target;
+            mouseIsDown = true;
+            resetIdle();
         }
 
         function onWindowTouchEnd() {
-            unlockOsd();
+            mouseIsDown = false;
+            resetIdle();
+        }
+
+        function onWindowDragEnd() {
+            // mousedown -> dragstart -> dragend !!! no mouseup :(
+            mouseIsDown = false;
+            resetIdle();
         }
 
         function getImgUrl(item, chapter, index, maxWidth, apiClient) {
@@ -1395,23 +1410,32 @@ import 'css!assets/css/videoosd';
                 inputManager.on(window, onInputCommand);
                 document.addEventListener('keydown', onKeyDown);
                 dom.addEventListener(document, 'keydown', onKeyDownCapture, {
-                    capture: true
+                    capture: true,
+                    passive: true
                 });
                 /* eslint-disable-next-line compat/compat */
                 dom.addEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
+                    capture: true,
                     passive: true
                 });
                 /* eslint-disable-next-line compat/compat */
                 dom.addEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
+                    capture: true,
                     passive: true
                 });
                 dom.addEventListener(window, 'touchstart', onWindowTouchStart, {
+                    capture: true,
                     passive: true
                 });
                 ['touchend', 'touchcancel'].forEach((event) => {
                     dom.addEventListener(window, event, onWindowTouchEnd, {
+                        capture: true,
                         passive: true
                     });
+                });
+                dom.addEventListener(window, 'dragend', onWindowDragEnd, {
+                    capture: true,
+                    passive: true
                 });
             } catch (e) {
                 import('appRouter').then(({default: appRouter}) => {
@@ -1426,23 +1450,32 @@ import 'css!assets/css/videoosd';
 
             document.removeEventListener('keydown', onKeyDown);
             dom.removeEventListener(document, 'keydown', onKeyDownCapture, {
-                capture: true
+                capture: true,
+                passive: true
             });
             /* eslint-disable-next-line compat/compat */
             dom.removeEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
+                capture: true,
                 passive: true
             });
             /* eslint-disable-next-line compat/compat */
             dom.removeEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
+                capture: true,
                 passive: true
             });
             dom.removeEventListener(window, 'touchstart', onWindowTouchStart, {
+                capture: true,
                 passive: true
             });
             ['touchend', 'touchcancel'].forEach((event) => {
                 dom.removeEventListener(window, event, onWindowTouchEnd, {
+                    capture: true,
                     passive: true
                 });
+            });
+            dom.removeEventListener(window, 'dragend', onWindowDragEnd, {
+                capture: true,
+                passive: true
             });
             stopOsdHideTimer();
             headerElement.classList.remove('osdHeader');
