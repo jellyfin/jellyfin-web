@@ -7,7 +7,7 @@ import dom from 'dom';
 import * as userSettings from 'userSettings';
 import cardBuilder from 'cardBuilder';
 import playbackManager from 'playbackManager';
-import mainTabsManager from 'mainTabsManager';
+import * as mainTabsManager from 'mainTabsManager';
 import globalize from 'globalize';
 import 'scrollStyles';
 import 'emby-itemscontainer';
