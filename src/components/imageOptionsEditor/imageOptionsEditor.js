@@ -1,5 +1,16 @@
-define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emby-input'], function (globalize, dom, dialogHelper) {
-    'use strict';
+/* eslint-disable indent */
+
+/**
+ * Module for image Options Editor.
+ * @module components/imageOptionsEditor/imageOptionsEditor
+ */
+
+import globalize from 'globalize';
+import dom from 'dom';
+import dialogHelper from 'dialogHelper';
+import 'emby-checkbox';
+import 'emby-select';
+import 'emby-input';
 
     function getDefaultImageConfig(itemType, type) {
         return {
@@ -10,7 +21,7 @@ define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emb
     }
 
     function findImageOptions(imageOptions, type) {
-        return imageOptions.filter(function (i) {
+        return imageOptions.filter(i => {
             return i.Type == type;
         })[0];
     }
@@ -31,14 +42,14 @@ define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emb
     }
 
     function loadValues(context, itemType, options, availableOptions) {
-        var supportedImageTypes = availableOptions.SupportedImageTypes || [];
-        setVisibilityOfBackdrops(context.querySelector('.backdropFields'), -1 != supportedImageTypes.indexOf('Backdrop'));
-        setVisibilityOfBackdrops(context.querySelector('.screenshotFields'), -1 != supportedImageTypes.indexOf('Screenshot'));
-        Array.prototype.forEach.call(context.querySelectorAll('.imageType'), function (i) {
-            var imageType = i.getAttribute('data-imagetype');
-            var container = dom.parentWithTag(i, 'LABEL');
+        const supportedImageTypes = availableOptions.SupportedImageTypes || [];
+        setVisibilityOfBackdrops(context.querySelector('.backdropFields'), supportedImageTypes.includes('Backdrop'));
+        setVisibilityOfBackdrops(context.querySelector('.screenshotFields'), supportedImageTypes.includes('Screenshot'));
+        Array.prototype.forEach.call(context.querySelectorAll('.imageType'), i => {
+            const imageType = i.getAttribute('data-imagetype');
+            const container = dom.parentWithTag(i, 'LABEL');
 
-            if (-1 == supportedImageTypes.indexOf(imageType)) {
+            if (!supportedImageTypes.includes(imageType)) {
                 container.classList.add('hide');
             } else {
                 container.classList.remove('hide');
@@ -50,16 +61,16 @@ define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emb
                 i.checked = false;
             }
         });
-        var backdropConfig = getImageConfig(options, availableOptions, 'Backdrop', itemType);
+        const backdropConfig = getImageConfig(options, availableOptions, 'Backdrop', itemType);
         context.querySelector('#txtMaxBackdrops').value = backdropConfig.Limit;
         context.querySelector('#txtMinBackdropDownloadWidth').value = backdropConfig.MinWidth;
-        var screenshotConfig = getImageConfig(options, availableOptions, 'Screenshot', itemType);
+        const screenshotConfig = getImageConfig(options, availableOptions, 'Screenshot', itemType);
         context.querySelector('#txtMaxScreenshots').value = screenshotConfig.Limit;
         context.querySelector('#txtMinScreenshotDownloadWidth').value = screenshotConfig.MinWidth;
     }
 
     function saveValues(context, options) {
-        options.ImageOptions = Array.prototype.map.call(context.querySelectorAll('.imageType:not(.hide)'), function (c) {
+        options.ImageOptions = Array.prototype.map.call(context.querySelectorAll('.imageType:not(.hide)'), c => {
             return {
                 Type: c.getAttribute('data-imagetype'),
                 Limit: c.checked ? 1 : 0,
@@ -78,35 +89,36 @@ define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emb
         });
     }
 
-    function editor() {
-        this.show = function (itemType, options, availableOptions) {
-            return new Promise(function (resolve, reject) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'components/imageOptionsEditor/imageOptionsEditor.template.html', true);
+    async function showEditor(itemType, options, availableOptions) {
+        const response = await fetch('components/imageOptionsEditor/imageOptionsEditor.template.html');
+        const template = await response.text();
 
-                xhr.onload = function (e) {
-                    var template = this.response;
-                    var dlg = dialogHelper.createDialog({
-                        size: 'small',
-                        removeOnClose: true,
-                        scrollY: false
-                    });
-                    dlg.classList.add('formDialog');
-                    dlg.innerHTML = globalize.translateHtml(template);
-                    dlg.addEventListener('close', function () {
-                        saveValues(dlg, options);
-                    });
-                    loadValues(dlg, itemType, options, availableOptions);
-                    dialogHelper.open(dlg).then(resolve, resolve);
-                    dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                        dialogHelper.close(dlg);
-                    });
-                };
-
-                xhr.send();
-            });
-        };
+        var dlg = dialogHelper.createDialog({
+            size: 'small',
+            removeOnClose: true,
+            scrollY: false
+        });
+        dlg.classList.add('formDialog');
+        dlg.innerHTML = globalize.translateHtml(template);
+        dlg.addEventListener('close', function () {
+            saveValues(dlg, options);
+        });
+        loadValues(dlg, itemType, options, availableOptions);
+        dialogHelper.open(dlg).then(() => {
+            return;
+        }).catch(() => {
+            return;
+        });
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+            dialogHelper.close(dlg);
+        });
     }
 
-    return editor;
-});
+export class editor {
+    constructor() {
+        this.show = showEditor;
+    }
+}
+
+/* eslint-enable indent */
+export default editor;
