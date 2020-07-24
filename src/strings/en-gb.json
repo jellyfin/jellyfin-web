@@ -1534,7 +1534,7 @@
     "MessageSyncPlayGroupDoesNotExist": "Failed to join group because it does not exist.",
     "MessageSyncPlayPlaybackPermissionRequired": "Playback permission required.",
     "MessageSyncPlayNoGroupsAvailable": "No groups available. Start playing something first.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> is buffering...",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> is buffering…",
     "MessageSyncPlayUserLeft": "<b>{0}</b> has left the group.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> has joined the group.",
     "MessageSyncPlayDisabled": "SyncPlay disabled.",
