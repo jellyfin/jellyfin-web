@@ -1,9 +1,6 @@
 define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'screenfull'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, screenfull) {
     'use strict';
 
-    /** Delay time in ms for reportPlayback logging */
-    const reportPlaybackLogDelay = 1e3;
-
     function enableLocalPlaylistManagement(player) {
 
         if (player.getPlaylist) {
@@ -43,12 +40,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
     }
 
-    /** Last invoked method */
-    let reportPlaybackLastMethod;
-
-    /** Last invoke time of method */
-    let reportPlaybackLastTime;
-
     function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
 
         if (!serverId) {
@@ -67,13 +58,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         if (reportPlaylist) {
             addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
-        }
-
-        const now = (new Date).getTime();
-
-        if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= reportPlaybackLogDelay) {
-            reportPlaybackLastMethod = method;
-            reportPlaybackLastTime = now;
         }
 
         var apiClient = connectionManager.getApiClient(serverId);
