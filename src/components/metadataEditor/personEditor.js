@@ -10,7 +10,7 @@ import 'css!./../formdialog';
 /* eslint-disable indent */
 
     function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
+        import('scrollHelper').then(({default: scrollHelper}) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
@@ -19,7 +19,7 @@ import 'css!./../formdialog';
     function show(person) {
         return new Promise(function (resolve, reject) {
 
-            require(['text!./personEditor.template.html'], function (template) {
+            import('text!./personEditor.template.html').then(({default: template}) => {
 
                 const dialogOptions = {
                     removeOnClose: true,

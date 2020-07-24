@@ -256,8 +256,7 @@ import 'listViewStyle';
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         let currentType;
 
-        for (let i = 0, length = profiles.length; i < length; i++) {
-            const profile = profiles[i];
+        for (const profile of profiles) {
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + '</li>';

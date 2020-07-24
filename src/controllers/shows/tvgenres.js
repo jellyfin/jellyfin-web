@@ -144,8 +144,7 @@ import 'emby-button';
                 let html = '';
                 const items = result.Items;
 
-                for (let i = 0, length = items.length; i < length; i++) {
-                    const item = items[i];
+                for (const item of items) {
                     html += '<div class="verticalSection">';
                     html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
                     html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item, {

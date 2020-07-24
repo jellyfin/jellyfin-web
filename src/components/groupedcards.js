@@ -34,7 +34,7 @@ import connectionManager from 'connectionManager';
         }
     }
 
-    export function onItemsContainerClick(e) {
+    export default function onItemsContainerClick(e) {
         var groupedCard = dom.parentWithClass(e.target, 'groupedCard');
 
         if (groupedCard) {

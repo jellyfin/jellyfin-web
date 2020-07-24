@@ -14,15 +14,13 @@ import globalize from 'globalize';
             let checkedAttribute;
             let html = '';
 
-            for (let i = 0, length = mediaFolders.length; i < length; i++) {
-                folder = mediaFolders[i];
+            for (const folder of mediaFolders) {
                 isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
 
-            for (let i = 0, length = channelsResult.Items.length; i < length; i++) {
-                folder = channelsResult.Items[i];
+            for (const folder of channelsResult) {
                 isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';

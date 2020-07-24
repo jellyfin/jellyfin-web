@@ -220,6 +220,7 @@ import 'emby-button';
 
                 case 7:
                     depends = 'scripts/searchtab';
+                    break;
             }
 
             import(depends).then(({default: controllerFactory}) => {
