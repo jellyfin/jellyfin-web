@@ -108,6 +108,7 @@ import 'material-icons';
 
     export class AlphaPicker {
         constructor(options) {
+            const self = this;
 
             this.options = options;
 
@@ -120,18 +121,18 @@ import 'material-icons';
 
             function onItemFocusTimeout() {
                 itemFocusTimeout = null;
-                this.value(itemFocusValue);
+                self.value(itemFocusValue);
             }
 
             let alphaFocusedElement;
             let alphaFocusTimeout;
 
-            function onAlphaFocusTimeout(instance) {
+            function onAlphaFocusTimeout() {
                 alphaFocusTimeout = null;
 
                 if (document.activeElement === alphaFocusedElement) {
                     const value = alphaFocusedElement.getAttribute('data-value');
-                    instance.value(value, true);
+                    self.value(value, true);
                 }
             }
 
@@ -176,7 +177,7 @@ import 'material-icons';
 
                 if (alphaPickerButton) {
                     alphaFocusedElement = alphaPickerButton;
-                    alphaFocusTimeout = setTimeout(onAlphaFocusTimeout.bind(null, this), 600);
+                    alphaFocusTimeout = setTimeout(onAlphaFocusTimeout, 600);
                 }
             }
 

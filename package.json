@@ -109,7 +109,6 @@
           "src/components/displaySettings/displaySettings.js",
           "src/components/fetchhelper.js",
           "src/components/filterdialog/filterdialog.js",
-          "src/components/filterdialog/filterdialog.js",
           "src/components/groupedcards.js",
           "src/components/homeScreenSettings/homeScreenSettings.js",
           "src/components/homesections/homesections.js",
