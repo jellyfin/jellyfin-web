@@ -443,7 +443,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         });
         links.push({
             name: globalize.translate('TabPlugins'),
-            icon: 'shopping_cart',
+            icon: 'extension',
             href: 'installedplugins.html',
             pageIds: ['pluginsPage', 'pluginCatalogPage']
         });

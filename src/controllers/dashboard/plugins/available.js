@@ -92,27 +92,29 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
             href += '&context=' + options.context;
         }
 
-        var target = plugin.externalUrl ? ' target="_blank"' : '';
-        html += "<div class='card backdropCard'>";
-        html += '<div class="cardBox visualCardBox">';
-        html += '<div class="cardScalable visualCardBox-cardScalable">';
-        html += '<div class="cardPadder cardPadder-backdrop"></div>';
-        html += '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + href + '"' + target + '>';
-        html += '<span class="cardImageIcon material-icons folder"></span>';
-        html += '</a>';
-        html += '</div>';
-        html += '<div class="cardFooter">';
-        html += "<div class='cardText'>";
-        html += plugin.name;
-        html += '</div>';
         var installedPlugin = installedPlugins.filter(function (ip) {
             return ip.Id == plugin.guid;
         })[0];
-        html += "<div class='cardText cardText-secondary'>";
-        html += installedPlugin ? globalize.translate('LabelVersionInstalled', installedPlugin.Version) : '&nbsp;';
+
+        var target = plugin.externalUrl ? ' target="_blank"' : '';
+
+        html += "<div class='card backdropCard' >";
+        html += '<div class="cardBox visualCardBox">';
+        html += '<a is="emby-linkbutton" href="' + href + '"' + target + ' style="min-height: 4.5em;">';
+        html += '<span class="material-icons folder" style=""></span>';
+        html += '<div class="flex flex-direction-column">';
+        html += "<div class='cardText'>";
+        html += plugin.name;
         html += '</div>';
+        html += installedPlugin ? '<div>' : '';
+        html += installedPlugin ? "<div class='cardText cardText-secondary' style=''>" : '';
+        html += installedPlugin ? globalize.translate('LabelVersionInstalled', installedPlugin.Version) : '';
+        html += installedPlugin ? '</div>' : '';
+        html += installedPlugin ? '</div>' : '';
         html += '</div>';
+        html += '</a>';
         html += '</div>';
+
         return html += '</div>';
     }
 
