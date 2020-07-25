@@ -1028,7 +1028,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             try {
                 const response = await fetch(url);
                 decrementFetchQueue();
-                return await response.json;
+                return await response.json();
             } catch (error) {
                 decrementFetchQueue();
                 throw new Error(error);
