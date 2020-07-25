@@ -191,7 +191,7 @@ export default function (view, params) {
     view.querySelector('.btnNewPlaylist').addEventListener('click', function () {
         import('playlistEditor').then(({default: playlistEditor}) => {
             const serverId = ApiClient.serverInfo().Id;
-            new playlistEditor.showEditor({
+            new playlistEditor({
                 items: [],
                 serverId: serverId
             });

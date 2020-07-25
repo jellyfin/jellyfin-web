@@ -9,7 +9,6 @@ import globalize from 'globalize';
         ApiClient.getJSON(ApiClient.getUrl('Channels', {
             SupportsMediaDeletion: true
         })).then(function (channelsResult) {
-            let folder;
             let isChecked;
             let checkedAttribute;
             let html = '';
@@ -20,7 +19,7 @@ import globalize from 'globalize';
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
 
-            for (const folder of channelsResult) {
+            for (const folder of channelsResult.Items) {
                 isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';

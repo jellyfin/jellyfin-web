@@ -28,7 +28,7 @@ import 'listViewStyle';
             if (homescreenSettingsInstance) {
                 homescreenSettingsInstance.loadData();
             } else {
-                homescreenSettingsInstance = new HomescreenSettings.default({
+                homescreenSettingsInstance = new HomescreenSettings({
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector('.homeScreenSettingsContainer'),

@@ -231,9 +231,8 @@ import 'flexStyles';
     }
 
     function addElementToList(source, sortCallback) {
-        require(['prompt'], function (prompt) {
-
-            prompt.default({
+        import('prompt').then(({default: prompt}) => {
+            prompt({
                 label: 'Value:'
             }).then(function (text) {
                 const list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
@@ -1076,7 +1075,7 @@ import 'flexStyles';
     }
 
     function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
+        import('scrollHelper').then(({default: scrollHelper}) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
@@ -1085,8 +1084,7 @@ import 'flexStyles';
     function show(itemId, serverId, resolve, reject) {
         loading.show();
 
-        require(['text!./metadataEditor.template.html'], function (template) {
-
+        import('text!./metadataEditor.template.html').then(({default: template}) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -1142,8 +1140,7 @@ import 'flexStyles';
 
                 loading.show();
 
-                require(['text!./metadataEditor.template.html'], function (template) {
-
+                import('text!./metadataEditor.template.html').then(({default: template}) => {
                     elem.innerHTML = globalize.translateHtml(template, 'core');
 
                     elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');

@@ -5,8 +5,6 @@ import datetime from 'datetime';
 import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
 import focusManager from 'focusManager';
-import imageLoader from 'imageLoader';
-import scrollHelper from 'scrollHelper';
 import events from 'events';
 import connectionManager from 'connectionManager';
 import browser from 'browser';
@@ -1006,7 +1004,7 @@ import 'css!assets/css/videoosd';
                     if (statsOverlay) {
                         statsOverlay.toggle();
                     } else {
-                        statsOverlay = new PlayerStats.default({
+                        statsOverlay = new PlayerStats({
                             player: player
                         });
                     }

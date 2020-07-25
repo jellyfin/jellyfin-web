@@ -262,7 +262,7 @@ import 'css!./multiSelect';
                         switch (id) {
                             case 'addtocollection':
                                 import('collectionEditor').then(({default: collectionEditor}) => {
-                                    new collectionEditor.showEditor({
+                                    new collectionEditor({
                                         items: items,
                                         serverId: serverId
                                     });
@@ -272,7 +272,7 @@ import 'css!./multiSelect';
                                 break;
                             case 'playlist':
                                 import('playlistEditor').then(({default: playlistEditor}) => {
-                                    new playlistEditor.showEditor({
+                                    new playlistEditor({
                                         items: items,
                                         serverId: serverId
                                     });

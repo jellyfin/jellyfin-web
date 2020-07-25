@@ -256,7 +256,7 @@ import 'listViewStyle';
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         let currentType;
 
-        for (const profile of profiles) {
+        for (const [index, profile] of profiles.entries()) {
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + '</li>';
@@ -264,7 +264,7 @@ import 'listViewStyle';
             }
 
             html += '<div>';
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + index + '">';
             html += '<p>' + globalize.translate('ValueContainer', profile.Container || allText) + '</p>';
 
             if ('Video' == profile.Type) {
@@ -277,7 +277,7 @@ import 'listViewStyle';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + index + '"><span class="material-icons delete"></span></button>';
             html += '</div>';
         }
 

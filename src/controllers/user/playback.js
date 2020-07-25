@@ -28,7 +28,7 @@ import 'listViewStyle';
             if (settingsInstance) {
                 settingsInstance.loadData();
             } else {
-                settingsInstance = new PlaybackSettings.default({
+                settingsInstance = new PlaybackSettings({
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector('.settingsContainer'),

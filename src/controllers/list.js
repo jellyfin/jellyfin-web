@@ -803,7 +803,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
                 bindAll(view.querySelectorAll('.btnShuffle'), 'click', shuffle);
             }
 
-            this.alphaNumericShortcuts = new AlphaNumericShortcuts.default({
+            self.alphaNumericShortcuts = new AlphaNumericShortcuts.default({
                 itemsContainer: self.itemsContainer
             });
         });
@@ -817,7 +817,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             var alphaNumericShortcuts = self.alphaNumericShortcuts;
 
             if (alphaNumericShortcuts) {
-                alphaNumericShortcuts.default.destroy();
+                alphaNumericShortcuts.destroy();
                 self.alphaNumericShortcuts = null;
             }
         });
