@@ -281,7 +281,7 @@ import 'emby-button';
             mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
         }
 
-        function getTabController(page, index, callback) {
+        const getTabController = (page, index, callback) => {
             let depends = '';
 
             switch (index) {
@@ -319,7 +319,7 @@ import 'emby-button';
 
                 if (index === suggestionsTabIndex) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                    self.tabContent = tabContent;
+                    this.tabContent = tabContent;
                 }
 
                 let controller = tabControllers[index];
@@ -328,7 +328,7 @@ import 'emby-button';
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
 
                     if (index === suggestionsTabIndex) {
-                        controller = self;
+                        controller = this;
                     } else if (index === 6) {
                         controller = new controllerFactory(view, tabContent, {
                             collectionType: 'movies',
@@ -351,7 +351,7 @@ import 'emby-button';
 
                 callback(controller);
             });
-        }
+        };
 
         function preLoadTab(page, index) {
             getTabController(page, index, function (controller) {
@@ -363,12 +363,14 @@ import 'emby-button';
 
         function loadTab(page, index) {
             currentTabIndex = index;
-            getTabController(page, index, function (controller) {
+            getTabController(page, index, ((controller) => {
+                initialTabIndex = null;
+
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
                 }
-            });
+            }));
         }
 
         function onPlaybackStop(e, state) {
@@ -390,12 +392,12 @@ import 'emby-button';
         var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
         var suggestionsTabIndex = 1;
 
-        self.initTab = function () {
+        this.initTab = function () {
             let tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             initSuggestedTab(view, tabContent);
         };
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             let tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, params, tabContent);
         };
