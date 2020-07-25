@@ -1,5 +1,20 @@
-define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu', 'mainTabsManager', 'cardBuilder', 'dom', 'imageLoader', 'playbackManager', 'globalize', 'emby-scroller', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (events, layoutManager, inputManager, userSettings, libraryMenu, mainTabsManager, cardBuilder, dom, imageLoader, playbackManager, globalize) {
-    'use strict';
+import events from 'events';
+import layoutManager from 'layoutManager';
+import inputManager from 'inputManager';
+import * as userSettings from 'userSettings';
+import libraryMenu from 'libraryMenu';
+import mainTabsManager from 'mainTabsManager';
+import cardBuilder from 'cardBuilder';
+import dom from 'dom';
+import imageLoader from 'imageLoader';
+import playbackManager from 'playbackManager';
+import globalize from 'globalize';
+import 'emby-scroller';
+import 'emby-itemscontainer';
+import 'emby-tabs';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     playbackManager = playbackManager.default || playbackManager;
 
@@ -16,7 +31,7 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function loadLatest(page, userId, parentId) {
-        var options = {
+        const options = {
             IncludeItemTypes: 'Movie',
             Limit: 18,
             Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
@@ -26,8 +41,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
             EnableTotalRecordCount: false
         };
         ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-            var allowBottomPadding = !enableScrollX();
-            var container = page.querySelector('#recentlyAddedItems');
+            const allowBottomPadding = !enableScrollX();
+            const container = page.querySelector('#recentlyAddedItems');
             cardBuilder.buildCards(items, {
                 itemsContainer: container,
                 shape: getPortraitShape(),
@@ -45,8 +60,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function loadResume(page, userId, parentId) {
-        var screenWidth = dom.getWindowSize().innerWidth;
-        var options = {
+        let screenWidth = dom.getWindowSize().innerWidth;
+        const options = {
             SortBy: 'DatePlayed',
             SortOrder: 'Descending',
             IncludeItemTypes: 'Movie',
@@ -67,8 +82,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
                 page.querySelector('#resumableSection').classList.add('hide');
             }
 
-            var allowBottomPadding = !enableScrollX();
-            var container = page.querySelector('#resumableItems');
+            const allowBottomPadding = !enableScrollX();
+            const container = page.querySelector('#resumableItems');
             cardBuilder.buildCards(result.Items, {
                 itemsContainer: container,
                 preferThumb: true,
@@ -88,8 +103,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function getRecommendationHtml(recommendation) {
-        var html = '';
-        var title = '';
+        let html = '';
+        let title = '';
 
         switch (recommendation.RecommendationType) {
             case 'SimilarToRecentlyPlayed':
@@ -113,7 +128,7 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
 
         html += '<div class="verticalSection">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + '</h2>';
-        var allowBottomPadding = true;
+        const allowBottomPadding = true;
 
         if (enableScrollX()) {
             html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
@@ -141,8 +156,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function loadSuggestions(page, userId, parentId) {
-        var screenWidth = dom.getWindowSize().innerWidth;
-        var url = ApiClient.getUrl('Movies/Recommendations', {
+        let screenWidth = dom.getWindowSize().innerWidth;
+        let url = ApiClient.getUrl('Movies/Recommendations', {
             userId: userId,
             categoryLimit: 6,
             ItemLimit: screenWidth >= 1920 ? 8 : screenWidth >= 1600 ? 8 : screenWidth >= 1200 ? 6 : 5,
@@ -157,9 +172,9 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
                 return;
             }
 
-            var html = recommendations.map(getRecommendationHtml).join('');
+            const html = recommendations.map(getRecommendationHtml).join('');
             page.querySelector('.noItemsMessage').classList.add('hide');
-            var recs = page.querySelector('.recommendations');
+            let recs = page.querySelector('.recommendations');
             recs.innerHTML = html;
             imageLoader.lazyChildren(recs);
 
@@ -169,7 +184,7 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function autoFocus(page) {
-        require(['autoFocuser'], function (autoFocuser) {
+        import('autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(page);
         });
     }
@@ -195,17 +210,16 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function initSuggestedTab(page, tabContent) {
-        var containers = tabContent.querySelectorAll('.itemsContainer');
+        const containers = tabContent.querySelectorAll('.itemsContainer');
 
-        for (var i = 0, length = containers.length; i < length; i++) {
-            setScrollClasses(containers[i], enableScrollX());
+        for (const container of containers) {
+            setScrollClasses(container, enableScrollX());
         }
     }
 
     function loadSuggestionsTab(view, params, tabContent) {
-        var parentId = params.topParentId;
-        var userId = ApiClient.getCurrentUserId();
-        console.debug('loadSuggestionsTab');
+        const parentId = params.topParentId;
+        const userId = ApiClient.getCurrentUserId();
         loadResume(tabContent, userId, parentId);
         loadLatest(tabContent, userId, parentId);
         loadSuggestions(tabContent, userId, parentId);
@@ -249,13 +263,13 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         }
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function onBeforeTabChange(e) {
             preLoadTab(view, parseInt(e.detail.selectedTabIndex));
         }
 
         function onTabChange(e) {
-            var newIndex = parseInt(e.detail.selectedTabIndex);
+            const newIndex = parseInt(e.detail.selectedTabIndex);
             loadTab(view, newIndex);
         }
 
@@ -268,45 +282,47 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         }
 
         function getTabController(page, index, callback) {
-            var depends = [];
+            let depends = '';
 
             switch (index) {
                 case 0:
-                    depends.push('controllers/movies/movies');
+                    depends = 'controllers/movies/movies';
                     break;
 
                 case 1:
+                    depends = 'controllers/movies/moviesrecommended.js';
                     break;
 
                 case 2:
-                    depends.push('controllers/movies/movietrailers');
+                    depends = 'controllers/movies/movietrailers';
                     break;
 
                 case 3:
-                    depends.push('controllers/movies/movies');
+                    depends = 'controllers/movies/movies';
                     break;
 
                 case 4:
-                    depends.push('controllers/movies/moviecollections');
+                    depends = 'controllers/movies/moviecollections';
                     break;
 
                 case 5:
-                    depends.push('controllers/movies/moviegenres');
+                    depends = 'controllers/movies/moviegenres';
                     break;
 
                 case 6:
-                    depends.push('scripts/searchtab');
+                    depends = 'scripts/searchtab';
+                    break;
             }
 
-            require(depends, function (controllerFactory) {
-                var tabContent;
+            import(depends).then(({default: controllerFactory}) => {
+                let tabContent;
 
                 if (index === suggestionsTabIndex) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
 
-                var controller = tabControllers[index];
+                let controller = tabControllers[index];
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
@@ -375,17 +391,17 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         var suggestionsTabIndex = 1;
 
         self.initTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            let tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             initSuggestedTab(view, tabContent);
         };
 
         self.renderTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            let tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, params, tabContent);
         };
 
-        var tabControllers = [];
-        var renderedTabs = [];
+        let tabControllers = [];
+        let renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
             initTabs();
             if (!view.getAttribute('data-title')) {
@@ -408,12 +424,11 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         view.addEventListener('viewbeforehide', function (e) {
             inputManager.off(window, onInputCommand);
         });
-        view.addEventListener('viewdestroy', function (e) {
-            tabControllers.forEach(function (t) {
-                if (t.destroy) {
-                    t.destroy();
-                }
-            });
-        });
-    };
-});
+        for (const tabController of tabControllers) {
+            if (tabController.destroy) {
+                tabController.destroy();
+            }
+        }
+    }
+
+/* eslint-enable indent */
