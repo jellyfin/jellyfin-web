@@ -60,10 +60,10 @@ import 'emby-button';
             return enableScrollX() ? 'overflowPortrait' : 'portrait';
         }
 
-        function fillItemsContainer(entry) {
+        const fillItemsContainer = (entry) => {
             const elem = entry.target;
             const id = elem.getAttribute('data-id');
-            const viewStyle = self.getCurrentViewStyle();
+            const viewStyle = this.getCurrentViewStyle();
             let limit = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 5 : 9;
 
             if (enableScrollX()) {
@@ -133,7 +133,7 @@ import 'emby-button';
                     tabContent.querySelector('.btnMoreFromGenre' + id + ' .material-icons').classList.remove('hide');
                 }
             });
-        }
+        };
 
         function reloadItems(context, promise) {
             const query = getQuery();
@@ -189,36 +189,35 @@ import 'emby-button';
             });
         }
 
-        function fullyReload() {
-            self.preRender();
-            self.renderTab();
-        }
+        const fullyReload = () => {
+            this.preRender();
+            this.renderTab();
+        };
 
-        const self = this;
         const data = {};
 
-        self.getViewStyles = function () {
+        this.getViewStyles = function () {
             return 'Poster,PosterCard,Thumb,ThumbCard'.split(',');
         };
 
-        self.getCurrentViewStyle = function () {
+        this.getCurrentViewStyle = function () {
             return getPageData().view;
         };
 
-        self.setCurrentViewStyle = function (viewStyle) {
+        this.setCurrentViewStyle = function (viewStyle) {
             getPageData().view = viewStyle;
             libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
             fullyReload();
         };
 
-        self.enableViewSelection = true;
+        this.enableViewSelection = true;
         let promise;
 
-        self.preRender = function () {
+        this.preRender = function () {
             promise = getPromise();
         };
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reloadItems(tabContent, promise);
         };
     }

@@ -297,7 +297,6 @@ import 'emby-itemscontainer';
             onViewStyleChange();
         };
 
-        //function renderTab () {
         this.renderTab = function () {
             itemsContainer.refreshItems();
             updateFilterControls();

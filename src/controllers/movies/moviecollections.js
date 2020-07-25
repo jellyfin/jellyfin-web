@@ -53,8 +53,8 @@ import 'emby-itemscontainer';
             return context.savedQueryKey;
         }
 
-        function onViewStyleChange() {
-            const viewStyle = self.getCurrentViewStyle();
+        const onViewStyleChange = () => {
+            const viewStyle = this.getCurrentViewStyle();
             const itemsContainer = tabContent.querySelector('.itemsContainer');
 
             if (viewStyle == 'List') {
@@ -66,13 +66,13 @@ import 'emby-itemscontainer';
             }
 
             itemsContainer.innerHTML = '';
-        }
+        };
 
-        function reloadItems(page) {
+        const reloadItems = (page) => {
             loading.show();
             isLoading = true;
             const query = getQuery(page);
-            ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
+            ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
                 function onNextPageClick() {
                     if (isLoading) {
                         return;
@@ -107,7 +107,7 @@ import 'emby-itemscontainer';
                     sortButton: false,
                     filterButton: false
                 });
-                const viewStyle = self.getCurrentViewStyle();
+                const viewStyle = this.getCurrentViewStyle();
                 if (viewStyle == 'Thumb') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
@@ -198,17 +198,16 @@ import 'emby-itemscontainer';
                     autoFocuser.autoFocus(page);
                 });
             });
-        }
+        };
 
-        const self = this;
         const data = {};
         let isLoading = false;
 
-        self.getCurrentViewStyle = function () {
+        this.getCurrentViewStyle = function () {
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
+        const initPage = (tabContent) => {
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
@@ -237,7 +236,7 @@ import 'emby-itemscontainer';
             });
             const btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
-                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
+                libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
                 const viewStyle = e.detail.viewStyle;
@@ -256,16 +255,16 @@ import 'emby-itemscontainer';
                     });
                 });
             });
-        }
+        };
 
         initPage(tabContent);
         onViewStyleChange();
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reloadItems(tabContent);
         };
 
-        self.destroy = function () {};
+        this.destroy = function () {};
     }
 
 /* eslint-enable indent */
