@@ -1282,6 +1282,8 @@
     "PleaseRestartServerName": "Please restart Jellyfin Server - {0}.",
     "PleaseSelectTwoItems": "Please select at least two items.",
     "MessagePluginInstalled": "The plugin has been successfully installed. Jellyfin Server will need to be restarted for changes to take effect.",
+    "MessagePluginIntallError": "An error occured while installing the plugin.",
+    "MessageGetInstalledPluginsError": "An error occured while getting the list of currently installed plugins.",
     "PreferEmbeddedTitlesOverFileNames": "Prefer embedded titles over filenames",
     "PreferEmbeddedTitlesOverFileNamesHelp": "This determines the default display title when no internet metadata or local metadata is available.",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "This uses the episode information from the embedded metadata if available.",
