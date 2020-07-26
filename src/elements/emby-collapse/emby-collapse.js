@@ -7,43 +7,51 @@ import 'emby-button';
     const EmbyButtonPrototype = Object.create(HTMLDivElement.prototype);
 
     function slideDownToShow(button, elem) {
-
-        elem.classList.remove('hide');
-        elem.classList.add('expanded');
-        elem.style.height = 'auto';
-        var height = elem.offsetHeight + 'px';
-        elem.style.height = height;
-
-        setTimeout(function () {
-            if (elem.classList.contains('expanded')) {
-                elem.classList.remove('hide');
-            } else {
-                elem.classList.add('hide');
-            }
+        requestAnimationFrame(() => {
+            elem.classList.remove('hide');
+            elem.classList.add('expanded');
             elem.style.height = 'auto';
-        }, 300);
+            var height = elem.offsetHeight + 'px';
+            elem.style.height = '0';
+            // trigger reflow
+            // TODO: Find a better way to do this
+            const newHeight = elem.offsetHeight; /* eslint-disable-line no-unused-vars */
+            elem.style.height = height;
 
-        const icon = button.querySelector('.material-icons');
-        icon.classList.add('emby-collapse-expandIconExpanded');
+            setTimeout(function () {
+                if (elem.classList.contains('expanded')) {
+                    elem.classList.remove('hide');
+                } else {
+                    elem.classList.add('hide');
+                }
+                elem.style.height = 'auto';
+            }, 300);
+
+            const icon = button.querySelector('.material-icons');
+            icon.classList.add('emby-collapse-expandIconExpanded');
+        });
     }
 
     function slideUpToHide(button, elem) {
+        requestAnimationFrame(() => {
+            elem.style.height = elem.offsetHeight + 'px';
+            // trigger reflow
+            // TODO: Find a better way to do this
+            const newHeight = elem.offsetHeight; /* eslint-disable-line no-unused-vars */
+            elem.classList.remove('expanded');
+            elem.style.height = '0';
 
-        elem.style.height = elem.offsetHeight + 'px';
+            setTimeout(function () {
+                if (elem.classList.contains('expanded')) {
+                    elem.classList.remove('hide');
+                } else {
+                    elem.classList.add('hide');
+                }
+            }, 300);
 
-        elem.classList.remove('expanded');
-        elem.style.height = '0';
-
-        setTimeout(function () {
-            if (elem.classList.contains('expanded')) {
-                elem.classList.remove('hide');
-            } else {
-                elem.classList.add('hide');
-            }
-        }, 300);
-
-        const icon = button.querySelector('.material-icons');
-        icon.classList.remove('emby-collapse-expandIconExpanded');
+            const icon = button.querySelector('.material-icons');
+            icon.classList.remove('emby-collapse-expandIconExpanded');
+        });
     }
 
     function onButtonClick(e) {
