@@ -24,77 +24,88 @@ define([
     console.debug('defining core routes');
 
     defineRoute({
-        path: '/addserver.html',
+        alias: '/addserver.html',
+        path: '/controllers/session/addServer/index.html',
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: 'auth/addserver'
+        controller: 'session/addServer/index'
     });
     defineRoute({
-        path: '/selectserver.html',
+        alias: '/selectserver.html',
+        path: '/controllers/session/selectServer/index.html',
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: 'auth/selectserver',
+        controller: 'session/selectServer/index',
         type: 'selectserver'
     });
     defineRoute({
-        path: '/login.html',
+        alias: '/login.html',
+        path: '/controllers/session/login/index.html',
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: 'auth/login',
+        controller: 'session/login/index',
         type: 'login'
     });
     defineRoute({
-        path: '/forgotpassword.html',
+        alias: '/forgotpassword.html',
+        path: '/controllers/session/forgotPassword/index.html',
         anonymous: true,
         startup: true,
-        controller: 'auth/forgotpassword'
+        controller: 'session/forgotPassword/index'
     });
     defineRoute({
-        path: '/forgotpasswordpin.html',
+        alias: '/forgotpasswordpin.html',
+        path: '/controllers/session/redeemPassword/index.html',
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: 'auth/forgotpasswordpin'
+        controller: 'session/redeemPassword/index'
     });
 
     defineRoute({
-        path: '/mypreferencesmenu.html',
+        alias: '/mypreferencesmenu.html',
+        path: '/controllers/user/menu/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/menu'
+        controller: 'user/menu/index'
     });
     defineRoute({
-        path: '/myprofile.html',
+        alias: '/myprofile.html',
+        path: '/controllers/user/profile/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/profile'
+        controller: 'user/profile/index'
     });
     defineRoute({
-        path: '/mypreferencesdisplay.html',
+        alias: '/mypreferencesdisplay.html',
+        path: '/controllers/user/display/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/display'
+        controller: 'user/display/index'
     });
     defineRoute({
-        path: '/mypreferenceshome.html',
+        alias: '/mypreferenceshome.html',
+        path: '/controllers/user/home/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/home'
+        controller: 'user/home/index'
     });
     defineRoute({
-        path: '/mypreferencesplayback.html',
+        alias: '/mypreferencesplayback.html',
+        path: '/controllers/user/playback/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/playback'
+        controller: 'user/playback/index'
     });
     defineRoute({
-        path: '/mypreferencessubtitles.html',
+        alias: '/mypreferencessubtitles.html',
+        path: '/controllers/user/subtitles/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/subtitles'
+        controller: 'user/subtitles/index'
     });
 
     defineRoute({
@@ -140,10 +151,11 @@ define([
         controller: 'dashboard/dlna/profiles'
     });
     defineRoute({
-        path: '/addplugin.html',
+        alias: '/addplugin.html',
+        path: '/controllers/dashboard/plugins/add/index.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/plugins/add'
+        controller: 'dashboard/plugins/add/index'
     });
     defineRoute({
         path: '/library.html',
@@ -192,14 +204,16 @@ define([
         controller: 'dashboard/metadatanfo'
     });
     defineRoute({
-        path: '/notificationsetting.html',
+        alias: '/notificationsetting.html',
+        path: '/controllers/dashboard/notifications/notification/index.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/notifications/notification'
+        controller: 'dashboard/notifications/notification/index'
     });
     defineRoute({
-        path: '/notificationsettings.html',
-        controller: 'dashboard/notifications/notifications',
+        alias: '/notificationsettings.html',
+        path: '/controllers/dashboard/notifications/notifications/index.html',
+        controller: 'dashboard/notifications/notifications/index',
         autoFocus: false,
         roles: 'admin'
     });
@@ -210,16 +224,18 @@ define([
         controller: 'dashboard/playback'
     });
     defineRoute({
-        path: '/availableplugins.html',
+        alias: '/availableplugins.html',
+        path: '/controllers/dashboard/plugins/available/index.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/plugins/available'
+        controller: 'dashboard/plugins/available/index'
     });
     defineRoute({
-        path: '/repositories.html',
+        alias: '/repositories.html',
+        path: '/controllers/dashboard/plugins/repositories/index.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/plugins/repositories'
+        controller: 'dashboard/plugins/repositories/index'
     });
 
     defineRoute({
@@ -288,10 +304,11 @@ define([
         transition: 'fade'
     });
     defineRoute({
-        path: '/installedplugins.html',
+        alias: '/installedplugins.html',
+        path: '/controllers/dashboard/plugins/installed/index.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/plugins/installed'
+        controller: 'dashboard/plugins/installed/index'
     });
     defineRoute({
         path: '/scheduledtask.html',
@@ -367,16 +384,18 @@ define([
     });
 
     defineRoute({
-        path: '/wizardremoteaccess.html',
+        alias: '/wizardremoteaccess.html',
+        path: '/controllers/wizard/remote/index.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'wizard/remoteaccess'
+        controller: 'wizard/remote/index'
     });
     defineRoute({
-        path: '/wizardfinish.html',
+        alias: '/wizardfinish.html',
+        path: '/controllers/wizard/finish/index.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'wizard/finish'
+        controller: 'wizard/finish/index'
     });
     defineRoute({
         path: '/wizardlibrary.html',
@@ -385,28 +404,32 @@ define([
         controller: 'dashboard/mediaLibrary'
     });
     defineRoute({
-        path: '/wizardsettings.html',
+        alias: '/wizardsettings.html',
+        path: '/controllers/wizard/settings/index.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'wizard/settings'
+        controller: 'wizard/settings/index'
     });
     defineRoute({
-        path: '/wizardstart.html',
+        alias: '/wizardstart.html',
+        path: '/controllers/wizard/start/index.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'wizard/start'
+        controller: 'wizard/start/index'
     });
     defineRoute({
-        path: '/wizarduser.html',
-        controller: 'wizard/user',
+        alias: '/wizarduser.html',
+        path: '/controllers/wizard/user/index.html',
+        controller: 'wizard/user/index',
         autoFocus: false,
         anonymous: true
     });
 
     defineRoute({
-        path: '/videoosd.html',
+        alias: '/video',
+        path: '/controllers/playback/video/index.html',
         transition: 'fade',
-        controller: 'playback/videoosd',
+        controller: 'playback/video/index',
         autoFocus: false,
         type: 'video-osd',
         supportsThemeMedia: true,
@@ -414,8 +437,9 @@ define([
         enableMediaControl: false
     });
     defineRoute({
-        path: '/nowplaying.html',
-        controller: 'playback/nowplaying',
+        alias: '/queue',
+        path: '/controllers/playback/queue/index.html',
+        controller: 'playback/queue/index',
         autoFocus: false,
         transition: 'fade',
         fullscreen: true,
