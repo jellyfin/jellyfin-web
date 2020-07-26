@@ -1,4 +1,3 @@
-import browser from 'browser';
 import 'css!./appFooter';
 
 function render(options) {

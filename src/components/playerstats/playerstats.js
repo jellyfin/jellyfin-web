@@ -5,7 +5,6 @@ import connectionManager from 'connectionManager';
 import syncPlayManager from 'syncPlayManager';
 import playMethodHelper from 'playMethodHelper';
 import layoutManager from 'layoutManager';
-import serverNotifications from 'serverNotifications';
 import 'paper-icon-button-light';
 import 'css!./playerstats';
 

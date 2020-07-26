@@ -3,7 +3,6 @@ import globalize from 'globalize';
 import dom from 'dom';
 import * as datefns from 'date-fns';
 import dfnshelper from 'dfnshelper';
-import userSettings from 'userSettings';
 import serverNotifications from 'serverNotifications';
 import connectionManager from 'connectionManager';
 import 'emby-button';

@@ -1,4 +1,3 @@
-import require from 'require';
 import events from 'events';
 import browser from 'browser';
 import appRouter from 'appRouter';

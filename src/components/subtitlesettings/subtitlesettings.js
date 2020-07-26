@@ -1,4 +1,3 @@
-import require from 'require';
 import globalize from 'globalize';
 import appHost from 'apphost';
 import appSettings from 'appSettings';

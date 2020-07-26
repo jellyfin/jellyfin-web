@@ -1,7 +1,6 @@
 import dom from 'dom';
 import dialogHelper from 'dialogHelper';
 import loading from 'loading';
-import appHost from 'apphost';
 import layoutManager from 'layoutManager';
 import connectionManager from 'connectionManager';
 import appRouter from 'appRouter';

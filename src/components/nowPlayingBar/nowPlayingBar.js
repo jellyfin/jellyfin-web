@@ -1,6 +1,4 @@
-import require from 'require';
 import datetime from 'datetime';
-import itemHelper from 'itemHelper';
 import events from 'events';
 import browser from 'browser';
 import imageLoader from 'imageLoader';

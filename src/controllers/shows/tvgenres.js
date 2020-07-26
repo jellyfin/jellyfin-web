@@ -3,10 +3,8 @@ import loading from 'loading';
 import libraryBrowser from 'libraryBrowser';
 import cardBuilder from 'cardBuilder';
 import lazyLoader from 'lazyLoader';
-import appHost from 'apphost';
 import globalize from 'globalize';
 import appRouter from 'appRouter';
-import dom from 'dom';
 import 'emby-button';
 
 /* eslint-disable indent */
