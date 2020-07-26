@@ -3,8 +3,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     'use strict';
     /* globals cast */
 
-    var mediaManager;
-
     function tryRemoveElement(elem) {
         var parentNode = elem.parentNode;
         if (parentNode) {
@@ -297,70 +295,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     self._currentSrc = url;
                 });
             });
-        }
-
-        // Adapted from : https://github.com/googlecast/CastReferencePlayer/blob/master/player.js
-        function onMediaManagerLoadMedia(event) {
-
-            if (self._castPlayer) {
-                self._castPlayer.unload(); // Must unload before starting again.
-            }
-            self._castPlayer = null;
-
-            var data = event.data;
-
-            var media = event.data.media || {};
-            var url = media.contentId;
-            var contentType = media.contentType.toLowerCase();
-
-            var protocol;
-            var ext = 'm3u8';
-
-            var mediaElement = self._mediaElement;
-
-            var host = new cast.player.api.Host({
-                'url': url,
-                'mediaElement': mediaElement
-            });
-
-            if (ext === 'm3u8' ||
-                contentType === 'application/x-mpegurl' ||
-                contentType === 'application/vnd.apple.mpegurl') {
-                protocol = cast.player.api.CreateHlsStreamingProtocol(host);
-            } else if (ext === 'mpd' ||
-                contentType === 'application/dash+xml') {
-                protocol = cast.player.api.CreateDashStreamingProtocol(host);
-            } else if (url.indexOf('.ism') > -1 ||
-                contentType === 'application/vnd.ms-sstr+xml') {
-                protocol = cast.player.api.CreateSmoothStreamingProtocol(host);
-            }
-
-            console.debug('loading playback url: ' + url);
-            console.debug('content type: ' + contentType);
-
-            host.onError = function (errorCode) {
-                console.error('fatal Error - ' + errorCode);
-            };
-
-            mediaElement.autoplay = false;
-
-            self._castPlayer = new cast.player.api.Player(host);
-
-            self._castPlayer.load(protocol, data.currentTime || 0);
-
-            self._castPlayer.playWhenHaveEnoughData();
-        }
-
-        function initMediaManager() {
-
-            mediaManager.defaultOnLoad = mediaManager.onLoad.bind(mediaManager);
-            mediaManager.onLoad = onMediaManagerLoadMedia.bind(self);
-
-            mediaManager.defaultOnStop = mediaManager.onStop.bind(mediaManager);
-            mediaManager.onStop = function (event) {
-                playbackManager.stop();
-                mediaManager.defaultOnStop(event);
-            };
         }
 
         function setCurrentSrc(elem, options) {
@@ -1202,14 +1136,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         document.body.insertBefore(dlg, document.body.firstChild);
                         videoDialog = dlg;
                         self._mediaElement = videoElement;
-
-                        if (mediaManager) {
-                            if (!mediaManager.embyInit) {
-                                initMediaManager();
-                                mediaManager.embyInit = true;
-                            }
-                            mediaManager.setMediaElement(videoElement);
-                        }
 
                         // don't animate on smart tv's, too slow
                         if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
