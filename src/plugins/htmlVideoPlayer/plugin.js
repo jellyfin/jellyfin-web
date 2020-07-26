@@ -6,7 +6,24 @@ import dom from 'dom';
 import playbackManager from 'playbackManager';
 import appRouter from 'appRouter';
 import connectionManager from 'connectionManager';
-import htmlMediaHelper from 'htmlMediaHelper';
+import {
+    bindEventsToHlsPlayer,
+    destroyHlsPlayer,
+    destroyFlvPlayer,
+    destroyCastPlayer,
+    getCrossOriginValue,
+    enableHlsJsPlayer,
+    applySrc,
+    playWithPromise,
+    onEndedInternal,
+    saveVolume,
+    seekOnPlaybackStart,
+    onErrorInternal,
+    handleHlsJsMediaError,
+    getSavedVolume,
+    isValidDuration,
+    getBufferedRanges
+} from 'htmlMediaHelper';
 import itemHelper from 'itemHelper';
 import screenfull from 'screenfull';
 import globalize from 'globalize';
@@ -455,7 +472,7 @@ function supportsTextTracks() {
                     hls.loadSource(url);
                     hls.attachMedia(elem);
 
-                    htmlMediaHelper.bindEventsToHlsPlayer(this, hls, elem, this.onError, resolve, reject);
+                    bindEventsToHlsPlayer(this, hls, elem, this.onError, resolve, reject);
 
                     this._hlsPlayer = hls;
 
@@ -632,9 +649,9 @@ function supportsTextTracks() {
                 val += `#t=${seconds}`;
             }
 
-            htmlMediaHelper.destroyHlsPlayer(this);
-            htmlMediaHelper.destroyFlvPlayer(this);
-            htmlMediaHelper.destroyCastPlayer(this);
+            destroyHlsPlayer(this);
+            destroyFlvPlayer(this);
+            destroyCastPlayer(this);
 
             const tracks = getMediaStreamTextTracks(options.mediaSource);
 
@@ -650,12 +667,12 @@ function supportsTextTracks() {
 
             this._currentPlayOptions = options;
 
-            const crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
+            const crossOrigin = getCrossOriginValue(options.mediaSource);
             if (crossOrigin) {
                 elem.crossOrigin = crossOrigin;
             }
 
-            /*if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.includes('.m3u8')) {
+            /*if (enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.includes('.m3u8')) {
 
                 setTracks(elem, tracks, options.item, options.mediaSource);
 
@@ -665,7 +682,7 @@ function supportsTextTracks() {
             if (browser.chromecast && val.includes('.m3u8') && options.mediaSource.RunTimeTicks) {
 
                 return this.setCurrentSrcChromecast(this, elem, options, val);
-            } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.includes('.m3u8')) {
+            } else if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.includes('.m3u8')) {
                 return this.setSrcWithHlsJs(this, elem, options, val);
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
                 return this.setSrcWithFlvJs(elem, options, val);
@@ -675,10 +692,10 @@ function supportsTextTracks() {
                 // Safari will not send cookies without this
                 elem.crossOrigin = 'use-credentials';
 
-                return htmlMediaHelper.applySrc(elem, val, options).then(() => {
+                return applySrc(elem, val, options).then(() => {
                     this.#currentSrc = val;
 
-                    return htmlMediaHelper.playWithPromise(elem, this.onError);
+                    return playWithPromise(elem, this.onError);
                 });
             }
         }
@@ -887,7 +904,7 @@ function supportsTextTracks() {
                     elem.pause();
                 }
 
-                htmlMediaHelper.onEndedInternal(this, elem, this.onError);
+                onEndedInternal(this, elem, this.onError);
 
                 if (destroyPlayer) {
                     this.destroy();
@@ -900,8 +917,8 @@ function supportsTextTracks() {
         }
 
         destroy() {
-            htmlMediaHelper.destroyHlsPlayer(this);
-            htmlMediaHelper.destroyFlvPlayer(this);
+            destroyHlsPlayer(this);
+            destroyFlvPlayer(this);
 
             appRouter.setTransparency('none');
 
@@ -945,7 +962,7 @@ function supportsTextTracks() {
              */
             const elem = e.target;
             this.destroyCustomTrack(elem);
-            htmlMediaHelper.onEndedInternal(this, elem, this.onError);
+            onEndedInternal(this, elem, this.onError);
         }
 
         /**
@@ -987,7 +1004,7 @@ function supportsTextTracks() {
              * @type {HTMLMediaElement}
              */
             const elem = e.target;
-            htmlMediaHelper.saveVolume(elem.volume);
+            saveVolume(elem.volume);
             events.trigger(this, 'volumechange');
         }
 
@@ -1030,7 +1047,7 @@ function supportsTextTracks() {
 
                 loading.hide();
 
-                htmlMediaHelper.seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
+                seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
                     if (this.#currentSubtitlesOctopus) {
                         this.#currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
                         this.#currentSubtitlesOctopus.resize();
@@ -1073,7 +1090,7 @@ function supportsTextTracks() {
                 // Only trigger this if there is media info
                 // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
                 if (!mediaSource || mediaSource.RunTimeTicks) {
-                    htmlMediaHelper.onErrorInternal(this, 'mediadecodeerror');
+                    onErrorInternal(this, 'mediadecodeerror');
                 }
             }
         }
@@ -1130,7 +1147,7 @@ function supportsTextTracks() {
                 case 3:
                     // MEDIA_ERR_DECODE
                     if (this._hlsPlayer) {
-                        htmlMediaHelper.handleHlsJsMediaError(this);
+                        handleHlsJsMediaError(this);
                         return;
                     } else {
                         type = 'mediadecodeerror';
@@ -1146,7 +1163,7 @@ function supportsTextTracks() {
                     return;
             }
 
-            htmlMediaHelper.onErrorInternal(this, type);
+            onErrorInternal(this, type);
         }
 
         /**
@@ -1262,7 +1279,7 @@ function supportsTextTracks() {
                 workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
                 legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
                 onError() {
-                    htmlMediaHelper.onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
+                    onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
@@ -1526,7 +1543,7 @@ function supportsTextTracks() {
                         dlg.innerHTML = html;
                         const videoElement = dlg.querySelector('video');
 
-                        videoElement.volume = htmlMediaHelper.getSavedVolume();
+                        videoElement.volume = getSavedVolume();
                         videoElement.addEventListener('timeupdate', this.onTimeUpdate);
                         videoElement.addEventListener('ended', this.onEnded);
                         videoElement.addEventListener('volumechange', this.onVolumeChange);
@@ -1665,7 +1682,7 @@ function supportsTextTracks() {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             const duration = mediaElement.duration;
-            if (htmlMediaHelper.isValidDuration(duration)) {
+            if (isValidDuration(duration)) {
                 return duration * 1000;
             }
         }
@@ -1796,10 +1813,10 @@ function supportsTextTracks() {
                 let start = seekable.start(0);
                 let end = seekable.end(0);
 
-                if (!htmlMediaHelper.isValidDuration(start)) {
+                if (!isValidDuration(start)) {
                     start = 0;
                 }
-                if (!htmlMediaHelper.isValidDuration(end)) {
+                if (!isValidDuration(end)) {
                     end = 0;
                 }
 
@@ -1933,7 +1950,7 @@ function supportsTextTracks() {
     getBufferedRanges() {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
-            return htmlMediaHelper.getBufferedRanges(this, mediaElement);
+            return getBufferedRanges(this, mediaElement);
         }
 
         return [];
