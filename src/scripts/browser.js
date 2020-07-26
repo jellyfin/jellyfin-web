@@ -14,10 +14,6 @@ define([], function () {
             return true;
         }
 
-        if (userAgent.indexOf('nintendo') !== -1) {
-            return true;
-        }
-
         if (userAgent.indexOf('viera') !== -1) {
             return true;
         }
@@ -93,7 +89,7 @@ define([], function () {
     var _supportsCssAnimation;
     var _supportsCssAnimationWithPrefix;
     function supportsCssAnimation(allowPrefix) {
-
+        // TODO: Assess if this is still needed, as all of our targets should natively support CSS animations.
         if (allowPrefix) {
             if (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false) {
                 return _supportsCssAnimationWithPrefix;
@@ -145,7 +141,6 @@ define([], function () {
             /(chrome)[ \/]([\w.]+)/.exec(ua) ||
             /(safari)[ \/]([\w.]+)/.exec(ua) ||
             /(firefox)[ \/]([\w.]+)/.exec(ua) ||
-            /(msie) ([\w.]+)/.exec(ua) ||
             ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
             [];
 
@@ -161,14 +156,6 @@ define([], function () {
 
         if (browser === 'edge') {
             platform_match = [''];
-        } else {
-            if (ua.indexOf('windows phone') !== -1 || ua.indexOf('iemobile') !== -1) {
-
-                // http://www.neowin.net/news/ie11-fakes-user-agent-to-fool-gmail-in-windows-phone-81-gdr1-update
-                browser = 'msie';
-            } else if (ua.indexOf('like gecko') !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {
-                browser = 'msie';
-            }
         }
 
         if (browser === 'opr') {
@@ -211,7 +198,7 @@ define([], function () {
         browser[matched.platform] = true;
     }
 
-    if (!browser.chrome && !browser.msie && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf('webkit') !== -1) {
+    if (!browser.chrome && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf('webkit') !== -1) {
         browser.safari = true;
     }
 
@@ -224,7 +211,10 @@ define([], function () {
         browser.mobile = true;
     }
 
-    browser.xboxOne = userAgent.toLowerCase().indexOf('xbox') !== -1;
+    if (userAgent.toLowerCase().indexOf('xbox') !== -1) {
+        browser.xboxOne = true;
+        browser.tv = true;
+    }
     browser.animate = typeof document !== 'undefined' && document.documentElement.animate != null;
     browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || self.tizen != null;
     browser.web0s = userAgent.toLowerCase().indexOf('Web0S'.toLowerCase()) !== -1;

@@ -1,14 +1,19 @@
-define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby-button'], function (connectionManager, serverNotifications, events, globalize, EmbyButtonPrototype) {
-    'use strict';
+import connectionManager from 'connectionManager';
+import serverNotifications from 'serverNotifications';
+import events from 'events';
+import globalize from 'globalize';
+import EmbyButtonPrototype from 'emby-button';
+
+/* eslint-disable indent */
 
     function addNotificationEvent(instance, name, handler) {
-        var localHandler = handler.bind(instance);
+        const localHandler = handler.bind(instance);
         events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
     function removeNotificationEvent(instance, name) {
-        var handler = instance[name];
+        const handler = instance[name];
         if (handler) {
             events.off(serverNotifications, name, handler);
             instance[name] = null;
@@ -17,10 +22,10 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
     function onClick(e) {
 
-        var button = this;
-        var id = button.getAttribute('data-id');
-        var serverId = button.getAttribute('data-serverid');
-        var apiClient = connectionManager.getApiClient(serverId);
+        const button = this;
+        const id = button.getAttribute('data-id');
+        const serverId = button.getAttribute('data-serverid');
+        const apiClient = connectionManager.getApiClient(serverId);
 
         if (!button.classList.contains('playstatebutton-played')) {
             apiClient.markPlayed(apiClient.getCurrentUserId(), id, new Date());
@@ -32,14 +37,14 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     }
 
     function onUserDataChanged(e, apiClient, userData) {
-        var button = this;
+        const button = this;
         if (userData.ItemId === button.getAttribute('data-id')) {
             setState(button, userData.Played);
         }
     }
 
     function setState(button, played, updateAttribute) {
-        var icon = button.iconElement;
+        let icon = button.iconElement;
         if (!icon) {
             button.iconElement = button.querySelector('.material-icons');
             icon = button.iconElement;
@@ -72,7 +77,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             button.title = globalize.translate('Played');
         }
 
-        var text = button.querySelector('.button-text');
+        let text = button.querySelector('.button-text');
         if (text) {
             text.innerHTML = button.title;
         }
@@ -92,7 +97,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         addNotificationEvent(button, 'UserDataChanged', onUserDataChanged);
     }
 
-    var EmbyPlaystateButtonPrototype = Object.create(EmbyButtonPrototype);
+    const EmbyPlaystateButtonPrototype = Object.create(EmbyButtonPrototype);
 
     EmbyPlaystateButtonPrototype.createdCallback = function () {
 
@@ -109,8 +114,8 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             EmbyButtonPrototype.attachedCallback.call(this);
         }
 
-        var itemId = this.getAttribute('data-id');
-        var serverId = this.getAttribute('data-serverid');
+        const itemId = this.getAttribute('data-id');
+        const serverId = this.getAttribute('data-serverid');
         if (itemId && serverId) {
 
             setState(this, this.getAttribute('data-played') === 'true', false);
@@ -137,7 +142,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             this.setAttribute('data-id', item.Id);
             this.setAttribute('data-serverid', item.ServerId);
 
-            var played = item.UserData && item.UserData.Played;
+            const played = item.UserData && item.UserData.Played;
             setState(this, played);
             bindEvents(this);
 
@@ -156,4 +161,5 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         prototype: EmbyPlaystateButtonPrototype,
         extends: 'button'
     });
-});
+
+/* eslint-enable indent */

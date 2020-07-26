@@ -607,7 +607,6 @@
     "HeaderSelectServer": "בחר שרת",
     "HeaderSecondsValue": "{0} שניות",
     "HeaderSeasons": "עונות",
-    "HeaderRestartingServer": "מאתחל שרת",
     "HeaderRestart": "הפעלה מחדש",
     "HeaderProfileInformation": "מידע פרופיל",
     "HeaderProfile": "פרופיל",
@@ -772,5 +771,9 @@
     "LabelSource": "מקור:",
     "LabelSoundEffects": "אפקטי סאונד:",
     "ButtonTogglePlaylist": "רשימת ניגון",
-    "ButtonToggleContextMenu": "עוד"
+    "ButtonToggleContextMenu": "עוד",
+    "ButtonSyncPlay": "SyncPlay",
+    "ButtonPlayer": "נגן",
+    "StopPlayback": "הפסק הפעלה",
+    "ClearQueue": "נקה תור"
 }

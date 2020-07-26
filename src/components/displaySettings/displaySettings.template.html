@@ -143,20 +143,28 @@
         <select is="emby-select" class="selectSoundEffects" label="${LabelSoundEffects}"></select>
     </div>
 
-    <div class="inputContainer inputContainer-withDescription fldFadein">
+    <div class="inputContainer inputContainer-withDescription">
         <input is="emby-input" type="number" id="txtLibraryPageSize" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelLibraryPageSize}" />
         <div class="fieldDescription">${LabelLibraryPageSizeHelp}</div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldFadein">
+    <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkFadein" />
-            <span>${EnableFastImageFadeIn}</span>
+            <span>${EnableFasterAnimations}</span>
         </label>
-        <div class="fieldDescription checkboxFieldDescription">${EnableFastImageFadeInHelp}</div>
+        <div class="fieldDescription checkboxFieldDescription">${EnableFasterAnimationsHelp}</div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldDetailsBanner">
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkBlurhash" />
+            <span>${EnableBlurhash}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${EnableBlurhashHelp}</div>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkDetailsBanner" />
             <span>${EnableDetailsBanner}</span>

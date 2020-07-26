@@ -12,10 +12,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         html += '</div>';
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
-        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons sync_disabled"></span></button>';
-        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
-        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast"></span></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search"></span></button>';
+        html += `<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonSyncPlay')}"><span class="material-icons sync_disabled"></span></button>`;
+        html += `<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonPlayer')}"><span class="material-icons music_note"></span></button>`;
+        html += `<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonCast')}"><span class="material-icons cast"></span></button>`;
+        html += `<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide" title="${globalize.translate('ButtonSearch')}"><span class="material-icons search"></span></button>`;
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person"></span></button>';
         html += '</div>';
         html += '</div>';
@@ -64,7 +64,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                 updateHeaderUserButton(url);
                 hasImage = true;
             }
-
+            headerUserButton.title = user.name;
             headerUserButton.classList.remove('hide');
         } else {
             headerUserButton.classList.add('hide');
@@ -89,7 +89,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
             var policy = user.Policy ? user.Policy : user.localUser.Policy;
 
-            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None') {
+            var apiClient = getCurrentApiClient();
+            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
                 headerSyncButton.classList.remove('hide');
             }
         } else {
@@ -116,7 +117,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function showSearch() {
-        inputManager.trigger('search');
+        inputManager.handleCommand('search');
     }
 
     function onHeaderUserButtonClick(e) {
@@ -608,27 +609,25 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         if (libraryMenuOptions) {
             getUserViews(apiClient, userId).then(function (result) {
                 var items = result;
-                var html = '';
-                html += '<h3 class="sidebarHeader">';
-                html += globalize.translate('HeaderMedia');
-                html += '</h3>';
+                var html = `<h3 class="sidebarHeader">${globalize.translate('HeaderMedia')}</h3>`;
                 html += items.map(function (i) {
                     var icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
                     var itemId = i.Id;
 
-                    if (i.onclick) {
-                        i.onclick;
-                    }
+                    const linkHtml = `<a is="emby-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="${getItemHref(i, i.CollectionType)}">
+                                    <span class="material-icons navMenuOptionIcon ${icon}"></span>
+                                    <span class="sectionName navMenuOptionText">${i.Name}</span>
+                                  </a>`;
 
-                    return '<a is="emby-linkbutton" data-itemid="' + itemId + '" class="lnkMediaFolder navMenuOption" href="' + getItemHref(i, i.CollectionType) + '"><span class="material-icons navMenuOptionIcon ' + icon + '"></span><span class="sectionName navMenuOptionText">' + i.Name + '</span></a>';
+                    return linkHtml;
                 }).join('');
                 libraryMenuOptions.innerHTML = html;
                 var elem = libraryMenuOptions;
                 var sidebarLinks = elem.querySelectorAll('.navMenuOption');
 
-                for (var i = 0, length = sidebarLinks.length; i < length; i++) {
-                    sidebarLinks[i].removeEventListener('click', onSidebarLinkClick);
-                    sidebarLinks[i].addEventListener('click', onSidebarLinkClick);
+                for (const sidebarLink of sidebarLinks) {
+                    sidebarLink.removeEventListener('click', onSidebarLinkClick);
+                    sidebarLink.addEventListener('click', onSidebarLinkClick);
                 }
             });
         }
@@ -842,6 +841,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     var headerAudioPlayerButton;
     var headerSyncButton;
     var enableLibraryNavDrawer = layoutManager.desktop;
+    var enableLibraryNavDrawerHome = !layoutManager.tv;
     var skinHeader = document.querySelector('.skinHeader');
     var requiresUserRefresh = true;
     var lastOpenTime = new Date().getTime();
@@ -928,7 +928,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             refreshDashboardInfoInDrawer(apiClient);
         } else {
             if (mainDrawerButton) {
-                if (enableLibraryNavDrawer || isHomePage) {
+                if (enableLibraryNavDrawer || (isHomePage && enableLibraryNavDrawerHome)) {
                     mainDrawerButton.classList.remove('hide');
                 } else {
                     mainDrawerButton.classList.add('hide');
@@ -942,6 +942,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
         updateMenuForPageType(isDashboardPage, isLibraryPage);
 
+        // TODO: Seems to do nothing? Check if needed (also in other views).
         if (!e.detail.isRestored) {
             window.scrollTo(0, 0);
         }
@@ -973,8 +974,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         updateUserInHeader();
     });
     events.on(playbackManager, 'playerchange', updateCastIcon);
+
     events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
     events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
+
     loadNavDrawer();
     return LibraryMenu;
 });

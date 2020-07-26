@@ -1,4 +1,6 @@
 .ci             @dkanada @EraYaN
 .github         @jellyfin/core
-build.sh        @joshuaboniface
+fedora          @joshuaboniface
+debian          @joshuaboniface
+.copr           @joshuaboniface
 deployment      @joshuaboniface

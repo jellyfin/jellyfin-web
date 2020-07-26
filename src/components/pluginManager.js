@@ -58,7 +58,7 @@ define(['events', 'globalize'], function (events, globalize) {
 
             return new Promise(function (resolve, reject) {
                 require([pluginSpec], (pluginFactory) => {
-                    var plugin = new pluginFactory();
+                    var plugin = pluginFactory.default ? new pluginFactory.default() : new pluginFactory();
 
                     // See if it's already installed
                     var existing = instance.pluginsList.filter(function (p) {

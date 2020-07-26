@@ -1,10 +1,19 @@
-define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder, userSettings, globalize) {
-    'use strict';
+import loading from 'loading';
+import events from 'events';
+import libraryBrowser from 'libraryBrowser';
+import imageLoader from 'imageLoader';
+import listView from 'listView';
+import cardBuilder from 'cardBuilder';
+import * as userSettings from 'userSettings';
+import globalize from 'globalize';
+import 'emby-itemscontainer';
 
-    return function (view, params, tabContent) {
+/* eslint-disable indent */
+
+    export default function (view, params, tabContent) {
         function getPageData(context) {
-            var key = getSavedQueryKey(context);
-            var pageData = data[key];
+            const key = getSavedQueryKey(context);
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -46,8 +55,8 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
         }
 
         function onViewStyleChange() {
-            var viewStyle = self.getCurrentViewStyle();
-            var itemsContainer = tabContent.querySelector('.itemsContainer');
+            const viewStyle = self.getCurrentViewStyle();
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
 
             if ('List' == viewStyle) {
                 itemsContainer.classList.add('vertical-list');
@@ -63,7 +72,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
         function reloadItems(page) {
             loading.show();
             isLoading = true;
-            var query = getQuery(page);
+            const query = getQuery(page);
             ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
                 function onNextPageClick() {
                     if (isLoading) {
@@ -88,8 +97,8 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                 }
 
                 window.scrollTo(0, 0);
-                var html;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                let html;
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -99,8 +108,8 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                     sortButton: false,
                     filterButton: false
                 });
-                var viewStyle = self.getCurrentViewStyle();
-                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                const viewStyle = self.getCurrentViewStyle();
+                const itemsContainer = tabContent.querySelector('.itemsContainer');
                 if (viewStyle == 'List') {
                     html = listView.getListViewHtml({
                         items: result.Items,
@@ -128,22 +137,20 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                         overlayPlayButton: true
                     });
                 }
-                var i;
-                var length;
-                var elems;
+                let elems;
 
                 elems = tabContent.querySelectorAll('.paging');
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
                 }
 
                 elems = tabContent.querySelectorAll('.btnNextPage');
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener('click', onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll('.btnPreviousPage');
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener('click', onPreviousPageClick);
                 }
 
@@ -153,19 +160,19 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                 loading.hide();
                 isLoading = false;
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(page);
                 });
             });
         }
 
-        var self = this;
-        var data = {};
-        var isLoading = false;
+        const self = this;
+        const data = {};
+        let isLoading = false;
 
         self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function (filterDialogFactory) {
-                var filterDialog = new filterDialogFactory({
+            import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+                const filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'episodes',
                     serverId: ApiClient.serverId()
@@ -219,12 +226,12 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                     button: e.target
                 });
             });
-            var btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
-                var viewStyle = e.detail.viewStyle;
+                const viewStyle = e.detail.viewStyle;
                 getPageData(tabContent).view = viewStyle;
                 libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
                 onViewStyleChange();
@@ -240,5 +247,6 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
         };
 
         self.destroy = function () {};
-    };
-});
+    }
+
+/* eslint-enable indent */

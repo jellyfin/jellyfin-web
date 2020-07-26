@@ -1,7 +1,9 @@
-define(['css!./emby-toggle', 'registerElement'], function () {
-    'use strict';
+import 'css!./emby-toggle';
+import 'webcomponents';
 
-    var EmbyTogglePrototype = Object.create(HTMLInputElement.prototype);
+/* eslint-disable indent */
+
+    const EmbyTogglePrototype = Object.create(HTMLInputElement.prototype);
 
     function onKeyDown(e) {
 
@@ -29,11 +31,11 @@ define(['css!./emby-toggle', 'registerElement'], function () {
 
         this.classList.add('mdl-switch__input');
 
-        var labelElement = this.parentNode;
+        const labelElement = this.parentNode;
         labelElement.classList.add('mdl-switch');
         labelElement.classList.add('mdl-js-switch');
 
-        var labelTextElement = labelElement.querySelector('span');
+        const labelTextElement = labelElement.querySelector('span');
 
         labelElement.insertAdjacentHTML('beforeend', '<div class="mdl-switch__trackContainer"><div class="mdl-switch__track"></div><div class="mdl-switch__thumb"><span class="mdl-switch__focus-helper"></span></div></div>');
 
@@ -47,4 +49,5 @@ define(['css!./emby-toggle', 'registerElement'], function () {
         prototype: EmbyTogglePrototype,
         extends: 'input'
     });
-});
+
+/* eslint-enable indent */

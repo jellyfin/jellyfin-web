@@ -65,6 +65,9 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
                     event.preventDefault();
                 }
             }
+
+            // FIXME: TV layout will require special handling for navigation keys. But now field is not focusable
+            event.stopPropagation();
         });
 
         subtitleSyncTextField.blur = function() {
@@ -80,14 +83,6 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
         };
 
         subtitleSyncSlider.addEventListener('change', function () {
-            // set new offset
-            playbackManager.setSubtitleOffset(getOffsetFromPercentage(this.value), player);
-            // synchronize with textField value
-            subtitleSyncTextField.updateOffset(
-                getOffsetFromPercentage(this.value));
-        });
-
-        subtitleSyncSlider.addEventListener('touchmove', function () {
             // set new offset
             playbackManager.setSubtitleOffset(getOffsetFromPercentage(this.value), player);
             // synchronize with textField value

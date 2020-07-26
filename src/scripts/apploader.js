@@ -11,6 +11,7 @@
             src += `?v=${self.dashboardVersion}`;
         }
         script.src = src;
+        script.setAttribute('async', '');
 
         if (onload) {
             script.onload = onload;

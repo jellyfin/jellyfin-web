@@ -1,8 +1,11 @@
-define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'emby-input'], function (layoutManager, browser) {
-    'use strict';
+import 'css!./emby-textarea';
+import 'webcomponents';
+import 'emby-input';
+
+/* eslint-disable indent */
 
     function autoGrow(textarea, maxLines) {
-        var self = this;
+        const self = this;
 
         if (maxLines === undefined) {
             maxLines = 999;
@@ -14,17 +17,17 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
          * @returns {number}
          */
         self.getOffset = function (textarea) {
-            var style = window.getComputedStyle(textarea, null);
-            var props = ['paddingTop', 'paddingBottom'];
-            var offset = 0;
+            const style = window.getComputedStyle(textarea, null);
+            const props = ['paddingTop', 'paddingBottom'];
+            let offset = 0;
 
-            for (var i = 0; i < props.length; i++) {
+            for (let i = 0; i < props.length; i++) {
                 offset += parseInt(style[props[i]]);
             }
             return offset;
         };
 
-        var offset;
+        let offset;
         function reset() {
             textarea.rows = 1;
             offset = self.getOffset(textarea);
@@ -43,8 +46,8 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
                 textarea.rows = 3;
                 return;
             }
-            var newHeight = 0;
-            var hasGrown = false;
+            let newHeight = 0;
+            let hasGrown = false;
 
             if ((textarea.scrollHeight - offset) > self.maxAllowedHeight) {
                 textarea.style.overflowY = 'scroll';
@@ -55,6 +58,7 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
                 newHeight = textarea.scrollHeight/* - offset*/;
                 hasGrown = true;
             }
+            $('.customCssContainer').css('height', newHeight + 'px');
             textarea.style.height = newHeight + 'px';
         }
 
@@ -66,17 +70,17 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
         autogrowFn();
     }
 
-    var EmbyTextAreaPrototype = Object.create(HTMLTextAreaElement.prototype);
+    const EmbyTextAreaPrototype = Object.create(HTMLTextAreaElement.prototype);
 
-    var elementId = 0;
+    let elementId = 0;
 
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
 
-        var descriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
+        const descriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
 
         // descriptor returning null in webos
         if (descriptor && descriptor.configurable) {
-            var baseSetMethod = descriptor.set;
+            const baseSetMethod = descriptor.set;
             descriptor.set = function (value) {
                 baseSetMethod.call(this, value);
 
@@ -107,8 +111,8 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
         this.rows = 1;
         this.classList.add('emby-textarea');
 
-        var parentNode = this.parentNode;
-        var label = this.ownerDocument.createElement('label');
+        const parentNode = this.parentNode;
+        const label = this.ownerDocument.createElement('label');
         label.innerHTML = this.getAttribute('label') || '';
         label.classList.add('textareaLabel');
 
@@ -135,4 +139,5 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
         prototype: EmbyTextAreaPrototype,
         extends: 'textarea'
     });
-});
+
+/* eslint-enable indent */

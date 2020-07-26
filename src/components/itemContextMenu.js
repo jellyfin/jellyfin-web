@@ -1,14 +1,24 @@
-define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 'playbackManager', 'loading', 'appSettings', 'browser', 'actionsheet'], function (appHost, globalize, connectionManager, itemHelper, appRouter, playbackManager, loading, appSettings, browser, actionsheet) {
-    'use strict';
+import appHost from 'apphost';
+import globalize from 'globalize';
+import connectionManager from 'connectionManager';
+import itemHelper from 'itemHelper';
+import appRouter from 'appRouter';
+import playbackManager from 'playbackManager';
+import loading from 'loading';
+import appSettings from 'appSettings';
+import browser from 'browser';
+import actionsheet from 'actionsheet';
 
-    function getCommands(options) {
-        var item = options.item;
-        var user = options.user;
+/* eslint-disable indent */
 
-        var canPlay = playbackManager.canPlay(item);
-        var restrictOptions = (browser.operaTv || browser.web0s) && !user.Policy.IsAdministrator;
+    export function getCommands(options) {
+        const item = options.item;
+        const user = options.user;
 
-        var commands = [];
+        const canPlay = playbackManager.canPlay(item);
+        const restrictOptions = (browser.operaTv || browser.web0s) && !user.Policy.IsAdministrator;
+
+        let commands = [];
 
         if (canPlay && item.MediaType !== 'Photo') {
             if (options.play !== false) {
@@ -24,6 +34,23 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     name: globalize.translate('PlayAllFromHere'),
                     id: 'playallfromhere',
                     icon: 'play_arrow'
+                });
+            }
+        }
+
+        if (playbackManager.getCurrentPlayer() !== null) {
+            if (options.stopPlayback) {
+                commands.push({
+                    name: globalize.translate('StopPlayback'),
+                    id: 'stopPlayback',
+                    icon: 'stop'
+                });
+            }
+            if (options.clearQueue) {
+                commands.push({
+                    name: globalize.translate('ClearQueue'),
+                    id: 'clearQueue',
+                    icon: 'clear_all'
                 });
             }
         }
@@ -44,13 +71,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     icon: 'playlist_add'
                 });
             }
-
-            //if (options.queueAllFromHere) {
-            //    commands.push({
-            //        name: globalize.translate("QueueAllFromHere"),
-            //        id: "queueallfromhere"
-            //    });
-            //}
         }
 
         if (item.IsFolder || item.Type === 'MusicArtist' || item.Type === 'MusicGenre') {
@@ -161,10 +181,10 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             });
         }
 
-        var canEdit = itemHelper.canEdit(user, item);
+        const canEdit = itemHelper.canEdit(user, item);
         if (canEdit) {
             if (options.edit !== false && item.Type !== 'SeriesTimer') {
-                var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
+                const text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
                 commands.push({
                     name: text,
                     id: 'edit',
@@ -288,10 +308,11 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 icon: 'album'
             });
         }
-
-        if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
+        // Show Album Artist by default, as a song can have multiple artists, which specific one would this option refer to?
+        // Although some albums can have multiple artists, it's not as common as songs.
+        if (options.openArtist !== false && item.AlbumArtists && item.AlbumArtists.length) {
             commands.push({
-                name: globalize.translate('ViewArtist'),
+                name: globalize.translate('ViewAlbumArtist'),
                 id: 'artist',
                 icon: 'person'
             });
@@ -311,31 +332,31 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
     }
 
     function executeCommand(item, id, options) {
-        var itemId = item.Id;
-        var serverId = item.ServerId;
-        var apiClient = connectionManager.getApiClient(serverId);
+        const itemId = item.Id;
+        const serverId = item.ServerId;
+        const apiClient = connectionManager.getApiClient(serverId);
 
         return new Promise(function (resolve, reject) {
             switch (id) {
                 case 'addtocollection':
-                    require(['collectionEditor'], function (collectionEditor) {
-                        new collectionEditor().show({
+                    import('collectionEditor').then(({default: collectionEditor}) => {
+                        new collectionEditor({
                             items: [itemId],
                             serverId: serverId
                         }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'addtoplaylist':
-                    require(['playlistEditor'], function (playlistEditor) {
-                        new playlistEditor().show({
+                    import('playlistEditor').then(({default: playlistEditor}) => {
+                        new playlistEditor({
                             items: [itemId],
                             serverId: serverId
                         }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'download':
-                    require(['fileDownloader'], function (fileDownloader) {
-                        var downloadHref = apiClient.getItemDownloadUrl(itemId);
+                    import('fileDownloader').then(({default: fileDownloader}) => {
+                        const downloadHref = apiClient.getItemDownloadUrl(itemId);
                         fileDownloader.download([{
                             url: downloadHref,
                             itemId: itemId,
@@ -346,17 +367,17 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                         getResolveFunction(getResolveFunction(resolve, id), id)();
                     });
                     break;
-                case 'copy-stream':
-                    var downloadHref = apiClient.getItemDownloadUrl(itemId);
-                    var textAreaCopy = function () {
-                        var textArea = document.createElement('textarea');
+                case 'copy-stream': {
+                    const downloadHref = apiClient.getItemDownloadUrl(itemId);
+                    const textAreaCopy = function () {
+                        let textArea = document.createElement('textarea');
                         textArea.value = downloadHref;
                         document.body.appendChild(textArea);
                         textArea.focus();
                         textArea.select();
 
                         if (document.execCommand('copy')) {
-                            require(['toast'], function (toast) {
+                            import('toast').then(({default: toast}) => {
                                 toast(globalize.translate('CopyStreamURLSuccess'));
                             });
                         } else {
@@ -371,7 +392,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     } else {
                         /* eslint-disable-next-line compat/compat */
                         navigator.clipboard.writeText(downloadHref).then(function () {
-                            require(['toast'], function (toast) {
+                            import('toast').then(({default: toast}) => {
                                 toast(globalize.translate('CopyStreamURLSuccess'));
                             });
                         }).catch(function () {
@@ -380,8 +401,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     }
                     getResolveFunction(resolve, id)();
                     break;
+                }
                 case 'editsubtitles':
-                    require(['subtitleEditor'], function (subtitleEditor) {
+                    import('subtitleEditor').then(({default: subtitleEditor}) => {
                         subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
@@ -389,7 +411,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
                 case 'editimages':
-                    require(['imageEditor'], function (imageEditor) {
+                    import('imageEditor').then(({default: imageEditor}) => {
                         imageEditor.show({
                             itemId: itemId,
                             serverId: serverId
@@ -397,13 +419,13 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     });
                     break;
                 case 'identify':
-                    require(['itemIdentifier'], function (itemIdentifier) {
+                    import('itemIdentifier').then(({default: itemIdentifier}) => {
                         itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'moremediainfo':
-                    require(['itemMediaInfo'], function (itemMediaInfo) {
-                        itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                    import('itemMediaInfo').then(({default: itemMediaInfo}) => {
+                        itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'refresh':
@@ -430,8 +452,14 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     play(item, false, true, true);
                     getResolveFunction(resolve, id)();
                     break;
+                case 'stopPlayback':
+                    playbackManager.stop();
+                    break;
+                case 'clearQueue':
+                    playbackManager.clearQueue();
+                    break;
                 case 'record':
-                    require(['recordingCreator'], function (recordingCreator) {
+                    import('recordingCreator').then(({default: recordingCreator}) => {
                         recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
@@ -458,7 +486,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     getResolveFunction(resolve, id)();
                     break;
                 case 'artist':
-                    appRouter.showItem(item.ArtistItems[0].Id, item.ServerId);
+                    appRouter.showItem(item.AlbumArtists[0].Id, item.ServerId);
                     getResolveFunction(resolve, id)();
                     break;
                 case 'playallfromhere':
@@ -502,8 +530,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
     }
 
     function deleteTimer(apiClient, item, resolve, command) {
-        require(['recordingHelper'], function (recordingHelper) {
-            var timerId = item.TimerId || item.Id;
+        import('recordingHelper').then(({default: recordingHelper}) => {
+            const timerId = item.TimerId || item.Id;
             recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
                 getResolveFunction(resolve, command, true)();
             });
@@ -511,7 +539,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
     }
 
     function deleteSeriesTimer(apiClient, item, resolve, command) {
-        require(['recordingHelper'], function (recordingHelper) {
+        import('recordingHelper').then(({default: recordingHelper}) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
                 getResolveFunction(resolve, command, true)();
             });
@@ -519,9 +547,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
     }
 
     function play(item, resume, queue, queueNext) {
-        var method = queue ? (queueNext ? 'queueNext' : 'queue') : 'play';
+        const method = queue ? (queueNext ? 'queueNext' : 'queue') : 'play';
 
-        var startPosition = 0;
+        let startPosition = 0;
         if (resume && item.UserData && item.UserData.PlaybackPositionTicks) {
             startPosition = item.UserData.PlaybackPositionTicks;
         }
@@ -542,18 +570,18 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
     function editItem(apiClient, item) {
         return new Promise(function (resolve, reject) {
-            var serverId = apiClient.serverInfo().Id;
+            const serverId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
-                require(['recordingEditor'], function (recordingEditor) {
+                import('recordingEditor').then(({default: recordingEditor}) => {
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             } else if (item.Type === 'SeriesTimer') {
-                require(['seriesRecordingEditor'], function (recordingEditor) {
+                import('seriesRecordingEditor').then(({default: recordingEditor}) => {
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             } else {
-                require(['metadataEditor'], function (metadataEditor) {
+                import('metadataEditor').then(({default: metadataEditor}) => {
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             }
@@ -562,7 +590,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
     function deleteItem(apiClient, item) {
         return new Promise(function (resolve, reject) {
-            require(['deleteHelper'], function (deleteHelper) {
+            import('deleteHelper').then(({default: deleteHelper}) => {
                 deleteHelper.deleteItem({
                     item: item,
                     navigate: false
@@ -574,7 +602,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
     }
 
     function refresh(apiClient, item) {
-        require(['refreshDialog'], function (refreshDialog) {
+        import('refreshDialog').then(({default: refreshDialog}) => {
             new refreshDialog({
                 itemIds: [item.Id],
                 serverId: apiClient.serverInfo().Id,
@@ -583,8 +611,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    function show(options) {
-        var commands = getCommands(options);
+    export function show(options) {
+        const commands = getCommands(options);
         if (!commands.length) {
             return Promise.reject();
         }
@@ -598,8 +626,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    return {
-        getCommands: getCommands,
-        show: show
-    };
-});
+/* eslint-enable indent */
+
+export default {
+    getCommands: getCommands,
+    show: show
+};

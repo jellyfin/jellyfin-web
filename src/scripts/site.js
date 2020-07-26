@@ -187,35 +187,16 @@ var Dashboard = {
         }
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 title: options.title || Globalize.translate('HeaderAlert'),
                 text: options.message
             }).then(options.callback || function () {});
         });
     },
-    restartServer: function () {
-        var apiClient = window.ApiClient;
-
-        if (apiClient) {
-            require(['serverRestartDialog', 'events'], function (ServerRestartDialog, events) {
-                var dialog = new ServerRestartDialog({
-                    apiClient: apiClient
-                });
-                events.on(dialog, 'restarted', function () {
-                    if (AppInfo.isNativeApp) {
-                        apiClient.ensureWebSocket();
-                    } else {
-                        window.location.reload(true);
-                    }
-                });
-                dialog.show();
-            });
-        }
-    },
     capabilities: function (appHost) {
         var capabilities = {
             PlayableMediaTypes: ['Audio', 'Video'],
-            SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
+            SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
             SupportsPersistentIdentifier: 'cordova' === self.appMode || 'android' === self.appMode,
             SupportsMediaControl: true
         };
@@ -228,6 +209,28 @@ var Dashboard = {
         } else {
             Dashboard.navigate('selectserver.html');
         }
+    },
+    hideLoadingMsg: function() {
+        'use strict';
+        require(['loading'], function(loading) {
+            loading.hide();
+        });
+    },
+    showLoadingMsg: function() {
+        'use strict';
+        require(['loading'], function(loading) {
+            loading.show();
+        });
+    },
+    confirm: function(message, title, callback) {
+        'use strict';
+        require(['confirm'], function(confirm) {
+            confirm(message, title).then(function() {
+                callback(!0);
+            }).catch(function() {
+                callback(!1);
+            });
+        });
     }
 };
 
@@ -357,7 +360,7 @@ var AppInfo = {};
         return layoutManager;
     }
 
-    function createSharedAppFooter(appFooter) {
+    function createSharedAppFooter({default: appFooter}) {
         return new appFooter({});
     }
 
@@ -375,8 +378,7 @@ var AppInfo = {};
         }
     }
 
-    function initRequireWithBrowser(browser) {
-        var bowerPath = getBowerPath();
+    function initRequireWithBrowser() {
         var componentsPath = getComponentsPath();
         var scriptsPath = getScriptsPath();
 
@@ -384,14 +386,6 @@ var AppInfo = {};
 
         define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
         define('shell', [scriptsPath + '/shell'], returnFirstDependency);
-
-        if ('registerElement' in document) {
-            define('registerElement', []);
-        } else if (browser.msie) {
-            define('registerElement', ['webcomponents'], returnFirstDependency);
-        } else {
-            define('registerElement', ['document-register-element'], returnFirstDependency);
-        }
 
         define('alert', [componentsPath + '/alert'], returnFirstDependency);
 
@@ -426,7 +420,7 @@ var AppInfo = {};
                 require(['globalize', 'browser'], function (globalize, browser) {
                     window.Globalize = globalize;
                     loadCoreDictionary(globalize).then(function () {
-                        onGlobalizeInit(browser);
+                        onGlobalizeInit(browser, globalize);
                     });
                 });
                 require(['keyboardnavigation'], function(keyboardnavigation) {
@@ -459,14 +453,14 @@ var AppInfo = {};
         });
     }
 
-    function onGlobalizeInit(browser) {
+    function onGlobalizeInit(browser, globalize) {
         if ('android' === self.appMode) {
             if (-1 !== self.location.href.toString().toLowerCase().indexOf('start=backgroundsync')) {
                 return onAppReady(browser);
             }
         }
 
-        document.title = Globalize.translateDocument(document.title, 'core');
+        document.title = globalize.translateHtml(document.title, 'core');
 
         if (browser.tv && !browser.android) {
             console.debug('using system fonts with explicit sizes');
@@ -486,21 +480,22 @@ var AppInfo = {};
     function loadPlugins(appHost, browser, shell) {
         console.debug('loading installed plugins');
         var list = [
-            'components/playback/playaccessvalidation',
-            'components/playback/experimentalwarnings',
-            'components/htmlAudioPlayer/plugin',
-            'components/htmlVideoPlayer/plugin',
-            'components/photoPlayer/plugin',
-            'components/youtubeplayer/plugin',
-            'components/backdropScreensaver/plugin',
-            'components/logoScreensaver/plugin'
+            'plugins/playAccessValidation/plugin',
+            'plugins/experimentalWarnings/plugin',
+            'plugins/htmlAudioPlayer/plugin',
+            'plugins/htmlVideoPlayer/plugin',
+            'plugins/photoPlayer/plugin',
+            'plugins/bookPlayer/plugin',
+            'plugins/youtubePlayer/plugin',
+            'plugins/backdropScreensaver/plugin',
+            'plugins/logoScreensaver/plugin'
         ];
 
         if (appHost.supports('remotecontrol')) {
-            list.push('components/sessionPlayer');
+            list.push('plugins/sessionPlayer/plugin');
 
             if (browser.chrome || browser.opera) {
-                list.push('components/chromecast/chromecastplayer');
+                list.push('plugins/chromecastPlayer/plugin');
             }
         }
 
@@ -561,6 +556,7 @@ var AppInfo = {};
                     require(['components/playback/volumeosd']);
                 }
 
+                /* eslint-disable-next-line compat/compat */
                 if (navigator.mediaSession || window.NativeShell) {
                     require(['mediaSession']);
                 }
@@ -616,8 +612,8 @@ var AppInfo = {};
         /* eslint-enable compat/compat */
     }
 
-    function onWebComponentsReady(browser) {
-        initRequireWithBrowser(browser);
+    function onWebComponentsReady() {
+        initRequireWithBrowser();
 
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
@@ -658,8 +654,9 @@ var AppInfo = {};
             playQueueManager: componentsPath + '/playback/playqueuemanager',
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
-            packageManager: componentsPath + '/packagemanager',
-            screensaverManager: componentsPath + '/screensavermanager'
+            packageManager: componentsPath + '/packageManager',
+            screensaverManager: componentsPath + '/screensavermanager',
+            chromecastHelper: 'plugins/chromecastPlayer/chromecastHelpers'
         };
 
         requirejs.onError = onRequireJsError;
@@ -673,10 +670,10 @@ var AppInfo = {};
             },
             bundles: {
                 bundle: [
-                    'document-register-element',
                     'fetch',
                     'flvjs',
                     'jstree',
+                    'epubjs',
                     'jQuery',
                     'hlsjs',
                     'howler',
@@ -737,12 +734,6 @@ var AppInfo = {};
         define('cardStyle', ['css!' + componentsPath + '/cardbuilder/card'], returnFirstDependency);
         define('flexStyles', ['css!assets/css/flexstyles'], returnFirstDependency);
 
-        // define legacy features
-        // TODO delete the rest of these
-        define('fnchecked', ['legacy/fnchecked'], returnFirstDependency);
-        define('legacyDashboard', ['legacy/dashboard'], returnFirstDependency);
-        define('legacySelectMenu', ['legacy/selectmenu'], returnFirstDependency);
-
         // there are several objects that need to be instantiated
         // TODO find a better way to do this
         define('appFooter', [componentsPath + '/appFooter/appFooter'], returnFirstDependency);
@@ -778,7 +769,6 @@ var AppInfo = {};
         define('appSettings', [scriptsPath + '/settings/appSettings'], returnFirstDependency);
         define('userSettings', [scriptsPath + '/settings/userSettings'], returnFirstDependency);
 
-        define('chromecastHelper', [componentsPath + '/chromecast/chromecasthelpers'], returnFirstDependency);
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
         define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
         define('tunerPicker', [componentsPath + '/tunerPicker'], returnFirstDependency);
@@ -797,7 +787,6 @@ var AppInfo = {};
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
         define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
         define('collectionEditor', [componentsPath + '/collectionEditor/collectionEditor'], returnFirstDependency);
-        define('serverRestartDialog', [componentsPath + '/serverRestartDialog'], returnFirstDependency);
         define('playlistEditor', [componentsPath + '/playlisteditor/playlisteditor'], returnFirstDependency);
         define('recordingCreator', [componentsPath + '/recordingcreator/recordingcreator'], returnFirstDependency);
         define('recordingEditor', [componentsPath + '/recordingcreator/recordingeditor'], returnFirstDependency);
@@ -820,15 +809,16 @@ var AppInfo = {};
         define('upNextDialog', [componentsPath + '/upnextdialog/upnextdialog'], returnFirstDependency);
         define('subtitleAppearanceHelper', [componentsPath + '/subtitlesettings/subtitleappearancehelper'], returnFirstDependency);
         define('subtitleSettings', [componentsPath + '/subtitlesettings/subtitlesettings'], returnFirstDependency);
+        define('settingsHelper', [componentsPath + '/settingshelper'], returnFirstDependency);
         define('displaySettings', [componentsPath + '/displaySettings/displaySettings'], returnFirstDependency);
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
         define('quickConnectSettings', [componentsPath + '/quickConnectSettings/quickConnectSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
-        define('timeSyncManager', [componentsPath + '/syncplay/timeSyncManager'], returnDefault);
-        define('groupSelectionMenu', [componentsPath + '/syncplay/groupSelectionMenu'], returnFirstDependency);
-        define('syncPlayManager', [componentsPath + '/syncplay/syncPlayManager'], returnDefault);
-        define('playbackPermissionManager', [componentsPath + '/syncplay/playbackPermissionManager'], returnDefault);
+        define('timeSyncManager', [componentsPath + '/syncPlay/timeSyncManager'], returnDefault);
+        define('groupSelectionMenu', [componentsPath + '/syncPlay/groupSelectionMenu'], returnFirstDependency);
+        define('syncPlayManager', [componentsPath + '/syncPlay/syncPlayManager'], returnDefault);
+        define('playbackPermissionManager', [componentsPath + '/syncPlay/playbackPermissionManager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);
         define('playMenu', [componentsPath + '/playmenu'], returnFirstDependency);
@@ -841,7 +831,6 @@ var AppInfo = {};
         define('deleteHelper', [scriptsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
-        define('loadingDialog', [componentsPath + '/loadingDialog/loadingDialog'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
@@ -852,7 +841,7 @@ var AppInfo = {};
         define('userdataButtons', [componentsPath + '/userdatabuttons/userdatabuttons'], returnFirstDependency);
         define('listView', [componentsPath + '/listview/listview'], returnFirstDependency);
         define('indicators', [componentsPath + '/indicators/indicators'], returnFirstDependency);
-        define('viewSettings', [componentsPath + '/viewsettings/viewsettings'], returnFirstDependency);
+        define('viewSettings', [componentsPath + '/viewSettings/viewSettings'], returnFirstDependency);
         define('filterMenu', [componentsPath + '/filtermenu/filtermenu'], returnFirstDependency);
         define('sortMenu', [componentsPath + '/sortmenu/sortmenu'], returnFirstDependency);
         define('sanitizefilename', [componentsPath + '/sanitizeFilename'], returnFirstDependency);
@@ -902,7 +891,7 @@ var AppInfo = {};
             };
 
             appRouter.showVideoOsd = function () {
-                return Dashboard.navigate('videoosd.html');
+                return Dashboard.navigate('video');
             };
 
             appRouter.showSelectServer = function () {
@@ -1043,7 +1032,7 @@ var AppInfo = {};
                 }
 
                 if ('SeriesTimer' == itemType) {
-                    return 'itemdetails.html?seriesTimerId=' + id + '&serverId=' + serverId;
+                    return 'details?seriesTimerId=' + id + '&serverId=' + serverId;
                 }
 
                 if ('livetv' == item.CollectionType) {
@@ -1113,13 +1102,13 @@ var AppInfo = {};
                 var itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
 
                 if (itemTypes.indexOf(itemType) >= 0) {
-                    return 'itemdetails.html?id=' + id + '&serverId=' + serverId;
+                    return 'details?id=' + id + '&serverId=' + serverId;
                 }
 
                 var contextSuffix = context ? '&context=' + context : '';
 
                 if ('Series' == itemType || 'Season' == itemType || 'Episode' == itemType) {
-                    return 'itemdetails.html?id=' + id + contextSuffix + '&serverId=' + serverId;
+                    return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;
                 }
 
                 if (item.IsFolder) {
@@ -1130,7 +1119,7 @@ var AppInfo = {};
                     return '#';
                 }
 
-                return 'itemdetails.html?id=' + id + '&serverId=' + serverId;
+                return 'details?id=' + id + '&serverId=' + serverId;
             };
 
             appRouter.showItem = showItem;
@@ -1138,7 +1127,7 @@ var AppInfo = {};
         });
     })();
 
-    return require(['browser'], onWebComponentsReady);
+    return onWebComponentsReady();
 }();
 
 pageClassOn('viewshow', 'standalonePage', function () {

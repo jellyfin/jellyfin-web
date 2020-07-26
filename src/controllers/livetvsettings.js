@@ -1,4 +1,4 @@
-define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-button'], function ($, loading, globalize) {
+define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, globalize) {
     'use strict';
 
     function loadPage(page, config) {
@@ -59,7 +59,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-button'], function 
         $('.liveTvSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
         $('#btnSelectRecordingPath', page).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -74,7 +74,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-button'], function 
         });
         $('#btnSelectMovieRecordingPath', page).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -89,7 +89,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-button'], function 
         });
         $('#btnSelectSeriesRecordingPath', page).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -104,7 +104,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-button'], function 
         });
         $('#btnSelectPostProcessorPath', page).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+                var picker = new directoryBrowser.default();
                 picker.show({
                     includeFiles: true,
                     callback: function (path) {

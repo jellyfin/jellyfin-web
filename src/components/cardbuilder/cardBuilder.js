@@ -368,9 +368,7 @@ import 'programStyles';
             let apiClient;
             let lastServerId;
 
-            for (let i = 0; i < items.length; i++) {
-
-                let item = items[i];
+            for (const [i, item] of items.entries()) {
                 let serverId = item.ServerId || options.serverId;
 
                 if (serverId !== lastServerId) {
@@ -503,93 +501,48 @@ import 'programStyles';
             const primaryImageAspectRatio = item.PrimaryImageAspectRatio;
             let forceName = false;
             let imgUrl = null;
+            let imgTag = null;
             let coverImage = false;
             let uiAspect = null;
+            let imgType = null;
+            let itemId = null;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ImageTags.Thumb
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.ImageTags.Thumb;
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Banner',
-                    maxWidth: width,
-                    tag: item.ImageTags.Banner
-                });
-
+                imgType = 'Banner';
+                imgTag = item.ImageTags.Banner;
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Disc',
-                    maxWidth: width,
-                    tag: item.ImageTags.Disc
-                });
-
+                imgType = 'Disc';
+                imgTag = item.ImageTags.Disc;
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Logo',
-                    maxWidth: width,
-                    tag: item.ImageTags.Logo
-                });
-
+                imgType = 'Logo';
+                imgTag = item.ImageTags.Logo;
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-                    type: 'Logo',
-                    maxWidth: width,
-                    tag: item.ParentLogoImageTag
-                });
-
+                imgType = 'Logo';
+                imgTag = item.ParentLogoImageTag;
+                itemId = item.ParentLogoItemId;
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.SeriesThumbImageTag
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.SeriesThumbImageTag;
+                itemId = item.SeriesId;
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ParentThumbImageTag
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.ParentThumbImageTag;
+                itemId = item.ParentThumbItemId;
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.BackdropImageTags[0]
-                });
-
+                imgType = 'Backdrop';
+                imgTag = item.BackdropImageTags[0];
                 forceName = true;
-
             } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.ParentBackdropImageTags[0]
-                });
-
-            } else if (item.ImageTags && item.ImageTags.Primary) {
-
+                imgType = 'Backdrop';
+                imgTag = item.ParentBackdropImageTags[0];
+                itemId = item.ParentBackdropItemId;
+            } else if (item.ImageTags && item.ImageTags.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
+                imgType = 'Primary';
+                imgTag = item.ImageTags.Primary;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Primary',
-                    maxHeight: height,
-                    maxWidth: width,
-                    tag: item.ImageTags.Primary
-                });
 
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
@@ -601,17 +554,15 @@ import 'programStyles';
                         coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                     }
                 }
-
+            } else if (item.SeriesPrimaryImageTag) {
+                imgType = 'Primary';
+                imgTag = item.SeriesPrimaryImageTag;
+                itemId = item.SeriesId;
             } else if (item.PrimaryImageTag) {
-
+                imgType = 'Primary';
+                imgTag = item.PrimaryImageTag;
+                itemId = item.PrimaryImageItemId;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
-
-                imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
-                    type: 'Primary',
-                    maxHeight: height,
-                    maxWidth: width,
-                    tag: item.PrimaryImageTag
-                });
 
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
@@ -624,29 +575,14 @@ import 'programStyles';
                     }
                 }
             } else if (item.ParentPrimaryImageTag) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
-                    type: 'Primary',
-                    maxWidth: width,
-                    tag: item.ParentPrimaryImageTag
-                });
-            } else if (item.SeriesPrimaryImageTag) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: 'Primary',
-                    maxWidth: width,
-                    tag: item.SeriesPrimaryImageTag
-                });
+                imgType = 'Primary';
+                imgTag = item.ParentPrimaryImageTag;
+                itemId = item.ParentPrimaryImageItemId;
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
+                imgType = 'Primary';
+                imgTag = item.AlbumPrimaryImageTag;
+                itemId = item.AlbumId;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
-
-                imgUrl = apiClient.getScaledImageUrl(item.AlbumId, {
-                    type: 'Primary',
-                    maxHeight: height,
-                    maxWidth: width,
-                    tag: item.AlbumPrimaryImageTag
-                });
 
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
@@ -655,57 +591,46 @@ import 'programStyles';
                     }
                 }
             } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ImageTags.Thumb
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.ImageTags.Thumb;
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.BackdropImageTags[0]
-                });
-
+                imgType = 'Backdrop';
+                imgTag = item.BackdropImageTags[0];
             } else if (item.ImageTags && item.ImageTags.Thumb) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ImageTags.Thumb
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.ImageTags.Thumb;
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.SeriesThumbImageTag
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.SeriesThumbImageTag;
+                itemId = item.SeriesId;
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ParentThumbImageTag
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.ParentThumbImageTag;
+                itemId = item.ParentThumbItemId;
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.ParentBackdropImageTags[0]
-                });
-
+                imgType = 'Backdrop';
+                imgTag = item.ParentBackdropImageTags[0];
+                itemId = item.ParentBackdropItemId;
             }
+
+            if (!itemId) {
+                itemId = item.Id;
+            }
+
+            if (imgTag && imgType) {
+                imgUrl = apiClient.getScaledImageUrl(itemId, {
+                    type: imgType,
+                    maxHeight: height,
+                    maxWidth: width,
+                    tag: imgTag
+                });
+            }
+
+            let blurHashes = options.imageBlurhashes || item.ImageBlurHashes || {};
 
             return {
                 imgUrl: imgUrl,
+                blurhash: (blurHashes[imgType] || {})[imgTag],
                 forceName: forceName,
                 coverImage: coverImage
             };
@@ -1235,10 +1160,10 @@ import 'programStyles';
         /**
          * Imports the refresh indicator element.
          */
-        function requireRefreshIndicator() {
+        function importRefreshIndicator() {
             if (!refreshIndicatorLoaded) {
                 refreshIndicatorLoaded = true;
-                require(['emby-itemrefreshindicator']);
+                import('emby-itemrefreshindicator');
             }
         }
 
@@ -1321,6 +1246,7 @@ import 'programStyles';
 
             const imgInfo = getCardImageUrl(item, apiClient, options, shape);
             const imgUrl = imgInfo.imgUrl;
+            const blurhash = imgInfo.blurhash;
 
             const forceName = imgInfo.forceName;
 
@@ -1384,7 +1310,7 @@ import 'programStyles';
             }
 
             const mediaSourceCount = item.MediaSourceCount || 1;
-            if (mediaSourceCount > 1) {
+            if (mediaSourceCount > 1 && options.disableIndicators !== true) {
                 innerCardFooter += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
             }
 
@@ -1441,57 +1367,60 @@ import 'programStyles';
             let cardScalableClose = '';
 
             let cardContentClass = 'cardContent';
-            if (!options.cardLayout) {
-                cardContentClass += ' cardContent-shadow';
+
+            let blurhashAttrib = '';
+            if (blurhash && blurhash.length > 0) {
+                blurhashAttrib = 'data-blurhash="' + blurhash + '"';
             }
 
             if (layoutManager.tv) {
-
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
+                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
 
                 cardImageContainerClose = '</div>';
             } else {
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '">') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
+                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
                 cardImageContainerClose = '</button>';
             }
 
             let cardScalableClass = 'cardScalable';
 
-            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
+            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 
-            let indicatorsHtml = '';
+            if (options.disableIndicators !== true) {
+                let indicatorsHtml = '';
 
-            if (options.missingIndicator !== false) {
-                indicatorsHtml += indicators.getMissingIndicator(item);
-            }
+                if (options.missingIndicator !== false) {
+                    indicatorsHtml += indicators.getMissingIndicator(item);
+                }
 
-            indicatorsHtml += indicators.getSyncIndicator(item);
-            indicatorsHtml += indicators.getTimerIndicator(item);
+                indicatorsHtml += indicators.getSyncIndicator(item);
+                indicatorsHtml += indicators.getTimerIndicator(item);
 
-            indicatorsHtml += indicators.getTypeIndicator(item);
+                indicatorsHtml += indicators.getTypeIndicator(item);
 
-            if (options.showGroupCount) {
+                if (options.showGroupCount) {
 
-                indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
-                    minCount: 1
-                });
-            } else {
-                indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
-            }
+                    indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
+                        minCount: 1
+                    });
+                } else {
+                    indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
+                }
 
-            if (item.Type === 'CollectionFolder' || item.CollectionType) {
-                const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
-                indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
-                requireRefreshIndicator();
-            }
+                if (item.Type === 'CollectionFolder' || item.CollectionType) {
+                    const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
+                    indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
+                    importRefreshIndicator();
+                }
 
-            if (indicatorsHtml) {
-                cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
+                if (indicatorsHtml) {
+                    cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
+                }
             }
 
             if (!imgUrl) {
@@ -1539,8 +1468,8 @@ import 'programStyles';
 
             let additionalCardContent = '';
 
-            if (layoutManager.desktop) {
-                additionalCardContent += getHoverMenuHtml(item, action);
+            if (layoutManager.desktop && !options.disableHoverMenu) {
+                additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
@@ -1550,9 +1479,10 @@ import 'programStyles';
          * Generates HTML markup for the card overlay.
          * @param {object} item - Item used to generate the card overlay.
          * @param {string} action - Action assigned to the overlay.
+         * @param {Array} options - Card builder options.
          * @returns {string} HTML markup of the card overlay.
          */
-        function getHoverMenuHtml(item, action) {
+        function getHoverMenuHtml(item, action, options) {
             let html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
@@ -1568,7 +1498,7 @@ import 'programStyles';
             const userData = item.UserData || {};
 
             if (itemHelper.canMarkPlayed(item)) {
-                require(['emby-playstatebutton']);
+                import('emby-playstatebutton');
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
 
@@ -1576,12 +1506,11 @@ import 'programStyles';
 
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
-                require(['emby-ratingbutton']);
+                import('emby-ratingbutton');
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 
             html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';
-
             html += '</div>';
             html += '</div>';
 
@@ -1605,6 +1534,8 @@ import 'programStyles';
                 case 'MusicArtist':
                 case 'Person':
                     return '<span class="cardImageIcon material-icons person"></span>';
+                case 'Audio':
+                    return '<span class="cardImageIcon material-icons audiotrack"></span>';
                 case 'Movie':
                     return '<span class="cardImageIcon material-icons movie"></span>';
                 case 'Series':
@@ -1613,6 +1544,12 @@ import 'programStyles';
                     return '<span class="cardImageIcon material-icons book"></span>';
                 case 'Folder':
                     return '<span class="cardImageIcon material-icons folder"></span>';
+                case 'BoxSet':
+                    return '<span class="cardImageIcon material-icons collections"></span>';
+                case 'Playlist':
+                    return '<span class="cardImageIcon material-icons view_list"></span>';
+                case 'PhotoAlbum':
+                    return '<span class="cardImageIcon material-icons photo_album"></span>';
             }
 
             if (options && options.defaultCardImageIcon) {

@@ -1,14 +1,16 @@
-define(['require', 'css!./emby-progressring', 'registerElement'], function (require) {
-    'use strict';
+import 'css!./emby-progressring';
+import 'webcomponents';
 
-    var EmbyProgressRing = Object.create(HTMLDivElement.prototype);
+/* eslint-disable indent */
+
+    let EmbyProgressRing = Object.create(HTMLDivElement.prototype);
 
     EmbyProgressRing.createdCallback = function () {
 
         this.classList.add('progressring');
-        var instance = this;
+        const instance = this;
 
-        require(['text!./emby-progressring.template.html'], function (template) {
+        import('text!./emby-progressring.template.html').then(({default: template}) => {
             instance.innerHTML = template;
 
             //if (window.MutationObserver) {
@@ -37,7 +39,7 @@ define(['require', 'css!./emby-progressring', 'registerElement'], function (requ
 
         progress = Math.floor(progress);
 
-        var angle;
+        let angle;
 
         if (progress < 25) {
             angle = -90 + (progress / 100) * 360;
@@ -82,7 +84,7 @@ define(['require', 'css!./emby-progressring', 'registerElement'], function (requ
 
     EmbyProgressRing.detachedCallback = function () {
 
-        var observer = this.observer;
+        let observer = this.observer;
 
         if (observer) {
             // later, you can stop observing
@@ -97,5 +99,6 @@ define(['require', 'css!./emby-progressring', 'registerElement'], function (requ
         extends: 'div'
     });
 
-    return EmbyProgressRing;
-});
+    export default EmbyProgressRing;
+
+/* eslint-enable indent */

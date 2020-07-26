@@ -1,9 +1,6 @@
 define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'screenfull'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, screenfull) {
     'use strict';
 
-    /** Delay time in ms for reportPlayback logging */
-    const reportPlaybackLogDelay = 1e3;
-
     function enableLocalPlaylistManagement(player) {
 
         if (player.getPlaylist) {
@@ -43,12 +40,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
     }
 
-    /** Last invoked method */
-    let reportPlaybackLastMethod;
-
-    /** Last invoke time of method */
-    let reportPlaybackLastTime;
-
     function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
 
         if (!serverId) {
@@ -67,14 +58,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         if (reportPlaylist) {
             addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
-        }
-
-        const now = (new Date).getTime();
-
-        if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= reportPlaybackLogDelay) {
-            console.debug(method + '-' + JSON.stringify(info));
-            reportPlaybackLastMethod = method;
-            reportPlaybackLastTime = now;
         }
 
         var apiClient = connectionManager.getApiClient(serverId);
@@ -709,7 +692,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     function showPlaybackInfoErrorMessage(instance, errorCode, playNextTrack) {
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 text: globalize.translate('PlaybackError' + errorCode),
                 title: globalize.translate('HeaderPlaybackError')
             }).then(function () {
@@ -1129,7 +1112,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
 
         self.canPlay = function (item) {
-
             var itemType = item.Type;
 
             if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
@@ -1143,7 +1125,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             }
 
             if (itemType === 'Program') {
-
                 if (!item.EndDate || !item.StartDate) {
                     return false;
                 }
@@ -1909,11 +1890,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Photo,Video',
-                    Limit: 500
-
+                    MediaTypes: 'Photo,Video'
                 }).then(function (result) {
-
                     var items = result.Items;
 
                     var index = items.map(function (i) {
@@ -2102,6 +2080,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 state.PlayState.IsMuted = player.isMuted();
                 state.PlayState.IsPaused = player.paused();
                 state.PlayState.RepeatMode = self.getRepeatMode(player);
+                state.PlayState.ShuffleMode = self.getQueueShuffleMode(player);
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
@@ -2187,7 +2166,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         // Only used internally
         self.getCurrentTicks = getCurrentTicks;
 
-        function playPhotos(items, options, user) {
+        function playOther(items, options, user) {
 
             var playStartIndex = options.startIndex || 0;
             var player = getPlayer(items[playStartIndex], options);
@@ -2216,9 +2195,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return Promise.reject();
             }
 
-            if (firstItem.MediaType === 'Photo') {
+            if (firstItem.MediaType === 'Photo' || firstItem.MediaType === 'Book') {
 
-                return playPhotos(items, options, user);
+                return playOther(items, options, user);
             }
 
             var apiClient = connectionManager.getApiClient(firstItem.ServerId);
@@ -2882,11 +2861,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             }
         };
 
-        self.queue = function (options, player) {
+        self.queue = function (options, player = this._currentPlayer) {
             queue(options, '', player);
         };
 
-        self.queueNext = function (options, player) {
+        self.queueNext = function (options, player = this._currentPlayer) {
             queue(options, 'next', player);
         };
 
@@ -2974,6 +2953,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             } else {
                 self._playQueueManager.queue(items);
             }
+            events.trigger(player, 'playlistitemadd');
         }
 
         function onPlayerProgressInterval() {
@@ -3309,6 +3289,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             sendProgressUpdate(player, 'repeatmodechange');
         }
 
+        function onShuffleQueueModeChange() {
+            var player = this;
+            sendProgressUpdate(player, 'shufflequeuemodechange');
+        }
+
         function onPlaylistItemMove(e) {
             var player = this;
             sendProgressUpdate(player, 'playlistitemmove', true);
@@ -3363,6 +3348,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 events.on(player, 'unpause', onPlaybackUnpause);
                 events.on(player, 'volumechange', onPlaybackVolumeChange);
                 events.on(player, 'repeatmodechange', onRepeatModeChange);
+                events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
                 events.on(player, 'playlistitemmove', onPlaylistItemMove);
                 events.on(player, 'playlistitemremove', onPlaylistItemRemove);
                 events.on(player, 'playlistitemadd', onPlaylistItemAdd);
@@ -3375,6 +3361,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 events.on(player, 'unpause', onPlaybackUnpause);
                 events.on(player, 'volumechange', onPlaybackVolumeChange);
                 events.on(player, 'repeatmodechange', onRepeatModeChange);
+                events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
                 events.on(player, 'playlistitemmove', onPlaylistItemMove);
                 events.on(player, 'playlistitemremove', onPlaylistItemRemove);
                 events.on(player, 'playlistitemadd', onPlaylistItemAdd);
@@ -3660,6 +3647,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         this.seek(parseInt(ticks), player);
     };
 
+    PlaybackManager.prototype.seekMs = function (ms, player) {
+
+        player = player || this._currentPlayer;
+
+        var ticks = ms * 10000;
+        this.seek(ticks, player);
+    };
+
     PlaybackManager.prototype.playTrailers = function (item) {
 
         var player = this._currentPlayer;
@@ -3707,7 +3702,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     };
 
     PlaybackManager.prototype.stop = function (player) {
-
         player = player || this._currentPlayer;
 
         if (player) {
@@ -3816,7 +3810,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         });
     };
 
-    PlaybackManager.prototype.shuffle = function (shuffleItem, player, queryOptions) {
+    PlaybackManager.prototype.shuffle = function (shuffleItem, player) {
 
         player = player || this._currentPlayer;
         if (player && player.shuffle) {
@@ -3883,6 +3877,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 'GoToSearch',
                 'DisplayMessage',
                 'SetRepeatMode',
+                'SetShuffleQueue',
                 'PlayMediaSource',
                 'PlayTrailers'
             ];
@@ -3916,9 +3911,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         return info ? info.supportedCommands : [];
     };
 
-    PlaybackManager.prototype.setRepeatMode = function (value, player) {
-
-        player = player || this._currentPlayer;
+    PlaybackManager.prototype.setRepeatMode = function (value, player = this._currentPlayer) {
         if (player && !enableLocalPlaylistManagement(player)) {
             return player.setRepeatMode(value);
         }
@@ -3927,14 +3920,58 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         events.trigger(player, 'repeatmodechange');
     };
 
-    PlaybackManager.prototype.getRepeatMode = function (player) {
-
-        player = player || this._currentPlayer;
+    PlaybackManager.prototype.getRepeatMode = function (player = this._currentPlayer) {
         if (player && !enableLocalPlaylistManagement(player)) {
             return player.getRepeatMode();
         }
 
         return this._playQueueManager.getRepeatMode();
+    };
+
+    PlaybackManager.prototype.setQueueShuffleMode = function (value, player = this._currentPlayer) {
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.setQueueShuffleMode(value);
+        }
+
+        this._playQueueManager.setShuffleMode(value);
+        events.trigger(player, 'shufflequeuemodechange');
+    };
+
+    PlaybackManager.prototype.getQueueShuffleMode = function (player = this._currentPlayer) {
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.getQueueShuffleMode();
+        }
+
+        return this._playQueueManager.getShuffleMode();
+    };
+
+    PlaybackManager.prototype.toggleQueueShuffleMode = function (player = this._currentPlayer) {
+        let currentvalue;
+        if (player && !enableLocalPlaylistManagement(player)) {
+            currentvalue = player.getQueueShuffleMode();
+            switch (currentvalue) {
+                case 'Shuffle':
+                    player.setQueueShuffleMode('Sorted');
+                    break;
+                case 'Sorted':
+                    player.setQueueShuffleMode('Shuffle');
+                    break;
+                default:
+                    throw new TypeError('current value for shufflequeue is invalid');
+            }
+        } else {
+            this._playQueueManager.toggleShuffleMode();
+        }
+        events.trigger(player, 'shufflequeuemodechange');
+    };
+
+    PlaybackManager.prototype.clearQueue = function (clearCurrentItem = false, player = this._currentPlayer) {
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.clearQueue(clearCurrentItem);
+        }
+
+        this._playQueueManager.clearPlaylist(clearCurrentItem);
+        events.trigger(player, 'playlistitemremove');
     };
 
     PlaybackManager.prototype.trySetActiveDeviceName = function (name) {
@@ -4004,6 +4041,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         switch (cmd.Name) {
             case 'SetRepeatMode':
                 this.setRepeatMode(cmd.Arguments.RepeatMode, player);
+                break;
+            case 'SetShuffleQueue':
+                this.setQueueShuffleMode(cmd.Arguments.ShuffleMode, player);
                 break;
             case 'VolumeUp':
                 this.volumeUp(player);

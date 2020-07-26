@@ -1,9 +1,5 @@
-define(['components/loading/loadingLegacy', 'browser', 'css!./loading'], function (loadingLegacy, browser) {
+define(['css!./loading'], function () {
     'use strict';
-
-    if (browser.tizen || browser.operaTv || browser.chromecast || browser.orsay || browser.web0s || browser.ps4) {
-        return loadingLegacy;
-    }
 
     var loadingElem;
     var layer1;

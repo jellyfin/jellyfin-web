@@ -56,8 +56,8 @@
     text-align: left;
     flex-grow: 1;
     font-size: 92%;
-    margin-right: 2.4em;
-    margin-left: 1em;
+    margin-right: 1em;
+    margin-left: 0.5em;
 }
 
 .nowPlayingBarCenter {
@@ -114,8 +114,6 @@
 
 .nowPlayingBarUserDataButtons {
     display: inline-block;
-    margin-left: 1em;
-    margin-right: 1em;
 }
 
 .nowPlayingBarPositionSlider::-webkit-slider-thumb {
@@ -133,12 +131,35 @@
     .toggleRepeatButton {
         display: none !important;
     }
-}
 
-@media all and (max-width: 62em) {
-    .nowPlayingBarCenter .nowPlayingBarCurrentTime {
+    .nowPlayingBar .btnShuffleQueue {
         display: none !important;
     }
+}
+
+@media all and (max-width: 80em) {
+    .nowPlayingBarCenter .nowPlayingBarCurrentTime,
+    .nowPlayingBarCenter .stopButton {
+        display: none !important;
+    }
+
+    .nowPlayingBarInfoContainer {
+        width: 45%;
+    }
+}
+
+.layout-mobile .nowPlayingBarRight button:not(.playPauseButton, .nextTrackButton) {
+    display: none;
+}
+
+.layout-desktop .nowPlayingBarRight .playPauseButton,
+.layout-tv .nowPlayingBarRight .playPauseButton {
+    display: none;
+}
+
+.layout-mobile .nowPlayingBarRight input,
+.layout-mobile .nowPlayingBarRight div {
+    display: none;
 }
 
 @media all and (max-width: 56em) {
@@ -147,19 +168,13 @@
     }
 }
 
-@media all and (min-width: 56em) {
-    .nowPlayingBarRight .playPauseButton {
-        display: none;
-    }
-}
-
-@media all and (max-width: 36em) {
+@media all and (max-width: 60em) {
     .nowPlayingBarRight .nowPlayingBarVolumeSliderContainer {
         display: none !important;
     }
 
     .nowPlayingBarInfoContainer {
-        width: 70%;
+        width: 100%;
     }
 }
 

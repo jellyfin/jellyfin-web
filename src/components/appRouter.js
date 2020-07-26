@@ -16,21 +16,21 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             show('/settings/settings.html');
         },
         showNowPlaying: function () {
-            show('/nowplaying.html');
+            show('queue');
         }
     };
 
     function beginConnectionWizard() {
-        backdrop.clear();
+        backdrop.clearBackdrop();
         loading.show();
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function (result) {
-            handleConnectionResult(result, loading);
+            handleConnectionResult(result);
         });
     }
 
-    function handleConnectionResult(result, loading) {
+    function handleConnectionResult(result) {
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
@@ -53,7 +53,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 break;
             case 'ServerUpdateNeeded':
                 require(['alert'], function (alert) {
-                    alert({
+                    alert.default({
                         text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
                         html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                     }).then(function () {
@@ -222,48 +222,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function normalizeImageOptions(options) {
-        var scaleFactor = browser.tv ? 0.8 : 1;
-
         var setQuality;
-        if (options.maxWidth) {
-            options.maxWidth = Math.round(options.maxWidth * scaleFactor);
+        if (options.maxWidth || options.width || options.maxHeight || options.height) {
             setQuality = true;
         }
 
-        if (options.width) {
-            options.width = Math.round(options.width * scaleFactor);
-            setQuality = true;
-        }
-
-        if (options.maxHeight) {
-            options.maxHeight = Math.round(options.maxHeight * scaleFactor);
-            setQuality = true;
-        }
-
-        if (options.height) {
-            options.height = Math.round(options.height * scaleFactor);
-            setQuality = true;
-        }
-
-        if (setQuality) {
-
-            var quality = 100;
-
-            var type = options.type || 'Primary';
-
-            if (browser.tv || browser.slow) {
-
-                if (browser.chrome) {
-                    // webp support
-                    quality = type === 'Primary' ? 40 : 50;
-                } else {
-                    quality = type === 'Backdrop' ? 60 : 50;
-                }
-            } else {
-                quality = type === 'Backdrop' ? 70 : 90;
-            }
-
-            options.quality = quality;
+        if (setQuality && !options.quality) {
+            options.quality = 90;
         }
     }
 
@@ -384,7 +349,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
             if (firstResult.State !== 'SignedIn' && !route.anonymous) {
 
-                handleConnectionResult(firstResult, loading);
+                handleConnectionResult(firstResult);
                 return;
             }
         }
@@ -463,12 +428,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         return Promise.resolve();
     }
 
-    var isHandlingBackToDefault;
     var isDummyBackToHome;
 
     function loadContent(ctx, route, html, request) {
 
-        html = globalize.translateDocument(html, route.dictionary);
+        html = globalize.translateHtml(html, route.dictionary);
         request.view = html;
 
         viewManager.loadView(request);
@@ -589,8 +553,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             path = '/' + path;
         }
 
-        var baseRoute = baseUrl();
-        path = path.replace(baseRoute, '');
+        path = path.replace(baseUrl(), '');
 
         if (currentRouteInfo && currentRouteInfo.path === path) {
             // can't use this with home right now due to the back menu
@@ -621,10 +584,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function showItem(item, serverId, options) {
+        // TODO: Refactor this so it only gets items, not strings.
         if (typeof (item) === 'string') {
             var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
-            apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
-                appRouter.showItem(item, options);
+            apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (itemObject) {
+                appRouter.showItem(itemObject, options);
             });
         } else {
             if (arguments.length === 2) {
@@ -660,7 +624,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
 
         if (level === 'full' || level === 2) {
-            backdrop.clear(true);
+            backdrop.clearBackdrop(true);
             document.documentElement.classList.add('transparentDocument');
             backgroundContainer.classList.add('backgroundContainer-transparent');
             backdropContainer.classList.add('hide');

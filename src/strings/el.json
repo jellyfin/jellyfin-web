@@ -13,7 +13,7 @@
     "Albums": "Άλμπουμς",
     "All": "Όλα",
     "AllChannels": "Όλα τα κανάλια",
-    "AllComplexFormats": "Όλες οι σύνθετες μορφές (ASS, SSA, VOBSUB, PGS, SUB / IDX κ.λπ.)",
+    "AllComplexFormats": "Όλες οι σύνθετες μορφές (ASS, SSA, VOBSUB, PGS, SUB / IDX, ...)",
     "AllEpisodes": "Ολα τα επεισόδια",
     "AllLanguages": "Όλες οι γλώσσες",
     "AllLibraries": "Όλες οι βιβλιοθήκες",
@@ -23,7 +23,7 @@
     "AlwaysPlaySubtitlesHelp": "Οι υπότιτλοι που ταιριάζουν με τις προτιμήσεις γλώσσας θα φορτωθούν ανεξάρτητα από τη γλώσσα του ήχου.",
     "AnyLanguage": "Οποιαδήποτε γλώσσα",
     "Anytime": "Οποτεδήποτε",
-    "AroundTime": "Περίπου {0}",
+    "AroundTime": "Περίπου",
     "Art": "Τέχνη",
     "Artists": "Καλλιτέχνες",
     "AsManyAsPossible": "Οσο το δυνατον περισσοτερα",
@@ -985,7 +985,6 @@
     "RepeatOne": "Επαναλάβετε ένα",
     "ReplaceAllMetadata": "Αντικατάσταση όλων των μεταδεδομένων",
     "ReplaceExistingImages": "Αντικατάσταση υπαρχουσών εικόνων",
-    "RestartPleaseWaitMessage": "Περιμένετε μέχρι ο τερματικός σταθμός Jellyfin να τερματιστεί και να επανεκκινήσει. Αυτό μπορεί να διαρκέσει ένα λεπτό ή δύο.",
     "ResumeAt": "Συνέχιση από {0}",
     "Rewind": "Αναπαραγωγή προς τα πίσω",
     "RunAtStartup": "Εκτέλεση κατά την εκκίνηση",
@@ -1165,7 +1164,6 @@
     "HeaderSelectMetadataPathHelp": "Περιηγηθείτε ή επιλέξτε την διαδρομή αποθήκευσης των μεταδεδομένων. Ο φάκελος πρέπει να είναι εγγράψιμος.",
     "HeaderSelectMetadataPath": "Επιλέξτε Διαδρομή Μεταδεδομένων",
     "HeaderSelectCertificatePath": "Επιλέξτε Διαδρομή Πιστοποιητικού",
-    "HeaderRestartingServer": "Επανεκκίνηση Διακομιστή",
     "HeaderRemoveMediaFolder": "Αφαίρεση Φακέλου Μέσων",
     "HeaderPeople": "Πρόσωπα",
     "HeaderIdentification": "Ταυτοποίηση",
@@ -1236,5 +1234,6 @@
     "AllowFfmpegThrottlingHelp": "Όταν ένας διακωδικοποιητής ή remux φτάσει αρκετά μπροστά από την τρέχουσα θέση αναπαραγωγής, διακόψτε τη διαδικασία ώστε να καταναλώσει λιγότερους πόρους. Αυτό είναι πιο χρήσιμο όταν παρακολουθείτε χωρίς να αναζητάτε συχνά. Απενεργοποιήστε το εάν αντιμετωπίζετε προβλήματα αναπαραγωγής.",
     "ButtonTogglePlaylist": "Λίστα αναπαραγωγής",
     "ButtonToggleContextMenu": "Περισσότερα",
-    "ButtonSplit": "Διαχωρισμός"
+    "ButtonSplit": "Διαχωρισμός",
+    "ButtonSyncPlay": "SyncPlay"
 }

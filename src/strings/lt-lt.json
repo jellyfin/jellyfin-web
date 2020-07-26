@@ -780,7 +780,6 @@
     "LabelAllowHWTranscoding": "Leisti naudoti aparatinę įrangą perkodavimui",
     "LabelAllowedRemoteAddresses": "Nuotolinis IP adresų filtras:",
     "LabelAllowedRemoteAddressesMode": "Nuotolinio IP adresų filtro režimas:",
-    "HeaderRestartingServer": "Serveris perkraunamas",
     "HeaderLoginFailure": "Prisijungimo klaida",
     "Hide": "Paslėpti",
     "LabelAll": "Visi",
@@ -1015,5 +1014,6 @@
     "ButtonToggleContextMenu": "Daugiau",
     "ButtonSplit": "Skirstyti",
     "AskAdminToCreateLibrary": "Prašyti administratoriaus, kad sukurtų mediateka.",
-    "Album": "Albumas"
+    "Album": "Albumas",
+    "ButtonSyncPlay": "SyncPlay"
 }
