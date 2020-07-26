@@ -61,40 +61,46 @@ define([
     });
 
     defineRoute({
-        path: '/mypreferencesmenu.html',
+        alias: '/mypreferencesmenu.html',
+        path: '/controllers/user/menu/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/menu'
+        controller: 'user/menu/index'
     });
     defineRoute({
-        path: '/myprofile.html',
+        alias: '/myprofile.html',
+        path: '/controllers/user/profile/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/profile'
+        controller: 'user/profile/index'
     });
     defineRoute({
-        path: '/mypreferencesdisplay.html',
+        alias: '/mypreferencesdisplay.html',
+        path: '/controllers/user/display/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/display'
+        controller: 'user/display/index'
     });
     defineRoute({
-        path: '/mypreferenceshome.html',
+        alias: '/mypreferenceshome.html',
+        path: '/controllers/user/home/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/home'
+        controller: 'user/home/index'
     });
     defineRoute({
-        path: '/mypreferencesplayback.html',
+        alias: '/mypreferencesplayback.html',
+        path: '/controllers/user/playback/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/playback'
+        controller: 'user/playback/index'
     });
     defineRoute({
-        path: '/mypreferencessubtitles.html',
+        alias: '/mypreferencessubtitles.html',
+        path: '/controllers/user/subtitles/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/subtitles'
+        controller: 'user/subtitles/index'
     });
 
     defineRoute({
@@ -367,16 +373,18 @@ define([
     });
 
     defineRoute({
-        path: '/wizardremoteaccess.html',
+        alias: '/wizardremoteaccess.html',
+        path: '/controllers/wizard/remote/index.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'wizard/remoteaccess'
+        controller: 'wizard/remote/index'
     });
     defineRoute({
-        path: '/wizardfinish.html',
+        alias: '/wizardfinish.html',
+        path: '/controllers/wizard/finish/index.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'wizard/finish'
+        controller: 'wizard/finish/index'
     });
     defineRoute({
         path: '/wizardlibrary.html',
@@ -385,28 +393,32 @@ define([
         controller: 'dashboard/mediaLibrary'
     });
     defineRoute({
-        path: '/wizardsettings.html',
+        alias: '/wizardsettings.html',
+        path: '/controllers/wizard/settings/index.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'wizard/settings'
+        controller: 'wizard/settings/index'
     });
     defineRoute({
-        path: '/wizardstart.html',
+        alias: '/wizardstart.html',
+        path: '/controllers/wizard/start/index.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'wizard/start'
+        controller: 'wizard/start/index'
     });
     defineRoute({
-        path: '/wizarduser.html',
-        controller: 'wizard/user',
+        alias: '/wizarduser.html',
+        path: '/controllers/wizard/user/index.html',
+        controller: 'wizard/user/index',
         autoFocus: false,
         anonymous: true
     });
 
     defineRoute({
-        path: '/videoosd.html',
+        alias: '/video',
+        path: '/controllers/playback/video/index.html',
         transition: 'fade',
-        controller: 'playback/videoosd',
+        controller: 'playback/video/index',
         autoFocus: false,
         type: 'video-osd',
         supportsThemeMedia: true,
@@ -414,8 +426,9 @@ define([
         enableMediaControl: false
     });
     defineRoute({
-        path: '/nowplaying.html',
-        controller: 'playback/nowplaying',
+        alias: '/queue',
+        path: '/controllers/playback/queue/index.html',
+        controller: 'playback/queue/index',
         autoFocus: false,
         transition: 'fade',
         fullscreen: true,
