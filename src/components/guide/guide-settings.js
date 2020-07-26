@@ -1,6 +1,8 @@
 define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectionManager', 'require', 'loading', 'scrollHelper', 'emby-checkbox', 'emby-radio', 'css!./../formdialog', 'material-icons'], function (dialogHelper, globalize, userSettings, layoutManager, connectionManager, require, loading, scrollHelper) {
     'use strict';
 
+    scrollHelper = scrollHelper.default || scrollHelper;
+
     function saveCategories(context, options) {
 
         var categories = [];

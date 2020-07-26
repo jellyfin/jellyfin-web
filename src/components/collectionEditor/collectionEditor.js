@@ -212,7 +212,7 @@ import 'flexStyles';
     }
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then(scrollHelper => {
+        import('scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
