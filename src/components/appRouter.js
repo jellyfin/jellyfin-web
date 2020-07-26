@@ -16,7 +16,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             show('/settings/settings.html');
         },
         showNowPlaying: function () {
-            show('/nowplaying.html');
+            show('queue');
         }
     };
 
