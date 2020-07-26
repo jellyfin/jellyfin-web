@@ -492,7 +492,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         if (dom.getWindowSize().innerWidth >= 1000) {
             backdrop.setBackdrops([item]);
         } else {
-            backdrop.clear();
+            backdrop.clearBackdrop();
         }
     }
 
@@ -1676,7 +1676,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         imageLoader.lazyChildren(collectionItems);
         collectionItems.querySelector('.btnAddToCollection').addEventListener('click', function () {
             require(['alert'], function (alert) {
-                alert({
+                alert.default({
                     text: globalize.translate('AddItemToCollectionHelp'),
                     html: globalize.translate('AddItemToCollectionHelp') + '<br/><br/><a is="emby-linkbutton" class="button-link" target="_blank" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections">' + globalize.translate('ButtonLearnMore') + '</a>'
                 });
@@ -1819,7 +1819,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         function splitVersions(instance, page, apiClient, params) {
             require(['confirm'], function (confirm) {
-                confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
+                confirm.default('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
                     loading.show();
                     apiClient.ajax({
                         type: 'DELETE',

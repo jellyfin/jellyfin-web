@@ -1,7 +1,18 @@
-define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layoutManager', 'libraryMenu', 'browser', 'globalize', 'cardStyle', 'emby-checkbox'], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, libraryMenu, browser, globalize) {
-    'use strict';
+import appHost from 'apphost';
+import appSettings from 'appSettings';
+import dom from 'dom';
+import connectionManager from 'connectionManager';
+import loading from 'loading';
+import layoutManager from 'layoutManager';
+import libraryMenu from 'libraryMenu';
+import browser from 'browser';
+import globalize from 'globalize';
+import 'cardStyle';
+import 'emby-checkbox';
 
-    var enableFocusTransform = !browser.slow && !browser.edge;
+/* eslint-disable indent */
+
+    const enableFocusTransform = !browser.slow && !browser.edge;
 
     function authenticateUserByName(page, apiClient, username, password) {
         loading.show();
@@ -18,7 +29,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
 
             const UnauthorizedOrForbidden = [401, 403];
             if (UnauthorizedOrForbidden.includes(response.status)) {
-                require(['toast'], function (toast) {
+                import('toast').then(({default: toast}) => {
                     const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
                     toast(globalize.translate(messageKey));
                 });
@@ -50,23 +61,23 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         }
     }
 
-    var metroColors = ['#6FBD45', '#4BB3DD', '#4164A5', '#E12026', '#800080', '#E1B222', '#008040', '#0094FF', '#FF00C7', '#FF870F', '#7F0037'];
+    const metroColors = ['#6FBD45', '#4BB3DD', '#4164A5', '#E12026', '#800080', '#E1B222', '#008040', '#0094FF', '#FF00C7', '#FF870F', '#7F0037'];
 
     function getRandomMetroColor() {
-        var index = Math.floor(Math.random() * (metroColors.length - 1));
+        const index = Math.floor(Math.random() * (metroColors.length - 1));
         return metroColors[index];
     }
 
     function getMetroColor(str) {
         if (str) {
-            var character = String(str.substr(0, 1).charCodeAt());
-            var sum = 0;
+            const character = String(str.substr(0, 1).charCodeAt());
+            let sum = 0;
 
-            for (var i = 0; i < character.length; i++) {
+            for (let i = 0; i < character.length; i++) {
                 sum += parseInt(character.charAt(i));
             }
 
-            var index = String(sum).substr(-1);
+            const index = String(sum).substr(-1);
             return metroColors[index];
         }
 
@@ -74,13 +85,13 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
     }
 
     function loadUserList(context, apiClient, users) {
-        var html = '';
+        let html = '';
 
-        for (var i = 0; i < users.length; i++) {
-            var user = users[i];
+        for (let i = 0; i < users.length; i++) {
+            const user = users[i];
 
             // TODO move card creation code to Card component
-            var cssClass = 'card squareCard scalableCard squareCard-scalable';
+            let cssClass = 'card squareCard scalableCard squareCard-scalable';
 
             if (layoutManager.tv) {
                 cssClass += ' show-focus';
@@ -90,13 +101,13 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
                 }
             }
 
-            var cardBoxCssClass = 'cardBox cardBox-bottompadded';
+            const cardBoxCssClass = 'cardBox cardBox-bottompadded';
             html += '<button type="button" class="' + cssClass + '">';
             html += '<div class="' + cardBoxCssClass + '">';
             html += '<div class="cardScalable">';
             html += '<div class="cardPadder cardPadder-square"></div>';
             html += '<div class="cardContent" data-haspw="' + user.HasPassword + '" data-username="' + user.Name + '" data-userid="' + user.Id + '">';
-            var imgUrl;
+            let imgUrl;
 
             if (user.PrimaryImageTag) {
                 imgUrl = apiClient.getUserImageUrl(user.Id, {
@@ -106,7 +117,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
                 });
                 html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');\"></div>";
             } else {
-                var background = getMetroColor(user.Id);
+                const background = getMetroColor(user.Id);
                 imgUrl = 'assets/img/avatar.png';
                 html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
             }
@@ -123,9 +134,9 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         context.querySelector('#divUsers').innerHTML = html;
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function getApiClient() {
-            var serverId = params.serverid;
+            const serverId = params.serverid;
 
             if (serverId) {
                 return connectionManager.getOrCreateApiClient(serverId);
@@ -139,20 +150,20 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
             view.querySelector('.manualLoginForm').classList.add('hide');
             view.querySelector('.btnManual').classList.remove('hide');
 
-            require(['autoFocuser'], function (autoFocuser) {
+            import('autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(view);
             });
         }
 
         view.querySelector('#divUsers').addEventListener('click', function (e) {
-            var card = dom.parentWithClass(e.target, 'card');
-            var cardContent = card ? card.querySelector('.cardContent') : null;
+            const card = dom.parentWithClass(e.target, 'card');
+            const cardContent = card ? card.querySelector('.cardContent') : null;
 
             if (cardContent) {
-                var context = view;
-                var id = cardContent.getAttribute('data-userid');
-                var name = cardContent.getAttribute('data-username');
-                var haspw = cardContent.getAttribute('data-haspw');
+                const context = view;
+                const id = cardContent.getAttribute('data-userid');
+                const name = cardContent.getAttribute('data-username');
+                const haspw = cardContent.getAttribute('data-haspw');
 
                 if (id === 'manual') {
                     context.querySelector('#txtManualName').value = '';
@@ -168,7 +179,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         });
         view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
             appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
-            var apiClient = getApiClient();
+            const apiClient = getApiClient();
             authenticateUserByName(view, apiClient, view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
             e.preventDefault();
             return false;
@@ -192,7 +203,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
                 view.querySelector('.btnSelectServer').classList.add('hide');
             }
 
-            var apiClient = getApiClient();
+            const apiClient = getApiClient();
             apiClient.getPublicUsers().then(function (users) {
                 if (users.length) {
                     showVisualForm();
@@ -211,5 +222,6 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         view.addEventListener('viewhide', function (e) {
             libraryMenu.setTransparentMenu(false);
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

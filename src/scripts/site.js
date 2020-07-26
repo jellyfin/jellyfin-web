@@ -187,7 +187,7 @@ var Dashboard = {
         }
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 title: options.title || Globalize.translate('HeaderAlert'),
                 text: options.message
             }).then(options.callback || function () {});
@@ -360,7 +360,7 @@ var AppInfo = {};
         return layoutManager;
     }
 
-    function createSharedAppFooter(appFooter) {
+    function createSharedAppFooter({default: appFooter}) {
         return new appFooter({});
     }
 
@@ -420,7 +420,7 @@ var AppInfo = {};
                 require(['globalize', 'browser'], function (globalize, browser) {
                     window.Globalize = globalize;
                     loadCoreDictionary(globalize).then(function () {
-                        onGlobalizeInit(browser);
+                        onGlobalizeInit(browser, globalize);
                     });
                 });
                 require(['keyboardnavigation'], function(keyboardnavigation) {
@@ -453,14 +453,14 @@ var AppInfo = {};
         });
     }
 
-    function onGlobalizeInit(browser) {
+    function onGlobalizeInit(browser, globalize) {
         if ('android' === self.appMode) {
             if (-1 !== self.location.href.toString().toLowerCase().indexOf('start=backgroundsync')) {
                 return onAppReady(browser);
             }
         }
 
-        document.title = Globalize.translateDocument(document.title, 'core');
+        document.title = globalize.translateHtml(document.title, 'core');
 
         if (browser.tv && !browser.android) {
             console.debug('using system fonts with explicit sizes');
@@ -809,6 +809,7 @@ var AppInfo = {};
         define('upNextDialog', [componentsPath + '/upnextdialog/upnextdialog'], returnFirstDependency);
         define('subtitleAppearanceHelper', [componentsPath + '/subtitlesettings/subtitleappearancehelper'], returnFirstDependency);
         define('subtitleSettings', [componentsPath + '/subtitlesettings/subtitlesettings'], returnFirstDependency);
+        define('settingsHelper', [componentsPath + '/settingshelper'], returnFirstDependency);
         define('displaySettings', [componentsPath + '/displaySettings/displaySettings'], returnFirstDependency);
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);

@@ -692,7 +692,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     function showPlaybackInfoErrorMessage(instance, errorCode, playNextTrack) {
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 text: globalize.translate('PlaybackError' + errorCode),
                 title: globalize.translate('HeaderPlaybackError')
             }).then(function () {

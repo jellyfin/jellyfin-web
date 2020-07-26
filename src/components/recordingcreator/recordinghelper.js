@@ -34,7 +34,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
 
             require(['confirm'], function (confirm) {
 
-                confirm({
+                confirm.default({
 
                     text: globalize.translate('MessageConfirmRecordingCancellation'),
                     primary: 'delete',
@@ -59,7 +59,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
 
             require(['confirm'], function (confirm) {
 
-                confirm({
+                confirm.default({
 
                     text: globalize.translate('MessageConfirmRecordingCancellation'),
                     primary: 'delete',

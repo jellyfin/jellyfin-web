@@ -1,22 +1,37 @@
-define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'datetime', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-button'], function (require, browser, layoutManager, appSettings, pluginManager, appHost, focusManager, datetime, globalize, loading, connectionManager, skinManager, dom, events) {
-    'use strict';
+import browser from 'browser';
+import layoutManager from 'layoutManager';
+import appSettings from 'appSettings';
+import pluginManager from 'pluginManager';
+import appHost from 'apphost';
+import focusManager from 'focusManager';
+import datetime from 'datetime';
+import globalize from 'globalize';
+import loading from 'loading';
+import connectionManager from 'connectionManager';
+import skinManager from 'skinManager';
+import events from 'events';
+import 'emby-select';
+import 'emby-checkbox';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function fillThemes(select, isDashboard) {
-        select.innerHTML = skinManager.getThemes().map(function (t) {
-            var value = t.id;
+        select.innerHTML = skinManager.getThemes().map(t => {
+            let value = t.id;
             if (t.isDefault && !isDashboard) {
                 value = '';
             } else if (t.isDefaultServerDashboard && isDashboard) {
                 value = '';
             }
 
-            return '<option value="' + value + '">' + t.name + '</option>';
+            return `<option value="${value}">${t.name}</option>`;
         }).join('');
     }
 
     function loadScreensavers(context, userSettings) {
-        var selectScreensaver = context.querySelector('.selectScreensaver');
-        var options = pluginManager.ofType('screensaver').map(function (plugin) {
+        const selectScreensaver = context.querySelector('.selectScreensaver');
+        const options = pluginManager.ofType('screensaver').map(plugin => {
             return {
                 name: plugin.name,
                 value: plugin.id
@@ -28,8 +43,8 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             value: 'none'
         });
 
-        selectScreensaver.innerHTML = options.map(function (o) {
-            return '<option value="' + o.value + '">' + o.name + '</option>';
+        selectScreensaver.innerHTML = options.map(o => {
+            return `<option value="${o.value}">${o.name}</option>`;
         }).join('');
         selectScreensaver.value = userSettings.screensaver();
 
@@ -41,8 +56,8 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
     function loadSoundEffects(context, userSettings) {
 
-        var selectSoundEffects = context.querySelector('.selectSoundEffects');
-        var options = pluginManager.ofType('soundeffects').map(function (plugin) {
+        const selectSoundEffects = context.querySelector('.selectSoundEffects');
+        const options = pluginManager.ofType('soundeffects').map(plugin => {
             return {
                 name: plugin.name,
                 value: plugin.id
@@ -54,8 +69,8 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             value: 'none'
         });
 
-        selectSoundEffects.innerHTML = options.map(function (o) {
-            return '<option value="' + o.value + '">' + o.name + '</option>';
+        selectSoundEffects.innerHTML = options.map(o => {
+            return `<option value="${o.value}">${o.name}</option>`;
         }).join('');
         selectSoundEffects.value = userSettings.soundEffects();
 
@@ -67,17 +82,17 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
     function loadSkins(context, userSettings) {
 
-        var selectSkin = context.querySelector('.selectSkin');
+        const selectSkin = context.querySelector('.selectSkin');
 
-        var options = pluginManager.ofType('skin').map(function (plugin) {
+        const options = pluginManager.ofType('skin').map(plugin => {
             return {
                 name: plugin.name,
                 value: plugin.id
             };
         });
 
-        selectSkin.innerHTML = options.map(function (o) {
-            return '<option value="' + o.value + '">' + o.name + '</option>';
+        selectSkin.innerHTML = options.map(o => {
+            return `<option value="${o.value}">${o.name}</option>`;
         }).join('');
         selectSkin.value = userSettings.skin();
 
@@ -92,7 +107,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         }
     }
 
-    function showOrHideMissingEpisodesField(context, user, apiClient) {
+    function showOrHideMissingEpisodesField(context) {
 
         if (browser.tizen || browser.web0s) {
             context.querySelector('.fldDisplayMissingEpisodes').classList.add('hide');
@@ -102,10 +117,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hide');
     }
 
-    function loadForm(context, user, userSettings, apiClient) {
-
-        var loggedInUserId = apiClient.getCurrentUserId();
-        var userId = user.Id;
+    function loadForm(context, user, userSettings) {
 
         if (user.Policy.IsAdministrator) {
             context.querySelector('.selectDashboardThemeContainer').classList.remove('hide');
@@ -167,8 +179,8 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
         context.querySelector('.chkRunAtStartup').checked = appSettings.runAtStartup();
 
-        var selectTheme = context.querySelector('#selectTheme');
-        var selectDashboardTheme = context.querySelector('#selectDashboardTheme');
+        const selectTheme = context.querySelector('#selectTheme');
+        const selectDashboardTheme = context.querySelector('#selectDashboardTheme');
 
         fillThemes(selectTheme);
         fillThemes(selectDashboardTheme, true);
@@ -195,7 +207,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
         context.querySelector('.selectLayout').value = layoutManager.getSavedLayout() || '';
 
-        showOrHideMissingEpisodesField(context, user, apiClient);
+        showOrHideMissingEpisodesField(context);
 
         loading.hide();
     }
@@ -239,29 +251,29 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
         loading.show();
 
-        apiClient.getUser(userId).then(function (user) {
-            saveUser(context, user, userSettings, apiClient).then(function () {
+        apiClient.getUser(userId).then(user => {
+            saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    require(['toast'], function (toast) {
+                    import('toast').then(({default: toast}) => {
                         toast(globalize.translate('SettingsSaved'));
                     });
                 }
                 events.trigger(instance, 'saved');
-            }, function () {
+            }, () => {
                 loading.hide();
             });
         });
     }
 
     function onSubmit(e) {
-        var self = this;
-        var apiClient = connectionManager.getApiClient(self.options.serverId);
-        var userId = self.options.userId;
-        var userSettings = self.options.userSettings;
+        const self = this;
+        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const userId = self.options.userId;
+        const userSettings = self.options.userSettings;
 
-        userSettings.setUserInfo(userId, apiClient).then(function () {
-            var enableSaveConfirmation = self.options.enableSaveConfirmation;
+        userSettings.setUserInfo(userId, apiClient).then(() => {
+            const enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
 
@@ -272,50 +284,51 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         return false;
     }
 
-    function embed(options, self) {
-        require(['text!./displaySettings.template.html'], function (template) {
-            options.element.innerHTML = globalize.translateDocument(template, 'core');
-            options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
-            if (options.enableSaveButton) {
-                options.element.querySelector('.btnSave').classList.remove('hide');
-            }
-            self.loadData(options.autoFocus);
-        });
+    async function embed(options, self) {
+        const { default: template } = await import('text!./displaySettings.template.html');
+        options.element.innerHTML = globalize.translateHtml(template, 'core');
+        options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
+        if (options.enableSaveButton) {
+            options.element.querySelector('.btnSave').classList.remove('hide');
+        }
+        self.loadData(options.autoFocus);
     }
 
-    function DisplaySettings(options) {
-        this.options = options;
-        embed(options, this);
-    }
+    class DisplaySettings {
+        constructor(options) {
+            this.options = options;
+            embed(options, this);
+        }
 
-    DisplaySettings.prototype.loadData = function (autoFocus) {
-        var self = this;
-        var context = self.options.element;
+        loadData(autoFocus) {
+            const self = this;
+            const context = self.options.element;
 
-        loading.show();
+            loading.show();
 
-        var userId = self.options.userId;
-        var apiClient = connectionManager.getApiClient(self.options.serverId);
-        var userSettings = self.options.userSettings;
+            const userId = self.options.userId;
+            const apiClient = connectionManager.getApiClient(self.options.serverId);
+            const userSettings = self.options.userSettings;
 
-        return apiClient.getUser(userId).then(function (user) {
-            return userSettings.setUserInfo(userId, apiClient).then(function () {
-                self.dataLoaded = true;
-                loadForm(context, user, userSettings, apiClient);
-                if (autoFocus) {
-                    focusManager.autoFocus(context);
-                }
+            return apiClient.getUser(userId).then(user => {
+                return userSettings.setUserInfo(userId, apiClient).then(() => {
+                    self.dataLoaded = true;
+                    loadForm(context, user, userSettings);
+                    if (autoFocus) {
+                        focusManager.autoFocus(context);
+                    }
+                });
             });
-        });
-    };
+        }
 
-    DisplaySettings.prototype.submit = function () {
-        onSubmit.call(this);
-    };
+        submit() {
+            onSubmit.call(this);
+        }
 
-    DisplaySettings.prototype.destroy = function () {
-        this.options = null;
-    };
+        destroy() {
+            this.options = null;
+        }
+    }
 
-    return DisplaySettings;
-});
+/* eslint-enable indent */
+export default DisplaySettings;

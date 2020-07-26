@@ -215,7 +215,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
                 });
             } else {
-                backdrop.clear();
+                backdrop.clearBackdrop();
                 context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
             }
         }
@@ -674,7 +674,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             require(['playlistEditor'], function (playlistEditor) {
                 getSaveablePlaylistItems().then(function (items) {
                     var serverId = items.length ? items[0].ServerId : ApiClient.serverId();
-                    new playlistEditor().show({
+                    new playlistEditor.showEditor({
                         items: items.map(function (i) {
                             return i.Id;
                         }),

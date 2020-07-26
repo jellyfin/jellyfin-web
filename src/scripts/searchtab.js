@@ -1,6 +1,9 @@
 define(['searchFields', 'searchResults', 'events'], function (SearchFields, SearchResults, events) {
     'use strict';
 
+    SearchFields = SearchFields.default || SearchFields;
+    SearchResults = SearchResults.default || SearchResults;
+
     function init(instance, tabContent, options) {
         tabContent.innerHTML = '<div class="padded-left padded-right searchFields"></div><div class="searchResults padded-top" style="padding-top:1.5em;"></div>';
         instance.searchFields = new SearchFields({
