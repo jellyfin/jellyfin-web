@@ -1,6 +1,8 @@
 define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'require'], function (serverNotifications, playbackManager, events, globalize, require) {
     'use strict';
 
+    serverNotifications = serverNotifications.default || serverNotifications;
+
     function onOneDocumentClick() {
         document.removeEventListener('click', onOneDocumentClick);
         document.removeEventListener('keydown', onOneDocumentClick);

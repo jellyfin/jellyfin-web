@@ -222,9 +222,6 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
             name: globalize.translate('TabCollections')
         }, {
             name: globalize.translate('TabGenres')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
         }];
     }
 
@@ -291,9 +288,6 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
                 case 5:
                     depends.push('controllers/movies/moviegenres');
                     break;
-
-                case 6:
-                    depends.push('scripts/searchtab');
             }
 
             require(depends, function (controllerFactory) {

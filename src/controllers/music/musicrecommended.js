@@ -180,9 +180,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             name: globalize.translate('TabSongs')
         }, {
             name: globalize.translate('TabGenres')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
         }];
     }
 
@@ -283,9 +280,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 case 6:
                     depends.push('controllers/music/musicgenres');
                     break;
-
-                case 7:
-                    depends.push('scripts/searchtab');
             }
 
             require(depends, function (controllerFactory) {

@@ -236,12 +236,6 @@
     text-align: center;
 }
 
-.layout-desktop .searchTabButton,
-.layout-mobile .searchTabButton,
-.layout-tv .headerSearchButton {
-    display: none !important;
-}
-
 .mainDrawer-scrollContainer {
     padding-bottom: 10vh;
 }

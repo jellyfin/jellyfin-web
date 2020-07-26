@@ -3455,6 +3455,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         if (apphost.supports('remotecontrol')) {
 
             require(['serverNotifications'], function (serverNotifications) {
+                serverNotifications = serverNotifications.default || serverNotifications;
                 events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
             });

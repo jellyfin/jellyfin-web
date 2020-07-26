@@ -1,6 +1,8 @@
 define(['playbackManager', 'serverNotifications', 'events'], function (playbackManager, serverNotifications, events) {
     'use strict';
 
+    serverNotifications = serverNotifications.default || serverNotifications;
+
     function onUserDataChanged(e, apiClient, userData) {
 
         var instance = this;
