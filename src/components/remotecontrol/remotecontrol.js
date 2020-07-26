@@ -215,7 +215,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
                 });
             } else {
-                backdrop.clear();
+                backdrop.clearBackdrop();
                 context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
             }
         }
@@ -359,7 +359,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function updateRepeatModeDisplay(repeatMode) {
             var context = dlg;
             let toggleRepeatButtons = context.querySelectorAll('.repeatToggleButton');
-            const cssClass = 'repeatButton-active';
+            const cssClass = 'buttonActive';
             let innHtml = '<span class="material-icons repeat"></span>';
             let repeatOn = true;
 
@@ -494,7 +494,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 itemsContainer.innerHTML = html;
                 if (focusedItemPlaylistId !== null) {
                     focusedItemPlaylistId = focusedItemPlaylistId.getAttribute('data-playlistitemid');
-                    const newFocusedItem = itemsContainer.querySelector(`button[data-playlistitemid=${focusedItemPlaylistId}]`);
+                    const newFocusedItem = itemsContainer.querySelector(`button[data-playlistitemid="${focusedItemPlaylistId}"]`);
                     if (newFocusedItem !== null) {
                         newFocusedItem.focus();
                     }
@@ -503,7 +503,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 var playlistItemId = playbackManager.getCurrentPlaylistItemId(player);
 
                 if (playlistItemId) {
-                    var img = itemsContainer.querySelector('.listItem[data-playlistItemId="' + playlistItemId + '"] .listItemImage');
+                    var img = itemsContainer.querySelector(`.listItem[data-playlistItemId="${playlistItemId}"] .listItemImage`);
 
                     if (img) {
                         img.classList.remove('lazy');
@@ -528,7 +528,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         function onShuffleQueueModeChange(updateView = true) {
             let shuffleMode = playbackManager.getQueueShuffleMode(this);
             let context = dlg;
-            const cssClass = 'shuffleQueue-active';
+            const cssClass = 'buttonActive';
             let shuffleButtons = context.querySelectorAll('.btnShuffleQueue');
 
             for (let shuffleButton of shuffleButtons) {
@@ -674,7 +674,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             require(['playlistEditor'], function (playlistEditor) {
                 getSaveablePlaylistItems().then(function (items) {
                     var serverId = items.length ? items[0].ServerId : ApiClient.serverId();
-                    new playlistEditor().show({
+                    new playlistEditor.showEditor({
                         items: items.map(function (i) {
                             return i.Id;
                         }),
@@ -788,13 +788,10 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 return datetime.getDisplayRunningTime(ticks);
             };
 
-            function setVolume() {
-                playbackManager.setVolume(this.value, currentPlayer);
-            }
+            context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {
+                playbackManager.setVolume(e.target.value, currentPlayer);
+            });
 
-            context.querySelector('.nowPlayingVolumeSlider').addEventListener('change', setVolume);
-            context.querySelector('.nowPlayingVolumeSlider').addEventListener('mousemove', setVolume);
-            context.querySelector('.nowPlayingVolumeSlider').addEventListener('touchmove', setVolume);
             context.querySelector('.buttonMute').addEventListener('click', function () {
                 playbackManager.toggleMute(currentPlayer);
             });

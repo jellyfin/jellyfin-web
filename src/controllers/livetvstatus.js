@@ -49,7 +49,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
         var message = globalize.translate('MessageConfirmDeleteTunerDevice');
 
         require(['confirm'], function (confirm) {
-            confirm(message, globalize.translate('HeaderDeleteDevice')).then(function () {
+            confirm.default(message, globalize.translate('HeaderDeleteDevice')).then(function () {
                 loading.show();
                 ApiClient.ajax({
                     type: 'DELETE',
@@ -155,8 +155,8 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }
 
     function mapChannels(page, providerId) {
-        require(['components/channelMapper/channelMapper'], function (channelmapper) {
-            new channelmapper({
+        require(['components/channelMapper/channelMapper'], function (channelMapper) {
+            new channelMapper.default({
                 serverId: ApiClient.serverInfo().Id,
                 providerId: providerId
             }).show();
@@ -167,7 +167,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
         var message = globalize.translate('MessageConfirmDeleteGuideProvider');
 
         require(['confirm'], function (confirm) {
-            confirm(message, globalize.translate('HeaderDeleteProvider')).then(function () {
+            confirm.default(message, globalize.translate('HeaderDeleteProvider')).then(function () {
                 loading.show();
                 ApiClient.ajax({
                     type: 'DELETE',
@@ -303,7 +303,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }).on('pageshow', '#liveTvStatusPage', function () {
         var page = this;
         reload(page);
-        taskButton({
+        taskButton.default({
             mode: 'on',
             progressElem: page.querySelector('.refreshGuideProgress'),
             taskKey: 'RefreshGuide',
@@ -311,7 +311,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
         });
     }).on('pagehide', '#liveTvStatusPage', function () {
         var page = this;
-        taskButton({
+        taskButton.default({
             mode: 'off',
             progressElem: page.querySelector('.refreshGuideProgress'),
             taskKey: 'RefreshGuide',

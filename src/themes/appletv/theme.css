@@ -449,18 +449,19 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
-}
-
-.shuffleQueue-active {
-    color: #4285f4 !important;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-radius: 0.5rem;
     border-color: #00a4dc !important;
+}
+
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: 1rem;
 }
 
 .blurhash-canvas {

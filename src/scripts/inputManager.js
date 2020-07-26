@@ -66,9 +66,12 @@ import appHost from 'apphost';
         if (!sourceElement) {
             sourceElement = document.activeElement || window;
 
-            const dlg = document.querySelector('.dialogContainer .dialog.opened');
+            const dialogs = document.querySelectorAll('.dialogContainer .dialog.opened');
 
-            if (dlg && (!sourceElement || !dlg.contains(sourceElement))) {
+            // Suppose the top open dialog is active
+            const dlg = dialogs.length ? dialogs[dialogs.length - 1] : null;
+
+            if (dlg && !dlg.contains(sourceElement)) {
                 sourceElement = dlg;
             }
         }
@@ -201,6 +204,9 @@ import appHost from 'apphost';
             'rewind': () => {
                 playbackManager.rewind();
             },
+            'seek': () => {
+                playbackManager.seekMs(options);
+            },
             'togglefullscreen': () => {
                 playbackManager.toggleFullscreen();
             },
@@ -235,9 +241,6 @@ import appHost from 'apphost';
         }
     }
 
-    // Alias for backward compatibility
-    export const trigger = handleCommand;
-
     dom.addEventListener(document, 'click', notify, {
         passive: true
     });
@@ -245,8 +248,7 @@ import appHost from 'apphost';
 /* eslint-enable indent */
 
 export default {
-    trigger: handleCommand,
-    handle: handleCommand,
+    handleCommand: handleCommand,
     notify: notify,
     notifyMouseMove: notifyMouseMove,
     idleTime: idleTime,

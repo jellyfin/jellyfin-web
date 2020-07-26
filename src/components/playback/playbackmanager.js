@@ -1,9 +1,6 @@
 define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'screenfull'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, screenfull) {
     'use strict';
 
-    /** Delay time in ms for reportPlayback logging */
-    const reportPlaybackLogDelay = 1e3;
-
     function enableLocalPlaylistManagement(player) {
 
         if (player.getPlaylist) {
@@ -43,12 +40,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
     }
 
-    /** Last invoked method */
-    let reportPlaybackLastMethod;
-
-    /** Last invoke time of method */
-    let reportPlaybackLastTime;
-
     function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
 
         if (!serverId) {
@@ -67,14 +58,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         if (reportPlaylist) {
             addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
-        }
-
-        const now = (new Date).getTime();
-
-        if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= reportPlaybackLogDelay) {
-            console.debug(method + '-' + JSON.stringify(info));
-            reportPlaybackLastMethod = method;
-            reportPlaybackLastTime = now;
         }
 
         var apiClient = connectionManager.getApiClient(serverId);
@@ -709,7 +692,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     function showPlaybackInfoErrorMessage(instance, errorCode, playNextTrack) {
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 text: globalize.translate('PlaybackError' + errorCode),
                 title: globalize.translate('HeaderPlaybackError')
             }).then(function () {
@@ -3662,6 +3645,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         percent /= 100;
         ticks *= percent;
         this.seek(parseInt(ticks), player);
+    };
+
+    PlaybackManager.prototype.seekMs = function (ms, player) {
+
+        player = player || this._currentPlayer;
+
+        var ticks = ms * 10000;
+        this.seek(ticks, player);
     };
 
     PlaybackManager.prototype.playTrailers = function (item) {

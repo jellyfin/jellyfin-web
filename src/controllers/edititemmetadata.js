@@ -5,7 +5,7 @@ define(['loading', 'scripts/editorsidebar'], function (loading) {
         loading.show();
 
         if (itemId) {
-            require(['metadataEditor'], function (metadataEditor) {
+            require(['metadataEditor'], function ({default: metadataEditor}) {
                 metadataEditor.embed(context.querySelector('.editPageInnerContent'), itemId, ApiClient.serverInfo().Id);
             });
         } else {

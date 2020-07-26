@@ -1,12 +1,24 @@
-define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle'], function(browser, dialogHelper, layoutManager, scrollHelper, globalize, dom, require) {
-    'use strict';
+import browser from 'browser';
+import dialogHelper from 'dialogHelper';
+import layoutManager from 'layoutManager';
+import scrollHelper from 'scrollHelper';
+import globalize from 'globalize';
+import dom from 'dom';
+import 'material-icons';
+import 'emby-button';
+import 'paper-icon-button-light';
+import 'emby-input';
+import 'formDialogStyle';
+
+/* eslint-disable indent */
+export default (() => {
 
     function replaceAll(str, find, replace) {
         return str.split(find).join(replace);
     }
 
     function setInputProperties(dlg, options) {
-        var txtInput = dlg.querySelector('#txtInput');
+        const txtInput = dlg.querySelector('#txtInput');
 
         if (txtInput.label) {
             txtInput.label(options.label || '');
@@ -17,7 +29,7 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
     }
 
     function showDialog(options, template) {
-        var dialogOptions = {
+        const dialogOptions = {
             removeOnClose: true,
             scrollY: false
         };
@@ -26,7 +38,7 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
             dialogOptions.size = 'fullscreen';
         }
 
-        var dlg = dialogHelper.createDialog(dialogOptions);
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
         dlg.classList.add('formDialog');
 
@@ -39,7 +51,7 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
 
@@ -53,16 +65,16 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
 
         setInputProperties(dlg, options);
 
-        var submitValue;
+        let submitValue;
 
-        dlg.querySelector('form').addEventListener('submit', function (e) {
+        dlg.querySelector('form').addEventListener('submit', e => {
 
             submitValue = dlg.querySelector('#txtInput').value;
             e.preventDefault();
             e.stopPropagation();
 
             // Important, don't close the dialog until after the form has completed submitting, or it will cause an error in Chrome
-            setTimeout(function () {
+            setTimeout(() => {
                 dialogHelper.close(dlg);
             }, 300);
 
@@ -71,9 +83,9 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
 
         dlg.querySelector('.submitText').innerHTML = options.confirmText || globalize.translate('ButtonOk');
 
-        dlg.style.minWidth = (Math.min(400, dom.getWindowSize().innerWidth - 50)) + 'px';
+        dlg.style.minWidth = `${Math.min(400, dom.getWindowSize().innerWidth - 50)}px`;
 
-        return dialogHelper.open(dlg).then(function () {
+        return dialogHelper.open(dlg).then(() => {
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
@@ -87,7 +99,7 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
     }
 
     if ((browser.tv || browser.xboxOne) && window.confirm) {
-        return function (options) {
+        return options => {
             if (typeof options === 'string') {
                 options = {
                     label: '',
@@ -95,8 +107,8 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
                 };
             }
 
-            var label = replaceAll(options.label || '', '<br/>', '\n');
-            var result = prompt(label, options.text || '');
+            const label = replaceAll(options.label || '', '<br/>', '\n');
+            const result = prompt(label, options.text || '');
 
             if (result) {
                 return Promise.resolve(result);
@@ -105,9 +117,9 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
             }
         };
     } else {
-        return function (options) {
-            return new Promise(function (resolve, reject) {
-                require(['text!./prompt.template.html'], function (template) {
+        return options => {
+            return new Promise((resolve, reject) => {
+                import('text!./prompt.template.html').then(({default: template}) => {
                     if (typeof options === 'string') {
                         options = {
                             title: '',
@@ -119,4 +131,5 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
             });
         };
     }
-});
+})();
+/* eslint-enable indent */

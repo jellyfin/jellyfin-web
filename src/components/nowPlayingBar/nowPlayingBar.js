@@ -1,31 +1,46 @@
-define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'itemContextMenu', 'paper-icon-button-light', 'emby-ratingbutton'], function (require, datetime, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager, itemContextMenu) {
-    'use strict';
+import require from 'require';
+import datetime from 'datetime';
+import itemHelper from 'itemHelper';
+import events from 'events';
+import browser from 'browser';
+import imageLoader from 'imageLoader';
+import layoutManager from 'layoutManager';
+import playbackManager from 'playbackManager';
+import nowPlayingHelper from 'nowPlayingHelper';
+import appHost from 'apphost';
+import dom from 'dom';
+import connectionManager from 'connectionManager';
+import itemContextMenu from 'itemContextMenu';
+import 'paper-icon-button-light';
+import 'emby-ratingbutton';
 
-    var currentPlayer;
-    var currentPlayerSupportedCommands = [];
+/* eslint-disable indent */
 
-    var currentTimeElement;
-    var nowPlayingImageElement;
-    var nowPlayingTextElement;
-    var nowPlayingUserData;
-    var muteButton;
-    var volumeSlider;
-    var volumeSliderContainer;
-    var playPauseButtons;
-    var positionSlider;
-    var toggleRepeatButton;
-    var toggleRepeatButtonIcon;
+    let currentPlayer;
+    let currentPlayerSupportedCommands = [];
 
-    var lastUpdateTime = 0;
-    var lastPlayerState = {};
-    var isEnabled;
-    var currentRuntimeTicks = 0;
+    let currentTimeElement;
+    let nowPlayingImageElement;
+    let nowPlayingTextElement;
+    let nowPlayingUserData;
+    let muteButton;
+    let volumeSlider;
+    let volumeSliderContainer;
+    let playPauseButtons;
+    let positionSlider;
+    let toggleRepeatButton;
+    let toggleRepeatButtonIcon;
 
-    var isVisibilityAllowed = true;
+    let lastUpdateTime = 0;
+    let lastPlayerState = {};
+    let isEnabled;
+    let currentRuntimeTicks = 0;
+
+    let isVisibilityAllowed = true;
 
     function getNowPlayingBarHtml() {
 
-        var html = '';
+        let html = '';
 
         html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
 
@@ -72,7 +87,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         if (layoutManager.mobile) {
             html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
         } else {
-            html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><span class="material-icons more_vert"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton"><span class="material-icons more_vert"></span></button>';
         }
 
         html += '</div>';
@@ -204,21 +219,17 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         volumeSliderContainer.classList.toggle('hide', appHost.supports('physicalvolumecontrol'));
 
-        function setVolume() {
+        volumeSlider.addEventListener('input', (e) => {
             if (currentPlayer) {
-                currentPlayer.setVolume(this.value);
+                currentPlayer.setVolume(e.target.value);
             }
-        }
-
-        volumeSlider.addEventListener('change', setVolume);
-        volumeSlider.addEventListener('mousemove', setVolume);
-        volumeSlider.addEventListener('touchmove', setVolume);
+        });
 
         positionSlider.addEventListener('change', function () {
 
             if (currentPlayer) {
 
-                var newPercent = parseFloat(this.value);
+                const newPercent = parseFloat(this.value);
 
                 playbackManager.seekPercent(newPercent, currentPlayer);
             }
@@ -227,13 +238,13 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         positionSlider.getBubbleText = function (value) {
 
-            var state = lastPlayerState;
+            const state = lastPlayerState;
 
             if (!state || !state.NowPlayingItem || !currentRuntimeTicks) {
                 return '--:--';
             }
 
-            var ticks = currentRuntimeTicks;
+            let ticks = currentRuntimeTicks;
             ticks /= 100;
             ticks *= value;
 
@@ -250,12 +261,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function showRemoteControl() {
 
-        require(['appRouter'], function (appRouter) {
+        import('appRouter').then(({default: appRouter}) => {
             appRouter.showNowPlaying();
         });
     }
 
-    var nowPlayingBarElement;
+    let nowPlayingBarElement;
     function getNowPlayingBar() {
 
         if (nowPlayingBarElement) {
@@ -263,10 +274,14 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         return new Promise(function (resolve, reject) {
-
-            require(['appFooter-shared', 'itemShortcuts', 'css!./nowPlayingBar.css', 'emby-slider'], function (appfooter, itemShortcuts) {
-
-                var parentContainer = appfooter.element;
+            Promise.all([
+                import('appFooter-shared'),
+                import('itemShortcuts'),
+                import('css!./nowPlayingBar.css'),
+                import('emby-slider')
+            ])
+            .then(([appfooter, itemShortcuts]) => {
+                const parentContainer = appfooter.element;
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
                 if (nowPlayingBarElement) {
@@ -319,13 +334,13 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         lastPlayerState = state;
 
-        var playerInfo = playbackManager.getPlayerInfo();
+        const playerInfo = playbackManager.getPlayerInfo();
 
-        var playState = state.PlayState || {};
+        const playState = state.PlayState || {};
 
         updatePlayPauseState(playState.IsPaused);
 
-        var supportedCommands = playerInfo.supportedCommands;
+        const supportedCommands = playerInfo.supportedCommands;
         currentPlayerSupportedCommands = supportedCommands;
 
         if (supportedCommands.indexOf('SetRepeatMode') === -1) {
@@ -343,11 +358,11 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             positionSlider.disabled = !playState.CanSeek;
 
             // determines if both forward and backward buffer progress will be visible
-            var isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
+            const isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
             positionSlider.setIsClear(isProgressClear);
         }
 
-        var nowPlayingItem = state.NowPlayingItem || {};
+        const nowPlayingItem = state.NowPlayingItem || {};
         updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
 
         updateNowPlayingInfo(state);
@@ -355,7 +370,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function updateRepeatModeDisplay(repeatMode) {
         toggleRepeatButtonIcon.classList.remove('repeat', 'repeat_one');
-        const cssClass = 'repeatButton-active';
+        const cssClass = 'buttonActive';
 
         switch (repeatMode) {
             case 'RepeatAll':
@@ -375,18 +390,14 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
-
         // See bindEvents for why this is necessary
         if (positionSlider && !positionSlider.dragging) {
             if (runtimeTicks) {
-
-                var pct = positionTicks / runtimeTicks;
+                let pct = positionTicks / runtimeTicks;
                 pct *= 100;
 
                 positionSlider.value = pct;
-
             } else {
-
                 positionSlider.value = 0;
             }
         }
@@ -396,9 +407,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         if (currentTimeElement) {
-
-            var timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
-
+            let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
             if (runtimeTicks) {
                 timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
             }
@@ -409,10 +418,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function updatePlayerVolumeState(isMuted, volumeLevel) {
 
-        var supportedCommands = currentPlayerSupportedCommands;
+        const supportedCommands = currentPlayerSupportedCommands;
 
-        var showMuteButton = true;
-        var showVolumeSlider = true;
+        let showMuteButton = true;
+        let showVolumeSlider = true;
 
         if (supportedCommands.indexOf('ToggleMute') === -1) {
             showMuteButton = false;
@@ -514,12 +523,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         return null;
     }
 
-    var currentImgUrl;
+    let currentImgUrl;
     function updateNowPlayingInfo(state) {
 
-        var nowPlayingItem = state.NowPlayingItem;
+        const nowPlayingItem = state.NowPlayingItem;
 
-        var textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
+        const textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
         nowPlayingTextElement.innerHTML = '';
         if (textLines) {
             let itemText = document.createElement('div');
@@ -543,15 +552,15 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             nowPlayingTextElement.appendChild(secondaryText);
         }
 
-        var imgHeight = 70;
+        const imgHeight = 70;
 
-        var url = nowPlayingItem ? (seriesImageUrl(nowPlayingItem, {
+        const url = nowPlayingItem ? (seriesImageUrl(nowPlayingItem, {
             height: imgHeight
         }) || imageUrl(nowPlayingItem, {
             height: imgHeight
         })) : null;
 
-        var isRefreshing = false;
+        let isRefreshing = false;
 
         if (url !== currentImgUrl) {
             currentImgUrl = url;
@@ -571,10 +580,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         if (nowPlayingItem.Id) {
             if (isRefreshing) {
 
-                var apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
+                const apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-                    var userData = item.UserData || {};
-                    var likes = userData.Likes == null ? '' : userData.Likes;
+                    const userData = item.UserData || {};
+                    const likes = userData.Likes == null ? '' : userData.Likes;
                     if (!layoutManager.mobile) {
                         let contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
                         // We remove the previous event listener by replacing the item in each update event
@@ -606,14 +615,11 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onPlaybackStart(e, state) {
         console.debug('nowplaying event: ' + e.type);
-
         var player = this;
-
         onStateChanged.call(player, e, state);
     }
 
     function onRepeatModeChange() {
-
         if (!isEnabled) {
             return;
         }
@@ -628,9 +634,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         let shuffleMode = playbackManager.getQueueShuffleMode();
         let context = nowPlayingBarElement;
-        const cssClass = 'shuffleQueue-active';
+        const cssClass = 'buttonActive';
         let toggleShuffleButton = context.querySelector('.btnShuffleQueue');
-
         switch (shuffleMode) {
             case 'Shuffle':
                 toggleShuffleButton.classList.add(cssClass);
@@ -643,7 +648,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function showNowPlayingBar() {
-
         if (!isVisibilityAllowed) {
             hideNowPlayingBar();
             return;
@@ -660,7 +664,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // in the event of a stop->play command
 
         // Don't call getNowPlayingBar here because we don't want to end up creating it just to hide it
-        var elem = document.getElementsByClassName('nowPlayingBar')[0];
+        const elem = document.getElementsByClassName('nowPlayingBar')[0];
         if (elem) {
 
             slideDown(elem);
@@ -670,7 +674,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     function onPlaybackStopped(e, state) {
 
         console.debug('nowplaying event: ' + e.type);
-        var player = this;
+        const player = this;
 
         if (player.isLocalPlayer) {
             if (state.NextMediaType !== 'Audio') {
@@ -689,14 +693,14 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             return;
         }
 
-        var player = this;
+        const player = this;
         updatePlayPauseState(player.paused());
     }
 
     function onStateChanged(event, state) {
 
         console.debug('nowplaying event: ' + event.type);
-        var player = this;
+        const player = this;
 
         if (!state.NowPlayingItem || layoutManager.tv) {
             hideNowPlayingBar();
@@ -727,21 +731,21 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         // Try to avoid hammering the document with changes
-        var now = new Date().getTime();
+        const now = new Date().getTime();
         if ((now - lastUpdateTime) < 700) {
 
             return;
         }
         lastUpdateTime = now;
 
-        var player = this;
+        const player = this;
         currentRuntimeTicks = playbackManager.duration(player);
         updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks, playbackManager.getBufferedRanges(player));
     }
 
     function releaseCurrentPlayer() {
 
-        var player = currentPlayer;
+        const player = currentPlayer;
 
         if (player) {
             events.off(player, 'playbackstart', onPlaybackStart);
@@ -765,14 +769,14 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             return;
         }
 
-        var player = this;
+        const player = this;
 
         updatePlayerVolumeState(player.isMuted(), player.getVolume());
     }
 
     function refreshFromPlayer(player) {
 
-        var state = playbackManager.getPlayerState(player);
+        const state = playbackManager.getPlayerState(player);
 
         onStateChanged.call(player, { type: 'init' }, state);
     }
@@ -829,4 +833,5 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         }
     });
-});
+
+/* eslint-enable indent */

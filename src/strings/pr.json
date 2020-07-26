@@ -23,5 +23,7 @@
     "Add": "Upend",
     "Actor": "Privateer",
     "AccessRestrictedTryAgainLater": "Ye arn't appearin' on the list o' the livin'!",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "AddedOnValue": "Upended {0}",
+    "AddToCollection": "Add to ye collection"
 }

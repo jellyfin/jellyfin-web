@@ -1521,7 +1521,7 @@
     "TabDVR": "DVR",
     "HeaderDVR": "DVR",
     "SaveChanges": "Változtatások mentése",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> bufferel...",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> pufferel…",
     "MessageSyncPlayUserLeft": "<b>{0}</b> elhagyta a csoportot.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> csatlakozott a csoporthoz.",
     "MessageSyncPlayDisabled": "SyncPlay letiltva.",

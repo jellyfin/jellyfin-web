@@ -503,5 +503,8 @@
     "BrowsePluginCatalogMessage": "瀏覽我們的插件目錄以查看可用的插件。",
     "BoxRear": "盒裝(背面)",
     "BoxSet": "套裝",
-    "Box": "盒裝"
+    "Box": "盒裝",
+    "Composer": "作曲家",
+    "ButtonPreviousTrack": "上一曲",
+    "ButtonNextTrack": "下一曲"
 }

@@ -1,9 +1,16 @@
-define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcomponents', 'css!./emby-tabs', 'scrollStyles'], function (dom, scroller, browser, layoutManager, focusManager) {
-    'use strict';
+import dom from 'dom';
+import scroller from 'scroller';
+import browser from 'browser';
+import focusManager from 'focusManager';
+import 'webcomponents';
+import 'css!./emby-tabs';
+import 'scrollStyles';
 
-    var EmbyTabs = Object.create(HTMLDivElement.prototype);
-    var buttonClass = 'emby-tab-button';
-    var activeButtonClass = buttonClass + '-active';
+/* eslint-disable indent */
+
+    let EmbyTabs = Object.create(HTMLDivElement.prototype);
+    const buttonClass = 'emby-tab-button';
+    const activeButtonClass = buttonClass + '-active';
 
     function setActiveTabButton(tabs, newButton, oldButton, animate) {
 
@@ -16,14 +23,14 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
     }
 
     function removeActivePanelClass(tabs, index) {
-        var tabPanel = getTabPanel(tabs, index);
+        let tabPanel = getTabPanel(tabs, index);
         if (tabPanel) {
             tabPanel.classList.remove('is-active');
         }
     }
 
     function addActivePanelClass(tabs, index) {
-        var tabPanel = getTabPanel(tabs, index);
+        let tabPanel = getTabPanel(tabs, index);
         if (tabPanel) {
             tabPanel.classList.add('is-active');
         }
@@ -31,9 +38,9 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
 
     function fadeInRight(elem) {
 
-        var pct = browser.mobile ? '4%' : '0.5%';
+        const pct = browser.mobile ? '4%' : '0.5%';
 
-        var keyframes = [
+        const keyframes = [
             { opacity: '0', transform: 'translate3d(' + pct + ', 0, 0)', offset: 0 },
             { opacity: '1', transform: 'none', offset: 1 }];
 
@@ -56,7 +63,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
             removeActivePanelClass(tabs, previousIndex);
         }
 
-        var newPanel = getTabPanel(tabs, index);
+        let newPanel = getTabPanel(tabs, index);
 
         if (newPanel) {
             // animate new panel ?
@@ -70,10 +77,10 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
 
     function onClick(e) {
 
-        var tabs = this;
+        const tabs = this;
 
-        var current = tabs.querySelector('.' + activeButtonClass);
-        var tabButton = dom.parentWithClass(e.target, buttonClass);
+        const current = tabs.querySelector('.' + activeButtonClass);
+        const tabButton = dom.parentWithClass(e.target, buttonClass);
 
         if (tabButton && tabButton !== current) {
 
@@ -81,11 +88,11 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
                 current.classList.remove(activeButtonClass);
             }
 
-            var previousIndex = current ? parseInt(current.getAttribute('data-index')) : null;
+            const previousIndex = current ? parseInt(current.getAttribute('data-index')) : null;
 
             setActiveTabButton(tabs, tabButton, current, true);
 
-            var index = parseInt(tabButton.getAttribute('data-index'));
+            const index = parseInt(tabButton.getAttribute('data-index'));
 
             triggerBeforeTabChange(tabs, index, previousIndex);
 
@@ -115,7 +122,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
             return;
         }
 
-        var contentScrollSlider = tabs.querySelector('.emby-tabs-slider');
+        const contentScrollSlider = tabs.querySelector('.emby-tabs-slider');
         if (contentScrollSlider) {
             tabs.scroller = new scroller(tabs, {
                 horizontal: 1,
@@ -160,7 +167,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
 
     EmbyTabs.focus = function () {
 
-        var selected = this.querySelector('.' + activeButtonClass);
+        const selected = this.querySelector('.' + activeButtonClass);
 
         if (selected) {
             focusManager.focus(selected);
@@ -180,16 +187,16 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
 
         initScroller(this);
 
-        var current = this.querySelector('.' + activeButtonClass);
-        var currentIndex = current ? parseInt(current.getAttribute('data-index')) : parseInt(this.getAttribute('data-index') || '0');
+        const current = this.querySelector('.' + activeButtonClass);
+        const currentIndex = current ? parseInt(current.getAttribute('data-index')) : parseInt(this.getAttribute('data-index') || '0');
 
         if (currentIndex !== -1) {
 
             this.selectedTabIndex = currentIndex;
 
-            var tabButtons = this.querySelectorAll('.' + buttonClass);
+            const tabButtons = this.querySelectorAll('.' + buttonClass);
 
-            var newTabButton = tabButtons[currentIndex];
+            const newTabButton = tabButtons[currentIndex];
 
             if (newTabButton) {
                 setActiveTabButton(this, newTabButton, current, false);
@@ -221,18 +228,18 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
 
     EmbyTabs.selectedIndex = function (selected, triggerEvent) {
 
-        var tabs = this;
+        const tabs = this;
 
         if (selected == null) {
 
             return tabs.selectedTabIndex || 0;
         }
 
-        var current = tabs.selectedIndex();
+        const current = tabs.selectedIndex();
 
         tabs.selectedTabIndex = selected;
 
-        var tabButtons = tabs.querySelectorAll('.' + buttonClass);
+        const tabButtons = tabs.querySelectorAll('.' + buttonClass);
 
         if (current === selected || triggerEvent === false) {
 
@@ -244,7 +251,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
                 }
             }));
 
-            var currentTabButton = tabButtons[current];
+            let currentTabButton = tabButtons[current];
             setActiveTabButton(tabs, tabButtons[selected], currentTabButton, false);
 
             if (current !== selected && currentTabButton) {
@@ -262,7 +269,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
 
     function getSibling(elem, method) {
 
-        var sibling = elem[method];
+        let sibling = elem[method];
 
         while (sibling) {
             if (sibling.classList.contains(buttonClass)) {
@@ -280,9 +287,9 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
 
     EmbyTabs.selectNext = function () {
 
-        var current = getSelectedTabButton(this);
+        const current = getSelectedTabButton(this);
 
-        var sibling = getSibling(current, 'nextSibling');
+        const sibling = getSibling(current, 'nextSibling');
 
         if (sibling) {
             onClick.call(this, {
@@ -293,9 +300,9 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
 
     EmbyTabs.selectPrevious = function () {
 
-        var current = getSelectedTabButton(this);
+        const current = getSelectedTabButton(this);
 
-        var sibling = getSibling(current, 'previousSibling');
+        const sibling = getSibling(current, 'previousSibling');
 
         if (sibling) {
             onClick.call(this, {
@@ -306,14 +313,14 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
 
     EmbyTabs.triggerBeforeTabChange = function (selected) {
 
-        var tabs = this;
+        const tabs = this;
 
         triggerBeforeTabChange(tabs, tabs.selectedIndex());
     };
 
     EmbyTabs.triggerTabChange = function (selected) {
 
-        var tabs = this;
+        const tabs = this;
 
         tabs.dispatchEvent(new CustomEvent('tabchange', {
             detail: {
@@ -324,8 +331,8 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
 
     EmbyTabs.setTabEnabled = function (index, enabled) {
 
-        var tabs = this;
-        var btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
+        const tabs = this;
+        const btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
 
         if (enabled) {
             btn.classList.remove('hide');
@@ -338,4 +345,5 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'webcompo
         prototype: EmbyTabs,
         extends: 'div'
     });
-});
+
+/* eslint-enable indent */
