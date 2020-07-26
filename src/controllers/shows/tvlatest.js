@@ -22,7 +22,7 @@ import imageLoader from 'imageLoader';
 
     function loadLatest(context, params, promise) {
         promise.then(function (items) {
-            var html = '';
+            let html = '';
             html += cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'backdrop',

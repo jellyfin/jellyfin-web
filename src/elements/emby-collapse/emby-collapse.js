@@ -11,7 +11,7 @@ import 'emby-button';
             elem.classList.remove('hide');
             elem.classList.add('expanded');
             elem.style.height = 'auto';
-            var height = elem.offsetHeight + 'px';
+            const height = elem.offsetHeight + 'px';
             elem.style.height = '0';
             // trigger reflow
             // TODO: Find a better way to do this
