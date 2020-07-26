@@ -886,7 +886,7 @@ function initClient() {
             };
 
             appRouter.showVideoOsd = function () {
-                return Dashboard.navigate('videoosd.html');
+                return Dashboard.navigate('video');
             };
 
             appRouter.showSelectServer = function () {
