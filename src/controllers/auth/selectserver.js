@@ -3,7 +3,6 @@ import appRouter from 'appRouter';
 import layoutManager from 'layoutManager';
 import libraryMenu from 'libraryMenu';
 import appSettings from 'appSettings';
-import appHost from 'apphost';
 import focusManager from 'focusManager';
 import connectionManager from 'connectionManager';
 import globalize from 'globalize';
