@@ -40,7 +40,7 @@ import 'webcomponents';
                 this.classList.add('hide');
             }
 
-            this.setProgress(progress);
+            this.setAttribute('data-progress', progress);
         }
     }
 
