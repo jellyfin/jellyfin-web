@@ -190,6 +190,8 @@
           "src/controllers/dashboard/users/userpasswordpage.js",
           "src/controllers/dashboard/users/userprofilespage.js",
           "src/controllers/edititemmetadata.js",
+          "src/controllers/favorites.js",
+          "src/controllers/hometab.js",
           "src/controllers/playback/nowplaying.js",
           "src/controllers/playback/videoosd.js",
           "src/controllers/searchpage.js",
