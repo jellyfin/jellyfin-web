@@ -16,7 +16,7 @@ import 'emby-slider';
 import 'emby-input';
 import 'emby-checkbox';
 import 'flexStyles';
-import 'css!./subtitlesettings'
+import 'css!./subtitlesettings';
 
 /**
  * Subtitle settings.
