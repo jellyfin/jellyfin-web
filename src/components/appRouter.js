@@ -21,7 +21,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     };
 
     function beginConnectionWizard() {
-        backdrop.clear();
+        backdrop.clearBackdrop();
         loading.show();
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
@@ -53,7 +53,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 break;
             case 'ServerUpdateNeeded':
                 require(['alert'], function (alert) {
-                    alert({
+                    alert.default({
                         text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
                         html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                     }).then(function () {
@@ -432,7 +432,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     function loadContent(ctx, route, html, request) {
 
-        html = globalize.translateDocument(html, route.dictionary);
+        html = globalize.translateHtml(html, route.dictionary);
         request.view = html;
 
         viewManager.loadView(request);
@@ -624,7 +624,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
 
         if (level === 'full' || level === 2) {
-            backdrop.clear(true);
+            backdrop.clearBackdrop(true);
             document.documentElement.classList.add('transparentDocument');
             backgroundContainer.classList.add('backgroundContainer-transparent');
             backdropContainer.classList.add('hide');

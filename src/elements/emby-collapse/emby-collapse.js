@@ -1,18 +1,21 @@
-define(['browser', 'css!./emby-collapse', 'webcomponents', 'emby-button'], function (browser) {
-    'use strict';
+import 'css!./emby-collapse';
+import 'webcomponents';
+import 'emby-button';
 
-    var EmbyButtonPrototype = Object.create(HTMLDivElement.prototype);
+/* eslint-disable indent */
+
+    const EmbyButtonPrototype = Object.create(HTMLDivElement.prototype);
 
     function slideDownToShow(button, elem) {
 
         elem.classList.remove('hide');
         elem.classList.add('expanded');
         elem.style.height = 'auto';
-        var height = elem.offsetHeight + 'px';
+        const height = elem.offsetHeight + 'px';
         elem.style.height = '0';
 
         // trigger reflow
-        var newHeight = elem.offsetHeight;
+        const newHeight = elem.offsetHeight;
         elem.style.height = height;
 
         setTimeout(function () {
@@ -24,7 +27,7 @@ define(['browser', 'css!./emby-collapse', 'webcomponents', 'emby-button'], funct
             elem.style.height = 'auto';
         }, 300);
 
-        var icon = button.querySelector('.material-icons');
+        const icon = button.querySelector('.material-icons');
         //icon.innerHTML = 'expand_less';
         icon.classList.add('emby-collapse-expandIconExpanded');
     }
@@ -33,7 +36,7 @@ define(['browser', 'css!./emby-collapse', 'webcomponents', 'emby-button'], funct
 
         elem.style.height = elem.offsetHeight + 'px';
         // trigger reflow
-        var newHeight = elem.offsetHeight;
+        const newHeight = elem.offsetHeight;
 
         elem.classList.remove('expanded');
         elem.style.height = '0';
@@ -46,15 +49,15 @@ define(['browser', 'css!./emby-collapse', 'webcomponents', 'emby-button'], funct
             }
         }, 300);
 
-        var icon = button.querySelector('.material-icons');
+        const icon = button.querySelector('.material-icons');
         //icon.innerHTML = 'expand_more';
         icon.classList.remove('emby-collapse-expandIconExpanded');
     }
 
     function onButtonClick(e) {
 
-        var button = this;
-        var collapseContent = button.parentNode.querySelector('.collapseContent');
+        const button = this;
+        const collapseContent = button.parentNode.querySelector('.collapseContent');
 
         if (collapseContent.expanded) {
             collapseContent.expanded = false;
@@ -73,18 +76,18 @@ define(['browser', 'css!./emby-collapse', 'webcomponents', 'emby-button'], funct
 
         this.classList.add('emby-collapse');
 
-        var collapseContent = this.querySelector('.collapseContent');
+        const collapseContent = this.querySelector('.collapseContent');
         if (collapseContent) {
             collapseContent.classList.add('hide');
         }
 
-        var title = this.getAttribute('title');
+        const title = this.getAttribute('title');
 
-        var html = '<button is="emby-button" type="button" on-click="toggleExpand" id="expandButton" class="emby-collapsible-button iconRight"><h3 class="emby-collapsible-title" title="' + title + '">' + title + '</h3><span class="material-icons emby-collapse-expandIcon expand_more"></span></button>';
+        const html = '<button is="emby-button" type="button" on-click="toggleExpand" id="expandButton" class="emby-collapsible-button iconRight"><h3 class="emby-collapsible-title" title="' + title + '">' + title + '</h3><span class="material-icons emby-collapse-expandIcon expand_more"></span></button>';
 
         this.insertAdjacentHTML('afterbegin', html);
 
-        var button = this.querySelector('.emby-collapsible-button');
+        const button = this.querySelector('.emby-collapsible-button');
 
         button.addEventListener('click', onButtonClick);
 
@@ -97,4 +100,5 @@ define(['browser', 'css!./emby-collapse', 'webcomponents', 'emby-button'], funct
         prototype: EmbyButtonPrototype,
         extends: 'div'
     });
-});
+
+/* eslint-enable indent */

@@ -1,16 +1,21 @@
-define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'webcomponents'], function (EmbyProgressRing, dom, serverNotifications, events) {
-    'use strict';
+import EmbyProgressRing from 'emby-progressring';
+import dom from 'dom';
+import serverNotifications from 'serverNotifications';
+import events from 'events';
+import 'webcomponents';
+
+/* eslint-disable indent */
 
     function addNotificationEvent(instance, name, handler) {
 
-        var localHandler = handler.bind(instance);
+        const localHandler = handler.bind(instance);
         events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
     function removeNotificationEvent(instance, name) {
 
-        var handler = instance[name];
+        const handler = instance[name];
         if (handler) {
             events.off(serverNotifications, name, handler);
             instance[name] = null;
@@ -19,7 +24,7 @@ define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'webcompone
 
     function onRefreshProgress(e, apiClient, info) {
 
-        var indicator = this;
+        const indicator = this;
 
         if (!indicator.itemId) {
             indicator.itemId = dom.parentWithAttribute(indicator, 'data-id').getAttribute('data-id');
@@ -27,7 +32,7 @@ define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'webcompone
 
         if (info.ItemId === indicator.itemId) {
 
-            var progress = parseFloat(info.Progress);
+            const progress = parseFloat(info.Progress);
 
             if (progress && progress < 100) {
                 this.classList.remove('hide');
@@ -39,7 +44,7 @@ define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'webcompone
         }
     }
 
-    var EmbyItemRefreshIndicatorPrototype = Object.create(EmbyProgressRing);
+    let EmbyItemRefreshIndicatorPrototype = Object.create(EmbyProgressRing);
 
     EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
 
@@ -74,4 +79,5 @@ define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'webcompone
         prototype: EmbyItemRefreshIndicatorPrototype,
         extends: 'div'
     });
-});
+
+/* eslint-enable indent */

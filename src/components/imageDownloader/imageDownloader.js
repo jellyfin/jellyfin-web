@@ -339,7 +339,7 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
 
             var dlg = dialogHelper.createDialog(dialogOptions);
 
-            dlg.innerHTML = globalize.translateDocument(template, 'core');
+            dlg.innerHTML = globalize.translateHtml(template, 'core');
 
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.on(dlg, false);

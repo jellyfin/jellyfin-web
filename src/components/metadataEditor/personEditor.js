@@ -1,9 +1,17 @@
-define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-button-light', 'emby-input', 'emby-select', 'css!./../formdialog'], function (dialogHelper, layoutManager, globalize, require) {
-    'use strict';
+import dialogHelper from 'dialogHelper';
+import layoutManager from 'layoutManager';
+import globalize from 'globalize';
+import require from 'require';
+import 'paper-icon-button-light';
+import 'emby-input';
+import 'emby-select';
+import 'css!./../formdialog';
+
+/* eslint-disable indent */
 
     function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
+        import('scrollHelper').then(({default: scrollHelper}) => {
+            const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
@@ -11,9 +19,9 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
     function show(person) {
         return new Promise(function (resolve, reject) {
 
-            require(['text!./personEditor.template.html'], function (template) {
+            import('text!./personEditor.template.html').then(({default: template}) => {
 
-                var dialogOptions = {
+                const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -24,14 +32,14 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
                     dialogOptions.size = 'small';
                 }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+                const dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
 
-                var html = '';
-                var submitted = false;
+                let html = '';
+                let submitted = false;
 
-                html += globalize.translateDocument(template, 'core');
+                html += globalize.translateHtml(template, 'core');
 
                 dlg.innerHTML = html;
 
@@ -93,7 +101,8 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
         });
     }
 
-    return {
-        show: show
-    };
-});
+export default {
+    show: show
+};
+
+/* eslint-enable indent */

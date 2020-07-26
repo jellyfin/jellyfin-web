@@ -1,5 +1,13 @@
-define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emby-input', 'emby-select', 'emby-button'], function ($, loading, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import globalize from 'globalize';
+import 'emby-checkbox';
+import 'emby-textarea';
+import 'emby-input';
+import 'emby-select';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function loadPage(page, config, languageOptions, systemInfo) {
         page.querySelector('#txtServerName').value = systemInfo.ServerName;
@@ -16,7 +24,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
 
     function onSubmit() {
         loading.show();
-        var form = this;
+        const form = this;
         $(form).parents('.page');
         ApiClient.getServerConfiguration().then(function (config) {
             config.ServerName = $('#txtServerName', form).val();
@@ -24,7 +32,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
             config.CachePath = form.querySelector('#txtCachePath').value;
             config.MetadataPath = $('#txtMetadataPath', form).val();
             config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
-            var requiresReload = config.UICulture !== currentLanguage;
+            let requiresReload = config.UICulture !== currentLanguage;
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;
@@ -43,7 +51,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
                     });
                 });
             }, function () {
-                require(['alert'], function (alert) {
+                import('alert').then(({default: alert}) => {
                     alert(globalize.translate('DefaultErrorMessage'));
                 });
 
@@ -53,13 +61,13 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
         return false;
     }
 
-    var currentBrandingOptions;
-    var currentLanguage;
-    var brandingConfigKey = 'branding';
-    return function (view, params) {
+    let currentBrandingOptions;
+    let currentLanguage;
+    const brandingConfigKey = 'branding';
+    export default function (view, params) {
         $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
-            require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+            import('directorybrowser').then(({default: directoryBrowser}) => {
+                const picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -75,8 +83,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
             });
         });
         $('#btnSelectMetadataPath', view).on('click.selectDirectory', function () {
-            require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+            import('directorybrowser').then(({default: directoryBrowser}) => {
+                const picker = new directoryBrowser();
                 picker.show({
                     path: $('#txtMetadataPath', view).val(),
                     networkSharePath: $('#txtMetadataNetworkPath', view).val(),
@@ -100,9 +108,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
         });
         $('.dashboardGeneralForm', view).off('submit', onSubmit).on('submit', onSubmit);
         view.addEventListener('viewshow', function () {
-            var promiseConfig = ApiClient.getServerConfiguration();
-            var promiseLanguageOptions = ApiClient.getJSON(ApiClient.getUrl('Localization/Options'));
-            var promiseSystemInfo = ApiClient.getSystemInfo();
+            const promiseConfig = ApiClient.getServerConfiguration();
+            const promiseLanguageOptions = ApiClient.getJSON(ApiClient.getUrl('Localization/Options'));
+            const promiseSystemInfo = ApiClient.getSystemInfo();
             Promise.all([promiseConfig, promiseLanguageOptions, promiseSystemInfo]).then(function (responses) {
                 loadPage(view, responses[0], responses[1], responses[2]);
             });
@@ -112,5 +120,6 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emb
                 view.querySelector('#txtCustomCss').value = config.CustomCss || '';
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

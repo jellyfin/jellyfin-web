@@ -1526,7 +1526,7 @@
     "MessageSyncPlayCreateGroupDenied": "需要权限以创建群组。",
     "MessageSyncPlayGroupDoesNotExist": "无法加入群组，因为该群组不存在。",
     "MessageSyncPlayPlaybackPermissionRequired": "需要播放权限。",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> 正在缓冲...",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> 正在缓冲…",
     "MessageSyncPlayUserLeft": "<b>{0}</b> 已离开群组。",
     "MessageSyncPlayUserJoined": "<b>{0}</b> 已加入该群组。",
     "LabelSyncPlayAccessNone": "禁用此用户",

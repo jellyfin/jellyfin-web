@@ -89,7 +89,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
             var policy = user.Policy ? user.Policy : user.localUser.Policy;
 
-            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None') {
+            var apiClient = getCurrentApiClient();
+            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
                 headerSyncButton.classList.remove('hide');
             }
         } else {
@@ -967,8 +968,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         updateUserInHeader();
     });
     events.on(playbackManager, 'playerchange', updateCastIcon);
+
     events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
     events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
+
     loadNavDrawer();
     return LibraryMenu;
 });

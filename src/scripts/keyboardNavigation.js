@@ -155,7 +155,7 @@ export function enable() {
 function attachGamepadScript(e) {
     console.log('Gamepad connected! Attaching gamepadtokey.js script');
     window.removeEventListener('gamepadconnected', attachGamepadScript);
-    require(['scripts/gamepadtokey']);
+    import('scripts/gamepadtokey');
 }
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that

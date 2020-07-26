@@ -73,7 +73,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
 
                 html += template;
 
-                dlg.innerHTML = globalize.translateDocument(html, 'core');
+                dlg.innerHTML = globalize.translateHtml(html, 'core');
 
                 fillSortBy(dlg, options.sortOptions);
                 initEditor(dlg, options.settings);

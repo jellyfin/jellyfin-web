@@ -1,9 +1,18 @@
-define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'material-icons', 'css!./mediainfo.css', 'programStyles', 'emby-button'], function (datetime, globalize, appRouter, itemHelper, indicators) {
-    'use strict';
+import datetime from 'datetime';
+import globalize from 'globalize';
+import appRouter from 'appRouter';
+import itemHelper from 'itemHelper';
+import indicators from 'indicators';
+import 'material-icons';
+import 'css!./mediainfo.css';
+import 'programStyles';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function getTimerIndicator(item) {
 
-        var status;
+        let status;
 
         if (item.Type === 'SeriesTimer') {
             return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></span>';
@@ -30,11 +39,11 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
     }
 
     function getProgramInfoHtml(item, options) {
-        var html = '';
+        let html = '';
 
-        var miscInfo = [];
-        var text;
-        var date;
+        const miscInfo = [];
+        let text;
+        let date;
 
         if (item.StartDate && options.programTime !== false) {
 
@@ -48,35 +57,35 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     text += datetime.toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' });
                 }
 
-                text += ' ' + datetime.getDisplayTime(date);
+                text += ` ${datetime.getDisplayTime(date)}`;
 
                 if (item.EndDate) {
                     date = datetime.parseISO8601Date(item.EndDate);
-                    text += ' - ' + datetime.getDisplayTime(date);
+                    text += ` - ${datetime.getDisplayTime(date)}`;
                 }
 
                 miscInfo.push(text);
             } catch (e) {
-                console.error('error parsing date: ' + item.StartDate);
+                console.error('error parsing date:', item.StartDate);
             }
         }
 
         if (item.ChannelNumber) {
-            miscInfo.push('CH ' + item.ChannelNumber);
+            miscInfo.push(`CH ${item.ChannelNumber}`);
         }
 
         if (item.ChannelName) {
 
             if (options.interactive && item.ChannelId) {
                 miscInfo.push({
-                    html: '<a is="emby-linkbutton" class="button-flat mediaInfoItem" href="' + appRouter.getRouteUrl({
+                    html: `<a is="emby-linkbutton" class="button-flat mediaInfoItem" href="${appRouter.getRouteUrl({
 
                         ServerId: item.ServerId,
                         Type: 'TvChannel',
                         Name: item.ChannelName,
                         Id: item.ChannelId
 
-                    }) + '">' + item.ChannelName + '</a>'
+                    })}">${item.ChannelName}</a>`
                 });
             } else {
                 miscInfo.push(item.ChannelName);
@@ -84,7 +93,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         }
 
         if (options.timerIndicator !== false) {
-            var timerHtml = getTimerIndicator(item);
+            const timerHtml = getTimerIndicator(item);
             if (timerHtml) {
                 miscInfo.push({
                     html: timerHtml
@@ -92,24 +101,24 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             }
         }
 
-        html += miscInfo.map(function (m) {
+        html += miscInfo.map(m => {
             return getMediaInfoItem(m);
         }).join('');
 
         return html;
     }
 
-    function getMediaInfoHtml(item, options) {
-        var html = '';
+    export function getMediaInfoHtml(item, options) {
+        let html = '';
 
-        var miscInfo = [];
+        const miscInfo = [];
         options = options || {};
-        var text;
-        var date;
-        var minutes;
-        var count;
+        let text;
+        let date;
+        let minutes;
+        let count;
 
-        var showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
+        const showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
 
         if (showFolderRuntime) {
 
@@ -143,7 +152,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     text = datetime.toLocaleDateString(date);
                     miscInfo.push(text);
                 } catch (e) {
-                    console.error('error parsing date: ' + item.PremiereDate);
+                    console.error('error parsing date:', item.PremiereDate);
                 }
             }
         }
@@ -176,7 +185,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     miscInfo.push(text);
                 }
             } catch (e) {
-                console.error('error parsing date: ' + item.StartDate);
+                console.error('error parsing date:', item.StartDate);
             }
         }
 
@@ -193,14 +202,14 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
                     try {
 
-                        var endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
+                        const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
 
                         if (endYear !== item.ProductionYear) {
-                            text += '-' + datetime.parseISO8601Date(item.EndDate).getFullYear();
+                            text += `-${datetime.parseISO8601Date(item.EndDate).getFullYear()}`;
                         }
 
                     } catch (e) {
-                        console.error('error parsing date: ' + item.EndDate);
+                        console.error('error parsing date:', item.EndDate);
                     }
                 }
 
@@ -213,19 +222,19 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             if (options.programIndicator !== false) {
                 if (item.IsLive) {
                     miscInfo.push({
-                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem liveTvProgram">' + globalize.translate('Live') + '</div>'
+                        html: `<div class="mediaInfoProgramAttribute mediaInfoItem liveTvProgram">${globalize.translate('Live')}</div>`
                     });
                 } else if (item.IsPremiere) {
                     miscInfo.push({
-                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem premiereTvProgram">' + globalize.translate('Premiere') + '</div>'
+                        html: `<div class="mediaInfoProgramAttribute mediaInfoItem premiereTvProgram">${globalize.translate('Premiere')}</div>`
                     });
                 } else if (item.IsSeries && !item.IsRepeat) {
                     miscInfo.push({
-                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">' + globalize.translate('AttributeNew') + '</div>'
+                        html: `<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">${globalize.translate('AttributeNew')}</div>`
                     });
                 } else if (item.IsSeries && item.IsRepeat) {
                     miscInfo.push({
-                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem repeatTvProgram">' + globalize.translate('Repeat') + '</div>'
+                        html: `<div class="mediaInfoProgramAttribute mediaInfoItem repeatTvProgram">${globalize.translate('Repeat')}</div>`
                     });
                 }
             }
@@ -248,7 +257,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
                     miscInfo.push(text);
                 } catch (e) {
-                    console.error('error parsing date: ' + item.PremiereDate);
+                    console.error('error parsing date:', item.PremiereDate);
                 }
             } else if (item.ProductionYear) {
                 miscInfo.push(item.ProductionYear);
@@ -267,7 +276,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                         text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
                         miscInfo.push(text);
                     } catch (e) {
-                        console.error('error parsing date: ' + item.PremiereDate);
+                        console.error('error parsing date:', item.PremiereDate);
                     }
                 }
             }
@@ -284,7 +293,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
                 minutes = minutes || 1;
 
-                miscInfo.push(Math.round(minutes) + ' mins');
+                miscInfo.push(`${Math.round(minutes)} mins`);
             }
         }
 
@@ -300,14 +309,14 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         }
 
         if (item.MediaType === 'Photo' && item.Width && item.Height) {
-            miscInfo.push(item.Width + 'x' + item.Height);
+            miscInfo.push(`${item.Width}x${item.Height}`);
         }
 
         if (options.container !== false && item.Type === 'Audio' && item.Container) {
             miscInfo.push(item.Container);
         }
 
-        html += miscInfo.map(function (m) {
+        html += miscInfo.map(m => {
             return getMediaInfoItem(m);
         }).join('');
 
@@ -320,15 +329,15 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         if (item.CriticRating && options.criticRating !== false) {
 
             if (item.CriticRating >= 60) {
-                html += '<div class="mediaInfoItem mediaInfoCriticRating mediaInfoCriticRatingFresh">' + item.CriticRating + '</div>';
+                html += `<div class="mediaInfoItem mediaInfoCriticRating mediaInfoCriticRatingFresh">${item.CriticRating}</div>`;
             } else {
-                html += '<div class="mediaInfoItem mediaInfoCriticRating mediaInfoCriticRatingRotten">' + item.CriticRating + '</div>';
+                html += `<div class="mediaInfoItem mediaInfoCriticRating mediaInfoCriticRatingRotten">${item.CriticRating}</div>`;
             }
         }
 
         if (options.endsAt !== false) {
 
-            var endsAt = getEndsAt(item);
+            const endsAt = getEndsAt(item);
             if (endsAt) {
                 html += getMediaInfoItem(endsAt, 'endsAt');
             }
@@ -339,15 +348,15 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         return html;
     }
 
-    function getEndsAt(item) {
+    export function getEndsAt(item) {
 
         if (item.MediaType === 'Video' && item.RunTimeTicks) {
 
             if (!item.StartDate) {
-                var endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
+                let endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
                 endDate = new Date(endDate);
 
-                var displayTime = datetime.getDisplayTime(endDate);
+                const displayTime = datetime.getDisplayTime(endDate);
                 return globalize.translate('EndsAtValue', displayTime);
             }
         }
@@ -355,12 +364,12 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         return null;
     }
 
-    function getEndsAtFromPosition(runtimeTicks, positionTicks, includeText) {
+    export function getEndsAtFromPosition(runtimeTicks, positionTicks, includeText) {
 
-        var endDate = new Date().getTime() + ((runtimeTicks - (positionTicks || 0)) / 10000);
+        let endDate = new Date().getTime() + ((runtimeTicks - (positionTicks || 0)) / 10000);
         endDate = new Date(endDate);
 
-        var displayTime = datetime.getDisplayTime(endDate);
+        const displayTime = datetime.getDisplayTime(endDate);
 
         if (includeText === false) {
             return displayTime;
@@ -370,8 +379,8 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
     function getMediaInfoItem(m, cssClass) {
 
-        cssClass = cssClass ? (cssClass + ' mediaInfoItem') : 'mediaInfoItem';
-        var mediaInfoText = m;
+        cssClass = cssClass ? (`${cssClass} mediaInfoItem`) : 'mediaInfoItem';
+        let mediaInfoText = m;
 
         if (typeof (m) !== 'string' && typeof (m) !== 'number') {
 
@@ -379,13 +388,13 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                 return m.html;
             }
             mediaInfoText = m.text;
-            cssClass += ' ' + m.cssClass;
+            cssClass += ` ${m.cssClass}`;
         }
-        return '<div class="' + cssClass + '">' + mediaInfoText + '</div>';
+        return `<div class="${cssClass}">${mediaInfoText}</div>`;
     }
 
     function getStarIconsHtml(item) {
-        var html = '';
+        let html = '';
 
         if (item.CommunityRating) {
             html += '<div class="starRatingContainer mediaInfoItem">';
@@ -400,7 +409,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
     function dynamicEndTime(elem, item) {
 
-        var interval = setInterval(function () {
+        const interval = setInterval(() => {
 
             if (!document.body.contains(elem)) {
 
@@ -413,15 +422,15 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         }, 60000);
     }
 
-    function fillPrimaryMediaInfo(elem, item, options) {
-        var html = getPrimaryMediaInfoHtml(item, options);
+    export function fillPrimaryMediaInfo(elem, item, options) {
+        const html = getPrimaryMediaInfoHtml(item, options);
 
         elem.innerHTML = html;
         afterFill(elem, item, options);
     }
 
-    function fillSecondaryMediaInfo(elem, item, options) {
-        var html = getSecondaryMediaInfoHtml(item, options);
+    export function fillSecondaryMediaInfo(elem, item, options) {
+        const html = getSecondaryMediaInfoHtml(item, options);
 
         elem.innerHTML = html;
         afterFill(elem, item, options);
@@ -430,13 +439,13 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
     function afterFill(elem, item, options) {
 
         if (options.endsAt !== false) {
-            var endsAtElem = elem.querySelector('.endsAt');
+            const endsAtElem = elem.querySelector('.endsAt');
             if (endsAtElem) {
                 dynamicEndTime(endsAtElem, item);
             }
         }
 
-        var lnkChannel = elem.querySelector('.lnkChannel');
+        const lnkChannel = elem.querySelector('.lnkChannel');
         if (lnkChannel) {
             lnkChannel.addEventListener('click', onChannelLinkClick);
         }
@@ -444,8 +453,8 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
     function onChannelLinkClick(e) {
 
-        var channelId = this.getAttribute('data-id');
-        var serverId = this.getAttribute('data-serverid');
+        const channelId = this.getAttribute('data-id');
+        const serverId = this.getAttribute('data-serverid');
 
         appRouter.showItem(channelId, serverId);
 
@@ -453,7 +462,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         return false;
     }
 
-    function getPrimaryMediaInfoHtml(item, options) {
+    export function getPrimaryMediaInfoHtml(item, options) {
 
         options = options || {};
         if (options.interactive == null) {
@@ -463,7 +472,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         return getMediaInfoHtml(item, options);
     }
 
-    function getSecondaryMediaInfoHtml(item, options) {
+    export function getSecondaryMediaInfoHtml(item, options) {
 
         options = options || {};
         if (options.interactive == null) {
@@ -476,10 +485,10 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         return '';
     }
 
-    function getResolutionText(i) {
+    export function getResolutionText(i) {
 
-        var width = i.Width;
-        var height = i.Height;
+        const width = i.Width;
+        const height = i.Height;
 
         if (width && height) {
 
@@ -522,28 +531,28 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             return null;
         }
 
-        var mediaSource = item.MediaSources[0];
+        const mediaSource = item.MediaSources[0];
         if (!mediaSource) {
             return null;
         }
 
-        return (mediaSource.MediaStreams || []).filter(function (i) {
+        return (mediaSource.MediaStreams || []).filter(i => {
             return i.Type === 'Audio' && (i.Index === mediaSource.DefaultAudioStreamIndex || mediaSource.DefaultAudioStreamIndex == null);
         })[0];
     }
 
-    function getMediaInfoStats(item, options) {
+    export function getMediaInfoStats(item, options) {
 
         options = options || {};
 
-        var list = [];
+        const list = [];
 
-        var mediaSource = (item.MediaSources || [])[0] || {};
+        const mediaSource = (item.MediaSources || [])[0] || {};
 
-        var videoStream = (mediaSource.MediaStreams || []).filter(function (i) {
+        const videoStream = (mediaSource.MediaStreams || []).filter(i => {
             return i.Type === 'Video';
         })[0] || {};
-        var audioStream = getAudioStreamForDisplay(item) || {};
+        const audioStream = getAudioStreamForDisplay(item) || {};
 
         if (item.VideoType === 'Dvd') {
             list.push({
@@ -563,7 +572,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         //    html += '<div class="mediaInfoIcon mediaInfoText">' + mediaSource.Container + '</div>';
         //}
 
-        var resolutionText = getResolutionText(videoStream);
+        const resolutionText = getResolutionText(videoStream);
         if (resolutionText) {
             list.push({
                 type: 'mediainfo',
@@ -578,8 +587,8 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             });
         }
 
-        var channels = audioStream.Channels;
-        var channelText;
+        const channels = audioStream.Channels;
+        let channelText;
 
         if (channels === 8) {
 
@@ -605,7 +614,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             });
         }
 
-        var audioCodec = (audioStream.Codec || '').toLowerCase();
+        const audioCodec = (audioStream.Codec || '').toLowerCase();
 
         if ((audioCodec === 'dca' || audioCodec === 'dts') && audioStream.Profile) {
             list.push({
@@ -621,27 +630,27 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
         if (item.DateCreated && itemHelper.enableDateAddedDisplay(item)) {
 
-            var dateCreated = datetime.parseISO8601Date(item.DateCreated);
+            const dateCreated = datetime.parseISO8601Date(item.DateCreated);
 
             list.push({
                 type: 'added',
-                text: globalize.translate('AddedOnValue', datetime.toLocaleDateString(dateCreated) + ' ' + datetime.getDisplayTime(dateCreated))
+                text: globalize.translate('AddedOnValue', `${datetime.toLocaleDateString(dateCreated)} ${datetime.getDisplayTime(dateCreated)}`)
             });
         }
 
         return list;
     }
 
-    return {
-        getMediaInfoHtml: getPrimaryMediaInfoHtml,
-        fill: fillPrimaryMediaInfo,
-        getEndsAt: getEndsAt,
-        getEndsAtFromPosition: getEndsAtFromPosition,
-        getPrimaryMediaInfoHtml: getPrimaryMediaInfoHtml,
-        getSecondaryMediaInfoHtml: getSecondaryMediaInfoHtml,
-        fillPrimaryMediaInfo: fillPrimaryMediaInfo,
-        fillSecondaryMediaInfo: fillSecondaryMediaInfo,
-        getMediaInfoStats: getMediaInfoStats,
-        getResolutionText: getResolutionText
-    };
-});
+/* eslint-enable indent */
+
+export default {
+    getMediaInfoHtml: getPrimaryMediaInfoHtml,
+    getEndsAt: getEndsAt,
+    getEndsAtFromPosition: getEndsAtFromPosition,
+    getPrimaryMediaInfoHtml: getPrimaryMediaInfoHtml,
+    getSecondaryMediaInfoHtml: getSecondaryMediaInfoHtml,
+    fillPrimaryMediaInfo: fillPrimaryMediaInfo,
+    fillSecondaryMediaInfo: fillSecondaryMediaInfo,
+    getMediaInfoStats: getMediaInfoStats,
+    getResolutionText: getResolutionText
+};
