@@ -492,7 +492,7 @@ function initClient() {
         if (appHost.supports('remotecontrol')) {
             list.push('plugins/sessionPlayer/plugin');
 
-            if (browser.chrome || browser.opera) {
+            if (browser.chrome || browser.edgeChromium || browser.opera) {
                 list.push('plugins/chromecastPlayer/plugin');
             }
         }
