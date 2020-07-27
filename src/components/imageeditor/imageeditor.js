@@ -51,7 +51,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
             var btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
             for (var i = 0, length = btnBrowseAllImages.length; i < length; i++) {
-
                 if (providers.length) {
                     btnBrowseAllImages[i].classList.remove('hide');
                 } else {
@@ -60,7 +59,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
             }
 
             apiClient.getItemImageInfos(currentItem.Id).then(function (imageInfos) {
-
                 renderStandardImages(page, apiClient, item, imageInfos, providers);
                 renderBackdrops(page, apiClient, item, imageInfos, providers);
                 renderScreenshots(page, apiClient, item, imageInfos, providers);
