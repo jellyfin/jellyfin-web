@@ -18,14 +18,14 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                         StartIndex: 0
                     },
-                    view: libraryBrowser.getSavedView(key) || 'Poster'
+                    view: libraryBrowser.default.getSavedView(key) || 'Poster'
                 };
 
                 if (userSettings.libraryPageSize() > 0) {
                     pageData.query['Limit'] = userSettings.libraryPageSize();
                 }
 
-                libraryBrowser.loadSavedQueryValues(key, pageData.query);
+                libraryBrowser.default.loadSavedQueryValues(key, pageData.query);
             }
 
             return pageData;
@@ -37,7 +37,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
 
         function getSavedQueryKey(context) {
             if (!context.savedQueryKey) {
-                context.savedQueryKey = libraryBrowser.getSavedQueryKey('trailers');
+                context.savedQueryKey = libraryBrowser.default.getSavedQueryKey('trailers');
             }
 
             return context.savedQueryKey;
@@ -72,7 +72,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
 
                 window.scrollTo(0, 0);
                 updateFilterControls(tabContent);
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                var pagingHtml = libraryBrowser.default.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -169,7 +169,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 var itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
-                libraryBrowser.saveQueryValues(getSavedQueryKey(tabContent), query);
+                libraryBrowser.default.saveQueryValues(getSavedQueryKey(tabContent), query);
                 loading.hide();
                 isLoading = false;
             });
@@ -226,7 +226,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 self.showFilterMenu();
             });
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
-                libraryBrowser.showSortMenu({
+                libraryBrowser.default.showSortMenu({
                     items: [{
                         name: globalize.translate('OptionNameSort'),
                         id: 'SortName'

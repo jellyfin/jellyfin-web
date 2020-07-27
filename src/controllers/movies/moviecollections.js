@@ -18,7 +18,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                         StartIndex: 0
                     },
-                    view: libraryBrowser.getSavedView(key) || 'Poster'
+                    view: libraryBrowser.default.getSavedView(key) || 'Poster'
                 };
 
                 if (userSettings.libraryPageSize() > 0) {
@@ -26,7 +26,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                 }
 
                 pageData.query.ParentId = params.topParentId;
-                libraryBrowser.loadSavedQueryValues(key, pageData.query);
+                libraryBrowser.default.loadSavedQueryValues(key, pageData.query);
             }
 
             return pageData;
@@ -38,7 +38,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
 
         function getSavedQueryKey(context) {
             if (!context.savedQueryKey) {
-                context.savedQueryKey = libraryBrowser.getSavedQueryKey('moviecollections');
+                context.savedQueryKey = libraryBrowser.default.getSavedQueryKey('moviecollections');
             }
 
             return context.savedQueryKey;
@@ -88,7 +88,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
 
                 window.scrollTo(0, 0);
                 var html;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                var pagingHtml = libraryBrowser.default.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -182,7 +182,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                 var itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
-                libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+                libraryBrowser.default.saveQueryValues(getSavedQueryKey(page), query);
                 loading.hide();
                 isLoading = false;
 
@@ -202,7 +202,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
 
         function initPage(tabContent) {
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
-                libraryBrowser.showSortMenu({
+                libraryBrowser.default.showSortMenu({
                     items: [{
                         name: globalize.translate('OptionNameSort'),
                         id: 'SortName'
@@ -229,12 +229,12 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             });
             var btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
-                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
+                libraryBrowser.default.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
                 var viewStyle = e.detail.viewStyle;
                 getPageData(tabContent).view = viewStyle;
-                libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
+                libraryBrowser.default.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
                 getQuery(tabContent).StartIndex = 0;
                 onViewStyleChange();
                 reloadItems(tabContent);

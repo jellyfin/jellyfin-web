@@ -25,7 +25,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                 }
 
                 pageData.query.ParentId = params.topParentId;
-                libraryBrowser.loadSavedQueryValues(key, pageData.query);
+                libraryBrowser.default.loadSavedQueryValues(key, pageData.query);
             }
 
             return pageData;
@@ -37,7 +37,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
 
         function getSavedQueryKey(context) {
             if (!context.savedQueryKey) {
-                context.savedQueryKey = libraryBrowser.getSavedQueryKey('songs');
+                context.savedQueryKey = libraryBrowser.default.getSavedQueryKey('songs');
             }
 
             return context.savedQueryKey;
@@ -73,7 +73,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                 window.scrollTo(0, 0);
                 var i;
                 var length;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                var pagingHtml = libraryBrowser.default.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -109,7 +109,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                 var itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
-                libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+                libraryBrowser.default.saveQueryValues(getSavedQueryKey(page), query);
                 loading.hide();
                 isLoading = false;
 
@@ -147,7 +147,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                 self.showFilterMenu();
             });
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
-                libraryBrowser.showSortMenu({
+                libraryBrowser.default.showSortMenu({
                     items: [{
                         name: globalize.translate('OptionTrackName'),
                         id: 'Name'

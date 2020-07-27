@@ -18,7 +18,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
                     view: 'Poster'
                 };
                 pageData.query.ParentId = params.topParentId;
-                libraryBrowser.loadSavedQueryValues(key, pageData.query);
+                libraryBrowser.default.loadSavedQueryValues(key, pageData.query);
             }
 
             return pageData;
@@ -29,7 +29,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
         }
 
         function getSavedQueryKey() {
-            return libraryBrowser.getSavedQueryKey('moviegenres');
+            return libraryBrowser.default.getSavedQueryKey('moviegenres');
         }
 
         function getPromise() {
@@ -174,7 +174,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
 
                 elem.innerHTML = html;
                 lazyLoader.lazyChildren(elem, fillItemsContainer);
-                libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+                libraryBrowser.default.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
             });
         }
@@ -197,7 +197,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
 
         self.setCurrentViewStyle = function (viewStyle) {
             getPageData().view = viewStyle;
-            libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
+            libraryBrowser.default.saveViewSetting(getSavedQueryKey(), viewStyle);
             fullyReload();
         };
 

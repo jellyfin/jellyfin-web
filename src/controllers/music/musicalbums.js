@@ -32,7 +32,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                         StartIndex: 0
                     },
-                    view: libraryBrowser.getSavedView(key) || 'Poster'
+                    view: libraryBrowser.default.getSavedView(key) || 'Poster'
                 };
 
                 if (userSettings.libraryPageSize() > 0) {
@@ -40,7 +40,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                 }
 
                 pageData.query.ParentId = params.topParentId;
-                libraryBrowser.loadSavedQueryValues(key, pageData.query);
+                libraryBrowser.default.loadSavedQueryValues(key, pageData.query);
             }
 
             return pageData;
@@ -52,7 +52,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
 
         function getSavedQueryKey() {
             if (!savedQueryKey) {
-                savedQueryKey = libraryBrowser.getSavedQueryKey('musicalbums');
+                savedQueryKey = libraryBrowser.default.getSavedQueryKey('musicalbums');
             }
 
             return savedQueryKey;
@@ -103,7 +103,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                 window.scrollTo(0, 0);
                 updateFilterControls(page);
                 var html;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                var pagingHtml = libraryBrowser.default.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -165,7 +165,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                 var itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
-                libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+                libraryBrowser.default.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
                 isLoading = false;
 
@@ -228,7 +228,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                 self.showFilterMenu();
             });
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
-                libraryBrowser.showSortMenu({
+                libraryBrowser.default.showSortMenu({
                     items: [{
                         name: globalize.translate('OptionNameSort'),
                         id: 'SortName'
@@ -261,12 +261,12 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
             });
             var btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
-                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
+                libraryBrowser.default.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
                 var viewStyle = e.detail.viewStyle;
                 getPageData().view = viewStyle;
-                libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
+                libraryBrowser.default.saveViewSetting(getSavedQueryKey(), viewStyle);
                 getQuery().StartIndex = 0;
                 onViewStyleChange();
                 reloadItems(tabContent);

@@ -16,10 +16,10 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
                         Fields: 'PrimaryImageAspectRatio,SortName,CanDelete',
                         StartIndex: 0
                     },
-                    view: libraryBrowser.getSavedView(key) || 'Poster'
+                    view: libraryBrowser.default.getSavedView(key) || 'Poster'
                 };
                 pageData.query.ParentId = params.topParentId;
-                libraryBrowser.loadSavedQueryValues(key, pageData.query);
+                libraryBrowser.default.loadSavedQueryValues(key, pageData.query);
             }
 
             return pageData;
@@ -30,7 +30,7 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
         }
 
         function getSavedQueryKey() {
-            return libraryBrowser.getSavedQueryKey('genres');
+            return libraryBrowser.default.getSavedQueryKey('genres');
         }
 
         function getPromise() {
@@ -56,7 +56,7 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
                 var elem = context.querySelector('#items');
                 elem.innerHTML = html;
                 imageLoader.lazyChildren(elem);
-                libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+                libraryBrowser.default.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
 
                 require(['autoFocuser'], function (autoFocuser) {

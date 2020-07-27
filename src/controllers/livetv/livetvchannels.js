@@ -60,7 +60,7 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'us
             }
 
             var query = getQuery();
-            context.querySelector('.paging').innerHTML = libraryBrowser.getQueryPagingHtml({
+            context.querySelector('.paging').innerHTML = libraryBrowser.default.getQueryPagingHtml({
                 startIndex: query.StartIndex,
                 limit: query.Limit,
                 totalRecordCount: result.TotalRecordCount,
