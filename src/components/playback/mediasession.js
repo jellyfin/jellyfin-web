@@ -2,260 +2,258 @@ import playbackManager from 'playbackManager';
 import nowPlayingHelper from 'nowPlayingHelper';
 import events from 'events';
 import connectionManager from 'connectionManager';
-/* eslint-disable indent */
 
-    // Reports media playback to the device for lock screen control
+// Reports media playback to the device for lock screen control
 
-    let currentPlayer;
+let currentPlayer;
 
-    function seriesImageUrl(item, options = {}) {
-        options.type = options.type || 'Primary';
+function seriesImageUrl(item, options = {}) {
+    options.type = options.type || 'Primary';
 
-        if (item.Type !== 'Episode') {
-            return null;
-        } else if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
-            options.tag = item.SeriesPrimaryImageTag;
+    if (item.Type !== 'Episode') {
+        return null;
+    } else if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
+        options.tag = item.SeriesPrimaryImageTag;
+
+        return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+    } else if (options.type === 'Thumb') {
+        if (item.SeriesThumbImageTag) {
+            options.tag = item.SeriesThumbImageTag;
 
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-        } else if (options.type === 'Thumb') {
-            if (item.SeriesThumbImageTag) {
-                options.tag = item.SeriesThumbImageTag;
+        } else if (item.ParentThumbImageTag) {
+            options.tag = item.ParentThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            } else if (item.ParentThumbImageTag) {
-                options.tag = item.ParentThumbImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
-            }
+            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
         }
+    }
 
+    return null;
+}
+
+function imageUrl(item, options = {}) {
+    options.type = options.type || 'Primary';
+
+    if (item.ImageTags && item.ImageTags[options.type]) {
+        options.tag = item.ImageTags[options.type];
+
+        return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
+    } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
+        options.tag = item.AlbumPrimaryImageTag;
+
+        return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+    }
+
+    return null;
+}
+
+function getImageUrl(item, imageOptions = {}) {
+    const url = seriesImageUrl(item, imageOptions) || imageUrl(item, imageOptions);
+
+    if (url) {
+        const height = imageOptions.height || imageOptions.maxHeight;
+
+        return {
+            src: url,
+            sizes: height + 'x' + height
+        };
+    } else {
         return null;
     }
+}
 
-    function imageUrl(item, options = {}) {
-        options.type = options.type || 'Primary';
+function getImageUrls(item, imageSizes = [96, 128, 192, 256, 384, 512]) {
+    const list = [];
 
-        if (item.ImageTags && item.ImageTags[options.type]) {
-            options.tag = item.ImageTags[options.type];
-
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
-        } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
-            options.tag = item.AlbumPrimaryImageTag;
-
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+    imageSizes.forEach((size) => {
+        const url = getImageUrl(item, { height: size });
+        if (url !== null) {
+            list.push(url);
         }
+    });
 
-        return null;
+    return list;
+}
+
+function updatePlayerState(player, state, eventName) {
+    // Don't go crazy reporting position changes
+    if (eventName === 'timeupdate') {
+        // Only report if this item hasn't been reported yet, or if there's an actual playback change.
+        // Don't report on simple time updates
+        return;
     }
 
-    function getImageUrl(item, imageOptions = {}) {
-        const url = seriesImageUrl(item, imageOptions) || imageUrl(item, imageOptions);
+    const item = state.NowPlayingItem;
 
-        if (url) {
-            const height = imageOptions.height || imageOptions.maxHeight;
-
-            return {
-                src: url,
-                sizes: height + 'x' + height
-            };
-        } else {
-            return null;
-        }
-    }
-
-    function getImageUrls(item, imageSizes = [96, 128, 192, 256, 384, 512]) {
-        const list = [];
-
-        imageSizes.forEach((size) => {
-            const url = getImageUrl(item, {height: size});
-            if (url !== null) {
-                list.push(url);
-            }
-        });
-
-        return list;
-    }
-
-    function updatePlayerState(player, state, eventName) {
-        // Don't go crazy reporting position changes
-        if (eventName === 'timeupdate') {
-            // Only report if this item hasn't been reported yet, or if there's an actual playback change.
-            // Don't report on simple time updates
-            return;
-        }
-
-        const item = state.NowPlayingItem;
-
-        if (!item) {
-            hideMediaControls();
-            return;
-        }
-
-        if (eventName === 'init') { // transform "init" event into "timeupdate" to restraint update rate
-            eventName = 'timeupdate';
-        }
-
-        const isVideo = item.MediaType === 'Video';
-        const isLocalPlayer = player.isLocalPlayer || false;
-
-        // Local players do their own notifications
-        if (isLocalPlayer && isVideo) {
-            return;
-        }
-
-        const playState = state.PlayState || {};
-        const parts = nowPlayingHelper.getNowPlayingNames(item);
-        const artist = parts[parts.length - 1].text;
-        const title = parts.length === 1 ? '' : parts[0].text;
-
-        const album = item.Album || '';
-        const itemId = item.Id;
-
-        // Convert to ms
-        const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
-        const currentTime = parseInt(playState.PositionTicks ? (playState.PositionTicks / 10000) : 0);
-
-        const isPaused = playState.IsPaused || false;
-        const canSeek = playState.CanSeek || false;
-
-        if ('mediaSession' in navigator) {
-             /* eslint-disable-next-line compat/compat */
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: title,
-                artist: artist,
-                album: album,
-                artwork: getImageUrls(item)
-            });
-        } else {
-            let itemImageUrl = seriesImageUrl(item, { maxHeight: 3000 }) || imageUrl(item, { maxHeight: 3000 });
-
-            window.NativeShell.updateMediaSession({
-                action: eventName,
-                isLocalPlayer: isLocalPlayer,
-                itemId: itemId,
-                title: title,
-                artist: artist,
-                album: album,
-                duration: duration,
-                position: currentTime,
-                imageUrl: itemImageUrl,
-                canSeek: canSeek,
-                isPaused: isPaused
-            });
-        }
-    }
-
-    function onGeneralEvent(e) {
-        const state = playbackManager.getPlayerState(this);
-
-        updatePlayerState(this, state, e.type);
-    }
-
-    function onStateChanged(e, state) {
-        updatePlayerState(this, state, 'statechange');
-    }
-
-    function onPlaybackStart(e, state) {
-        updatePlayerState(this, state, e.type);
-    }
-
-    function onPlaybackStopped() {
+    if (!item) {
         hideMediaControls();
+        return;
     }
 
-    function releaseCurrentPlayer() {
-        if (currentPlayer) {
-            events.off(currentPlayer, 'playbackstart', onPlaybackStart);
-            events.off(currentPlayer, 'playbackstop', onPlaybackStopped);
-            events.off(currentPlayer, 'unpause', onGeneralEvent);
-            events.off(currentPlayer, 'pause', onGeneralEvent);
-            events.off(currentPlayer, 'statechange', onStateChanged);
-            events.off(currentPlayer, 'timeupdate', onGeneralEvent);
-
-            currentPlayer = null;
-
-            hideMediaControls();
-        }
+    if (eventName === 'init') { // transform "init" event into "timeupdate" to restraint update rate
+        eventName = 'timeupdate';
     }
 
-    function hideMediaControls() {
-        if ('mediaSession' in navigator) {
-             /* eslint-disable-next-line compat/compat */
-            navigator.mediaSession.metadata = null;
-        } else {
-            window.NativeShell.hideMediaSession();
-        }
+    const isVideo = item.MediaType === 'Video';
+    const isLocalPlayer = player.isLocalPlayer || false;
+
+    // Local players do their own notifications
+    if (isLocalPlayer && isVideo) {
+        return;
     }
 
-    function bindToPlayer(player) {
-        releaseCurrentPlayer();
+    const playState = state.PlayState || {};
+    const parts = nowPlayingHelper.getNowPlayingNames(item);
+    const artist = parts[parts.length - 1].text;
+    const title = parts.length === 1 ? '' : parts[0].text;
 
-        if (!player) {
-            return;
-        }
+    const album = item.Album || '';
+    const itemId = item.Id;
 
-        currentPlayer = player;
+    // Convert to ms
+    const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
+    const currentTime = parseInt(playState.PositionTicks ? (playState.PositionTicks / 10000) : 0);
 
-        const state = playbackManager.getPlayerState(player);
-        updatePlayerState(player, state, 'init');
-
-        events.on(currentPlayer, 'playbackstart', onPlaybackStart);
-        events.on(currentPlayer, 'playbackstop', onPlaybackStopped);
-        events.on(currentPlayer, 'unpause', onGeneralEvent);
-        events.on(currentPlayer, 'pause', onGeneralEvent);
-        events.on(currentPlayer, 'statechange', onStateChanged);
-        events.on(currentPlayer, 'timeupdate', onGeneralEvent);
-    }
-
-    function execute(name) {
-        playbackManager[name](currentPlayer);
-    }
+    const isPaused = playState.IsPaused || false;
+    const canSeek = playState.CanSeek || false;
 
     if ('mediaSession' in navigator) {
         /* eslint-disable-next-line compat/compat */
-        navigator.mediaSession.setActionHandler('previoustrack', function () {
-            execute('previousTrack');
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: title,
+            artist: artist,
+            album: album,
+            artwork: getImageUrls(item)
         });
+    } else {
+        let itemImageUrl = seriesImageUrl(item, { maxHeight: 3000 }) || imageUrl(item, { maxHeight: 3000 });
 
-        /* eslint-disable-next-line compat/compat */
-        navigator.mediaSession.setActionHandler('nexttrack', function () {
-            execute('nextTrack');
-        });
-
-        /* eslint-disable-next-line compat/compat */
-        navigator.mediaSession.setActionHandler('play', function () {
-            execute('unpause');
-        });
-
-        /* eslint-disable-next-line compat/compat */
-        navigator.mediaSession.setActionHandler('pause', function () {
-            execute('pause');
-        });
-
-        /* eslint-disable-next-line compat/compat */
-        navigator.mediaSession.setActionHandler('seekbackward', function () {
-            execute('rewind');
-        });
-
-        /* eslint-disable-next-line compat/compat */
-        navigator.mediaSession.setActionHandler('seekforward', function () {
-            execute('fastForward');
-        });
-
-        /* eslint-disable-next-line compat/compat */
-        navigator.mediaSession.setActionHandler('seekto', function (object) {
-            let item = playbackManager.getPlayerState(currentPlayer).NowPlayingItem;
-            // Convert to ms
-            let duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
-            let wantedTime = object.seekTime * 1000;
-            playbackManager.seekPercent(wantedTime / duration * 100, currentPlayer);
+        window.NativeShell.updateMediaSession({
+            action: eventName,
+            isLocalPlayer: isLocalPlayer,
+            itemId: itemId,
+            title: title,
+            artist: artist,
+            album: album,
+            duration: duration,
+            position: currentTime,
+            imageUrl: itemImageUrl,
+            canSeek: canSeek,
+            isPaused: isPaused
         });
     }
+}
 
-    events.on(playbackManager, 'playerchange', function () {
-        bindToPlayer(playbackManager.getCurrentPlayer());
+function onGeneralEvent(e) {
+    const state = playbackManager.getPlayerState(this);
+
+    updatePlayerState(this, state, e.type);
+}
+
+function onStateChanged(e, state) {
+    updatePlayerState(this, state, 'statechange');
+}
+
+function onPlaybackStart(e, state) {
+    updatePlayerState(this, state, e.type);
+}
+
+function onPlaybackStopped() {
+    hideMediaControls();
+}
+
+function releaseCurrentPlayer() {
+    if (currentPlayer) {
+        events.off(currentPlayer, 'playbackstart', onPlaybackStart);
+        events.off(currentPlayer, 'playbackstop', onPlaybackStopped);
+        events.off(currentPlayer, 'unpause', onGeneralEvent);
+        events.off(currentPlayer, 'pause', onGeneralEvent);
+        events.off(currentPlayer, 'statechange', onStateChanged);
+        events.off(currentPlayer, 'timeupdate', onGeneralEvent);
+
+        currentPlayer = null;
+
+        hideMediaControls();
+    }
+}
+
+function hideMediaControls() {
+    if ('mediaSession' in navigator) {
+        /* eslint-disable-next-line compat/compat */
+        navigator.mediaSession.metadata = null;
+    } else {
+        window.NativeShell.hideMediaSession();
+    }
+}
+
+function bindToPlayer(player) {
+    releaseCurrentPlayer();
+
+    if (!player) {
+        return;
+    }
+
+    currentPlayer = player;
+
+    const state = playbackManager.getPlayerState(player);
+    updatePlayerState(player, state, 'init');
+
+    events.on(currentPlayer, 'playbackstart', onPlaybackStart);
+    events.on(currentPlayer, 'playbackstop', onPlaybackStopped);
+    events.on(currentPlayer, 'unpause', onGeneralEvent);
+    events.on(currentPlayer, 'pause', onGeneralEvent);
+    events.on(currentPlayer, 'statechange', onStateChanged);
+    events.on(currentPlayer, 'timeupdate', onGeneralEvent);
+}
+
+function execute(name) {
+    playbackManager[name](currentPlayer);
+}
+
+if ('mediaSession' in navigator) {
+    /* eslint-disable-next-line compat/compat */
+    navigator.mediaSession.setActionHandler('previoustrack', function () {
+        execute('previousTrack');
     });
 
-    bindToPlayer(playbackManager.getCurrentPlayer());
+    /* eslint-disable-next-line compat/compat */
+    navigator.mediaSession.setActionHandler('nexttrack', function () {
+        execute('nextTrack');
+    });
 
-/* eslint-enable indent */
+    /* eslint-disable-next-line compat/compat */
+    navigator.mediaSession.setActionHandler('play', function () {
+        execute('unpause');
+    });
+
+    /* eslint-disable-next-line compat/compat */
+    navigator.mediaSession.setActionHandler('pause', function () {
+        execute('pause');
+    });
+
+    /* eslint-disable-next-line compat/compat */
+    navigator.mediaSession.setActionHandler('seekbackward', function () {
+        execute('rewind');
+    });
+
+    /* eslint-disable-next-line compat/compat */
+    navigator.mediaSession.setActionHandler('seekforward', function () {
+        execute('fastForward');
+    });
+
+    /* eslint-disable-next-line compat/compat */
+    navigator.mediaSession.setActionHandler('seekto', function (object) {
+        let item = playbackManager.getPlayerState(currentPlayer).NowPlayingItem;
+        // Convert to ms
+        let duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
+        let wantedTime = object.seekTime * 1000;
+        playbackManager.seekPercent(wantedTime / duration * 100, currentPlayer);
+    });
+}
+
+events.on(playbackManager, 'playerchange', function () {
+    bindToPlayer(playbackManager.getCurrentPlayer());
+});
+
+bindToPlayer(playbackManager.getCurrentPlayer());
+

@@ -10,7 +10,6 @@ import 'paper-icon-button-light';
 import 'emby-input';
 import 'formDialogStyle';
 
-/* eslint-disable indent */
 export default (() => {
 
     function replaceAll(str, find, replace) {
@@ -119,7 +118,7 @@ export default (() => {
     } else {
         return options => {
             return new Promise((resolve, reject) => {
-                import('text!./prompt.template.html').then(({default: template}) => {
+                import('text!./prompt.template.html').then(({ default: template }) => {
                     if (typeof options === 'string') {
                         options = {
                             title: '',
@@ -132,4 +131,3 @@ export default (() => {
         };
     }
 })();
-/* eslint-enable indent */
