@@ -456,7 +456,7 @@ function supportsTextTracks() {
         /**
          * @private
          */
-        setSrcWithHlsJs(instance, elem, options, url) {
+        setSrcWithHlsJs(elem, options, url) {
 
             return new Promise((resolve, reject) => {
 
@@ -683,7 +683,7 @@ function supportsTextTracks() {
 
                 return this.setCurrentSrcChromecast(this, elem, options, val);
             } else if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.includes('.m3u8')) {
-                return this.setSrcWithHlsJs(this, elem, options, val);
+                return this.setSrcWithHlsJs(elem, options, val);
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
                 return this.setSrcWithFlvJs(elem, options, val);
             } else {
@@ -1571,7 +1571,7 @@ function supportsTextTracks() {
 
                         // don't animate on smart tv's, too slow
                         if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
-                            zoomIn(dlg).then(function () {
+                            return zoomIn(dlg).then(function () {
                                 return videoElement;
                             });
                         } else {
