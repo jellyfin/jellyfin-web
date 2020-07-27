@@ -4,86 +4,83 @@ import dom from 'dom';
 import globalize from 'globalize';
 import 'emby-button';
 
-/* eslint-disable indent */
-
-    function revoke(page, key) {
-        import('confirm').then(({default: confirm}) => {
-            confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
-                loading.show();
-                ApiClient.ajax({
-                    type: 'DELETE',
-                    url: ApiClient.getUrl('Auth/Keys/' + key)
-                }).then(function () {
-                    loadData(page);
-                });
+function revoke(page, key) {
+    import('confirm').then(({ default: confirm }) => {
+        confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
+            loading.show();
+            ApiClient.ajax({
+                type: 'DELETE',
+                url: ApiClient.getUrl('Auth/Keys/' + key)
+            }).then(function () {
+                loadData(page);
             });
         });
-    }
+    });
+}
 
-    function renderKeys(page, keys) {
-        const rows = keys.map(function (item) {
-            let html = '';
-            html += '<tr class="detailTableBodyRow detailTableBodyRow-shaded">';
-            html += '<td class="detailTableBodyCell">';
-            html += '<button type="button" is="emby-button" data-token="' + item.AccessToken + '" class="raised raised-mini btnRevoke" data-mini="true" title="' + globalize.translate('ButtonRevoke') + '" style="margin:0;">' + globalize.translate('ButtonRevoke') + '</button>';
-            html += '</td>';
-            html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
-            html += item.AccessToken;
-            html += '</td>';
-            html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
-            html += item.AppName || '';
-            html += '</td>';
-            html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
-            const date = datetime.parseISO8601Date(item.DateCreated, true);
-            html += datetime.toLocaleDateString(date) + ' ' + datetime.getDisplayTime(date);
-            html += '</td>';
-            return html += '</tr>';
-        }).join('');
-        page.querySelector('.resultBody').innerHTML = rows;
-        loading.hide();
-    }
+function renderKeys(page, keys) {
+    const rows = keys.map(function (item) {
+        let html = '';
+        html += '<tr class="detailTableBodyRow detailTableBodyRow-shaded">';
+        html += '<td class="detailTableBodyCell">';
+        html += '<button type="button" is="emby-button" data-token="' + item.AccessToken + '" class="raised raised-mini btnRevoke" data-mini="true" title="' + globalize.translate('ButtonRevoke') + '" style="margin:0;">' + globalize.translate('ButtonRevoke') + '</button>';
+        html += '</td>';
+        html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
+        html += item.AccessToken;
+        html += '</td>';
+        html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
+        html += item.AppName || '';
+        html += '</td>';
+        html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
+        const date = datetime.parseISO8601Date(item.DateCreated, true);
+        html += datetime.toLocaleDateString(date) + ' ' + datetime.getDisplayTime(date);
+        html += '</td>';
+        return html += '</tr>';
+    }).join('');
+    page.querySelector('.resultBody').innerHTML = rows;
+    loading.hide();
+}
 
-    function loadData(page) {
-        loading.show();
-        ApiClient.getJSON(ApiClient.getUrl('Auth/Keys')).then(function (result) {
-            renderKeys(page, result.Items);
-        });
-    }
+function loadData(page) {
+    loading.show();
+    ApiClient.getJSON(ApiClient.getUrl('Auth/Keys')).then(function (result) {
+        renderKeys(page, result.Items);
+    });
+}
 
-    function showNewKeyPrompt(page) {
-        import('prompt').then(({default: prompt}) => {
-            prompt({
-                title: globalize.translate('HeaderNewApiKey'),
-                label: globalize.translate('LabelAppName'),
-                description: globalize.translate('LabelAppNameExample')
-            }).then(function (value) {
-                ApiClient.ajax({
-                    type: 'POST',
-                    url: ApiClient.getUrl('Auth/Keys', {
-                        App: value
-                    })
-                }).then(function () {
-                    loadData(page);
-                });
+function showNewKeyPrompt(page) {
+    import('prompt').then(({ default: prompt }) => {
+        prompt({
+            title: globalize.translate('HeaderNewApiKey'),
+            label: globalize.translate('LabelAppName'),
+            description: globalize.translate('LabelAppNameExample')
+        }).then(function (value) {
+            ApiClient.ajax({
+                type: 'POST',
+                url: ApiClient.getUrl('Auth/Keys', {
+                    App: value
+                })
+            }).then(function () {
+                loadData(page);
             });
         });
-    }
-
-    pageIdOn('pageinit', 'apiKeysPage', function () {
-        const page = this;
-        page.querySelector('.btnNewKey').addEventListener('click', function () {
-            showNewKeyPrompt(page);
-        });
-        page.querySelector('.tblApiKeys').addEventListener('click', function (e) {
-            const btnRevoke = dom.parentWithClass(e.target, 'btnRevoke');
-
-            if (btnRevoke) {
-                revoke(page, btnRevoke.getAttribute('data-token'));
-            }
-        });
     });
-    pageIdOn('pagebeforeshow', 'apiKeysPage', function () {
-        loadData(this);
-    });
+}
 
-/* eslint-enable indent */
+pageIdOn('pageinit', 'apiKeysPage', function () {
+    const page = this;
+    page.querySelector('.btnNewKey').addEventListener('click', function () {
+        showNewKeyPrompt(page);
+    });
+    page.querySelector('.tblApiKeys').addEventListener('click', function (e) {
+        const btnRevoke = dom.parentWithClass(e.target, 'btnRevoke');
+
+        if (btnRevoke) {
+            revoke(page, btnRevoke.getAttribute('data-token'));
+        }
+    });
+});
+pageIdOn('pagebeforeshow', 'apiKeysPage', function () {
+    loadData(this);
+});
+
