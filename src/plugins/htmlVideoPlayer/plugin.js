@@ -116,7 +116,7 @@ function tryRemoveElement(elem) {
     }
 
     function zoomIn(elem) {
-        return new Promise(function (resolve, reject) {
+        return new Promise(resolve => {
             const duration = 240;
             elem.style.animation = `htmlvideoplayer-zoomin ${duration}ms ease-in normal`;
             hidePrePlaybackPage();
@@ -550,26 +550,6 @@ function tryRemoveElement(elem) {
             this._castPlayer.load(protocol, data.currentTime || 0);
 
             this._castPlayer.playWhenHaveEnoughData();
-        }
-
-        /**
-         * @private
-         */
-        initMediaManager() {
-            mediaManager.defaultOnLoad = mediaManager.onLoad.bind(mediaManager);
-            mediaManager.onLoad = this.onMediaManagerLoadMedia;
-
-            //mediaManager.defaultOnPlay = mediaManager.onPlay.bind(mediaManager);
-            //mediaManager.onPlay = function (event) {
-            //    // TODO ???
-            //    mediaManager.defaultOnPlay(event);
-            //};
-
-            mediaManager.defaultOnStop = mediaManager.onStop.bind(mediaManager);
-            mediaManager.onStop = function (event) {
-                playbackManager.stop();
-                mediaManager.defaultOnStop(event);
-            };
         }
 
         /**
