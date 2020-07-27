@@ -7,14 +7,12 @@ import EmbyButtonPrototype from 'emby-button';
 /* eslint-disable indent */
 
     function addNotificationEvent(instance, name, handler) {
-
         const localHandler = handler.bind(instance);
         events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
     function removeNotificationEvent(instance, name) {
-
         const handler = instance[name];
         if (handler) {
             events.off(serverNotifications, name, handler);
@@ -23,12 +21,10 @@ import EmbyButtonPrototype from 'emby-button';
     }
 
     function showPicker(button, apiClient, itemId, likes, isFavorite) {
-
         return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
     }
 
     function onClick(e) {
-
         const button = this;
         const id = button.getAttribute('data-id');
         const serverId = button.getAttribute('data-serverid');
@@ -45,52 +41,41 @@ import EmbyButtonPrototype from 'emby-button';
         }
 
         showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
-
             setState(button, userData.Likes, userData.IsFavorite);
         });
     }
 
     function onUserDataChanged(e, apiClient, userData) {
-
         const button = this;
 
         if (userData.ItemId === button.getAttribute('data-id')) {
-
             setState(button, userData.Likes, userData.IsFavorite);
         }
     }
 
     function setState(button, likes, isFavorite, updateAttribute) {
-
         const icon = button.querySelector('.material-icons');
 
         if (isFavorite) {
-
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.add('ratingbutton-icon-withrating');
             }
 
             button.classList.add('ratingbutton-withrating');
-
         } else if (likes) {
-
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
             }
             button.classList.remove('ratingbutton-withrating');
-
         } else if (likes === false) {
-
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
             }
             button.classList.remove('ratingbutton-withrating');
-
         } else {
-
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
@@ -115,13 +100,11 @@ import EmbyButtonPrototype from 'emby-button';
     }
 
     function clearEvents(button) {
-
         button.removeEventListener('click', onClick);
         removeNotificationEvent(button, 'UserDataChanged');
     }
 
     function bindEvents(button) {
-
         clearEvents(button);
 
         button.addEventListener('click', onClick);
@@ -131,7 +114,6 @@ import EmbyButtonPrototype from 'emby-button';
     const EmbyRatingButtonPrototype = Object.create(EmbyButtonPrototype);
 
     EmbyRatingButtonPrototype.createdCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.createdCallback) {
             EmbyButtonPrototype.createdCallback.call(this);
@@ -139,7 +121,6 @@ import EmbyButtonPrototype from 'emby-button';
     };
 
     EmbyRatingButtonPrototype.attachedCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.attachedCallback) {
             EmbyButtonPrototype.attachedCallback.call(this);
@@ -148,7 +129,6 @@ import EmbyButtonPrototype from 'emby-button';
         const itemId = this.getAttribute('data-id');
         const serverId = this.getAttribute('data-serverid');
         if (itemId && serverId) {
-
             let likes = this.getAttribute('data-likes');
             const isFavorite = this.getAttribute('data-isfavorite') === 'true';
             if (likes === 'true') {
@@ -167,7 +147,6 @@ import EmbyButtonPrototype from 'emby-button';
     };
 
     EmbyRatingButtonPrototype.detachedCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.detachedCallback) {
             EmbyButtonPrototype.detachedCallback.call(this);
@@ -177,18 +156,14 @@ import EmbyButtonPrototype from 'emby-button';
     };
 
     EmbyRatingButtonPrototype.setItem = function (item) {
-
         if (item) {
-
             this.setAttribute('data-id', item.Id);
             this.setAttribute('data-serverid', item.ServerId);
 
             const userData = item.UserData || {};
             setState(this, userData.Likes, userData.IsFavorite);
             bindEvents(this);
-
         } else {
-
             this.removeAttribute('data-id');
             this.removeAttribute('data-serverid');
             this.removeAttribute('data-likes');

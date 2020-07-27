@@ -11,23 +11,19 @@ import 'emby-button';
 /* eslint-disable indent */
 
     function getTimerIndicator(item) {
-
         let status;
 
         if (item.Type === 'SeriesTimer') {
             return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></span>';
         } else if (item.TimerId || item.SeriesTimerId) {
-
             status = item.Status || 'Cancelled';
         } else if (item.Type === 'Timer') {
-
             status = item.Status;
         } else {
             return '';
         }
 
         if (item.SeriesTimerId) {
-
             if (status !== 'Cancelled') {
                 return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></span>';
             }
@@ -46,9 +42,7 @@ import 'emby-button';
         let date;
 
         if (item.StartDate && options.programTime !== false) {
-
             try {
-
                 text = '';
 
                 date = datetime.parseISO8601Date(item.StartDate);
@@ -75,7 +69,6 @@ import 'emby-button';
         }
 
         if (item.ChannelName) {
-
             if (options.interactive && item.ChannelId) {
                 miscInfo.push({
                     html: `<a is="emby-linkbutton" class="button-flat mediaInfoItem" href="${appRouter.getRouteUrl({
@@ -121,11 +114,9 @@ import 'emby-button';
         const showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
 
         if (showFolderRuntime) {
-
             count = item.SongCount || item.ChildCount;
 
             if (count) {
-
                 miscInfo.push(globalize.translate('TrackCount', count));
             }
 
@@ -133,19 +124,15 @@ import 'emby-button';
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             }
         } else if (item.Type === 'PhotoAlbum' || item.Type === 'BoxSet') {
-
             count = item.ChildCount;
 
             if (count) {
-
                 miscInfo.push(globalize.translate('ItemCount', count));
             }
         }
 
         if ((item.Type === 'Episode' || item.MediaType === 'Photo') && options.originalAirDate !== false) {
-
             if (item.PremiereDate) {
-
                 try {
                     date = datetime.parseISO8601Date(item.PremiereDate);
 
@@ -159,7 +146,6 @@ import 'emby-button';
 
         if (item.Type === 'SeriesTimer') {
             if (item.RecordAnyTime) {
-
                 miscInfo.push(globalize.translate('Anytime'));
             } else {
                 miscInfo.push(datetime.getDisplayTime(item.StartDate));
@@ -173,7 +159,6 @@ import 'emby-button';
         }
 
         if (item.StartDate && item.Type !== 'Program' && item.Type !== 'SeriesTimer') {
-
             try {
                 date = datetime.parseISO8601Date(item.StartDate);
 
@@ -190,24 +175,18 @@ import 'emby-button';
         }
 
         if (options.year !== false && item.ProductionYear && item.Type === 'Series') {
-
             if (item.Status === 'Continuing') {
                 miscInfo.push(globalize.translate('SeriesYearToPresent', item.ProductionYear));
-
             } else if (item.ProductionYear) {
-
                 text = item.ProductionYear;
 
                 if (item.EndDate) {
-
                     try {
-
                         const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
 
                         if (endYear !== item.ProductionYear) {
                             text += `-${datetime.parseISO8601Date(item.EndDate).getFullYear()}`;
                         }
-
                     } catch (e) {
                         console.error('error parsing date:', item.EndDate);
                     }
@@ -218,7 +197,6 @@ import 'emby-button';
         }
 
         if (item.Type === 'Program') {
-
             if (options.programIndicator !== false) {
                 if (item.IsLive) {
                     miscInfo.push({
@@ -240,7 +218,6 @@ import 'emby-button';
             }
 
             if ((item.IsSeries || item.EpisodeTitle) && options.episodeTitle !== false) {
-
                 text = itemHelper.getDisplayName(item, {
                     includeIndexNumber: options.episodeTitleIndexNumber
                 });
@@ -251,7 +228,6 @@ import 'emby-button';
             } else if (item.IsMovie && item.ProductionYear && options.originalAirDate !== false) {
                 miscInfo.push(item.ProductionYear);
             } else if (item.PremiereDate && options.originalAirDate !== false) {
-
                 try {
                     date = datetime.parseISO8601Date(item.PremiereDate);
                     text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
@@ -266,12 +242,9 @@ import 'emby-button';
 
         if (options.year !== false) {
             if (item.Type !== 'Series' && item.Type !== 'Episode' && item.Type !== 'Person' && item.MediaType !== 'Photo' && item.Type !== 'Program' && item.Type !== 'Season') {
-
                 if (item.ProductionYear) {
-
                     miscInfo.push(item.ProductionYear);
                 } else if (item.PremiereDate) {
-
                     try {
                         text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
                         miscInfo.push(text);
@@ -283,11 +256,8 @@ import 'emby-button';
         }
 
         if (item.RunTimeTicks && item.Type !== 'Series' && item.Type !== 'Program' && item.Type !== 'Book' && !showFolderRuntime && options.runtime !== false) {
-
             if (item.Type === 'Audio') {
-
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
-
             } else {
                 minutes = item.RunTimeTicks / 600000000;
 
@@ -327,7 +297,6 @@ import 'emby-button';
         }
 
         if (item.CriticRating && options.criticRating !== false) {
-
             if (item.CriticRating >= 60) {
                 html += `<div class="mediaInfoItem mediaInfoCriticRating mediaInfoCriticRatingFresh">${item.CriticRating}</div>`;
             } else {
@@ -336,7 +305,6 @@ import 'emby-button';
         }
 
         if (options.endsAt !== false) {
-
             const endsAt = getEndsAt(item);
             if (endsAt) {
                 html += getMediaInfoItem(endsAt, 'endsAt');
@@ -349,9 +317,7 @@ import 'emby-button';
     }
 
     export function getEndsAt(item) {
-
         if (item.MediaType === 'Video' && item.RunTimeTicks) {
-
             if (!item.StartDate) {
                 let endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
                 endDate = new Date(endDate);
@@ -365,7 +331,6 @@ import 'emby-button';
     }
 
     export function getEndsAtFromPosition(runtimeTicks, positionTicks, includeText) {
-
         let endDate = new Date().getTime() + ((runtimeTicks - (positionTicks || 0)) / 10000);
         endDate = new Date(endDate);
 
@@ -378,12 +343,10 @@ import 'emby-button';
     }
 
     function getMediaInfoItem(m, cssClass) {
-
         cssClass = cssClass ? (`${cssClass} mediaInfoItem`) : 'mediaInfoItem';
         let mediaInfoText = m;
 
         if (typeof (m) !== 'string' && typeof (m) !== 'number') {
-
             if (m.html) {
                 return m.html;
             }
@@ -408,17 +371,13 @@ import 'emby-button';
     }
 
     function dynamicEndTime(elem, item) {
-
         const interval = setInterval(() => {
-
             if (!document.body.contains(elem)) {
-
                 clearInterval(interval);
                 return;
             }
 
             elem.innerHTML = getEndsAt(item);
-
         }, 60000);
     }
 
@@ -437,7 +396,6 @@ import 'emby-button';
     }
 
     function afterFill(elem, item, options) {
-
         if (options.endsAt !== false) {
             const endsAtElem = elem.querySelector('.endsAt');
             if (endsAtElem) {
@@ -452,7 +410,6 @@ import 'emby-button';
     }
 
     function onChannelLinkClick(e) {
-
         const channelId = this.getAttribute('data-id');
         const serverId = this.getAttribute('data-serverid');
 
@@ -463,7 +420,6 @@ import 'emby-button';
     }
 
     export function getPrimaryMediaInfoHtml(item, options) {
-
         options = options || {};
         if (options.interactive == null) {
             options.interactive = false;
@@ -473,7 +429,6 @@ import 'emby-button';
     }
 
     export function getSecondaryMediaInfoHtml(item, options) {
-
         options = options || {};
         if (options.interactive == null) {
             options.interactive = false;
@@ -486,12 +441,10 @@ import 'emby-button';
     }
 
     export function getResolutionText(i) {
-
         const width = i.Width;
         const height = i.Height;
 
         if (width && height) {
-
             if (width >= 3800 || height >= 2000) {
                 return '4K';
             }
@@ -514,19 +467,16 @@ import 'emby-button';
                 return '720p';
             }
             if (width >= 700 || height >= 400) {
-
                 if (i.IsInterlaced) {
                     return '480i';
                 }
                 return '480p';
             }
-
         }
         return null;
     }
 
     function getAudioStreamForDisplay(item) {
-
         if (!item.MediaSources) {
             return null;
         }
@@ -542,7 +492,6 @@ import 'emby-button';
     }
 
     export function getMediaInfoStats(item, options) {
-
         options = options || {};
 
         const list = [];
@@ -587,19 +536,12 @@ import 'emby-button';
         let channelText;
 
         if (channels === 8) {
-
             channelText = '7.1';
-
         } else if (channels === 7) {
-
             channelText = '6.1';
-
         } else if (channels === 6) {
-
             channelText = '5.1';
-
         } else if (channels === 2) {
-
             channelText = '2.0';
         }
 
@@ -625,7 +567,6 @@ import 'emby-button';
         }
 
         if (item.DateCreated && itemHelper.enableDateAddedDisplay(item)) {
-
             const dateCreated = datetime.parseISO8601Date(item.DateCreated);
 
             list.push({

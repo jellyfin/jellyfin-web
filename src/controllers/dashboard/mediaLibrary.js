@@ -393,7 +393,6 @@ import 'emby-itemrefreshindicator';
         });
     });
     pageIdOn('pagebeforehide', 'mediaLibraryPage', function () {
-
         const page = this;
         taskButton({
             mode: 'off',

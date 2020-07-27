@@ -7,7 +7,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     var hasChanges = false;
 
     function getBaseRemoteOptions() {
-
         var options = {};
 
         options.itemId = currentItem.Id;
@@ -16,7 +15,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function reload(page, item, focusContext) {
-
         loading.show();
 
         var apiClient;
@@ -25,7 +23,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
             apiClient = connectionManager.getApiClient(item.ServerId);
             reloadItem(page, item, apiClient, focusContext);
         } else {
-
             apiClient = connectionManager.getApiClient(currentItem.ServerId);
             apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (item) {
                 reloadItem(page, item, apiClient, focusContext);
@@ -34,7 +31,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function addListeners(container, className, eventName, fn) {
-
         container.addEventListener(eventName, function (e) {
             var elem = dom.parentWithClass(e.target, className);
             if (elem) {
@@ -44,14 +40,11 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function reloadItem(page, item, apiClient, focusContext) {
-
         currentItem = item;
 
         apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
-
             var btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
             for (var i = 0, length = btnBrowseAllImages.length; i < length; i++) {
-
                 if (providers.length) {
                     btnBrowseAllImages[i].classList.remove('hide');
                 } else {
@@ -60,7 +53,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
             }
 
             apiClient.getItemImageInfos(currentItem.Id).then(function (imageInfos) {
-
                 renderStandardImages(page, apiClient, item, imageInfos, providers);
                 renderBackdrops(page, apiClient, item, imageInfos, providers);
                 renderScreenshots(page, apiClient, item, imageInfos, providers);
@@ -74,7 +66,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function getImageUrl(item, apiClient, type, index, options) {
-
         options = options || {};
         options.type = type;
         options.index = index;
@@ -94,7 +85,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function getCardHtml(image, index, numImages, apiClient, imageProviders, imageSize, tagName, enableFooterButtons) {
-
         // TODO move card creation code to Card component
 
         var html = '';
@@ -153,7 +143,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
             html += '<div class="cardText cardTextCentered">';
 
             if (image.ImageType === 'Backdrop' || image.ImageType === 'Screenshot') {
-
                 if (index > 0) {
                     html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left"></span></button>';
                 } else {
@@ -183,13 +172,10 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function deleteImage(context, itemId, type, index, apiClient, enableConfirmation) {
-
         var afterConfirm = function () {
             apiClient.deleteItemImage(itemId, type, index).then(function () {
-
                 hasChanges = true;
                 reload(context);
-
             });
         };
 
@@ -199,7 +185,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         }
 
         require(['confirm'], function (confirm) {
-
             confirm.default({
 
                 text: globalize.translate('ConfirmDeleteImage'),
@@ -211,13 +196,10 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function moveImage(context, apiClient, itemId, type, index, newIndex, focusContext) {
-
         apiClient.updateItemImageIndex(itemId, type, index, newIndex).then(function () {
-
             hasChanges = true;
             reload(context, null, focusContext);
         }, function () {
-
             require(['alert'], function (alert) {
                 alert(globalize.translate('DefaultErrorMessage'));
             });
@@ -225,7 +207,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function renderImages(page, item, apiClient, images, imageProviders, elem) {
-
         var html = '';
 
         var imageSize = 300;
@@ -238,7 +219,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         var enableFooterButtons = !layoutManager.tv;
 
         for (var i = 0, length = images.length; i < length; i++) {
-
             var image = images[i];
 
             html += getCardHtml(image, i, length, apiClient, imageProviders, imageSize, tagName, enableFooterButtons);
@@ -249,7 +229,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function renderStandardImages(page, apiClient, item, imageInfos, imageProviders) {
-
         var images = imageInfos.filter(function (i) {
             return i.ImageType !== 'Screenshot' && i.ImageType !== 'Backdrop' && i.ImageType !== 'Chapter';
         });
@@ -258,10 +237,8 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function renderBackdrops(page, apiClient, item, imageInfos, imageProviders) {
-
         var images = imageInfos.filter(function (i) {
             return i.ImageType === 'Backdrop';
-
         }).sort(function (a, b) {
             return a.ImageIndex - b.ImageIndex;
         });
@@ -275,10 +252,8 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function renderScreenshots(page, apiClient, item, imageInfos, imageProviders) {
-
         var images = imageInfos.filter(function (i) {
             return i.ImageType === 'Screenshot';
-
         }).sort(function (a, b) {
             return a.ImageIndex - b.ImageIndex;
         });
@@ -292,20 +267,15 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function showImageDownloader(page, imageType) {
-
         require(['imageDownloader'], function (ImageDownloader) {
-
             ImageDownloader.show(currentItem.Id, currentItem.ServerId, currentItem.Type, imageType).then(function () {
-
                 hasChanges = true;
                 reload(page);
             });
-
         });
     }
 
     function showActionSheet(context, imageCard) {
-
         var itemId = imageCard.getAttribute('data-id');
         var serverId = imageCard.getAttribute('data-serverid');
         var apiClient = connectionManager.getApiClient(serverId);
@@ -316,7 +286,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         var numImages = parseInt(imageCard.getAttribute('data-numimages'));
 
         require(['actionsheet'], function (actionSheet) {
-
             var commands = [];
 
             commands.push({
@@ -353,9 +322,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                 positionTo: imageCard
 
             }).then(function (id) {
-
                 switch (id) {
-
                     case 'delete':
                         deleteImage(context, itemId, type, index, apiClient, false);
                         break;
@@ -371,13 +338,11 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                     default:
                         break;
                 }
-
             });
         });
     }
 
     function initEditor(context, options) {
-
         var uploadButtons = context.querySelectorAll('.btnOpenUploadMenu');
         var isFileInputSupported = appHost.supports('fileinput');
         for (var i = 0, length = uploadButtons.length; i < length; i++) {
@@ -392,7 +357,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
             var imageType = this.getAttribute('data-imagetype');
 
             require(['imageUploader'], function (imageUploader) {
-
                 imageUploader.show({
 
                     theme: options.theme,
@@ -401,7 +365,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                     serverId: currentItem.ServerId
 
                 }).then(function (hasChanged) {
-
                     if (hasChanged) {
                         hasChanges = true;
                         reload(context);
@@ -440,7 +403,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function showEditor(options, resolve, reject) {
-
         var itemId = options.itemId;
         var serverId = options.serverId;
 
@@ -449,7 +411,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         require(['text!./imageeditor.template.html'], function (template) {
             var apiClient = connectionManager.getApiClient(serverId);
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-
                 var dialogOptions = {
                     removeOnClose: true
                 };
@@ -474,7 +435,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
                 // Has to be assigned a z-index after the call to .open()
                 dlg.addEventListener('close', function () {
-
                     if (layoutManager.tv) {
                         scrollHelper.centerFocus.off(dlg, false);
                     }
@@ -493,7 +453,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                 reload(dlg, item);
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                     dialogHelper.close(dlg);
                 });
             });
@@ -502,9 +461,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
     return {
         show: function (options) {
-
             return new Promise(function (resolve, reject) {
-
                 hasChanges = false;
 
                 showEditor(options, resolve, reject);

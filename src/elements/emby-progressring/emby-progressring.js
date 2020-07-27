@@ -6,7 +6,6 @@ import 'webcomponents';
     let EmbyProgressRing = Object.create(HTMLDivElement.prototype);
 
     EmbyProgressRing.createdCallback = function () {
-
         this.classList.add('progressring');
         const instance = this;
 
@@ -35,7 +34,6 @@ import 'webcomponents';
     };
 
     EmbyProgressRing.setProgress = function (progress) {
-
         progress = Math.floor(progress);
 
         let angle;
@@ -49,7 +47,6 @@ import 'webcomponents';
             this.querySelector('.animate-50-75-b').style.transform = 'rotate(-90deg)';
             this.querySelector('.animate-75-100-b').style.transform = 'rotate(-90deg)';
         } else if (progress >= 25 && progress < 50) {
-
             angle = -90 + ((progress - 25) / 100) * 360;
 
             this.querySelector('.animate-0-25-b').style.transform = 'none';
@@ -82,7 +79,6 @@ import 'webcomponents';
     };
 
     EmbyProgressRing.detachedCallback = function () {
-
         let observer = this.observer;
 
         if (observer) {

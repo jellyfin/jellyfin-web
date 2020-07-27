@@ -73,7 +73,6 @@ import 'emby-input';
     let elementId = 0;
 
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-
         const descriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
 
         // descriptor returning null in webos
@@ -93,7 +92,6 @@ import 'emby-input';
     }
 
     EmbyTextAreaPrototype.createdCallback = function () {
-
         if (!this.id) {
             this.id = 'embytextarea' + elementId;
             elementId++;
@@ -101,7 +99,6 @@ import 'emby-input';
     };
 
     EmbyTextAreaPrototype.attachedCallback = function () {
-
         if (this.classList.contains('emby-textarea')) {
             return;
         }

@@ -7,14 +7,12 @@ import 'webcomponents';
 /* eslint-disable indent */
 
     function addNotificationEvent(instance, name, handler) {
-
         const localHandler = handler.bind(instance);
         events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
     function removeNotificationEvent(instance, name) {
-
         const handler = instance[name];
         if (handler) {
             events.off(serverNotifications, name, handler);
@@ -23,7 +21,6 @@ import 'webcomponents';
     }
 
     function onRefreshProgress(e, apiClient, info) {
-
         const indicator = this;
 
         if (!indicator.itemId) {
@@ -31,7 +28,6 @@ import 'webcomponents';
         }
 
         if (info.ItemId === indicator.itemId) {
-
             const progress = parseFloat(info.Progress);
 
             if (progress && progress < 100) {
@@ -47,7 +43,6 @@ import 'webcomponents';
     let EmbyItemRefreshIndicatorPrototype = Object.create(EmbyProgressRing);
 
     EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
-
         // base method
         if (EmbyProgressRing.createdCallback) {
             EmbyProgressRing.createdCallback.call(this);
@@ -57,7 +52,6 @@ import 'webcomponents';
     };
 
     EmbyItemRefreshIndicatorPrototype.attachedCallback = function () {
-
         // base method
         if (EmbyProgressRing.attachedCallback) {
             EmbyProgressRing.attachedCallback.call(this);
@@ -65,7 +59,6 @@ import 'webcomponents';
     };
 
     EmbyItemRefreshIndicatorPrototype.detachedCallback = function () {
-
         // base method
         if (EmbyProgressRing.detachedCallback) {
             EmbyProgressRing.detachedCallback.call(this);

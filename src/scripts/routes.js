@@ -13,7 +13,6 @@ define([
     'listViewStyle',
     'dashboardcss',
     'detailtablecss'], function () {
-
     function defineRoute(newRoute) {
         var path = newRoute.alias ? newRoute.alias : newRoute.path;
         console.debug('defining route: ' + path);

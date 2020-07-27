@@ -5,7 +5,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     function tryRemoveElement(elem) {
         var parentNode = elem.parentNode;
         if (parentNode) {
-
             // Seeing crashes in edge webview
             try {
                 parentNode.removeChild(elem);
@@ -16,7 +15,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     function enableNativeTrackSupport(currentSrc, track) {
-
         if (track) {
             if (track.DeliveryMethod === 'Embed') {
                 return true;
@@ -102,7 +100,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     function getTextTrackUrl(track, item, format) {
-
         if (itemHelper.isLocalItem(item) && track.Path) {
             return track.Path;
         }
@@ -116,18 +113,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     function getDefaultProfile() {
-
         return new Promise(function (resolve, reject) {
-
             require(['browserdeviceprofile'], function (profileBuilder) {
-
                 resolve(profileBuilder({}));
             });
         });
     }
 
     function HtmlVideoPlayer() {
-
         if (browser.edgeUwp) {
             this.name = 'Windows Video Player';
         } else {
@@ -184,7 +177,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function updateVideoUrl(streamInfo) {
-
             var isHls = streamInfo.url.toLowerCase().indexOf('.m3u8') !== -1;
 
             var mediaSource = streamInfo.mediaSource;
@@ -194,7 +186,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             // This will start the transcoding process before actually feeding the video url into the player
             // Edit: Also seeing stalls from hls.js
             if (mediaSource && item && !mediaSource.RunTimeTicks && isHls && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
-
                 var hlsPlaylistUrl = streamInfo.url.replace('master.m3u8', 'live.m3u8');
 
                 loading.show();
@@ -207,22 +198,18 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     url: hlsPlaylistUrl
 
                 }).then(function () {
-
                     console.debug('completed prefetching hls playlist: ' + hlsPlaylistUrl);
 
                     loading.hide();
                     streamInfo.url = hlsPlaylistUrl;
 
                     return Promise.resolve();
-
                 }, function () {
-
                     console.error('error prefetching hls playlist: ' + hlsPlaylistUrl);
 
                     loading.hide();
                     return Promise.resolve();
                 });
-
             } else {
                 return Promise.resolve();
             }
@@ -237,7 +224,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             self.resetSubtitleOffset();
 
             return createMediaElement(options).then(function (elem) {
-
                 return updateVideoUrl(options).then(function () {
                     return setCurrentSrc(elem, options);
                 });
@@ -245,11 +231,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         };
 
         function setSrcWithFlvJs(instance, elem, options, url) {
-
             return new Promise(function (resolve, reject) {
-
                 require(['flvjs'], function (flvjs) {
-
                     var flvPlayer = flvjs.createPlayer({
                         type: 'flv',
                         url: url
@@ -272,11 +255,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function setSrcWithHlsJs(instance, elem, options, url) {
-
             return new Promise(function (resolve, reject) {
-
                 requireHlsPlayer(function () {
-
                     var hls = new Hls({
                         manifestLoadingTimeOut: 20000,
                         xhrSetup: function(xhr, xhr_url) {
@@ -297,7 +277,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function setCurrentSrc(elem, options) {
-
             elem.removeEventListener('error', onError);
 
             var val = options.url;
@@ -333,18 +312,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
                 return setSrcWithHlsJs(self, elem, options, val);
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
-
                 return setSrcWithFlvJs(self, elem, options, val);
-
             } else {
-
                 elem.autoplay = true;
 
                 // Safari will not send cookies without this
                 elem.crossOrigin = 'use-credentials';
 
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
-
                     self._currentSrc = val;
 
                     return htmlMediaHelper.playWithPromise(elem, onError);
@@ -353,7 +328,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         self.setSubtitleStreamIndex = function (index) {
-
             setCurrentTrackElement(index);
         };
 
@@ -388,7 +362,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         self.setSubtitleOffset = function(offset) {
-
             var offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
@@ -409,7 +382,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         };
 
         function updateCurrentTrackOffset(offsetValue) {
-
             var relativeOffset = offsetValue;
             var newTrackOffset = offsetValue;
             if (currentTrackOffset) {
@@ -421,7 +393,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function setTextTrackSubtitleOffset(currentTrack, offsetValue) {
-
             if (currentTrack.cues) {
                 offsetValue = updateCurrentTrackOffset(offsetValue);
                 Array.from(currentTrack.cues)
@@ -433,7 +404,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function setTrackEventsSubtitleOffset(trackEvents, offsetValue) {
-
             if (Array.isArray(trackEvents)) {
                 offsetValue = updateCurrentTrackOffset(offsetValue) * 1e7; // ticks
                 trackEvents.forEach(function(trackEvent) {
@@ -448,7 +418,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         };
 
         function isAudioStreamSupported(stream, deviceProfile) {
-
             var codec = (stream.Codec || '').toLowerCase();
 
             if (!codec) {
@@ -463,9 +432,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var profiles = deviceProfile.DirectPlayProfiles || [];
 
             return profiles.filter(function (p) {
-
                 if (p.Type === 'Video') {
-
                     if (!p.AudioCodec) {
                         return true;
                     }
@@ -474,7 +441,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }
 
                 return false;
-
             }).length > 0;
         }
 
@@ -487,7 +453,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         self.setAudioStreamIndex = function (index) {
-
             var streams = getSupportedAudioStreams();
 
             if (streams.length < 2) {
@@ -525,7 +490,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             console.debug('found ' + elemAudioTracks.length + ' audio tracks');
 
             for (i = 0, length = elemAudioTracks.length; i < length; i++) {
-
                 if (audioIndex === i) {
                     console.debug('setting audio track ' + i + ' to enabled');
                     elemAudioTracks[i].enabled = true;
@@ -594,7 +558,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         };
 
         function onEnded() {
-
             destroyCustomTrack(this);
             htmlMediaHelper.onEndedInternal(self, this, onError);
         }
@@ -660,9 +623,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 });
 
                 if (self._currentPlayOptions.fullscreen) {
-
                     appRouter.showVideoOsd().then(onNavigatedToOsd);
-
                 } else {
                     appRouter.setTransparency('backdrop');
                     videoDialog.classList.remove('videoPlayerContainer-onTop');
@@ -767,7 +728,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (videoElement) {
                 var allTracks = videoElement.textTracks || []; // get list of tracks
                 for (var i = 0; i < allTracks.length; i++) {
-
                     var currentTrack = allTracks[i];
 
                     if (currentTrack.label.indexOf('manualTrack') !== -1) {
@@ -831,7 +791,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function setTrackForDisplay(videoElement, track) {
-
             if (!track) {
                 destroyCustomTrack(videoElement);
                 return;
@@ -884,7 +843,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function requiresCustomSubtitlesElement() {
-
             // after a system update, ps4 isn't showing anything when creating a track element dynamically
             // going to have to do it ourselves
             if (browser.ps4) {
@@ -935,13 +893,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function getCueCss(appearance, selector) {
-
             var html = selector + '::cue {';
 
             html += appearance.text.map(function (s) {
-
                 return s.name + ':' + s.value + '!important;';
-
             }).join('');
 
             html += '}';
@@ -950,9 +905,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function setCueAppearance() {
-
             require(['userSettings', 'subtitleAppearanceHelper'], function (userSettings, subtitleAppearanceHelper) {
-
                 var elementId = self.id + '-cuestyle';
 
                 var styleElem = document.querySelector('#' + elementId);
@@ -968,7 +921,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function renderTracksEvents(videoElement, track, item) {
-
             if (!itemHelper.isLocalItem(item) || track.IsExternal) {
                 var format = (track.Codec || '').toLowerCase();
                 if (format === 'ssa' || format === 'ass') {
@@ -1006,13 +958,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             // download the track json
             fetchSubtitles(track, item).then(function (data) {
-
                 // show in ui
                 console.debug('downloaded ' + data.TrackEvents.length + ' track events');
                 // add some cues to show the text
                 // in safari, the cues need to be added before setting the track mode to showing
                 data.TrackEvents.forEach(function (trackEvent) {
-
                     var trackCueObject = window.VTTCue || window.TextTrackCue;
                     var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
@@ -1023,7 +973,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function updateSubtitleText(timeMs) {
-
             var clock = currentClock;
             if (clock) {
                 try {
@@ -1041,7 +990,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 var ticks = timeMs * 10000;
                 var selectedTrackEvent;
                 for (var i = 0; i < trackEvents.length; i++) {
-
                     var currentTrackEvent = trackEvents[i];
                     if (currentTrackEvent.StartPositionTicks <= ticks && currentTrackEvent.EndPositionTicks >= ticks) {
                         selectedTrackEvent = currentTrackEvent;
@@ -1052,7 +1000,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 if (selectedTrackEvent && selectedTrackEvent.Text) {
                     subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
                     subtitleTextElement.classList.remove('hide');
-
                 } else {
                     subtitleTextElement.classList.add('hide');
                 }
@@ -1060,7 +1007,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function setCurrentTrackElement(streamIndex) {
-
             console.debug('setting new text track index to: ' + streamIndex);
 
             var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
@@ -1074,7 +1020,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 if (streamIndex !== -1) {
                     setCueAppearance();
                 }
-
             } else {
                 // null these out to disable the player's native display (handled below)
                 streamIndex = -1;
@@ -1083,15 +1028,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function createMediaElement(options) {
-
             return new Promise(function (resolve, reject) {
-
                 var dlg = document.querySelector('.videoPlayerContainer');
 
                 if (!dlg) {
-
                     require(['css!./style'], function () {
-
                         loading.show();
 
                         var dlg = document.createElement('div');
@@ -1184,7 +1125,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     var supportedFeatures;
 
     function getSupportedFeatures() {
-
         var list = [];
 
         var video = document.createElement('video');
@@ -1220,7 +1160,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
     // Save this for when playback stops, because querying the time at that point might return 0
     HtmlVideoPlayer.prototype.currentTime = function (val) {
-
         var mediaElement = this._mediaElement;
         if (mediaElement) {
             if (val != null) {
@@ -1238,7 +1177,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.duration = function (val) {
-
         var mediaElement = this._mediaElement;
         if (mediaElement) {
             var duration = mediaElement.duration;
@@ -1270,7 +1208,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     HtmlVideoPlayer.prototype.setPictureInPictureEnabled = function (isEnabled) {
-
         var video = this._mediaElement;
 
         if (document.pictureInPictureEnabled) {
@@ -1282,7 +1219,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }
             }
         } else if (window.Windows) {
-
             this.isPip = isEnabled;
             if (isEnabled) {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay);
@@ -1297,7 +1233,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.isPictureInPictureEnabled = function () {
-
         if (document.pictureInPictureEnabled) {
             return document.pictureInPictureElement ? true : false;
         } else if (window.Windows) {
@@ -1313,7 +1248,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.isAirPlayEnabled = function () {
-
         if (document.AirPlayEnabled) {
             return document.AirplayElement ? true : false;
         }
@@ -1342,7 +1276,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.setBrightness = function (val) {
-
         var elem = this._mediaElement;
 
         if (elem) {
@@ -1371,10 +1304,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     HtmlVideoPlayer.prototype.seekable = function () {
         var mediaElement = this._mediaElement;
         if (mediaElement) {
-
             var seekable = mediaElement.seekable;
             if (seekable && seekable.length) {
-
                 var start = seekable.start(0);
                 var end = seekable.end(0);
 
@@ -1415,7 +1346,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.paused = function () {
-
         var mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.paused;
@@ -1523,7 +1453,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.getStats = function () {
-
         var mediaElement = this._mediaElement;
         var playOptions = this._currentPlayOptions || [];
 

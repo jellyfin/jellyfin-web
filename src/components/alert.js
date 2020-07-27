@@ -10,7 +10,6 @@ import globalize from 'globalize';
     }
 
     export default function (text, title) {
-
         let options;
         if (typeof text === 'string') {
             options = {

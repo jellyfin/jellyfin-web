@@ -323,7 +323,6 @@ define(['browser'], function (browser) {
         // Otherwise with HLS and mp3 audio we're seeing some browsers
         // safari is lying
         if (supportsAc3(videoTestElement)) {
-
             videoAudioCodecs.push('ac3');
 
             var eAc3 = supportsEac3(videoTestElement);
@@ -505,7 +504,6 @@ define(['browser'], function (browser) {
         });
 
         ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
-
             if (audioFormat === 'mp2') {
                 profile.DirectPlayProfiles.push({
                     Container: 'mp2,mp3',
@@ -703,7 +701,6 @@ define(['browser'], function (browser) {
 
         if (browser.tizen ||
             videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
-
             // These tests are passing in safari, but playback is failing
             if (!browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile) {
                 h264Profiles += '|high 10';

@@ -17,9 +17,7 @@ import 'css!./../formdialog';
 
     function show(person) {
         return new Promise(function (resolve, reject) {
-
             import('text!./personEditor.template.html').then(({default: template}) => {
-
                 const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
@@ -53,7 +51,6 @@ import 'css!./../formdialog';
                 dialogHelper.open(dlg);
 
                 dlg.addEventListener('close', function () {
-
                     if (layoutManager.tv) {
                         centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                     }
@@ -66,7 +63,6 @@ import 'css!./../formdialog';
                 });
 
                 dlg.querySelector('.selectPersonType').addEventListener('change', function (e) {
-
                     if (this.value === 'Actor') {
                         dlg.querySelector('.fldRole').classList.remove('hide');
                     } else {
@@ -75,12 +71,10 @@ import 'css!./../formdialog';
                 });
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
-
                     dialogHelper.close(dlg);
                 });
 
                 dlg.querySelector('form').addEventListener('submit', function (e) {
-
                     submitted = true;
 
                     person.Name = dlg.querySelector('.txtPersonName', dlg).value;
