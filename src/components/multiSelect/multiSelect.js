@@ -580,10 +580,6 @@ import 'css!./multiSelect';
             dom.removeEventListener(element, 'touchend', onTouchEnd, {
                 passive: true
             });
-            // this fires in safari due to magnifying class
-            //dom.removeEventListener(element, "touchcancel", onTouchEnd, {
-            //    passive: true
-            //});
             dom.removeEventListener(element, 'mousedown', onMouseDown, {
                 passive: true
             });

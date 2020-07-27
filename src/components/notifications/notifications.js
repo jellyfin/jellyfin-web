@@ -101,11 +101,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             body: body,
             vibrate: true,
             tag: 'newItem' + item.Id,
-            data: {
-                //options: {
-                //    url: LibraryBrowser.getHref(item)
-                //}
-            }
+            data: {}
         };
 
         var imageTags = item.ImageTags || {};

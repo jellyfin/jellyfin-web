@@ -3,7 +3,6 @@ import globalize from 'globalize';
 import dom from 'dom';
 import * as datefns from 'date-fns';
 import dfnshelper from 'dfnshelper';
-import userSettings from 'userSettings';
 import serverNotifications from 'serverNotifications';
 import connectionManager from 'connectionManager';
 import 'emby-button';
@@ -69,6 +68,7 @@ import 'listViewStyle';
         const minDate = new Date();
         const hasUserId = 'false' !== elem.getAttribute('data-useractivity');
 
+        // TODO: Use date-fns
         if (hasUserId) {
             minDate.setTime(minDate.getTime() - 24 * 60 * 60 * 1000); // one day back
         } else {

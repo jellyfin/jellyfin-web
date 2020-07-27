@@ -4,8 +4,6 @@ import connectionManager from 'connectionManager';
 import itemHelper from 'itemHelper';
 import appRouter from 'appRouter';
 import playbackManager from 'playbackManager';
-import loading from 'loading';
-import appSettings from 'appSettings';
 import browser from 'browser';
 import actionsheet from 'actionsheet';
 

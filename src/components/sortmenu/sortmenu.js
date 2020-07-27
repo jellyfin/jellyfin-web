@@ -90,13 +90,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
                 var submitted;
 
                 dlg.querySelector('form').addEventListener('change', function () {
-
                     submitted = true;
-                    //if (options.onChange) {
-                    //    saveValues(dlg, options.settings, options.settingsKey);
-                    //    options.onChange();
-                    //}
-
                 }, true);
 
                 dialogHelper.open(dlg).then(function () {
@@ -106,11 +100,8 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
                     }
 
                     if (submitted) {
-
-                        //if (!options.onChange) {
                         saveValues(dlg, options.settings, options.settingsKey);
                         resolve();
-                        //}
                         return;
                     }
 

@@ -1163,6 +1163,7 @@ import 'programStyles';
         function importRefreshIndicator() {
             if (!refreshIndicatorLoaded) {
                 refreshIndicatorLoaded = true;
+                /* eslint-disable-next-line no-unused-expressions */
                 import('emby-itemrefreshindicator');
             }
         }
@@ -1498,6 +1499,7 @@ import 'programStyles';
             const userData = item.UserData || {};
 
             if (itemHelper.canMarkPlayed(item)) {
+                /* eslint-disable-next-line no-unused-expressions */
                 import('emby-playstatebutton');
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
@@ -1506,6 +1508,7 @@ import 'programStyles';
 
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
+                /* eslint-disable-next-line no-unused-expressions */
                 import('emby-ratingbutton');
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }

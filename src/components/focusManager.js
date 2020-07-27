@@ -272,14 +272,10 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         var rect = getOffset(activeElement);
 
         // Get elements and work out x/y points
-        var cache = [];
         var point1x = parseFloat(rect.left) || 0;
         var point1y = parseFloat(rect.top) || 0;
         var point2x = parseFloat(point1x + rect.width - 1) || point1x;
         var point2y = parseFloat(point1y + rect.height - 1) || point1y;
-        // Shortcuts to help with compression
-        var min = Math.min;
-        var max = Math.max;
 
         var sourceMidX = rect.left + (rect.width / 2);
         var sourceMidY = rect.top + (rect.height / 2);
@@ -300,10 +296,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
             if (curr === focusableContainer) {
                 continue;
             }
-
-            //if (!isCurrentlyFocusableInternal(curr)) {
-            //    continue;
-            //}
 
             var elementRect = getOffset(curr);
 

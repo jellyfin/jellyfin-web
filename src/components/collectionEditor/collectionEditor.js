@@ -1,7 +1,6 @@
 import dom from 'dom';
 import dialogHelper from 'dialogHelper';
 import loading from 'loading';
-import appHost from 'apphost';
 import layoutManager from 'layoutManager';
 import connectionManager from 'connectionManager';
 import appRouter from 'appRouter';
@@ -247,10 +246,6 @@ import 'flexStyles';
             html += '<h3 class="formDialogHeaderTitle">';
             html += title;
             html += '</h3>';
-
-            if (appHost.supports('externallinks')) {
-                html += `<a is="emby-linkbutton" class="button-link btnHelp flex align-items-center" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;padding:.25em;" title="${globalize.translate('Help')}"><span class="material-icons info"></span><span style="margin-left:.25em;">${globalize.translate('Help')}</span></a>`;
-            }
 
             html += '</div>';
 

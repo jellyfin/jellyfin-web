@@ -1652,7 +1652,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         html += '<h2 class="sectionTitle sectionTitle-cards">';
         html += '<span>' + type.name + '</span>';
         html += '</h2>';
-        html += '<button class="btnAddToCollection sectionTitleButton" type="button" is="paper-icon-button-light" style="margin-left:1em;"><span class="material-icons add"></span></button>';
         html += '</div>';
         html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
         var shape = 'MusicAlbum' == type.type ? getSquareShape(false) : getPortraitShape(false);
@@ -1674,14 +1673,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var collectionItems = page.querySelector('.collectionItems');
         collectionItems.insertAdjacentHTML('beforeend', html);
         imageLoader.lazyChildren(collectionItems);
-        collectionItems.querySelector('.btnAddToCollection').addEventListener('click', function () {
-            require(['alert'], function (alert) {
-                alert.default({
-                    text: globalize.translate('AddItemToCollectionHelp'),
-                    html: globalize.translate('AddItemToCollectionHelp') + '<br/><br/><a is="emby-linkbutton" class="button-link" target="_blank" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections">' + globalize.translate('ButtonLearnMore') + '</a>'
-                });
-            });
-        });
     }
 
     function renderMusicVideos(page, item, user) {

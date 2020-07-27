@@ -1,7 +1,6 @@
 import dialogHelper from 'dialogHelper';
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
-import require from 'require';
 import 'paper-icon-button-light';
 import 'emby-input';
 import 'emby-select';

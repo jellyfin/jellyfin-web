@@ -1,6 +1,5 @@
 import appSettings from 'appSettings';
 import loading from 'loading';
-import browser from 'browser';
 import globalize from 'globalize';
 import 'emby-button';
 

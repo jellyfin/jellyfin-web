@@ -43,11 +43,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
         if (guideProgramName) {
             if (pctOfWidth > 0 && pctOfWidth <= 100) {
-                //guideProgramName.style.marginLeft = pctOfWidth + '%';
                 guideProgramName.style.transform = 'translateX(' + pctOfWidth + '%)';
                 caret.classList.remove('hide');
             } else {
-                //guideProgramName.style.marginLeft = '0';
                 guideProgramName.style.transform = 'none';
                 caret.classList.add('hide');
             }
@@ -121,7 +119,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         var cellCurationMinutes = 30;
         var cellDurationMs = cellCurationMinutes * 60 * 1000;
         var msPerDay = 86400000;
-        var totalRendererdMs = msPerDay;
 
         var currentDate;
         var currentStartIndex = 0;
@@ -577,7 +574,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     html += '</div>';
 
                     if (program.IsHD && options.showHdIcon) {
-                        //html += '<span class="guideHdIcon material-icons programIcon hd"></span>';
                         if (layoutManager.tv) {
                             html += '<div class="programIcon guide-programTextIcon guide-programTextIcon-tv">HD</div>';
                         } else {
@@ -866,6 +862,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var dateTabsHtml = '';
             var tabIndex = 0;
 
+            // TODO: Use date-fns
             var date = new Date();
 
             if (currentDate) {
@@ -873,7 +870,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             }
 
             date.setHours(nowHours, 0, 0, 0);
-            //start.setHours(0, 0, 0, 0);
 
             var startTimeOfDayMs = (start.getHours() * 60 * 60 * 1000);
             startTimeOfDayMs += start.getMinutes() * 60 * 1000;
@@ -951,8 +947,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var focusableElements;
             var newRow;
 
-            var scrollX = false;
-
             switch (e.detail.command) {
 
                 case 'up':
@@ -1018,7 +1012,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     focusManager.moveLeft(target, {
                         container: container
                     });
-                    scrollX = true;
                     break;
                 case 'right':
                     container = programCell ? dom.parentWithClass(programCell, 'channelPrograms') : null;
@@ -1027,7 +1020,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     focusManager.moveRight(target, {
                         container: container
                     });
-                    scrollX = true;
                     break;
                 default:
                     return;

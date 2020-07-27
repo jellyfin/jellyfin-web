@@ -1,7 +1,5 @@
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
-import require from 'require';
-import events from 'events';
 import connectionManager from 'connectionManager';
 import cardBuilder from 'cardBuilder';
 import appRouter from 'appRouter';

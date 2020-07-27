@@ -39,34 +39,11 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
     }
 
     function renderDynamicFilters(context, result, options) {
-
-        // If there's a huge number of these they will be really show to render
-        //if (result.Tags) {
-        //    result.Tags.length = Math.min(result.Tags.length, 50);
-        //}
-
         renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
-
             // Switching from | to ,
             var delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
             return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
         });
-
-        //renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', result.OfficialRatings, function (i) {
-        //    var delimeter = '|';
-        //    return (delimeter + (query.OfficialRatings || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
-        //});
-
-        //renderOptions(context, '.tagFilters', 'chkTagFilter', result.Tags, function (i) {
-        //    var delimeter = '|';
-        //    return (delimeter + (query.Tags || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
-        //});
-
-        //renderOptions(context, '.yearFilters', 'chkYearFilter', result.Years, function (i) {
-
-        //    var delimeter = ',';
-        //    return (delimeter + (query.Years || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
-        //});
     }
 
     function loadDynamicFilters(context, options) {
@@ -81,11 +58,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         });
 
         apiClient.getFilters(filterMenuOptions).then(function (result) {
-
             renderDynamicFilters(context, result, options);
-        }, function () {
-
-            // older server
         });
     }
 
@@ -314,13 +287,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
                 var submitted;
 
                 dlg.querySelector('form').addEventListener('change', function () {
-
                     submitted = true;
-                    //if (options.onChange) {
-                    //    saveValues(dlg, options.settings, options.settingsKey);
-                    //    options.onChange();
-                    //}
-
                 }, true);
 
                 dialogHelper.open(dlg).then(function () {

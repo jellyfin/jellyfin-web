@@ -1,11 +1,9 @@
 import $ from 'jQuery';
-import appHost from 'apphost';
 import taskButton from 'scripts/taskbutton';
 import loading from 'loading';
 import libraryMenu from 'libraryMenu';
 import globalize from 'globalize';
 import dom from 'dom';
-import indicators from 'indicators';
 import imageHelper from 'scripts/imagehelper';
 import 'cardStyle';
 import 'emby-itemrefreshindicator';

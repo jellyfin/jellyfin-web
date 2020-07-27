@@ -47,7 +47,6 @@ import 'emby-input';
                 return;
             }
             let newHeight = 0;
-            let hasGrown = false;
 
             if ((textarea.scrollHeight - offset) > self.maxAllowedHeight) {
                 textarea.style.overflowY = 'scroll';
@@ -56,7 +55,6 @@ import 'emby-input';
                 textarea.style.overflowY = 'hidden';
                 textarea.style.height = 'auto';
                 newHeight = textarea.scrollHeight/* - offset*/;
-                hasGrown = true;
             }
             $('.customCssContainer').css('height', newHeight + 'px');
             textarea.style.height = newHeight + 'px';

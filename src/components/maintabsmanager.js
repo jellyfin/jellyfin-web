@@ -8,29 +8,10 @@ import 'emby-button';
 
     let tabOwnerView;
     const queryScope = document.querySelector('.skinHeader');
-    let footerTabsContainer;
     let headerTabsContainer;
     let tabsElem;
 
-    function enableTabsInFooter() {
-        return false;
-    }
-
-    function getTabsContainerElem() {
-    }
-
-    function ensureElements(enableInFooter) {
-
-        if (enableInFooter) {
-            if (!footerTabsContainer) {
-                footerTabsContainer = document.createElement('div');
-                footerTabsContainer.classList.add('footerTabs');
-                footerTabsContainer.classList.add('sectionTabs');
-                footerTabsContainer.classList.add('hide');
-                //appFooter.add(footerTabsContainer);
-            }
-        }
-
+    function ensureElements() {
         if (!headerTabsContainer) {
             headerTabsContainer = queryScope.querySelector('.headerTabs');
         }
@@ -75,7 +56,6 @@ import 'emby-button';
         }
 
         // implement without hammer
-        const pageCount = getTabContainersFn().length;
         const onSwipeLeft = function (e, target) {
             if (allowSwipe(target) && view.contains(target)) {
                 tabsElem.selectNext();
@@ -102,9 +82,6 @@ import 'emby-button';
     }
 
     export function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
-
-        const enableInFooter = enableTabsInFooter();
-
         if (!view) {
             if (tabOwnerView) {
 
@@ -112,17 +89,12 @@ import 'emby-button';
                     headerTabsContainer = queryScope.querySelector('.headerTabs');
                 }
 
-                ensureElements(enableInFooter);
+                ensureElements();
 
                 document.body.classList.remove('withSectionTabs');
 
                 headerTabsContainer.innerHTML = '';
                 headerTabsContainer.classList.add('hide');
-
-                if (footerTabsContainer) {
-                    footerTabsContainer.innerHTML = '';
-                    footerTabsContainer.classList.add('hide');
-                }
 
                 tabOwnerView = null;
             }
@@ -132,9 +104,9 @@ import 'emby-button';
             };
         }
 
-        ensureElements(enableInFooter);
+        ensureElements();
 
-        const tabsContainerElem = enableInFooter ? footerTabsContainer : headerTabsContainer;
+        const tabsContainerElem = headerTabsContainer;
 
         if (!tabOwnerView) {
             tabsContainerElem.classList.remove('hide');
@@ -193,12 +165,6 @@ import 'emby-button';
 
                 const newPanel = tabContainers[e.detail.selectedTabIndex];
 
-                //if (e.detail.previousIndex != null && e.detail.previousIndex != e.detail.selectedTabIndex) {
-                //    if (newPanel.animate && (animateTabs || []).indexOf(e.detail.selectedTabIndex) != -1) {
-                //        fadeInRight(newPanel);
-                //    }
-                //}
-
                 if (newPanel) {
                     newPanel.classList.add('is-active');
                 }
@@ -220,10 +186,6 @@ import 'emby-button';
                     tabsElem.addEventListener('ready', onViewTabsReady);
                 }
             }
-
-            //if (enableSwipe !== false) {
-            //    libraryBrowser.configureSwipeTabs(ownerpage, tabs);
-            //}
 
             return {
                 tabsContainer: tabsContainerElem,

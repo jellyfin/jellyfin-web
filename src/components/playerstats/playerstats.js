@@ -5,7 +5,6 @@ import connectionManager from 'connectionManager';
 import syncPlayManager from 'syncPlayManager';
 import playMethodHelper from 'playMethodHelper';
 import layoutManager from 'layoutManager';
-import serverNotifications from 'serverNotifications';
 import 'paper-icon-button-light';
 import 'css!./playerstats';
 
@@ -132,7 +131,6 @@ import 'css!./playerstats';
         let audioChannels;
 
         if (session.TranscodingInfo) {
-
             videoCodec = session.TranscodingInfo.VideoCodec;
             audioCodec = session.TranscodingInfo.AudioCodec;
             totalBitrate = session.TranscodingInfo.Bitrate;
@@ -140,7 +138,6 @@ import 'css!./playerstats';
         }
 
         if (videoCodec) {
-
             sessionStats.push({
                 label: globalize.translate('LabelVideoCodec'),
                 value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
@@ -148,20 +145,18 @@ import 'css!./playerstats';
         }
 
         if (audioCodec) {
-
             sessionStats.push({
                 label: globalize.translate('LabelAudioCodec'),
                 value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
             });
         }
 
-        //if (audioChannels) {
-
-        //    sessionStats.push({
-        //        label: 'Audio channels:',
-        //        value: audioChannels
-        //    });
-        //}
+        if (audioChannels) {
+            sessionStats.push({
+                label: globalize.translate('LabelAudioChannels'),
+                value: audioChannels
+            });
+        }
 
         if (displayPlayMethod === 'Transcode') {
             if (totalBitrate) {

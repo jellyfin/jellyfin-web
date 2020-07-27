@@ -12,8 +12,6 @@ import 'emby-input';
 
     let supportsValueSetOverride = false;
 
-    let enableWidthWithTransform;
-
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
 
         const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
@@ -104,12 +102,8 @@ import 'emby-input';
             if (backgroundLower) {
                 let fraction = (value - range.min) / (range.max - range.min);
 
-                if (enableWidthWithTransform) {
-                    backgroundLower.style.transform = 'scaleX(' + (fraction) + ')';
-                } else {
-                    fraction *= 100;
-                    backgroundLower.style.width = fraction + '%';
-                }
+                fraction *= 100;
+                backgroundLower.style.width = fraction + '%';
             }
         });
     }
@@ -146,10 +140,6 @@ import 'emby-input';
             return;
         }
 
-        if (enableWidthWithTransform == null) {
-            //enableWidthWithTransform = browser.supportsCssAnimation();
-        }
-
         this.setAttribute('data-embyslider', 'true');
 
         this.classList.add('mdl-slider');
@@ -177,11 +167,7 @@ import 'emby-input';
         // the more of these, the more ranges we can display
         htmlToInsert += '<div class="mdl-slider-background-upper"></div>';
 
-        if (enableWidthWithTransform) {
-            htmlToInsert += '<div class="mdl-slider-background-lower mdl-slider-background-lower-withtransform"></div>';
-        } else {
-            htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
-        }
+        htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
 
         htmlToInsert += '</div>';
         htmlToInsert += '</div>';

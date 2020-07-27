@@ -153,15 +153,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         };
 
         if (!isBackNav) {
-            // Don't force a new view for home due to the back menu
-            //if (route.type !== 'home') {
             onNewViewNeeded();
             return;
-            //}
         }
         viewManager.tryRestoreView(currentRequest, function () {
-
-            // done
             currentRouteInfo = {
                 route: route,
                 path: ctx.path
@@ -309,31 +304,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
             page({
                 click: options.click !== false,
-                hashbang: options.hashbang !== false,
-                enableHistory: enableHistory()
+                hashbang: options.hashbang !== false
             });
         }).catch().then(function() {
             loading.hide();
         });
-    }
-
-    function enableHistory() {
-
-        //if (browser.edgeUwp) {
-        //    return false;
-        //}
-
-        // shows status bar on navigation
-        if (browser.xboxOne) {
-            return false;
-        }
-
-        // Does not support history
-        if (browser.orsay) {
-            return false;
-        }
-
-        return true;
     }
 
     function enableNativeHistory() {
@@ -535,9 +510,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         if (!document.querySelector('.dialogContainer') && startPages.indexOf(curr.type) !== -1) {
             return false;
         }
-        if (enableHistory()) {
-            return history.length > 1;
-        }
+
         return (page.len || 0) > 0;
     }
 

@@ -78,7 +78,6 @@ import EmbyButtonPrototype from 'emby-button';
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = 'thumb_up';
             }
             button.classList.remove('ratingbutton-withrating');
 
@@ -87,7 +86,6 @@ import EmbyButtonPrototype from 'emby-button';
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = 'thumb_down';
             }
             button.classList.remove('ratingbutton-withrating');
 
@@ -96,7 +94,6 @@ import EmbyButtonPrototype from 'emby-button';
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = 'thumbs_up_down';
             }
             button.classList.remove('ratingbutton-withrating');
         }

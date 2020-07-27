@@ -1,4 +1,3 @@
-import itemHelper from 'itemHelper';
 import dom from 'dom';
 import layoutManager from 'layoutManager';
 import dialogHelper from 'dialogHelper';

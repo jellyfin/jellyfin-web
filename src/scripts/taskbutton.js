@@ -1,5 +1,5 @@
+
 import events from 'events';
-import * as userSettings from 'userSettings';
 import serverNotifications from 'serverNotifications';
 import connectionManager from 'connectionManager';
 import globalize from 'globalize';

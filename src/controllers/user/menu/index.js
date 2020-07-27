@@ -1,6 +1,4 @@
 import appHost from 'apphost';
-import connectionManager from 'connectionManager';
-import layoutManager from 'layoutManager';
 import 'listViewStyle';
 import 'emby-button';
 

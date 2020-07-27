@@ -4,43 +4,6 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     var currentItem;
     var hasChanges;
 
-    function showLocalSubtitles(context, index) {
-
-        loading.show();
-
-        var subtitleContent = context.querySelector('.subtitleContent');
-        subtitleContent.innerHTML = '';
-
-        var apiClient = connectionManager.getApiClient(currentItem.ServerId);
-        var url = 'Videos/' + currentItem.Id + '/Subtitles/' + index;
-
-        apiClient.ajax({
-
-            type: 'GET',
-            url: url
-
-        }).then(function (result) {
-
-            subtitleContent.innerHTML = result;
-
-            loading.hide();
-        });
-    }
-
-    function showRemoteSubtitles(context, id) {
-
-        loading.show();
-
-        var url = 'Providers/Subtitles/Subtitles/' + id;
-
-        ApiClient.get(ApiClient.getUrl(url)).then(function (result) {
-
-            // show result
-
-            loading.hide();
-        });
-    }
-
     function downloadRemoteSubtitles(context, id) {
 
         var url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
@@ -170,14 +133,6 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             elem.classList.add('hide');
         }
         elem.innerHTML = html;
-
-        //('.btnViewSubtitles', elem).on('click', function () {
-
-        //    var index = this.getAttribute('data-index');
-
-        //    showLocalSubtitles(context, index);
-
-        //});
     }
 
     function fillLanguages(context, apiClient, languages) {
@@ -250,8 +205,6 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
             html += '<div class="listItemBody ' + bodyClass + '">';
 
-            //html += '<a class="btnViewSubtitle" href="#" data-subid="' + result.Id + '">';
-
             html += '<div>' + (result.Name) + '</div>';
             html += '<div class="secondary listItemBodyText">';
 
@@ -272,8 +225,6 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                 html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('PerfectMatch') + '</div></div>';
             }
 
-            //html += '</a>';
-
             html += '</div>';
 
             if (!layoutManager.tv) {
@@ -289,12 +240,6 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
         var elem = context.querySelector('.subtitleResults');
         elem.innerHTML = html;
-
-        //('.btnViewSubtitle', elem).on('click', function () {
-
-        //    var id = this.getAttribute('data-subid');
-        //    showRemoteSubtitles(context, id);
-        //});
 
         loading.hide();
     }
@@ -369,11 +314,10 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     }
 
     function onSubtitleResultsClick(e) {
-
-        var btnOptions = dom.parentWithClass(e.target, 'btnOptions');
         var subtitleId;
         var context;
 
+        var btnOptions = dom.parentWithClass(e.target, 'btnOptions');
         if (btnOptions) {
             subtitleId = btnOptions.getAttribute('data-subid');
             context = dom.parentWithClass(btnOptions, 'subtitleEditorDialog');

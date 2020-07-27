@@ -1,6 +1,5 @@
-/* eslint-disable indent */
 
-import browser from 'browser';
+/* eslint-disable indent */
 
     export function getDeviceIcon(device) {
         var baseUrl = 'assets/img/devices/';

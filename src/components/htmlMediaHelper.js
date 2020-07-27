@@ -33,32 +33,6 @@ import events from 'events';
         return false;
     }
 
-    export function enableHlsShakaPlayer(item, mediaSource, mediaType) {
-        /* eslint-disable-next-line compat/compat */
-        if (!!window.MediaSource && !!MediaSource.isTypeSupported) {
-
-            if (canPlayNativeHls()) {
-
-                if (browser.edge && mediaType === 'Video') {
-                    return true;
-                }
-
-                // simple playback should use the native support
-                if (mediaSource.RunTimeTicks) {
-                    //if (!browser.edge) {
-                    //return false;
-                    //}
-                }
-
-                //return false;
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
     export function enableHlsJsPlayer(runTimeTicks, mediaType) {
 
         if (window.MediaSource == null) {
@@ -170,7 +144,6 @@ import events from 'events';
         var seconds = (ticks || 0) / 10000000;
 
         if (seconds) {
-            var src = (instance.currentSrc() || '').toLowerCase();
 
             // Appending #t=xxx to the query string doesn't seem to work with HLS
             // For plain video files, not all browsers support it either
@@ -270,19 +243,6 @@ import events from 'events';
             }
 
             instance._castPlayer = null;
-        }
-    }
-
-    export function destroyShakaPlayer(instance) {
-        var player = instance._shakaPlayer;
-        if (player) {
-            try {
-                player.destroy();
-            } catch (err) {
-                console.error(err);
-            }
-
-            instance._shakaPlayer = null;
         }
     }
 
@@ -416,7 +376,6 @@ import events from 'events';
 
         destroyHlsPlayer(instance);
         destroyFlvPlayer(instance);
-        destroyShakaPlayer(instance);
         destroyCastPlayer(instance);
 
         var stopInfo = {

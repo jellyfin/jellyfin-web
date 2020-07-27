@@ -39,6 +39,8 @@ module.exports = {
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
         'no-trailing-spaces': ['error'],
+        'no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+        "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": true }],
         'one-var': ['error', 'never'],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         'semi': ['error'],
@@ -98,9 +100,8 @@ module.exports = {
             },
             rules: {
                 // TODO: Fix warnings and remove these rules
-                'no-redeclare': ['warn'],
-                'no-unused-vars': ['warn'],
-                'no-useless-escape': ['warn'],
+                'no-redeclare': ['off'],
+                'no-useless-escape': ['off'],
                 // TODO: Remove after ES6 migration is complete
                 'import/no-unresolved': ['off']
             },

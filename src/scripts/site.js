@@ -14,7 +14,7 @@ function getWindowLocationSearch(win) {
     return search || '';
 }
 
-function getParameterByName(name, url) {
+window.getParameterByName = function (name, url) {
     'use strict';
 
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -27,7 +27,7 @@ function getParameterByName(name, url) {
     }
 
     return decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
+};
 
 function pageClassOn(eventName, className, fn) {
     'use strict';
@@ -41,7 +41,7 @@ function pageClassOn(eventName, className, fn) {
     });
 }
 
-function pageIdOn(eventName, id, fn) {
+window.pageIdOn = function(eventName, id, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
@@ -51,7 +51,7 @@ function pageIdOn(eventName, id, fn) {
             fn.call(target, event);
         }
     });
-}
+};
 
 var Dashboard = {
     getCurrentUser: function () {
@@ -236,9 +236,7 @@ var Dashboard = {
 
 var AppInfo = {};
 
-!function () {
-    'use strict';
-
+function initClient() {
     function defineConnectionManager(connectionManager) {
         window.ConnectionManager = connectionManager;
         define('connectionManager', [], function () {
@@ -679,7 +677,6 @@ var AppInfo = {};
                     'howler',
                     'native-promise-only',
                     'resize-observer-polyfill',
-                    'shaka',
                     'swiper',
                     'queryString',
                     'sortable',
@@ -785,7 +782,6 @@ var AppInfo = {};
         define('multiSelect', [componentsPath + '/multiSelect/multiSelect'], returnFirstDependency);
         define('alphaPicker', [componentsPath + '/alphaPicker/alphaPicker'], returnFirstDependency);
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
-        define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
         define('collectionEditor', [componentsPath + '/collectionEditor/collectionEditor'], returnFirstDependency);
         define('playlistEditor', [componentsPath + '/playlisteditor/playlisteditor'], returnFirstDependency);
         define('recordingCreator', [componentsPath + '/recordingcreator/recordingcreator'], returnFirstDependency);
@@ -1127,7 +1123,9 @@ var AppInfo = {};
     })();
 
     return onWebComponentsReady();
-}();
+}
+
+initClient();
 
 pageClassOn('viewshow', 'standalonePage', function () {
     document.querySelector('.skinHeader').classList.add('noHeaderRight');

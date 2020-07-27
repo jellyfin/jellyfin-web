@@ -130,11 +130,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         var hideTimeout;
         /** Last coordinates of the mouse pointer. */
         var lastMouseMoveData;
-        /** Visibility status of the OSD. */
-        var _osdOpen = false;
-
-        // Use autoplay on Chromecast since it is non-interactive.
-        if (browser.chromecast) options.interactive = false;
 
         /**
          * Creates the HTML markup for the dialog and the OSD.
@@ -363,8 +358,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         function getSwiperSlideHtmlFromItem(item) {
             return getSwiperSlideHtmlFromSlide({
                 originalImage: getImgUrl(item, currentOptions.user),
-                //title: item.Name,
-                //description: item.Overview
                 Id: item.Id,
                 ServerId: item.ServerId
             });
@@ -545,7 +538,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 return;
             }
 
-            _osdOpen = true;
             element.classList.remove('hide');
 
             var onFinish = function () {
@@ -578,7 +570,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             var onFinish = function () {
                 element.classList.add('hide');
-                _osdOpen = false;
             };
 
             if (!element.animate) {

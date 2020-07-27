@@ -41,8 +41,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         };
         ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
             var elem = page.querySelector('#recentlyAddedSongs');
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
+
             elem.innerHTML = cardBuilder.getCardsHtml({
                 items: items,
                 showUnplayedIndicator: false,
@@ -51,10 +50,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 showTitle: true,
                 showParentTitle: true,
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayPlayButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayPlayButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(elem);
@@ -90,8 +89,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             }
 
             var itemsContainer = elem.querySelector('.itemsContainer');
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -100,10 +97,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 showParentTitle: true,
                 action: 'instantmix',
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayMoreButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayMoreButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(itemsContainer);
@@ -134,8 +131,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             }
 
             var itemsContainer = elem.querySelector('.itemsContainer');
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -144,10 +139,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 showParentTitle: true,
                 action: 'instantmix',
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayMoreButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayMoreButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(itemsContainer);
@@ -339,8 +334,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         function loadTab(page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
-                initialTabIndex = null;
-
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
@@ -356,10 +349,8 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             }
         }
 
-        var isViewRestored;
         var self = this;
         var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        var initialTabIndex = currentTabIndex;
 
         self.initTab = function () {
             var tabContent = view.querySelector(".pageTabContent[data-index='0']");
@@ -377,7 +368,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         var tabControllers = [];
         var renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
-            isViewRestored = e.detail.isRestored;
             initTabs();
             if (!view.getAttribute('data-title')) {
                 var parentId = params.topParentId;
