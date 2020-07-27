@@ -414,36 +414,6 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        setCurrentSrcChromecast(instance, elem, options, url) {
-            elem.autoplay = true;
-
-            const lrd = new cast.receiver.MediaManager.LoadRequestData();
-            lrd.currentTime = (options.playerStartPositionTicks || 0) / 10000000;
-            lrd.autoplay = true;
-            lrd.media = new cast.receiver.media.MediaInformation();
-
-            lrd.media.contentId = url;
-            lrd.media.contentType = options.mimeType;
-            lrd.media.streamType = cast.receiver.media.StreamType.OTHER;
-            lrd.media.customData = options;
-
-            console.debug('loading media url into media manager');
-
-            try {
-                mediaManager.load(lrd);
-                // This is needed in setCurrentTrackElement
-                this.#currentSrc = url;
-
-                return Promise.resolve();
-            } catch (err) {
-                console.debug(`media manager error: ${err}`);
-                return Promise.reject();
-            }
-        }
-
-        /**
-         * @private
-         */
         setCurrentSrc(elem, options) {
             elem.removeEventListener('error', this.onError);
 
@@ -1020,7 +990,7 @@ function tryRemoveElement(elem) {
             this.incrementFetchQueue();
             try {
                 const response = await fetch(getTextTrackUrl(track, item, '.js'));
-                
+
                 if (!response.ok) {
                     throw new Error(response);
                 }
