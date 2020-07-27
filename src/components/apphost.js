@@ -105,6 +105,8 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             deviceName = 'Sony PS4';
         } else if (browser.chrome) {
             deviceName = 'Chrome';
+        } else if (browser.edgeChromium) {
+            deviceName = 'Edge Chromium';
         } else if (browser.edge) {
             deviceName = 'Edge';
         } else if (browser.firefox) {
@@ -297,7 +299,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             features.push('fileinput');
         }
 
-        if (browser.chrome) {
+        if (browser.chrome || browser.edgeChromium) {
             features.push('chromecast');
         }
 

@@ -144,6 +144,10 @@ define(['browser'], function (browser) {
             return true;
         }
 
+        if (browser.edgeChromium && browser.windows) {
+            return true;
+        }
+
         if (browser.edgeUwp) {
             return true;
         }
@@ -210,7 +214,7 @@ define(['browser'], function (browser) {
                 supported = browser.tizen;
                 break;
             case 'mov':
-                supported = browser.tizen || browser.web0s || browser.chrome || browser.edgeUwp;
+                supported = browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
                 videoCodecs.push('h264');
                 break;
             case 'm2ts':
