@@ -55,7 +55,6 @@ import 'emby-button';
     }
 
     function onButtonClick(e) {
-
         const button = this;
         const collapseContent = button.parentNode.querySelector('.collapseContent');
 
@@ -69,7 +68,6 @@ import 'emby-button';
     }
 
     EmbyButtonPrototype.attachedCallback = function () {
-
         if (this.classList.contains('emby-collapse')) {
             return;
         }

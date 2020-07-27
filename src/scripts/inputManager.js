@@ -41,7 +41,6 @@ import appHost from 'apphost';
     let commandTimes = {};
 
     function checkCommandTime(command) {
-
         const last = commandTimes[command] || 0;
         const now = new Date().getTime();
 
@@ -54,7 +53,6 @@ import appHost from 'apphost';
     }
 
     export function handleCommand(commandName, options) {
-
         lastInputTime = new Date().getTime();
 
         let sourceElement = (options ? options.sourceElement : null);

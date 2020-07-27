@@ -5,7 +5,6 @@ import globalize from 'globalize';
 import qualityoptions from 'qualityoptions';
 
 function showQualityMenu(player, btn) {
-
     var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
         return stream.Type === 'Video';
     })[0];

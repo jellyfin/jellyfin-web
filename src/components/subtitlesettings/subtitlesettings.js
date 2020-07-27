@@ -32,9 +32,7 @@ function getSubtitleAppearanceObject(context) {
 }
 
 function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
-
     apiClient.getCultures().then(function (allCultures) {
-
         if (appHost.supports('subtitleburnsettings') && user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.fldBurnIn').classList.remove('hide');
         }
@@ -65,7 +63,6 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
 }
 
 function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient) {
-
     let appearanceSettings = userSettingsInstance.getSubtitleAppearanceSettings(appearanceKey);
     appearanceSettings = Object.assign(appearanceSettings, getSubtitleAppearanceObject(context));
 
@@ -78,15 +75,12 @@ function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient)
 }
 
 function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
-
     loading.show();
 
     appSettings.set('subtitleburnin', context.querySelector('#selectSubtitleBurnIn').value);
 
     apiClient.getUser(userId).then(function (user) {
-
         saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
-
             loading.hide();
             if (enableSaveConfirmation) {
                 import('toast').then(({default: toast}) => {
@@ -95,7 +89,6 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
             }
 
             events.trigger(instance, 'saved');
-
         }, function () {
             loading.hide();
         });
@@ -103,7 +96,6 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
 }
 
 function onSubtitleModeChange(e) {
-
     let view = dom.parentWithClass(e.target, 'subtitlesettings');
 
     let subtitlesHelp = view.querySelectorAll('.subtitlesHelp');
@@ -114,7 +106,6 @@ function onSubtitleModeChange(e) {
 }
 
 function onAppearanceFieldChange(e) {
-
     let view = dom.parentWithClass(e.target, 'subtitlesettings');
 
     let appearanceSettings = getSubtitleAppearanceObject(view);
@@ -128,9 +119,7 @@ function onAppearanceFieldChange(e) {
 }
 
 function embed(options, self) {
-
     import('text!./subtitlesettings.template.html').then(({default: template}) => {
-
         options.element.classList.add('subtitlesettings');
         options.element.innerHTML = globalize.translateHtml(template, 'core');
 
@@ -160,9 +149,7 @@ function embed(options, self) {
 }
 
 export class SubtitleSettings {
-
     constructor(options) {
-
         this.options = options;
 
         embed(options, this);
@@ -204,7 +191,6 @@ export class SubtitleSettings {
         let userSettings = self.options.userSettings;
 
         userSettings.setUserInfo(userId, apiClient).then(function () {
-
             let enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
