@@ -288,7 +288,6 @@ function tryRemoveElement(elem) {
             } else {
                 this.name = 'Html Video Player';
             }
-
         }
 
         currentSrc() {
@@ -332,7 +331,6 @@ function tryRemoveElement(elem) {
             // This will start the transcoding process before actually feeding the video url into the player
             // Edit: Also seeing stalls from hls.js
             if (mediaSource && item && !mediaSource.RunTimeTicks && isHls && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
-
                 const hlsPlaylistUrl = streamInfo.url.replace('master.m3u8', 'live.m3u8');
 
                 loading.show();
@@ -404,9 +402,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setSrcWithHlsJs(elem, options, url) {
-
             return new Promise((resolve, reject) => {
-
                 requireHlsPlayer(() => {
                     const hls = new Hls({
                         manifestLoadingTimeOut: 20000,
@@ -476,7 +472,6 @@ function tryRemoveElement(elem) {
          * @private
          */
         setCurrentSrcChromecast(instance, elem, options, url) {
-
             elem.autoplay = true;
 
             const lrd = new cast.receiver.MediaManager.LoadRequestData();
@@ -498,7 +493,6 @@ function tryRemoveElement(elem) {
 
                 return Promise.resolve();
             } catch (err) {
-
                 console.debug(`media manager error: ${err}`);
                 return Promise.reject();
             }
@@ -622,7 +616,6 @@ function tryRemoveElement(elem) {
 
             } else*/
             if (browser.chromecast && val.includes('.m3u8') && options.mediaSource.RunTimeTicks) {
-
                 return this.setCurrentSrcChromecast(this, elem, options, val);
             } else if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.includes('.m3u8')) {
                 return this.setSrcWithHlsJs(elem, options, val);
@@ -751,7 +744,6 @@ function tryRemoveElement(elem) {
          * @private
          */
         isAudioStreamSupported(stream, deviceProfile) {
-
             const codec = (stream.Codec || '').toLowerCase();
 
             if (!codec) {
@@ -790,7 +782,6 @@ function tryRemoveElement(elem) {
         }
 
         setAudioStreamIndex(index) {
-
             const streams = this.getSupportedAudioStreams();
 
             if (streams.length < 2) {
@@ -801,7 +792,6 @@ function tryRemoveElement(elem) {
             let audioIndex = -1;
 
             for (const stream of streams) {
-
                 audioIndex++;
 
                 if (stream.Index === index) {
@@ -995,9 +985,7 @@ function tryRemoveElement(elem) {
                 });
 
                 if (this._currentPlayOptions.fullscreen) {
-
                     appRouter.showVideoOsd().then(this.onNavigatedToOsd);
-
                 } else {
                     appRouter.setTransparency('backdrop');
                     this.#videoDialog.classList.remove('videoPlayerContainer-onTop');
@@ -1366,7 +1354,6 @@ function tryRemoveElement(elem) {
 
             // download the track json
             this.fetchSubtitles(track, item).then(function (data) {
-
                 // show in ui
                 console.debug(`downloaded ${data.TrackEvents.length} track events`);
                 // add some cues to show the text
@@ -1421,7 +1408,6 @@ function tryRemoveElement(elem) {
          * @private
          */
         setCurrentTrackElement(streamIndex) {
-
             console.debug(`setting new text track index to: ${streamIndex}`);
 
             const mediaStreamTextTracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
@@ -1731,10 +1717,8 @@ function tryRemoveElement(elem) {
     seekable() {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
-
             const seekable = mediaElement.seekable;
             if (seekable && seekable.length) {
-
                 let start = seekable.start(0);
                 let end = seekable.end(0);
 
