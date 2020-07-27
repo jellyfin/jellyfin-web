@@ -2,7 +2,6 @@ import browser from 'browser';
 import dialog from 'dialog';
 import globalize from 'globalize';
 
-/* eslint-disable indent */
 export default (() => {
 
     function replaceAll(str, find, replace) {
@@ -67,4 +66,3 @@ export default (() => {
         };
     }
 })();
-/* eslint-enable indent */
