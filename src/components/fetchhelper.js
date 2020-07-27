@@ -1,117 +1,115 @@
-/* eslint-disable indent */
-    export function getFetchPromise(request) {
+export function getFetchPromise(request) {
 
-        const headers = request.headers || {};
+    const headers = request.headers || {};
 
-        if (request.dataType === 'json') {
-            headers.accept = 'application/json';
-        }
-
-        const fetchRequest = {
-            headers: headers,
-            method: request.type,
-            credentials: 'same-origin'
-        };
-
-        let contentType = request.contentType;
-
-        if (request.data) {
-
-            if (typeof request.data === 'string') {
-                fetchRequest.body = request.data;
-            } else {
-                fetchRequest.body = paramsToString(request.data);
-
-                contentType = contentType || 'application/x-www-form-urlencoded; charset=UTF-8';
-            }
-        }
-
-        if (contentType) {
-
-            headers['Content-Type'] = contentType;
-        }
-
-        let url = request.url;
-
-        if (request.query) {
-            const paramString = paramsToString(request.query);
-            if (paramString) {
-                url += `?${paramString}`;
-            }
-        }
-
-        if (!request.timeout) {
-            return fetch(url, fetchRequest);
-        }
-
-        return fetchWithTimeout(url, fetchRequest, request.timeout);
+    if (request.dataType === 'json') {
+        headers.accept = 'application/json';
     }
 
-    function fetchWithTimeout(url, options, timeoutMs) {
+    const fetchRequest = {
+        headers: headers,
+        method: request.type,
+        credentials: 'same-origin'
+    };
 
-        console.debug(`fetchWithTimeout: timeoutMs: ${timeoutMs}, url: ${url}`);
+    let contentType = request.contentType;
 
-        return new Promise(function (resolve, reject) {
+    if (request.data) {
 
-            const timeout = setTimeout(reject, timeoutMs);
+        if (typeof request.data === 'string') {
+            fetchRequest.body = request.data;
+        } else {
+            fetchRequest.body = paramsToString(request.data);
 
-            options = options || {};
-            options.credentials = 'same-origin';
+            contentType = contentType || 'application/x-www-form-urlencoded; charset=UTF-8';
+        }
+    }
 
-            fetch(url, options).then(function (response) {
-                clearTimeout(timeout);
+    if (contentType) {
 
-                console.debug(`fetchWithTimeout: succeeded connecting to url: ${url}`);
+        headers['Content-Type'] = contentType;
+    }
 
-                resolve(response);
-            }, function (error) {
+    let url = request.url;
 
-                clearTimeout(timeout);
+    if (request.query) {
+        const paramString = paramsToString(request.query);
+        if (paramString) {
+            url += `?${paramString}`;
+        }
+    }
 
-                console.debug(`fetchWithTimeout: timed out connecting to url: ${url}`);
+    if (!request.timeout) {
+        return fetch(url, fetchRequest);
+    }
 
-                reject(error);
-            });
+    return fetchWithTimeout(url, fetchRequest, request.timeout);
+}
+
+function fetchWithTimeout(url, options, timeoutMs) {
+
+    console.debug(`fetchWithTimeout: timeoutMs: ${timeoutMs}, url: ${url}`);
+
+    return new Promise(function (resolve, reject) {
+
+        const timeout = setTimeout(reject, timeoutMs);
+
+        options = options || {};
+        options.credentials = 'same-origin';
+
+        fetch(url, options).then(function (response) {
+            clearTimeout(timeout);
+
+            console.debug(`fetchWithTimeout: succeeded connecting to url: ${url}`);
+
+            resolve(response);
+        }, function (error) {
+
+            clearTimeout(timeout);
+
+            console.debug(`fetchWithTimeout: timed out connecting to url: ${url}`);
+
+            reject(error);
         });
+    });
+}
+
+/**
+ * @param params {Record<string, string | number | boolean>}
+ * @returns {string} Query string
+ */
+function paramsToString(params) {
+    return Object.entries(params)
+        // eslint-disable-next-line no-unused-vars
+        .filter(([_, v]) => v !== null && v !== undefined && v !== '')
+        .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+        .join('&');
+}
+
+export function ajax(request) {
+    if (!request) {
+        throw new Error('Request cannot be null');
     }
 
-    /**
-     * @param params {Record<string, string | number | boolean>}
-     * @returns {string} Query string
-     */
-    function paramsToString(params) {
-        return Object.entries(params)
-            // eslint-disable-next-line no-unused-vars
-            .filter(([_, v]) => v !== null && v !== undefined && v !== '')
-            .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
-            .join('&');
-    }
+    request.headers = request.headers || {};
 
-    export function ajax(request) {
-        if (!request) {
-            throw new Error('Request cannot be null');
-        }
+    console.debug(`requesting url: ${request.url}`);
 
-        request.headers = request.headers || {};
-
-        console.debug(`requesting url: ${request.url}`);
-
-        return getFetchPromise(request).then(function (response) {
-            console.debug(`response status: ${response.status}, url: ${request.url}`);
-            if (response.status < 400) {
-                if (request.dataType === 'json' || request.headers.accept === 'application/json') {
-                    return response.json();
-                } else if (request.dataType === 'text' || (response.headers.get('Content-Type') || '').toLowerCase().startsWith('text/')) {
-                    return response.text();
-                } else {
-                    return response;
-                }
+    return getFetchPromise(request).then(function (response) {
+        console.debug(`response status: ${response.status}, url: ${request.url}`);
+        if (response.status < 400) {
+            if (request.dataType === 'json' || request.headers.accept === 'application/json') {
+                return response.json();
+            } else if (request.dataType === 'text' || (response.headers.get('Content-Type') || '').toLowerCase().startsWith('text/')) {
+                return response.text();
             } else {
-                return Promise.reject(response);
+                return response;
             }
-        }, function (err) {
-            console.error(`request failed to url: ${request.url}`);
-            throw err;
-        });
-    }
-/* eslint-enable indent */
+        } else {
+            return Promise.reject(response);
+        }
+    }, function (err) {
+        console.error(`request failed to url: ${request.url}`);
+        throw err;
+    });
+}

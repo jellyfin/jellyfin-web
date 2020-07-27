@@ -2,48 +2,44 @@ import browser from 'browser';
 import dialog from 'dialog';
 import globalize from 'globalize';
 
-/* eslint-disable indent */
+function replaceAll(originalString, strReplace, strWith) {
+    const reg = new RegExp(strReplace, 'ig');
+    return originalString.replace(reg, strWith);
+}
 
-    function replaceAll(originalString, strReplace, strWith) {
-        const reg = new RegExp(strReplace, 'ig');
-        return originalString.replace(reg, strWith);
+export default function (text, title) {
+
+    let options;
+    if (typeof text === 'string') {
+        options = {
+            title: title,
+            text: text
+        };
+    } else {
+        options = text;
     }
 
-    export default function (text, title) {
+    if (browser.tv && window.alert) {
+        alert(replaceAll(options.text || '', '<br/>', '\n'));
+    } else {
+        const items = [];
 
-        let options;
-        if (typeof text === 'string') {
-            options = {
-                title: title,
-                text: text
-            };
-        } else {
-            options = text;
-        }
+        items.push({
+            name: globalize.translate('ButtonGotIt'),
+            id: 'ok',
+            type: 'submit'
+        });
 
-        if (browser.tv && window.alert) {
-            alert(replaceAll(options.text || '', '<br/>', '\n'));
-        } else {
-            const items = [];
+        options.buttons = items;
 
-            items.push({
-                name: globalize.translate('ButtonGotIt'),
-                id: 'ok',
-                type: 'submit'
-            });
+        return dialog.show(options).then(function (result) {
+            if (result === 'ok') {
+                return Promise.resolve();
+            }
 
-            options.buttons = items;
-
-            return dialog.show(options).then(function (result) {
-                if (result === 'ok') {
-                    return Promise.resolve();
-                }
-
-                return Promise.reject();
-            });
-        }
-
-        return Promise.resolve();
+            return Promise.reject();
+        });
     }
 
-/* eslint-enable indent */
+    return Promise.resolve();
+}
