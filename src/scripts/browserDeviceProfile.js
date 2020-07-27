@@ -5,6 +5,17 @@ define(['browser'], function (browser) {
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
     }
 
+    function canPlayH264Level51(videoTestElement) {
+        if (browser.tizen || browser.web0s) {
+            return true;
+        }
+        // iOS 12 incorrectly reports support
+        if (browser.iOS && browser.iOSVersion < 13) {
+            return false;
+        }
+        return videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '');
+    }
+
     function canPlayH265(videoTestElement, options) {
         if (browser.tizen || browser.xboxOne || browser.web0s || options.supportsHevc) {
             return true;
@@ -691,10 +702,7 @@ define(['browser'], function (browser) {
         var maxH264Level = 42;
         var h264Profiles = 'high|main|baseline|constrained baseline';
 
-        if (browser.tizen || browser.web0s ||
-            // iOS 12 incorrectly reports support
-            !(browser.iOS && browser.iOSVersion < 13) &&
-            videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '')) {
+        if (canPlayH264Level51(videoTestElement)) {
             maxH264Level = 51;
         }
 
