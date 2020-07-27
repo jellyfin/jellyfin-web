@@ -692,6 +692,8 @@ define(['browser'], function (browser) {
         var h264Profiles = 'high|main|baseline|constrained baseline';
 
         if (browser.tizen || browser.web0s ||
+            // iOS 12 incorrectly reports support
+            !(browser.iOS && browser.iOSVersion < 13) &&
             videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '')) {
             maxH264Level = 51;
         }
