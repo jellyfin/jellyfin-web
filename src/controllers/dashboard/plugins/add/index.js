@@ -114,14 +114,12 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
                 })[0];
 
                 var version = $('#selectVersion', page).val();
-                if (installedPlugin) {
-                    if (installedPlugin.Version === version) {
-                        loading.hide();
-                        Dashboard.alert({
-                            message: globalize.translate('MessageAlreadyInstalled'),
-                            title: globalize.translate('HeaderPluginInstallation')
-                        });
-                    }
+                if (installedPlugin && installedPlugin.Version === version) {
+                    loading.hide();
+                    Dashboard.alert({
+                        message: globalize.translate('MessageAlreadyInstalled'),
+                        title: globalize.translate('HeaderPluginInstallation')
+                    });
                 } else {
                     performInstallation(page, name, guid, version);
                 }
