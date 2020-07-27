@@ -1,5 +1,4 @@
 import loading from 'loading';
-import libraryMenu from 'libraryMenu';
 import globalize from 'globalize';
 import 'emby-checkbox';
 import 'emby-select';

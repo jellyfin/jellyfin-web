@@ -13,7 +13,6 @@ import 'flexStyles';
 /* eslint-disable indent */
 
     function showDialog(options, template) {
-
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -45,10 +44,6 @@ import 'flexStyles';
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
-        //dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
-        //    dialogHelper.close(dlg);
-        //});
-
         if (options.title) {
             dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.title || '';
         } else {
@@ -68,7 +63,6 @@ import 'flexStyles';
         let hasDescriptions = false;
 
         for (i = 0, length = options.buttons.length; i < length; i++) {
-
             const item = options.buttons[i];
             const autoFocus = i === 0 ? ' autofocus' : '';
 
@@ -111,7 +105,6 @@ import 'flexStyles';
         }
 
         return dialogHelper.open(dlg).then(() => {
-
             if (enableTvLayout) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
@@ -125,7 +118,6 @@ import 'flexStyles';
     }
 
     export async function show(text, title) {
-
         let options;
         if (typeof text === 'string') {
             options = {

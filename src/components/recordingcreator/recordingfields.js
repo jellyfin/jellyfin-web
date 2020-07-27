@@ -34,7 +34,6 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     function fetchData(instance) {
-
         var options = instance.options;
         var apiClient = connectionManager.getApiClient(options.serverId);
 
@@ -121,7 +120,6 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     function onManageSeriesRecordingClick(e) {
-
         var options = this.options;
 
         if (!this.SeriesTimerId) {
@@ -131,7 +129,6 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         var self = this;
 
         require(['seriesRecordingEditor'], function (seriesRecordingEditor) {
-
             seriesRecordingEditor.show(self.SeriesTimerId, options.serverId, {
 
                 enableCancel: false
@@ -143,7 +140,6 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     function onRecordChange(e) {
-
         this.changed = true;
 
         var self = this;
@@ -183,7 +179,6 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     function onRecordSeriesChange(e) {
-
         this.changed = true;
 
         var self = this;

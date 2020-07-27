@@ -4,8 +4,6 @@ import connectionManager from 'connectionManager';
 import itemHelper from 'itemHelper';
 import appRouter from 'appRouter';
 import playbackManager from 'playbackManager';
-import loading from 'loading';
-import appSettings from 'appSettings';
 import browser from 'browser';
 import actionsheet from 'actionsheet';
 
@@ -144,7 +142,6 @@ import actionsheet from 'actionsheet';
         }
 
         if (item.CanDelete && options.deleteItem !== false) {
-
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
                 commands.push({
                     name: globalize.translate('Delete'),
@@ -355,7 +352,7 @@ import actionsheet from 'actionsheet';
                     });
                     break;
                 case 'download':
-                    import('fileDownloader').then(({default: fileDownloader}) => {
+                    import('fileDownloader').then((fileDownloader) => {
                         const downloadHref = apiClient.getItemDownloadUrl(itemId);
                         fileDownloader.download([{
                             url: downloadHref,

@@ -554,7 +554,6 @@ class SyncPlayManager {
                 this.syncTimeout = setTimeout(() => {
                     this.syncEnabled = true;
                 }, SyncMethodThreshold / 2);
-
             }, playTimeout);
 
             console.debug('Scheduled play in', playTimeout / 1000.0, 'seconds.');

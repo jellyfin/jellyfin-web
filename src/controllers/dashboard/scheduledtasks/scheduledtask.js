@@ -10,7 +10,6 @@ import 'emby-select';
 /* eslint-disable indent */
 
     function fillTimeOfDay(select) {
-
         const options = [];
 
         for (let i = 0; i < 86400000; i += 900000) {
@@ -99,7 +98,6 @@ import 'emby-select';
             }
 
             if (trigger.Type == 'IntervalTrigger') {
-
                 const hours = trigger.IntervalTicks / 36e9;
 
                 if (hours == 0.25) {

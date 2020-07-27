@@ -7,7 +7,6 @@ function getTouches(e) {
 
 class TouchHelper {
     constructor(elem, options) {
-
         options = options || {};
         let touchTarget;
         let touchStartX;
@@ -24,7 +23,6 @@ class TouchHelper {
         const excludeTagNames = options.ignoreTagNames || [];
 
         const touchStart = function (e) {
-
             const touch = getTouches(e)[0];
             touchTarget = null;
             touchStartX = 0;
@@ -34,7 +32,6 @@ class TouchHelper {
             thresholdYMet = false;
 
             if (touch) {
-
                 const currentTouchTarget = touch.target;
 
                 if (dom.parentWithTag(currentTouchTarget, excludeTagNames)) {
@@ -48,7 +45,6 @@ class TouchHelper {
         };
 
         const touchEnd = function (e) {
-
             const isTouchMove = e.type === 'touchmove';
 
             if (touchTarget) {
@@ -81,7 +77,6 @@ class TouchHelper {
                 } else if (deltaX < (0 - swipeXThreshold) && Math.abs(deltaY) < swipeXMaxY) {
                     events.trigger(self, 'swipeleft', [touchTarget]);
                 } else if ((deltaY < (0 - swipeYThreshold) || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
-
                     thresholdYMet = true;
 
                     events.trigger(self, 'swipeup', [touchTarget, {
@@ -139,7 +134,6 @@ class TouchHelper {
         });
     }
     destroy() {
-
         const elem = this.elem;
 
         if (elem) {

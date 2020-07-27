@@ -6,7 +6,6 @@ let currentDisplayText = '';
 let currentDisplayTextContainer;
 
 function onKeyDown(e) {
-
     if (e.ctrlKey) {
         return;
     }
@@ -21,7 +20,6 @@ function onKeyDown(e) {
     let chr = key ? alphanumeric(key) : null;
 
     if (chr) {
-
         chr = chr.toString().toUpperCase();
 
         if (chr.length === 1) {
@@ -82,12 +80,10 @@ function onAlphanumericShortcutTimeout() {
 }
 
 function selectByShortcutValue(container, value) {
-
     value = value.toUpperCase();
 
     let focusElem;
     if (value === '#') {
-
         focusElem = container.querySelector('*[data-prefix]');
     }
 
@@ -102,7 +98,6 @@ function selectByShortcutValue(container, value) {
 
 class AlphaNumericShortcuts {
     constructor(options) {
-
         this.options = options;
 
         const keyDownHandler = onKeyDown.bind(this);
@@ -114,7 +109,6 @@ class AlphaNumericShortcuts {
         this.keyDownHandler = keyDownHandler;
     }
     destroy() {
-
         const keyDownHandler = this.keyDownHandler;
 
         if (keyDownHandler) {

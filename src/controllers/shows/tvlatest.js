@@ -1,7 +1,6 @@
 import loading from 'loading';
 import groupedcards from 'components/groupedcards';
 import cardBuilder from 'cardBuilder';
-import appHost from 'apphost';
 import imageLoader from 'imageLoader';
 
 /* eslint-disable indent */
@@ -24,7 +23,6 @@ import imageLoader from 'imageLoader';
     function loadLatest(context, params, promise) {
         promise.then(function (items) {
             let html = '';
-            appHost.supports('imageanalysis');
             html += cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'backdrop',

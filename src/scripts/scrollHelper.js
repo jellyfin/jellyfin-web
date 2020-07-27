@@ -2,7 +2,6 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
     'use strict';
 
     function getBoundingClientRect(elem) {
-
         // Support: BlackBerry 5, iOS 3 (original iPhone)
         // If we don't have gBCR, just use 0,0 rather than error
         if (elem.getBoundingClientRect) {
@@ -13,7 +12,6 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
     }
 
     function getPosition(scrollContainer, item, horizontal) {
-
         var slideeOffset = getBoundingClientRect(scrollContainer);
         var itemOffset = getBoundingClientRect(item);
 

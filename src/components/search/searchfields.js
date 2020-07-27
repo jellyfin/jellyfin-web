@@ -11,7 +11,6 @@ import 'css!./searchfields';
 /* eslint-disable indent */
 
     function onSearchTimeout() {
-
         const instance = this;
         let value = instance.nextSearchValue;
 
@@ -20,7 +19,6 @@ import 'css!./searchfields';
     }
 
     function triggerSearch(instance, value) {
-
         if (instance.searchTimeout) {
             clearTimeout(instance.searchTimeout);
         }
@@ -30,17 +28,14 @@ import 'css!./searchfields';
     }
 
     function onAlphaValueClicked(e) {
-
         const value = e.detail.value;
         const searchFieldsInstance = this;
 
         const txtSearch = searchFieldsInstance.options.element.querySelector('.searchfields-txtSearch');
 
         if (value === 'backspace') {
-
             const val = txtSearch.value;
             txtSearch.value = val.length ? val.substring(0, val.length - 1) : '';
-
         } else {
             txtSearch.value += value;
         }
@@ -51,7 +46,6 @@ import 'css!./searchfields';
     }
 
     function initAlphaPicker(alphaPickerElement, instance) {
-
         instance.alphaPicker = new AlphaPicker({
             element: alphaPickerElement,
             mode: 'keyboard'
@@ -61,16 +55,13 @@ import 'css!./searchfields';
     }
 
     function onSearchInput(e) {
-
         const value = e.target.value;
         const searchFieldsInstance = this;
         triggerSearch(searchFieldsInstance, value);
     }
 
     function embed(elem, instance, options) {
-
         import('text!./searchfields.template.html').then(({default: template}) => {
-
             let html = globalize.translateHtml(template, 'core');
 
             if (browser.tizen || browser.orsay) {
@@ -98,16 +89,13 @@ import 'css!./searchfields';
 
 class SearchFields {
     constructor(options) {
-
         this.options = options;
         embed(options.element, this, options);
     }
     focus() {
-
         this.options.element.querySelector('.searchfields-txtSearch').focus();
     }
     destroy() {
-
         const options = this.options;
         if (options) {
             options.element.classList.remove('searchFields');

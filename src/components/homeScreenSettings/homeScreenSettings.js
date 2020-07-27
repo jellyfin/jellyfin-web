@@ -15,12 +15,10 @@ import 'emby-checkbox';
     const numConfigurableSections = 7;
 
     function renderViews(page, user, result) {
-
         let folderHtml = '';
 
         folderHtml += '<div class="checkboxList">';
         folderHtml += result.map(i => {
-
             let currentHtml = '';
 
             const id = `chkGroupFolder${i.Id}`;
@@ -35,7 +33,6 @@ import 'emby-checkbox';
             currentHtml += '</label>';
 
             return currentHtml;
-
         }).join('');
 
         folderHtml += '</div>';
@@ -44,7 +41,6 @@ import 'emby-checkbox';
     }
 
     function getLandingScreenOptions(type) {
-
         const list = [];
 
         if (type === 'movies') {
@@ -133,9 +129,7 @@ import 'emby-checkbox';
     }
 
     function getLandingScreenOptionsHtml(type, userValue) {
-
         return getLandingScreenOptions(type).map(o => {
-
             const selected = userValue === o.value || (o.isDefault && !userValue);
             const selectedHtml = selected ? ' selected' : '';
             const optionValue = o.isDefault ? '' : o.value;
@@ -145,13 +139,9 @@ import 'emby-checkbox';
     }
 
     function renderViewOrder(context, user, result) {
-
         let html = '';
 
-        let index = 0;
-
-        html += result.Items.map(view => {
-
+        html += result.Items.map((view) => {
             let currentHtml = '';
 
             currentHtml += `<div class="listItem viewItem" data-viewid="${view.Id}">`;
@@ -171,18 +161,14 @@ import 'emby-checkbox';
 
             currentHtml += '</div>';
 
-            index++;
             return currentHtml;
-
         }).join('');
 
         context.querySelector('.viewOrderList').innerHTML = html;
     }
 
     function updateHomeSectionValues(context, userSettings) {
-
         for (let i = 1; i <= 7; i++) {
-
             const select = context.querySelector(`#selectHomeSection${i}`);
             const defaultValue = homeSections.getDefaultSection(i - 1);
 
@@ -203,7 +189,6 @@ import 'emby-checkbox';
     }
 
     function getPerLibrarySettingsHtml(item, user, userSettings, apiClient) {
-
         let html = '';
 
         let isChecked;
@@ -220,7 +205,6 @@ import 'emby-checkbox';
 
         const excludeFromLatest = ['playlists', 'livetv', 'boxsets', 'channels'];
         if (!excludeFromLatest.includes(item.CollectionType || '')) {
-
             isChecked = !user.Configuration.LatestItemsExcludes.includes(item.Id);
             html += '<label class="fldIncludeInLatest">';
             html += `<input type="checkbox" is="emby-checkbox" class="chkIncludeInLatest" data-folderid="${item.Id}"${isChecked ? ' checked="checked"' : ''}/>`;
@@ -229,12 +213,10 @@ import 'emby-checkbox';
         }
 
         if (html) {
-
             html = `<div class="checkboxListContainer">${html}</div>`;
         }
 
         if (item.CollectionType === 'movies' || item.CollectionType === 'tvshows' || item.CollectionType === 'music' || item.CollectionType === 'livetv') {
-
             const idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
             html += '<div class="selectContainer">';
             html += `<select is="emby-select" class="selectLanding" data-folderid="${idForLanding}" label="${globalize.translate('LabelDefaultScreen')}">`;
@@ -248,7 +230,6 @@ import 'emby-checkbox';
         }
 
         if (html) {
-
             let prefix = '';
             prefix += '<div class="verticalSection">';
 
@@ -264,12 +245,10 @@ import 'emby-checkbox';
     }
 
     function renderPerLibrarySettings(context, user, userViews, userSettings, apiClient) {
-
         const elem = context.querySelector('.perLibrarySettings');
         let html = '';
 
         for (let i = 0, length = userViews.length; i < length; i++) {
-
             html += getPerLibrarySettingsHtml(userViews[i], user, userSettings, apiClient);
         }
 
@@ -277,7 +256,6 @@ import 'emby-checkbox';
     }
 
     function loadForm(context, user, userSettings, apiClient) {
-
         context.querySelector('.chkHidePlayedFromLatest').checked = user.Configuration.HidePlayedInLatest || false;
 
         updateHomeSectionValues(context, userSettings);
@@ -286,7 +264,6 @@ import 'emby-checkbox';
         const promise2 = apiClient.getJSON(apiClient.getUrl(`Users/${user.Id}/GroupingOptions`));
 
         Promise.all([promise1, promise2]).then(responses => {
-
             renderViewOrder(context, user, responses[0]);
 
             renderPerLibrarySettings(context, user, responses[0].Items, userSettings, apiClient);
@@ -298,17 +275,13 @@ import 'emby-checkbox';
     }
 
     function onSectionOrderListClick(e) {
-
         const target = dom.parentWithClass(e.target, 'btnViewItemMove');
 
         if (target) {
             const viewItem = dom.parentWithClass(target, 'viewItem');
 
             if (viewItem) {
-                const ul = dom.parentWithClass(viewItem, 'paperList');
-
                 if (target.classList.contains('btnViewItemDown')) {
-
                     const next = viewItem.nextSibling;
 
                     if (next) {
@@ -316,9 +289,7 @@ import 'emby-checkbox';
                         next.parentNode.insertBefore(viewItem, next.nextSibling);
                         focusManager.focus(e.target);
                     }
-
                 } else {
-
                     const prev = viewItem.previousSibling;
 
                     if (prev) {
@@ -332,37 +303,30 @@ import 'emby-checkbox';
     }
 
     function getCheckboxItems(selector, context, isChecked) {
-
         const inputs = context.querySelectorAll(selector);
         const list = [];
 
         for (let i = 0, length = inputs.length; i < length; i++) {
-
             if (inputs[i].checked === isChecked) {
                 list.push(inputs[i]);
             }
-
         }
 
         return list;
     }
 
     function saveUser(context, user, userSettingsInstance, apiClient) {
-
         user.Configuration.HidePlayedInLatest = context.querySelector('.chkHidePlayedFromLatest').checked;
 
         user.Configuration.LatestItemsExcludes = getCheckboxItems('.chkIncludeInLatest', context, false).map(i => {
-
             return i.getAttribute('data-folderid');
         });
 
         user.Configuration.MyMediaExcludes = getCheckboxItems('.chkIncludeInMyMedia', context, false).map(i => {
-
             return i.getAttribute('data-folderid');
         });
 
         user.Configuration.GroupedFolders = getCheckboxItems('.chkGroupFolder', context, true).map(i => {
-
             return i.getAttribute('data-folderid');
         });
 
@@ -396,13 +360,10 @@ import 'emby-checkbox';
     }
 
     function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
-
         loading.show();
 
         apiClient.getUser(userId).then(user => {
-
             saveUser(context, user, userSettings, apiClient).then(() => {
-
                 loading.hide();
                 if (enableSaveConfirmation) {
                     import('toast').then(({default: toast}) => {
@@ -411,7 +372,6 @@ import 'emby-checkbox';
                 }
 
                 events.trigger(instance, 'saved');
-
             }, () => {
                 loading.hide();
             });
@@ -419,14 +379,12 @@ import 'emby-checkbox';
     }
 
     function onSubmit(e) {
-
         const self = this;
         const apiClient = connectionManager.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
         userSettings.setUserInfo(userId, apiClient).then(() => {
-
             const enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
@@ -439,7 +397,6 @@ import 'emby-checkbox';
     }
 
     function onChange(e) {
-
         const chkIncludeInMyMedia = dom.parentWithClass(e.target, 'chkIncludeInMyMedia');
         if (!chkIncludeInMyMedia) {
             return;
@@ -457,9 +414,7 @@ import 'emby-checkbox';
     }
 
     function embed(options, self) {
-
         return import('text!./homeScreenSettings.template.html').then(({default: template}) => {
-
             for (let i = 1; i <= numConfigurableSections; i++) {
                 template = template.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
             }
@@ -491,7 +446,6 @@ import 'emby-checkbox';
         }
 
         loadData(autoFocus) {
-
             const self = this;
             const context = self.options.element;
 
@@ -502,9 +456,7 @@ import 'emby-checkbox';
             const userSettings = self.options.userSettings;
 
             apiClient.getUser(userId).then(user => {
-
                 userSettings.setUserInfo(userId, apiClient).then(() => {
-
                     self.dataLoaded = true;
 
                     loadForm(context, user, userSettings, apiClient);
@@ -521,7 +473,6 @@ import 'emby-checkbox';
         }
 
         destroy() {
-
             this.options = null;
         }
     }

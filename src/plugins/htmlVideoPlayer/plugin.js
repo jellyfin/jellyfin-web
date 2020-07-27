@@ -37,7 +37,6 @@ let mediaManager;
 function tryRemoveElement(elem) {
         const parentNode = elem.parentNode;
         if (parentNode) {
-
             // Seeing crashes in edge webview
             try {
                 parentNode.removeChild(elem);
@@ -48,7 +47,6 @@ function tryRemoveElement(elem) {
     }
 
     function enableNativeTrackSupport(currentSrc, track) {
-
         if (track) {
             if (track.DeliveryMethod === 'Embed') {
                 return true;
@@ -56,13 +54,6 @@ function tryRemoveElement(elem) {
         }
 
         if (browser.firefox) {
-            if ((currentSrc || '').toLowerCase().includes('.m3u8')) {
-                return false;
-            }
-        }
-
-        // subs getting blocked due to CORS
-        if (browser.chromecast) {
             if ((currentSrc || '').toLowerCase().includes('.m3u8')) {
                 return false;
             }
@@ -141,7 +132,6 @@ function tryRemoveElement(elem) {
     }
 
     function getTextTrackUrl(track, item, format) {
-
         if (itemHelper.isLocalItem(item) && track.Path) {
             return track.Path;
         }
@@ -156,7 +146,6 @@ function tryRemoveElement(elem) {
 
     function getDefaultProfile() {
         return import('browserdeviceprofile').then(({default: profileBuilder}) => {
-
             return profileBuilder({});
         });
     }
@@ -365,7 +354,6 @@ function tryRemoveElement(elem) {
 
                     loading.hide();
                 });
-
             } else {
                 return Promise.resolve();
             }
@@ -425,8 +413,6 @@ function tryRemoveElement(elem) {
                         xhrSetup(xhr) {
                             xhr.withCredentials = true;
                         }
-                        //appendErrorMaxRetry: 6,
-                        //debug: true
                     });
                     hls.loadSource(url);
                     hls.attachMedia(elem);
@@ -780,9 +766,7 @@ function tryRemoveElement(elem) {
             const profiles = deviceProfile.DirectPlayProfiles || [];
 
             return profiles.filter(function (p) {
-
                 if (p.Type === 'Video') {
-
                     if (!p.AudioCodec) {
                         return true;
                     }
@@ -791,7 +775,6 @@ function tryRemoveElement(elem) {
                 }
 
                 return false;
-
             }).length > 0;
         }
 
@@ -1428,7 +1411,6 @@ function tryRemoveElement(elem) {
                 if (selectedTrackEvent && selectedTrackEvent.Text) {
                     subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
                     subtitleTextElement.classList.remove('hide');
-
                 } else {
                     subtitleTextElement.classList.add('hide');
                 }
@@ -1453,7 +1435,6 @@ function tryRemoveElement(elem) {
                 if (streamIndex !== -1) {
                     this.setCueAppearance();
                 }
-
             } else {
                 // null these out to disable the player's native display (handled below)
                 streamIndex = -1;
@@ -1481,10 +1462,6 @@ function tryRemoveElement(elem) {
 
                         let html = '';
                         let cssClass = 'htmlvideoplayer';
-
-                        if (!browser.chromecast) {
-                            cssClass += ' htmlvideoplayer-moveupsubtitles';
-                        }
 
                         // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
                         if (!appHost.supports('htmlvideoautoplay')) {
@@ -1516,14 +1493,6 @@ function tryRemoveElement(elem) {
                         document.body.insertBefore(dlg, document.body.firstChild);
                         this.#videoDialog = dlg;
                         this.#mediaElement = videoElement;
-
-                        if (mediaManager) {
-                            if (!mediaManager.embyInit) {
-                                this.initMediaManager();
-                                mediaManager.embyInit = true;
-                            }
-                            mediaManager.setMediaElement(videoElement);
-                        }
 
                         // don't animate on smart tv's, too slow
                         if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
@@ -2021,10 +1990,6 @@ function tryRemoveElement(elem) {
             categories: categories
         });
     }
-    }
-
-    if (browser.chromecast) {
-        mediaManager = new cast.receiver.MediaManager(document.createElement('video'));
     }
 /* eslint-enable indent */
 

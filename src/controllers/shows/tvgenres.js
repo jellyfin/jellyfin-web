@@ -3,10 +3,8 @@ import loading from 'loading';
 import libraryBrowser from 'libraryBrowser';
 import cardBuilder from 'cardBuilder';
 import lazyLoader from 'lazyLoader';
-import appHost from 'apphost';
 import globalize from 'globalize';
 import appRouter from 'appRouter';
-import dom from 'dom';
 import 'emby-button';
 
 /* eslint-disable indent */
@@ -85,8 +83,6 @@ import 'emby-button';
                 ParentId: params.topParentId
             };
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-                const supportsImageAnalysis = appHost.supports('imageanalysis');
-
                 if (viewStyle == 'Thumb') {
                     cardBuilder.buildCards(result.Items, {
                         itemsContainer: elem,

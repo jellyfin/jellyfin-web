@@ -133,11 +133,9 @@ import 'css!./style';
     }
 
     export function getPrimaryImageAspectRatio(items) {
-
         var values = [];
 
         for (var i = 0, length = items.length; i < length; i++) {
-
             var ratio = items[i].PrimaryImageAspectRatio || 0;
 
             if (!ratio) {
@@ -193,7 +191,6 @@ import 'css!./style';
     }
 
     export function fillImages(elems) {
-
         for (var i = 0, length = elems.length; i < length; i++) {
             var elem = elems[0];
             fillImage(elem);

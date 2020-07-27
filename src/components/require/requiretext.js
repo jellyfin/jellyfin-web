@@ -7,7 +7,6 @@ define(function () {
     return {
 
         load: function (url, req, load, config) {
-
             if (url.indexOf('://') === -1) {
                 url = config.baseUrl + url;
             }

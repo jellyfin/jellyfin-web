@@ -9,7 +9,6 @@ import 'webcomponents';
     const EmbySelectPrototype = Object.create(HTMLSelectElement.prototype);
 
     function enableNativeMenu() {
-
         if (browser.edgeUwp || browser.xboxOne) {
             return true;
         }
@@ -38,12 +37,10 @@ import 'webcomponents';
     }
 
     function setValue(select, value) {
-
         select.value = value;
     }
 
     function showActionSheet(select) {
-
         const labelElem = getLabel(select);
         const title = labelElem ? (labelElem.textContent || labelElem.innerText) : null;
 
@@ -112,7 +109,6 @@ import 'webcomponents';
     let inputId = 0;
 
     EmbySelectPrototype.createdCallback = function () {
-
         if (!this.id) {
             this.id = 'embyselect' + inputId;
             inputId++;
@@ -132,7 +128,6 @@ import 'webcomponents';
     };
 
     EmbySelectPrototype.attachedCallback = function () {
-
         if (this.classList.contains('emby-select')) {
             return;
         }
@@ -151,7 +146,6 @@ import 'webcomponents';
     };
 
     EmbySelectPrototype.setLabel = function (text) {
-
         const label = this.parentNode.querySelector('label');
 
         label.innerHTML = text;

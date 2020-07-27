@@ -1,4 +1,3 @@
-import layoutManager from 'layoutManager';
 import loading from 'loading';
 import events from 'events';
 import libraryBrowser from 'libraryBrowser';
