@@ -152,13 +152,13 @@ var Dashboard = {
     processPluginConfigurationUpdateResult: function () {
         require(['loading', 'toast'], function (loading, toast) {
             loading.hide();
-            toast(Globalize.translate('MessageSettingsSaved'));
+            toast.default(Globalize.translate('MessageSettingsSaved'));
         });
     },
     processServerConfigurationUpdateResult: function (result) {
         require(['loading', 'toast'], function (loading, toast) {
             loading.hide();
-            toast(Globalize.translate('MessageSettingsSaved'));
+            toast.default(Globalize.translate('MessageSettingsSaved'));
         });
     },
     processErrorResponse: function (response) {
@@ -180,7 +180,7 @@ var Dashboard = {
     alert: function (options) {
         if ('string' == typeof options) {
             return void require(['toast'], function (toast) {
-                toast({
+                toast.default({
                     text: options
                 });
             });
