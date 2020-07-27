@@ -49,7 +49,7 @@ fi
 debian_changelog_file="debian/changelog"
 debian_changelog_temp="$( mktemp )"
 # Create new temp file with our changelog
-echo -e "jellyfin (${new_version_deb}) unstable; urgency=medium
+echo -e "jellyfin-web (${new_version_deb}) unstable; urgency=medium
 
   * New upstream version ${new_version}; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v${new_version}
 
