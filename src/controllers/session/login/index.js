@@ -163,11 +163,7 @@ import 'emby-checkbox';
             apiClient.getJSON(url)
                 .then(json => {
                     if (!json.Secret || !json.Code) {
-                        Dashboard.alert({
-                            message: json.Error,
-                            title: 'Error'
-                        });
-
+                        console.error('Malformed quick connect response', json);
                         return false;
                     }
 
@@ -215,10 +211,17 @@ import 'emby-checkbox';
 
                     return true;
                 }).catch((e) => {
-                    console.error('Unable to initiate quick connect login request. Error:', e);
+                    Dashboard.alert({
+                        message: Globalize.translate('QuickConnectNotActive'),
+                        title: 'Error'
+                    });
+
+                    console.error('Quick connect error: ', e);
+
+                    return false;
                 });
         }
-      
+
         view.querySelector('#divUsers').addEventListener('click', function (e) {
             const card = dom.parentWithClass(e.target, 'card');
             const cardContent = card ? card.querySelector('.cardContent') : null;

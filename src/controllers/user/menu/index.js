@@ -27,7 +27,7 @@ export default function (view, params) {
         page.querySelector('.lnkHomePreferences').setAttribute('href', 'mypreferenceshome.html?userId=' + userId);
         page.querySelector('.lnkPlaybackPreferences').setAttribute('href', 'mypreferencesplayback.html?userId=' + userId);
         page.querySelector('.lnkSubtitlePreferences').setAttribute('href', 'mypreferencessubtitles.html?userId=' + userId);
-        page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', 'myPreferencesQuickConnect.html?userId=' + userId);
+        page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', 'mypreferencesquickconnect.html');
 
         if (window.NativeShell && window.NativeShell.AppHost.supports('clientsettings')) {
             page.querySelector('.clientSettings').classList.remove('hide');

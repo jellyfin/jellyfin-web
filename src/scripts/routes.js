@@ -94,10 +94,11 @@ define([
         controller: 'user/home/index'
     });
     defineRoute({
-        path: '/myPreferencesQuickConnect.html',
+        alias: '/mypreferencesquickconnect.html',
+        path: '/controllers/user/quickConnect/index.html',
         autoFocus: false,
         transition: 'fade',
-        controller: 'user/quickConnect'
+        controller: 'user/quickConnect/index'
     });
     defineRoute({
         alias: '/mypreferencesplayback.html',
@@ -145,10 +146,10 @@ define([
         controller: 'dashboard/devices/device'
     });
     defineRoute({
-        path: '/quickConnect.html',
+        path: '/quickconnect.html',
         autoFocus: false,
         roles: 'admin',
-        controller: "quickConnect"
+        controller: 'dashboard/quickconnect'
     });
     defineRoute({
         path: '/dlnaprofile.html',
