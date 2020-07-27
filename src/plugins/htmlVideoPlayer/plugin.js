@@ -47,26 +47,6 @@ function tryRemoveElement(elem) {
         }
     }
 
-let _supportsTextTracks;
-
-function supportsTextTracks() {
-
-        if (_supportsTextTracks == null) {
-            _supportsTextTracks = document.createElement('video').textTracks != null;
-        }
-
-        // For now, until ready
-        return _supportsTextTracks;
-    }
-
-    function supportsCanvas() {
-        return !!document.createElement('canvas').getContext;
-    }
-
-    function supportsWebWorkers() {
-        return !!window.Worker;
-    }
-
     function enableNativeTrackSupport(currentSrc, track) {
 
         if (track) {
@@ -160,11 +140,6 @@ function supportsTextTracks() {
         return useHtml ? result.replace(/\n/gi, '<br>') : result;
     }
 
-    function setTracks(elem, tracks, item, mediaSource) {
-
-        elem.innerHTML = getTracksHtml(tracks, item, mediaSource);
-    }
-
     function getTextTrackUrl(track, item, format) {
 
         if (itemHelper.isLocalItem(item) && track.Path) {
@@ -177,22 +152,6 @@ function supportsTextTracks() {
         }
 
         return url;
-    }
-
-    function getTracksHtml(tracks, item, mediaSource) {
-        return tracks.map(function (t) {
-
-            if (t.DeliveryMethod !== 'External') {
-                return '';
-            }
-
-            const defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
-
-            const language = t.Language || 'und';
-            const label = t.Language || 'und';
-            return `<track id="textTrack${t.Index}" label="${label}" kind="subtitles" src="${getTextTrackUrl(t, item)}" srclang="${language}"${defaultAttribute}></track>`;
-
-        }).join('');
     }
 
     function getDefaultProfile() {
@@ -463,7 +422,7 @@ function supportsTextTracks() {
                 requireHlsPlayer(() => {
                     const hls = new Hls({
                         manifestLoadingTimeOut: 20000,
-                        xhrSetup(xhr, xhr_url) {
+                        xhrSetup(xhr) {
                             xhr.withCredentials = true;
                         }
                         //appendErrorMaxRetry: 6,
@@ -574,7 +533,6 @@ function supportsTextTracks() {
             const media = event.data.media || {};
             const url = media.contentId;
             const contentType = media.contentType.toLowerCase();
-            const options = media.customData;
 
             let protocol;
             const ext = 'm3u8';
@@ -652,8 +610,6 @@ function supportsTextTracks() {
             destroyHlsPlayer(this);
             destroyFlvPlayer(this);
             destroyCastPlayer(this);
-
-            const tracks = getMediaStreamTextTracks(options.mediaSource);
 
             this.#subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
             if (this.#subtitleTrackIndexToSetOnPlaying != null && this.#subtitleTrackIndexToSetOnPlaying >= 0) {
@@ -1214,7 +1170,7 @@ function supportsTextTracks() {
         /**
          * @private
          */
-        fetchSubtitlesUwp(track, item) {
+        fetchSubtitlesUwp(track) {
             return Windows.Storage.StorageFile.getFileFromPathAsync(track.Path).then(function (storageFile) {
                 return Windows.Storage.FileIO.readTextAsync(storageFile);
             }).then(function (text) {
@@ -1678,7 +1634,7 @@ function supportsTextTracks() {
         }
     }
 
-    duration(val) {
+    duration() {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             const duration = mediaElement.duration;
@@ -1690,7 +1646,7 @@ function supportsTextTracks() {
         return null;
     }
 
-    canSetAudioStreamIndex(index) {
+    canSetAudioStreamIndex() {
         if (browser.tizen || browser.orsay) {
             return true;
         }
