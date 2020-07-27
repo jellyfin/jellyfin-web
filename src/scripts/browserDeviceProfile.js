@@ -714,33 +714,29 @@ define(['browser'], function (browser) {
             }
         }
 
-        profile.CodecProfiles.push({
-            Type: 'Video',
-            Codec: 'h264',
-            Conditions: [
-                {
-                    Condition: 'NotEquals',
-                    Property: 'IsAnamorphic',
-                    Value: 'true',
-                    IsRequired: false
-                },
-                {
-                    Condition: 'EqualsAny',
-                    Property: 'VideoProfile',
-                    Value: h264Profiles,
-                    IsRequired: false
-                },
-                {
-                    Condition: 'LessThanEqual',
-                    Property: 'VideoLevel',
-                    Value: maxH264Level.toString(),
-                    IsRequired: false
-                }
-            ]
-        });
+        const h264CodecProfileConditions = [
+            {
+                Condition: 'NotEquals',
+                Property: 'IsAnamorphic',
+                Value: 'true',
+                IsRequired: false
+            },
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoProfile',
+                Value: h264Profiles,
+                IsRequired: false
+            },
+            {
+                Condition: 'LessThanEqual',
+                Property: 'VideoLevel',
+                Value: maxH264Level.toString(),
+                IsRequired: false
+            }
+        ];
 
         if (!browser.edgeUwp && !browser.tizen && !browser.web0s) {
-            profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
+            h264CodecProfileConditions.push({
                 Condition: 'NotEquals',
                 Property: 'IsInterlaced',
                 Value: 'true',
@@ -749,7 +745,7 @@ define(['browser'], function (browser) {
         }
 
         if (maxVideoWidth) {
-            profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
+            h264CodecProfileConditions.push({
                 Condition: 'LessThanEqual',
                 Property: 'Width',
                 Value: maxVideoWidth.toString(),
@@ -762,13 +758,40 @@ define(['browser'], function (browser) {
         var h264MaxVideoBitrate = globalMaxVideoBitrate;
 
         if (h264MaxVideoBitrate) {
-            profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
+            h264CodecProfileConditions.push({
                 Condition: 'LessThanEqual',
                 Property: 'VideoBitrate',
                 Value: h264MaxVideoBitrate,
                 IsRequired: true
             });
         }
+
+        // On iOS 12.x, for TS container max h264 level is 4.2
+        if (browser.iOS && browser.iOSVersion < 13) {
+            const codecProfile = {
+                Type: 'Video',
+                Codec: 'h264',
+                Container: 'ts',
+                Conditions: h264CodecProfileConditions.filter((condition) => {
+                    return condition.Property !== 'VideoLevel';
+                })
+            };
+
+            codecProfile.Conditions.push({
+                Condition: 'LessThanEqual',
+                Property: 'VideoLevel',
+                Value: '42',
+                IsRequired: false
+            });
+
+            profile.CodecProfiles.push(codecProfile);
+        }
+
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Codec: 'h264',
+            Conditions: h264CodecProfileConditions
+        });
 
         var globalVideoConditions = [];
 
