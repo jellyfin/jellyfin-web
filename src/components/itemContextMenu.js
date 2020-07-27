@@ -352,7 +352,7 @@ import actionsheet from 'actionsheet';
                     });
                     break;
                 case 'download':
-                    import('fileDownloader').then(({default: fileDownloader}) => {
+                    import('fileDownloader').then((fileDownloader) => {
                         const downloadHref = apiClient.getItemDownloadUrl(itemId);
                         fileDownloader.download([{
                             url: downloadHref,
