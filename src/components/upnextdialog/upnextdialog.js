@@ -1,5 +1,17 @@
-define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'layoutManager', 'focusManager', 'globalize', 'itemHelper', 'css!./upnextdialog', 'emby-button', 'flexStyles'], function (dom, playbackManager, connectionManager, events, mediaInfo, layoutManager, focusManager, globalize, itemHelper) {
-    'use strict';
+import dom from 'dom';
+import playbackManager from 'playbackManager';
+import connectionManager from 'connectionManager';
+import events from 'events';
+import mediaInfo from 'mediaInfo';
+import layoutManager from 'layoutManager';
+import focusManager from 'focusManager';
+import globalize from 'globalize';
+import itemHelper from 'itemHelper';
+import 'css!./upnextdialog';
+import 'emby-button';
+import 'flexStyles';
+
+/* eslint-disable indent */
 
     var transitionEndEventName = dom.whichTransitionEvent();
 
@@ -289,14 +301,14 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         instance._countdownTextTimeout = setInterval(setNextVideoText.bind(instance), 400);
     }
 
-    function UpNextDialog(options) {
+class UpNextDialog {
+    constructor(options) {
 
         this.options = options;
 
         init(this, options);
     }
-
-    UpNextDialog.prototype.show = function () {
+    show() {
 
         var elem = this.options.parent;
 
@@ -316,20 +328,20 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         }
 
         startComingUpNextHideTimer(this);
-    };
-
-    UpNextDialog.prototype.hide = function () {
+    }
+    hide() {
 
         hideComingUpNext.call(this);
-    };
-
-    UpNextDialog.prototype.destroy = function () {
+    }
+    destroy() {
 
         hideComingUpNext.call(this);
 
         this.options = null;
         this.itemType = null;
-    };
+    }
+}
 
-    return UpNextDialog;
-});
+export default UpNextDialog;
+
+/* eslint-enable indent */

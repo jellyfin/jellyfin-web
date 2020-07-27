@@ -156,6 +156,8 @@
           "src/components/syncPlay/playbackPermissionManager.js",
           "src/components/syncPlay/syncPlayManager.js",
           "src/components/syncPlay/timeSyncManager.js",
+          "src/components/toast/toast.js",
+          "src/components/upnextdialog/upnextdialog.js",
           "src/controllers/session/addServer/index.js",
           "src/controllers/session/forgotPassword/index.js",
           "src/controllers/session/redeemPassword/index.js",
