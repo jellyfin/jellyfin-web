@@ -13,7 +13,7 @@ import 'flexStyles';
 
 /* eslint-disable indent */
 
-    var transitionEndEventName = dom.whichTransitionEvent();
+    const transitionEndEventName = dom.whichTransitionEvent();
 
     function seriesImageUrl(item, options) {
 
@@ -79,7 +79,7 @@ import 'flexStyles';
 
         if (item) {
 
-            var imgUrl = seriesImageUrl(item, { type: 'Primary' }) ||
+            let imgUrl = seriesImageUrl(item, { type: 'Primary' }) ||
                 seriesImageUrl(item, { type: 'Thumb' }) ||
                 imageUrl(item, { type: 'Primary' });
 
@@ -100,7 +100,7 @@ import 'flexStyles';
 
     function getHtml() {
 
-        var html = '';
+        let html = '';
 
         html += '<div class="upNextDialog-poster">';
         html += '</div>';
@@ -137,17 +137,17 @@ import 'flexStyles';
 
     function setNextVideoText() {
 
-        var instance = this;
+        const instance = this;
 
-        var elem = instance.options.parent;
+        const elem = instance.options.parent;
 
-        var secondsRemaining = Math.max(Math.round(getTimeRemainingMs(instance) / 1000), 0);
+        const secondsRemaining = Math.max(Math.round(getTimeRemainingMs(instance) / 1000), 0);
 
         console.debug('up next seconds remaining: ' + secondsRemaining);
 
-        var timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
+        const timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
 
-        var nextVideoText = instance.itemType === 'Episode' ?
+        const nextVideoText = instance.itemType === 'Episode' ?
             globalize.translate('HeaderNextEpisodePlayingInValue', timeText) :
             globalize.translate('HeaderNextVideoPlayingInValue', timeText);
 
@@ -156,9 +156,9 @@ import 'flexStyles';
 
     function fillItem(item) {
 
-        var instance = this;
+        const instance = this;
 
-        var elem = instance.options.parent;
+        const elem = instance.options.parent;
 
         setPoster(elem.querySelector('.upNextDialog-poster'), item);
 
@@ -167,7 +167,7 @@ import 'flexStyles';
         elem.querySelector('.upNextDialog-mediainfo').innerHTML = mediaInfo.getPrimaryMediaInfoHtml(item, {
         });
 
-        var title = itemHelper.getDisplayName(item);
+        let title = itemHelper.getDisplayName(item);
         if (item.SeriesName) {
             title = item.SeriesName + ' - ' + title;
         }
@@ -188,11 +188,11 @@ import 'flexStyles';
 
     function onStartNowClick() {
 
-        var options = this.options;
+        const options = this.options;
 
         if (options) {
 
-            var player = options.player;
+            const player = options.player;
 
             this.hide();
 
@@ -216,7 +216,7 @@ import 'flexStyles';
 
     function clearHideAnimationEventListeners(instance, elem) {
 
-        var fn = instance._onHideAnimationComplete;
+        const fn = instance._onHideAnimationComplete;
 
         if (fn) {
             dom.removeEventListener(elem, transitionEndEventName, fn, {
@@ -227,8 +227,8 @@ import 'flexStyles';
 
     function onHideAnimationComplete(e) {
 
-        var instance = this;
-        var elem = e.target;
+        const instance = this;
+        const elem = e.target;
 
         elem.classList.add('hide');
 
@@ -238,14 +238,14 @@ import 'flexStyles';
 
     function hideComingUpNext() {
 
-        var instance = this;
+        const instance = this;
         clearCountdownTextTimeout(this);
 
         if (!instance.options) {
             return;
         }
 
-        var elem = instance.options.parent;
+        const elem = instance.options.parent;
 
         if (!elem) {
             return;
@@ -262,7 +262,7 @@ import 'flexStyles';
 
         elem.classList.add('upNextDialog-hidden');
 
-        var fn = onHideAnimationComplete.bind(instance);
+        const fn = onHideAnimationComplete.bind(instance);
         instance._onHideAnimationComplete = fn;
 
         dom.addEventListener(elem, transitionEndEventName, fn, {
@@ -272,13 +272,13 @@ import 'flexStyles';
 
     function getTimeRemainingMs(instance) {
 
-        var options = instance.options;
+        const options = instance.options;
         if (options) {
 
-            var runtimeTicks = playbackManager.duration(options.player);
+            const runtimeTicks = playbackManager.duration(options.player);
 
             if (runtimeTicks) {
-                var timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player);
+                const timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player);
 
                 return Math.round(timeRemainingTicks / 10000);
             }
@@ -289,7 +289,7 @@ import 'flexStyles';
 
     function startComingUpNextHideTimer(instance) {
 
-        var timeRemainingMs = getTimeRemainingMs(instance);
+        const timeRemainingMs = getTimeRemainingMs(instance);
 
         if (timeRemainingMs <= 0) {
             return;
@@ -310,7 +310,7 @@ class UpNextDialog {
     }
     show() {
 
-        var elem = this.options.parent;
+        const elem = this.options.parent;
 
         clearHideAnimationEventListeners(this, elem);
 
