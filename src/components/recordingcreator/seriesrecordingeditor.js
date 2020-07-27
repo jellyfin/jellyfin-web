@@ -8,20 +8,14 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     var currentServerId;
 
     function deleteTimer(apiClient, timerId) {
-
         return new Promise(function (resolve, reject) {
-
             require(['recordingHelper'], function (recordingHelper) {
-
                 recordingHelper.cancelSeriesTimerWithConfirmation(timerId, apiClient.serverId()).then(resolve, reject);
             });
         });
     }
 
     function renderTimer(context, item, apiClient) {
-
-        var program = item.ProgramInfo || {};
-
         context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
         context.querySelector('#txtPostPaddingMinutes').value = item.PostPaddingSeconds / 60;
 
@@ -44,7 +38,6 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function closeDialog(isDeleted) {
-
         recordingUpdated = true;
         recordingDeleted = isDeleted;
 
@@ -52,13 +45,11 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function onSubmit(e) {
-
         var form = this;
 
         var apiClient = connectionManager.getApiClient(currentServerId);
 
         apiClient.getLiveTvSeriesTimer(currentItemId).then(function (item) {
-
             item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
             item.PostPaddingSeconds = form.querySelector('#txtPostPaddingMinutes').value * 60;
             item.RecordAnyChannel = form.querySelector('.selectChannels').value === 'all';
@@ -77,16 +68,13 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function init(context) {
-
         fillKeepUpTo(context);
 
         context.querySelector('.btnCancel').addEventListener('click', function () {
-
             closeDialog(false);
         });
 
         context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-
             var apiClient = connectionManager.getApiClient(currentServerId);
             deleteTimer(apiClient, currentItemId).then(function () {
                 closeDialog(true);
@@ -97,7 +85,6 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function reload(context, id) {
-
         var apiClient = connectionManager.getApiClient(currentServerId);
 
         loading.show();
@@ -105,12 +92,10 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             currentItemId = id;
 
             apiClient.getLiveTvSeriesTimer(id).then(function (result) {
-
                 renderTimer(context, result, apiClient);
                 loading.hide();
             });
         } else if (id) {
-
             currentItemId = id.Id;
 
             renderTimer(context, id, apiClient);
@@ -119,11 +104,9 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function fillKeepUpTo(context) {
-
         var html = '';
 
         for (var i = 0; i <= 50; i++) {
-
             var text;
 
             if (i === 0) {
@@ -145,7 +128,6 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function embed(itemId, serverId, options) {
-
         recordingUpdated = false;
         recordingDeleted = false;
         currentServerId = serverId;
@@ -153,7 +135,6 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         options = options || {};
 
         require(['text!./seriesrecordingeditor.template.html'], function (template) {
-
             var dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -168,7 +149,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             var dlg = options.context;
 
             dlg.classList.add('hide');
-            dlg.innerHTML = globalize.translateDocument(template, 'core');
+            dlg.innerHTML = globalize.translateHtml(template, 'core');
 
             dlg.querySelector('.formDialogHeader').classList.add('hide');
             dlg.querySelector('.formDialogFooter').classList.add('hide');
@@ -188,9 +169,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function showEditor(itemId, serverId, options) {
-
         return new Promise(function (resolve, reject) {
-
             recordingUpdated = false;
             recordingDeleted = false;
             currentServerId = serverId;
@@ -198,7 +177,6 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             options = options || {};
 
             require(['text!./seriesrecordingeditor.template.html'], function (template) {
-
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
@@ -221,7 +199,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
 
                 var html = '';
 
-                html += globalize.translateDocument(template, 'core');
+                html += globalize.translateHtml(template, 'core');
 
                 dlg.innerHTML = html;
 
@@ -232,14 +210,12 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                 currentDialog = dlg;
 
                 dlg.addEventListener('closing', function () {
-
                     if (!recordingDeleted) {
                         this.querySelector('.btnSubmit').click();
                     }
                 });
 
                 dlg.addEventListener('close', function () {
-
                     if (recordingUpdated) {
                         resolve({
                             updated: true,

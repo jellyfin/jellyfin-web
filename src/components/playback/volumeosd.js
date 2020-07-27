@@ -23,10 +23,8 @@ function getOsdElementHtml() {
 }
 
 function ensureOsdElement() {
-
     var elem = osdElement;
     if (!elem) {
-
         enableAnimation = browser.supportsCssAnimation();
 
         elem = document.createElement('div');
@@ -50,7 +48,6 @@ function onHideComplete() {
 
 var hideTimeout;
 function showOsd() {
-
     clearHideTimeout();
 
     var elem = osdElement;
@@ -79,12 +76,10 @@ function clearHideTimeout() {
 }
 
 function hideOsd() {
-
     clearHideTimeout();
 
     var elem = osdElement;
     if (elem) {
-
         if (enableAnimation) {
             // trigger reflow
             void elem.offsetWidth;
@@ -103,7 +98,6 @@ function hideOsd() {
 }
 
 function updatePlayerVolumeState(isMuted, volume) {
-
     if (iconElement) {
         iconElement.classList.remove('volume_off', 'volume_up');
         iconElement.classList.add(isMuted ? 'volume_off' : 'volume_up');
@@ -114,7 +108,6 @@ function updatePlayerVolumeState(isMuted, volume) {
 }
 
 function releaseCurrentPlayer() {
-
     var player = currentPlayer;
 
     if (player) {
@@ -125,7 +118,6 @@ function releaseCurrentPlayer() {
 }
 
 function onVolumeChanged(e) {
-
     var player = this;
 
     ensureOsdElement();
@@ -136,7 +128,6 @@ function onVolumeChanged(e) {
 }
 
 function bindToPlayer(player) {
-
     if (player === currentPlayer) {
         return;
     }

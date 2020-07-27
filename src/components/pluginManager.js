@@ -13,7 +13,6 @@ define(['events', 'globalize'], function (events, globalize) {
     }
 
     function definePluginRoute(pluginManager, route, plugin) {
-
         route.contentPath = pluginManager.mapPath(plugin, route.path);
         route.path = pluginManager.mapRoute(plugin, route);
 
@@ -21,12 +20,10 @@ define(['events', 'globalize'], function (events, globalize) {
     }
 
     function PluginManager() {
-
         this.pluginsList = [];
     }
 
     PluginManager.prototype.loadPlugin = function(pluginSpec) {
-
         var instance = this;
 
         function registerPlugin(plugin) {
@@ -39,7 +36,6 @@ define(['events', 'globalize'], function (events, globalize) {
             }
 
             if (plugin.type === 'skin') {
-
                 // translations won't be loaded for skins until needed
                 return Promise.resolve(plugin);
             } else {
@@ -104,13 +100,11 @@ define(['events', 'globalize'], function (events, globalize) {
     // name
     // type (skin, screensaver, etc)
     PluginManager.prototype.register = function (obj) {
-
         this.pluginsList.push(obj);
         events.trigger(this, 'registered', [obj]);
     };
 
     PluginManager.prototype.ofType = function (type) {
-
         return this.pluginsList.filter(function (o) {
             return o.type === type;
         });
@@ -121,7 +115,6 @@ define(['events', 'globalize'], function (events, globalize) {
     };
 
     PluginManager.prototype.mapRoute = function (plugin, route) {
-
         if (typeof plugin === 'string') {
             plugin = this.pluginsList.filter(function (p) {
                 return (p.id || p.packageName) === plugin;
@@ -138,7 +131,6 @@ define(['events', 'globalize'], function (events, globalize) {
     };
 
     PluginManager.prototype.mapPath = function (plugin, path, addCacheParam) {
-
         if (typeof plugin === 'string') {
             plugin = this.pluginsList.filter(function (p) {
                 return (p.id || p.packageName) === plugin;

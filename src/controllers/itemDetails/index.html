@@ -173,7 +173,9 @@
 
                 <div id="additionalPartsCollapsible" class="verticalSection detailVerticalSection hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-right">${HeaderAdditionalParts}</h2>
-                    <div id="additionalPartsContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-right"></div>
+                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">
+                        <div id="additionalPartsContent" is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
+                    </div>
                 </div>
 
                 <div class="verticalSection detailVerticalSection moreFromSeasonSection hide">
@@ -204,12 +206,16 @@
 
                 <div id="specialsCollapsible" class="verticalSection detailVerticalSection hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-right">${HeaderSpecialFeatures}</h2>
-                    <div id="specialsContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-right"></div>
+                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">
+                        <div id="specialsContent" is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
+                    </div>
                 </div>
 
                 <div id="musicVideosCollapsible" class="verticalSection detailVerticalSection hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-right">${HeaderMusicVideos}</h2>
-                    <div id="musicVideosContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-right"></div>
+                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">
+                        <div id="musicVideosContent" is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
+                    </div>
                 </div>
 
                 <div id="scenesCollapsible" class="verticalSection detailVerticalSection verticalSection-extrabottompadding hide">

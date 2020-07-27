@@ -2,7 +2,6 @@ define([], function () {
     'use strict';
 
     function isTv() {
-
         // This is going to be really difficult to get right
         var userAgent = navigator.userAgent.toLowerCase();
 
@@ -50,7 +49,6 @@ define([], function () {
     }
 
     function hasKeyboard(browser) {
-
         if (browser.touch) {
             return true;
         }
@@ -101,10 +99,7 @@ define([], function () {
         }
 
         var animation = false;
-        var animationstring = 'animation';
-        var keyframeprefix = '';
         var domPrefixes = ['Webkit', 'O', 'Moz'];
-        var pfx = '';
         var elm = document.createElement('div');
 
         if (elm.style.animationName !== undefined) {
@@ -114,9 +109,6 @@ define([], function () {
         if (animation === false && allowPrefix) {
             for (var i = 0; i < domPrefixes.length; i++) {
                 if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
-                    pfx = domPrefixes[i];
-                    animationstring = pfx + 'Animation';
-                    keyframeprefix = '-' + pfx.toLowerCase() + '-';
                     animation = true;
                     break;
                 }
@@ -258,8 +250,6 @@ define([], function () {
             browser.iOSVersion = browser.iOSVersion[0] + (browser.iOSVersion[1] / 10);
         }
     }
-
-    browser.chromecast = browser.chrome && userAgent.toLowerCase().indexOf('crkey') !== -1;
 
     return browser;
 });

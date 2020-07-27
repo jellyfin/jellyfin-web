@@ -8,7 +8,6 @@ define([], function () {
             } else {
                 window.open(url, target || '_blank');
             }
-
         },
         enableFullscreen: function () {
             if (window.NativeShell) {

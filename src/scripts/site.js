@@ -14,7 +14,7 @@ function getWindowLocationSearch(win) {
     return search || '';
 }
 
-function getParameterByName(name, url) {
+window.getParameterByName = function (name, url) {
     'use strict';
 
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -27,7 +27,7 @@ function getParameterByName(name, url) {
     }
 
     return decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
+};
 
 function pageClassOn(eventName, className, fn) {
     'use strict';
@@ -41,7 +41,7 @@ function pageClassOn(eventName, className, fn) {
     });
 }
 
-function pageIdOn(eventName, id, fn) {
+window.pageIdOn = function(eventName, id, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
@@ -51,7 +51,7 @@ function pageIdOn(eventName, id, fn) {
             fn.call(target, event);
         }
     });
-}
+};
 
 var Dashboard = {
     getCurrentUser: function () {
@@ -187,7 +187,7 @@ var Dashboard = {
         }
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 title: options.title || Globalize.translate('HeaderAlert'),
                 text: options.message
             }).then(options.callback || function () {});
@@ -236,9 +236,7 @@ var Dashboard = {
 
 var AppInfo = {};
 
-!function () {
-    'use strict';
-
+function initClient() {
     function defineConnectionManager(connectionManager) {
         window.ConnectionManager = connectionManager;
         define('connectionManager', [], function () {
@@ -360,7 +358,7 @@ var AppInfo = {};
         return layoutManager;
     }
 
-    function createSharedAppFooter(appFooter) {
+    function createSharedAppFooter({default: appFooter}) {
         return new appFooter({});
     }
 
@@ -420,7 +418,7 @@ var AppInfo = {};
                 require(['globalize', 'browser'], function (globalize, browser) {
                     window.Globalize = globalize;
                     loadCoreDictionary(globalize).then(function () {
-                        onGlobalizeInit(browser);
+                        onGlobalizeInit(browser, globalize);
                     });
                 });
                 require(['keyboardnavigation'], function(keyboardnavigation) {
@@ -453,14 +451,14 @@ var AppInfo = {};
         });
     }
 
-    function onGlobalizeInit(browser) {
+    function onGlobalizeInit(browser, globalize) {
         if ('android' === self.appMode) {
             if (-1 !== self.location.href.toString().toLowerCase().indexOf('start=backgroundsync')) {
                 return onAppReady(browser);
             }
         }
 
-        document.title = Globalize.translateDocument(document.title, 'core');
+        document.title = globalize.translateHtml(document.title, 'core');
 
         if (browser.tv && !browser.android) {
             console.debug('using system fonts with explicit sizes');
@@ -679,7 +677,6 @@ var AppInfo = {};
                     'howler',
                     'native-promise-only',
                     'resize-observer-polyfill',
-                    'shaka',
                     'swiper',
                     'queryString',
                     'sortable',
@@ -734,11 +731,6 @@ var AppInfo = {};
         define('cardStyle', ['css!' + componentsPath + '/cardbuilder/card'], returnFirstDependency);
         define('flexStyles', ['css!assets/css/flexstyles'], returnFirstDependency);
 
-        // define legacy features
-        // TODO delete the rest of these
-        define('fnchecked', ['legacy/fnchecked'], returnFirstDependency);
-        define('legacySelectMenu', ['legacy/selectmenu'], returnFirstDependency);
-
         // there are several objects that need to be instantiated
         // TODO find a better way to do this
         define('appFooter', [componentsPath + '/appFooter/appFooter'], returnFirstDependency);
@@ -790,7 +782,6 @@ var AppInfo = {};
         define('multiSelect', [componentsPath + '/multiSelect/multiSelect'], returnFirstDependency);
         define('alphaPicker', [componentsPath + '/alphaPicker/alphaPicker'], returnFirstDependency);
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
-        define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
         define('collectionEditor', [componentsPath + '/collectionEditor/collectionEditor'], returnFirstDependency);
         define('playlistEditor', [componentsPath + '/playlisteditor/playlisteditor'], returnFirstDependency);
         define('recordingCreator', [componentsPath + '/recordingcreator/recordingcreator'], returnFirstDependency);
@@ -814,6 +805,7 @@ var AppInfo = {};
         define('upNextDialog', [componentsPath + '/upnextdialog/upnextdialog'], returnFirstDependency);
         define('subtitleAppearanceHelper', [componentsPath + '/subtitlesettings/subtitleappearancehelper'], returnFirstDependency);
         define('subtitleSettings', [componentsPath + '/subtitlesettings/subtitlesettings'], returnFirstDependency);
+        define('settingsHelper', [componentsPath + '/settingshelper'], returnFirstDependency);
         define('displaySettings', [componentsPath + '/displaySettings/displaySettings'], returnFirstDependency);
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
@@ -894,7 +886,7 @@ var AppInfo = {};
             };
 
             appRouter.showVideoOsd = function () {
-                return Dashboard.navigate('videoosd.html');
+                return Dashboard.navigate('video');
             };
 
             appRouter.showSelectServer = function () {
@@ -1131,7 +1123,9 @@ var AppInfo = {};
     })();
 
     return onWebComponentsReady();
-}();
+}
+
+initClient();
 
 pageClassOn('viewshow', 'standalonePage', function () {
     document.querySelector('.skinHeader').classList.add('noHeaderRight');

@@ -64,10 +64,7 @@ define(['layoutManager', 'datetime', 'cardBuilder', 'apphost'], function (layout
 
         for (i = 0, length = groups.length; i < length; i++) {
             var group = groups[i];
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            var cardLayout = appHost.preferVisualCards || supportsImageAnalysis;
 
-            cardLayout = true;
             if (group.name) {
                 html += '<div class="verticalSection">';
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + '</h2>';
@@ -86,21 +83,21 @@ define(['layoutManager', 'datetime', 'cardBuilder', 'apphost'], function (layout
 
             html += cardBuilder.getCardsHtml({
                 items: group.items,
-                shape: cardLayout ? getBackdropShape() : enableScrollX() ? 'autoOverflow' : 'autoVertical',
+                shape: getBackdropShape(),
                 showParentTitleOrTitle: true,
                 showAirTime: true,
                 showAirEndTime: true,
-                showChannelName: !cardLayout,
-                cardLayout: cardLayout,
-                centerText: !cardLayout,
+                showChannelName: false,
+                cardLayout: true,
+                centerText: false,
                 action: 'edit',
                 cardFooterAside: 'none',
-                preferThumb: !!cardLayout || 'auto',
-                defaultShape: cardLayout ? null : 'portrait',
+                preferThumb: true,
+                defaultShape: null,
                 coverImage: true,
                 allowBottomPadding: false,
                 overlayText: false,
-                showChannelLogo: cardLayout
+                showChannelLogo: true
             });
             html += '</div>';
 

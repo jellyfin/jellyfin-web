@@ -17,7 +17,6 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
     var selectedProvider;
 
     function getBaseRemoteOptions() {
-
         var options = {};
 
         options.itemId = currentItemId;
@@ -26,7 +25,6 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
     }
 
     function reloadBrowsableImages(page, apiClient) {
-
         loading.show();
 
         var options = getBaseRemoteOptions();
@@ -43,7 +41,6 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         }
 
         apiClient.getAvailableRemoteImages(options).then(function (result) {
-
             renderRemoteImages(page, apiClient, result, browsableImageType, options.startIndex, options.limit);
 
             page.querySelector('#selectBrowsableImageType').value = browsableImageType;
@@ -58,17 +55,14 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
 
             loading.hide();
         });
-
     }
 
     function renderRemoteImages(page, apiClient, imagesResult, imageType, startIndex, limit) {
-
         page.querySelector('.availableImagesPaging').innerHTML = getPagingHtml(startIndex, limit, imagesResult.TotalRecordCount);
 
         var html = '';
 
         for (var i = 0, length = imagesResult.Images.length; i < length; i++) {
-
             html += getRemoteImageHtml(imagesResult.Images[i], imageType, apiClient);
         }
 
@@ -92,11 +86,9 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
                 reloadBrowsableImages(page, apiClient);
             });
         }
-
     }
 
     function getPagingHtml(startIndex, limit, totalRecordCount) {
-
         var html = '';
 
         var recordsEnd = Math.min(startIndex + limit, totalRecordCount);
@@ -136,7 +128,6 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         loading.show();
 
         apiClient.downloadRemoteImage(options).then(function () {
-
             hasChanges = true;
             var dlg = dom.parentWithClass(page, 'dialog');
             dialogHelper.close(dlg);
@@ -166,7 +157,6 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         } else if (imageType === 'Disc') {
             shape = 'square';
         } else {
-
             if (currentItemType === 'Episode') {
                 shape = 'backdrop';
             } else if (currentItemType === 'MusicAlbum' || currentItemType === 'MusicArtist') {
@@ -217,19 +207,16 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         html += '<div class="cardText cardTextCentered">' + image.ProviderName + '</div>';
 
         if (image.Width || image.Height || image.Language) {
-
             html += '<div class="cardText cardText-secondary cardTextCentered">';
 
             if (image.Width && image.Height) {
                 html += image.Width + ' x ' + image.Height;
 
                 if (image.Language) {
-
                     html += ' • ' + image.Language;
                 }
             } else {
                 if (image.Language) {
-
                     html += image.Language;
                 }
             }
@@ -238,13 +225,11 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         }
 
         if (image.CommunityRating != null) {
-
             html += '<div class="cardText cardText-secondary cardTextCentered">';
 
             if (image.RatingType === 'Likes') {
                 html += image.CommunityRating + (image.CommunityRating === 1 ? ' like' : ' likes');
             } else {
-
                 if (image.CommunityRating) {
                     html += image.CommunityRating.toFixed(1);
 
@@ -270,7 +255,6 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         // end footer
 
         html += '</div>';
-        //html += '</div>';
 
         html += '</' + tagName + '>';
 
@@ -287,7 +271,6 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         });
 
         page.querySelector('#selectImageProvider').addEventListener('change', function () {
-
             browsableImageStartIndex = 0;
             selectedProvider = this.value;
 
@@ -295,14 +278,12 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         });
 
         page.querySelector('#chkAllLanguages').addEventListener('change', function () {
-
             browsableImageStartIndex = 0;
 
             reloadBrowsableImages(page, apiClient);
         });
 
         page.addEventListener('click', function (e) {
-
             var btnDownloadRemoteImage = dom.parentWithClass(e.target, 'btnDownloadRemoteImage');
             if (btnDownloadRemoteImage) {
                 var card = dom.parentWithClass(btnDownloadRemoteImage, 'card');
@@ -321,7 +302,6 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         loading.show();
 
         require(['text!./imageDownloader.template.html'], function (template) {
-
             var apiClient = connectionManager.getApiClient(serverId);
 
             currentItemId = itemId;
@@ -339,7 +319,7 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
 
             var dlg = dialogHelper.createDialog(dialogOptions);
 
-            dlg.innerHTML = globalize.translateDocument(template, 'core');
+            dlg.innerHTML = globalize.translateHtml(template, 'core');
 
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.on(dlg, false);
@@ -354,7 +334,6 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
             initEditor(editorContent, apiClient);
 
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                 dialogHelper.close(dlg);
             });
 

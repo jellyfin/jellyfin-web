@@ -41,7 +41,6 @@ import appHost from 'apphost';
     let commandTimes = {};
 
     function checkCommandTime(command) {
-
         const last = commandTimes[command] || 0;
         const now = new Date().getTime();
 
@@ -54,7 +53,6 @@ import appHost from 'apphost';
     }
 
     export function handleCommand(commandName, options) {
-
         lastInputTime = new Date().getTime();
 
         let sourceElement = (options ? options.sourceElement : null);
@@ -66,9 +64,12 @@ import appHost from 'apphost';
         if (!sourceElement) {
             sourceElement = document.activeElement || window;
 
-            const dlg = document.querySelector('.dialogContainer .dialog.opened');
+            const dialogs = document.querySelectorAll('.dialogContainer .dialog.opened');
 
-            if (dlg && (!sourceElement || !dlg.contains(sourceElement))) {
+            // Suppose the top open dialog is active
+            const dlg = dialogs.length ? dialogs[dialogs.length - 1] : null;
+
+            if (dlg && !dlg.contains(sourceElement)) {
                 sourceElement = dlg;
             }
         }
