@@ -4,9 +4,7 @@ import appRouter from 'appRouter';
 import globalize from 'globalize';
 
 function alertText(options) {
-
     return new Promise(function (resolve, reject) {
-
         import('alert').then(({default: alert}) => {
             alert(options).then(resolve, resolve);
         });
@@ -14,7 +12,6 @@ function alertText(options) {
 }
 
 export function deleteItem(options) {
-
     const item = options.item;
     const parentId = item.SeasonId || item.SeriesId || item.ParentId;
 
@@ -28,9 +25,7 @@ export function deleteItem(options) {
         primary: 'delete'
 
     }).then(function () {
-
         return apiClient.deleteItem(item.Id).then(function () {
-
             if (options.navigate) {
                 if (parentId) {
                     appRouter.showItem(parentId, item.ServerId);
@@ -39,7 +34,6 @@ export function deleteItem(options) {
                 }
             }
         }, function (err) {
-
             let result = function () {
                 return Promise.reject(err);
             };

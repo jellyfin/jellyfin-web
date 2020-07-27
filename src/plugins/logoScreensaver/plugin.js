@@ -1,7 +1,5 @@
 define(['pluginManager'], function (pluginManager) {
-
     return function () {
-
         var self = this;
 
         self.name = 'Logo ScreenSaver';
@@ -12,7 +10,6 @@ define(['pluginManager'], function (pluginManager) {
         var interval;
 
         function animate() {
-
             var animations = [
 
                 bounceInLeft,
@@ -112,7 +109,6 @@ define(['pluginManager'], function (pluginManager) {
                 { transform: 'rotate3d(0, 0, 1, 200deg)', opacity: '0', transformOrigin: 'center', offset: 1 }];
             var timing = { duration: 900, iterations: iterations };
             return elem.animate(keyframes, timing);
-
         }
 
         function fadeOut(elem, iterations) {
@@ -131,9 +127,7 @@ define(['pluginManager'], function (pluginManager) {
         }
 
         self.show = function () {
-
             require(['css!' + pluginManager.mapPath(self, 'style.css')], function () {
-
                 var elem = document.querySelector('.logoScreenSaver');
 
                 if (!elem) {
@@ -150,13 +144,11 @@ define(['pluginManager'], function (pluginManager) {
         };
 
         self.hide = function () {
-
             stopInterval();
 
             var elem = document.querySelector('.logoScreenSaver');
 
             if (elem) {
-
                 var onAnimationFinish = function () {
                     elem.parentNode.removeChild(elem);
                 };

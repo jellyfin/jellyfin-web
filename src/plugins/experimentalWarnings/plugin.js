@@ -12,7 +12,6 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     }
 
     function showMessage(text, userSettingsKey, appHostFeature) {
-
         if (appHost.supports(appHostFeature)) {
             return Promise.resolve();
         }
@@ -27,11 +26,9 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
         }
 
         return new Promise(function (resolve, reject) {
-
             userSettings.set(userSettingsKey, '1', false);
 
             require(['alert'], function (alert) {
-
                 return alert(text).then(resolve, resolve);
             });
         });
@@ -50,14 +47,12 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     }
 
     function ExpirementalPlaybackWarnings() {
-
         this.name = 'Experimental playback warnings';
         this.type = 'preplayintercept';
         this.id = 'expirementalplaybackwarnings';
     }
 
     ExpirementalPlaybackWarnings.prototype.intercept = function (options) {
-
         var item = options.item;
         if (!item) {
             return Promise.resolve();

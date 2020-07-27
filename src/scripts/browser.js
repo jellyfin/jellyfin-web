@@ -2,7 +2,6 @@ define([], function () {
     'use strict';
 
     function isTv() {
-
         // This is going to be really difficult to get right
         var userAgent = navigator.userAgent.toLowerCase();
 
@@ -50,7 +49,6 @@ define([], function () {
     }
 
     function hasKeyboard(browser) {
-
         if (browser.touch) {
             return true;
         }

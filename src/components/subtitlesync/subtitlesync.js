@@ -8,7 +8,6 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
     var subtitleSyncContainer;
 
     function init(instance) {
-
         var parent = document.createElement('div');
         document.body.appendChild(parent);
         parent.innerHTML = template;
@@ -141,7 +140,6 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
     };
 
     SubtitleSync.prototype.toggle = function(action) {
-
         if (player && playbackManager.supportSubtitleOffset(player)) {
             /* eslint-disable no-fallthrough */
             switch (action) {

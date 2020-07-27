@@ -228,7 +228,6 @@ import 'paper-icon-button-light';
     }
 
     function showBlockedTagPopup(page) {
-
         import('prompt').then(({default: prompt}) => {
             prompt({
                 label: globalize.translate('LabelTag')

@@ -2,7 +2,6 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
     'use strict';
 
     function getEditorHtml() {
-
         var html = '';
 
         html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
@@ -48,7 +47,6 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
     }
 
     function onSubmit(e) {
-
         loading.show();
 
         var instance = this;
@@ -90,7 +88,6 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
     }
 
     RefreshDialog.prototype.show = function () {
-
         var dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -124,7 +121,6 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
         dlg.querySelector('form').addEventListener('submit', onSubmit.bind(this));
 
         dlg.querySelector('#selectMetadataRefreshMode').addEventListener('change', function () {
-
             if (this.value === 'scan') {
                 dlg.querySelector('.fldReplaceExistingImages').classList.add('hide');
             } else {
@@ -139,7 +135,6 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
         dlg.querySelector('#selectMetadataRefreshMode').dispatchEvent(new CustomEvent('change'));
 
         dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
             dialogHelper.close(dlg);
         });
 
@@ -148,7 +143,6 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
         }
 
         return new Promise(function (resolve, reject) {
-
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }

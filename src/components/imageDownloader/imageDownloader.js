@@ -33,7 +33,6 @@ import 'cardStyle';
     let selectedProvider;
 
     function getBaseRemoteOptions() {
-
         const options = {};
 
         options.itemId = currentItemId;
@@ -42,7 +41,6 @@ import 'cardStyle';
     }
 
     function reloadBrowsableImages(page, apiClient) {
-
         loading.show();
 
         const options = getBaseRemoteOptions();
@@ -59,7 +57,6 @@ import 'cardStyle';
         }
 
         apiClient.getAvailableRemoteImages(options).then(function (result) {
-
             renderRemoteImages(page, apiClient, result, browsableImageType, options.startIndex, options.limit);
 
             page.querySelector('#selectBrowsableImageType').value = browsableImageType;
@@ -74,17 +71,14 @@ import 'cardStyle';
 
             loading.hide();
         });
-
     }
 
     function renderRemoteImages(page, apiClient, imagesResult, imageType, startIndex, limit) {
-
         page.querySelector('.availableImagesPaging').innerHTML = getPagingHtml(startIndex, limit, imagesResult.TotalRecordCount);
 
         let html = '';
 
         for (let i = 0, length = imagesResult.Images.length; i < length; i++) {
-
             html += getRemoteImageHtml(imagesResult.Images[i], imageType, apiClient);
         }
 
@@ -108,11 +102,9 @@ import 'cardStyle';
                 reloadBrowsableImages(page, apiClient);
             });
         }
-
     }
 
     function getPagingHtml(startIndex, limit, totalRecordCount) {
-
         let html = '';
 
         const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
@@ -152,7 +144,6 @@ import 'cardStyle';
         loading.show();
 
         apiClient.downloadRemoteImage(options).then(function () {
-
             hasChanges = true;
             const dlg = dom.parentWithClass(page, 'dialog');
             dialogHelper.close(dlg);
@@ -182,7 +173,6 @@ import 'cardStyle';
         } else if (imageType === 'Disc') {
             shape = 'square';
         } else {
-
             if (currentItemType === 'Episode') {
                 shape = 'backdrop';
             } else if (currentItemType === 'MusicAlbum' || currentItemType === 'MusicArtist') {
@@ -233,19 +223,16 @@ import 'cardStyle';
         html += '<div class="cardText cardTextCentered">' + image.ProviderName + '</div>';
 
         if (image.Width || image.Height || image.Language) {
-
             html += '<div class="cardText cardText-secondary cardTextCentered">';
 
             if (image.Width && image.Height) {
                 html += image.Width + ' x ' + image.Height;
 
                 if (image.Language) {
-
                     html += ' • ' + image.Language;
                 }
             } else {
                 if (image.Language) {
-
                     html += image.Language;
                 }
             }
@@ -254,13 +241,11 @@ import 'cardStyle';
         }
 
         if (image.CommunityRating != null) {
-
             html += '<div class="cardText cardText-secondary cardTextCentered">';
 
             if (image.RatingType === 'Likes') {
                 html += image.CommunityRating + (image.CommunityRating === 1 ? ' like' : ' likes');
             } else {
-
                 if (image.CommunityRating) {
                     html += image.CommunityRating.toFixed(1);
 
@@ -302,7 +287,6 @@ import 'cardStyle';
         });
 
         page.querySelector('#selectImageProvider').addEventListener('change', function () {
-
             browsableImageStartIndex = 0;
             selectedProvider = this.value;
 
@@ -310,14 +294,12 @@ import 'cardStyle';
         });
 
         page.querySelector('#chkAllLanguages').addEventListener('change', function () {
-
             browsableImageStartIndex = 0;
 
             reloadBrowsableImages(page, apiClient);
         });
 
         page.addEventListener('click', function (e) {
-
             const btnDownloadRemoteImage = dom.parentWithClass(e.target, 'btnDownloadRemoteImage');
             if (btnDownloadRemoteImage) {
                 const card = dom.parentWithClass(btnDownloadRemoteImage, 'card');
@@ -336,7 +318,6 @@ import 'cardStyle';
         loading.show();
 
         require(['text!./imageDownloader.template.html'], function (template) {
-
             const apiClient = connectionManager.getApiClient(serverId);
 
             currentItemId = itemId;
@@ -369,7 +350,6 @@ import 'cardStyle';
             initEditor(editorContent, apiClient);
 
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                 dialogHelper.close(dlg);
             });
 

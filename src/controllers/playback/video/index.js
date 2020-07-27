@@ -963,7 +963,6 @@ import 'css!assets/css/videoosd';
                 const player = currentPlayer;
 
                 if (player) {
-
                     // show subtitle offset feature only if player and media support it
                     const showSubOffset = playbackManager.supportSubtitleOffset(player) &&
                         playbackManager.canHandleOffsetOnCurrentSubtitle(player);

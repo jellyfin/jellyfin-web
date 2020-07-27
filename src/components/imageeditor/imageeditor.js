@@ -23,7 +23,6 @@ import 'css!./imageeditor';
     let hasChanges = false;
 
     function getBaseRemoteOptions() {
-
         const options = {};
 
         options.itemId = currentItem.Id;
@@ -32,7 +31,6 @@ import 'css!./imageeditor';
     }
 
     function reload(page, item, focusContext) {
-
         loading.show();
 
         let apiClient;
@@ -41,7 +39,6 @@ import 'css!./imageeditor';
             apiClient = connectionManager.getApiClient(item.ServerId);
             reloadItem(page, item, apiClient, focusContext);
         } else {
-
             apiClient = connectionManager.getApiClient(currentItem.ServerId);
             apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (item) {
                 reloadItem(page, item, apiClient, focusContext);
@@ -50,7 +47,6 @@ import 'css!./imageeditor';
     }
 
     function addListeners(container, className, eventName, fn) {
-
         container.addEventListener(eventName, function (e) {
             const elem = dom.parentWithClass(e.target, className);
             if (elem) {
@@ -60,14 +56,12 @@ import 'css!./imageeditor';
     }
 
     function reloadItem(page, item, apiClient, focusContext) {
-
         currentItem = item;
 
         apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
 
             const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
             for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
-
                 if (providers.length) {
                     btnBrowseAllImages[i].classList.remove('hide');
                 } else {
@@ -76,7 +70,6 @@ import 'css!./imageeditor';
             }
 
             apiClient.getItemImageInfos(currentItem.Id).then(function (imageInfos) {
-
                 renderStandardImages(page, apiClient, item, imageInfos, providers);
                 renderBackdrops(page, apiClient, item, imageInfos, providers);
                 renderScreenshots(page, apiClient, item, imageInfos, providers);
@@ -90,7 +83,6 @@ import 'css!./imageeditor';
     }
 
     function getImageUrl(item, apiClient, type, index, options) {
-
         options = options || {};
         options.type = type;
         options.index = index;
@@ -110,7 +102,6 @@ import 'css!./imageeditor';
     }
 
     function getCardHtml(image, index, numImages, apiClient, imageProviders, imageSize, tagName, enableFooterButtons) {
-
         // TODO move card creation code to Card component
 
         let html = '';
@@ -169,7 +160,6 @@ import 'css!./imageeditor';
             html += '<div class="cardText cardTextCentered">';
 
             if (image.ImageType === 'Backdrop' || image.ImageType === 'Screenshot') {
-
                 if (index > 0) {
                     html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left"></span></button>';
                 } else {
@@ -199,13 +189,10 @@ import 'css!./imageeditor';
     }
 
     function deleteImage(context, itemId, type, index, apiClient, enableConfirmation) {
-
         const afterConfirm = function () {
             apiClient.deleteItemImage(itemId, type, index).then(function () {
-
                 hasChanges = true;
                 reload(context);
-
             });
         };
 
@@ -215,7 +202,6 @@ import 'css!./imageeditor';
         }
 
         import('confirm').then(({default: confirm}) => {
-
             confirm.default({
 
                 text: globalize.translate('ConfirmDeleteImage'),
@@ -227,13 +213,10 @@ import 'css!./imageeditor';
     }
 
     function moveImage(context, apiClient, itemId, type, index, newIndex, focusContext) {
-
         apiClient.updateItemImageIndex(itemId, type, index, newIndex).then(function () {
-
             hasChanges = true;
             reload(context, null, focusContext);
         }, function () {
-
             import('alert').then(({default: alert}) => {
                 alert(globalize.translate('DefaultErrorMessage'));
             });
@@ -241,7 +224,6 @@ import 'css!./imageeditor';
     }
 
     function renderImages(page, item, apiClient, images, imageProviders, elem) {
-
         let html = '';
 
         let imageSize = 300;
@@ -254,9 +236,7 @@ import 'css!./imageeditor';
         const enableFooterButtons = !layoutManager.tv;
 
         for (let i = 0, length = images.length; i < length; i++) {
-
             const image = images[i];
-
             html += getCardHtml(image, i, length, apiClient, imageProviders, imageSize, tagName, enableFooterButtons);
         }
 
@@ -265,7 +245,6 @@ import 'css!./imageeditor';
     }
 
     function renderStandardImages(page, apiClient, item, imageInfos, imageProviders) {
-
         const images = imageInfos.filter(function (i) {
             return i.ImageType !== 'Screenshot' && i.ImageType !== 'Backdrop' && i.ImageType !== 'Chapter';
         });
@@ -274,10 +253,8 @@ import 'css!./imageeditor';
     }
 
     function renderBackdrops(page, apiClient, item, imageInfos, imageProviders) {
-
         const images = imageInfos.filter(function (i) {
             return i.ImageType === 'Backdrop';
-
         }).sort(function (a, b) {
             return a.ImageIndex - b.ImageIndex;
         });
@@ -291,10 +268,8 @@ import 'css!./imageeditor';
     }
 
     function renderScreenshots(page, apiClient, item, imageInfos, imageProviders) {
-
         const images = imageInfos.filter(function (i) {
             return i.ImageType === 'Screenshot';
-
         }).sort(function (a, b) {
             return a.ImageIndex - b.ImageIndex;
         });
@@ -308,20 +283,15 @@ import 'css!./imageeditor';
     }
 
     function showImageDownloader(page, imageType) {
-
         import('imageDownloader').then(({default: ImageDownloader}) => {
-
             ImageDownloader.show(currentItem.Id, currentItem.ServerId, currentItem.Type, imageType).then(function () {
-
                 hasChanges = true;
                 reload(page);
             });
-
         });
     }
 
     function showActionSheet(context, imageCard) {
-
         const itemId = imageCard.getAttribute('data-id');
         const serverId = imageCard.getAttribute('data-serverid');
         const apiClient = connectionManager.getApiClient(serverId);
@@ -332,7 +302,6 @@ import 'css!./imageeditor';
         const numImages = parseInt(imageCard.getAttribute('data-numimages'));
 
         import('actionsheet').then(({default: actionSheet}) => {
-
             const commands = [];
 
             commands.push({
@@ -369,9 +338,7 @@ import 'css!./imageeditor';
                 positionTo: imageCard
 
             }).then(function (id) {
-
                 switch (id) {
-
                     case 'delete':
                         deleteImage(context, itemId, type, index, apiClient, false);
                         break;
@@ -387,13 +354,11 @@ import 'css!./imageeditor';
                     default:
                         break;
                 }
-
             });
         });
     }
 
     function initEditor(context, options) {
-
         const uploadButtons = context.querySelectorAll('.btnOpenUploadMenu');
         const isFileInputSupported = appHost.supports('fileinput');
         for (let i = 0, length = uploadButtons.length; i < length; i++) {
@@ -408,7 +373,6 @@ import 'css!./imageeditor';
             const imageType = this.getAttribute('data-imagetype');
 
             import('imageUploader').then(({default: imageUploader}) => {
-
                 imageUploader.show({
 
                     theme: options.theme,
@@ -417,7 +381,6 @@ import 'css!./imageeditor';
                     serverId: currentItem.ServerId
 
                 }).then(function (hasChanged) {
-
                     if (hasChanged) {
                         hasChanges = true;
                         reload(context);
@@ -456,7 +419,6 @@ import 'css!./imageeditor';
     }
 
     function showEditor(options, resolve, reject) {
-
         const itemId = options.itemId;
         const serverId = options.serverId;
 
@@ -465,7 +427,6 @@ import 'css!./imageeditor';
         import('text!./imageeditor.template.html').then(({default: template}) => {
             const apiClient = connectionManager.getApiClient(serverId);
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-
                 const dialogOptions = {
                     removeOnClose: true
                 };
@@ -490,7 +451,6 @@ import 'css!./imageeditor';
 
                 // Has to be assigned a z-index after the call to .open()
                 dlg.addEventListener('close', function () {
-
                     if (layoutManager.tv) {
                         scrollHelper.centerFocus.off(dlg, false);
                     }
@@ -509,7 +469,6 @@ import 'css!./imageeditor';
                 reload(dlg, item);
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                     dialogHelper.close(dlg);
                 });
             });
