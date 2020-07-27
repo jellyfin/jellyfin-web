@@ -31,6 +31,11 @@
                     case 'Safari iPad':
                     case 'Safari iPhone':
                         return baseUrl + 'safari.svg';
+                    case 'Edge Chromium':
+                    case 'Edge Chromium Android':
+                    case 'Edge Chromium iPad':
+                    case 'Edge Chromium iPhone':
+                        return baseUrl + 'edgechromium.svg';
                     case 'Edge':
                         return baseUrl + 'edge.svg';
                     case 'Internet Explorer':

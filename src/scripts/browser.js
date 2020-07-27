@@ -127,7 +127,10 @@ define([], function () {
     var uaMatch = function (ua) {
         ua = ua.toLowerCase();
 
-        var match = /(edge)[ \/]([\w.]+)/.exec(ua) ||
+        var match = /(edg)[ \/]([\w.]+)/.exec(ua) ||
+            /(edga)[ \/]([\w.]+)/.exec(ua) ||
+            /(edgios)[ \/]([\w.]+)/.exec(ua) ||
+            /(edge)[ \/]([\w.]+)/.exec(ua) ||
             /(opera)[ \/]([\w.]+)/.exec(ua) ||
             /(opr)[ \/]([\w.]+)/.exec(ua) ||
             /(chrome)[ \/]([\w.]+)/.exec(ua) ||
@@ -190,7 +193,9 @@ define([], function () {
         browser[matched.platform] = true;
     }
 
-    if (!browser.chrome && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf('webkit') !== -1) {
+    browser.edgeChromium = browser.edg || browser.edga || browser.edgios;
+
+    if (!browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf('webkit') !== -1) {
         browser.safari = true;
     }
 
