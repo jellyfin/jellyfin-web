@@ -30,10 +30,6 @@ import globalize from 'globalize';
 
 /* eslint-disable indent */
 
-    /* globals cast */
-
-let mediaManager;
-
 function tryRemoveElement(elem) {
         const parentNode = elem.parentNode;
         if (parentNode) {
@@ -187,10 +183,6 @@ function tryRemoveElement(elem) {
          */
         #audioTrackIndexToSetOnPlaying;
         /**
-         * @type {number | undefined}
-         */
-        #lastCustomTrackMs;
-        /**
          * @type {null | undefined}
          */
         #currentClock;
@@ -259,10 +251,6 @@ function tryRemoveElement(elem) {
          * @type {any | undefined}
          */
         _hlsPlayer;
-        /**
-         * @type {any | undefined}
-         */
-        #shakaPlayer;
         /**
          * @private (used in other files)
          * @type {any | null | undefined}
@@ -426,51 +414,6 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        onShakaError = (event) => {
-            const error = event.detail;
-            console.error(`Error code: ${error.code}\nObject: `, error);
-        }
-
-        /**
-         * @private
-         */
-        setSrcWithShakaPlayer(instance, elem, options, url) {
-            return import('shaka').then(() => {
-                /* globals shaka */
-
-                const player = new shaka.Player(elem);
-
-                //player.configure({
-                //    abr: {
-                //        enabled: false
-                //    },
-                //    streaming: {
-
-                //        failureCallback: function () {
-                //            alert(2);
-                //        }
-                //    }
-                //});
-
-                //shaka.log.setLevel(6);
-
-                // Listen for error events.
-                player.addEventListener('error', this.onShakaError);
-
-                this.#shakaPlayer = player;
-
-                // This is needed in setCurrentTrackElement
-                this.#currentSrc = url;
-
-                // Try to load a manifest.
-                // This is an asynchronous process.
-                return player.load(url);
-            });
-        }
-
-        /**
-         * @private
-         */
         setCurrentSrcChromecast(instance, elem, options, url) {
             elem.autoplay = true;
 
@@ -496,60 +439,6 @@ function tryRemoveElement(elem) {
                 console.debug(`media manager error: ${err}`);
                 return Promise.reject();
             }
-        }
-
-        /**
-         * Adapted from : https://github.com/googlecast/CastReferencePlayer/blob/master/player.js
-         * @private
-         */
-        onMediaManagerLoadMedia = (event) => {
-            if (this._castPlayer) {
-                this._castPlayer.unload(); // Must unload before starting again.
-            }
-            this._castPlayer = null;
-
-            const data = event.data;
-
-            const media = event.data.media || {};
-            const url = media.contentId;
-            const contentType = media.contentType.toLowerCase();
-
-            let protocol;
-            const ext = 'm3u8';
-
-            const mediaElement = this.#mediaElement;
-
-            const host = new cast.player.api.Host({
-                'url': url,
-                'mediaElement': mediaElement
-            });
-
-            if (ext === 'm3u8' ||
-                contentType === 'application/x-mpegurl' ||
-                contentType === 'application/vnd.apple.mpegurl') {
-                protocol = cast.player.api.CreateHlsStreamingProtocol(host);
-            } else if (ext === 'mpd' ||
-                contentType === 'application/dash+xml') {
-                protocol = cast.player.api.CreateDashStreamingProtocol(host);
-            } else if (url.includes('.ism') ||
-                contentType === 'application/vnd.ms-sstr+xml') {
-                protocol = cast.player.api.CreateSmoothStreamingProtocol(host);
-            }
-
-            console.debug(`loading playback url: ${url}`);
-            console.debug(`content type: ${contentType}`);
-
-            host.onError = function (errorCode) {
-                console.error(`fatal Error - ${errorCode}`);
-            };
-
-            mediaElement.autoplay = false;
-
-            this._castPlayer = new cast.player.api.Player(host);
-
-            this._castPlayer.load(protocol, data.currentTime || 0);
-
-            this._castPlayer.playWhenHaveEnoughData();
         }
 
         /**
@@ -588,16 +477,7 @@ function tryRemoveElement(elem) {
                 elem.crossOrigin = crossOrigin;
             }
 
-            /*if (enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.includes('.m3u8')) {
-
-                setTracks(elem, tracks, options.item, options.mediaSource);
-
-                return setSrcWithShakaPlayer(this, elem, options, val);
-
-            } else*/
-            if (browser.chromecast && val.includes('.m3u8') && options.mediaSource.RunTimeTicks) {
-                return this.setCurrentSrcChromecast(this, elem, options, val);
-            } else if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.includes('.m3u8')) {
+            if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.includes('.m3u8')) {
                 return this.setSrcWithHlsJs(elem, options, val);
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
                 return this.setSrcWithFlvJs(elem, options, val);
@@ -1140,6 +1020,10 @@ function tryRemoveElement(elem) {
             this.incrementFetchQueue();
             try {
                 const response = await fetch(getTextTrackUrl(track, item, '.js'));
+                
+                if (!response.ok) {
+                    throw new Error(response);
+                }
 
                 return response.json();
             } finally {
@@ -1167,7 +1051,6 @@ function tryRemoveElement(elem) {
             this.destroyCustomTrack(videoElement);
             this.#customTrackIndex = track.Index;
             this.renderTracksEvents(videoElement, track, item);
-            this.#lastCustomTrackMs = 0;
         }
 
         /**
@@ -1880,7 +1763,7 @@ function tryRemoveElement(elem) {
             link = null;
         }
 
-        if (this._hlsPlayer || this.#shakaPlayer) {
+        if (this._hlsPlayer) {
             mediaCategory.stats.push({
                 label: globalize.translate('LabelStreamType'),
                 value: 'HLS'
