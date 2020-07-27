@@ -1,268 +1,264 @@
-/* eslint-disable indent */
-
 /**
  * Useful DOM utilities.
  * @module components/dom
  */
 
-    /**
-     * Returns parent of element with specified attribute value.
-     * @param {HTMLElement} elem - Element whose parent need to find.
-     * @param {string} name - Attribute name.
-     * @param {mixed} value - Attribute value.
-     * @returns {HTMLElement} Parent with specified attribute value.
-     */
-    export function parentWithAttribute(elem, name, value) {
-        while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
-            elem = elem.parentNode;
+/**
+ * Returns parent of element with specified attribute value.
+ * @param {HTMLElement} elem - Element whose parent need to find.
+ * @param {string} name - Attribute name.
+ * @param {mixed} value - Attribute value.
+ * @returns {HTMLElement} Parent with specified attribute value.
+ */
+export function parentWithAttribute(elem, name, value) {
+    while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
+        elem = elem.parentNode;
 
-            if (!elem || !elem.getAttribute) {
-                return null;
-            }
+        if (!elem || !elem.getAttribute) {
+            return null;
         }
-
-        return elem;
     }
 
-    /**
-     * Returns parent of element with one of specified tag names.
-     * @param {HTMLElement} elem - Element whose parent need to find.
-     * @param {(string|Array)} tagNames - Tag name or array of tag names.
-     * @returns {HTMLElement} Parent with one of specified tag names.
-     */
-    export function parentWithTag(elem, tagNames) {
-        // accept both string and array passed in
-        if (!Array.isArray(tagNames)) {
-            tagNames = [tagNames];
-        }
+    return elem;
+}
 
-        while (tagNames.indexOf(elem.tagName || '') === -1) {
-            elem = elem.parentNode;
-
-            if (!elem) {
-                return null;
-            }
-        }
-
-        return elem;
+/**
+ * Returns parent of element with one of specified tag names.
+ * @param {HTMLElement} elem - Element whose parent need to find.
+ * @param {(string|Array)} tagNames - Tag name or array of tag names.
+ * @returns {HTMLElement} Parent with one of specified tag names.
+ */
+export function parentWithTag(elem, tagNames) {
+    // accept both string and array passed in
+    if (!Array.isArray(tagNames)) {
+        tagNames = [tagNames];
     }
 
-    /**
-     * Returns _true_ if class list contains one of specified names.
-     * @param {DOMTokenList} classList - Class list.
-     * @param {Array} classNames - Array of class names.
-     * @returns {boolean} _true_ if class list contains one of specified names.
-     */
-    function containsAnyClass(classList, classNames) {
-        for (let i = 0, length = classNames.length; i < length; i++) {
-            if (classList.contains(classNames[i])) {
-                return true;
-            }
+    while (tagNames.indexOf(elem.tagName || '') === -1) {
+        elem = elem.parentNode;
+
+        if (!elem) {
+            return null;
         }
-        return false;
     }
 
-    /**
-     * Returns parent of element with one of specified class names.
-     * @param {HTMLElement} elem - Element whose parent need to find.
-     * @param {(string|Array)} classNames - Class name or array of class names.
-     * @returns {HTMLElement} Parent with one of specified class names.
-     */
-    export function parentWithClass(elem, classNames) {
-        // accept both string and array passed in
-        if (!Array.isArray(classNames)) {
-            classNames = [classNames];
+    return elem;
+}
+
+/**
+ * Returns _true_ if class list contains one of specified names.
+ * @param {DOMTokenList} classList - Class list.
+ * @param {Array} classNames - Array of class names.
+ * @returns {boolean} _true_ if class list contains one of specified names.
+ */
+function containsAnyClass(classList, classNames) {
+    for (let i = 0, length = classNames.length; i < length; i++) {
+        if (classList.contains(classNames[i])) {
+            return true;
         }
+    }
+    return false;
+}
 
-        while (!elem.classList || !containsAnyClass(elem.classList, classNames)) {
-            elem = elem.parentNode;
-
-            if (!elem) {
-                return null;
-            }
-        }
-
-        return elem;
+/**
+ * Returns parent of element with one of specified class names.
+ * @param {HTMLElement} elem - Element whose parent need to find.
+ * @param {(string|Array)} classNames - Class name or array of class names.
+ * @returns {HTMLElement} Parent with one of specified class names.
+ */
+export function parentWithClass(elem, classNames) {
+    // accept both string and array passed in
+    if (!Array.isArray(classNames)) {
+        classNames = [classNames];
     }
 
-    let supportsCaptureOption = false;
-    try {
-        const opts = Object.defineProperty({}, 'capture', {
-            // eslint-disable-next-line getter-return
-            get: function () {
-                supportsCaptureOption = true;
-            }
-        });
-        window.addEventListener('test', null, opts);
-    } catch (e) {
-        console.debug('error checking capture support');
-    }
+    while (!elem.classList || !containsAnyClass(elem.classList, classNames)) {
+        elem = elem.parentNode;
 
-    /**
-     * Adds event listener to specified target.
-     * @param {EventTarget} target - Event target.
-     * @param {string} type - Event type.
-     * @param {function} handler - Event handler.
-     * @param {Object} [options] - Listener options.
-     */
-    export function addEventListener(target, type, handler, options) {
-        let optionsOrCapture = options || {};
-        if (!supportsCaptureOption) {
-            optionsOrCapture = optionsOrCapture.capture;
+        if (!elem) {
+            return null;
         }
-        target.addEventListener(type, handler, optionsOrCapture);
     }
 
-    /**
-     * Removes event listener from specified target.
-     * @param {EventTarget} target - Event target.
-     * @param {string} type - Event type.
-     * @param {function} handler - Event handler.
-     * @param {Object} [options] - Listener options.
-     */
-    export function removeEventListener(target, type, handler, options) {
-        let optionsOrCapture = options || {};
-        if (!supportsCaptureOption) {
-            optionsOrCapture = optionsOrCapture.capture;
+    return elem;
+}
+
+let supportsCaptureOption = false;
+try {
+    const opts = Object.defineProperty({}, 'capture', {
+        // eslint-disable-next-line getter-return
+        get: function () {
+            supportsCaptureOption = true;
         }
-        target.removeEventListener(type, handler, optionsOrCapture);
+    });
+    window.addEventListener('test', null, opts);
+} catch (e) {
+    console.debug('error checking capture support');
+}
+
+/**
+ * Adds event listener to specified target.
+ * @param {EventTarget} target - Event target.
+ * @param {string} type - Event type.
+ * @param {function} handler - Event handler.
+ * @param {Object} [options] - Listener options.
+ */
+export function addEventListener(target, type, handler, options) {
+    let optionsOrCapture = options || {};
+    if (!supportsCaptureOption) {
+        optionsOrCapture = optionsOrCapture.capture;
     }
+    target.addEventListener(type, handler, optionsOrCapture);
+}
 
-    /**
-     * Cached window size.
-     */
-    let windowSize;
-
-    /**
-     * Flag of event listener bound.
-     */
-    let windowSizeEventsBound;
-
-    /**
-     * Resets cached window size.
-     */
-    function clearWindowSize() {
-        windowSize = null;
+/**
+ * Removes event listener from specified target.
+ * @param {EventTarget} target - Event target.
+ * @param {string} type - Event type.
+ * @param {function} handler - Event handler.
+ * @param {Object} [options] - Listener options.
+ */
+export function removeEventListener(target, type, handler, options) {
+    let optionsOrCapture = options || {};
+    if (!supportsCaptureOption) {
+        optionsOrCapture = optionsOrCapture.capture;
     }
+    target.removeEventListener(type, handler, optionsOrCapture);
+}
 
-    /**
-     * Returns window size.
-     * @returns {Object} Window size.
-     */
-    export function getWindowSize() {
-        if (!windowSize) {
-            windowSize = {
-                innerHeight: window.innerHeight,
-                innerWidth: window.innerWidth
-            };
+/**
+ * Cached window size.
+ */
+let windowSize;
 
-            if (!windowSizeEventsBound) {
-                windowSizeEventsBound = true;
-                addEventListener(window, 'orientationchange', clearWindowSize, { passive: true });
-                addEventListener(window, 'resize', clearWindowSize, { passive: true });
-            }
-        }
+/**
+ * Flag of event listener bound.
+ */
+let windowSizeEventsBound;
 
-        return windowSize;
-    }
+/**
+ * Resets cached window size.
+ */
+function clearWindowSize() {
+    windowSize = null;
+}
 
-    /**
-     * Standard screen widths.
-     */
-    const standardWidths = [480, 720, 1280, 1440, 1920, 2560, 3840, 5120, 7680];
-
-    /**
-     * Returns screen width.
-     * @returns {number} Screen width.
-     */
-    export function getScreenWidth() {
-        let width = window.innerWidth;
-        const height = window.innerHeight;
-
-        if (height > width) {
-            width = height * (16.0 / 9.0);
-        }
-
-        const closest = standardWidths.sort(function (a, b) {
-            return Math.abs(width - a) - Math.abs(width - b);
-        })[0];
-
-        return closest;
-    }
-
-    /**
-     * Name of animation end event.
-     */
-    let _animationEvent;
-
-    /**
-     * Returns name of animation end event.
-     * @returns {string} Name of animation end event.
-     */
-    export function whichAnimationEvent() {
-        if (_animationEvent) {
-            return _animationEvent;
-        }
-
-        const el = document.createElement('div');
-        const animations = {
-            'animation': 'animationend',
-            'OAnimation': 'oAnimationEnd',
-            'MozAnimation': 'animationend',
-            'WebkitAnimation': 'webkitAnimationEnd'
+/**
+ * Returns window size.
+ * @returns {Object} Window size.
+ */
+export function getWindowSize() {
+    if (!windowSize) {
+        windowSize = {
+            innerHeight: window.innerHeight,
+            innerWidth: window.innerWidth
         };
-        for (const t in animations) {
-            if (el.style[t] !== undefined) {
-                _animationEvent = animations[t];
-                return animations[t];
-            }
-        }
 
-        _animationEvent = 'animationend';
+        if (!windowSizeEventsBound) {
+            windowSizeEventsBound = true;
+            addEventListener(window, 'orientationchange', clearWindowSize, { passive: true });
+            addEventListener(window, 'resize', clearWindowSize, { passive: true });
+        }
+    }
+
+    return windowSize;
+}
+
+/**
+ * Standard screen widths.
+ */
+const standardWidths = [480, 720, 1280, 1440, 1920, 2560, 3840, 5120, 7680];
+
+/**
+ * Returns screen width.
+ * @returns {number} Screen width.
+ */
+export function getScreenWidth() {
+    let width = window.innerWidth;
+    const height = window.innerHeight;
+
+    if (height > width) {
+        width = height * (16.0 / 9.0);
+    }
+
+    const closest = standardWidths.sort(function (a, b) {
+        return Math.abs(width - a) - Math.abs(width - b);
+    })[0];
+
+    return closest;
+}
+
+/**
+ * Name of animation end event.
+ */
+let _animationEvent;
+
+/**
+ * Returns name of animation end event.
+ * @returns {string} Name of animation end event.
+ */
+export function whichAnimationEvent() {
+    if (_animationEvent) {
         return _animationEvent;
     }
 
-    /**
-     * Returns name of animation cancel event.
-     * @returns {string} Name of animation cancel event.
-     */
-    export function whichAnimationCancelEvent() {
-        return whichAnimationEvent().replace('animationend', 'animationcancel').replace('AnimationEnd', 'AnimationCancel');
+    const el = document.createElement('div');
+    const animations = {
+        'animation': 'animationend',
+        'OAnimation': 'oAnimationEnd',
+        'MozAnimation': 'animationend',
+        'WebkitAnimation': 'webkitAnimationEnd'
+    };
+    for (const t in animations) {
+        if (el.style[t] !== undefined) {
+            _animationEvent = animations[t];
+            return animations[t];
+        }
     }
 
-    /**
-     * Name of transition end event.
-     */
-    let _transitionEvent;
+    _animationEvent = 'animationend';
+    return _animationEvent;
+}
 
-    /**
-     * Returns name of transition end event.
-     * @returns {string} Name of transition end event.
-     */
-    export function whichTransitionEvent() {
-        if (_transitionEvent) {
-            return _transitionEvent;
-        }
+/**
+ * Returns name of animation cancel event.
+ * @returns {string} Name of animation cancel event.
+ */
+export function whichAnimationCancelEvent() {
+    return whichAnimationEvent().replace('animationend', 'animationcancel').replace('AnimationEnd', 'AnimationCancel');
+}
 
-        const el = document.createElement('div');
-        const transitions = {
-            'transition': 'transitionend',
-            'OTransition': 'oTransitionEnd',
-            'MozTransition': 'transitionend',
-            'WebkitTransition': 'webkitTransitionEnd'
-        };
-        for (const t in transitions) {
-            if (el.style[t] !== undefined) {
-                _transitionEvent = transitions[t];
-                return transitions[t];
-            }
-        }
+/**
+ * Name of transition end event.
+ */
+let _transitionEvent;
 
-        _transitionEvent = 'transitionend';
+/**
+ * Returns name of transition end event.
+ * @returns {string} Name of transition end event.
+ */
+export function whichTransitionEvent() {
+    if (_transitionEvent) {
         return _transitionEvent;
     }
 
-/* eslint-enable indent */
+    const el = document.createElement('div');
+    const transitions = {
+        'transition': 'transitionend',
+        'OTransition': 'oTransitionEnd',
+        'MozTransition': 'transitionend',
+        'WebkitTransition': 'webkitTransitionEnd'
+    };
+    for (const t in transitions) {
+        if (el.style[t] !== undefined) {
+            _transitionEvent = transitions[t];
+            return transitions[t];
+        }
+    }
+
+    _transitionEvent = 'transitionend';
+    return _transitionEvent;
+}
 
 export default {
     parentWithAttribute: parentWithAttribute,

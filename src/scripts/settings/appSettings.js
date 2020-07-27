@@ -1,136 +1,132 @@
-/* eslint-disable indent */
-
 import appStorage from 'appStorage';
 import events from 'events';
 
-    function getKey(name, userId) {
-        if (userId) {
-            name = userId + '-' + name;
-        }
-
-        return name;
+function getKey(name, userId) {
+    if (userId) {
+        name = userId + '-' + name;
     }
 
-    export function enableAutoLogin(val) {
-        if (val !== undefined) {
-            this.set('enableAutoLogin', val.toString());
-        }
+    return name;
+}
 
-        return this.get('enableAutoLogin') !== 'false';
+export function enableAutoLogin(val) {
+    if (val !== undefined) {
+        this.set('enableAutoLogin', val.toString());
     }
 
-    export function enableSystemExternalPlayers(val) {
-        if (val !== undefined) {
-            this.set('enableSystemExternalPlayers', val.toString());
-        }
+    return this.get('enableAutoLogin') !== 'false';
+}
 
-        return this.get('enableSystemExternalPlayers') === 'true';
+export function enableSystemExternalPlayers(val) {
+    if (val !== undefined) {
+        this.set('enableSystemExternalPlayers', val.toString());
     }
 
-    export function enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
-        const key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
-        if (val !== undefined) {
-            if (isInNetwork && mediaType === 'Audio') {
-                val = true;
-            }
+    return this.get('enableSystemExternalPlayers') === 'true';
+}
 
-            this.set(key, val.toString());
-        }
-
+export function enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
+    const key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
+    if (val !== undefined) {
         if (isInNetwork && mediaType === 'Audio') {
-            return true;
-        } else {
-            return this.get(key) !== 'false';
+            val = true;
         }
+
+        this.set(key, val.toString());
     }
 
-    export function maxStreamingBitrate(isInNetwork, mediaType, val) {
-        const key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
-        if (val !== undefined) {
-            if (isInNetwork && mediaType === 'Audio') {
-                //  nothing to do, this is always a max value
-            } else {
-                this.set(key, val);
-            }
-        }
+    if (isInNetwork && mediaType === 'Audio') {
+        return true;
+    } else {
+        return this.get(key) !== 'false';
+    }
+}
 
+export function maxStreamingBitrate(isInNetwork, mediaType, val) {
+    const key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
+    if (val !== undefined) {
         if (isInNetwork && mediaType === 'Audio') {
-            // return a huge number so that it always direct plays
-            return 150000000;
+            //  nothing to do, this is always a max value
         } else {
-            return parseInt(this.get(key) || '0') || 1500000;
+            this.set(key, val);
         }
     }
 
-    export function maxStaticMusicBitrate(val) {
-        if (val !== undefined) {
-            this.set('maxStaticMusicBitrate', val);
-        }
+    if (isInNetwork && mediaType === 'Audio') {
+        // return a huge number so that it always direct plays
+        return 150000000;
+    } else {
+        return parseInt(this.get(key) || '0') || 1500000;
+    }
+}
 
-        const defaultValue = 320000;
-        return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
+export function maxStaticMusicBitrate(val) {
+    if (val !== undefined) {
+        this.set('maxStaticMusicBitrate', val);
     }
 
-    export function maxChromecastBitrate(val) {
-        if (val !== undefined) {
-            this.set('chromecastBitrate1', val);
-        }
+    const defaultValue = 320000;
+    return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
+}
 
-        val = this.get('chromecastBitrate1');
-        return val ? parseInt(val) : null;
+export function maxChromecastBitrate(val) {
+    if (val !== undefined) {
+        this.set('chromecastBitrate1', val);
     }
 
-    export function syncOnlyOnWifi(val) {
-        if (val !== undefined) {
-            this.set('syncOnlyOnWifi', val.toString());
-        }
+    val = this.get('chromecastBitrate1');
+    return val ? parseInt(val) : null;
+}
 
-        return this.get('syncOnlyOnWifi') !== 'false';
+export function syncOnlyOnWifi(val) {
+    if (val !== undefined) {
+        this.set('syncOnlyOnWifi', val.toString());
     }
 
-    export function syncPath(val) {
-        if (val !== undefined) {
-            this.set('syncPath', val);
-        }
+    return this.get('syncOnlyOnWifi') !== 'false';
+}
 
-        return this.get('syncPath');
+export function syncPath(val) {
+    if (val !== undefined) {
+        this.set('syncPath', val);
     }
 
-    export function cameraUploadServers(val) {
-        if (val !== undefined) {
-            this.set('cameraUploadServers', val.join(','));
-        }
+    return this.get('syncPath');
+}
 
-        val = this.get('cameraUploadServers');
-        if (val) {
-            return val.split(',');
-        }
-
-        return [];
+export function cameraUploadServers(val) {
+    if (val !== undefined) {
+        this.set('cameraUploadServers', val.join(','));
     }
 
-    export function runAtStartup(val) {
-        if (val !== undefined) {
-            this.set('runatstartup', val.toString());
-        }
-
-        return this.get('runatstartup') === 'true';
+    val = this.get('cameraUploadServers');
+    if (val) {
+        return val.split(',');
     }
 
-    export function set(name, value, userId) {
-        const currentValue = this.get(name, userId);
-        appStorage.setItem(getKey(name, userId), value);
+    return [];
+}
 
-        if (currentValue !== value) {
-            events.trigger(this, 'change', [name]);
-        }
+export function runAtStartup(val) {
+    if (val !== undefined) {
+        this.set('runatstartup', val.toString());
     }
 
-    export function get(name, userId) {
-        return appStorage.getItem(getKey(name, userId));
-    }
+    return this.get('runatstartup') === 'true';
+}
 
-/* eslint-enable indent */
+export function set(name, value, userId) {
+    const currentValue = this.get(name, userId);
+    appStorage.setItem(getKey(name, userId), value);
+
+    if (currentValue !== value) {
+        events.trigger(this, 'change', [name]);
+    }
+}
+
+export function get(name, userId) {
+    return appStorage.getItem(getKey(name, userId));
+}
 
 export default {
     enableAutoLogin: enableAutoLogin,

@@ -4,162 +4,158 @@ import events from 'events';
 import globalize from 'globalize';
 import EmbyButtonPrototype from 'emby-button';
 
-/* eslint-disable indent */
+function addNotificationEvent(instance, name, handler) {
+    const localHandler = handler.bind(instance);
+    events.on(serverNotifications, name, localHandler);
+    instance[name] = localHandler;
+}
 
-    function addNotificationEvent(instance, name, handler) {
-        const localHandler = handler.bind(instance);
-        events.on(serverNotifications, name, localHandler);
-        instance[name] = localHandler;
+function removeNotificationEvent(instance, name) {
+    const handler = instance[name];
+    if (handler) {
+        events.off(serverNotifications, name, handler);
+        instance[name] = null;
+    }
+}
+
+function onClick(e) {
+
+    const button = this;
+    const id = button.getAttribute('data-id');
+    const serverId = button.getAttribute('data-serverid');
+    const apiClient = connectionManager.getApiClient(serverId);
+
+    if (!button.classList.contains('playstatebutton-played')) {
+        apiClient.markPlayed(apiClient.getCurrentUserId(), id, new Date());
+        setState(button, true);
+    } else {
+        apiClient.markUnplayed(apiClient.getCurrentUserId(), id, new Date());
+        setState(button, false);
+    }
+}
+
+function onUserDataChanged(e, apiClient, userData) {
+    const button = this;
+    if (userData.ItemId === button.getAttribute('data-id')) {
+        setState(button, userData.Played);
+    }
+}
+
+function setState(button, played, updateAttribute) {
+    let icon = button.iconElement;
+    if (!icon) {
+        button.iconElement = button.querySelector('.material-icons');
+        icon = button.iconElement;
     }
 
-    function removeNotificationEvent(instance, name) {
-        const handler = instance[name];
-        if (handler) {
-            events.off(serverNotifications, name, handler);
-            instance[name] = null;
+    if (played) {
+        button.classList.add('playstatebutton-played');
+        if (icon) {
+            icon.classList.add('playstatebutton-icon-played');
+            icon.classList.remove('playstatebutton-icon-unplayed');
         }
-    }
-
-    function onClick(e) {
-
-        const button = this;
-        const id = button.getAttribute('data-id');
-        const serverId = button.getAttribute('data-serverid');
-        const apiClient = connectionManager.getApiClient(serverId);
-
-        if (!button.classList.contains('playstatebutton-played')) {
-            apiClient.markPlayed(apiClient.getCurrentUserId(), id, new Date());
-            setState(button, true);
-        } else {
-            apiClient.markUnplayed(apiClient.getCurrentUserId(), id, new Date());
-            setState(button, false);
-        }
-    }
-
-    function onUserDataChanged(e, apiClient, userData) {
-        const button = this;
-        if (userData.ItemId === button.getAttribute('data-id')) {
-            setState(button, userData.Played);
-        }
-    }
-
-    function setState(button, played, updateAttribute) {
-        let icon = button.iconElement;
-        if (!icon) {
-            button.iconElement = button.querySelector('.material-icons');
-            icon = button.iconElement;
-        }
-
-        if (played) {
-            button.classList.add('playstatebutton-played');
-            if (icon) {
-                icon.classList.add('playstatebutton-icon-played');
-                icon.classList.remove('playstatebutton-icon-unplayed');
-            }
-        } else {
-            button.classList.remove('playstatebutton-played');
-            if (icon) {
-                icon.classList.remove('playstatebutton-icon-played');
-                icon.classList.add('playstatebutton-icon-unplayed');
-            }
-        }
-
-        if (updateAttribute !== false) {
-            button.setAttribute('data-played', played);
+    } else {
+        button.classList.remove('playstatebutton-played');
+        if (icon) {
+            icon.classList.remove('playstatebutton-icon-played');
+            icon.classList.add('playstatebutton-icon-unplayed');
         }
     }
 
-    function setTitle(button, itemType) {
+    if (updateAttribute !== false) {
+        button.setAttribute('data-played', played);
+    }
+}
 
-        if (itemType !== 'AudioBook' && itemType !== 'AudioPodcast') {
-            button.title = globalize.translate('Watched');
-        } else {
-            button.title = globalize.translate('Played');
-        }
+function setTitle(button, itemType) {
 
-        let text = button.querySelector('.button-text');
-        if (text) {
-            text.innerHTML = button.title;
-        }
+    if (itemType !== 'AudioBook' && itemType !== 'AudioPodcast') {
+        button.title = globalize.translate('Watched');
+    } else {
+        button.title = globalize.translate('Played');
     }
 
-    function clearEvents(button) {
+    let text = button.querySelector('.button-text');
+    if (text) {
+        text.innerHTML = button.title;
+    }
+}
 
-        button.removeEventListener('click', onClick);
-        removeNotificationEvent(button, 'UserDataChanged');
+function clearEvents(button) {
+
+    button.removeEventListener('click', onClick);
+    removeNotificationEvent(button, 'UserDataChanged');
+}
+
+function bindEvents(button) {
+
+    clearEvents(button);
+
+    button.addEventListener('click', onClick);
+    addNotificationEvent(button, 'UserDataChanged', onUserDataChanged);
+}
+
+const EmbyPlaystateButtonPrototype = Object.create(EmbyButtonPrototype);
+
+EmbyPlaystateButtonPrototype.createdCallback = function () {
+
+    // base method
+    if (EmbyButtonPrototype.createdCallback) {
+        EmbyButtonPrototype.createdCallback.call(this);
+    }
+};
+
+EmbyPlaystateButtonPrototype.attachedCallback = function () {
+
+    // base method
+    if (EmbyButtonPrototype.attachedCallback) {
+        EmbyButtonPrototype.attachedCallback.call(this);
     }
 
-    function bindEvents(button) {
+    const itemId = this.getAttribute('data-id');
+    const serverId = this.getAttribute('data-serverid');
+    if (itemId && serverId) {
 
-        clearEvents(button);
+        setState(this, this.getAttribute('data-played') === 'true', false);
+        bindEvents(this);
+        setTitle(this, this.getAttribute('data-type'));
+    }
+};
 
-        button.addEventListener('click', onClick);
-        addNotificationEvent(button, 'UserDataChanged', onUserDataChanged);
+EmbyPlaystateButtonPrototype.detachedCallback = function () {
+
+    // base method
+    if (EmbyButtonPrototype.detachedCallback) {
+        EmbyButtonPrototype.detachedCallback.call(this);
     }
 
-    const EmbyPlaystateButtonPrototype = Object.create(EmbyButtonPrototype);
+    clearEvents(this);
+    this.iconElement = null;
+};
 
-    EmbyPlaystateButtonPrototype.createdCallback = function () {
+EmbyPlaystateButtonPrototype.setItem = function (item) {
 
-        // base method
-        if (EmbyButtonPrototype.createdCallback) {
-            EmbyButtonPrototype.createdCallback.call(this);
-        }
-    };
+    if (item) {
 
-    EmbyPlaystateButtonPrototype.attachedCallback = function () {
+        this.setAttribute('data-id', item.Id);
+        this.setAttribute('data-serverid', item.ServerId);
 
-        // base method
-        if (EmbyButtonPrototype.attachedCallback) {
-            EmbyButtonPrototype.attachedCallback.call(this);
-        }
+        const played = item.UserData && item.UserData.Played;
+        setState(this, played);
+        bindEvents(this);
 
-        const itemId = this.getAttribute('data-id');
-        const serverId = this.getAttribute('data-serverid');
-        if (itemId && serverId) {
+        setTitle(this, item.Type);
 
-            setState(this, this.getAttribute('data-played') === 'true', false);
-            bindEvents(this);
-            setTitle(this, this.getAttribute('data-type'));
-        }
-    };
+    } else {
 
-    EmbyPlaystateButtonPrototype.detachedCallback = function () {
-
-        // base method
-        if (EmbyButtonPrototype.detachedCallback) {
-            EmbyButtonPrototype.detachedCallback.call(this);
-        }
-
+        this.removeAttribute('data-id');
+        this.removeAttribute('data-serverid');
+        this.removeAttribute('data-played');
         clearEvents(this);
-        this.iconElement = null;
-    };
+    }
+};
 
-    EmbyPlaystateButtonPrototype.setItem = function (item) {
-
-        if (item) {
-
-            this.setAttribute('data-id', item.Id);
-            this.setAttribute('data-serverid', item.ServerId);
-
-            const played = item.UserData && item.UserData.Played;
-            setState(this, played);
-            bindEvents(this);
-
-            setTitle(this, item.Type);
-
-        } else {
-
-            this.removeAttribute('data-id');
-            this.removeAttribute('data-serverid');
-            this.removeAttribute('data-played');
-            clearEvents(this);
-        }
-    };
-
-    document.registerElement('emby-playstatebutton', {
-        prototype: EmbyPlaystateButtonPrototype,
-        extends: 'button'
-    });
-
-/* eslint-enable indent */
+document.registerElement('emby-playstatebutton', {
+    prototype: EmbyPlaystateButtonPrototype,
+    extends: 'button'
+});

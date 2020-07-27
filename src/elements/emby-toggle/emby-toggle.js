@@ -1,53 +1,49 @@
 import 'css!./emby-toggle';
 import 'webcomponents';
 
-/* eslint-disable indent */
+const EmbyTogglePrototype = Object.create(HTMLInputElement.prototype);
 
-    const EmbyTogglePrototype = Object.create(HTMLInputElement.prototype);
+function onKeyDown(e) {
 
-    function onKeyDown(e) {
+    // Don't submit form on enter
+    if (e.keyCode === 13) {
+        e.preventDefault();
 
-        // Don't submit form on enter
-        if (e.keyCode === 13) {
-            e.preventDefault();
+        this.checked = !this.checked;
 
-            this.checked = !this.checked;
+        this.dispatchEvent(new CustomEvent('change', {
+            bubbles: true
+        }));
 
-            this.dispatchEvent(new CustomEvent('change', {
-                bubbles: true
-            }));
+        return false;
+    }
+}
 
-            return false;
-        }
+EmbyTogglePrototype.attachedCallback = function () {
+
+    if (this.getAttribute('data-embytoggle') === 'true') {
+        return;
     }
 
-    EmbyTogglePrototype.attachedCallback = function () {
+    this.setAttribute('data-embytoggle', 'true');
 
-        if (this.getAttribute('data-embytoggle') === 'true') {
-            return;
-        }
+    this.classList.add('mdl-switch__input');
 
-        this.setAttribute('data-embytoggle', 'true');
+    const labelElement = this.parentNode;
+    labelElement.classList.add('mdl-switch');
+    labelElement.classList.add('mdl-js-switch');
 
-        this.classList.add('mdl-switch__input');
+    const labelTextElement = labelElement.querySelector('span');
 
-        const labelElement = this.parentNode;
-        labelElement.classList.add('mdl-switch');
-        labelElement.classList.add('mdl-js-switch');
+    labelElement.insertAdjacentHTML('beforeend', '<div class="mdl-switch__trackContainer"><div class="mdl-switch__track"></div><div class="mdl-switch__thumb"><span class="mdl-switch__focus-helper"></span></div></div>');
 
-        const labelTextElement = labelElement.querySelector('span');
+    labelTextElement.classList.add('toggleButtonLabel');
+    labelTextElement.classList.add('mdl-switch__label');
 
-        labelElement.insertAdjacentHTML('beforeend', '<div class="mdl-switch__trackContainer"><div class="mdl-switch__track"></div><div class="mdl-switch__thumb"><span class="mdl-switch__focus-helper"></span></div></div>');
+    this.addEventListener('keydown', onKeyDown);
+};
 
-        labelTextElement.classList.add('toggleButtonLabel');
-        labelTextElement.classList.add('mdl-switch__label');
-
-        this.addEventListener('keydown', onKeyDown);
-    };
-
-    document.registerElement('emby-toggle', {
-        prototype: EmbyTogglePrototype,
-        extends: 'input'
-    });
-
-/* eslint-enable indent */
+document.registerElement('emby-toggle', {
+    prototype: EmbyTogglePrototype,
+    extends: 'input'
+});
