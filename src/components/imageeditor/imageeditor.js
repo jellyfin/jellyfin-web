@@ -59,7 +59,6 @@ import 'css!./imageeditor';
         currentItem = item;
 
         apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
-
             const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
             for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
                 if (providers.length) {
