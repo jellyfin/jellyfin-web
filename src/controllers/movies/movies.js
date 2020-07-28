@@ -1,5 +1,4 @@
 import loading from 'loading';
-import layoutManager from 'layoutManager';
 import * as userSettings from 'userSettings';
 import events from 'events';
 import libraryBrowser from 'libraryBrowser';

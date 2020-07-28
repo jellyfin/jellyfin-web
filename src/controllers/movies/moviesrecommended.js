@@ -423,7 +423,7 @@ import 'emby-button';
             events.on(playbackManager, 'playbackstop', onPlaybackStop);
             inputManager.on(window, onInputCommand);
         });
-        view.addEventListener('viewbeforehide', function (e) {
+        view.addEventListener('viewbeforehide', function () {
             inputManager.off(window, onInputCommand);
         });
         for (const tabController of tabControllers) {

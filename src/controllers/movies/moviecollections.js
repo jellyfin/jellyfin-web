@@ -1,5 +1,4 @@
 import loading from 'loading';
-import events from 'events';
 import libraryBrowser from 'libraryBrowser';
 import imageLoader from 'imageLoader';
 import listView from 'listView';
