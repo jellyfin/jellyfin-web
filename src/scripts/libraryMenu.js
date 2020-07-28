@@ -850,74 +850,74 @@ import 'flexStyles';
     const enableLibraryNavDrawerHome = !layoutManager.tv;
     const skinHeader = document.querySelector('.skinHeader');
     let requiresUserRefresh = true;
-    const LibraryMenu = {
-        getTopParentId: getTopParentId,
-        onHardwareMenuButtonClick: function () {
-            toggleMainDrawer();
-        },
-        setTabs: function (type, selectedIndex, builder) {
-            require(['mainTabsManager'], function (mainTabsManager) {
-                if (type) {
-                    mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
-                        return [];
-                    });
-                } else {
-                    mainTabsManager.setTabs(null);
-                }
-            });
-        },
-        setDefaultTitle: function () {
-            if (!pageTitleElement) {
-                pageTitleElement = document.querySelector('.pageTitle');
-            }
 
-            if (pageTitleElement) {
-                pageTitleElement.classList.add('pageTitleWithLogo');
-                pageTitleElement.classList.add('pageTitleWithDefaultLogo');
-                pageTitleElement.style.backgroundImage = null;
-                pageTitleElement.innerHTML = '';
-            }
-
-            document.title = 'Jellyfin';
-        },
-        setTitle: function (title) {
-            if (null == title) {
-                return void LibraryMenu.setDefaultTitle();
-            }
-
-            if ('-' === title) {
-                title = '';
-            }
-
-            const html = title;
-
-            if (!pageTitleElement) {
-                pageTitleElement = document.querySelector('.pageTitle');
-            }
-
-            if (pageTitleElement) {
-                pageTitleElement.classList.remove('pageTitleWithLogo');
-                pageTitleElement.classList.remove('pageTitleWithDefaultLogo');
-                pageTitleElement.style.backgroundImage = null;
-                pageTitleElement.innerHTML = html || '';
-            }
-
-            document.title = title || 'Jellyfin';
-        },
-        setTransparentMenu: function (transparent) {
-            if (transparent) {
-                skinHeader.classList.add('semiTransparent');
+    function setTabs (type, selectedIndex, builder) {
+        require(['mainTabsManager'], function (mainTabsManager) {
+            if (type) {
+                mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
+                    return [];
+                });
             } else {
-                skinHeader.classList.remove('semiTransparent');
+                mainTabsManager.setTabs(null);
             }
+        });
+    }
+
+    function setDefaultTitle () {
+        if (!pageTitleElement) {
+            pageTitleElement = document.querySelector('.pageTitle');
         }
-    };
+
+        if (pageTitleElement) {
+            pageTitleElement.classList.add('pageTitleWithLogo');
+            pageTitleElement.classList.add('pageTitleWithDefaultLogo');
+            pageTitleElement.style.backgroundImage = null;
+            pageTitleElement.innerHTML = '';
+        }
+
+        document.title = 'Jellyfin';
+    }
+
+    function setTitle (title) {
+        if (null == title) {
+            return void LibraryMenu.setDefaultTitle();
+        }
+
+        if ('-' === title) {
+            title = '';
+        }
+
+        const html = title;
+
+        if (!pageTitleElement) {
+            pageTitleElement = document.querySelector('.pageTitle');
+        }
+
+        if (pageTitleElement) {
+            pageTitleElement.classList.remove('pageTitleWithLogo');
+            pageTitleElement.classList.remove('pageTitleWithDefaultLogo');
+            pageTitleElement.style.backgroundImage = null;
+            pageTitleElement.innerHTML = html || '';
+        }
+
+        document.title = title || 'Jellyfin';
+    }
+
+    function setTransparentMenu (transparent) {
+        if (transparent) {
+            skinHeader.classList.add('semiTransparent');
+        } else {
+            skinHeader.classList.remove('semiTransparent');
+        }
+    }
+
     let currentPageType;
     pageClassOn('pagebeforeshow', 'page', function (e) {
         if (!this.classList.contains('withTabs')) {
             LibraryMenu.setTabs(null);
         }
     });
+
     pageClassOn('pageshow', 'page', function (e) {
         const page = this;
         const isDashboardPage = page.classList.contains('type-interior');
@@ -974,16 +974,29 @@ import 'flexStyles';
             updateUserInHeader(user);
         });
     });
+
     events.on(connectionManager, 'localusersignedout', function () {
         currentUser = {};
         updateUserInHeader();
     });
+
     events.on(playbackManager, 'playerchange', updateCastIcon);
 
     events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
     events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
 
     loadNavDrawer();
+
+    const LibraryMenu = {
+        getTopParentId: getTopParentId,
+        onHardwareMenuButtonClick: function () {
+            toggleMainDrawer();
+        },
+        setTabs: setTabs,
+        setDefaultTitle: setDefaultTitle,
+        setTitle: setTitle,
+        setTransparentMenu: setTransparentMenu
+    };
 
     window.LibraryMenu = LibraryMenu;
 
