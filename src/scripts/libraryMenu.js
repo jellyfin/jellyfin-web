@@ -64,7 +64,7 @@ import 'flexStyles';
     }
 
     function lazyLoadViewMenuBarImages() {
-        require(['imageLoader'], function (imageLoader) {
+        import('imageLoader').then(({default: imageLoader}) => {
             imageLoader.lazyChildren(skinHeader);
         });
     }
@@ -201,7 +201,7 @@ import 'flexStyles';
     function onCastButtonClicked() {
         const btn = this;
 
-        require(['playerSelectionMenu'], function (playerSelectionMenu) {
+        import('playerSelectionMenu').then(({default: playerSelectionMenu}) => {
             playerSelectionMenu.show(btn);
         });
     }
@@ -780,7 +780,7 @@ import 'flexStyles';
     }
 
     function initHeadRoom(elem) {
-        require(['headroom'], function (Headroom) {
+        import('headroom').then(({default: Headroom}) => {
             const headroom = new Headroom(elem);
             headroom.init();
         });
@@ -820,7 +820,7 @@ import 'flexStyles';
         navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve, reject) {
-            require(['navdrawer'], function (navdrawer) {
+            import('navdrawer').then(({default: navdrawer}) => {
                 navDrawerInstance = new navdrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {
@@ -852,7 +852,7 @@ import 'flexStyles';
     let requiresUserRefresh = true;
 
     function setTabs (type, selectedIndex, builder) {
-        require(['mainTabsManager'], function (mainTabsManager) {
+        import('mainTabsManager').then(({default: mainTabsManager}) => {
             if (type) {
                 mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
                     return [];
