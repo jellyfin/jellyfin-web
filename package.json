@@ -160,7 +160,7 @@
           "src/controllers/session/forgotPassword/index.js",
           "src/controllers/session/redeemPassword/index.js",
           "src/controllers/session/login/index.js",
-          "src/controllers/sessopm/selectServer/index.js",
+          "src/controllers/session/selectServer/index.js",
           "src/controllers/dashboard/apikeys.js",
           "src/controllers/dashboard/dashboard.js",
           "src/controllers/dashboard/devices/device.js",
