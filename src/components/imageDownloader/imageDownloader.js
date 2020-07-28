@@ -165,7 +165,7 @@ import 'cardStyle';
         let cssClass = 'card scalableCard imageEditorCard';
         const cardBoxCssClass = 'cardBox visualCardBox';
 
-        let shape = 'backdrop';
+        let shape;
         if (imageType === 'Backdrop' || imageType === 'Art' || imageType === 'Thumb' || imageType === 'Logo') {
             shape = 'backdrop';
         } else if (imageType === 'Banner') {
