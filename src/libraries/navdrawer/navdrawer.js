@@ -1,5 +1,5 @@
-define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser, dom) {
-    "use strict";
+define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function (browser, dom) {
+    'use strict';
 
     return function (options) {
         function getTouches(e) {
@@ -7,7 +7,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
         }
 
         function onMenuTouchStart(e) {
-            options.target.classList.remove("transition");
+            options.target.classList.remove('transition');
             var touches = getTouches(e);
             var touch = touches[0] || {};
             menuTouchStartX = touch.clientX;
@@ -36,7 +36,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
 
             if (0 === dragMode && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5) {
                 dragMode = 1;
-                scrollContainer.addEventListener("scroll", disableEvent);
+                scrollContainer.addEventListener('scroll', disableEvent);
                 self.showMask();
             } else if (0 === dragMode && Math.abs(deltaY) >= 5) {
                 dragMode = 2;
@@ -49,8 +49,8 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
         }
 
         function onMenuTouchEnd(e) {
-            options.target.classList.add("transition");
-            scrollContainer.removeEventListener("scroll", disableEvent);
+            options.target.classList.add('transition');
+            scrollContainer.removeEventListener('scroll', disableEvent);
             dragMode = 0;
             var touches = getTouches(e);
             var touch = touches[0] || {};
@@ -69,9 +69,9 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
                 if (((getTouches(e)[0] || {}).clientX || 0) <= options.handleSize) {
                     isPeeking = true;
 
-                    if (e.type === "touchstart") {
-                        dom.removeEventListener(edgeContainer, "touchmove", onEdgeTouchMove, {});
-                        dom.addEventListener(edgeContainer, "touchmove", onEdgeTouchMove, {});
+                    if (e.type === 'touchstart') {
+                        dom.removeEventListener(edgeContainer, 'touchmove', onEdgeTouchMove, {});
+                        dom.addEventListener(edgeContainer, 'touchmove', onEdgeTouchMove, {});
                     }
 
                     onMenuTouchStart(e);
@@ -88,7 +88,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
         function onEdgeTouchEnd(e) {
             if (isPeeking) {
                 isPeeking = false;
-                dom.removeEventListener(edgeContainer, "touchmove", onEdgeTouchMove, {});
+                dom.removeEventListener(edgeContainer, 'touchmove', onEdgeTouchMove, {});
                 onMenuTouchEnd(e);
             }
         }
@@ -142,8 +142,8 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
         function onMaskTransitionEnd() {
             var classList = mask.classList;
 
-            if (!classList.contains("backdrop")) {
-                classList.add("hide");
+            if (!classList.contains('backdrop')) {
+                classList.add('hide');
             }
         }
 
@@ -155,10 +155,10 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
         var startPoint = 0;
         var countStart = 0;
         var velocity = 0;
-        options.target.classList.add("transition");
+        options.target.classList.add('transition');
         var dragMode = 0;
-        var scrollContainer = options.target.querySelector(".mainDrawer-scrollContainer");
-        scrollContainer.classList.add("scrollY");
+        var scrollContainer = options.target.querySelector('.mainDrawer-scrollContainer');
+        scrollContainer.classList.add('scrollY');
 
         var TouchMenuLA = function () {
             self = this;
@@ -173,13 +173,13 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
         };
 
         TouchMenuLA.prototype.initElements = function () {
-            options.target.classList.add("touch-menu-la");
-            options.target.style.width = options.width + "px";
-            options.target.style.left = -options.width + "px";
+            options.target.classList.add('touch-menu-la');
+            options.target.style.width = options.width + 'px';
+            options.target.style.left = -options.width + 'px';
 
             if (!options.disableMask) {
-                mask = document.createElement("div");
-                mask.className = "tmla-mask hide";
+                mask = document.createElement('div');
+                mask.className = 'tmla-mask hide';
                 document.body.appendChild(mask);
                 dom.addEventListener(mask, dom.whichTransitionEvent(), onMaskTransitionEnd, {
                     passive: true
@@ -190,12 +190,12 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
         var menuTouchStartX;
         var menuTouchStartY;
         var menuTouchStartTime;
-        var edgeContainer = document.querySelector(".mainDrawerHandle");
+        var edgeContainer = document.querySelector('.mainDrawerHandle');
         var isPeeking = false;
 
         TouchMenuLA.prototype.animateToPosition = function (pos) {
             requestAnimationFrame(function () {
-                options.target.style.transform = pos ? "translateX(" + pos + "px)" : "none";
+                options.target.style.transform = pos ? 'translateX(' + pos + 'px)' : 'none';
             });
         };
 
@@ -206,7 +206,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
         };
 
         TouchMenuLA.prototype.clickMaskClose = function () {
-            mask.addEventListener("click", function () {
+            mask.addEventListener('click', function () {
                 self.close();
             });
         };
@@ -233,7 +233,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
             this.animateToPosition(options.width);
             currentPos = options.width;
             this.isVisible = true;
-            options.target.classList.add("drawer-open");
+            options.target.classList.add('drawer-open');
             self.showMask();
             self.invoke(options.onChange);
         };
@@ -242,7 +242,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
             this.animateToPosition(0);
             currentPos = 0;
             self.isVisible = false;
-            options.target.classList.remove("drawer-open");
+            options.target.classList.remove('drawer-open');
             self.hideMask();
             self.invoke(options.onChange);
         };
@@ -259,13 +259,13 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
         var backgroundTouchStartTime;
 
         TouchMenuLA.prototype.showMask = function () {
-            mask.classList.remove("hide");
-            mask.classList.add("backdrop");
+            mask.classList.remove('hide');
+            mask.classList.add('backdrop');
         };
 
         TouchMenuLA.prototype.hideMask = function () {
-            mask.classList.add("hide");
-            mask.classList.remove("backdrop");
+            mask.classList.add('hide');
+            mask.classList.remove('backdrop');
         };
 
         TouchMenuLA.prototype.invoke = function (fn) {
@@ -282,26 +282,26 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
                     if (enabled) {
                         if (!_edgeSwipeEnabled) {
                             _edgeSwipeEnabled = true;
-                            dom.addEventListener(edgeContainer, "touchstart", onEdgeTouchStart, {
+                            dom.addEventListener(edgeContainer, 'touchstart', onEdgeTouchStart, {
                                 passive: true
                             });
-                            dom.addEventListener(edgeContainer, "touchend", onEdgeTouchEnd, {
+                            dom.addEventListener(edgeContainer, 'touchend', onEdgeTouchEnd, {
                                 passive: true
                             });
-                            dom.addEventListener(edgeContainer, "touchcancel", onEdgeTouchEnd, {
+                            dom.addEventListener(edgeContainer, 'touchcancel', onEdgeTouchEnd, {
                                 passive: true
                             });
                         }
                     } else {
                         if (_edgeSwipeEnabled) {
                             _edgeSwipeEnabled = false;
-                            dom.removeEventListener(edgeContainer, "touchstart", onEdgeTouchStart, {
+                            dom.removeEventListener(edgeContainer, 'touchstart', onEdgeTouchStart, {
                                 passive: true
                             });
-                            dom.removeEventListener(edgeContainer, "touchend", onEdgeTouchEnd, {
+                            dom.removeEventListener(edgeContainer, 'touchend', onEdgeTouchEnd, {
                                 passive: true
                             });
-                            dom.removeEventListener(edgeContainer, "touchcancel", onEdgeTouchEnd, {
+                            dom.removeEventListener(edgeContainer, 'touchcancel', onEdgeTouchEnd, {
                                 passive: true
                             });
                         }
@@ -320,26 +320,26 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
             self.initElements();
 
             if (browser.touch) {
-                dom.addEventListener(options.target, "touchstart", onMenuTouchStart, {
+                dom.addEventListener(options.target, 'touchstart', onMenuTouchStart, {
                     passive: true
                 });
-                dom.addEventListener(options.target, "touchmove", onMenuTouchMove, {
+                dom.addEventListener(options.target, 'touchmove', onMenuTouchMove, {
                     passive: true
                 });
-                dom.addEventListener(options.target, "touchend", onMenuTouchEnd, {
+                dom.addEventListener(options.target, 'touchend', onMenuTouchEnd, {
                     passive: true
                 });
-                dom.addEventListener(options.target, "touchcancel", onMenuTouchEnd, {
+                dom.addEventListener(options.target, 'touchcancel', onMenuTouchEnd, {
                     passive: true
                 });
-                dom.addEventListener(mask, "touchstart", onBackgroundTouchStart, {
+                dom.addEventListener(mask, 'touchstart', onBackgroundTouchStart, {
                     passive: true
                 });
-                dom.addEventListener(mask, "touchmove", onBackgroundTouchMove, {});
-                dom.addEventListener(mask, "touchend", onBackgroundTouchEnd, {
+                dom.addEventListener(mask, 'touchmove', onBackgroundTouchMove, {});
+                dom.addEventListener(mask, 'touchend', onBackgroundTouchEnd, {
                     passive: true
                 });
-                dom.addEventListener(mask, "touchcancel", onBackgroundTouchEnd, {
+                dom.addEventListener(mask, 'touchcancel', onBackgroundTouchEnd, {
                     passive: true
                 });
             }

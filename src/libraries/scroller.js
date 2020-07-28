@@ -52,8 +52,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
     var dragTouchEvents = ['touchmove', 'touchend'];
     var wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
     var interactiveElements = ['INPUT', 'SELECT', 'TEXTAREA'];
-    var tmpArray = [];
-    var time;
 
     // Math shorthands
     var abs = Math.abs;
@@ -61,10 +59,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
     var pow = Math.pow;
     var round = Math.round;
     var max = Math.max;
-    var min = Math.min;
 
     var scrollerFactory = function (frame, options) {
-
         // Extend options
         var o = Object.assign({}, {
             slidee: null, // Selector, DOM element, or jQuery object with DOM element representing SLIDEE.
@@ -97,11 +93,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             // native smooth scroll
             options.enableNativeScroll = true;
         } else if (options.requireAnimation && (browser.animate || browser.supportsCssAnimation())) {
-
             // transform is the only way to guarantee animation
             options.enableNativeScroll = false;
         } else if (!layoutManager.tv || !browser.animate) {
-
             options.enableNativeScroll = true;
         }
 
@@ -162,9 +156,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         var frameSize = 0;
         var slideeSize = 0;
         function ensureSizeInfo() {
-
             if (requiresReflow) {
-
                 requiresReflow = false;
 
                 // Reset global variables
@@ -186,11 +178,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 		 * @return {Void}
 		 */
         function load(isInit) {
-
             requiresReflow = true;
 
             if (!isInit) {
-
                 ensureSizeInfo();
 
                 // Fix possible overflowing
@@ -200,7 +190,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         }
 
         function initFrameResizeObserver() {
-
             var observerOptions = {};
 
             self.frameResizeObserver = new ResizeObserver(onResize, observerOptions);
@@ -225,16 +214,13 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         };
 
         function nativeScrollTo(container, pos, immediate) {
-
             if (container.scroll) {
                 if (o.horizontal) {
-
                     container.scroll({
                         left: pos,
                         behavior: immediate ? 'instant' : 'smooth'
                     });
                 } else {
-
                     container.scroll({
                         top: pos,
                         behavior: immediate ? 'instant' : 'smooth'
@@ -266,14 +252,12 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
           * @return {Void}
           */
         self.slideTo = function (newPos, immediate, fullItemPos) {
-
             ensureSizeInfo();
             var pos = self._pos;
 
             newPos = within(newPos, pos.start, pos.end);
 
             if (!transform) {
-
                 nativeScrollTo(nativeScrollElement, newPos, immediate);
                 return;
             }
@@ -291,7 +275,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             }
 
             if (!immediate && o.skipSlideToWhenVisible && fullItemPos && fullItemPos.isVisible) {
-
                 return;
             }
 
@@ -303,7 +286,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         };
 
         function setStyleProperty(elem, name, value, speed, resetTransition) {
-
             var style = elem.style;
 
             if (resetTransition || browser.edge) {
@@ -325,7 +307,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         }
 
         function renderAnimateWithTransform(fromPosition, toPosition, immediate) {
-
             var speed = o.speed;
 
             if (immediate) {
@@ -343,7 +324,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         }
 
         function getBoundingClientRect(elem) {
-
             // Support: BlackBerry 5, iOS 3 (original iPhone)
             // If we don't have gBCR, just use 0,0 rather than error
             if (elem.getBoundingClientRect) {
@@ -361,13 +341,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
          * @return {Object}
          */
         self.getPos = function (item) {
-
             var scrollElement = transform ? slideeElement : nativeScrollElement;
             var slideeOffset = getBoundingClientRect(scrollElement);
             var itemOffset = getBoundingClientRect(item);
-
-            var slideeStartPos = o.horizontal ? slideeOffset.left : slideeOffset.top;
-            var slideeEndPos = o.horizontal ? slideeOffset.right : slideeOffset.bottom;
 
             var offset = o.horizontal ? itemOffset.left - slideeOffset.left : itemOffset.top - slideeOffset.top;
 
@@ -405,7 +381,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         };
 
         self.getCenterPosition = function (item) {
-
             ensureSizeInfo();
 
             var pos = self.getPos(item);
@@ -450,7 +425,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
             // Bind dragging events
             if (transform) {
-
                 if (isTouch) {
                     dragTouchEvents.forEach(function (eventName) {
                         dom.addEventListener(document, eventName, dragHandler, {
@@ -554,9 +528,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 		 * @return {Boolean}
 		 */
         function isInteractive(element) {
-
             while (element) {
-
                 if (interactiveElements.indexOf(element.tagName) !== -1) {
                     return true;
                 }
@@ -592,7 +564,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 		 * @return {Void}
 		 */
         function scrollHandler(event) {
-
             ensureSizeInfo();
             var pos = self._pos;
             // Ignore if there is no scrolling to be done
@@ -609,7 +580,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
                 self.slideBy(o.scrollBy * delta);
             } else {
-
                 if (isSmoothScrollSupported) {
                     delta *= 12;
                 }
@@ -628,7 +598,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 		 * @return {Void}
 		 */
         self.destroy = function () {
-
             if (self.frameResizeObserver) {
                 self.frameResizeObserver.disconnect();
                 self.frameResizeObserver = null;
@@ -664,11 +633,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         var contentRect = {};
 
         function onResize(entries) {
-
             var entry = entries[0];
 
             if (entry) {
-
                 var newRect = entry.contentRect;
 
                 // handle element being hidden
@@ -677,7 +644,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
                 }
 
                 if (newRect.width !== contentRect.width || newRect.height !== contentRect.height) {
-
                     contentRect = newRect;
 
                     load(false);
@@ -703,7 +669,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         }
 
         self.getScrollPosition = function () {
-
             if (transform) {
                 return self._pos.cur;
             }
@@ -716,7 +681,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         };
 
         self.getScrollSize = function () {
-
             if (transform) {
                 return slideeSize;
             }
@@ -792,7 +756,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             initFrameResizeObserver();
 
             if (transform) {
-
                 dom.addEventListener(dragSourceElement, 'touchstart', dragInitSlidee, {
                     passive: true
                 });
@@ -809,9 +772,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
                         passive: true
                     });
                 }
-
             } else if (o.horizontal) {
-
                 // Don't bind to mouse events with vertical scroll since the mouse wheel can handle this natively
 
                 if (o.mouseWheel) {
