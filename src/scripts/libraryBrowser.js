@@ -200,7 +200,7 @@ export function showSortMenu (options) {
     });
 }
 
-export default {
+const libraryBrowser = {
     getSavedQueryKey,
     loadSavedQueryValues,
     saveQueryValues,
@@ -210,3 +210,7 @@ export default {
     getQueryPagingHtml,
     showSortMenu
 };
+
+window.LibraryBrowser = libraryBrowser;
+
+export default libraryBrowser;
