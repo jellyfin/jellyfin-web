@@ -1442,7 +1442,7 @@
     "LabelAudioCodec": "Codec audio :",
     "LabelAudioChannels": "Canaux audio :",
     "HeaderFavoriteBooks": "Livres préférés",
-    "FetchingData": "Récuperer des données suplémentaires",
+    "FetchingData": "Récupérer des données supplémentaires",
     "CopyStreamURLSuccess": "URL copiée avec succès.",
     "CopyStreamURL": "Copier l'URL du flux",
     "LabelBaseUrlHelp": "Ajoute un sous-répertoire personnalisé à l'adresse URL du serveur. Par exemple : <code>http://exemple.com/<b>&lt;baseurl&gt;</b></code>",
