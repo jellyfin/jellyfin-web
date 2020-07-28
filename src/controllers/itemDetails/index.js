@@ -1,6 +1,8 @@
 define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSettings', 'cardBuilder', 'datetime', 'mediaInfo', 'backdrop', 'listView', 'itemContextMenu', 'itemHelper', 'dom', 'indicators', 'imageLoader', 'libraryMenu', 'globalize', 'browser', 'events', 'playbackManager', 'scrollStyles', 'emby-itemscontainer', 'emby-checkbox', 'emby-button', 'emby-playstatebutton', 'emby-ratingbutton', 'emby-scroller', 'emby-select'], function (loading, appRouter, layoutManager, connectionManager, userSettings, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, imageLoader, libraryMenu, globalize, browser, events, playbackManager) {
     'use strict';
 
+    libraryMenu = LibraryMenu.default || libraryMenu;
+
     function getPromise(apiClient, params) {
         var id = params.id;
 

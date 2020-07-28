@@ -1,75 +1,77 @@
-define(['tabbedView', 'globalize', 'require', 'emby-tabs', 'emby-button', 'emby-scroller'], function (TabbedView, globalize, require) {
-    'use strict';
+import TabbedView from 'tabbedView';
+import globalize from 'globalize';
+import require from 'require';
+import 'emby-tabs';
+import 'emby-button';
+import 'emby-scroller';
 
-    function getTabs() {
-        return [{
-            name: globalize.translate('Home')
-        }, {
-            name: globalize.translate('Favorites')
-        }];
+function getTabs() {
+    return [{
+        name: globalize.translate('Home')
+    }, {
+        name: globalize.translate('Favorites')
+    }];
+}
+
+function getDefaultTabIndex() {
+    return 0;
+}
+
+function getRequirePromise(deps) {
+    return new Promise(function (resolve, reject) {
+        require(deps, resolve);
+    });
+}
+
+function getTabController(index) {
+    if (null == index) {
+        throw new Error('index cannot be null');
     }
 
-    function getDefaultTabIndex() {
-        return 0;
+    const depends = [];
+
+    switch (index) {
+        case 0:
+            depends.push('controllers/hometab');
+            break;
+
+        case 1:
+            depends.push('controllers/favorites');
     }
 
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-            require(deps, resolve);
-        });
-    }
+    const instance = this;
+    return getRequirePromise(depends).then(function (controllerFactory) {
+        let controller = instance.tabControllers[index];
 
-    function getTabController(index) {
-        if (null == index) {
-            throw new Error('index cannot be null');
+        if (!controller) {
+            controller = new controllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
+            instance.tabControllers[index] = controller;
         }
 
-        var depends = [];
+        return controller;
+    });
+}
 
-        switch (index) {
-            case 0:
-                depends.push('controllers/hometab');
-                break;
-
-            case 1:
-                depends.push('controllers/favorites');
-        }
-
-        var instance = this;
-        return getRequirePromise(depends).then(function (controllerFactory) {
-            var controller = instance.tabControllers[index];
-
-            if (!controller) {
-                controller = new controllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
-                instance.tabControllers[index] = controller;
-            }
-
-            return controller;
-        });
-    }
-
-    function HomeView(view, params) {
+class HomeView {
+    constructor(view, params) {
         TabbedView.call(this, view, params);
     }
-
-    Object.assign(HomeView.prototype, TabbedView.prototype);
-    HomeView.prototype.getTabs = getTabs;
-    HomeView.prototype.getDefaultTabIndex = getDefaultTabIndex;
-    HomeView.prototype.getTabController = getTabController;
-
-    HomeView.prototype.setTitle = function () {
+    setTitle() {
         Emby.Page.setTitle(null);
-    };
-
-    HomeView.prototype.onPause = function () {
+    }
+    onPause() {
         TabbedView.prototype.onPause.call(this);
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
-    };
-
-    HomeView.prototype.onResume = function (options) {
+    }
+    onResume(options) {
         TabbedView.prototype.onResume.call(this, options);
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
-    };
+    }
+}
 
-    return HomeView;
-});
+Object.assign(HomeView.prototype, TabbedView.prototype);
+HomeView.prototype.getTabs = getTabs;
+HomeView.prototype.getDefaultTabIndex = getDefaultTabIndex;
+HomeView.prototype.getTabController = getTabController;
+
+export default HomeView;

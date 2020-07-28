@@ -1,6 +1,8 @@
 define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', 'cardBuilder', 'dom', 'apphost', 'imageLoader', 'libraryMenu', 'playbackManager', 'mainTabsManager', 'globalize', 'scrollStyles', 'emby-itemscontainer', 'emby-tabs', 'emby-button', 'flexStyles'], function (browser, layoutManager, userSettings, inputManager, loading, cardBuilder, dom, appHost, imageLoader, libraryMenu, playbackManager, mainTabsManager, globalize) {
     'use strict';
 
+    libraryMenu = LibraryMenu.default || libraryMenu;
+
     function itemsPerRow() {
         var screenWidth = dom.getWindowSize().innerWidth;
 
