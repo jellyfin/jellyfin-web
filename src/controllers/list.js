@@ -1,8 +1,21 @@
-define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager', 'cardBuilder', 'loading', 'connectionManager', 'alphaNumericShortcuts', 'scroller', 'playbackManager', 'alphaPicker', 'emby-itemscontainer', 'emby-scroller'], function (globalize, listView, layoutManager, userSettings, focusManager, cardBuilder, loading, connectionManager, AlphaNumericShortcuts, scroller, playbackManager, AlphaPicker) {
-    'use strict';
+import globalize from 'globalize';
+import listView from 'listView';
+import layoutManager from 'layoutManager';
+import * as userSettings from 'userSettings';
+import focusManager from 'focusManager';
+import cardBuilder from 'cardBuilder';
+import loading from 'loading';
+import connectionManager from 'connectionManager';
+import AlphaNumericShortcuts from 'alphaNumericShortcuts';
+import playbackManager from 'playbackManager';
+import AlphaPicker from 'alphaPicker';
+import 'emby-itemscontainer';
+import 'emby-scroller';
+
+/* eslint-disable indent */
 
     function getInitialLiveTvQuery(instance, params) {
-        var query = {
+        const query = {
             UserId: connectionManager.getApiClient(params.serverId).getCurrentUserId(),
             StartIndex: 0,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
@@ -59,7 +72,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
     }
 
     function modifyQueryWithFilters(instance, query) {
-        var sortValues = instance.getSortValues();
+        const sortValues = instance.getSortValues();
 
         if (!query.SortBy) {
             query.SortBy = sortValues.sortBy;
@@ -68,9 +81,9 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
 
         query.Fields = query.Fields ? query.Fields + ',PrimaryImageAspectRatio' : 'PrimaryImageAspectRatio';
         query.ImageTypeLimit = 1;
-        var hasFilters;
-        var queryFilters = [];
-        var filters = instance.getFilters();
+        let hasFilters;
+        const queryFilters = [];
+        const filters = instance.getFilters();
 
         if (filters.IsPlayed) {
             queryFilters.push('IsPlayed');
@@ -164,21 +177,21 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
     }
 
     function updateSortText(instance) {
-        var btnSortText = instance.btnSortText;
+        const btnSortText = instance.btnSortText;
 
         if (btnSortText) {
-            var options = instance.getSortMenuOptions();
-            var values = instance.getSortValues();
-            var sortBy = values.sortBy;
+            const options = instance.getSortMenuOptions();
+            const values = instance.getSortValues();
+            const sortBy = values.sortBy;
 
-            for (var i = 0, length = options.length; i < length; i++) {
+            for (let i = 0, length = options.length; i < length; i++) {
                 if (sortBy === options[i].value) {
                     btnSortText.innerHTML = globalize.translate('SortByValue', options[i].name);
                     break;
                 }
             }
 
-            var btnSortIcon = instance.btnSortIcon;
+            const btnSortIcon = instance.btnSortIcon;
 
             if (btnSortIcon) {
                 setSortButtonIcon(btnSortIcon, 'Descending' === values.sortOrder ? 'arrow_downward' : 'arrow_upward');
@@ -198,10 +211,10 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
 
     function updateAlphaPickerState(instance, numItems) {
         if (instance.alphaPicker) {
-            var alphaPicker = instance.alphaPickerElement;
+            const alphaPicker = instance.alphaPickerElement;
 
             if (alphaPicker) {
-                var values = instance.getSortValues();
+                const values = instance.getSortValues();
 
                 if (null == numItems) {
                     numItems = 100;
@@ -219,7 +232,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
     }
 
     function getItems(instance, params, item, sortBy, startIndex, limit) {
-        var apiClient = connectionManager.getApiClient(params.serverId);
+        const apiClient = connectionManager.getApiClient(params.serverId);
 
         instance.queryRecursive = false;
         if ('Recordings' === params.type) {
@@ -248,7 +261,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
 
         if (!item) {
             instance.queryRecursive = true;
-            var method = 'getItems';
+            let method = 'getItems';
 
             if ('MusicArtist' === params.type) {
                 method = 'getArtists';
@@ -271,7 +284,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
 
         if ('Genre' === item.Type || 'MusicGenre' === item.Type || 'Studio' === item.Type || 'Person' === item.Type) {
             instance.queryRecursive = true;
-            var query = {
+            const query = {
                 StartIndex: startIndex,
                 Limit: limit,
                 Fields: 'PrimaryImageAspectRatio,SortName',
@@ -320,8 +333,8 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             return Promise.resolve(null);
         }
 
-        var apiClient = connectionManager.getApiClient(params.serverId);
-        var itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
+        const apiClient = connectionManager.getApiClient(params.serverId);
+        const itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
 
         if (itemId) {
             return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
@@ -331,9 +344,9 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
     }
 
     function showViewSettingsMenu() {
-        var instance = this;
+        const instance = this;
 
-        require(['viewSettings'], function (ViewSettings) {
+        import('viewSettings').then(({default: ViewSettings}) => {
             new ViewSettings().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getViewSettings(),
@@ -346,9 +359,9 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
     }
 
     function showFilterMenu() {
-        var instance = this;
+        const instance = this;
 
-        require(['filterMenu'], function (FilterMenu) {
+        import('filterMenu').then(({default: FilterMenu}) => {
             new FilterMenu().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getFilters(),
@@ -365,9 +378,9 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
     }
 
     function showSortMenu() {
-        var instance = this;
+        const instance = this;
 
-        require(['sortMenu'], function (SortMenu) {
+        import('sortMenu').then(({default: SortMenu}) => {
             new SortMenu().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getSortValues(),
@@ -383,9 +396,9 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
     }
 
     function onNewItemClick() {
-        var instance = this;
+        const instance = this;
 
-        require(['playlistEditor'], function (playlistEditor) {
+        import('playlistEditor').then(({default: playlistEditor}) => {
             new playlistEditor.showEditor({
                 items: [],
                 serverId: instance.params.serverId
@@ -394,7 +407,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
     }
 
     function hideOrShowAll(elems, hide) {
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (let i = 0, length = elems.length; i < length; i++) {
             if (hide) {
                 elems[i].classList.add('hide');
             } else {
@@ -404,12 +417,13 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
     }
 
     function bindAll(elems, eventName, fn) {
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (let i = 0, length = elems.length; i < length; i++) {
             elems[i].addEventListener(eventName, fn);
         }
     }
 
-    function ItemsView(view, params) {
+class ItemsView {
+    constructor(view, params) {
         function fetchData() {
             return getItems(self, params, self.currentItem).then(function (result) {
                 if (null == self.totalItemCount) {
@@ -422,7 +436,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         }
 
         function getItemsHtml(items) {
-            var settings = self.getViewSettings();
+            const settings = self.getViewSettings();
 
             if ('list' === settings.imageType) {
                 return listView.getListViewHtml({
@@ -430,13 +444,13 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
                 });
             }
 
-            var shape;
-            var preferThumb;
-            var preferDisc;
-            var preferLogo;
-            var defaultShape;
-            var item = self.currentItem;
-            var lines = settings.showTitle ? 2 : 0;
+            let shape;
+            let preferThumb;
+            let preferDisc;
+            let preferLogo;
+            let defaultShape;
+            const item = self.currentItem;
+            let lines = settings.showTitle ? 2 : 0;
 
             if ('banner' === settings.imageType) {
                 shape = 'banner';
@@ -460,7 +474,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
                 shape = 'autoVertical';
             }
 
-            var posterOptions = {
+            let posterOptions = {
                 shape: shape,
                 showTitle: settings.showTitle,
                 showYear: settings.showTitle,
@@ -493,19 +507,19 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
                 lines = 1;
             } else if ('Programs' === params.type) {
                 lines = settings.showTitle ? 1 : 0;
-                var showParentTitle = settings.showTitle && 'true' !== params.IsMovie;
+                const showParentTitle = settings.showTitle && 'true' !== params.IsMovie;
 
                 if (showParentTitle) {
                     lines++;
                 }
 
-                var showAirTime = settings.showTitle && 'Recordings' !== params.type;
+                const showAirTime = settings.showTitle && 'Recordings' !== params.type;
 
                 if (showAirTime) {
                     lines++;
                 }
 
-                var showYear = settings.showTitle && 'true' === params.IsMovie && 'Recordings' === params.type;
+                const showYear = settings.showTitle && 'true' === params.IsMovie && 'Recordings' === params.type;
 
                 if (showYear) {
                     lines++;
@@ -538,7 +552,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
 
         function initAlphaPicker() {
             self.scroller = view.querySelector('.scrollFrameY');
-            var alphaPickerElement = self.alphaPickerElement;
+            const alphaPickerElement = self.alphaPickerElement;
 
             alphaPickerElement.classList.add('alphaPicker-fixed-right');
             alphaPickerElement.classList.add('focuscontainer-right');
@@ -649,7 +663,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         }
 
         function play() {
-            var currentItem = self.currentItem;
+            const currentItem = self.currentItem;
 
             if (currentItem && !self.hasFilters) {
                 playbackManager.play({
@@ -665,7 +679,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         }
 
         function queue() {
-            var currentItem = self.currentItem;
+            const currentItem = self.currentItem;
 
             if (currentItem && !self.hasFilters) {
                 playbackManager.queue({
@@ -681,7 +695,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         }
 
         function shuffle() {
-            var currentItem = self.currentItem;
+            const currentItem = self.currentItem;
 
             if (currentItem && !self.hasFilters) {
                 playbackManager.shuffle(currentItem);
@@ -694,7 +708,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             }
         }
 
-        var self = this;
+        const self = this;
         self.params = params;
         this.itemsContainer = view.querySelector('.itemsContainer');
 
@@ -708,20 +722,20 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             this.itemsContainer.setAttribute('data-refreshinterval', '300000');
         }
 
-        var i;
-        var length;
-        var btnViewSettings = view.querySelectorAll('.btnViewSettings');
+        let i;
+        let length;
+        const btnViewSettings = view.querySelectorAll('.btnViewSettings');
 
         for (i = 0, length = btnViewSettings.length; i < length; i++) {
             btnViewSettings[i].addEventListener('click', showViewSettingsMenu.bind(this));
         }
 
-        var filterButtons = view.querySelectorAll('.btnFilter');
+        const filterButtons = view.querySelectorAll('.btnFilter');
         this.filterButtons = filterButtons;
-        var hasVisibleFilters = this.getVisibleFilters().length;
+        const hasVisibleFilters = this.getVisibleFilters().length;
 
         for (i = 0, length = filterButtons.length; i < length; i++) {
-            var btnFilter = filterButtons[i];
+            const btnFilter = filterButtons[i];
             btnFilter.addEventListener('click', showFilterMenu.bind(this));
 
             if (hasVisibleFilters) {
@@ -731,10 +745,10 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             }
         }
 
-        var sortButtons = view.querySelectorAll('.btnSort');
+        const sortButtons = view.querySelectorAll('.btnSort');
 
         for (this.sortButtons = sortButtons, i = 0, length = sortButtons.length; i < length; i++) {
-            var sortButton = sortButtons[i];
+            const sortButton = sortButtons[i];
             sortButton.addEventListener('click', showSortMenu.bind(this));
 
             if ('nextup' !== params.type) {
@@ -749,7 +763,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         self.itemsContainer.fetchData = fetchData;
         self.itemsContainer.getItemsHtml = getItemsHtml;
         view.addEventListener('viewshow', function (e) {
-            var isRestored = e.detail.isRestored;
+            const isRestored = e.detail.isRestored;
 
             if (!isRestored) {
                 loading.show();
@@ -761,7 +775,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             getItem(params).then(function (item) {
                 setTitle(item);
                 self.currentItem = item;
-                var refresh = !isRestored;
+                const refresh = !isRestored;
                 self.itemsContainer.resume({
                     refresh: refresh
                 }).then(function () {
@@ -776,7 +790,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
                     initAlphaPicker();
                 }
 
-                var itemType = item ? item.Type : null;
+                const itemType = item ? item.Type : null;
 
                 if ('MusicGenre' === itemType || 'Programs' !== params.type && 'Channel' !== itemType) {
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
@@ -808,13 +822,13 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             });
         });
         view.addEventListener('viewhide', function (e) {
-            var itemsContainer = self.itemsContainer;
+            const itemsContainer = self.itemsContainer;
 
             if (itemsContainer) {
                 itemsContainer.pause();
             }
 
-            var alphaNumericShortcuts = self.alphaNumericShortcuts;
+            const alphaNumericShortcuts = self.alphaNumericShortcuts;
 
             if (alphaNumericShortcuts) {
                 alphaNumericShortcuts.destroy();
@@ -841,9 +855,8 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             self.alphaPickerElement = null;
         });
     }
-
-    ItemsView.prototype.getFilters = function () {
-        var basekey = this.getSettingsKey();
+    getFilters() {
+        const basekey = this.getSettingsKey();
         return {
             IsPlayed: 'true' === userSettings.getFilter(basekey + '-filter-IsPlayed'),
             IsUnplayed: 'true' === userSettings.getFilter(basekey + '-filter-IsUnplayed'),
@@ -862,30 +875,27 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             HasThemeVideo: userSettings.getFilter(basekey + '-filter-HasThemeVideo'),
             GenreIds: userSettings.getFilter(basekey + '-filter-GenreIds')
         };
-    };
-
-    ItemsView.prototype.getSortValues = function () {
-        var basekey = this.getSettingsKey();
+    }
+    getSortValues() {
+        const basekey = this.getSettingsKey();
         return {
             sortBy: userSettings.getFilter(basekey + '-sortby') || this.getDefaultSortBy(),
             sortOrder: 'Descending' === userSettings.getFilter(basekey + '-sortorder') ? 'Descending' : 'Ascending'
         };
-    };
-
-    ItemsView.prototype.getDefaultSortBy = function () {
-        var params = this.params;
-        var sortNameOption = this.getNameSortOption(params);
+    }
+    getDefaultSortBy() {
+        const params = this.params;
+        const sortNameOption = this.getNameSortOption(params);
 
         if (params.type) {
             return sortNameOption.value;
         }
 
         return 'IsFolder,' + sortNameOption.value;
-    };
-
-    ItemsView.prototype.getSortMenuOptions = function () {
-        var sortBy = [];
-        var params = this.params;
+    }
+    getSortMenuOptions() {
+        const sortBy = [];
+        const params = this.params;
 
         if ('Programs' === params.type) {
             sortBy.push({
@@ -894,7 +904,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             });
         }
 
-        var option = this.getNameSortOption(params);
+        let option = this.getNameSortOption(params);
 
         if (option) {
             sortBy.push(option);
@@ -952,9 +962,8 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             value: 'Runtime,SortName'
         });
         return sortBy;
-    };
-
-    ItemsView.prototype.getNameSortOption = function (params) {
+    }
+    getNameSortOption(params) {
         if ('Episode' === params.type) {
             return {
                 name: globalize.translate('Name'),
@@ -966,9 +975,8 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             name: globalize.translate('Name'),
             value: 'SortName'
         };
-    };
-
-    ItemsView.prototype.getPlayCountSortOption = function () {
+    }
+    getPlayCountSortOption() {
         if ('Programs' === this.params.type) {
             return null;
         }
@@ -977,9 +985,8 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             name: globalize.translate('PlayCount'),
             value: 'PlayCount,SortName'
         };
-    };
-
-    ItemsView.prototype.getDatePlayedSortOption = function () {
+    }
+    getDatePlayedSortOption() {
         if ('Programs' === this.params.type) {
             return null;
         }
@@ -988,9 +995,8 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             name: globalize.translate('DatePlayed'),
             value: 'DatePlayed,SortName'
         };
-    };
-
-    ItemsView.prototype.getCriticRatingSortOption = function () {
+    }
+    getCriticRatingSortOption() {
         if ('Programs' === this.params.type) {
             return null;
         }
@@ -999,18 +1005,16 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             name: globalize.translate('CriticRating'),
             value: 'CriticRating,SortName'
         };
-    };
-
-    ItemsView.prototype.getCommunityRatingSortOption = function () {
+    }
+    getCommunityRatingSortOption() {
         return {
             name: globalize.translate('CommunityRating'),
             value: 'CommunityRating,SortName'
         };
-    };
-
-    ItemsView.prototype.getVisibleFilters = function () {
-        var filters = [];
-        var params = this.params;
+    }
+    getVisibleFilters() {
+        const filters = [];
+        const params = this.params;
 
         if (!('nextup' === params.type)) {
             if ('Programs' === params.type) {
@@ -1034,16 +1038,15 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         }
 
         return filters;
-    };
-
-    ItemsView.prototype.setFilterStatus = function (hasFilters) {
+    }
+    setFilterStatus(hasFilters) {
         this.hasFilters = hasFilters;
-        var filterButtons = this.filterButtons;
+        const filterButtons = this.filterButtons;
 
         if (filterButtons.length) {
-            for (var i = 0, length = filterButtons.length; i < length; i++) {
-                var btnFilter = filterButtons[i];
-                var bubble = btnFilter.querySelector('.filterButtonBubble');
+            for (let i = 0, length = filterButtons.length; i < length; i++) {
+                const btnFilter = filterButtons[i];
+                let bubble = btnFilter.querySelector('.filterButtonBubble');
 
                 if (!bubble) {
                     if (!hasFilters) {
@@ -1062,10 +1065,9 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
                 }
             }
         }
-    };
-
-    ItemsView.prototype.getFilterMenuOptions = function () {
-        var params = this.params;
+    }
+    getFilterMenuOptions() {
+        const params = this.params;
         return {
             IsAiring: params.IsAiring,
             IsMovie: params.IsMovie,
@@ -1075,11 +1077,10 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             IsSeries: params.IsSeries,
             Recursive: this.queryRecursive
         };
-    };
-
-    ItemsView.prototype.getVisibleViewSettings = function () {
-        var item = (this.params, this.currentItem);
-        var fields = ['showTitle'];
+    }
+    getVisibleViewSettings() {
+        const item = (this.params, this.currentItem);
+        const fields = ['showTitle'];
 
         if (!item || 'PhotoAlbum' !== item.Type && 'ChannelFolderItem' !== item.Type) {
             fields.push('imageType');
@@ -1087,13 +1088,12 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
 
         fields.push('viewType');
         return fields;
-    };
-
-    ItemsView.prototype.getViewSettings = function () {
-        var basekey = this.getSettingsKey();
-        var params = this.params;
-        var item = this.currentItem;
-        var showTitle = userSettings.get(basekey + '-showTitle');
+    }
+    getViewSettings() {
+        const basekey = this.getSettingsKey();
+        const params = this.params;
+        const item = this.currentItem;
+        let showTitle = userSettings.get(basekey + '-showTitle');
 
         if ('true' === showTitle) {
             showTitle = true;
@@ -1105,7 +1105,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             showTitle = true;
         }
 
-        var imageType = userSettings.get(basekey + '-imageType');
+        let imageType = userSettings.get(basekey + '-imageType');
 
         if (!imageType && 'nextup' === params.type) {
             imageType = 'thumb';
@@ -1117,10 +1117,9 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             imageType: imageType || 'primary',
             viewType: userSettings.get(basekey + '-viewType') || 'images'
         };
-    };
-
-    ItemsView.prototype.getItemTypes = function () {
-        var params = this.params;
+    }
+    getItemTypes() {
+        const params = this.params;
 
         if ('nextup' === params.type) {
             return ['Episode'];
@@ -1131,12 +1130,11 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         }
 
         return [];
-    };
-
-    ItemsView.prototype.getSettingsKey = function () {
-        var values = [];
+    }
+    getSettingsKey() {
+        const values = [];
         values.push('items');
-        var params = this.params;
+        const params = this.params;
 
         if (params.type) {
             values.push(params.type);
@@ -1193,7 +1191,9 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         }
 
         return values.join('-');
-    };
+    }
+}
 
-    return ItemsView;
-});
+export default ItemsView;
+
+/* eslint-enable indent */
