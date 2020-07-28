@@ -201,7 +201,7 @@ import 'css!./imageeditor';
         }
 
         import('confirm').then(({default: confirm}) => {
-            confirm.default({
+            confirm({
 
                 text: globalize.translate('ConfirmDeleteImage'),
                 confirmText: globalize.translate('Delete'),
