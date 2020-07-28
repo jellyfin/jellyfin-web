@@ -1,6 +1,8 @@
 define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader', 'apphost', 'globalize', 'appRouter', 'dom', 'emby-button'], function (layoutManager, loading, libraryBrowser, cardBuilder, lazyLoader, appHost, globalize, appRouter, dom) {
     'use strict';
 
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
+
     return function (view, params, tabContent) {
         function getPageData() {
             var key = getSavedQueryKey();
@@ -18,7 +20,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
                     view: 'Poster'
                 };
                 pageData.query.ParentId = params.topParentId;
-                libraryBrowser.default.loadSavedQueryValues(key, pageData.query);
+                libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
 
             return pageData;
@@ -29,7 +31,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
         }
 
         function getSavedQueryKey() {
-            return libraryBrowser.default.getSavedQueryKey('moviegenres');
+            return libraryBrowser.getSavedQueryKey('moviegenres');
         }
 
         function getPromise() {
@@ -174,7 +176,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
 
                 elem.innerHTML = html;
                 lazyLoader.lazyChildren(elem, fillItemsContainer);
-                libraryBrowser.default.saveQueryValues(getSavedQueryKey(), query);
+                libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
             });
         }
@@ -197,7 +199,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
 
         self.setCurrentViewStyle = function (viewStyle) {
             getPageData().view = viewStyle;
-            libraryBrowser.default.saveViewSetting(getSavedQueryKey(), viewStyle);
+            libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
             fullyReload();
         };
 

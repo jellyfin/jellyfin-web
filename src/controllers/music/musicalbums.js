@@ -1,6 +1,8 @@
 define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, AlphaPicker, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
+
     return function (view, params, tabContent) {
         function playAll() {
             ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
@@ -32,7 +34,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                         StartIndex: 0
                     },
-                    view: libraryBrowser.default.getSavedView(key) || 'Poster'
+                    view: libraryBrowser.getSavedView(key) || 'Poster'
                 };
 
                 if (userSettings.libraryPageSize() > 0) {
@@ -40,7 +42,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                 }
 
                 pageData.query.ParentId = params.topParentId;
-                libraryBrowser.default.loadSavedQueryValues(key, pageData.query);
+                libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
 
             return pageData;
@@ -52,7 +54,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
 
         function getSavedQueryKey() {
             if (!savedQueryKey) {
-                savedQueryKey = libraryBrowser.default.getSavedQueryKey('musicalbums');
+                savedQueryKey = libraryBrowser.getSavedQueryKey('musicalbums');
             }
 
             return savedQueryKey;
@@ -103,7 +105,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                 window.scrollTo(0, 0);
                 updateFilterControls(page);
                 var html;
-                var pagingHtml = libraryBrowser.default.getQueryPagingHtml({
+                var pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -165,7 +167,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                 var itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
-                libraryBrowser.default.saveQueryValues(getSavedQueryKey(), query);
+                libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
                 isLoading = false;
 
@@ -228,7 +230,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                 self.showFilterMenu();
             });
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
-                libraryBrowser.default.showSortMenu({
+                libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('OptionNameSort'),
                         id: 'SortName'
@@ -261,12 +263,12 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
             });
             var btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
-                libraryBrowser.default.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
+                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
                 var viewStyle = e.detail.viewStyle;
                 getPageData().view = viewStyle;
-                libraryBrowser.default.saveViewSetting(getSavedQueryKey(), viewStyle);
+                libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
                 getQuery().StartIndex = 0;
                 onViewStyleChange();
                 reloadItems(tabContent);

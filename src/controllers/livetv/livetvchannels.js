@@ -1,6 +1,8 @@
 define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'userSettings', 'emby-itemscontainer'], function (cardBuilder, imageLoader, libraryBrowser, loading, events, userSettings) {
     'use strict';
 
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
+
     return function (view, params, tabContent) {
         function getPageData() {
             if (!pageData) {
@@ -60,7 +62,7 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'us
             }
 
             var query = getQuery();
-            context.querySelector('.paging').innerHTML = libraryBrowser.default.getQueryPagingHtml({
+            context.querySelector('.paging').innerHTML = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,
                 limit: query.Limit,
                 totalRecordCount: result.TotalRecordCount,

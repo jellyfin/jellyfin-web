@@ -1,6 +1,8 @@
 define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], function (libraryBrowser, cardBuilder, appHost, imageLoader, loading) {
     'use strict';
 
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
+
     return function (view, params, tabContent) {
         function getPageData() {
             var key = getSavedQueryKey();
@@ -16,10 +18,10 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
                         Fields: 'PrimaryImageAspectRatio,SortName,CanDelete',
                         StartIndex: 0
                     },
-                    view: libraryBrowser.default.getSavedView(key) || 'Poster'
+                    view: libraryBrowser.getSavedView(key) || 'Poster'
                 };
                 pageData.query.ParentId = params.topParentId;
-                libraryBrowser.default.loadSavedQueryValues(key, pageData.query);
+                libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
 
             return pageData;
@@ -30,7 +32,7 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
         }
 
         function getSavedQueryKey() {
-            return libraryBrowser.default.getSavedQueryKey('genres');
+            return libraryBrowser.getSavedQueryKey('genres');
         }
 
         function getPromise() {
@@ -56,7 +58,7 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
                 var elem = context.querySelector('#items');
                 elem.innerHTML = html;
                 imageLoader.lazyChildren(elem);
-                libraryBrowser.default.saveQueryValues(getSavedQueryKey(), query);
+                libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
 
                 require(['autoFocuser'], function (autoFocuser) {

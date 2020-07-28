@@ -51,7 +51,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
 
             window.scrollTo(0, 0);
             updateFilterControls();
-            var pagingHtml = libraryBrowser.default.getQueryPagingHtml({
+            var pagingHtml = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,
                 limit: query.Limit,
                 totalRecordCount: result.TotalRecordCount,
@@ -189,7 +189,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
 
             if (btnSort) {
                 btnSort.addEventListener('click', function (e) {
-                    libraryBrowser.default.showSortMenu({
+                    libraryBrowser.showSortMenu({
                         items: [{
                             name: globalize.translate('OptionNameSort'),
                             id: 'SortName,ProductionYear'
@@ -230,7 +230,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             }
             var btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
-                libraryBrowser.default.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
+                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
                 var viewStyle = e.detail.viewStyle;

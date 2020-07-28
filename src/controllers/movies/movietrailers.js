@@ -1,6 +1,8 @@
 define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, AlphaPicker, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
+
     return function (view, params, tabContent) {
         function getPageData(context) {
             var key = getSavedQueryKey(context);
@@ -18,14 +20,14 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                         StartIndex: 0
                     },
-                    view: libraryBrowser.default.getSavedView(key) || 'Poster'
+                    view: libraryBrowser.getSavedView(key) || 'Poster'
                 };
 
                 if (userSettings.libraryPageSize() > 0) {
                     pageData.query['Limit'] = userSettings.libraryPageSize();
                 }
 
-                libraryBrowser.default.loadSavedQueryValues(key, pageData.query);
+                libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
 
             return pageData;
@@ -37,7 +39,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
 
         function getSavedQueryKey(context) {
             if (!context.savedQueryKey) {
-                context.savedQueryKey = libraryBrowser.default.getSavedQueryKey('trailers');
+                context.savedQueryKey = libraryBrowser.getSavedQueryKey('trailers');
             }
 
             return context.savedQueryKey;
@@ -72,7 +74,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
 
                 window.scrollTo(0, 0);
                 updateFilterControls(tabContent);
-                var pagingHtml = libraryBrowser.default.getQueryPagingHtml({
+                var pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -169,7 +171,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 var itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
-                libraryBrowser.default.saveQueryValues(getSavedQueryKey(tabContent), query);
+                libraryBrowser.saveQueryValues(getSavedQueryKey(tabContent), query);
                 loading.hide();
                 isLoading = false;
             });
@@ -226,7 +228,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 self.showFilterMenu();
             });
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
-                libraryBrowser.default.showSortMenu({
+                libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('OptionNameSort'),
                         id: 'SortName'
