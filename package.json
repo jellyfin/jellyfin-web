@@ -114,6 +114,8 @@
           "src/components/htmlMediaHelper.js",
           "src/components/imageOptionsEditor/imageOptionsEditor.js",
           "src/components/images/imageLoader.js",
+          "src/components/imageDownloader/imageDownloader.js",
+          "src/components/imageeditor/imageeditor.js",
           "src/components/imageUploader/imageUploader.js",
           "src/components/indicators/indicators.js",
           "src/components/itemContextMenu.js",
