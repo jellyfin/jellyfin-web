@@ -189,7 +189,6 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
             require(['directorybrowser'], function (directoryBrowser) {
                 var picker = new directoryBrowser();
                 picker.show({
-                    includeFiles: true,
                     includeDirectories: true,
                     callback: function (path) {
                         if (path) {

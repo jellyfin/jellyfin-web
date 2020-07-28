@@ -1073,7 +1073,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return avaliableFonts.push(i.DeliveryUrl);
             });
             var apiClient = connectionManager.getApiClient(item);
-            var fallbackFont = apiClient.getUrl('/FallbackFont/Font', {
+            var fallbackFontList = apiClient.getUrl('/FallbackFont/FontList', {
                 api_key: apiClient.accessToken()
             });
             var options = {
@@ -1102,10 +1102,19 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             require(['JavascriptSubtitlesOctopus'], function(SubtitlesOctopus) {
                 apiClient.getNamedConfiguration('encoding').then(function (config) {
                     if (config.EnableFallbackFont) {
-                        avaliableFonts.push(fallbackFont);
+                        apiClient.getJSON(fallbackFontList).then(function (fontFiles) {
+                            (fontFiles || []).map(function (font) {
+                                var fontUrl = apiClient.getUrl('/FallbackFont/Font', {
+                                    name: font.Name,
+                                    api_key: apiClient.accessToken()
+                                });
+                                return avaliableFonts.push(fontUrl);
+                            });
+                            currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                        });
+                    } else {
+                        currentSubtitlesOctopus = new SubtitlesOctopus(options);
                     }
-
-                    currentSubtitlesOctopus = new SubtitlesOctopus(options);
                 });
             });
         }
