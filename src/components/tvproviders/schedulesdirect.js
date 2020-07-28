@@ -1,6 +1,8 @@
 define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emby-input', 'emby-select', 'emby-button', 'flexStyles'], function ($, loading, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+
     return function (page, providerId, options) {
         function reload() {
             loading.show();

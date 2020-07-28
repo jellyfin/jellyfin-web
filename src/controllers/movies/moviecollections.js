@@ -1,6 +1,8 @@
 define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+
     return function (view, params, tabContent) {
         function getPageData(context) {
             var key = getSavedQueryKey(context);

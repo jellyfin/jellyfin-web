@@ -1,6 +1,8 @@
 define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, AlphaPicker, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+
     return function (view, params, tabContent) {
         function playAll() {
             ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {

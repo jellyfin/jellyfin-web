@@ -1,6 +1,8 @@
 define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button', 'emby-checkbox', 'emby-select'], function (globalize, loading, libraryMenu, dom) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function isM3uVariant(type) {
         return ['nextpvr'].indexOf(type || '') !== -1;
     }

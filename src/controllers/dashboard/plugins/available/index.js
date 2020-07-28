@@ -1,6 +1,8 @@
 define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby-checkbox', 'emby-select'], function (loading, libraryMenu, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function reloadList(page) {
         loading.show();
         var promise1 = ApiClient.getAvailablePlugins();

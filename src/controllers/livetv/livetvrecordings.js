@@ -1,6 +1,8 @@
 define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'scripts/livetvcomponents', 'listViewStyle', 'emby-itemscontainer'], function (layoutManager, loading, cardBuilder, appHost, imageLoader) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function renderRecordings(elem, recordings, cardOptions, scrollX) {
         if (!elem) {
             return;

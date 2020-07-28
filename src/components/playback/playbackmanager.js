@@ -1,6 +1,8 @@
 define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'screenfull'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, screenfull) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function enableLocalPlaylistManagement(player) {
         if (player.getPlaylist) {
             return false;

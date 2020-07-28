@@ -22,7 +22,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     function beginConnectionWizard() {
         backdrop.clearBackdrop();
-        loading.show();
+        loading.default.show();
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function (result) {
@@ -33,7 +33,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     function handleConnectionResult(result) {
         switch (result.State) {
             case 'SignedIn':
-                loading.hide();
+                loading.default.hide();
                 skinManager.loadUserSkin();
                 break;
             case 'ServerSignIn':
@@ -277,7 +277,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     var firstConnectionResult;
     function start(options) {
-        loading.show();
+        loading.default.show();
 
         initApiClients();
 
@@ -297,7 +297,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 hashbang: options.hashbang !== false
             });
         }).catch().then(function() {
-            loading.hide();
+            loading.default.hide();
         });
     }
 
@@ -512,7 +512,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         if (currentRouteInfo && currentRouteInfo.path === path) {
             // can't use this with home right now due to the back menu
             if (currentRouteInfo.route.type !== 'home') {
-                loading.hide();
+                loading.default.hide();
                 return Promise.resolve();
             }
         }

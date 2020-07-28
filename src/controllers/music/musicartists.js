@@ -1,6 +1,8 @@
 define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'apphost', 'userSettings', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, AlphaPicker, listView, cardBuilder, appHost, userSettings) {
     'use strict';
 
+    loading = loading.default || loading;
+
     return function (view, params, tabContent) {
         function getPageData(context) {
             var key = getSavedQueryKey(context);

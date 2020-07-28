@@ -1,6 +1,8 @@
 define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'paper-icon-button-light', 'emby-button', 'formDialogStyle', 'cardStyle'], function (dom, loading, appHost, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
+    loading = loading.default || loading;
+
     var enableFocusTransform = !browser.slow && !browser.edge;
 
     var currentItemId;

@@ -1,6 +1,8 @@
 define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], function (libraryBrowser, cardBuilder, appHost, imageLoader, loading) {
     'use strict';
 
+    loading = loading.default || loading;
+
     return function (view, params, tabContent) {
         function getPageData() {
             var key = getSavedQueryKey();

@@ -1,6 +1,8 @@
 define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (dom, shell, dialogHelper, loading, layoutManager, connectionManager, appRouter, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function getEditorHtml() {
         var html = '';
 

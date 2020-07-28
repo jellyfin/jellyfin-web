@@ -1,6 +1,8 @@
 define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'userSettings', 'emby-itemscontainer'], function (cardBuilder, imageLoader, libraryBrowser, loading, events, userSettings) {
     'use strict';
 
+    loading = loading.default || loading;
+
     return function (view, params, tabContent) {
         function getPageData() {
             if (!pageData) {

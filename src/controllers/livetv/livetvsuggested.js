@@ -1,6 +1,8 @@
 define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize', 'libraryBrowser', 'mainTabsManager', 'cardBuilder', 'apphost', 'imageLoader', 'scrollStyles', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (layoutManager, userSettings, inputManager, loading, globalize, libraryBrowser, mainTabsManager, cardBuilder, appHost, imageLoader) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function enableScrollX() {
         return !layoutManager.desktop;
     }

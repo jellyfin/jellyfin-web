@@ -122,6 +122,7 @@
           "src/components/lazyLoader/lazyLoaderIntersectionObserver.js",
           "src/components/libraryoptionseditor/libraryoptionseditor.js",
           "src/components/listview/listview.js",
+          "src/components/loading/loading.js",
           "src/components/maintabsmanager.js",
           "src/components/mediainfo/mediainfo.js",
           "src/components/mediaLibraryCreator/mediaLibraryCreator.js",

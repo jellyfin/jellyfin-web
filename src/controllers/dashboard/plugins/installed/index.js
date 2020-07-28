@@ -1,6 +1,8 @@
 define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'], function (loading, libraryMenu, dom, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function deletePlugin(page, uniqueid, name) {
         var msg = globalize.translate('UninstallPluginConfirmation', name);
 

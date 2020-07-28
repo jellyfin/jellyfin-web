@@ -1,6 +1,8 @@
 define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layoutManager', 'loading', 'browser', 'listViewStyle', 'flexStyles', 'emby-itemscontainer', 'cardStyle', 'material-icons', 'emby-button'], function ($, globalize, taskButton, dom, libraryMenu, layoutManager, loading, browser) {
     'use strict';
 
+    loading = loading.default || loading;
+
     var enableFocusTransform = !browser.slow && !browser.edge;
 
     function getDeviceHtml(device) {
