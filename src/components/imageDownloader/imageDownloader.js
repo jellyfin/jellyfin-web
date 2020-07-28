@@ -372,7 +372,7 @@ import 'cardStyle';
         }
     }
 
-export function show (itemId, serverId, itemType, imageType) {
+export function show(itemId, serverId, itemType, imageType) {
     return new Promise(function (resolve, reject) {
         currentResolve = resolve;
         currentReject = reject;
