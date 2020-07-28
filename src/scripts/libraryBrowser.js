@@ -77,6 +77,7 @@ export function showLayoutMenu (button, currentLayout, views) {
         });
     });
 }
+
 export function getQueryPagingHtml (options) {
     var startIndex = options.startIndex;
     var limit = options.limit;
@@ -116,6 +117,7 @@ export function getQueryPagingHtml (options) {
 
     return html += '</div>';
 }
+
 export function showSortMenu (options) {
     require(['dialogHelper', 'emby-radio'], function (dialogHelper) {
         function onSortByChange() {
@@ -207,4 +209,4 @@ export default {
     showLayoutMenu,
     getQueryPagingHtml,
     showSortMenu
-}
+};
