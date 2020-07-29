@@ -5,8 +5,8 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
 
     return function (view, params, tabContent) {
         function getPageData(context) {
-            var key = getSavedQueryKey(context);
-            var pageData = data[key];
+            const key = getSavedQueryKey(context);
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -47,8 +47,8 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
         }
 
         function onViewStyleChange() {
-            var viewStyle = self.getCurrentViewStyle();
-            var itemsContainer = tabContent.querySelector('.itemsContainer');
+            const viewStyle = self.getCurrentViewStyle();
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
 
             if ('List' == viewStyle) {
                 itemsContainer.classList.add('vertical-list');
@@ -64,7 +64,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
         function reloadItems(page) {
             loading.show();
             isLoading = true;
-            var query = getQuery(page);
+            const query = getQuery(page);
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
                 function onNextPageClick() {
                     if (isLoading) {
@@ -89,8 +89,8 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                 }
 
                 window.scrollTo(0, 0);
-                var html;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                let html;
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -100,7 +100,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                     sortButton: false,
                     filterButton: false
                 });
-                var viewStyle = self.getCurrentViewStyle();
+                const viewStyle = self.getCurrentViewStyle();
                 if (viewStyle == 'Thumb') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
@@ -154,9 +154,9 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                         showTitle: true
                     });
                 }
-                var i;
-                var length;
-                var elems = tabContent.querySelectorAll('.paging');
+                let i;
+                let length;
+                let elems = tabContent.querySelectorAll('.paging');
 
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
@@ -181,7 +181,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                     html += '</div>';
                 }
 
-                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                const itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
@@ -194,9 +194,9 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             });
         }
 
-        var self = this;
-        var data = {};
-        var isLoading = false;
+        const self = this;
+        const data = {};
+        let isLoading = false;
 
         self.getCurrentViewStyle = function () {
             return getPageData(tabContent).view;
@@ -229,12 +229,12 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                     button: e.target
                 });
             });
-            var btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
-                var viewStyle = e.detail.viewStyle;
+                const viewStyle = e.detail.viewStyle;
                 getPageData(tabContent).view = viewStyle;
                 libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
                 getQuery(tabContent).StartIndex = 0;
@@ -243,7 +243,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             });
             tabContent.querySelector('.btnNewCollection').addEventListener('click', function () {
                 require(['collectionEditor'], function (collectionEditor) {
-                    var serverId = ApiClient.serverInfo().Id;
+                    const serverId = ApiClient.serverInfo().Id;
                     new collectionEditor.showEditor({
                         items: [],
                         serverId: serverId

@@ -241,7 +241,7 @@ import 'flexStyles';
     }
 
     function afterDeleted(context, item) {
-        var parentId = item.ParentId || item.SeasonId || item.SeriesId;
+        const parentId = item.ParentId || item.SeasonId || item.SeriesId;
 
         if (parentId) {
             reload(context, parentId, item.ServerId);
@@ -254,7 +254,7 @@ import 'flexStyles';
 
     function showMoreMenu(context, button, user) {
         require(['itemContextMenu'], function (itemContextMenu) {
-            var item = currentItem;
+            const item = currentItem;
 
             itemContextMenu.show({
                 item: item,
@@ -907,7 +907,7 @@ import 'flexStyles';
     }
 
     function populatePeople(context, people) {
-        let lastType = '';
+        const lastType = '';
         let html = '';
 
         const elem = context.querySelector('#peopleList');

@@ -3,7 +3,7 @@ define([], function () {
 
     function isTv() {
         // This is going to be really difficult to get right
-        var userAgent = navigator.userAgent.toLowerCase();
+        const userAgent = navigator.userAgent.toLowerCase();
 
         if (userAgent.indexOf('tv') !== -1) {
             return true;
@@ -25,7 +25,7 @@ define([], function () {
     }
 
     function isMobile(userAgent) {
-        var terms = [
+        const terms = [
             'mobi',
             'ipad',
             'iphone',
@@ -37,9 +37,9 @@ define([], function () {
             'opera mini'
         ];
 
-        var lower = userAgent.toLowerCase();
+        const lower = userAgent.toLowerCase();
 
-        for (var i = 0, length = terms.length; i < length; i++) {
+        for (let i = 0, length = terms.length; i < length; i++) {
             if (lower.indexOf(terms[i]) !== -1) {
                 return true;
             }
@@ -79,13 +79,13 @@ define([], function () {
         // MacIntel: Apple iPad Pro 11 iOS 13.1
         if (/iP(hone|od|ad)|MacIntel/.test(navigator.platform)) {
             // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
-            var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+            const v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
             return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
         }
     }
 
-    var _supportsCssAnimation;
-    var _supportsCssAnimationWithPrefix;
+    let _supportsCssAnimation;
+    let _supportsCssAnimationWithPrefix;
     function supportsCssAnimation(allowPrefix) {
         // TODO: Assess if this is still needed, as all of our targets should natively support CSS animations.
         if (allowPrefix) {
@@ -98,16 +98,16 @@ define([], function () {
             }
         }
 
-        var animation = false;
-        var domPrefixes = ['Webkit', 'O', 'Moz'];
-        var elm = document.createElement('div');
+        let animation = false;
+        const domPrefixes = ['Webkit', 'O', 'Moz'];
+        const elm = document.createElement('div');
 
         if (elm.style.animationName !== undefined) {
             animation = true;
         }
 
         if (animation === false && allowPrefix) {
-            for (var i = 0; i < domPrefixes.length; i++) {
+            for (let i = 0; i < domPrefixes.length; i++) {
                 if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
                     animation = true;
                     break;
@@ -124,10 +124,10 @@ define([], function () {
         }
     }
 
-    var uaMatch = function (ua) {
+    const uaMatch = function (ua) {
         ua = ua.toLowerCase();
 
-        var match = /(edg)[ \/]([\w.]+)/.exec(ua) ||
+        const match = /(edg)[ \/]([\w.]+)/.exec(ua) ||
             /(edga)[ \/]([\w.]+)/.exec(ua) ||
             /(edgios)[ \/]([\w.]+)/.exec(ua) ||
             /(edge)[ \/]([\w.]+)/.exec(ua) ||
@@ -139,15 +139,15 @@ define([], function () {
             ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
             [];
 
-        var versionMatch = /(version)[ \/]([\w.]+)/.exec(ua);
+        const versionMatch = /(version)[ \/]([\w.]+)/.exec(ua);
 
-        var platform_match = /(ipad)/.exec(ua) ||
+        let platform_match = /(ipad)/.exec(ua) ||
             /(iphone)/.exec(ua) ||
             /(windows)/.exec(ua) ||
             /(android)/.exec(ua) ||
             [];
 
-        var browser = match[1] || '';
+        let browser = match[1] || '';
 
         if (browser === 'edge') {
             platform_match = [''];
@@ -157,14 +157,14 @@ define([], function () {
             browser = 'opera';
         }
 
-        var version;
+        let version;
         if (versionMatch && versionMatch.length > 2) {
             version = versionMatch[2];
         }
 
         version = version || match[2] || '0';
 
-        var versionMajor = parseInt(version.split('.')[0]);
+        let versionMajor = parseInt(version.split('.')[0]);
 
         if (isNaN(versionMajor)) {
             versionMajor = 0;
@@ -178,10 +178,10 @@ define([], function () {
         };
     };
 
-    var userAgent = navigator.userAgent;
+    const userAgent = navigator.userAgent;
 
-    var matched = uaMatch(userAgent);
-    var browser = {};
+    const matched = uaMatch(userAgent);
+    const browser = {};
 
     if (matched.browser) {
         browser[matched.browser] = true;
@@ -220,7 +220,7 @@ define([], function () {
     if (!browser.tizen) {
         browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
     } else {
-        var v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
+        const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
         browser.tizenVersion = parseInt(v[1]);
     }
 

@@ -14,7 +14,7 @@ define([
     'dashboardcss',
     'detailtablecss'], function () {
     function defineRoute(newRoute) {
-        var path = newRoute.alias ? newRoute.alias : newRoute.path;
+        const path = newRoute.alias ? newRoute.alias : newRoute.path;
         console.debug('defining route: ' + path);
         newRoute.dictionary = 'core';
         Emby.Page.addRoute(path, newRoute);

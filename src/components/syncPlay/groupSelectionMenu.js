@@ -13,7 +13,7 @@ import playbackPermissionManager from 'playbackPermissionManager';
  * @returns {string} The player's id.
  */
 function getActivePlayerId () {
-    var info = playbackManager.getPlayerInfo();
+    const info = playbackManager.getPlayerInfo();
     return info ? info.id : null;
 }
 
@@ -39,7 +39,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
 
     apiClient.getSyncPlayGroups().then(function (response) {
         response.json().then(function (groups) {
-            var menuItems = groups.map(function (group) {
+            const menuItems = groups.map(function (group) {
                 return {
                     name: group.PlayingItemName,
                     icon: 'group',
@@ -73,7 +73,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
                 return;
             }
 
-            var menuOptions = {
+            const menuOptions = {
                 title: globalize.translate('HeaderSyncPlaySelectGroup'),
                 items: menuItems,
                 positionTo: button,
@@ -130,7 +130,7 @@ function showLeaveGroupSelection (button, user, apiClient) {
         secondaryText: globalize.translate('LabelSyncPlayLeaveGroupDescription')
     }];
 
-    var menuOptions = {
+    const menuOptions = {
         title: globalize.translate('HeaderSyncPlayEnabled'),
         items: menuItems,
         positionTo: button,

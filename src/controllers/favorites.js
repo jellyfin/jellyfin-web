@@ -133,8 +133,8 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
 
     function getFetchDataFn(section) {
         return function () {
-            var apiClient = this.apiClient;
-            var options = {
+            const apiClient = this.apiClient;
+            const options = {
                 SortBy: (section.types, 'SeriesName,SortName'),
                 SortOrder: 'Ascending',
                 Filters: 'IsFavorite',
@@ -145,7 +145,7 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
                 EnableTotalRecordCount: false
             };
             options.Limit = 20;
-            var userId = apiClient.getCurrentUserId();
+            const userId = apiClient.getCurrentUserId();
 
             if ('MusicArtist' === section.types) {
                 return apiClient.getArtists(userId, options);
@@ -170,16 +170,16 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
 
     function getItemsHtmlFn(section) {
         return function (items) {
-            var cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
+            let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
             cardLayout = false;
-            var serverId = this.apiClient.serverId();
-            var leadingButtons = layoutManager.tv ? [{
+            const serverId = this.apiClient.serverId();
+            const leadingButtons = layoutManager.tv ? [{
                 name: globalize.translate('All'),
                 id: 'more',
                 icon: 'favorite',
                 routeUrl: getRouteUrl(section, serverId)
             }] : null;
-            var lines = 0;
+            let lines = 0;
 
             if (section.showTitle) {
                 lines++;
@@ -224,14 +224,14 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
     }
 
     function createSections(instance, elem, apiClient) {
-        var i;
-        var length;
-        var sections = getSections();
-        var html = '';
+        let i;
+        let length;
+        const sections = getSections();
+        let html = '';
 
         for (i = 0, length = sections.length; i < length; i++) {
-            var section = sections[i];
-            var sectionClass = 'verticalSection';
+            const section = sections[i];
+            let sectionClass = 'verticalSection';
 
             if (!section.showTitle) {
                 sectionClass += ' verticalSection-extrabottompadding';
@@ -257,10 +257,10 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
         }
 
         elem.innerHTML = html;
-        var elems = elem.querySelectorAll('.itemsContainer');
+        const elems = elem.querySelectorAll('.itemsContainer');
 
         for (i = 0, length = elems.length; i < length; i++) {
-            var itemsContainer = elems[i];
+            const itemsContainer = elems[i];
             itemsContainer.fetchData = getFetchDataFn(sections[i]).bind(instance);
             itemsContainer.getItemsHtml = getItemsHtmlFn(sections[i]).bind(instance);
             itemsContainer.parentContainer = dom.parentWithClass(itemsContainer, 'verticalSection');
@@ -268,11 +268,11 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
     }
 
     FavoritesTab.prototype.onResume = function (options) {
-        var promises = (this.apiClient, []);
-        var view = this.view;
-        var elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
+        const promises = (this.apiClient, []);
+        const view = this.view;
+        const elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
 
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (let i = 0, length = elems.length; i < length; i++) {
             promises.push(elems[i].resume(options));
         }
 
@@ -284,9 +284,9 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
     };
 
     FavoritesTab.prototype.onPause = function () {
-        var elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
+        const elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
 
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (let i = 0, length = elems.length; i < length; i++) {
             elems[i].pause();
         }
     };
@@ -295,9 +295,9 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
         this.view = null;
         this.params = null;
         this.apiClient = null;
-        var elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
+        const elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
 
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (let i = 0, length = elems.length; i < length; i++) {
             elems[i].fetchData = null;
             elems[i].getItemsHtml = null;
             elems[i].parentContainer = null;

@@ -11,23 +11,23 @@ define(['layoutManager', 'datetime', 'cardBuilder', 'apphost'], function (layout
 
     function getTimersHtml(timers, options) {
         options = options || {};
-        var i;
-        var length;
-        var items = timers.map(function (t) {
+        let i;
+        let length;
+        const items = timers.map(function (t) {
             t.Type = 'Timer';
             return t;
         });
-        var groups = [];
-        var currentGroupName = '';
-        var currentGroup = [];
+        const groups = [];
+        let currentGroupName = '';
+        let currentGroup = [];
 
         for (i = 0, length = items.length; i < length; i++) {
-            var item = items[i];
-            var dateText = '';
+            const item = items[i];
+            let dateText = '';
 
             if (options.indexByDate !== false && item.StartDate) {
                 try {
-                    var premiereDate = datetime.parseISO8601Date(item.StartDate, true);
+                    const premiereDate = datetime.parseISO8601Date(item.StartDate, true);
                     dateText = datetime.toLocaleDateString(premiereDate, {
                         weekday: 'long',
                         month: 'short',
@@ -60,17 +60,17 @@ define(['layoutManager', 'datetime', 'cardBuilder', 'apphost'], function (layout
             });
         }
 
-        var html = '';
+        let html = '';
 
         for (i = 0, length = groups.length; i < length; i++) {
-            var group = groups[i];
+            const group = groups[i];
 
             if (group.name) {
                 html += '<div class="verticalSection">';
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + '</h2>';
             }
             if (enableScrollX()) {
-                var scrollXClass = 'scrollX hiddenScrollX';
+                let scrollXClass = 'scrollX hiddenScrollX';
 
                 if (layoutManager.tv) {
                     scrollXClass += ' smoothScrollX';

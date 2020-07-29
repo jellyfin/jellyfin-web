@@ -1,20 +1,20 @@
 define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], function (viewContainer, focusManager, queryString, layoutManager) {
     'use strict';
 
-    var currentView;
-    var dispatchPageEvents;
+    let currentView;
+    let dispatchPageEvents;
 
     viewContainer.setOnBeforeChange(function (newView, isRestored, options) {
-        var lastView = currentView;
+        const lastView = currentView;
         if (lastView) {
-            var beforeHideResult = dispatchViewEvent(lastView, null, 'viewbeforehide', true);
+            const beforeHideResult = dispatchViewEvent(lastView, null, 'viewbeforehide', true);
 
             if (!beforeHideResult) {
                 // todo: cancel
             }
         }
 
-        var eventDetail = getViewEventDetail(newView, options, isRestored);
+        const eventDetail = getViewEventDetail(newView, options, isRestored);
 
         if (!newView.initComplete) {
             newView.initComplete = true;
@@ -34,14 +34,14 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
     });
 
     function onViewChange(view, options, isRestore) {
-        var lastView = currentView;
+        const lastView = currentView;
         if (lastView) {
             dispatchViewEvent(lastView, null, 'viewhide');
         }
 
         currentView = view;
 
-        var eventDetail = getViewEventDetail(view, options, isRestore);
+        const eventDetail = getViewEventDetail(view, options, isRestore);
 
         if (!isRestore) {
             if (options.autoFocus !== false) {
@@ -63,7 +63,7 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
     }
 
     function getProperties(view) {
-        var props = view.getAttribute('data-properties');
+        const props = view.getAttribute('data-properties');
 
         if (props) {
             return props.split(',');
@@ -86,7 +86,7 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
 
         eventInfo.cancelable = isCancellable || false;
 
-        var eventResult = view.dispatchEvent(new CustomEvent(eventName, eventInfo));
+        const eventResult = view.dispatchEvent(new CustomEvent(eventName, eventInfo));
 
         if (dispatchPageEvents) {
             eventInfo.cancelable = false;
@@ -97,9 +97,9 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
     }
 
     function getViewEventDetail(view, options, isRestore) {
-        var url = options.url;
-        var index = url.indexOf('?');
-        var params = index === -1 ? {} : queryString.parse(url.substring(index + 1));
+        const url = options.url;
+        const index = url.indexOf('?');
+        const params = index === -1 ? {} : queryString.parse(url.substring(index + 1));
 
         return {
             detail: {
@@ -128,7 +128,7 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
     }
 
     ViewManager.prototype.loadView = function (options) {
-        var lastView = currentView;
+        const lastView = currentView;
 
         // Record the element that has focus
         if (lastView) {

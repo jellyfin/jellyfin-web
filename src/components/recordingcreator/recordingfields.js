@@ -34,8 +34,8 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     function fetchData(instance) {
-        var options = instance.options;
-        var apiClient = connectionManager.getApiClient(options.serverId);
+        const options = instance.options;
+        const apiClient = connectionManager.getApiClient(options.serverId);
 
         options.parent.querySelector('.recordingFields').classList.remove('hide');
         return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then(function (program) {
@@ -47,8 +47,8 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     function onTimerChangedExternally(e, apiClient, data) {
-        var options = this.options;
-        var refresh = false;
+        const options = this.options;
+        let refresh = false;
 
         if (data.Id) {
             if (this.TimerId === data.Id) {
@@ -67,8 +67,8 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     function onSeriesTimerChangedExternally(e, apiClient, data) {
-        var options = this.options;
-        var refresh = false;
+        const options = this.options;
+        let refresh = false;
 
         if (data.Id) {
             if (this.SeriesTimerId === data.Id) {
@@ -90,13 +90,13 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         this.options = options;
         this.embed();
 
-        var timerChangedHandler = onTimerChangedExternally.bind(this);
+        const timerChangedHandler = onTimerChangedExternally.bind(this);
         this.timerChangedHandler = timerChangedHandler;
 
         events.on(serverNotifications, 'TimerCreated', timerChangedHandler);
         events.on(serverNotifications, 'TimerCancelled', timerChangedHandler);
 
-        var seriesTimerChangedHandler = onSeriesTimerChangedExternally.bind(this);
+        const seriesTimerChangedHandler = onSeriesTimerChangedExternally.bind(this);
         this.seriesTimerChangedHandler = seriesTimerChangedHandler;
 
         events.on(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
@@ -104,12 +104,12 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     function onManageRecordingClick(e) {
-        var options = this.options;
+        const options = this.options;
         if (!this.TimerId || this.Status === 'Cancelled') {
             return;
         }
 
-        var self = this;
+        const self = this;
         require(['recordingEditor'], function (recordingEditor) {
             recordingEditor.show(self.TimerId, options.serverId, {
                 enableCancel: false
@@ -120,13 +120,13 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     function onManageSeriesRecordingClick(e) {
-        var options = this.options;
+        const options = this.options;
 
         if (!this.SeriesTimerId) {
             return;
         }
 
-        var self = this;
+        const self = this;
 
         require(['seriesRecordingEditor'], function (seriesRecordingEditor) {
             seriesRecordingEditor.show(self.SeriesTimerId, options.serverId, {
@@ -142,14 +142,14 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     function onRecordChange(e) {
         this.changed = true;
 
-        var self = this;
-        var options = this.options;
-        var apiClient = connectionManager.getApiClient(options.serverId);
+        const self = this;
+        const options = this.options;
+        const apiClient = connectionManager.getApiClient(options.serverId);
 
-        var button = dom.parentWithTag(e.target, 'BUTTON');
-        var isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
+        const button = dom.parentWithTag(e.target, 'BUTTON');
+        const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
 
-        var hasEnabledTimer = this.TimerId && this.Status !== 'Cancelled';
+        const hasEnabledTimer = this.TimerId && this.Status !== 'Cancelled';
 
         if (isChecked) {
             if (!hasEnabledTimer) {
@@ -181,17 +181,17 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     function onRecordSeriesChange(e) {
         this.changed = true;
 
-        var self = this;
-        var options = this.options;
-        var apiClient = connectionManager.getApiClient(options.serverId);
+        const self = this;
+        const options = this.options;
+        const apiClient = connectionManager.getApiClient(options.serverId);
 
-        var button = dom.parentWithTag(e.target, 'BUTTON');
-        var isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
+        const button = dom.parentWithTag(e.target, 'BUTTON');
+        const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
 
         if (isChecked) {
             options.parent.querySelector('.recordSeriesContainer').classList.remove('hide');
             if (!this.SeriesTimerId) {
-                var promise = this.TimerId ?
+                const promise = this.TimerId ?
                     recordingHelper.changeRecordingToSeries(apiClient, this.TimerId, options.programId) :
                     recordingHelper.createRecording(apiClient, options.programId, true);
                 promise.then(function () {
@@ -209,11 +209,11 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     RecordingEditor.prototype.embed = function () {
-        var self = this;
+        const self = this;
         return new Promise(function (resolve, reject) {
             require(['text!./recordingfields.template.html'], function (template) {
-                var options = self.options;
-                var context = options.parent;
+                const options = self.options;
+                const context = options.parent;
                 context.innerHTML = globalize.translateHtml(template, 'core');
 
                 context.querySelector('.singleRecordingButton').addEventListener('click', onRecordChange.bind(self));
@@ -235,13 +235,13 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     };
 
     RecordingEditor.prototype.destroy = function () {
-        var timerChangedHandler = this.timerChangedHandler;
+        const timerChangedHandler = this.timerChangedHandler;
         this.timerChangedHandler = null;
 
         events.off(serverNotifications, 'TimerCreated', timerChangedHandler);
         events.off(serverNotifications, 'TimerCancelled', timerChangedHandler);
 
-        var seriesTimerChangedHandler = this.seriesTimerChangedHandler;
+        const seriesTimerChangedHandler = this.seriesTimerChangedHandler;
         this.seriesTimerChangedHandler = null;
 
         events.off(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);

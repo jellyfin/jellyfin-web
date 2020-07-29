@@ -14,7 +14,7 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function loadLatest(page, userId, parentId) {
-        var options = {
+        const options = {
             IncludeItemTypes: 'Movie',
             Limit: 18,
             Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
@@ -24,8 +24,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
             EnableTotalRecordCount: false
         };
         ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-            var allowBottomPadding = !enableScrollX();
-            var container = page.querySelector('#recentlyAddedItems');
+            const allowBottomPadding = !enableScrollX();
+            const container = page.querySelector('#recentlyAddedItems');
             cardBuilder.buildCards(items, {
                 itemsContainer: container,
                 shape: getPortraitShape(),
@@ -43,8 +43,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function loadResume(page, userId, parentId) {
-        var screenWidth = dom.getWindowSize().innerWidth;
-        var options = {
+        const screenWidth = dom.getWindowSize().innerWidth;
+        const options = {
             SortBy: 'DatePlayed',
             SortOrder: 'Descending',
             IncludeItemTypes: 'Movie',
@@ -65,8 +65,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
                 page.querySelector('#resumableSection').classList.add('hide');
             }
 
-            var allowBottomPadding = !enableScrollX();
-            var container = page.querySelector('#resumableItems');
+            const allowBottomPadding = !enableScrollX();
+            const container = page.querySelector('#resumableItems');
             cardBuilder.buildCards(result.Items, {
                 itemsContainer: container,
                 preferThumb: true,
@@ -86,8 +86,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function getRecommendationHtml(recommendation) {
-        var html = '';
-        var title = '';
+        let html = '';
+        let title = '';
 
         switch (recommendation.RecommendationType) {
             case 'SimilarToRecentlyPlayed':
@@ -111,7 +111,7 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
 
         html += '<div class="verticalSection">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + '</h2>';
-        var allowBottomPadding = true;
+        const allowBottomPadding = true;
 
         if (enableScrollX()) {
             html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
@@ -139,8 +139,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function loadSuggestions(page, userId, parentId) {
-        var screenWidth = dom.getWindowSize().innerWidth;
-        var url = ApiClient.getUrl('Movies/Recommendations', {
+        const screenWidth = dom.getWindowSize().innerWidth;
+        const url = ApiClient.getUrl('Movies/Recommendations', {
             userId: userId,
             categoryLimit: 6,
             ItemLimit: screenWidth >= 1920 ? 8 : screenWidth >= 1600 ? 8 : screenWidth >= 1200 ? 6 : 5,
@@ -155,9 +155,9 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
                 return;
             }
 
-            var html = recommendations.map(getRecommendationHtml).join('');
+            const html = recommendations.map(getRecommendationHtml).join('');
             page.querySelector('.noItemsMessage').classList.add('hide');
-            var recs = page.querySelector('.recommendations');
+            const recs = page.querySelector('.recommendations');
             recs.innerHTML = html;
             imageLoader.lazyChildren(recs);
 
@@ -193,16 +193,16 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     function initSuggestedTab(page, tabContent) {
-        var containers = tabContent.querySelectorAll('.itemsContainer');
+        const containers = tabContent.querySelectorAll('.itemsContainer');
 
-        for (var i = 0, length = containers.length; i < length; i++) {
+        for (let i = 0, length = containers.length; i < length; i++) {
             setScrollClasses(containers[i], enableScrollX());
         }
     }
 
     function loadSuggestionsTab(view, params, tabContent) {
-        var parentId = params.topParentId;
-        var userId = ApiClient.getCurrentUserId();
+        const parentId = params.topParentId;
+        const userId = ApiClient.getCurrentUserId();
         console.debug('loadSuggestionsTab');
         loadResume(tabContent, userId, parentId);
         loadLatest(tabContent, userId, parentId);
@@ -253,7 +253,7 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         }
 
         function onTabChange(e) {
-            var newIndex = parseInt(e.detail.selectedTabIndex);
+            const newIndex = parseInt(e.detail.selectedTabIndex);
             loadTab(view, newIndex);
         }
 
@@ -266,7 +266,7 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         }
 
         function getTabController(page, index, callback) {
-            var depends = [];
+            const depends = [];
 
             switch (index) {
                 case 0:
@@ -297,14 +297,14 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
             }
 
             require(depends, function (controllerFactory) {
-                var tabContent;
+                let tabContent;
 
                 if (index === suggestionsTabIndex) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
 
-                var controller = tabControllers[index];
+                let controller = tabControllers[index];
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
@@ -368,26 +368,26 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
             }
         }
 
-        var self = this;
-        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        var suggestionsTabIndex = 1;
+        const self = this;
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        const suggestionsTabIndex = 1;
 
         self.initTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             initSuggestedTab(view, tabContent);
         };
 
         self.renderTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, params, tabContent);
         };
 
-        var tabControllers = [];
-        var renderedTabs = [];
+        const tabControllers = [];
+        let renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
             initTabs();
             if (!view.getAttribute('data-title')) {
-                var parentId = params.topParentId;
+                const parentId = params.topParentId;
 
                 if (parentId) {
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {

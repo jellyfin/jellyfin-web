@@ -171,9 +171,7 @@ import 'css!assets/css/videoosd';
             }
 
             setTitle(displayItem, parentName);
-            let titleElement;
-            const osdTitle = view.querySelector('.osdTitle');
-            titleElement = osdTitle;
+            const titleElement = view.querySelector('.osdTitle');
             let displayName = itemHelper.getDisplayName(displayItem, {
                 includeParentInfo: 'Program' !== displayItem.Type,
                 includeIndexNumber: 'Program' !== displayItem.Type
@@ -1613,7 +1611,7 @@ import 'css!assets/css/videoosd';
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
-                let html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+                const html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
                 if (html) {
                     return html;

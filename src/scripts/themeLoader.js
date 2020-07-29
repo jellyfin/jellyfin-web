@@ -3,15 +3,15 @@ import skinManager from 'skinManager';
 import connectionManager from 'connectionManager';
 import events from 'events';
 
-var currentViewType;
+let currentViewType;
 pageClassOn('viewbeforeshow', 'page', function () {
-    var classList = this.classList;
-    var viewType = classList.contains('type-interior') || classList.contains('wizardPage') ? 'a' : 'b';
+    const classList = this.classList;
+    const viewType = classList.contains('type-interior') || classList.contains('wizardPage') ? 'a' : 'b';
 
     if (viewType !== currentViewType) {
         currentViewType = viewType;
-        var theme;
-        var context;
+        let theme;
+        let context;
 
         if ('a' === viewType) {
             theme = userSettings.dashboardTheme();

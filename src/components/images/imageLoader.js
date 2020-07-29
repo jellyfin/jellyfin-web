@@ -17,8 +17,8 @@ import 'css!./style';
             // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
             // improving the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
-            let width = 18;
-            let height = 18;
+            const width = 18;
+            const height = 18;
             let pixels;
             try {
                 pixels = blurhash.decode(blurhashstr, width, height);
@@ -27,11 +27,11 @@ import 'css!./style';
                 target.classList.add('non-blurhashable');
                 return;
             }
-            let canvas = document.createElement('canvas');
+            const canvas = document.createElement('canvas');
             canvas.width = width;
             canvas.height = height;
-            let ctx = canvas.getContext('2d');
-            let imgData = ctx.createImageData(width, height);
+            const ctx = canvas.getContext('2d');
+            const imgData = ctx.createImageData(width, height);
 
             imgData.data.set(pixels);
             ctx.putImageData(imgData, 0, 0);
@@ -55,8 +55,8 @@ import 'css!./style';
         if (!entry) {
             throw new Error('entry cannot be null');
         }
-        let target = entry.target;
-        var source = undefined;
+        const target = entry.target;
+        let source = undefined;
 
         if (target) {
             source = target.getAttribute('data-src');
@@ -78,7 +78,7 @@ import 'css!./style';
             throw new TypeError('url cannot be undefined');
         }
 
-        let preloaderImg = new Image();
+        const preloaderImg = new Image();
         preloaderImg.src = url;
 
         elem.classList.add('lazy-hidden');
@@ -103,7 +103,7 @@ import 'css!./style';
     }
 
     function emptyImageElement(elem) {
-        var url;
+        let url;
 
         if (elem.tagName !== 'IMG') {
             url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, '');
@@ -133,10 +133,10 @@ import 'css!./style';
     }
 
     export function getPrimaryImageAspectRatio(items) {
-        var values = [];
+        const values = [];
 
-        for (var i = 0, length = items.length; i < length; i++) {
-            var ratio = items[i].PrimaryImageAspectRatio || 0;
+        for (let i = 0, length = items.length; i < length; i++) {
+            const ratio = items[i].PrimaryImageAspectRatio || 0;
 
             if (!ratio) {
                 continue;
@@ -154,9 +154,9 @@ import 'css!./style';
             return a - b;
         });
 
-        var half = Math.floor(values.length / 2);
+        const half = Math.floor(values.length / 2);
 
-        var result;
+        let result;
 
         if (values.length % 2) {
             result = values[half];
@@ -165,13 +165,13 @@ import 'css!./style';
         }
 
         // If really close to 2:3 (poster image), just return 2:3
-        var aspect2x3 = 2 / 3;
+        const aspect2x3 = 2 / 3;
         if (Math.abs(aspect2x3 - result) <= 0.15) {
             return aspect2x3;
         }
 
         // If really close to 16:9 (episode image), just return 16:9
-        var aspect16x9 = 16 / 9;
+        const aspect16x9 = 16 / 9;
         if (Math.abs(aspect16x9 - result) <= 0.2) {
             return aspect16x9;
         }
@@ -182,7 +182,7 @@ import 'css!./style';
         }
 
         // If really close to 4:3 (poster image), just return 2:3
-        var aspect4x3 = 4 / 3;
+        const aspect4x3 = 4 / 3;
         if (Math.abs(aspect4x3 - result) <= 0.15) {
             return aspect4x3;
         }
@@ -191,8 +191,8 @@ import 'css!./style';
     }
 
     export function fillImages(elems) {
-        for (var i = 0, length = elems.length; i < length; i++) {
-            var elem = elems[0];
+        for (let i = 0, length = elems.length; i < length; i++) {
+            const elem = elems[0];
             fillImage(elem);
         }
     }

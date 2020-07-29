@@ -111,7 +111,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         }
 
         // Private variables
-        var self = this;
+        const self = this;
         self.options = o;
 
         // Frame

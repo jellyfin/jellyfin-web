@@ -6,7 +6,7 @@
             return;
         }
 
-        var script = document.createElement('script');
+        const script = document.createElement('script');
         if (self.dashboardVersion) {
             src += `?v=${self.dashboardVersion}`;
         }

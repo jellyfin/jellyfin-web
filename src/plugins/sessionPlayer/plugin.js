@@ -2,18 +2,18 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     'use strict';
 
     function getActivePlayerId() {
-        var info = playbackManager.getPlayerInfo();
+        const info = playbackManager.getPlayerInfo();
         return info ? info.id : null;
     }
 
     function sendPlayCommand(apiClient, options, playType) {
-        var sessionId = getActivePlayerId();
+        const sessionId = getActivePlayerId();
 
-        var ids = options.ids || options.items.map(function (i) {
+        const ids = options.ids || options.items.map(function (i) {
             return i.Id;
         });
 
-        var remoteOptions = {
+        const remoteOptions = {
             ItemIds: ids.join(','),
 
             PlayCommand: playType
@@ -43,13 +43,13 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     }
 
     function sendPlayStateCommand(apiClient, command, options) {
-        var sessionId = getActivePlayerId();
+        const sessionId = getActivePlayerId();
 
         apiClient.sendPlayStateCommand(sessionId, command, options);
     }
 
     function getCurrentApiClient(instance) {
-        var currentServerId = instance.currentServerId;
+        const currentServerId = instance.currentServerId;
 
         if (currentServerId) {
             return connectionManager.getApiClient(currentServerId);
@@ -59,7 +59,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     }
 
     function sendCommandByName(instance, name, options) {
-        var command = {
+        const command = {
             Name: name
         };
 
@@ -73,7 +73,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     function unsubscribeFromPlayerUpdates(instance) {
         instance.isUpdating = true;
 
-        var apiClient = getCurrentApiClient(instance);
+        const apiClient = getCurrentApiClient(instance);
         apiClient.sendMessage('SessionsStop');
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
@@ -82,7 +82,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     }
 
     function processUpdatedSessions(instance, sessions, apiClient) {
-        var serverId = apiClient.serverId();
+        const serverId = apiClient.serverId();
 
         sessions.map(function (s) {
             if (s.NowPlayingItem) {
@@ -90,19 +90,19 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
             }
         });
 
-        var currentTargetId = getActivePlayerId();
+        const currentTargetId = getActivePlayerId();
 
-        var session = sessions.filter(function (s) {
+        const session = sessions.filter(function (s) {
             return s.Id === currentTargetId;
         })[0];
 
         if (session) {
             normalizeImages(session, apiClient);
 
-            var eventNames = getChangedEvents(instance.lastPlayerData, session);
+            const eventNames = getChangedEvents(instance.lastPlayerData, session);
             instance.lastPlayerData = session;
 
-            for (var i = 0, length = eventNames.length; i < length; i++) {
+            for (let i = 0, length = eventNames.length; i < length; i++) {
                 events.trigger(instance, eventNames[i], [session]);
             }
         } else {
@@ -113,7 +113,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     }
 
     function getChangedEvents(state1, state2) {
-        var names = [];
+        const names = [];
 
         if (!state1) {
             names.push('statechange');
@@ -132,8 +132,8 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     }
 
     function onPollIntervalFired() {
-        var instance = this;
-        var apiClient = getCurrentApiClient(instance);
+        const instance = this;
+        const apiClient = getCurrentApiClient(instance);
         if (!apiClient.isMessageChannelOpen()) {
             apiClient.getSessions().then(function (sessions) {
                 processUpdatedSessions(instance, sessions, apiClient);
@@ -144,7 +144,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     function subscribeToPlayerUpdates(instance) {
         instance.isUpdating = true;
 
-        var apiClient = getCurrentApiClient(instance);
+        const apiClient = getCurrentApiClient(instance);
         apiClient.sendMessage('SessionsStart', '100,800');
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
@@ -155,7 +155,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
 
     function normalizeImages(state, apiClient) {
         if (state && state.NowPlayingItem) {
-            var item = state.NowPlayingItem;
+            const item = state.NowPlayingItem;
 
             if (!item.ImageTags || !item.ImageTags.Primary) {
                 if (item.PrimaryImageTag) {
@@ -177,7 +177,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     }
 
     function SessionPlayer() {
-        var self = this;
+        const self = this;
 
         this.name = 'Remote Control';
         this.type = 'mediaplayer';
@@ -216,14 +216,14 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.getTargets = function () {
-        var apiClient = getCurrentApiClient(this);
+        const apiClient = getCurrentApiClient(this);
 
-        var sessionQuery = {
+        const sessionQuery = {
             ControllableByUserId: apiClient.getCurrentUserId()
         };
 
         if (apiClient) {
-            var name = this.name;
+            const name = this.name;
 
             return apiClient.getSessions(sessionQuery).then(function (sessions) {
                 return sessions.filter(function (s) {
@@ -255,9 +255,9 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.sendCommand = function (command) {
-        var sessionId = getActivePlayerId();
+        const sessionId = getActivePlayerId();
 
-        var apiClient = getCurrentApiClient(this);
+        const apiClient = getCurrentApiClient(this);
         apiClient.sendCommand(sessionId, command);
     };
 
@@ -324,31 +324,31 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
             return this.seek(val);
         }
 
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.PositionTicks;
     };
 
     SessionPlayer.prototype.duration = function () {
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         return state.RunTimeTicks;
     };
 
     SessionPlayer.prototype.paused = function () {
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.IsPaused;
     };
 
     SessionPlayer.prototype.getVolume = function () {
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.VolumeLevel;
     };
 
     SessionPlayer.prototype.isMuted = function () {
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.IsMuted;
     };
@@ -396,16 +396,16 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.audioTracks = function () {
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
-        var streams = state.MediaStreams || [];
+        const streams = state.MediaStreams || [];
         return streams.filter(function (s) {
             return s.Type === 'Audio';
         });
     };
 
     SessionPlayer.prototype.getAudioStreamIndex = function () {
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.AudioStreamIndex;
     };
@@ -423,16 +423,16 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.subtitleTracks = function () {
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
-        var streams = state.MediaStreams || [];
+        const streams = state.MediaStreams || [];
         return streams.filter(function (s) {
             return s.Type === 'Subtitle';
         });
     };
 
     SessionPlayer.prototype.getSubtitleStreamIndex = function () {
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.SubtitleStreamIndex;
     };
@@ -484,18 +484,18 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.isPlaying = function () {
-        var state = this.lastPlayerData || {};
+        const state = this.lastPlayerData || {};
         return state.NowPlayingItem != null;
     };
 
     SessionPlayer.prototype.isPlayingVideo = function () {
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         return state.MediaType === 'Video';
     };
 
     SessionPlayer.prototype.isPlayingAudio = function () {
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         return state.MediaType === 'Audio';
     };

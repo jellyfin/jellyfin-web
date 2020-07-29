@@ -12,7 +12,7 @@ define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'sc
             elem.classList.add('hide');
         }
 
-        var recordingItems = elem.querySelector('.recordingItems');
+        const recordingItems = elem.querySelector('.recordingItems');
 
         if (scrollX) {
             recordingItems.classList.add('scrollX');
@@ -60,8 +60,8 @@ define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'sc
     }
 
     function onMoreClick(e) {
-        var type = this.getAttribute('data-type');
-        var serverId = ApiClient.serverId();
+        const type = this.getAttribute('data-type');
+        const serverId = ApiClient.serverId();
 
         switch (type) {
             case 'latest':
@@ -74,13 +74,13 @@ define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'sc
             return new Date().getTime() - lastFullRender > 300000;
         }
 
-        var foldersPromise;
-        var latestPromise;
-        var self = this;
-        var lastFullRender = 0;
-        var moreButtons = tabContent.querySelectorAll('.more');
+        let foldersPromise;
+        let latestPromise;
+        const self = this;
+        let lastFullRender = 0;
+        const moreButtons = tabContent.querySelectorAll('.more');
 
-        for (var i = 0, length = moreButtons.length; i < length; i++) {
+        for (let i = 0, length = moreButtons.length; i < length; i++) {
             moreButtons[i].addEventListener('click', onMoreClick);
         }
 

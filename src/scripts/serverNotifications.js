@@ -1,14 +1,14 @@
 define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'inputManager', 'focusManager', 'appRouter'], function (connectionManager, playbackManager, syncPlayManager, events, inputManager, focusManager, appRouter) {
     'use strict';
 
-    var serverNotifications = {};
+    const serverNotifications = {};
 
     function notifyApp() {
         inputManager.notify();
     }
 
     function displayMessage(cmd) {
-        var args = cmd.Arguments;
+        const args = cmd.Arguments;
         if (args.TimeoutMs) {
             require(['toast'], function (toast) {
                 toast({ title: args.Header, text: args.Text });
@@ -144,10 +144,10 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
     }
 
     function onMessageReceived(e, msg) {
-        var apiClient = this;
+        const apiClient = this;
         if (msg.MessageType === 'Play') {
             notifyApp();
-            var serverId = apiClient.serverInfo().Id;
+            const serverId = apiClient.serverInfo().Id;
             if (msg.Data.PlayCommand === 'PlayNext') {
                 playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId: serverId });
             } else if (msg.Data.PlayCommand === 'PlayLast') {
@@ -182,11 +182,11 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
                 notifyApp();
             }
         } else if (msg.MessageType === 'GeneralCommand') {
-            var cmd = msg.Data;
+            const cmd = msg.Data;
             processGeneralCommand(cmd, apiClient);
         } else if (msg.MessageType === 'UserDataChanged') {
             if (msg.Data.UserId === apiClient.getCurrentUserId()) {
-                for (var i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
+                for (let i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
                     events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
                 }
             }

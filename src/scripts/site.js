@@ -1,10 +1,10 @@
 function getWindowLocationSearch(win) {
     'use strict';
 
-    var search = (win || window).location.search;
+    let search = (win || window).location.search;
 
     if (!search) {
-        var index = window.location.href.indexOf('?');
+        const index = window.location.href.indexOf('?');
 
         if (-1 != index) {
             search = window.location.href.substring(index);
@@ -18,9 +18,9 @@ window.getParameterByName = function (name, url) {
     'use strict';
 
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regexS = '[\\?&]' + name + '=([^&#]*)';
-    var regex = new RegExp(regexS, 'i');
-    var results = regex.exec(url || getWindowLocationSearch());
+    const regexS = '[\\?&]' + name + '=([^&#]*)';
+    const regex = new RegExp(regexS, 'i');
+    const results = regex.exec(url || getWindowLocationSearch());
 
     if (null == results) {
         return '';
@@ -33,7 +33,7 @@ function pageClassOn(eventName, className, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
-        var target = event.target;
+        const target = event.target;
 
         if (target.classList.contains(className)) {
             fn.call(target, event);
@@ -45,7 +45,7 @@ window.pageIdOn = function(eventName, id, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
-        var target = event.target;
+        const target = event.target;
 
         if (target.id === id) {
             fn.call(target, event);
@@ -53,7 +53,7 @@ window.pageIdOn = function(eventName, id, fn) {
     });
 };
 
-var Dashboard = {
+const Dashboard = {
     getCurrentUser: function () {
         return window.ApiClient.getCurrentUser(false);
     },
@@ -61,7 +61,7 @@ var Dashboard = {
     //TODO: investigate url prefix support for serverAddress function
     serverAddress: function () {
         if (AppInfo.isNativeApp) {
-            var apiClient = window.ApiClient;
+            const apiClient = window.ApiClient;
 
             if (apiClient) {
                 return apiClient.serverAddress();
@@ -70,15 +70,15 @@ var Dashboard = {
             return null;
         }
 
-        var urlLower = window.location.href.toLowerCase();
-        var index = urlLower.lastIndexOf('/web');
+        const urlLower = window.location.href.toLowerCase();
+        const index = urlLower.lastIndexOf('/web');
 
         if (-1 != index) {
             return urlLower.substring(0, index);
         }
 
-        var loc = window.location;
-        var address = loc.protocol + '//' + loc.hostname;
+        const loc = window.location;
+        let address = loc.protocol + '//' + loc.hostname;
 
         if (loc.port) {
             address += ':' + loc.port;
@@ -87,7 +87,7 @@ var Dashboard = {
         return address;
     },
     getCurrentUserId: function () {
-        var apiClient = window.ApiClient;
+        const apiClient = window.ApiClient;
 
         if (apiClient) {
             return apiClient.getCurrentUserId();
@@ -101,7 +101,7 @@ var Dashboard = {
     },
     logout: function () {
         ConnectionManager.logout().then(function () {
-            var loginPage;
+            let loginPage;
 
             if (AppInfo.isNativeApp) {
                 loginPage = 'selectserver.html';
@@ -130,7 +130,7 @@ var Dashboard = {
             throw new Error('url cannot be null or empty');
         }
 
-        var queryString = getWindowLocationSearch();
+        const queryString = getWindowLocationSearch();
 
         if (preserveQueryString && queryString) {
             url += queryString;
@@ -166,7 +166,7 @@ var Dashboard = {
             loading.hide();
         });
 
-        var status = '' + response.status;
+        let status = '' + response.status;
 
         if (response.statusText) {
             status = response.statusText;
@@ -194,7 +194,7 @@ var Dashboard = {
         });
     },
     capabilities: function (appHost) {
-        var capabilities = {
+        let capabilities = {
             PlayableMediaTypes: ['Audio', 'Video'],
             SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
             SupportsPersistentIdentifier: 'cordova' === self.appMode || 'android' === self.appMode,
@@ -234,7 +234,7 @@ var Dashboard = {
     }
 };
 
-var AppInfo = {};
+const AppInfo = {};
 
 function initClient() {
     function defineConnectionManager(connectionManager) {
@@ -249,7 +249,7 @@ function initClient() {
 
         connectionManager.currentApiClient = function () {
             if (!localApiClient) {
-                var server = connectionManager.getLastUsedServer();
+                const server = connectionManager.getLastUsedServer();
 
                 if (server) {
                     localApiClient = connectionManager.getApiClient(server.Id);
@@ -272,16 +272,16 @@ function initClient() {
 
     function createConnectionManager() {
         return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
-            var credentialProviderInstance = new credentialProvider();
-            var promises = [apphost.getSyncProfile(), apphost.init()];
+            const credentialProviderInstance = new credentialProvider();
+            const promises = [apphost.getSyncProfile(), apphost.init()];
 
             return Promise.all(promises).then(function (responses) {
-                var deviceProfile = responses[0];
-                var capabilities = Dashboard.capabilities(apphost);
+                const deviceProfile = responses[0];
+                const capabilities = Dashboard.capabilities(apphost);
 
                 capabilities.DeviceProfile = deviceProfile;
 
-                var connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities);
+                const connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities);
 
                 defineConnectionManager(connectionManager);
                 bindConnectionManagerEvents(connectionManager, events, userSettings);
@@ -292,7 +292,7 @@ function initClient() {
                     return require(['apiclient'], function (apiClientFactory) {
                         console.debug('creating ApiClient singleton');
 
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId());
+                        const apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId());
 
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
@@ -377,8 +377,8 @@ function initClient() {
     }
 
     function initRequireWithBrowser() {
-        var componentsPath = getComponentsPath();
-        var scriptsPath = getScriptsPath();
+        const componentsPath = getComponentsPath();
+        const scriptsPath = getScriptsPath();
 
         define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
 
@@ -406,7 +406,7 @@ function initClient() {
         define('livetvcss', ['css!assets/css/livetv.css'], returnFirstDependency);
         define('detailtablecss', ['css!assets/css/detailtable.css'], returnFirstDependency);
 
-        var promises = [];
+        const promises = [];
         if (!window.fetch) {
             promises.push(require(['fetch']));
         }
@@ -437,8 +437,8 @@ function initClient() {
     }
 
     function loadCoreDictionary(globalize) {
-        var languages = ['ar', 'be-by', 'bg-bg', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'es', 'es-ar', 'es-mx', 'fa', 'fi', 'fr', 'fr-ca', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'kk', 'ko', 'lt-lt', 'ms', 'nb', 'nl', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sv', 'tr', 'uk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
-        var translations = languages.map(function (language) {
+        const languages = ['ar', 'be-by', 'bg-bg', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'es', 'es-ar', 'es-mx', 'fa', 'fi', 'fr', 'fr-ca', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'kk', 'ko', 'lt-lt', 'ms', 'nb', 'nl', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sv', 'tr', 'uk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
+        const translations = languages.map(function (language) {
             return {
                 lang: language,
                 path: 'strings/' + language + '.json'
@@ -477,7 +477,7 @@ function initClient() {
 
     function loadPlugins(appHost, browser, shell) {
         console.debug('loading installed plugins');
-        var list = [
+        let list = [
             'plugins/playAccessValidation/plugin',
             'plugins/experimentalWarnings/plugin',
             'plugins/htmlAudioPlayer/plugin',
@@ -572,7 +572,7 @@ function initClient() {
 
                 require(['playerSelectionMenu']);
 
-                var apiClient = window.ConnectionManager && window.ConnectionManager.currentApiClient();
+                const apiClient = window.ConnectionManager && window.ConnectionManager.currentApiClient();
                 if (apiClient) {
                     fetch(apiClient.getUrl('Branding/Css'))
                         .then(function(response) {
@@ -584,7 +584,7 @@ function initClient() {
                         .then(function(css) {
                             // Inject the branding css as a dom element in body so it will take
                             // precedence over other stylesheets
-                            var style = document.createElement('style');
+                            const style = document.createElement('style');
                             style.appendChild(document.createTextNode(css));
                             document.body.appendChild(style);
                         })
@@ -620,17 +620,17 @@ function initClient() {
         init();
     }
 
-    var localApiClient;
+    let localApiClient;
 
     (function () {
-        var urlArgs = 'v=' + (window.dashboardVersion || new Date().getDate());
+        const urlArgs = 'v=' + (window.dashboardVersion || new Date().getDate());
 
-        var bowerPath = getBowerPath();
-        var componentsPath = getComponentsPath();
-        var elementsPath = getElementsPath();
-        var scriptsPath = getScriptsPath();
+        const bowerPath = getBowerPath();
+        const componentsPath = getComponentsPath();
+        const elementsPath = getElementsPath();
+        const scriptsPath = getScriptsPath();
 
-        var paths = {
+        const paths = {
             browserdeviceprofile: 'scripts/browserDeviceProfile',
             browser: 'scripts/browser',
             libraryBrowser: 'scripts/libraryBrowser',
@@ -865,7 +865,7 @@ function initClient() {
             function showItem(item, serverId, options) {
                 if ('string' == typeof item) {
                     require(['connectionManager'], function (connectionManager) {
-                        var apiClient = connectionManager.currentApiClient();
+                        const apiClient = connectionManager.currentApiClient();
                         apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
                             appRouter.showItem(item, options);
                         });
@@ -942,16 +942,16 @@ function initClient() {
                     return item.url;
                 }
 
-                var context = options ? options.context : null;
-                var id = item.Id || item.ItemId;
+                const context = options ? options.context : null;
+                const id = item.Id || item.ItemId;
 
                 if (!options) {
                     options = {};
                 }
 
-                var url;
-                var itemType = item.Type || (options ? options.itemType : null);
-                var serverId = item.ServerId || options.serverId;
+                let url;
+                const itemType = item.Type || (options ? options.itemType : null);
+                const serverId = item.ServerId || options.serverId;
 
                 if ('settings' === item) {
                     return 'mypreferencesmenu.html';
@@ -974,7 +974,7 @@ function initClient() {
                 }
 
                 if ('list' === item) {
-                    var url = 'list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
+                    let url = 'list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
 
                     if (options.isFavorite) {
                         url += '&IsFavorite=true';
@@ -1094,13 +1094,13 @@ function initClient() {
                     }
                 }
 
-                var itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
+                const itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
 
                 if (itemTypes.indexOf(itemType) >= 0) {
                     return 'details?id=' + id + '&serverId=' + serverId;
                 }
 
-                var contextSuffix = context ? '&context=' + context : '';
+                const contextSuffix = context ? '&context=' + context : '';
 
                 if ('Series' == itemType || 'Season' == itemType || 'Episode' == itemType) {
                     return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;

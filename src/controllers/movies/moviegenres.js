@@ -5,8 +5,8 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
 
     return function (view, params, tabContent) {
         function getPageData() {
-            var key = getSavedQueryKey();
-            var pageData = data[key];
+            const key = getSavedQueryKey();
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -36,7 +36,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
 
         function getPromise() {
             loading.show();
-            var query = getQuery();
+            const query = getQuery();
             return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
         }
 
@@ -53,17 +53,17 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
         }
 
         function fillItemsContainer(entry) {
-            var elem = entry.target;
-            var id = elem.getAttribute('data-id');
-            var viewStyle = self.getCurrentViewStyle();
-            var limit = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 5 : 9;
+            const elem = entry.target;
+            const id = elem.getAttribute('data-id');
+            const viewStyle = self.getCurrentViewStyle();
+            let limit = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 5 : 9;
 
             if (enableScrollX()) {
                 limit = 10;
             }
 
-            var enableImageTypes = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 'Primary,Backdrop,Thumb' : 'Primary';
-            var query = {
+            const enableImageTypes = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 'Primary,Backdrop,Thumb' : 'Primary';
+            const query = {
                 SortBy: 'SortName',
                 SortOrder: 'Ascending',
                 IncludeItemTypes: 'Movie',
@@ -128,14 +128,14 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
         }
 
         function reloadItems(context, promise) {
-            var query = getQuery();
+            const query = getQuery();
             promise.then(function (result) {
-                var elem = context.querySelector('#items');
-                var html = '';
-                var items = result.Items;
+                const elem = context.querySelector('#items');
+                let html = '';
+                const items = result.Items;
 
-                for (var i = 0, length = items.length; i < length; i++) {
-                    var item = items[i];
+                for (let i = 0, length = items.length; i < length; i++) {
+                    const item = items[i];
 
                     html += '<div class="verticalSection">';
                     html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
@@ -150,7 +150,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
                     html += '</a>';
                     html += '</div>';
                     if (enableScrollX()) {
-                        var scrollXClass = 'scrollX hiddenScrollX';
+                        let scrollXClass = 'scrollX hiddenScrollX';
 
                         if (layoutManager.tv) {
                             scrollXClass += 'smoothScrollX padded-top-focusscale padded-bottom-focusscale';
@@ -186,8 +186,8 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
             self.renderTab();
         }
 
-        var self = this;
-        var data = {};
+        const self = this;
+        const data = {};
 
         self.getViewStyles = function () {
             return 'Poster,PosterCard,Thumb,ThumbCard'.split(',');
@@ -204,7 +204,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
         };
 
         self.enableViewSelection = true;
-        var promise;
+        let promise;
 
         self.preRender = function () {
             promise = getPromise();

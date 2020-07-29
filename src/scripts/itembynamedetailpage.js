@@ -2,7 +2,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
     'use strict';
 
     function renderItems(page, item) {
-        var sections = [];
+        const sections = [];
 
         if (item.ArtistCount) {
             sections.push({
@@ -60,10 +60,10 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
             });
         }
 
-        var elem = page.querySelector('#childrenContent');
+        const elem = page.querySelector('#childrenContent');
         elem.innerHTML = sections.map(function (section) {
-            var html = '';
-            var sectionClass = 'verticalSection';
+            let html = '';
+            let sectionClass = 'verticalSection';
 
             if ('Audio' === section.type) {
                 sectionClass += ' verticalSection-extrabottompadding';
@@ -80,9 +80,9 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
             html += '</div>';
             return html += '</div>';
         }).join('');
-        var sectionElems = elem.querySelectorAll('.verticalSection');
+        const sectionElems = elem.querySelectorAll('.verticalSection');
 
-        for (var i = 0, length = sectionElems.length; i < length; i++) {
+        for (let i = 0, length = sectionElems.length; i < length; i++) {
             renderSection(page, item, sectionElems[i], sectionElems[i].getAttribute('data-type'));
         }
     }
@@ -259,10 +259,10 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
     function loadItems(element, item, type, query, listOptions) {
         query = getQuery(query, item);
         getItemsFunction(query, item)(query.StartIndex, query.Limit, query.Fields).then(function (result) {
-            var html = '';
+            let html = '';
 
             if (query.Limit && result.TotalRecordCount > query.Limit) {
-                var link = element.querySelector('a');
+                const link = element.querySelector('a');
                 link.classList.remove('hide');
                 link.setAttribute('href', getMoreItemsHref(item, type));
             } else {
@@ -270,7 +270,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
             }
 
             listOptions.items = result.Items;
-            var itemsContainer = element.querySelector('.itemsContainer');
+            const itemsContainer = element.querySelector('.itemsContainer');
 
             if ('Audio' == type) {
                 html = listView.getListViewHtml(listOptions);
@@ -328,7 +328,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
     }
 
     function getQuery(options, item) {
-        var query = {
+        let query = {
             SortOrder: 'Ascending',
             IncludeItemTypes: '',
             Recursive: true,
@@ -343,7 +343,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
     }
 
     function getItemsFunction(options, item) {
-        var query = getQuery(options, item);
+        const query = getQuery(options, item);
         return function (index, limit, fields) {
             query.StartIndex = index;
             query.Limit = limit;
@@ -352,7 +352,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
                 query.Fields += ',' + fields;
             }
 
-            var apiClient = connectionManager.getApiClient(item.ServerId);
+            const apiClient = connectionManager.getApiClient(item.ServerId);
 
             if ('MusicArtist' === query.IncludeItemTypes) {
                 query.IncludeItemTypes = null;

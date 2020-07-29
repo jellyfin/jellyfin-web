@@ -2,7 +2,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
     'use strict';
 
     function deletePlugin(page, uniqueid, name) {
-        var msg = globalize.translate('UninstallPluginConfirmation', name);
+        const msg = globalize.translate('UninstallPluginConfirmation', name);
 
         require(['confirm'], function (confirm) {
             confirm.default({
@@ -32,11 +32,11 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
     }
 
     function getPluginCardHtml(plugin, pluginConfigurationPages) {
-        var configPage = pluginConfigurationPages.filter(function (pluginConfigurationPage) {
+        const configPage = pluginConfigurationPages.filter(function (pluginConfigurationPage) {
             return pluginConfigurationPage.PluginId == plugin.Id;
         })[0];
-        var configPageUrl = configPage ? Dashboard.getConfigurationPageUrl(configPage.Name) : null;
-        var html = '';
+        const configPageUrl = configPage ? Dashboard.getConfigurationPageUrl(configPage.Name) : null;
+        let html = '';
         html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' class='card backdropCard'>";
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable">';
@@ -80,11 +80,11 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
             return -1;
         });
 
-        var html = plugins.map(function (p) {
+        let html = plugins.map(function (p) {
             return getPluginCardHtml(p, pluginConfigurationPages);
         }).join('');
 
-        var installedPluginsElement = page.querySelector('.installedPlugins');
+        const installedPluginsElement = page.querySelector('.installedPlugins');
         installedPluginsElement.removeEventListener('click', onInstalledPluginsClick);
         installedPluginsElement.addEventListener('click', onInstalledPluginsClick);
 
@@ -105,12 +105,12 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
     }
 
     function showPluginMenu(page, elem) {
-        var card = dom.parentWithClass(elem, 'card');
-        var id = card.getAttribute('data-id');
-        var name = card.getAttribute('data-name');
-        var removable = card.getAttribute('data-removable');
-        var configHref = card.querySelector('.cardContent').getAttribute('href');
-        var menuItems = [];
+        const card = dom.parentWithClass(elem, 'card');
+        const id = card.getAttribute('data-id');
+        const name = card.getAttribute('data-name');
+        const removable = card.getAttribute('data-removable');
+        const configHref = card.querySelector('.cardContent').getAttribute('href');
+        const menuItems = [];
 
         if (configHref) {
             menuItems.push({
@@ -172,7 +172,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
         } else if (dom.parentWithClass(e.target, 'connectModePluginCard')) {
             showConnectMessage();
         } else {
-            var btnCardMenu = dom.parentWithClass(e.target, 'btnCardMenu');
+            const btnCardMenu = dom.parentWithClass(e.target, 'btnCardMenu');
             if (btnCardMenu) {
                 showPluginMenu(dom.parentWithClass(btnCardMenu, 'page'), btnCardMenu);
             }

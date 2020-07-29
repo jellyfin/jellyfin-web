@@ -10,30 +10,30 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
     }
 
     function updateProgramCellOnScroll(cell, scrollPct) {
-        var left = cell.posLeft;
+        let left = cell.posLeft;
         if (!left) {
             left = parseFloat(cell.style.left.replace('%', ''));
             cell.posLeft = left;
         }
-        var width = cell.posWidth;
+        let width = cell.posWidth;
         if (!width) {
             width = parseFloat(cell.style.width.replace('%', ''));
             cell.posWidth = width;
         }
 
-        var right = left + width;
-        var newPct = Math.max(Math.min(scrollPct, right), left);
+        const right = left + width;
+        const newPct = Math.max(Math.min(scrollPct, right), left);
 
-        var offset = newPct - left;
-        var pctOfWidth = (offset / width) * 100;
+        const offset = newPct - left;
+        const pctOfWidth = (offset / width) * 100;
 
-        var guideProgramName = cell.guideProgramName;
+        let guideProgramName = cell.guideProgramName;
         if (!guideProgramName) {
             guideProgramName = cell.querySelector('.guideProgramName');
             cell.guideProgramName = guideProgramName;
         }
 
-        var caret = cell.caret;
+        let caret = cell.caret;
         if (!caret) {
             caret = cell.querySelector('.guide-programNameCaret');
             cell.caret = caret;
@@ -50,7 +50,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
     }
 
-    var isUpdatingProgramCellScroll = false;
+    let isUpdatingProgramCellScroll = false;
     function updateProgramCellsOnScroll(programGrid, programCells) {
         if (isUpdatingProgramCellScroll) {
             return;
@@ -59,11 +59,11 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         isUpdatingProgramCellScroll = true;
 
         requestAnimationFrame(function () {
-            var scrollLeft = programGrid.scrollLeft;
+            const scrollLeft = programGrid.scrollLeft;
 
-            var scrollPct = scrollLeft ? (scrollLeft / programGrid.scrollWidth) * 100 : 0;
+            const scrollPct = scrollLeft ? (scrollLeft / programGrid.scrollWidth) * 100 : 0;
 
-            for (var i = 0, length = programCells.length; i < length; i++) {
+            for (let i = 0, length = programCells.length; i < length; i++) {
                 updateProgramCellOnScroll(programCells[i], scrollPct);
             }
 
@@ -76,17 +76,17 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             return;
         }
 
-        var programCell = dom.parentWithClass(e.target, 'programCell');
+        const programCell = dom.parentWithClass(e.target, 'programCell');
         if (programCell) {
-            var startDate = programCell.getAttribute('data-startdate');
-            var endDate = programCell.getAttribute('data-enddate');
+            let startDate = programCell.getAttribute('data-startdate');
+            let endDate = programCell.getAttribute('data-enddate');
             startDate = datetime.parseISO8601Date(startDate, { toLocal: true }).getTime();
             endDate = datetime.parseISO8601Date(endDate, { toLocal: true }).getTime();
 
-            var now = new Date().getTime();
+            const now = new Date().getTime();
             if (now >= startDate && now < endDate) {
-                var channelId = programCell.getAttribute('data-channelid');
-                var serverId = programCell.getAttribute('data-serverid');
+                const channelId = programCell.getAttribute('data-channelid');
+                const serverId = programCell.getAttribute('data-serverid');
 
                 e.preventDefault();
                 e.stopPropagation();
@@ -100,24 +100,24 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
     }
 
     function Guide(options) {
-        var self = this;
-        var items = {};
+        const self = this;
+        let items = {};
 
         self.options = options;
         self.categoryOptions = { categories: [] };
 
         // 30 mins
-        var cellCurationMinutes = 30;
-        var cellDurationMs = cellCurationMinutes * 60 * 1000;
-        var msPerDay = 86400000;
+        const cellCurationMinutes = 30;
+        const cellDurationMs = cellCurationMinutes * 60 * 1000;
+        const msPerDay = 86400000;
 
-        var currentDate;
-        var currentStartIndex = 0;
-        var currentChannelLimit = 0;
-        var autoRefreshInterval;
-        var programCells;
-        var lastFocusDirection;
-        var programGrid;
+        let currentDate;
+        let currentStartIndex = 0;
+        let currentChannelLimit = 0;
+        let autoRefreshInterval;
+        let programCells;
+        let lastFocusDirection;
+        let programGrid;
 
         self.refresh = function () {
             currentDate = null;
@@ -153,7 +153,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         function restartAutoRefresh() {
             stopAutoRefresh();
 
-            var intervalMs = 60000 * 15; // (minutes)
+            const intervalMs = 60000 * 15; // (minutes)
 
             autoRefreshInterval = setInterval(function () {
                 self.refresh();
@@ -168,7 +168,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function normalizeDateToTimeslot(date) {
-            var minutesOffset = date.getMinutes() - cellCurationMinutes;
+            const minutesOffset = date.getMinutes() - cellCurationMinutes;
 
             if (minutesOffset >= 0) {
                 date.setHours(date.getHours(), cellCurationMinutes, 0, 0);
@@ -188,9 +188,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-            var apiClient = connectionManager.getApiClient(options.serverId);
+            const apiClient = connectionManager.getApiClient(options.serverId);
 
-            var channelQuery = {
+            const channelQuery = {
 
                 StartIndex: 0,
                 EnableFavoriteSorting: userSettings.get('livetv-favoritechannelsattop') !== 'false'
@@ -198,7 +198,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             channelQuery.UserId = apiClient.getCurrentUserId();
 
-            var channelLimit = 500;
+            const channelLimit = 500;
             currentChannelLimit = channelLimit;
 
             showLoading();
@@ -209,12 +209,12 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             channelQuery.EnableUserData = false;
             channelQuery.EnableImageTypes = 'Primary';
 
-            var categories = self.categoryOptions.categories || [];
-            var displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
-            var displaySportsContent = !categories.length || categories.indexOf('sports') !== -1;
-            var displayNewsContent = !categories.length || categories.indexOf('news') !== -1;
-            var displayKidsContent = !categories.length || categories.indexOf('kids') !== -1;
-            var displaySeriesContent = !categories.length || categories.indexOf('series') !== -1;
+            const categories = self.categoryOptions.categories || [];
+            const displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
+            const displaySportsContent = !categories.length || categories.indexOf('sports') !== -1;
+            const displayNewsContent = !categories.length || categories.indexOf('news') !== -1;
+            const displayKidsContent = !categories.length || categories.indexOf('kids') !== -1;
+            const displaySeriesContent = !categories.length || categories.indexOf('series') !== -1;
 
             if (displayMovieContent && displaySportsContent && displayNewsContent && displayKidsContent) {
                 channelQuery.IsMovie = null;
@@ -248,19 +248,19 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 channelQuery.SortOrder = null;
             }
 
-            var date = newStartDate;
+            let date = newStartDate;
             // Add one second to avoid getting programs that are just ending
             date = new Date(date.getTime() + 1000);
 
             // Subtract to avoid getting programs that are starting when the grid ends
-            var nextDay = new Date(date.getTime() + msPerDay - 2000);
+            const nextDay = new Date(date.getTime() + msPerDay - 2000);
 
             // Normally we'd want to just let responsive css handle this,
             // but since mobile browsers are often underpowered,
             // it can help performance to get them out of the markup
-            var allowIndicators = dom.getWindowSize().innerWidth >= 600;
+            const allowIndicators = dom.getWindowSize().innerWidth >= 600;
 
-            var renderOptions = {
+            const renderOptions = {
                 showHdIcon: allowIndicators && userSettings.get('guide-indicator-hd') === 'true',
                 showLiveIndicator: allowIndicators && userSettings.get('guide-indicator-live') !== 'false',
                 showPremiereIndicator: allowIndicators && userSettings.get('guide-indicator-premiere') !== 'false',
@@ -270,8 +270,8 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             };
 
             apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
-                var btnPreviousPage = context.querySelector('.btnPreviousPage');
-                var btnNextPage = context.querySelector('.btnNextPage');
+                const btnPreviousPage = context.querySelector('.btnPreviousPage');
+                const btnNextPage = context.querySelector('.btnNextPage');
 
                 if (channelsResult.TotalRecordCount > channelLimit) {
                     context.querySelector('.guideOptions').classList.remove('hide');
@@ -294,9 +294,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     context.querySelector('.guideOptions').classList.add('hide');
                 }
 
-                var programFields = [];
+                const programFields = [];
 
-                var programQuery = {
+                const programQuery = {
                     UserId: apiClient.getCurrentUserId(),
                     MaxStartDate: nextDay.toISOString(),
                     MinEndDate: date.toISOString(),
@@ -340,7 +340,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function getTimeslotHeadersHtml(startDate, endDateTime) {
-            var html = '';
+            let html = '';
 
             // clone
             startDate = new Date(startDate.getTime());
@@ -381,7 +381,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function getTimerIndicator(item) {
-            var status;
+            let status;
 
             if (item.Type === 'SeriesTimer') {
                 return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
@@ -405,30 +405,30 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
-            var html = '';
+            let html = '';
 
-            var startMs = date.getTime();
-            var endMs = startMs + msPerDay - 1;
+            const startMs = date.getTime();
+            const endMs = startMs + msPerDay - 1;
 
-            var outerCssClass = layoutManager.tv ? 'channelPrograms channelPrograms-tv' : 'channelPrograms';
+            const outerCssClass = layoutManager.tv ? 'channelPrograms channelPrograms-tv' : 'channelPrograms';
 
             html += '<div class="' + outerCssClass + '" data-channelid="' + channel.Id + '">';
 
-            var clickAction = layoutManager.tv ? 'link' : 'programdialog';
+            const clickAction = layoutManager.tv ? 'link' : 'programdialog';
 
-            var categories = self.categoryOptions.categories || [];
-            var displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
-            var displaySportsContent = !categories.length || categories.indexOf('sports') !== -1;
-            var displayNewsContent = !categories.length || categories.indexOf('news') !== -1;
-            var displayKidsContent = !categories.length || categories.indexOf('kids') !== -1;
-            var displaySeriesContent = !categories.length || categories.indexOf('series') !== -1;
-            var enableColorCodedBackgrounds = userSettings.get('guide-colorcodedbackgrounds') === 'true';
+            const categories = self.categoryOptions.categories || [];
+            const displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
+            const displaySportsContent = !categories.length || categories.indexOf('sports') !== -1;
+            const displayNewsContent = !categories.length || categories.indexOf('news') !== -1;
+            const displayKidsContent = !categories.length || categories.indexOf('kids') !== -1;
+            const displaySeriesContent = !categories.length || categories.indexOf('series') !== -1;
+            const enableColorCodedBackgrounds = userSettings.get('guide-colorcodedbackgrounds') === 'true';
 
-            var programsFound;
-            var now = new Date().getTime();
+            let programsFound;
+            const now = new Date().getTime();
 
-            for (var i = listInfo.startIndex, length = programs.length; i < length; i++) {
-                var program = programs[i];
+            for (let i = listInfo.startIndex, length = programs.length; i < length; i++) {
+                const program = programs[i];
 
                 if (program.ChannelId !== channel.Id) {
                     if (programsFound) {
@@ -443,8 +443,8 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                 parseDates(program);
 
-                var startDateLocalMs = program.StartDateLocal.getTime();
-                var endDateLocalMs = program.EndDateLocal.getTime();
+                const startDateLocalMs = program.StartDateLocal.getTime();
+                const endDateLocalMs = program.EndDateLocal.getTime();
 
                 if (endDateLocalMs < startMs) {
                     continue;
@@ -456,18 +456,18 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                 items[program.Id] = program;
 
-                var renderStartMs = Math.max(startDateLocalMs, startMs);
-                var startPercent = (startDateLocalMs - startMs) / msPerDay;
+                const renderStartMs = Math.max(startDateLocalMs, startMs);
+                let startPercent = (startDateLocalMs - startMs) / msPerDay;
                 startPercent *= 100;
                 startPercent = Math.max(startPercent, 0);
 
-                var renderEndMs = Math.min(endDateLocalMs, endMs);
-                var endPercent = (renderEndMs - renderStartMs) / msPerDay;
+                const renderEndMs = Math.min(endDateLocalMs, endMs);
+                let endPercent = (renderEndMs - renderStartMs) / msPerDay;
                 endPercent *= 100;
 
-                var cssClass = 'programCell itemAction';
-                var accentCssClass = null;
-                var displayInnerContent = true;
+                let cssClass = 'programCell itemAction';
+                let accentCssClass = null;
+                let displayInnerContent = true;
 
                 if (program.IsKids) {
                     displayInnerContent = displayKidsContent;
@@ -495,7 +495,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     cssClass += ' programCell-active';
                 }
 
-                var timerAttributes = '';
+                let timerAttributes = '';
                 if (program.TimerId) {
                     timerAttributes += ' data-timerid="' + program.TimerId + '"';
                 }
@@ -503,12 +503,12 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     timerAttributes += ' data-seriestimerid="' + program.SeriesTimerId + '"';
                 }
 
-                var isAttribute = endPercent >= 2 ? ' is="emby-programcell"' : '';
+                const isAttribute = endPercent >= 2 ? ' is="emby-programcell"' : '';
 
                 html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-startdate="' + program.StartDate + '" data-enddate="' + program.EndDate + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
                 if (displayInnerContent) {
-                    var guideProgramNameClass = 'guideProgramName';
+                    const guideProgramNameClass = 'guideProgramName';
 
                     html += '<div class="' + guideProgramNameClass + '">';
 
@@ -516,7 +516,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                     html += '<div class="guideProgramNameText">' + program.Name;
 
-                    var indicatorHtml = null;
+                    let indicatorHtml = null;
                     if (program.IsLive && options.showLiveIndicator) {
                         indicatorHtml = '<span class="liveTvProgram guideProgramIndicator">' + globalize.translate('Live') + '</span>';
                     } else if (program.IsPremiere && options.showPremiereIndicator) {
@@ -561,19 +561,19 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function renderChannelHeaders(context, channels, apiClient) {
-            var html = '';
+            let html = '';
 
-            for (var i = 0, length = channels.length; i < length; i++) {
-                var channel = channels[i];
-                var hasChannelImage = channel.ImageTags.Primary;
+            for (let i = 0, length = channels.length; i < length; i++) {
+                const channel = channels[i];
+                const hasChannelImage = channel.ImageTags.Primary;
 
-                var cssClass = 'guide-channelHeaderCell itemAction';
+                let cssClass = 'guide-channelHeaderCell itemAction';
 
                 if (layoutManager.tv) {
                     cssClass += ' guide-channelHeaderCell-tv';
                 }
 
-                var title = [];
+                const title = [];
                 if (channel.ChannelNumber) {
                     title.push(channel.ChannelNumber);
                 }
@@ -584,7 +584,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 html += '<button title="' + title.join(' ') + '" type="button" class="' + cssClass + '"' + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
 
                 if (hasChannelImage) {
-                    var url = apiClient.getScaledImageUrl(channel.Id, {
+                    const url = apiClient.getScaledImageUrl(channel.Id, {
                         maxHeight: 220,
                         tag: channel.ImageTags.Primary,
                         type: 'Primary'
@@ -604,19 +604,19 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 html += '</button>';
             }
 
-            var channelList = context.querySelector('.channelsContainer');
+            const channelList = context.querySelector('.channelsContainer');
             channelList.innerHTML = html;
             imageLoader.lazyChildren(channelList);
         }
 
         function renderPrograms(context, date, channels, programs, options) {
-            var listInfo = {
+            const listInfo = {
                 startIndex: 0
             };
 
-            var html = [];
+            const html = [];
 
-            for (var i = 0, length = channels.length; i < length; i++) {
+            for (let i = 0, length = channels.length; i < length; i++) {
                 html.push(getChannelProgramsHtml(context, date, channels[i], programs, options, listInfo));
             }
 
@@ -628,17 +628,17 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function getProgramSortOrder(program, channels) {
-            var channelId = program.ChannelId;
-            var channelIndex = -1;
+            const channelId = program.ChannelId;
+            let channelIndex = -1;
 
-            for (var i = 0, length = channels.length; i < length; i++) {
+            for (let i = 0, length = channels.length; i < length; i++) {
                 if (channelId === channels[i].Id) {
                     channelIndex = i;
                     break;
                 }
             }
 
-            var start = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
+            const start = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
 
             return (channelIndex * 10000000) + (start.getTime() / 60000);
         }
@@ -648,9 +648,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 return getProgramSortOrder(a, channels) - getProgramSortOrder(b, channels);
             });
 
-            var activeElement = document.activeElement;
-            var itemId = activeElement && activeElement.getAttribute ? activeElement.getAttribute('data-id') : null;
-            var channelRowId = null;
+            const activeElement = document.activeElement;
+            const itemId = activeElement && activeElement.getAttribute ? activeElement.getAttribute('data-id') : null;
+            let channelRowId = null;
 
             if (activeElement) {
                 channelRowId = dom.parentWithClass(activeElement, 'channelPrograms');
@@ -659,8 +659,8 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             renderChannelHeaders(context, channels, apiClient);
 
-            var startDate = date;
-            var endDate = new Date(startDate.getTime() + msPerDay);
+            const startDate = date;
+            const endDate = new Date(startDate.getTime() + msPerDay);
             context.querySelector('.timeslotHeaders').innerHTML = getTimeslotHeadersHtml(startDate, endDate);
             items = {};
             renderPrograms(context, date, channels, programs, renderOptions);
@@ -675,17 +675,17 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         function scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs) {
             scrollToTimeMs -= startTimeOfDayMs;
 
-            var pct = scrollToTimeMs / msPerDay;
+            const pct = scrollToTimeMs / msPerDay;
 
             programGrid.scrollTop = 0;
 
-            var scrollPos = pct * programGrid.scrollWidth;
+            const scrollPos = pct * programGrid.scrollWidth;
 
             nativeScrollTo(programGrid, scrollPos, true);
         }
 
         function focusProgram(context, itemId, channelRowId, focusToTimeMs, startTimeOfDayMs) {
-            var focusElem;
+            let focusElem;
             if (itemId) {
                 focusElem = context.querySelector('[data-id="' + itemId + '"]');
             }
@@ -693,7 +693,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             if (focusElem) {
                 focusManager.focus(focusElem);
             } else {
-                var autoFocusParent;
+                let autoFocusParent;
 
                 if (channelRowId) {
                     autoFocusParent = context.querySelector('[data-channelid="' + channelRowId + '"]');
@@ -705,14 +705,14 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                 focusToTimeMs -= startTimeOfDayMs;
 
-                var pct = (focusToTimeMs / msPerDay) * 100;
+                const pct = (focusToTimeMs / msPerDay) * 100;
 
-                var programCell = autoFocusParent.querySelector('.programCell');
+                let programCell = autoFocusParent.querySelector('.programCell');
 
                 while (programCell) {
-                    var left = (programCell.style.left || '').replace('%', '');
+                    let left = (programCell.style.left || '').replace('%', '');
                     left = left ? parseFloat(left) : 0;
-                    var width = (programCell.style.width || '').replace('%', '');
+                    let width = (programCell.style.width || '').replace('%', '');
                     width = width ? parseFloat(width) : 0;
 
                     if (left >= pct || (left + width) >= pct) {
@@ -745,14 +745,14 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             }
         }
 
-        var lastGridScroll = 0;
-        var lastHeaderScroll = 0;
-        var scrollXPct = 0;
+        let lastGridScroll = 0;
+        let lastHeaderScroll = 0;
+        let scrollXPct = 0;
         function onProgramGridScroll(context, elem, timeslotHeaders) {
             if ((new Date().getTime() - lastHeaderScroll) >= 1000) {
                 lastGridScroll = new Date().getTime();
 
-                var scrollLeft = elem.scrollLeft;
+                const scrollLeft = elem.scrollLeft;
                 scrollXPct = (scrollLeft * 100) / elem.scrollWidth;
                 nativeScrollTo(timeslotHeaders, scrollLeft, true);
             }
@@ -768,17 +768,17 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function changeDate(page, date, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-            var newStartDate = normalizeDateToTimeslot(date);
+            const newStartDate = normalizeDateToTimeslot(date);
             currentDate = newStartDate;
 
             reloadGuide(page, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender);
         }
 
         function getDateTabText(date, isActive, tabIndex) {
-            var cssClass = isActive ? 'emby-tab-button guide-date-tab-button emby-tab-button-active' : 'emby-tab-button guide-date-tab-button';
+            const cssClass = isActive ? 'emby-tab-button guide-date-tab-button emby-tab-button-active' : 'emby-tab-button guide-date-tab-button';
 
-            var html = '<button is="emby-button" class="' + cssClass + '" data-index="' + tabIndex + '" data-date="' + date.getTime() + '">';
-            var tabText = datetime.toLocaleDateString(date, { weekday: 'short' });
+            let html = '<button is="emby-button" class="' + cssClass + '" data-index="' + tabIndex + '" data-date="' + date.getTime() + '">';
+            let tabText = datetime.toLocaleDateString(date, { weekday: 'short' });
 
             tabText += '<br/>';
             tabText += date.getDate();
@@ -789,12 +789,12 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function setDateRange(page, guideInfo) {
-            var today = new Date();
-            var nowHours = today.getHours();
+            const today = new Date();
+            const nowHours = today.getHours();
             today.setHours(nowHours, 0, 0, 0);
 
-            var start = datetime.parseISO8601Date(guideInfo.StartDate, { toLocal: true });
-            var end = datetime.parseISO8601Date(guideInfo.EndDate, { toLocal: true });
+            let start = datetime.parseISO8601Date(guideInfo.StartDate, { toLocal: true });
+            const end = datetime.parseISO8601Date(guideInfo.EndDate, { toLocal: true });
 
             start.setHours(nowHours, 0, 0, 0);
             end.setHours(0, 0, 0, 0);
@@ -805,11 +805,11 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             start = new Date(Math.max(today, start));
 
-            var dateTabsHtml = '';
-            var tabIndex = 0;
+            let dateTabsHtml = '';
+            let tabIndex = 0;
 
             // TODO: Use date-fns
-            var date = new Date();
+            const date = new Date();
 
             if (currentDate) {
                 date.setTime(currentDate.getTime());
@@ -817,11 +817,11 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             date.setHours(nowHours, 0, 0, 0);
 
-            var startTimeOfDayMs = (start.getHours() * 60 * 60 * 1000);
+            let startTimeOfDayMs = (start.getHours() * 60 * 60 * 1000);
             startTimeOfDayMs += start.getMinutes() * 60 * 1000;
 
             while (start <= end) {
-                var isActive = date.getDate() === start.getDate() && date.getMonth() === start.getMonth() && date.getFullYear() === start.getFullYear();
+                const isActive = date.getDate() === start.getDate() && date.getMonth() === start.getMonth() && date.getFullYear() === start.getFullYear();
 
                 dateTabsHtml += getDateTabText(start, isActive, tabIndex);
 
@@ -833,23 +833,23 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             page.querySelector('.emby-tabs-slider').innerHTML = dateTabsHtml;
             page.querySelector('.guideDateTabs').refresh();
 
-            var newDate = new Date();
-            var newDateHours = newDate.getHours();
-            var scrollToTimeMs = newDateHours * 60 * 60 * 1000;
+            const newDate = new Date();
+            const newDateHours = newDate.getHours();
+            let scrollToTimeMs = newDateHours * 60 * 60 * 1000;
 
-            var minutes = newDate.getMinutes();
+            const minutes = newDate.getMinutes();
             if (minutes >= 30) {
                 scrollToTimeMs += 30 * 60 * 1000;
             }
 
-            var focusToTimeMs = ((newDateHours * 60) + minutes) * 60 * 1000;
+            const focusToTimeMs = ((newDateHours * 60) + minutes) * 60 * 1000;
             changeDate(page, date, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, layoutManager.tv);
         }
 
         function reloadPage(page) {
             showLoading();
 
-            var apiClient = connectionManager.getApiClient(options.serverId);
+            const apiClient = connectionManager.getApiClient(options.serverId);
 
             apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
                 setDateRange(page, guideInfo);
@@ -857,18 +857,18 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function getChannelProgramsFocusableElements(container) {
-            var elements = container.querySelectorAll('.programCell');
+            const elements = container.querySelectorAll('.programCell');
 
-            var list = [];
+            const list = [];
             // add 1 to avoid programs that are out of view to the left
-            var currentScrollXPct = scrollXPct + 1;
+            const currentScrollXPct = scrollXPct + 1;
 
-            for (var i = 0, length = elements.length; i < length; i++) {
-                var elem = elements[i];
+            for (let i = 0, length = elements.length; i < length; i++) {
+                const elem = elements[i];
 
-                var left = (elem.style.left || '').replace('%', '');
+                let left = (elem.style.left || '').replace('%', '');
                 left = left ? parseFloat(left) : 0;
-                var width = (elem.style.width || '').replace('%', '');
+                let width = (elem.style.width || '').replace('%', '');
                 width = width ? parseFloat(width) : 0;
 
                 if ((left + width) >= currentScrollXPct) {
@@ -880,12 +880,12 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function onInputCommand(e) {
-            var target = e.target;
-            var programCell = dom.parentWithClass(target, 'programCell');
-            var container;
-            var channelPrograms;
-            var focusableElements;
-            var newRow;
+            const target = e.target;
+            const programCell = dom.parentWithClass(target, 'programCell');
+            let container;
+            let channelPrograms;
+            let focusableElements;
+            let newRow;
 
             switch (e.detail.command) {
                 case 'up':
@@ -969,14 +969,14 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function onScrollerFocus(e) {
-            var target = e.target;
-            var programCell = dom.parentWithClass(target, 'programCell');
+            const target = e.target;
+            const programCell = dom.parentWithClass(target, 'programCell');
 
             if (programCell) {
-                var focused = target;
+                const focused = target;
 
-                var id = focused.getAttribute('data-id');
-                var item = items[id];
+                const id = focused.getAttribute('data-id');
+                const item = items[id];
 
                 if (item) {
                     events.trigger(self, 'focus', [
@@ -995,9 +995,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     scrollHelper.toCenter(programGrid, programCell, true, true);
                 }
             } else if (lastFocusDirection === 'up' || lastFocusDirection === 'down') {
-                var verticalScroller = dom.parentWithClass(target, 'guideVerticalScroller');
+                const verticalScroller = dom.parentWithClass(target, 'guideVerticalScroller');
                 if (verticalScroller) {
-                    var focusedElement = programCell || dom.parentWithTag(target, 'BUTTON');
+                    const focusedElement = programCell || dom.parentWithTag(target, 'BUTTON');
                     verticalScroller.toCenter(focusedElement, true);
                 }
             }
@@ -1005,7 +1005,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
         function setScrollEvents(view, enabled) {
             if (layoutManager.tv) {
-                var guideVerticalScroller = view.querySelector('.guideVerticalScroller');
+                const guideVerticalScroller = view.querySelector('.guideVerticalScroller');
 
                 if (enabled) {
                     inputManager.on(guideVerticalScroller, onInputCommand);
@@ -1016,16 +1016,16 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function onTimerCreated(e, apiClient, data) {
-            var programId = data.ProgramId;
+            const programId = data.ProgramId;
             // This could be null, not supported by all tv providers
-            var newTimerId = data.Id;
+            const newTimerId = data.Id;
 
             // find guide cells by program id, ensure timer icon
-            var cells = options.element.querySelectorAll('.programCell[data-id="' + programId + '"]');
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
+            const cells = options.element.querySelectorAll('.programCell[data-id="' + programId + '"]');
+            for (let i = 0, length = cells.length; i < length; i++) {
+                const cell = cells[i];
 
-                var icon = cell.querySelector('.timerIcon');
+                const icon = cell.querySelector('.timerIcon');
                 if (!icon) {
                     cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<span class="timerIcon material-icons programIcon fiber_manual_record"></span>');
                 }
@@ -1040,12 +1040,12 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function onTimerCancelled(e, apiClient, data) {
-            var id = data.Id;
+            const id = data.Id;
             // find guide cells by timer id, remove timer icon
-            var cells = options.element.querySelectorAll('.programCell[data-timerid="' + id + '"]');
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
-                var icon = cell.querySelector('.timerIcon');
+            const cells = options.element.querySelectorAll('.programCell[data-timerid="' + id + '"]');
+            for (let i = 0, length = cells.length; i < length; i++) {
+                const cell = cells[i];
+                const icon = cell.querySelector('.timerIcon');
                 if (icon) {
                     icon.parentNode.removeChild(icon);
                 }
@@ -1054,12 +1054,12 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function onSeriesTimerCancelled(e, apiClient, data) {
-            var id = data.Id;
+            const id = data.Id;
             // find guide cells by timer id, remove timer icon
-            var cells = options.element.querySelectorAll('.programCell[data-seriestimerid="' + id + '"]');
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
-                var icon = cell.querySelector('.seriesTimerIcon');
+            const cells = options.element.querySelectorAll('.programCell[data-seriestimerid="' + id + '"]');
+            for (let i = 0, length = cells.length; i < length; i++) {
+                const cell = cells[i];
+                const icon = cell.querySelector('.seriesTimerIcon');
                 if (icon) {
                     icon.parentNode.removeChild(icon);
                 }
@@ -1068,14 +1068,14 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         require(['text!./tvguide.template.html'], function (template) {
-            var context = options.element;
+            const context = options.element;
 
             context.classList.add('tvguide');
 
             context.innerHTML = globalize.translateHtml(template, 'core');
 
             programGrid = context.querySelector('.programGrid');
-            var timeslotHeaders = context.querySelector('.timeslotHeaders');
+            const timeslotHeaders = context.querySelector('.timeslotHeaders');
 
             if (layoutManager.tv) {
                 dom.addEventListener(context.querySelector('.guideVerticalScroller'), 'focus', onScrollerFocus, {
@@ -1124,17 +1124,17 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             });
 
             context.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
-                var allTabButtons = e.target.querySelectorAll('.guide-date-tab-button');
+                const allTabButtons = e.target.querySelectorAll('.guide-date-tab-button');
 
-                var tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex)];
+                const tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex)];
                 if (tabButton) {
-                    var previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex)];
+                    const previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex)];
 
-                    var date = new Date();
+                    const date = new Date();
                     date.setTime(parseInt(tabButton.getAttribute('data-date')));
 
-                    var scrollWidth = programGrid.scrollWidth;
-                    var scrollToTimeMs;
+                    const scrollWidth = programGrid.scrollWidth;
+                    let scrollToTimeMs;
                     if (scrollWidth) {
                         scrollToTimeMs = (programGrid.scrollLeft / scrollWidth) * msPerDay;
                     } else {
@@ -1142,14 +1142,14 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     }
 
                     if (previousButton) {
-                        var previousDate = new Date();
+                        const previousDate = new Date();
                         previousDate.setTime(parseInt(previousButton.getAttribute('data-date')));
 
                         scrollToTimeMs += (previousDate.getHours() * 60 * 60 * 1000);
                         scrollToTimeMs += (previousDate.getMinutes() * 60 * 1000);
                     }
 
-                    var startTimeOfDayMs = (date.getHours() * 60 * 60 * 1000);
+                    let startTimeOfDayMs = (date.getHours() * 60 * 60 * 1000);
                     startTimeOfDayMs += (date.getMinutes() * 60 * 1000);
 
                     changeDate(context, date, scrollToTimeMs, scrollToTimeMs, startTimeOfDayMs, false);

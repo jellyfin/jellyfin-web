@@ -23,11 +23,11 @@ define(['connectionManager', 'globalize'], function (connectionManager, globaliz
     }
 
     PlayAccessValidation.prototype.intercept = function (options) {
-        var item = options.item;
+        const item = options.item;
         if (!item) {
             return Promise.resolve();
         }
-        var serverId = item.ServerId;
+        const serverId = item.ServerId;
         if (!serverId) {
             return Promise.resolve();
         }

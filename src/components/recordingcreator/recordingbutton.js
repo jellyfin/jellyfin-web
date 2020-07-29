@@ -2,16 +2,16 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     'use strict';
 
     function onRecordingButtonClick(e) {
-        var item = this.item;
+        const item = this.item;
 
         if (item) {
-            var serverId = item.ServerId;
-            var programId = item.Id;
-            var timerId = item.TimerId;
-            var timerStatus = item.Status;
-            var seriesTimerId = item.SeriesTimerId;
+            const serverId = item.ServerId;
+            const programId = item.Id;
+            const timerId = item.TimerId;
+            const timerStatus = item.Status;
+            const seriesTimerId = item.SeriesTimerId;
 
-            var instance = this;
+            const instance = this;
 
             recordingHelper.toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId).then(function () {
                 instance.refresh(serverId, programId);
@@ -20,7 +20,7 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     }
 
     function setButtonIcon(button, icon) {
-        var inner = button.querySelector('.material-icons');
+        const inner = button.querySelector('.material-icons');
         inner.classList.remove('fiber_smart_record');
         inner.classList.remove('fiber_manual_record');
         inner.classList.add(icon);
@@ -29,7 +29,7 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     function RecordingButton(options) {
         this.options = options;
 
-        var button = options.button;
+        const button = options.button;
 
         setButtonIcon(button, 'fiber_manual_record');
 
@@ -39,7 +39,7 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
             this.refresh(options.itemId, options.serverId);
         }
 
-        var clickFn = onRecordingButtonClick.bind(this);
+        const clickFn = onRecordingButtonClick.bind(this);
         this.clickFn = clickFn;
 
         dom.addEventListener(button, 'click', clickFn, {
@@ -48,7 +48,7 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     }
 
     function getIndicatorIcon(item) {
-        var status;
+        let status;
 
         if (item.Type === 'SeriesTimer') {
             return 'fiber_smart_record';
@@ -70,16 +70,16 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     }
 
     RecordingButton.prototype.refresh = function (serverId, itemId) {
-        var apiClient = connectionManager.getApiClient(serverId);
-        var self = this;
+        const apiClient = connectionManager.getApiClient(serverId);
+        const self = this;
         apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
             self.refreshItem(item);
         });
     };
 
     RecordingButton.prototype.refreshItem = function (item) {
-        var options = this.options;
-        var button = options.button;
+        const options = this.options;
+        const button = options.button;
         this.item = item;
         setButtonIcon(button, getIndicatorIcon(item));
 
@@ -91,12 +91,12 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     };
 
     RecordingButton.prototype.destroy = function () {
-        var options = this.options;
+        const options = this.options;
 
         if (options) {
-            var button = options.button;
+            const button = options.button;
 
-            var clickFn = this.clickFn;
+            const clickFn = this.clickFn;
 
             if (clickFn) {
                 dom.removeEventListener(button, 'click', clickFn, {

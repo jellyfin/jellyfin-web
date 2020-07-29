@@ -9,9 +9,9 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
     function initEditor(context, settings) {
         context.querySelector('form').addEventListener('submit', onSubmit);
 
-        var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
+        const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
 
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (let i = 0, length = elems.length; i < length; i++) {
             elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
         }
 
@@ -19,8 +19,8 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
     }
 
     function saveValues(context, settings, settingsKey) {
-        var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
-        for (var i = 0, length = elems.length; i < length; i++) {
+        const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
+        for (let i = 0, length = elems.length; i < length; i++) {
             userSettings.set(settingsKey + '-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input').checked);
         }
 
@@ -29,13 +29,13 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
+            const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
     function showIfAllowed(context, selector, visible) {
-        var elem = context.querySelector(selector);
+        const elem = context.querySelector(selector);
 
         if (visible && !elem.classList.contains('hiddenFromViewSettings')) {
             elem.classList.remove('hide');
@@ -51,7 +51,7 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
     ViewSettings.prototype.show = function (options) {
         return new Promise(function (resolve, reject) {
             require(['text!./viewSettings.template.html'], function (template) {
-                var dialogOptions = {
+                const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -62,11 +62,11 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
                     dialogOptions.size = 'small';
                 }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+                const dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
 
-                var html = '';
+                let html = '';
 
                 html += '<div class="formDialogHeader">';
                 html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
@@ -78,8 +78,8 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
 
                 dlg.innerHTML = globalize.translateHtml(html, 'core');
 
-                var settingElements = dlg.querySelectorAll('.viewSetting');
-                for (var i = 0, length = settingElements.length; i < length; i++) {
+                const settingElements = dlg.querySelectorAll('.viewSetting');
+                for (let i = 0, length = settingElements.length; i < length; i++) {
                     if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
                         settingElements[i].classList.add('hide');
                         settingElements[i].classList.add('hiddenFromViewSettings');
@@ -104,7 +104,7 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
                     centerFocus(dlg.querySelector('.formDialogContent'), false, true);
                 }
 
-                var submitted;
+                let submitted;
 
                 dlg.querySelector('.selectImageType').dispatchEvent(new CustomEvent('change', {}));
 

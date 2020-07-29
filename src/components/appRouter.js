@@ -1,9 +1,9 @@
 define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
-    var appRouter = {
+    const appRouter = {
         showLocalLogin: function (serverId, manualLogin) {
-            var pageName = manualLogin ? 'manuallogin' : 'login';
+            const pageName = manualLogin ? 'manuallogin' : 'login';
             show('/startup/' + pageName + '.html?serverid=' + serverId);
         },
         showSelectServer: function () {
@@ -67,7 +67,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function loadContentUrl(ctx, next, route, request) {
-        var url;
+        let url;
         if (route.contentPath && typeof (route.contentPath) === 'function') {
             url = route.contentPath(ctx.querystring);
         } else {
@@ -99,7 +99,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function initRoute(ctx, next, route) {
-        var onInitComplete = function (controllerFactory) {
+        const onInitComplete = function (controllerFactory) {
             sendRouteToViewManager(ctx, next, route, controllerFactory);
         };
 
@@ -111,13 +111,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function cancelCurrentLoadRequest() {
-        var currentRequest = currentViewLoadRequest;
+        const currentRequest = currentViewLoadRequest;
         if (currentRequest) {
             currentRequest.cancel = true;
         }
     }
 
-    var currentViewLoadRequest;
+    let currentViewLoadRequest;
     function sendRouteToViewManager(ctx, next, route, controllerFactory) {
         if (isDummyBackToHome && route.type === 'home') {
             isDummyBackToHome = false;
@@ -125,9 +125,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
 
         cancelCurrentLoadRequest();
-        var isBackNav = ctx.isBack;
+        const isBackNav = ctx.isBack;
 
-        var currentRequest = {
+        const currentRequest = {
             url: baseUrl() + ctx.path,
             transition: route.transition,
             isBack: isBackNav,
@@ -143,7 +143,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         };
         currentViewLoadRequest = currentRequest;
 
-        var onNewViewNeeded = function () {
+        const onNewViewNeeded = function () {
             if (typeof route.path === 'string') {
                 loadContentUrl(ctx, next, route, currentRequest);
             } else {
@@ -168,10 +168,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         });
     }
 
-    var msgTimeout;
-    var forcedLogoutMsg;
+    let msgTimeout;
+    let forcedLogoutMsg;
     function onForcedLogoutMessageTimeout() {
-        var msg = forcedLogoutMsg;
+        const msg = forcedLogoutMsg;
         forcedLogoutMsg = null;
 
         if (msg) {
@@ -191,11 +191,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function onRequestFail(e, data) {
-        var apiClient = this;
+        const apiClient = this;
 
         if (data.status === 403) {
             if (data.errorCode === 'ParentalControl') {
-                var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
+                const isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
 
                 // Bounce to the login screen, but not if a password entry fails, obviously
                 if (!isCurrentAllowed) {
@@ -213,7 +213,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function normalizeImageOptions(options) {
-        var setQuality;
+        let setQuality;
         if (options.maxWidth || options.width || options.maxHeight || options.height) {
             setQuality = true;
         }
@@ -226,7 +226,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     function getMaxBandwidth() {
         /* eslint-disable compat/compat */
         if (navigator.connection) {
-            var max = navigator.connection.downlinkMax;
+            let max = navigator.connection.downlinkMax;
             if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
                 max /= 8;
                 max *= 1000000;
@@ -268,14 +268,14 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function onAppResume() {
-        var apiClient = connectionManager.currentApiClient();
+        const apiClient = connectionManager.currentApiClient();
 
         if (apiClient) {
             apiClient.ensureWebSocket();
         }
     }
 
-    var firstConnectionResult;
+    let firstConnectionResult;
     function start(options) {
         loading.show();
 
@@ -306,7 +306,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function authenticate(ctx, route, callback) {
-        var firstResult = firstConnectionResult;
+        const firstResult = firstConnectionResult;
         if (firstResult) {
             firstConnectionResult = null;
 
@@ -316,13 +316,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             }
         }
 
-        var apiClient = connectionManager.currentApiClient();
-        var pathname = ctx.pathname.toLowerCase();
+        const apiClient = connectionManager.currentApiClient();
+        const pathname = ctx.pathname.toLowerCase();
 
         console.debug('appRouter - processing path request ' + pathname);
 
-        var isCurrentRouteStartup = currentRouteInfo ? currentRouteInfo.route.startup : true;
-        var shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
+        const isCurrentRouteStartup = currentRouteInfo ? currentRouteInfo.route.startup : true;
+        const shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
 
         if (!shouldExitApp && (!apiClient || !apiClient.isLoggedIn()) && !route.anonymous) {
             console.debug('appRouter - route does not allow anonymous access, redirecting to login');
@@ -359,7 +359,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     function loadUserSkinWithOptions(ctx) {
         require(['queryString'], function (queryString) {
-            var params = queryString.parse(ctx.querystring);
+            const params = queryString.parse(ctx.querystring);
             skinManager.loadUserSkin({
                 start: params.start
             });
@@ -386,7 +386,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         return Promise.resolve();
     }
 
-    var isDummyBackToHome;
+    let isDummyBackToHome;
 
     function loadContent(ctx, route, html, request) {
         html = globalize.translateHtml(html, route.dictionary);
@@ -403,9 +403,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function getRequestFile() {
-        var path = self.location.pathname || '';
+        let path = self.location.pathname || '';
 
-        var index = path.lastIndexOf('/');
+        const index = path.lastIndexOf('/');
         if (index !== -1) {
             path = path.substring(index);
         } else {
@@ -423,7 +423,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         return str.lastIndexOf(srch) === srch.length - 1;
     }
 
-    var baseRoute = self.location.href.split('?')[0].replace(getRequestFile(), '');
+    let baseRoute = self.location.href.split('?')[0].replace(getRequestFile(), '');
     // support hashbang
     baseRoute = baseRoute.split('#')[0];
     if (endsWith(baseRoute, '/') && !endsWith(baseRoute, '://')) {
@@ -434,7 +434,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         return baseRoute;
     }
 
-    var popstateOccurred = false;
+    let popstateOccurred = false;
     window.addEventListener('popstate', function () {
         popstateOccurred = true;
     });
@@ -448,10 +448,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function getWindowLocationSearch(win) {
-        var currentPath = currentRouteInfo ? (currentRouteInfo.path || '') : '';
+        const currentPath = currentRouteInfo ? (currentRouteInfo.path || '') : '';
 
-        var index = currentPath.indexOf('?');
-        var search = '';
+        const index = currentPath.indexOf('?');
+        let search = '';
 
         if (index !== -1) {
             search = currentPath.substring(index);
@@ -462,10 +462,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     function param(name, url) {
         name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
-        var regexS = '[\\?&]' + name + '=([^&#]*)';
-        var regex = new RegExp(regexS, 'i');
+        const regexS = '[\\?&]' + name + '=([^&#]*)';
+        const regex = new RegExp(regexS, 'i');
 
-        var results = regex.exec(url || getWindowLocationSearch());
+        const results = regex.exec(url || getWindowLocationSearch());
         if (results == null) {
             return '';
         } else {
@@ -480,10 +480,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     /**
      * Pages of "no return" (when "Go back" should behave differently, probably quitting the application).
      */
-    var startPages = ['home', 'login', 'selectserver'];
+    const startPages = ['home', 'login', 'selectserver'];
 
     function canGoBack() {
-        var curr = current();
+        const curr = current();
         if (!curr) {
             return false;
         }
@@ -523,16 +523,16 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         });
     }
 
-    var resolveOnNextShow;
+    let resolveOnNextShow;
     document.addEventListener('viewshow', function () {
-        var resolve = resolveOnNextShow;
+        const resolve = resolveOnNextShow;
         if (resolve) {
             resolveOnNextShow = null;
             resolve();
         }
     });
 
-    var currentRouteInfo;
+    let currentRouteInfo;
     function current() {
         return currentRouteInfo ? currentRouteInfo.route : null;
     }
@@ -540,7 +540,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     function showItem(item, serverId, options) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof (item) === 'string') {
-            var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
+            const apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
             apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (itemObject) {
                 appRouter.showItem(itemObject, options);
             });
@@ -549,14 +549,14 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 options = arguments[1];
             }
 
-            var url = appRouter.getRouteUrl(item, options);
+            const url = appRouter.getRouteUrl(item, options);
             appRouter.show(url, {
                 item: item
             });
         }
     }
 
-    var allRoutes = [];
+    const allRoutes = [];
 
     function addRoute(path, newRoute) {
         page(path, getHandler(newRoute));
@@ -567,8 +567,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         return allRoutes;
     }
 
-    var backdropContainer;
-    var backgroundContainer;
+    let backdropContainer;
+    let backgroundContainer;
     function setTransparency(level) {
         if (!backdropContainer) {
             backdropContainer = document.querySelector('.backdropContainer');
@@ -601,7 +601,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function setBaseRoute() {
-        var baseRoute = self.location.pathname.replace(getRequestFile(), '');
+        let baseRoute = self.location.pathname.replace(getRequestFile(), '');
         if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
             baseRoute = baseRoute.substring(0, baseRoute.length - 1);
         }

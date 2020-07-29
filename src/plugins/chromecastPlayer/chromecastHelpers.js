@@ -36,15 +36,15 @@ define(['events'], function (events) {
         // 5) It wasn't as smart as it could have been about what should be part of a
         // URL and what should be part of human language.
 
-        var protocols = '(?:(?:http|https|rtsp|ftp):\\/\\/)';
-        var credentials = "(?:(?:[a-z0-9\\$\\-\\_\\.\\+\\!\\*\\'\\(\\)\\,\\;\\?\\&\\=]|(?:\\%[a-f0-9]{2})){1,64}" // username (1-64 normal or url escaped characters)
+        const protocols = '(?:(?:http|https|rtsp|ftp):\\/\\/)';
+        const credentials = "(?:(?:[a-z0-9\\$\\-\\_\\.\\+\\!\\*\\'\\(\\)\\,\\;\\?\\&\\=]|(?:\\%[a-f0-9]{2})){1,64}" // username (1-64 normal or url escaped characters)
             + "(?:\\:(?:[a-z0-9\\$\\-\\_\\.\\+\\!\\*\\'\\(\\)\\,\\;\\?\\&\\=]|(?:\\%[a-f0-9]{2})){1,25})?" // followed by optional password (: + 1-25 normal or url escaped characters)
             + '\\@)';
 
         // IPv6 Regex http://forums.intermapper.com/viewtopic.php?t=452
         // by Dartware, LLC is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License
         // http://intermapper.com/
-        var ipv6 = '('
+        const ipv6 = '('
             + '(([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))'
             + '|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))'
             + '|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))'
@@ -55,13 +55,13 @@ define(['events'], function (events) {
             + '|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))'
             + ')(%.+)?';
 
-        var ipv4 = '(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.'
+        const ipv4 = '(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.'
             + '(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.'
             + '(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.'
             + '(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])';
 
         // This would have been a lot cleaner if JS RegExp supported conditionals...
-        var linkRegExpString =
+        const linkRegExpString =
 
             // begin match for protocol / username / password / host
             '(?:'
@@ -112,9 +112,9 @@ define(['events'], function (events) {
             + ')';
 
         // regex = XRegExp(regex,'gi');
-        var linkRegExp = RegExp(linkRegExpString, 'gi');
+        const linkRegExp = RegExp(linkRegExpString, 'gi');
 
-        var protocolRegExp = RegExp('^' + protocols, 'i');
+        const protocolRegExp = RegExp('^' + protocols, 'i');
 
         // if url doesn't begin with a known protocol, add http by default
         function ensureProtocol(url) {
@@ -125,18 +125,18 @@ define(['events'], function (events) {
         }
 
         // look for links in the text
-        var LinkParser = {
+        const LinkParser = {
             parse: function (text) {
-                var links = [];
-                var match;
+                const links = [];
+                let match;
 
                 // eslint-disable-next-line no-cond-assign
                 while (match = linkRegExp.exec(text)) {
                     console.debug(match);
-                    var txt = match[0];
-                    var pos = match.index;
-                    var len = txt.length;
-                    var url = ensureProtocol(text);
+                    const txt = match[0];
+                    const pos = match.index;
+                    const len = txt.length;
+                    const url = ensureProtocol(text);
                     links.push({ 'pos': pos, 'text': txt, 'len': len, 'url': url });
                 }
 
@@ -148,10 +148,10 @@ define(['events'], function (events) {
         window.LinkParser = LinkParser;
     })();
 
-    var cache = {};
+    let cache = {};
 
     function isValidIpAddress(address) {
-        var links = LinkParser.parse(address);
+        const links = LinkParser.parse(address);
 
         return links.length == 1;
     }
@@ -170,13 +170,13 @@ define(['events'], function (events) {
     }
 
     function getServerAddress(apiClient) {
-        var serverAddress = apiClient.serverAddress();
+        const serverAddress = apiClient.serverAddress();
 
         if (isValidIpAddress(serverAddress) && !isLocalIpAddress(serverAddress)) {
             return Promise.resolve(serverAddress);
         }
 
-        var cachedValue = getCachedValue(serverAddress);
+        const cachedValue = getCachedValue(serverAddress);
         if (cachedValue) {
             return Promise.resolve(cachedValue);
         }
@@ -184,7 +184,7 @@ define(['events'], function (events) {
         return apiClient.getEndpointInfo().then(function (endpoint) {
             if (endpoint.IsInNetwork) {
                 return apiClient.getPublicSystemInfo().then(function (info) {
-                    var localAddress = info.LocalAddress;
+                    let localAddress = info.LocalAddress;
                     if (!localAddress) {
                         console.debug('No valid local address returned, defaulting to external one');
                         localAddress = serverAddress;
@@ -211,7 +211,7 @@ define(['events'], function (events) {
     }
 
     function getCachedValue(key) {
-        var obj = cache[key];
+        const obj = cache[key];
 
         if (obj && (new Date().getTime() - obj.time) < 180000) {
             return obj.value;

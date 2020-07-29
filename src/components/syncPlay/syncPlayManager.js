@@ -41,7 +41,7 @@ function waitForEventOnce(emitter, eventType, timeout) {
  * @returns {string} The player's id.
  */
 function getActivePlayerId() {
-    var info = playbackManager.getPlayerInfo();
+    const info = playbackManager.getPlayerInfo();
     return info ? info.id : null;
 }
 
@@ -277,7 +277,7 @@ class SyncPlayManager {
      * Removes the bindings to the current player's events.
      */
     releaseCurrentPlayer () {
-        var player = this.currentPlayer;
+        const player = this.currentPlayer;
         if (player) {
             events.off(player, 'unpause', this._onPlayerUnpause);
             events.off(player, 'pause', this._onPlayerPause);
@@ -427,7 +427,7 @@ class SyncPlayManager {
             serverId: serverId
         }).then(() => {
             waitForEventOnce(this, 'playbackstart', WaitForEventDefaultTimeout).then(() => {
-                var sessionId = getActivePlayerId();
+                const sessionId = getActivePlayerId();
                 if (!sessionId) {
                     console.error('Missing sessionId!');
                     toast({
@@ -660,7 +660,7 @@ class SyncPlayManager {
      * Overrides PlaybackManager's unpause method.
      */
     playRequest (player) {
-        var apiClient = connectionManager.currentApiClient();
+        const apiClient = connectionManager.currentApiClient();
         apiClient.requestSyncPlayStart();
     }
 
@@ -668,7 +668,7 @@ class SyncPlayManager {
      * Overrides PlaybackManager's pause method.
      */
     pauseRequest (player) {
-        var apiClient = connectionManager.currentApiClient();
+        const apiClient = connectionManager.currentApiClient();
         apiClient.requestSyncPlayPause();
         // Pause locally as well, to give the user some little control
         playbackManager._localUnpause(player);
@@ -678,7 +678,7 @@ class SyncPlayManager {
      * Overrides PlaybackManager's seek method.
      */
     seekRequest (PositionTicks, player) {
-        var apiClient = connectionManager.currentApiClient();
+        const apiClient = connectionManager.currentApiClient();
         apiClient.requestSyncPlaySeek({
             PositionTicks: PositionTicks
         });

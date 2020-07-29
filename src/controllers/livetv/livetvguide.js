@@ -2,8 +2,8 @@ define(['tvguide'], function (tvguide) {
     'use strict';
 
     return function (view, params, tabContent) {
-        var guideInstance;
-        var self = this;
+        let guideInstance;
+        const self = this;
 
         self.renderTab = function () {
             if (!guideInstance) {

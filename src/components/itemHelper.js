@@ -10,7 +10,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             item = item.ProgramInfo || item;
         }
 
-        var name = ((item.Type === 'Program' || item.Type === 'Recording') && (item.IsSeries || item.EpisodeTitle) ? item.EpisodeTitle : item.Name) || '';
+        let name = ((item.Type === 'Program' || item.Type === 'Recording') && (item.IsSeries || item.EpisodeTitle) ? item.EpisodeTitle : item.Name) || '';
 
         if (item.Type === 'TvChannel') {
             if (item.ChannelNumber) {
@@ -21,10 +21,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         if (item.Type === 'Episode' && item.ParentIndexNumber === 0) {
             name = globalize.translate('ValueSpecialEpisodeName', name);
         } else if ((item.Type === 'Episode' || item.Type === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
-            var displayIndexNumber = item.IndexNumber;
+            let displayIndexNumber = item.IndexNumber;
 
-            var number = displayIndexNumber;
-            var nameSeparator = ' - ';
+            let number = displayIndexNumber;
+            let nameSeparator = ' - ';
 
             if (options.includeParentInfo !== false) {
                 number = 'S' + item.ParentIndexNumber + ':E' + number;
@@ -46,7 +46,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
     }
 
     function supportsAddingToCollection(item) {
-        var invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
+        const invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
 
         if (item.Type === 'Recording') {
             if (item.Status !== 'Completed') {
@@ -91,7 +91,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
     }
 
     function canEdit(user, item) {
-        var itemType = item.Type;
+        const itemType = item.Type;
 
         if (itemType === 'UserRootFolder' || itemType === 'UserView') {
             return false;
@@ -137,7 +137,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         isLocalItem: isLocalItem,
 
         canIdentify: function (user, item) {
-            var itemType = item.Type;
+            const itemType = item.Type;
 
             if (itemType === 'Movie' ||
                 itemType === 'Trailer' ||
@@ -161,7 +161,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         canEdit: canEdit,
 
         canEditImages: function (user, item) {
-            var itemType = item.Type;
+            const itemType = item.Type;
 
             if (item.MediaType === 'Photo') {
                 return false;
@@ -276,17 +276,17 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return false;
             }
 
-            var mediaType = item.MediaType;
+            const mediaType = item.MediaType;
             if (mediaType === 'Book' || mediaType === 'Photo' || mediaType === 'Audio') {
                 return false;
             }
 
-            var collectionType = item.CollectionType;
+            const collectionType = item.CollectionType;
             if (collectionType === 'livetv') {
                 return false;
             }
 
-            var type = item.Type;
+            const type = item.Type;
             if (type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program' || type === 'Timer' || type === 'SeriesTimer') {
                 return false;
             }
@@ -304,7 +304,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canRefreshMetadata: function (item, user) {
             if (user.Policy.IsAdministrator) {
-                var collectionType = item.CollectionType;
+                const collectionType = item.CollectionType;
                 if (collectionType === 'livetv') {
                     return false;
                 }

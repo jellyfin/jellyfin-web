@@ -1,11 +1,11 @@
 define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'imageLoader', 'scrollStyles', 'emby-button', 'emby-collapse', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'flexStyles'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, imageLoader) {
     'use strict';
 
-    var currentDialog;
-    var recordingDeleted = false;
-    var currentItemId;
-    var currentServerId;
-    var currentResolve;
+    let currentDialog;
+    let recordingDeleted = false;
+    let currentItemId;
+    let currentServerId;
+    let currentResolve;
 
     function deleteTimer(apiClient, timerId) {
         return new Promise(function (resolve, reject) {
@@ -29,9 +29,9 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function onSubmit(e) {
-        var form = this;
+        const form = this;
 
-        var apiClient = connectionManager.getApiClient(currentServerId);
+        const apiClient = connectionManager.getApiClient(currentServerId);
 
         apiClient.getLiveTvTimer(currentItemId).then(function (item) {
             item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
@@ -51,7 +51,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         });
 
         context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-            var apiClient = connectionManager.getApiClient(currentServerId);
+            const apiClient = connectionManager.getApiClient(currentServerId);
             deleteTimer(apiClient, currentItemId).then(function () {
                 closeDialog(true);
             });
@@ -64,7 +64,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         loading.show();
         currentItemId = id;
 
-        var apiClient = connectionManager.getApiClient(currentServerId);
+        const apiClient = connectionManager.getApiClient(currentServerId);
         apiClient.getLiveTvTimer(id).then(function (result) {
             renderTimer(context, result, apiClient);
             loading.hide();
@@ -80,7 +80,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             currentResolve = resolve;
 
             require(['text!./recordingeditor.template.html'], function (template) {
-                var dialogOptions = {
+                const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -89,7 +89,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                     dialogOptions.size = 'fullscreen';
                 }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+                const dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
                 dlg.classList.add('recordingDialog');
@@ -99,7 +99,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                     dlg.classList.add('dialog-fullscreen-lowres');
                 }
 
-                var html = '';
+                let html = '';
 
                 html += globalize.translateHtml(template, 'core');
 

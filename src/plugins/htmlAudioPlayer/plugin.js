@@ -9,13 +9,13 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         });
     }
 
-    var fadeTimeout;
+    let fadeTimeout;
     function fade(instance, elem, startingVolume) {
         instance._isFadingOut = true;
 
         // Need to record the starting volume on each pass rather than querying elem.volume
         // This is due to iOS safari not allowing volume changes and always returning the system volume value
-        var newVolume = Math.max(0, startingVolume - 0.15);
+        const newVolume = Math.max(0, startingVolume - 0.15);
         console.debug('fading volume to ' + newVolume);
         elem.volume = newVolume;
 
@@ -33,7 +33,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     }
 
     function cancelFadeTimeout() {
-        var timeout = fadeTimeout;
+        const timeout = fadeTimeout;
         if (timeout) {
             clearTimeout(timeout);
             fadeTimeout = null;
@@ -73,7 +73,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
                     url: url,
                     type: 'HEAD'
                 }).then(function (response) {
-                    var contentType = (response.headers.get('Content-Type') || '').toLowerCase();
+                    const contentType = (response.headers.get('Content-Type') || '').toLowerCase();
                     if (contentType === 'application/x-mpegurl') {
                         resolve();
                     } else {
@@ -85,7 +85,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     }
 
     function HtmlAudioPlayer() {
-        var self = this;
+        const self = this;
 
         self.name = 'Html Audio Player';
         self.type = 'mediaplayer';
@@ -99,7 +99,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             self._timeUpdated = false;
             self._currentTime = null;
 
-            var elem = createMediaElement();
+            const elem = createMediaElement();
             return setCurrentSrc(elem, options);
         };
 
@@ -109,11 +109,11 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             unBindEvents(elem);
             bindEvents(elem);
 
-            var val = options.url;
+            let val = options.url;
             console.debug('playing url: ' + val);
 
             // Convert to seconds
-            var seconds = (options.playerStartPositionTicks || 0) / 10000000;
+            const seconds = (options.playerStartPositionTicks || 0) / 10000000;
             if (seconds) {
                 val += '#t=' + seconds;
             }
@@ -122,7 +122,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
             self._currentPlayOptions = options;
 
-            var crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
+            const crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
             if (crossOrigin) {
                 elem.crossOrigin = crossOrigin;
             }
@@ -130,7 +130,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
                 return new Promise(function (resolve, reject) {
                     requireHlsPlayer(function () {
-                        var hls = new Hls({
+                        const hls = new Hls({
                             manifestLoadingTimeOut: 20000,
                             xhrSetup: function(xhr, url) {
                                 xhr.withCredentials = true;
@@ -183,8 +183,8 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         self.stop = function (destroyPlayer) {
             cancelFadeTimeout();
 
-            var elem = self._mediaElement;
-            var src = self._currentSrc;
+            const elem = self._mediaElement;
+            const src = self._currentSrc;
 
             if (elem && src) {
                 if (!destroyPlayer || !supportsFade()) {
@@ -198,7 +198,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
                     return Promise.resolve();
                 }
 
-                var originalVolume = elem.volume;
+                const originalVolume = elem.volume;
 
                 return fade(self, elem, elem.volume).then(function () {
                     elem.pause();
@@ -219,7 +219,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         };
 
         function createMediaElement() {
-            var elem = self._mediaElement;
+            let elem = self._mediaElement;
 
             if (elem) {
                 return elem;
@@ -248,7 +248,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
         function onTimeUpdate() {
             // Get the player position + the transcoding offset
-            var time = this.currentTime;
+            const time = this.currentTime;
 
             // Don't trigger events after user stop
             if (!self._isFadingOut) {
@@ -287,11 +287,11 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         }
 
         function onError() {
-            var errorCode = this.error ? (this.error.code || 0) : 0;
-            var errorMessage = this.error ? (this.error.message || '') : '';
+            const errorCode = this.error ? (this.error.code || 0) : 0;
+            const errorMessage = this.error ? (this.error.message || '') : '';
             console.error('media element error: ' + errorCode.toString() + ' ' + errorMessage);
 
-            var type;
+            let type;
 
             switch (errorCode) {
                 case 1:
@@ -343,14 +343,14 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
     // Save this for when playback stops, because querying the time at that point might return 0
     HtmlAudioPlayer.prototype.currentTime = function (val) {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             if (val != null) {
                 mediaElement.currentTime = val / 1000;
                 return;
             }
 
-            var currentTime = this._currentTime;
+            const currentTime = this._currentTime;
             if (currentTime) {
                 return currentTime * 1000;
             }
@@ -360,9 +360,9 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.duration = function (val) {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
-            var duration = mediaElement.duration;
+            const duration = mediaElement.duration;
             if (htmlMediaHelper.isValidDuration(duration)) {
                 return duration * 1000;
             }
@@ -372,12 +372,12 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.seekable = function () {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
-            var seekable = mediaElement.seekable;
+            const seekable = mediaElement.seekable;
             if (seekable && seekable.length) {
-                var start = seekable.start(0);
-                var end = seekable.end(0);
+                let start = seekable.start(0);
+                let end = seekable.end(0);
 
                 if (!htmlMediaHelper.isValidDuration(start)) {
                     start = 0;
@@ -394,7 +394,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.getBufferedRanges = function () {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             return htmlMediaHelper.getBufferedRanges(this, mediaElement);
         }
@@ -403,7 +403,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.pause = function () {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.pause();
         }
@@ -411,21 +411,21 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
     // This is a retry after error
     HtmlAudioPlayer.prototype.resume = function () {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.play();
         }
     };
 
     HtmlAudioPlayer.prototype.unpause = function () {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.play();
         }
     };
 
     HtmlAudioPlayer.prototype.paused = function () {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.paused;
         }
@@ -434,14 +434,14 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.setPlaybackRate = function (value) {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.playbackRate = value;
         }
     };
 
     HtmlAudioPlayer.prototype.getPlaybackRate = function () {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.playbackRate;
         }
@@ -449,14 +449,14 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.setVolume = function (val) {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.volume = val / 100;
         }
     };
 
     HtmlAudioPlayer.prototype.getVolume = function () {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             return Math.min(Math.round(mediaElement.volume * 100), 100);
         }
@@ -471,14 +471,14 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.setMute = function (mute) {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.muted = mute;
         }
     };
 
     HtmlAudioPlayer.prototype.isMuted = function () {
-        var mediaElement = this._mediaElement;
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.muted;
         }
@@ -489,11 +489,11 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
     };
 
-    var supportedFeatures;
+    let supportedFeatures;
 
     function getSupportedFeatures() {
-        var list = [];
-        var audio = document.createElement('audio');
+        const list = [];
+        const audio = document.createElement('audio');
 
         if (typeof audio.playbackRate === 'number') {
             list.push('PlaybackRate');

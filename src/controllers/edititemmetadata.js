@@ -20,7 +20,7 @@ define(['loading', 'scripts/editorsidebar'], function (loading) {
         });
         MetadataEditor.setCurrentItemId(null);
         view.querySelector('.libraryTree').addEventListener('itemclicked', function (event) {
-            var data = event.detail;
+            const data = event.detail;
 
             if (data.id != MetadataEditor.getCurrentItemId()) {
                 MetadataEditor.setCurrentItemId(data.id);

@@ -7,8 +7,8 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
 
     function fillTypes(view, currentId) {
         return ApiClient.getJSON(ApiClient.getUrl('LiveTv/TunerHosts/Types')).then(function (types) {
-            var selectType = view.querySelector('.selectType');
-            var html = '';
+            const selectType = view.querySelector('.selectType');
+            let html = '';
             html += types.map(function (tuner) {
                 return '<option value="' + tuner.Id + '">' + tuner.Name + '</option>';
             }).join('');
@@ -29,7 +29,7 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
 
         if (providerId) {
             ApiClient.getNamedConfiguration('livetv').then(function (config) {
-                var info = config.TunerHosts.filter(function (i) {
+                const info = config.TunerHosts.filter(function (i) {
                     return i.Id === providerId;
                 })[0];
                 fillTunerHostInfo(view, info);
@@ -38,8 +38,8 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
     }
 
     function fillTunerHostInfo(view, info) {
-        var selectType = view.querySelector('.selectType');
-        var type = info.Type || '';
+        const selectType = view.querySelector('.selectType');
+        let type = info.Type || '';
 
         if (info.Source && isM3uVariant(info.Source)) {
             type = info.Source;
@@ -59,7 +59,7 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
 
     function submitForm(page) {
         loading.show();
-        var info = {
+        const info = {
             Type: page.querySelector('.selectType').value,
             Url: page.querySelector('.txtDevicePath').value || null,
             UserAgent: page.querySelector('.txtUserAgent').value || null,
@@ -76,7 +76,7 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
             info.Type = 'm3u';
         }
 
-        var id = getParameterByName('id');
+        const id = getParameterByName('id');
 
         if (id) {
             info.Id = id;
@@ -113,19 +113,19 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
     }
 
     function onTypeChange() {
-        var value = this.value;
-        var view = dom.parentWithClass(this, 'page');
-        var mayIncludeUnsupportedDrmChannels = 'hdhomerun' === value;
-        var supportsTranscoding = 'hdhomerun' === value;
-        var supportsFavorites = 'hdhomerun' === value;
-        var supportsTunerIpAddress = 'hdhomerun' === value;
-        var supportsTunerFileOrUrl = 'm3u' === value;
-        var supportsStreamLooping = 'm3u' === value;
-        var supportsTunerCount = 'm3u' === value;
-        var supportsUserAgent = 'm3u' === value;
-        var suppportsSubmit = 'other' !== value;
-        var supportsSelectablePath = supportsTunerFileOrUrl;
-        var txtDevicePath = view.querySelector('.txtDevicePath');
+        const value = this.value;
+        const view = dom.parentWithClass(this, 'page');
+        const mayIncludeUnsupportedDrmChannels = 'hdhomerun' === value;
+        const supportsTranscoding = 'hdhomerun' === value;
+        const supportsFavorites = 'hdhomerun' === value;
+        const supportsTunerIpAddress = 'hdhomerun' === value;
+        const supportsTunerFileOrUrl = 'm3u' === value;
+        const supportsStreamLooping = 'm3u' === value;
+        const supportsTunerCount = 'm3u' === value;
+        const supportsUserAgent = 'm3u' === value;
+        const suppportsSubmit = 'other' !== value;
+        const supportsSelectablePath = supportsTunerFileOrUrl;
+        const txtDevicePath = view.querySelector('.txtDevicePath');
 
         if (supportsTunerIpAddress) {
             txtDevicePath.label(globalize.translate('LabelTunerIpAddress'));
@@ -196,7 +196,7 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
         }
 
         view.addEventListener('viewshow', function () {
-            var currentId = params.id;
+            const currentId = params.id;
             fillTypes(view, currentId).then(function () {
                 reload(view, currentId);
             });
@@ -215,7 +215,7 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
         });
         view.querySelector('.btnSelectPath').addEventListener('click', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser.default();
+                const picker = new directoryBrowser.default();
                 picker.show({
                     includeFiles: true,
                     callback: function (path) {

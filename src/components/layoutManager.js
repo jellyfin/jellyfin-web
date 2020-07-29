@@ -51,7 +51,7 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
     };
 
     LayoutManager.prototype.init = function () {
-        var saved = this.getSavedLayout();
+        const saved = this.getSavedLayout();
         if (saved) {
             this.setLayout(saved, false);
         } else {

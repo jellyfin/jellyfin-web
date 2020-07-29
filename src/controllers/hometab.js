@@ -21,7 +21,7 @@ define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManage
 
     HomeTab.prototype.onResume = function (options) {
         if (this.sectionsRendered) {
-            var sectionsContainer = this.sectionsContainer;
+            const sectionsContainer = this.sectionsContainer;
 
             if (sectionsContainer) {
                 return homeSections.resume(sectionsContainer, options);
@@ -31,8 +31,8 @@ define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManage
         }
 
         loading.show();
-        var view = this.view;
-        var apiClient = this.apiClient;
+        const view = this.view;
+        const apiClient = this.apiClient;
         this.destroyHomeSections();
         this.sectionsRendered = true;
         return apiClient.getCurrentUser().then(function (user) {
@@ -47,7 +47,7 @@ define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManage
     };
 
     HomeTab.prototype.onPause = function () {
-        var sectionsContainer = this.sectionsContainer;
+        const sectionsContainer = this.sectionsContainer;
 
         if (sectionsContainer) {
             homeSections.pause(sectionsContainer);
@@ -63,7 +63,7 @@ define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManage
     };
 
     HomeTab.prototype.destroyHomeSections = function () {
-        var sectionsContainer = this.sectionsContainer;
+        const sectionsContainer = this.sectionsContainer;
 
         if (sectionsContainer) {
             homeSections.destroySections(sectionsContainer);

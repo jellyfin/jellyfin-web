@@ -1,17 +1,17 @@
 define(['css!./loading'], function () {
     'use strict';
 
-    var loadingElem;
-    var layer1;
-    var layer2;
-    var layer3;
-    var layer4;
-    var circleLefts;
-    var circleRights;
+    let loadingElem;
+    let layer1;
+    let layer2;
+    let layer3;
+    let layer4;
+    let circleLefts;
+    let circleRights;
 
     return {
         show: function () {
-            var elem = loadingElem;
+            let elem = loadingElem;
 
             if (!elem) {
                 elem = document.createElement('div');
@@ -40,8 +40,8 @@ define(['css!./loading'], function () {
             layer3.classList.add('mdl-spinner__layer-3-active');
             layer4.classList.add('mdl-spinner__layer-4-active');
 
-            var i;
-            var length;
+            let i;
+            let length;
 
             for (i = 0, length = circleLefts.length; i < length; i++) {
                 circleLefts[i].classList.add('mdl-spinner__circleLeft-active');
@@ -52,7 +52,7 @@ define(['css!./loading'], function () {
             }
         },
         hide: function () {
-            var elem = loadingElem;
+            const elem = loadingElem;
 
             if (elem) {
                 elem.classList.remove('mdlSpinnerActive');
@@ -62,8 +62,8 @@ define(['css!./loading'], function () {
                 elem.classList.remove('mdl-spinner__layer-3-active');
                 elem.classList.remove('mdl-spinner__layer-4-active');
 
-                var i;
-                var length;
+                let i;
+                let length;
 
                 for (i = 0, length = circleLefts.length; i < length; i++) {
                     circleLefts[i].classList.remove('mdl-spinner__circleLeft-active');

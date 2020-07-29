@@ -4,11 +4,11 @@ define(['loading', 'libraryMenu', 'globalize', 'listViewStyle', 'emby-button'], 
     function reload(page) {
         loading.show();
         ApiClient.getJSON(ApiClient.getUrl('Notifications/Types')).then(function(list) {
-            var html = '';
-            var lastCategory = '';
-            var showHelp = true;
+            let html = '';
+            let lastCategory = '';
+            let showHelp = true;
             html += list.map(function(notification) {
-                var itemHtml = '';
+                let itemHtml = '';
                 if (notification.Category !== lastCategory) {
                     lastCategory = notification.Category;
                     if (lastCategory) {

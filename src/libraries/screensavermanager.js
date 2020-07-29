@@ -44,7 +44,7 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
 
     function ScreenSaverManager() {
 
-        var self = this;
+        const self = this;
         var activeScreenSaver;
 
         function showScreenSaver(screensaver) {

@@ -1,11 +1,11 @@
 define(['playbackManager', 'userSettings', 'connectionManager'], function (playbackManager, userSettings, connectionManager) {
     'use strict';
 
-    var currentOwnerId;
-    var currentThemeIds = [];
+    let currentOwnerId;
+    let currentThemeIds = [];
 
     function playThemeMedia(items, ownerId) {
-        var currentThemeItems = items.filter(function (i) {
+        const currentThemeItems = items.filter(function (i) {
             return enabled(i.MediaType);
         });
 
@@ -48,7 +48,7 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
         return userSettings.enableThemeSongs();
     }
 
-    var excludeTypes = ['CollectionFolder', 'UserView', 'Program', 'SeriesTimer', 'Person', 'TvChannel', 'Channel'];
+    const excludeTypes = ['CollectionFolder', 'UserView', 'Program', 'SeriesTimer', 'Person', 'TvChannel', 'Channel'];
 
     function loadThemeMedia(item) {
         if (item.CollectionType) {
@@ -61,12 +61,12 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
             return;
         }
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = connectionManager.getApiClient(item.ServerId);
         apiClient.getThemeMedia(apiClient.getCurrentUserId(), item.Id, true).then(function (themeMediaResult) {
-            var ownerId = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.OwnerId : themeMediaResult.ThemeSongsResult.OwnerId;
+            const ownerId = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.OwnerId : themeMediaResult.ThemeSongsResult.OwnerId;
 
             if (ownerId !== currentOwnerId) {
-                var items = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.Items : themeMediaResult.ThemeSongsResult.Items;
+                const items = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.Items : themeMediaResult.ThemeSongsResult.Items;
 
                 playThemeMedia(items, ownerId);
             }
@@ -74,15 +74,15 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
     }
 
     document.addEventListener('viewshow', function (e) {
-        var state = e.detail.state || {};
-        var item = state.item;
+        const state = e.detail.state || {};
+        const item = state.item;
 
         if (item && item.ServerId) {
             loadThemeMedia(item);
             return;
         }
 
-        var viewOptions = e.detail.options || {};
+        const viewOptions = e.detail.options || {};
 
         if (viewOptions.supportsThemeMedia) {
             // Do nothing here, allow it to keep playing
@@ -92,7 +92,7 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
     }, true);
 
     Events.on(playbackManager, 'playbackstart', function (e, player) {
-        var item = playbackManager.currentItem(player);
+        const item = playbackManager.currentItem(player);
         // User played something manually
         if (currentThemeIds.indexOf(item.Id) == -1) {
             currentOwnerId = null;

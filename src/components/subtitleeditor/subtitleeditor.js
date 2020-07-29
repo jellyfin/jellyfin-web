@@ -1,13 +1,13 @@
 define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings', 'connectionManager', 'loading', 'focusManager', 'dom', 'apphost', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'css!./subtitleeditor', 'emby-button', 'flexStyles'], function (dialogHelper, require, layoutManager, globalize, userSettings, connectionManager, loading, focusManager, dom, appHost) {
     'use strict';
 
-    var currentItem;
-    var hasChanges;
+    let currentItem;
+    let hasChanges;
 
     function downloadRemoteSubtitles(context, id) {
-        var url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
+        const url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
 
-        var apiClient = connectionManager.getApiClient(currentItem.ServerId);
+        const apiClient = connectionManager.getApiClient(currentItem.ServerId);
         apiClient.ajax({
 
             type: 'POST',
@@ -25,7 +25,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     }
 
     function deleteLocalSubtitle(context, index) {
-        var msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
+        const msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
         require(['confirm'], function (confirm) {
             confirm.default({
@@ -38,10 +38,10 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             }).then(function () {
                 loading.show();
 
-                var itemId = currentItem.Id;
-                var url = 'Videos/' + itemId + '/Subtitles/' + index;
+                const itemId = currentItem.Id;
+                const url = 'Videos/' + itemId + '/Subtitles/' + index;
 
-                var apiClient = connectionManager.getApiClient(currentItem.ServerId);
+                const apiClient = connectionManager.getApiClient(currentItem.ServerId);
 
                 apiClient.ajax({
 
@@ -57,13 +57,13 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     }
 
     function fillSubtitleList(context, item) {
-        var streams = item.MediaStreams || [];
+        const streams = item.MediaStreams || [];
 
-        var subs = streams.filter(function (s) {
+        const subs = streams.filter(function (s) {
             return s.Type === 'Subtitle';
         });
 
-        var html = '';
+        let html = '';
 
         if (subs.length) {
             html += '<h2>' + globalize.translate('MySubtitles') + '</h2>';
@@ -71,10 +71,10 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             html += '<div>';
 
             html += subs.map(function (s) {
-                var itemHtml = '';
+                let itemHtml = '';
 
-                var tagName = layoutManager.tv ? 'button' : 'div';
-                var className = layoutManager.tv && s.Path ? 'listItem listItem-border btnDelete' : 'listItem listItem-border';
+                const tagName = layoutManager.tv ? 'button' : 'div';
+                let className = layoutManager.tv && s.Path ? 'listItem listItem-border btnDelete' : 'listItem listItem-border';
 
                 if (layoutManager.tv) {
                     className += ' listItem-focusscale listItem-button';
@@ -113,7 +113,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             html += '</div>';
         }
 
-        var elem = context.querySelector('.subtitleList');
+        const elem = context.querySelector('.subtitleList');
 
         if (subs.length) {
             elem.classList.remove('hide');
@@ -124,18 +124,18 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     }
 
     function fillLanguages(context, apiClient, languages) {
-        var selectLanguage = context.querySelector('#selectLanguage');
+        const selectLanguage = context.querySelector('#selectLanguage');
 
         selectLanguage.innerHTML = languages.map(function (l) {
             return '<option value="' + l.ThreeLetterISOLanguageName + '">' + l.DisplayName + '</option>';
         });
 
-        var lastLanguage = userSettings.get('subtitleeditor-language');
+        const lastLanguage = userSettings.get('subtitleeditor-language');
         if (lastLanguage) {
             selectLanguage.value = lastLanguage;
         } else {
             apiClient.getCurrentUser().then(function (user) {
-                var lang = user.Configuration.SubtitleLanguagePreference;
+                const lang = user.Configuration.SubtitleLanguagePreference;
 
                 if (lang) {
                     selectLanguage.value = lang;
@@ -145,8 +145,8 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     }
 
     function renderSearchResults(context, results) {
-        var lastProvider = '';
-        var html = '';
+        let lastProvider = '';
+        let html = '';
 
         if (!results.length) {
             context.querySelector('.noSearchResults').classList.remove('hide');
@@ -157,10 +157,10 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
         context.querySelector('.noSearchResults').classList.add('hide');
 
-        for (var i = 0, length = results.length; i < length; i++) {
-            var result = results[i];
+        for (let i = 0, length = results.length; i < length; i++) {
+            const result = results[i];
 
-            var provider = result.ProviderName;
+            const provider = result.ProviderName;
 
             if (provider !== lastProvider) {
                 if (i > 0) {
@@ -171,8 +171,8 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                 lastProvider = provider;
             }
 
-            var tagName = layoutManager.tv ? 'button' : 'div';
-            var className = layoutManager.tv ? 'listItem listItem-border btnOptions' : 'listItem listItem-border';
+            const tagName = layoutManager.tv ? 'button' : 'div';
+            let className = layoutManager.tv ? 'listItem listItem-border btnOptions' : 'listItem listItem-border';
             if (layoutManager.tv) {
                 className += ' listItem-focusscale listItem-button';
             }
@@ -181,7 +181,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
             html += '<span class="listItemIcon material-icons closed_caption"></span>';
 
-            var bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
+            const bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
 
             html += '<div class="listItemBody ' + bodyClass + '">';
 
@@ -218,7 +218,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             html += '</div>';
         }
 
-        var elem = context.querySelector('.subtitleResults');
+        const elem = context.querySelector('.subtitleResults');
         elem.innerHTML = html;
 
         loading.hide();
@@ -229,8 +229,8 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
         loading.show();
 
-        var apiClient = connectionManager.getApiClient(currentItem.ServerId);
-        var url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
+        const apiClient = connectionManager.getApiClient(currentItem.ServerId);
+        const url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
 
         apiClient.getJSON(url).then(function (results) {
             renderSearchResults(context, results);
@@ -244,8 +244,8 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             currentItem = item;
 
             fillSubtitleList(context, item);
-            var file = item.Path || '';
-            var index = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
+            let file = item.Path || '';
+            const index = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
             if (index > -1) {
                 file = file.substring(index + 1);
             }
@@ -269,9 +269,9 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     }
 
     function onSearchSubmit(e) {
-        var form = this;
+        const form = this;
 
-        var lang = form.querySelector('#selectLanguage', form).value;
+        const lang = form.querySelector('#selectLanguage', form).value;
 
         searchForSubtitles(dom.parentWithClass(form, 'formDialogContent'), lang);
 
@@ -280,26 +280,26 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     }
 
     function onSubtitleListClick(e) {
-        var btnDelete = dom.parentWithClass(e.target, 'btnDelete');
+        const btnDelete = dom.parentWithClass(e.target, 'btnDelete');
         if (btnDelete) {
-            var index = btnDelete.getAttribute('data-index');
-            var context = dom.parentWithClass(btnDelete, 'subtitleEditorDialog');
+            const index = btnDelete.getAttribute('data-index');
+            const context = dom.parentWithClass(btnDelete, 'subtitleEditorDialog');
             deleteLocalSubtitle(context, index);
         }
     }
 
     function onSubtitleResultsClick(e) {
-        var subtitleId;
-        var context;
+        let subtitleId;
+        let context;
 
-        var btnOptions = dom.parentWithClass(e.target, 'btnOptions');
+        const btnOptions = dom.parentWithClass(e.target, 'btnOptions');
         if (btnOptions) {
             subtitleId = btnOptions.getAttribute('data-subid');
             context = dom.parentWithClass(btnOptions, 'subtitleEditorDialog');
             showDownloadOptions(btnOptions, context, subtitleId);
         }
 
-        var btnDownload = dom.parentWithClass(e.target, 'btnDownload');
+        const btnDownload = dom.parentWithClass(e.target, 'btnDownload');
         if (btnDownload) {
             subtitleId = btnDownload.getAttribute('data-subid');
             context = dom.parentWithClass(btnDownload, 'subtitleEditorDialog');
@@ -308,7 +308,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     }
 
     function showDownloadOptions(button, context, subtitleId) {
-        var items = [];
+        const items = [];
 
         items.push({
             name: globalize.translate('Download'),
@@ -334,7 +334,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
+            const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
@@ -342,9 +342,9 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     function showEditorInternal(itemId, serverId, template) {
         hasChanges = false;
 
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = connectionManager.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-            var dialogOptions = {
+            const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
             };
@@ -355,7 +355,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                 dialogOptions.size = 'small';
             }
 
-            var dlg = dialogHelper.createDialog(dialogOptions);
+            const dlg = dialogHelper.createDialog(dialogOptions);
 
             dlg.classList.add('formDialog');
             dlg.classList.add('subtitleEditorDialog');
@@ -366,7 +366,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
             dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
 
-            var btnSubmit = dlg.querySelector('.btnSubmit');
+            const btnSubmit = dlg.querySelector('.btnSubmit');
 
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, true);
@@ -375,7 +375,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                 btnSubmit.classList.add('hide');
             }
 
-            var editorContent = dlg.querySelector('.formDialogContent');
+            const editorContent = dlg.querySelector('.formDialogContent');
 
             dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
             dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);

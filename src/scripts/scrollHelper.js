@@ -12,24 +12,24 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
     }
 
     function getPosition(scrollContainer, item, horizontal) {
-        var slideeOffset = getBoundingClientRect(scrollContainer);
-        var itemOffset = getBoundingClientRect(item);
+        const slideeOffset = getBoundingClientRect(scrollContainer);
+        const itemOffset = getBoundingClientRect(item);
 
-        var offset = horizontal ? itemOffset.left - slideeOffset.left : itemOffset.top - slideeOffset.top;
-        var size = horizontal ? itemOffset.width : itemOffset.height;
+        let offset = horizontal ? itemOffset.left - slideeOffset.left : itemOffset.top - slideeOffset.top;
+        let size = horizontal ? itemOffset.width : itemOffset.height;
         if (!size && size !== 0) {
             size = item[horizontal ? 'offsetWidth' : 'offsetHeight'];
         }
 
-        var currentStart = horizontal ? scrollContainer.scrollLeft : scrollContainer.scrollTop;
+        const currentStart = horizontal ? scrollContainer.scrollLeft : scrollContainer.scrollTop;
 
         offset += currentStart;
 
-        var frameSize = horizontal ? scrollContainer.offsetWidth : scrollContainer.offsetHeight;
+        const frameSize = horizontal ? scrollContainer.offsetWidth : scrollContainer.offsetHeight;
 
-        var currentEnd = currentStart + frameSize;
+        const currentEnd = currentStart + frameSize;
 
-        var isVisible = offset >= currentStart && (offset + size) <= currentEnd;
+        const isVisible = offset >= currentStart && (offset + size) <= currentEnd;
 
         return {
             start: offset,
@@ -41,7 +41,7 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
     }
 
     function toCenter(container, elem, horizontal, skipWhenVisible) {
-        var pos = getPosition(container, elem, horizontal);
+        const pos = getPosition(container, elem, horizontal);
 
         if (skipWhenVisible && pos.isVisible) {
             return;
@@ -63,7 +63,7 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
     }
 
     function toStart(container, elem, horizontal, skipWhenVisible) {
-        var pos = getPosition(container, elem, horizontal);
+        const pos = getPosition(container, elem, horizontal);
 
         if (skipWhenVisible && pos.isVisible) {
             return;
@@ -85,7 +85,7 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
     }
 
     function centerOnFocus(e, scrollSlider, horizontal) {
-        var focused = focusManager.focusableParent(e.target);
+        const focused = focusManager.focusableParent(e.target);
 
         if (focused) {
             toCenter(scrollSlider, focused, horizontal);

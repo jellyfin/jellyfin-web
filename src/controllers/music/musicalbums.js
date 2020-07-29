@@ -20,7 +20,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
         }
 
         function getPageData() {
-            var key = getSavedQueryKey();
+            const key = getSavedQueryKey();
 
             if (!pageData) {
                 pageData = {
@@ -61,8 +61,8 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
         }
 
         function onViewStyleChange() {
-            var viewStyle = self.getCurrentViewStyle();
-            var itemsContainer = tabContent.querySelector('.itemsContainer');
+            const viewStyle = self.getCurrentViewStyle();
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
 
             if ('List' == viewStyle) {
                 itemsContainer.classList.add('vertical-list');
@@ -78,7 +78,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
         function reloadItems(page) {
             loading.show();
             isLoading = true;
-            var query = getQuery();
+            const query = getQuery();
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
                 function onNextPageClick() {
                     if (isLoading) {
@@ -104,8 +104,8 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
 
                 window.scrollTo(0, 0);
                 updateFilterControls(page);
-                var html;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                let html;
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -115,7 +115,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                     sortButton: false,
                     filterButton: false
                 });
-                var viewStyle = self.getCurrentViewStyle();
+                const viewStyle = self.getCurrentViewStyle();
                 if (viewStyle == 'List') {
                     html = listView.getListViewHtml({
                         items: result.Items,
@@ -146,9 +146,9 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                         overlayPlayButton: true
                     });
                 }
-                var i;
-                var length;
-                var elems = tabContent.querySelectorAll('.paging');
+                let i;
+                let length;
+                let elems = tabContent.querySelectorAll('.paging');
 
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
@@ -164,7 +164,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                     elems[i].addEventListener('click', onPreviousPageClick);
                 }
 
-                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                const itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
@@ -178,18 +178,18 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
         }
 
         function updateFilterControls(tabContent) {
-            var query = getQuery();
+            const query = getQuery();
             self.alphaPicker.value(query.NameStartsWithOrGreater);
         }
 
-        var savedQueryKey;
-        var pageData;
-        var self = this;
-        var isLoading = false;
+        let savedQueryKey;
+        let pageData;
+        const self = this;
+        let isLoading = false;
 
         self.showFilterMenu = function () {
             require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
-                var filterDialog = new filterDialogFactory({
+                const filterDialog = new filterDialogFactory({
                     query: getQuery(),
                     mode: 'albums',
                     serverId: ApiClient.serverId()
@@ -207,12 +207,12 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
         };
 
         function initPage(tabContent) {
-            var alphaPickerElement = tabContent.querySelector('.alphaPicker');
-            var itemsContainer = tabContent.querySelector('.itemsContainer');
+            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
 
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                var newValue = e.detail.value;
-                var query = getQuery();
+                const newValue = e.detail.value;
+                const query = getQuery();
                 query.NameStartsWithOrGreater = newValue;
                 query.StartIndex = 0;
                 reloadItems(tabContent);
@@ -261,12 +261,12 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                     button: e.target
                 });
             });
-            var btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
-                var viewStyle = e.detail.viewStyle;
+                const viewStyle = e.detail.viewStyle;
                 getPageData().view = viewStyle;
                 libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
                 getQuery().StartIndex = 0;

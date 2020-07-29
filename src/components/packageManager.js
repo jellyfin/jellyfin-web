@@ -1,7 +1,7 @@
 define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
     'use strict';
 
-    var settingsKey = 'installedpackages1';
+    const settingsKey = 'installedpackages1';
 
     function addPackage(packageManager, pkg) {
         packageManager.packagesList = packageManager.packagesList.filter(function (p) {
@@ -12,7 +12,7 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
     }
 
     function removeUrl(url) {
-        var manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
+        let manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
 
         manifestUrls = manifestUrls.filter(function (i) {
             return i !== url;
@@ -23,14 +23,14 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
 
     function loadPackage(packageManager, url, throwError) {
         return new Promise(function (resolve, reject) {
-            var xhr = new XMLHttpRequest();
-            var originalUrl = url;
+            const xhr = new XMLHttpRequest();
+            const originalUrl = url;
             url += url.indexOf('?') === -1 ? '?' : '&';
             url += 't=' + new Date().getTime();
 
             xhr.open('GET', url, true);
 
-            var onError = function () {
+            const onError = function () {
                 if (throwError === true) {
                     reject();
                 } else {
@@ -41,16 +41,16 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
 
             xhr.onload = function (e) {
                 if (this.status < 400) {
-                    var pkg = JSON.parse(this.response);
+                    const pkg = JSON.parse(this.response);
                     pkg.url = originalUrl;
 
                     addPackage(packageManager, pkg);
 
-                    var plugins = pkg.plugins || [];
+                    const plugins = pkg.plugins || [];
                     if (pkg.plugin) {
                         plugins.push(pkg.plugin);
                     }
-                    var promises = plugins.map(function (pluginUrl) {
+                    const promises = plugins.map(function (pluginUrl) {
                         return pluginManager.loadPlugin(packageManager.mapPath(pkg, pluginUrl));
                     });
                     Promise.all(promises).then(resolve, resolve);
@@ -70,9 +70,9 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
     }
 
     PackageManager.prototype.init = function () {
-        var manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
+        const manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
 
-        var instance = this;
+        const instance = this;
         return Promise.all(manifestUrls.map(function (u) {
             return loadPackage(instance, u);
         })).then(function () {
@@ -88,7 +88,7 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
 
     PackageManager.prototype.install = function (url) {
         return loadPackage(this, url, true).then(function (pkg) {
-            var manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
+            const manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
 
             if (manifestUrls.indexOf(url) === -1) {
                 manifestUrls.push(url);
@@ -100,7 +100,7 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
     };
 
     PackageManager.prototype.uninstall = function (name) {
-        var pkg = this.packagesList.filter(function (p) {
+        const pkg = this.packagesList.filter(function (p) {
             return p.name === name;
         })[0];
 
@@ -116,12 +116,12 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
     };
 
     PackageManager.prototype.mapPath = function (pkg, pluginUrl) {
-        var urlLower = pluginUrl.toLowerCase();
+        const urlLower = pluginUrl.toLowerCase();
         if (urlLower.indexOf('http:') === 0 || urlLower.indexOf('https:') === 0 || urlLower.indexOf('file:') === 0) {
             return pluginUrl;
         }
 
-        var packageUrl = pkg.url;
+        let packageUrl = pkg.url;
         packageUrl = packageUrl.substring(0, packageUrl.lastIndexOf('/'));
 
         packageUrl += '/';

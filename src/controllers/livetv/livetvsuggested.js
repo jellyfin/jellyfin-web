@@ -29,7 +29,7 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
 
     function loadRecommendedPrograms(page) {
         loading.show();
-        var limit = getLimit();
+        let limit = getLimit();
 
         if (enableScrollX()) {
             limit *= 2;
@@ -130,7 +130,7 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
     }
 
     function renderItems(page, items, sectionClass, overlayButton, cardOptions) {
-        var html = cardBuilder.getCardsHtml(Object.assign({
+        const html = cardBuilder.getCardsHtml(Object.assign({
             items: items,
             preferThumb: 'auto',
             inheritThumb: false,
@@ -149,7 +149,7 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             showAirTime: true,
             showAirDateTime: true
         }, cardOptions || {}));
-        var elem = page.querySelector('.' + sectionClass);
+        const elem = page.querySelector('.' + sectionClass);
         elem.innerHTML = html;
         imageLoader.lazyChildren(elem);
     }
@@ -209,7 +209,7 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
         }
 
         function onTabChange(evt) {
-            var previousTabController = tabControllers[parseInt(evt.detail.previousIndex)];
+            const previousTabController = tabControllers[parseInt(evt.detail.previousIndex)];
 
             if (previousTabController && previousTabController.onHide) {
                 previousTabController.onHide();
@@ -227,7 +227,7 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
         }
 
         function getTabController(page, index, callback) {
-            var depends = [];
+            const depends = [];
 
             // TODO int is a little hard to read
             switch (index) {
@@ -259,14 +259,14 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             }
 
             require(depends, function (controllerFactory) {
-                var tabContent;
+                let tabContent;
 
                 if (0 == index) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
 
-                var controller = tabControllers[index];
+                let controller = tabControllers[index];
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
@@ -326,13 +326,13 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             }
         }
 
-        var isViewRestored;
-        var self = this;
-        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex('livetv'));
-        var initialTabIndex = currentTabIndex;
-        var lastFullRender = 0;
+        let isViewRestored;
+        const self = this;
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex('livetv'));
+        let initialTabIndex = currentTabIndex;
+        let lastFullRender = 0;
         [].forEach.call(view.querySelectorAll('.sectionTitleTextButton-programs'), function (link) {
-            var href = link.href;
+            const href = link.href;
 
             if (href) {
                 link.href = href + '&serverId=' + ApiClient.serverId();
@@ -340,16 +340,16 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
         });
 
         self.initTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='0']");
-            var containers = tabContent.querySelectorAll('.itemsContainer');
+            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const containers = tabContent.querySelectorAll('.itemsContainer');
 
-            for (var i = 0, length = containers.length; i < length; i++) {
+            for (let i = 0, length = containers.length; i < length; i++) {
                 setScrollClasses(containers[i], enableScrollX());
             }
         };
 
         self.renderTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
 
             if (enableFullRender()) {
                 reload(tabContent, true);
@@ -359,9 +359,9 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             }
         };
 
-        var currentTabController;
-        var tabControllers = [];
-        var renderedTabs = [];
+        let currentTabController;
+        const tabControllers = [];
+        const renderedTabs = [];
         view.addEventListener('viewbeforeshow', function (evt) {
             isViewRestored = evt.detail.isRestored;
             initTabs();

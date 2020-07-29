@@ -5,8 +5,8 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
 
     return function (view, params, tabContent) {
         function getPageData(context) {
-            var key = getSavedQueryKey(context);
-            var pageData = data[key];
+            const key = getSavedQueryKey(context);
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -48,7 +48,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
         function reloadItems(page) {
             loading.show();
             isLoading = true;
-            var query = getQuery(page);
+            const query = getQuery(page);
             ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
                 function onNextPageClick() {
                     if (isLoading) {
@@ -73,9 +73,9 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                 }
 
                 window.scrollTo(0, 0);
-                var i;
-                var length;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                let i;
+                let length;
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -85,14 +85,14 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                     sortButton: false,
                     filterButton: false
                 });
-                var html = listView.getListViewHtml({
+                const html = listView.getListViewHtml({
                     items: result.Items,
                     action: 'playallfromhere',
                     smallIcon: true,
                     artist: true,
                     addToListButton: true
                 });
-                var elems = tabContent.querySelectorAll('.paging');
+                let elems = tabContent.querySelectorAll('.paging');
 
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
@@ -108,7 +108,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                     elems[i].addEventListener('click', onPreviousPageClick);
                 }
 
-                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                const itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
@@ -121,13 +121,13 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
             });
         }
 
-        var self = this;
-        var data = {};
-        var isLoading = false;
+        const self = this;
+        const data = {};
+        let isLoading = false;
 
         self.showFilterMenu = function () {
             require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
-                var filterDialog = new filterDialogFactory({
+                const filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'songs',
                     serverId: ApiClient.serverId()

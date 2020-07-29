@@ -2,7 +2,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     'use strict';
 
     function getBaseProfileOptions(item) {
-        var disableHlsVideoAudioCodecs = [];
+        const disableHlsVideoAudioCodecs = [];
 
         if (item && htmlMediaHelper.enableHlsJsPlayer(item.RunTimeTicks, item.MediaType)) {
             if (browser.edge) {
@@ -23,7 +23,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     function getDeviceProfileForWindowsUwp(item) {
         return new Promise(function (resolve, reject) {
             require(['browserdeviceprofile', 'environments/windows-uwp/mediacaps'], function (profileBuilder, uwpMediaCaps) {
-                var profileOptions = getBaseProfileOptions(item);
+                const profileOptions = getBaseProfileOptions(item);
                 profileOptions.supportsDts = uwpMediaCaps.supportsDTS();
                 profileOptions.supportsTrueHd = uwpMediaCaps.supportsDolby();
                 profileOptions.audioChannels = uwpMediaCaps.getAudioChannels();
@@ -41,12 +41,12 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
 
         return new Promise(function (resolve) {
             require(['browserdeviceprofile'], function (profileBuilder) {
-                var profile;
+                let profile;
 
                 if (window.NativeShell) {
                     profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
                 } else {
-                    var builderOpts = getBaseProfileOptions(item);
+                    const builderOpts = getBaseProfileOptions(item);
                     builderOpts.enableSsaRender = (item && !options.isRetry && 'allcomplexformats' !== appSettings.get('subtitleburnin'));
                     profile = profileBuilder(builderOpts);
                 }
@@ -61,16 +61,16 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     }
 
     function replaceAll(originalString, strReplace, strWith) {
-        var strReplace2 = escapeRegExp(strReplace);
-        var reg = new RegExp(strReplace2, 'ig');
+        const strReplace2 = escapeRegExp(strReplace);
+        const reg = new RegExp(strReplace2, 'ig');
         return originalString.replace(reg, strWith);
     }
 
     function generateDeviceId() {
-        var keys = [];
+        const keys = [];
 
         if (keys.push(navigator.userAgent), keys.push(new Date().getTime()), self.btoa) {
-            var result = replaceAll(btoa(keys.join('|')), '=', '1');
+            const result = replaceAll(btoa(keys.join('|')), '=', '1');
             return Promise.resolve(result);
         }
 
@@ -78,8 +78,8 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     }
 
     function getDeviceId() {
-        var key = '_deviceId2';
-        var deviceId = appSettings.get(key);
+        const key = '_deviceId2';
+        const deviceId = appSettings.get(key);
 
         if (deviceId) {
             return Promise.resolve(deviceId);
@@ -92,7 +92,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     }
 
     function getDeviceName() {
-        var deviceName;
+        let deviceName;
         if (browser.tizen) {
             deviceName = 'Samsung Smart TV';
         } else if (browser.web0s) {
@@ -143,14 +143,14 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             return false;
         }
 
-        var element = document.documentElement;
+        const element = document.documentElement;
         return (element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen) || document.createElement('video').webkitEnterFullscreen;
     }
 
     function getSyncProfile() {
         return new Promise(function (resolve) {
             require(['browserdeviceprofile', 'appSettings'], function (profileBuilder, appSettings) {
-                var profile;
+                let profile;
 
                 if (window.NativeShell) {
                     profile = window.NativeShell.AppHost.getSyncProfile(profileBuilder, appSettings);
@@ -182,14 +182,14 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
 
     function supportsCue() {
         try {
-            var video = document.createElement('video');
-            var style = document.createElement('style');
+            const video = document.createElement('video');
+            const style = document.createElement('style');
 
             style.textContent = 'video::cue {background: inherit}';
             document.body.appendChild(style);
             document.body.appendChild(video);
 
-            var cue = window.getComputedStyle(video, '::cue').background;
+            const cue = window.getComputedStyle(video, '::cue').background;
             document.body.removeChild(style);
             document.body.removeChild(video);
 
@@ -215,8 +215,8 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
         }
     }
 
-    var supportedFeatures = function () {
-        var features = [];
+    const supportedFeatures = function () {
+        const features = [];
 
         if (navigator.share) {
             features.push('sharing');
@@ -319,7 +319,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
         }
     }
 
-    var exitPromise;
+    let exitPromise;
 
     /**
       * Ask user for exit
@@ -346,12 +346,12 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
         });
     }
 
-    var deviceId;
-    var deviceName;
-    var appName = 'Jellyfin Web';
-    var appVersion = '10.7.0';
+    let deviceId;
+    let deviceName;
+    const appName = 'Jellyfin Web';
+    const appVersion = '10.7.0';
 
-    var appHost = {
+    const appHost = {
         getWindowState: function () {
             return document.windowState || 'Normal';
         },
@@ -408,7 +408,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             return {};
         },
         setThemeColor: function (color) {
-            var metaThemeColor = document.querySelector('meta[name=theme-color]');
+            const metaThemeColor = document.querySelector('meta[name=theme-color]');
 
             if (metaThemeColor) {
                 metaThemeColor.setAttribute('content', color);
@@ -416,15 +416,15 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
         },
         setUserScalable: function (scalable) {
             if (!browser.tv) {
-                var att = scalable ? 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes' : 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no';
+                const att = scalable ? 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes' : 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no';
                 document.querySelector('meta[name=viewport]').setAttribute('content', att);
             }
         }
     };
 
-    var isHidden = false;
-    var hidden;
-    var visibilityChange;
+    let isHidden = false;
+    let hidden;
+    let visibilityChange;
 
     if (typeof document.hidden !== 'undefined') { /* eslint-disable-line compat/compat */
         hidden = 'hidden';

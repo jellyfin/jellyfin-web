@@ -1,3 +1,4 @@
+
 define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, AlphaPicker, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
@@ -5,8 +6,8 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
 
     return function (view, params, tabContent) {
         function getPageData(context) {
-            var key = getSavedQueryKey(context);
-            var pageData = data[key];
+            const key = getSavedQueryKey(context);
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -48,7 +49,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
         function reloadItems() {
             loading.show();
             isLoading = true;
-            var query = getQuery(tabContent);
+            const query = getQuery(tabContent);
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
                 function onNextPageClick() {
                     if (isLoading) {
@@ -74,7 +75,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
 
                 window.scrollTo(0, 0);
                 updateFilterControls(tabContent);
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -84,8 +85,8 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                     sortButton: false,
                     filterButton: false
                 });
-                var html;
-                var viewStyle = self.getCurrentViewStyle();
+                let html;
+                const viewStyle = self.getCurrentViewStyle();
 
                 if (viewStyle == 'Thumb') {
                     html = cardBuilder.getCardsHtml({
@@ -141,9 +142,9 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                     });
                 }
 
-                var i;
-                var length;
-                var elems = tabContent.querySelectorAll('.paging');
+                let i;
+                let length;
+                let elems = tabContent.querySelectorAll('.paging');
 
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
@@ -168,7 +169,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                     html += '</div>';
                 }
 
-                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                const itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(tabContent), query);
@@ -178,17 +179,17 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
         }
 
         function updateFilterControls(tabContent) {
-            var query = getQuery(tabContent);
+            const query = getQuery(tabContent);
             self.alphaPicker.value(query.NameStartsWithOrGreater);
         }
 
-        var self = this;
-        var data = {};
-        var isLoading = false;
+        const self = this;
+        const data = {};
+        let isLoading = false;
 
         self.showFilterMenu = function () {
             require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
-                var filterDialog = new filterDialogFactory({
+                const filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'movies',
                     serverId: ApiClient.serverId()
@@ -206,11 +207,11 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
         };
 
         function initPage(tabContent) {
-            var alphaPickerElement = tabContent.querySelector('.alphaPicker');
-            var itemsContainer = tabContent.querySelector('.itemsContainer');
+            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                var newValue = e.detail.value;
-                var query = getQuery(tabContent);
+                const newValue = e.detail.value;
+                const query = getQuery(tabContent);
                 query.NameStartsWithOrGreater = newValue;
                 query.StartIndex = 0;
                 reloadItems();

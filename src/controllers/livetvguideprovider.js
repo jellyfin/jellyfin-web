@@ -6,10 +6,10 @@ define(['events', 'loading', 'globalize'], function (events, loading, globalize)
     }
 
     function init(page, type, providerId) {
-        var url = 'components/tvproviders/' + type + '.js';
+        const url = 'components/tvproviders/' + type + '.js';
 
         require([url], function (factory) {
-            var instance = new factory(page, providerId, {});
+            const instance = new factory(page, providerId, {});
             events.on(instance, 'submitted', onListingsSubmitted);
             instance.init();
         });
@@ -24,7 +24,7 @@ define(['events', 'loading', 'globalize'], function (events, loading, globalize)
 
     pageIdOn('pageshow', 'liveTvGuideProviderPage', function () {
         loading.show();
-        var providerId = getParameterByName('id');
+        const providerId = getParameterByName('id');
         loadTemplate(this, getParameterByName('type'), providerId);
     });
 });

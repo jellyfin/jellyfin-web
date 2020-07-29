@@ -17,13 +17,13 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
 
     function onSubmit() {
         loading.show();
-        var form = this;
+        const form = this;
         ApiClient.getNamedConfiguration('livetv').then(function (config) {
             config.GuideDays = $('#selectGuideDays', form).val() || null;
-            var recordingPath = form.querySelector('#txtRecordingPath').value || null;
-            var movieRecordingPath = form.querySelector('#txtMovieRecordingPath').value || null;
-            var seriesRecordingPath = form.querySelector('#txtSeriesRecordingPath').value || null;
-            var recordingPathChanged = recordingPath != config.RecordingPath || movieRecordingPath != config.MovieRecordingPath || seriesRecordingPath != config.SeriesRecordingPath;
+            const recordingPath = form.querySelector('#txtRecordingPath').value || null;
+            const movieRecordingPath = form.querySelector('#txtMovieRecordingPath').value || null;
+            const seriesRecordingPath = form.querySelector('#txtSeriesRecordingPath').value || null;
+            const recordingPathChanged = recordingPath != config.RecordingPath || movieRecordingPath != config.MovieRecordingPath || seriesRecordingPath != config.SeriesRecordingPath;
             config.RecordingPath = recordingPath;
             config.MovieRecordingPath = movieRecordingPath;
             config.SeriesRecordingPath = seriesRecordingPath;
@@ -41,7 +41,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
     }
 
     function showSaveMessage(recordingPathChanged) {
-        var msg = '';
+        let msg = '';
 
         if (recordingPathChanged) {
             msg += globalize.translate('RecordingPathChangeMessage');
@@ -55,11 +55,11 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
     }
 
     $(document).on('pageinit', '#liveTvSettingsPage', function () {
-        var page = this;
+        const page = this;
         $('.liveTvSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
         $('#btnSelectRecordingPath', page).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser.default();
+                const picker = new directoryBrowser.default();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -74,7 +74,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
         });
         $('#btnSelectMovieRecordingPath', page).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser.default();
+                const picker = new directoryBrowser.default();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -89,7 +89,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
         });
         $('#btnSelectSeriesRecordingPath', page).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser.default();
+                const picker = new directoryBrowser.default();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -104,7 +104,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
         });
         $('#btnSelectPostProcessorPath', page).on('click.selectDirectory', function () {
             require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser.default();
+                const picker = new directoryBrowser.default();
                 picker.show({
                     includeFiles: true,
                     callback: function (path) {
@@ -119,7 +119,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
         });
     }).on('pageshow', '#liveTvSettingsPage', function () {
         loading.show();
-        var page = this;
+        const page = this;
         ApiClient.getNamedConfiguration('livetv').then(function (config) {
             loadPage(page, config);
         });

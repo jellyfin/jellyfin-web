@@ -2,7 +2,7 @@ define(['datetime', 'cardBuilder', 'imageLoader', 'apphost', 'loading', 'paper-i
     'use strict';
 
     function renderTimers(context, timers) {
-        var html = '';
+        let html = '';
         html += cardBuilder.getCardsHtml({
             items: timers,
             shape: 'auto',
@@ -18,7 +18,7 @@ define(['datetime', 'cardBuilder', 'imageLoader', 'apphost', 'loading', 'paper-i
             overlayMoreButton: true,
             lines: 3
         });
-        var elem = context.querySelector('#items');
+        const elem = context.querySelector('#items');
         elem.innerHTML = html;
         imageLoader.lazyChildren(elem);
         loading.hide();
@@ -31,13 +31,13 @@ define(['datetime', 'cardBuilder', 'imageLoader', 'apphost', 'loading', 'paper-i
         });
     }
 
-    var query = {
+    const query = {
         SortBy: 'SortName',
         SortOrder: 'Ascending'
     };
     return function (view, params, tabContent) {
-        var timersPromise;
-        var self = this;
+        let timersPromise;
+        const self = this;
 
         self.preRender = function () {
             timersPromise = ApiClient.getLiveTvSeriesTimers(query);

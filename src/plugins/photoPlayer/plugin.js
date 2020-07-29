@@ -11,11 +11,11 @@ export default class PhotoPlayer {
     play(options) {
         return new Promise(function (resolve, reject) {
             import('slideshow').then(({default: slideshow}) => {
-                var index = options.startIndex || 0;
+                const index = options.startIndex || 0;
 
-                var apiClient = connectionManager.currentApiClient();
+                const apiClient = connectionManager.currentApiClient();
                 apiClient.getCurrentUser().then(function(result) {
-                    var newSlideShow = new slideshow({
+                    const newSlideShow = new slideshow({
                         showTitle: false,
                         cover: false,
                         items: options.items,

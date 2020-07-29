@@ -15,7 +15,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     document.addEventListener('click', onOneDocumentClick);
     document.addEventListener('keydown', onOneDocumentClick);
 
-    var serviceWorkerRegistration;
+    let serviceWorkerRegistration;
 
     function closeAfter(notification, timeoutMs) {
         setTimeout(function () {
@@ -29,7 +29,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
 
     function resetRegistration() {
         /* eslint-disable-next-line compat/compat */
-        var serviceWorker = navigator.serviceWorker;
+        const serviceWorker = navigator.serviceWorker;
         if (serviceWorker) {
             serviceWorker.ready.then(function (registration) {
                 serviceWorkerRegistration = registration;
@@ -45,7 +45,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
 
     function showNonPersistentNotification(title, options, timeoutMs) {
         try {
-            var notif = new Notification(title, options); /* eslint-disable-line compat/compat */
+            const notif = new Notification(title, options); /* eslint-disable-line compat/compat */
 
             if (notif.show) {
                 notif.show();
@@ -65,7 +65,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function showNotification(options, timeoutMs, apiClient) {
-        var title = options.title;
+        const title = options.title;
 
         options.data = options.data || {};
         options.data.serverId = apiClient.serverInfo().Id;
@@ -87,13 +87,13 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             return;
         }
 
-        var body = item.Name;
+        let body = item.Name;
 
         if (item.SeriesName) {
             body = item.SeriesName + ' - ' + body;
         }
 
-        var notification = {
+        const notification = {
             title: 'New ' + item.Type,
             body: body,
             vibrate: true,
@@ -101,7 +101,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             data: {}
         };
 
-        var imageTags = item.ImageTags || {};
+        const imageTags = item.ImageTags || {};
 
         if (imageTags.Primary) {
             notification.icon = apiClient.getScaledImageUrl(item.Id, {
@@ -115,7 +115,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function onLibraryChanged(data, apiClient) {
-        var newItems = data.ItemsAdded;
+        const newItems = data.ItemsAdded;
 
         if (!newItems.length) {
             return;
@@ -138,9 +138,9 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             EnableTotalRecordCount: false
 
         }).then(function (result) {
-            var items = result.Items;
+            const items = result.Items;
 
-            for (var i = 0, length = items.length ; i < length; i++) {
+            for (let i = 0, length = items.length ; i < length; i++) {
                 showNewItemNotification(items[i], apiClient);
             }
         });
@@ -157,7 +157,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
                 return;
             }
 
-            var notification = {
+            const notification = {
                 tag: 'install' + installation.Id,
                 data: {}
             };
@@ -186,12 +186,12 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             }
 
             if (status === 'progress') {
-                var percentComplete = Math.round(installation.PercentComplete || 0);
+                const percentComplete = Math.round(installation.PercentComplete || 0);
 
                 notification.body = percentComplete + '% complete.';
             }
 
-            var timeout = status === 'cancelled' ? 5000 : 0;
+            const timeout = status === 'cancelled' ? 5000 : 0;
 
             showNotification(notification, timeout, apiClient);
         });
@@ -218,8 +218,8 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     });
 
     events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
-        var serverId = apiClient.serverInfo().Id;
-        var notification = {
+        const serverId = apiClient.serverInfo().Id;
+        const notification = {
             tag: 'restart' + serverId,
             title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
         };
@@ -227,8 +227,8 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     });
 
     events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
-        var serverId = apiClient.serverInfo().Id;
-        var notification = {
+        const serverId = apiClient.serverInfo().Id;
+        const notification = {
             tag: 'restart' + serverId,
             title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
         };
@@ -236,8 +236,8 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     });
 
     events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
-        var serverId = apiClient.serverInfo().Id;
-        var notification = {
+        const serverId = apiClient.serverInfo().Id;
+        const notification = {
             tag: 'restart' + serverId,
             title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
         };

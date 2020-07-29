@@ -37,7 +37,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                 }).then(function () {
                     loading.show();
 
-                    var apiClient = connectionManager.getApiClient(serverId);
+                    const apiClient = connectionManager.getApiClient(serverId);
                     cancelTimer(apiClient, timerId, true).then(resolve, reject);
                 }, reject);
             });
@@ -57,7 +57,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                 }).then(function () {
                     loading.show();
 
-                    var apiClient = connectionManager.getApiClient(serverId);
+                    const apiClient = connectionManager.getApiClient(serverId);
                     apiClient.cancelLiveTvSeriesTimer(timerId).then(function () {
                         require(['toast'], function (toast) {
                             toast(globalize.translate('SeriesCancelled'));
@@ -84,7 +84,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
     function createRecording(apiClient, programId, isSeries) {
         loading.show();
         return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (item) {
-            var promise = isSeries ?
+            const promise = isSeries ?
                 apiClient.createLiveTvSeriesTimer(item) :
                 apiClient.createLiveTvTimer(item);
 
@@ -104,7 +104,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
     function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId) {
         return new Promise(function (resolve, reject) {
             require(['dialog'], function (dialog) {
-                var items = [];
+                const items = [];
 
                 items.push({
                     name: globalize.translate('HeaderKeepRecording'),
@@ -138,7 +138,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                     buttons: items
 
                 }).then(function (result) {
-                    var apiClient = connectionManager.getApiClient(serverId);
+                    const apiClient = connectionManager.getApiClient(serverId);
 
                     if (result === 'canceltimer') {
                         loading.show();
@@ -164,8 +164,8 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
     }
 
     function toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId) {
-        var apiClient = connectionManager.getApiClient(serverId);
-        var hasTimer = timerId && timerStatus !== 'Cancelled';
+        const apiClient = connectionManager.getApiClient(serverId);
+        const hasTimer = timerId && timerStatus !== 'Cancelled';
         if (seriesTimerId && hasTimer) {
             // cancel
             return showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId);

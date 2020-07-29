@@ -33,7 +33,7 @@ import 'emby-select';
     const ScheduledTaskPage = {
         refreshScheduledTask: function (view) {
             loading.show();
-            let id = getParameterByName('id');
+            const id = getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 ScheduledTaskPage.loadScheduledTask(view, task);
             });
@@ -143,7 +143,7 @@ import 'emby-select';
         },
         deleteTrigger: function (view, index) {
             loading.show();
-            let id = getParameterByName('id');
+            const id = getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.remove(index);
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
@@ -211,7 +211,7 @@ import 'emby-select';
     export default function (view, params) {
         function onSubmit(e) {
             loading.show();
-            let id = getParameterByName('id');
+            const id = getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.push(ScheduledTaskPage.getTriggerToAdd(view));
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {

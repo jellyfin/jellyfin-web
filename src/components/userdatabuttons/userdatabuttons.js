@@ -1,7 +1,7 @@
 define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-button-light', 'material-icons', 'emby-button', 'css!./userdatabuttons'], function (connectionManager, globalize, dom, itemHelper) {
     'use strict';
 
-    var userDataMethods = {
+    const userDataMethods = {
         markPlayed: markPlayed,
         markDislike: markDislike,
         markLike: markLike,
@@ -14,8 +14,8 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
             buttonCssClass = buttonCssClass ? (buttonCssClass + ' mini') : 'mini';
         }
 
-        var is = style === 'fab' ? 'emby-button' : 'paper-icon-button-light';
-        var className = style === 'fab' ? 'autoSize fab' : 'autoSize';
+        const is = style === 'fab' ? 'emby-button' : 'paper-icon-button-light';
+        let className = style === 'fab' ? 'autoSize fab' : 'autoSize';
 
         if (buttonCssClass) {
             className += ' ' + buttonCssClass;
@@ -33,18 +33,18 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
     }
 
     function onContainerClick(e) {
-        var btnUserData = dom.parentWithClass(e.target, 'btnUserData');
+        const btnUserData = dom.parentWithClass(e.target, 'btnUserData');
 
         if (!btnUserData) {
             return;
         }
 
-        var method = btnUserData.getAttribute('data-method');
+        const method = btnUserData.getAttribute('data-method');
         userDataMethods[method](btnUserData);
     }
 
     function fill(options) {
-        var html = getIconsHtml(options);
+        const html = getIconsHtml(options);
 
         if (options.fillMode === 'insertAdjacent') {
             options.element.insertAdjacentHTML(options.insertLocation || 'beforeend', html);
@@ -70,33 +70,33 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
     }
 
     function getIconsHtml(options) {
-        var item = options.item;
-        var includePlayed = options.includePlayed;
-        var cssClass = options.cssClass;
-        var style = options.style;
+        const item = options.item;
+        const includePlayed = options.includePlayed;
+        const cssClass = options.cssClass;
+        const style = options.style;
 
-        var html = '';
+        let html = '';
 
-        var userData = item.UserData || {};
+        const userData = item.UserData || {};
 
-        var itemId = item.Id;
+        const itemId = item.Id;
 
         if (itemHelper.isLocalItem(item)) {
             return html;
         }
 
-        var btnCssClass = 'btnUserData';
+        let btnCssClass = 'btnUserData';
 
         if (cssClass) {
             btnCssClass += ' ' + cssClass;
         }
 
-        var iconCssClass = options.iconCssClass;
+        const iconCssClass = options.iconCssClass;
 
-        var serverId = item.ServerId;
+        const serverId = item.ServerId;
 
         if (includePlayed !== false) {
-            var tooltipPlayed = globalize.translate('MarkPlayed');
+            const tooltipPlayed = globalize.translate('MarkPlayed');
 
             if (itemHelper.canMarkPlayed(item)) {
                 if (userData.Played) {
@@ -107,7 +107,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
             }
         }
 
-        var tooltipFavorite = globalize.translate('Favorite');
+        const tooltipFavorite = globalize.translate('Favorite');
         if (userData.IsFavorite) {
             html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData btnUserDataOn', iconCssClass, 'favorite', tooltipFavorite, style);
         } else {
@@ -118,10 +118,10 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
     }
 
     function markFavorite(link) {
-        var id = link.getAttribute('data-itemid');
-        var serverId = link.getAttribute('data-serverid');
+        const id = link.getAttribute('data-itemid');
+        const serverId = link.getAttribute('data-serverid');
 
-        var markAsFavorite = !link.classList.contains('btnUserDataOn');
+        const markAsFavorite = !link.classList.contains('btnUserDataOn');
 
         favorite(id, serverId, markAsFavorite);
 
@@ -133,8 +133,8 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
     }
 
     function markLike(link) {
-        var id = link.getAttribute('data-itemid');
-        var serverId = link.getAttribute('data-serverid');
+        const id = link.getAttribute('data-itemid');
+        const serverId = link.getAttribute('data-serverid');
 
         if (!link.classList.contains('btnUserDataOn')) {
             likes(id, serverId, true);
@@ -150,8 +150,8 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
     }
 
     function markDislike(link) {
-        var id = link.getAttribute('data-itemid');
-        var serverId = link.getAttribute('data-serverid');
+        const id = link.getAttribute('data-itemid');
+        const serverId = link.getAttribute('data-serverid');
 
         if (!link.classList.contains('btnUserDataOn')) {
             likes(id, serverId, false);
@@ -167,8 +167,8 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
     }
 
     function markPlayed(link) {
-        var id = link.getAttribute('data-itemid');
-        var serverId = link.getAttribute('data-serverid');
+        const id = link.getAttribute('data-itemid');
+        const serverId = link.getAttribute('data-serverid');
 
         if (!link.classList.contains('btnUserDataOn')) {
             played(id, serverId, true);
@@ -182,26 +182,26 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
     }
 
     function likes(id, serverId, isLiked) {
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = connectionManager.getApiClient(serverId);
         return apiClient.updateUserItemRating(apiClient.getCurrentUserId(), id, isLiked);
     }
 
     function played(id, serverId, isPlayed) {
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = connectionManager.getApiClient(serverId);
 
-        var method = isPlayed ? 'markPlayed' : 'markUnplayed';
+        const method = isPlayed ? 'markPlayed' : 'markUnplayed';
 
         return apiClient[method](apiClient.getCurrentUserId(), id, new Date());
     }
 
     function favorite(id, serverId, isFavorite) {
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = connectionManager.getApiClient(serverId);
 
         return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), id, isFavorite);
     }
 
     function clearLike(id, serverId) {
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = connectionManager.getApiClient(serverId);
 
         return apiClient.clearUserItemRating(apiClient.getCurrentUserId(), id);
     }

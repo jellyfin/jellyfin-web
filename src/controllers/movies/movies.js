@@ -53,7 +53,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
 
             window.scrollTo(0, 0);
             updateFilterControls();
-            var pagingHtml = libraryBrowser.getQueryPagingHtml({
+            const pagingHtml = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,
                 limit: query.Limit,
                 totalRecordCount: result.TotalRecordCount,
@@ -63,9 +63,9 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                 sortButton: false,
                 filterButton: false
             });
-            var i;
-            var length;
-            var elems = tabContent.querySelectorAll('.paging');
+            let i;
+            let length;
+            let elems = tabContent.querySelectorAll('.paging');
 
             for (i = 0, length = elems.length; i < length; i++) {
                 elems[i].innerHTML = pagingHtml;
@@ -90,8 +90,8 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
         }
 
         function getItemsHtml(items) {
-            var html;
-            var viewStyle = self.getCurrentViewStyle();
+            let html;
+            const viewStyle = self.getCurrentViewStyle();
 
             if (viewStyle == 'Thumb') {
                 html = cardBuilder.getCardsHtml({
@@ -161,11 +161,11 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             itemsContainer.fetchData = fetchData;
             itemsContainer.getItemsHtml = getItemsHtml;
             itemsContainer.afterRefresh = afterRefresh;
-            var alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
 
             if (alphaPickerElement) {
                 alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                    var newValue = e.detail.value;
+                    const newValue = e.detail.value;
                     query.NameStartsWithOrGreater = newValue;
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
@@ -180,14 +180,14 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                 itemsContainer.classList.add('padded-right-withalphapicker');
             }
 
-            var btnFilter = tabContent.querySelector('.btnFilter');
+            const btnFilter = tabContent.querySelector('.btnFilter');
 
             if (btnFilter) {
                 btnFilter.addEventListener('click', function () {
                     self.showFilterMenu();
                 });
             }
-            var btnSort = tabContent.querySelector('.btnSort');
+            const btnSort = tabContent.querySelector('.btnSort');
 
             if (btnSort) {
                 btnSort.addEventListener('click', function (e) {
@@ -230,12 +230,12 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                     });
                 });
             }
-            var btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
-                var viewStyle = e.detail.viewStyle;
+                const viewStyle = e.detail.viewStyle;
                 userSettings.set(savedViewKey, viewStyle);
                 query.StartIndex = 0;
                 onViewStyleChange();
@@ -243,11 +243,11 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             });
         }
 
-        var self = this;
-        var itemsContainer = tabContent.querySelector('.itemsContainer');
-        var savedQueryKey = params.topParentId + '-' + options.mode;
-        var savedViewKey = savedQueryKey + '-view';
-        var query = {
+        const self = this;
+        let itemsContainer = tabContent.querySelector('.itemsContainer');
+        const savedQueryKey = params.topParentId + '-' + options.mode;
+        const savedViewKey = savedQueryKey + '-view';
+        let query = {
             SortBy: 'SortName,ProductionYear',
             SortOrder: 'Ascending',
             IncludeItemTypes: 'Movie',
@@ -263,7 +263,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             query['Limit'] = userSettings.libraryPageSize();
         }
 
-        var isLoading = false;
+        let isLoading = false;
 
         if (options.mode === 'favorites') {
             query.IsFavorite = true;
@@ -273,7 +273,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
 
         self.showFilterMenu = function () {
             require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
-                var filterDialog = new filterDialogFactory({
+                const filterDialog = new filterDialogFactory({
                     query: query,
                     mode: 'movies',
                     serverId: ApiClient.serverId()

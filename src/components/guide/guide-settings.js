@@ -2,11 +2,11 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
     'use strict';
 
     function saveCategories(context, options) {
-        var categories = [];
+        const categories = [];
 
-        var chkCategorys = context.querySelectorAll('.chkCategory');
-        for (var i = 0, length = chkCategorys.length; i < length; i++) {
-            var type = chkCategorys[i].getAttribute('data-type');
+        const chkCategorys = context.querySelectorAll('.chkCategory');
+        for (let i = 0, length = chkCategorys.length; i < length; i++) {
+            const type = chkCategorys[i].getAttribute('data-type');
 
             if (chkCategorys[i].checked) {
                 categories.push(type);
@@ -23,30 +23,30 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
     }
 
     function loadCategories(context, options) {
-        var selectedCategories = options.categories || [];
+        const selectedCategories = options.categories || [];
 
-        var chkCategorys = context.querySelectorAll('.chkCategory');
-        for (var i = 0, length = chkCategorys.length; i < length; i++) {
-            var type = chkCategorys[i].getAttribute('data-type');
+        const chkCategorys = context.querySelectorAll('.chkCategory');
+        for (let i = 0, length = chkCategorys.length; i < length; i++) {
+            const type = chkCategorys[i].getAttribute('data-type');
 
             chkCategorys[i].checked = !selectedCategories.length || selectedCategories.indexOf(type) !== -1;
         }
     }
 
     function save(context) {
-        var i;
-        var length;
+        let i;
+        let length;
 
-        var chkIndicators = context.querySelectorAll('.chkIndicator');
+        const chkIndicators = context.querySelectorAll('.chkIndicator');
         for (i = 0, length = chkIndicators.length; i < length; i++) {
-            var type = chkIndicators[i].getAttribute('data-type');
+            const type = chkIndicators[i].getAttribute('data-type');
             userSettings.set('guide-indicator-' + type, chkIndicators[i].checked);
         }
 
         userSettings.set('guide-colorcodedbackgrounds', context.querySelector('.chkColorCodedBackgrounds').checked);
         userSettings.set('livetv-favoritechannelsattop', context.querySelector('.chkFavoriteChannelsAtTop').checked);
 
-        var sortBys = context.querySelectorAll('.chkSortOrder');
+        const sortBys = context.querySelectorAll('.chkSortOrder');
         for (i = 0, length = sortBys.length; i < length; i++) {
             if (sortBys[i].checked) {
                 userSettings.set('livetv-channelorder', sortBys[i].value);
@@ -56,12 +56,12 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
     }
 
     function load(context) {
-        var i;
-        var length;
+        let i;
+        let length;
 
-        var chkIndicators = context.querySelectorAll('.chkIndicator');
+        const chkIndicators = context.querySelectorAll('.chkIndicator');
         for (i = 0, length = chkIndicators.length; i < length; i++) {
-            var type = chkIndicators[i].getAttribute('data-type');
+            const type = chkIndicators[i].getAttribute('data-type');
 
             if (chkIndicators[i].getAttribute('data-default') === 'true') {
                 chkIndicators[i].checked = userSettings.get('guide-indicator-' + type) !== 'false';
@@ -73,9 +73,9 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
         context.querySelector('.chkColorCodedBackgrounds').checked = userSettings.get('guide-colorcodedbackgrounds') === 'true';
         context.querySelector('.chkFavoriteChannelsAtTop').checked = userSettings.get('livetv-favoritechannelsattop') !== 'false';
 
-        var sortByValue = userSettings.get('livetv-channelorder') || 'Number';
+        const sortByValue = userSettings.get('livetv-channelorder') || 'Number';
 
-        var sortBys = context.querySelectorAll('.chkSortOrder');
+        const sortBys = context.querySelectorAll('.chkSortOrder');
         for (i = 0, length = sortBys.length; i < length; i++) {
             sortBys[i].checked = sortBys[i].value === sortByValue;
         }
@@ -83,10 +83,10 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
 
     function showEditor(options) {
         return new Promise(function (resolve, reject) {
-            var settingsChanged = false;
+            let settingsChanged = false;
 
             require(['text!./guide-settings.template.html'], function (template) {
-                var dialogOptions = {
+                const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -97,11 +97,11 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
                     dialogOptions.size = 'small';
                 }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+                const dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
 
-                var html = '';
+                let html = '';
 
                 html += globalize.translateHtml(template, 'core');
 

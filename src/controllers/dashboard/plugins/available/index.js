@@ -3,8 +3,8 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
 
     function reloadList(page) {
         loading.show();
-        var promise1 = ApiClient.getAvailablePlugins();
-        var promise2 = ApiClient.getInstalledPlugins();
+        const promise1 = ApiClient.getAvailablePlugins();
+        const promise2 = ApiClient.getInstalledPlugins();
         Promise.all([promise1, promise2]).then(function (responses) {
             populateList({
                 catalogElement: page.querySelector('#pluginTiles'),
@@ -31,8 +31,8 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
     }
 
     function populateList(options) {
-        var availablePlugins = options.availablePlugins;
-        var installedPlugins = options.installedPlugins;
+        const availablePlugins = options.availablePlugins;
+        const installedPlugins = options.installedPlugins;
 
         availablePlugins.forEach(function (plugin, index, array) {
             plugin.category = plugin.category || 'General';
@@ -54,12 +54,12 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
             return 0;
         });
 
-        var currentCategory = null;
-        var html = '';
+        let currentCategory = null;
+        let html = '';
 
-        for (var i = 0; i < availablePlugins.length; i++) {
-            var plugin = availablePlugins[i];
-            var category = plugin.categoryDisplayName;
+        for (let i = 0; i < availablePlugins.length; i++) {
+            const plugin = availablePlugins[i];
+            const category = plugin.categoryDisplayName;
             if (category != currentCategory) {
                 if (currentCategory) {
                     html += '</div>';
@@ -84,14 +84,14 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
     }
 
     function getPluginHtml(plugin, options, installedPlugins) {
-        var html = '';
-        var href = plugin.externalUrl ? plugin.externalUrl : 'addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
+        let html = '';
+        let href = plugin.externalUrl ? plugin.externalUrl : 'addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
 
         if (options.context) {
             href += '&context=' + options.context;
         }
 
-        var target = plugin.externalUrl ? ' target="_blank"' : '';
+        const target = plugin.externalUrl ? ' target="_blank"' : '';
         html += "<div class='card backdropCard'>";
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
@@ -104,7 +104,7 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
         html += "<div class='cardText'>";
         html += plugin.name;
         html += '</div>';
-        var installedPlugin = installedPlugins.filter(function (ip) {
+        const installedPlugin = installedPlugins.filter(function (ip) {
             return ip.Id == plugin.guid;
         })[0];
         html += "<div class='cardText cardText-secondary'>";

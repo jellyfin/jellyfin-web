@@ -2,11 +2,11 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
     'use strict';
 
     function populateHistory(packageInfo, page) {
-        var html = '';
-        var length = Math.min(packageInfo.versions.length, 10);
+        let html = '';
+        const length = Math.min(packageInfo.versions.length, 10);
 
-        for (var i = 0; i < length; i++) {
-            var version = packageInfo.versions[i];
+        for (let i = 0; i < length; i++) {
+            const version = packageInfo.versions[i];
             html += '<h2 style="margin:.5em 0;">' + version.version + '</h2>';
             html += '<div style="margin-bottom:1.5em;">' + version.changelog + '</div>';
         }
@@ -15,27 +15,27 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
     }
 
     function populateVersions(packageInfo, page, installedPlugin) {
-        var html = '';
+        let html = '';
 
-        for (var i = 0; i < packageInfo.versions.length; i++) {
-            var version = packageInfo.versions[i];
+        for (let i = 0; i < packageInfo.versions.length; i++) {
+            const version = packageInfo.versions[i];
             html += '<option value="' + version.version + '">' + version.version + '</option>';
         }
 
-        var selectmenu = $('#selectVersion', page).html(html);
+        const selectmenu = $('#selectVersion', page).html(html);
 
         if (!installedPlugin) {
             $('#pCurrentVersion', page).hide().html('');
         }
 
-        var packageVersion = packageInfo.versions[0];
+        const packageVersion = packageInfo.versions[0];
         if (packageVersion) {
             selectmenu.val(packageVersion.version);
         }
     }
 
     function renderPackage(pkg, installedPlugins, page) {
-        var installedPlugin = installedPlugins.filter(function (ip) {
+        const installedPlugin = installedPlugins.filter(function (ip) {
             return ip.Name == pkg.name;
         })[0];
 
@@ -56,7 +56,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         $('#developer', page).html(pkg.owner);
 
         if (installedPlugin) {
-            var currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');
+            const currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');
             $('#pCurrentVersion', page).show().html(currentVersionText);
         } else {
             $('#pCurrentVersion', page).hide().html('');
@@ -72,9 +72,9 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
     }
 
     function performInstallation(page, name, guid, version) {
-        var developer = $('#developer', page).html().toLowerCase();
+        const developer = $('#developer', page).html().toLowerCase();
 
-        var alertCallback = function () {
+        const alertCallback = function () {
             loading.show();
             page.querySelector('#btnInstall').disabled = true;
             ApiClient.installPlugin(name, guid, version).then(function () {
@@ -85,7 +85,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
 
         if (developer !== 'jellyfin') {
             loading.hide();
-            var msg = globalize.translate('MessagePluginInstallDisclaimer');
+            let msg = globalize.translate('MessagePluginInstallDisclaimer');
             msg += '<br/>';
             msg += '<br/>';
             msg += globalize.translate('PleaseConfirmPluginInstallation');
@@ -105,15 +105,15 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
     return function (view, params) {
         $('.addPluginForm', view).on('submit', function () {
             loading.show();
-            var page = $(this).parents('#addPluginPage')[0];
-            var name = params.name;
-            var guid = params.guid;
+            const page = $(this).parents('#addPluginPage')[0];
+            const name = params.name;
+            const guid = params.guid;
             ApiClient.getInstalledPlugins().then(function (plugins) {
-                var installedPlugin = plugins.filter(function (plugin) {
+                const installedPlugin = plugins.filter(function (plugin) {
                     return plugin.Name == name;
                 })[0];
 
-                var version = $('#selectVersion', page).val();
+                const version = $('#selectVersion', page).val();
                 if (installedPlugin && installedPlugin.Version === version) {
                     loading.hide();
                     Dashboard.alert({
@@ -127,12 +127,12 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
             return false;
         });
         view.addEventListener('viewshow', function () {
-            var page = this;
+            const page = this;
             loading.show();
-            var name = params.name;
-            var guid = params.guid;
-            var promise1 = ApiClient.getPackageInfo(name, guid);
-            var promise2 = ApiClient.getInstalledPlugins();
+            const name = params.name;
+            const guid = params.guid;
+            const promise1 = ApiClient.getPackageInfo(name, guid);
+            const promise2 = ApiClient.getInstalledPlugins();
             Promise.all([promise1, promise2]).then(function (responses) {
                 renderPackage(responses[0], responses[1], page);
             });

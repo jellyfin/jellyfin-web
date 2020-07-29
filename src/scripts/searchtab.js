@@ -21,14 +21,14 @@ define(['searchFields', 'searchResults', 'events'], function (SearchFields, Sear
     }
 
     function SearchTab(view, tabContent, options) {
-        var self = this;
+        const self = this;
         options = options || {};
         init(this, tabContent, options);
 
         self.preRender = function () {};
 
         self.renderTab = function () {
-            var searchFields = this.searchFields;
+            const searchFields = this.searchFields;
 
             if (searchFields) {
                 searchFields.focus();
@@ -37,14 +37,14 @@ define(['searchFields', 'searchResults', 'events'], function (SearchFields, Sear
     }
 
     SearchTab.prototype.destroy = function () {
-        var searchFields = this.searchFields;
+        const searchFields = this.searchFields;
 
         if (searchFields) {
             searchFields.destroy();
         }
 
         this.searchFields = null;
-        var searchResults = this.searchResults;
+        const searchResults = this.searchResults;
 
         if (searchResults) {
             searchResults.destroy();

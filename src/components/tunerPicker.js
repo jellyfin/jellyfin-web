@@ -1,10 +1,10 @@
 define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize', 'loading', 'browser', 'focusManager', 'scrollHelper', 'material-icons', 'formDialogStyle', 'emby-button', 'emby-itemscontainer', 'cardStyle'], function (dialogHelper, dom, layoutManager, connectionManager, globalize, loading, browser, focusManager, scrollHelper) {
     'use strict';
 
-    var enableFocusTransform = !browser.slow && !browser.edge;
+    const enableFocusTransform = !browser.slow && !browser.edge;
 
     function getEditorHtml() {
-        var html = '';
+        let html = '';
         html += '<div class="formDialogContent scrollY">';
         html += '<div class="dialogContentInner dialog-content-centered">';
         html += '<div class="loadingContent hide">';
@@ -19,12 +19,11 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
     }
 
     function getDeviceHtml(device) {
-        var padderClass;
-        var html = '';
-        var cssClass = 'card scalableCard';
-        var cardBoxCssClass = 'cardBox visualCardBox';
+        const padderClass = 'cardPadder-backdrop';
+        let html = '';
+        let cssClass = 'card scalableCard';
+        const cardBoxCssClass = 'cardBox visualCardBox';
         cssClass += ' backdropCard backdropCard-scalable';
-        padderClass = 'cardPadder-backdrop';
 
         // TODO move card creation code to Card component
 
@@ -75,9 +74,9 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
     }
 
     function renderDevices(view, devices) {
-        var i;
-        var length;
-        var html = '';
+        let i;
+        let length;
+        let html = '';
 
         for (i = 0, length = devices.length; i < length; i++) {
             html += getDeviceHtml(devices[i]);
@@ -90,7 +89,7 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
             view.querySelector('.devicesHeader').classList.add('hide');
         }
 
-        var elem = view.querySelector('.results');
+        const elem = view.querySelector('.results');
         elem.innerHTML = html;
 
         if (layoutManager.tv) {
@@ -113,7 +112,7 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
 
     function tunerPicker() {
         this.show = function (options) {
-            var dialogOptions = {
+            const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
             };
@@ -124,9 +123,9 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
                 dialogOptions.size = 'small';
             }
 
-            var dlg = dialogHelper.createDialog(dialogOptions);
+            const dlg = dialogHelper.createDialog(dialogOptions);
             dlg.classList.add('formDialog');
-            var html = '';
+            let html = '';
             html += '<div class="formDialogHeader">';
             html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">';
@@ -138,12 +137,12 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
                 dialogHelper.close(dlg);
             });
-            var deviceResult;
+            let deviceResult;
             dlg.querySelector('.results').addEventListener('click', function (e) {
-                var tunerCard = dom.parentWithClass(e.target, 'card');
+                const tunerCard = dom.parentWithClass(e.target, 'card');
 
                 if (tunerCard) {
-                    var deviceId = tunerCard.getAttribute('data-id');
+                    const deviceId = tunerCard.getAttribute('data-id');
                     deviceResult = currentDevices.filter(function (d) {
                         return d.DeviceId === deviceId;
                     })[0];
@@ -155,7 +154,7 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
                 scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
             }
 
-            var apiClient = connectionManager.getApiClient(options.serverId);
+            const apiClient = connectionManager.getApiClient(options.serverId);
             discoverDevices(dlg, apiClient);
 
             if (layoutManager.tv) {
@@ -172,6 +171,6 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
         };
     }
 
-    var currentDevices = [];
+    let currentDevices = [];
     return tunerPicker;
 });

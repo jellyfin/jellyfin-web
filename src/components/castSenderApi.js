@@ -9,7 +9,7 @@ define([], function() {
             }
         };
     } else {
-        var ccLoaded = false;
+        let ccLoaded = false;
         return {
             load: function () {
                 if (ccLoaded) {
@@ -17,7 +17,7 @@ define([], function() {
                 }
 
                 return new Promise(function (resolve, reject) {
-                    var fileref = document.createElement('script');
+                    const fileref = document.createElement('script');
                     fileref.setAttribute('type', 'text/javascript');
 
                     fileref.onload = function () {

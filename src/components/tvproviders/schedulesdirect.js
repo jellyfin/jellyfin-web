@@ -5,7 +5,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
         function reload() {
             loading.show();
             ApiClient.getNamedConfiguration('livetv').then(function (config) {
-                var info = config.ListingProviders.filter(function (i) {
+                const info = config.ListingProviders.filter(function (i) {
                     return i.Id === providerId;
                 })[0] || {};
                 listingsId = info.ListingsId;
@@ -35,12 +35,12 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
 
         function setCountry(info) {
             ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/SchedulesDirect/Countries')).then(function (result) {
-                var i;
-                var length;
-                var countryList = [];
+                let i;
+                let length;
+                const countryList = [];
 
-                for (var region in result) {
-                    var countries = result[region];
+                for (const region in result) {
+                    const countries = result[region];
 
                     if (countries.length && 'ZZZ' !== region) {
                         for (i = 0, length = countries.length; i < length; i++) {
@@ -80,20 +80,20 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                 return Promise.resolve('');
             }
 
-            var buffer = new TextEncoder('utf-8').encode(str);
+            const buffer = new TextEncoder('utf-8').encode(str);
             return crypto.subtle.digest('SHA-256', buffer).then(function (hash) {
                 return hex(hash);
             });
         }
 
         function hex(buffer) {
-            var hexCodes = [];
-            var view = new DataView(buffer);
+            const hexCodes = [];
+            const view = new DataView(buffer);
 
-            for (var i = 0; i < view.byteLength; i += 4) {
-                var value = view.getUint32(i);
-                var stringValue = value.toString(16);
-                var paddedValue = ('00000000' + stringValue).slice(-'00000000'.length);
+            for (let i = 0; i < view.byteLength; i += 4) {
+                const value = view.getUint32(i);
+                const stringValue = value.toString(16);
+                const paddedValue = ('00000000' + stringValue).slice(-'00000000'.length);
                 hexCodes.push(paddedValue);
             }
 
@@ -103,14 +103,14 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
         function submitLoginForm() {
             loading.show();
             sha256(page.querySelector('.txtPass').value).then(function (passwordHash) {
-                var info = {
+                const info = {
                     Type: 'SchedulesDirect',
                     Username: page.querySelector('.txtUser').value,
                     EnableAllTuners: true,
                     Password: passwordHash,
                     Pw: page.querySelector('.txtPass').value
                 };
-                var id = providerId;
+                const id = providerId;
 
                 if (id) {
                     info.Id = id;
@@ -137,7 +137,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
         }
 
         function submitListingsForm() {
-            var selectedListingsId = $('#selectListing', page).val();
+            const selectedListingsId = $('#selectListing', page).val();
 
             if (!selectedListingsId) {
                 return void Dashboard.alert({
@@ -146,9 +146,9 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
             }
 
             loading.show();
-            var id = providerId;
+            const id = providerId;
             ApiClient.getNamedConfiguration('livetv').then(function (config) {
-                var info = config.ListingProviders.filter(function (i) {
+                const info = config.ListingProviders.filter(function (i) {
                     return i.Id === id;
                 })[0];
                 info.ZipCode = page.querySelector('.txtZipCode').value;
@@ -231,14 +231,14 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
         }
 
         function refreshTunerDevices(page, providerInfo, devices) {
-            var html = '';
+            let html = '';
 
-            for (var i = 0, length = devices.length; i < length; i++) {
-                var device = devices[i];
+            for (let i = 0, length = devices.length; i < length; i++) {
+                const device = devices[i];
                 html += '<div class="listItem">';
-                var enabledTuners = providerInfo.EnabledTuners || [];
-                var isChecked = providerInfo.EnableAllTuners || -1 !== enabledTuners.indexOf(device.Id);
-                var checkedAttribute = isChecked ? ' checked' : '';
+                const enabledTuners = providerInfo.EnabledTuners || [];
+                const isChecked = providerInfo.EnableAllTuners || -1 !== enabledTuners.indexOf(device.Id);
+                const checkedAttribute = isChecked ? ' checked' : '';
                 html += '<label class="checkboxContainer listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" data-id="' + device.Id + '" class="chkTuner" ' + checkedAttribute + '/><span></span></label>';
                 html += '<div class="listItemBody two-line">';
                 html += '<div class="listItemBodyText">';
@@ -254,8 +254,8 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
             page.querySelector('.tunerList').innerHTML = html;
         }
 
-        var listingsId;
-        var self = this;
+        let listingsId;
+        const self = this;
 
         self.submit = function () {
             page.querySelector('.btnSubmitListingsContainer').click();
@@ -266,10 +266,10 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
 
             // Only hide the buttons if explicitly set to false; default to showing if undefined or null
             // FIXME: rename this option to clarify logic
-            var hideCancelButton = options.showCancelButton === false;
+            const hideCancelButton = options.showCancelButton === false;
             page.querySelector('.btnCancel').classList.toggle('hide', hideCancelButton);
 
-            var hideSubmitButton = options.showSubmitButton === false;
+            const hideSubmitButton = options.showSubmitButton === false;
             page.querySelector('.btnSubmitListings').classList.toggle('hide', hideSubmitButton);
 
             $('.formLogin', page).on('submit', function () {

@@ -6,7 +6,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
             return Promise.resolve();
         }
 
-        var controllerUrl = view.getAttribute('data-controller');
+        let controllerUrl = view.getAttribute('data-controller');
 
         if (controllerUrl) {
             if (0 === controllerUrl.indexOf('__plugin/')) {
@@ -30,28 +30,28 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
 
     function loadView(options) {
         if (!options.cancel) {
-            var selected = selectedPageIndex;
-            var previousAnimatable = -1 === selected ? null : allPages[selected];
-            var pageIndex = selected + 1;
+            const selected = selectedPageIndex;
+            const previousAnimatable = -1 === selected ? null : allPages[selected];
+            let pageIndex = selected + 1;
 
             if (pageIndex >= pageContainerCount) {
                 pageIndex = 0;
             }
 
-            var isPluginpage = -1 !== options.url.toLowerCase().indexOf('/configurationpage');
-            var newViewInfo = normalizeNewView(options, isPluginpage);
-            var newView = newViewInfo.elem;
-            var modulesToLoad = [];
+            const isPluginpage = -1 !== options.url.toLowerCase().indexOf('/configurationpage');
+            const newViewInfo = normalizeNewView(options, isPluginpage);
+            const newView = newViewInfo.elem;
+            const modulesToLoad = [];
 
             return new Promise(function (resolve) {
                 require(modulesToLoad, function () {
-                    var currentPage = allPages[pageIndex];
+                    const currentPage = allPages[pageIndex];
 
                     if (currentPage) {
                         triggerDestroy(currentPage);
                     }
 
-                    var view = newView;
+                    let view = newView;
 
                     if ('string' == typeof view) {
                         view = document.createElement('div');
@@ -79,7 +79,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
                         view.setAttribute('data-type', options.type);
                     }
 
-                    var properties = [];
+                    const properties = [];
 
                     if (options.fullscreen) {
                         properties.push('fullscreen');
@@ -125,28 +125,28 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
             html = replaceAll(html, '<\/script>--\x3e', '<\/script>');
         }
 
-        var wrapper = document.createElement('div');
+        const wrapper = document.createElement('div');
         wrapper.innerHTML = html;
         return wrapper.querySelector('div[data-role="page"]');
     }
 
     function normalizeNewView(options, isPluginpage) {
-        var viewHtml = options.view;
+        const viewHtml = options.view;
 
         if (-1 === viewHtml.indexOf('data-role="page"')) {
             return viewHtml;
         }
 
-        var hasScript = -1 !== viewHtml.indexOf('<script');
-        var elem = parseHtml(viewHtml, hasScript);
+        let hasScript = -1 !== viewHtml.indexOf('<script');
+        const elem = parseHtml(viewHtml, hasScript);
 
         if (hasScript) {
             hasScript = null != elem.querySelector('script');
         }
 
-        var hasjQuery = false;
-        var hasjQuerySelect = false;
-        var hasjQueryChecked = false;
+        let hasjQuery = false;
+        let hasjQuerySelect = false;
+        let hasjQueryChecked = false;
 
         if (isPluginpage) {
             hasjQuery = -1 != viewHtml.indexOf('jQuery') || -1 != viewHtml.indexOf('$(') || -1 != viewHtml.indexOf('$.');
@@ -164,7 +164,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     }
 
     function beforeAnimate(allPages, newPageIndex, oldPageIndex) {
-        for (var index = 0, length = allPages.length; index < length; index++) {
+        for (let index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index && oldPageIndex !== index) {
                 allPages[index].classList.add('hide');
             }
@@ -172,7 +172,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     }
 
     function afterAnimate(allPages, newPageIndex) {
-        for (var index = 0, length = allPages.length; index < length; index++) {
+        for (let index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index) {
                 allPages[index].classList.add('hide');
             }
@@ -184,20 +184,20 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     }
 
     function tryRestoreView(options) {
-        var url = options.url;
-        var index = currentUrls.indexOf(url);
+        const url = options.url;
+        const index = currentUrls.indexOf(url);
 
         if (-1 !== index) {
-            var animatable = allPages[index];
-            var view = animatable;
+            const animatable = allPages[index];
+            const view = animatable;
 
             if (view) {
                 if (options.cancel) {
                     return;
                 }
 
-                var selected = selectedPageIndex;
-                var previousAnimatable = -1 === selected ? null : allPages[selected];
+                const selected = selectedPageIndex;
+                const previousAnimatable = -1 === selected ? null : allPages[selected];
                 return setControllerClass(view, options).then(function () {
                     if (onBeforeChange) {
                         onBeforeChange(view, true, options);
@@ -235,12 +235,12 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
         selectedPageIndex = -1;
     }
 
-    var onBeforeChange;
-    var mainAnimatedPages = document.querySelector('.mainAnimatedPages');
-    var allPages = [];
-    var currentUrls = [];
-    var pageContainerCount = 3;
-    var selectedPageIndex = -1;
+    let onBeforeChange;
+    const mainAnimatedPages = document.querySelector('.mainAnimatedPages');
+    let allPages = [];
+    let currentUrls = [];
+    const pageContainerCount = 3;
+    let selectedPageIndex = -1;
     reset();
     mainAnimatedPages.classList.remove('hide');
     return {

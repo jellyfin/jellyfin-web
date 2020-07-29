@@ -1,14 +1,14 @@
 define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html', 'css!./subtitlesync'], function (playbackManager, layoutManager, template, css) {
     'use strict';
 
-    var player;
-    var subtitleSyncSlider;
-    var subtitleSyncTextField;
-    var subtitleSyncCloseButton;
-    var subtitleSyncContainer;
+    let player;
+    let subtitleSyncSlider;
+    let subtitleSyncTextField;
+    let subtitleSyncCloseButton;
+    let subtitleSyncContainer;
 
     function init(instance) {
-        var parent = document.createElement('div');
+        const parent = document.createElement('div');
         document.body.appendChild(parent);
         parent.innerHTML = template;
 
@@ -39,7 +39,7 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
         subtitleSyncTextField.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 // if input key is enter search for float pattern
-                var inputOffset = /[-+]?\d+\.?\d*/g.exec(this.textContent);
+                let inputOffset = /[-+]?\d+\.?\d*/g.exec(this.textContent);
                 if (inputOffset) {
                     inputOffset = inputOffset[0];
 
@@ -90,7 +90,7 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
         });
 
         subtitleSyncSlider.getBubbleHtml = function (value) {
-            var newOffset = getOffsetFromPercentage(value);
+            const newOffset = getOffsetFromPercentage(value);
             return '<h1 class="sliderBubbleText">' +
             (newOffset > 0 ? '+' : '') + parseFloat(newOffset) + 's' +
             '</h1>';
@@ -106,7 +106,7 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
 
     function getOffsetFromPercentage(value) {
         // convert percent to fraction
-        var offset = (value - 50) / 50;
+        let offset = (value - 50) / 50;
         // multiply by offset min/max range value (-x to +x) :
         offset *= 30;
         return offset.toFixed(1);
@@ -114,7 +114,7 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
 
     function getPercentageFromOffset(value) {
         // divide by offset min/max range value (-x to +x) :
-        var percentValue = value / 30;
+        let percentValue = value / 30;
         // convert fraction to percent
         percentValue *= 50;
         percentValue += 50;
@@ -132,7 +132,7 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
             playbackManager.disableShowingSubtitleOffset(player);
             playbackManager.setSubtitleOffset(0, player);
         }
-        var elem = this.element;
+        const elem = this.element;
         if (elem) {
             elem.parentNode.removeChild(elem);
             this.element = null;

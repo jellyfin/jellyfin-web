@@ -1,11 +1,11 @@
 define(['apphost', 'userSettings', 'browser', 'events', 'backdrop', 'globalize', 'require', 'appSettings'], function (appHost, userSettings, browser, events, backdrop, globalize, require, appSettings) {
     'use strict';
 
-    var themeStyleElement;
-    var currentThemeId;
+    let themeStyleElement;
+    let currentThemeId;
 
     function unloadTheme() {
-        var elem = themeStyleElement;
+        const elem = themeStyleElement;
         if (elem) {
             elem.parentNode.removeChild(elem);
             themeStyleElement = null;
@@ -46,18 +46,18 @@ define(['apphost', 'userSettings', 'browser', 'events', 'backdrop', 'globalize',
         }];
     }
 
-    var skinManager = {
+    const skinManager = {
         getThemes: getThemes,
         loadUserSkin: loadUserSkin
     };
 
     function getThemeStylesheetInfo(id, isDefaultProperty) {
-        var themes = skinManager.getThemes();
-        var defaultTheme;
-        var selectedTheme;
+        const themes = skinManager.getThemes();
+        let defaultTheme;
+        let selectedTheme;
 
-        for (var i = 0, length = themes.length; i < length; i++) {
-            var theme = themes[i];
+        for (let i = 0, length = themes.length; i < length; i++) {
+            const theme = themes[i];
             if (theme[isDefaultProperty]) {
                 defaultTheme = theme;
             }
@@ -73,9 +73,9 @@ define(['apphost', 'userSettings', 'browser', 'events', 'backdrop', 'globalize',
         };
     }
 
-    var themeResources = {};
-    var lastSound = 0;
-    var currentSound;
+    const themeResources = {};
+    let lastSound = 0;
+    let currentSound;
 
     function loadThemeResources(id) {
         lastSound = 0;
@@ -90,7 +90,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'backdrop', 'globalize',
     function onThemeLoaded() {
         document.documentElement.classList.remove('preload');
         try {
-            var color = getComputedStyle(document.querySelector('.skinHeader')).getPropertyValue('background-color');
+            const color = getComputedStyle(document.querySelector('.skinHeader')).getPropertyValue('background-color');
             if (color) {
                 appHost.setThemeColor(color);
             }
@@ -106,17 +106,17 @@ define(['apphost', 'userSettings', 'browser', 'events', 'backdrop', 'globalize',
                 return;
             }
 
-            var isDefaultProperty = context === 'serverdashboard' ? 'isDefaultServerDashboard' : 'isDefault';
-            var info = getThemeStylesheetInfo(id, isDefaultProperty);
+            const isDefaultProperty = context === 'serverdashboard' ? 'isDefaultServerDashboard' : 'isDefault';
+            const info = getThemeStylesheetInfo(id, isDefaultProperty);
             if (currentThemeId && currentThemeId === info.themeId) {
                 resolve();
                 return;
             }
 
-            var linkUrl = info.stylesheetPath;
+            const linkUrl = info.stylesheetPath;
             unloadTheme();
 
-            var link = document.createElement('link');
+            const link = document.createElement('link');
             link.setAttribute('rel', 'stylesheet');
             link.setAttribute('type', 'text/css');
             link.onload = function () {
@@ -168,7 +168,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'backdrop', 'globalize',
         require(['howler'], function (howler) {
             /* globals Howl */
             try {
-                var sound = new Howl({
+                const sound = new Howl({
                     src: [path],
                     volume: volume || 0.1
                 });

@@ -12,7 +12,7 @@ define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'sc
             elem.classList.add('hide');
         }
 
-        var recordingItems = elem.querySelector('.recordingItems');
+        const recordingItems = elem.querySelector('.recordingItems');
 
         if (enableScrollX()) {
             recordingItems.classList.add('scrollX');
@@ -68,7 +68,7 @@ define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'sc
 
     function renderTimers(context, timers, options) {
         LiveTvHelpers.getTimersHtml(timers, options).then(function (html) {
-            var elem = context;
+            const elem = context;
 
             if (html) {
                 elem.classList.remove('hide');
@@ -89,9 +89,9 @@ define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'sc
     }
 
     return function (view, params, tabContent) {
-        var activeRecordingsPromise;
-        var upcomingRecordingsPromise;
-        var self = this;
+        let activeRecordingsPromise;
+        let upcomingRecordingsPromise;
+        const self = this;
         tabContent.querySelector('#upcomingRecordings .recordingItems').addEventListener('timercancelled', function () {
             self.preRender();
             self.renderTab();

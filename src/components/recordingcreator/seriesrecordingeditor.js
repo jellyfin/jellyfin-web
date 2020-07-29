@@ -1,11 +1,11 @@
 define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'imageLoader', 'datetime', 'scrollStyles', 'emby-button', 'emby-checkbox', 'emby-input', 'emby-select', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'flexStyles'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, imageLoader, datetime) {
     'use strict';
 
-    var currentDialog;
-    var recordingUpdated = false;
-    var recordingDeleted = false;
-    var currentItemId;
-    var currentServerId;
+    let currentDialog;
+    let recordingUpdated = false;
+    let recordingDeleted = false;
+    let currentItemId;
+    let currentServerId;
 
     function deleteTimer(apiClient, timerId) {
         return new Promise(function (resolve, reject) {
@@ -45,9 +45,9 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function onSubmit(e) {
-        var form = this;
+        const form = this;
 
-        var apiClient = connectionManager.getApiClient(currentServerId);
+        const apiClient = connectionManager.getApiClient(currentServerId);
 
         apiClient.getLiveTvSeriesTimer(currentItemId).then(function (item) {
             item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
@@ -75,7 +75,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         });
 
         context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-            var apiClient = connectionManager.getApiClient(currentServerId);
+            const apiClient = connectionManager.getApiClient(currentServerId);
             deleteTimer(apiClient, currentItemId).then(function () {
                 closeDialog(true);
             });
@@ -85,7 +85,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function reload(context, id) {
-        var apiClient = connectionManager.getApiClient(currentServerId);
+        const apiClient = connectionManager.getApiClient(currentServerId);
 
         loading.show();
         if (typeof id === 'string') {
@@ -104,10 +104,10 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function fillKeepUpTo(context) {
-        var html = '';
+        let html = '';
 
-        for (var i = 0; i <= 50; i++) {
-            var text;
+        for (let i = 0; i <= 50; i++) {
+            let text;
 
             if (i === 0) {
                 text = globalize.translate('AsManyAsPossible');
@@ -135,7 +135,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         options = options || {};
 
         require(['text!./seriesrecordingeditor.template.html'], function (template) {
-            var dialogOptions = {
+            const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
             };
@@ -146,7 +146,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                 dialogOptions.size = 'small';
             }
 
-            var dlg = options.context;
+            const dlg = options.context;
 
             dlg.classList.add('hide');
             dlg.innerHTML = globalize.translateHtml(template, 'core');
@@ -177,7 +177,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             options = options || {};
 
             require(['text!./seriesrecordingeditor.template.html'], function (template) {
-                var dialogOptions = {
+                const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -188,7 +188,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                     dialogOptions.size = 'small';
                 }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+                const dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
                 dlg.classList.add('recordingDialog');
@@ -197,7 +197,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                     dlg.style['min-width'] = '20%';
                 }
 
-                var html = '';
+                let html = '';
 
                 html += globalize.translateHtml(template, 'core');
 

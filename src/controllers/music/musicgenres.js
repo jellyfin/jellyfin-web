@@ -5,8 +5,8 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
 
     return function (view, params, tabContent) {
         function getPageData() {
-            var key = getSavedQueryKey();
-            var pageData = data[key];
+            const key = getSavedQueryKey();
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -36,15 +36,15 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
 
         function getPromise() {
             loading.show();
-            var query = getQuery();
+            const query = getQuery();
             return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
         }
 
         function reloadItems(context, promise) {
-            var query = getQuery();
+            const query = getQuery();
             promise.then(function (result) {
-                var html = '';
-                var viewStyle = self.getCurrentViewStyle();
+                let html = '';
+                const viewStyle = self.getCurrentViewStyle();
 
                 if (viewStyle == 'Thumb') {
                     html = cardBuilder.getCardsHtml({
@@ -84,7 +84,7 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
                     });
                 }
 
-                var elem = context.querySelector('#items');
+                const elem = context.querySelector('#items');
                 elem.innerHTML = html;
                 imageLoader.lazyChildren(elem);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
@@ -101,8 +101,8 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
             self.renderTab();
         }
 
-        var self = this;
-        var data = {};
+        const self = this;
+        const data = {};
 
         self.getViewStyles = function () {
             return 'Poster,PosterCard,Thumb,ThumbCard'.split(',');
@@ -119,7 +119,7 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
         };
 
         self.enableViewSelection = true;
-        var promise;
+        let promise;
 
         self.preRender = function () {
             promise = getPromise();

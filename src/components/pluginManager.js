@@ -2,10 +2,10 @@ define(['events', 'globalize'], function (events, globalize) {
     'use strict';
 
     // TODO: replace with each plugin version
-    var cacheParam = new Date().getTime();
+    const cacheParam = new Date().getTime();
 
     function loadStrings(plugin) {
-        var strings = plugin.getTranslations ? plugin.getTranslations() : [];
+        const strings = plugin.getTranslations ? plugin.getTranslations() : [];
         return globalize.loadStrings({
             name: plugin.id || plugin.packageName,
             strings: strings
@@ -24,7 +24,7 @@ define(['events', 'globalize'], function (events, globalize) {
     }
 
     PluginManager.prototype.loadPlugin = function(pluginSpec) {
-        var instance = this;
+        const instance = this;
 
         function registerPlugin(plugin) {
             instance.register(plugin);
@@ -54,10 +54,10 @@ define(['events', 'globalize'], function (events, globalize) {
 
             return new Promise(function (resolve, reject) {
                 require([pluginSpec], (pluginFactory) => {
-                    var plugin = pluginFactory.default ? new pluginFactory.default() : new pluginFactory();
+                    const plugin = pluginFactory.default ? new pluginFactory.default() : new pluginFactory();
 
                     // See if it's already installed
-                    var existing = instance.pluginsList.filter(function (p) {
+                    const existing = instance.pluginsList.filter(function (p) {
                         return p.id === plugin.id;
                     })[0];
 
@@ -67,10 +67,10 @@ define(['events', 'globalize'], function (events, globalize) {
 
                     plugin.installUrl = pluginSpec;
 
-                    var separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
+                    const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
                     plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
 
-                    var paths = {};
+                    const paths = {};
                     paths[plugin.id] = plugin.baseUrl;
 
                     requirejs.config({
@@ -137,7 +137,7 @@ define(['events', 'globalize'], function (events, globalize) {
             })[0];
         }
 
-        var url = plugin.baseUrl + '/' + path;
+        let url = plugin.baseUrl + '/' + path;
 
         if (addCacheParam) {
             url += url.indexOf('?') === -1 ? '?' : '&';

@@ -2,7 +2,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
     'use strict';
 
     function getEditorHtml() {
-        var html = '';
+        let html = '';
 
         html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
         html += '<div class="dialogContentInner dialog-content-centered">';
@@ -41,7 +41,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
+            const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
@@ -49,16 +49,16 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
     function onSubmit(e) {
         loading.show();
 
-        var instance = this;
-        var dlg = dom.parentWithClass(e.target, 'dialog');
-        var options = instance.options;
+        const instance = this;
+        const dlg = dom.parentWithClass(e.target, 'dialog');
+        const options = instance.options;
 
-        var apiClient = connectionManager.getApiClient(options.serverId);
+        const apiClient = connectionManager.getApiClient(options.serverId);
 
-        var replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
+        const replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
 
-        var mode = dlg.querySelector('#selectMetadataRefreshMode').value === 'scan' ? 'Default' : 'FullRefresh';
-        var replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
+        const mode = dlg.querySelector('#selectMetadataRefreshMode').value === 'scan' ? 'Default' : 'FullRefresh';
+        const replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
 
         options.itemIds.forEach(function (itemId) {
             apiClient.refreshItem(itemId, {
@@ -88,7 +88,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
     }
 
     RefreshDialog.prototype.show = function () {
-        var dialogOptions = {
+        const dialogOptions = {
             removeOnClose: true,
             scrollY: false
         };
@@ -99,12 +99,12 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
             dialogOptions.size = 'small';
         }
 
-        var dlg = dialogHelper.createDialog(dialogOptions);
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
         dlg.classList.add('formDialog');
 
-        var html = '';
-        var title = globalize.translate('RefreshMetadata');
+        let html = '';
+        const title = globalize.translate('RefreshMetadata');
 
         html += '<div class="formDialogHeader">';
         html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';

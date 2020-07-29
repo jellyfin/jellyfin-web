@@ -76,8 +76,8 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      * @returns {string} URL of the item's image.
      */
     function getImgUrl(item, user) {
-        var apiClient = connectionManager.getApiClient(item.ServerId);
-        var imageOptions = {};
+        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const imageOptions = {};
 
         if (item.BackdropImageTags && item.BackdropImageTags.length) {
             return getBackdropImageUrl(item, imageOptions, apiClient);
@@ -99,7 +99,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      * @returns {string} The HTML markup of the button.
      */
     function getIcon(icon, cssClass, canFocus, autoFocus) {
-        var tabIndex = canFocus ? '' : ' tabindex="-1"';
+        const tabIndex = canFocus ? '' : ' tabindex="-1"';
         autoFocus = autoFocus ? ' autofocus' : '';
         return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '"></span></button>';
     }
@@ -117,17 +117,17 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
     }
 
     return function (options) {
-        var self = this;
+        const self = this;
         /** Initialized instance of Swiper. */
-        var swiperInstance;
+        let swiperInstance;
         /** Initialized instance of the dialog containing the Swiper instance. */
-        var dialog;
+        let dialog;
         /** Options of the slideshow components */
-        var currentOptions;
+        let currentOptions;
         /** ID of the timeout used to hide the OSD. */
-        var hideTimeout;
+        let hideTimeout;
         /** Last coordinates of the mouse pointer. */
-        var lastMouseMoveData;
+        let lastMouseMoveData;
 
         /**
          * Creates the HTML markup for the dialog and the OSD.
@@ -147,12 +147,12 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             dialog.classList.add('slideshowDialog');
 
-            var html = '';
+            let html = '';
 
             html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
             if (options.interactive && !layoutManager.tv) {
-                var actionButtonsOnTop = layoutManager.mobile;
+                const actionButtonsOnTop = layoutManager.mobile;
 
                 html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton hide-mouse-idle-tv', false);
                 html += getIcon('keyboard_arrow_right', 'btnSlideshowNext slideshowButton hide-mouse-idle-tv', false);
@@ -193,17 +193,17 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     dialogHelper.close(dialog);
                 });
 
-                var btnPause = dialog.querySelector('.btnSlideshowPause');
+                const btnPause = dialog.querySelector('.btnSlideshowPause');
                 if (btnPause) {
                     btnPause.addEventListener('click', playPause);
                 }
 
-                var btnDownload = dialog.querySelector('.btnDownload');
+                const btnDownload = dialog.querySelector('.btnDownload');
                 if (btnDownload) {
                     btnDownload.addEventListener('click', download);
                 }
 
-                var btnShare = dialog.querySelector('.btnShare');
+                const btnShare = dialog.querySelector('.btnShare');
                 if (btnShare) {
                     btnShare.addEventListener('click', share);
                 }
@@ -228,7 +228,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Handles OSD changes when the autoplay is started.
          */
         function onAutoplayStart() {
-            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
+            const btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
             if (btnSlideshowPause) {
                 btnSlideshowPause.classList.replace('play_arrow', 'pause');
             }
@@ -238,7 +238,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Handles OSD changes when the autoplay is stopped.
          */
         function onAutoplayStop() {
-            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
+            const btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
             if (btnSlideshowPause) {
                 btnSlideshowPause.classList.replace('pause', 'play_arrow');
             }
@@ -285,7 +285,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * @param {Object} options - Options used to initialize the Swiper instance.
          */
         function loadSwiper(dialog, options) {
-            var slides;
+            let slides;
             if (currentOptions.slides) {
                 slides = currentOptions.slides;
             } else {
@@ -366,7 +366,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * @returns {string} The HTML markup of the slide.
          */
         function getSwiperSlideHtmlFromSlide(item) {
-            var html = '';
+            let html = '';
             html += '<div class="swiper-slide" data-original="' + item.originalImage + '" data-itemid="' + item.Id + '" data-serverid="' + item.ServerId + '">';
             html += '<div class="swiper-zoom-container">';
             if (useFakeZoomImage) {
@@ -401,7 +401,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          */
         function getCurrentImageInfo() {
             if (swiperInstance) {
-                var slide = document.querySelector('.swiper-slide-active');
+                const slide = document.querySelector('.swiper-slide-active');
 
                 if (slide) {
                     return {
@@ -421,7 +421,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Starts a download for the currently displayed slide.
          */
         function download() {
-            var imageInfo = getCurrentImageInfo();
+            const imageInfo = getCurrentImageInfo();
 
             require(['fileDownloader'], function (fileDownloader) {
                 fileDownloader.download([imageInfo]);
@@ -432,7 +432,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Shares the currently displayed slide using the browser's built-in sharing feature.
          */
         function share() {
-            var imageInfo = getCurrentImageInfo();
+            const imageInfo = getCurrentImageInfo();
 
             navigator.share({
                 url: imageInfo.shareUrl
@@ -461,7 +461,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Toggles the autoplay feature of the Swiper instance.
          */
         function playPause() {
-            var paused = !dialog.querySelector('.btnSlideshowPause .material-icons').classList.contains('pause');
+            const paused = !dialog.querySelector('.btnSlideshowPause .material-icons').classList.contains('pause');
             if (paused) {
                 play();
             } else {
@@ -473,7 +473,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Closes the dialog and destroys the Swiper instance.
          */
         function onDialogClosed() {
-            var swiper = swiperInstance;
+            const swiper = swiperInstance;
             if (swiper) {
                 swiper.destroy(true, true);
                 swiperInstance = null;
@@ -491,7 +491,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Shows the OSD.
          */
         function showOsd() {
-            var bottom = dialog.querySelector('.slideshowBottomBar');
+            const bottom = dialog.querySelector('.slideshowBottomBar');
             if (bottom) {
                 slideUpToShow(bottom);
                 startHideTimer();
@@ -502,7 +502,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Hides the OSD.
          */
         function hideOsd() {
-            var bottom = dialog.querySelector('.slideshowBottomBar');
+            const bottom = dialog.querySelector('.slideshowBottomBar');
             if (bottom) {
                 slideDownToHide(bottom);
             }
@@ -537,7 +537,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             element.classList.remove('hide');
 
-            var onFinish = function () {
+            const onFinish = function () {
                 focusManager.focus(element.querySelector('.btnSlideshowPause'));
             };
 
@@ -547,11 +547,11 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             }
 
             requestAnimationFrame(function () {
-                var keyframes = [
+                const keyframes = [
                     { transform: 'translate3d(0,' + element.offsetHeight + 'px,0)', opacity: '.3', offset: 0 },
                     { transform: 'translate3d(0,0,0)', opacity: '1', offset: 1 }
                 ];
-                var timing = { duration: 300, iterations: 1, easing: 'ease-out' };
+                const timing = { duration: 300, iterations: 1, easing: 'ease-out' };
                 element.animate(keyframes, timing).onfinish = onFinish;
             });
         }
@@ -565,7 +565,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 return;
             }
 
-            var onFinish = function () {
+            const onFinish = function () {
                 element.classList.add('hide');
             };
 
@@ -575,11 +575,11 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             }
 
             requestAnimationFrame(function () {
-                var keyframes = [
+                const keyframes = [
                     { transform: 'translate3d(0,0,0)', opacity: '1', offset: 0 },
                     { transform: 'translate3d(0,' + element.offsetHeight + 'px,0)', opacity: '.3', offset: 1 }
                 ];
-                var timing = { duration: 300, iterations: 1, easing: 'ease-out' };
+                const timing = { duration: 300, iterations: 1, easing: 'ease-out' };
                 element.animate(keyframes, timing).onfinish = onFinish;
             });
         }
@@ -589,13 +589,13 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * @param {Event} event - Pointer movement event.
          */
         function onPointerMove(event) {
-            var pointerType = event.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
+            const pointerType = event.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
             if (pointerType === 'mouse') {
-                var eventX = event.screenX || 0;
-                var eventY = event.screenY || 0;
+                const eventX = event.screenX || 0;
+                const eventY = event.screenY || 0;
 
-                var obj = lastMouseMoveData;
+                const obj = lastMouseMoveData;
                 if (!obj) {
                     lastMouseMoveData = {
                         x: eventX,

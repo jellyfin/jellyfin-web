@@ -1,9 +1,9 @@
 define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'datetime', 'imageLoader', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-collapse', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, datetime, imageLoader, recordingFields, events) {
     'use strict';
 
-    var currentDialog;
-    var closeAction;
-    var currentRecordingFields;
+    let currentDialog;
+    let closeAction;
+    let currentRecordingFields;
 
     function closeDialog() {
         dialogHelper.close(currentDialog);
@@ -22,7 +22,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function getImageUrl(item, apiClient, imageHeight) {
-        var imageTags = item.ImageTags || {};
+        const imageTags = item.ImageTags || {};
 
         if (item.PrimaryImageTag) {
             imageTags.Primary = item.PrimaryImageTag;
@@ -47,8 +47,8 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
 
     function renderRecording(context, defaultTimer, program, apiClient, refreshRecordingStateOnly) {
         if (!refreshRecordingStateOnly) {
-            var imgUrl = getImageUrl(program, apiClient, 200);
-            var imageContainer = context.querySelector('.recordingDialog-imageContainer');
+            const imgUrl = getImageUrl(program, apiClient, 200);
+            const imageContainer = context.querySelector('.recordingDialog-imageContainer');
 
             if (imgUrl) {
                 imageContainer.innerHTML = '<img src="' + require.toUrl('.').split('?')[0] + '/empty.png" data-src="' + imgUrl + '" class="recordingDialog-img lazy" />';
@@ -65,8 +65,8 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             context.querySelector('.itemGenres').innerHTML = (program.Genres || []).join(' / ');
             context.querySelector('.itemOverview').innerHTML = program.Overview || '';
 
-            var formDialogFooter = context.querySelector('.formDialogFooter');
-            var now = new Date();
+            const formDialogFooter = context.querySelector('.formDialogFooter');
+            const now = new Date();
             if (now >= datetime.parseISO8601Date(program.StartDate, true) && now < datetime.parseISO8601Date(program.EndDate, true)) {
                 formDialogFooter.classList.remove('hide');
             } else {
@@ -85,14 +85,14 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     function reload(context, programId, serverId, refreshRecordingStateOnly) {
         loading.show();
 
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = connectionManager.getApiClient(serverId);
 
-        var promise1 = apiClient.getNewLiveTvTimerDefaults({ programId: programId });
-        var promise2 = apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId());
+        const promise1 = apiClient.getNewLiveTvTimerDefaults({ programId: programId });
+        const promise2 = apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId());
 
         Promise.all([promise1, promise2]).then(function (responses) {
-            var defaults = responses[0];
-            var program = responses[1];
+            const defaults = responses[0];
+            const program = responses[1];
 
             renderRecording(context, defaults, program, apiClient, refreshRecordingStateOnly);
         });
@@ -101,7 +101,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     function executeCloseAction(action, programId, serverId) {
         if (action === 'play') {
             require(['playbackManager'], function (playbackManager) {
-                var apiClient = connectionManager.getApiClient(serverId);
+                const apiClient = connectionManager.getApiClient(serverId);
 
                 apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
                     playbackManager.play({
@@ -121,7 +121,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             loading.show();
 
             require(['text!./recordingcreator.template.html'], function (template) {
-                var dialogOptions = {
+                const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -132,12 +132,12 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                     dialogOptions.size = 'small';
                 }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+                const dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
                 dlg.classList.add('recordingDialog');
 
-                var html = '';
+                let html = '';
 
                 html += globalize.translateHtml(template, 'core');
 

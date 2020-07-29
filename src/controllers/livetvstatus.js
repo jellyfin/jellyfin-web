@@ -1,15 +1,14 @@
 define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layoutManager', 'loading', 'browser', 'listViewStyle', 'flexStyles', 'emby-itemscontainer', 'cardStyle', 'material-icons', 'emby-button'], function ($, globalize, taskButton, dom, libraryMenu, layoutManager, loading, browser) {
     'use strict';
 
-    var enableFocusTransform = !browser.slow && !browser.edge;
+    const enableFocusTransform = !browser.slow && !browser.edge;
 
     function getDeviceHtml(device) {
-        var padderClass;
-        var html = '';
-        var cssClass = 'card scalableCard';
-        var cardBoxCssClass = 'cardBox visualCardBox';
+        const padderClass = 'cardPadder-backdrop';
+        let html = '';
+        let cssClass = 'card scalableCard';
+        const cardBoxCssClass = 'cardBox visualCardBox';
         cssClass += ' backdropCard backdropCard-scalable';
-        padderClass = 'cardPadder-backdrop';
 
         // TODO move card creation code to Card component
 
@@ -41,12 +40,12 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }
 
     function renderDevices(page, devices) {
-        var html = devices.map(getDeviceHtml).join('');
+        const html = devices.map(getDeviceHtml).join('');
         page.querySelector('.devicesList').innerHTML = html;
     }
 
     function deleteDevice(page, id) {
-        var message = globalize.translate('MessageConfirmDeleteTunerDevice');
+        const message = globalize.translate('MessageConfirmDeleteTunerDevice');
 
         require(['confirm'], function (confirm) {
             confirm.default(message, globalize.translate('HeaderDeleteDevice')).then(function () {
@@ -93,13 +92,13 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }
 
     function renderProviders(page, providers) {
-        var html = '';
+        let html = '';
 
         if (providers.length) {
             html += '<div class="paperList">';
 
-            for (var i = 0, length = providers.length; i < length; i++) {
-                var provider = providers[i];
+            for (let i = 0, length = providers.length; i < length; i++) {
+                const provider = providers[i];
                 html += '<div class="listItem">';
                 html += '<span class="listItemIcon material-icons dvr"></span>';
                 html += '<div class="listItemBody two-line">';
@@ -119,15 +118,15 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
             html += '</div>';
         }
 
-        var elem = $('.providerList', page).html(html);
+        const elem = $('.providerList', page).html(html);
         $('.btnOptions', elem).on('click', function () {
-            var id = this.getAttribute('data-id');
+            const id = this.getAttribute('data-id');
             showProviderOptions(page, id, this);
         });
     }
 
     function showProviderOptions(page, providerId, button) {
-        var items = [];
+        const items = [];
         items.push({
             name: globalize.translate('ButtonDelete'),
             id: 'delete'
@@ -164,7 +163,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }
 
     function deleteProvider(page, id) {
-        var message = globalize.translate('MessageConfirmDeleteGuideProvider');
+        const message = globalize.translate('MessageConfirmDeleteGuideProvider');
 
         require(['confirm'], function (confirm) {
             confirm.default(message, globalize.translate('HeaderDeleteProvider')).then(function () {
@@ -219,7 +218,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }
 
     function addProvider(button) {
-        var menuItems = [];
+        const menuItems = [];
         menuItems.push({
             name: 'Schedules Direct',
             id: 'SchedulesDirect'
@@ -245,7 +244,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }
 
     function showDeviceMenu(button, tunerDeviceId) {
-        var items = [];
+        const items = [];
         items.push({
             name: globalize.translate('ButtonDelete'),
             id: 'delete'
@@ -273,11 +272,11 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }
 
     function onDevicesListClick(e) {
-        var card = dom.parentWithClass(e.target, 'card');
+        const card = dom.parentWithClass(e.target, 'card');
 
         if (card) {
-            var id = card.getAttribute('data-id');
-            var btnCardOptions = dom.parentWithClass(e.target, 'btnCardOptions');
+            const id = card.getAttribute('data-id');
+            const btnCardOptions = dom.parentWithClass(e.target, 'btnCardOptions');
 
             if (btnCardOptions) {
                 showDeviceMenu(btnCardOptions, id);
@@ -288,7 +287,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }
 
     $(document).on('pageinit', '#liveTvStatusPage', function () {
-        var page = this;
+        const page = this;
         $('.btnAddDevice', page).on('click', function () {
             addDevice(this);
         });
@@ -301,7 +300,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
         });
         page.querySelector('.devicesList').addEventListener('click', onDevicesListClick);
     }).on('pageshow', '#liveTvStatusPage', function () {
-        var page = this;
+        const page = this;
         reload(page);
         taskButton.default({
             mode: 'on',
@@ -310,7 +309,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
             button: page.querySelector('.btnRefresh')
         });
     }).on('pagehide', '#liveTvStatusPage', function () {
-        var page = this;
+        const page = this;
         taskButton.default({
             mode: 'off',
             progressElem: page.querySelector('.refreshGuideProgress'),

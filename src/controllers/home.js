@@ -24,7 +24,7 @@ define(['tabbedView', 'globalize', 'require', 'emby-tabs', 'emby-button', 'emby-
             throw new Error('index cannot be null');
         }
 
-        var depends = [];
+        const depends = [];
 
         switch (index) {
             case 0:
@@ -35,9 +35,9 @@ define(['tabbedView', 'globalize', 'require', 'emby-tabs', 'emby-button', 'emby-
                 depends.push('controllers/favorites');
         }
 
-        var instance = this;
+        const instance = this;
         return getRequirePromise(depends).then(function (controllerFactory) {
-            var controller = instance.tabControllers[index];
+            let controller = instance.tabControllers[index];
 
             if (!controller) {
                 controller = new controllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);

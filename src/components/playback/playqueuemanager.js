@@ -1,7 +1,7 @@
 define([], function () {
     'use strict';
 
-    var currentId = 0;
+    let currentId = 0;
     function addUniquePlaylistItemId(item) {
         if (!item.PlaylistItemId) {
             item.PlaylistItemId = 'playlistItem' + currentId;
@@ -10,7 +10,7 @@ define([], function () {
     }
 
     function findPlaylistIndex(playlistItemId, list) {
-        for (var i = 0, length = list.length; i < length; i++) {
+        for (let i = 0, length = list.length; i < length; i++) {
             if (list[i].PlaylistItemId === playlistItemId) {
                 return i;
             }
@@ -33,7 +33,7 @@ define([], function () {
     PlayQueueManager.prototype.setPlaylist = function (items) {
         items = items.slice(0);
 
-        for (var i = 0, length = items.length; i < length; i++) {
+        for (let i = 0, length = items.length; i < length; i++) {
             addUniquePlaylistItemId(items[i]);
         }
 
@@ -43,7 +43,7 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.queue = function (items) {
-        for (var i = 0, length = items.length; i < length; i++) {
+        for (let i = 0, length = items.length; i < length; i++) {
             addUniquePlaylistItemId(items[i]);
 
             this._playlist.push(items[i]);
@@ -69,7 +69,7 @@ define([], function () {
 
     PlayQueueManager.prototype.sortShuffledPlaylist = function () {
         this._playlist = [];
-        for (let item of this._sortedPlaylist) {
+        for (const item of this._sortedPlaylist) {
             this._playlist.push(item);
         }
         this._sortedPlaylist = [];
@@ -85,7 +85,7 @@ define([], function () {
     };
 
     function arrayInsertAt(destArray, pos, arrayToInsert) {
-        var args = [];
+        let args = [];
         args.push(pos); // where to insert
         args.push(0); // nothing to remove
         args = args.concat(arrayToInsert); // add on array to insert
@@ -93,14 +93,14 @@ define([], function () {
     }
 
     PlayQueueManager.prototype.queueNext = function (items) {
-        var i;
-        var length;
+        let i;
+        let length;
 
         for (i = 0, length = items.length; i < length; i++) {
             addUniquePlaylistItemId(items[i]);
         }
 
-        var currentIndex = this.getCurrentPlaylistIndex();
+        let currentIndex = this.getCurrentPlaylistIndex();
 
         if (currentIndex === -1) {
             currentIndex = this._playlist.length;
@@ -116,7 +116,7 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.getCurrentItem = function () {
-        var index = findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
+        const index = findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
 
         return index === -1 ? null : this._playlist[index];
     };
@@ -144,8 +144,8 @@ define([], function () {
             };
         }
 
-        var currentPlaylistItemId = this.getCurrentPlaylistItemId();
-        var isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
+        const currentPlaylistItemId = this.getCurrentPlaylistItemId();
+        const isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
 
         this._sortedPlaylist = this._sortedPlaylist.filter(function (item) {
             return !playlistItemIds.includes(item.PlaylistItemId);
@@ -166,10 +166,10 @@ define([], function () {
     }
 
     PlayQueueManager.prototype.movePlaylistItem = function (playlistItemId, newIndex) {
-        var playlist = this.getPlaylist();
+        const playlist = this.getPlaylist();
 
-        var oldIndex;
-        for (var i = 0, length = playlist.length; i < length; i++) {
+        let oldIndex;
+        for (let i = 0, length = playlist.length; i < length; i++) {
             if (playlist[i].PlaylistItemId === playlistItemId) {
                 oldIndex = i;
                 break;
@@ -249,9 +249,9 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.getNextItemInfo = function () {
-        var newIndex;
-        var playlist = this.getPlaylist();
-        var playlistLength = playlist.length;
+        let newIndex;
+        const playlist = this.getPlaylist();
+        const playlistLength = playlist.length;
 
         switch (this.getRepeatMode()) {
             case 'RepeatOne':
@@ -272,7 +272,7 @@ define([], function () {
             return null;
         }
 
-        var item = playlist[newIndex];
+        const item = playlist[newIndex];
 
         if (!item) {
             return null;

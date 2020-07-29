@@ -17,7 +17,7 @@ import 'emby-checkbox';
     function authenticateUserByName(page, apiClient, username, password) {
         loading.show();
         apiClient.authenticateUserByName(username, password).then(function (result) {
-            var user = result.User;
+            const user = result.User;
             loading.hide();
 
             Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);

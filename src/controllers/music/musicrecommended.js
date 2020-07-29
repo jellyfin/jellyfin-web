@@ -2,7 +2,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
     'use strict';
 
     function itemsPerRow() {
-        var screenWidth = dom.getWindowSize().innerWidth;
+        const screenWidth = dom.getWindowSize().innerWidth;
 
         if (screenWidth >= 1920) {
             return 9;
@@ -29,8 +29,8 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
 
     function loadLatest(page, parentId) {
         loading.show();
-        var userId = ApiClient.getCurrentUserId();
-        var options = {
+        const userId = ApiClient.getCurrentUserId();
+        const options = {
             IncludeItemTypes: 'Audio',
             Limit: enableScrollX() ? 3 * itemsPerRow() : 2 * itemsPerRow(),
             Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
@@ -40,7 +40,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             EnableTotalRecordCount: false
         };
         ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-            var elem = page.querySelector('#recentlyAddedSongs');
+            const elem = page.querySelector('#recentlyAddedSongs');
 
             elem.innerHTML = cardBuilder.getCardsHtml({
                 items: items,
@@ -66,7 +66,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
     }
 
     function loadRecentlyPlayed(page, parentId) {
-        var options = {
+        const options = {
             SortBy: 'DatePlayed',
             SortOrder: 'Descending',
             IncludeItemTypes: 'Audio',
@@ -80,7 +80,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             EnableTotalRecordCount: false
         };
         ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-            var elem = page.querySelector('#recentlyPlayed');
+            const elem = page.querySelector('#recentlyPlayed');
 
             if (result.Items.length) {
                 elem.classList.remove('hide');
@@ -88,7 +88,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 elem.classList.add('hide');
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
+            const itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -108,7 +108,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
     }
 
     function loadFrequentlyPlayed(page, parentId) {
-        var options = {
+        const options = {
             SortBy: 'PlayCount',
             SortOrder: 'Descending',
             IncludeItemTypes: 'Audio',
@@ -122,7 +122,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             EnableTotalRecordCount: false
         };
         ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-            var elem = page.querySelector('#topPlayed');
+            const elem = page.querySelector('#topPlayed');
 
             if (result.Items.length) {
                 elem.classList.remove('hide');
@@ -130,7 +130,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 elem.classList.add('hide');
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
+            const itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -209,7 +209,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
     return function (view, params) {
         function reload() {
             loading.show();
-            var tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
             loadSuggestionsTab(view, tabContent, params.topParentId);
         }
 
@@ -252,7 +252,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         }
 
         function getTabController(page, index, callback) {
-            var depends = [];
+            const depends = [];
 
             switch (index) {
                 case 0:
@@ -284,14 +284,14 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             }
 
             require(depends, function (controllerFactory) {
-                var tabContent;
+                let tabContent;
 
                 if (0 == index) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
 
-                var controller = tabControllers[index];
+                let controller = tabControllers[index];
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
@@ -349,14 +349,14 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             }
         }
 
-        var self = this;
-        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        const self = this;
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
 
         self.initTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='0']");
-            var containers = tabContent.querySelectorAll('.itemsContainer');
+            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const containers = tabContent.querySelectorAll('.itemsContainer');
 
-            for (var i = 0, length = containers.length; i < length; i++) {
+            for (let i = 0, length = containers.length; i < length; i++) {
                 setScrollClasses(containers[i], enableScrollX());
             }
         };
@@ -365,12 +365,12 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             reload();
         };
 
-        var tabControllers = [];
-        var renderedTabs = [];
+        const tabControllers = [];
+        const renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
             initTabs();
             if (!view.getAttribute('data-title')) {
-                var parentId = params.topParentId;
+                const parentId = params.topParentId;
 
                 if (parentId) {
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {

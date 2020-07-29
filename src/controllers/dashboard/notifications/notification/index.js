@@ -2,10 +2,10 @@ define(['jQuery', 'emby-checkbox'], function ($) {
     'use strict';
 
     function fillItems(elem, items, cssClass, idPrefix, currentList, isEnabledList) {
-        var html = '<div class="checkboxList paperList" style="padding: .5em 1em;">';
+        let html = '<div class="checkboxList paperList" style="padding: .5em 1em;">';
         html += items.map(function (u) {
-            var isChecked = isEnabledList ? currentList.indexOf(u.Id) != -1 : currentList.indexOf(u.Id) == -1;
-            var checkedHtml = isChecked ? ' checked="checked"' : '';
+            const isChecked = isEnabledList ? currentList.indexOf(u.Id) != -1 : currentList.indexOf(u.Id) == -1;
+            const checkedHtml = isChecked ? ' checked="checked"' : '';
             return '<label><input is="emby-checkbox" class="' + cssClass + '" type="checkbox" data-itemid="' + u.Id + '"' + checkedHtml + '/><span>' + u.Name + '</span></label>';
         }).join('');
         html += '</div>';
@@ -13,20 +13,20 @@ define(['jQuery', 'emby-checkbox'], function ($) {
     }
 
     function reload(page) {
-        var type = getParameterByName('type');
-        var promise1 = ApiClient.getUsers();
-        var promise2 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
-        var promise3 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Types'));
-        var promise4 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Services'));
+        const type = getParameterByName('type');
+        const promise1 = ApiClient.getUsers();
+        const promise2 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
+        const promise3 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Types'));
+        const promise4 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Services'));
         Promise.all([promise1, promise2, promise3, promise4]).then(function (responses) {
-            var users = responses[0];
-            var notificationOptions = responses[1];
-            var types = responses[2];
-            var services = responses[3];
-            var notificationConfig = notificationOptions.Options.filter(function (n) {
+            const users = responses[0];
+            const notificationOptions = responses[1];
+            const types = responses[2];
+            const services = responses[3];
+            let notificationConfig = notificationOptions.Options.filter(function (n) {
                 return n.Type == type;
             })[0];
-            var typeInfo = types.filter(function (n) {
+            const typeInfo = types.filter(function (n) {
                 return n.Type == type;
             })[0] || {};
 
@@ -56,13 +56,13 @@ define(['jQuery', 'emby-checkbox'], function ($) {
     }
 
     function save(page) {
-        var type = getParameterByName('type');
-        var promise1 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
+        const type = getParameterByName('type');
+        const promise1 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
         // TODO: Check if this promise is really needed, as it's unused.
-        var promise2 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Types'));
+        const promise2 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Types'));
         Promise.all([promise1, promise2]).then(function (responses) {
-            var notificationOptions = responses[0];
-            var notificationConfig = notificationOptions.Options.filter(function (n) {
+            const notificationOptions = responses[0];
+            let notificationConfig = notificationOptions.Options.filter(function (n) {
                 return n.Type == type;
             })[0];
 
@@ -102,9 +102,9 @@ define(['jQuery', 'emby-checkbox'], function ($) {
         return false;
     }
 
-    var notificationsConfigurationKey = 'notifications';
+    const notificationsConfigurationKey = 'notifications';
     $(document).on('pageinit', '#notificationSettingPage', function () {
-        var page = this;
+        const page = this;
         $('#selectUsers', page).on('change', function () {
             if ('Custom' == this.value) {
                 $('.selectCustomUsers', page).show();

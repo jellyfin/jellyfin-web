@@ -61,7 +61,7 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'us
                 reloadItems(context);
             }
 
-            var query = getQuery();
+            const query = getQuery();
             context.querySelector('.paging').innerHTML = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,
                 limit: query.Limit,
@@ -70,13 +70,13 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'us
                 updatePageSizeSetting: false,
                 filterButton: false
             });
-            var html = getChannelsHtml(result.Items);
-            var elem = context.querySelector('#items');
+            const html = getChannelsHtml(result.Items);
+            const elem = context.querySelector('#items');
             elem.innerHTML = html;
             imageLoader.lazyChildren(elem);
-            var i;
-            var length;
-            var elems;
+            let i;
+            let length;
+            let elems;
 
             for (elems = context.querySelectorAll('.btnNextPage'), i = 0, length = elems.length; i < length; i++) {
                 elems[i].addEventListener('click', onNextPageClick);
@@ -89,7 +89,7 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'us
 
         function showFilterMenu(context) {
             require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
-                var filterDialog = new filterDialogFactory({
+                const filterDialog = new filterDialogFactory({
                     query: getQuery(),
                     mode: 'livetvchannels',
                     serverId: ApiClient.serverId()
@@ -104,8 +104,8 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'us
         function reloadItems(context, save) {
             loading.show();
             isLoading = true;
-            var query = getQuery();
-            var apiClient = ApiClient;
+            const query = getQuery();
+            const apiClient = ApiClient;
             query.UserId = apiClient.getCurrentUserId();
             apiClient.getLiveTvChannels(query).then(function (result) {
                 renderChannels(context, result);
@@ -118,9 +118,9 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'us
             });
         }
 
-        var pageData;
-        var self = this;
-        var isLoading = false;
+        let pageData;
+        const self = this;
+        let isLoading = false;
         tabContent.querySelector('.btnFilter').addEventListener('click', function () {
             showFilterMenu(tabContent);
         });

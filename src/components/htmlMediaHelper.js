@@ -23,7 +23,7 @@ import events from 'events';
     }
 
     function canPlayNativeHls() {
-        var media = document.createElement('video');
+        const media = document.createElement('video');
 
         if (media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
             media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')) {
@@ -71,16 +71,16 @@ import events from 'events';
         return true;
     }
 
-    var recoverDecodingErrorDate;
-    var recoverSwapAudioCodecDate;
+    let recoverDecodingErrorDate;
+    let recoverSwapAudioCodecDate;
     export function handleHlsJsMediaError(instance, reject) {
-        var hlsPlayer = instance._hlsPlayer;
+        const hlsPlayer = instance._hlsPlayer;
 
         if (!hlsPlayer) {
             return;
         }
 
-        var now = Date.now();
+        let now = Date.now();
 
         if (window.performance && window.performance.now) {
             now = performance.now(); // eslint-disable-line compat/compat
@@ -136,7 +136,7 @@ import events from 'events';
     }
 
     export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
-        var seconds = (ticks || 0) / 10000000;
+        const seconds = (ticks || 0) / 10000000;
 
         if (seconds) {
             // Appending #t=xxx to the query string doesn't seem to work with HLS
@@ -148,8 +148,8 @@ import events from 'events';
                 if (onMediaReady) onMediaReady();
             } else {
                 // update video player position when media is ready to be sought
-                var events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
-                var onMediaChange = function(e) {
+                const events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
+                const onMediaChange = function(e) {
                     if (element.currentTime === 0 && element.duration >= seconds) {
                         // seek only when video position is exactly zero,
                         // as this is true only if video hasn't started yet or
@@ -173,10 +173,10 @@ import events from 'events';
     export function applySrc(elem, src, options) {
         if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
             return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
-                var playlist = new Windows.Media.Playback.MediaPlaybackList();
+                const playlist = new Windows.Media.Playback.MediaPlaybackList();
 
-                var source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
-                var startTime = (options.playerStartPositionTicks || 0) / 10000;
+                const source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
+                const startTime = (options.playerStartPositionTicks || 0) / 10000;
                 playlist.items.append(new Windows.Media.Playback.MediaPlaybackItem(source1, startTime));
                 elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
                 return Promise.resolve();
@@ -194,11 +194,11 @@ import events from 'events';
 
     export function playWithPromise(elem, onErrorFn) {
         try {
-            var promise = elem.play();
+            const promise = elem.play();
             if (promise && promise.then) {
                 // Chrome now returns a promise
                 return promise.catch(function (e) {
-                    var errorName = (e.name || '').toLowerCase();
+                    const errorName = (e.name || '').toLowerCase();
                     // safari uses aborterror
                     if (errorName === 'notallowederror' ||
                         errorName === 'aborterror') {
@@ -219,7 +219,7 @@ import events from 'events';
     }
 
     export function destroyCastPlayer(instance) {
-        var player = instance._castPlayer;
+        const player = instance._castPlayer;
         if (player) {
             try {
                 player.unload();
@@ -232,7 +232,7 @@ import events from 'events';
     }
 
     export function destroyHlsPlayer(instance) {
-        var player = instance._hlsPlayer;
+        const player = instance._hlsPlayer;
         if (player) {
             try {
                 player.destroy();
@@ -245,7 +245,7 @@ import events from 'events';
     }
 
     export function destroyFlvPlayer(instance) {
-        var player = instance._flvPlayer;
+        const player = instance._flvPlayer;
         if (player) {
             try {
                 player.unload();
@@ -322,9 +322,7 @@ import events from 'events';
                         break;
                     case Hls.ErrorTypes.MEDIA_ERROR:
                         console.debug('fatal media error encountered, try to recover');
-                        var currentReject = reject;
-                        reject = null;
-                        handleHlsJsMediaError(instance, currentReject);
+                        handleHlsJsMediaError(instance, reject);
                         break;
                     default:
 
@@ -356,7 +354,7 @@ import events from 'events';
         destroyFlvPlayer(instance);
         destroyCastPlayer(instance);
 
-        var stopInfo = {
+        const stopInfo = {
             src: instance._currentSrc
         };
 
@@ -368,20 +366,20 @@ import events from 'events';
     }
 
     export function getBufferedRanges(instance, elem) {
-        var ranges = [];
-        var seekable = elem.buffered || [];
+        const ranges = [];
+        const seekable = elem.buffered || [];
 
-        var offset;
-        var currentPlayOptions = instance._currentPlayOptions;
+        let offset;
+        const currentPlayOptions = instance._currentPlayOptions;
         if (currentPlayOptions) {
             offset = currentPlayOptions.transcodingOffsetTicks;
         }
 
         offset = offset || 0;
 
-        for (var i = 0, length = seekable.length; i < length; i++) {
-            var start = seekable.start(i);
-            var end = seekable.end(i);
+        for (let i = 0, length = seekable.length; i < length; i++) {
+            let start = seekable.start(i);
+            let end = seekable.end(i);
 
             if (!isValidDuration(start)) {
                 start = 0;
