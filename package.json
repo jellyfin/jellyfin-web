@@ -119,6 +119,7 @@
           "src/components/imageUploader/imageUploader.js",
           "src/components/indicators/indicators.js",
           "src/components/itemContextMenu.js",
+          "src/components/itemHelper.js",
           "src/components/itemidentifier/itemidentifier.js",
           "src/components/itemMediaInfo/itemMediaInfo.js",
           "src/components/lazyLoader/lazyLoaderIntersectionObserver.js",
