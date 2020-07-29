@@ -1392,5 +1392,18 @@
     "MessageConfirmAppExit": "Ali želite končati?",
     "LabelWeb": "Splet:",
     "LabelLineup": "Postava:",
-    "BoxSet": "Komplet"
+    "BoxSet": "Komplet",
+    "TabMetadata": "Metapodatki",
+    "TabInfo": "Informacije",
+    "TabGuide": "Vodič",
+    "TabFavorites": "Priljubljeni",
+    "TabEpisodes": "Epizode",
+    "TabDisplay": "Prikaz",
+    "TabDirectPlay": "Neposredno predvajanje",
+    "TabDevices": "Naprave",
+    "TabCodecs": "Kodeki",
+    "TabChannels": "Programi",
+    "OptionRegex": "Regex",
+    "OptionProtocolHls": "HTTP pretakanje v živo",
+    "OptionProfileVideoAudio": "Video zvok"
 }
