@@ -191,6 +191,7 @@
           "src/controllers/dashboard/users/userparentalcontrol.js",
           "src/controllers/dashboard/users/userpasswordpage.js",
           "src/controllers/dashboard/users/userprofilespage.js",
+          "src/controllers/itemDetails/index.js",
           "src/controllers/playback/queue/index.js",
           "src/controllers/playback/video/index.js",
           "src/controllers/searchpage.js",
