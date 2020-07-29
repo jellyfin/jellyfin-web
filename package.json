@@ -174,7 +174,6 @@
           "src/controllers/dashboard/general.js",
           "src/controllers/dashboard/librarydisplay.js",
           "src/controllers/dashboard/logs.js",
-          "src/controllers/dashboard/plugins/repositories/index.js",
           "src/controllers/music/musicalbums.js",
           "src/controllers/music/musicartists.js",
           "src/controllers/music/musicgenres.js",
