@@ -880,7 +880,7 @@ function initClient() {
                     });
                 }
             }
-            console.log(appRouter)
+
             appRouter.showLocalLogin = function (serverId, manualLogin) {
                 Dashboard.navigate('login.html?serverid=' + serverId);
             };
