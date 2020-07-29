@@ -1,10 +1,20 @@
-define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-button-light', 'cardStyle', 'emby-button', 'indicators', 'flexStyles'], function (loading, dom, globalize, datefns, dfnshelper) {
-    'use strict';
+import loading from 'loading';
+import dom from 'dom';
+import globalize from 'globalize';
+import * as datefns from 'date-fns';
+import dfnshelper from 'dfnshelper';
+import 'paper-icon-button-light';
+import 'cardStyle';
+import 'emby-button';
+import 'indicators';
+import 'flexStyles';
+
+/* eslint-disable indent */
 
     function deleteUser(page, id) {
-        var msg = globalize.translate('DeleteUserConfirmation');
+        const msg = globalize.translate('DeleteUserConfirmation');
 
-        require(['confirm'], function (confirm) {
+        import('confirm').then(({default: confirm}) => {
             confirm({
                 title: globalize.translate('DeleteUser'),
                 text: msg,
@@ -20,10 +30,10 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
     }
 
     function showUserMenu(elem) {
-        var card = dom.parentWithClass(elem, 'card');
-        var page = dom.parentWithClass(card, 'page');
-        var userId = card.getAttribute('data-userid');
-        var menuItems = [];
+        const card = dom.parentWithClass(elem, 'card');
+        const page = dom.parentWithClass(card, 'page');
+        const userId = card.getAttribute('data-userid');
+        const menuItems = [];
         menuItems.push({
             name: globalize.translate('ButtonOpen'),
             id: 'open',
@@ -45,7 +55,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
             icon: 'delete'
         });
 
-        require(['actionsheet'], function (actionsheet) {
+        import('actionsheet').then(({default: actionsheet}) => {
             actionsheet.show({
                 items: menuItems,
                 positionTo: card,
@@ -72,8 +82,8 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
     }
 
     function getUserHtml(user, addConnectIndicator) {
-        var html = '';
-        var cssClass = 'card squareCard scalableCard squareCard-scalable';
+        let html = '';
+        let cssClass = 'card squareCard scalableCard squareCard-scalable';
 
         if (user.Policy.IsDisabled) {
             cssClass += ' grayscale';
@@ -84,7 +94,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
         html += '<a is="emby-linkbutton" class="cardContent" href="useredit.html?userId=' + user.Id + '">';
-        var imgUrl;
+        let imgUrl;
 
         if (user.PrimaryImageTag) {
             imgUrl = ApiClient.getUserImageUrl(user.Id, {
@@ -94,7 +104,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
             });
         }
 
-        var imageClass = 'cardImage';
+        let imageClass = 'cardImage';
 
         if (user.Policy.IsDisabled) {
             imageClass += ' disabledUser';
@@ -118,7 +128,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
         html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu flex-shrink-zero"><span class="material-icons more_vert"></span></button>';
         html += '</div>';
         html += '<div class="cardText cardText-secondary">';
-        var lastSeen = getLastSeenText(user.LastActivityDate);
+        const lastSeen = getLastSeenText(user.LastActivityDate);
         html += '' != lastSeen ? lastSeen : '&nbsp;';
         html += '</div>';
         html += '</div>';
@@ -145,125 +155,30 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
         page.querySelector('.localUsers').innerHTML = getUserSectionHtml(users, true);
     }
 
-    function showPendingUserMenu(elem) {
-        var menuItems = [];
-        menuItems.push({
-            name: globalize.translate('ButtonCancel'),
-            id: 'delete',
-            icon: 'delete'
-        });
-
-        require(['actionsheet'], function (actionsheet) {
-            var card = dom.parentWithClass(elem, 'card');
-            var page = dom.parentWithClass(card, 'page');
-            var id = card.getAttribute('data-id');
-            actionsheet.show({
-                items: menuItems,
-                positionTo: card,
-                callback: function (menuItemId) {
-                    switch (menuItemId) {
-                        case 'delete':
-                            cancelAuthorization(page, id);
-                    }
-                }
-            });
-        });
-    }
-
-    function getPendingUserHtml(user) {
-        var html = '';
-        html += "<div data-id='" + user.Id + "' class='card squareCard scalableCard squareCard-scalable'>";
-        html += '<div class="cardBox cardBox-bottompadded visualCardBox">';
-        html += '<div class="cardScalable visualCardBox-cardScalable">';
-        html += '<div class="cardPadder cardPadder-square"></div>';
-        html += '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="#">';
-
-        if (user.ImageUrl) {
-            html += '<div class="cardImage" style="background-image:url(\'' + user.ImageUrl + "');\">";
-            html += '</div>';
-        } else {
-            html += '<span class="cardImageIcon material-icons person"></span>';
-        }
-
-        html += '</a>';
-        html += '</div>';
-        html += '<div class="cardFooter visualCardBox-cardFooter">';
-        html += '<div class="cardText" style="text-align:right; float:right;padding:0;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu"><span class="material-icons more_vert"></span></button>';
-        html += '</div>';
-        html += '<div class="cardText" style="padding-top:10px;padding-bottom:10px;">';
-        html += user.UserName;
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-        return html + '</div>';
-    }
-
-    function renderPendingGuests(page, users) {
-        if (users.length) {
-            page.querySelector('.sectionPendingGuests').classList.remove('hide');
-        } else {
-            page.querySelector('.sectionPendingGuests').classList.add('hide');
-        }
-
-        page.querySelector('.pending').innerHTML = users.map(getPendingUserHtml).join('');
-    }
-
-    // TODO cvium: maybe reuse for invitation system
-    function cancelAuthorization(page, id) {
-        loading.show();
-        ApiClient.ajax({
-            type: 'DELETE',
-            url: ApiClient.getUrl('Connect/Pending', {
-                Id: id
-            })
-        }).then(function () {
-            loadData(page);
-        });
-    }
-
     function loadData(page) {
         loading.show();
         ApiClient.getUsers().then(function (users) {
             renderUsers(page, users);
             loading.hide();
         });
-        // TODO cvium
-        renderPendingGuests(page, []);
-        // ApiClient.getJSON(ApiClient.getUrl("Connect/Pending")).then(function (pending) {
-        //
-        // });
-    }
-
-    function showInvitePopup(page) {
-        require(['components/guestinviter/guestinviter'], function (guestinviter) {
-            guestinviter.show().then(function () {
-                loadData(page);
-            });
-        });
     }
 
     pageIdOn('pageinit', 'userProfilesPage', function () {
-        var page = this;
+        const page = this;
         page.querySelector('.btnAddUser').addEventListener('click', function() {
             Dashboard.navigate('usernew.html');
         });
         page.querySelector('.localUsers').addEventListener('click', function (e__e) {
-            var btnUserMenu = dom.parentWithClass(e__e.target, 'btnUserMenu');
+            const btnUserMenu = dom.parentWithClass(e__e.target, 'btnUserMenu');
 
             if (btnUserMenu) {
                 showUserMenu(btnUserMenu);
             }
         });
-        page.querySelector('.pending').addEventListener('click', function (e__r) {
-            var btnUserMenu = dom.parentWithClass(e__r.target, 'btnUserMenu');
-
-            if (btnUserMenu) {
-                showPendingUserMenu(btnUserMenu);
-            }
-        });
     });
+
     pageIdOn('pagebeforeshow', 'userProfilesPage', function () {
         loadData(this);
     });
-});
+
+/* eslint-enable indent */

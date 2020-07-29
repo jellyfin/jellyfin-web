@@ -1,31 +1,29 @@
-define(['dom', 'events'], function (dom, events) {
-    'use strict';
+import dom from 'dom';
+import events from 'events';
 
-    function getTouches(e) {
+function getTouches(e) {
+    return e.changedTouches || e.targetTouches || e.touches;
+}
 
-        return e.changedTouches || e.targetTouches || e.touches;
-    }
-
-    function TouchHelper(elem, options) {
-
+class TouchHelper {
+    constructor(elem, options) {
         options = options || {};
-        var touchTarget;
-        var touchStartX;
-        var touchStartY;
-        var lastDeltaX;
-        var lastDeltaY;
-        var thresholdYMet;
-        var self = this;
+        let touchTarget;
+        let touchStartX;
+        let touchStartY;
+        let lastDeltaX;
+        let lastDeltaY;
+        let thresholdYMet;
+        const self = this;
 
-        var swipeXThreshold = options.swipeXThreshold || 50;
-        var swipeYThreshold = options.swipeYThreshold || 50;
-        var swipeXMaxY = 30;
+        const swipeXThreshold = options.swipeXThreshold || 50;
+        const swipeYThreshold = options.swipeYThreshold || 50;
+        const swipeXMaxY = 30;
 
-        var excludeTagNames = options.ignoreTagNames || [];
+        const excludeTagNames = options.ignoreTagNames || [];
 
-        var touchStart = function (e) {
-
-            var touch = getTouches(e)[0];
+        const touchStart = function (e) {
+            const touch = getTouches(e)[0];
             touchTarget = null;
             touchStartX = 0;
             touchStartY = 0;
@@ -34,8 +32,7 @@ define(['dom', 'events'], function (dom, events) {
             thresholdYMet = false;
 
             if (touch) {
-
-                var currentTouchTarget = touch.target;
+                const currentTouchTarget = touch.target;
 
                 if (dom.parentWithTag(currentTouchTarget, excludeTagNames)) {
                     return;
@@ -47,18 +44,17 @@ define(['dom', 'events'], function (dom, events) {
             }
         };
 
-        var touchEnd = function (e) {
-
-            var isTouchMove = e.type === 'touchmove';
+        const touchEnd = function (e) {
+            const isTouchMove = e.type === 'touchmove';
 
             if (touchTarget) {
-                var touch = getTouches(e)[0];
+                const touch = getTouches(e)[0];
 
-                var deltaX;
-                var deltaY;
+                let deltaX;
+                let deltaY;
 
-                var clientX;
-                var clientY;
+                let clientX;
+                let clientY;
 
                 if (touch) {
                     clientX = touch.clientX || 0;
@@ -70,8 +66,8 @@ define(['dom', 'events'], function (dom, events) {
                     deltaY = 0;
                 }
 
-                var currentDeltaX = lastDeltaX == null ? deltaX : (deltaX - lastDeltaX);
-                var currentDeltaY = lastDeltaY == null ? deltaY : (deltaY - lastDeltaY);
+                const currentDeltaX = lastDeltaX == null ? deltaX : (deltaX - lastDeltaX);
+                const currentDeltaY = lastDeltaY == null ? deltaY : (deltaY - lastDeltaY);
 
                 lastDeltaX = deltaX;
                 lastDeltaY = deltaY;
@@ -81,7 +77,6 @@ define(['dom', 'events'], function (dom, events) {
                 } else if (deltaX < (0 - swipeXThreshold) && Math.abs(deltaY) < swipeXMaxY) {
                     events.trigger(self, 'swipeleft', [touchTarget]);
                 } else if ((deltaY < (0 - swipeYThreshold) || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
-
                     thresholdYMet = true;
 
                     events.trigger(self, 'swipeup', [touchTarget, {
@@ -138,14 +133,12 @@ define(['dom', 'events'], function (dom, events) {
             passive: true
         });
     }
-
-    TouchHelper.prototype.destroy = function () {
-
-        var elem = this.elem;
+    destroy() {
+        const elem = this.elem;
 
         if (elem) {
-            var touchStart = this.touchStart;
-            var touchEnd = this.touchEnd;
+            const touchStart = this.touchStart;
+            const touchEnd = this.touchEnd;
 
             dom.removeEventListener(elem, 'touchstart', touchStart, {
                 passive: true
@@ -165,7 +158,7 @@ define(['dom', 'events'], function (dom, events) {
         this.touchEnd = null;
 
         this.elem = null;
-    };
+    }
+}
 
-    return TouchHelper;
-});
+export default TouchHelper;

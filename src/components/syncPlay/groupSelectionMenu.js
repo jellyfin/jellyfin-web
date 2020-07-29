@@ -84,7 +84,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
             actionsheet.show(menuOptions).then(function (id) {
                 if (id == 'new-group') {
                     apiClient.createSyncPlayGroup();
-                } else {
+                } else if (id) {
                     apiClient.joinSyncPlayGroup({
                         GroupId: id,
                         PlayingItemId: playingItemId

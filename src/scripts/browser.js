@@ -2,7 +2,6 @@ define([], function () {
     'use strict';
 
     function isTv() {
-
         // This is going to be really difficult to get right
         var userAgent = navigator.userAgent.toLowerCase();
 
@@ -50,7 +49,6 @@ define([], function () {
     }
 
     function hasKeyboard(browser) {
-
         if (browser.touch) {
             return true;
         }
@@ -101,10 +99,7 @@ define([], function () {
         }
 
         var animation = false;
-        var animationstring = 'animation';
-        var keyframeprefix = '';
         var domPrefixes = ['Webkit', 'O', 'Moz'];
-        var pfx = '';
         var elm = document.createElement('div');
 
         if (elm.style.animationName !== undefined) {
@@ -114,9 +109,6 @@ define([], function () {
         if (animation === false && allowPrefix) {
             for (var i = 0; i < domPrefixes.length; i++) {
                 if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
-                    pfx = domPrefixes[i];
-                    animationstring = pfx + 'Animation';
-                    keyframeprefix = '-' + pfx.toLowerCase() + '-';
                     animation = true;
                     break;
                 }
@@ -135,7 +127,10 @@ define([], function () {
     var uaMatch = function (ua) {
         ua = ua.toLowerCase();
 
-        var match = /(edge)[ \/]([\w.]+)/.exec(ua) ||
+        var match = /(edg)[ \/]([\w.]+)/.exec(ua) ||
+            /(edga)[ \/]([\w.]+)/.exec(ua) ||
+            /(edgios)[ \/]([\w.]+)/.exec(ua) ||
+            /(edge)[ \/]([\w.]+)/.exec(ua) ||
             /(opera)[ \/]([\w.]+)/.exec(ua) ||
             /(opr)[ \/]([\w.]+)/.exec(ua) ||
             /(chrome)[ \/]([\w.]+)/.exec(ua) ||
@@ -198,7 +193,9 @@ define([], function () {
         browser[matched.platform] = true;
     }
 
-    if (!browser.chrome && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf('webkit') !== -1) {
+    browser.edgeChromium = browser.edg || browser.edga || browser.edgios;
+
+    if (!browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf('webkit') !== -1) {
         browser.safari = true;
     }
 
@@ -258,8 +255,6 @@ define([], function () {
             browser.iOSVersion = browser.iOSVersion[0] + (browser.iOSVersion[1] / 10);
         }
     }
-
-    browser.chromecast = browser.chrome && userAgent.toLowerCase().indexOf('crkey') !== -1;
 
     return browser;
 });

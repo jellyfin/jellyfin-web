@@ -89,7 +89,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
             var policy = user.Policy ? user.Policy : user.localUser.Policy;
 
-            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None') {
+            var apiClient = getCurrentApiClient();
+            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
                 headerSyncButton.classList.remove('hide');
             }
         } else {
@@ -116,7 +117,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function showSearch() {
-        inputManager.trigger('search');
+        inputManager.handleCommand('search');
     }
 
     function onHeaderUserButtonClick(e) {
@@ -228,7 +229,6 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
     function openMainDrawer() {
         navDrawerInstance.open();
-        lastOpenTime = new Date().getTime();
     }
 
     function onMainDrawerOpened() {
@@ -574,15 +574,12 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function updateLibraryMenu(user) {
-        // FIXME: Potential equivalent might be
-        // showBySelector(".lnkSyncToOtherDevices", !!user.Policy.EnableContentDownloading);
         if (!user) {
             showBySelector('.libraryMenuDownloads', false);
             showBySelector('.lnkSyncToOtherDevices', false);
             return void showBySelector('.userMenuOptions', false);
         }
 
-        // FIXME: Potentially the same as above
         if (user.Policy.EnableContentDownloading) {
             showBySelector('.lnkSyncToOtherDevices', true);
         } else {
@@ -837,7 +834,6 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     var enableLibraryNavDrawerHome = !layoutManager.tv;
     var skinHeader = document.querySelector('.skinHeader');
     var requiresUserRefresh = true;
-    var lastOpenTime = new Date().getTime();
     window.LibraryMenu = {
         getTopParentId: getTopParentId,
         onHardwareMenuButtonClick: function () {
@@ -967,8 +963,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         updateUserInHeader();
     });
     events.on(playbackManager, 'playerchange', updateCastIcon);
+
     events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
     events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
+
     loadNavDrawer();
     return LibraryMenu;
 });

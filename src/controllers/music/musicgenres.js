@@ -3,6 +3,8 @@ import cardBuilder from 'cardBuilder';
 import imageLoader from 'imageLoader';
 import loading from 'loading';
 
+libraryBrowser = libraryBrowser.default || libraryBrowser;
+
 /* eslint-disable indent */
 
     export default function (view, params, tabContent) {

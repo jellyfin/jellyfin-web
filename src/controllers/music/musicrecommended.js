@@ -57,9 +57,7 @@ import 'flexStyles';
             EnableTotalRecordCount: false
         };
         ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-            const elem = page.querySelector('#recentlyAddedSongs');
-            let supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
+            var elem = page.querySelector('#recentlyAddedSongs');
             elem.innerHTML = cardBuilder.getCardsHtml({
                 items: items,
                 showUnplayedIndicator: false,
@@ -68,10 +66,10 @@ import 'flexStyles';
                 showTitle: true,
                 showParentTitle: true,
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayPlayButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayPlayButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(elem);
@@ -106,9 +104,8 @@ import 'flexStyles';
                 elem.classList.add('hide');
             }
 
-            const itemsContainer = elem.querySelector('.itemsContainer');
-            let supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
+            var itemsContainer = elem.querySelector('.itemsContainer');
+
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -117,10 +114,10 @@ import 'flexStyles';
                 showParentTitle: true,
                 action: 'instantmix',
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayMoreButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayMoreButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(itemsContainer);
@@ -150,9 +147,7 @@ import 'flexStyles';
                 elem.classList.add('hide');
             }
 
-            const itemsContainer = elem.querySelector('.itemsContainer');
-            let supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
+            var itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -161,10 +156,10 @@ import 'flexStyles';
                 showParentTitle: true,
                 action: 'instantmix',
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayMoreButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayMoreButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(itemsContainer);
@@ -358,8 +353,6 @@ import 'flexStyles';
         function loadTab(page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
-                initialTabIndex = null;
-
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
@@ -375,10 +368,8 @@ import 'flexStyles';
             }
         }
 
-        let isViewRestored;
-        const self = this;
-        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        let initialTabIndex = currentTabIndex;
+        var self = this;
+        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
 
         self.initTab = function () {
             const tabContent = view.querySelector(".pageTabContent[data-index='0']");
@@ -396,7 +387,6 @@ import 'flexStyles';
         const tabControllers = [];
         const renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
-            isViewRestored = e.detail.isRestored;
             initTabs();
             if (!view.getAttribute('data-title')) {
                 const parentId = params.topParentId;

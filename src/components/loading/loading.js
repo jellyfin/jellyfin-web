@@ -1,9 +1,5 @@
-define(['components/loading/loadingLegacy', 'browser', 'css!./loading'], function (loadingLegacy, browser) {
+define(['css!./loading'], function () {
     'use strict';
-
-    if (browser.tizen || browser.operaTv || browser.chromecast || browser.orsay || browser.web0s || browser.ps4) {
-        return loadingLegacy;
-    }
 
     var loadingElem;
     var layer1;
@@ -18,7 +14,6 @@ define(['components/loading/loadingLegacy', 'browser', 'css!./loading'], functio
             var elem = loadingElem;
 
             if (!elem) {
-
                 elem = document.createElement('div');
                 loadingElem = elem;
 
@@ -60,7 +55,6 @@ define(['components/loading/loadingLegacy', 'browser', 'css!./loading'], functio
             var elem = loadingElem;
 
             if (elem) {
-
                 elem.classList.remove('mdlSpinnerActive');
 
                 elem.classList.remove('mdl-spinner__layer-1-active');

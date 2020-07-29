@@ -1,6 +1,8 @@
 define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
+
     return function (view, params, tabContent) {
         function getPageData(context) {
             var key = getSavedQueryKey(context);
@@ -242,7 +244,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             tabContent.querySelector('.btnNewCollection').addEventListener('click', function () {
                 require(['collectionEditor'], function (collectionEditor) {
                     var serverId = ApiClient.serverInfo().Id;
-                    new collectionEditor().show({
+                    new collectionEditor.showEditor({
                         items: [],
                         serverId: serverId
                     });

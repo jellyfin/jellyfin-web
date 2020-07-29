@@ -476,7 +476,6 @@
     "HeaderParentalRatings": "Evaluări parentale",
     "HeaderPassword": "Parolă",
     "HeaderPasswordReset": "Resetare Parolă",
-    "HeaderPendingInvitations": "Invitații in așteptare",
     "HeaderPeople": "Persoane",
     "HeaderPhotoAlbums": "Albume Fotografii",
     "HeaderPinCodeReset": "Resetare cod PIN",
@@ -1527,7 +1526,7 @@
     "MessageSyncPlayGroupDoesNotExist": "Nu a reușit să se alăture grupului, deoarece nu există.",
     "MessageSyncPlayPlaybackPermissionRequired": "Este necesară permisiunea de redare.",
     "MessageSyncPlayNoGroupsAvailable": "Nu există grupuri disponibile. Începe să redai ceva mai întâi.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> se încarcă...",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> se încarcă…",
     "MessageSyncPlayUserLeft": "<b>{0}</b> a părăsit grupul.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> s-a alăturat grupului.",
     "MessageSyncPlayDisabled": "SyncPlay dezactivat.",
@@ -1568,5 +1567,8 @@
     "Writers": "Scriitori",
     "TabRepositories": "Repertorii",
     "MessageAddRepository": "Dacă doriți să adăugați un repertoriu, faceți clic pe butonul de lângă antet și completați informațiile solicitate.",
-    "LabelRepositoryNameHelp": "Un nume personalizat pentru a distinge acest repertoriu de altele adăugate la serverul dvs."
+    "LabelRepositoryNameHelp": "Un nume personalizat pentru a distinge acest repertoriu de altele adăugate la serverul dvs.",
+    "ClearQueue": "Golește lista de redare",
+    "StopPlayback": "Oprește redarea",
+    "ViewAlbumArtist": "Vezi artistul albumului"
 }

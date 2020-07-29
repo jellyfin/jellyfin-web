@@ -1,5 +1,7 @@
-define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 'alphaPicker', 'listView', 'cardBuilder', 'globalize', 'emby-itemscontainer'], function (loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder, globalize) {
+define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 'alphaPicker', 'listView', 'cardBuilder', 'globalize', 'emby-itemscontainer'], function (loading, layoutManager, userSettings, events, libraryBrowser, AlphaPicker, listView, cardBuilder, globalize) {
     'use strict';
+
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
 
     return function (view, params, tabContent, options) {
         function onViewStyleChange() {
@@ -168,7 +170,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });
-                self.alphaPicker = new alphaPicker({
+                self.alphaPicker = new AlphaPicker.default({
                     element: alphaPickerElement,
                     valueChangeEvent: 'click'
                 });

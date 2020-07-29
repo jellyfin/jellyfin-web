@@ -215,14 +215,13 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                     context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
                 });
             } else {
-                backdrop.clear();
+                backdrop.clearBackdrop();
                 context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
             }
         }
     }
 
     function setImageUrl(context, state, url) {
-        currentImgUrl = url;
         var item = state.NowPlayingItem;
         var imgContainer = context.querySelector('.nowPlayingPageImageContainer');
 
@@ -257,7 +256,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         }
     }
 
-    var currentImgUrl;
     return function () {
         function toggleRepeat() {
             switch (playbackManager.getRepeatMode()) {
@@ -420,7 +418,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 var nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
 
                 if (nowPlayingVolumeSlider) {
-
                     nowPlayingVolumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
 
                     if (!nowPlayingVolumeSlider.dragging) {
@@ -674,7 +671,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             require(['playlistEditor'], function (playlistEditor) {
                 getSaveablePlaylistItems().then(function (items) {
                     var serverId = items.length ? items[0].ServerId : ApiClient.serverId();
-                    new playlistEditor().show({
+                    new playlistEditor.showEditor({
                         items: items.map(function (i) {
                             return i.Id;
                         }),
@@ -909,7 +906,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         }
 
         function onShow(context, tab) {
-            currentImgUrl = null;
             bindToPlayer(context, playbackManager.getCurrentPlayer());
         }
 

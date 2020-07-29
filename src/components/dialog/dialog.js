@@ -1,20 +1,30 @@
-define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles'], function (dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
-    'use strict';
+import dialogHelper from 'dialogHelper';
+import dom from 'dom';
+import layoutManager from 'layoutManager';
+import scrollHelper from 'scrollHelper';
+import globalize from 'globalize';
+import 'material-icons';
+import 'emby-button';
+import 'paper-icon-button-light';
+import 'emby-input';
+import 'formDialogStyle';
+import 'flexStyles';
+
+/* eslint-disable indent */
 
     function showDialog(options, template) {
-
-        var dialogOptions = {
+        const dialogOptions = {
             removeOnClose: true,
             scrollY: false
         };
 
-        var enableTvLayout = layoutManager.tv;
+        const enableTvLayout = layoutManager.tv;
 
         if (enableTvLayout) {
             dialogOptions.size = 'fullscreen';
         }
 
-        var dlg = dialogHelper.createDialog(dialogOptions);
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
         dlg.classList.add('formDialog');
 
@@ -22,7 +32,7 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
 
         dlg.classList.add('align-items-center');
         dlg.classList.add('justify-content-center');
-        var formDialogContent = dlg.querySelector('.formDialogContent');
+        const formDialogContent = dlg.querySelector('.formDialogContent');
         formDialogContent.classList.add('no-grow');
 
         if (enableTvLayout) {
@@ -30,13 +40,9 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             formDialogContent.style['max-height'] = '60%';
             scrollHelper.centerFocus.on(formDialogContent, false);
         } else {
-            formDialogContent.style.maxWidth = (Math.min((options.buttons.length * 150) + 200, dom.getWindowSize().innerWidth - 50)) + 'px';
+            formDialogContent.style.maxWidth = `${Math.min((options.buttons.length * 150) + 200, dom.getWindowSize().innerWidth - 50)}px`;
             dlg.classList.add('dialog-fullscreen-lowres');
         }
-
-        //dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
-        //    dialogHelper.close(dlg);
-        //});
 
         if (options.title) {
             dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.title || '';
@@ -44,27 +50,26 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             dlg.querySelector('.formDialogHeaderTitle').classList.add('hide');
         }
 
-        var displayText = options.html || options.text || '';
+        const displayText = options.html || options.text || '';
         dlg.querySelector('.text').innerHTML = displayText;
 
         if (!displayText) {
             dlg.querySelector('.dialogContentInner').classList.add('hide');
         }
 
-        var i;
-        var length;
-        var html = '';
-        var hasDescriptions = false;
+        let i;
+        let length;
+        let html = '';
+        let hasDescriptions = false;
 
         for (i = 0, length = options.buttons.length; i < length; i++) {
+            const item = options.buttons[i];
+            const autoFocus = i === 0 ? ' autofocus' : '';
 
-            var item = options.buttons[i];
-            var autoFocus = i === 0 ? ' autofocus' : '';
-
-            var buttonClass = 'btnOption raised formDialogFooterItem formDialogFooterItem-autosize';
+            let buttonClass = 'btnOption raised formDialogFooterItem formDialogFooterItem-autosize';
 
             if (item.type) {
-                buttonClass += ' button-' + item.type;
+                buttonClass += ` button-${item.type}`;
             }
 
             if (item.description) {
@@ -75,10 +80,10 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
                 buttonClass += ' formDialogFooterItem-vertical formDialogFooterItem-nomarginbottom';
             }
 
-            html += '<button is="emby-button" type="button" class="' + buttonClass + '" data-id="' + item.id + '"' + autoFocus + '>' + item.name + '</button>';
+            html += `<button is="emby-button" type="button" class="${buttonClass}" data-id="${item.id}"${autoFocus}>${item.name}</button>`;
 
             if (item.description) {
-                html += '<div class="formDialogFooterItem formDialogFooterItem-autosize fieldDescription" style="margin-top:.25em!important;margin-bottom:1.25em!important;">' + item.description + '</div>';
+                html += `<div class="formDialogFooterItem formDialogFooterItem-autosize fieldDescription" style="margin-top:.25em!important;margin-bottom:1.25em!important;">${item.description}</div>`;
             }
         }
 
@@ -88,19 +93,18 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             dlg.querySelector('.formDialogFooter').classList.add('formDialogFooter-vertical');
         }
 
-        var dialogResult;
+        let dialogResult;
         function onButtonClick() {
             dialogResult = this.getAttribute('data-id');
             dialogHelper.close(dlg);
         }
 
-        var buttons = dlg.querySelectorAll('.btnOption');
+        const buttons = dlg.querySelectorAll('.btnOption');
         for (i = 0, length = buttons.length; i < length; i++) {
             buttons[i].addEventListener('click', onButtonClick);
         }
 
-        return dialogHelper.open(dlg).then(function () {
-
+        return dialogHelper.open(dlg).then(() => {
             if (enableTvLayout) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
@@ -113,9 +117,8 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
         });
     }
 
-    return function (text, title) {
-
-        var options;
+    export async function show(text, title) {
+        let options;
         if (typeof text === 'string') {
             options = {
                 title: title,
@@ -125,10 +128,13 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             options = text;
         }
 
-        return new Promise(function (resolve, reject) {
-            require(['text!./dialog.template.html'], function (template) {
-                showDialog(options, template).then(resolve, reject);
-            });
+        const { default: template } = await import('text!./dialog.template.html');
+        return new Promise((resolve, reject) => {
+            showDialog(options, template).then(resolve, reject);
         });
-    };
-});
+    }
+
+/* eslint-enable indent */
+export default {
+    show: show
+};

@@ -256,7 +256,6 @@
     "HeaderPassword": "Lozinka",
     "HeaderPasswordReset": "Poništenje lozinke",
     "HeaderPaths": "Putanje",
-    "HeaderPendingInvitations": "Neriješeni pozivi",
     "HeaderPinCodeReset": "Poništi PIN",
     "HeaderPlayback": "Reprodukcija medija",
     "HeaderPleaseSignIn": "Molim, prijavite se",
@@ -1238,5 +1237,16 @@
     "CommunityRating": "Rejting zajednice",
     "Browse": "Pretraži",
     "BoxRear": "Kutija (stražnja)",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "DirectStreaming": "Direktno strujanje",
+    "DirectStreamHelp2": "Direktno strujanje datoteke koristi jako malo procesne snage bez gubitka kvalitete videozapisa.",
+    "Desktop": "Stolno računalo",
+    "ColorTransfer": "Prijenos boje",
+    "ColorSpace": "Spektar boja",
+    "ColorPrimaries": "Primarne boje",
+    "BookLibraryHelp": "Audio i tekstualne knjige su podržane. Provjeri {1} upute za imenovanje knjige {0}.",
+    "Blacklist": "Crna lista",
+    "AuthProviderHelp": "Odaberi pružatelja ovjere autentičnosti koji će se koristiti za provjeru lozinke.",
+    "AllowFfmpegThrottling": "Uspori transkodiranje",
+    "AllowOnTheFlySubtitleExtractionHelp": "Ugrađeni titlovi mogu biti izvedeni iz videozapisa i dostavljena klijentima u običnom tekstu, u svrhu spriječavanja video transcodinga. Na nekim sustavima ovo može potrajati duže vrijeme i video reprodukcija može trzati tijekom postupka izvođenja. Onemogući ovo da imaš ugrađene titlove spaljene u video transkodingu kada nisu nativno podržani od strane uređaja klijenta."
 }

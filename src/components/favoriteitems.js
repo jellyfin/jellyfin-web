@@ -154,8 +154,7 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
                     html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
                 }
 
-                var supportsImageAnalysis = appHost.supports('imageanalysis');
-                var cardLayout = (appHost.preferVisualCards || supportsImageAnalysis) && section.autoCardLayout && section.showTitle;
+                var cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
                 cardLayout = false;
                 html += cardBuilder.getCardsHtml(result.Items, {
                     preferThumb: section.preferThumb,

@@ -251,7 +251,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             return 'Video' === m.Type;
         });
 
-        // This only makes sence on Video items
+        // This only makes sense on Video items
         if (videoTracks.length) {
             var selected = -1 === selectedId ? ' selected' : '';
             select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
@@ -259,7 +259,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
             }).join('');
 
-            if (tracks.length > 1) {
+            if (tracks.length > 0) {
                 select.removeAttribute('disabled');
             } else {
                 select.setAttribute('disabled', 'disabled');
@@ -492,7 +492,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         if (dom.getWindowSize().innerWidth >= 1000) {
             backdrop.setBackdrops([item]);
         } else {
-            backdrop.clear();
+            backdrop.clearBackdrop();
         }
     }
 
@@ -819,7 +819,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         if (item.SpecialFeatureCount && 0 != item.SpecialFeatureCount && 'Series' != item.Type) {
             page.querySelector('#specialsCollapsible').classList.remove('hide');
-            renderSpecials(page, item, user, 6);
+            renderSpecials(page, item, user);
         } else {
             page.querySelector('#specialsCollapsible').classList.add('hide');
         }
@@ -1652,7 +1652,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         html += '<h2 class="sectionTitle sectionTitle-cards">';
         html += '<span>' + type.name + '</span>';
         html += '</h2>';
-        html += '<button class="btnAddToCollection sectionTitleButton" type="button" is="paper-icon-button-light" style="margin-left:1em;"><span class="material-icons add"></span></button>';
         html += '</div>';
         html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
         var shape = 'MusicAlbum' == type.type ? getSquareShape(false) : getPortraitShape(false);
@@ -1674,14 +1673,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var collectionItems = page.querySelector('.collectionItems');
         collectionItems.insertAdjacentHTML('beforeend', html);
         imageLoader.lazyChildren(collectionItems);
-        collectionItems.querySelector('.btnAddToCollection').addEventListener('click', function () {
-            require(['alert'], function (alert) {
-                alert({
-                    text: globalize.translate('AddItemToCollectionHelp'),
-                    html: globalize.translate('AddItemToCollectionHelp') + '<br/><br/><a is="emby-linkbutton" class="button-link" target="_blank" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections">' + globalize.translate('ButtonLearnMore') + '</a>'
-                });
-            });
-        });
     }
 
     function renderMusicVideos(page, item, user) {
@@ -1696,7 +1687,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             if (result.Items.length) {
                 page.querySelector('#musicVideosCollapsible').classList.remove('hide');
                 var musicVideosContent = page.querySelector('.musicVideosContent');
-                musicVideosContent.innerHTML = getVideosHtml(result.Items, user);
+                musicVideosContent.innerHTML = getVideosHtml(result.Items);
                 imageLoader.lazyChildren(musicVideosContent);
             } else {
                 page.querySelector('#musicVideosCollapsible').classList.add('hide');
@@ -1709,7 +1700,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             if (result.Items.length) {
                 page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
                 var additionalPartsContent = page.querySelector('#additionalPartsContent');
-                additionalPartsContent.innerHTML = getVideosHtml(result.Items, user);
+                additionalPartsContent.innerHTML = getVideosHtml(result.Items);
                 imageLoader.lazyChildren(additionalPartsContent);
             } else {
                 page.querySelector('#additionalPartsCollapsible').classList.add('hide');
@@ -1737,10 +1728,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
     }
 
-    function getVideosHtml(items, user, limit, moreButtonClass) {
+    function getVideosHtml(items) {
         var html = cardBuilder.getCardsHtml({
             items: items,
-            shape: 'auto',
+            shape: 'autooverflow',
             showTitle: true,
             action: 'play',
             overlayText: false,
@@ -1748,17 +1739,13 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             showRuntime: true
         });
 
-        if (limit && items.length > limit) {
-            html += '<p style="margin: 0;padding-left:5px;"><button is="emby-button" type="button" class="raised more ' + moreButtonClass + '">' + globalize.translate('ButtonMore') + '</button></p>';
-        }
-
         return html;
     }
 
-    function renderSpecials(page, item, user, limit) {
+    function renderSpecials(page, item, user) {
         connectionManager.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
             var specialsContent = page.querySelector('#specialsContent');
-            specialsContent.innerHTML = getVideosHtml(specials, user, limit, 'moreSpecials');
+            specialsContent.innerHTML = getVideosHtml(specials);
             imageLoader.lazyChildren(specialsContent);
         });
     }
@@ -1823,7 +1810,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         function splitVersions(instance, page, apiClient, params) {
             require(['confirm'], function (confirm) {
-                confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
+                confirm.default('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
                     loading.show();
                     apiClient.ajax({
                         type: 'DELETE',
@@ -1932,17 +1919,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             setTrailerButtonVisibility(view, currentItem);
         }
 
-        function editImages() {
-            return new Promise(function (resolve, reject) {
-                require(['imageEditor'], function (imageEditor) {
-                    imageEditor.show({
-                        itemId: currentItem.Id,
-                        serverId: currentItem.ServerId
-                    }).then(resolve, reject);
-                });
-            });
-        }
-
         function onWebSocketMessage(e, data) {
             var msg = data;
 
@@ -1981,24 +1957,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             renderVideoSelections(view, self._currentPlaybackMediaSources);
             renderAudioSelections(view, self._currentPlaybackMediaSources);
             renderSubtitleSelections(view, self._currentPlaybackMediaSources);
-        });
-        view.addEventListener('click', function (e) {
-            if (dom.parentWithClass(e.target, 'moreScenes')) {
-                renderScenes(view, currentItem);
-            } else if (dom.parentWithClass(e.target, 'morePeople')) {
-                renderCast(view, currentItem);
-            } else if (dom.parentWithClass(e.target, 'moreSpecials')) {
-                apiClient.getCurrentUser().then(function (user) {
-                    renderSpecials(view, currentItem, user);
-                });
-            }
-        });
-        view.querySelector('.detailImageContainer').addEventListener('click', function (e) {
-            if (dom.parentWithClass(e.target, 'itemDetailGalleryLink')) {
-                editImages().then(function () {
-                    reload(self, view, params);
-                });
-            }
         });
         view.addEventListener('viewshow', function (e) {
             var page = this;
