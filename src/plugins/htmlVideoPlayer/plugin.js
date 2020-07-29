@@ -554,6 +554,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if (screenfull.isEnabled) {
                 screenfull.exit();
+            } else {
+                // iOS Safari
+                if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
+                    document.webkitCancelFullscreen();
+                }
             }
         };
 
