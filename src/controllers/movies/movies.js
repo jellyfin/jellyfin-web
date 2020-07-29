@@ -2,6 +2,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
     'use strict';
 
     loading = loading.default || loading;
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
 
     return function (view, params, tabContent, options) {
         function onViewStyleChange() {

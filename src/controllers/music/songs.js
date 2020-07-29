@@ -2,6 +2,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
     'use strict';
 
     loading = loading.default || loading;
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
 
     return function (view, params, tabContent) {
         function getPageData(context) {

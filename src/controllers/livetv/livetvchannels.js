@@ -2,6 +2,7 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'us
     'use strict';
 
     loading = loading.default || loading;
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
 
     return function (view, params, tabContent) {
         function getPageData() {

@@ -1,15 +1,31 @@
-define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'scrollHelper', 'imageLoader', 'require', 'browser', 'apphost', 'cardStyle', 'formDialogStyle', 'emby-button', 'paper-icon-button-light', 'css!./imageeditor'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, scrollHelper, imageLoader, require, browser, appHost) {
-    'use strict';
+import dialogHelper from 'dialogHelper';
+import connectionManager from 'connectionManager';
+import loading from 'loading';
+import dom from 'dom';
+import layoutManager from 'layoutManager';
+import focusManager from 'focusManager';
+import globalize from 'globalize';
+import scrollHelper from 'scrollHelper';
+import imageLoader from 'imageLoader';
+import browser from 'browser';
+import appHost from 'apphost';
+import 'cardStyle';
+import 'formDialogStyle';
+import 'emby-button';
+import 'paper-icon-button-light';
+import 'css!./imageeditor';
 
+/* eslint-disable indent */
+
+    const enableFocusTransform = !browser.slow && !browser.edge;
+  
     loading = loading.default || loading;
 
-    var enableFocusTransform = !browser.slow && !browser.edge;
-
-    var currentItem;
-    var hasChanges = false;
+    let currentItem;
+    let hasChanges = false;
 
     function getBaseRemoteOptions() {
-        var options = {};
+        const options = {};
 
         options.itemId = currentItem.Id;
 
@@ -19,7 +35,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     function reload(page, item, focusContext) {
         loading.show();
 
-        var apiClient;
+        let apiClient;
 
         if (item) {
             apiClient = connectionManager.getApiClient(item.ServerId);
@@ -34,7 +50,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
     function addListeners(container, className, eventName, fn) {
         container.addEventListener(eventName, function (e) {
-            var elem = dom.parentWithClass(e.target, className);
+            const elem = dom.parentWithClass(e.target, className);
             if (elem) {
                 fn.call(elem, e);
             }
@@ -45,8 +61,8 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         currentItem = item;
 
         apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
-            var btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
-            for (var i = 0, length = btnBrowseAllImages.length; i < length; i++) {
+            const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
+            for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
                 if (providers.length) {
                     btnBrowseAllImages[i].classList.remove('hide');
                 } else {
@@ -89,10 +105,10 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     function getCardHtml(image, index, numImages, apiClient, imageProviders, imageSize, tagName, enableFooterButtons) {
         // TODO move card creation code to Card component
 
-        var html = '';
+        let html = '';
 
-        var cssClass = 'card scalableCard imageEditorCard';
-        var cardBoxCssClass = 'cardBox visualCardBox';
+        let cssClass = 'card scalableCard imageEditorCard';
+        const cardBoxCssClass = 'cardBox visualCardBox';
 
         cssClass += ' backdropCard backdropCard-scalable';
 
@@ -122,7 +138,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
         html += '<div class="cardContent">';
 
-        var imageUrl = getImageUrl(currentItem, apiClient, image.ImageType, image.ImageIndex, { maxWidth: imageSize });
+        const imageUrl = getImageUrl(currentItem, apiClient, image.ImageType, image.ImageIndex, { maxWidth: imageSize });
 
         html += '<div class="cardImageContainer" style="background-image:url(\'' + imageUrl + '\');background-position:center center;background-size:contain;"></div>';
 
@@ -174,7 +190,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function deleteImage(context, itemId, type, index, apiClient, enableConfirmation) {
-        var afterConfirm = function () {
+        const afterConfirm = function () {
             apiClient.deleteItemImage(itemId, type, index).then(function () {
                 hasChanges = true;
                 reload(context);
@@ -186,8 +202,8 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
             return;
         }
 
-        require(['confirm'], function (confirm) {
-            confirm.default({
+        import('confirm').then(({default: confirm}) => {
+            confirm({
 
                 text: globalize.translate('ConfirmDeleteImage'),
                 confirmText: globalize.translate('Delete'),
@@ -202,27 +218,26 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
             hasChanges = true;
             reload(context, null, focusContext);
         }, function () {
-            require(['alert'], function (alert) {
+            import('alert').then(({default: alert}) => {
                 alert(globalize.translate('DefaultErrorMessage'));
             });
         });
     }
 
     function renderImages(page, item, apiClient, images, imageProviders, elem) {
-        var html = '';
+        let html = '';
 
-        var imageSize = 300;
-        var windowSize = dom.getWindowSize();
+        let imageSize = 300;
+        const windowSize = dom.getWindowSize();
         if (windowSize.innerWidth >= 1280) {
             imageSize = Math.round(windowSize.innerWidth / 4);
         }
 
-        var tagName = layoutManager.tv ? 'button' : 'div';
-        var enableFooterButtons = !layoutManager.tv;
+        const tagName = layoutManager.tv ? 'button' : 'div';
+        const enableFooterButtons = !layoutManager.tv;
 
-        for (var i = 0, length = images.length; i < length; i++) {
-            var image = images[i];
-
+        for (let i = 0, length = images.length; i < length; i++) {
+            const image = images[i];
             html += getCardHtml(image, i, length, apiClient, imageProviders, imageSize, tagName, enableFooterButtons);
         }
 
@@ -231,7 +246,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function renderStandardImages(page, apiClient, item, imageInfos, imageProviders) {
-        var images = imageInfos.filter(function (i) {
+        const images = imageInfos.filter(function (i) {
             return i.ImageType !== 'Screenshot' && i.ImageType !== 'Backdrop' && i.ImageType !== 'Chapter';
         });
 
@@ -239,7 +254,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function renderBackdrops(page, apiClient, item, imageInfos, imageProviders) {
-        var images = imageInfos.filter(function (i) {
+        const images = imageInfos.filter(function (i) {
             return i.ImageType === 'Backdrop';
         }).sort(function (a, b) {
             return a.ImageIndex - b.ImageIndex;
@@ -254,7 +269,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function renderScreenshots(page, apiClient, item, imageInfos, imageProviders) {
-        var images = imageInfos.filter(function (i) {
+        const images = imageInfos.filter(function (i) {
             return i.ImageType === 'Screenshot';
         }).sort(function (a, b) {
             return a.ImageIndex - b.ImageIndex;
@@ -269,7 +284,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function showImageDownloader(page, imageType) {
-        require(['imageDownloader'], function (ImageDownloader) {
+        import('imageDownloader').then(({default: ImageDownloader}) => {
             ImageDownloader.show(currentItem.Id, currentItem.ServerId, currentItem.Type, imageType).then(function () {
                 hasChanges = true;
                 reload(page);
@@ -278,17 +293,17 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function showActionSheet(context, imageCard) {
-        var itemId = imageCard.getAttribute('data-id');
-        var serverId = imageCard.getAttribute('data-serverid');
-        var apiClient = connectionManager.getApiClient(serverId);
+        const itemId = imageCard.getAttribute('data-id');
+        const serverId = imageCard.getAttribute('data-serverid');
+        const apiClient = connectionManager.getApiClient(serverId);
 
-        var type = imageCard.getAttribute('data-imagetype');
-        var index = parseInt(imageCard.getAttribute('data-index'));
-        var providerCount = parseInt(imageCard.getAttribute('data-providers'));
-        var numImages = parseInt(imageCard.getAttribute('data-numimages'));
+        const type = imageCard.getAttribute('data-imagetype');
+        const index = parseInt(imageCard.getAttribute('data-index'));
+        const providerCount = parseInt(imageCard.getAttribute('data-providers'));
+        const numImages = parseInt(imageCard.getAttribute('data-numimages'));
 
-        require(['actionsheet'], function (actionSheet) {
-            var commands = [];
+        import('actionsheet').then(({default: actionSheet}) => {
+            const commands = [];
 
             commands.push({
                 name: globalize.translate('Delete'),
@@ -345,9 +360,9 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
     }
 
     function initEditor(context, options) {
-        var uploadButtons = context.querySelectorAll('.btnOpenUploadMenu');
-        var isFileInputSupported = appHost.supports('fileinput');
-        for (var i = 0, length = uploadButtons.length; i < length; i++) {
+        const uploadButtons = context.querySelectorAll('.btnOpenUploadMenu');
+        const isFileInputSupported = appHost.supports('fileinput');
+        for (let i = 0, length = uploadButtons.length; i < length; i++) {
             if (isFileInputSupported) {
                 uploadButtons[i].classList.remove('hide');
             } else {
@@ -356,9 +371,9 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         }
 
         addListeners(context, 'btnOpenUploadMenu', 'click', function () {
-            var imageType = this.getAttribute('data-imagetype');
+            const imageType = this.getAttribute('data-imagetype');
 
-            require(['imageUploader'], function (imageUploader) {
+            import('imageUploader').then(({default: imageUploader}) => {
                 imageUploader.show({
 
                     theme: options.theme,
@@ -388,32 +403,32 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         });
 
         addListeners(context, 'btnDeleteImage', 'click', function () {
-            var type = this.getAttribute('data-imagetype');
-            var index = this.getAttribute('data-index');
+            const type = this.getAttribute('data-imagetype');
+            let index = this.getAttribute('data-index');
             index = index === 'null' ? null : parseInt(index);
-            var apiClient = connectionManager.getApiClient(currentItem.ServerId);
+            const apiClient = connectionManager.getApiClient(currentItem.ServerId);
             deleteImage(context, currentItem.Id, type, index, apiClient, true);
         });
 
         addListeners(context, 'btnMoveImage', 'click', function () {
-            var type = this.getAttribute('data-imagetype');
-            var index = this.getAttribute('data-index');
-            var newIndex = this.getAttribute('data-newindex');
-            var apiClient = connectionManager.getApiClient(currentItem.ServerId);
+            const type = this.getAttribute('data-imagetype');
+            const index = this.getAttribute('data-index');
+            const newIndex = this.getAttribute('data-newindex');
+            const apiClient = connectionManager.getApiClient(currentItem.ServerId);
             moveImage(context, apiClient, currentItem.Id, type, index, newIndex, dom.parentWithClass(this, 'itemsContainer'));
         });
     }
 
     function showEditor(options, resolve, reject) {
-        var itemId = options.itemId;
-        var serverId = options.serverId;
+        const itemId = options.itemId;
+        const serverId = options.serverId;
 
         loading.show();
 
-        require(['text!./imageeditor.template.html'], function (template) {
-            var apiClient = connectionManager.getApiClient(serverId);
+        import('text!./imageeditor.template.html').then(({default: template}) => {
+            const apiClient = connectionManager.getApiClient(serverId);
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-                var dialogOptions = {
+                const dialogOptions = {
                     removeOnClose: true
                 };
 
@@ -423,7 +438,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                     dialogOptions.size = 'small';
                 }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+                const dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
 
@@ -461,13 +476,15 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         });
     }
 
-    return {
-        show: function (options) {
-            return new Promise(function (resolve, reject) {
-                hasChanges = false;
+export function show (options) {
+    return new Promise(function (resolve, reject) {
+        hasChanges = false;
+        showEditor(options, resolve, reject);
+    });
+}
 
-                showEditor(options, resolve, reject);
-            });
-        }
-    };
-});
+export default {
+    show
+};
+
+/* eslint-enable indent */

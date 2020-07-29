@@ -2,6 +2,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
     'use strict';
 
     loading = loading.default || loading;
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
 
     return function (view, params, tabContent) {
         function playAll() {
