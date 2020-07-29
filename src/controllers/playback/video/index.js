@@ -420,6 +420,7 @@ import 'css!assets/css/videoosd';
                 clearHideAnimationEventListeners(elem);
                 elem.classList.remove('hide');
                 elem.classList.remove('videoOsdBottom-hidden');
+                document.body.classList.remove('mouseIdle'); // Show Cursor On OSD Shown
 
                 if (!layoutManager.mobile) {
                     setTimeout(function () {
@@ -440,6 +441,7 @@ import 'css!assets/css/videoosd';
                 });
                 currentVisibleMenu = null;
                 toggleSubtitleSync('hide');
+                document.body.classList.add('mouseIdle'); // Hide Cursor On OSD Hided
 
                 // Firefox does not blur by itself
                 if (document.activeElement) {
