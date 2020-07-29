@@ -106,6 +106,7 @@
           "src/components/dialogHelper/dialogHelper.js",
           "src/components/directorybrowser/directorybrowser.js",
           "src/components/displaySettings/displaySettings.js",
+          "src/components/favoriteitems.js",
           "src/components/fetchhelper.js",
           "src/components/filterdialog/filterdialog.js",
           "src/components/groupedcards.js",
