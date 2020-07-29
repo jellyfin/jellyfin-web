@@ -640,10 +640,13 @@ function tryRemoveElement(elem) {
 
             // https://msdn.microsoft.com/en-us/library/hh772507(v=vs.85).aspx
 
+            /**
+             * @type {HTMLOptionsCollection|any[]}
+             */
             const elemAudioTracks = elem.audioTracks || [];
             console.debug(`found ${elemAudioTracks.length} audio tracks`);
 
-            for (const [i, audioTrack] of elemAudioTracks.entries()) {
+            for (const [i, audioTrack] of Array.from(elemAudioTracks).entries()) {
                 if (audioIndex === i) {
                     console.debug(`setting audio track ${i} to enabled`);
                     audioTrack.enabled = true;
