@@ -21,6 +21,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             screenfull.on('change', function () {
                 events.trigger(player, 'fullscreenchange');
             });
+        } else {
+            // iOS Safari
+            document.addEventListener('webkitfullscreenchange', function () {
+                events.trigger(player, 'fullscreenchange');
+            }, false);
         }
     }
 
@@ -1520,6 +1525,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return player.isFullscreen();
             }
 
+            if (!screenfull.isEnabled) {
+                // iOS Safari
+                return document.webkitIsFullScreen;
+            }
+
             return screenfull.isFullscreen;
         };
 
@@ -1532,6 +1542,16 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             if (screenfull.isEnabled) {
                 screenfull.toggle();
+            } else {
+                // iOS Safari
+                if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
+                    document.webkitCancelFullscreen();
+                } else {
+                    const elem = document.querySelector('video');
+                    if (elem && elem.webkitEnterFullscreen) {
+                        elem.webkitEnterFullscreen();
+                    }
+                }
             }
         };
 
