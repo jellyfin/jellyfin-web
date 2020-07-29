@@ -5,7 +5,6 @@ import inputManager from 'inputManager';
 import loading from 'loading';
 import cardBuilder from 'cardBuilder';
 import dom from 'dom';
-import appHost from 'apphost';
 import imageLoader from 'imageLoader';
 import libraryMenu from 'libraryMenu';
 import mainTabsManager from 'mainTabsManager';
