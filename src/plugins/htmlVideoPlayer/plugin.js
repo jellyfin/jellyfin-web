@@ -638,7 +638,7 @@ function tryRemoveElement(elem) {
                 return;
             }
 
-            // https://msdn.microsoft.com/en-us/library/hh772507(v=vs.85).aspx
+            // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/audioTracks
 
             /**
              * @type {ArrayLike<any>|any[]}
