@@ -18,7 +18,7 @@ import 'css!./imageeditor';
 /* eslint-disable indent */
 
     const enableFocusTransform = !browser.slow && !browser.edge;
-  
+
     loading = loading.default || loading;
 
     let currentItem;
