@@ -641,7 +641,7 @@ function tryRemoveElement(elem) {
             // https://msdn.microsoft.com/en-us/library/hh772507(v=vs.85).aspx
 
             /**
-             * @type {HTMLOptionsCollection|any[]}
+             * @type {ArrayLike<any>|any[]}
              */
             const elemAudioTracks = elem.audioTracks || [];
             console.debug(`found ${elemAudioTracks.length} audio tracks`);
