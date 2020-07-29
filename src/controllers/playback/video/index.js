@@ -1131,6 +1131,7 @@ import 'css!assets/css/videoosd';
             clickedElement = e.target;
 
             const key = keyboardnavigation.getKeyName(e);
+            const isKeyModified = e.ctrlKey || e.altKey;
 
             if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
@@ -1235,8 +1236,10 @@ import 'css!assets/css/videoosd';
                 case '7':
                 case '8':
                 case '9': {
-                    const percent = parseInt(key, 10) * 10;
-                    playbackManager.seekPercent(percent, currentPlayer);
+                    if (!isKeyModified) {
+                        const percent = parseInt(key, 10) * 10;
+                        playbackManager.seekPercent(percent, currentPlayer);
+                    }
                     break;
                 }
             }
