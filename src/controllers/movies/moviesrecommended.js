@@ -388,9 +388,8 @@ import 'emby-button';
             }
         }
 
-        var self = this;
-        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        var suggestionsTabIndex = 1;
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        const suggestionsTabIndex = 1;
 
         this.initTab = function () {
             let tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
