@@ -143,10 +143,10 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                         }
                     }
                 }
-                if (item.Album != null){
-                    albumName = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + item.Album + `</a>`;
+                if (item.Album != null) {
+                    albumName = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.AlbumId + '&serverId=${nowPlayingServerId}">' + item.Album + '</a>';
                 }
-                context.querySelector('.nowPlayingAlbum').innerHTML = albumName
+                context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
                 context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
                 context.querySelector('.nowPlayingSongName').innerHTML = songName;
             } else if (item.Type == 'Episode') {
