@@ -7,8 +7,6 @@ import * as userSettings from 'userSettings';
 import globalize from 'globalize';
 import 'emby-itemscontainer';
 
-libraryBrowser = libraryBrowser.default || libraryBrowser;
-
 /* eslint-disable indent */
 
     export default function (view, params, tabContent) {
