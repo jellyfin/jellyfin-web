@@ -157,5 +157,10 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
     events.on(layoutManager, 'modechange', initMouse);
 
+    // Make Both Idle Class Functions And Last Mouse Input Time Accessible
+    self.addIdleClasses = addIdleClasses;
+    self.removeIdleClasses = removeIdleClasses;
+    self.lastMouseInputTime = lastMouseInputTime;
+
     return self;
 });

@@ -1,6 +1,7 @@
 import playbackManager from 'playbackManager';
 import dom from 'dom';
 import inputManager from 'inputManager';
+import mouseManager from 'mouseManager';
 import datetime from 'datetime';
 import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
@@ -421,6 +422,9 @@ import 'css!assets/css/videoosd';
                 elem.classList.remove('hide');
                 elem.classList.remove('videoOsdBottom-hidden');
 
+                mouseManager.removeIdleClasses(); // Remove Idle Classes To Show Cursor
+                mouseManager.lastMouseInputTime = new Date().getTime(); // Reset Mouse Input Time
+
                 if (!layoutManager.mobile) {
                     setTimeout(function () {
                         focusManager.focus(elem.querySelector('.btnPause'));
@@ -435,6 +439,9 @@ import 'css!assets/css/videoosd';
                 const elem = osdBottomElement;
                 clearHideAnimationEventListeners(elem);
                 elem.classList.add('videoOsdBottom-hidden');
+
+                mouseManager.addIdleClasses(); // Add Idle Classes To Hide Cursor
+
                 dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                     once: true
                 });
