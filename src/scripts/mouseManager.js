@@ -31,6 +31,22 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         }
     }
 
+    function showCursor() {
+        if (isMouseIdle) {
+            isMouseIdle = false;
+            removeIdleClasses();
+            events.trigger(self, 'mouseactive');
+        }
+    }
+
+    function hideCursor() {
+        if (!isMouseIdle) {
+            isMouseIdle = true;
+            addIdleClasses();
+            events.trigger(self, 'mouseidle');
+        }
+    }
+
     var lastPointerMoveData;
     function onPointerMove(e) {
         var eventX = e.screenX;
@@ -61,11 +77,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         lastMouseInputTime = new Date().getTime();
         notifyApp();
 
-        if (isMouseIdle) {
-            isMouseIdle = false;
-            removeIdleClasses();
-            events.trigger(self, 'mouseactive');
-        }
+        showCursor();
     }
 
     function onPointerEnter(e) {
@@ -99,9 +111,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
     function onMouseInterval() {
         if (!isMouseIdle && mouseIdleTime() >= 5000) {
-            isMouseIdle = true;
-            addIdleClasses();
-            events.trigger(self, 'mouseidle');
+            hideCursor();
         }
     }
 
@@ -156,6 +166,9 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     initMouse();
 
     events.on(layoutManager, 'modechange', initMouse);
+
+    self.hideCursor = hideCursor;
+    self.showCursor = showCursor;
 
     return self;
 });

@@ -1,6 +1,7 @@
 import playbackManager from 'playbackManager';
 import dom from 'dom';
 import inputManager from 'inputManager';
+import mouseManager from 'mouseManager';
 import datetime from 'datetime';
 import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
@@ -367,6 +368,7 @@ import 'css!assets/css/videoosd';
         function hideOsd() {
             slideUpToHide(headerElement);
             hideMainOsdControls();
+            mouseManager.hideCursor();
         }
 
         function toggleOsd() {
@@ -435,6 +437,7 @@ import 'css!assets/css/videoosd';
                 const elem = osdBottomElement;
                 clearHideAnimationEventListeners(elem);
                 elem.classList.add('videoOsdBottom-hidden');
+
                 dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                     once: true
                 });
