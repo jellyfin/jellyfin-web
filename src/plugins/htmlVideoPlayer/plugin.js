@@ -1073,7 +1073,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return avaliableFonts.push(i.DeliveryUrl);
             });
             var apiClient = connectionManager.getApiClient(item);
-            var fallbackFontList = apiClient.getUrl('/FallbackFont/FontList', {
+            var fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
                 api_key: apiClient.accessToken()
             });
             var options = {
@@ -1104,8 +1104,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     if (config.EnableFallbackFont) {
                         apiClient.getJSON(fallbackFontList).then(function (fontFiles) {
                             (fontFiles || []).map(function (font) {
-                                var fontUrl = apiClient.getUrl('/FallbackFont/Font', {
-                                    name: font.Name,
+                                var fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
                                     api_key: apiClient.accessToken()
                                 });
                                 return avaliableFonts.push(fontUrl);
