@@ -3,7 +3,7 @@ import layoutManager from 'layoutManager';
 import inputManager from 'inputManager';
 import * as userSettings from 'userSettings';
 import libraryMenu from 'libraryMenu';
-import mainTabsManager from 'mainTabsManager';
+import * as mainTabsManager from 'mainTabsManager';
 import cardBuilder from 'cardBuilder';
 import dom from 'dom';
 import imageLoader from 'imageLoader';
