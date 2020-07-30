@@ -73,7 +73,7 @@ import 'emby-itemscontainer';
             const viewStyle = self.getCurrentViewStyle();
             const itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ('List' == viewStyle) {
+            if (viewStyle == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {

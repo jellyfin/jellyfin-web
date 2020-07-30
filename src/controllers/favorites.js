@@ -147,11 +147,11 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
             options.Limit = 20;
             var userId = apiClient.getCurrentUserId();
 
-            if ('MusicArtist' === section.types) {
+            if (section.types === 'MusicArtist') {
                 return apiClient.getArtists(userId, options);
             }
 
-            if ('Person' === section.types) {
+            if (section.types === 'Person') {
                 return apiClient.getPeople(userId, options);
             }
 
@@ -198,7 +198,7 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
                 preferThumb: section.preferThumb,
                 shape: section.shape,
                 centerText: section.centerText && !cardLayout,
-                overlayText: false !== section.overlayText,
+                overlayText: section.overlayText !== false,
                 showTitle: section.showTitle,
                 showYear: section.showYear,
                 showParentTitle: section.showParentTitle,

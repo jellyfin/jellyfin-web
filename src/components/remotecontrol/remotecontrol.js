@@ -48,7 +48,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         menuItems.unshift({
             id: -1,
             name: globalize.translate('ButtonOff'),
-            selected: null == currentIndex
+            selected: currentIndex == null
         });
 
         require(['actionsheet'], function (actionsheet) {
@@ -69,18 +69,18 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
     }
 
     function seriesImageUrl(item, options) {
-        if ('Episode' !== item.Type) {
+        if (item.Type !== 'Episode') {
             return null;
         }
 
         options = options || {};
         options.type = options.type || 'Primary';
-        if ('Primary' === options.type && item.SeriesPrimaryImageTag) {
+        if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
-        if ('Thumb' === options.type) {
+        if (options.type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
@@ -210,7 +210,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 backdrop.setBackdrops([item]);
                 apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
                     var userData = fullItem.UserData || {};
-                    var likes = null == userData.Likes ? '' : userData.Likes;
+                    var likes = userData.Likes == null ? '' : userData.Likes;
                     context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
                     context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
                 });
@@ -251,7 +251,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         var all = context.querySelectorAll('.btnCommand');
 
         for (var i = 0, length = all.length; i < length; i++) {
-            var enableButton = -1 !== commands.indexOf(all[i].getAttribute('data-command'));
+            var enableButton = commands.indexOf(all[i].getAttribute('data-command')) !== -1;
             all[i].disabled = !enableButton;
         }
     }
@@ -278,7 +278,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             currentPlayerSupportedCommands = supportedCommands;
             var playState = state.PlayState || {};
             var isSupportedCommands = supportedCommands.includes('DisplayMessage') || supportedCommands.includes('SendString') || supportedCommands.includes('Select');
-            buttonVisible(context.querySelector('.btnToggleFullscreen'), item && 'Video' == item.MediaType && supportedCommands.includes('ToggleFullscreen'));
+            buttonVisible(context.querySelector('.btnToggleFullscreen'), item && item.MediaType == 'Video' && supportedCommands.includes('ToggleFullscreen'));
             updateAudioTracksDisplay(player, context);
             updateSubtitleTracksDisplay(player, context);
 
@@ -306,15 +306,15 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 context.querySelector('.remoteControlSection').classList.add('hide');
             }
 
-            buttonVisible(context.querySelector('.btnStop'), null != item);
-            buttonVisible(context.querySelector('.btnNextTrack'), null != item);
-            buttonVisible(context.querySelector('.btnPreviousTrack'), null != item);
+            buttonVisible(context.querySelector('.btnStop'), item != null);
+            buttonVisible(context.querySelector('.btnNextTrack'), item != null);
+            buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
             if (layoutManager.mobile) {
                 buttonVisible(context.querySelector('.btnRewind'), false);
                 buttonVisible(context.querySelector('.btnFastForward'), false);
             } else {
-                buttonVisible(context.querySelector('.btnRewind'), null != item);
-                buttonVisible(context.querySelector('.btnFastForward'), null != item);
+                buttonVisible(context.querySelector('.btnRewind'), item != null);
+                buttonVisible(context.querySelector('.btnFastForward'), item != null);
             }
             var positionSlider = context.querySelector('.nowPlayingPositionSlider');
 
@@ -325,15 +325,15 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
             if (positionSlider && !positionSlider.dragging) {
                 positionSlider.disabled = !playState.CanSeek;
-                var isProgressClear = state.MediaSource && null == state.MediaSource.RunTimeTicks;
+                var isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
                 positionSlider.setIsClear(isProgressClear);
             }
 
-            updatePlayPauseState(playState.IsPaused, null != item);
+            updatePlayPauseState(playState.IsPaused, item != null);
             updateTimeDisplay(playState.PositionTicks, item ? item.RunTimeTicks : null);
             updatePlayerVolumeState(context, playState.IsMuted, playState.VolumeLevel);
 
-            if (item && 'Video' == item.MediaType) {
+            if (item && item.MediaType == 'Video') {
                 context.classList.remove('hideVideoButtons');
             } else {
                 context.classList.add('hideVideoButtons');
@@ -346,12 +346,12 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
 
         function updateAudioTracksDisplay(player, context) {
             var supportedCommands = currentPlayerSupportedCommands;
-            buttonVisible(context.querySelector('.btnAudioTracks'), playbackManager.audioTracks(player).length > 1 && -1 != supportedCommands.indexOf('SetAudioStreamIndex'));
+            buttonVisible(context.querySelector('.btnAudioTracks'), playbackManager.audioTracks(player).length > 1 && supportedCommands.indexOf('SetAudioStreamIndex') != -1);
         }
 
         function updateSubtitleTracksDisplay(player, context) {
             var supportedCommands = currentPlayerSupportedCommands;
-            buttonVisible(context.querySelector('.btnSubtitles'), playbackManager.subtitleTracks(player).length && -1 != supportedCommands.indexOf('SetSubtitleStreamIndex'));
+            buttonVisible(context.querySelector('.btnSubtitles'), playbackManager.subtitleTracks(player).length && supportedCommands.indexOf('SetSubtitleStreamIndex') != -1);
         }
 
         function updateRepeatModeDisplay(repeatMode) {
@@ -383,11 +383,11 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             var view = context;
             var supportedCommands = currentPlayerSupportedCommands;
 
-            if (-1 === supportedCommands.indexOf('Mute')) {
+            if (supportedCommands.indexOf('Mute') === -1) {
                 showMuteButton = false;
             }
 
-            if (-1 === supportedCommands.indexOf('SetVolume')) {
+            if (supportedCommands.indexOf('SetVolume') === -1) {
                 showVolumeSlider = false;
             }
 
@@ -452,8 +452,8 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 }
             }
 
-            context.querySelector('.positionTime').innerHTML = null == positionTicks ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
-            context.querySelector('.runtime').innerHTML = null != runtimeTicks ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
+            context.querySelector('.positionTime').innerHTML = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+            context.querySelector('.runtime').innerHTML = runtimeTicks != null ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
         }
 
         function getPlaylistItems(player) {

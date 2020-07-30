@@ -50,7 +50,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             var viewStyle = self.getCurrentViewStyle();
             var itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ('List' == viewStyle) {
+            if (viewStyle == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {

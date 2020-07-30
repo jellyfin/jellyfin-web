@@ -21,7 +21,7 @@ import connectionManager from 'connectionManager';
 
         if (!actionableParent || actionableParent.classList.contains('cardContent')) {
             apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-                if (1 === items.length) {
+                if (items.length === 1) {
                     return void appRouter.showItem(items[0]);
                 }
 
