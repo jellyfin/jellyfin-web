@@ -31,6 +31,18 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         }
     }
 
+    function showCursor() {
+        isMouseIdle = false;
+        removeIdleClasses();
+        events.trigger(self, 'mouseactive');
+    }
+
+    function hideCursor() {
+        isMouseIdle = true;
+        addIdleClasses();
+        events.trigger(self, 'mouseidle');
+    }
+
     var lastPointerMoveData;
     function onPointerMove(e) {
         var eventX = e.screenX;
@@ -62,9 +74,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         notifyApp();
 
         if (isMouseIdle) {
-            isMouseIdle = false;
-            removeIdleClasses();
-            events.trigger(self, 'mouseactive');
+            showCursor();
         }
     }
 
@@ -99,9 +109,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
     function onMouseInterval() {
         if (!isMouseIdle && mouseIdleTime() >= 5000) {
-            isMouseIdle = true;
-            addIdleClasses();
-            events.trigger(self, 'mouseidle');
+            hideCursor();
         }
     }
 
@@ -157,10 +165,8 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
     events.on(layoutManager, 'modechange', initMouse);
 
-    // Make Both Idle Class Functions And Last Mouse Input Time Accessible
-    self.addIdleClasses = addIdleClasses;
-    self.removeIdleClasses = removeIdleClasses;
-    self.lastMouseInputTime = lastMouseInputTime;
+    self.hideCursor = hideCursor;
+    self.showCursor = showCursor;
 
     return self;
 });
