@@ -148,6 +148,7 @@
           "src/components/prompt/prompt.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
+          "src/plugins/htmlVideoPlayer/plugin.js",
           "src/components/search/searchfields.js",
           "src/components/search/searchresults.js",
           "src/components/settingshelper.js",
