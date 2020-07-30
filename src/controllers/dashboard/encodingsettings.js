@@ -59,7 +59,7 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
                 config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
                 config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();
                 config.FallbackFontPath = form.querySelector('#txtFallbackFontPath').value;
-                config.EnableFallbackFont = form.querySelector('#chkEnableFallbackFont').checked;
+                config.EnableFallbackFont = form.querySelector('#txtFallbackFontPath').value && form.querySelector('#chkEnableFallbackFont').checked;
                 config.EncodingThreadCount = $('#selectThreadCount', form).val();
                 config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
                 config.VaapiDevice = $('#txtVaapiDevice', form).val();
