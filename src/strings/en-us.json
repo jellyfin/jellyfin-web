@@ -1569,7 +1569,7 @@
     "HeaderSelectFallbackFontPath" : "Select Fallback Font Folder Path",
     "HeaderSelectFallbackFontPathHelp": "Browse or enter the path of the fallback font folder to use for rendering ASS/SSA subtitles.",
     "LabelFallbackFontPath": "Fallback font folder path:",
-    "LabelFallbackFontPathHelp": "Specify a path containing fallback font for rendering ASS/SSA subtitles. The maximum allowed total font size is 20 Megabytes. It is recommended to use the lightweight and web-friendly woff2 format font. Leave it blank unless the font is rendered incorrectly.",
+    "LabelFallbackFontPathHelp": "Specify a path containing fallback fonts for rendering ASS/SSA subtitles. The maximum allowed total font size is 20 MB. Lightweight and web-friendly font formats such as woff2 are recommended.",
     "EnableFallbackFont" : "Enable fallback fonts",
     "EnableFallbackFontHelp" : "Enable custom alternate fonts. This can avoid the problem of incorrect subtitle rendering."
 }
