@@ -1200,7 +1200,7 @@ function tryRemoveElement(elem) {
                     console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
                     const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
-                    const cueLine = parseInt(subtitleAppearance.verticalPosition);
+                    const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
 
                     // add some cues to show the text
                     // in safari, the cues need to be added before setting the track mode to showing
