@@ -1035,7 +1035,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         renderSsaAss(videoElement, track, item) {
-            const avaliableFonts = new Array();
+            const avaliableFonts = [];
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
             attachments.map(function (i) {
                 // embedded font url
