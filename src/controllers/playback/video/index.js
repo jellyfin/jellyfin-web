@@ -368,6 +368,7 @@ import 'css!assets/css/videoosd';
         function hideOsd() {
             slideUpToHide(headerElement);
             hideMainOsdControls();
+            mouseManager.hideCursor();
         }
 
         function toggleOsd() {
@@ -436,8 +437,6 @@ import 'css!assets/css/videoosd';
                 const elem = osdBottomElement;
                 clearHideAnimationEventListeners(elem);
                 elem.classList.add('videoOsdBottom-hidden');
-
-                mouseManager.hideCursor();
 
                 dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                     once: true
