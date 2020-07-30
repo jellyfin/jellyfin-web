@@ -1582,7 +1582,7 @@
     "HeaderSelectFallbackFontPath" : "选择备用字体路径",
     "HeaderSelectFallbackFontPathHelp": "浏览或输入一个包含备用字体文件的路径用于渲染 ASS/SSA 字幕。",
     "LabelFallbackFontPath": "备用字体文件路径：",
-    "LabelFallbackFontPathHelp": "指定一个包含备用字体文件的路径用于渲染 ASS/SSA 字幕。允许的最大字体总容量为 20 MB。推荐使用轻量且适合网络传输的 woff2 格式字体。除非字体显示不正确，否则将其留空。",
+    "LabelFallbackFontPathHelp": "指定一个包含备用字体文件的路径用于渲染 ASS/SSA 字幕。允许的最大字体总容量为 20 MB。推荐使用轻量且适合网络传输的字体，例如 woff2。",
     "EnableFallbackFont" : "启用备用字体",
     "EnableFallbackFontHelp" : "使用自定义的备用字体。这可以避免一些字幕渲染不正确的问题。"
 }
