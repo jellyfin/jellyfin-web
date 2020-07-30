@@ -32,15 +32,19 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function showCursor() {
-        isMouseIdle = false;
-        removeIdleClasses();
-        events.trigger(self, 'mouseactive');
+        if (isMouseIdle) {
+            isMouseIdle = false;
+            removeIdleClasses();
+            events.trigger(self, 'mouseactive');
+        }
     }
 
     function hideCursor() {
-        isMouseIdle = true;
-        addIdleClasses();
-        events.trigger(self, 'mouseidle');
+        if (!isMouseIdle) {
+            isMouseIdle = true;
+            addIdleClasses();
+            events.trigger(self, 'mouseidle');
+        }
     }
 
     var lastPointerMoveData;
@@ -73,9 +77,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         lastMouseInputTime = new Date().getTime();
         notifyApp();
 
-        if (isMouseIdle) {
-            showCursor();
-        }
+        showCursor();
     }
 
     function onPointerEnter(e) {
