@@ -1,9 +1,7 @@
 import layoutManager from 'layoutManager';
 import loading from 'loading';
 import datetime from 'datetime';
-import libraryBrowser from 'libraryBrowser';
 import cardBuilder from 'cardBuilder';
-import appHost from 'apphost';
 import imageLoader from 'imageLoader';
 import globalize from 'globalize';
 import 'scrollStyles';
@@ -106,8 +104,6 @@ import 'emby-itemscontainer';
                 html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
             }
 
-            let supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
             html += cardBuilder.getCardsHtml({
                 items: group.items,
                 showLocationTypeIndicator: false,
@@ -116,11 +112,11 @@ import 'emby-itemscontainer';
                 preferThumb: true,
                 lazy: true,
                 showDetailsMenu: true,
-                centerText: !supportsImageAnalysis,
+                centerText: true,
                 showParentTitle: true,
                 overlayText: false,
                 allowBottomPadding: allowBottomPadding,
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 overlayMoreButton: true,
                 missingIndicator: false
             });

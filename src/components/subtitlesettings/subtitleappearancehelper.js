@@ -4,7 +4,6 @@
  */
 
 function getTextStyles(settings, preview) {
-
     let list = [];
 
     switch (settings.textSize || '') {
@@ -30,7 +29,6 @@ function getTextStyles(settings, preview) {
     }
 
     switch (settings.dropShadow || '') {
-
         case 'raised':
             list.push({ name: 'text-shadow', value: '-1px -1px white, 0px -1px white, -1px 0px white, 1px 1px black, 0px 1px black, 1px 0px black' });
             break;
@@ -60,7 +58,6 @@ function getTextStyles(settings, preview) {
     }
 
     switch (settings.font || '') {
-
         case 'typewriter':
             list.push({ name: 'font-family', value: '"Courier New",monospace' });
             list.push({ name: 'font-variant', value: 'none' });
@@ -125,7 +122,6 @@ function getWindowStyles(settings, preview) {
 }
 
 export function getStyles(settings, preview) {
-
     return {
         text: getTextStyles(settings, preview),
         window: getWindowStyles(settings, preview)
@@ -133,9 +129,7 @@ export function getStyles(settings, preview) {
 }
 
 function applyStyleList(styles, elem) {
-
     for (let i = 0, length = styles.length; i < length; i++) {
-
         let style = styles[i];
 
         elem.style[style.name] = style.value;
@@ -143,7 +137,6 @@ function applyStyleList(styles, elem) {
 }
 
 export function applyStyles(elements, appearanceSettings) {
-
     let styles = getStyles(appearanceSettings, !!elements.preview);
 
     if (elements.text) {

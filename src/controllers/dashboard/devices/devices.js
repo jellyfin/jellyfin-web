@@ -1,6 +1,5 @@
 import loading from 'loading';
 import dom from 'dom';
-import libraryMenu from 'libraryMenu';
 import globalize from 'globalize';
 import imageHelper from 'scripts/imagehelper';
 import * as datefns from 'date-fns';

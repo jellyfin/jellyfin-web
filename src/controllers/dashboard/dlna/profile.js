@@ -257,7 +257,6 @@ import 'listViewStyle';
         let currentType;
 
         for (const [index, profile] of profiles.entries()) {
-
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + '</li>';
                 currentType = profile.Type;

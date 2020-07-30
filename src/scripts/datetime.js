@@ -3,7 +3,6 @@ import globalize from 'globalize';
 /* eslint-disable indent */
 
     export function parseISO8601Date(s, toLocal) {
-
         // parenthese matches:
         // year month day    hours minutes seconds
         // dotmilliseconds
@@ -20,7 +19,6 @@ import globalize from 'globalize';
         //     "00", "00", ".000", "Z", undefined, undefined, undefined]
 
         if (!d) {
-
             throw "Couldn't parse ISO 8601 date string '" + s + "'";
         }
 
@@ -106,7 +104,6 @@ import globalize from 'globalize';
     }();
 
     function getOptionList(options) {
-
         const list = [];
 
         for (const i in options) {
@@ -120,7 +117,6 @@ import globalize from 'globalize';
     }
 
     export function toLocaleString(date, options) {
-
         if (!date) {
             throw new Error('date cannot be null');
         }
@@ -128,7 +124,6 @@ import globalize from 'globalize';
         options = options || {};
 
         if (toLocaleTimeStringSupportsLocales) {
-
             const currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
@@ -140,7 +135,6 @@ import globalize from 'globalize';
     }
 
     export function toLocaleDateString(date, options) {
-
         if (!date) {
             throw new Error('date cannot be null');
         }
@@ -148,7 +142,6 @@ import globalize from 'globalize';
         options = options || {};
 
         if (toLocaleTimeStringSupportsLocales) {
-
             const currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
@@ -174,7 +167,6 @@ import globalize from 'globalize';
     }
 
     export function toLocaleTimeString(date, options) {
-
         if (!date) {
             throw new Error('date cannot be null');
         }
@@ -182,7 +174,6 @@ import globalize from 'globalize';
         options = options || {};
 
         if (toLocaleTimeStringSupportsLocales) {
-
             const currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
@@ -194,16 +185,13 @@ import globalize from 'globalize';
     }
 
     export function getDisplayTime(date) {
-
         if (!date) {
             throw new Error('date cannot be null');
         }
 
         if ((typeof date).toString().toLowerCase() === 'string') {
             try {
-
                 date = parseISO8601Date(date, true);
-
             } catch (err) {
                 return date;
             }
@@ -223,7 +211,6 @@ import globalize from 'globalize';
         const timeLower = time.toLowerCase();
 
         if (timeLower.indexOf('am') !== -1 || timeLower.indexOf('pm') !== -1) {
-
             time = timeLower;
             let hour = date.getHours() % 12;
             const suffix = date.getHours() > 11 ? 'pm' : 'am';
@@ -239,12 +226,10 @@ import globalize from 'globalize';
             minutes = ':' + minutes;
             time = hour + minutes + suffix;
         } else {
-
             const timeParts = time.split(':');
 
             // Trim off seconds
             if (timeParts.length > 2) {
-
                 // setting to 2 also handles '21:00:28 GMT+9:30'
                 timeParts.length = 2;
                 time = timeParts.join(':');
@@ -255,7 +240,6 @@ import globalize from 'globalize';
     }
 
     export function isRelativeDay(date, offsetInDays) {
-
         if (!date) {
             throw new Error('date cannot be null');
         }

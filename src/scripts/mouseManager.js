@@ -11,12 +11,10 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function notifyApp() {
-
         inputManager.notifyMouseMove();
     }
 
     function removeIdleClasses() {
-
         var classList = document.body.classList;
 
         classList.remove('mouseIdle');
@@ -24,7 +22,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function addIdleClasses() {
-
         var classList = document.body.classList;
 
         classList.add('mouseIdle');
@@ -36,7 +33,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
     var lastPointerMoveData;
     function onPointerMove(e) {
-
         var eventX = e.screenX;
         var eventY = e.screenY;
 
@@ -73,7 +69,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function onPointerEnter(e) {
-
         var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
         if (pointerType === 'mouse') {
@@ -87,7 +82,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function enableFocusWithMouse() {
-
         if (!layoutManager.tv) {
             return false;
         }
@@ -104,7 +98,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function onMouseInterval() {
-
         if (!isMouseIdle && mouseIdleTime() >= 5000) {
             isMouseIdle = true;
             addIdleClasses();
@@ -114,14 +107,12 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
     var mouseInterval;
     function startMouseInterval() {
-
         if (!mouseInterval) {
             mouseInterval = setInterval(onMouseInterval, 5000);
         }
     }
 
     function stopMouseInterval() {
-
         var interval = mouseInterval;
 
         if (interval) {
@@ -133,7 +124,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function initMouse() {
-
         stopMouseInterval();
 
         /* eslint-disable-next-line compat/compat */

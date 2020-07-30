@@ -18,7 +18,6 @@ import 'webcomponents';
 
     function onClick(e) {
         const itemsContainer = this;
-        const target = e.target;
         let multiSelect = itemsContainer.multiSelect;
 
         if (multiSelect) {
@@ -148,7 +147,6 @@ import 'webcomponents';
     };
 
     function onUserDataChanged(e, apiClient, userData) {
-
         const itemsContainer = this;
 
         import('cardBuilder').then(({default: cardBuilder}) => {
@@ -175,7 +173,6 @@ import 'webcomponents';
     }
 
     function onTimerCreated(e, apiClient, data) {
-
         const itemsContainer = this;
 
         if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
@@ -361,7 +358,6 @@ import 'webcomponents';
 
         let refreshIntervalEndTime = this.refreshIntervalEndTime;
         if (refreshIntervalEndTime) {
-
             const remainingMs = refreshIntervalEndTime - new Date().getTime();
             if (remainingMs > 0 && !this.needsRefresh) {
                 resetRefreshInterval(this, remainingMs);

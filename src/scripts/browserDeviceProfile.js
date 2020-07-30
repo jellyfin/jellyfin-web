@@ -144,6 +144,10 @@ define(['browser'], function (browser) {
             return true;
         }
 
+        if (browser.edgeChromium && browser.windows) {
+            return true;
+        }
+
         if (browser.edgeUwp) {
             return true;
         }
@@ -210,7 +214,7 @@ define(['browser'], function (browser) {
                 supported = browser.tizen;
                 break;
             case 'mov':
-                supported = browser.tizen || browser.web0s || browser.chrome || browser.edgeUwp;
+                supported = browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
                 videoCodecs.push('h264');
                 break;
             case 'm2ts':
@@ -323,7 +327,6 @@ define(['browser'], function (browser) {
         // Otherwise with HLS and mp3 audio we're seeing some browsers
         // safari is lying
         if (supportsAc3(videoTestElement)) {
-
             videoAudioCodecs.push('ac3');
 
             var eAc3 = supportsEac3(videoTestElement);
@@ -505,7 +508,6 @@ define(['browser'], function (browser) {
         });
 
         ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
-
             if (audioFormat === 'mp2') {
                 profile.DirectPlayProfiles.push({
                     Container: 'mp2,mp3',
@@ -703,40 +705,35 @@ define(['browser'], function (browser) {
 
         if (browser.tizen ||
             videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
-
             // These tests are passing in safari, but playback is failing
             if (!browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile) {
                 h264Profiles += '|high 10';
             }
         }
 
-        profile.CodecProfiles.push({
-            Type: 'Video',
-            Codec: 'h264',
-            Conditions: [
-                {
-                    Condition: 'NotEquals',
-                    Property: 'IsAnamorphic',
-                    Value: 'true',
-                    IsRequired: false
-                },
-                {
-                    Condition: 'EqualsAny',
-                    Property: 'VideoProfile',
-                    Value: h264Profiles,
-                    IsRequired: false
-                },
-                {
-                    Condition: 'LessThanEqual',
-                    Property: 'VideoLevel',
-                    Value: maxH264Level.toString(),
-                    IsRequired: false
-                }
-            ]
-        });
+        const h264CodecProfileConditions = [
+            {
+                Condition: 'NotEquals',
+                Property: 'IsAnamorphic',
+                Value: 'true',
+                IsRequired: false
+            },
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoProfile',
+                Value: h264Profiles,
+                IsRequired: false
+            },
+            {
+                Condition: 'LessThanEqual',
+                Property: 'VideoLevel',
+                Value: maxH264Level.toString(),
+                IsRequired: false
+            }
+        ];
 
         if (!browser.edgeUwp && !browser.tizen && !browser.web0s) {
-            profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
+            h264CodecProfileConditions.push({
                 Condition: 'NotEquals',
                 Property: 'IsInterlaced',
                 Value: 'true',
@@ -745,7 +742,7 @@ define(['browser'], function (browser) {
         }
 
         if (maxVideoWidth) {
-            profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
+            h264CodecProfileConditions.push({
                 Condition: 'LessThanEqual',
                 Property: 'Width',
                 Value: maxVideoWidth.toString(),
@@ -758,13 +755,40 @@ define(['browser'], function (browser) {
         var h264MaxVideoBitrate = globalMaxVideoBitrate;
 
         if (h264MaxVideoBitrate) {
-            profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
+            h264CodecProfileConditions.push({
                 Condition: 'LessThanEqual',
                 Property: 'VideoBitrate',
                 Value: h264MaxVideoBitrate,
                 IsRequired: true
             });
         }
+
+        // On iOS 12.x, for TS container max h264 level is 4.2
+        if (browser.iOS && browser.iOSVersion < 13) {
+            const codecProfile = {
+                Type: 'Video',
+                Codec: 'h264',
+                Container: 'ts',
+                Conditions: h264CodecProfileConditions.filter((condition) => {
+                    return condition.Property !== 'VideoLevel';
+                })
+            };
+
+            codecProfile.Conditions.push({
+                Condition: 'LessThanEqual',
+                Property: 'VideoLevel',
+                Value: '42',
+                IsRequired: false
+            });
+
+            profile.CodecProfiles.push(codecProfile);
+        }
+
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Codec: 'h264',
+            Conditions: h264CodecProfileConditions
+        });
 
         var globalVideoConditions = [];
 

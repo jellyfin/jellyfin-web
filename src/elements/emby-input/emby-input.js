@@ -11,7 +11,6 @@ import 'webcomponents';
     let supportsFloatingLabel = false;
 
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-
         const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
 
         // descriptor returning null in webos
@@ -94,16 +93,13 @@ import 'webcomponents';
                 }
             }
         }
-
     };
 
     function onChange() {
-
         const label = this.labelElement;
         if (this.value) {
             label.classList.remove('inputLabel-float');
         } else {
-
             const instanceSupportsFloat = supportsFloatingLabel && this.type !== 'date' && this.type !== 'time';
 
             if (instanceSupportsFloat) {

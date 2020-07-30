@@ -155,101 +155,11 @@ import 'flexStyles';
         page.querySelector('.localUsers').innerHTML = getUserSectionHtml(users, true);
     }
 
-    function showPendingUserMenu(elem) {
-        const menuItems = [];
-        menuItems.push({
-            name: globalize.translate('ButtonCancel'),
-            id: 'delete',
-            icon: 'delete'
-        });
-
-        import('actionsheet').then(({default: actionsheet}) => {
-            const card = dom.parentWithClass(elem, 'card');
-            const page = dom.parentWithClass(card, 'page');
-            const id = card.getAttribute('data-id');
-            actionsheet.show({
-                items: menuItems,
-                positionTo: card,
-                callback: function (menuItemId) {
-                    switch (menuItemId) {
-                        case 'delete':
-                            cancelAuthorization(page, id);
-                    }
-                }
-            });
-        });
-    }
-
-    function getPendingUserHtml(user) {
-        let html = '';
-        html += "<div data-id='" + user.Id + "' class='card squareCard scalableCard squareCard-scalable'>";
-        html += '<div class="cardBox cardBox-bottompadded visualCardBox">';
-        html += '<div class="cardScalable visualCardBox-cardScalable">';
-        html += '<div class="cardPadder cardPadder-square"></div>';
-        html += '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="#">';
-
-        if (user.ImageUrl) {
-            html += '<div class="cardImage" style="background-image:url(\'' + user.ImageUrl + "');\">";
-            html += '</div>';
-        } else {
-            html += '<span class="cardImageIcon material-icons person"></span>';
-        }
-
-        html += '</a>';
-        html += '</div>';
-        html += '<div class="cardFooter visualCardBox-cardFooter">';
-        html += '<div class="cardText" style="text-align:right; float:right;padding:0;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu"><span class="material-icons more_vert"></span></button>';
-        html += '</div>';
-        html += '<div class="cardText" style="padding-top:10px;padding-bottom:10px;">';
-        html += user.UserName;
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-        return html + '</div>';
-    }
-
-    function renderPendingGuests(page, users) {
-        if (users.length) {
-            page.querySelector('.sectionPendingGuests').classList.remove('hide');
-        } else {
-            page.querySelector('.sectionPendingGuests').classList.add('hide');
-        }
-
-        page.querySelector('.pending').innerHTML = users.map(getPendingUserHtml).join('');
-    }
-
-    // TODO cvium: maybe reuse for invitation system
-    function cancelAuthorization(page, id) {
-        loading.show();
-        ApiClient.ajax({
-            type: 'DELETE',
-            url: ApiClient.getUrl('Connect/Pending', {
-                Id: id
-            })
-        }).then(function () {
-            loadData(page);
-        });
-    }
-
     function loadData(page) {
         loading.show();
         ApiClient.getUsers().then(function (users) {
             renderUsers(page, users);
             loading.hide();
-        });
-        // TODO cvium
-        renderPendingGuests(page, []);
-        // ApiClient.getJSON(ApiClient.getUrl("Connect/Pending")).then(function (pending) {
-        //
-        // });
-    }
-
-    function showInvitePopup(page) {
-        import('components/guestinviter/guestinviter').then(({default: guestinviter}) => {
-            guestinviter.show().then(function () {
-                loadData(page);
-            });
         });
     }
 
@@ -265,14 +175,8 @@ import 'flexStyles';
                 showUserMenu(btnUserMenu);
             }
         });
-        page.querySelector('.pending').addEventListener('click', function (e__r) {
-            const btnUserMenu = dom.parentWithClass(e__r.target, 'btnUserMenu');
-
-            if (btnUserMenu) {
-                showPendingUserMenu(btnUserMenu);
-            }
-        });
     });
+
     pageIdOn('pagebeforeshow', 'userProfilesPage', function () {
         loadData(this);
     });

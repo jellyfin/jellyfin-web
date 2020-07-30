@@ -44,7 +44,6 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function showNonPersistentNotification(title, options, timeoutMs) {
-
         try {
             var notif = new Notification(title, options); /* eslint-disable-line compat/compat */
 
@@ -66,7 +65,6 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function showNotification(options, timeoutMs, apiClient) {
-
         var title = options.title;
 
         options.data = options.data || {};
@@ -85,7 +83,6 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function showNewItemNotification(item, apiClient) {
-
         if (playbackManager.isPlayingLocally(['Video'])) {
             return;
         }
@@ -101,17 +98,12 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             body: body,
             vibrate: true,
             tag: 'newItem' + item.Id,
-            data: {
-                //options: {
-                //    url: LibraryBrowser.getHref(item)
-                //}
-            }
+            data: {}
         };
 
         var imageTags = item.ImageTags || {};
 
         if (imageTags.Primary) {
-
             notification.icon = apiClient.getScaledImageUrl(item.Id, {
                 width: 80,
                 tag: imageTags.Primary,
@@ -123,7 +115,6 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function onLibraryChanged(data, apiClient) {
-
         var newItems = data.ItemsAdded;
 
         if (!newItems.length) {
@@ -147,11 +138,9 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             EnableTotalRecordCount: false
 
         }).then(function (result) {
-
             var items = result.Items;
 
             for (var i = 0, length = items.length ; i < length; i++) {
-
                 showNewItemNotification(items[i], apiClient);
             }
         });
@@ -163,9 +152,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function showPackageInstallNotification(apiClient, installation, status) {
-
         apiClient.getCurrentUser().then(function (user) {
-
             if (!user.Policy.IsAdministrator) {
                 return;
             }
@@ -199,7 +186,6 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             }
 
             if (status === 'progress') {
-
                 var percentComplete = Math.round(installation.PercentComplete || 0);
 
                 notification.body = percentComplete + '% complete.';
@@ -250,7 +236,6 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     });
 
     events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
-
         var serverId = apiClient.serverInfo().Id;
         var notification = {
             tag: 'restart' + serverId,

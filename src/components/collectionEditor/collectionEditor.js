@@ -1,7 +1,6 @@
 import dom from 'dom';
 import dialogHelper from 'dialogHelper';
 import loading from 'loading';
-import appHost from 'apphost';
 import layoutManager from 'layoutManager';
 import connectionManager from 'connectionManager';
 import appRouter from 'appRouter';
@@ -39,7 +38,6 @@ import 'flexStyles';
     }
 
     function createCollection(apiClient, dlg) {
-
         const url = apiClient.getUrl('Collections', {
 
             Name: dlg.querySelector('#txtNewCollectionName').value,
@@ -53,7 +51,6 @@ import 'flexStyles';
             dataType: 'json'
 
         }).then(result => {
-
             loading.hide();
 
             const id = result.Id;
@@ -61,17 +58,14 @@ import 'flexStyles';
             dlg.submitted = true;
             dialogHelper.close(dlg);
             redirectToCollection(apiClient, id);
-
         });
     }
 
     function redirectToCollection(apiClient, id) {
-
         appRouter.showItem(id, apiClient.serverId());
     }
 
     function addToCollection(apiClient, dlg, id) {
-
         const url = apiClient.getUrl(`Collections/${id}/Items`, {
 
             Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
@@ -82,7 +76,6 @@ import 'flexStyles';
             url: url
 
         }).then(() => {
-
             loading.hide();
 
             dlg.submitted = true;
@@ -99,7 +92,6 @@ import 'flexStyles';
     }
 
     function populateCollections(panel) {
-
         loading.show();
 
         const select = panel.querySelector('#selectCollectionToAddTo');
@@ -116,13 +108,11 @@ import 'flexStyles';
 
         const apiClient = connectionManager.getApiClient(currentServerId);
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
-
             let html = '';
 
             html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
             html += result.Items.map(i => {
-
                 return `<option value="${i.Id}">${i.Name}</option>`;
             });
 
@@ -135,7 +125,6 @@ import 'flexStyles';
     }
 
     function getEditorHtml() {
-
         let html = '';
 
         html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
@@ -183,7 +172,6 @@ import 'flexStyles';
     }
 
     function initEditor(content, items) {
-
         content.querySelector('#selectCollectionToAddTo').addEventListener('change', function () {
             if (this.value) {
                 content.querySelector('.newCollectionInfo').classList.add('hide');
@@ -220,7 +208,6 @@ import 'flexStyles';
 
     export class showEditor {
         constructor(options) {
-
             const items = options.items || {};
             currentServerId = options.serverId;
 
@@ -248,10 +235,6 @@ import 'flexStyles';
             html += title;
             html += '</h3>';
 
-            if (appHost.supports('externallinks')) {
-                html += `<a is="emby-linkbutton" class="button-link btnHelp flex align-items-center" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;padding:.25em;" title="${globalize.translate('Help')}"><span class="material-icons info"></span><span style="margin-left:.25em;">${globalize.translate('Help')}</span></a>`;
-            }
-
             html += '</div>';
 
             html += getEditorHtml();
@@ -261,7 +244,6 @@ import 'flexStyles';
             initEditor(dlg, items);
 
             dlg.querySelector('.btnCancel').addEventListener('click', () => {
-
                 dialogHelper.close(dlg);
             });
 
@@ -270,7 +252,6 @@ import 'flexStyles';
             }
 
             return dialogHelper.open(dlg).then(() => {
-
                 if (layoutManager.tv) {
                     centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }

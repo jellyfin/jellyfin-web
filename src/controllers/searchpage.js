@@ -1,4 +1,3 @@
-import focusManager from 'focusManager';
 import SearchFields from 'searchFields';
 import SearchResults from 'searchResults';
 import events from 'events';

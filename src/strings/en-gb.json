@@ -446,7 +446,6 @@
     "HeaderPassword": "Password",
     "HeaderPasswordReset": "Password Reset",
     "HeaderPaths": "Paths",
-    "HeaderPendingInvitations": "Pending Invitations",
     "CopyStreamURL": "Copy Stream URL",
     "CopyStreamURLSuccess": "URL copied successfully.",
     "XmlDocumentAttributeListHelp": "These attributes are applied to the root element of every XML response.",
