@@ -523,6 +523,14 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             });
             imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
+        } else if (item.ImageTags && item.ImageTags.Primary) {
+            imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                type: 'Primary',
+                maxWidth: dom.getScreenWidth(),
+                tag: item.ImageTags.Primary
+            });
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
+            hasbackdrop = true;
         } else {
             itemBackdropElement.style.backgroundImage = '';
         }
