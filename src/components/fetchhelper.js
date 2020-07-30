@@ -1,6 +1,5 @@
 /* eslint-disable indent */
     export function getFetchPromise(request) {
-
         const headers = request.headers || {};
 
         if (request.dataType === 'json') {
@@ -16,7 +15,6 @@
         let contentType = request.contentType;
 
         if (request.data) {
-
             if (typeof request.data === 'string') {
                 fetchRequest.body = request.data;
             } else {
@@ -27,7 +25,6 @@
         }
 
         if (contentType) {
-
             headers['Content-Type'] = contentType;
         }
 
@@ -48,11 +45,9 @@
     }
 
     function fetchWithTimeout(url, options, timeoutMs) {
-
         console.debug(`fetchWithTimeout: timeoutMs: ${timeoutMs}, url: ${url}`);
 
         return new Promise(function (resolve, reject) {
-
             const timeout = setTimeout(reject, timeoutMs);
 
             options = options || {};
@@ -65,7 +60,6 @@
 
                 resolve(response);
             }, function (error) {
-
                 clearTimeout(timeout);
 
                 console.debug(`fetchWithTimeout: timed out connecting to url: ${url}`);

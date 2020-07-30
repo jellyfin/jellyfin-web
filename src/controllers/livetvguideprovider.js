@@ -17,7 +17,7 @@ define(['events', 'loading', 'globalize'], function (events, loading, globalize)
 
     function loadTemplate(page, type, providerId) {
         require(['text!./components/tvproviders/' + type + '.template.html'], function (html) {
-            page.querySelector('.providerTemplate').innerHTML = globalize.translateDocument(html);
+            page.querySelector('.providerTemplate').innerHTML = globalize.translateHtml(html);
             init(page, type, providerId);
         });
     }

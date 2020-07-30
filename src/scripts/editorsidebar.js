@@ -1,5 +1,8 @@
-define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime, $, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import globalize from 'globalize';
+import 'material-icons';
+
+/* eslint-disable indent */
 
     function getNode(item, folderState, selected) {
         var htmlName = getNodeInnerHtml(item);
@@ -179,7 +182,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     }
 
     function initializeTree(page, currentUser, openItems, selectedId) {
-        require(['jstree'], function () {
+        import('jstree').then(() => {
             initializeTreeInternal(page, currentUser, openItems, selectedId);
         });
     }
@@ -299,7 +302,8 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
         updateEditorNode(this, item);
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
-        require(['css!assets/css/metadataeditor.css']);
+        /* eslint-disable-next-line no-unused-expressions */
+        import('css!assets/css/metadataeditor.css');
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
         var page = this;
         Dashboard.getCurrentUser().then(function (user) {
@@ -331,4 +335,5 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
         getCurrentItemId: getCurrentItemId,
         setCurrentItemId: setCurrentItemId
     };
-});
+
+/* eslint-enable indent */

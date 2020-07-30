@@ -1,14 +1,23 @@
-define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'date-fns', 'dfnshelper', 'emby-button', 'emby-itemscontainer', 'cardStyle'], function (loading, dom, libraryMenu, globalize, imageHelper, datefns, dfnshelper) {
-    'use strict';
+import loading from 'loading';
+import dom from 'dom';
+import globalize from 'globalize';
+import imageHelper from 'scripts/imagehelper';
+import * as datefns from 'date-fns';
+import dfnshelper from 'dfnshelper';
+import 'emby-button';
+import 'emby-itemscontainer';
+import 'cardStyle';
+
+/* eslint-disable indent */
 
     function canDelete(deviceId) {
         return deviceId !== ApiClient.deviceId();
     }
 
     function deleteDevice(page, id) {
-        var msg = globalize.translate('DeleteDeviceConfirmation');
+        const msg = globalize.translate('DeleteDeviceConfirmation');
 
-        require(['confirm'], function (confirm) {
+        import('confirm').then(({default: confirm}) => {
             confirm({
                 text: msg,
                 title: globalize.translate('HeaderDeleteDevice'),
@@ -29,7 +38,7 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'da
     }
 
     function showDeviceMenu(view, btn, deviceId) {
-        var menuItems = [];
+        let menuItems = [];
 
         if (canEdit) {
             menuItems.push({
@@ -47,7 +56,7 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'da
             });
         }
 
-        require(['actionsheet'], function (actionsheet) {
+        import('actionsheet').then(({default: actionsheet}) => {
             actionsheet.show({
                 items: menuItems,
                 positionTo: btn,
@@ -66,15 +75,15 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'da
     }
 
     function load(page, devices) {
-        var html = '';
+        let html = '';
         html += devices.map(function (device) {
-            var deviceHtml = '';
+            let deviceHtml = '';
             deviceHtml += "<div data-id='" + device.Id + "' class='card backdropCard'>";
             deviceHtml += '<div class="cardBox visualCardBox">';
             deviceHtml += '<div class="cardScalable">';
             deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
             deviceHtml += '<a is="emby-linkbutton" href="' + (canEdit ? 'device.html?id=' + device.Id : '#') + '" class="cardContent cardImageContainer">';
-            var iconUrl = imageHelper.getDeviceIcon(device);
+            const iconUrl = imageHelper.getDeviceIcon(device);
 
             if (iconUrl) {
                 deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">";
@@ -124,10 +133,10 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'da
         });
     }
 
-    var canEdit = ApiClient.isMinServerVersion('3.4.1.31');
-    return function (view, params) {
+    const canEdit = ApiClient.isMinServerVersion('3.4.1.31');
+    export default function (view, params) {
         view.querySelector('.devicesList').addEventListener('click', function (e) {
-            var btnDeviceMenu = dom.parentWithClass(e.target, 'btnDeviceMenu');
+            const btnDeviceMenu = dom.parentWithClass(e.target, 'btnDeviceMenu');
 
             if (btnDeviceMenu) {
                 showDeviceMenu(view, btnDeviceMenu, btnDeviceMenu.getAttribute('data-id'));
@@ -136,5 +145,6 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'da
         view.addEventListener('viewshow', function () {
             loadData(this);
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

@@ -1,21 +1,24 @@
-define(['userSettings', 'events'], function (userSettings, events) {
-    'use strict';
-    var fallbackCulture = 'en-us';
+import * as userSettings from 'userSettings';
+import events from 'events';
 
-    var allTranslations = {};
-    var currentCulture;
-    var currentDateTimeCulture;
+/* eslint-disable indent */
 
-    function getCurrentLocale() {
+    const fallbackCulture = 'en-us';
+
+    const allTranslations = {};
+    let currentCulture;
+    let currentDateTimeCulture;
+
+    export function getCurrentLocale() {
         return currentCulture;
     }
 
-    function getCurrentDateTimeLocale() {
+    export function getCurrentDateTimeLocale() {
         return currentDateTimeCulture;
     }
 
     function getDefaultLanguage() {
-        var culture = document.documentElement.getAttribute('data-culture');
+        const culture = document.documentElement.getAttribute('data-culture');
         if (culture) {
             return culture;
         }
@@ -33,8 +36,8 @@ define(['userSettings', 'events'], function (userSettings, events) {
         return fallbackCulture;
     }
 
-    function updateCurrentCulture() {
-        var culture;
+    export function updateCurrentCulture() {
+        let culture;
         try {
             culture = userSettings.language();
         } catch (err) {
@@ -44,7 +47,7 @@ define(['userSettings', 'events'], function (userSettings, events) {
 
         currentCulture = normalizeLocaleName(culture);
 
-        var dateTimeCulture;
+        let dateTimeCulture;
         try {
             dateTimeCulture = userSettings.dateTimeLocale();
         } catch (err) {
@@ -60,11 +63,11 @@ define(['userSettings', 'events'], function (userSettings, events) {
     }
 
     function ensureTranslations(culture) {
-        for (var i in allTranslations) {
+        for (let i in allTranslations) {
             ensureTranslation(allTranslations[i], culture);
         }
         if (culture !== fallbackCulture) {
-            for (var i in allTranslations) {
+            for (let i in allTranslations) {
                 ensureTranslation(allTranslations[i], fallbackCulture);
             }
         }
@@ -85,14 +88,14 @@ define(['userSettings', 'events'], function (userSettings, events) {
         culture = culture.replace('_', '-');
 
         // convert de-DE to de
-        var parts = culture.split('-');
+        const parts = culture.split('-');
         if (parts.length === 2) {
             if (parts[0].toLowerCase() === parts[1].toLowerCase()) {
                 culture = parts[0].toLowerCase();
             }
         }
 
-        var lower = culture.toLowerCase();
+        const lower = culture.toLowerCase();
         if (lower === 'ca-es') {
             return 'ca';
         }
@@ -110,7 +113,7 @@ define(['userSettings', 'events'], function (userSettings, events) {
             module = defaultModule();
         }
 
-        var translations = allTranslations[module];
+        const translations = allTranslations[module];
         if (!translations) {
             return {};
         }
@@ -118,17 +121,17 @@ define(['userSettings', 'events'], function (userSettings, events) {
         return translations.dictionaries[locale];
     }
 
-    function register(options) {
+    export function register(options) {
         allTranslations[options.name] = {
             translations: options.strings || options.translations,
             dictionaries: {}
         };
     }
 
-    function loadStrings(options) {
-        var locale = getCurrentLocale();
-        var promises = [];
-        var optionsName;
+    export function loadStrings(options) {
+        const locale = getCurrentLocale();
+        const promises = [];
+        let optionsName;
         if (typeof options === 'string') {
             optionsName = options;
         } else {
@@ -140,10 +143,10 @@ define(['userSettings', 'events'], function (userSettings, events) {
         return Promise.all(promises);
     }
 
-    var cacheParam = new Date().getTime();
+    const cacheParam = new Date().getTime();
     function loadTranslation(translations, lang) {
         lang = normalizeLocaleName(lang);
-        var filtered = translations.filter(function (t) {
+        let filtered = translations.filter(function (t) {
             return normalizeLocaleName(t.lang) === lang;
         });
 
@@ -159,12 +162,12 @@ define(['userSettings', 'events'], function (userSettings, events) {
                 return;
             }
 
-            var url = filtered[0].path;
+            let url = filtered[0].path;
 
             url += url.indexOf('?') === -1 ? '?' : '&';
             url += 'v=' + cacheParam;
 
-            var xhr = new XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
 
             xhr.onload = function (e) {
@@ -183,8 +186,8 @@ define(['userSettings', 'events'], function (userSettings, events) {
     }
 
     function translateKey(key) {
-        var parts = key.split('#');
-        var module;
+        const parts = key.split('#');
+        let module;
 
         if (parts.length > 1) {
             module = parts[0];
@@ -195,7 +198,7 @@ define(['userSettings', 'events'], function (userSettings, events) {
     }
 
     function translateKeyFromModule(key, module) {
-        var dictionary = getDictionary(module, getCurrentLocale());
+        let dictionary = getDictionary(module, getCurrentLocale());
         if (!dictionary || !dictionary[key]) {
             dictionary = getDictionary(module, fallbackCulture);
         }
@@ -209,15 +212,15 @@ define(['userSettings', 'events'], function (userSettings, events) {
         return str.split(find).join(replace);
     }
 
-    function translate(key) {
-        var val = translateKey(key);
-        for (var i = 1; i < arguments.length; i++) {
+    export function translate(key) {
+        let val = translateKey(key);
+        for (let i = 1; i < arguments.length; i++) {
             val = replaceAll(val, '{' + (i - 1) + '}', arguments[i]);
         }
         return val;
     }
 
-    function translateHtml(html, module) {
+    export function translateHtml(html, module) {
         if (!module) {
             module = defaultModule();
         }
@@ -225,26 +228,26 @@ define(['userSettings', 'events'], function (userSettings, events) {
             throw new Error('module cannot be null or empty');
         }
 
-        var startIndex = html.indexOf('${');
+        let startIndex = html.indexOf('${');
         if (startIndex === -1) {
             return html;
         }
 
         startIndex += 2;
-        var endIndex = html.indexOf('}', startIndex);
+        const endIndex = html.indexOf('}', startIndex);
         if (endIndex === -1) {
             return html;
         }
 
-        var key = html.substring(startIndex, endIndex);
-        var val = translateKeyFromModule(key, module);
+        const key = html.substring(startIndex, endIndex);
+        const val = translateKeyFromModule(key, module);
 
         html = html.replace('${' + key + '}', val);
         return translateHtml(html, module);
     }
 
-    var _defaultModule;
-    function defaultModule(val) {
+    let _defaultModule;
+    export function defaultModule(val) {
         if (val) {
             _defaultModule = val;
         }
@@ -259,16 +262,15 @@ define(['userSettings', 'events'], function (userSettings, events) {
         }
     });
 
-    return {
-        getString: translate,
-        translate: translate,
-        translateDocument: translateHtml,
-        translateHtml: translateHtml,
-        loadStrings: loadStrings,
-        defaultModule: defaultModule,
-        getCurrentLocale: getCurrentLocale,
-        getCurrentDateTimeLocale: getCurrentDateTimeLocale,
-        register: register,
-        updateCurrentCulture: updateCurrentCulture
-    };
-});
+export default {
+    translate,
+    translateHtml,
+    loadStrings,
+    defaultModule,
+    getCurrentLocale,
+    getCurrentDateTimeLocale,
+    register,
+    updateCurrentCulture
+};
+
+/* eslint-enable indent */

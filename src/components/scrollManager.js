@@ -376,7 +376,6 @@ import layoutManager from 'layoutManager';
      * @param {number} scrollY - Vertical coordinate.
      */
     function animateScroll(xScroller, scrollX, yScroller, scrollY) {
-
         const ox = xScroller.scrollLeft;
         const oy = yScroller.scrollTop;
         const dx = scrollX - ox;
@@ -389,7 +388,6 @@ import layoutManager from 'layoutManager';
         let start;
 
         function scrollAnim(currentTimestamp) {
-
             start = start || currentTimestamp;
 
             let k = Math.min(1, (currentTimestamp - start) / ScrollTime);
@@ -423,7 +421,6 @@ import layoutManager from 'layoutManager';
      * @param {boolean} smooth - Smooth scrolling.
      */
     function doScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
-
         resetScrollTimer();
 
         if (smooth && useAnimatedScroll()) {
@@ -437,7 +434,6 @@ import layoutManager from 'layoutManager';
      * Returns true if smooth scroll must be used.
      */
     function useSmoothScroll() {
-
         if (browser.tizen) {
             return true;
         }
@@ -469,7 +465,6 @@ import layoutManager from 'layoutManager';
      * @param {boolean} [smooth=false] - Smooth scrolling.
      */
     export function scrollTo(scrollX, scrollY, smooth) {
-
         smooth = !!smooth;
 
         // Scroller is document itself by default
@@ -491,7 +486,6 @@ import layoutManager from 'layoutManager';
      * @param {boolean} [smooth=false] - Smooth scrolling.
      */
     export function scrollToElement(element, smooth) {
-
         smooth = !!smooth;
 
         let scrollCenterX = true;

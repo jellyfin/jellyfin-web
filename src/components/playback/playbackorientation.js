@@ -14,7 +14,6 @@ function onOrientationChangeError(err) {
 }
 
 events.on(playbackManager, 'playbackstart', function (e, player, state) {
-
     var isLocalVideo = player.isLocalPlayer && !player.isExternalPlayer && playbackManager.isPlayingVideo(player);
 
     if (isLocalVideo && layoutManager.mobile) {
@@ -22,7 +21,6 @@ events.on(playbackManager, 'playbackstart', function (e, player, state) {
         var lockOrientation = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation || (screen.orientation && screen.orientation.lock);
 
         if (lockOrientation) {
-
             try {
                 var promise = lockOrientation('landscape');
                 if (promise.then) {
@@ -39,9 +37,7 @@ events.on(playbackManager, 'playbackstart', function (e, player, state) {
 });
 
 events.on(playbackManager, 'playbackstop', function (e, playbackStopInfo) {
-
     if (orientationLocked && !playbackStopInfo.nextMediaType) {
-
         /* eslint-disable-next-line compat/compat */
         var unlockOrientation = screen.unlockOrientation || screen.mozUnlockOrientation || screen.msUnlockOrientation || (screen.orientation && screen.orientation.unlock);
 

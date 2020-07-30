@@ -1,17 +1,17 @@
-define(['browser', 'css!./appFooter'], function (browser) {
-    'use strict';
+import 'css!./appFooter';
 
-    function render(options) {
-        var elem = document.createElement('div');
-        elem.classList.add('appfooter');
+function render(options) {
+    const elem = document.createElement('div');
+    elem.classList.add('appfooter');
 
-        document.body.appendChild(elem);
+    document.body.appendChild(elem);
 
-        return elem;
-    }
+    return elem;
+}
 
-    function appFooter(options) {
-        var self = this;
+class appFooter {
+    constructor(options) {
+        const self = this;
 
         self.element = render(options);
         self.add = function (elem) {
@@ -26,12 +26,11 @@ define(['browser', 'css!./appFooter'], function (browser) {
             }
         };
     }
-
-    appFooter.prototype.destroy = function () {
+    destroy() {
         var self = this;
 
         self.element = null;
-    };
+    }
+}
 
-    return appFooter;
-});
+export default appFooter;

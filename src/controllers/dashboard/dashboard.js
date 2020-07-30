@@ -1,11 +1,31 @@
-define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'loading', 'connectionManager', 'playMethodHelper', 'cardBuilder', 'imageLoader', 'components/activitylog', 'scripts/imagehelper', 'indicators', 'listViewStyle', 'emby-button', 'flexStyles', 'emby-button', 'emby-itemscontainer'], function (datetime, events, itemHelper, serverNotifications, dom, globalize, datefns, dfnshelper, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
-    'use strict';
+import datetime from 'datetime';
+import events from 'events';
+import itemHelper from 'itemHelper';
+import serverNotifications from 'serverNotifications';
+import dom from 'dom';
+import globalize from 'globalize';
+import * as datefns from 'date-fns';
+import dfnshelper from 'dfnshelper';
+import loading from 'loading';
+import connectionManager from 'connectionManager';
+import playMethodHelper from 'playMethodHelper';
+import cardBuilder from 'cardBuilder';
+import imageLoader from 'imageLoader';
+import ActivityLog from 'components/activitylog';
+import imageHelper from 'scripts/imagehelper';
+import indicators from 'indicators';
+import 'listViewStyle';
+import 'emby-button';
+import 'flexStyles';
+import 'emby-itemscontainer';
+
+/* eslint-disable indent */
 
     function showPlaybackInfo(btn, session) {
-        require(['alert'], function (alert) {
-            var title;
-            var text = [];
-            var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+        import('alert').then(({default: alert}) => {
+            let title;
+            let text = [];
+            const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
             if (displayPlayMethod === 'DirectStream') {
                 title = globalize.translate('DirectStreaming');
@@ -33,7 +53,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function showSendMessageForm(btn, session) {
-        require(['prompt'], function (prompt) {
+        import('prompt').then(({default: prompt}) => {
             prompt({
                 title: globalize.translate('HeaderSendMessage'),
                 label: globalize.translate('LabelMessageText'),
@@ -50,8 +70,8 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function showOptionsMenu(btn, session) {
-        require(['actionsheet'], function (actionsheet) {
-            var menuItems = [];
+        import('actionsheet').then(({default: actionsheet}) => {
+            const menuItems = [];
 
             if (session.ServerId && session.DeviceId !== connectionManager.deviceId()) {
                 menuItems.push({
@@ -84,14 +104,14 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function onActiveDevicesClick(evt) {
-        var btn = dom.parentWithClass(evt.target, 'sessionCardButton');
+        const btn = dom.parentWithClass(evt.target, 'sessionCardButton');
 
         if (btn) {
-            var card = dom.parentWithClass(btn, 'card');
+            const card = dom.parentWithClass(btn, 'card');
 
             if (card) {
-                var sessionId = card.id;
-                var session = (DashboardPage.sessionsList || []).filter(function (dashboardSession) {
+                const sessionId = card.id;
+                const session = (DashboardPage.sessionsList || []).filter(function (dashboardSession) {
                     return 'session' + dashboardSession.Id === sessionId;
                 })[0];
 
@@ -113,11 +133,11 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function filterSessions(sessions) {
-        var list = [];
-        var minActiveDate = new Date().getTime() - 9e5;
+        const list = [];
+        const minActiveDate = new Date().getTime() - 9e5;
 
-        for (var i = 0, length = sessions.length; i < length; i++) {
-            var session = sessions[i];
+        for (let i = 0, length = sessions.length; i < length; i++) {
+            const session = sessions[i];
 
             if (!session.NowPlayingItem && !session.UserId) {
                 continue;
@@ -139,7 +159,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             EnableTotalRecordCount: false,
             EnableImageTypes: 'Primary,Thumb,Backdrop'
         }).then(function (result) {
-            var itemsContainer = view.querySelector('.activeRecordingItems');
+            const itemsContainer = view.querySelector('.activeRecordingItems');
 
             if (!result.Items.length) {
                 view.querySelector('.activeRecordingsSection').classList.add('hide');
@@ -199,31 +219,31 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function renderActiveConnections(view, sessions) {
-        var html = '';
+        let html = '';
         DashboardPage.sessionsList = sessions;
-        var parentElement = view.querySelector('.activeDevices');
-        var cardElem = parentElement.querySelector('.card');
+        const parentElement = view.querySelector('.activeDevices');
+        const cardElem = parentElement.querySelector('.card');
 
         if (cardElem) {
             cardElem.classList.add('deadSession');
         }
 
-        for (var i = 0, length = sessions.length; i < length; i++) {
-            var session = sessions[i];
-            var rowId = 'session' + session.Id;
-            var elem = view.querySelector('#' + rowId);
+        for (let i = 0, length = sessions.length; i < length; i++) {
+            const session = sessions[i];
+            const rowId = 'session' + session.Id;
+            const elem = view.querySelector('#' + rowId);
 
             if (elem) {
                 DashboardPage.updateSession(elem, session);
             } else {
-                var nowPlayingItem = session.NowPlayingItem;
-                var className = 'scalableCard card activeSession backdropCard backdropCard-scalable';
+                const nowPlayingItem = session.NowPlayingItem;
+                const className = 'scalableCard card activeSession backdropCard backdropCard-scalable';
                 html += '<div class="' + className + '" id="' + rowId + '">';
                 html += '<div class="cardBox visualCardBox">';
                 html += '<div class="cardScalable visualCardBox-cardScalable">';
                 html += '<div class="cardPadder cardPadder-backdrop"></div>';
                 html += '<div class="cardContent">';
-                var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem);
+                const imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem);
 
                 if (imgUrl) {
                     html += '<div class="sessionNowPlayingContent sessionNowPlayingContent-withbackground"';
@@ -234,7 +254,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
 
                 html += '<div class="sessionNowPlayingInnerContent">';
                 html += '<div class="sessionAppInfo">';
-                var clientImage = DashboardPage.getClientImage(session);
+                const clientImage = DashboardPage.getClientImage(session);
 
                 if (clientImage) {
                     html += clientImage;
@@ -247,7 +267,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html += '</div>';
 
                 html += '<div class="sessionNowPlayingDetails">';
-                var nowPlayingName = DashboardPage.getNowPlayingName(session);
+                const nowPlayingName = DashboardPage.getNowPlayingName(session);
                 html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">';
                 html += nowPlayingName.html;
                 html += '</div>';
@@ -255,7 +275,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html += '</div>';
 
                 if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
-                    var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
+                    const percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
                     html += indicators.getProgressHtml(percent, {
                         containerClass: 'playbackProgress'
                     });
@@ -267,7 +287,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 }
 
                 if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
-                    var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
+                    const percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
                     html += indicators.getProgressHtml(percent, {
                         containerClass: 'transcodingProgress'
                     });
@@ -284,7 +304,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html += '<div class="sessionCardFooter cardFooter">';
                 html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
 
-                var btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hide';
+                let btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hide';
                 const playIcon = session.PlayState.IsPaused ? 'pause' : 'play_arrow';
 
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><span class="material-icons ' + playIcon + '"></span></button>';
@@ -302,7 +322,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html += '</div>';
 
                 html += '<div class="flex align-items-center justify-content-center">';
-                var userImage = DashboardPage.getUserImage(session);
+                const userImage = DashboardPage.getUserImage(session);
                 html += userImage ? '<div class="activitylogUserPhoto" style="background-image:url(\'' + userImage + "');\"></div>" : '<div style="height:1.71em;"></div>';
                 html += '<div class="sessionUserName">';
                 html += DashboardPage.getUsersHtml(session);
@@ -316,7 +336,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         }
 
         parentElement.insertAdjacentHTML('beforeend', html);
-        var deadSessionElem = parentElement.querySelector('.deadSession');
+        const deadSessionElem = parentElement.querySelector('.deadSession');
 
         if (deadSessionElem) {
             deadSessionElem.parentNode.removeChild(deadSessionElem);
@@ -324,7 +344,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function renderRunningTasks(view, tasks) {
-        var html = '';
+        let html = '';
         tasks = tasks.filter(function (task) {
             if ('Idle' != task.State) {
                 return !task.IsHidden;
@@ -339,13 +359,13 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             view.querySelector('.runningTasksContainer').classList.add('hide');
         }
 
-        for (var i = 0, length = tasks.length; i < length; i++) {
-            var task = tasks[i];
+        for (let i = 0, length = tasks.length; i < length; i++) {
+            const task = tasks[i];
             html += '<p>';
             html += task.Name + '<br/>';
 
             if (task.State === 'Running') {
-                var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
+                const progress = (task.CurrentProgressPercentage || 0).toFixed(1);
                 html += '<progress max="100" value="' + progress + '" title="' + progress + '%">';
                 html += progress + '%';
                 html += '</progress>';
@@ -371,9 +391,9 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             apiClient.sendMessage('ScheduledTasksInfoStop');
         },
         getSessionNowPlayingStreamInfo: function (session) {
-            var html = '';
-            var showTranscodingInfo = false;
-            var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+            let html = '';
+            let showTranscodingInfo = false;
+            const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
             if (displayPlayMethod === 'DirectStream') {
                 html += globalize.translate('DirectStreaming');
@@ -390,7 +410,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             }
 
             if (showTranscodingInfo) {
-                var line = [];
+                const line = [];
 
                 if (session.TranscodingInfo) {
                     if (session.TranscodingInfo.Bitrate) {
@@ -422,8 +442,8 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             return html;
         },
         getSessionNowPlayingTime: function (session) {
-            var nowPlayingItem = session.NowPlayingItem;
-            var html = '';
+            const nowPlayingItem = session.NowPlayingItem;
+            let html = '';
 
             if (nowPlayingItem) {
                 if (session.PlayState.PositionTicks) {
@@ -447,8 +467,8 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             return session.Client + ' ' + session.ApplicationVersion;
         },
         getNowPlayingName: function (session) {
-            var imgUrl = '';
-            var nowPlayingItem = session.NowPlayingItem;
+            let imgUrl = '';
+            const nowPlayingItem = session.NowPlayingItem;
             // FIXME: It seems that, sometimes, server sends date in the future, so date-fns displays messages like 'in less than a minute'. We should fix
             // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
             if (!nowPlayingItem) {
@@ -458,8 +478,8 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 };
             }
 
-            var topText = itemHelper.getDisplayName(nowPlayingItem);
-            var bottomText = '';
+            let topText = itemHelper.getDisplayName(nowPlayingItem);
+            let bottomText = '';
 
             if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
                 bottomText = topText;
@@ -499,13 +519,13 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             };
         },
         getUsersHtml: function (session) {
-            var html = [];
+            const html = [];
 
             if (session.UserId) {
                 html.push(session.UserName);
             }
 
-            for (var i = 0, length = session.AdditionalUsers.length; i < length; i++) {
+            for (let i = 0, length = session.AdditionalUsers.length; i < length; i++) {
                 html.push(session.AdditionalUsers[i].UserName);
             }
 
@@ -523,7 +543,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         },
         updateSession: function (row, session) {
             row.classList.remove('deadSession');
-            var nowPlayingItem = session.NowPlayingItem;
+            const nowPlayingItem = session.NowPlayingItem;
 
             if (nowPlayingItem) {
                 row.classList.add('playingSession');
@@ -543,7 +563,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 row.querySelector('.btnSessionInfo').classList.add('hide');
             }
 
-            var btnSessionPlayPause = row.querySelector('.btnSessionPlayPause');
+            const btnSessionPlayPause = row.querySelector('.btnSessionPlayPause');
 
             if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId()) {
                 btnSessionPlayPause.classList.remove('hide');
@@ -561,18 +581,18 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             row.querySelector('.sessionNowPlayingTime').innerHTML = DashboardPage.getSessionNowPlayingTime(session);
             row.querySelector('.sessionUserName').innerHTML = DashboardPage.getUsersHtml(session);
             row.querySelector('.sessionAppSecondaryText').innerHTML = DashboardPage.getAppSecondaryText(session);
-            var nowPlayingName = DashboardPage.getNowPlayingName(session);
-            var nowPlayingInfoElem = row.querySelector('.sessionNowPlayingInfo');
+            const nowPlayingName = DashboardPage.getNowPlayingName(session);
+            const nowPlayingInfoElem = row.querySelector('.sessionNowPlayingInfo');
 
             if (!(nowPlayingName.image && nowPlayingName.image == nowPlayingInfoElem.getAttribute('data-imgsrc'))) {
                 nowPlayingInfoElem.innerHTML = nowPlayingName.html;
                 nowPlayingInfoElem.setAttribute('data-imgsrc', nowPlayingName.image || '');
             }
 
-            var playbackProgressElem = row.querySelector('.playbackProgress');
+            const playbackProgressElem = row.querySelector('.playbackProgress');
 
             if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
-                var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
+                const percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
                 playbackProgressElem.outerHTML = indicators.getProgressHtml(percent, {
                     containerClass: 'playbackProgress'
                 });
@@ -582,10 +602,10 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 });
             }
 
-            var transcodingProgress = row.querySelector('.transcodingProgress');
+            const transcodingProgress = row.querySelector('.transcodingProgress');
 
             if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
-                var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
+                const percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
                 transcodingProgress.outerHTML = indicators.getProgressHtml(percent, {
                     containerClass: 'transcodingProgress'
                 });
@@ -595,8 +615,8 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 });
             }
 
-            var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || '';
-            var imgElem = row.querySelector('.sessionNowPlayingContent');
+            const imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || '';
+            const imgElem = row.querySelector('.sessionNowPlayingContent');
 
             if (imgUrl != imgElem.getAttribute('data-src')) {
                 imgElem.style.backgroundImage = imgUrl ? "url('" + imgUrl + "')" : '';
@@ -610,7 +630,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             }
         },
         getClientImage: function (connection) {
-            var iconUrl = imageHelper.getDeviceIcon(connection);
+            const iconUrl = imageHelper.getDeviceIcon(connection);
             return "<img src='" + iconUrl + "' />";
         },
         getNowPlayingImageUrl: function (item) {
@@ -640,7 +660,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 });
             }
 
-            var imageTags = (item || {}).ImageTags || {};
+            const imageTags = (item || {}).ImageTags || {};
 
             if (item && imageTags.Thumb) {
                 return ApiClient.getScaledImageUrl(item.Id, {
@@ -694,20 +714,20 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         },
         systemUpdateTaskKey: 'SystemUpdateTask',
         stopTask: function (btn, id) {
-            var page = dom.parentWithClass(btn, 'page');
+            const page = dom.parentWithClass(btn, 'page');
             ApiClient.stopScheduledTask(id).then(function () {
                 pollForInfo(page, ApiClient);
             });
         },
         restart: function (btn) {
-            require(['confirm'], function (confirm) {
+            import('confirm').then(({default: confirm}) => {
                 confirm({
                     title: globalize.translate('HeaderRestart'),
                     text: globalize.translate('MessageConfirmRestart'),
                     confirmText: globalize.translate('ButtonRestart'),
                     primary: 'delete'
                 }).then(function () {
-                    var page = dom.parentWithClass(btn, 'page');
+                    const page = dom.parentWithClass(btn, 'page');
                     page.querySelector('#btnRestartServer').disabled = true;
                     page.querySelector('#btnShutdown').disabled = true;
                     ApiClient.restartServer();
@@ -715,14 +735,14 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             });
         },
         shutdown: function (btn) {
-            require(['confirm'], function (confirm) {
+            import('confirm').then(({default: confirm}) => {
                 confirm({
                     title: globalize.translate('HeaderShutdown'),
                     text: globalize.translate('MessageConfirmShutdown'),
                     confirmText: globalize.translate('ButtonShutdown'),
                     primary: 'delete'
                 }).then(function () {
-                    var page = dom.parentWithClass(btn, 'page');
+                    const page = dom.parentWithClass(btn, 'page');
                     page.querySelector('#btnRestartServer').disabled = true;
                     page.querySelector('#btnShutdown').disabled = true;
                     ApiClient.shutdownServer();
@@ -730,7 +750,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             });
         }
     };
-    return function (view, params) {
+    export default function (view, params) {
         function onRestartRequired(evt, apiClient) {
             console.debug('onRestartRequired not implemented', evt, apiClient);
         }
@@ -769,11 +789,11 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             }
         }
 
-        var serverId = ApiClient.serverId();
+        const serverId = ApiClient.serverId();
         view.querySelector('.activeDevices').addEventListener('click', onActiveDevicesClick);
         view.addEventListener('viewshow', function () {
-            var page = this;
-            var apiClient = ApiClient;
+            const page = this;
+            const apiClient = ApiClient;
 
             if (apiClient) {
                 loading.show();
@@ -810,7 +830,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             }
         });
         view.addEventListener('viewbeforehide', function () {
-            var apiClient = ApiClient;
+            const apiClient = ApiClient;
             events.off(serverNotifications, 'RestartRequired', onRestartRequired);
             events.off(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
             events.off(serverNotifications, 'ServerRestarting', onServerRestarting);
@@ -824,18 +844,19 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             }
         });
         view.addEventListener('viewdestroy', function () {
-            var page = this;
-            var userActivityLog = page.userActivityLog;
+            const page = this;
+            const userActivityLog = page.userActivityLog;
 
             if (userActivityLog) {
                 userActivityLog.destroy();
             }
 
-            var serverActivityLog = page.serverActivityLog;
+            const serverActivityLog = page.serverActivityLog;
 
             if (serverActivityLog) {
                 serverActivityLog.destroy();
             }
         });
-    };
-});
+    }
+
+/* eslint-enable indent */
