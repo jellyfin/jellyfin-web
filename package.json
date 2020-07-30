@@ -139,6 +139,7 @@
           "src/components/playback/playerSelectionMenu.js",
           "src/components/playback/playersettingsmenu.js",
           "src/components/playback/playmethodhelper.js",
+          "src/components/playback/playqueuemanager.js",
           "src/components/playback/remotecontrolautoplay.js",
           "src/components/playback/volumeosd.js",
           "src/components/playbackSettings/playbackSettings.js",
