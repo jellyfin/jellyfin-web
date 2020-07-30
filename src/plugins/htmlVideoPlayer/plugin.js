@@ -105,7 +105,7 @@ function tryRemoveElement(elem) {
     }
 
     function hidePrePlaybackPage() {
-        let animatedPage = document.querySelector('.page:not(.hide)');
+        const animatedPage = document.querySelector('.page:not(.hide)');
         animatedPage.classList.add('hide');
         // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
         document.body.classList.remove('force-scroll');
@@ -822,8 +822,8 @@ function tryRemoveElement(elem) {
                     }
                 });
 
-                if (this._currentPlayOptions.fullscreen) {
-                    appRouter.showVideoOsd().then(this.onNavigatedToOsd);
+                if (self._currentPlayOptions.fullscreen) {
+                    appRouter.show('videoosd.html').then(this.onNavigatedToOsd);
                 } else {
                     appRouter.setTransparency('backdrop');
                     this.#videoDialog.classList.remove('videoPlayerContainer-onTop');

@@ -27,16 +27,16 @@ export class BookPlayer {
         this._loaded = false;
 
         loading.show();
-        let elem = this.createMediaElement();
+        const elem = this.createMediaElement();
         return this.setCurrentSrc(elem, options);
     }
 
     stop() {
         this.unbindEvents();
 
-        let elem = this._mediaElement;
-        let tocElement = this._tocElement;
-        let rendition = this._rendition;
+        const elem = this._mediaElement;
+        const tocElement = this._tocElement;
+        const rendition = this._rendition;
 
         if (elem) {
             dialogHelper.close(elem);
@@ -147,7 +147,7 @@ export class BookPlayer {
     }
 
     bindMediaElementEvents() {
-        let elem = this._mediaElement;
+        const elem = this._mediaElement;
 
         elem.addEventListener('close', this.onDialogClosed, {once: true});
         elem.querySelector('.btnBookplayerExit').addEventListener('click', this.onDialogClosed, {once: true});
@@ -166,7 +166,7 @@ export class BookPlayer {
     }
 
     unbindMediaElementEvents() {
-        let elem = this._mediaElement;
+        const elem = this._mediaElement;
 
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('.btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
@@ -231,7 +231,7 @@ export class BookPlayer {
     }
 
     setCurrentSrc(elem, options) {
-        let item = options.items[0];
+        const item = options.items[0];
         this._currentItem = item;
         this.streamInfo = {
             started: true,
@@ -241,8 +241,8 @@ export class BookPlayer {
             }
         };
 
-        let serverId = item.ServerId;
-        let apiClient = connectionManager.getApiClient(serverId);
+        const serverId = item.ServerId;
+        const apiClient = connectionManager.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             import('epubjs').then(({default: epubjs}) => {
@@ -252,14 +252,14 @@ export class BookPlayer {
 
                 this._currentSrc = downloadHref;
                 this._rendition = rendition;
-                let cancellationToken = {
+                const cancellationToken = {
                     shouldCancel: false
                 };
 
                 this._cancellationToken = cancellationToken;
 
                 return rendition.display().then(() => {
-                    let epubElem = document.querySelector('.epub-container');
+                    const epubElem = document.querySelector('.epub-container');
                     epubElem.style.display = 'none';
 
                     this.bindEvents();

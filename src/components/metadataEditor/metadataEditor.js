@@ -247,7 +247,7 @@ import 'flexStyles';
             reload(context, parentId, item.ServerId);
         } else {
             require(['appRouter'], function (appRouter) {
-                appRouter.goHome();
+                appRouter.default.goHome();
             });
         }
     }

@@ -138,14 +138,14 @@ var Dashboard = {
 
         return new Promise(function (resolve, reject) {
             require(['appRouter'], function (appRouter) {
-                return appRouter.show(url).then(resolve, reject);
+                return appRouter.default.show(url).then(resolve, reject);
             });
         });
     },
     navigate_direct: function (path) {
         return new Promise(function (resolve, reject) {
             require(['appRouter'], function (appRouter) {
-                return appRouter.showDirect(path).then(resolve, reject);
+                return appRouter.default.showDirect(path).then(resolve, reject);
             });
         });
     },
@@ -517,6 +517,7 @@ function initClient() {
 
         // ensure that appHost is loaded in this point
         require(['apphost', 'appRouter'], function (appHost, appRouter) {
+            appRouter = appRouter.default || appRouter;
             window.Emby = {};
 
             console.debug('onAppReady: loading dependencies');
@@ -614,10 +615,10 @@ function initClient() {
         init();
     }
 
+    var promise;
     var localApiClient;
-    let promise;
 
-    (function () {
+    function initRequireJs() {
         var urlArgs = 'v=' + (window.dashboardVersion || new Date().getDate());
 
         var bowerPath = getBowerPath();
@@ -648,7 +649,9 @@ function initClient() {
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
             packageManager: componentsPath + '/packageManager',
-            screensaverManager: componentsPath + '/screensavermanager'
+            screensaverManager: componentsPath + '/screensavermanager',
+            chromecastHelper: 'plugins/chromecastPlayer/chromecastHelpers',
+            appRouter: 'components/appRouter'
         };
 
         requirejs.onError = onRequireJsError;
@@ -847,267 +850,9 @@ function initClient() {
                 return window.ApiClient;
             };
         });
-        define('appRouter', [componentsPath + '/appRouter', 'itemHelper'], function (appRouter, itemHelper) {
-            function showItem(item, serverId, options) {
-                if (typeof item == 'string') {
-                    require(['connectionManager'], function (connectionManager) {
-                        var apiClient = connectionManager.currentApiClient();
-                        apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
-                            appRouter.showItem(item, options);
-                        });
-                    });
-                } else {
-                    if (arguments.length == 2) {
-                        options = arguments[1];
-                    }
+    }
 
-                    appRouter.show('/' + appRouter.getRouteUrl(item, options), {
-                        item: item
-                    });
-                }
-            }
-
-            appRouter.showLocalLogin = function (serverId, manualLogin) {
-                Dashboard.navigate('login.html?serverid=' + serverId);
-            };
-
-            appRouter.showVideoOsd = function () {
-                return Dashboard.navigate('video');
-            };
-
-            appRouter.showSelectServer = function () {
-                Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
-            };
-
-            appRouter.showWelcome = function () {
-                Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
-            };
-
-            appRouter.showSettings = function () {
-                Dashboard.navigate('mypreferencesmenu.html');
-            };
-
-            appRouter.showGuide = function () {
-                Dashboard.navigate('livetv.html?tab=1');
-            };
-
-            appRouter.goHome = function () {
-                Dashboard.navigate('home.html');
-            };
-
-            appRouter.showSearch = function () {
-                Dashboard.navigate('search.html');
-            };
-
-            appRouter.showLiveTV = function () {
-                Dashboard.navigate('livetv.html');
-            };
-
-            appRouter.showRecordedTV = function () {
-                Dashboard.navigate('livetv.html?tab=3');
-            };
-
-            appRouter.showFavorites = function () {
-                Dashboard.navigate('home.html?tab=1');
-            };
-
-            appRouter.showSettings = function () {
-                Dashboard.navigate('mypreferencesmenu.html');
-            };
-
-            appRouter.setTitle = function (title) {
-                LibraryMenu.setTitle(title);
-            };
-
-            appRouter.getRouteUrl = function (item, options) {
-                if (!item) {
-                    throw new Error('item cannot be null');
-                }
-
-                if (item.url) {
-                    return item.url;
-                }
-
-                var context = options ? options.context : null;
-                var id = item.Id || item.ItemId;
-
-                if (!options) {
-                    options = {};
-                }
-
-                var url;
-                var itemType = item.Type || (options ? options.itemType : null);
-                var serverId = item.ServerId || options.serverId;
-
-                if (item === 'settings') {
-                    return 'mypreferencesmenu.html';
-                }
-
-                if (item === 'wizard') {
-                    return 'wizardstart.html';
-                }
-
-                if (item === 'manageserver') {
-                    return 'dashboard.html';
-                }
-
-                if (item === 'recordedtv') {
-                    return 'livetv.html?tab=3&serverId=' + options.serverId;
-                }
-
-                if (item === 'nextup') {
-                    return 'list.html?type=nextup&serverId=' + options.serverId;
-                }
-
-                if (item === 'list') {
-                    var url = 'list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
-
-                    if (options.isFavorite) {
-                        url += '&IsFavorite=true';
-                    }
-
-                    return url;
-                }
-
-                if (item === 'livetv') {
-                    if (options.section === 'programs') {
-                        return 'livetv.html?tab=0&serverId=' + options.serverId;
-                    }
-                    if (options.section === 'guide') {
-                        return 'livetv.html?tab=1&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'movies') {
-                        return 'list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'shows') {
-                        return 'list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'sports') {
-                        return 'list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'kids') {
-                        return 'list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'news') {
-                        return 'list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'onnow') {
-                        return 'list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'dvrschedule') {
-                        return 'livetv.html?tab=4&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'seriesrecording') {
-                        return 'livetv.html?tab=5&serverId=' + options.serverId;
-                    }
-
-                    return 'livetv.html?serverId=' + options.serverId;
-                }
-
-                if (itemType == 'SeriesTimer') {
-                    return 'details?seriesTimerId=' + id + '&serverId=' + serverId;
-                }
-
-                if (item.CollectionType == 'livetv') {
-                    return 'livetv.html';
-                }
-
-                if (item.Type === 'Genre') {
-                    url = 'list.html?genreId=' + item.Id + '&serverId=' + serverId;
-
-                    if (context === 'livetv') {
-                        url += '&type=Programs';
-                    }
-
-                    if (options.parentId) {
-                        url += '&parentId=' + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if (item.Type === 'MusicGenre') {
-                    url = 'list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
-
-                    if (options.parentId) {
-                        url += '&parentId=' + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if (item.Type === 'Studio') {
-                    url = 'list.html?studioId=' + item.Id + '&serverId=' + serverId;
-
-                    if (options.parentId) {
-                        url += '&parentId=' + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-                    if (item.CollectionType == 'movies') {
-                        url = 'movies.html?topParentId=' + item.Id;
-
-                        if (options && options.section === 'latest') {
-                            url += '&tab=1';
-                        }
-
-                        return url;
-                    }
-
-                    if (item.CollectionType == 'tvshows') {
-                        url = 'tv.html?topParentId=' + item.Id;
-
-                        if (options && options.section === 'latest') {
-                            url += '&tab=2';
-                        }
-
-                        return url;
-                    }
-
-                    if (item.CollectionType == 'music') {
-                        return 'music.html?topParentId=' + item.Id;
-                    }
-                }
-
-                var itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
-
-                if (itemTypes.indexOf(itemType) >= 0) {
-                    return 'details?id=' + id + '&serverId=' + serverId;
-                }
-
-                var contextSuffix = context ? '&context=' + context : '';
-
-                if (itemType == 'Series' || itemType == 'Season' || itemType == 'Episode') {
-                    return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;
-                }
-
-                if (item.IsFolder) {
-                    if (id) {
-                        return 'list.html?parentId=' + id + '&serverId=' + serverId;
-                    }
-
-                    return '#';
-                }
-
-                return 'details?id=' + id + '&serverId=' + serverId;
-            };
-
-            appRouter.showItem = showItem;
-            return appRouter;
-        });
-    })();
-
+    initRequireJs();
     promise.then(onWebComponentsReady);
 }
 

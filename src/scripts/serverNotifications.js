@@ -3,6 +3,7 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
 
     playbackManager = playbackManager.default || playbackManager;
     focusManager = focusManager.default || focusManager;
+    appRouter = appRouter.default || appRouter;
 
     var serverNotifications = {};
 
