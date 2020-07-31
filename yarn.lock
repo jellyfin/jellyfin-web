@@ -5417,10 +5417,10 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
-hls.js@^0.14.6:
-  version "0.14.6"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-0.14.6.tgz#f5ea8412ccd980fec67ec94a40b65adcc0bf75d1"
-  integrity sha512-6s8L+Pzed3Gyf7wDxQNx9TP9y9clCDIPW8cQdDV7PF7npI75BbCbUZSQQclnt20442Ay1NL3vg2WXeSEYNiuAw==
+hls.js@^0.14.7:
+  version "0.14.7"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-0.14.7.tgz#47fbd2662b13121ab17c07aea06b1c07828240cf"
+  integrity sha512-9JY0D9nwMrfQPRWc8/kEJTKK0TYfDTzIs6Xq+gdCvasRxdvQKQ2T76rdueTkS0AsFV6sQlJN0wxbnI44aRvvUA==
   dependencies:
     eventemitter3 "^4.0.3"
     url-toolkit "^2.1.6"
