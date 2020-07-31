@@ -1543,7 +1543,7 @@
     "TvLibraryHelp": "Review the {0}TV naming guide{1}.",
     "UserAgentHelp": "Supply a custom user-agent HTTP header.",
     "ValueContainer": "Container: {0}",
-    "EnableBlurhash": "Enable blurred placeholders for images",
-    "EnableBlurhashHelp": "Images that are still being loaded will be displayed with a blurred placeholder",
+    "EnableBlurHash": "Enable blurred placeholders for images",
+    "EnableBlurHashHelp": "Images that are still being loaded will be displayed with a blurred placeholder",
     "ButtonSyncPlay": "SyncPlay"
 }
