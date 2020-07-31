@@ -131,7 +131,7 @@ function renderProviders(page, providers) {
 
     const elem = $('.providerList', page).html(html);
     $('.btnOptions', elem).on('click', function () {
-        var id = this.getAttribute('data-id');
+        const id = this.getAttribute('data-id');
         showProviderOptions(page, id, this);
     });
 }
@@ -255,7 +255,7 @@ function addDevice(button) {
 }
 
 function showDeviceMenu(button, tunerDeviceId) {
-    var items = [];
+    const items = [];
     items.push({
         name: globalize.translate('ButtonDelete'),
         id: 'delete'
