@@ -52,7 +52,7 @@ import 'emby-button';
                 });
             }, function () {
                 import('alert').then(({default: alert}) => {
-                    alert(globalize.translate('DefaultErrorMessage'));
+                    alert(globalize.translate('MessageDefaultError'));
                 });
 
                 Dashboard.processServerConfigurationUpdateResult();

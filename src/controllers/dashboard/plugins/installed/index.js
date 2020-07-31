@@ -6,10 +6,10 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
 
         require(['confirm'], function (confirm) {
             confirm.default({
-                title: globalize.translate('UninstallPluginHeader'),
+                title: globalize.translate('HeaderUninstallPlugin'),
                 text: msg,
                 primary: 'delete',
-                confirmText: globalize.translate('UninstallPluginHeader')
+                confirmText: globalize.translate('HeaderUninstallPlugin')
             }).then(function () {
                 loading.show();
                 ApiClient.uninstallPlugin(uniqueid).then(function () {
@@ -21,7 +21,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
 
     function showNoConfigurationMessage() {
         Dashboard.alert({
-            message: globalize.translate('NoPluginConfigurationMessage')
+            message: globalize.translate('MessageNoPluginConfiguration')
         });
     }
 
@@ -95,7 +95,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
             html += '<div class="centerMessage">';
             html += '<h1>' + globalize.translate('MessageNoPluginsInstalled') + '</h1>';
             html += '<p><a is="emby-linkbutton" class="button-link" href="availableplugins.html">';
-            html += globalize.translate('BrowsePluginCatalogMessage');
+            html += globalize.translate('MessageBrowsePluginCatalog');
             html += '</a></p>';
             html += '</div>';
         }

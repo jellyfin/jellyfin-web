@@ -79,7 +79,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
             page.querySelector('#btnInstall').disabled = true;
             ApiClient.installPlugin(name, guid, version).then(function () {
                 loading.hide();
-                alertText(globalize.translate('PluginInstalledMessage'));
+                alertText(globalize.translate('MessagePluginInstalled'));
             });
         };
 

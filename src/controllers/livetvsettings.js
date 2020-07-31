@@ -44,7 +44,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, 
         var msg = '';
 
         if (recordingPathChanged) {
-            msg += globalize.translate('RecordingPathChangeMessage');
+            msg += globalize.translate('MessageChangeRecordingPath');
         }
 
         if (msg) {

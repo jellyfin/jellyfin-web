@@ -85,7 +85,7 @@ import 'flexStyles';
                     refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
                 }, () => {
                     import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('DefaultErrorMessage'));
+                        toast(globalize.translate('MessageDefaultError'));
                     });
                 });
             });
