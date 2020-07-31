@@ -222,7 +222,7 @@ export class BookPlayer {
         return new Promise((resolve, reject) => {
             import('epubjs').then(({default: epubjs}) => {
                 let downloadHref = apiClient.getItemDownloadUrl(item.Id);
-                let book = epubjs.default(downloadHref, {openAs: 'epub'});
+                let book = epubjs(downloadHref, {openAs: 'epub'});
                 let rendition = book.renderTo(elem, {width: '100%', height: '97%'});
 
                 this._currentSrc = downloadHref;
