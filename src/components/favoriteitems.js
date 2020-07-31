@@ -231,7 +231,7 @@ import 'emby-itemscontainer';
     }
 
 export default {
-    render: loadSection
+    render: loadSections
 };
 
 /* eslint-enable indent */
