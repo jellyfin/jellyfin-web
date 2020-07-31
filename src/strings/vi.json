@@ -825,5 +825,10 @@
     "LabelMaxStreamingBitrate": "Chất lượng phát tối đa:",
     "LabelMaxScreenshotsPerItem": "Số lượng ảnh chụp tối đa mỗi mục:",
     "LabelMaxResumePercentageHelp": "Nội dung sẽ được cho là đã kết thúc nếu ngừng phát sau thời gian này.",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "LabelPasswordConfirm": "Mật khẩu (xác nhận):",
+    "LabelPassword": "Mật khẩu:",
+    "LabelNotificationEnabled": "Bật thông báo này",
+    "LabelNewsCategories": "",
+    "LabelStable": "Ổn Định"
 }
