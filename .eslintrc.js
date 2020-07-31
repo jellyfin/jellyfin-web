@@ -1,6 +1,7 @@
 module.exports = {
     root: true,
     plugins: [
+        '@babel',
         'promise',
         'import',
         'eslint-comments'
@@ -53,7 +54,7 @@ module.exports = {
             files: [
                 './src/**/*.js'
             ],
-            parser: 'babel-eslint',
+            parser: '@babel/eslint-parser',
             env: {
                 node: false,
                 amd: true,
