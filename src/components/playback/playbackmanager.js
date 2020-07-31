@@ -887,9 +887,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         }
                     }
 
-                    targets = targets.sort(sortPlayerTargets);
-
-                    return targets;
+                    return targets.sort(sortPlayerTargets);
                 });
             });
         };
@@ -3390,8 +3388,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
     PlaybackManager.prototype.getSubtitleUrl = function (textStream, serverId) {
         var apiClient = connectionManager.getApiClient(serverId);
-        var textStreamUrl = !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
-        return textStreamUrl;
+
+        return !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
     };
 
     PlaybackManager.prototype.stop = function (player) {

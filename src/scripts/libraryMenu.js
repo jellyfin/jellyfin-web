@@ -604,12 +604,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                     var icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
                     var itemId = i.Id;
 
-                    const linkHtml = `<a is="emby-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="${getItemHref(i, i.CollectionType)}">
+                    return `<a is="emby-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="${getItemHref(i, i.CollectionType)}">
                                     <span class="material-icons navMenuOptionIcon ${icon}"></span>
                                     <span class="sectionName navMenuOptionText">${i.Name}</span>
                                   </a>`;
-
-                    return linkHtml;
                 }).join('');
                 libraryMenuOptions.innerHTML = html;
                 var elem = libraryMenuOptions;
