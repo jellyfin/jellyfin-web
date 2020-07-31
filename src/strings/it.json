@@ -1520,7 +1520,7 @@
     "MessageSyncPlayGroupDoesNotExist": "Impossibile unirsi al gruppo perchè non esiste.",
     "MessageSyncPlayPlaybackPermissionRequired": "Permesso di riproduzione necessario.",
     "MessageSyncPlayNoGroupsAvailable": "Nessun gruppo disponibile. Inizia a riprodurre qualcosa.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> sta bufferizzando...",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> sta bufferizzando…",
     "MessageSyncPlayUserLeft": "<b>{0}</b> ha lasciato il gruppo.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> si è unito al gruppo.",
     "MessageSyncPlayDisabled": "SyncPlay disabilitato.",
@@ -1564,5 +1564,6 @@
     "ViewAlbumArtist": "Visualizza artista dell'album",
     "Writers": "Scrittori",
     "ClearQueue": "Svuota la coda",
-    "StopPlayback": "Interrompi riproduzione"
+    "StopPlayback": "Interrompi riproduzione",
+    "LabelUnstable": "Unstable"
 }
