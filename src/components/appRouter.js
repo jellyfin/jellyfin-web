@@ -1,6 +1,8 @@
 define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
+    loading = loading.default || loading;
+
     var appRouter = {
         showLocalLogin: function (serverId, manualLogin) {
             var pageName = manualLogin ? 'manuallogin' : 'login';
@@ -22,7 +24,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     function beginConnectionWizard() {
         backdrop.clearBackdrop();
-        loading.default.show();
+        loading.show();
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function (result) {
@@ -33,7 +35,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     function handleConnectionResult(result) {
         switch (result.State) {
             case 'SignedIn':
-                loading.default.hide();
+                loading.hide();
                 skinManager.loadUserSkin();
                 break;
             case 'ServerSignIn':
@@ -276,7 +278,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     var firstConnectionResult;
     function start(options) {
-        loading.default.show();
+        loading.show();
 
         initApiClients();
 
@@ -296,7 +298,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 hashbang: options.hashbang !== false
             });
         }).catch().then(function() {
-            loading.default.hide();
+            loading.hide();
         });
     }
 
@@ -511,7 +513,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         if (currentRouteInfo && currentRouteInfo.path === path) {
             // can't use this with home right now due to the back menu
             if (currentRouteInfo.route.type !== 'home') {
-                loading.default.hide();
+                loading.hide();
                 return Promise.resolve();
             }
         }

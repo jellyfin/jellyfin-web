@@ -17,8 +17,6 @@ import 'flexStyles';
 
 /* eslint-disable indent */
 
-    loading = loading.default || loading;
-
     function itemsPerRow() {
         const screenWidth = dom.getWindowSize().innerWidth;
 
