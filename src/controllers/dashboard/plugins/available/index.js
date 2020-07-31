@@ -1,7 +1,7 @@
 define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby-checkbox', 'emby-select'], function (loading, libraryMenu, globalize) {
     'use strict';
 
-    libraryMenu = LibraryMenu.default || libraryMenu;
+    libraryMenu = libraryMenu.default || libraryMenu;
 
     function reloadList(page) {
         loading.show();

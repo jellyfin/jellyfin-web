@@ -1,7 +1,7 @@
 define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu', 'mainTabsManager', 'cardBuilder', 'dom', 'imageLoader', 'playbackManager', 'globalize', 'emby-scroller', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (events, layoutManager, inputManager, userSettings, libraryMenu, mainTabsManager, cardBuilder, dom, imageLoader, playbackManager, globalize) {
     'use strict';
 
-    libraryMenu = LibraryMenu.default || libraryMenu;
+    libraryMenu = libraryMenu.default || libraryMenu;
 
     function enableScrollX() {
         return !layoutManager.desktop;
