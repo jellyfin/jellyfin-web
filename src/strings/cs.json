@@ -1652,5 +1652,7 @@
     "Writers": "Scénáristé",
     "ClearQueue": "Vymazat frontu",
     "StopPlayback": "Zastavit přehrávání",
-    "ViewAlbumArtist": "Zobrazit interpreta alba"
+    "ViewAlbumArtist": "Zobrazit interpreta alba",
+    "PreviousTrack": "Předchozí",
+    "NextTrack": "Další"
 }
