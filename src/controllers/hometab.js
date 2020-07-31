@@ -1,8 +1,6 @@
 import * as userSettings from 'userSettings';
 import loading from 'loading';
 import connectionManager from 'connectionManager';
-import appHost from 'apphost';
-import layoutManager from 'layoutManager';
 import focusManager from 'focusManager';
 import homeSections from 'homeSections';
 import 'emby-itemscontainer';
