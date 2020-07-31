@@ -1,5 +1,3 @@
-'use strict';
-
 import $ from 'jQuery';
 import globalize from 'globalize';
 import taskButton from 'scripts/taskbutton';
