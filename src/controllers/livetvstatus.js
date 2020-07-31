@@ -265,7 +265,7 @@ function showDeviceMenu(button, tunerDeviceId) {
         id: 'edit'
     });
 
-    require(['actionsheet'], function (actionsheet) {
+    import('actionsheet').then(({default: actionsheet}) => {
         actionsheet.show({
             items: items,
             positionTo: button
