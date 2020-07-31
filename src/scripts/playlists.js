@@ -60,7 +60,7 @@ export default function (view, params) {
         const viewStyle = getPageData(view).view;
         const itemsContainer = view.querySelector('.itemsContainer');
 
-        if ('List' == viewStyle) {
+        if (viewStyle == 'List') {
             itemsContainer.classList.add('vertical-list');
             itemsContainer.classList.remove('vertical-wrap');
         } else {

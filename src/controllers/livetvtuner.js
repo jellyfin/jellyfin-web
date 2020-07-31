@@ -21,7 +21,7 @@ function fillTypes(view, currentId) {
         html += globalize.translate('TabOther');
         html += '</option>';
         selectType.innerHTML = html;
-        selectType.disabled = null != currentId;
+        selectType.disabled = currentId != null;
         selectType.value = '';
         onTypeChange.call(selectType);
     });
@@ -112,15 +112,15 @@ function getDetectedDevice() {
 function onTypeChange() {
     const value = this.value;
     const view = dom.parentWithClass(this, 'page');
-    const mayIncludeUnsupportedDrmChannels = 'hdhomerun' === value;
-    const supportsTranscoding = 'hdhomerun' === value;
-    const supportsFavorites = 'hdhomerun' === value;
-    const supportsTunerIpAddress = 'hdhomerun' === value;
-    const supportsTunerFileOrUrl = 'm3u' === value;
-    const supportsStreamLooping = 'm3u' === value;
-    const supportsTunerCount = 'm3u' === value;
-    const supportsUserAgent = 'm3u' === value;
-    const suppportsSubmit = 'other' !== value;
+    const mayIncludeUnsupportedDrmChannels = value === 'hdhomerun';
+    const supportsTranscoding = value === 'hdhomerun';
+    const supportsFavorites = value === 'hdhomerun';
+    const supportsTunerIpAddress = value === 'hdhomerun';
+    const supportsTunerFileOrUrl = value === 'm3u';
+    const supportsStreamLooping = value === 'm3u';
+    const supportsTunerCount = value === 'm3u';
+    const supportsUserAgent = value === 'm3u';
+    const suppportsSubmit = value !== 'other';
     const supportsSelectablePath = supportsTunerFileOrUrl;
     const txtDevicePath = view.querySelector('.txtDevicePath');
 

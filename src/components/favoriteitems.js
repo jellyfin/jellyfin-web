@@ -129,7 +129,7 @@ import 'emby-itemscontainer';
 
         let promise;
 
-        if ('MusicArtist' === section.types) {
+        if (section.types === 'MusicArtist') {
             promise = ApiClient.getArtists(userId, options);
         } else {
             options.IncludeItemTypes = section.types;
@@ -169,7 +169,7 @@ import 'emby-itemscontainer';
                     preferThumb: section.preferThumb,
                     shape: section.shape,
                     centerText: section.centerText && !cardLayout,
-                    overlayText: false !== section.overlayText,
+                    overlayText: section.overlayText !== false,
                     showTitle: section.showTitle,
                     showParentTitle: section.showParentTitle,
                     scalable: true,
@@ -201,7 +201,7 @@ import 'emby-itemscontainer';
 
         if (types) {
             sections = sections.filter(function (s) {
-                return -1 !== types.indexOf(s.id);
+                return types.indexOf(s.id) !== -1;
             });
         }
 
@@ -222,7 +222,7 @@ import 'emby-itemscontainer';
         for (let i = 0, length = sections.length; i < length; i++) {
             const section = sections[i];
             elem = page.querySelector('.section' + section.id);
-            promises.push(loadSection(elem, userId, topParentId, section, 1 === sections.length));
+            promises.push(loadSection(elem, userId, topParentId, section, sections.length === 1));
         }
 
         Promise.all(promises).then(function () {

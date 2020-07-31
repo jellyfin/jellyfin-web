@@ -57,13 +57,13 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
             var elem = entry.target;
             var id = elem.getAttribute('data-id');
             var viewStyle = self.getCurrentViewStyle();
-            var limit = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 5 : 9;
+            var limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;
 
             if (enableScrollX()) {
                 limit = 10;
             }
 
-            var enableImageTypes = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 'Primary,Backdrop,Thumb' : 'Primary';
+            var enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
             var query = {
                 SortBy: 'SortName',
                 SortOrder: 'Ascending',

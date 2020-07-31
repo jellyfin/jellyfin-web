@@ -19,13 +19,13 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
 
     function getHeaderText(category) {
         category = category.replace(' ', '');
-        if ('Channel' === category) {
+        if (category === 'Channel') {
             category = 'Channels';
-        } else if ('Theme' === category) {
+        } else if (category === 'Theme') {
             category = 'Themes';
-        } else if ('LiveTV' === category) {
+        } else if (category === 'LiveTV') {
             category = 'HeaderLiveTV';
-        } else if ('ScreenSaver' === category) {
+        } else if (category === 'ScreenSaver') {
             category = 'HeaderScreenSavers';
         }
 
