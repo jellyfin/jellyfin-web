@@ -277,7 +277,7 @@ import 'programStyles';
          */
         function getImageWidth(shape, screenWidth, isOrientationLandscape) {
             const imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
-            return Math.round(screenWidth / imagesPerRow) * 2;
+            return Math.round(screenWidth / imagesPerRow);
         }
 
         /**

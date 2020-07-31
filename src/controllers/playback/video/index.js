@@ -330,24 +330,24 @@ import 'css!assets/css/videoosd';
 
             if (item) {
                 let imgUrl = seriesImageUrl(item, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Primary'
                 }) || seriesImageUrl(item, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Thumb'
                 }) || imageUrl(item, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Primary'
                 });
 
                 if (!imgUrl && secondaryItem && (imgUrl = seriesImageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Primary'
                 }) || seriesImageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Thumb'
                 }) || imageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Primary'
                 })), imgUrl) {
                     return void (osdPoster.innerHTML = '<img src="' + imgUrl + '" />');
