@@ -231,8 +231,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 max /= 8;
                 max *= 1000000;
                 max *= 0.7;
-                max = parseInt(max);
-                return max;
+                return parseInt(max, 10);
             }
         }
         /* eslint-enable compat/compat */

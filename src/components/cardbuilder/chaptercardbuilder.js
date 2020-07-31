@@ -104,9 +104,7 @@ import browser from 'browser';
         const cardBoxCssClass = 'cardBox';
         const cardScalableClass = 'cardScalable';
 
-        const html = `<button type="button" class="${className}"${dataAttributes}><div class="${cardBoxCssClass}"><div class="${cardScalableClass}"><div class="cardPadder-${shape}"></div>${cardImageContainer}</div><div class="innerCardFooter">${nameHtml}</div></div></div></button>`;
-
-        return html;
+        return `<button type="button" class="${className}"${dataAttributes}><div class="${cardBoxCssClass}"><div class="${cardScalableClass}"><div class="cardPadder-${shape}"></div>${cardImageContainer}</div><div class="innerCardFooter">${nameHtml}</div></div></div></button>`;
     }
 
     export function buildChapterCards(item, chapters, options) {

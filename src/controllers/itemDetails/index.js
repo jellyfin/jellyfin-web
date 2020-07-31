@@ -40,7 +40,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function getContextMenuOptions(item, user, button) {
-        var options = {
+        return {
             item: item,
             open: false,
             play: false,
@@ -55,8 +55,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             user: user,
             share: true
         };
-
-        return options;
     }
 
     function getProgramScheduleHtml(items) {
@@ -359,9 +357,8 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             });
             html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + artist.Name + '</a>');
         }
-        html = html.join(' / ');
 
-        return html;
+        return html.join(' / ');
     }
 
     /**
@@ -522,6 +519,14 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ParentBackdropImageTags[0]
+            });
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
+            hasbackdrop = true;
+        } else if (item.ImageTags && item.ImageTags.Primary) {
+            imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                type: 'Primary',
+                maxWidth: dom.getScreenWidth(),
+                tag: item.ImageTags.Primary
             });
             imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
@@ -1731,7 +1736,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function getVideosHtml(items) {
-        var html = cardBuilder.getCardsHtml({
+        return cardBuilder.getCardsHtml({
             items: items,
             shape: 'autooverflow',
             showTitle: true,
@@ -1740,8 +1745,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             centerText: true,
             showRuntime: true
         });
-
-        return html;
     }
 
     function renderSpecials(page, item, user) {

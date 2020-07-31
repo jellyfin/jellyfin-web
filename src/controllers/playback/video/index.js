@@ -1,6 +1,7 @@
 import playbackManager from 'playbackManager';
 import dom from 'dom';
 import inputManager from 'inputManager';
+import mouseManager from 'mouseManager';
 import datetime from 'datetime';
 import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
@@ -367,6 +368,7 @@ import 'css!assets/css/videoosd';
         function hideOsd() {
             slideUpToHide(headerElement);
             hideMainOsdControls();
+            mouseManager.hideCursor();
         }
 
         function toggleOsd() {
@@ -435,6 +437,7 @@ import 'css!assets/css/videoosd';
                 const elem = osdBottomElement;
                 clearHideAnimationEventListeners(elem);
                 elem.classList.add('videoOsdBottom-hidden');
+
                 dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                     once: true
                 });
@@ -1131,6 +1134,7 @@ import 'css!assets/css/videoosd';
             clickedElement = e.target;
 
             const key = keyboardnavigation.getKeyName(e);
+            const isKeyModified = e.ctrlKey || e.altKey;
 
             if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
@@ -1235,8 +1239,10 @@ import 'css!assets/css/videoosd';
                 case '7':
                 case '8':
                 case '9': {
-                    const percent = parseInt(key, 10) * 10;
-                    playbackManager.seekPercent(percent, currentPlayer);
+                    if (!isKeyModified) {
+                        const percent = parseInt(key, 10) * 10;
+                        playbackManager.seekPercent(percent, currentPlayer);
+                    }
                     break;
                 }
             }

@@ -2,6 +2,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     'use strict';
 
     loading = loading.default || loading;
+    PlayQueueManager = PlayQueueManager.default || PlayQueueManager;
 
     function enableLocalPlaylistManagement(player) {
         if (player.getPlaylist) {
@@ -20,6 +21,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             screenfull.on('change', function () {
                 events.trigger(player, 'fullscreenchange');
             });
+        } else {
+            // iOS Safari
+            document.addEventListener('webkitfullscreenchange', function () {
+                events.trigger(player, 'fullscreenchange');
+            }, false);
         }
     }
 
@@ -884,9 +890,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         }
                     }
 
-                    targets = targets.sort(sortPlayerTargets);
-
-                    return targets;
+                    return targets.sort(sortPlayerTargets);
                 });
             });
         };
@@ -1401,6 +1405,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return player.isFullscreen();
             }
 
+            if (!screenfull.isEnabled) {
+                // iOS Safari
+                return document.webkitIsFullScreen;
+            }
+
             return screenfull.isFullscreen;
         };
 
@@ -1412,6 +1421,16 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             if (screenfull.isEnabled) {
                 screenfull.toggle();
+            } else {
+                // iOS Safari
+                if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
+                    document.webkitCancelFullscreen();
+                } else {
+                    const elem = document.querySelector('video');
+                    if (elem && elem.webkitEnterFullscreen) {
+                        elem.webkitEnterFullscreen();
+                    }
+                }
             }
         };
 
@@ -3372,8 +3391,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
     PlaybackManager.prototype.getSubtitleUrl = function (textStream, serverId) {
         var apiClient = connectionManager.getApiClient(serverId);
-        var textStreamUrl = !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
-        return textStreamUrl;
+
+        return !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
     };
 
     PlaybackManager.prototype.stop = function (player) {
