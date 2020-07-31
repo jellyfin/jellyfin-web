@@ -1,6 +1,5 @@
 import TabbedView from 'tabbedView';
 import globalize from 'globalize';
-import require from 'require';
 import 'emby-tabs';
 import 'emby-button';
 import 'emby-scroller';
@@ -17,30 +16,24 @@ function getDefaultTabIndex() {
     return 0;
 }
 
-function getRequirePromise(deps) {
-    return new Promise(function (resolve, reject) {
-        require(deps, resolve);
-    });
-}
-
 function getTabController(index) {
     if (null == index) {
         throw new Error('index cannot be null');
     }
 
-    const depends = [];
+    let depends = '';
 
     switch (index) {
         case 0:
-            depends.push('controllers/hometab');
+            depends = 'controllers/hometab';
             break;
 
         case 1:
-            depends.push('controllers/favorites');
+            depends = 'controllers/favorites';
     }
 
     const instance = this;
-    return getRequirePromise(depends).then(function (controllerFactory) {
+    return import(depends).then(({ default: controllerFactory }) => {
         let controller = instance.tabControllers[index];
 
         if (!controller) {
