@@ -9,7 +9,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
         var controllerUrl = view.getAttribute('data-controller');
 
         if (controllerUrl) {
-            if (0 === controllerUrl.indexOf('__plugin/')) {
+            if (controllerUrl.indexOf('__plugin/') === 0) {
                 controllerUrl = controllerUrl.substring('__plugin/'.length);
             }
 
@@ -31,14 +31,14 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     function loadView(options) {
         if (!options.cancel) {
             var selected = selectedPageIndex;
-            var previousAnimatable = -1 === selected ? null : allPages[selected];
+            var previousAnimatable = selected === -1 ? null : allPages[selected];
             var pageIndex = selected + 1;
 
             if (pageIndex >= pageContainerCount) {
                 pageIndex = 0;
             }
 
-            var isPluginpage = -1 !== options.url.toLowerCase().indexOf('/configurationpage');
+            var isPluginpage = options.url.toLowerCase().indexOf('/configurationpage') !== -1;
             var newViewInfo = normalizeNewView(options, isPluginpage);
             var newView = newViewInfo.elem;
             var modulesToLoad = [];
@@ -53,7 +53,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
 
                     var view = newView;
 
-                    if ('string' == typeof view) {
+                    if (typeof view == 'string') {
                         view = document.createElement('div');
                         view.innerHTML = newView;
                     }
@@ -133,15 +133,15 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     function normalizeNewView(options, isPluginpage) {
         var viewHtml = options.view;
 
-        if (-1 === viewHtml.indexOf('data-role="page"')) {
+        if (viewHtml.indexOf('data-role="page"') === -1) {
             return viewHtml;
         }
 
-        var hasScript = -1 !== viewHtml.indexOf('<script');
+        var hasScript = viewHtml.indexOf('<script') !== -1;
         var elem = parseHtml(viewHtml, hasScript);
 
         if (hasScript) {
-            hasScript = null != elem.querySelector('script');
+            hasScript = elem.querySelector('script') != null;
         }
 
         var hasjQuery = false;
@@ -149,9 +149,9 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
         var hasjQueryChecked = false;
 
         if (isPluginpage) {
-            hasjQuery = -1 != viewHtml.indexOf('jQuery') || -1 != viewHtml.indexOf('$(') || -1 != viewHtml.indexOf('$.');
-            hasjQueryChecked = -1 != viewHtml.indexOf('.checked(');
-            hasjQuerySelect = -1 != viewHtml.indexOf('.selectmenu(');
+            hasjQuery = viewHtml.indexOf('jQuery') != -1 || viewHtml.indexOf('$(') != -1 || viewHtml.indexOf('$.') != -1;
+            hasjQueryChecked = viewHtml.indexOf('.checked(') != -1;
+            hasjQuerySelect = viewHtml.indexOf('.selectmenu(') != -1;
         }
 
         return {
@@ -187,7 +187,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
         var url = options.url;
         var index = currentUrls.indexOf(url);
 
-        if (-1 !== index) {
+        if (index !== -1) {
             var animatable = allPages[index];
             var view = animatable;
 
@@ -197,7 +197,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
                 }
 
                 var selected = selectedPageIndex;
-                var previousAnimatable = -1 === selected ? null : allPages[selected];
+                var previousAnimatable = selected === -1 ? null : allPages[selected];
                 return setControllerClass(view, options).then(function () {
                     if (onBeforeChange) {
                         onBeforeChange(view, true, options);

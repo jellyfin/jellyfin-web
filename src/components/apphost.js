@@ -47,7 +47,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
                     profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
                 } else {
                     var builderOpts = getBaseProfileOptions(item);
-                    builderOpts.enableSsaRender = (item && !options.isRetry && 'allcomplexformats' !== appSettings.get('subtitleburnin'));
+                    builderOpts.enableSsaRender = (item && !options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats');
                     profile = profileBuilder(builderOpts);
                 }
 
@@ -370,7 +370,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
                 return window.NativeShell.AppHost.supports(command);
             }
 
-            return -1 !== supportedFeatures.indexOf(command.toLowerCase());
+            return supportedFeatures.indexOf(command.toLowerCase()) !== -1;
         },
         preferVisualCards: browser.android || browser.chrome,
         getSyncProfile: getSyncProfile,
