@@ -1326,7 +1326,7 @@
     "Record": "Record",
     "RecordSeries": "Record series",
     "RecordingCancelled": "Recording cancelled.",
-    "ChangeRecordingPath": "Changing your recording folder will not migrate existing recordings from the old location to the new. You'll need to move them manually if desired.",
+    "MessageChangeRecordingPath": "Changing your recording folder will not migrate existing recordings from the old location to the new. You'll need to move them manually if desired.",
     "RecordingScheduled": "Recording scheduled.",
     "Recordings": "Recordings",
     "Refresh": "Refresh",
