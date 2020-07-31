@@ -8,7 +8,7 @@ let layer4;
 let circleLefts;
 let circleRights;
 
-function show() {
+export function show() {
     let elem = loadingElem;
 
     if (!elem) {
@@ -47,7 +47,7 @@ function show() {
     }
 }
 
-function hide() {
+export function hide() {
     const elem = loadingElem;
 
     if (elem) {
