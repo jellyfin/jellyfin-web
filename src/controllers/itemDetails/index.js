@@ -759,7 +759,7 @@ import 'emby-select';
             disableIndicators: true,
             disableHoverMenu: true,
             overlayPlayButton: true,
-            width: dom.getWindowSize().innerWidth * 0.5
+            width: dom.getWindowSize().innerWidth * 0.25
         });
 
         elem.innerHTML = cardHtml;

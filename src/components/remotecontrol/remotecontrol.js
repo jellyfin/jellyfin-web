@@ -171,9 +171,9 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             }
 
             var url = item ? seriesImageUrl(item, {
-                maxHeight: 300 * 2
+                maxHeight: 300
             }) || imageUrl(item, {
-                maxHeight: 300 * 2
+                maxHeight: 300
             }) : null;
 
             let contextButton = context.querySelector('.btnToggleContextMenu');
