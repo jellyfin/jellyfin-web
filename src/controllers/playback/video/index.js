@@ -1134,7 +1134,7 @@ import 'css!assets/css/videoosd';
             clickedElement = e.target;
 
             const key = keyboardnavigation.getKeyName(e);
-            const isKeyModified = e.ctrlKey || e.altKey;
+            const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
 
             if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
