@@ -142,9 +142,9 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             coverImage: true,
             overlayText: false,
             lazy: true,
-            overlayPlayButton: 'play' === overlayButton,
-            overlayMoreButton: 'more' === overlayButton,
-            overlayInfoButton: 'info' === overlayButton,
+            overlayPlayButton: overlayButton === 'play',
+            overlayMoreButton: overlayButton === 'more',
+            overlayInfoButton: overlayButton === 'info',
             allowBottomPadding: !enableScrollX(),
             showAirTime: true,
             showAirDateTime: true
@@ -261,7 +261,7 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             require(depends, function (controllerFactory) {
                 var tabContent;
 
-                if (0 == index) {
+                if (index == 0) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
@@ -271,9 +271,9 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
 
-                    if (0 === index) {
+                    if (index === 0) {
                         controller = self;
-                    } else if (6 === index) {
+                    } else if (index === 6) {
                         controller = new controllerFactory(view, tabContent, {
                             collectionType: 'livetv'
                         });
@@ -305,8 +305,8 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             getTabController(page, index, function (controller) {
                 initialTabIndex = null;
 
-                if (-1 == renderedTabs.indexOf(index)) {
-                    if (1 === index) {
+                if (renderedTabs.indexOf(index) == -1) {
+                    if (index === 1) {
                         renderedTabs.push(index);
                     }
 

@@ -42,7 +42,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                 for (var region in result) {
                     var countries = result[region];
 
-                    if (countries.length && 'ZZZ' !== region) {
+                    if (countries.length && region !== 'ZZZ') {
                         for (i = 0, length = countries.length; i < length; i++) {
                             countryList.push({
                                 name: countries[i].fullName,
@@ -237,7 +237,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'listViewStyle', 'emb
                 var device = devices[i];
                 html += '<div class="listItem">';
                 var enabledTuners = providerInfo.EnabledTuners || [];
-                var isChecked = providerInfo.EnableAllTuners || -1 !== enabledTuners.indexOf(device.Id);
+                var isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
                 var checkedAttribute = isChecked ? ' checked' : '';
                 html += '<label class="checkboxContainer listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" data-id="' + device.Id + '" class="chkTuner" ' + checkedAttribute + '/><span></span></label>';
                 html += '<div class="listItemBody two-line">';

@@ -46,7 +46,8 @@ module.exports = {
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         'semi': ['error'],
         'space-before-blocks': ['error'],
-        'space-infix-ops': 'error'
+        'space-infix-ops': 'error',
+        'yoda': 'error'
     },
     overrides: [
         {

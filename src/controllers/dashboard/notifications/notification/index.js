@@ -106,7 +106,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
     $(document).on('pageinit', '#notificationSettingPage', function () {
         var page = this;
         $('#selectUsers', page).on('change', function () {
-            if ('Custom' == this.value) {
+            if (this.value == 'Custom') {
                 $('.selectCustomUsers', page).show();
             } else {
                 $('.selectCustomUsers', page).hide();
