@@ -1988,7 +1988,7 @@ class PlaybackManager {
                 throw new Error('player cannot be null');
             }
 
-            let playerTime = Math.floor(10000 * (player || self._currentPlayer).currentTime());
+            let playerTime = Math.floor(10000 * (player).currentTime());
 
             const streamInfo = getPlayerData(player).streamInfo;
             if (streamInfo) {
