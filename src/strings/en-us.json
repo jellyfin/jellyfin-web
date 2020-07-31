@@ -760,6 +760,7 @@
     "LabelChromecastVersion": "Chromecast Version",
     "LabelStable": "Stable",
     "LabelNightly": "Nightly",
+    "LabelUnstable": "Unstable",
     "LabelNewName": "New name:",
     "LabelNewPassword": "New password:",
     "LabelNewPasswordConfirm": "New password confirm:",
