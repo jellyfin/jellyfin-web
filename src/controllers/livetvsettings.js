@@ -50,10 +50,10 @@ function showSaveMessage(recordingPathChanged) {
     }
 
     if (msg) {
+        import('alert').then(({default: alert}) => {
+            alert(msg);
+        });
     }
-    import('alert').then(({default: alert}) => {
-        alert(msg);
-    });
 }
 
 export default function () {
