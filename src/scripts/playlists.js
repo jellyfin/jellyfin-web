@@ -3,7 +3,6 @@ import listView from 'listView';
 import cardBuilder from 'cardBuilder';
 import libraryMenu from 'libraryMenu';
 import libraryBrowser from 'libraryBrowser';
-import appHost from 'apphost';
 import imageLoader from 'imageLoader';
 import userSettings from 'userSettings';
 import 'emby-itemscontainer';

@@ -222,7 +222,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
     }
 
     function setImageUrl(context, state, url) {
-        currentImgUrl = url;
         var item = state.NowPlayingItem;
         var imgContainer = context.querySelector('.nowPlayingPageImageContainer');
 
@@ -257,7 +256,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         }
     }
 
-    var currentImgUrl;
     return function () {
         function toggleRepeat() {
             switch (playbackManager.getRepeatMode()) {
@@ -420,7 +418,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 var nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
 
                 if (nowPlayingVolumeSlider) {
-
                     nowPlayingVolumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
 
                     if (!nowPlayingVolumeSlider.dragging) {
@@ -909,7 +906,6 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
         }
 
         function onShow(context, tab) {
-            currentImgUrl = null;
             bindToPlayer(context, playbackManager.getCurrentPlayer());
         }
 

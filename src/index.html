@@ -129,7 +129,7 @@
             animation: fadein 0.5s;
             width: 30%;
             height: 30%;
-            background-image: url(assets/img/banner-light.png);
+            background-image: url(assets/img/icon-transparent.png);
             background-position: center center;
             background-repeat: no-repeat;
             background-size: contain;
@@ -138,6 +138,14 @@
             left: 50%;
             -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
+        }
+
+        @media screen
+            and (min-device-width: 992px)
+            and (-webkit-min-device-pixel-ratio: 1) {
+            .splashLogo {
+                background-image: url(assets/img/banner-light.png);
+            }
         }
     </style>
 </head>

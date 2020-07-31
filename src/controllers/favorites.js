@@ -180,8 +180,7 @@ import 'emby-scroller';
 
     function getItemsHtmlFn(section) {
         return function (items) {
-            const supportsImageAnalysis = appHost.supports('imageanalysis');
-            let cardLayout = (appHost.preferVisualCards || supportsImageAnalysis) && section.autoCardLayout && section.showTitle;
+            let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
             cardLayout = false;
             const serverId = this.apiClient.serverId();
             const leadingButtons = layoutManager.tv ? [{

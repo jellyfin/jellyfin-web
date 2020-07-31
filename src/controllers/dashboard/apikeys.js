@@ -1,6 +1,5 @@
 import datetime from 'datetime';
 import loading from 'loading';
-import libraryMenu from 'libraryMenu';
 import dom from 'dom';
 import globalize from 'globalize';
 import 'emby-button';

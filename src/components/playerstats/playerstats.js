@@ -5,14 +5,12 @@ import connectionManager from 'connectionManager';
 import syncPlayManager from 'syncPlayManager';
 import playMethodHelper from 'playMethodHelper';
 import layoutManager from 'layoutManager';
-import serverNotifications from 'serverNotifications';
 import 'paper-icon-button-light';
 import 'css!./playerstats';
 
 /* eslint-disable indent */
 
     function init(instance) {
-
         const parent = document.createElement('div');
 
         parent.classList.add('playerStats');
@@ -51,9 +49,7 @@ import 'css!./playerstats';
     }
 
     function renderStats(elem, categories) {
-
         elem.querySelector('.playerStats-stats').innerHTML = categories.map(function (category) {
-
             let categoryHtml = '';
 
             const stats = category.stats;
@@ -73,7 +69,6 @@ import 'css!./playerstats';
             }
 
             for (let i = 0, length = stats.length; i < length; i++) {
-
                 categoryHtml += '<div class="playerStats-stat">';
 
                 const stat = stats[i];
@@ -90,12 +85,10 @@ import 'css!./playerstats';
             }
 
             return categoryHtml;
-
         }).join('');
     }
 
     function getSession(instance, player) {
-
         const now = new Date().getTime();
 
         if ((now - (instance.lastSessionTime || 0)) < 10000) {
@@ -107,19 +100,16 @@ import 'css!./playerstats';
         return apiClient.getSessions({
             deviceId: apiClient.deviceId()
         }).then(function (sessions) {
-
             instance.lastSession = sessions[0] || {};
             instance.lastSessionTime = new Date().getTime();
 
             return Promise.resolve(instance.lastSession);
-
         }, function () {
             return Promise.resolve({});
         });
     }
 
     function translateReason(reason) {
-
         return globalize.translate('' + reason);
     }
 
@@ -132,7 +122,6 @@ import 'css!./playerstats';
         let audioChannels;
 
         if (session.TranscodingInfo) {
-
             videoCodec = session.TranscodingInfo.VideoCodec;
             audioCodec = session.TranscodingInfo.AudioCodec;
             totalBitrate = session.TranscodingInfo.Bitrate;
@@ -140,7 +129,6 @@ import 'css!./playerstats';
         }
 
         if (videoCodec) {
-
             sessionStats.push({
                 label: globalize.translate('LabelVideoCodec'),
                 value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
@@ -148,45 +136,39 @@ import 'css!./playerstats';
         }
 
         if (audioCodec) {
-
             sessionStats.push({
                 label: globalize.translate('LabelAudioCodec'),
                 value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
             });
         }
 
-        //if (audioChannels) {
-
-        //    sessionStats.push({
-        //        label: 'Audio channels:',
-        //        value: audioChannels
-        //    });
-        //}
+        if (audioChannels) {
+            sessionStats.push({
+                label: globalize.translate('LabelAudioChannels'),
+                value: audioChannels
+            });
+        }
 
         if (displayPlayMethod === 'Transcode') {
             if (totalBitrate) {
-
                 sessionStats.push({
                     label: globalize.translate('LabelBitrate'),
                     value: getDisplayBitrate(totalBitrate)
                 });
             }
             if (session.TranscodingInfo.CompletionPercentage) {
-
                 sessionStats.push({
                     label: globalize.translate('LabelTranscodingProgress'),
                     value: session.TranscodingInfo.CompletionPercentage.toFixed(1) + '%'
                 });
             }
             if (session.TranscodingInfo.Framerate) {
-
                 sessionStats.push({
                     label: globalize.translate('LabelTranscodingFramerate'),
                     value: session.TranscodingInfo.Framerate + ' fps'
                 });
             }
             if (session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
-
                 sessionStats.push({
                     label: globalize.translate('LabelReasonForTranscoding'),
                     value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
@@ -198,7 +180,6 @@ import 'css!./playerstats';
     }
 
     function getDisplayBitrate(bitrate) {
-
         if (bitrate > 1000000) {
             return (bitrate / 1000000).toFixed(1) + ' Mbps';
         } else {
@@ -217,7 +198,6 @@ import 'css!./playerstats';
     }
 
     function getMediaSourceStats(session, player, displayPlayMethod) {
-
         const sessionStats = [];
 
         const mediaSource = playbackManager.currentMediaSource(player) || {};
@@ -239,7 +219,6 @@ import 'css!./playerstats';
         }
 
         if (totalBitrate) {
-
             sessionStats.push({
                 label: globalize.translate('LabelBitrate'),
                 value: getDisplayBitrate(totalBitrate)
@@ -248,18 +227,14 @@ import 'css!./playerstats';
 
         const mediaStreams = mediaSource.MediaStreams || [];
         const videoStream = mediaStreams.filter(function (s) {
-
             return s.Type === 'Video';
-
         })[0] || {};
 
         const videoCodec = videoStream.Codec;
 
         const audioStreamIndex = playbackManager.getAudioStreamIndex(player);
         const audioStream = playbackManager.audioTracks(player).filter(function (s) {
-
             return s.Type === 'Audio' && s.Index === audioStreamIndex;
-
         })[0] || {};
 
         const audioCodec = audioStream.Codec;
@@ -360,12 +335,10 @@ import 'css!./playerstats';
     }
 
     function getStats(instance, player) {
-
         const statsPromise = player.getStats ? player.getStats() : Promise.resolve({});
         const sessionPromise = getSession(instance, player);
 
         return Promise.all([statsPromise, sessionPromise]).then(function (responses) {
-
             const playerStatsResult = responses[0];
             const playerStats = playerStatsResult.categories || [];
             const session = responses[1];
@@ -392,7 +365,6 @@ import 'css!./playerstats';
             categories.push(baseCategory);
 
             for (let i = 0, length = playerStats.length; i < length; i++) {
-
                 const category = playerStats[i];
                 if (category.type === 'audio') {
                     category.name = 'Audio Info';
@@ -403,7 +375,6 @@ import 'css!./playerstats';
             }
 
             if (session.TranscodingInfo) {
-
                 categories.push({
                     stats: getTranscodingStats(session, player, displayPlayMethod),
                     name: displayPlayMethod === 'Transcode' ? 'Transcoding Info' : 'Direct Stream Info'
@@ -428,7 +399,6 @@ import 'css!./playerstats';
     }
 
     function renderPlayerStats(instance, player) {
-
         const now = new Date().getTime();
 
         if ((now - (instance.lastRender || 0)) < 700) {
@@ -438,7 +408,6 @@ import 'css!./playerstats';
         instance.lastRender = now;
 
         getStats(instance, player).then(function (stats) {
-
             const elem = instance.element;
             if (!elem) {
                 return;
@@ -449,7 +418,6 @@ import 'css!./playerstats';
     }
 
     function bindEvents(instance, player) {
-
         const localOnTimeUpdate = function () {
             renderPlayerStats(instance, player);
         };
@@ -459,7 +427,6 @@ import 'css!./playerstats';
     }
 
     function unbindEvents(instance, player) {
-
         const localOnTimeUpdate = instance.onTimeUpdate;
 
         if (localOnTimeUpdate) {
@@ -469,7 +436,6 @@ import 'css!./playerstats';
 
 class PlayerStats {
     constructor(options) {
-
         this.options = options;
 
         init(this);
@@ -478,7 +444,6 @@ class PlayerStats {
     }
 
     enabled(enabled) {
-
         if (enabled == null) {
             return this._enabled;
         }
@@ -504,11 +469,9 @@ class PlayerStats {
     }
 
     destroy() {
-
         const options = this.options;
 
         if (options) {
-
             this.options = null;
             unbindEvents(this, options.player);
         }

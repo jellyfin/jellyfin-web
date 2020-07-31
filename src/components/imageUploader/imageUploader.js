@@ -23,7 +23,6 @@ import 'css!./style';
     let hasChanges = false;
 
     function onFileReaderError(evt) {
-
         loading.hide();
 
         switch (evt.target.error.code) {
@@ -43,7 +42,6 @@ import 'css!./style';
     }
 
     function setFiles(page, files) {
-
         const file = files[0];
 
         if (!file || !file.type.match('image.*')) {
@@ -69,7 +67,6 @@ import 'css!./style';
         // Closure to capture the file information.
         reader.onload = (theFile => {
             return e => {
-
                 // Render thumbnail.
                 const html = ['<img style="max-width:100%;max-height:100%;" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
 
@@ -84,7 +81,6 @@ import 'css!./style';
     }
 
     function onSubmit(e) {
-
         const file = currentFile;
 
         if (!file) {
@@ -113,7 +109,6 @@ import 'css!./style';
         }
 
         connectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
-
             dlg.querySelector('#uploadImage').value = '';
 
             loading.hide();
@@ -126,7 +121,6 @@ import 'css!./style';
     }
 
     function initEditor(page) {
-
         page.querySelector('form').addEventListener('submit', onSubmit);
 
         page.querySelector('#uploadImage').addEventListener('change', function () {
@@ -139,11 +133,9 @@ import 'css!./style';
     }
 
     function showEditor(options, resolve) {
-
         options = options || {};
 
         return import('text!./imageUploader.template.html').then(({default: template}) => {
-
             currentItemId = options.itemId;
             currentServerId = options.serverId;
 
@@ -169,7 +161,6 @@ import 'css!./style';
 
             // Has to be assigned a z-index after the call to .open()
             dlg.addEventListener('close', () => {
-
                 if (layoutManager.tv) {
                     scrollHelper.centerFocus.off(dlg, false);
                 }
@@ -185,16 +176,13 @@ import 'css!./style';
             dlg.querySelector('#selectImageType').value = options.imageType || 'Primary';
 
             dlg.querySelector('.btnCancel').addEventListener('click', () => {
-
                 dialogHelper.close(dlg);
             });
         });
     }
 
     export function show(options) {
-
         return new Promise(resolve => {
-
             hasChanges = false;
 
             showEditor(options, resolve);

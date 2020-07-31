@@ -346,8 +346,6 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         function loadTab(page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
-                initialTabIndex = null;
-
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
@@ -370,10 +368,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
             }
         }
 
-        var isViewRestored;
         var self = this;
         var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        var initialTabIndex = currentTabIndex;
         var suggestionsTabIndex = 1;
 
         self.initTab = function () {
@@ -389,7 +385,8 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         var tabControllers = [];
         var renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
-            if (isViewRestored = e.detail.isRestored, initTabs(), !view.getAttribute('data-title')) {
+            initTabs();
+            if (!view.getAttribute('data-title')) {
                 var parentId = params.topParentId;
 
                 if (parentId) {

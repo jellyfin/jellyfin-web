@@ -55,7 +55,6 @@ import 'emby-button';
     }
 
     function loadSoundEffects(context, userSettings) {
-
         const selectSoundEffects = context.querySelector('.selectSoundEffects');
         const options = pluginManager.ofType('soundeffects').map(plugin => {
             return {
@@ -81,7 +80,6 @@ import 'emby-button';
     }
 
     function loadSkins(context, userSettings) {
-
         const selectSkin = context.querySelector('.selectSkin');
 
         const options = pluginManager.ofType('skin').map(plugin => {
@@ -108,7 +106,6 @@ import 'emby-button';
     }
 
     function showOrHideMissingEpisodesField(context) {
-
         if (browser.tizen || browser.web0s) {
             context.querySelector('.fldDisplayMissingEpisodes').classList.add('hide');
             return;
@@ -118,7 +115,6 @@ import 'emby-button';
     }
 
     function loadForm(context, user, userSettings) {
-
         if (user.Policy.IsAdministrator) {
             context.querySelector('.selectDashboardThemeContainer').classList.remove('hide');
         } else {
@@ -213,7 +209,6 @@ import 'emby-button';
     }
 
     function saveUser(context, user, userSettingsInstance, apiClient) {
-
         appSettings.runAtStartup(context.querySelector('.chkRunAtStartup').checked);
 
         user.Configuration.DisplayMissingEpisodes = context.querySelector('.chkDisplayMissingEpisodes').checked;

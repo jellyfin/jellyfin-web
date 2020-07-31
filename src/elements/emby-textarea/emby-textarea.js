@@ -47,7 +47,6 @@ import 'emby-input';
                 return;
             }
             let newHeight = 0;
-            let hasGrown = false;
 
             if ((textarea.scrollHeight - offset) > self.maxAllowedHeight) {
                 textarea.style.overflowY = 'scroll';
@@ -56,7 +55,6 @@ import 'emby-input';
                 textarea.style.overflowY = 'hidden';
                 textarea.style.height = 'auto';
                 newHeight = textarea.scrollHeight/* - offset*/;
-                hasGrown = true;
             }
             $('.customCssContainer').css('height', newHeight + 'px');
             textarea.style.height = newHeight + 'px';
@@ -75,7 +73,6 @@ import 'emby-input';
     let elementId = 0;
 
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-
         const descriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
 
         // descriptor returning null in webos
@@ -95,7 +92,6 @@ import 'emby-input';
     }
 
     EmbyTextAreaPrototype.createdCallback = function () {
-
         if (!this.id) {
             this.id = 'embytextarea' + elementId;
             elementId++;
@@ -103,7 +99,6 @@ import 'emby-input';
     };
 
     EmbyTextAreaPrototype.attachedCallback = function () {
-
         if (this.classList.contains('emby-textarea')) {
             return;
         }

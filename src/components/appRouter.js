@@ -153,20 +153,14 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         };
 
         if (!isBackNav) {
-            // Don't force a new view for home due to the back menu
-            //if (route.type !== 'home') {
             onNewViewNeeded();
             return;
-            //}
         }
         viewManager.tryRestoreView(currentRequest, function () {
-
-            // done
             currentRouteInfo = {
                 route: route,
                 path: ctx.path
             };
-
         }).catch(function (result) {
             if (!result || !result.cancelled) {
                 onNewViewNeeded();
@@ -197,12 +191,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function onRequestFail(e, data) {
-
         var apiClient = this;
 
         if (data.status === 403) {
             if (data.errorCode === 'ParentalControl') {
-
                 var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
 
                 // Bounce to the login screen, but not if a password entry fails, obviously
@@ -210,7 +202,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                     showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
                     appRouter.showLocalLogin(apiClient.serverId());
                 }
-
             }
         }
     }
@@ -237,12 +228,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         if (navigator.connection) {
             var max = navigator.connection.downlinkMax;
             if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
-
                 max /= 8;
                 max *= 1000000;
                 max *= 0.7;
-                max = parseInt(max);
-                return max;
+                return parseInt(max, 10);
             }
         }
         /* eslint-enable compat/compat */
@@ -255,7 +244,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function onApiClientCreated(e, newApiClient) {
-
         newApiClient.normalizeImageOptions = normalizeImageOptions;
 
         if (browser.iOS) {
@@ -269,12 +257,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function initApiClient(apiClient) {
-
         onApiClientCreated({}, apiClient);
     }
 
     function initApiClients() {
-
         connectionManager.getApiClients().forEach(initApiClient);
 
         events.on(connectionManager, 'apiclientcreated', onApiClientCreated);
@@ -290,7 +276,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     var firstConnectionResult;
     function start(options) {
-
         loading.show();
 
         initApiClients();
@@ -302,38 +287,17 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             enableAutoLogin: appSettings.enableAutoLogin()
 
         }).then(function (result) {
-
             firstConnectionResult = result;
 
             options = options || {};
 
             page({
                 click: options.click !== false,
-                hashbang: options.hashbang !== false,
-                enableHistory: enableHistory()
+                hashbang: options.hashbang !== false
             });
         }).catch().then(function() {
             loading.hide();
         });
-    }
-
-    function enableHistory() {
-
-        //if (browser.edgeUwp) {
-        //    return false;
-        //}
-
-        // shows status bar on navigation
-        if (browser.xboxOne) {
-            return false;
-        }
-
-        // Does not support history
-        if (browser.orsay) {
-            return false;
-        }
-
-        return true;
     }
 
     function enableNativeHistory() {
@@ -341,14 +305,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function authenticate(ctx, route, callback) {
-
         var firstResult = firstConnectionResult;
         if (firstResult) {
-
             firstConnectionResult = null;
 
             if (firstResult.State !== 'SignedIn' && !route.anonymous) {
-
                 handleConnectionResult(firstResult);
                 return;
             }
@@ -377,7 +338,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
 
         if (apiClient && apiClient.isLoggedIn()) {
-
             console.debug('appRouter - user is authenticated');
 
             if (route.isDefaultRoute) {
@@ -385,11 +345,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 loadUserSkinWithOptions(ctx);
                 return;
             } else if (route.roles) {
-
                 validateRoles(apiClient, route.roles).then(function () {
-
                     callback();
-
                 }, beginConnectionWizard);
                 return;
             }
@@ -431,7 +388,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     var isDummyBackToHome;
 
     function loadContent(ctx, route, html, request) {
-
         html = globalize.translateHtml(html, route.dictionary);
         request.view = html;
 
@@ -491,7 +447,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function getWindowLocationSearch(win) {
-
         var currentPath = currentRouteInfo ? (currentRouteInfo.path || '') : '';
 
         var index = currentPath.indexOf('?');
@@ -535,9 +490,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         if (!document.querySelector('.dialogContainer') && startPages.indexOf(curr.type) !== -1) {
             return false;
         }
-        if (enableHistory()) {
-            return history.length > 1;
-        }
+
         return (page.len || 0) > 0;
     }
 
@@ -644,7 +597,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     function pushState(state, title, url) {
         state.navigate = false;
         history.pushState(state, title, url);
-
     }
 
     function setBaseRoute() {

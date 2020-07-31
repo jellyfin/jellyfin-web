@@ -14,7 +14,6 @@ import browser from 'browser';
     const enableFocusTransform = !browser.slow && !browser.edge;
 
      function buildChapterCardsHtml(item, chapters, options) {
-
         // TODO move card creation code to Card component
 
         let className = 'card itemAction chapterCard';
@@ -35,7 +34,6 @@ import browser from 'browser';
         let shape = (options.backdropShape || 'backdrop');
 
         if (videoStream.Width && videoStream.Height) {
-
             if ((videoStream.Width / videoStream.Height) <= 1.2) {
                 shape = (options.squareShape || 'square');
             }
@@ -53,7 +51,6 @@ import browser from 'browser';
         const apiClient = connectionManager.getApiClient(item.ServerId);
 
         for (let i = 0, length = chapters.length; i < length; i++) {
-
             if (options.rows && itemsInRow === 0) {
                 html += '<div class="cardColumn">';
             }
@@ -73,9 +70,7 @@ import browser from 'browser';
     }
 
     function getImgUrl({Id}, {ImageTag}, index, maxWidth, apiClient) {
-
         if (ImageTag) {
-
             return apiClient.getScaledImageUrl(Id, {
 
                 maxWidth: maxWidth * 2,
@@ -89,7 +84,6 @@ import browser from 'browser';
     }
 
     function buildChapterCard(item, apiClient, chapter, index, {width, coverImage}, className, shape) {
-
         const imgUrl = getImgUrl(item, chapter, index, width || 400, apiClient);
 
         let cardImageContainerClass = 'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';
@@ -110,13 +104,10 @@ import browser from 'browser';
         const cardBoxCssClass = 'cardBox';
         const cardScalableClass = 'cardScalable';
 
-        const html = `<button type="button" class="${className}"${dataAttributes}><div class="${cardBoxCssClass}"><div class="${cardScalableClass}"><div class="cardPadder-${shape}"></div>${cardImageContainer}</div><div class="innerCardFooter">${nameHtml}</div></div></div></button>`;
-
-        return html;
+        return `<button type="button" class="${className}"${dataAttributes}><div class="${cardBoxCssClass}"><div class="${cardScalableClass}"><div class="cardPadder-${shape}"></div>${cardImageContainer}</div><div class="innerCardFooter">${nameHtml}</div></div></div></button>`;
     }
 
     export function buildChapterCards(item, chapters, options) {
-
         if (options.parentContainer) {
             // Abort if the container has been disposed
             if (!document.body.contains(options.parentContainer)) {

@@ -33,34 +33,7 @@ import events from 'events';
         return false;
     }
 
-    export function enableHlsShakaPlayer(item, mediaSource, mediaType) {
-        /* eslint-disable-next-line compat/compat */
-        if (!!window.MediaSource && !!MediaSource.isTypeSupported) {
-
-            if (canPlayNativeHls()) {
-
-                if (browser.edge && mediaType === 'Video') {
-                    return true;
-                }
-
-                // simple playback should use the native support
-                if (mediaSource.RunTimeTicks) {
-                    //if (!browser.edge) {
-                    //return false;
-                    //}
-                }
-
-                //return false;
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
     export function enableHlsJsPlayer(runTimeTicks, mediaType) {
-
         if (window.MediaSource == null) {
             return false;
         }
@@ -76,7 +49,6 @@ import events from 'events';
         }
 
         if (canPlayNativeHls()) {
-
             // Having trouble with chrome's native support and transcoded music
             if (browser.android && mediaType === 'Audio') {
                 return true;
@@ -102,7 +74,6 @@ import events from 'events';
     var recoverDecodingErrorDate;
     var recoverSwapAudioCodecDate;
     export function handleHlsJsMediaError(instance, reject) {
-
         var hlsPlayer = instance._hlsPlayer;
 
         if (!hlsPlayer) {
@@ -138,7 +109,6 @@ import events from 'events';
     }
 
     export function onErrorInternal(instance, type) {
-
         // Needed for video
         if (instance.destroyCustomTrack) {
             instance.destroyCustomTrack(instance._mediaElement);
@@ -166,12 +136,9 @@ import events from 'events';
     }
 
     export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
-
         var seconds = (ticks || 0) / 10000000;
 
         if (seconds) {
-            var src = (instance.currentSrc() || '').toLowerCase();
-
             // Appending #t=xxx to the query string doesn't seem to work with HLS
             // For plain video files, not all browsers support it either
 
@@ -204,11 +171,8 @@ import events from 'events';
     }
 
     export function applySrc(elem, src, options) {
-
         if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
-
             return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
-
                 var playlist = new Windows.Media.Playback.MediaPlaybackList();
 
                 var source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
@@ -217,9 +181,7 @@ import events from 'events';
                 elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
                 return Promise.resolve();
             });
-
         } else {
-
             elem.src = src;
         }
 
@@ -227,18 +189,15 @@ import events from 'events';
     }
 
     function onSuccessfulPlay(elem, onErrorFn) {
-
         elem.addEventListener('error', onErrorFn);
     }
 
     export function playWithPromise(elem, onErrorFn) {
-
         try {
             var promise = elem.play();
             if (promise && promise.then) {
                 // Chrome now returns a promise
                 return promise.catch(function (e) {
-
                     var errorName = (e.name || '').toLowerCase();
                     // safari uses aborterror
                     if (errorName === 'notallowederror' ||
@@ -260,7 +219,6 @@ import events from 'events';
     }
 
     export function destroyCastPlayer(instance) {
-
         var player = instance._castPlayer;
         if (player) {
             try {
@@ -270,19 +228,6 @@ import events from 'events';
             }
 
             instance._castPlayer = null;
-        }
-    }
-
-    export function destroyShakaPlayer(instance) {
-        var player = instance._shakaPlayer;
-        if (player) {
-            try {
-                player.destroy();
-            } catch (err) {
-                console.error(err);
-            }
-
-            instance._shakaPlayer = null;
         }
     }
 
@@ -315,10 +260,8 @@ import events from 'events';
     }
 
     export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, reject) {
-
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             playWithPromise(elem, onErrorFn).then(resolve, function () {
-
                 if (reject) {
                     reject();
                     reject = null;
@@ -327,14 +270,12 @@ import events from 'events';
         });
 
         hls.on(Hls.Events.ERROR, function (event, data) {
-
             console.error('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
 
             switch (data.type) {
                 case Hls.ErrorTypes.NETWORK_ERROR:
                     // try to recover network error
                     if (data.response && data.response.code && data.response.code >= 400) {
-
                         console.debug('hls.js response error code: ' + data.response.code);
 
                         // Trigger failure differently depending on whether this is prior to start of playback, or after
@@ -348,7 +289,6 @@ import events from 'events';
                         }
 
                         return;
-
                     }
 
                     break;
@@ -361,7 +301,6 @@ import events from 'events';
                     case Hls.ErrorTypes.NETWORK_ERROR:
 
                         if (data.response && data.response.code === 0) {
-
                             // This could be a CORS error related to access control response headers
 
                             console.debug('hls.js response error code: ' + data.response.code);
@@ -407,7 +346,6 @@ import events from 'events';
     }
 
     export function onEndedInternal(instance, elem, onErrorFn) {
-
         elem.removeEventListener('error', onErrorFn);
 
         elem.src = '';
@@ -416,7 +354,6 @@ import events from 'events';
 
         destroyHlsPlayer(instance);
         destroyFlvPlayer(instance);
-        destroyShakaPlayer(instance);
         destroyCastPlayer(instance);
 
         var stopInfo = {
@@ -431,7 +368,6 @@ import events from 'events';
     }
 
     export function getBufferedRanges(instance, elem) {
-
         var ranges = [];
         var seekable = elem.buffered || [];
 
@@ -444,7 +380,6 @@ import events from 'events';
         offset = offset || 0;
 
         for (var i = 0, length = seekable.length; i < length; i++) {
-
             var start = seekable.start(i);
             var end = seekable.end(i);
 

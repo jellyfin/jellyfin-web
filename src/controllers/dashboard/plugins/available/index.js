@@ -34,7 +34,6 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
         var availablePlugins = options.availablePlugins;
         var installedPlugins = options.installedPlugins;
 
-        var categories = [];
         availablePlugins.forEach(function (plugin, index, array) {
             plugin.category = plugin.category || 'General';
             plugin.categoryDisplayName = getHeaderText(plugin.category);

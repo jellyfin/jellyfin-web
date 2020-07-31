@@ -4,7 +4,6 @@ import playbackManager from 'playbackManager';
 import globalize from 'globalize';
 
 export function show(options) {
-
     var item = options.item;
 
     var resumePositionTicks = item.UserData ? item.UserData.PlaybackPositionTicks : null;
@@ -38,7 +37,6 @@ export function show(options) {
 
     }).then(function (id) {
         switch (id) {
-
             case 'play':
                 playbackManager.play({
                     ids: [playableItemId],

@@ -11,12 +11,10 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function notifyApp() {
-
         inputManager.notifyMouseMove();
     }
 
     function removeIdleClasses() {
-
         var classList = document.body.classList;
 
         classList.remove('mouseIdle');
@@ -24,7 +22,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function addIdleClasses() {
-
         var classList = document.body.classList;
 
         classList.add('mouseIdle');
@@ -34,9 +31,24 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         }
     }
 
+    function showCursor() {
+        if (isMouseIdle) {
+            isMouseIdle = false;
+            removeIdleClasses();
+            events.trigger(self, 'mouseactive');
+        }
+    }
+
+    function hideCursor() {
+        if (!isMouseIdle) {
+            isMouseIdle = true;
+            addIdleClasses();
+            events.trigger(self, 'mouseidle');
+        }
+    }
+
     var lastPointerMoveData;
     function onPointerMove(e) {
-
         var eventX = e.screenX;
         var eventY = e.screenY;
 
@@ -65,15 +77,10 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         lastMouseInputTime = new Date().getTime();
         notifyApp();
 
-        if (isMouseIdle) {
-            isMouseIdle = false;
-            removeIdleClasses();
-            events.trigger(self, 'mouseactive');
-        }
+        showCursor();
     }
 
     function onPointerEnter(e) {
-
         var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
         if (pointerType === 'mouse') {
@@ -87,7 +94,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function enableFocusWithMouse() {
-
         if (!layoutManager.tv) {
             return false;
         }
@@ -104,24 +110,19 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function onMouseInterval() {
-
         if (!isMouseIdle && mouseIdleTime() >= 5000) {
-            isMouseIdle = true;
-            addIdleClasses();
-            events.trigger(self, 'mouseidle');
+            hideCursor();
         }
     }
 
     var mouseInterval;
     function startMouseInterval() {
-
         if (!mouseInterval) {
             mouseInterval = setInterval(onMouseInterval, 5000);
         }
     }
 
     function stopMouseInterval() {
-
         var interval = mouseInterval;
 
         if (interval) {
@@ -133,7 +134,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function initMouse() {
-
         stopMouseInterval();
 
         /* eslint-disable-next-line compat/compat */
@@ -166,6 +166,9 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     initMouse();
 
     events.on(layoutManager, 'modechange', initMouse);
+
+    self.hideCursor = hideCursor;
+    self.showCursor = showCursor;
 
     return self;
 });
