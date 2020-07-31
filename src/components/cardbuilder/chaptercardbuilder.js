@@ -73,7 +73,7 @@ import browser from 'browser';
         if (ImageTag) {
             return apiClient.getScaledImageUrl(Id, {
 
-                maxWidth: maxWidth * 2,
+                maxWidth: maxWidth,
                 tag: ImageTag,
                 type: 'Chapter',
                 index

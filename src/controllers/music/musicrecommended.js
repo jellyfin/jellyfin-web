@@ -306,7 +306,7 @@ import 'flexStyles';
             import(depends).then(({default: controllerFactory}) => {
                 let tabContent;
 
-                if (0 == index) {
+                if (index == 0) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }

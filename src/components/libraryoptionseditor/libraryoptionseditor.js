@@ -219,7 +219,7 @@ import 'emby-input';
         html += '<div class="flex align-items-center" style="margin:1.5em 0 .5em;">';
         html += '<h3 class="checkboxListLabel" style="margin:0;">' + globalize.translate('HeaderTypeImageFetchers', availableTypeOptions.Type) + '</h3>';
         const supportedImageTypes = availableTypeOptions.SupportedImageTypes || [];
-        if (supportedImageTypes.length > 1 || 1 === supportedImageTypes.length && 'Primary' !== supportedImageTypes[0]) {
+        if (supportedImageTypes.length > 1 || supportedImageTypes.length === 1 && supportedImageTypes[0] !== 'Primary') {
             html += '<button is="emby-button" class="raised btnImageOptionsForType" type="button" style="margin-left:1.5em;font-size:90%;"><span>' + globalize.translate('HeaderFetcherSettings') + '</span></button>';
         }
         html += '</div>';
@@ -362,7 +362,7 @@ import 'emby-input';
             TypeOptions: []
         };
         currentAvailableOptions = null;
-        const isNewLibrary = null === libraryOptions;
+        const isNewLibrary = libraryOptions === null;
         isNewLibrary && parent.classList.add('newlibrary');
         const response = await fetch('components/libraryoptionseditor/libraryoptionseditor.template.html');
         const template = await response.text();
@@ -578,7 +578,7 @@ import 'emby-input';
         parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;
         parent.querySelector('#chkRequirePerfectMatch').checked = options.RequirePerfectSubtitleMatch;
         Array.prototype.forEach.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
-            elem.checked = options.MetadataSavers ? options.MetadataSavers.includes(elem.getAttribute('data-pluginname')) : 'true' === elem.getAttribute('data-defaultenabled');
+            elem.checked = options.MetadataSavers ? options.MetadataSavers.includes(elem.getAttribute('data-pluginname')) : elem.getAttribute('data-defaultenabled') === 'true';
         });
         Array.prototype.forEach.call(parent.querySelectorAll('.chkSubtitleLanguage'), elem => {
             elem.checked = !!options.SubtitleDownloadLanguages && options.SubtitleDownloadLanguages.includes(elem.getAttribute('data-lang'));

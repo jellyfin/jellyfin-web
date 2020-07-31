@@ -14,7 +14,7 @@ import 'emby-button';
                 let showPasswordSection = true;
                 let showLocalAccessSection = false;
 
-                if ('Guest' == user.ConnectLinkType) {
+                if (user.ConnectLinkType == 'Guest') {
                     page.querySelector('.localAccessSection').classList.add('hide');
                     showPasswordSection = false;
                 } else if (user.HasConfiguredPassword) {

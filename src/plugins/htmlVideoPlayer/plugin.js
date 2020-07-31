@@ -1663,7 +1663,7 @@ function tryRemoveElement(elem) {
     setAspectRatio(val) {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
-            if ('auto' === val) {
+            if (val === 'auto') {
                 mediaElement.style.removeProperty('object-fit');
             } else {
                 mediaElement.style['object-fit'] = val;

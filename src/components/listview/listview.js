@@ -81,7 +81,7 @@ import 'emby-playstatebutton';
         let itemId;
 
         const options = {
-            maxWidth: width * 2,
+            maxWidth: width,
             type: 'Primary'
         };
 
@@ -108,7 +108,7 @@ import 'emby-playstatebutton';
     function getChannelImageUrl(item, width) {
         const apiClient = connectionManager.getApiClient(item.ServerId);
         const options = {
-            maxWidth: width * 2,
+            maxWidth: width,
             type: 'Primary'
         };
 

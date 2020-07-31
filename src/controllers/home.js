@@ -20,7 +20,7 @@ define(['tabbedView', 'globalize', 'require', 'emby-tabs', 'emby-button', 'emby-
     }
 
     function getTabController(index) {
-        if (null == index) {
+        if (index == null) {
             throw new Error('index cannot be null');
         }
 

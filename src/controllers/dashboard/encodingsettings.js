@@ -8,7 +8,7 @@ import libraryMenu from 'libraryMenu';
 
     function loadPage(page, config, systemInfo) {
         Array.prototype.forEach.call(page.querySelectorAll('.chkDecodeCodec'), function (c) {
-            c.checked = -1 !== (config.HardwareDecodingCodecs || []).indexOf(c.getAttribute('data-codec'));
+            c.checked = (config.HardwareDecodingCodecs || []).indexOf(c.getAttribute('data-codec')) !== -1;
         });
         page.querySelector('#chkDecodingColorDepth10Hevc').checked = config.EnableDecodingColorDepth10Hevc;
         page.querySelector('#chkDecodingColorDepth10Vp9').checked = config.EnableDecodingColorDepth10Vp9;
@@ -107,7 +107,7 @@ import libraryMenu from 'libraryMenu';
         value = value || '';
         let any;
         Array.prototype.forEach.call(context.querySelectorAll('.chkDecodeCodec'), function (c) {
-            if (-1 === c.getAttribute('data-types').split(',').indexOf(value)) {
+            if (c.getAttribute('data-types').split(',').indexOf(value) === -1) {
                 dom.parentWithTag(c, 'LABEL').classList.add('hide');
             } else {
                 dom.parentWithTag(c, 'LABEL').classList.remove('hide');
@@ -138,7 +138,7 @@ import libraryMenu from 'libraryMenu';
     $(document).on('pageinit', '#encodingSettingsPage', function () {
         const page = this;
         page.querySelector('#selectVideoDecoder').addEventListener('change', function () {
-            if ('vaapi' == this.value) {
+            if (this.value == 'vaapi') {
                 page.querySelector('.fldVaapiDevice').classList.remove('hide');
                 page.querySelector('#txtVaapiDevice').setAttribute('required', 'required');
             } else {

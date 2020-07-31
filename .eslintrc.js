@@ -1,6 +1,7 @@
 module.exports = {
     root: true,
     plugins: [
+        '@babel',
         'promise',
         'import',
         'eslint-comments'
@@ -46,14 +47,15 @@ module.exports = {
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         'semi': ['error'],
         'space-before-blocks': ['error'],
-        'space-infix-ops': 'error'
+        'space-infix-ops': 'error',
+        'yoda': 'error'
     },
     overrides: [
         {
             files: [
                 './src/**/*.js'
             ],
-            parser: 'babel-eslint',
+            parser: '@babel/eslint-parser',
             env: {
                 node: false,
                 amd: true,
