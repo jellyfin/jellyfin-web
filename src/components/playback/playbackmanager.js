@@ -3147,8 +3147,7 @@ class PlaybackManager {
             }
         };
 
-        self.playbackStartTime = function (player) {
-            player = player || this._currentPlayer;
+        self.playbackStartTime = function (player = this._currentPlayer) {
             if (player && !enableLocalPlaylistManagement(player) && !player.isLocalPlayer) {
                 return player.playbackStartTime();
             }
@@ -3169,8 +3168,7 @@ class PlaybackManager {
         return this._currentPlayer;
     }
 
-    currentTime(player) {
-        player = player || this._currentPlayer;
+    currentTime(player = this._currentPlayer) {
         if (player && !enableLocalPlaylistManagement(player) && !player.isLocalPlayer) {
             return player.currentTime();
         }
@@ -3178,9 +3176,7 @@ class PlaybackManager {
         return this.getCurrentTicks(player);
     }
 
-    nextItem(player) {
-        player = player || this._currentPlayer;
-
+    nextItem(player = this._currentPlayer) {
         if (player && !enableLocalPlaylistManagement(player)) {
             return player.nextItem();
         }
@@ -3210,9 +3206,7 @@ class PlaybackManager {
         return false;
     }
 
-    isMuted(player) {
-        player = player || this._currentPlayer;
-
+    isMuted(player = this._currentPlayer) {
         if (player) {
             return player.isMuted();
         }
@@ -3220,16 +3214,13 @@ class PlaybackManager {
         return false;
     }
 
-    setMute(mute, player) {
-        player = player || this._currentPlayer;
-
+    setMute(mute, player = this._currentPlayer) {
         if (player) {
             player.setMute(mute);
         }
     }
 
-    toggleMute(mute, player) {
-        player = player || this._currentPlayer;
+    toggleMute(mute, player = this._currentPlayer) {
         if (player) {
             if (player.toggleMute) {
                 player.toggleMute();
@@ -3253,8 +3244,7 @@ class PlaybackManager {
         return (appSettings.get('displaymirror') || '') !== '0';
     }
 
-    nextChapter(player) {
-        player = player || this._currentPlayer;
+    nextChapter(player = this._currentPlayer) {
         const item = this.currentItem(player);
 
         const ticks = this.getCurrentTicks(player);
@@ -3270,8 +3260,7 @@ class PlaybackManager {
         }
     }
 
-    previousChapter(player) {
-        player = player || this._currentPlayer;
+    previousChapter(player = this._currentPlayer) {
         const item = this.currentItem(player);
 
         let ticks = this.getCurrentTicks(player);
@@ -3295,9 +3284,7 @@ class PlaybackManager {
         }
     }
 
-    fastForward(player) {
-        player = player || this._currentPlayer;
-
+    fastForward(player = this._currentPlayer) {
         if (player.fastForward != null) {
             player.fastForward(userSettings.skipForwardLength());
             return;
@@ -3309,9 +3296,7 @@ class PlaybackManager {
         this.seekRelative(offsetTicks, player);
     }
 
-    rewind(player) {
-        player = player || this._currentPlayer;
-
+    rewind(player = this._currentPlayer) {
         if (player.rewind != null) {
             player.rewind(userSettings.skipBackLength());
             return;
@@ -3323,9 +3308,7 @@ class PlaybackManager {
         this.seekRelative(offsetTicks, player);
     }
 
-    seekPercent(percent, player) {
-        player = player || this._currentPlayer;
-
+    seekPercent(percent, player = this._currentPlayer) {
         let ticks = this.duration(player) || 0;
 
         percent /= 100;
@@ -3333,9 +3316,7 @@ class PlaybackManager {
         this.seek(parseInt(ticks), player);
     }
 
-    seekMs(ms, player) {
-        player = player || this._currentPlayer;
-
+    seekMs(ms, player = this._currentPlayer) {
         const ticks = ms * 10000;
         this.seek(ticks, player);
     }
@@ -3384,9 +3365,8 @@ class PlaybackManager {
         return !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
     }
 
-    stop(player) {
+    stop(player ) {
         player = player || this._currentPlayer;
-
         if (player) {
             if (enableLocalPlaylistManagement(player)) {
                 this._playNextAfterEnded = false;
@@ -3399,9 +3379,7 @@ class PlaybackManager {
         return Promise.resolve();
     }
 
-    getBufferedRanges(player) {
-        player = player || this._currentPlayer;
-
+    getBufferedRanges(player = this._currentPlayer) {
         if (player) {
             if (player.getBufferedRanges) {
                 return player.getBufferedRanges();
@@ -3411,9 +3389,7 @@ class PlaybackManager {
         return [];
     }
 
-    playPause(player) {
-        player = player || this._currentPlayer;
-
+    playPause(player = this._currentPlayer) {
         if (player) {
             if (player.playPause) {
                 return player.playPause();
@@ -3427,25 +3403,19 @@ class PlaybackManager {
         }
     }
 
-    paused(player) {
-        player = player || this._currentPlayer;
-
+    paused(player = this._currentPlayer) {
         if (player) {
             return player.paused();
         }
     }
 
-    pause(player) {
-        player = player || this._currentPlayer;
-
+    pause(player = this._currentPlayer) {
         if (player) {
             player.pause();
         }
     }
 
-    unpause(player) {
-        player = player || this._currentPlayer;
-
+    unpause(player = this._currentPlayer) {
         if (player) {
             player.unpause();
         }
@@ -3465,8 +3435,7 @@ class PlaybackManager {
         return null;
     }
 
-    instantMix(item, player) {
-        player = player || this._currentPlayer;
+    instantMix(item, player = this._currentPlayer) {
         if (player && player.instantMix) {
             return player.instantMix(item);
         }
@@ -3486,8 +3455,7 @@ class PlaybackManager {
         });
     }
 
-    shuffle(shuffleItem, player) {
-        player = player || this._currentPlayer;
+    shuffle(shuffleItem, player = this._currentPlayer) {
         if (player && player.shuffle) {
             return player.shuffle(shuffleItem);
         }
@@ -3495,8 +3463,7 @@ class PlaybackManager {
         return this.play({ items: [shuffleItem], shuffle: true });
     }
 
-    audioTracks(player) {
-        player = player || this._currentPlayer;
+    audioTracks(player = this._currentPlayer) {
         if (player.audioTracks) {
             const result = player.audioTracks();
             if (result) {
@@ -3512,8 +3479,7 @@ class PlaybackManager {
         });
     }
 
-    subtitleTracks(player) {
-        player = player || this._currentPlayer;
+    subtitleTracks(player = this._currentPlayer) {
         if (player.subtitleTracks) {
             const result = player.subtitleTracks();
             if (result) {
@@ -3661,8 +3627,7 @@ class PlaybackManager {
         });
     }
 
-    displayContent(options, player) {
-        player = player || this._currentPlayer;
+    displayContent(options, player = this._currentPlayer) {
         if (player && player.displayContent) {
             player.displayContent(options);
         }
