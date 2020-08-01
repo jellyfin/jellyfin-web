@@ -60,8 +60,8 @@ _define('resize-observer-polyfill', function() {
 });
 
 // swiper
-var swiper = require('swiper/js/swiper');
-require('swiper/css/swiper.min.css');
+var swiper = require('swiper/swiper-bundle');
+require('swiper/swiper-bundle.css');
 _define('swiper', function() {
     return swiper;
 });
