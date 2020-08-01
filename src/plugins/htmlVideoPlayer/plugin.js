@@ -150,7 +150,7 @@ function tryRemoveElement(elem) {
         /**
          * @type {string}
          */
-        name
+        name;
         /**
          * @type {string}
          */
@@ -730,7 +730,7 @@ function tryRemoveElement(elem) {
             const elem = e.target;
             this.destroyCustomTrack(elem);
             onEndedInternal(this, elem, this.onError);
-        }
+        };
 
         /**
          * @private
@@ -760,7 +760,7 @@ function tryRemoveElement(elem) {
             }
 
             events.trigger(this, 'timeupdate');
-        }
+        };
 
         /**
          * @private
@@ -773,7 +773,7 @@ function tryRemoveElement(elem) {
             const elem = e.target;
             saveVolume(elem.volume);
             events.trigger(this, 'volumechange');
-        }
+        };
 
         /**
          * @private
@@ -785,7 +785,7 @@ function tryRemoveElement(elem) {
 
                 this.onStartedAndNavigatedToOsd();
             }
-        }
+        };
 
         /**
          * @private
@@ -832,14 +832,14 @@ function tryRemoveElement(elem) {
                 }
             }
             events.trigger(this, 'playing');
-        }
+        };
 
         /**
          * @private
          */
         onPlay = () => {
             events.trigger(this, 'unpause');
-        }
+        };
 
         /**
          * @private
@@ -865,21 +865,21 @@ function tryRemoveElement(elem) {
          */
         onClick = () => {
             events.trigger(this, 'click');
-        }
+        };
 
         /**
          * @private
          */
         onDblClick = () => {
             events.trigger(this, 'dblclick');
-        }
+        };
 
         /**
          * @private
          */
         onPause = () => {
             events.trigger(this, 'pause');
-        }
+        };
 
         onWaiting() {
             events.trigger(this, 'waiting');
@@ -929,7 +929,7 @@ function tryRemoveElement(elem) {
             }
 
             onErrorInternal(this, type);
-        }
+        };
 
         /**
          * @private
