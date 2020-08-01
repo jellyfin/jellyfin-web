@@ -470,6 +470,7 @@ function initClient() {
 
         require(['apphost', 'css!assets/css/librarybrowser'], function (appHost) {
             loadPlugins(appHost, browser).then(function () {
+                console.groupEnd('loading packages');
                 onAppReady(browser);
             });
         });
@@ -494,12 +495,18 @@ function initClient() {
                         list = list.concat(window.NativeShell.getPlugins());
                     }
 
-                    Promise.all(list.map(loadPlugin)).then(function () {
-                        console.groupEnd('loading installed plugins');
-                        require(['packageManager'], function (packageManager) {
-                            packageManager.default.init().then(resolve, reject);
-                        });
-                    }, reject);
+                    Promise.all(list.map(loadPlugin))
+                        .then(function () {
+                            console.debug('finished loading plugins');
+                        })
+                        .catch(() => reject)
+                        .finally(() => {
+                            console.groupEnd('loading installed plugins');
+                            require(['packageManager'], function (packageManager) {
+                                packageManager.default.init().then(resolve, reject);
+                            });
+                        })
+                    ;
                 });
             });
         });

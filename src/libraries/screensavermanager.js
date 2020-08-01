@@ -2,6 +2,7 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
     "use strict";
 
     playbackManager = playbackManager.default || playbackManager;
+    pluginManager = pluginManager.default || pluginManager;
 
     function getMinIdleTime() {
         // Returns the minimum amount of idle time required before the screen saver can be displayed
