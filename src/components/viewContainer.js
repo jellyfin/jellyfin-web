@@ -1,3 +1,4 @@
+import 'css!components/viewManager/viewContainer';
 /* eslint-disable indent */
 
     function setControllerClass(view, options) {
@@ -13,18 +14,12 @@
             }
 
             controllerUrl = Dashboard.getConfigurationResourceUrl(controllerUrl);
-            return getRequirePromise([controllerUrl]).then((ControllerFactory) => {
+            return import(controllerUrl).then((ControllerFactory) => {
                 options.controllerFactory = ControllerFactory;
             });
         }
 
         return Promise.resolve();
-    }
-
-    function getRequirePromise(deps) {
-        return new Promise((resolve, reject) => {
-            require(deps, resolve);
-        });
     }
 
     export function loadView(options) {
@@ -40,75 +35,72 @@
             const isPluginpage = options.url.toLowerCase().indexOf('/configurationpage') !== -1;
             const newViewInfo = normalizeNewView(options, isPluginpage);
             const newView = newViewInfo.elem;
-            const modulesToLoad = [];
 
             return new Promise((resolve) => {
-                require(modulesToLoad, () => {
-                    const currentPage = allPages[pageIndex];
+                const currentPage = allPages[pageIndex];
 
-                    if (currentPage) {
-                        triggerDestroy(currentPage);
-                    }
+                if (currentPage) {
+                    triggerDestroy(currentPage);
+                }
 
-                    let view = newView;
+                let view = newView;
 
-                    if (typeof view == 'string') {
-                        view = document.createElement('div');
-                        view.innerHTML = newView;
-                    }
+                if (typeof view == 'string') {
+                    view = document.createElement('div');
+                    view.innerHTML = newView;
+                }
 
-                    view.classList.add('mainAnimatedPage');
+                view.classList.add('mainAnimatedPage');
 
-                    if (currentPage) {
-                        if (newViewInfo.hasScript && window.$) {
-                            view = $(view).appendTo(mainAnimatedPages)[0];
-                            mainAnimatedPages.removeChild(currentPage);
-                        } else {
-                            mainAnimatedPages.replaceChild(view, currentPage);
-                        }
+                if (currentPage) {
+                    if (newViewInfo.hasScript && window.$) {
+                        view = $(view).appendTo(mainAnimatedPages)[0];
+                        mainAnimatedPages.removeChild(currentPage);
                     } else {
-                        if (newViewInfo.hasScript && window.$) {
-                            view = $(view).appendTo(mainAnimatedPages)[0];
-                        } else {
-                            mainAnimatedPages.appendChild(view);
-                        }
+                        mainAnimatedPages.replaceChild(view, currentPage);
+                    }
+                } else {
+                    if (newViewInfo.hasScript && window.$) {
+                        view = $(view).appendTo(mainAnimatedPages)[0];
+                    } else {
+                        mainAnimatedPages.appendChild(view);
+                    }
+                }
+
+                if (options.type) {
+                    view.setAttribute('data-type', options.type);
+                }
+
+                const properties = [];
+
+                if (options.fullscreen) {
+                    properties.push('fullscreen');
+                }
+
+                if (properties.length) {
+                    view.setAttribute('data-properties', properties.join(','));
+                }
+
+                allPages[pageIndex] = view;
+                setControllerClass(view, options).then(() => {
+                    if (onBeforeChange) {
+                        onBeforeChange(view, false, options);
                     }
 
-                    if (options.type) {
-                        view.setAttribute('data-type', options.type);
+                    beforeAnimate(allPages, pageIndex, selected);
+                    selectedPageIndex = pageIndex;
+                    currentUrls[pageIndex] = options.url;
+
+                    if (!options.cancel && previousAnimatable) {
+                        afterAnimate(allPages, pageIndex);
                     }
 
-                    const properties = [];
-
-                    if (options.fullscreen) {
-                        properties.push('fullscreen');
+                    if (window.$) {
+                        $.mobile = $.mobile || {};
+                        $.mobile.activePage = view;
                     }
 
-                    if (properties.length) {
-                        view.setAttribute('data-properties', properties.join(','));
-                    }
-
-                    allPages[pageIndex] = view;
-                    setControllerClass(view, options).then(() => {
-                        if (onBeforeChange) {
-                            onBeforeChange(view, false, options);
-                        }
-
-                        beforeAnimate(allPages, pageIndex, selected);
-                        selectedPageIndex = pageIndex;
-                        currentUrls[pageIndex] = options.url;
-
-                        if (!options.cancel && previousAnimatable) {
-                            afterAnimate(allPages, pageIndex);
-                        }
-
-                        if (window.$) {
-                            $.mobile = $.mobile || {};
-                            $.mobile.activePage = view;
-                        }
-
-                        resolve(view);
-                    });
+                    resolve(view);
                 });
             });
         }
