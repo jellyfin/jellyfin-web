@@ -126,7 +126,7 @@
     "Continuing": "Fortsetter",
     "CustomDlnaProfilesHelp": "Lag en tilpasset profil til en ny enhet eller for å overstyre en system-profil.",
     "DeathDateValue": "Døde: {0}",
-    "MessageDefaultError": "Det oppstod en feil under behandling av forespørselen. Vennligst prøv igjen senere.",
+    "ErrorDefault": "Det oppstod en feil under behandling av forespørselen. Vennligst prøv igjen senere.",
     "DefaultMetadataLangaugeDescription": "Dette er standardverdiene dine, de kan også tilpasses per biblioteksbasis.",
     "Delete": "Slett",
     "DeleteDeviceConfirmation": "Er du sikker på at du ønsker å slette denne enheten? Den vil gjenoppstå neste gang en bruker logger inn med den.",

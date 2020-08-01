@@ -84,7 +84,7 @@
     "ConfirmDeletion": "Confirma supressió",
     "Connect": "Connecta",
     "Continuing": "Continuant",
-    "MessageDefaultError": "Hi ha hagut un error processant la petició. Intenta-ho més tard si et plau.",
+    "ErrorDefault": "Hi ha hagut un error processant la petició. Intenta-ho més tard si et plau.",
     "Delete": "Esborra",
     "DeleteImage": "Esborra Imatge",
     "DeleteImageConfirmation": "Esteu segur que voleu suprimir aquesta imatge?",

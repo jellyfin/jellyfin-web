@@ -145,7 +145,7 @@
     "DatePlayed": "Senast visad",
     "DeathDateValue": "Död: {0}",
     "Default": "Standard",
-    "MessageDefaultError": "Ett fel uppstd vid begäran. Försök igen senare.",
+    "ErrorDefault": "Ett fel uppstd vid begäran. Försök igen senare.",
     "DefaultSubtitlesHelp": "Undertexter visas baserat på standardspråk och tvingande undertexter i den inbäddade metadatan. Förvalsspråk kommer väljas när fler val är möjliga.",
     "Delete": "Ta bort",
     "DeleteDeviceConfirmation": "Är du säker på att du vill ta bort den här enheten? Den kommer att dyka upp igen nästa gång en användare kopplar upp sig med den.",

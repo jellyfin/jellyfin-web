@@ -53,7 +53,7 @@
     "ConfirmDeletion": "אשר מחיקה",
     "Continuing": "ממשיך",
     "CustomDlnaProfilesHelp": "צור פרופיל מותאם אישית למכשיר חדש או לעקיפת פרופיל מערכת.",
-    "MessageDefaultError": "אירעה שגיאה בעיבוד הבקשה. בבקשה נסה שוב מאוחר יותר.",
+    "ErrorDefault": "אירעה שגיאה בעיבוד הבקשה. בבקשה נסה שוב מאוחר יותר.",
     "Delete": "מחק",
     "DeleteImage": "מחק תמונה",
     "DeleteImageConfirmation": "האם אתה בטוח שברצונך למחוק תמונה זו?",

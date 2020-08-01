@@ -81,7 +81,7 @@ import libraryMenu from 'libraryMenu';
                     updateEncoder(form);
                 }, function () {
                     import('alert').then(({default: alert}) => {
-                        alert(globalize.translate('MessageDefaultError'));
+                        alert(globalize.translate('ErrorDefault'));
                     });
 
                     Dashboard.processServerConfigurationUpdateResult();

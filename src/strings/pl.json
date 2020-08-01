@@ -160,7 +160,7 @@
     "DatePlayed": "Data odtwarzania",
     "DeathDateValue": "Zmarły: {0}",
     "Default": "Domyślny",
-    "MessageDefaultError": "Wystąpił błąd podczas przetwarzania żądania. Proszę spróbować ponownie później.",
+    "ErrorDefault": "Wystąpił błąd podczas przetwarzania żądania. Proszę spróbować ponownie później.",
     "DefaultMetadataLangaugeDescription": "To są twoje ustawienia domyślne. Możesz je zmienić dla każdej biblioteki osobno.",
     "DefaultSubtitlesHelp": "Napisy będą wczytywane w oparciu o znaczniki metadanych ścieżek dźwiękowych. Preferencje językowe brane są pod uwagę, gdy dostępnych jest wiele możliwości.",
     "Delete": "Usuń",

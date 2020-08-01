@@ -148,7 +148,7 @@
     "DatePlayed": "播放日期",
     "DeathDateValue": "去世：{0}",
     "Default": "默认",
-    "MessageDefaultError": "处理请求时发生错误。请稍后尝试。",
+    "ErrorDefault": "处理请求时发生错误。请稍后尝试。",
     "DefaultMetadataLangaugeDescription": "这些是你的默认设置并且可以在你的每个媒体库中被单独自定义。",
     "DefaultSubtitlesHelp": "字幕将基于内嵌元数据中的“默认”标志和“强制”标志来载入。当多个选项可用时，将根据语言偏好决定。",
     "Delete": "删除",

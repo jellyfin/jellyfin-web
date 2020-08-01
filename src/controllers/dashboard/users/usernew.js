@@ -89,7 +89,7 @@ import 'emby-checkbox';
             });
         }, function (response) {
             import('toast').then(({default: toast}) => {
-                toast(globalize.translate('MessageDefaultError'));
+                toast(globalize.translate('ErrorDefault'));
             });
 
             loading.hide();

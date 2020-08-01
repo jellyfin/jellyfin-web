@@ -201,7 +201,7 @@
     "DateAdded": "Lisäyspäivämäärä",
     "DatePlayed": "Toistopäivämäärä",
     "Default": "Oletus",
-    "MessageDefaultError": "Pyynnön käsittelyssä tapahtui virhe. Yritä myöhemmin uudelleen.",
+    "ErrorDefault": "Pyynnön käsittelyssä tapahtui virhe. Yritä myöhemmin uudelleen.",
     "DefaultMetadataLangaugeDescription": "Nämä ovat sinun oletuksetasetukset ja niitä voidaan muokata kirjastokohtaisesti.",
     "DefaultSubtitlesHelp": "Tekstitykset ladataan pakotettu- ja oletusmäärityksien upotetun metadatan mukaan. Kieliasetukset otetaan huomioon, kun on enemmän kuin yksi tekstitys josta valita.",
     "DeleteDeviceConfirmation": "Oletko varma, että haluat positaa tämän laitteen? Se ilmaantuu uudelleen seuraavan kerran, kun jokin käyttäjä kirjautuu sillä.",

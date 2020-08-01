@@ -915,7 +915,7 @@
     "DirectStreamHelp2": "Reprodução direta de um ficheiro requer pouco processamento e não implica perda de qualidade num vídeo.",
     "DefaultSubtitlesHelp": "As legendas são carregadas com base nas definições por defeito ou forçado nos metadados. As preferências de idioma são consideradas quando existem múltiplas opções disponíveis.",
     "DefaultMetadataLangaugeDescription": "Estes são os valores por defeito que podem ser customizados para cada uma das bibliotecas.",
-    "MessageDefaultError": "Ocorreu um erro a processar o pedido. Por favor, tente novamente mais tarde.",
+    "ErrorDefault": "Ocorreu um erro a processar o pedido. Por favor, tente novamente mais tarde.",
     "Default": "Por defeito",
     "DeathDateValue": "Faleceu: {0}",
     "DatePlayed": "Reproduzido a",

@@ -149,7 +149,7 @@
     "DatePlayed": "Datum afgespeeld",
     "DeathDateValue": "Overleden: {0}",
     "Default": "Standaard",
-    "MessageDefaultError": "Er is een fout opgetreden. Probeer later opnieuw.",
+    "ErrorDefault": "Er is een fout opgetreden. Probeer later opnieuw.",
     "DefaultMetadataLangaugeDescription": "Dit zijn uw standaardinstellingen en kunnen per bibliotheek worden aangepast.",
     "DefaultSubtitlesHelp": "Ondertitels worden geladen op basis van de standaard en geforceerd markeringen in de ingesloten metadata. Indien meerdere opties aanwezig zijn zal rekening worden gehouden met de taalvoorkeuren.",
     "Delete": "Verwijderen",

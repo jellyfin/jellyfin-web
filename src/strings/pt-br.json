@@ -153,7 +153,7 @@
     "DatePlayed": "Data de reprodução",
     "DeathDateValue": "Morte: {0}",
     "Default": "Padrão",
-    "MessageDefaultError": "Ocorreu um erro ao processar o pedido. Por favor, tente novamente mais tarde.",
+    "ErrorDefault": "Ocorreu um erro ao processar o pedido. Por favor, tente novamente mais tarde.",
     "DefaultMetadataLangaugeDescription": "Estas são suas configurações padrão e podem ser personalizadas por biblioteca.",
     "DefaultSubtitlesHelp": "Legendas são carregadas com base nas configurações padrão e de legendas forçadas nos metadados incorporados. As preferências de idioma são consideradas quando existem múltiplas opções disponíveis.",
     "Delete": "Excluir",

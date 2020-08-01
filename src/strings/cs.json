@@ -131,7 +131,7 @@
     "DatePlayed": "Datum přehrání",
     "DeathDateValue": "Zemřel: {0}",
     "Default": "Výchozí",
-    "MessageDefaultError": "Došlo k chybě při zpracování požadavku. Prosím zkuste to znovu později.",
+    "ErrorDefault": "Došlo k chybě při zpracování požadavku. Prosím zkuste to znovu později.",
     "DefaultMetadataLangaugeDescription": "Toto jsou vaše výchozí hodnoty a lze je přizpůsobit na základě jednotlivých knihoven.",
     "DefaultSubtitlesHelp": "Titulky jsou načteny na základě výchozích a vynucených nastavení ve vložených metadatech. Jazykové preference jsou vzaty v úvahu, pokud je k dispozici více možností.",
     "Delete": "Odstranit",

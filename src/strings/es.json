@@ -138,7 +138,7 @@
     "CustomDlnaProfilesHelp": "Crear un perfil personalizado para un nuevo dispositivo o reemplazar un perfil del sistema.",
     "DeathDateValue": "Murió: {0}",
     "Default": "Por defecto",
-    "MessageDefaultError": "Ha habido un error procesando la solicitud. Por favor inténtalo más tarde.",
+    "ErrorDefault": "Ha habido un error procesando la solicitud. Por favor inténtalo más tarde.",
     "DefaultMetadataLangaugeDescription": "Estos son tus ajustes y se pueden personalizar para cada biblioteca.",
     "DefaultSubtitlesHelp": "Los subtítulos que se utilizarán dependerán de como estén etiquetadas las pistas de los archivos (si \"por defecto\" o \"forzado\"). Los ajustes de idioma se tienen en cuenta cuando hay varias opciones disponibles.",
     "Delete": "Borrar",

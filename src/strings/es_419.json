@@ -1374,7 +1374,7 @@
     "DeinterlaceMethodHelp": "Seleccione el método de desentrelazado que se usará al transcodificar contenido entrelazado.",
     "DefaultSubtitlesHelp": "Los subtítulos se cargan basados en los indicadores «por defecto» y «forzado» incluidos en los metadatos. Las preferencias de idioma son consideradas cuando hay múltiples opciones disponibles.",
     "DefaultMetadataLangaugeDescription": "Estos son sus valores por defecto y pueden ser personalizados en cada biblioteca.",
-    "MessageDefaultError": "Ha ocurrido un error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.",
+    "ErrorDefault": "Ha ocurrido un error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.",
     "Default": "Por defecto",
     "DeathDateValue": "Falleció: {0}",
     "DatePlayed": "Fecha de reproducción",

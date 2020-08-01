@@ -178,7 +178,7 @@
     "DatePlayed": "Date played",
     "DeathDateValue": "Died: {0}",
     "Default": "Default",
-    "MessageDefaultError": "There was an error processing the request. Please try again later.",
+    "ErrorDefault": "There was an error processing the request. Please try again later.",
     "DefaultMetadataLangaugeDescription": "These are your defaults and can be customized on a per-library basis.",
     "DefaultSubtitlesHelp": "Subtitles are loaded based on the default and forced flags in the embedded metadata. Language preferences are considered when multiple options are available.",
     "DeinterlaceMethodHelp": "Select the deinterlacing method to use when transcoding interlaced content.",

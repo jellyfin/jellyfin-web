@@ -145,7 +145,7 @@
     "DatePlayed": "Visto il",
     "DeathDateValue": "Morto: {0}",
     "Default": "Predefinito",
-    "MessageDefaultError": "Si è verificato un errore durante l'elaborazione della richiesta. Si prega di riprovare più tardi.",
+    "ErrorDefault": "Si è verificato un errore durante l'elaborazione della richiesta. Si prega di riprovare più tardi.",
     "DefaultMetadataLangaugeDescription": "Queste sono le tue impostazioni predefinite e possono essere personalizzate per ogni libreria.",
     "DefaultSubtitlesHelp": "I sottotitoli vengono letti in base agli attributi predefiniti e forzati dai metadati integrati. Le preferenze di lingua sono prese in considerazione quando sono disponibili più opzioni.",
     "Delete": "Elimina",

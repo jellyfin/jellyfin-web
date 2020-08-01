@@ -421,7 +421,7 @@
     "ColorSpace": "色彩空間",
     "ColorTransfer": "色彩傳輸",
     "CommunityRating": "社群評分",
-    "MessageDefaultError": "處理請求時發生錯誤。請稍後再試。",
+    "ErrorDefault": "處理請求時發生錯誤。請稍後再試。",
     "DefaultMetadataLangaugeDescription": "這些預設設定可以在你的媒體庫中單獨設定。",
     "DefaultSubtitlesHelp": "字幕將基於中繼資料中的「預設」標記和「強制」標記來載入，當有多個選項可用時，將根據語言偏好決定。",
     "DeleteDeviceConfirmation": "你確定你要刪除這個裝置嗎？當有使用者用這個裝置登入時，這個裝置會再次出現。",

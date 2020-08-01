@@ -919,7 +919,7 @@
     "DeleteDeviceConfirmation": "Tem a certeza  que deseja remover este dispositivo? Reaparecerá na próxima vez que o utilizador inicie sessão a partir dele.",
     "Delete": "Remover",
     "DefaultSubtitlesHelp": "As legendas são carregadas com base nas definições por omissão ou forçado nos metadados. As preferências de idioma são consideradas quando existem múltiplas opções disponíveis.",
-    "MessageDefaultError": "Ocorreu um erro ao processar o pedido. Por favor, tente novamente mais tarde.",
+    "ErrorDefault": "Ocorreu um erro ao processar o pedido. Por favor, tente novamente mais tarde.",
     "Default": "Por omissão",
     "DeathDateValue": "Faleceu: {0}",
     "DatePlayed": "Reproduzido a",

@@ -380,7 +380,7 @@
     "DirectStreamHelp2": "Beint streymi á skrá notar mjög litið vinnsluafl án þess að tapa myndgæðum.",
     "Descending": "Niður",
     "DeleteImageConfirmation": "Ertu viss um að þú viljir eyða þessari mynd?",
-    "MessageDefaultError": "Villa varð við vinnslu beiðninnar. Reyndu aftur síðar.",
+    "ErrorDefault": "Villa varð við vinnslu beiðninnar. Reyndu aftur síðar.",
     "DeathDateValue": "Dó: {0}",
     "DatePlayed": "Dagsetning spilað",
     "DateAdded": "Dagsetning bætt við",

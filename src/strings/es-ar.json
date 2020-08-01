@@ -201,7 +201,7 @@
     "DatePlayed": "Fecha de reproducción",
     "DeathDateValue": "Muerte: {0}",
     "Default": "Predeterminado",
-    "MessageDefaultError": "Hubo un error procesando la solicitud. Por favor intentalo nuevamente mas tarde.",
+    "ErrorDefault": "Hubo un error procesando la solicitud. Por favor intentalo nuevamente mas tarde.",
     "DefaultMetadataLangaugeDescription": "Estos son tus predeterminados y pueden ser personalizados por librería únicamente.",
     "Delete": "Borrar",
     "DeleteDeviceConfirmation": "Estas seguro que quieres borrar este dispositivo? Este va a volver a aparecer cuando una persona se registre.",

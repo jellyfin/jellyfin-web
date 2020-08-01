@@ -237,7 +237,7 @@
     "ButtonSignIn": "Đăng nhập",
     "ButtonShutdown": "Tắt",
     "ButtonSettings": "Cài đặt",
-    "MessageDefaultError": "Có lỗi xảy ra trong lúc xử lý yêu cầu của bạn. Xin hãy thử lại sau.",
+    "ErrorDefault": "Có lỗi xảy ra trong lúc xử lý yêu cầu của bạn. Xin hãy thử lại sau.",
     "Default": "Mặc định",
     "DeathDateValue": "Không hoạt động: {0}",
     "DatePlayed": "Ngày phát",

@@ -345,7 +345,7 @@
     "DatePlayed": "Data redării",
     "DeathDateValue": "Mort: {0}",
     "Default": "Implicit",
-    "MessageDefaultError": "A fost o eroare în procesarea cererii. Vă rugam încercați din nou mai târziu.",
+    "ErrorDefault": "A fost o eroare în procesarea cererii. Vă rugam încercați din nou mai târziu.",
     "DeleteImageConfirmation": "Sigur doriți să ștergeți această imagine?",
     "ButtonRename": "Redenumește",
     "ButtonRepeat": "Repetă",

@@ -110,7 +110,7 @@
     "DateAdded": "Dátum pridania",
     "DatePlayed": "Dátum prehrania",
     "DeathDateValue": "Zomrel/a: {0}",
-    "MessageDefaultError": "Pri spracovaní požiadavky došlo k chybe. Prosím, skúste to neskôr znova.",
+    "ErrorDefault": "Pri spracovaní požiadavky došlo k chybe. Prosím, skúste to neskôr znova.",
     "Delete": "Zmazať",
     "DeleteDeviceConfirmation": "Ste si istý, že chcete odstrániť toto zariadenie? Objaví sa znovu, keď sa ním používateľ nabudúce prihlási.",
     "DeleteImage": "Zmazať obrázok",

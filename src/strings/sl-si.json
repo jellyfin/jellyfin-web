@@ -257,7 +257,7 @@
     "DeleteImage": "Izbriši sliko",
     "Delete": "Izbiši",
     "DefaultMetadataLangaugeDescription": "To so vaše privzete nastavitve, ki jih lahko spreminjate za posamezno knjižnico.",
-    "MessageDefaultError": "Prišlo je do težave pri obdelavi zahteve. Poskusite ponovno kasneje.",
+    "ErrorDefault": "Prišlo je do težave pri obdelavi zahteve. Poskusite ponovno kasneje.",
     "Default": "Privzeto",
     "DeathDateValue": "Smrt: {0}",
     "DatePlayed": "Predvajano",

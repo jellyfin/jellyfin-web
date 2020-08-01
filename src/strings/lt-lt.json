@@ -65,7 +65,7 @@
     "ConfirmDeletion": "Patvirtinti trynimą",
     "Continuing": "Tęsiamas",
     "CustomDlnaProfilesHelp": "Sukurti kitą profilį naujam įrenginiui ar pakeisti sistemos profilį.",
-    "MessageDefaultError": "Įvyko klaida vykdant užklausą. Pabandykite vėliau.",
+    "ErrorDefault": "Įvyko klaida vykdant užklausą. Pabandykite vėliau.",
     "Delete": "Ištrinti",
     "DeleteMedia": "Trinti mediją",
     "DeviceAccessHelp": "Tai taikoma tik įrenginiams, kurie gali būti identifikuojami, ir neuždraus prieigos per naršyklę. Vartotojo įrenginio prieigos filtravimas neleis jiems naudotis naujais įrenginiais kol jie nepatvirtinti čia.",

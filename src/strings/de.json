@@ -143,7 +143,7 @@
     "DatePlayed": "Abgespielt am",
     "DeathDateValue": "Gestorben: {0}",
     "Default": "Standard",
-    "MessageDefaultError": "Es gab einen Fehler beim verarbeiten der Anfrage. Bitte versuche es später erneut.",
+    "ErrorDefault": "Es gab einen Fehler beim verarbeiten der Anfrage. Bitte versuche es später erneut.",
     "DefaultMetadataLangaugeDescription": "Das sind deine Default-Werte, die bibliotheksspezifisch verändert werden können.",
     "DefaultSubtitlesHelp": "Untertitel werden gemäß der Standard- und Erzwungen-Ansicht aus den eingebetteten Metadaten geladen. Spracheinstellungen werden zur Verfügung gestellt, wenn mehrere Sprachen verfügbar sind.",
     "Delete": "Löschen",

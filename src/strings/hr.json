@@ -106,7 +106,7 @@
     "Continuing": "Nastavlja se",
     "CustomDlnaProfilesHelp": "Kreiraj prilagođeni profili za novi uređaj ili doradi neki od sistemskih profila.",
     "DeathDateValue": "Umro: {0}",
-    "MessageDefaultError": "Došlo je do pogreške prilikom obrade zahtjeva. Molimo pokušajte ponovo kasnije.",
+    "ErrorDefault": "Došlo je do pogreške prilikom obrade zahtjeva. Molimo pokušajte ponovo kasnije.",
     "Delete": "Izbriši",
     "DeleteDeviceConfirmation": "Jeste li sigurni da želite izbrisati ovaj uređaj? Pojavit će se sljedeći put kad se korisnik prijavi s njim.",
     "DeleteImage": "Izbriši sliku",

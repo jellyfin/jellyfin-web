@@ -155,7 +155,7 @@
     "DatePlayed": "Date de lecture",
     "DeathDateValue": "Décédé(e) le {0}",
     "Default": "Par défaut",
-    "MessageDefaultError": "Il y a eu une erreur lors de l'exécution de la requête. Veuillez réessayer plus tard.",
+    "ErrorDefault": "Il y a eu une erreur lors de l'exécution de la requête. Veuillez réessayer plus tard.",
     "DefaultMetadataLangaugeDescription": "Ce sont vos réglages par défaut. Ils peuvent être personnalisés pour chaque médiathèque.",
     "DefaultSubtitlesHelp": "Les sous-titres seront chargés selon les marqueurs par défaut et forcé dans les métadonnées intégrées. Les langues préférées seront utilisées quand plusieurs options seront disponibles.",
     "Delete": "Supprimer",

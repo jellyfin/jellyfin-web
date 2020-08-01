@@ -421,7 +421,7 @@
     "DatePlayed": "Oynanan tarih",
     "DeathDateValue": "Öldü: {0}",
     "Default": "Varsayılan",
-    "MessageDefaultError": "İsteğin işlenmesi sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
+    "ErrorDefault": "İsteğin işlenmesi sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
     "DefaultMetadataLangaugeDescription": "Bunlar varsayılan ayarlarınızdır ve kitaplık bazında özelleştirilebilir.",
     "DeleteUserConfirmation": "Bu kullanıcıyı silmek istediğinden emin misin?",
     "Depressed": "Bunalımlı",

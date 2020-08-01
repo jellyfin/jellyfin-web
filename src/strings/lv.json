@@ -975,7 +975,7 @@
     "DeleteMedia": "Dzēst mediju",
     "DeleteImageConfirmation": "Vai tu tiešām vēlies izdzēst šo attēlu?",
     "DeleteDeviceConfirmation": "Vai tu tiešām vēlies noņemt šo ierīci? Tā parādīsies atkārtoti nākamo reizi, kad lietotājs ieiet ar to.",
-    "MessageDefaultError": "Apstrādājot pieprasījumu notika kļūda. Pēc brītiņa lūdzu mēģini vēlreiz.",
+    "ErrorDefault": "Apstrādājot pieprasījumu notika kļūda. Pēc brītiņa lūdzu mēģini vēlreiz.",
     "DeathDateValue": "Miris: {0}",
     "ConfirmEndPlayerSession": "Vai jūs gribat izslēgt Jellyfin uz {0}?",
     "ConfirmDeleteItems": "Dzēšot šos vienumus, tie tiks izdzēsti gan no jūsu failu sistēmas, gan mediju bibliotēkas. Vai tiešām turpināt?",

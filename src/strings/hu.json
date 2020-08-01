@@ -645,7 +645,7 @@
     "CustomDlnaProfilesHelp": "Hozz létre egyéni profilt az új eszközhöz, vagy módosítsd a rendszerprofilt.",
     "DeathDateValue": "Elhunyt: {0}",
     "Default": "Alapértelmezett",
-    "MessageDefaultError": "Hiba történt a kérés feldolgozása során. Kérlek próbáld újra később.",
+    "ErrorDefault": "Hiba történt a kérés feldolgozása során. Kérlek próbáld újra később.",
     "DefaultMetadataLangaugeDescription": "Ezek az alapértelmezettek, és könyvtáranként testre szabhatók.",
     "DeleteDeviceConfirmation": "Biztosan törölni szeretnéd ezt az eszközt? Legközelebb akkor jelenik meg, amikor a felhasználó bejelentkezik róla.",
     "DeleteImage": "Kép törlése",

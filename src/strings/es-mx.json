@@ -156,7 +156,7 @@
     "DatePlayed": "Fecha de reproducción",
     "DeathDateValue": "Falleció: {0}",
     "Default": "Por defecto",
-    "MessageDefaultError": "Ha ocurrido un error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.",
+    "ErrorDefault": "Ha ocurrido un error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.",
     "DefaultMetadataLangaugeDescription": "Estos son sus valores por defecto y pueden ser personalizados en cada biblioteca.",
     "DefaultSubtitlesHelp": "Los subtítulos se cargan basados en los indicadores «por defecto» y «forzado» incluidos en los metadatos. Las preferencias de idioma son consideradas cuando hay múltiples opciones disponibles.",
     "Delete": "Eliminar",

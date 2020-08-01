@@ -56,7 +56,7 @@
     "Actor": "Aktor",
     "Delete": "Hapus",
     "DefaultMetadataLangaugeDescription": "Berikut ini adalah standar Anda dan dapat dikustomisasi pada tiap pustakanya.",
-    "MessageDefaultError": "Terdapat galat dalam memproses permintaan. Silakan coba kembali nanti.",
+    "ErrorDefault": "Terdapat galat dalam memproses permintaan. Silakan coba kembali nanti.",
     "Default": "Standar",
     "DeathDateValue": "Meninggal: {0}",
     "DatePlayed": "Tanggal dimainkan",
