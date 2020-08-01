@@ -336,23 +336,28 @@ import actionsheet from 'actionsheet';
         return new Promise(function (resolve, reject) {
             switch (id) {
                 case 'addtocollection':
-                    import('collectionEditor').then(({default: collectionEditor}) => {
-                        new collectionEditor({
+                    import('collectionEditor')
+                    .then(({default: collectionEditor}) => {
+                        return new collectionEditor({
                             items: [itemId],
                             serverId: serverId
-                        }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                    });
+                        });
+                    })
+                    .then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
                 case 'addtoplaylist':
-                    import('playlistEditor').then(({default: playlistEditor}) => {
-                        new playlistEditor({
+                    import('playlistEditor')
+                    .then(({default: playlistEditor}) => {
+                        return new playlistEditor({
                             items: [itemId],
                             serverId: serverId
-                        }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                    });
+                        });
+                    })
+                    .then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
                 case 'download':
-                    import('fileDownloader').then((fileDownloader) => {
+                    import('fileDownloader')
+                    .then((fileDownloader) => {
                         const downloadHref = apiClient.getItemDownloadUrl(itemId);
                         fileDownloader.download([{
                             url: downloadHref,
@@ -374,7 +379,8 @@ import actionsheet from 'actionsheet';
                         textArea.select();
 
                         if (document.execCommand('copy')) {
-                            import('toast').then(({default: toast}) => {
+                            import('toast')
+                            .then(({default: toast}) => {
                                 toast(globalize.translate('CopyStreamURLSuccess'));
                             });
                         } else {
@@ -388,11 +394,14 @@ import actionsheet from 'actionsheet';
                         textAreaCopy();
                     } else {
                         /* eslint-disable-next-line compat/compat */
-                        navigator.clipboard.writeText(downloadHref).then(function () {
-                            import('toast').then(({default: toast}) => {
-                                toast(globalize.translate('CopyStreamURLSuccess'));
-                            });
-                        }).catch(function () {
+                        navigator.clipboard.writeText(downloadHref)
+                        .then(function () {
+                            return import('toast');
+                        })
+                        .then(({default: toast}) => {
+                            toast(globalize.translate('CopyStreamURLSuccess'));
+                        })
+                        .catch(function () {
                             textAreaCopy();
                         });
                     }
@@ -400,30 +409,39 @@ import actionsheet from 'actionsheet';
                     break;
                 }
                 case 'editsubtitles':
-                    import('subtitleEditor').then(({default: subtitleEditor}) => {
-                        subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                    });
+                    import('subtitleEditor')
+                    .then(({default: subtitleEditor}) => {
+                        return subtitleEditor.show(itemId, serverId);
+                    })
+                    .then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
                 case 'edit':
-                    editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                    editItem(apiClient, item)
+                    .then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
                 case 'editimages':
-                    import('imageEditor').then(({default: imageEditor}) => {
-                        imageEditor.show({
+                    import('imageEditor')
+                    .then(({default: imageEditor}) => {
+                        return imageEditor.show({
                             itemId: itemId,
                             serverId: serverId
-                        }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                    });
+                        });
+                    })
+                    .then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
                 case 'identify':
-                    import('itemIdentifier').then(({default: itemIdentifier}) => {
-                        itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                    });
+                    import('itemIdentifier')
+                    .then(({default: itemIdentifier}) => {
+                        return itemIdentifier.show(itemId, serverId);
+                    })
+                    .then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
                 case 'moremediainfo':
-                    import('itemMediaInfo').then(({default: itemMediaInfo}) => {
-                        itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id), getResolveFunction(resolve, id));
-                    });
+                    import('itemMediaInfo')
+                    .then(({default: itemMediaInfo}) => {
+                        return itemMediaInfo.show(itemId, serverId);
+                    })
+                    .then(getResolveFunction(resolve, id), getResolveFunction(resolve, id));
                     break;
                 case 'refresh':
                     refresh(apiClient, item);
@@ -456,9 +474,11 @@ import actionsheet from 'actionsheet';
                     playbackManager.clearQueue();
                     break;
                 case 'record':
-                    import('recordingCreator').then(({default: recordingCreator}) => {
-                        recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                    });
+                    import('recordingCreator')
+                    .then(({default: recordingCreator}) => {
+                        return recordingCreator.show(itemId, serverId);
+                    })
+                    .then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
                 case 'shuffle':
                     playbackManager.shuffle(item);
@@ -469,7 +489,8 @@ import actionsheet from 'actionsheet';
                     getResolveFunction(resolve, id)();
                     break;
                 case 'delete':
-                    deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
+                    deleteItem(apiClient, item)
+                    .then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
                     break;
                 case 'share':
                     navigator.share({
@@ -498,7 +519,8 @@ import actionsheet from 'actionsheet';
                             EntryIds: [item.PlaylistItemId].join(',')
                         }),
                         type: 'DELETE'
-                    }).then(function () {
+                    })
+                    .then(function () {
                         getResolveFunction(resolve, id, true)();
                     });
                     break;
@@ -509,7 +531,8 @@ import actionsheet from 'actionsheet';
 
                             Ids: [item.Id].join(',')
                         })
-                    }).then(function () {
+                    })
+                    .then(function () {
                         getResolveFunction(resolve, id, true)();
                     });
                     break;
@@ -527,19 +550,23 @@ import actionsheet from 'actionsheet';
     }
 
     function deleteTimer(apiClient, item, resolve, command) {
-        import('recordingHelper').then(({default: recordingHelper}) => {
+        import('recordingHelper')
+        .then(({default: recordingHelper}) => {
             const timerId = item.TimerId || item.Id;
-            recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
-                getResolveFunction(resolve, command, true)();
-            });
+            return recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId);
+        })
+        .then(function () {
+            getResolveFunction(resolve, command, true)();
         });
     }
 
     function deleteSeriesTimer(apiClient, item, resolve, command) {
-        import('recordingHelper').then(({default: recordingHelper}) => {
-            recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
-                getResolveFunction(resolve, command, true)();
-            });
+        import('recordingHelper')
+        .then(({default: recordingHelper}) => {
+            return recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId);
+        })
+        .then(function () {
+            getResolveFunction(resolve, command, true)();
         });
     }
 
@@ -570,36 +597,46 @@ import actionsheet from 'actionsheet';
             const serverId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
-                import('recordingEditor').then(({default: recordingEditor}) => {
-                    recordingEditor.show(item.Id, serverId).then(resolve, reject);
-                });
+                import('recordingEditor')
+                .then(({default: recordingEditor}) => {
+                    return recordingEditor.show(item.Id, serverId);
+                })
+                .then(resolve, reject);
             } else if (item.Type === 'SeriesTimer') {
-                import('seriesRecordingEditor').then(({default: recordingEditor}) => {
-                    recordingEditor.show(item.Id, serverId).then(resolve, reject);
-                });
+                import('seriesRecordingEditor')
+                .then(({default: recordingEditor}) => {
+                    return recordingEditor.show(item.Id, serverId);
+                })
+                .then(resolve, reject);
             } else {
-                import('metadataEditor').then(({default: metadataEditor}) => {
-                    metadataEditor.show(item.Id, serverId).then(resolve, reject);
-                });
+                import('metadataEditor')
+                .then(({default: metadataEditor}) => {
+                    return metadataEditor.show(item.Id, serverId);
+                })
+                .then(resolve, reject);
             }
         });
     }
 
     function deleteItem(apiClient, item) {
         return new Promise(function (resolve, reject) {
-            import('deleteHelper').then(({default: deleteHelper}) => {
-                deleteHelper.deleteItem({
+            import('deleteHelper')
+            .then(({default: deleteHelper}) => {
+                return deleteHelper.deleteItem({
                     item: item,
                     navigate: false
-                }).then(function () {
-                    resolve(true);
-                }, reject);
-            });
+                });
+            })
+            .then(function () {
+                resolve(true);
+            })
+            .catch(reject);
         });
     }
 
     function refresh(apiClient, item) {
-        import('refreshDialog').then(({default: refreshDialog}) => {
+        import('refreshDialog')
+        .then(({default: refreshDialog}) => {
             new refreshDialog({
                 itemIds: [item.Id],
                 serverId: apiClient.serverInfo().Id,
@@ -618,7 +655,8 @@ import actionsheet from 'actionsheet';
             items: commands,
             positionTo: options.positionTo,
             resolveOnClick: ['share']
-        }).then(function (id) {
+        })
+        .then(function (id) {
             return executeCommand(options.item, id, options);
         });
     }

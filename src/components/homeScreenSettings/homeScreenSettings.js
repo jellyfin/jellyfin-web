@@ -362,19 +362,23 @@ import 'emby-checkbox';
     function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
         loading.show();
 
-        apiClient.getUser(userId).then(user => {
-            saveUser(context, user, userSettings, apiClient).then(() => {
-                loading.hide();
-                if (enableSaveConfirmation) {
-                    import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('SettingsSaved'));
-                    });
-                }
+        apiClient.getUser(userId)
+        .then((user) => {
+            saveUser(context, user, userSettings, apiClient);
+        })
+        .then(() => {
+            loading.hide();
+            if (enableSaveConfirmation) {
+                return import('toast');
+            }
 
-                events.trigger(instance, 'saved');
-            }, () => {
-                loading.hide();
-            });
+            events.trigger(instance, 'saved');
+        })
+        .then(({default: toast}) => {
+            toast(globalize.translate('SettingsSaved'));
+        })
+        .catch(() => {
+            loading.hide();
         });
     }
 
@@ -455,16 +459,19 @@ import 'emby-checkbox';
             const apiClient = connectionManager.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
-            apiClient.getUser(userId).then(user => {
-                userSettings.setUserInfo(userId, apiClient).then(() => {
-                    self.dataLoaded = true;
+            apiClient.getUser(userId)
+            .then((user) => {
+                userSettings.setUserInfo(userId, apiClient);
+                return user;
+            })
+            .then((user) => {
+                self.dataLoaded = true;
 
-                    loadForm(context, user, userSettings, apiClient);
+                loadForm(context, user, userSettings, apiClient);
 
-                    if (autoFocus) {
-                        focusManager.autoFocus(context);
-                    }
-                });
+                if (autoFocus) {
+                    focusManager.autoFocus(context);
+                }
             });
         }
 

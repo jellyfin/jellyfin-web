@@ -247,17 +247,20 @@ import 'emby-button';
         loading.show();
 
         apiClient.getUser(userId).then(user => {
-            saveUser(context, user, userSettings, apiClient).then(() => {
-                loading.hide();
-                if (enableSaveConfirmation) {
-                    import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('SettingsSaved'));
-                    });
-                }
-                events.trigger(instance, 'saved');
-            }, () => {
-                loading.hide();
-            });
+            saveUser(context, user, userSettings, apiClient);
+        })
+        .then(() => {
+            loading.hide();
+            if (enableSaveConfirmation) {
+                return import('toast');
+            }
+            events.trigger(instance, 'saved');
+        })
+        .then(({default: toast}) => {
+            toast(globalize.translate('SettingsSaved'));
+        })
+        .catch(() => {
+            loading.hide();
         });
     }
 
@@ -305,15 +308,18 @@ import 'emby-button';
             const apiClient = connectionManager.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
-            return apiClient.getUser(userId).then(user => {
-                return userSettings.setUserInfo(userId, apiClient).then(() => {
+            return apiClient.getUser(userId)
+                .then((user) => {
+                    userSettings.setUserInfo(userId, apiClient);
+                    return user;
+                })
+                .then((user) => {
                     self.dataLoaded = true;
                     loadForm(context, user, userSettings);
                     if (autoFocus) {
                         focusManager.autoFocus(context);
                     }
                 });
-            });
         }
 
         submit() {

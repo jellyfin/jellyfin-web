@@ -28,12 +28,14 @@ import 'flexStyles';
         const dlg = dom.parentWithClass(this, 'dlg-libraryeditor');
         let libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
         libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
-        ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {
+        ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions)
+        .then(() => {
             hasChanges = true;
             isCreating = false;
             loading.hide();
             dialogHelper.close(dlg);
-        }, () => {
+        })
+        .catch(() => {
             isCreating = false;
             loading.hide();
         });
@@ -43,13 +45,16 @@ import 'flexStyles';
     function addMediaLocation(page, path, networkSharePath) {
         const virtualFolder = currentOptions.library;
         const refreshAfterChange = currentOptions.refresh;
-        ApiClient.addMediaPath(virtualFolder.Name, path, networkSharePath, refreshAfterChange).then(() => {
+        ApiClient.addMediaPath(virtualFolder.Name, path, networkSharePath, refreshAfterChange)
+        .then(() => {
             hasChanges = true;
             refreshLibraryFromServer(page);
-        }, () => {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-            });
+        })
+        .catch(async () => {
+            const toast = await import('toast');
+            toast.defualt(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
+            isCreating = false;
+            loading.hide();
         });
     }
 
@@ -58,13 +63,16 @@ import 'flexStyles';
         ApiClient.updateMediaPath(virtualFolder.Name, {
             Path: path,
             NetworkPath: networkSharePath
-        }).then(() => {
+        })
+        .then(() => {
             hasChanges = true;
             refreshLibraryFromServer(page);
-        }, () => {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-            });
+        })
+        .catch(async () => {
+            const toast = await import('toast');
+            toast.defualt(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
+            isCreating = false;
+            loading.hide();
         });
     }
 
@@ -72,23 +80,26 @@ import 'flexStyles';
         const button = btnRemovePath;
         const virtualFolder = currentOptions.library;
 
-        import('confirm').then(({default: confirm}) => {
-            confirm({
+        import('confirm')
+        .then(({default: confirm}) => {
+            return confirm({
                 title: globalize.translate('HeaderRemoveMediaLocation'),
                 text: globalize.translate('MessageConfirmRemoveMediaLocation'),
                 confirmText: globalize.translate('ButtonDelete'),
                 primary: 'delete'
-            }).then(() => {
-                const refreshAfterChange = currentOptions.refresh;
-                ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
-                    hasChanges = true;
-                    refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
-                }, () => {
-                    import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('DefaultErrorMessage'));
-                    });
-                });
             });
+        })
+        .then(() => {
+            const refreshAfterChange = currentOptions.refresh;
+            return ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange);
+        })
+        .then(() => {
+            hasChanges = true;
+            refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
+        })
+        .catch(async () => {
+            const toast = await import('toast');
+            toast.default(globalize.translate('DefaultErrorMessage'));
         });
     }
 
@@ -130,7 +141,8 @@ import 'flexStyles';
     }
 
     function refreshLibraryFromServer(page) {
-        ApiClient.getVirtualFolders().then(result => {
+        ApiClient.getVirtualFolders()
+        .then(result => {
             const library = result.filter(f => {
                 return f.Name === currentOptions.library.Name;
             })[0];
@@ -167,7 +179,8 @@ import 'flexStyles';
     }
 
     function showDirectoryBrowser(context, originalPath, networkPath) {
-        import('directorybrowser').then(({default: directoryBrowser}) => {
+        import('directorybrowser')
+        .then(({default: directoryBrowser}) => {
             const picker = new directoryBrowser();
             picker.show({
                 enableNetworkSharePath: true,
@@ -200,7 +213,8 @@ import 'flexStyles';
         dlg.querySelector('.folderList').addEventListener('click', onListItemClick);
         dlg.querySelector('.chkAdvanced').addEventListener('change', onToggleAdvancedChange);
         dlg.querySelector('.btnSubmit').addEventListener('click', onEditLibrary);
-        libraryoptionseditor.embed(dlg.querySelector('.libraryOptions'), options.library.CollectionType, options.library.LibraryOptions).then(() => {
+        libraryoptionseditor.embed(dlg.querySelector('.libraryOptions'), options.library.CollectionType, options.library.LibraryOptions)
+        .then(() => {
             onToggleAdvancedChange.call(dlg.querySelector('.chkAdvanced'));
         });
     }
@@ -215,7 +229,8 @@ export class showEditor {
         currentOptions = options;
         currentDeferred = deferred;
         hasChanges = false;
-        import('text!./components/mediaLibraryEditor/mediaLibraryEditor.template.html').then(({default: template}) => {
+        import('text!./components/mediaLibraryEditor/mediaLibraryEditor.template.html')
+        .then(({default: template}) => {
             const dlg = dialogHelper.createDialog({
                 size: 'small',
                 modal: false,

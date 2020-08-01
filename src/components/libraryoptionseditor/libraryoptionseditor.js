@@ -1,3 +1,4 @@
+
 /* eslint-disable indent */
 
 /**
@@ -370,11 +371,11 @@ import 'emby-input';
         populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
         const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
         Promise.all(promises).then(function() {
-            return setContentType(parent, contentType).then(function() {
-                libraryOptions && setLibraryOptions(parent, libraryOptions);
-                bindEvents(parent);
-                return;
-            });
+            return setContentType(parent, contentType);
+        })
+        .then(function() {
+            libraryOptions && setLibraryOptions(parent, libraryOptions);
+            bindEvents(parent);
         });
     }
 

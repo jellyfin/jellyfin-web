@@ -138,7 +138,7 @@ import 'flexStyles';
 
     function loadMediaInfo(itemId, serverId, template) {
         const apiClient = connectionManager.getApiClient(serverId);
-        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
+        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(async (item) => {
             const dialogOptions = {
                 size: 'small',
                 removeOnClose: true,
@@ -159,9 +159,13 @@ import 'flexStyles';
             dlg.querySelector('.btnCancel').addEventListener('click', () => {
                 dialogHelper.close(dlg);
             });
-            apiClient.getCurrentUser().then(user => {
-                setMediaInfo(user, dlg, item);
-            });
+
+            const user = await apiClient.getCurrentUser();
+
+            return [user, dlg, item];
+        })
+        .then(([user, dlg, item]) => {
+            setMediaInfo(user, dlg, item);
             loading.hide();
         });
     }
@@ -169,9 +173,7 @@ import 'flexStyles';
     export function show(itemId, serverId) {
         loading.show();
         return import('text!./itemMediaInfo.template.html').then(({default: template}) => {
-            return new Promise((resolve, reject) => {
-                loadMediaInfo(itemId, serverId, template).then(resolve, reject);
-            });
+            loadMediaInfo(itemId, serverId, template);
         });
     }
 

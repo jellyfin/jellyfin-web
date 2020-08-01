@@ -47,24 +47,22 @@ import 'flexStyles';
 
         const apiClient = getApiClient();
 
-        apiClient.updateItem(item).then(function () {
+        apiClient.updateItem(item)
+        .then(function () {
             const newContentType = form.querySelector('#selectContentType').value || '';
 
             if ((metadataEditorInfo.ContentType || '') !== newContentType) {
-                apiClient.ajax({
-
+                return apiClient.ajax({
                     url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
                         ContentType: newContentType
                     }),
 
                     type: 'POST'
-
-                }).then(function () {
-                    afterContentTypeUpdated();
                 });
-            } else {
-                afterContentTypeUpdated();
             }
+        })
+        .finally(function () {
+            afterContentTypeUpdated();
         });
     }
 
@@ -209,15 +207,17 @@ import 'flexStyles';
     }
 
     function addElementToList(source, sortCallback) {
-        import('prompt').then(({default: prompt}) => {
-            prompt({
+        import('prompt')
+        .then(({default: prompt}) => {
+            return prompt({
                 label: 'Value:'
-            }).then(function (text) {
-                const list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
-                const items = getListValues(list);
-                items.push(text);
-                populateListView(list, items, sortCallback);
             });
+        })
+        .then(function (text) {
+            const list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
+            const items = getListValues(list);
+            items.push(text);
+            populateListView(list, items, sortCallback);
         });
     }
 

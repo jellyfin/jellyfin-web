@@ -67,23 +67,20 @@ import 'flexStyles';
 
     function addToCollection(apiClient, dlg, id) {
         const url = apiClient.getUrl(`Collections/${id}/Items`, {
-
             Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
         });
 
-        apiClient.ajax({
-            type: 'POST',
-            url: url
-
-        }).then(() => {
+        apiClient.ajax({ type: 'POST', url: url })
+        .then(() => {
             loading.hide();
 
             dlg.submitted = true;
             dialogHelper.close(dlg);
 
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('MessageItemsAdded'));
-            });
+            return import('toast');
+        })
+        .then(({default: toast}) => {
+            toast(globalize.translate('MessageItemsAdded'));
         });
     }
 

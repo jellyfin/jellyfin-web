@@ -269,62 +269,66 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 showEpisodeTitle: layoutManager.tv ? false : true
             };
 
-            apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
-                var btnPreviousPage = context.querySelector('.btnPreviousPage');
-                var btnNextPage = context.querySelector('.btnNextPage');
+            apiClient.getLiveTvChannels(channelQuery)
+                .then(async (channelsResult) => {
+                    var btnPreviousPage = context.querySelector('.btnPreviousPage');
+                    var btnNextPage = context.querySelector('.btnNextPage');
 
-                if (channelsResult.TotalRecordCount > channelLimit) {
-                    context.querySelector('.guideOptions').classList.remove('hide');
+                    if (channelsResult.TotalRecordCount > channelLimit) {
+                        context.querySelector('.guideOptions').classList.remove('hide');
 
-                    btnPreviousPage.classList.remove('hide');
-                    btnNextPage.classList.remove('hide');
+                        btnPreviousPage.classList.remove('hide');
+                        btnNextPage.classList.remove('hide');
 
-                    if (channelQuery.StartIndex) {
-                        context.querySelector('.btnPreviousPage').disabled = false;
+                        if (channelQuery.StartIndex) {
+                            context.querySelector('.btnPreviousPage').disabled = false;
+                        } else {
+                            context.querySelector('.btnPreviousPage').disabled = true;
+                        }
+
+                        if ((channelQuery.StartIndex + channelLimit) < channelsResult.TotalRecordCount) {
+                            btnNextPage.disabled = false;
+                        } else {
+                            btnNextPage.disabled = true;
+                        }
                     } else {
-                        context.querySelector('.btnPreviousPage').disabled = true;
+                        context.querySelector('.guideOptions').classList.add('hide');
                     }
 
-                    if ((channelQuery.StartIndex + channelLimit) < channelsResult.TotalRecordCount) {
-                        btnNextPage.disabled = false;
-                    } else {
-                        btnNextPage.disabled = true;
+                    var programFields = [];
+
+                    var programQuery = {
+                        UserId: apiClient.getCurrentUserId(),
+                        MaxStartDate: nextDay.toISOString(),
+                        MinEndDate: date.toISOString(),
+                        channelIds: channelsResult.Items.map(function (c) {
+                            return c.Id;
+                        }).join(','),
+                        ImageTypeLimit: 1,
+                        EnableImages: false,
+                        //EnableImageTypes: layoutManager.tv ? "Primary,Backdrop" : "Primary",
+                        SortBy: 'StartDate',
+                        EnableTotalRecordCount: false,
+                        EnableUserData: false
+                    };
+
+                    if (renderOptions.showHdIcon) {
+                        programFields.push('IsHD');
                     }
-                } else {
-                    context.querySelector('.guideOptions').classList.add('hide');
-                }
 
-                var programFields = [];
+                    if (programFields.length) {
+                        programQuery.Fields = programFields.join('');
+                    }
 
-                var programQuery = {
-                    UserId: apiClient.getCurrentUserId(),
-                    MaxStartDate: nextDay.toISOString(),
-                    MinEndDate: date.toISOString(),
-                    channelIds: channelsResult.Items.map(function (c) {
-                        return c.Id;
-                    }).join(','),
-                    ImageTypeLimit: 1,
-                    EnableImages: false,
-                    //EnableImageTypes: layoutManager.tv ? "Primary,Backdrop" : "Primary",
-                    SortBy: 'StartDate',
-                    EnableTotalRecordCount: false,
-                    EnableUserData: false
-                };
+                    const programsResult = await apiClient.getLiveTvPrograms(programQuery);
 
-                if (renderOptions.showHdIcon) {
-                    programFields.push('IsHD');
-                }
-
-                if (programFields.length) {
-                    programQuery.Fields = programFields.join('');
-                }
-
-                apiClient.getLiveTvPrograms(programQuery).then(function (programsResult) {
+                    return [channelsResult, programsResult];
+                })
+                .then(([channelsResult, programsResult]) => {
                     renderGuide(context, date, channelsResult.Items, programsResult.Items, renderOptions, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender);
 
                     hideLoading();
                 });
-            });
         }
 
         function getDisplayTime(date) {

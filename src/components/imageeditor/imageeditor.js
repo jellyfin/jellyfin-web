@@ -58,7 +58,7 @@ import 'css!./imageeditor';
     function reloadItem(page, item, apiClient, focusContext) {
         currentItem = item;
 
-        apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
+        apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(async (providers) => {
             const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
             for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
                 if (providers.length) {
@@ -68,16 +68,18 @@ import 'css!./imageeditor';
                 }
             }
 
-            apiClient.getItemImageInfos(currentItem.Id).then(function (imageInfos) {
-                renderStandardImages(page, apiClient, item, imageInfos, providers);
-                renderBackdrops(page, apiClient, item, imageInfos, providers);
-                renderScreenshots(page, apiClient, item, imageInfos, providers);
-                loading.hide();
+            const imageInfos = await apiClient.getItemImageInfos(currentItem.Id);
+            return [providers, imageInfos];
+        })
+        .then(function ([providers, imageInfos]) {
+            renderStandardImages(page, apiClient, item, imageInfos, providers);
+            renderBackdrops(page, apiClient, item, imageInfos, providers);
+            renderScreenshots(page, apiClient, item, imageInfos, providers);
+            loading.hide();
 
-                if (layoutManager.tv) {
-                    focusManager.autoFocus((focusContext || page));
-                }
-            });
+            if (layoutManager.tv) {
+                focusManager.autoFocus((focusContext || page));
+            }
         });
     }
 
@@ -200,15 +202,15 @@ import 'css!./imageeditor';
             return;
         }
 
-        import('confirm').then(({default: confirm}) => {
-            confirm({
-
+        import('confirm')
+        .then(({default: confirm}) => {
+            return confirm({
                 text: globalize.translate('ConfirmDeleteImage'),
                 confirmText: globalize.translate('Delete'),
                 primary: 'delete'
-
-            }).then(afterConfirm);
-        });
+            });
+        })
+        .then(afterConfirm);
     }
 
     function moveImage(context, apiClient, itemId, type, index, newIndex, focusContext) {
@@ -216,9 +218,10 @@ import 'css!./imageeditor';
             hasChanges = true;
             reload(context, null, focusContext);
         }, function () {
-            import('alert').then(({default: alert}) => {
-                alert(globalize.translate('DefaultErrorMessage'));
-            });
+            return import('alert');
+        })
+        .then(({default: alert}) => {
+            alert(globalize.translate('DefaultErrorMessage'));
         });
     }
 
@@ -282,11 +285,13 @@ import 'css!./imageeditor';
     }
 
     function showImageDownloader(page, imageType) {
-        import('imageDownloader').then(({default: ImageDownloader}) => {
-            ImageDownloader.show(currentItem.Id, currentItem.ServerId, currentItem.Type, imageType).then(function () {
-                hasChanges = true;
-                reload(page);
-            });
+        import('imageDownloader')
+        .then(({default: ImageDownloader}) => {
+            return ImageDownloader.show(currentItem.Id, currentItem.ServerId, currentItem.Type, imageType);
+        })
+        .then(function () {
+            hasChanges = true;
+            reload(page);
         });
     }
 
@@ -300,7 +305,8 @@ import 'css!./imageeditor';
         const providerCount = parseInt(imageCard.getAttribute('data-providers'));
         const numImages = parseInt(imageCard.getAttribute('data-numimages'));
 
-        import('actionsheet').then(({default: actionSheet}) => {
+        import('actionsheet')
+        .then(({default: actionSheet}) => {
             const commands = [];
 
             commands.push({
@@ -331,29 +337,28 @@ import 'css!./imageeditor';
                 });
             }
 
-            actionSheet.show({
-
+            return actionSheet.show({
                 items: commands,
                 positionTo: imageCard
-
-            }).then(function (id) {
-                switch (id) {
-                    case 'delete':
-                        deleteImage(context, itemId, type, index, apiClient, false);
-                        break;
-                    case 'search':
-                        showImageDownloader(context, type);
-                        break;
-                    case 'moveleft':
-                        moveImage(context, apiClient, itemId, type, index, index - 1, dom.parentWithClass(imageCard, 'itemsContainer'));
-                        break;
-                    case 'moveright':
-                        moveImage(context, apiClient, itemId, type, index, index + 1, dom.parentWithClass(imageCard, 'itemsContainer'));
-                        break;
-                    default:
-                        break;
-                }
             });
+        })
+        .then(function (id) {
+            switch (id) {
+                case 'delete':
+                    deleteImage(context, itemId, type, index, apiClient, false);
+                    break;
+                case 'search':
+                    showImageDownloader(context, type);
+                    break;
+                case 'moveleft':
+                    moveImage(context, apiClient, itemId, type, index, index - 1, dom.parentWithClass(imageCard, 'itemsContainer'));
+                    break;
+                case 'moveright':
+                    moveImage(context, apiClient, itemId, type, index, index + 1, dom.parentWithClass(imageCard, 'itemsContainer'));
+                    break;
+                default:
+                    break;
+            }
         });
     }
 
@@ -371,20 +376,20 @@ import 'css!./imageeditor';
         addListeners(context, 'btnOpenUploadMenu', 'click', function () {
             const imageType = this.getAttribute('data-imagetype');
 
-            import('imageUploader').then(({default: imageUploader}) => {
-                imageUploader.show({
-
+            import('imageUploader')
+            .then(({default: imageUploader}) => {
+                return imageUploader.show({
                     theme: options.theme,
                     imageType: imageType,
                     itemId: currentItem.Id,
                     serverId: currentItem.ServerId
-
-                }).then(function (hasChanged) {
-                    if (hasChanged) {
-                        hasChanges = true;
-                        reload(context);
-                    }
                 });
+            })
+            .then(function (hasChanged) {
+                if (hasChanged) {
+                    hasChanges = true;
+                    reload(context);
+                }
             });
         });
 
@@ -423,53 +428,57 @@ import 'css!./imageeditor';
 
         loading.show();
 
-        import('text!./imageeditor.template.html').then(({default: template}) => {
+        import('text!./imageeditor.template.html')
+        .then(async ({default: template}) => {
             const apiClient = connectionManager.getApiClient(serverId);
-            apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-                const dialogOptions = {
-                    removeOnClose: true
-                };
+            const item = await apiClient.getItem(apiClient.getCurrentUserId(), itemId);
 
+            return [template, item];
+        })
+        .then(([template, item]) => {
+            const dialogOptions = {
+                removeOnClose: true
+            };
+
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'small';
+            }
+
+            const dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('formDialog');
+
+            dlg.innerHTML = globalize.translateHtml(template, 'core');
+
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.on(dlg, false);
+            }
+
+            initEditor(dlg, options);
+
+            // Has to be assigned a z-index after the call to .open()
+            dlg.addEventListener('close', function () {
                 if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
+                    scrollHelper.centerFocus.off(dlg, false);
+                }
+
+                loading.hide();
+
+                if (hasChanges) {
+                    resolve();
                 } else {
-                    dialogOptions.size = 'small';
+                    reject();
                 }
+            });
 
-                const dlg = dialogHelper.createDialog(dialogOptions);
+            dialogHelper.open(dlg);
 
-                dlg.classList.add('formDialog');
+            reload(dlg, item);
 
-                dlg.innerHTML = globalize.translateHtml(template, 'core');
-
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg, false);
-                }
-
-                initEditor(dlg, options);
-
-                // Has to be assigned a z-index after the call to .open()
-                dlg.addEventListener('close', function () {
-                    if (layoutManager.tv) {
-                        scrollHelper.centerFocus.off(dlg, false);
-                    }
-
-                    loading.hide();
-
-                    if (hasChanges) {
-                        resolve();
-                    } else {
-                        reject();
-                    }
-                });
-
-                dialogHelper.open(dlg);
-
-                reload(dlg, item);
-
-                dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                    dialogHelper.close(dlg);
-                });
+            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+                dialogHelper.close(dlg);
             });
         });
     }

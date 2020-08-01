@@ -335,71 +335,73 @@ import 'cardStyle';
     function showEditor(itemId) {
         loading.show();
 
-        return import('text!./itemidentifier.template.html').then(({default: template}) => {
+        return import('text!./itemidentifier.template.html').then(async ({default: template}) => {
             const apiClient = getApiClient();
+            const item = await apiClient.getItem(apiClient.getCurrentUserId(), itemId);
 
-            apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
-                currentItem = item;
-                currentItemType = currentItem.Type;
+            return [template, item];
+        })
+        .then(([template, item]) => {
+            currentItem = item;
+            currentItemType = currentItem.Type;
 
-                const dialogOptions = {
-                    size: 'small',
-                    removeOnClose: true,
-                    scrollY: false
-                };
+            const dialogOptions = {
+                size: 'small',
+                removeOnClose: true,
+                scrollY: false
+            };
 
-                if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
-                }
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            }
 
-                const dlg = dialogHelper.createDialog(dialogOptions);
+            const dlg = dialogHelper.createDialog(dialogOptions);
 
-                dlg.classList.add('formDialog');
-                dlg.classList.add('recordingDialog');
+            dlg.classList.add('formDialog');
+            dlg.classList.add('recordingDialog');
 
-                let html = '';
-                html += globalize.translateHtml(template, 'core');
+            let html = '';
+            html += globalize.translateHtml(template, 'core');
 
-                dlg.innerHTML = html;
+            dlg.innerHTML = html;
 
-                // Has to be assigned a z-index after the call to .open()
-                dlg.addEventListener('close', onDialogClosed);
+            // Has to be assigned a z-index after the call to .open()
+            dlg.addEventListener('close', onDialogClosed);
 
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-                }
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+            }
 
-                if (item.Path) {
-                    dlg.querySelector('.fldPath').classList.remove('hide');
-                } else {
-                    dlg.querySelector('.fldPath').classList.add('hide');
-                }
+            if (item.Path) {
+                dlg.querySelector('.fldPath').classList.remove('hide');
+            } else {
+                dlg.querySelector('.fldPath').classList.add('hide');
+            }
 
-                dlg.querySelector('.txtPath').innerHTML = item.Path || '';
+            dlg.querySelector('.txtPath').innerHTML = item.Path || '';
 
-                dialogHelper.open(dlg);
+            dialogHelper.open(dlg);
 
-                dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
-                    e.preventDefault();
-                    searchForIdentificationResults(dlg);
-                    return false;
-                });
-
-                dlg.querySelector('.identifyOptionsForm').addEventListener('submit', e => {
-                    e.preventDefault();
-                    submitIdentficationResult(dlg);
-                    return false;
-                });
-
-                dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                    dialogHelper.close(dlg);
-                });
-
-                dlg.classList.add('identifyDialog');
-
-                showIdentificationForm(dlg, item);
-                loading.hide();
+            dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
+                e.preventDefault();
+                searchForIdentificationResults(dlg);
+                return false;
             });
+
+            dlg.querySelector('.identifyOptionsForm').addEventListener('submit', e => {
+                e.preventDefault();
+                submitIdentficationResult(dlg);
+                return false;
+            });
+
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                dialogHelper.close(dlg);
+            });
+
+            dlg.classList.add('identifyDialog');
+
+            showIdentificationForm(dlg, item);
+            loading.hide();
         });
     }
 

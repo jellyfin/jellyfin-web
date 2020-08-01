@@ -48,16 +48,16 @@ import 'flexStyles';
 
         const libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
         libraryOptions.PathInfos = pathInfos;
-        ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
+        ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions)
+        .then(() => {
             hasChanges = true;
             isCreating = false;
             loading.hide();
             dialogHelper.close(dlg);
-        }, () => {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-            });
-
+        })
+        .catch(async () => {
+            const toast = await import('toast');
+            toast.defualt(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
             isCreating = false;
             loading.hide();
         });

@@ -50,7 +50,8 @@ import 'css!./homesections';
     }
 
     export function loadSections(elem, apiClient, user, userSettings) {
-        return getUserViews(apiClient, user.Id).then(function (userViews) {
+        return getUserViews(apiClient, user.Id)
+        .then(function (userViews) {
             let html = '';
 
             if (userViews.length) {
@@ -68,12 +69,7 @@ import 'css!./homesections';
                     promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
                 }
 
-                return Promise.all(promises).then(function () {
-                    return resume(elem, {
-                        refresh: true,
-                        returnPromise: false
-                    });
-                });
+                return Promise.all(promises);
             } else {
                 let noLibDescription;
                 if (user['Policy'] && user['Policy']['IsAdministrator']) {
@@ -95,6 +91,12 @@ import 'css!./homesections';
                     });
                 }
             }
+        })
+        .then(function () {
+            return resume(elem, {
+                refresh: true,
+                returnPromise: false
+            });
         });
     }
 
