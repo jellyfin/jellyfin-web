@@ -20,7 +20,7 @@
     "css-loader": "^4.2.0",
     "cssnano": "^4.1.10",
     "del": "^5.1.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.6.0",
     "eslint-plugin-compat": "^3.5.1",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.21.2",
