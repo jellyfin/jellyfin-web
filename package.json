@@ -266,6 +266,7 @@
           "src/scripts/inputManager.js",
           "src/scripts/keyboardNavigation.js",
           "src/scripts/libraryBrowser.js",
+          "src/scripts/mouseManager.js",
           "src/scripts/multiDownload.js",
           "src/scripts/playlists.js",
           "src/scripts/routes.js",
