@@ -1,12 +1,11 @@
-define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewContainer'], function (browser, dom, layoutManager) {
-    'use strict';
+/* eslint-disable indent */
 
     function setControllerClass(view, options) {
         if (options.controllerFactory) {
             return Promise.resolve();
         }
 
-        var controllerUrl = view.getAttribute('data-controller');
+        let controllerUrl = view.getAttribute('data-controller');
 
         if (controllerUrl) {
             if (controllerUrl.indexOf('__plugin/') === 0) {
@@ -14,7 +13,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
             }
 
             controllerUrl = Dashboard.getConfigurationResourceUrl(controllerUrl);
-            return getRequirePromise([controllerUrl]).then(function (ControllerFactory) {
+            return getRequirePromise([controllerUrl]).then((ControllerFactory) => {
                 options.controllerFactory = ControllerFactory;
             });
         }
@@ -23,35 +22,35 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     }
 
     function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             require(deps, resolve);
         });
     }
 
-    function loadView(options) {
+    export function loadView(options) {
         if (!options.cancel) {
-            var selected = selectedPageIndex;
-            var previousAnimatable = selected === -1 ? null : allPages[selected];
-            var pageIndex = selected + 1;
+            const selected = selectedPageIndex;
+            const previousAnimatable = selected === -1 ? null : allPages[selected];
+            let pageIndex = selected + 1;
 
             if (pageIndex >= pageContainerCount) {
                 pageIndex = 0;
             }
 
-            var isPluginpage = options.url.toLowerCase().indexOf('/configurationpage') !== -1;
-            var newViewInfo = normalizeNewView(options, isPluginpage);
-            var newView = newViewInfo.elem;
-            var modulesToLoad = [];
+            const isPluginpage = options.url.toLowerCase().indexOf('/configurationpage') !== -1;
+            const newViewInfo = normalizeNewView(options, isPluginpage);
+            const newView = newViewInfo.elem;
+            const modulesToLoad = [];
 
-            return new Promise(function (resolve) {
-                require(modulesToLoad, function () {
-                    var currentPage = allPages[pageIndex];
+            return new Promise((resolve) => {
+                require(modulesToLoad, () => {
+                    const currentPage = allPages[pageIndex];
 
                     if (currentPage) {
                         triggerDestroy(currentPage);
                     }
 
-                    var view = newView;
+                    let view = newView;
 
                     if (typeof view == 'string') {
                         view = document.createElement('div');
@@ -79,7 +78,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
                         view.setAttribute('data-type', options.type);
                     }
 
-                    var properties = [];
+                    const properties = [];
 
                     if (options.fullscreen) {
                         properties.push('fullscreen');
@@ -90,7 +89,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
                     }
 
                     allPages[pageIndex] = view;
-                    setControllerClass(view, options).then(function () {
+                    setControllerClass(view, options).then(() => {
                         if (onBeforeChange) {
                             onBeforeChange(view, false, options);
                         }
@@ -125,28 +124,28 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
             html = replaceAll(html, '<\/script>--\x3e', '<\/script>');
         }
 
-        var wrapper = document.createElement('div');
+        const wrapper = document.createElement('div');
         wrapper.innerHTML = html;
         return wrapper.querySelector('div[data-role="page"]');
     }
 
     function normalizeNewView(options, isPluginpage) {
-        var viewHtml = options.view;
+        const viewHtml = options.view;
 
         if (viewHtml.indexOf('data-role="page"') === -1) {
             return viewHtml;
         }
 
-        var hasScript = viewHtml.indexOf('<script') !== -1;
-        var elem = parseHtml(viewHtml, hasScript);
+        let hasScript = viewHtml.indexOf('<script') !== -1;
+        const elem = parseHtml(viewHtml, hasScript);
 
         if (hasScript) {
             hasScript = elem.querySelector('script') != null;
         }
 
-        var hasjQuery = false;
-        var hasjQuerySelect = false;
-        var hasjQueryChecked = false;
+        let hasjQuery = false;
+        let hasjQuerySelect = false;
+        let hasjQueryChecked = false;
 
         if (isPluginpage) {
             hasjQuery = viewHtml.indexOf('jQuery') != -1 || viewHtml.indexOf('$(') != -1 || viewHtml.indexOf('$.') != -1;
@@ -164,7 +163,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     }
 
     function beforeAnimate(allPages, newPageIndex, oldPageIndex) {
-        for (var index = 0, length = allPages.length; index < length; index++) {
+        for (let index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index && oldPageIndex !== index) {
                 allPages[index].classList.add('hide');
             }
@@ -172,33 +171,33 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     }
 
     function afterAnimate(allPages, newPageIndex) {
-        for (var index = 0, length = allPages.length; index < length; index++) {
+        for (let index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index) {
                 allPages[index].classList.add('hide');
             }
         }
     }
 
-    function setOnBeforeChange(fn) {
+    export function setOnBeforeChange(fn) {
         onBeforeChange = fn;
     }
 
-    function tryRestoreView(options) {
-        var url = options.url;
-        var index = currentUrls.indexOf(url);
+    export function tryRestoreView(options) {
+        const url = options.url;
+        const index = currentUrls.indexOf(url);
 
         if (index !== -1) {
-            var animatable = allPages[index];
-            var view = animatable;
+            const animatable = allPages[index];
+            const view = animatable;
 
             if (view) {
                 if (options.cancel) {
                     return;
                 }
 
-                var selected = selectedPageIndex;
-                var previousAnimatable = selected === -1 ? null : allPages[selected];
-                return setControllerClass(view, options).then(function () {
+                const selected = selectedPageIndex;
+                const previousAnimatable = selected === -1 ? null : allPages[selected];
+                return setControllerClass(view, options).then(() => {
                     if (onBeforeChange) {
                         onBeforeChange(view, true, options);
                     }
@@ -228,25 +227,28 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
         view.dispatchEvent(new CustomEvent('viewdestroy', {}));
     }
 
-    function reset() {
+    export function reset() {
         allPages = [];
         currentUrls = [];
         mainAnimatedPages.innerHTML = '';
         selectedPageIndex = -1;
     }
 
-    var onBeforeChange;
-    var mainAnimatedPages = document.querySelector('.mainAnimatedPages');
-    var allPages = [];
-    var currentUrls = [];
-    var pageContainerCount = 3;
-    var selectedPageIndex = -1;
+    let onBeforeChange;
+    const mainAnimatedPages = document.querySelector('.mainAnimatedPages');
+    let allPages = [];
+    let currentUrls = [];
+    const pageContainerCount = 3;
+    let selectedPageIndex = -1;
     reset();
     mainAnimatedPages.classList.remove('hide');
-    return {
-        loadView: loadView,
-        tryRestoreView: tryRestoreView,
-        reset: reset,
-        setOnBeforeChange: setOnBeforeChange
-    };
-});
+
+/* eslint-enable indent */
+
+export default {
+    loadView: loadView,
+    tryRestoreView: tryRestoreView,
+    reset: reset,
+    setOnBeforeChange: setOnBeforeChange
+};
+
