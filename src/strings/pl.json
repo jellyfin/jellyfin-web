@@ -90,7 +90,7 @@
     "ButtonMore": "Więcej",
     "ButtonNetwork": "Sieć",
     "ButtonNew": "Nowe",
-    "ButtonNextTrack": "Następna utwór",
+    "ButtonNextTrack": "Następny utwór",
     "ButtonOff": "Wyłącz",
     "ButtonOpen": "Otwórz",
     "ButtonParentalControl": "Kontrola rodzicielska",
@@ -1564,5 +1564,8 @@
     "EnableDetailsBanner": "Baner w szczegółach",
     "EnableDecodingColorDepth10Vp9": "Włącz 10-bitowe dekodowanie sprzętowe dla VP9",
     "EnableDecodingColorDepth10Hevc": "Włącz 10-bitowe dekodowanie sprzętowe dla HEVC",
-    "BoxSet": "Kolekcja"
+    "BoxSet": "Kolekcja",
+    "PreviousTrack": "Poprzedni",
+    "NextTrack": "Następny",
+    "LabelUnstable": "Niestabilny"
 }
