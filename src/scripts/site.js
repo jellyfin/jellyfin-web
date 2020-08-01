@@ -476,7 +476,7 @@ function initClient() {
     }
 
     function loadPlugins(appHost, browser, shell) {
-        console.debug('loading installed plugins');
+        console.groupCollapsed('loading installed plugins');
         return new Promise(function (resolve, reject) {
             require(['webSettings'], function (webSettings) {
                 webSettings.getPlugins().then(function (list) {
@@ -495,6 +495,7 @@ function initClient() {
                     }
 
                     Promise.all(list.map(loadPlugin)).then(function () {
+                        console.groupEnd('loading installed plugins');
                         require(['packageManager'], function (packageManager) {
                             packageManager.init().then(resolve, reject);
                         });
@@ -507,7 +508,7 @@ function initClient() {
     function loadPlugin(url) {
         return new Promise(function (resolve, reject) {
             require(['pluginManager'], function (pluginManager) {
-                pluginManager.loadPlugin(url).then(resolve, reject);
+                pluginManager.default.loadPlugin(url).then(resolve, reject);
             });
         });
     }

@@ -1,6 +1,8 @@
 define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
     'use strict';
 
+    pluginManager = pluginManager.default || pluginManager;
+
     var settingsKey = 'installedpackages1';
 
     function addPackage(packageManager, pkg) {

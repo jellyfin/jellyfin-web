@@ -1,4 +1,6 @@
 define(['pluginManager'], function (pluginManager) {
+    pluginManager = pluginManager.default || pluginManager;
+
     return function () {
         var self = this;
 
