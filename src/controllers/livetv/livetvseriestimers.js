@@ -49,4 +49,4 @@ export default function (view, params, tabContent) {
     self.renderTab = function () {
         reload(tabContent, timersPromise);
     };
-};
+}
