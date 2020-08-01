@@ -497,7 +497,7 @@ function initClient() {
                     Promise.all(list.map(loadPlugin)).then(function () {
                         console.groupEnd('loading installed plugins');
                         require(['packageManager'], function (packageManager) {
-                            packageManager.init().then(resolve, reject);
+                            packageManager.default.init().then(resolve, reject);
                         });
                     }, reject);
                 });
