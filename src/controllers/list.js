@@ -14,9 +14,6 @@ import 'emby-scroller';
 
 /* eslint-disable indent */
 
-    playbackManager = playbackManager.default || playbackManager;
-    loading = loading.default || loading;
-
     function getInitialLiveTvQuery(instance, params) {
         const query = {
             UserId: connectionManager.getApiClient(params.serverId).getCurrentUserId(),
@@ -523,7 +520,7 @@ class ItemsView {
                 }
 
                 const showYear = settings.showTitle && params.IsMovie === 'true' && params.type === 'Recordings';
-              
+
                 if (showYear) {
                     lines++;
                 }
@@ -858,6 +855,7 @@ class ItemsView {
             self.alphaPickerElement = null;
         });
     }
+
     getFilters() {
         const basekey = this.getSettingsKey();
         return {
@@ -879,6 +877,7 @@ class ItemsView {
             GenreIds: userSettings.getFilter(basekey + '-filter-GenreIds')
         };
     }
+
     getSortValues() {
         const basekey = this.getSettingsKey();
         return {
@@ -886,6 +885,7 @@ class ItemsView {
             sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
         };
     }
+
     getDefaultSortBy() {
         const params = this.params;
         const sortNameOption = this.getNameSortOption(params);
@@ -896,6 +896,7 @@ class ItemsView {
 
         return 'IsFolder,' + sortNameOption.value;
     }
+
     getSortMenuOptions() {
         const sortBy = [];
         const params = this.params;
@@ -966,6 +967,7 @@ class ItemsView {
         });
         return sortBy;
     }
+
     getNameSortOption(params) {
         if (params.type === 'Episode') {
             return {
@@ -979,6 +981,7 @@ class ItemsView {
             value: 'SortName'
         };
     }
+
     getPlayCountSortOption() {
         if (this.params.type === 'Programs') {
             return null;
@@ -988,8 +991,8 @@ class ItemsView {
             name: globalize.translate('PlayCount'),
             value: 'PlayCount,SortName'
         };
-
     }
+
     getDatePlayedSortOption() {
         if (this.params.type === 'Programs') {
             return null;
@@ -1000,12 +1003,9 @@ class ItemsView {
             value: 'DatePlayed,SortName'
         };
     }
+
     getCriticRatingSortOption() {
         if (this.params.type === 'Programs') {
-    };
-
-    ItemsView.prototype.getCriticRatingSortOption = function () {
-        if () {
             return null;
         }
 
@@ -1014,12 +1014,14 @@ class ItemsView {
             value: 'CriticRating,SortName'
         };
     }
+
     getCommunityRatingSortOption() {
         return {
             name: globalize.translate('CommunityRating'),
             value: 'CommunityRating,SortName'
         };
     }
+
     getVisibleFilters() {
         const filters = [];
         const params = this.params;
@@ -1047,6 +1049,7 @@ class ItemsView {
 
         return filters;
     }
+
     setFilterStatus(hasFilters) {
         this.hasFilters = hasFilters;
         const filterButtons = this.filterButtons;
@@ -1074,6 +1077,7 @@ class ItemsView {
             }
         }
     }
+
     getFilterMenuOptions() {
         const params = this.params;
         return {
@@ -1086,6 +1090,7 @@ class ItemsView {
             Recursive: this.queryRecursive
         };
     }
+
     getVisibleViewSettings() {
         const item = (this.params, this.currentItem);
         const fields = ['showTitle'];
@@ -1097,6 +1102,7 @@ class ItemsView {
         fields.push('viewType');
         return fields;
     }
+
     getViewSettings() {
         const basekey = this.getSettingsKey();
         const params = this.params;
@@ -1126,6 +1132,7 @@ class ItemsView {
             viewType: userSettings.get(basekey + '-viewType') || 'images'
         };
     }
+
     getItemTypes() {
         const params = this.params;
 
@@ -1139,6 +1146,7 @@ class ItemsView {
 
         return [];
     }
+
     getSettingsKey() {
         const values = [];
         values.push('items');
