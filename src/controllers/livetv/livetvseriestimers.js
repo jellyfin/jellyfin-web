@@ -1,6 +1,8 @@
 define(['datetime', 'cardBuilder', 'imageLoader', 'apphost', 'loading', 'paper-icon-button-light', 'emby-button'], function (datetime, cardBuilder, imageLoader, appHost, loading) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function renderTimers(context, timers) {
         var html = '';
         html += cardBuilder.getCardsHtml({

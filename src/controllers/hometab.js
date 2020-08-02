@@ -1,6 +1,8 @@
 define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManager', 'focusManager', 'homeSections', 'emby-itemscontainer'], function (userSettings, loading, connectionManager, appHost, layoutManager, focusManager, homeSections) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function HomeTab(view, params) {
         this.view = view;
         this.params = params;

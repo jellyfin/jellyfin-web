@@ -104,7 +104,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                 var apiClient = connectionManager.getApiClient(serverId);
 
                 apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
-                    playbackManager.play({
+                    playbackManager.default.play({
                         ids: [item.ChannelId],
                         serverId: serverId
                     });
