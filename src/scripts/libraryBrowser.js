@@ -178,9 +178,9 @@ export function showSortMenu (options) {
         html += globalize.translate('HeaderSortOrder');
         html += '</h2>';
         html += '<div>';
-        isChecked = 'Ascending' == options.query.SortOrder ? ' checked' : '';
+        isChecked = options.query.SortOrder == 'Ascending' ? ' checked' : '';
         html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('OptionAscending') + '</span></label>';
-        isChecked = 'Descending' == options.query.SortOrder ? ' checked' : '';
+        isChecked = options.query.SortOrder == 'Descending' ? ' checked' : '';
         html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('OptionDescending') + '</span></label>';
         html += '</div>';
         html += '</div>';

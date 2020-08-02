@@ -1,12 +1,14 @@
-define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], function (libraryBrowser, cardBuilder, appHost, imageLoader, loading) {
-    'use strict';
+import libraryBrowser from 'libraryBrowser';
+import cardBuilder from 'cardBuilder';
+import imageLoader from 'imageLoader';
+import loading from 'loading';
 
-    libraryBrowser = libraryBrowser.default || libraryBrowser;
+/* eslint-disable indent */
 
-    return function (view, params, tabContent) {
+    export default function (view, params, tabContent) {
         function getPageData() {
-            var key = getSavedQueryKey();
-            var pageData = data[key];
+            const key = getSavedQueryKey();
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -36,15 +38,15 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
 
         function getPromise() {
             loading.show();
-            var query = getQuery();
+            const query = getQuery();
             return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
         }
 
         function reloadItems(context, promise) {
-            var query = getQuery();
+            const query = getQuery();
             promise.then(function (result) {
-                var html = '';
-                var viewStyle = self.getCurrentViewStyle();
+                let html = '';
+                const viewStyle = self.getCurrentViewStyle();
 
                 if (viewStyle == 'Thumb') {
                     html = cardBuilder.getCardsHtml({
@@ -84,13 +86,13 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
                     });
                 }
 
-                var elem = context.querySelector('#items');
+                const elem = context.querySelector('#items');
                 elem.innerHTML = html;
                 imageLoader.lazyChildren(elem);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(context);
                 });
             });
@@ -101,8 +103,8 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
             self.renderTab();
         }
 
-        var self = this;
-        var data = {};
+        const self = this;
+        const data = {};
 
         self.getViewStyles = function () {
             return 'Poster,PosterCard,Thumb,ThumbCard'.split(',');
@@ -119,7 +121,7 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
         };
 
         self.enableViewSelection = true;
-        var promise;
+        let promise;
 
         self.preRender = function () {
             promise = getPromise();
@@ -128,5 +130,6 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
         self.renderTab = function () {
             reloadItems(tabContent, promise);
         };
-    };
-});
+    }
+
+/* eslint-enable indent */

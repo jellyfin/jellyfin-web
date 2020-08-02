@@ -1,6 +1,8 @@
 define(['browser'], function (browser) {
     'use strict';
 
+    browser = browser.default || browser;
+
     function canPlayH264(videoTestElement) {
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
     }

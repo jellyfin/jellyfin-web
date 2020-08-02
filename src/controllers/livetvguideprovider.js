@@ -1,6 +1,8 @@
 define(['events', 'loading', 'globalize'], function (events, loading, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function onListingsSubmitted() {
         Dashboard.navigate('livetvstatus.html');
     }

@@ -1,6 +1,8 @@
 define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu', 'mainTabsManager', 'cardBuilder', 'dom', 'imageLoader', 'playbackManager', 'globalize', 'emby-scroller', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (events, layoutManager, inputManager, userSettings, libraryMenu, mainTabsManager, cardBuilder, dom, imageLoader, playbackManager, globalize) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
+
     function enableScrollX() {
         return !layoutManager.desktop;
     }

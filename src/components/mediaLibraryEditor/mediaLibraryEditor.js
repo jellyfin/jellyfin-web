@@ -85,7 +85,7 @@ import 'flexStyles';
                     refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
                 }, () => {
                     import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('DefaultErrorMessage'));
+                        toast(globalize.translate('ErrorDefault'));
                     });
                 });
             });
@@ -98,8 +98,8 @@ import 'flexStyles';
         if (listItem) {
             const index = parseInt(listItem.getAttribute('data-index'));
             const pathInfos = (currentOptions.library.LibraryOptions || {}).PathInfos || [];
-            const pathInfo = null == index ? {} : pathInfos[index] || {};
-            const originalPath = pathInfo.Path || (null == index ? null : currentOptions.library.Locations[index]);
+            const pathInfo = index == null ? {} : pathInfos[index] || {};
+            const originalPath = pathInfo.Path || (index == null ? null : currentOptions.library.Locations[index]);
             const btnRemovePath = dom.parentWithClass(e.target, 'btnRemovePath');
 
             if (btnRemovePath) {
@@ -171,7 +171,7 @@ import 'flexStyles';
             const picker = new directoryBrowser();
             picker.show({
                 enableNetworkSharePath: true,
-                pathReadOnly: null != originalPath,
+                pathReadOnly: originalPath != null,
                 path: originalPath,
                 networkSharePath: networkPath,
                 callback: function (path, networkSharePath) {
