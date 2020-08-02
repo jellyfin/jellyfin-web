@@ -1,6 +1,8 @@
 define(['jQuery', 'loading', 'globalize', 'emby-button'], function ($, loading, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function loadPage(page, config) {
         $('.liveTvSettingsForm', page).show();
         $('.noLiveTvServices', page).hide();

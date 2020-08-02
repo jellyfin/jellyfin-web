@@ -1,6 +1,8 @@
 define(['loading', 'libraryMenu', 'globalize', 'listViewStyle', 'emby-button'], function(loading, libraryMenu, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function reload(page) {
         loading.show();
         ApiClient.getJSON(ApiClient.getUrl('Notifications/Types')).then(function(list) {

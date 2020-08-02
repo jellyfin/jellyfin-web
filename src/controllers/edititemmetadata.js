@@ -1,6 +1,8 @@
 define(['loading', 'scripts/editorsidebar'], function (loading) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function reload(context, itemId) {
         loading.show();
 
