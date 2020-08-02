@@ -1,6 +1,9 @@
 define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'dom', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-programcell', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'webcomponents'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, dom) {
     'use strict';
 
+    browser = browser.default || browser;
+    loading = loading.default || loading;
+
     function showViewSettings(instance) {
         require(['guide-settings-dialog'], function (guideSettingsDialog) {
             guideSettingsDialog.show(instance.categoryOptions).then(function () {
