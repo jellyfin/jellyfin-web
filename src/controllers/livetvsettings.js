@@ -48,7 +48,7 @@ function showSaveMessage(recordingPathChanged) {
     let msg = '';
 
     if (recordingPathChanged) {
-        msg += globalize.translate('RecordingPathChangeMessage');
+        msg += globalize.translate('MessageChangeRecordingPath');
     }
 
     if (msg) {

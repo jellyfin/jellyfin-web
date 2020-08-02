@@ -219,7 +219,7 @@ import 'css!./imageeditor';
             reload(context, null, focusContext);
         }, function () {
             import('alert').then(({default: alert}) => {
-                alert(globalize.translate('DefaultErrorMessage'));
+                alert(globalize.translate('ErrorDefault'));
             });
         });
     }
