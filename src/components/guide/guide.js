@@ -2,6 +2,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
     'use strict';
 
     playbackManager = playbackManager.default || playbackManager;
+    browser = browser.default || browser;
     loading = loading.default || loading;
 
     function showViewSettings(instance) {

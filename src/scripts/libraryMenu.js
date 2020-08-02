@@ -2,6 +2,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     'use strict';
 
     playbackManager = playbackManager.default || playbackManager;
+    browser = browser.default || browser;
 
     function renderHeader() {
         var html = '';

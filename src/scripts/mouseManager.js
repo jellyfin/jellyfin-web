@@ -1,6 +1,8 @@
 define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'dom'], function (inputManager, focusManager, browser, layoutManager, events, dom) {
     'use strict';
 
+    browser = browser.default || browser;
+
     var self = {};
 
     var lastMouseInputTime = new Date().getTime();
