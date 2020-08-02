@@ -3365,7 +3365,7 @@ class PlaybackManager {
         return !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
     }
 
-    stop(player ) {
+    stop(player) {
         player = player || this._currentPlayer;
         if (player) {
             if (enableLocalPlaylistManagement(player)) {
