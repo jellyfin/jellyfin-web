@@ -19,8 +19,6 @@ import 'css!./imageeditor';
 
     const enableFocusTransform = !browser.slow && !browser.edge;
 
-    loading = loading.default || loading;
-
     let currentItem;
     let hasChanges = false;
 

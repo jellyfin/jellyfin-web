@@ -1,6 +1,5 @@
 import browser from 'browser';
 import layoutManager from 'layoutManager';
-import appSettings from 'appSettings';
 import pluginManager from 'pluginManager';
 import appHost from 'apphost';
 import focusManager from 'focusManager';
