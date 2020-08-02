@@ -1564,5 +1564,8 @@
     "StopPlayback": "Arrêter",
     "ButtonPlayer": "Démarrer",
     "Writers": "Écrivains",
-    "ViewAlbumArtist": "Voir l'album de l'artiste"
+    "ViewAlbumArtist": "Voir l'album de l'artiste",
+    "PreviousTrack": "Revenir au précédent",
+    "NextTrack": "Passer au prochain",
+    "LabelUnstable": "Instable"
 }

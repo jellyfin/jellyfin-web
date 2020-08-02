@@ -1495,7 +1495,7 @@
     "New": "Nové",
     "ButtonTogglePlaylist": "Playlist",
     "ButtonToggleContextMenu": "Více",
-    "LabelNightly": "Nightly",
+    "LabelNightly": "Aktualizace každou noc",
     "LabelStable": "Stabilní",
     "LabelChromecastVersion": "Verze Chromecastu",
     "ApiKeysCaption": "Seznam povolených API klíčů",
@@ -1566,5 +1566,6 @@
     "StopPlayback": "Zastavit přehrávání",
     "ViewAlbumArtist": "Zobrazit interpreta alba",
     "PreviousTrack": "Předchozí",
-    "NextTrack": "Další"
+    "NextTrack": "Další",
+    "LabelUnstable": "Nestabilní"
 }

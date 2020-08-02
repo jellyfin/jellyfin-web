@@ -1521,7 +1521,7 @@
     "MessageSyncPlayGroupDoesNotExist": "Falha ao participar de grupo pois o mesmo não existe.",
     "MessageSyncPlayPlaybackPermissionRequired": "É necessária permissão de reprodução.",
     "MessageSyncPlayNoGroupsAvailable": "Nenhum grupo disponível. Comece a reproduzir algo primeiro.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> está carregando. . .",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> está carregando…",
     "MessageSyncPlayUserLeft": "<b>{0}</b> deixou o grupo.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> se juntou ao grupo.",
     "MessageSyncPlayDisabled": "SyncPlay desativado.",
@@ -1564,5 +1564,8 @@
     "Writers": "Escritores",
     "ClearQueue": "Limpar fila",
     "StopPlayback": "Parar reprodução",
-    "ViewAlbumArtist": "Ver artista do álbum"
+    "ViewAlbumArtist": "Ver artista do álbum",
+    "PreviousTrack": "Ir para o anterior",
+    "NextTrack": "Ir para o próximo",
+    "LabelUnstable": "Instável"
 }
