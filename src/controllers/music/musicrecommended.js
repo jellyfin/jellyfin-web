@@ -267,7 +267,7 @@ import 'flexStyles';
             mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
         }
 
-        function getTabController(page, index, callback) {
+        const getTabController = (page, index, callback) => {
             let depends;
 
             switch (index) {
@@ -306,7 +306,7 @@ import 'flexStyles';
 
                 if (index == 0) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                    self.tabContent = tabContent;
+                    this.tabContent = tabContent;
                 }
 
                 let controller = tabControllers[index];
@@ -315,7 +315,7 @@ import 'flexStyles';
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
 
                     if (index === 0) {
-                        controller = self;
+                        controller = this;
                     } else if (index === 7) {
                         controller = new controllerFactory(view, tabContent, {
                             collectionType: 'music',
@@ -367,10 +367,9 @@ import 'flexStyles';
             }
         }
 
-        var self = this;
-        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
 
-        self.initTab = function () {
+        this.initTab = function () {
             const tabContent = view.querySelector(".pageTabContent[data-index='0']");
             const containers = tabContent.querySelectorAll('.itemsContainer');
 
@@ -379,7 +378,7 @@ import 'flexStyles';
             }
         };
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reload();
         };
 

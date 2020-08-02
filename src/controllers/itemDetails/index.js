@@ -29,8 +29,6 @@ import 'emby-select';
 
 /* eslint-disable indent */
 
-    loading = loading.default || loading;
-
     function getPromise(apiClient, params) {
         const id = params.id;
 

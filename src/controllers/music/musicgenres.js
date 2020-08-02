@@ -42,11 +42,11 @@ import loading from 'loading';
             return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
         }
 
-        function reloadItems(context, promise) {
+        const reloadItems = (context, promise) => {
             const query = getQuery();
-            promise.then(function (result) {
+            promise.then((result) => {
                 let html = '';
-                const viewStyle = self.getCurrentViewStyle();
+                const viewStyle = this.getCurrentViewStyle();
 
                 if (viewStyle == 'Thumb') {
                     html = cardBuilder.getCardsHtml({
@@ -99,35 +99,34 @@ import loading from 'loading';
         }
 
         function fullyReload() {
-            self.preRender();
-            self.renderTab();
+            this.preRender();
+            this.renderTab();
         }
 
-        const self = this;
         const data = {};
 
-        self.getViewStyles = function () {
+        this.getViewStyles = function () {
             return 'Poster,PosterCard,Thumb,ThumbCard'.split(',');
         };
 
-        self.getCurrentViewStyle = function () {
+        this.getCurrentViewStyle = function () {
             return getPageData().view;
         };
 
-        self.setCurrentViewStyle = function (viewStyle) {
+        this.setCurrentViewStyle = function (viewStyle) {
             getPageData().view = viewStyle;
             libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
             fullyReload();
         };
 
-        self.enableViewSelection = true;
+        this.enableViewSelection = true;
         let promise;
 
-        self.preRender = function () {
+        this.preRender = function () {
             promise = getPromise();
         };
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reloadItems(tabContent, promise);
         };
     }
