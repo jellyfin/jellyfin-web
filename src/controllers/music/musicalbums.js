@@ -82,7 +82,7 @@ import 'emby-itemscontainer';
             }
 
             itemsContainer.innerHTML = '';
-        }
+        };
 
         const reloadItems = (page) => {
             loading.show();
@@ -182,12 +182,12 @@ import 'emby-itemscontainer';
                     autoFocuser.autoFocus(tabContent);
                 });
             });
-        }
+        };
 
         const updateFilterControls = (tabContent) => {
             const query = getQuery();
             this.alphaPicker.value(query.NameStartsWithOrGreater);
-        }
+        };
 
         let savedQueryKey;
         let pageData;
@@ -281,7 +281,7 @@ import 'emby-itemscontainer';
             });
             tabContent.querySelector('.btnPlayAll').addEventListener('click', playAll);
             tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
-        }
+        };
 
         initPage(tabContent);
         onViewStyleChange();

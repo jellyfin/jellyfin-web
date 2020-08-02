@@ -51,7 +51,7 @@ import 'emby-itemscontainer';
             }
 
             return context.savedQueryKey;
-        }
+        };
 
         const onViewStyleChange = () => {
             const viewStyle = this.getCurrentViewStyle();
@@ -66,7 +66,7 @@ import 'emby-itemscontainer';
             }
 
             itemsContainer.innerHTML = '';
-        }
+        };
 
         const reloadItems = (page) => {
             loading.show();
@@ -165,12 +165,12 @@ import 'emby-itemscontainer';
                     autoFocuser.autoFocus(tabContent);
                 });
             });
-        }
+        };
 
         const updateFilterControls = (tabContent) => {
             const query = getQuery(tabContent);
             this.alphaPicker.value(query.NameStartsWithOrGreater);
-        }
+        };
 
         const data = {};
         let isLoading = false;
@@ -229,7 +229,7 @@ import 'emby-itemscontainer';
                 onViewStyleChange();
                 reloadItems(tabContent);
             });
-        }
+        };
 
         initPage(tabContent);
         onViewStyleChange();

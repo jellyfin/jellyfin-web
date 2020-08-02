@@ -339,7 +339,7 @@ import 'flexStyles';
 
                 callback(controller);
             });
-        }
+        };
 
         function preLoadTab(page, index) {
             getTabController(page, index, function (controller) {

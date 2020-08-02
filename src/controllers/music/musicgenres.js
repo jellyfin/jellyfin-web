@@ -96,7 +96,7 @@ import loading from 'loading';
                     autoFocuser.autoFocus(context);
                 });
             });
-        }
+        };
 
         function fullyReload() {
             this.preRender();
