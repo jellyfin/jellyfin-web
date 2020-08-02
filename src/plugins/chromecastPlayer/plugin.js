@@ -1,6 +1,8 @@
 define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', 'globalize', 'events', 'require', 'castSenderApiLoader'], function (appSettings, userSettings, playbackManager, connectionManager, globalize, events, require, castSenderApiLoader) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
+
     // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
     var currentResolve;
     var currentReject;

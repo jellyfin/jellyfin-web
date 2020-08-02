@@ -140,6 +140,7 @@
           "src/components/playback/mediasession.js",
           "src/components/playback/nowplayinghelper.js",
           "src/components/playback/playbackorientation.js",
+          "src/components/playback/playbackmanager.js",
           "src/components/playback/playerSelectionMenu.js",
           "src/components/playback/playersettingsmenu.js",
           "src/components/playback/playmethodhelper.js",

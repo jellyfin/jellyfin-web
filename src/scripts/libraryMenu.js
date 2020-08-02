@@ -1,6 +1,7 @@
 define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncPlayManager', 'groupSelectionMenu', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncPlayManager, groupSelectionMenu, browser, globalize, imageHelper) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
     browser = browser.default || browser;
 
     function renderHeader() {

@@ -1,6 +1,8 @@
 define(['playbackManager', 'userSettings', 'connectionManager'], function (playbackManager, userSettings, connectionManager) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
+
     var currentOwnerId;
     var currentThemeIds = [];
 

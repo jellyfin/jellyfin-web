@@ -1,6 +1,8 @@
 define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'layoutManager', 'focusManager', 'globalize', 'itemHelper', 'css!./upnextdialog', 'emby-button', 'flexStyles'], function (dom, playbackManager, connectionManager, events, mediaInfo, layoutManager, focusManager, globalize, itemHelper) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
+
     var transitionEndEventName = dom.whichTransitionEvent();
 
     function seriesImageUrl(item, options) {

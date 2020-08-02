@@ -1,5 +1,8 @@
 define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageLoader', 'playbackManager', 'nowPlayingHelper', 'events', 'connectionManager', 'apphost', 'globalize', 'layoutManager', 'userSettings', 'cardBuilder', 'itemContextMenu', 'cardStyle', 'emby-itemscontainer', 'css!./remotecontrol.css', 'emby-ratingbutton'], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings, cardBuilder, itemContextMenu) {
     'use strict';
+
+    playbackManager = playbackManager.default || playbackManager;
+
     var showMuteButton = true;
     var showVolumeSlider = true;
 
