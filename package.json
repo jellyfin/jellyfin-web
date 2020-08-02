@@ -268,6 +268,8 @@
           "src/scripts/globalize.js",
           "src/scripts/imagehelper.js",
           "src/scripts/inputManager.js",
+          "src/scripts/autoThemes.js",
+          "src/scripts/themeManager.js",
           "src/scripts/keyboardNavigation.js",
           "src/scripts/libraryBrowser.js",
           "src/scripts/mouseManager.js",
