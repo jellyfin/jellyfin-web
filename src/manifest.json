@@ -1,6 +1,6 @@
 {
     "name": "Jellyfin",
-    "description": "Jellyfin: the Free Software Media System.",
+    "description": "The Free Software Media System",
     "lang": "en-US",
     "short_name": "Jellyfin",
     "start_url": "index.html#!/home.html",

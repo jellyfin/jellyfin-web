@@ -363,7 +363,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         }
 
         return new Promise(function (resolve, reject) {
-            require(['chromecastHelper'], function (chromecastHelper) {
+            require(['./chromecastHelper'], function (chromecastHelper) {
                 chromecastHelper.getServerAddress(apiClient).then(function (serverAddress) {
                     message.serverAddress = serverAddress;
                     player.sendMessageInternal(message).then(resolve, reject);

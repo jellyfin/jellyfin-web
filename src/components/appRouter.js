@@ -36,7 +36,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
-                skinManager.loadUserSkin();
+                Emby.Page.goHome();
                 break;
             case 'ServerSignIn':
                 result.ApiClient.getPublicUsers().then(function (users) {
@@ -149,7 +149,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             if (typeof route.path === 'string') {
                 loadContentUrl(ctx, next, route, currentRequest);
             } else {
-                // ? TODO
                 next();
             }
         };
@@ -287,12 +286,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
-
         }).then(function (result) {
             firstConnectionResult = result;
-
             options = options || {};
-
             page({
                 click: options.click !== false,
                 hashbang: options.hashbang !== false
@@ -344,7 +340,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
             if (route.isDefaultRoute) {
                 console.debug('appRouter - loading skin home page');
-                loadUserSkinWithOptions(ctx);
+                Emby.Page.goHome();
                 return;
             } else if (route.roles) {
                 validateRoles(apiClient, route.roles).then(function () {
@@ -356,15 +352,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
         console.debug('appRouter - proceeding to ' + pathname);
         callback();
-    }
-
-    function loadUserSkinWithOptions(ctx) {
-        require(['queryString'], function (queryString) {
-            var params = queryString.parse(ctx.querystring);
-            skinManager.loadUserSkin({
-                start: params.start
-            });
-        });
     }
 
     function validateRoles(apiClient, roles) {
