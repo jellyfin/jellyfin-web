@@ -205,7 +205,7 @@ import 'css!./style';
 
 /* eslint-enable indent */
 export default {
-    serLazyImage: setLazyImage,
+    setLazyImage: setLazyImage,
     fillImages: fillImages,
     fillImage: fillImage,
     lazyImage: lazyImage,

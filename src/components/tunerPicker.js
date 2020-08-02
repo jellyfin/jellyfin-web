@@ -1,6 +1,7 @@
 define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize', 'loading', 'browser', 'focusManager', 'scrollHelper', 'material-icons', 'formDialogStyle', 'emby-button', 'emby-itemscontainer', 'cardStyle'], function (dialogHelper, dom, layoutManager, connectionManager, globalize, loading, browser, focusManager, scrollHelper) {
     'use strict';
 
+    browser = browser.default || browser;
     loading = loading.default || loading;
 
     var enableFocusTransform = !browser.slow && !browser.edge;

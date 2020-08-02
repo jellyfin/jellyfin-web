@@ -1,6 +1,8 @@
 define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'globalize'], function (appSettings, browser, events, htmlMediaHelper, webSettings, globalize) {
     'use strict';
 
+    browser = browser.default || browser;
+
     function getBaseProfileOptions(item) {
         var disableHlsVideoAudioCodecs = [];
 

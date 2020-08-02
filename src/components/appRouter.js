@@ -1,6 +1,7 @@
 define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
+    browser = browser.default || browser;
     loading = loading.default || loading;
 
     var appRouter = {
