@@ -2,6 +2,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
     'use strict';
 
     playbackManager = playbackManager.default || playbackManager;
+    loading = loading.default || loading;
 
     function showViewSettings(instance) {
         require(['guide-settings-dialog'], function (guideSettingsDialog) {

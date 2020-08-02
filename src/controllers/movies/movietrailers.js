@@ -1,6 +1,7 @@
 define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, AlphaPicker, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
     libraryBrowser = libraryBrowser.default || libraryBrowser;
 
     return function (view, params, tabContent) {
