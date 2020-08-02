@@ -1,6 +1,9 @@
 define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 'alphaPicker', 'listView', 'cardBuilder', 'globalize', 'emby-itemscontainer'], function (loading, layoutManager, userSettings, events, libraryBrowser, AlphaPicker, listView, cardBuilder, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
+
     return function (view, params, tabContent, options) {
         function onViewStyleChange() {
             if (self.getCurrentViewStyle() == 'List') {

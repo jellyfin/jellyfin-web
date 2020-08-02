@@ -1,6 +1,8 @@
 define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function (browser, dom) {
     'use strict';
 
+    browser = browser.default || browser;
+
     return function (options) {
         function getTouches(e) {
             return e.changedTouches || e.targetTouches || e.touches;

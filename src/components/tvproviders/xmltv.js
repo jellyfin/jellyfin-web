@@ -1,6 +1,8 @@
 define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-input', 'listViewStyle', 'paper-icon-button-light'], function ($, loading, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+
     return function (page, providerId, options) {
         function getListingProvider(config, id) {
             if (config && id) {
@@ -84,7 +86,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-input', 'listVi
                 }).then(function (result) {
                     loading.hide();
 
-                    if (false !== options.showConfirmation) {
+                    if (options.showConfirmation !== false) {
                         Dashboard.processServerConfigurationUpdateResult();
                     }
 
@@ -118,7 +120,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-input', 'listVi
                 var device = devices[i];
                 html += '<div class="listItem">';
                 var enabledTuners = providerInfo.EnabledTuners || [];
-                var isChecked = providerInfo.EnableAllTuners || -1 !== enabledTuners.indexOf(device.Id);
+                var isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
                 var checkedAttribute = isChecked ? ' checked' : '';
                 html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkTuner" data-id="' + device.Id + '" ' + checkedAttribute + '><span></span></label>';
                 html += '<div class="listItemBody two-line">';

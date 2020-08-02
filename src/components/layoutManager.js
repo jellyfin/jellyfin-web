@@ -1,6 +1,8 @@
 define(['browser', 'appSettings', 'events'], function (browser, appSettings, events) {
     'use strict';
 
+    browser = browser.default || browser;
+
     function setLayout(instance, layout, selectedLayout) {
         if (layout === selectedLayout) {
             instance[layout] = true;

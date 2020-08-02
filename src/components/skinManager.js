@@ -1,6 +1,8 @@
 define(['apphost', 'userSettings', 'browser', 'events', 'backdrop', 'globalize', 'require', 'appSettings'], function (appHost, userSettings, browser, events, backdrop, globalize, require, appSettings) {
     'use strict';
 
+    browser = browser.default || browser;
+
     var themeStyleElement;
     var currentThemeId;
 

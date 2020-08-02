@@ -18,13 +18,13 @@ import 'emby-button';
 
     function renderUserProfiles(page, profiles) {
         renderProfiles(page, page.querySelector('.customProfiles'), profiles.filter(function (p) {
-            return 'User' == p.Type;
+            return p.Type == 'User';
         }));
     }
 
     function renderSystemProfiles(page, profiles) {
         renderProfiles(page, page.querySelector('.systemProfiles'), profiles.filter(function (p) {
-            return 'System' == p.Type;
+            return p.Type == 'System';
         }));
     }
 
@@ -45,7 +45,7 @@ import 'emby-button';
             html += '</a>';
             html += '</div>';
 
-            if ('User' == profile.Type) {
+            if (profile.Type == 'User') {
                 html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('ButtonDelete') + '"><span class="material-icons delete"></span></button>';
             }
 
