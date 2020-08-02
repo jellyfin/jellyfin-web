@@ -558,7 +558,7 @@ class ItemsView {
             alphaPickerElement.classList.add('focuscontainer-right');
             self.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
 
-            self.alphaPicker = new AlphaPicker.default({
+            self.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
                 itemsContainer: layoutManager.tv ? self.itemsContainer : null,
                 itemClass: 'card',
@@ -817,7 +817,7 @@ class ItemsView {
                 bindAll(view.querySelectorAll('.btnShuffle'), 'click', shuffle);
             }
 
-            self.alphaNumericShortcuts = new AlphaNumericShortcuts.default({
+            self.alphaNumericShortcuts = new AlphaNumericShortcuts({
                 itemsContainer: self.itemsContainer
             });
         });
