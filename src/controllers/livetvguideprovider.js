@@ -11,7 +11,7 @@ define(['events', 'loading', 'globalize'], function (events, loading, globalize)
         var url = 'components/tvproviders/' + type + '.js';
 
         require([url], function (factory) {
-            var instance = new factory(page, providerId, {});
+            var instance = new factory.default(page, providerId, {});
             events.on(instance, 'submitted', onListingsSubmitted);
             instance.init();
         });
