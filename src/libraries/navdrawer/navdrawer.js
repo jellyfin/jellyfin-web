@@ -32,19 +32,19 @@ define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function (browser,
             var deltaY = endY - (menuTouchStartY || 0);
             setVelocity(deltaX);
 
-            if (isOpen && 1 !== dragMode && deltaX > 0) {
+            if (isOpen && dragMode !== 1 && deltaX > 0) {
                 dragMode = 2;
             }
 
-            if (0 === dragMode && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5) {
+            if (dragMode === 0 && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5) {
                 dragMode = 1;
                 scrollContainer.addEventListener('scroll', disableEvent);
                 self.showMask();
-            } else if (0 === dragMode && Math.abs(deltaY) >= 5) {
+            } else if (dragMode === 0 && Math.abs(deltaY) >= 5) {
                 dragMode = 2;
             }
 
-            if (1 === dragMode) {
+            if (dragMode === 1) {
                 newPos = currentPos + deltaX;
                 self.changeMenuPos();
             }
