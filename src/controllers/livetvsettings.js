@@ -3,6 +3,8 @@ import loading from 'loading';
 import globalize from 'globalize';
 import 'emby-button';
 
+loading = loading.default || loading;
+
 function loadPage(page, config) {
     $('.liveTvSettingsForm', page).show();
     $('.noLiveTvServices', page).hide();

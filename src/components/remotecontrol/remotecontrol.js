@@ -119,9 +119,9 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
             var nowPlayingServerId = (item.ServerId || serverId);
             if (item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
                 var songName = item.Name;
-                if (item.Album != null && item.Artists != null) {
-                    var artistsSeries = '';
-                    var albumName = item.Album;
+                var artistsSeries = '';
+                var albumName = '';
+                if (item.Artists != null) {
                     if (item.ArtistItems != null) {
                         for (const artist of item.ArtistItems) {
                             let artistName = artist.Name;
@@ -142,9 +142,12 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                             }
                         }
                     }
-                    context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
-                    context.querySelector('.nowPlayingAlbum').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">${albumName}</a>`;
                 }
+                if (item.Album != null) {
+                    albumName = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + item.Album + '</a>';
+                }
+                context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
+                context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
                 context.querySelector('.nowPlayingSongName').innerHTML = songName;
             } else if (item.Type == 'Episode') {
                 if (item.SeasonName != null) {

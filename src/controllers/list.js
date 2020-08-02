@@ -1,6 +1,8 @@
 define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager', 'cardBuilder', 'loading', 'connectionManager', 'alphaNumericShortcuts', 'scroller', 'playbackManager', 'alphaPicker', 'emby-itemscontainer', 'emby-scroller'], function (globalize, listView, layoutManager, userSettings, focusManager, cardBuilder, loading, connectionManager, AlphaNumericShortcuts, scroller, playbackManager, AlphaPicker) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function getInitialLiveTvQuery(instance, params) {
         var query = {
             UserId: connectionManager.getApiClient(params.serverId).getCurrentUserId(),
