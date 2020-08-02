@@ -620,7 +620,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
         } else if (mediaSource.Protocol === 'File') {
             return new Promise(function (resolve, reject) {
                 // Determine if the file can be accessed directly
-                import('filesystem').then(({ default: filesystem }) => {
+                import('filesystem').then((filesystem) => {
                     const method = isFolderRip ?
                         'directoryExists' :
                         'fileExists';
