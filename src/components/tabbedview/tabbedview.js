@@ -2,7 +2,6 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
     'use strict';
 
     function onViewDestroy(e) {
-
         var tabControllers = this.tabControllers;
 
         if (tabControllers) {
@@ -26,7 +25,6 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
     }
 
     function TabbedView(view, params) {
-
         this.tabControllers = [];
         this.view = view;
         this.params = params;
@@ -37,15 +35,12 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
         this.initialTabIndex = currentTabIndex;
 
         function validateTabLoad(index) {
-
             return self.validateTabLoad ? self.validateTabLoad(index) : Promise.resolve();
         }
 
         function loadTab(index, previousIndex) {
-
             validateTabLoad(index).then(function () {
                 self.getTabController(index).then(function (controller) {
-
                     var refresh = !controller.refreshed;
 
                     controller.onResume({
@@ -80,12 +75,10 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
         view.addEventListener('viewbeforeshow', function (e) {
-
             mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, onBeforeTabChange, onTabChange, false);
         });
 
         view.addEventListener('viewshow', function (e) {
-
             self.onResume(e.detail);
         });
 
@@ -93,9 +86,8 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
     }
 
     TabbedView.prototype.onResume = function (options) {
-
         this.setTitle();
-        backdrop.clear();
+        backdrop.clearBackdrop();
 
         var currentTabController = this.currentTabController;
 
@@ -107,7 +99,6 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
     };
 
     TabbedView.prototype.onPause = function () {
-
         var currentTabController = this.currentTabController;
 
         if (currentTabController && currentTabController.onPause) {

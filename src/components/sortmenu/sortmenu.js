@@ -2,13 +2,11 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
     'use strict';
 
     function onSubmit(e) {
-
         e.preventDefault();
         return false;
     }
 
     function initEditor(context, settings) {
-
         context.querySelector('form').addEventListener('submit', onSubmit);
 
         context.querySelector('.selectSortOrder').value = settings.sortOrder;
@@ -26,14 +24,11 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
         var selectSortBy = context.querySelector('.selectSortBy');
 
         selectSortBy.innerHTML = options.map(function (o) {
-
             return '<option value="' + o.value + '">' + o.name + '</option>';
-
         }).join('');
     }
 
     function saveValues(context, settings, settingsKey) {
-
         userSettings.setFilter(settingsKey + '-sortorder', context.querySelector('.selectSortOrder').value);
         userSettings.setFilter(settingsKey + '-sortby', context.querySelector('.selectSortBy').value);
     }
@@ -43,11 +38,8 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
     }
 
     SortMenu.prototype.show = function (options) {
-
         return new Promise(function (resolve, reject) {
-
             require(['text!./sortmenu.template.html'], function (template) {
-
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
@@ -73,13 +65,12 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
 
                 html += template;
 
-                dlg.innerHTML = globalize.translateDocument(html, 'core');
+                dlg.innerHTML = globalize.translateHtml(html, 'core');
 
                 fillSortBy(dlg, options.sortOptions);
                 initEditor(dlg, options.settings);
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                     dialogHelper.close(dlg);
                 });
 
@@ -90,27 +81,17 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
                 var submitted;
 
                 dlg.querySelector('form').addEventListener('change', function () {
-
                     submitted = true;
-                    //if (options.onChange) {
-                    //    saveValues(dlg, options.settings, options.settingsKey);
-                    //    options.onChange();
-                    //}
-
                 }, true);
 
                 dialogHelper.open(dlg).then(function () {
-
                     if (layoutManager.tv) {
                         centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                     }
 
                     if (submitted) {
-
-                        //if (!options.onChange) {
                         saveValues(dlg, options.settings, options.settingsKey);
                         resolve();
-                        //}
                         return;
                     }
 

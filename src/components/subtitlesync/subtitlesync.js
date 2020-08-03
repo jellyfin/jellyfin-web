@@ -1,6 +1,8 @@
 define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html', 'css!./subtitlesync'], function (playbackManager, layoutManager, template, css) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
+
     var player;
     var subtitleSyncSlider;
     var subtitleSyncTextField;
@@ -8,7 +10,6 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
     var subtitleSyncContainer;
 
     function init(instance) {
-
         var parent = document.createElement('div');
         document.body.appendChild(parent);
         parent.innerHTML = template;
@@ -65,6 +66,9 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
                     event.preventDefault();
                 }
             }
+
+            // FIXME: TV layout will require special handling for navigation keys. But now field is not focusable
+            event.stopPropagation();
         });
 
         subtitleSyncTextField.blur = function() {
@@ -80,14 +84,6 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
         };
 
         subtitleSyncSlider.addEventListener('change', function () {
-            // set new offset
-            playbackManager.setSubtitleOffset(getOffsetFromPercentage(this.value), player);
-            // synchronize with textField value
-            subtitleSyncTextField.updateOffset(
-                getOffsetFromPercentage(this.value));
-        });
-
-        subtitleSyncSlider.addEventListener('touchmove', function () {
             // set new offset
             playbackManager.setSubtitleOffset(getOffsetFromPercentage(this.value), player);
             // synchronize with textField value
@@ -146,7 +142,6 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
     };
 
     SubtitleSync.prototype.toggle = function(action) {
-
         if (player && playbackManager.supportSubtitleOffset(player)) {
             /* eslint-disable no-fallthrough */
             switch (action) {

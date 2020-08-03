@@ -1,15 +1,19 @@
-define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-slider', 'registerElement', 'emby-input'], function (browser, dom, layoutManager, keyboardnavigation) {
-    'use strict';
+import browser from 'browser';
+import dom from 'dom';
+import layoutManager from 'layoutManager';
+import keyboardnavigation from 'keyboardnavigation';
+import 'css!./emby-slider';
+import 'webcomponents';
+import 'emby-input';
 
-    var EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
+/* eslint-disable indent */
 
-    var supportsValueSetOverride = false;
+    let EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 
-    var enableWidthWithTransform;
+    let supportsValueSetOverride = false;
 
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-
-        var descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+        const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
         // descriptor returning null in webos
         if (descriptor && descriptor.configurable) {
             supportsValueSetOverride = true;
@@ -24,14 +28,14 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
      * @return {number} slider fraction
      */
     function mapClientToFraction(range, clientX) {
-        var rect = range.sliderBubbleTrack.getBoundingClientRect();
+        const rect = range.sliderBubbleTrack.getBoundingClientRect();
 
-        var fraction = (clientX - rect.left) / rect.width;
+        let fraction = (clientX - rect.left) / rect.width;
 
         // Snap to step
-        var valueRange = range.max - range.min;
+        const valueRange = range.max - range.min;
         if (range.step !== 'any' && valueRange !== 0) {
-            var step = (range.step || 1) / valueRange;
+            const step = (range.step || 1) / valueRange;
             fraction = Math.round(fraction / step) * step;
         }
 
@@ -46,7 +50,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
      * @return {number} slider value
      */
     function mapFractionToValue(range, fraction) {
-        var value = (range.max - range.min) * fraction;
+        let value = (range.max - range.min) * fraction;
 
         // Snap to step
         if (range.step !== 'any') {
@@ -67,8 +71,8 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
      * @return {number} slider fraction
      */
     function mapValueToFraction(range, value) {
-        var valueRange = range.max - range.min;
-        var fraction = valueRange !== 0 ? (value - range.min) / valueRange : 0;
+        const valueRange = range.max - range.min;
+        const fraction = valueRange !== 0 ? (value - range.min) / valueRange : 0;
         return Math.min(Math.max(fraction, 0), 1);
     }
 
@@ -78,42 +82,35 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
      * @param {boolean} [isValueSet] update by 'valueset' event or by timer
      */
     function updateValues(isValueSet) {
-
         // Do not update values by 'valueset' in case of soft-implemented dragging
         if (!!isValueSet && (!!this.keyboardDragging || !!this.touched)) {
             return;
         }
 
-        var range = this;
-        var value = range.value;
+        const range = this;
+        const value = range.value;
 
         // put this on a callback. Doing it within the event sometimes causes the slider to get hung up and not respond
         // Keep only one per slider frame request
         cancelAnimationFrame(range.updateValuesFrame);
         range.updateValuesFrame = requestAnimationFrame(function () {
-
-            var backgroundLower = range.backgroundLower;
+            let backgroundLower = range.backgroundLower;
 
             if (backgroundLower) {
-                var fraction = (value - range.min) / (range.max - range.min);
+                let fraction = (value - range.min) / (range.max - range.min);
 
-                if (enableWidthWithTransform) {
-                    backgroundLower.style.transform = 'scaleX(' + (fraction) + ')';
-                } else {
-                    fraction *= 100;
-                    backgroundLower.style.width = fraction + '%';
-                }
+                fraction *= 100;
+                backgroundLower.style.width = fraction + '%';
             }
         });
     }
 
     function updateBubble(range, value, bubble, bubbleText) {
-
         requestAnimationFrame(function () {
-            var bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
-            var bubbleRect = bubble.getBoundingClientRect();
+            const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
+            const bubbleRect = bubble.getBoundingClientRect();
 
-            var bubblePos = bubbleTrackRect.width * value / 100;
+            let bubblePos = bubbleTrackRect.width * value / 100;
             bubblePos = Math.min(Math.max(bubblePos, bubbleRect.width / 2), bubbleTrackRect.width - bubbleRect.width / 2);
 
             bubble.style.left = bubblePos + 'px';
@@ -134,13 +131,8 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
     }
 
     EmbySliderPrototype.attachedCallback = function () {
-
         if (this.getAttribute('data-embyslider') === 'true') {
             return;
-        }
-
-        if (enableWidthWithTransform == null) {
-            //enableWidthWithTransform = browser.supportsCssAnimation();
         }
 
         this.setAttribute('data-embyslider', 'true');
@@ -148,10 +140,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         this.classList.add('mdl-slider');
         this.classList.add('mdl-js-slider');
 
-        if (browser.noFlex) {
-            this.classList.add('slider-no-webkit-thumb');
-        }
-        if (browser.edge || browser.msie) {
+        if (browser.edge) {
             this.classList.add('slider-browser-edge');
         }
         if (!layoutManager.mobile) {
@@ -161,10 +150,10 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
             this.classList.add('show-focus');
         }
 
-        var containerElement = this.parentNode;
+        const containerElement = this.parentNode;
         containerElement.classList.add('mdl-slider-container');
 
-        var htmlToInsert = '';
+        let htmlToInsert = '';
 
         htmlToInsert += '<div class="mdl-slider-background-flex-container">';
         htmlToInsert += '<div class="mdl-slider-background-flex">';
@@ -173,11 +162,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         // the more of these, the more ranges we can display
         htmlToInsert += '<div class="mdl-slider-background-upper"></div>';
 
-        if (enableWidthWithTransform) {
-            htmlToInsert += '<div class="mdl-slider-background-lower mdl-slider-background-lower-withtransform"></div>';
-        } else {
-            htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
-        }
+        htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
 
         htmlToInsert += '</div>';
         htmlToInsert += '</div>';
@@ -190,9 +175,9 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         this.sliderBubbleTrack = containerElement.querySelector('.sliderBubbleTrack');
         this.backgroundLower = containerElement.querySelector('.mdl-slider-background-lower');
         this.backgroundUpper = containerElement.querySelector('.mdl-slider-background-upper');
-        var sliderBubble = containerElement.querySelector('.sliderBubble');
+        const sliderBubble = containerElement.querySelector('.sliderBubble');
 
-        var hasHideClass = sliderBubble.classList.contains('hide');
+        let hasHideClass = sliderBubble.classList.contains('hide');
 
         dom.addEventListener(this, 'input', function (e) {
             this.dragging = true;
@@ -201,7 +186,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
                 updateValues.call(this);
             }
 
-            var bubbleValue = mapValueToFraction(this, this.value) * 100;
+            const bubbleValue = mapValueToFraction(this, this.value) * 100;
             updateBubble(this, bubbleValue, sliderBubble);
 
             if (hasHideClass) {
@@ -221,15 +206,14 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
 
             sliderBubble.classList.add('hide');
             hasHideClass = true;
-
         }, {
             passive: true
         });
 
+        /* eslint-disable-next-line compat/compat */
         dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
-
             if (!this.dragging) {
-                var bubbleValue = mapClientToFraction(this, e.clientX) * 100;
+                const bubbleValue = mapClientToFraction(this, e.clientX) * 100;
 
                 updateBubble(this, bubbleValue, sliderBubble);
 
@@ -238,11 +222,11 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
                     hasHideClass = false;
                 }
             }
-
         }, {
             passive: true
         });
 
+        /* eslint-disable-next-line compat/compat */
         dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
             sliderBubble.classList.add('hide');
             hasHideClass = true;
@@ -259,7 +243,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
 
                 this.touched = true;
 
-                var fraction = mapClientToFraction(this, e.targetTouches[0].clientX);
+                const fraction = mapClientToFraction(this, e.targetTouches[0].clientX);
                 this.value = mapFractionToValue(this, fraction);
 
                 this.dispatchEvent(new Event('input', {
@@ -279,7 +263,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
                     return;
                 }
 
-                var fraction = mapClientToFraction(this, e.targetTouches[0].clientX);
+                const fraction = mapClientToFraction(this, e.targetTouches[0].clientX);
                 this.value = mapFractionToValue(this, fraction);
 
                 this.dispatchEvent(new Event('input', {
@@ -291,7 +275,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
             });
 
             dom.addEventListener(this, 'touchend', function (e) {
-                var range = this;
+                const range = this;
 
                 setTimeout(function () {
                     range.touched = false;
@@ -317,12 +301,12 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
      * Keyboard dragging timeout.
      * After this delay "change" event will be fired.
      */
-    var KeyboardDraggingTimeout = 1000;
+    const KeyboardDraggingTimeout = 1000;
 
     /**
      * Keyboard dragging timer.
      */
-    var keyboardDraggingTimer;
+    let keyboardDraggingTimer;
 
     /**
      * Start keyboard dragging.
@@ -349,7 +333,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
 
         elem.keyboardDragging = false;
 
-        var event = new Event('change', {
+        const event = new Event('change', {
             bubbles: true,
             cancelable: false
         });
@@ -367,7 +351,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
 
         elem.value = Math.max(elem.min, Math.min(elem.max, parseFloat(elem.value) + delta));
 
-        var event = new Event('input', {
+        const event = new Event('input', {
             bubbles: true,
             cancelable: false
         });
@@ -416,22 +400,19 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
     };
 
     function setRange(elem, startPercent, endPercent) {
-
-        var style = elem.style;
+        const style = elem.style;
         style.left = Math.max(startPercent, 0) + '%';
 
-        var widthPercent = endPercent - startPercent;
+        const widthPercent = endPercent - startPercent;
         style.width = Math.max(Math.min(widthPercent, 100), 0) + '%';
     }
 
     function mapRangesFromRuntimeToPercent(ranges, runtime) {
-
         if (!runtime) {
             return [];
         }
 
         return ranges.map(function (r) {
-
             return {
                 start: (r.start / runtime) * 100,
                 end: (r.end / runtime) * 100
@@ -440,8 +421,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
     }
 
     EmbySliderPrototype.setBufferedRanges = function (ranges, runtime, position) {
-
-        var elem = this.backgroundUpper;
+        const elem = this.backgroundUpper;
         if (!elem) {
             return;
         }
@@ -452,10 +432,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
             position = (position / runtime) * 100;
         }
 
-        for (var i = 0, length = ranges.length; i < length; i++) {
-
-            var range = ranges[i];
-
+        for (const range in ranges) {
             if (position != null) {
                 if (position >= range.end) {
                     continue;
@@ -470,8 +447,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
     };
 
     EmbySliderPrototype.setIsClear = function (isClear) {
-
-        var backgroundLower = this.backgroundLower;
+        const backgroundLower = this.backgroundLower;
         if (backgroundLower) {
             if (isClear) {
                 backgroundLower.classList.add('mdl-slider-background-lower-clear');
@@ -482,7 +458,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
     };
 
     function startInterval(range) {
-        var interval = range.interval;
+        const interval = range.interval;
         if (interval) {
             clearInterval(interval);
         }
@@ -490,8 +466,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
     }
 
     EmbySliderPrototype.detachedCallback = function () {
-
-        var interval = this.interval;
+        const interval = this.interval;
         if (interval) {
             clearInterval(interval);
         }
@@ -504,4 +479,5 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         prototype: EmbySliderPrototype,
         extends: 'input'
     });
-});
+
+/* eslint-enable indent */

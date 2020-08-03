@@ -1,6 +1,8 @@
 define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser, dom) {
     "use strict";
 
+    browser = browser.default || browser;
+
     return function (options) {
         function getTouches(e) {
             return e.changedTouches || e.targetTouches || e.touches;
@@ -260,7 +262,6 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
 
         TouchMenuLA.prototype.showMask = function () {
             mask.classList.remove("hide");
-            mask.offsetWidth;
             mask.classList.add("backdrop");
         };
 

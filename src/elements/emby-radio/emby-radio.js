@@ -1,10 +1,12 @@
-define(['layoutManager', 'css!./emby-radio', 'registerElement'], function (layoutManager) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import 'css!./emby-radio';
+import 'webcomponents';
 
-    var EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
+/* eslint-disable indent */
+
+    let EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
 
     function onKeyDown(e) {
-
         // Don't submit form on enter
         // Real (non-emulator) Tizen does nothing on Space
         if (e.keyCode === 13 || e.keyCode === 32) {
@@ -23,7 +25,7 @@ define(['layoutManager', 'css!./emby-radio', 'registerElement'], function (layou
     }
 
     EmbyRadioPrototype.attachedCallback = function () {
-        var showFocus = !layoutManager.mobile;
+        const showFocus = !layoutManager.mobile;
 
         if (this.getAttribute('data-radio') === 'true') {
             return;
@@ -33,8 +35,7 @@ define(['layoutManager', 'css!./emby-radio', 'registerElement'], function (layou
 
         this.classList.add('mdl-radio__button');
 
-        var labelElement = this.parentNode;
-        //labelElement.classList.add('"mdl-radio mdl-js-radio mdl-js-ripple-effect');
+        let labelElement = this.parentNode;
         labelElement.classList.add('mdl-radio');
         labelElement.classList.add('mdl-js-radio');
         labelElement.classList.add('mdl-js-ripple-effect');
@@ -42,12 +43,12 @@ define(['layoutManager', 'css!./emby-radio', 'registerElement'], function (layou
             labelElement.classList.add('show-focus');
         }
 
-        var labelTextElement = labelElement.querySelector('span');
+        let labelTextElement = labelElement.querySelector('span');
 
         labelTextElement.classList.add('radioButtonLabel');
         labelTextElement.classList.add('mdl-radio__label');
 
-        var html = '';
+        let html = '';
 
         html += '<div class="mdl-radio__circles">';
 
@@ -76,4 +77,5 @@ define(['layoutManager', 'css!./emby-radio', 'registerElement'], function (layou
         prototype: EmbyRadioPrototype,
         extends: 'input'
     });
-});
+
+/* eslint-enable indent */

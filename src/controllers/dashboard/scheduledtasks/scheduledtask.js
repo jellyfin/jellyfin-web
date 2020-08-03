@@ -1,11 +1,18 @@
-define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby-button', 'emby-select'], function ($, loading, datetime, dom, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import datetime from 'datetime';
+import dom from 'dom';
+import globalize from 'globalize';
+import 'emby-input';
+import 'emby-button';
+import 'emby-select';
+
+/* eslint-disable indent */
 
     function fillTimeOfDay(select) {
+        const options = [];
 
-        var options = [];
-
-        for (var i = 0; i < 86400000; i += 900000) {
+        for (let i = 0; i < 86400000; i += 900000) {
             options.push({
                 name: ScheduledTaskPage.getDisplayTime(i * 10000),
                 value: i * 10000
@@ -18,15 +25,15 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
     }
 
     Array.prototype.remove = function (from, to) {
-        var rest = this.slice((to || from) + 1 || this.length);
+        const rest = this.slice((to || from) + 1 || this.length);
         this.length = from < 0 ? this.length + from : from;
         return this.push.apply(this, rest);
     };
 
-    var ScheduledTaskPage = {
+    const ScheduledTaskPage = {
         refreshScheduledTask: function (view) {
             loading.show();
-            var id = getParameterByName('id');
+            let id = getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 ScheduledTaskPage.loadScheduledTask(view, task);
             });
@@ -35,18 +42,18 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             $('.taskName', view).html(task.Name);
             $('#pTaskDescription', view).html(task.Description);
 
-            require(['listViewStyle'], function () {
+            import('listViewStyle').then(() => {
                 ScheduledTaskPage.loadTaskTriggers(view, task);
             });
 
             loading.hide();
         },
         loadTaskTriggers: function (context, task) {
-            var html = '';
+            let html = '';
             html += '<div class="paperList">';
 
-            for (var i = 0, length = task.Triggers.length; i < length; i++) {
-                var trigger = task.Triggers[i];
+            for (let i = 0, length = task.Triggers.length; i < length; i++) {
+                const trigger = task.Triggers[i];
 
                 html += '<div class="listItem listItem-border">';
                 html += '<span class="material-icons listItemIcon schedule"></span>';
@@ -58,7 +65,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
                 html += "<div class='listItemBodyText'>" + ScheduledTaskPage.getTriggerFriendlyName(trigger) + '</div>';
                 if (trigger.MaxRuntimeMs) {
                     html += '<div class="listItemBodyText secondary">';
-                    var hours = trigger.MaxRuntimeTicks / 36e9;
+                    const hours = trigger.MaxRuntimeTicks / 36e9;
                     if (hours == 1) {
                         html += globalize.translate('ValueTimeLimitSingleHour');
                     } else {
@@ -77,22 +84,21 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
         },
         // TODO: Replace this mess with date-fns and remove datetime completely
         getTriggerFriendlyName: function (trigger) {
-            if ('DailyTrigger' == trigger.Type) {
+            if (trigger.Type == 'DailyTrigger') {
                 return globalize.translate('DailyAt', ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
             }
 
-            if ('WeeklyTrigger' == trigger.Type) {
+            if (trigger.Type == 'WeeklyTrigger') {
                 // TODO: The day of week isn't localised as well
                 return globalize.translate('WeeklyAt', trigger.DayOfWeek, ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
             }
 
-            if ('SystemEventTrigger' == trigger.Type && 'WakeFromSleep' == trigger.SystemEvent) {
+            if (trigger.Type == 'SystemEventTrigger' && trigger.SystemEvent == 'WakeFromSleep') {
                 return globalize.translate('OnWakeFromSleep');
             }
 
             if (trigger.Type == 'IntervalTrigger') {
-
-                var hours = trigger.IntervalTicks / 36e9;
+                const hours = trigger.IntervalTicks / 36e9;
 
                 if (hours == 0.25) {
                     return globalize.translate('EveryXMinutes', '15');
@@ -117,8 +123,8 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             return trigger.Type;
         },
         getDisplayTime: function (ticks) {
-            var ms = ticks / 1e4;
-            var now = new Date();
+            const ms = ticks / 1e4;
+            const now = new Date();
             now.setHours(0, 0, 0, 0);
             now.setTime(now.getTime() + ms);
             return datetime.getDisplayTime(now);
@@ -129,7 +135,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             $('#popupAddTrigger', view).removeClass('hide');
         },
         confirmDeleteTrigger: function (view, index) {
-            require(['confirm'], function (confirm) {
+            import('confirm').then(({default: confirm}) => {
                 confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
                     ScheduledTaskPage.deleteTrigger(view, index);
                 });
@@ -137,7 +143,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
         },
         deleteTrigger: function (view, index) {
             loading.show();
-            var id = getParameterByName('id');
+            let id = getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.remove(index);
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
@@ -179,7 +185,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             }
         },
         getTriggerToAdd: function (page) {
-            var trigger = {
+            const trigger = {
                 Type: $('#selectTriggerType', page).val()
             };
 
@@ -194,7 +200,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
                 trigger.IntervalTicks = $('#selectInterval', page).val();
             }
 
-            var timeLimit = $('#txtTimeLimit', page).val() || '0';
+            let timeLimit = $('#txtTimeLimit', page).val() || '0';
             timeLimit = parseFloat(timeLimit) * 3600000;
 
             trigger.MaxRuntimeMs = timeLimit || null;
@@ -202,10 +208,10 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             return trigger;
         }
     };
-    return function (view, params) {
+    export default function (view, params) {
         function onSubmit(e) {
             loading.show();
-            var id = getParameterByName('id');
+            let id = getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.push(ScheduledTaskPage.getTriggerToAdd(view));
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
@@ -226,7 +232,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             ScheduledTaskPage.showAddTriggerPopup(view);
         });
         view.addEventListener('click', function (e) {
-            var btnDeleteTrigger = dom.parentWithClass(e.target, 'btnDeleteTrigger');
+            const btnDeleteTrigger = dom.parentWithClass(e.target, 'btnDeleteTrigger');
 
             if (btnDeleteTrigger) {
                 ScheduledTaskPage.confirmDeleteTrigger(view, parseInt(btnDeleteTrigger.getAttribute('data-index')));
@@ -235,5 +241,6 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
         view.addEventListener('viewshow', function () {
             ScheduledTaskPage.refreshScheduledTask(view);
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

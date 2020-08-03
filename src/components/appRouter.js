@@ -1,5 +1,8 @@
-define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, layoutManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
+define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
+
+    browser = browser.default || browser;
+    loading = loading.default || loading;
 
     var appRouter = {
         showLocalLogin: function (serverId, manualLogin) {
@@ -16,25 +19,25 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             show('/settings/settings.html');
         },
         showNowPlaying: function () {
-            show('/nowplaying.html');
+            show('queue');
         }
     };
 
     function beginConnectionWizard() {
-        backdrop.clear();
+        backdrop.clearBackdrop();
         loading.show();
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function (result) {
-            handleConnectionResult(result, loading);
+            handleConnectionResult(result);
         });
     }
 
-    function handleConnectionResult(result, loading) {
+    function handleConnectionResult(result) {
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
-                skinManager.loadUserSkin();
+                Emby.Page.goHome();
                 break;
             case 'ServerSignIn':
                 result.ApiClient.getPublicUsers().then(function (users) {
@@ -53,7 +56,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 break;
             case 'ServerUpdateNeeded':
                 require(['alert'], function (alert) {
-                    alert({
+                    alert.default({
                         text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
                         html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                     }).then(function () {
@@ -147,26 +150,19 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             if (typeof route.path === 'string') {
                 loadContentUrl(ctx, next, route, currentRequest);
             } else {
-                // ? TODO
                 next();
             }
         };
 
         if (!isBackNav) {
-            // Don't force a new view for home due to the back menu
-            //if (route.type !== 'home') {
             onNewViewNeeded();
             return;
-            //}
         }
         viewManager.tryRestoreView(currentRequest, function () {
-
-            // done
             currentRouteInfo = {
                 route: route,
                 path: ctx.path
             };
-
         }).catch(function (result) {
             if (!result || !result.cancelled) {
                 onNewViewNeeded();
@@ -197,12 +193,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function onRequestFail(e, data) {
-
         var apiClient = this;
 
         if (data.status === 403) {
             if (data.errorCode === 'ParentalControl') {
-
                 var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
 
                 // Bounce to the login screen, but not if a password entry fails, obviously
@@ -210,7 +204,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                     showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
                     appRouter.showLocalLogin(apiClient.serverId());
                 }
-
             }
         }
     }
@@ -222,48 +215,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function normalizeImageOptions(options) {
-        var scaleFactor = browser.tv ? 0.8 : 1;
-
         var setQuality;
-        if (options.maxWidth) {
-            options.maxWidth = Math.round(options.maxWidth * scaleFactor);
+        if (options.maxWidth || options.width || options.maxHeight || options.height) {
             setQuality = true;
         }
 
-        if (options.width) {
-            options.width = Math.round(options.width * scaleFactor);
-            setQuality = true;
-        }
-
-        if (options.maxHeight) {
-            options.maxHeight = Math.round(options.maxHeight * scaleFactor);
-            setQuality = true;
-        }
-
-        if (options.height) {
-            options.height = Math.round(options.height * scaleFactor);
-            setQuality = true;
-        }
-
-        if (setQuality) {
-
-            var quality = 100;
-
-            var type = options.type || 'Primary';
-
-            if (browser.tv || browser.slow) {
-
-                if (browser.chrome) {
-                    // webp support
-                    quality = type === 'Primary' ? 40 : 50;
-                } else {
-                    quality = type === 'Backdrop' ? 60 : 50;
-                }
-            } else {
-                quality = type === 'Backdrop' ? 70 : 90;
-            }
-
-            options.quality = quality;
+        if (setQuality && !options.quality) {
+            options.quality = 90;
         }
     }
 
@@ -272,12 +230,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (navigator.connection) {
             var max = navigator.connection.downlinkMax;
             if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
-
                 max /= 8;
                 max *= 1000000;
                 max *= 0.7;
-                max = parseInt(max);
-                return max;
+                return parseInt(max, 10);
             }
         }
         /* eslint-enable compat/compat */
@@ -290,7 +246,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function onApiClientCreated(e, newApiClient) {
-
         newApiClient.normalizeImageOptions = normalizeImageOptions;
 
         if (browser.iOS) {
@@ -304,12 +259,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function initApiClient(apiClient) {
-
         onApiClientCreated({}, apiClient);
     }
 
     function initApiClients() {
-
         connectionManager.getApiClients().forEach(initApiClient);
 
         events.on(connectionManager, 'apiclientcreated', onApiClientCreated);
@@ -325,7 +278,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     var firstConnectionResult;
     function start(options) {
-
         loading.show();
 
         initApiClients();
@@ -335,40 +287,16 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
-
         }).then(function (result) {
-
             firstConnectionResult = result;
-
             options = options || {};
-
             page({
                 click: options.click !== false,
-                hashbang: options.hashbang !== false,
-                enableHistory: enableHistory()
+                hashbang: options.hashbang !== false
             });
         }).catch().then(function() {
             loading.hide();
         });
-    }
-
-    function enableHistory() {
-
-        //if (browser.edgeUwp) {
-        //    return false;
-        //}
-
-        // shows status bar on navigation
-        if (browser.xboxOne) {
-            return false;
-        }
-
-        // Does not support history
-        if (browser.orsay) {
-            return false;
-        }
-
-        return true;
     }
 
     function enableNativeHistory() {
@@ -376,15 +304,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function authenticate(ctx, route, callback) {
-
         var firstResult = firstConnectionResult;
         if (firstResult) {
-
             firstConnectionResult = null;
 
             if (firstResult.State !== 'SignedIn' && !route.anonymous) {
-
-                handleConnectionResult(firstResult, loading);
+                handleConnectionResult(firstResult);
                 return;
             }
         }
@@ -412,19 +337,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         if (apiClient && apiClient.isLoggedIn()) {
-
             console.debug('appRouter - user is authenticated');
 
             if (route.isDefaultRoute) {
                 console.debug('appRouter - loading skin home page');
-                loadUserSkinWithOptions(ctx);
+                Emby.Page.goHome();
                 return;
             } else if (route.roles) {
-
                 validateRoles(apiClient, route.roles).then(function () {
-
                     callback();
-
                 }, beginConnectionWizard);
                 return;
             }
@@ -432,15 +353,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         console.debug('appRouter - proceeding to ' + pathname);
         callback();
-    }
-
-    function loadUserSkinWithOptions(ctx) {
-        require(['queryString'], function (queryString) {
-            var params = queryString.parse(ctx.querystring);
-            skinManager.loadUserSkin({
-                start: params.start
-            });
-        });
     }
 
     function validateRoles(apiClient, roles) {
@@ -463,12 +375,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return Promise.resolve();
     }
 
-    var isHandlingBackToDefault;
     var isDummyBackToHome;
 
     function loadContent(ctx, route, html, request) {
-
-        html = globalize.translateDocument(html, route.dictionary);
+        html = globalize.translateHtml(html, route.dictionary);
         request.view = html;
 
         viewManager.loadView(request);
@@ -527,7 +437,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function getWindowLocationSearch(win) {
-
         var currentPath = currentRouteInfo ? (currentRouteInfo.path || '') : '';
 
         var index = currentPath.indexOf('?');
@@ -571,9 +480,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (!document.querySelector('.dialogContainer') && startPages.indexOf(curr.type) !== -1) {
             return false;
         }
-        if (enableHistory()) {
-            return history.length > 1;
-        }
+
         return (page.len || 0) > 0;
     }
 
@@ -589,8 +496,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             path = '/' + path;
         }
 
-        var baseRoute = baseUrl();
-        path = path.replace(baseRoute, '');
+        path = path.replace(baseUrl(), '');
 
         if (currentRouteInfo && currentRouteInfo.path === path) {
             // can't use this with home right now due to the back menu
@@ -621,10 +527,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function showItem(item, serverId, options) {
+        // TODO: Refactor this so it only gets items, not strings.
         if (typeof (item) === 'string') {
             var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
-            apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
-                appRouter.showItem(item, options);
+            apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (itemObject) {
+                appRouter.showItem(itemObject, options);
             });
         } else {
             if (arguments.length === 2) {
@@ -660,7 +567,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         if (level === 'full' || level === 2) {
-            backdrop.clear(true);
+            backdrop.clearBackdrop(true);
             document.documentElement.classList.add('transparentDocument');
             backgroundContainer.classList.add('backgroundContainer-transparent');
             backdropContainer.classList.add('hide');
@@ -680,7 +587,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     function pushState(state, title, url) {
         state.navigate = false;
         history.pushState(state, title, url);
-
     }
 
     function setBaseRoute() {

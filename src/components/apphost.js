@@ -1,11 +1,13 @@
 define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'globalize'], function (appSettings, browser, events, htmlMediaHelper, webSettings, globalize) {
     'use strict';
 
+    browser = browser.default || browser;
+
     function getBaseProfileOptions(item) {
         var disableHlsVideoAudioCodecs = [];
 
         if (item && htmlMediaHelper.enableHlsJsPlayer(item.RunTimeTicks, item.MediaType)) {
-            if (browser.edge || browser.msie) {
+            if (browser.edge) {
                 disableHlsVideoAudioCodecs.push('mp3');
             }
 
@@ -47,7 +49,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
                     profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
                 } else {
                     var builderOpts = getBaseProfileOptions(item);
-                    builderOpts.enableSsaRender = (item && !options.isRetry && 'allcomplexformats' !== appSettings.get('subtitleburnin'));
+                    builderOpts.enableSsaRender = (item && !options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats');
                     profile = profileBuilder(builderOpts);
                 }
 
@@ -93,18 +95,38 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
 
     function getDeviceName() {
         var deviceName;
-        deviceName = browser.tizen ? 'Samsung Smart TV' : browser.web0s ? 'LG Smart TV' : browser.operaTv ? 'Opera TV' : browser.xboxOne ? 'Xbox One' : browser.ps4 ? 'Sony PS4' : browser.chrome ? 'Chrome' : browser.edge ? 'Edge' : browser.firefox ? 'Firefox' : browser.msie ? 'Internet Explorer' : browser.opera ? 'Opera' : browser.safari ? 'Safari' : 'Web Browser';
+        if (browser.tizen) {
+            deviceName = 'Samsung Smart TV';
+        } else if (browser.web0s) {
+            deviceName = 'LG Smart TV';
+        } else if (browser.operaTv) {
+            deviceName = 'Opera TV';
+        } else if (browser.xboxOne) {
+            deviceName = 'Xbox One';
+        } else if (browser.ps4) {
+            deviceName = 'Sony PS4';
+        } else if (browser.chrome) {
+            deviceName = 'Chrome';
+        } else if (browser.edgeChromium) {
+            deviceName = 'Edge Chromium';
+        } else if (browser.edge) {
+            deviceName = 'Edge';
+        } else if (browser.firefox) {
+            deviceName = 'Firefox';
+        } else if (browser.opera) {
+            deviceName = 'Opera';
+        } else if (browser.safari) {
+            deviceName = 'Safari';
+        } else {
+            deviceName = 'Web Browser';
+        }
 
         if (browser.ipad) {
             deviceName += ' iPad';
-        } else {
-            if (browser.iphone) {
-                deviceName += ' iPhone';
-            } else {
-                if (browser.android) {
-                    deviceName += ' Android';
-                }
-            }
+        } else if (browser.iphone) {
+            deviceName += ' iPhone';
+        } else if (browser.android) {
+            deviceName += ' Android';
         }
 
         return deviceName;
@@ -239,12 +261,6 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             features.push('fullscreenchange');
         }
 
-        if (browser.chrome || browser.edge && !browser.slow) {
-            if (!browser.noAnimation && !browser.edgeUwp && !browser.xboxOne) {
-                features.push('imageanalysis');
-            }
-        }
-
         if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile) {
             features.push('physicalvolumecontrol');
         }
@@ -263,11 +279,11 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
         features.push('targetblank');
         features.push('screensaver');
 
-        webSettings.enableMultiServer().then(enabled => {
+        webSettings.getMultiServer().then(enabled => {
             if (enabled) features.push('multiserver');
         });
 
-        if (!browser.orsay && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
+        if (!browser.orsay && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
             features.push('subtitleappearancesettings');
         }
 
@@ -279,7 +295,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             features.push('fileinput');
         }
 
-        if (browser.chrome) {
+        if (browser.chrome || browser.edgeChromium) {
             features.push('chromecast');
         }
 
@@ -335,7 +351,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     var deviceId;
     var deviceName;
     var appName = 'Jellyfin Web';
-    var appVersion = '10.6.0';
+    var appVersion = '10.7.0';
 
     var appHost = {
         getWindowState: function () {
@@ -356,10 +372,9 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
                 return window.NativeShell.AppHost.supports(command);
             }
 
-            return -1 !== supportedFeatures.indexOf(command.toLowerCase());
+            return supportedFeatures.indexOf(command.toLowerCase()) !== -1;
         },
         preferVisualCards: browser.android || browser.chrome,
-        moreIcon: browser.android ? 'more_vert' : 'more_horiz',
         getSyncProfile: getSyncProfile,
         getDefaultLayout: function () {
             if (window.NativeShell) {
@@ -393,13 +408,6 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
         },
         getPushTokenInfo: function () {
             return {};
-        },
-        setThemeColor: function (color) {
-            var metaThemeColor = document.querySelector('meta[name=theme-color]');
-
-            if (metaThemeColor) {
-                metaThemeColor.setAttribute('content', color);
-            }
         },
         setUserScalable: function (scalable) {
             if (!browser.tv) {

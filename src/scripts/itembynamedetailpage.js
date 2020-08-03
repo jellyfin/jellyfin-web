@@ -11,7 +11,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
             });
         }
 
-        if (item.ProgramCount && 'Person' == item.Type) {
+        if (item.ProgramCount && item.Type == 'Person') {
             sections.push({
                 name: globalize.translate('HeaderUpcomingOnTV'),
                 type: 'Program'
@@ -65,18 +65,18 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
             var html = '';
             var sectionClass = 'verticalSection';
 
-            if ('Audio' === section.type) {
+            if (section.type === 'Audio') {
                 sectionClass += ' verticalSection-extrabottompadding';
             }
 
             html += '<div class="' + sectionClass + '" data-type="' + section.type + '">';
             html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
-            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">';
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += section.name;
             html += '</h2>';
             html += '<a is="emby-linkbutton" href="#" class="clearLink hide" style="margin-left:1em;vertical-align:middle;"><button is="emby-button" type="button" class="raised more raised-mini noIcon">' + globalize.translate('ButtonMore') + '</button></a>';
             html += '</div>';
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-right">';
             html += '</div>';
             return html += '</div>';
         }).join('');
@@ -272,7 +272,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
             listOptions.items = result.Items;
             var itemsContainer = element.querySelector('.itemsContainer');
 
-            if ('Audio' == type) {
+            if (type == 'Audio') {
                 html = listView.getListViewHtml(listOptions);
                 itemsContainer.classList.remove('vertical-wrap');
                 itemsContainer.classList.add('vertical-list');
@@ -288,23 +288,23 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
     }
 
     function getMoreItemsHref(item, type) {
-        if ('Genre' == item.Type) {
+        if (item.Type == 'Genre') {
             return 'list.html?type=' + type + '&genreId=' + item.Id + '&serverId=' + item.ServerId;
         }
 
-        if ('MusicGenre' == item.Type) {
+        if (item.Type == 'MusicGenre') {
             return 'list.html?type=' + type + '&musicGenreId=' + item.Id + '&serverId=' + item.ServerId;
         }
 
-        if ('Studio' == item.Type) {
+        if (item.Type == 'Studio') {
             return 'list.html?type=' + type + '&studioId=' + item.Id + '&serverId=' + item.ServerId;
         }
 
-        if ('MusicArtist' == item.Type) {
+        if (item.Type == 'MusicArtist') {
             return 'list.html?type=' + type + '&artistId=' + item.Id + '&serverId=' + item.ServerId;
         }
 
-        if ('Person' == item.Type) {
+        if (item.Type == 'Person') {
             return 'list.html?type=' + type + '&personId=' + item.Id + '&serverId=' + item.ServerId;
         }
 
@@ -354,7 +354,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
 
             var apiClient = connectionManager.getApiClient(item.ServerId);
 
-            if ('MusicArtist' === query.IncludeItemTypes) {
+            if (query.IncludeItemTypes === 'MusicArtist') {
                 query.IncludeItemTypes = null;
                 return apiClient.getAlbumArtists(apiClient.getCurrentUserId(), query);
             }

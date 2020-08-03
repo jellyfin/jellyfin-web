@@ -1,6 +1,9 @@
 define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
+
     return function (view, params, tabContent) {
         function getPageData(context) {
             var key = getSavedQueryKey(context);
@@ -48,7 +51,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             var viewStyle = self.getCurrentViewStyle();
             var itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ('List' == viewStyle) {
+            if (viewStyle == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {
@@ -171,7 +174,12 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                 }
 
                 if (!result.Items.length) {
-                    html = '<p style="text-align:center;">' + globalize.translate('MessageNoCollectionsAvailable') + '</p>';
+                    html = '';
+
+                    html += '<div class="noItemsMessage centerMessage">';
+                    html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
+                    html += '<p>' + globalize.translate('MessageNoCollectionsAvailable') + '</p>';
+                    html += '</div>';
                 }
 
                 var itemsContainer = tabContent.querySelector('.itemsContainer');
@@ -237,7 +245,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             tabContent.querySelector('.btnNewCollection').addEventListener('click', function () {
                 require(['collectionEditor'], function (collectionEditor) {
                     var serverId = ApiClient.serverInfo().Id;
-                    new collectionEditor().show({
+                    new collectionEditor.showEditor({
                         items: [],
                         serverId: serverId
                     });

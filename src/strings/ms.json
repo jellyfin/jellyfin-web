@@ -92,7 +92,7 @@
     "ButtonAddScheduledTaskTrigger": "Tambah Pencetus",
     "ButtonAddImage": "Tambah gambar",
     "BurnSubtitlesHelp": "Menentukan sama ada pelayan perlu membakar subtitle ke skrin apabila menukar video bergantung kepada format sarikata. Menghindari pembakaran sari kata ke skrin akan meningkatkan prestasi pelayan. Pilih Auto untuk membakar format berasaskan imej (VOBSUB, PGS, SUB / IDX, dll) dan subtitle ASS / SSA tertentu.",
-    "BrowsePluginCatalogMessage": "Semak imbas katalog plugin kami untuk melihat plugin yang tersedia.",
+    "MessageBrowsePluginCatalog": "Semak imbas katalog plugin kami untuk melihat plugin yang tersedia.",
     "BoxRear": "Kotak (belakang)",
     "BookLibraryHelp": "Buku audio dan teks disokong. Semak {0}panduan penamaan buku{1}.",
     "Banner": "Sepanduk",
@@ -102,5 +102,17 @@
     "HeaderContinueWatching": "Terus Menonton",
     "Genres": "Genre-genre",
     "Collections": "Koleksi",
-    "Channels": "Saluran"
+    "Channels": "Saluran",
+    "ButtonSyncPlay": "SyncPlay",
+    "Movies": "Filem",
+    "HeaderNextUp": "Seterusnya",
+    "HeaderLiveTV": "TV Siaran Langsung",
+    "HeaderFavoriteSongs": "Lagu-lagu Kegemaran",
+    "HeaderFavoriteShows": "Rancangan-rancangan Kegemaran",
+    "HeaderFavoriteEpisodes": "Episod-episod Kegemaran",
+    "HeaderFavoriteArtists": "Artis-artis Kegemaran",
+    "HeaderFavoriteAlbums": "Album-album Kegemaran",
+    "HeaderAlbumArtists": "Album Artis-artis",
+    "Folders": "Fail-fail",
+    "Favorites": "Kegemaran"
 }

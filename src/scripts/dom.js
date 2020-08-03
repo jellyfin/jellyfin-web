@@ -183,11 +183,9 @@
             width = height * (16.0 / 9.0);
         }
 
-        const closest = standardWidths.sort(function (a, b) {
+        return standardWidths.sort(function (a, b) {
             return Math.abs(width - a) - Math.abs(width - b);
         })[0];
-
-        return closest;
     }
 
     /**
@@ -211,7 +209,7 @@
             'MozAnimation': 'animationend',
             'WebkitAnimation': 'webkitAnimationEnd'
         };
-        for (let t in animations) {
+        for (const t in animations) {
             if (el.style[t] !== undefined) {
                 _animationEvent = animations[t];
                 return animations[t];
@@ -251,7 +249,7 @@
             'MozTransition': 'transitionend',
             'WebkitTransition': 'webkitTransitionEnd'
         };
-        for (let t in transitions) {
+        for (const t in transitions) {
             if (el.style[t] !== undefined) {
                 _transitionEvent = transitions[t];
                 return transitions[t];

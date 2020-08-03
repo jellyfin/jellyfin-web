@@ -6,7 +6,7 @@ function getWindowLocationSearch(win) {
     if (!search) {
         var index = window.location.href.indexOf('?');
 
-        if (-1 != index) {
+        if (index != -1) {
             search = window.location.href.substring(index);
         }
     }
@@ -14,7 +14,7 @@ function getWindowLocationSearch(win) {
     return search || '';
 }
 
-function getParameterByName(name, url) {
+window.getParameterByName = function (name, url) {
     'use strict';
 
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -22,12 +22,12 @@ function getParameterByName(name, url) {
     var regex = new RegExp(regexS, 'i');
     var results = regex.exec(url || getWindowLocationSearch());
 
-    if (null == results) {
+    if (results == null) {
         return '';
     }
 
     return decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
+};
 
 function pageClassOn(eventName, className, fn) {
     'use strict';
@@ -41,7 +41,7 @@ function pageClassOn(eventName, className, fn) {
     });
 }
 
-function pageIdOn(eventName, id, fn) {
+window.pageIdOn = function(eventName, id, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
@@ -51,7 +51,7 @@ function pageIdOn(eventName, id, fn) {
             fn.call(target, event);
         }
     });
-}
+};
 
 var Dashboard = {
     getCurrentUser: function () {
@@ -73,7 +73,7 @@ var Dashboard = {
         var urlLower = window.location.href.toLowerCase();
         var index = urlLower.lastIndexOf('/web');
 
-        if (-1 != index) {
+        if (index != -1) {
             return urlLower.substring(0, index);
         }
 
@@ -152,13 +152,13 @@ var Dashboard = {
     processPluginConfigurationUpdateResult: function () {
         require(['loading', 'toast'], function (loading, toast) {
             loading.hide();
-            toast(Globalize.translate('MessageSettingsSaved'));
+            toast.default(Globalize.translate('MessageSettingsSaved'));
         });
     },
     processServerConfigurationUpdateResult: function (result) {
         require(['loading', 'toast'], function (loading, toast) {
             loading.hide();
-            toast(Globalize.translate('MessageSettingsSaved'));
+            toast.default(Globalize.translate('MessageSettingsSaved'));
         });
     },
     processErrorResponse: function (response) {
@@ -178,45 +178,26 @@ var Dashboard = {
         });
     },
     alert: function (options) {
-        if ('string' == typeof options) {
+        if (typeof options == 'string') {
             return void require(['toast'], function (toast) {
-                toast({
+                toast.default({
                     text: options
                 });
             });
         }
 
         require(['alert'], function (alert) {
-            alert({
+            alert.default({
                 title: options.title || Globalize.translate('HeaderAlert'),
                 text: options.message
             }).then(options.callback || function () {});
         });
     },
-    restartServer: function () {
-        var apiClient = window.ApiClient;
-
-        if (apiClient) {
-            require(['serverRestartDialog', 'events'], function (ServerRestartDialog, events) {
-                var dialog = new ServerRestartDialog({
-                    apiClient: apiClient
-                });
-                events.on(dialog, 'restarted', function () {
-                    if (AppInfo.isNativeApp) {
-                        apiClient.ensureWebSocket();
-                    } else {
-                        window.location.reload(true);
-                    }
-                });
-                dialog.show();
-            });
-        }
-    },
     capabilities: function (appHost) {
         var capabilities = {
             PlayableMediaTypes: ['Audio', 'Video'],
-            SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
-            SupportsPersistentIdentifier: 'cordova' === self.appMode || 'android' === self.appMode,
+            SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
+            SupportsPersistentIdentifier: self.appMode === 'cordova' || self.appMode === 'android',
             SupportsMediaControl: true
         };
         appHost.getPushTokenInfo();
@@ -228,14 +209,34 @@ var Dashboard = {
         } else {
             Dashboard.navigate('selectserver.html');
         }
+    },
+    hideLoadingMsg: function() {
+        'use strict';
+        require(['loading'], function(loading) {
+            loading.hide();
+        });
+    },
+    showLoadingMsg: function() {
+        'use strict';
+        require(['loading'], function(loading) {
+            loading.show();
+        });
+    },
+    confirm: function(message, title, callback) {
+        'use strict';
+        require(['confirm'], function(confirm) {
+            confirm(message, title).then(function() {
+                callback(!0);
+            }).catch(function() {
+                callback(!1);
+            });
+        });
     }
 };
 
 var AppInfo = {};
 
-!function () {
-    'use strict';
-
+function initClient() {
     function defineConnectionManager(connectionManager) {
         window.ConnectionManager = connectionManager;
         define('connectionManager', [], function () {
@@ -314,6 +315,13 @@ var AppInfo = {};
         return obj;
     }
 
+    function returnDefault(obj) {
+        if (obj.default === null) {
+            throw new Error('Object has no default!');
+        }
+        return obj.default;
+    }
+
     function getBowerPath() {
         return 'libraries';
     }
@@ -350,7 +358,7 @@ var AppInfo = {};
         return layoutManager;
     }
 
-    function createSharedAppFooter(appFooter) {
+    function createSharedAppFooter({default: appFooter}) {
         return new appFooter({});
     }
 
@@ -368,23 +376,14 @@ var AppInfo = {};
         }
     }
 
-    function initRequireWithBrowser(browser) {
-        var bowerPath = getBowerPath();
+    function initRequireWithBrowser() {
         var componentsPath = getComponentsPath();
         var scriptsPath = getScriptsPath();
 
         define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
 
-        define('lazyLoader', [componentsPath + '/lazyloader/lazyloader-intersectionobserver'], returnFirstDependency);
-        define('shell', [componentsPath + '/shell'], returnFirstDependency);
-
-        if ('registerElement' in document) {
-            define('registerElement', []);
-        } else if (browser.msie) {
-            define('registerElement', ['webcomponents'], returnFirstDependency);
-        } else {
-            define('registerElement', ['document-register-element'], returnFirstDependency);
-        }
+        define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
+        define('shell', [scriptsPath + '/shell'], returnFirstDependency);
 
         define('alert', [componentsPath + '/alert'], returnFirstDependency);
 
@@ -397,8 +396,8 @@ var AppInfo = {};
         define('prompt', [componentsPath + '/prompt/prompt'], returnFirstDependency);
 
         define('loading', [componentsPath + '/loading/loading'], returnFirstDependency);
-        define('multi-download', [componentsPath + '/multidownload'], returnFirstDependency);
-        define('fileDownloader', [componentsPath + '/filedownloader'], returnFirstDependency);
+        define('multi-download', [scriptsPath + '/multiDownload'], returnFirstDependency);
+        define('fileDownloader', [scriptsPath + '/fileDownloader'], returnFirstDependency);
 
         define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
     }
@@ -419,7 +418,7 @@ var AppInfo = {};
                 require(['globalize', 'browser'], function (globalize, browser) {
                     window.Globalize = globalize;
                     loadCoreDictionary(globalize).then(function () {
-                        onGlobalizeInit(browser);
+                        onGlobalizeInit(browser, globalize);
                     });
                 });
                 require(['keyboardnavigation'], function(keyboardnavigation) {
@@ -452,14 +451,14 @@ var AppInfo = {};
         });
     }
 
-    function onGlobalizeInit(browser) {
-        if ('android' === self.appMode) {
-            if (-1 !== self.location.href.toString().toLowerCase().indexOf('start=backgroundsync')) {
+    function onGlobalizeInit(browser, globalize) {
+        if (self.appMode === 'android') {
+            if (self.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1) {
                 return onAppReady(browser);
             }
         }
 
-        document.title = Globalize.translateDocument(document.title, 'core');
+        document.title = globalize.translateHtml(document.title, 'core');
 
         if (browser.tv && !browser.android) {
             console.debug('using system fonts with explicit sizes');
@@ -478,35 +477,30 @@ var AppInfo = {};
 
     function loadPlugins(appHost, browser, shell) {
         console.debug('loading installed plugins');
-        var list = [
-            'components/playback/playaccessvalidation',
-            'components/playback/experimentalwarnings',
-            'components/htmlaudioplayer/plugin',
-            'components/htmlvideoplayer/plugin',
-            'components/photoplayer/plugin',
-            'components/youtubeplayer/plugin',
-            'components/backdropscreensaver/plugin',
-            'components/logoscreensaver/plugin'
-        ];
-
-        if (appHost.supports('remotecontrol')) {
-            list.push('components/sessionplayer');
-
-            if (browser.chrome || browser.opera) {
-                list.push('components/chromecast/chromecastplayer');
-            }
-        }
-
-        if (window.NativeShell) {
-            list = list.concat(window.NativeShell.getPlugins());
-        }
-
         return new Promise(function (resolve, reject) {
-            Promise.all(list.map(loadPlugin)).then(function () {
-                require(['packageManager'], function (packageManager) {
-                    packageManager.init().then(resolve, reject);
+            require(['webSettings'], function (webSettings) {
+                webSettings.getPlugins().then(function (list) {
+                    // these two plugins are dependent on features
+                    if (!appHost.supports('remotecontrol')) {
+                        list.splice(list.indexOf('sessionPlayer'), 1);
+
+                        if (!browser.chrome && !browser.opera) {
+                            list.splice(list.indexOf('chromecastPlayer', 1));
+                        }
+                    }
+
+                    // add any native plugins
+                    if (window.NativeShell) {
+                        list = list.concat(window.NativeShell.getPlugins());
+                    }
+
+                    Promise.all(list.map(loadPlugin)).then(function () {
+                        require(['packageManager'], function (packageManager) {
+                            packageManager.init().then(resolve, reject);
+                        });
+                    }, reject);
                 });
-            }, reject);
+            });
         });
     }
 
@@ -532,16 +526,16 @@ var AppInfo = {};
 
             window.Emby.Page = appRouter;
 
-            require(['emby-button', 'scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
+            require(['emby-button', 'scripts/autoThemes', 'libraryMenu', 'scripts/routes'], function () {
                 Emby.Page.start({
                     click: false,
                     hashbang: true
                 });
 
-                require(['components/thememediaplayer', 'scripts/autobackdrops']);
+                require(['components/themeMediaPlayer', 'scripts/autoBackdrops']);
 
                 if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-                    require(['components/nowplayingbar/nowplayingbar']);
+                    require(['components/nowPlayingBar/nowPlayingBar']);
                 }
 
                 if (appHost.supports('remotecontrol')) {
@@ -554,6 +548,7 @@ var AppInfo = {};
                     require(['components/playback/volumeosd']);
                 }
 
+                /* eslint-disable-next-line compat/compat */
                 if (navigator.mediaSession || window.NativeShell) {
                     require(['mediaSession']);
                 }
@@ -609,8 +604,8 @@ var AppInfo = {};
         /* eslint-enable compat/compat */
     }
 
-    function onWebComponentsReady(browser) {
-        initRequireWithBrowser(browser);
+    function onWebComponentsReady() {
+        initRequireWithBrowser();
 
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
@@ -630,28 +625,28 @@ var AppInfo = {};
         var scriptsPath = getScriptsPath();
 
         var paths = {
-            browserdeviceprofile: 'scripts/browserdeviceprofile',
+            browserdeviceprofile: 'scripts/browserDeviceProfile',
             browser: 'scripts/browser',
-            libraryBrowser: 'scripts/librarybrowser',
+            libraryBrowser: 'scripts/libraryBrowser',
             inputManager: 'scripts/inputManager',
             datetime: 'scripts/datetime',
             globalize: 'scripts/globalize',
             dfnshelper: 'scripts/dfnshelper',
-            libraryMenu: 'scripts/librarymenu',
+            libraryMenu: 'scripts/libraryMenu',
             playlisteditor: componentsPath + '/playlisteditor/playlisteditor',
-            medialibrarycreator: componentsPath + '/medialibrarycreator/medialibrarycreator',
-            medialibraryeditor: componentsPath + '/medialibraryeditor/medialibraryeditor',
-            imageoptionseditor: componentsPath + '/imageoptionseditor/imageoptionseditor',
+            medialibrarycreator: componentsPath + '/mediaLibraryCreator/mediaLibraryCreator',
+            medialibraryeditor: componentsPath + '/mediaLibraryEditor/mediaLibraryEditor',
+            imageoptionseditor: componentsPath + '/imageOptionsEditor/imageOptionsEditor',
             apphost: componentsPath + '/apphost',
             visibleinviewport: bowerPath + '/visibleinviewport',
-            qualityoptions: componentsPath + '/qualityoptions',
+            qualityoptions: componentsPath + '/qualityOptions',
             focusManager: componentsPath + '/focusManager',
-            itemHelper: componentsPath + '/itemhelper',
+            itemHelper: componentsPath + '/itemHelper',
             itemShortcuts: componentsPath + '/shortcuts',
             playQueueManager: componentsPath + '/playback/playqueuemanager',
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
-            packageManager: componentsPath + '/packagemanager',
+            packageManager: componentsPath + '/packageManager',
             screensaverManager: componentsPath + '/screensavermanager'
         };
 
@@ -666,16 +661,15 @@ var AppInfo = {};
             },
             bundles: {
                 bundle: [
-                    'document-register-element',
                     'fetch',
                     'flvjs',
                     'jstree',
+                    'epubjs',
                     'jQuery',
                     'hlsjs',
                     'howler',
                     'native-promise-only',
                     'resize-observer-polyfill',
-                    'shaka',
                     'swiper',
                     'queryString',
                     'sortable',
@@ -730,15 +724,9 @@ var AppInfo = {};
         define('cardStyle', ['css!' + componentsPath + '/cardbuilder/card'], returnFirstDependency);
         define('flexStyles', ['css!assets/css/flexstyles'], returnFirstDependency);
 
-        // define legacy features
-        // TODO delete the rest of these
-        define('fnchecked', ['legacy/fnchecked'], returnFirstDependency);
-        define('legacyDashboard', ['legacy/dashboard'], returnFirstDependency);
-        define('legacySelectMenu', ['legacy/selectmenu'], returnFirstDependency);
-
         // there are several objects that need to be instantiated
         // TODO find a better way to do this
-        define('appFooter', [componentsPath + '/appfooter/appfooter'], returnFirstDependency);
+        define('appFooter', [componentsPath + '/appFooter/appFooter'], returnFirstDependency);
         define('appFooter-shared', ['appFooter'], createSharedAppFooter);
 
         // TODO remove these libraries
@@ -771,26 +759,23 @@ var AppInfo = {};
         define('appSettings', [scriptsPath + '/settings/appSettings'], returnFirstDependency);
         define('userSettings', [scriptsPath + '/settings/userSettings'], returnFirstDependency);
 
-        define('chromecastHelper', [componentsPath + '/chromecast/chromecasthelpers'], returnFirstDependency);
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
-        define('actionsheet', [componentsPath + '/actionsheet/actionsheet'], returnFirstDependency);
-        define('tunerPicker', [componentsPath + '/tunerpicker'], returnFirstDependency);
+        define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
+        define('tunerPicker', [componentsPath + '/tunerPicker'], returnFirstDependency);
         define('mainTabsManager', [componentsPath + '/maintabsmanager'], returnFirstDependency);
         define('imageLoader', [componentsPath + '/images/imageLoader'], returnFirstDependency);
         define('directorybrowser', [componentsPath + '/directorybrowser/directorybrowser'], returnFirstDependency);
-        define('metadataEditor', [componentsPath + '/metadataeditor/metadataeditor'], returnFirstDependency);
-        define('personEditor', [componentsPath + '/metadataeditor/personeditor'], returnFirstDependency);
+        define('metadataEditor', [componentsPath + '/metadataEditor/metadataEditor'], returnFirstDependency);
+        define('personEditor', [componentsPath + '/metadataEditor/personEditor'], returnFirstDependency);
         define('playerSelectionMenu', [componentsPath + '/playback/playerSelectionMenu'], returnFirstDependency);
         define('playerSettingsMenu', [componentsPath + '/playback/playersettingsmenu'], returnFirstDependency);
         define('playMethodHelper', [componentsPath + '/playback/playmethodhelper'], returnFirstDependency);
         define('brightnessOsd', [componentsPath + '/playback/brightnessosd'], returnFirstDependency);
         define('alphaNumericShortcuts', [scriptsPath + '/alphanumericshortcuts'], returnFirstDependency);
-        define('multiSelect', [componentsPath + '/multiselect/multiselect'], returnFirstDependency);
-        define('alphaPicker', [componentsPath + '/alphapicker/alphapicker'], returnFirstDependency);
+        define('multiSelect', [componentsPath + '/multiSelect/multiSelect'], returnFirstDependency);
+        define('alphaPicker', [componentsPath + '/alphaPicker/alphaPicker'], returnFirstDependency);
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
-        define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
-        define('collectionEditor', [componentsPath + '/collectioneditor/collectioneditor'], returnFirstDependency);
-        define('serverRestartDialog', [componentsPath + '/serverRestartDialog'], returnFirstDependency);
+        define('collectionEditor', [componentsPath + '/collectionEditor/collectionEditor'], returnFirstDependency);
         define('playlistEditor', [componentsPath + '/playlisteditor/playlisteditor'], returnFirstDependency);
         define('recordingCreator', [componentsPath + '/recordingcreator/recordingcreator'], returnFirstDependency);
         define('recordingEditor', [componentsPath + '/recordingcreator/recordingeditor'], returnFirstDependency);
@@ -803,9 +788,9 @@ var AppInfo = {};
         define('itemIdentifier', [componentsPath + '/itemidentifier/itemidentifier'], returnFirstDependency);
         define('itemMediaInfo', [componentsPath + '/itemMediaInfo/itemMediaInfo'], returnFirstDependency);
         define('mediaInfo', [componentsPath + '/mediainfo/mediainfo'], returnFirstDependency);
-        define('itemContextMenu', [componentsPath + '/itemcontextmenu'], returnFirstDependency);
+        define('itemContextMenu', [componentsPath + '/itemContextMenu'], returnFirstDependency);
         define('imageEditor', [componentsPath + '/imageeditor/imageeditor'], returnFirstDependency);
-        define('imageDownloader', [componentsPath + '/imagedownloader/imagedownloader'], returnFirstDependency);
+        define('imageDownloader', [componentsPath + '/imageDownloader/imageDownloader'], returnFirstDependency);
         define('dom', [scriptsPath + '/dom'], returnFirstDependency);
         define('playerStats', [componentsPath + '/playerstats/playerstats'], returnFirstDependency);
         define('searchFields', [componentsPath + '/search/searchfields'], returnFirstDependency);
@@ -813,10 +798,15 @@ var AppInfo = {};
         define('upNextDialog', [componentsPath + '/upnextdialog/upnextdialog'], returnFirstDependency);
         define('subtitleAppearanceHelper', [componentsPath + '/subtitlesettings/subtitleappearancehelper'], returnFirstDependency);
         define('subtitleSettings', [componentsPath + '/subtitlesettings/subtitlesettings'], returnFirstDependency);
-        define('displaySettings', [componentsPath + '/displaysettings/displaysettings'], returnFirstDependency);
-        define('playbackSettings', [componentsPath + '/playbacksettings/playbacksettings'], returnFirstDependency);
-        define('homescreenSettings', [componentsPath + '/homescreensettings/homescreensettings'], returnFirstDependency);
+        define('settingsHelper', [componentsPath + '/settingshelper'], returnFirstDependency);
+        define('displaySettings', [componentsPath + '/displaySettings/displaySettings'], returnFirstDependency);
+        define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
+        define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
+        define('timeSyncManager', [componentsPath + '/syncPlay/timeSyncManager'], returnDefault);
+        define('groupSelectionMenu', [componentsPath + '/syncPlay/groupSelectionMenu'], returnFirstDependency);
+        define('syncPlayManager', [componentsPath + '/syncPlay/syncPlayManager'], returnDefault);
+        define('playbackPermissionManager', [componentsPath + '/syncPlay/playbackPermissionManager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);
         define('playMenu', [componentsPath + '/playmenu'], returnFirstDependency);
@@ -826,10 +816,9 @@ var AppInfo = {};
         define('cardBuilder', [componentsPath + '/cardbuilder/cardBuilder'], returnFirstDependency);
         define('peoplecardbuilder', [componentsPath + '/cardbuilder/peoplecardbuilder'], returnFirstDependency);
         define('chaptercardbuilder', [componentsPath + '/cardbuilder/chaptercardbuilder'], returnFirstDependency);
-        define('deleteHelper', [componentsPath + '/deletehelper'], returnFirstDependency);
+        define('deleteHelper', [scriptsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
-        define('loadingDialog', [componentsPath + '/loadingdialog/loadingdialog'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
@@ -840,21 +829,20 @@ var AppInfo = {};
         define('userdataButtons', [componentsPath + '/userdatabuttons/userdatabuttons'], returnFirstDependency);
         define('listView', [componentsPath + '/listview/listview'], returnFirstDependency);
         define('indicators', [componentsPath + '/indicators/indicators'], returnFirstDependency);
-        define('viewSettings', [componentsPath + '/viewsettings/viewsettings'], returnFirstDependency);
+        define('viewSettings', [componentsPath + '/viewSettings/viewSettings'], returnFirstDependency);
         define('filterMenu', [componentsPath + '/filtermenu/filtermenu'], returnFirstDependency);
         define('sortMenu', [componentsPath + '/sortmenu/sortmenu'], returnFirstDependency);
-        define('idb', [componentsPath + '/idb'], returnFirstDependency);
-        define('sanitizefilename', [componentsPath + '/sanitizefilename'], returnFirstDependency);
+        define('sanitizefilename', [componentsPath + '/sanitizeFilename'], returnFirstDependency);
         define('toast', [componentsPath + '/toast/toast'], returnFirstDependency);
-        define('scrollHelper', [componentsPath + '/scrollhelper'], returnFirstDependency);
-        define('touchHelper', [componentsPath + '/touchhelper'], returnFirstDependency);
-        define('imageUploader', [componentsPath + '/imageuploader/imageuploader'], returnFirstDependency);
+        define('scrollHelper', [scriptsPath + '/scrollHelper'], returnFirstDependency);
+        define('touchHelper', [scriptsPath + '/touchHelper'], returnFirstDependency);
+        define('imageUploader', [componentsPath + '/imageUploader/imageUploader'], returnFirstDependency);
         define('htmlMediaHelper', [componentsPath + '/htmlMediaHelper'], returnFirstDependency);
         define('viewContainer', [componentsPath + '/viewContainer'], returnFirstDependency);
         define('dialogHelper', [componentsPath + '/dialogHelper/dialogHelper'], returnFirstDependency);
-        define('serverNotifications', [componentsPath + '/serverNotifications'], returnFirstDependency);
-        define('skinManager', [componentsPath + '/skinManager'], returnFirstDependency);
-        define('keyboardnavigation', [scriptsPath + '/keyboardnavigation'], returnFirstDependency);
+        define('serverNotifications', [scriptsPath + '/serverNotifications'], returnFirstDependency);
+        define('skinManager', [scriptsPath + '/themeManager'], returnFirstDependency);
+        define('keyboardnavigation', [scriptsPath + '/keyboardNavigation'], returnFirstDependency);
         define('mouseManager', [scriptsPath + '/mouseManager'], returnFirstDependency);
         define('scrollManager', [componentsPath + '/scrollManager'], returnFirstDependency);
         define('autoFocuser', [componentsPath + '/autoFocuser'], returnFirstDependency);
@@ -868,7 +856,7 @@ var AppInfo = {};
         });
         define('appRouter', [componentsPath + '/appRouter', 'itemHelper'], function (appRouter, itemHelper) {
             function showItem(item, serverId, options) {
-                if ('string' == typeof item) {
+                if (typeof item == 'string') {
                     require(['connectionManager'], function (connectionManager) {
                         var apiClient = connectionManager.currentApiClient();
                         apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
@@ -876,7 +864,7 @@ var AppInfo = {};
                         });
                     });
                 } else {
-                    if (2 == arguments.length) {
+                    if (arguments.length == 2) {
                         options = arguments[1];
                     }
 
@@ -891,7 +879,7 @@ var AppInfo = {};
             };
 
             appRouter.showVideoOsd = function () {
-                return Dashboard.navigate('videoosd.html');
+                return Dashboard.navigate('video');
             };
 
             appRouter.showSelectServer = function () {
@@ -958,27 +946,27 @@ var AppInfo = {};
                 var itemType = item.Type || (options ? options.itemType : null);
                 var serverId = item.ServerId || options.serverId;
 
-                if ('settings' === item) {
+                if (item === 'settings') {
                     return 'mypreferencesmenu.html';
                 }
 
-                if ('wizard' === item) {
+                if (item === 'wizard') {
                     return 'wizardstart.html';
                 }
 
-                if ('manageserver' === item) {
+                if (item === 'manageserver') {
                     return 'dashboard.html';
                 }
 
-                if ('recordedtv' === item) {
+                if (item === 'recordedtv') {
                     return 'livetv.html?tab=3&serverId=' + options.serverId;
                 }
 
-                if ('nextup' === item) {
+                if (item === 'nextup') {
                     return 'list.html?type=nextup&serverId=' + options.serverId;
                 }
 
-                if ('list' === item) {
+                if (item === 'list') {
                     var url = 'list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
 
                     if (options.isFavorite) {
@@ -988,61 +976,61 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('livetv' === item) {
-                    if ('programs' === options.section) {
+                if (item === 'livetv') {
+                    if (options.section === 'programs') {
                         return 'livetv.html?tab=0&serverId=' + options.serverId;
                     }
-                    if ('guide' === options.section) {
+                    if (options.section === 'guide') {
                         return 'livetv.html?tab=1&serverId=' + options.serverId;
                     }
 
-                    if ('movies' === options.section) {
+                    if (options.section === 'movies') {
                         return 'list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
                     }
 
-                    if ('shows' === options.section) {
+                    if (options.section === 'shows') {
                         return 'list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
                     }
 
-                    if ('sports' === options.section) {
+                    if (options.section === 'sports') {
                         return 'list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
                     }
 
-                    if ('kids' === options.section) {
+                    if (options.section === 'kids') {
                         return 'list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
                     }
 
-                    if ('news' === options.section) {
+                    if (options.section === 'news') {
                         return 'list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
                     }
 
-                    if ('onnow' === options.section) {
+                    if (options.section === 'onnow') {
                         return 'list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
                     }
 
-                    if ('dvrschedule' === options.section) {
+                    if (options.section === 'dvrschedule') {
                         return 'livetv.html?tab=4&serverId=' + options.serverId;
                     }
 
-                    if ('seriesrecording' === options.section) {
+                    if (options.section === 'seriesrecording') {
                         return 'livetv.html?tab=5&serverId=' + options.serverId;
                     }
 
                     return 'livetv.html?serverId=' + options.serverId;
                 }
 
-                if ('SeriesTimer' == itemType) {
-                    return 'itemdetails.html?seriesTimerId=' + id + '&serverId=' + serverId;
+                if (itemType == 'SeriesTimer') {
+                    return 'details?seriesTimerId=' + id + '&serverId=' + serverId;
                 }
 
-                if ('livetv' == item.CollectionType) {
+                if (item.CollectionType == 'livetv') {
                     return 'livetv.html';
                 }
 
-                if ('Genre' === item.Type) {
+                if (item.Type === 'Genre') {
                     url = 'list.html?genreId=' + item.Id + '&serverId=' + serverId;
 
-                    if ('livetv' === context) {
+                    if (context === 'livetv') {
                         url += '&type=Programs';
                     }
 
@@ -1053,7 +1041,7 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('MusicGenre' === item.Type) {
+                if (item.Type === 'MusicGenre') {
                     url = 'list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
 
                     if (options.parentId) {
@@ -1063,7 +1051,7 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('Studio' === item.Type) {
+                if (item.Type === 'Studio') {
                     url = 'list.html?studioId=' + item.Id + '&serverId=' + serverId;
 
                     if (options.parentId) {
@@ -1073,28 +1061,28 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('folders' !== context && !itemHelper.isLocalItem(item)) {
-                    if ('movies' == item.CollectionType) {
+                if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
+                    if (item.CollectionType == 'movies') {
                         url = 'movies.html?topParentId=' + item.Id;
 
-                        if (options && 'latest' === options.section) {
+                        if (options && options.section === 'latest') {
                             url += '&tab=1';
                         }
 
                         return url;
                     }
 
-                    if ('tvshows' == item.CollectionType) {
+                    if (item.CollectionType == 'tvshows') {
                         url = 'tv.html?topParentId=' + item.Id;
 
-                        if (options && 'latest' === options.section) {
+                        if (options && options.section === 'latest') {
                             url += '&tab=2';
                         }
 
                         return url;
                     }
 
-                    if ('music' == item.CollectionType) {
+                    if (item.CollectionType == 'music') {
                         return 'music.html?topParentId=' + item.Id;
                     }
                 }
@@ -1102,13 +1090,13 @@ var AppInfo = {};
                 var itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
 
                 if (itemTypes.indexOf(itemType) >= 0) {
-                    return 'itemdetails.html?id=' + id + '&serverId=' + serverId;
+                    return 'details?id=' + id + '&serverId=' + serverId;
                 }
 
                 var contextSuffix = context ? '&context=' + context : '';
 
-                if ('Series' == itemType || 'Season' == itemType || 'Episode' == itemType) {
-                    return 'itemdetails.html?id=' + id + contextSuffix + '&serverId=' + serverId;
+                if (itemType == 'Series' || itemType == 'Season' || itemType == 'Episode') {
+                    return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;
                 }
 
                 if (item.IsFolder) {
@@ -1119,7 +1107,7 @@ var AppInfo = {};
                     return '#';
                 }
 
-                return 'itemdetails.html?id=' + id + '&serverId=' + serverId;
+                return 'details?id=' + id + '&serverId=' + serverId;
             };
 
             appRouter.showItem = showItem;
@@ -1127,8 +1115,10 @@ var AppInfo = {};
         });
     })();
 
-    return require(['browser'], onWebComponentsReady);
-}();
+    return onWebComponentsReady();
+}
+
+initClient();
 
 pageClassOn('viewshow', 'standalonePage', function () {
     document.querySelector('.skinHeader').classList.add('noHeaderRight');

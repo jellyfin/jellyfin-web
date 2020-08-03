@@ -2,8 +2,21 @@
  * Image viewer component
  * @module components/slideshow/slideshow
  */
-define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputManager, connectionManager, layoutManager, focusManager, browser, appHost) {
+define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'dom', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputManager, connectionManager, layoutManager, focusManager, browser, appHost, dom) {
     'use strict';
+
+    browser = browser.default || browser;
+
+    /**
+     * Name of transition event.
+     */
+    const transitionEndEventName = dom.whichTransitionEvent();
+
+    /**
+     * Flag to use fake image to fix blurry zoomed image.
+     * At least WebKit doesn't restore quality for zoomed images.
+     */
+    const useFakeZoomImage = browser.safari;
 
     /**
      * Retrieves an item's image URL from the API.
@@ -27,7 +40,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         if (options.type === 'Primary') {
             if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
                 options.tag = item.AlbumPrimaryImageTag;
                 return apiClient.getScaledImageUrl(item.AlbumId, options);
             }
@@ -53,7 +65,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         }
 
         if (item.BackdropImageTags && item.BackdropImageTags.length) {
-
             options.tag = item.BackdropImageTags[0];
             return apiClient.getScaledImageUrl(item.Id, options);
         }
@@ -119,11 +130,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         var hideTimeout;
         /** Last coordinates of the mouse pointer. */
         var lastMouseMoveData;
-        /** Visibility status of the OSD. */
-        var _osdOpen = false;
-
-        // Use autoplay on Chromecast since it is non-interactive.
-        if (browser.chromecast) options.interactive = false;
 
         /**
          * Creates the HTML markup for the dialog and the OSD.
@@ -178,7 +184,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                     html += '</div>';
                 }
-
             } else {
                 html += '<div class="slideshowImage"></div><h1 class="slideshowImageText"></h1>';
             }
@@ -213,6 +218,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             });
 
             inputManager.on(window, onInputCommand);
+            /* eslint-disable-next-line compat/compat */
             document.addEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
 
             dialog.addEventListener('close', onDialogClosed);
@@ -241,6 +247,41 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         }
 
         /**
+         * Handles zoom changes.
+         */
+        function onZoomChange(scale, imageEl, slideEl) {
+            const zoomImage = slideEl.querySelector('.swiper-zoom-fakeimg');
+
+            if (zoomImage) {
+                zoomImage.style.width = zoomImage.style.height = scale * 100 + '%';
+
+                if (scale > 1) {
+                    if (zoomImage.classList.contains('swiper-zoom-fakeimg-hidden')) {
+                        // Await for Swiper style changes
+                        setTimeout(() => {
+                            const callback = () => {
+                                imageEl.removeEventListener(transitionEndEventName, callback);
+                                zoomImage.classList.remove('swiper-zoom-fakeimg-hidden');
+                            };
+
+                            // Swiper set 'transition-duration: 300ms' for auto zoom
+                            // and 'transition-duration: 0s' for touch zoom
+                            const transitionDuration = parseFloat(imageEl.style.transitionDuration.replace(/[a-z]/i, ''));
+
+                            if (transitionDuration > 0) {
+                                imageEl.addEventListener(transitionEndEventName, callback);
+                            } else {
+                                callback();
+                            }
+                        }, 0);
+                    }
+                } else {
+                    zoomImage.classList.add('swiper-zoom-fakeimg-hidden');
+                }
+            }
+        }
+
+        /**
          * Initializes the Swiper instance and binds the relevant events.
          * @param {HTMLElement} dialog - Element containing the dialog.
          * @param {Object} options - Options used to initialize the Swiper instance.
@@ -260,8 +301,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     loop: false,
                     zoom: {
                         minRatio: 1,
-                        toggle: true,
-                        containerClass: 'slider-zoom-container'
+                        toggle: true
                     },
                     autoplay: !options.interactive,
                     keyboard: {
@@ -288,6 +328,10 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                 swiperInstance.on('autoplayStart', onAutoplayStart);
                 swiperInstance.on('autoplayStop', onAutoplayStop);
+
+                if (useFakeZoomImage) {
+                    swiperInstance.on('zoomChange', onZoomChange);
+                }
             });
         }
 
@@ -313,8 +357,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         function getSwiperSlideHtmlFromItem(item) {
             return getSwiperSlideHtmlFromSlide({
                 originalImage: getImgUrl(item, currentOptions.user),
-                //title: item.Name,
-                //description: item.Overview
                 Id: item.Id,
                 ServerId: item.ServerId
             });
@@ -328,7 +370,10 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         function getSwiperSlideHtmlFromSlide(item) {
             var html = '';
             html += '<div class="swiper-slide" data-original="' + item.originalImage + '" data-itemid="' + item.Id + '" data-serverid="' + item.ServerId + '">';
-            html += '<div class="slider-zoom-container">';
+            html += '<div class="swiper-zoom-container">';
+            if (useFakeZoomImage) {
+                html += `<div class="swiper-zoom-fakeimg swiper-zoom-fakeimg-hidden" style="background-image: url('${item.originalImage}')"></div>`;
+            }
             html += '<img src="' + item.originalImage + '" class="swiper-slide-img">';
             html += '</div>';
             if (item.title || item.subtitle) {
@@ -437,7 +482,11 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             }
 
             inputManager.off(window, onInputCommand);
+            /* eslint-disable-next-line compat/compat */
             document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
+            // Shows page scrollbar
+            document.body.classList.remove('hide-scroll');
+            document.body.classList.add('force-scroll');
         }
 
         /**
@@ -488,7 +537,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 return;
             }
 
-            _osdOpen = true;
             element.classList.remove('hide');
 
             var onFinish = function () {
@@ -521,7 +569,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             var onFinish = function () {
                 element.classList.add('hide');
-                _osdOpen = false;
             };
 
             if (!element.animate) {
@@ -603,6 +650,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          */
         self.show = function () {
             createElements(options);
+            // Hides page scrollbar
+            document.body.classList.remove('force-scroll');
+            document.body.classList.add('hide-scroll');
         };
 
         /**

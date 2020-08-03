@@ -167,8 +167,9 @@ button::-moz-focus-inner {
     position: relative;
     background-clip: content-box !important;
     color: inherit;
+}
 
-    /* This is only needed for scalable cards */
+.cardScalable .cardImageContainer {
     height: 100%;
     contain: strict;
 }
@@ -192,9 +193,14 @@ button::-moz-focus-inner {
 
     /* Needed in case this is a button */
     display: block;
-
-    /* Needed in case this is a button */
     margin: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+    cursor: pointer;
+    color: inherit;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
 
     /* Needed in safari */
     height: 100%;
@@ -203,19 +209,12 @@ button::-moz-focus-inner {
     contain: strict;
 }
 
-.cardContent-button {
-    border: 0 !important;
-    padding: 0 !important;
-    cursor: pointer;
-    color: inherit;
-    width: 100%;
-    vertical-align: middle;
-    font-family: inherit;
-    font-size: inherit;
+.cardContent:not(.defaultCardBackground) {
+    background-color: transparent;
 }
 
-.cardContent-button:not(.defaultCardBackground) {
-    background-color: transparent;
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: #242424;
 }
 
 .visualCardBox .cardContent {
@@ -223,7 +222,8 @@ button::-moz-focus-inner {
     border-bottom-right-radius: 0;
 }
 
-.cardContent-shadow {
+.cardContent-shadow,
+.cardBox:not(.visualCardBox) .cardPadder {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
@@ -304,6 +304,10 @@ button::-moz-focus-inner {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+}
+
+.dialog .cardText {
+    text-overflow: initial;
 }
 
 .cardText-secondary {

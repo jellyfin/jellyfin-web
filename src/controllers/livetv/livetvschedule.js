@@ -1,6 +1,8 @@
 define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'scripts/livetvcomponents', 'emby-button', 'emby-itemscontainer'], function (layoutManager, cardBuilder, appHost, imageLoader, loading) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function enableScrollX() {
         return !layoutManager.desktop;
     }
@@ -30,17 +32,14 @@ define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'sc
             recordingItems.classList.add('vertical-wrap');
         }
 
-        var supportsImageAnalysis = appHost.supports('imageanalysis');
-        var cardLayout = appHost.preferVisualCards || supportsImageAnalysis;
-        cardLayout = false;
         recordingItems.innerHTML = cardBuilder.getCardsHtml(Object.assign({
             items: recordings,
             shape: enableScrollX() ? 'autooverflow' : 'auto',
             showTitle: true,
             showParentTitle: true,
             coverImage: true,
-            cardLayout: cardLayout,
-            centerText: !cardLayout,
+            cardLayout: false,
+            centerText: true,
             allowBottomPadding: !enableScrollX(),
             preferThumb: 'auto'
         }, cardOptions || {}));

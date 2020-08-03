@@ -56,7 +56,7 @@
     "Actor": "Aktor",
     "Delete": "Hapus",
     "DefaultMetadataLangaugeDescription": "Berikut ini adalah standar Anda dan dapat dikustomisasi pada tiap pustakanya.",
-    "DefaultErrorMessage": "Terdapat galat dalam memproses permintaan. Silakan coba kembali nanti.",
+    "ErrorDefault": "Terdapat galat dalam memproses permintaan. Silakan coba kembali nanti.",
     "Default": "Standar",
     "DeathDateValue": "Meninggal: {0}",
     "DatePlayed": "Tanggal dimainkan",
@@ -150,7 +150,7 @@
     "ButtonAddMediaLibrary": "Tambah Pustaka Media",
     "ButtonAddImage": "Tamba gambar",
     "ButtonAdd": "Tambah",
-    "BrowsePluginCatalogMessage": "Jelajahi katalog plugin kamu untuk melihat plugin yang tersedia.",
+    "MessageBrowsePluginCatalog": "Jelajahi katalog plugin kamu untuk melihat plugin yang tersedia.",
     "Browse": "Jelajah",
     "BoxRear": "Kotak (belakang)",
     "Box": "Kotak",
@@ -192,8 +192,8 @@
     "AddToPlayQueue": "Tambah ke dalam antrean putar",
     "AddToCollection": "Tambah ke dalam koleksi",
     "AddItemToCollectionHelp": "Tambahkan item ke dalam koleksi melalui pencarian dan gunakan klik kanan atau ketuk menu untuk menambahkannya ke dalam koleksi.",
-    "AccessRestrictedTryAgainLater": "Akses sedang dibatasi. Silakan coba kembali nanti.",
-    "Absolute": "Mutlak",
+    "AccessRestrictedTryAgainLater": "Akses sedang dibatasi. Mohon tunggu beberapa saat lagi",
+    "Absolute": "Absolut",
     "Songs": "Lagu",
     "Playlists": "Daftar putar",
     "ValueSpecialEpisodeName": "Spesial - {0}",
@@ -204,5 +204,6 @@
     "Alerts": "Peringatan",
     "AddedOnValue": "Ditambahkan {0}",
     "AllowFfmpegThrottling": "Transcode Tercekik",
-    "AllowOnTheFlySubtitleExtractionHelp": "Subtitle yang melekat di video dapat dikeluarkan dan dikirimkan kepada klien dalam bentuk text biasa dengan tujuan untuk menghalau terjadinya transcoding pada video. Pada beberapa system ini membutuhkan waktu yang lama dan dapat menyebabkan video playback menjadi terhenti dikarenakan proses ekstraksi. Non-aktifkan fitur ini untuk membiarkan subtitle langsung dilekatkan kepada video dengan cara transcoding ketika klien tidak mendukung fitur ini."
+    "AllowOnTheFlySubtitleExtractionHelp": "Subtitle yang melekat di video dapat dikeluarkan dan dikirimkan kepada klien dalam bentuk text biasa dengan tujuan untuk menghalau terjadinya transcoding pada video. Pada beberapa system ini membutuhkan waktu yang lama dan dapat menyebabkan video playback menjadi terhenti dikarenakan proses ekstraksi. Non-aktifkan fitur ini untuk membiarkan subtitle langsung dilekatkan kepada video dengan cara transcoding ketika klien tidak mendukung fitur ini.",
+    "ButtonSyncPlay": "SyncPlay"
 }

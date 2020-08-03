@@ -1,5 +1,8 @@
-define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 'alphaPicker', 'listView', 'cardBuilder', 'globalize', 'emby-itemscontainer'], function (loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder, globalize) {
+define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 'alphaPicker', 'listView', 'cardBuilder', 'globalize', 'emby-itemscontainer'], function (loading, layoutManager, userSettings, events, libraryBrowser, AlphaPicker, listView, cardBuilder, globalize) {
     'use strict';
+
+    loading = loading.default || loading;
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
 
     return function (view, params, tabContent, options) {
         function onViewStyleChange() {
@@ -168,7 +171,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });
-                self.alphaPicker = new alphaPicker({
+                self.alphaPicker = new AlphaPicker.default({
                     element: alphaPickerElement,
                     valueChangeEvent: 'click'
                 });
@@ -270,7 +273,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
         query = userSettings.loadQuerySettings(savedQueryKey, query);
 
         self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function (filterDialogFactory) {
+            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
                 var filterDialog = new filterDialogFactory({
                     query: query,
                     mode: 'movies',
