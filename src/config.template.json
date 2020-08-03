@@ -26,6 +26,7 @@
         "plugins/playAccessValidation/plugin",
         "plugins/experimentalWarnings/plugin",
         "plugins/htmlAudioPlayer/plugin",
+        "plugins/htmlVideoPlayer/plugin",
         "plugins/photoPlayer/plugin",
         "plugins/bookPlayer/plugin",
         "plugins/youtubePlayer/plugin",
