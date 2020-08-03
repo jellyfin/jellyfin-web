@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 import dom from 'dom';
 import scrollManager from 'scrollManager';
 
