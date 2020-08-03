@@ -771,7 +771,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
                     loading.hide();
 
                     if (refresh) {
-                        focusManager.autoFocus(self.itemsContainer);
+                        focusManager.default.autoFocus(self.itemsContainer);
                     }
                 });
 

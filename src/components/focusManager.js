@@ -1,4 +1,6 @@
-define(['dom', 'scrollManager'], function (dom, scrollManager) {
+import dom from 'dom';
+import scrollManager from 'scrollManager';
+
     'use strict';
 
     var scopes = [];
@@ -472,7 +474,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         }
     }
 
-    return {
+    export default {
         autoFocus: autoFocus,
         focus: focus,
         focusableParent: focusableParent,
@@ -505,4 +507,3 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         focusLast: focusLast,
         moveFocus: moveFocus
     };
-});
