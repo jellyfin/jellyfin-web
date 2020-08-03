@@ -121,4 +121,4 @@ export default function (view, params, tabContent) {
         renderActiveRecordings(tabContent, activeRecordingsPromise);
         renderUpcomingRecordings(tabContent, upcomingRecordingsPromise);
     };
-};
+}
