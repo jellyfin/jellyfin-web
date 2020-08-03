@@ -10,12 +10,10 @@ function animateRemove(elem) {
     setTimeout(function () {
         elem.classList.remove('toastVisible');
         remove(elem);
-
     }, 3300);
 }
 
 export default function (options) {
-
     if (typeof options === 'string') {
         options = {
             text: options

@@ -285,7 +285,6 @@ class UpNextDialog {
         init(this, options);
     }
     show() {
-
         const elem = this.options.parent;
 
         clearHideAnimationEventListeners(this, elem);
