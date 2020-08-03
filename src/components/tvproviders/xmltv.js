@@ -9,7 +9,7 @@ import 'paper-icon-button-light';
 export default function (page, providerId, options) {
     function getListingProvider(config, id) {
         if (config && id) {
-            var result = config.ListingProviders.filter(function (provider) {
+            const result = config.ListingProviders.filter(function (provider) {
                 return provider.Id === id;
             })[0];
 
@@ -49,7 +49,7 @@ export default function (page, providerId, options) {
     }
 
     function getCategories(txtInput) {
-        var value = txtInput.value;
+        const value = txtInput.value;
 
         if (value) {
             return value.split('|');
@@ -60,9 +60,9 @@ export default function (page, providerId, options) {
 
     function submitListingsForm() {
         loading.show();
-        var id = providerId;
+        const id = providerId;
         ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            var info = config.ListingProviders.filter(function (provider) {
+            const info = config.ListingProviders.filter(function (provider) {
                 return provider.Id === id;
             })[0] || {};
             info.Type = 'xmltv';
@@ -117,14 +117,14 @@ export default function (page, providerId, options) {
     }
 
     function refreshTunerDevices(page, providerInfo, devices) {
-        var html = '';
+        let html = '';
 
-        for (var i = 0, length = devices.length; i < length; i++) {
-            var device = devices[i];
+        for (let i = 0, length = devices.length; i < length; i++) {
+            const device = devices[i];
             html += '<div class="listItem">';
-            var enabledTuners = providerInfo.EnabledTuners || [];
-            var isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
-            var checkedAttribute = isChecked ? ' checked' : '';
+            const enabledTuners = providerInfo.EnabledTuners || [];
+            const isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
+            const checkedAttribute = isChecked ? ' checked' : '';
             html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkTuner" data-id="' + device.Id + '" ' + checkedAttribute + '><span></span></label>';
             html += '<div class="listItemBody two-line">';
             html += '<div class="listItemBodyText">';
@@ -141,15 +141,15 @@ export default function (page, providerId, options) {
     }
 
     function onSelectPathClick(e) {
-        var page = $(e.target).parents('.xmltvForm')[0];
+        const page = $(e.target).parents('.xmltvForm')[0];
 
         import('directorybrowser').then(({default: directoryBrowser}) => {
-            var picker = new directoryBrowser();
+            const picker = new directoryBrowser();
             picker.show({
                 includeFiles: true,
                 callback: function (path) {
                     if (path) {
-                        var txtPath = page.querySelector('.txtPath');
+                        const txtPath = page.querySelector('.txtPath');
                         txtPath.value = path;
                         txtPath.focus();
                     }
@@ -159,7 +159,7 @@ export default function (page, providerId, options) {
         });
     }
 
-    var self = this;
+    const self = this;
 
     self.submit = function () {
         page.querySelector('.btnSubmitListings').click();
@@ -170,10 +170,10 @@ export default function (page, providerId, options) {
 
         // Only hide the buttons if explicitly set to false; default to showing if undefined or null
         // FIXME: rename this option to clarify logic
-        var hideCancelButton = options.showCancelButton === false;
+        const hideCancelButton = options.showCancelButton === false;
         page.querySelector('.btnCancel').classList.toggle('hide', hideCancelButton);
 
-        var hideSubmitButton = options.showSubmitButton === false;
+        const hideSubmitButton = options.showSubmitButton === false;
         page.querySelector('.btnSubmitListings').classList.toggle('hide', hideSubmitButton);
 
         $('form', page).on('submit', function () {
@@ -190,4 +190,4 @@ export default function (page, providerId, options) {
         });
         reload();
     };
-};
+}
