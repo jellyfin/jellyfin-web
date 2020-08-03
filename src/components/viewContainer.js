@@ -70,8 +70,8 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
 
                     if (currentPage) {
                         if (newViewInfo.hasScript && window.$) {
-                            view = $(view).appendTo(mainAnimatedPages)[0];
                             mainAnimatedPages.removeChild(currentPage);
+                            view = $(view).appendTo(mainAnimatedPages)[0];
                         } else {
                             mainAnimatedPages.replaceChild(view, currentPage);
                         }
