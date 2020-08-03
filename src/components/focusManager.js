@@ -3,7 +3,9 @@
 import dom from 'dom';
 import scrollManager from 'scrollManager';
 
-    'use strict';
+/* eslint-disable no-unused-expressions */
+'use strict';
+/* eslint-enable no-unused-expressions */
 
     var scopes = [];
     function pushScope(elem) {
@@ -476,36 +478,38 @@ import scrollManager from 'scrollManager';
         }
     }
 
-    export default {
-        autoFocus: autoFocus,
-        focus: focus,
-        focusableParent: focusableParent,
-        getFocusableElements: getFocusableElements,
-        moveLeft: function (sourceElement, options) {
-            var container = options ? options.container : null;
-            var focusableElements = options ? options.focusableElements : null;
-            nav(sourceElement, 0, container, focusableElements);
-        },
-        moveRight: function (sourceElement, options) {
-            var container = options ? options.container : null;
-            var focusableElements = options ? options.focusableElements : null;
-            nav(sourceElement, 1, container, focusableElements);
-        },
-        moveUp: function (sourceElement, options) {
-            var container = options ? options.container : null;
-            var focusableElements = options ? options.focusableElements : null;
-            nav(sourceElement, 2, container, focusableElements);
-        },
-        moveDown: function (sourceElement, options) {
-            var container = options ? options.container : null;
-            var focusableElements = options ? options.focusableElements : null;
-            nav(sourceElement, 3, container, focusableElements);
-        },
-        sendText: sendText,
-        isCurrentlyFocusable: isCurrentlyFocusable,
-        pushScope: pushScope,
-        popScope: popScope,
-        focusFirst: focusFirst,
-        focusLast: focusLast,
-        moveFocus: moveFocus
-    };
+/* eslint-enable indent */
+
+export default {
+    autoFocus: autoFocus,
+    focus: focus,
+    focusableParent: focusableParent,
+    getFocusableElements: getFocusableElements,
+    moveLeft: function (sourceElement, options) {
+        var container = options ? options.container : null;
+        var focusableElements = options ? options.focusableElements : null;
+        nav(sourceElement, 0, container, focusableElements);
+    },
+    moveRight: function (sourceElement, options) {
+        var container = options ? options.container : null;
+        var focusableElements = options ? options.focusableElements : null;
+        nav(sourceElement, 1, container, focusableElements);
+    },
+    moveUp: function (sourceElement, options) {
+        var container = options ? options.container : null;
+        var focusableElements = options ? options.focusableElements : null;
+        nav(sourceElement, 2, container, focusableElements);
+    },
+    moveDown: function (sourceElement, options) {
+        var container = options ? options.container : null;
+        var focusableElements = options ? options.focusableElements : null;
+        nav(sourceElement, 3, container, focusableElements);
+    },
+    sendText: sendText,
+    isCurrentlyFocusable: isCurrentlyFocusable,
+    pushScope: pushScope,
+    popScope: popScope,
+    focusFirst: focusFirst,
+    focusLast: focusLast,
+    moveFocus: moveFocus
+};
