@@ -21,7 +21,7 @@ with open(source) as en:
 
 for key, value in reverse.items():
     if len(value) > 1:
-        duplicates[key] = reverse[key]
+        duplicates[key] = value
 
 print('LENGTH: ' + str(len(duplicates)))
 with open('duplicates.txt', 'w') as out:
