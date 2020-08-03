@@ -14,13 +14,13 @@ import globalize from 'globalize';
             let html = '';
 
             for (const folder of mediaFolders) {
-                isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
+                isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
 
             for (const folder of channelsResult.Items) {
-                isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
+                isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
@@ -96,7 +96,7 @@ import globalize from 'globalize';
         $('#chkEnableVideoPlaybackTranscoding', page).prop('checked', user.Policy.EnableVideoPlaybackTranscoding);
         $('#chkEnableVideoPlaybackRemuxing', page).prop('checked', user.Policy.EnablePlaybackRemuxing);
         $('#chkForceRemoteSourceTranscoding', page).prop('checked', user.Policy.ForceRemoteSourceTranscoding);
-        $('#chkRemoteAccess', page).prop('checked', null == user.Policy.EnableRemoteAccess || user.Policy.EnableRemoteAccess);
+        $('#chkRemoteAccess', page).prop('checked', user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess);
         $('#chkEnableSyncTranscoding', page).prop('checked', user.Policy.EnableSyncTranscoding);
         $('#chkEnableConversion', page).prop('checked', user.Policy.EnableMediaConversion || false);
         $('#chkEnableSharing', page).prop('checked', user.Policy.EnablePublicSharing);

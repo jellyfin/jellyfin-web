@@ -157,11 +157,11 @@ import 'emby-scroller';
             options.Limit = 20;
             const userId = apiClient.getCurrentUserId();
 
-            if ('MusicArtist' === section.types) {
+            if (section.types === 'MusicArtist') {
                 return apiClient.getArtists(userId, options);
             }
 
-            if ('Person' === section.types) {
+            if (section.types === 'Person') {
                 return apiClient.getPeople(userId, options);
             }
 
@@ -208,7 +208,7 @@ import 'emby-scroller';
                 preferThumb: section.preferThumb,
                 shape: section.shape,
                 centerText: section.centerText && !cardLayout,
-                overlayText: false !== section.overlayText,
+                overlayText: section.overlayText !== false,
                 showTitle: section.showTitle,
                 showYear: section.showYear,
                 showParentTitle: section.showParentTitle,

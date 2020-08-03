@@ -129,7 +129,7 @@ import 'flexStyles';
         html += '</div>';
         html += '<div class="cardText cardText-secondary">';
         const lastSeen = getLastSeenText(user.LastActivityDate);
-        html += '' != lastSeen ? lastSeen : '&nbsp;';
+        html += lastSeen != '' ? lastSeen : '&nbsp;';
         html += '</div>';
         html += '</div>';
         html += '</div>';

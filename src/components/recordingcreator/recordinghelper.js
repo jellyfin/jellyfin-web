@@ -1,6 +1,8 @@
 define(['globalize', 'loading', 'connectionManager'], function (globalize, loading, connectionManager) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCancellation) {
         loading.show();
 

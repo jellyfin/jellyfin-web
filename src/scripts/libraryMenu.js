@@ -1,6 +1,9 @@
 define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncPlayManager', 'groupSelectionMenu', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncPlayManager, groupSelectionMenu, browser, globalize, imageHelper) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
+    browser = browser.default || browser;
+
     function renderHeader() {
         var html = '';
         html += '<div class="flex align-items-center flex-grow headerTop">';
@@ -309,7 +312,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function isUrlInCurrentView(url) {
-        return -1 !== window.location.href.toString().toLowerCase().indexOf(url.toLowerCase());
+        return window.location.href.toString().toLowerCase().indexOf(url.toLowerCase()) !== -1;
     }
 
     function updateDashboardMenuSelectedItem() {
@@ -323,7 +326,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
             if (pageIds) {
                 pageIds = pageIds.split('|');
-                selected = -1 != pageIds.indexOf(currentViewId);
+                selected = pageIds.indexOf(currentViewId) != -1;
             }
 
             var pageUrls = link.getAttribute('data-pageurls');
@@ -545,7 +548,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                 var view = items[i];
                 list.push(view);
 
-                if ('livetv' == view.CollectionType) {
+                if (view.CollectionType == 'livetv') {
                     view.ImageTags = {};
                     view.icon = 'live_tv';
                     var guideView = Object.assign({}, view);
@@ -671,15 +674,15 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             var lnkMediaFolder = elems[i];
             var itemId = lnkMediaFolder.getAttribute('data-itemid');
 
-            if (isChannelsPage && 'channels' === itemId) {
+            if (isChannelsPage && itemId === 'channels') {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
-            } else if (isLiveTvPage && 'livetv' === itemId) {
+            } else if (isLiveTvPage && itemId === 'livetv') {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
-            } else if (isEditorPage && 'editor' === itemId) {
+            } else if (isEditorPage && itemId === 'editor') {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
-            } else if (isMySyncPage && 'manageoffline' === itemId && -1 != window.location.href.toString().indexOf('mode=download')) {
+            } else if (isMySyncPage && itemId === 'manageoffline' && window.location.href.toString().indexOf('mode=download') != -1) {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
-            } else if (isMySyncPage && 'syncotherdevices' === itemId && -1 == window.location.href.toString().indexOf('mode=download')) {
+            } else if (isMySyncPage && itemId === 'syncotherdevices' && window.location.href.toString().indexOf('mode=download') == -1) {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
             } else if (id && itemId == id) {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
@@ -753,7 +756,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
 
         if (headerBackButton) {
-            if ('false' !== page.getAttribute('data-backbutton') && appRouter.canGoBack()) {
+            if (page.getAttribute('data-backbutton') !== 'false' && appRouter.canGoBack()) {
                 headerBackButton.classList.remove('hide');
             } else {
                 headerBackButton.classList.add('hide');
@@ -863,11 +866,11 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             document.title = 'Jellyfin';
         },
         setTitle: function (title) {
-            if (null == title) {
+            if (title == null) {
                 return void LibraryMenu.setDefaultTitle();
             }
 
-            if ('-' === title) {
+            if (title === '-') {
                 title = '';
             }
 
@@ -922,7 +925,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                 }
             }
 
-            if ('library' !== currentDrawerType) {
+            if (currentDrawerType !== 'library') {
                 refreshLibraryDrawer();
             }
         }
