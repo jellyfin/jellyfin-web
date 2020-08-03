@@ -6,7 +6,7 @@ function getWindowLocationSearch(win) {
     if (!search) {
         var index = window.location.href.indexOf('?');
 
-        if (-1 != index) {
+        if (index != -1) {
             search = window.location.href.substring(index);
         }
     }
@@ -14,7 +14,7 @@ function getWindowLocationSearch(win) {
     return search || '';
 }
 
-function getParameterByName(name, url) {
+window.getParameterByName = function (name, url) {
     'use strict';
 
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -22,12 +22,12 @@ function getParameterByName(name, url) {
     var regex = new RegExp(regexS, 'i');
     var results = regex.exec(url || getWindowLocationSearch());
 
-    if (null == results) {
+    if (results == null) {
         return '';
     }
 
     return decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
+};
 
 function pageClassOn(eventName, className, fn) {
     'use strict';
@@ -41,7 +41,7 @@ function pageClassOn(eventName, className, fn) {
     });
 }
 
-function pageIdOn(eventName, id, fn) {
+window.pageIdOn = function(eventName, id, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
@@ -51,7 +51,7 @@ function pageIdOn(eventName, id, fn) {
             fn.call(target, event);
         }
     });
-}
+};
 
 var Dashboard = {
     getCurrentUser: function () {
@@ -73,7 +73,7 @@ var Dashboard = {
         var urlLower = window.location.href.toLowerCase();
         var index = urlLower.lastIndexOf('/web');
 
-        if (-1 != index) {
+        if (index != -1) {
             return urlLower.substring(0, index);
         }
 
@@ -178,7 +178,7 @@ var Dashboard = {
         });
     },
     alert: function (options) {
-        if ('string' == typeof options) {
+        if (typeof options == 'string') {
             return void require(['toast'], function (toast) {
                 toast({
                     text: options
@@ -197,7 +197,7 @@ var Dashboard = {
         var capabilities = {
             PlayableMediaTypes: ['Audio', 'Video'],
             SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
-            SupportsPersistentIdentifier: 'cordova' === self.appMode || 'android' === self.appMode,
+            SupportsPersistentIdentifier: self.appMode === 'cordova' || self.appMode === 'android',
             SupportsMediaControl: true
         };
         appHost.getPushTokenInfo();
@@ -236,9 +236,7 @@ var Dashboard = {
 
 var AppInfo = {};
 
-!function () {
-    'use strict';
-
+function initClient() {
     function defineConnectionManager(connectionManager) {
         window.ConnectionManager = connectionManager;
         define('connectionManager', [], function () {
@@ -454,8 +452,8 @@ var AppInfo = {};
     }
 
     function onGlobalizeInit(browser, globalize) {
-        if ('android' === self.appMode) {
-            if (-1 !== self.location.href.toString().toLowerCase().indexOf('start=backgroundsync')) {
+        if (self.appMode === 'android') {
+            if (self.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1) {
                 return onAppReady(browser);
             }
         }
@@ -479,36 +477,30 @@ var AppInfo = {};
 
     function loadPlugins(appHost, browser, shell) {
         console.debug('loading installed plugins');
-        var list = [
-            'plugins/playAccessValidation/plugin',
-            'plugins/experimentalWarnings/plugin',
-            'plugins/htmlAudioPlayer/plugin',
-            'plugins/htmlVideoPlayer/plugin',
-            'plugins/photoPlayer/plugin',
-            'plugins/bookPlayer/plugin',
-            'plugins/youtubePlayer/plugin',
-            'plugins/backdropScreensaver/plugin',
-            'plugins/logoScreensaver/plugin'
-        ];
-
-        if (appHost.supports('remotecontrol')) {
-            list.push('plugins/sessionPlayer/plugin');
-
-            if (browser.chrome || browser.opera) {
-                list.push('plugins/chromecastPlayer/plugin');
-            }
-        }
-
-        if (window.NativeShell) {
-            list = list.concat(window.NativeShell.getPlugins());
-        }
-
         return new Promise(function (resolve, reject) {
-            Promise.all(list.map(loadPlugin)).then(function () {
-                require(['packageManager'], function (packageManager) {
-                    packageManager.init().then(resolve, reject);
+            require(['webSettings'], function (webSettings) {
+                webSettings.getPlugins().then(function (list) {
+                    // these two plugins are dependent on features
+                    if (!appHost.supports('remotecontrol')) {
+                        list.splice(list.indexOf('sessionPlayer'), 1);
+
+                        if (!browser.chrome && !browser.opera) {
+                            list.splice(list.indexOf('chromecastPlayer', 1));
+                        }
+                    }
+
+                    // add any native plugins
+                    if (window.NativeShell) {
+                        list = list.concat(window.NativeShell.getPlugins());
+                    }
+
+                    Promise.all(list.map(loadPlugin)).then(function () {
+                        require(['packageManager'], function (packageManager) {
+                            packageManager.init().then(resolve, reject);
+                        });
+                    }, reject);
                 });
-            }, reject);
+            });
         });
     }
 
@@ -534,7 +526,7 @@ var AppInfo = {};
 
             window.Emby.Page = appRouter;
 
-            require(['emby-button', 'scripts/themeLoader', 'libraryMenu', 'scripts/routes'], function () {
+            require(['emby-button', 'scripts/autoThemes', 'libraryMenu', 'scripts/routes'], function () {
                 Emby.Page.start({
                     click: false,
                     hashbang: true
@@ -655,8 +647,7 @@ var AppInfo = {};
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
             packageManager: componentsPath + '/packageManager',
-            screensaverManager: componentsPath + '/screensavermanager',
-            chromecastHelper: 'plugins/chromecastPlayer/chromecastHelpers'
+            screensaverManager: componentsPath + '/screensavermanager'
         };
 
         requirejs.onError = onRequireJsError;
@@ -679,7 +670,6 @@ var AppInfo = {};
                     'howler',
                     'native-promise-only',
                     'resize-observer-polyfill',
-                    'shaka',
                     'swiper',
                     'queryString',
                     'sortable',
@@ -785,7 +775,6 @@ var AppInfo = {};
         define('multiSelect', [componentsPath + '/multiSelect/multiSelect'], returnFirstDependency);
         define('alphaPicker', [componentsPath + '/alphaPicker/alphaPicker'], returnFirstDependency);
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
-        define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
         define('collectionEditor', [componentsPath + '/collectionEditor/collectionEditor'], returnFirstDependency);
         define('playlistEditor', [componentsPath + '/playlisteditor/playlisteditor'], returnFirstDependency);
         define('recordingCreator', [componentsPath + '/recordingcreator/recordingcreator'], returnFirstDependency);
@@ -852,7 +841,7 @@ var AppInfo = {};
         define('viewContainer', [componentsPath + '/viewContainer'], returnFirstDependency);
         define('dialogHelper', [componentsPath + '/dialogHelper/dialogHelper'], returnFirstDependency);
         define('serverNotifications', [scriptsPath + '/serverNotifications'], returnFirstDependency);
-        define('skinManager', [componentsPath + '/skinManager'], returnFirstDependency);
+        define('skinManager', [scriptsPath + '/themeManager'], returnFirstDependency);
         define('keyboardnavigation', [scriptsPath + '/keyboardNavigation'], returnFirstDependency);
         define('mouseManager', [scriptsPath + '/mouseManager'], returnFirstDependency);
         define('scrollManager', [componentsPath + '/scrollManager'], returnFirstDependency);
@@ -867,7 +856,7 @@ var AppInfo = {};
         });
         define('appRouter', [componentsPath + '/appRouter', 'itemHelper'], function (appRouter, itemHelper) {
             function showItem(item, serverId, options) {
-                if ('string' == typeof item) {
+                if (typeof item == 'string') {
                     require(['connectionManager'], function (connectionManager) {
                         var apiClient = connectionManager.currentApiClient();
                         apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
@@ -875,7 +864,7 @@ var AppInfo = {};
                         });
                     });
                 } else {
-                    if (2 == arguments.length) {
+                    if (arguments.length == 2) {
                         options = arguments[1];
                     }
 
@@ -890,7 +879,7 @@ var AppInfo = {};
             };
 
             appRouter.showVideoOsd = function () {
-                return Dashboard.navigate('videoosd.html');
+                return Dashboard.navigate('video');
             };
 
             appRouter.showSelectServer = function () {
@@ -957,27 +946,27 @@ var AppInfo = {};
                 var itemType = item.Type || (options ? options.itemType : null);
                 var serverId = item.ServerId || options.serverId;
 
-                if ('settings' === item) {
+                if (item === 'settings') {
                     return 'mypreferencesmenu.html';
                 }
 
-                if ('wizard' === item) {
+                if (item === 'wizard') {
                     return 'wizardstart.html';
                 }
 
-                if ('manageserver' === item) {
+                if (item === 'manageserver') {
                     return 'dashboard.html';
                 }
 
-                if ('recordedtv' === item) {
+                if (item === 'recordedtv') {
                     return 'livetv.html?tab=3&serverId=' + options.serverId;
                 }
 
-                if ('nextup' === item) {
+                if (item === 'nextup') {
                     return 'list.html?type=nextup&serverId=' + options.serverId;
                 }
 
-                if ('list' === item) {
+                if (item === 'list') {
                     var url = 'list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
 
                     if (options.isFavorite) {
@@ -987,61 +976,61 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('livetv' === item) {
-                    if ('programs' === options.section) {
+                if (item === 'livetv') {
+                    if (options.section === 'programs') {
                         return 'livetv.html?tab=0&serverId=' + options.serverId;
                     }
-                    if ('guide' === options.section) {
+                    if (options.section === 'guide') {
                         return 'livetv.html?tab=1&serverId=' + options.serverId;
                     }
 
-                    if ('movies' === options.section) {
+                    if (options.section === 'movies') {
                         return 'list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
                     }
 
-                    if ('shows' === options.section) {
+                    if (options.section === 'shows') {
                         return 'list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
                     }
 
-                    if ('sports' === options.section) {
+                    if (options.section === 'sports') {
                         return 'list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
                     }
 
-                    if ('kids' === options.section) {
+                    if (options.section === 'kids') {
                         return 'list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
                     }
 
-                    if ('news' === options.section) {
+                    if (options.section === 'news') {
                         return 'list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
                     }
 
-                    if ('onnow' === options.section) {
+                    if (options.section === 'onnow') {
                         return 'list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
                     }
 
-                    if ('dvrschedule' === options.section) {
+                    if (options.section === 'dvrschedule') {
                         return 'livetv.html?tab=4&serverId=' + options.serverId;
                     }
 
-                    if ('seriesrecording' === options.section) {
+                    if (options.section === 'seriesrecording') {
                         return 'livetv.html?tab=5&serverId=' + options.serverId;
                     }
 
                     return 'livetv.html?serverId=' + options.serverId;
                 }
 
-                if ('SeriesTimer' == itemType) {
+                if (itemType == 'SeriesTimer') {
                     return 'details?seriesTimerId=' + id + '&serverId=' + serverId;
                 }
 
-                if ('livetv' == item.CollectionType) {
+                if (item.CollectionType == 'livetv') {
                     return 'livetv.html';
                 }
 
-                if ('Genre' === item.Type) {
+                if (item.Type === 'Genre') {
                     url = 'list.html?genreId=' + item.Id + '&serverId=' + serverId;
 
-                    if ('livetv' === context) {
+                    if (context === 'livetv') {
                         url += '&type=Programs';
                     }
 
@@ -1052,7 +1041,7 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('MusicGenre' === item.Type) {
+                if (item.Type === 'MusicGenre') {
                     url = 'list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
 
                     if (options.parentId) {
@@ -1062,7 +1051,7 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('Studio' === item.Type) {
+                if (item.Type === 'Studio') {
                     url = 'list.html?studioId=' + item.Id + '&serverId=' + serverId;
 
                     if (options.parentId) {
@@ -1072,28 +1061,28 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('folders' !== context && !itemHelper.isLocalItem(item)) {
-                    if ('movies' == item.CollectionType) {
+                if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
+                    if (item.CollectionType == 'movies') {
                         url = 'movies.html?topParentId=' + item.Id;
 
-                        if (options && 'latest' === options.section) {
+                        if (options && options.section === 'latest') {
                             url += '&tab=1';
                         }
 
                         return url;
                     }
 
-                    if ('tvshows' == item.CollectionType) {
+                    if (item.CollectionType == 'tvshows') {
                         url = 'tv.html?topParentId=' + item.Id;
 
-                        if (options && 'latest' === options.section) {
+                        if (options && options.section === 'latest') {
                             url += '&tab=2';
                         }
 
                         return url;
                     }
 
-                    if ('music' == item.CollectionType) {
+                    if (item.CollectionType == 'music') {
                         return 'music.html?topParentId=' + item.Id;
                     }
                 }
@@ -1106,7 +1095,7 @@ var AppInfo = {};
 
                 var contextSuffix = context ? '&context=' + context : '';
 
-                if ('Series' == itemType || 'Season' == itemType || 'Episode' == itemType) {
+                if (itemType == 'Series' || itemType == 'Season' || itemType == 'Episode') {
                     return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;
                 }
 
@@ -1127,7 +1116,9 @@ var AppInfo = {};
     })();
 
     return onWebComponentsReady();
-}();
+}
+
+initClient();
 
 pageClassOn('viewshow', 'standalonePage', function () {
     document.querySelector('.skinHeader').classList.add('noHeaderRight');

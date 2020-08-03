@@ -1,11 +1,12 @@
-<div data-role="page" class="page standalonePage forgotPasswordPinPage">
-    <div>
-        <form class="forgotPasswordPinForm" style="text-align: center; margin: 0 auto;">
+<div data-role="page" id="forgotPasswordPage" class="page standalonePage forgotPasswordPage">
+    <div class="padded-left padded-right padded-bottom-page">
+        <form class="forgotPasswordForm" style="text-align: center; margin: 0 auto;">
             <div style="text-align: left;">
-                <h2>${HeaderPasswordReset}</h2>
+                <h1>${HeaderForgotPassword}</h1>
 
                 <div class="inputContainer">
-                    <input is="emby-input" type="text" id="txtPin" label="${LabelPasswordRecoveryPinCode}" autocomplete="off" required="required"/>
+                    <input is="emby-input" type="text" id="txtName" label="${LabelUser}" autocomplete="off"/>
+                    <div class="fieldDescription">${LabelForgotPasswordUsernameHelp}</div>
                 </div>
 
                 <div>

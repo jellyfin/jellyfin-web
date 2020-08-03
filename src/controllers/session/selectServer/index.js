@@ -3,7 +3,6 @@ import appRouter from 'appRouter';
 import layoutManager from 'layoutManager';
 import libraryMenu from 'libraryMenu';
 import appSettings from 'appSettings';
-import appHost from 'apphost';
 import focusManager from 'focusManager';
 import connectionManager from 'connectionManager';
 import globalize from 'globalize';
@@ -93,11 +92,6 @@ import 'emby-button';
             view.classList.remove('libraryPage');
             view.classList.remove('noSecondaryNavPage');
         }
-    }
-
-    function showGeneralError() {
-        loading.hide();
-        alertText(globalize.translate('DefaultErrorMessage'));
     }
 
     function alertText(text) {

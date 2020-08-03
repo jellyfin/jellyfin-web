@@ -1,11 +1,9 @@
 import $ from 'jQuery';
-import appHost from 'apphost';
 import taskButton from 'scripts/taskbutton';
 import loading from 'loading';
 import libraryMenu from 'libraryMenu';
 import globalize from 'globalize';
 import dom from 'dom';
-import indicators from 'indicators';
 import imageHelper from 'scripts/imagehelper';
 import 'cardStyle';
 import 'emby-itemrefreshindicator';
@@ -158,7 +156,7 @@ import 'emby-itemrefreshindicator';
     }
 
     function shouldRefreshLibraryAfterChanges(page) {
-        return 'mediaLibraryPage' === page.id;
+        return page.id === 'mediaLibraryPage';
     }
 
     function reloadVirtualFolders(page, virtualFolders) {
@@ -288,7 +286,7 @@ import 'emby-itemrefreshindicator';
 
         if (hasCardImageContainer) {
             html += '<div class="cardIndicators backdropCardIndicators">';
-            html += '<div is="emby-itemrefreshindicator"' + (virtualFolder.RefreshProgress || virtualFolder.RefreshStatus && 'Idle' !== virtualFolder.RefreshStatus ? '' : ' class="hide"') + ' data-progress="' + (virtualFolder.RefreshProgress || 0) + '" data-status="' + virtualFolder.RefreshStatus + '"></div>';
+            html += '<div is="emby-itemrefreshindicator"' + (virtualFolder.RefreshProgress || virtualFolder.RefreshStatus && virtualFolder.RefreshStatus !== 'Idle' ? '' : ' class="hide"') + ' data-progress="' + (virtualFolder.RefreshProgress || 0) + '" data-status="' + virtualFolder.RefreshStatus + '"></div>';
             html += '</div>';
             html += '</div>';
         }
@@ -395,7 +393,6 @@ import 'emby-itemrefreshindicator';
         });
     });
     pageIdOn('pagebeforehide', 'mediaLibraryPage', function () {
-
         const page = this;
         taskButton({
             mode: 'off',

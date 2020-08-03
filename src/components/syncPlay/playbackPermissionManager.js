@@ -3,7 +3,6 @@
  * @returns {HTMLMediaElement} The audio element.
  */
 function createTestMediaElement () {
-
     const elem = document.createElement('audio');
     elem.classList.add('testMediaPlayerAudio');
     elem.classList.add('hide');

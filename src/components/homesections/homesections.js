@@ -1,13 +1,9 @@
 import connectionManager from 'connectionManager';
 import cardBuilder from 'cardBuilder';
-import appSettings from 'appSettings';
 import dom from 'dom';
-import appHost from 'apphost';
 import layoutManager from 'layoutManager';
 import imageLoader from 'imageLoader';
 import globalize from 'globalize';
-import itemShortcuts from 'itemShortcuts';
-import itemHelper from 'itemHelper';
 import appRouter from 'appRouter';
 import imageHelper from 'scripts/imagehelper';
 import 'paper-icon-button-light';
@@ -135,7 +131,6 @@ import 'css!./homesections';
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
-
         const section = allSections[index];
         const userId = user.Id;
 
@@ -213,14 +208,6 @@ import 'css!./homesections';
 
         elem.innerHTML = html;
         imageLoader.lazyChildren(elem);
-    }
-
-    /**
-     * Returns a random integer between min (inclusive) and max (inclusive)
-     * Using Math.round() will give you a non-uniform distribution!
-     */
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     function getFetchLatestItemsFn(serverId, parentId, collectionType) {
@@ -345,14 +332,6 @@ import 'css!./homesections';
 
             renderLatestSection(frag, apiClient, user, item);
         }
-    }
-
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-            import(deps).then(() => {
-                return resolve;
-            });
-        });
     }
 
     export function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
@@ -549,7 +528,6 @@ import 'css!./homesections';
     }
 
     function getOnNowItemsHtml(items) {
-        const cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
             preferThumb: 'auto',
@@ -576,7 +554,6 @@ import 'css!./homesections';
             return Promise.resolve();
         }
 
-        const userId = user.Id;
         return apiClient.getLiveTvRecommendedPrograms({
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
@@ -649,7 +626,6 @@ import 'css!./homesections';
                     html += '</h2>';
                     html += '<span class="material-icons chevron_right"></span>';
                     html += '</a>';
-
                 } else {
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderOnNow') + '</h2>';
                 }
@@ -766,7 +742,6 @@ import 'css!./homesections';
 
     function getLatestRecordingItemsHtml(activeRecordingsOnly) {
         return function (items) {
-            const cardLayout = false;
             return cardBuilder.getCardsHtml({
                 items: items,
                 shape: enableScrollX() ? 'autooverflow' : 'auto',

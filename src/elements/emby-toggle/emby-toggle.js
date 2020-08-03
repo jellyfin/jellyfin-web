@@ -6,7 +6,6 @@ import 'webcomponents';
     const EmbyTogglePrototype = Object.create(HTMLInputElement.prototype);
 
     function onKeyDown(e) {
-
         // Don't submit form on enter
         if (e.keyCode === 13) {
             e.preventDefault();
@@ -22,7 +21,6 @@ import 'webcomponents';
     }
 
     EmbyTogglePrototype.attachedCallback = function () {
-
         if (this.getAttribute('data-embytoggle') === 'true') {
             return;
         }

@@ -5,6 +5,8 @@
 define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'dom', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputManager, connectionManager, layoutManager, focusManager, browser, appHost, dom) {
     'use strict';
 
+    browser = browser.default || browser;
+
     /**
      * Name of transition event.
      */
@@ -38,7 +40,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         if (options.type === 'Primary') {
             if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
                 options.tag = item.AlbumPrimaryImageTag;
                 return apiClient.getScaledImageUrl(item.AlbumId, options);
             }
@@ -64,7 +65,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         }
 
         if (item.BackdropImageTags && item.BackdropImageTags.length) {
-
             options.tag = item.BackdropImageTags[0];
             return apiClient.getScaledImageUrl(item.Id, options);
         }
@@ -130,11 +130,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         var hideTimeout;
         /** Last coordinates of the mouse pointer. */
         var lastMouseMoveData;
-        /** Visibility status of the OSD. */
-        var _osdOpen = false;
-
-        // Use autoplay on Chromecast since it is non-interactive.
-        if (browser.chromecast) options.interactive = false;
 
         /**
          * Creates the HTML markup for the dialog and the OSD.
@@ -189,7 +184,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                     html += '</div>';
                 }
-
             } else {
                 html += '<div class="slideshowImage"></div><h1 class="slideshowImageText"></h1>';
             }
@@ -363,8 +357,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         function getSwiperSlideHtmlFromItem(item) {
             return getSwiperSlideHtmlFromSlide({
                 originalImage: getImgUrl(item, currentOptions.user),
-                //title: item.Name,
-                //description: item.Overview
                 Id: item.Id,
                 ServerId: item.ServerId
             });
@@ -545,7 +537,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 return;
             }
 
-            _osdOpen = true;
             element.classList.remove('hide');
 
             var onFinish = function () {
@@ -578,7 +569,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             var onFinish = function () {
                 element.classList.add('hide');
-                _osdOpen = false;
             };
 
             if (!element.animate) {

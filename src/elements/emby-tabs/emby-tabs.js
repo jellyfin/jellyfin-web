@@ -13,12 +13,10 @@ import 'scrollStyles';
     const activeButtonClass = buttonClass + '-active';
 
     function setActiveTabButton(tabs, newButton, oldButton, animate) {
-
         newButton.classList.add(activeButtonClass);
     }
 
     function getTabPanel(tabs, index) {
-
         return null;
     }
 
@@ -29,15 +27,7 @@ import 'scrollStyles';
         }
     }
 
-    function addActivePanelClass(tabs, index) {
-        let tabPanel = getTabPanel(tabs, index);
-        if (tabPanel) {
-            tabPanel.classList.add('is-active');
-        }
-    }
-
     function fadeInRight(elem) {
-
         const pct = browser.mobile ? '4%' : '0.5%';
 
         const keyframes = [
@@ -52,7 +42,6 @@ import 'scrollStyles';
     }
 
     function triggerBeforeTabChange(tabs, index, previousIndex) {
-
         tabs.dispatchEvent(new CustomEvent('beforetabchange', {
             detail: {
                 selectedTabIndex: index,
@@ -76,14 +65,12 @@ import 'scrollStyles';
     }
 
     function onClick(e) {
-
         const tabs = this;
 
         const current = tabs.querySelector('.' + activeButtonClass);
         const tabButton = dom.parentWithClass(e.target, buttonClass);
 
         if (tabButton && tabButton !== current) {
-
             if (current) {
                 current.classList.remove(activeButtonClass);
             }
@@ -98,7 +85,6 @@ import 'scrollStyles';
 
             // If toCenter is called syncronously within the click event, it sometimes ends up canceling it
             setTimeout(function () {
-
                 tabs.selectedTabIndex = index;
 
                 tabs.dispatchEvent(new CustomEvent('tabchange', {
@@ -112,12 +98,10 @@ import 'scrollStyles';
             if (tabs.scroller) {
                 tabs.scroller.toCenter(tabButton, false);
             }
-
         }
     }
 
     function initScroller(tabs) {
-
         if (tabs.scroller) {
             return;
         }
@@ -153,7 +137,6 @@ import 'scrollStyles';
     }
 
     EmbyTabs.createdCallback = function () {
-
         if (this.classList.contains('emby-tabs')) {
             return;
         }
@@ -166,7 +149,6 @@ import 'scrollStyles';
     };
 
     EmbyTabs.focus = function () {
-
         const selected = this.querySelector('.' + activeButtonClass);
 
         if (selected) {
@@ -177,21 +159,18 @@ import 'scrollStyles';
     };
 
     EmbyTabs.refresh = function () {
-
         if (this.scroller) {
             this.scroller.reload();
         }
     };
 
     EmbyTabs.attachedCallback = function () {
-
         initScroller(this);
 
         const current = this.querySelector('.' + activeButtonClass);
         const currentIndex = current ? parseInt(current.getAttribute('data-index')) : parseInt(this.getAttribute('data-index') || '0');
 
         if (currentIndex !== -1) {
-
             this.selectedTabIndex = currentIndex;
 
             const tabButtons = this.querySelectorAll('.' + buttonClass);
@@ -210,7 +189,6 @@ import 'scrollStyles';
     };
 
     EmbyTabs.detachedCallback = function () {
-
         if (this.scroller) {
             this.scroller.destroy();
             this.scroller = null;
@@ -222,16 +200,13 @@ import 'scrollStyles';
     };
 
     function getSelectedTabButton(elem) {
-
         return elem.querySelector('.' + activeButtonClass);
     }
 
     EmbyTabs.selectedIndex = function (selected, triggerEvent) {
-
         const tabs = this;
 
         if (selected == null) {
-
             return tabs.selectedTabIndex || 0;
         }
 
@@ -242,7 +217,6 @@ import 'scrollStyles';
         const tabButtons = tabs.querySelectorAll('.' + buttonClass);
 
         if (current === selected || triggerEvent === false) {
-
             triggerBeforeTabChange(tabs, selected, current);
 
             tabs.dispatchEvent(new CustomEvent('tabchange', {
@@ -257,23 +231,18 @@ import 'scrollStyles';
             if (current !== selected && currentTabButton) {
                 currentTabButton.classList.remove(activeButtonClass);
             }
-
         } else {
-
             onClick.call(tabs, {
                 target: tabButtons[selected]
             });
-            //tabButtons[selected].click();
         }
     };
 
     function getSibling(elem, method) {
-
         let sibling = elem[method];
 
         while (sibling) {
             if (sibling.classList.contains(buttonClass)) {
-
                 if (!sibling.classList.contains('hide')) {
                     return sibling;
                 }
@@ -286,7 +255,6 @@ import 'scrollStyles';
     }
 
     EmbyTabs.selectNext = function () {
-
         const current = getSelectedTabButton(this);
 
         const sibling = getSibling(current, 'nextSibling');
@@ -299,7 +267,6 @@ import 'scrollStyles';
     };
 
     EmbyTabs.selectPrevious = function () {
-
         const current = getSelectedTabButton(this);
 
         const sibling = getSibling(current, 'previousSibling');
@@ -312,14 +279,12 @@ import 'scrollStyles';
     };
 
     EmbyTabs.triggerBeforeTabChange = function (selected) {
-
         const tabs = this;
 
         triggerBeforeTabChange(tabs, tabs.selectedIndex());
     };
 
     EmbyTabs.triggerTabChange = function (selected) {
-
         const tabs = this;
 
         tabs.dispatchEvent(new CustomEvent('tabchange', {
@@ -330,8 +295,6 @@ import 'scrollStyles';
     };
 
     EmbyTabs.setTabEnabled = function (index, enabled) {
-
-        const tabs = this;
         const btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
 
         if (enabled) {

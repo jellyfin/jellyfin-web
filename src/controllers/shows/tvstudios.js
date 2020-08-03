@@ -1,7 +1,6 @@
 import loading from 'loading';
 import libraryBrowser from 'libraryBrowser';
 import cardBuilder from 'cardBuilder';
-import appHost from 'apphost';
 
 /* eslint-disable indent */
 

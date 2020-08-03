@@ -8,7 +8,6 @@
 import cardBuilder from 'cardBuilder';
 
     export function buildPeopleCards(items, options) {
-
         options = Object.assign(options || {}, {
             cardLayout: false,
             centerText: true,

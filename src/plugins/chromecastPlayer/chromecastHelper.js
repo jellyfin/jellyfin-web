@@ -11,7 +11,6 @@ define(['events'], function (events) {
     // This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
     // http://creativecommons.org/licenses/by-sa/4.0/
     (function () {
-
         // Original URL regex from the Android android.text.util.Linkify function, found here:
         // http://stackoverflow.com/a/19696443
         //
@@ -152,14 +151,12 @@ define(['events'], function (events) {
     var cache = {};
 
     function isValidIpAddress(address) {
-
         var links = LinkParser.parse(address);
 
         return links.length == 1;
     }
 
     function isLocalIpAddress(address) {
-
         address = address.toLowerCase();
 
         if (address.indexOf('127.0.0.1') !== -1) {
@@ -173,7 +170,6 @@ define(['events'], function (events) {
     }
 
     function getServerAddress(apiClient) {
-
         var serverAddress = apiClient.serverAddress();
 
         if (isValidIpAddress(serverAddress) && !isLocalIpAddress(serverAddress)) {
@@ -215,7 +211,6 @@ define(['events'], function (events) {
     }
 
     function getCachedValue(key) {
-
         var obj = cache[key];
 
         if (obj && (new Date().getTime() - obj.time) < 180000) {

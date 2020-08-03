@@ -1,6 +1,8 @@
 define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'scripts/livetvcomponents', 'listViewStyle', 'emby-itemscontainer'], function (layoutManager, loading, cardBuilder, appHost, imageLoader) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function renderRecordings(elem, recordings, cardOptions, scrollX) {
         if (!elem) {
             return;
@@ -24,7 +26,6 @@ define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'sc
             recordingItems.classList.add('vertical-wrap');
         }
 
-        appHost.supports('imageanalysis');
         recordingItems.innerHTML = cardBuilder.getCardsHtml(Object.assign({
             items: recordings,
             shape: scrollX ? 'autooverflow' : 'auto',

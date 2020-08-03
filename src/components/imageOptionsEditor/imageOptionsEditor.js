@@ -16,7 +16,7 @@ import 'emby-input';
         return {
             Type: type,
             MinWidth: 0,
-            Limit: 'Primary' === type ? 1 : 0
+            Limit: type === 'Primary' ? 1 : 0
         };
     }
 

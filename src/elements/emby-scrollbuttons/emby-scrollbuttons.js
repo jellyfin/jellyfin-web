@@ -36,6 +36,7 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
     }
 
     function updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth) {
+        // TODO: Check if hack is really needed
         // hack alert add twenty for rounding errors
         if (scrollWidth <= scrollSize + 20) {
             scrollButtons.scrollButtonsLeft.classList.add('hide');
@@ -122,7 +123,6 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
         const direction = this.getAttribute('data-direction');
         const scrollSize = getScrollSize(scroller);
         const scrollPos = getScrollPosition(scroller);
-        const scrollWidth = getScrollWidth(scroller);
 
         let newPos;
         if (direction === 'left') {

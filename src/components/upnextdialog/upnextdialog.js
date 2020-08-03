@@ -1,10 +1,11 @@
 define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'layoutManager', 'focusManager', 'globalize', 'itemHelper', 'css!./upnextdialog', 'emby-button', 'flexStyles'], function (dom, playbackManager, connectionManager, events, mediaInfo, layoutManager, focusManager, globalize, itemHelper) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
+
     var transitionEndEventName = dom.whichTransitionEvent();
 
     function seriesImageUrl(item, options) {
-
         if (item.Type !== 'Episode') {
             return null;
         }
@@ -13,9 +14,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
-
             if (item.SeriesPrimaryImageTag) {
-
                 options.tag = item.SeriesPrimaryImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
@@ -23,15 +22,12 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         }
 
         if (options.type === 'Thumb') {
-
             if (item.SeriesThumbImageTag) {
-
                 options.tag = item.SeriesThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
-
                 options.tag = item.ParentThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
@@ -42,19 +38,16 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function imageUrl(item, options) {
-
         options = options || {};
         options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
-
             options.tag = item.ImageTags[options.type];
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (options.type === 'Primary') {
             if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
                 options.tag = item.AlbumPrimaryImageTag;
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
             }
@@ -64,9 +57,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function setPoster(osdPoster, item, secondaryItem) {
-
         if (item) {
-
             var imgUrl = seriesImageUrl(item, { type: 'Primary' }) ||
                 seriesImageUrl(item, { type: 'Thumb' }) ||
                 imageUrl(item, { type: 'Primary' });
@@ -87,7 +78,6 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function getHtml() {
-
         var html = '';
 
         html += '<div class="upNextDialog-poster">';
@@ -124,7 +114,6 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function setNextVideoText() {
-
         var instance = this;
 
         var elem = instance.options.parent;
@@ -143,7 +132,6 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function fillItem(item) {
-
         var instance = this;
 
         var elem = instance.options.parent;
@@ -175,11 +163,9 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function onStartNowClick() {
-
         var options = this.options;
 
         if (options) {
-
             var player = options.player;
 
             this.hide();
@@ -189,7 +175,6 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function init(instance, options) {
-
         options.parent.innerHTML = getHtml();
 
         options.parent.classList.add('hide');
@@ -203,7 +188,6 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function clearHideAnimationEventListeners(instance, elem) {
-
         var fn = instance._onHideAnimationComplete;
 
         if (fn) {
@@ -214,7 +198,6 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function onHideAnimationComplete(e) {
-
         var instance = this;
         var elem = e.target;
 
@@ -225,7 +208,6 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function hideComingUpNext() {
-
         var instance = this;
         clearCountdownTextTimeout(this);
 
@@ -259,10 +241,8 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function getTimeRemainingMs(instance) {
-
         var options = instance.options;
         if (options) {
-
             var runtimeTicks = playbackManager.duration(options.player);
 
             if (runtimeTicks) {
@@ -276,7 +256,6 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function startComingUpNextHideTimer(instance) {
-
         var timeRemainingMs = getTimeRemainingMs(instance);
 
         if (timeRemainingMs <= 0) {
@@ -290,14 +269,12 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function UpNextDialog(options) {
-
         this.options = options;
 
         init(this, options);
     }
 
     UpNextDialog.prototype.show = function () {
-
         var elem = this.options.parent;
 
         clearHideAnimationEventListeners(this, elem);
@@ -319,12 +296,10 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     };
 
     UpNextDialog.prototype.hide = function () {
-
         hideComingUpNext.call(this);
     };
 
     UpNextDialog.prototype.destroy = function () {
-
         hideComingUpNext.call(this);
 
         this.options = null;

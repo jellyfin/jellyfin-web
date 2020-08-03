@@ -1,5 +1,14 @@
-define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoader', 'globalize', 'layoutManager', 'scrollStyles', 'emby-itemscontainer'], function (loading, libraryBrowser, cardBuilder, dom, appHost, imageLoader, globalize, layoutManager) {
-    'use strict';
+import loading from 'loading';
+import cardBuilder from 'cardBuilder';
+import dom from 'dom';
+import appHost from 'apphost';
+import imageLoader from 'imageLoader';
+import globalize from 'globalize';
+import layoutManager from 'layoutManager';
+import 'scrollStyles';
+import 'emby-itemscontainer';
+
+/* eslint-disable indent */
 
     function enableScrollX() {
         return !layoutManager.desktop;
@@ -94,8 +103,8 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
     }
 
     function loadSection(elem, userId, topParentId, section, isSingleSection) {
-        var screenWidth = dom.getWindowSize().innerWidth;
-        var options = {
+        const screenWidth = dom.getWindowSize().innerWidth;
+        const options = {
             SortBy: 'SortName',
             SortOrder: 'Ascending',
             Filters: 'IsFavorite',
@@ -118,9 +127,9 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
             }
         }
 
-        var promise;
+        let promise;
 
-        if ('MusicArtist' === section.types) {
+        if (section.types === 'MusicArtist') {
             promise = ApiClient.getArtists(userId, options);
         } else {
             options.IncludeItemTypes = section.types;
@@ -128,7 +137,7 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
         }
 
         return promise.then(function (result) {
-            var html = '';
+            let html = '';
 
             if (result.Items.length) {
                 if (html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">', !layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
@@ -144,7 +153,7 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
 
                 html += '</div>';
                 if (enableScrollX()) {
-                    var scrollXClass = 'scrollX hiddenScrollX';
+                    let scrollXClass = 'scrollX hiddenScrollX';
                     if (layoutManager.tv) {
                         scrollXClass += ' smoothScrollX';
                     }
@@ -154,14 +163,13 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
                     html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
                 }
 
-                var supportsImageAnalysis = appHost.supports('imageanalysis');
-                var cardLayout = (appHost.preferVisualCards || supportsImageAnalysis) && section.autoCardLayout && section.showTitle;
+                let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
                 cardLayout = false;
                 html += cardBuilder.getCardsHtml(result.Items, {
                     preferThumb: section.preferThumb,
                     shape: section.shape,
                     centerText: section.centerText && !cardLayout,
-                    overlayText: false !== section.overlayText,
+                    overlayText: section.overlayText !== false,
                     showTitle: section.showTitle,
                     showParentTitle: section.showParentTitle,
                     scalable: true,
@@ -180,10 +188,10 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
         });
     }
 
-    function loadSections(page, userId, topParentId, types) {
+    export function loadSections(page, userId, topParentId, types) {
         loading.show();
-        var sections = getSections();
-        var sectionid = getParameterByName('sectionid');
+        let sections = getSections();
+        const sectionid = getParameterByName('sectionid');
 
         if (sectionid) {
             sections = sections.filter(function (s) {
@@ -193,30 +201,28 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
 
         if (types) {
             sections = sections.filter(function (s) {
-                return -1 !== types.indexOf(s.id);
+                return types.indexOf(s.id) !== -1;
             });
         }
 
-        var i;
-        var length;
-        var elem = page.querySelector('.favoriteSections');
+        let elem = page.querySelector('.favoriteSections');
 
         if (!elem.innerHTML) {
-            var html = '';
+            let html = '';
 
-            for (i = 0, length = sections.length; i < length; i++) {
+            for (let i = 0, length = sections.length; i < length; i++) {
                 html += '<div class="verticalSection section' + sections[i].id + '"></div>';
             }
 
             elem.innerHTML = html;
         }
 
-        var promises = [];
+        const promises = [];
 
-        for (i = 0, length = sections.length; i < length; i++) {
-            var section = sections[i];
+        for (let i = 0, length = sections.length; i < length; i++) {
+            const section = sections[i];
             elem = page.querySelector('.section' + section.id);
-            promises.push(loadSection(elem, userId, topParentId, section, 1 === sections.length));
+            promises.push(loadSection(elem, userId, topParentId, section, sections.length === 1));
         }
 
         Promise.all(promises).then(function () {
@@ -224,7 +230,8 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
         });
     }
 
-    return {
-        render: loadSections
-    };
-});
+export default {
+    render: loadSections
+};
+
+/* eslint-enable indent */

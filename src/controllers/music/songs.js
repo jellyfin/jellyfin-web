@@ -1,10 +1,18 @@
-define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userSettings', 'globalize', 'emby-itemscontainer'], function (events, libraryBrowser, imageLoader, listView, loading, userSettings, globalize) {
-    'use strict';
+import events from 'events';
+import libraryBrowser from 'libraryBrowser';
+import imageLoader from 'imageLoader';
+import listView from 'listView';
+import loading from 'loading';
+import * as userSettings from 'userSettings';
+import globalize from 'globalize';
+import 'emby-itemscontainer';
 
-    return function (view, params, tabContent) {
+/* eslint-disable indent */
+
+    export default function (view, params, tabContent) {
         function getPageData(context) {
-            var key = getSavedQueryKey(context);
-            var pageData = data[key];
+            const key = getSavedQueryKey(context);
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -46,7 +54,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
         function reloadItems(page) {
             loading.show();
             isLoading = true;
-            var query = getQuery(page);
+            const query = getQuery(page);
             ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
                 function onNextPageClick() {
                     if (isLoading) {
@@ -71,9 +79,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                 }
 
                 window.scrollTo(0, 0);
-                var i;
-                var length;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -83,49 +89,49 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                     sortButton: false,
                     filterButton: false
                 });
-                var html = listView.getListViewHtml({
+                const html = listView.getListViewHtml({
                     items: result.Items,
                     action: 'playallfromhere',
                     smallIcon: true,
                     artist: true,
                     addToListButton: true
                 });
-                var elems = tabContent.querySelectorAll('.paging');
+                let elems = tabContent.querySelectorAll('.paging');
 
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
                 }
 
                 elems = tabContent.querySelectorAll('.btnNextPage');
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener('click', onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll('.btnPreviousPage');
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener('click', onPreviousPageClick);
                 }
 
-                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                const itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
                 loading.hide();
                 isLoading = false;
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(page);
                 });
             });
         }
 
-        var self = this;
-        var data = {};
-        var isLoading = false;
+        const self = this;
+        const data = {};
+        let isLoading = false;
 
         self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
-                var filterDialog = new filterDialogFactory({
+            import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+                const filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'songs',
                     serverId: ApiClient.serverId()
@@ -193,5 +199,6 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
         };
 
         self.destroy = function () {};
-    };
-});
+    }
+
+/* eslint-enable indent */

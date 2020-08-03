@@ -1,7 +1,18 @@
-define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, AlphaPicker, listView, cardBuilder, userSettings, globalize) {
-    'use strict';
+import playbackManager from 'playbackManager';
+import loading from 'loading';
+import events from 'events';
+import libraryBrowser from 'libraryBrowser';
+import imageLoader from 'imageLoader';
+import AlphaPicker from 'alphaPicker';
+import listView from 'listView';
+import cardBuilder from 'cardBuilder';
+import * as userSettings from 'userSettings';
+import globalize from 'globalize';
+import 'emby-itemscontainer';
 
-    return function (view, params, tabContent) {
+/* eslint-disable indent */
+
+    export default function (view, params, tabContent) {
         function playAll() {
             ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
                 playbackManager.play({
@@ -18,7 +29,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
         }
 
         function getPageData() {
-            var key = getSavedQueryKey();
+            const key = getSavedQueryKey();
 
             if (!pageData) {
                 pageData = {
@@ -59,10 +70,10 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
         }
 
         function onViewStyleChange() {
-            var viewStyle = self.getCurrentViewStyle();
-            var itemsContainer = tabContent.querySelector('.itemsContainer');
+            const viewStyle = self.getCurrentViewStyle();
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ('List' == viewStyle) {
+            if (viewStyle == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {
@@ -76,7 +87,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
         function reloadItems(page) {
             loading.show();
             isLoading = true;
-            var query = getQuery();
+            const query = getQuery();
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
                 function onNextPageClick() {
                     if (isLoading) {
@@ -102,8 +113,8 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
 
                 window.scrollTo(0, 0);
                 updateFilterControls(page);
-                var html;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                let html;
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -113,7 +124,7 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                     sortButton: false,
                     filterButton: false
                 });
-                var viewStyle = self.getCurrentViewStyle();
+                const viewStyle = self.getCurrentViewStyle();
                 if (viewStyle == 'List') {
                     html = listView.getListViewHtml({
                         items: result.Items,
@@ -144,50 +155,48 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                         overlayPlayButton: true
                     });
                 }
-                var i;
-                var length;
-                var elems = tabContent.querySelectorAll('.paging');
+                let elems = tabContent.querySelectorAll('.paging');
 
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
                 }
 
                 elems = tabContent.querySelectorAll('.btnNextPage');
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener('click', onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll('.btnPreviousPage');
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener('click', onPreviousPageClick);
                 }
 
-                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                const itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
                 isLoading = false;
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(tabContent);
                 });
             });
         }
 
         function updateFilterControls(tabContent) {
-            var query = getQuery();
+            const query = getQuery();
             self.alphaPicker.value(query.NameStartsWithOrGreater);
         }
 
-        var savedQueryKey;
-        var pageData;
-        var self = this;
-        var isLoading = false;
+        let savedQueryKey;
+        let pageData;
+        const self = this;
+        let isLoading = false;
 
         self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
-                var filterDialog = new filterDialogFactory({
+            import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+                const filterDialog = new filterDialogFactory({
                     query: getQuery(),
                     mode: 'albums',
                     serverId: ApiClient.serverId()
@@ -205,17 +214,17 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
         };
 
         function initPage(tabContent) {
-            var alphaPickerElement = tabContent.querySelector('.alphaPicker');
-            var itemsContainer = tabContent.querySelector('.itemsContainer');
+            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
 
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                var newValue = e.detail.value;
-                var query = getQuery();
+                const newValue = e.detail.value;
+                const query = getQuery();
                 query.NameStartsWithOrGreater = newValue;
                 query.StartIndex = 0;
                 reloadItems(tabContent);
             });
-            self.alphaPicker = new AlphaPicker.default({
+            self.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
                 valueChangeEvent: 'click'
             });
@@ -259,12 +268,12 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                     button: e.target
                 });
             });
-            var btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
-                var viewStyle = e.detail.viewStyle;
+                const viewStyle = e.detail.viewStyle;
                 getPageData().view = viewStyle;
                 libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
                 getQuery().StartIndex = 0;
@@ -284,5 +293,6 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
         };
 
         self.destroy = function () {};
-    };
-});
+    }
+
+/* eslint-enable indent */

@@ -106,7 +106,7 @@ const notificationsConfigurationKey = 'notifications';
 $(document).on('pageinit', '#notificationSettingPage', function () {
     const page = this;
     $('#selectUsers', page).on('change', function () {
-        if ('Custom' == this.value) {
+        if (this.value == 'Custom') {
             $('.selectCustomUsers', page).show();
         } else {
             $('.selectCustomUsers', page).hide();

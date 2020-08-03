@@ -29,7 +29,7 @@ import 'listViewStyle';
     function renderProfile(page, profile, users) {
         $('#txtName', page).val(profile.Name);
         $('.chkMediaType', page).each(function () {
-            this.checked = -1 != (profile.SupportedMediaTypes || '').split(',').indexOf(this.getAttribute('data-value'));
+            this.checked = (profile.SupportedMediaTypes || '').split(',').indexOf(this.getAttribute('data-value')) != -1;
         });
         $('#chkEnableAlbumArtInDidl', page).prop('checked', profile.EnableAlbumArtInDidl);
         $('#chkEnableSingleImageLimit', page).prop('checked', profile.EnableSingleAlbumArtLimit);
@@ -111,7 +111,7 @@ import 'listViewStyle';
     }
 
     function editIdentificationHeader(page, header) {
-        isSubProfileNew = null == header;
+        isSubProfileNew = header == null;
         header = header || {};
         currentSubProfile = header;
         const popup = $('#identificationHeaderPopup', page);
@@ -156,7 +156,7 @@ import 'listViewStyle';
     }
 
     function editXmlDocumentAttribute(page, attribute) {
-        isSubProfileNew = null == attribute;
+        isSubProfileNew = attribute == null;
         attribute = attribute || {};
         currentSubProfile = attribute;
         const popup = $('#xmlAttributePopup', page);
@@ -204,7 +204,7 @@ import 'listViewStyle';
     }
 
     function editSubtitleProfile(page, profile) {
-        isSubProfileNew = null == profile;
+        isSubProfileNew = profile == null;
         profile = profile || {};
         currentSubProfile = profile;
         const popup = $('#subtitleProfilePopup', page);
@@ -257,7 +257,6 @@ import 'listViewStyle';
         let currentType;
 
         for (const [index, profile] of profiles.entries()) {
-
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + '</li>';
                 currentType = profile.Type;
@@ -267,11 +266,11 @@ import 'listViewStyle';
             html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + index + '">';
             html += '<p>' + globalize.translate('ValueContainer', profile.Container || allText) + '</p>';
 
-            if ('Video' == profile.Type) {
+            if (profile.Type == 'Video') {
                 html += '<p>' + globalize.translate('ValueVideoCodec', profile.VideoCodec || allText) + '</p>';
                 html += '<p>' + globalize.translate('ValueAudioCodec', profile.AudioCodec || allText) + '</p>';
             } else {
-                if ('Audio' == profile.Type) {
+                if (profile.Type == 'Audio') {
                     html += '<p>' + globalize.translate('ValueCodec', profile.AudioCodec || allText) + '</p>';
                 }
             }
@@ -299,7 +298,7 @@ import 'listViewStyle';
     }
 
     function editDirectPlayProfile(page, directPlayProfile) {
-        isSubProfileNew = null == directPlayProfile;
+        isSubProfileNew = directPlayProfile == null;
         directPlayProfile = directPlayProfile || {};
         currentSubProfile = directPlayProfile;
         const popup = $('#popupEditDirectPlayProfile', page);
@@ -328,11 +327,11 @@ import 'listViewStyle';
             html += '<p>Protocol: ' + (profile.Protocol || 'Http') + '</p>';
             html += '<p>' + globalize.translate('ValueContainer', profile.Container || allText) + '</p>';
 
-            if ('Video' == profile.Type) {
+            if (profile.Type == 'Video') {
                 html += '<p>' + globalize.translate('ValueVideoCodec', profile.VideoCodec || allText) + '</p>';
                 html += '<p>' + globalize.translate('ValueAudioCodec', profile.AudioCodec || allText) + '</p>';
             } else {
-                if ('Audio' == profile.Type) {
+                if (profile.Type == 'Audio') {
                     html += '<p>' + globalize.translate('ValueCodec', profile.AudioCodec || allText) + '</p>';
                 }
             }
@@ -355,7 +354,7 @@ import 'listViewStyle';
     }
 
     function editTranscodingProfile(page, transcodingProfile) {
-        isSubProfileNew = null == transcodingProfile;
+        isSubProfileNew = transcodingProfile == null;
         transcodingProfile = transcodingProfile || {};
         currentSubProfile = transcodingProfile;
         const popup = $('#transcodingProfilePopup', page);
@@ -366,7 +365,7 @@ import 'listViewStyle';
         $('#selectTranscodingProtocol', popup).val(transcodingProfile.Protocol || 'Http');
         $('#chkEnableMpegtsM2TsMode', popup).prop('checked', transcodingProfile.EnableMpegtsM2TsMode || false);
         $('#chkEstimateContentLength', popup).prop('checked', transcodingProfile.EstimateContentLength || false);
-        $('#chkReportByteRangeRequests', popup).prop('checked', 'Bytes' == transcodingProfile.TranscodeSeekInfo);
+        $('#chkReportByteRangeRequests', popup).prop('checked', transcodingProfile.TranscodeSeekInfo == 'Bytes');
         $('.radioTabButton:first', popup).trigger('click');
         openPopup(popup[0]);
     }
@@ -444,7 +443,7 @@ import 'listViewStyle';
     }
 
     function editContainerProfile(page, containerProfile) {
-        isSubProfileNew = null == containerProfile;
+        isSubProfileNew = containerProfile == null;
         containerProfile = containerProfile || {};
         currentSubProfile = containerProfile;
         const popup = $('#containerProfilePopup', page);
@@ -516,7 +515,7 @@ import 'listViewStyle';
     }
 
     function editCodecProfile(page, codecProfile) {
-        isSubProfileNew = null == codecProfile;
+        isSubProfileNew = codecProfile == null;
         codecProfile = codecProfile || {};
         currentSubProfile = codecProfile;
         const popup = $('#codecProfilePopup', page);
@@ -556,11 +555,11 @@ import 'listViewStyle';
             html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += '<p>' + globalize.translate('ValueContainer', profile.Container || allText) + '</p>';
 
-            if ('Video' == profile.Type) {
+            if (profile.Type == 'Video') {
                 html += '<p>' + globalize.translate('ValueVideoCodec', profile.VideoCodec || allText) + '</p>';
                 html += '<p>' + globalize.translate('ValueAudioCodec', profile.AudioCodec || allText) + '</p>';
             } else {
-                if ('Audio' == profile.Type) {
+                if (profile.Type == 'Audio') {
                     html += '<p>' + globalize.translate('ValueCodec', profile.AudioCodec || allText) + '</p>';
                 }
             }
@@ -596,7 +595,7 @@ import 'listViewStyle';
     }
 
     function editResponseProfile(page, responseProfile) {
-        isSubProfileNew = null == responseProfile;
+        isSubProfileNew = responseProfile == null;
         responseProfile = responseProfile || {};
         currentSubProfile = responseProfile;
         const popup = $('#responseProfilePopup', page);
@@ -704,26 +703,26 @@ import 'listViewStyle';
         $('.radioTabButton', page).on('click', function () {
             $(this).siblings().removeClass('ui-btn-active');
             $(this).addClass('ui-btn-active');
-            const value = 'A' == this.tagName ? this.getAttribute('data-value') : this.value;
+            const value = this.tagName == 'A' ? this.getAttribute('data-value') : this.value;
             const elem = $('.' + value, page);
             elem.siblings('.tabContent').hide();
             elem.show();
         });
         $('#selectDirectPlayProfileType', page).on('change', function () {
-            if ('Video' == this.value) {
+            if (this.value == 'Video') {
                 $('#fldDirectPlayVideoCodec', page).show();
             } else {
                 $('#fldDirectPlayVideoCodec', page).hide();
             }
 
-            if ('Photo' == this.value) {
+            if (this.value == 'Photo') {
                 $('#fldDirectPlayAudioCodec', page).hide();
             } else {
                 $('#fldDirectPlayAudioCodec', page).show();
             }
         });
         $('#selectTranscodingProfileType', page).on('change', function () {
-            if ('Video' == this.value) {
+            if (this.value == 'Video') {
                 $('#fldTranscodingVideoCodec', page).show();
                 $('#fldTranscodingProtocol', page).show();
                 $('#fldEnableMpegtsM2TsMode', page).show();
@@ -733,7 +732,7 @@ import 'listViewStyle';
                 $('#fldEnableMpegtsM2TsMode', page).hide();
             }
 
-            if ('Photo' == this.value) {
+            if (this.value == 'Photo') {
                 $('#fldTranscodingAudioCodec', page).hide();
                 $('#fldEstimateContentLength', page).hide();
                 $('#fldReportByteRangeRequests', page).hide();
@@ -744,13 +743,13 @@ import 'listViewStyle';
             }
         });
         $('#selectResponseProfileType', page).on('change', function () {
-            if ('Video' == this.value) {
+            if (this.value == 'Video') {
                 $('#fldResponseProfileVideoCodec', page).show();
             } else {
                 $('#fldResponseProfileVideoCodec', page).hide();
             }
 
-            if ('Photo' == this.value) {
+            if (this.value == 'Photo') {
                 $('#fldResponseProfileAudioCodec', page).hide();
             } else {
                 $('#fldResponseProfileAudioCodec', page).show();

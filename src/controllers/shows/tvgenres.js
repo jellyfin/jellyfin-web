@@ -3,10 +3,8 @@ import loading from 'loading';
 import libraryBrowser from 'libraryBrowser';
 import cardBuilder from 'cardBuilder';
 import lazyLoader from 'lazyLoader';
-import appHost from 'apphost';
 import globalize from 'globalize';
 import appRouter from 'appRouter';
-import dom from 'dom';
 import 'emby-button';
 
 /* eslint-disable indent */
@@ -64,13 +62,13 @@ import 'emby-button';
             const elem = entry.target;
             const id = elem.getAttribute('data-id');
             const viewStyle = self.getCurrentViewStyle();
-            let limit = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 5 : 9;
+            let limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;
 
             if (enableScrollX()) {
                 limit = 10;
             }
 
-            const enableImageTypes = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 'Primary,Backdrop,Thumb' : 'Primary';
+            const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
             const query = {
                 SortBy: 'SortName',
                 SortOrder: 'Ascending',
@@ -85,8 +83,6 @@ import 'emby-button';
                 ParentId: params.topParentId
             };
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-                const supportsImageAnalysis = appHost.supports('imageanalysis');
-
                 if (viewStyle == 'Thumb') {
                     cardBuilder.buildCards(result.Items, {
                         itemsContainer: elem,
