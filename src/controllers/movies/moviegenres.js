@@ -62,13 +62,13 @@ import 'emby-button';
             const elem = entry.target;
             const id = elem.getAttribute('data-id');
             const viewStyle = this.getCurrentViewStyle();
-            let limit = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 5 : 9;
+            let limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;
 
             if (enableScrollX()) {
                 limit = 10;
             }
 
-            const enableImageTypes = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 'Primary,Backdrop,Thumb' : 'Primary';
+            const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
             const query = {
                 SortBy: 'SortName',
                 SortOrder: 'Ascending',

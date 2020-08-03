@@ -16,8 +16,6 @@ import 'emby-button';
 
 /* eslint-disable indent */
 
-    playbackManager = playbackManager.default || playbackManager;
-
     function enableScrollX() {
         return !layoutManager.desktop;
     }
@@ -364,8 +362,6 @@ import 'emby-button';
         function loadTab(page, index) {
             currentTabIndex = index;
             getTabController(page, index, ((controller) => {
-                initialTabIndex = null;
-
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
