@@ -696,20 +696,12 @@ function initClient() {
             onError: onRequireJsError
         });
 
-        require(['fetch']);
-        require(['polyfill']);
-        require(['fast-text-encoding']);
-        require(['intersection-observer']);
-        require(['classlist-polyfill']);
-
-        // Expose jQuery globally
-        require(['jQuery'], function(jQuery) {
-            window.$ = jQuery;
-            window.jQuery = jQuery;
-        });
-
-        require(['css!assets/css/site']);
-        require(['jellyfin-noto']);
+        require(['fetch'])
+            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
+                // Expose jQuery globally
+                window.$ = jQuery;
+                window.jQuery = jQuery;
+            }));
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves
