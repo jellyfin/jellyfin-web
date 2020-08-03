@@ -697,7 +697,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
         function onFrameClick(e) {
             if (e.which === 1) {
-                var focusableParent = focusManager.focusableParent(e.target);
+                var focusableParent = focusManager.default.focusableParent(e.target);
                 if (focusableParent && focusableParent !== document.activeElement) {
                     focusableParent.focus();
                 }
