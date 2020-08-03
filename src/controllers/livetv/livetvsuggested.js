@@ -237,7 +237,7 @@ export default function (view, params) {
     }
 
     function getTabController(page, index, callback) {
-        const depends = [];
+        let depends;
 
         // TODO int is a little hard to read
         switch (index) {
@@ -245,27 +245,27 @@ export default function (view, params) {
                 break;
 
             case 1:
-                depends.push('controllers/livetv/livetvguide');
+                depends = 'controllers/livetv/livetvguide';
                 break;
 
             case 2:
-                depends.push('controllers/livetv/livetvchannels');
+                depends = 'controllers/livetv/livetvchannels';
                 break;
 
             case 3:
-                depends.push('controllers/livetv/livetvrecordings');
+                depends = 'controllers/livetv/livetvrecordings';
                 break;
 
             case 4:
-                depends.push('controllers/livetv/livetvschedule');
+                depends = 'controllers/livetv/livetvschedule';
                 break;
 
             case 5:
-                depends.push('controllers/livetv/livetvseriestimers');
+                depends = 'controllers/livetv/livetvseriestimers';
                 break;
 
             case 6:
-                depends.push('scripts/searchtab');
+                depends = 'scripts/searchtab';
         }
 
         import(depends).then(({default: controllerFactory}) => {
