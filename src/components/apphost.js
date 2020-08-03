@@ -355,7 +355,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     var deviceId;
     var deviceName;
     var appName = 'Jellyfin Web';
-    var appVersion = '10.6.1';
+    var appVersion = '10.6.2';
 
     var appHost = {
         getWindowState: function () {
