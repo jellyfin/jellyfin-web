@@ -35,6 +35,7 @@ import appHost from 'apphost';
         if (eventListenerCount) {
             eventListenerCount--;
         }
+
         dom.removeEventListener(scope, 'command', fn, {});
     }
 
