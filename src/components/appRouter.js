@@ -1,6 +1,9 @@
 define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
+    browser = browser.default || browser;
+    loading = loading.default || loading;
+
     var appRouter = {
         showLocalLogin: function (serverId, manualLogin) {
             var pageName = manualLogin ? 'manuallogin' : 'login';
@@ -34,7 +37,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
-                skinManager.loadUserSkin();
+                Emby.Page.goHome();
                 break;
             case 'ServerSignIn':
                 result.ApiClient.getPublicUsers().then(function (users) {
@@ -147,7 +150,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             if (typeof route.path === 'string') {
                 loadContentUrl(ctx, next, route, currentRequest);
             } else {
-                // ? TODO
                 next();
             }
         };
@@ -161,7 +163,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 route: route,
                 path: ctx.path
             };
-
         }).catch(function (result) {
             if (!result || !result.cancelled) {
                 onNewViewNeeded();
@@ -192,12 +193,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function onRequestFail(e, data) {
-
         var apiClient = this;
 
         if (data.status === 403) {
             if (data.errorCode === 'ParentalControl') {
-
                 var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
 
                 // Bounce to the login screen, but not if a password entry fails, obviously
@@ -205,7 +204,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                     showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
                     appRouter.showLocalLogin(apiClient.serverId());
                 }
-
             }
         }
     }
@@ -232,12 +230,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         if (navigator.connection) {
             var max = navigator.connection.downlinkMax;
             if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
-
                 max /= 8;
                 max *= 1000000;
                 max *= 0.7;
-                max = parseInt(max);
-                return max;
+                return parseInt(max, 10);
             }
         }
         /* eslint-enable compat/compat */
@@ -250,7 +246,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function onApiClientCreated(e, newApiClient) {
-
         newApiClient.normalizeImageOptions = normalizeImageOptions;
 
         if (browser.iOS) {
@@ -264,12 +259,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function initApiClient(apiClient) {
-
         onApiClientCreated({}, apiClient);
     }
 
     function initApiClients() {
-
         connectionManager.getApiClients().forEach(initApiClient);
 
         events.on(connectionManager, 'apiclientcreated', onApiClientCreated);
@@ -285,7 +278,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
     var firstConnectionResult;
     function start(options) {
-
         loading.show();
 
         initApiClients();
@@ -295,13 +287,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
-
         }).then(function (result) {
-
             firstConnectionResult = result;
-
             options = options || {};
-
             page({
                 click: options.click !== false,
                 hashbang: options.hashbang !== false
@@ -316,14 +304,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function authenticate(ctx, route, callback) {
-
         var firstResult = firstConnectionResult;
         if (firstResult) {
-
             firstConnectionResult = null;
 
             if (firstResult.State !== 'SignedIn' && !route.anonymous) {
-
                 handleConnectionResult(firstResult);
                 return;
             }
@@ -352,19 +337,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
 
         if (apiClient && apiClient.isLoggedIn()) {
-
             console.debug('appRouter - user is authenticated');
 
             if (route.isDefaultRoute) {
                 console.debug('appRouter - loading skin home page');
-                loadUserSkinWithOptions(ctx);
+                Emby.Page.goHome();
                 return;
             } else if (route.roles) {
-
                 validateRoles(apiClient, route.roles).then(function () {
-
                     callback();
-
                 }, beginConnectionWizard);
                 return;
             }
@@ -372,15 +353,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
         console.debug('appRouter - proceeding to ' + pathname);
         callback();
-    }
-
-    function loadUserSkinWithOptions(ctx) {
-        require(['queryString'], function (queryString) {
-            var params = queryString.parse(ctx.querystring);
-            skinManager.loadUserSkin({
-                start: params.start
-            });
-        });
     }
 
     function validateRoles(apiClient, roles) {
@@ -406,7 +378,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     var isDummyBackToHome;
 
     function loadContent(ctx, route, html, request) {
-
         html = globalize.translateHtml(html, route.dictionary);
         request.view = html;
 
@@ -466,7 +437,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function getWindowLocationSearch(win) {
-
         var currentPath = currentRouteInfo ? (currentRouteInfo.path || '') : '';
 
         var index = currentPath.indexOf('?');
@@ -617,7 +587,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     function pushState(state, title, url) {
         state.navigate = false;
         history.pushState(state, title, url);
-
     }
 
     function setBaseRoute() {

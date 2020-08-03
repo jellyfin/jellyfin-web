@@ -16,15 +16,11 @@ function zoomIn(elem, iterations) {
 }
 
 function createMediaElement(instance, options) {
-
     return new Promise(function (resolve, reject) {
-
         const dlg = document.querySelector('.youtubePlayerContainer');
 
         if (!dlg) {
-
             import('css!./style').then(() => {
-
                 loading.show();
 
                 const dlg = document.createElement('div');
@@ -48,9 +44,7 @@ function createMediaElement(instance, options) {
                 } else {
                     resolve(videoElement);
                 }
-
             });
-
         } else {
             resolve(dlg.querySelector('#player'));
         }
@@ -74,7 +68,6 @@ function clearTimeUpdateInterval(instance) {
 }
 
 function onEndedInternal(instance) {
-
     clearTimeUpdateInterval(instance);
     const resizeListener = instance.resizeListener;
     if (resizeListener) {
@@ -102,43 +95,34 @@ function onPlayerReady(event) {
 }
 
 function onTimeUpdate(e) {
-
     events.trigger(this, 'timeupdate');
 }
 
 function onPlaying(instance, playOptions, resolve) {
-
     if (!instance.started) {
-
         instance.started = true;
         resolve();
         clearTimeUpdateInterval(instance);
         instance.timeUpdateInterval = setInterval(onTimeUpdate.bind(instance), 500);
 
         if (playOptions.fullscreen) {
-
             appRouter.showVideoOsd().then(function () {
                 instance.videoDialog.classList.remove('onTop');
             });
-
         } else {
             appRouter.setTransparency('backdrop');
             instance.videoDialog.classList.remove('onTop');
         }
 
         import('loading').then(({default: loading}) => {
-
             loading.hide();
         });
     }
 }
 
 function setCurrentSrc(instance, elem, options) {
-
     return new Promise(function (resolve, reject) {
-
         import('queryString').then(({default: queryString}) => {
-
             instance._currentSrc = options.url;
             const params = queryString.parse(options.url.split('?')[1]);
             // 3. This function creates an <iframe> (and YouTube player)
@@ -192,13 +176,11 @@ function setCurrentSrc(instance, elem, options) {
                 window.onYouTubeIframeAPIReady();
             }
         });
-
     });
 }
 
 class YoutubePlayer {
     constructor() {
-
         this.name = 'Youtube Player';
         this.type = 'mediaplayer';
         this.id = 'youtubeplayer';
@@ -207,21 +189,17 @@ class YoutubePlayer {
         this.priority = 1;
     }
     play(options) {
-
         this.started = false;
         const instance = this;
 
         return createMediaElement(this, options).then(function (elem) {
-
             return setCurrentSrc(instance, elem, options);
         });
     }
     stop(destroyPlayer) {
-
         const src = this._currentSrc;
 
         if (src) {
-
             if (this.currentYoutubePlayer) {
                 this.currentYoutubePlayer.stopVideo();
             }
@@ -235,34 +213,28 @@ class YoutubePlayer {
         return Promise.resolve();
     }
     destroy() {
-
         appRouter.setTransparency('none');
 
         const dlg = this.videoDialog;
         if (dlg) {
-
             this.videoDialog = null;
 
             dlg.parentNode.removeChild(dlg);
         }
     }
     canPlayMediaType(mediaType) {
-
         mediaType = (mediaType || '').toLowerCase();
 
         return mediaType === 'audio' || mediaType === 'video';
     }
     canPlayItem(item) {
-
         // Does not play server items
         return false;
     }
     canPlayUrl(url) {
-
         return url.toLowerCase().indexOf('youtube.com') !== -1;
     }
     getDeviceProfile() {
-
         return Promise.resolve({});
     }
     currentSrc() {
@@ -277,7 +249,6 @@ class YoutubePlayer {
     }
     // Save this for when playback stops, because querying the time at that point might return 0
     currentTime(val) {
-
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -290,7 +261,6 @@ class YoutubePlayer {
         }
     }
     duration(val) {
-
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -299,7 +269,6 @@ class YoutubePlayer {
         return null;
     }
     pause() {
-
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -314,7 +283,6 @@ class YoutubePlayer {
         }
     }
     unpause() {
-
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -329,7 +297,6 @@ class YoutubePlayer {
         }
     }
     paused() {
-
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -346,7 +313,6 @@ class YoutubePlayer {
         return this.getVolume();
     }
     setVolume(val) {
-
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -356,7 +322,6 @@ class YoutubePlayer {
         }
     }
     getVolume() {
-
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -364,7 +329,6 @@ class YoutubePlayer {
         }
     }
     setMute(mute) {
-
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (mute) {
@@ -372,14 +336,12 @@ class YoutubePlayer {
                 currentYoutubePlayer.mute();
             }
         } else {
-
             if (currentYoutubePlayer) {
                 currentYoutubePlayer.unMute();
             }
         }
     }
     isMuted() {
-
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {

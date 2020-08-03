@@ -7,14 +7,12 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function popScope(elem) {
-
         if (scopes.length) {
             scopes.length -= 1;
         }
     }
 
     function autoFocus(view, defaultToFirst, findAutoFocusElement) {
-
         var element;
         if (findAutoFocusElement !== false) {
             element = view.querySelector('*[autofocus]');
@@ -37,7 +35,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function focus(element) {
-
         try {
             element.focus({
                 preventScroll: scrollManager.isEnabled()
@@ -50,16 +47,13 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     var focusableTagNames = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
     var focusableContainerTagNames = ['BODY', 'DIALOG'];
     var focusableQuery = focusableTagNames.map(function (t) {
-
         if (t === 'INPUT') {
             t += ':not([type="range"]):not([type="file"])';
         }
         return t + ':not([tabindex="-1"]):not(:disabled)';
-
     }).join(',') + ',.focusable';
 
     function isFocusable(elem) {
-
         if (focusableTagNames.indexOf(elem.tagName) !== -1) {
             return true;
         }
@@ -83,7 +77,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function focusableParent(elem) {
-
         var originalElement = elem;
 
         while (!isFocusable(elem)) {
@@ -101,7 +94,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
     // Determines if a focusable element can be focused at a given point in time
     function isCurrentlyFocusableInternal(elem) {
-
         // http://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
         if (elem.offsetParent === null) {
             return false;
@@ -112,7 +104,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
     // Determines if a focusable element can be focused at a given point in time
     function isCurrentlyFocusable(elem) {
-
         if (elem.disabled) {
             return false;
         }
@@ -143,7 +134,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         var focusableElements = [];
 
         for (var i = 0, length = elems.length; i < length; i++) {
-
             var elem = elems[i];
 
             if (excludeClass && elem.classList.contains(excludeClass)) {
@@ -163,7 +153,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function isFocusContainer(elem, direction) {
-
         if (focusableContainerTagNames.indexOf(elem.tagName) !== -1) {
             return true;
         }
@@ -217,7 +206,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function getOffset(elem) {
-
         var box;
 
         // Support: BlackBerry 5, iOS 3 (original iPhone)
@@ -234,7 +222,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         }
 
         if (box.right === null) {
-
             // Create a new object because some browsers will throw an error when trying to set data onto the Rect object
             var newBox = {
                 top: box.top,
@@ -253,7 +240,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function nav(activeElement, direction, container, focusableElements) {
-
         activeElement = activeElement || document.activeElement;
 
         if (activeElement) {
@@ -305,7 +291,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
             }
 
             switch (direction) {
-
                 case 0:
                     // left
                     if (elementRect.left >= rect.left) {
@@ -361,7 +346,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
             var distY;
 
             switch (direction) {
-
                 case 0:
                     // left
                     distX = Math.abs(point1x - Math.min(point1x, x2));
@@ -395,7 +379,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         }
 
         if (nearestElement) {
-
             // See if there's a focusable container, and if so, send the focus command to that
             if (activeElement) {
                 var nearestElementFocusableParent = dom.parentWithClass(nearestElement, 'focusable');
@@ -410,12 +393,10 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function intersectsInternal(a1, a2, b1, b2) {
-
         return (b1 >= a1 && b1 <= a2) || (b2 >= a1 && b2 <= a2);
     }
 
     function intersects(a1, a2, b1, b2) {
-
         return intersectsInternal(a1, a2, b1, b2) || intersectsInternal(b1, b2, a1, a2);
     }
 
@@ -426,11 +407,9 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function focusFirst(container, focusableSelector) {
-
         var elems = container.querySelectorAll(focusableSelector);
 
         for (var i = 0, length = elems.length; i < length; i++) {
-
             var elem = elems[i];
 
             if (isCurrentlyFocusableInternal(elem)) {
@@ -441,11 +420,9 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function focusLast(container, focusableSelector) {
-
         var elems = [].slice.call(container.querySelectorAll(focusableSelector), 0).reverse();
 
         for (var i = 0, length = elems.length; i < length; i++) {
-
             var elem = elems[i];
 
             if (isCurrentlyFocusableInternal(elem)) {
@@ -456,7 +433,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function moveFocus(sourceElement, container, focusableSelector, offset) {
-
         var elems = container.querySelectorAll(focusableSelector);
         var list = [];
         var i;
@@ -464,7 +440,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         var elem;
 
         for (i = 0, length = elems.length; i < length; i++) {
-
             elem = elems[i];
 
             if (isCurrentlyFocusableInternal(elem)) {
@@ -475,7 +450,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         var currentIndex = -1;
 
         for (i = 0, length = list.length; i < length; i++) {
-
             elem = list[i];
 
             if (sourceElement === elem || elem.contains(sourceElement)) {

@@ -5,6 +5,8 @@
 define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'dom', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputManager, connectionManager, layoutManager, focusManager, browser, appHost, dom) {
     'use strict';
 
+    browser = browser.default || browser;
+
     /**
      * Name of transition event.
      */
@@ -38,7 +40,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         if (options.type === 'Primary') {
             if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
                 options.tag = item.AlbumPrimaryImageTag;
                 return apiClient.getScaledImageUrl(item.AlbumId, options);
             }
@@ -64,7 +65,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         }
 
         if (item.BackdropImageTags && item.BackdropImageTags.length) {
-
             options.tag = item.BackdropImageTags[0];
             return apiClient.getScaledImageUrl(item.Id, options);
         }
@@ -184,7 +184,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                     html += '</div>';
                 }
-
             } else {
                 html += '<div class="slideshowImage"></div><h1 class="slideshowImageText"></h1>';
             }

@@ -8,7 +8,6 @@ import globalize from 'globalize';
 import appHost from 'apphost';
 
 function mirrorItem(info, player) {
-
     var item = info.item;
 
     playbackManager.displayContent({
@@ -21,9 +20,7 @@ function mirrorItem(info, player) {
 }
 
 function mirrorIfEnabled(info) {
-
     if (info && playbackManager.enableDisplayMirroring()) {
-
         var getPlayerInfo = playbackManager.getPlayerInfo();
 
         if (getPlayerInfo) {
@@ -39,9 +36,7 @@ function emptyCallback() {
 }
 
 function getTargetSecondaryText(target) {
-
     if (target.user) {
-
         return target.user.Name;
     }
 
@@ -49,7 +44,6 @@ function getTargetSecondaryText(target) {
 }
 
 function getIcon(target) {
-
     var deviceType = target.deviceType;
 
     if (!deviceType && target.isLocalPlayer) {
@@ -67,7 +61,6 @@ function getIcon(target) {
     }
 
     switch (deviceType) {
-
         case 'smartphone':
             return 'smartphone';
         case 'tablet':
@@ -84,7 +77,6 @@ function getIcon(target) {
 }
 
 export function show(button) {
-
     var currentPlayerInfo = playbackManager.getPlayerInfo();
 
     if (currentPlayerInfo) {
@@ -99,9 +91,7 @@ export function show(button) {
     loading.show();
 
     playbackManager.getTargets().then(function (targets) {
-
         var menuItems = targets.map(function (t) {
-
             var name = t.name;
 
             if (t.appName && t.appName !== t.name) {
@@ -115,11 +105,9 @@ export function show(button) {
                 secondaryText: getTargetSecondaryText(t),
                 icon: getIcon(t)
             };
-
         });
 
         import('actionsheet').then(({default: actionsheet}) => {
-
             loading.hide();
 
             var menuOptions = {
@@ -133,12 +121,11 @@ export function show(button) {
 
             // Unfortunately we can't allow the url to change or chromecast will throw a security error
             // Might be able to solve this in the future by moving the dialogs to hashbangs
-            if (!(!browser.chrome || appHost.supports('castmenuhashchange'))) {
+            if (!(!browser.chrome && !browser.edgeChromium || appHost.supports('castmenuhashchange'))) {
                 menuOptions.enableHistory = false;
             }
 
             actionsheet.show(menuOptions).then(function (id) {
-
                 var target = targets.filter(function (t) {
                     return t.id === id;
                 })[0];
@@ -146,7 +133,6 @@ export function show(button) {
                 playbackManager.trySetActivePlayer(target.playerName, target);
 
                 mirrorIfEnabled();
-
             }, emptyCallback);
         });
     });
@@ -164,11 +150,8 @@ function showActivePlayerMenu(playerInfo) {
 }
 
 function disconnectFromPlayer(currentDeviceName) {
-
     if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
-
         import('dialog').then(({default: dialog}) => {
-
             var menuItems = [];
 
             menuItems.push({
@@ -186,7 +169,6 @@ function disconnectFromPlayer(currentDeviceName) {
 
             }).then(function (id) {
                 switch (id) {
-
                     case 'yes':
                         playbackManager.getCurrentPlayer().endSession();
                         playbackManager.setDefaultPlayerActive();
@@ -198,17 +180,13 @@ function disconnectFromPlayer(currentDeviceName) {
                         break;
                 }
             });
-
         });
-
     } else {
-
         playbackManager.setDefaultPlayerActive();
     }
 }
 
 function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
-
     var html = '';
 
     var dialogOptions = {
@@ -234,7 +212,6 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
     html += '<div>';
 
     if (playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
-
         html += '<label class="checkboxContainer">';
         var checkedHtml = playbackManager.enableDisplayMirroring() ? ' checked' : '';
         html += '<input type="checkbox" is="emby-checkbox" class="chkMirror"' + checkedHtml + '/>';
@@ -293,7 +270,6 @@ function onMirrorChange() {
 }
 
 document.addEventListener('viewshow', function (e) {
-
     var state = e.detail.state || {};
     var item = state.item;
 

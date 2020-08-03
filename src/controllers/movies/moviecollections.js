@@ -1,6 +1,9 @@
 define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
+    loading = loading.default || loading;
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
+
     return function (view, params, tabContent) {
         function getPageData(context) {
             var key = getSavedQueryKey(context);
@@ -48,7 +51,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             var viewStyle = self.getCurrentViewStyle();
             var itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ('List' == viewStyle) {
+            if (viewStyle == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {

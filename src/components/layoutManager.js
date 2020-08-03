@@ -1,6 +1,8 @@
 define(['browser', 'appSettings', 'events'], function (browser, appSettings, events) {
     'use strict';
 
+    browser = browser.default || browser;
+
     function setLayout(instance, layout, selectedLayout) {
         if (layout === selectedLayout) {
             instance[layout] = true;
@@ -16,7 +18,6 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
     }
 
     LayoutManager.prototype.setLayout = function (layout, save) {
-
         if (!layout || layout === 'auto') {
             this.autoLayout();
 
@@ -41,7 +42,6 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
     };
 
     LayoutManager.prototype.autoLayout = function () {
-
         // Take a guess at initial layout. The consuming app can override
         if (browser.mobile) {
             this.setLayout('mobile', false);

@@ -14,7 +14,7 @@ import 'emby-button';
                 let showPasswordSection = true;
                 let showLocalAccessSection = false;
 
-                if ('Guest' == user.ConnectLinkType) {
+                if (user.ConnectLinkType == 'Guest') {
                     page.querySelector('.localAccessSection').classList.add('hide');
                     showPasswordSection = false;
                 } else if (user.HasConfiguredPassword) {
@@ -145,14 +145,14 @@ import 'emby-button';
         function resetPassword() {
             const msg = globalize.translate('PasswordResetConfirmation');
             import('confirm').then(({default: confirm}) => {
-                confirm(msg, globalize.translate('PasswordResetHeader')).then(function () {
+                confirm(msg, globalize.translate('HeaderResetPassword')).then(function () {
                     const userId = params.userId;
                     loading.show();
                     ApiClient.resetUserPassword(userId).then(function () {
                         loading.hide();
                         Dashboard.alert({
                             message: globalize.translate('PasswordResetComplete'),
-                            title: globalize.translate('PasswordResetHeader')
+                            title: globalize.translate('HeaderResetPassword')
                         });
                         loadUser(view, params);
                     });

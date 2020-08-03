@@ -18,9 +18,7 @@ import 'emby-ratingbutton';
 import 'emby-playstatebutton';
 
     function getIndex(item, options) {
-
         if (options.index === 'disc') {
-
             return item.ParentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
         }
 
@@ -29,7 +27,6 @@ import 'emby-playstatebutton';
         let name;
 
         if (sortBy.indexOf('sortname') === 0) {
-
             if (item.Type === 'Episode') {
                 return '';
             }
@@ -45,11 +42,9 @@ import 'emby-playstatebutton';
             return name.toUpperCase();
         }
         if (sortBy.indexOf('officialrating') === 0) {
-
             return item.OfficialRating || globalize.translate('Unrated');
         }
         if (sortBy.indexOf('communityrating') === 0) {
-
             if (item.CommunityRating == null) {
                 return globalize.translate('Unrated');
             }
@@ -57,7 +52,6 @@ import 'emby-playstatebutton';
             return Math.floor(item.CommunityRating);
         }
         if (sortBy.indexOf('criticrating') === 0) {
-
             if (item.CriticRating == null) {
                 return globalize.translate('Unrated');
             }
@@ -65,7 +59,6 @@ import 'emby-playstatebutton';
             return Math.floor(item.CriticRating);
         }
         if (sortBy.indexOf('albumartist') === 0) {
-
             // SortName
             if (!item.AlbumArtist) {
                 return '';
@@ -84,12 +77,11 @@ import 'emby-playstatebutton';
     }
 
     function getImageUrl(item, width) {
-
         const apiClient = connectionManager.getApiClient(item.ServerId);
         let itemId;
 
         const options = {
-            maxWidth: width * 2,
+            maxWidth: width,
             type: 'Primary'
         };
 
@@ -114,10 +106,9 @@ import 'emby-playstatebutton';
     }
 
     function getChannelImageUrl(item, width) {
-
         const apiClient = connectionManager.getApiClient(item.ServerId);
         const options = {
-            maxWidth: width * 2,
+            maxWidth: width,
             type: 'Primary'
         };
 
@@ -161,11 +152,9 @@ import 'emby-playstatebutton';
     }
 
     function getRightButtonsHtml(options) {
-
         let html = '';
 
         for (let i = 0, length = options.rightButtons.length; i < length; i++) {
-
             const button = options.rightButtons[i];
 
             html += `<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="custom" data-customaction="${button.id}" title="${button.title}"><span class="material-icons ${button.icon}"></span></button>`;
@@ -179,7 +168,6 @@ import 'emby-playstatebutton';
     }
 
     export function getListViewHtml(options) {
-
         const items = options.items;
 
         let groupTitle = '';
@@ -198,17 +186,14 @@ import 'emby-playstatebutton';
         const containerAlbumArtistIds = (options.containerAlbumArtists || []).map(getId);
 
         for (let i = 0, length = items.length; i < length; i++) {
-
             const item = items[i];
 
             let html = '';
 
             if (options.showIndex) {
-
                 const itemGroupTitle = getIndex(item, options);
 
                 if (itemGroupTitle !== groupTitle) {
-
                     if (html) {
                         html += '</div>';
                     }
@@ -258,14 +243,12 @@ import 'emby-playstatebutton';
             const channelIdData = item.ChannelId ? (` data-channelid="${item.ChannelId}"`) : '';
 
             if (enableContentWrapper) {
-
                 cssClass += ' listItem-withContentWrapper';
             }
 
             html += `<${outerTagName} class="${cssClass}"${playlistItemId} data-action="${action}" data-isfolder="${item.IsFolder}" data-id="${item.Id}" data-serverid="${item.ServerId}" data-type="${item.Type}"${mediaTypeData}${collectionTypeData}${channelIdData}${positionTicksData}${collectionIdData}${playlistIdData}>`;
 
             if (enableContentWrapper) {
-
                 html += '<div class="listItem-content">';
             }
 
@@ -317,7 +300,6 @@ import 'emby-playstatebutton';
             }
 
             if (options.showIndexNumberLeft) {
-
                 html += '<div class="listItem-indexnumberleft">';
                 html += (item.IndexNumber || '&nbsp;');
                 html += '</div>';
@@ -365,9 +347,7 @@ import 'emby-playstatebutton';
             }
 
             if (options.showParentTitle && options.parentTitleWithTitle) {
-
                 if (displayName) {
-
                     if (parentTitle) {
                         parentTitle += ' - ';
                     }
@@ -385,18 +365,15 @@ import 'emby-playstatebutton';
 
             if (item.IsFolder) {
                 if (options.artist !== false) {
-
                     if (item.AlbumArtist && item.Type === 'MusicAlbum') {
                         textlines.push(item.AlbumArtist);
                     }
                 }
             } else {
-
                 let showArtist = options.artist === true;
                 const artistItems = item.ArtistItems;
 
                 if (!showArtist && options.artist !== false) {
-
                     if (!artistItems || !artistItems.length) {
                         showArtist = true;
                     } else if (artistItems.length > 1 || !containerAlbumArtistIds.includes(artistItems[0].Id)) {
@@ -405,7 +382,6 @@ import 'emby-playstatebutton';
                 }
 
                 if (showArtist) {
-
                     if (artistItems && item.Type !== 'MusicAlbum') {
                         textlines.push(artistItems.map(a => {
                             return a.Name;
@@ -415,7 +391,6 @@ import 'emby-playstatebutton';
             }
 
             if (item.Type === 'TvChannel') {
-
                 if (item.CurrentProgram) {
                     textlines.push(itemHelper.getDisplayName(item.CurrentProgram));
                 }
@@ -436,7 +411,6 @@ import 'emby-playstatebutton';
 
             if (options.mediaInfo !== false) {
                 if (!enableSideMediaInfo) {
-
                     const mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
 
                     html += `<div class="${mediaInfoClass}">`;
@@ -481,7 +455,6 @@ import 'emby-playstatebutton';
             html += '<div class="listViewUserDataButtons">';
 
             if (!clickEntireItem) {
-
                 if (options.addToListButton) {
                     html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add"></span></button>';
                 }
@@ -495,7 +468,6 @@ import 'emby-playstatebutton';
                 }
 
                 if (options.enableUserDataButtons !== false) {
-
                     const userData = item.UserData || {};
                     const likes = userData.Likes == null ? '' : userData.Likes;
 

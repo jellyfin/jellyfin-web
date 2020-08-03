@@ -18,7 +18,7 @@ import globalize from 'globalize';
 
         for (let i = 0, length = mediaFolders.length; i < length; i++) {
             const folder = mediaFolders[i];
-            const isChecked = user.Policy.EnableAllFolders || -1 != user.Policy.EnabledFolders.indexOf(folder.Id);
+            const isChecked = user.Policy.EnableAllFolders || user.Policy.EnabledFolders.indexOf(folder.Id) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
         }
@@ -37,7 +37,7 @@ import globalize from 'globalize';
 
         for (let i = 0, length = channels.length; i < length; i++) {
             const folder = channels[i];
-            const isChecked = user.Policy.EnableAllChannels || -1 != user.Policy.EnabledChannels.indexOf(folder.Id);
+            const isChecked = user.Policy.EnableAllChannels || user.Policy.EnabledChannels.indexOf(folder.Id) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkChannel" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
         }
@@ -61,7 +61,7 @@ import globalize from 'globalize';
 
         for (let i = 0, length = devices.length; i < length; i++) {
             const device = devices[i];
-            const checkedAttribute = user.Policy.EnableAllDevices || -1 != user.Policy.EnabledDevices.indexOf(device.Id) ? ' checked="checked"' : '';
+            const checkedAttribute = user.Policy.EnableAllDevices || user.Policy.EnabledDevices.indexOf(device.Id) != -1 ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkDevice" data-id="' + device.Id + '" ' + checkedAttribute + '><span>' + device.Name + ' - ' + device.AppName + '</span></label>';
         }
 

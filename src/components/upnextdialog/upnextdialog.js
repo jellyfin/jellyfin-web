@@ -16,7 +16,6 @@ import 'flexStyles';
     const transitionEndEventName = dom.whichTransitionEvent();
 
     function seriesImageUrl(item, options) {
-
         if (item.Type !== 'Episode') {
             return null;
         }
@@ -25,9 +24,7 @@ import 'flexStyles';
         options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
-
             if (item.SeriesPrimaryImageTag) {
-
                 options.tag = item.SeriesPrimaryImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
@@ -35,15 +32,12 @@ import 'flexStyles';
         }
 
         if (options.type === 'Thumb') {
-
             if (item.SeriesThumbImageTag) {
-
                 options.tag = item.SeriesThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
-
                 options.tag = item.ParentThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
@@ -54,19 +48,16 @@ import 'flexStyles';
     }
 
     function imageUrl(item, options) {
-
         options = options || {};
         options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
-
             options.tag = item.ImageTags[options.type];
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (options.type === 'Primary') {
             if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
                 options.tag = item.AlbumPrimaryImageTag;
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
             }
@@ -76,9 +67,7 @@ import 'flexStyles';
     }
 
     function setPoster(osdPoster, item, secondaryItem) {
-
         if (item) {
-
             let imgUrl = seriesImageUrl(item, { type: 'Primary' }) ||
                 seriesImageUrl(item, { type: 'Thumb' }) ||
                 imageUrl(item, { type: 'Primary' });
@@ -99,7 +88,6 @@ import 'flexStyles';
     }
 
     function getHtml() {
-
         let html = '';
 
         html += '<div class="upNextDialog-poster">';
@@ -136,7 +124,6 @@ import 'flexStyles';
     }
 
     function setNextVideoText() {
-
         const instance = this;
 
         const elem = instance.options.parent;
@@ -155,7 +142,6 @@ import 'flexStyles';
     }
 
     function fillItem(item) {
-
         const instance = this;
 
         const elem = instance.options.parent;
@@ -187,11 +173,9 @@ import 'flexStyles';
     }
 
     function onStartNowClick() {
-
         const options = this.options;
 
         if (options) {
-
             const player = options.player;
 
             this.hide();
@@ -201,7 +185,6 @@ import 'flexStyles';
     }
 
     function init(instance, options) {
-
         options.parent.innerHTML = getHtml();
 
         options.parent.classList.add('hide');
@@ -215,7 +198,6 @@ import 'flexStyles';
     }
 
     function clearHideAnimationEventListeners(instance, elem) {
-
         const fn = instance._onHideAnimationComplete;
 
         if (fn) {
@@ -226,7 +208,6 @@ import 'flexStyles';
     }
 
     function onHideAnimationComplete(e) {
-
         const instance = this;
         const elem = e.target;
 
@@ -237,7 +218,6 @@ import 'flexStyles';
     }
 
     function hideComingUpNext() {
-
         const instance = this;
         clearCountdownTextTimeout(this);
 
@@ -271,10 +251,8 @@ import 'flexStyles';
     }
 
     function getTimeRemainingMs(instance) {
-
         const options = instance.options;
         if (options) {
-
             const runtimeTicks = playbackManager.duration(options.player);
 
             if (runtimeTicks) {
@@ -288,7 +266,6 @@ import 'flexStyles';
     }
 
     function startComingUpNextHideTimer(instance) {
-
         const timeRemainingMs = getTimeRemainingMs(instance);
 
         if (timeRemainingMs <= 0) {
@@ -303,7 +280,6 @@ import 'flexStyles';
 
 class UpNextDialog {
     constructor(options) {
-
         this.options = options;
 
         init(this, options);
@@ -330,11 +306,9 @@ class UpNextDialog {
         startComingUpNextHideTimer(this);
     }
     hide() {
-
         hideComingUpNext.call(this);
     }
     destroy() {
-
         hideComingUpNext.call(this);
 
         this.options = null;

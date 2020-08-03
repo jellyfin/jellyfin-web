@@ -9,7 +9,6 @@ import 'scrollStyles';
 import 'listViewStyle';
 
 function getOffsets(elems) {
-
     let results = [];
 
     if (!document) {
@@ -31,7 +30,6 @@ function getOffsets(elems) {
 }
 
 function getPosition(options, dlg) {
-
     const windowSize = dom.getWindowSize();
     const windowHeight = windowSize.innerHeight;
     const windowWidth = windowSize.innerWidth;
@@ -80,7 +78,6 @@ function centerFocus(elem, horiz, on) {
 }
 
 export function show(options) {
-
     // items
     // positionTo
     // showCancel
@@ -98,7 +95,6 @@ export function show(options) {
         isFullscreen = true;
         dialogOptions.autoFocus = true;
     } else {
-
         dialogOptions.modal = false;
         dialogOptions.entryAnimation = options.entryAnimation;
         dialogOptions.exitAnimation = options.exitAnimation;
@@ -136,7 +132,6 @@ export function show(options) {
     let icons = [];
     let itemIcon;
     for (const item of options.items) {
-
         itemIcon = item.icon || (item.selected ? 'check' : null);
 
         if (itemIcon) {
@@ -161,7 +156,6 @@ export function show(options) {
     }
 
     if (options.title) {
-
         html += '<h1 class="actionSheetTitle">' + options.title + '</h1>';
     }
     if (options.text) {
@@ -197,7 +191,6 @@ export function show(options) {
         const item = options.items[i];
 
         if (item.divider) {
-
             html += '<div class="actionsheetDivider"></div>';
             continue;
         }
@@ -265,26 +258,20 @@ export function show(options) {
     }
 
     return new Promise(function (resolve, reject) {
-
         let isResolved;
 
         dlg.addEventListener('click', function (e) {
-
             const actionSheetMenuItem = dom.parentWithClass(e.target, 'actionSheetMenuItem');
 
             if (actionSheetMenuItem) {
                 selectedId = actionSheetMenuItem.getAttribute('data-id');
 
                 if (options.resolveOnClick) {
-
                     if (options.resolveOnClick.indexOf) {
-
                         if (options.resolveOnClick.indexOf(selectedId) !== -1) {
-
                             resolve(selectedId);
                             isResolved = true;
                         }
-
                     } else {
                         resolve(selectedId);
                         isResolved = true;
@@ -293,11 +280,9 @@ export function show(options) {
 
                 dialogHelper.close(dlg);
             }
-
         });
 
         dlg.addEventListener('close', function () {
-
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.actionSheetScroller'), false, false);
             }

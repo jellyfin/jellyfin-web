@@ -1,6 +1,9 @@
 define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader', 'apphost', 'globalize', 'appRouter', 'dom', 'emby-button'], function (layoutManager, loading, libraryBrowser, cardBuilder, lazyLoader, appHost, globalize, appRouter, dom) {
     'use strict';
 
+    loading = loading.default || loading;
+    libraryBrowser = libraryBrowser.default || libraryBrowser;
+
     return function (view, params, tabContent) {
         function getPageData() {
             var key = getSavedQueryKey();
@@ -54,13 +57,13 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
             var elem = entry.target;
             var id = elem.getAttribute('data-id');
             var viewStyle = self.getCurrentViewStyle();
-            var limit = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 5 : 9;
+            var limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;
 
             if (enableScrollX()) {
                 limit = 10;
             }
 
-            var enableImageTypes = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 'Primary,Backdrop,Thumb' : 'Primary';
+            var enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
             var query = {
                 SortBy: 'SortName',
                 SortOrder: 'Ascending',
@@ -75,7 +78,6 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
                 ParentId: params.topParentId
             };
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-
                 if (viewStyle == 'Thumb') {
                     cardBuilder.buildCards(result.Items, {
                         itemsContainer: elem,

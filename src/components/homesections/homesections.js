@@ -131,7 +131,6 @@ import 'css!./homesections';
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
-
         const section = allSections[index];
         const userId = user.Id;
 
@@ -627,7 +626,6 @@ import 'css!./homesections';
                     html += '</h2>';
                     html += '<span class="material-icons chevron_right"></span>';
                     html += '</a>';
-
                 } else {
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderOnNow') + '</h2>';
                 }

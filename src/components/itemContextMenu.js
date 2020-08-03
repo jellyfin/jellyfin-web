@@ -142,7 +142,6 @@ import actionsheet from 'actionsheet';
         }
 
         if (item.CanDelete && options.deleteItem !== false) {
-
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
                 commands.push({
                     name: globalize.translate('Delete'),
@@ -353,7 +352,7 @@ import actionsheet from 'actionsheet';
                     });
                     break;
                 case 'download':
-                    import('fileDownloader').then(({default: fileDownloader}) => {
+                    import('fileDownloader').then((fileDownloader) => {
                         const downloadHref = apiClient.getItemDownloadUrl(itemId);
                         fileDownloader.download([{
                             url: downloadHref,

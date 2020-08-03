@@ -1,16 +1,13 @@
 import 'css!./toast';
 
 function remove(elem) {
-
     setTimeout(function () {
         elem.parentNode.removeChild(elem);
     }, 300);
 }
 
 function animateRemove(elem) {
-
     setTimeout(function () {
-
         elem.classList.remove('toastVisible');
         remove(elem);
 
@@ -35,6 +32,5 @@ export default function (options) {
         elem.classList.add('toastVisible');
 
         animateRemove(elem);
-
     }, 300);
 }

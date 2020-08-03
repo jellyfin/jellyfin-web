@@ -26,7 +26,6 @@ import 'material-icons';
     }
 
     function getAlphaPickerButtonClassName(vertical) {
-
         let alphaPickerButtonClassName = 'alphaPickerButton';
 
         if (layoutManager.tv) {
@@ -45,14 +44,12 @@ import 'material-icons';
     }
 
     function mapLetters(letters, vertical) {
-
         return letters.map(l => {
             return getLetterButton(l, vertical);
         });
     }
 
     function render(element, options) {
-
         element.classList.add('alphaPicker');
 
         if (layoutManager.tv) {
@@ -137,7 +134,6 @@ import 'material-icons';
             }
 
             function onAlphaPickerInKeyboardModeClick(e) {
-
                 const alphaPickerButton = dom.parentWithClass(e.target, 'alphaPickerButton');
 
                 if (alphaPickerButton) {
@@ -153,7 +149,6 @@ import 'material-icons';
             }
 
             function onAlphaPickerClick(e) {
-
                 const alphaPickerButton = dom.parentWithClass(e.target, 'alphaPickerButton');
 
                 if (alphaPickerButton) {
@@ -167,7 +162,6 @@ import 'material-icons';
             }
 
             function onAlphaPickerFocusIn(e) {
-
                 if (alphaFocusTimeout) {
                     clearTimeout(alphaFocusTimeout);
                     alphaFocusTimeout = null;
@@ -182,13 +176,11 @@ import 'material-icons';
             }
 
             function onItemsFocusIn(e) {
-
                 const item = dom.parentWithClass(e.target, itemClass);
 
                 if (item) {
                     const prefix = item.getAttribute('data-prefix');
                     if (prefix && prefix.length) {
-
                         itemFocusValue = prefix[0];
                         if (itemFocusTimeout) {
                             clearTimeout(itemFocusTimeout);
@@ -199,9 +191,7 @@ import 'material-icons';
             }
 
             this.enabled = function (enabled) {
-
                 if (enabled) {
-
                     if (itemsContainer) {
                         itemsContainer.addEventListener('focus', onItemsFocusIn, true);
                     }
@@ -215,9 +205,7 @@ import 'material-icons';
                     } else {
                         element.addEventListener('click', onAlphaPickerClick.bind(this));
                     }
-
                 } else {
-
                     if (itemsContainer) {
                         itemsContainer.removeEventListener('focus', onItemsFocusIn, true);
                     }
@@ -235,14 +223,12 @@ import 'material-icons';
         }
 
         value(value, applyValue) {
-
             const element = this.options.element;
             let btn;
             let selected;
 
             if (value !== undefined) {
                 if (value != null) {
-
                     value = value.toUpperCase();
                     this._currentValue = value;
 
@@ -295,33 +281,27 @@ import 'material-icons';
         }
 
         visible(visible) {
-
             const element = this.options.element;
             element.style.visibility = visible ? 'visible' : 'hidden';
         }
 
         values() {
-
             const element = this.options.element;
             const elems = element.querySelectorAll('.alphaPickerButton');
             const values = [];
             for (let i = 0, length = elems.length; i < length; i++) {
-
                 values.push(elems[i].getAttribute('data-value'));
-
             }
 
             return values;
         }
 
         focus() {
-
             const element = this.options.element;
             focusManager.autoFocus(element, true);
         }
 
         destroy() {
-
             const element = this.options.element;
             this.enabled(false);
             element.classList.remove('focuscontainer-x');
