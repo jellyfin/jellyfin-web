@@ -3,10 +3,6 @@
 import dom from 'dom';
 import scrollManager from 'scrollManager';
 
-/* eslint-disable no-unused-expressions */
-'use strict';
-/* eslint-enable no-unused-expressions */
-
     var scopes = [];
     function pushScope(elem) {
         scopes.push(elem);
