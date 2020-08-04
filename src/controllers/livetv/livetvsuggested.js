@@ -360,7 +360,7 @@ export default function (view, params) {
     };
 
     self.renderTab = function () {
-        const tabContent = view.querySelector('.pageTabContent[data-index=\'0\']');
+        const tabContent = view.querySelector('.pageTabContent[data-index="0"]');
 
         if (enableFullRender()) {
             reload(tabContent, true);
