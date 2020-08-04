@@ -119,7 +119,10 @@ export function getQueryPagingHtml (options) {
 }
 
 export function showSortMenu (options) {
-    require(['dialogHelper', 'emby-radio'], function (dialogHelper) {
+    Promise.All([
+        import('dialogHelper'),
+        import('emby-radio')
+    ]).then(({default: dialogHelper}) => {
         function onSortByChange() {
             var newValue = this.value;
 

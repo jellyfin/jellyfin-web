@@ -317,7 +317,7 @@ import 'cardStyle';
     function showEditor(itemId, serverId, itemType) {
         loading.show();
 
-        require(['text!./imageDownloader.template.html'], function (template) {
+        import('text!./imageDownloader.template.html').then(({default: template}) => {
             const apiClient = connectionManager.getApiClient(serverId);
 
             currentItemId = itemId;
