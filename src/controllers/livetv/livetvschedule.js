@@ -2,6 +2,7 @@ define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'sc
     'use strict';
 
     loading = loading.default || loading;
+    layoutManager = layoutManager.default || layoutManager;
 
     function enableScrollX() {
         return !layoutManager.desktop;

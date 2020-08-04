@@ -2,6 +2,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     'use strict';
 
     loading = loading.default || loading;
+    layoutManager = layoutManager.default || layoutManager;
 
     var currentItem;
     var hasChanges;

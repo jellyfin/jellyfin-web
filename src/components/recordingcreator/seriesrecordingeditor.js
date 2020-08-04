@@ -2,6 +2,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     'use strict';
 
     loading = loading.default || loading;
+    layoutManager = layoutManager.default || layoutManager;
 
     var currentDialog;
     var recordingUpdated = false;

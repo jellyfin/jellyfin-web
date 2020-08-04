@@ -2,6 +2,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     'use strict';
 
     playbackManager = playbackManager.default || playbackManager;
+    layoutManager = layoutManager.default || layoutManager;
 
     var transitionEndEventName = dom.whichTransitionEvent();
 

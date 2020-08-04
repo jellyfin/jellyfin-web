@@ -3,6 +3,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
 
     loading = loading.default || loading;
     libraryBrowser = libraryBrowser.default || libraryBrowser;
+    layoutManager = layoutManager.default || layoutManager;
 
     return function (view, params, tabContent) {
         function getPageData() {

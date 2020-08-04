@@ -3,6 +3,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
     playbackManager = playbackManager.default || playbackManager;
     browser = browser.default || browser;
+    layoutManager = layoutManager.default || layoutManager;
 
     function renderHeader() {
         var html = '';

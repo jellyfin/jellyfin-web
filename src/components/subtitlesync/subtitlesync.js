@@ -2,6 +2,7 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
     'use strict';
 
     playbackManager = playbackManager.default || playbackManager;
+    layoutManager = layoutManager.default || layoutManager;
 
     var player;
     var subtitleSyncSlider;

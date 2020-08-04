@@ -2,6 +2,7 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
     'use strict';
 
     loading = loading.default || loading;
+    layoutManager = layoutManager.default || layoutManager;
 
     function enableScrollX() {
         return !layoutManager.desktop;

@@ -6,6 +6,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
     'use strict';
 
     browser = browser.default || browser;
+    layoutManager = layoutManager.default || layoutManager;
 
     /**
      * Name of transition event.

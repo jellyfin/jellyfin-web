@@ -2,6 +2,7 @@ define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'sc
     'use strict';
 
     loading = loading.default || loading;
+    layoutManager = layoutManager.default || layoutManager;
 
     function renderRecordings(elem, recordings, cardOptions, scrollX) {
         if (!elem) {
