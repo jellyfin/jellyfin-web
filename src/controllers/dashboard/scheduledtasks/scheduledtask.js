@@ -84,16 +84,16 @@ import 'emby-select';
         },
         // TODO: Replace this mess with date-fns and remove datetime completely
         getTriggerFriendlyName: function (trigger) {
-            if ('DailyTrigger' == trigger.Type) {
+            if (trigger.Type == 'DailyTrigger') {
                 return globalize.translate('DailyAt', ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
             }
 
-            if ('WeeklyTrigger' == trigger.Type) {
+            if (trigger.Type == 'WeeklyTrigger') {
                 // TODO: The day of week isn't localised as well
                 return globalize.translate('WeeklyAt', trigger.DayOfWeek, ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
             }
 
-            if ('SystemEventTrigger' == trigger.Type && 'WakeFromSleep' == trigger.SystemEvent) {
+            if (trigger.Type == 'SystemEventTrigger' && trigger.SystemEvent == 'WakeFromSleep') {
                 return globalize.translate('OnWakeFromSleep');
             }
 

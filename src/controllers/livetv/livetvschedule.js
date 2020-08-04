@@ -1,6 +1,8 @@
 define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'scripts/livetvcomponents', 'emby-button', 'emby-itemscontainer'], function (layoutManager, cardBuilder, appHost, imageLoader, loading) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function enableScrollX() {
         return !layoutManager.desktop;
     }

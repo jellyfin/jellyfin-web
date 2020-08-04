@@ -183,11 +183,9 @@
             width = height * (16.0 / 9.0);
         }
 
-        const closest = standardWidths.sort(function (a, b) {
+        return standardWidths.sort(function (a, b) {
             return Math.abs(width - a) - Math.abs(width - b);
         })[0];
-
-        return closest;
     }
 
     /**

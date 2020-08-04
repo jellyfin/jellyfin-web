@@ -1,94 +1,108 @@
-define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (dom, shell, dialogHelper, loading, layoutManager, connectionManager, appRouter, globalize) {
-    'use strict';
+import dom from 'dom';
+import dialogHelper from 'dialogHelper';
+import loading from 'loading';
+import layoutManager from 'layoutManager';
+import connectionManager from 'connectionManager';
+import globalize from 'globalize';
+import 'emby-input';
+import 'emby-checkbox';
+import 'paper-icon-button-light';
+import 'emby-select';
+import 'material-icons';
+import 'css!./../formdialog';
+import 'emby-button';
 
-    function getEditorHtml() {
-        var html = '';
+/*eslint prefer-const: "error"*/
 
-        html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
-        html += '<div class="dialogContentInner dialog-content-centered">';
-        html += '<form style="margin:auto;">';
+function getEditorHtml() {
+    let html = '';
 
-        html += '<div class="fldSelectPlaylist selectContainer">';
-        html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
-        html += '<option value="scan">' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
-        html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
-        html += '<option value="all" selected>' + globalize.translate('ReplaceAllMetadata') + '</option>';
-        html += '</select>';
-        html += '</div>';
+    html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
+    html += '<div class="dialogContentInner dialog-content-centered">';
+    html += '<form style="margin:auto;">';
 
-        html += '<label class="checkboxContainer hide fldReplaceExistingImages">';
-        html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
-        html += '<span>' + globalize.translate('ReplaceExistingImages') + '</span>';
-        html += '</label>';
+    html += '<div class="fldSelectPlaylist selectContainer">';
+    html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
+    html += '<option value="scan">' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
+    html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
+    html += '<option value="all" selected>' + globalize.translate('ReplaceAllMetadata') + '</option>';
+    html += '</select>';
+    html += '</div>';
 
-        html += '<div class="fieldDescription">';
-        html += globalize.translate('RefreshDialogHelp');
-        html += '</div>';
+    html += '<label class="checkboxContainer hide fldReplaceExistingImages">';
+    html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
+    html += '<span>' + globalize.translate('ReplaceExistingImages') + '</span>';
+    html += '</label>';
 
-        html += '<input type="hidden" class="fldSelectedItemIds" />';
+    html += '<div class="fieldDescription">';
+    html += globalize.translate('RefreshDialogHelp');
+    html += '</div>';
 
-        html += '<br />';
-        html += '<div class="formDialogFooter">';
-        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Refresh') + '</button>';
-        html += '</div>';
+    html += '<input type="hidden" class="fldSelectedItemIds" />';
 
-        html += '</form>';
-        html += '</div>';
-        html += '</div>';
+    html += '<br />';
+    html += '<div class="formDialogFooter">';
+    html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Refresh') + '</button>';
+    html += '</div>';
 
-        return html;
-    }
+    html += '</form>';
+    html += '</div>';
+    html += '</div>';
 
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
+    return html;
+}
+
+function centerFocus(elem, horiz, on) {
+    import('scrollHelper').then(({default: scrollHelper}) => {
+        const fn = on ? 'on' : 'off';
+        scrollHelper.centerFocus[fn](elem, horiz);
+    });
+}
+
+function onSubmit(e) {
+    loading.show();
+
+    const instance = this;
+    const dlg = dom.parentWithClass(e.target, 'dialog');
+    const options = instance.options;
+
+    const apiClient = connectionManager.getApiClient(options.serverId);
+
+    const replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
+
+    const mode = dlg.querySelector('#selectMetadataRefreshMode').value === 'scan' ? 'Default' : 'FullRefresh';
+    const replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
+
+    options.itemIds.forEach(function (itemId) {
+        apiClient.refreshItem(itemId, {
+
+            Recursive: true,
+            ImageRefreshMode: mode,
+            MetadataRefreshMode: mode,
+            ReplaceAllImages: replaceAllImages,
+            ReplaceAllMetadata: replaceAllMetadata
         });
-    }
+    });
 
-    function onSubmit(e) {
-        loading.show();
+    dialogHelper.close(dlg);
 
-        var instance = this;
-        var dlg = dom.parentWithClass(e.target, 'dialog');
-        var options = instance.options;
+    import('toast').then(({default: toast}) => {
+        toast(globalize.translate('RefreshQueued'));
+    });
 
-        var apiClient = connectionManager.getApiClient(options.serverId);
+    loading.hide();
 
-        var replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
+    e.preventDefault();
+    return false;
+}
 
-        var mode = dlg.querySelector('#selectMetadataRefreshMode').value === 'scan' ? 'Default' : 'FullRefresh';
-        var replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
-
-        options.itemIds.forEach(function (itemId) {
-            apiClient.refreshItem(itemId, {
-
-                Recursive: true,
-                ImageRefreshMode: mode,
-                MetadataRefreshMode: mode,
-                ReplaceAllImages: replaceAllImages,
-                ReplaceAllMetadata: replaceAllMetadata
-            });
-        });
-
-        dialogHelper.close(dlg);
-
-        require(['toast'], function (toast) {
-            toast(globalize.translate('RefreshQueued'));
-        });
-
-        loading.hide();
-
-        e.preventDefault();
-        return false;
-    }
-
-    function RefreshDialog(options) {
+class RefreshDialog {
+    constructor(options) {
         this.options = options;
     }
 
-    RefreshDialog.prototype.show = function () {
-        var dialogOptions = {
+    show() {
+        const dialogOptions = {
             removeOnClose: true,
             scrollY: false
         };
@@ -99,12 +113,12 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
             dialogOptions.size = 'small';
         }
 
-        var dlg = dialogHelper.createDialog(dialogOptions);
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
         dlg.classList.add('formDialog');
 
-        var html = '';
-        var title = globalize.translate('RefreshMetadata');
+        let html = '';
+        const title = globalize.translate('RefreshMetadata');
 
         html += '<div class="formDialogHeader">';
         html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
@@ -150,7 +164,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionM
             dlg.addEventListener('close', resolve);
             dialogHelper.open(dlg);
         });
-    };
+    }
+}
 
-    return RefreshDialog;
-});
+export default RefreshDialog;

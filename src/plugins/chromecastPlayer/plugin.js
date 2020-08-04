@@ -1,6 +1,8 @@
 define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', 'globalize', 'events', 'require', 'castSenderApiLoader'], function (appSettings, userSettings, playbackManager, connectionManager, globalize, events, require, castSenderApiLoader) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
+
     // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
     var currentResolve;
     var currentReject;
@@ -54,7 +56,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
     // production version registered with google
     // replace this value if you want to test changes on another instance
     var applicationStable = 'F007D354';
-    var applicationNightly = '6F511C87';
+    var applicationUnstable = '6F511C87';
 
     var messageNamespace = 'urn:x-cast:com.connectsdk';
 
@@ -99,8 +101,8 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         }
 
         var applicationID = applicationStable;
-        if (userSettings.chromecastVersion() === 'nightly') {
-            applicationID = applicationNightly;
+        if (userSettings.chromecastVersion() === 'unstable') {
+            applicationID = applicationUnstable;
         }
 
         // request session
@@ -363,7 +365,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         }
 
         return new Promise(function (resolve, reject) {
-            require(['chromecastHelper'], function (chromecastHelper) {
+            require(['./chromecastHelper'], function (chromecastHelper) {
                 chromecastHelper.getServerAddress(apiClient).then(function (serverAddress) {
                     message.serverAddress = serverAddress;
                     player.sendMessageInternal(message).then(resolve, reject);

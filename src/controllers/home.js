@@ -36,7 +36,7 @@ class HomeView extends TabbedView {
     }
 
     getTabController(index) {
-        if (null == index) {
+        if (index == null) {
             throw new Error('index cannot be null');
         }
 
@@ -56,7 +56,7 @@ class HomeView extends TabbedView {
             let controller = instance.tabControllers[index];
 
             if (!controller) {
-                controller = new controllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
+                controller = new controllerFactory.default(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
                 instance.tabControllers[index] = controller;
             }
 

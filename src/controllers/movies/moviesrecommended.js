@@ -2,6 +2,7 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     'use strict';
 
     libraryMenu = libraryMenu.default || libraryMenu;
+    playbackManager = playbackManager.default || playbackManager;
 
     function enableScrollX() {
         return !layoutManager.desktop;
