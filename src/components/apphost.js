@@ -279,7 +279,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
         features.push('targetblank');
         features.push('screensaver');
 
-        webSettings.enableMultiServer().then(enabled => {
+        webSettings.getMultiServer().then(enabled => {
             if (enabled) features.push('multiserver');
         });
 
@@ -408,13 +408,6 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
         },
         getPushTokenInfo: function () {
             return {};
-        },
-        setThemeColor: function (color) {
-            var metaThemeColor = document.querySelector('meta[name=theme-color]');
-
-            if (metaThemeColor) {
-                metaThemeColor.setAttribute('content', color);
-            }
         },
         setUserScalable: function (scalable) {
             if (!browser.tv) {
