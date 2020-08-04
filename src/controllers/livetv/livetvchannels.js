@@ -115,7 +115,7 @@ export default function (view, params, tabContent) {
             loading.hide();
             isLoading = false;
 
-        import('autoFocuser').then(({default: autoFocuser}) => {
+            import('autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(view);
             });
         });
