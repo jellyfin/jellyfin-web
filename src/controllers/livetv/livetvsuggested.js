@@ -273,7 +273,7 @@ export default function (view, params) {
             let tabContent;
 
             if (index === 0) {
-                tabContent = view.querySelector('.pageTabContent[data-index=\'' + index + '\']');
+                tabContent = view.querySelector(`.pageTabContent[data-index="${index}"]`);
                 self.tabContent = tabContent;
             }
 
