@@ -80,7 +80,7 @@
     "sortablejs": "^1.10.2",
     "swiper": "^5.4.5",
     "webcomponents.js": "^0.7.24",
-    "whatwg-fetch": "^3.2.0"
+    "whatwg-fetch": "^3.3.1"
   },
   "babel": {
     "presets": [
