@@ -242,6 +242,7 @@ export default function (view, params) {
         // TODO int is a little hard to read
         switch (index) {
             case 0:
+                depends = 'controllers/livetv/livetvsuggested';
                 break;
 
             case 1:
