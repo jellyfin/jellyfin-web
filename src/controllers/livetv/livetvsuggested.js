@@ -280,7 +280,7 @@ export default function (view, params) {
             let controller = tabControllers[index];
 
             if (!controller) {
-                tabContent = view.querySelector('.pageTabContent[data-index=\'' + index + '\']');
+                tabContent = view.querySelector('.pageTabContent[data-index="${index}"]');
 
                 if (index === 0) {
                     controller = self;
