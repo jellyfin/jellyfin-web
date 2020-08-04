@@ -3,7 +3,7 @@ import imageLoader from 'imageLoader';
 import libraryBrowser from 'libraryBrowser';
 import loading from 'loading';
 import events from 'events';
-import userSettings from 'userSettings';
+import * as userSettings from 'userSettings';
 import 'emby-itemscontainer';
 
 export default function (view, params, tabContent) {
