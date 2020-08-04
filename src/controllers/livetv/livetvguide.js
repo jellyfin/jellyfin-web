@@ -24,4 +24,4 @@ export default function (view, params, tabContent) {
             guideInstance.pause();
         }
     };
-};
+}

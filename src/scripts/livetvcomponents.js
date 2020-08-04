@@ -12,16 +12,17 @@ function getBackdropShape() {
 
 function getTimersHtml(timers, options) {
     options = options || {};
+
     const items = timers.map(function (t) {
         t.Type = 'Timer';
         return t;
     });
+
     const groups = [];
     let currentGroupName = '';
     let currentGroup = [];
 
-    for (let i = 0, length = items.length; i < length; i++) {
-        const item = items[i];
+    for (const item in items) {
         let dateText = '';
 
         if (options.indexByDate !== false && item.StartDate) {
@@ -51,6 +52,7 @@ function getTimersHtml(timers, options) {
             currentGroup.push(item);
         }
     }
+
     if (currentGroup.length) {
         groups.push({
             name: currentGroupName,
@@ -58,12 +60,12 @@ function getTimersHtml(timers, options) {
         });
     }
     let html = '';
-    for (let i = 0, length = groups.length; i < length; i++) {
-        const group = groups[i];
+    for (const group in groups) {
         if (group.name) {
             html += '<div class="verticalSection">';
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + '</h2>';
         }
+
         if (enableScrollX()) {
             let scrollXClass = 'scrollX hiddenScrollX';
             if (layoutManager.tv) {
@@ -73,6 +75,7 @@ function getTimersHtml(timers, options) {
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
         }
+
         html += cardBuilder.getCardsHtml({
             items: group.items,
             shape: getBackdropShape(),
@@ -91,7 +94,9 @@ function getTimersHtml(timers, options) {
             overlayText: false,
             showChannelLogo: true
         });
+
         html += '</div>';
+
         if (group.name) {
             html += '</div>';
         }
