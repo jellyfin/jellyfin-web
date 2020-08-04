@@ -615,6 +615,7 @@ function initClient() {
     }
 
     var localApiClient;
+    let promise;
 
     (function () {
         var urlArgs = 'v=' + (window.dashboardVersion || new Date().getDate());
@@ -696,7 +697,7 @@ function initClient() {
             onError: onRequireJsError
         });
 
-        require(['fetch'])
+        promise = require(['fetch'])
             .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
                 // Expose jQuery globally
                 window.$ = jQuery;
@@ -1107,7 +1108,7 @@ function initClient() {
         });
     })();
 
-    return onWebComponentsReady();
+    promise.then(onWebComponentsReady);
 }
 
 initClient();
