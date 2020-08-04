@@ -910,7 +910,7 @@
     "LabelPasswordResetProvider": "Ponudnik ponastavitve gesla:",
     "LabelPasswordConfirm": "Potrditev gesla:",
     "LabelPassword": "Geslo:",
-    "OptionDisableUserHelp": "Če onemogočite strežnik ne bo dovolil povezav od tega uporabnika. Obstoječe povezave bodo prekinjene.",
+    "OptionDisableUserHelp": "Strežnik ne bo dovolil nobenih povezav od tega uporabnika. Obstoječe povezave bodo prekinjene.",
     "OptionDescending": "Padajoče",
     "OptionDatePlayed": "Datum predvajanja",
     "OptionDateAddedImportTime": "Uporabi datum dodajanja v knjižnico",
@@ -929,7 +929,7 @@
     "OptionBlockMovies": "Filmi",
     "OptionBlockBooks": "Knjige",
     "OptionBanner": "Pasica",
-    "OptionAutomaticallyGroupSeriesHelp": "Če je omogočeno, bodo serije, ki so razdeljene v več mapah znotraj knjižnice samodejno združene v eno serijo.",
+    "OptionAutomaticallyGroupSeriesHelp": "Serije, ki so razdeljene v več mapah znotraj knjižnice bodo samodejno združene v eno serijo.",
     "OptionAutomaticallyGroupSeries": "Samodejno združi serije, ki so razdeljene po več mapah",
     "OptionAscending": "Naraščajoče",
     "OptionArtist": "Izvajalec",
@@ -1402,5 +1402,6 @@
     "MessageUnsetContentHelp": "Vsebine bodo prikazane kot preproste mape. Za najboljše rezultate uporabite upravitelj metapodatkov in nastavite vrsto vsebin podmap.",
     "MessageLeaveEmptyToInherit": "Pustite prazno za podedovanje nastavitev od nadrejenega elementa ali globalne privzete vrednosti.",
     "LabelXDlnaDocHelp": "Določa vsebino X_DLNADOC elementa v urn:schemas-dlna-org:device-1-0 namespace.",
-    "LabelXDlnaCapHelp": "Določa vsebino X_DLNACAP elementa v urn:schemas-dlna-org:device-1-0 namespace."
+    "LabelXDlnaCapHelp": "Določa vsebino X_DLNACAP elementa v urn:schemas-dlna-org:device-1-0 namespace.",
+    "OptionDislikes": "Ni mi všeč"
 }
