@@ -23,7 +23,7 @@ import 'emby-button';
         }, {
             name: globalize.translate('TabLatest')
         }, {
-            name: globalize.translate('TabUpcoming')
+            name: globalize.translate('TabPlayNext')
         }, {
             name: globalize.translate('TabGenres')
         }, {
