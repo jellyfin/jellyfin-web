@@ -351,7 +351,7 @@ export default function (view, params) {
     });
 
     self.initTab = function () {
-        const tabContent = view.querySelector('.pageTabContent[data-index=\'0\']');
+        const tabContent = view.querySelector('.pageTabContent[data-index="0"]');
         const containers = tabContent.querySelectorAll('.itemsContainer');
 
         for (let i = 0, length = containers.length; i < length; i++) {
