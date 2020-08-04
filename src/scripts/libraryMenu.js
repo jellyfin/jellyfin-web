@@ -19,9 +19,6 @@ import 'flexStyles';
 
 /* eslint-disable indent */
 
-    playbackManager = playbackManager.default || playbackManager;
-    browser = browser.default || browser;
-
     function renderHeader() {
         let html = '';
         html += '<div class="flex align-items-center flex-grow headerTop">';
