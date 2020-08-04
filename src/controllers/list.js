@@ -722,11 +722,9 @@ class ItemsView {
             this.itemsContainer.setAttribute('data-refreshinterval', '300000');
         }
 
-        let i;
-        let length;
         const btnViewSettings = view.querySelectorAll('.btnViewSettings');
 
-        for (i = 0, length = btnViewSettings.length; i < length; i++) {
+        for (let i = 0, length = btnViewSettings.length; i < length; i++) {
             btnViewSettings[i].addEventListener('click', showViewSettingsMenu.bind(this));
         }
 
@@ -734,7 +732,7 @@ class ItemsView {
         this.filterButtons = filterButtons;
         const hasVisibleFilters = this.getVisibleFilters().length;
 
-        for (i = 0, length = filterButtons.length; i < length; i++) {
+        for (let i = 0, length = filterButtons.length; i < length; i++) {
             const btnFilter = filterButtons[i];
             btnFilter.addEventListener('click', showFilterMenu.bind(this));
 
