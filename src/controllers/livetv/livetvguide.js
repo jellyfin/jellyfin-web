@@ -7,7 +7,7 @@ define(['tvguide'], function (tvguide) {
 
         self.renderTab = function () {
             if (!guideInstance) {
-                guideInstance = new tvguide({
+                guideInstance = new tvguide.default({
                     element: tabContent,
                     serverId: ApiClient.serverId()
                 });
