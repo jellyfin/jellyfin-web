@@ -13,9 +13,6 @@ function setLayout(instance, layout, selectedLayout) {
 }
 
 class LayoutManager {
-    constructor() {
-    }
-
     setLayout(layout, save) {
         if (!layout || layout === 'auto') {
             this.autoLayout();
