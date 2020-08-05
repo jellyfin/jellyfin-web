@@ -2,6 +2,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
     'use strict';
 
     layoutManager = layoutManager.default || layoutManager;
+    focusManager = focusManager.default || focusManager;
 
     function onSubmit(e) {
         e.preventDefault();

@@ -2,6 +2,7 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
     'use strict';
 
     layoutManager = layoutManager.default || layoutManager;
+    focusManager = focusManager.default || focusManager;
 
     var currentView;
     var dispatchPageEvents;

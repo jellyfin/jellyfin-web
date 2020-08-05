@@ -7,6 +7,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
     browser = browser.default || browser;
     layoutManager = layoutManager.default || layoutManager;
+    focusManager = focusManager.default || focusManager;
 
     /**
      * Name of transition event.

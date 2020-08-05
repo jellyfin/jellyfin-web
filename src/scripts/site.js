@@ -616,6 +616,7 @@ function initClient() {
     }
 
     var localApiClient;
+    let promise;
 
     (function () {
         var urlArgs = 'v=' + (window.dashboardVersion || new Date().getDate());
@@ -697,20 +698,12 @@ function initClient() {
             onError: onRequireJsError
         });
 
-        require(['fetch']);
-        require(['polyfill']);
-        require(['fast-text-encoding']);
-        require(['intersection-observer']);
-        require(['classlist-polyfill']);
-
-        // Expose jQuery globally
-        require(['jQuery'], function(jQuery) {
-            window.$ = jQuery;
-            window.jQuery = jQuery;
-        });
-
-        require(['css!assets/css/site']);
-        require(['jellyfin-noto']);
+        promise = require(['fetch'])
+            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
+                // Expose jQuery globally
+                window.$ = jQuery;
+                window.jQuery = jQuery;
+            }));
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves
@@ -1116,7 +1109,7 @@ function initClient() {
         });
     })();
 
-    return onWebComponentsReady();
+    promise.then(onWebComponentsReady);
 }
 
 initClient();

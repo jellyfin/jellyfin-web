@@ -3,6 +3,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
     browser = browser.default || browser;
     layoutManager = layoutManager.default || layoutManager;
+    focusManager = focusManager.default || focusManager;
 
     /**
 * Return type of the value.

@@ -3,6 +3,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
     loading = loading.default || loading;
     layoutManager = layoutManager.default || layoutManager;
+    focusManager = focusManager.default || focusManager;
 
     var currentItem;
     var hasChanges;

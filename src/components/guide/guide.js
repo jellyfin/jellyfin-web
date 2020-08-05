@@ -5,6 +5,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
     browser = browser.default || browser;
     loading = loading.default || loading;
     layoutManager = layoutManager.default || layoutManager;
+    focusManager = focusManager.default || focusManager;
 
     function showViewSettings(instance) {
         require(['guide-settings-dialog'], function (guideSettingsDialog) {
