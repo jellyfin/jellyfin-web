@@ -152,6 +152,8 @@
           "src/components/playlisteditor/playlisteditor.js",
           "src/components/playmenu.js",
           "src/components/prompt/prompt.js",
+          "src/components/recordingcreator/seriesrecordingeditor.js",
+          "src/components/recordingcreator/recordinghelper.js",
           "src/components/refreshdialog/refreshdialog.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
