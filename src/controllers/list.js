@@ -3,6 +3,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
 
     playbackManager = playbackManager.default || playbackManager;
     loading = loading.default || loading;
+    focusManager = focusManager.default || focusManager;
 
     function getInitialLiveTvQuery(instance, params) {
         var query = {
