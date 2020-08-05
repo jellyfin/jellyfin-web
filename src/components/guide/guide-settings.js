@@ -12,10 +12,10 @@ function saveCategories(context, options) {
     const categories = [];
 
     const chkCategorys = context.querySelectorAll('.chkCategory');
-    for (let i = 0, length = chkCategorys.length; i < length; i++) {
-        const type = chkCategorys[i].getAttribute('data-type');
+    for (const chkCategory of chkCategorys) {
+        const type = chkCategory.getAttribute('data-type');
 
-        if (chkCategorys[i].checked) {
+        if (chkCategory.checked) {
             categories.push(type);
         }
     }
@@ -33,47 +33,43 @@ function loadCategories(context, options) {
     const selectedCategories = options.categories || [];
 
     const chkCategorys = context.querySelectorAll('.chkCategory');
-    for (let i = 0, length = chkCategorys.length; i < length; i++) {
-        const type = chkCategorys[i].getAttribute('data-type');
+    for (const chkCategory of chkCategorys) {
+        const type = chkCategory.getAttribute('data-type');
 
-        chkCategorys[i].checked = !selectedCategories.length || selectedCategories.indexOf(type) !== -1;
+        chkCategory.checked = !selectedCategories.length || selectedCategories.indexOf(type) !== -1;
     }
 }
 
 function save(context) {
-    let i;
-    let length;
-
     const chkIndicators = context.querySelectorAll('.chkIndicator');
-    for (i = 0, length = chkIndicators.length; i < length; i++) {
-        const type = chkIndicators[i].getAttribute('data-type');
-        userSettings.set('guide-indicator-' + type, chkIndicators[i].checked);
+
+    for (const chkIndicator of chkIndicators) {
+        const type = chkIndicator.getAttribute('data-type');
+        userSettings.set('guide-indicator-' + type, chkIndicator.checked);
     }
 
     userSettings.set('guide-colorcodedbackgrounds', context.querySelector('.chkColorCodedBackgrounds').checked);
     userSettings.set('livetv-favoritechannelsattop', context.querySelector('.chkFavoriteChannelsAtTop').checked);
 
     const sortBys = context.querySelectorAll('.chkSortOrder');
-    for (i = 0, length = sortBys.length; i < length; i++) {
-        if (sortBys[i].checked) {
-            userSettings.set('livetv-channelorder', sortBys[i].value);
+    for (const sortBy of sortBys) {
+        if (sortBy.checked) {
+            userSettings.set('livetv-channelorder', sortBy.value);
             break;
         }
     }
 }
 
 function load(context) {
-    let i;
-    let length;
-
     const chkIndicators = context.querySelectorAll('.chkIndicator');
-    for (i = 0, length = chkIndicators.length; i < length; i++) {
-        const type = chkIndicators[i].getAttribute('data-type');
 
-        if (chkIndicators[i].getAttribute('data-default') === 'true') {
-            chkIndicators[i].checked = userSettings.get('guide-indicator-' + type) !== 'false';
+    for (const chkIndicator of chkIndicators) {
+        const type = chkIndicator.getAttribute('data-type');
+
+        if (chkIndicator.getAttribute('data-default') === 'true') {
+            chkIndicator.checked = userSettings.get('guide-indicator-' + type) !== 'false';
         } else {
-            chkIndicators[i].checked = userSettings.get('guide-indicator-' + type) === 'true';
+            chkIndicator.checked = userSettings.get('guide-indicator-' + type) === 'true';
         }
     }
 
@@ -83,8 +79,8 @@ function load(context) {
     const sortByValue = userSettings.get('livetv-channelorder') || 'Number';
 
     const sortBys = context.querySelectorAll('.chkSortOrder');
-    for (i = 0, length = sortBys.length; i < length; i++) {
-        sortBys[i].checked = sortBys[i].value === sortByValue;
+    for (const sortBy of sortBys) {
+        sortBy.checked = sortBy.value === sortByValue;
     }
 }
 
@@ -92,7 +88,7 @@ function showEditor(options) {
     return new Promise(function (resolve, reject) {
         let settingsChanged = false;
 
-        import('text!./guide-settings.template.html').then(({default: template}) => {
+        import('text!./guide-settings.template.html').then(({ default: template }) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false

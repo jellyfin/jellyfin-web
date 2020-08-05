@@ -88,8 +88,8 @@ function updateProgramCellsOnScroll(programGrid, programCells) {
 
         const scrollPct = scrollLeft ? (scrollLeft / programGrid.scrollWidth) * 100 : 0;
 
-        for (let i = 0, length = programCells.length; i < length; i++) {
-            updateProgramCellOnScroll(programCells[i], scrollPct);
+        for (const programCell of programCells) {
+            updateProgramCellOnScroll(programCell, scrollPct);
         }
 
         isUpdatingProgramCellScroll = false;
@@ -588,8 +588,7 @@ function Guide(options) {
     function renderChannelHeaders(context, channels, apiClient) {
         let html = '';
 
-        for (let i = 0, length = channels.length; i < length; i++) {
-            const channel = channels[i];
+        for (const channel of channels) {
             const hasChannelImage = channel.ImageTags.Primary;
 
             let cssClass = 'guide-channelHeaderCell itemAction';
@@ -641,8 +640,8 @@ function Guide(options) {
 
         const html = [];
 
-        for (let i = 0, length = channels.length; i < length; i++) {
-            html.push(getChannelProgramsHtml(context, date, channels[i], programs, options, listInfo));
+        for (const channel of channels) {
+            html.push(getChannelProgramsHtml(context, date, channel, programs, options, listInfo));
         }
 
         programGrid.innerHTML = html.join('');
@@ -888,11 +887,10 @@ function Guide(options) {
         // add 1 to avoid programs that are out of view to the left
         const currentScrollXPct = scrollXPct + 1;
 
-        for (let i = 0, length = elements.length; i < length; i++) {
-            const elem = elements[i];
-
+        for (const elem of elements) {
             let left = (elem.style.left || '').replace('%', '');
             left = left ? parseFloat(left) : 0;
+
             let width = (elem.style.width || '').replace('%', '');
             width = width ? parseFloat(width) : 0;
 
@@ -1047,9 +1045,7 @@ function Guide(options) {
 
         // find guide cells by program id, ensure timer icon
         const cells = options.element.querySelectorAll('.programCell[data-id="' + programId + '"]');
-        for (let i = 0, length = cells.length; i < length; i++) {
-            const cell = cells[i];
-
+        for (const cell of cells) {
             const icon = cell.querySelector('.timerIcon');
             if (!icon) {
                 cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<span class="timerIcon material-icons programIcon fiber_manual_record"></span>');
@@ -1068,12 +1064,14 @@ function Guide(options) {
         const id = data.Id;
         // find guide cells by timer id, remove timer icon
         const cells = options.element.querySelectorAll('.programCell[data-timerid="' + id + '"]');
-        for (let i = 0, length = cells.length; i < length; i++) {
-            const cell = cells[i];
+
+        for (const cell of cells) {
             const icon = cell.querySelector('.timerIcon');
+
             if (icon) {
                 icon.parentNode.removeChild(icon);
             }
+
             cell.removeAttribute('data-timerid');
         }
     }
@@ -1082,12 +1080,14 @@ function Guide(options) {
         const id = data.Id;
         // find guide cells by timer id, remove timer icon
         const cells = options.element.querySelectorAll('.programCell[data-seriestimerid="' + id + '"]');
-        for (let i = 0, length = cells.length; i < length; i++) {
-            const cell = cells[i];
+
+        for (const cell of cells) {
             const icon = cell.querySelector('.seriesTimerIcon');
+
             if (icon) {
                 icon.parentNode.removeChild(icon);
             }
+
             cell.removeAttribute('data-seriestimerid');
         }
     }
