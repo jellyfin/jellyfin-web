@@ -224,6 +224,7 @@
           "src/controllers/livetvstatus.js",
           "src/controllers/livetvguideprovider.js",
           "src/controllers/livetvsettings.js",
+          "src/controllers/livetv/livetvrecordings.js",
           "src/controllers/livetv/livetvschedule.js",
           "src/controllers/livetv/livetvseriestimers.js",
           "src/controllers/livetv/livetvchannels.js",
