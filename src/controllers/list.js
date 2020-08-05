@@ -744,7 +744,8 @@ class ItemsView {
         }
 
         const sortButtons = view.querySelectorAll('.btnSort');
-
+        let i;
+        let length;
         for (this.sortButtons = sortButtons, i = 0, length = sortButtons.length; i < length; i++) {
             const sortButton = sortButtons[i];
             sortButton.addEventListener('click', showSortMenu.bind(this));
