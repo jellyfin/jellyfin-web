@@ -168,7 +168,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
 
                 reload(dlg, itemId, serverId);
 
-                currentRecordingFields = new recordingFields({
+                currentRecordingFields = new recordingFields.default({
                     parent: dlg.querySelector('.recordingFields'),
                     programId: itemId,
                     serverId: serverId
