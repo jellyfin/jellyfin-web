@@ -488,9 +488,6 @@ class HtmlAudioPlayer {
         return false;
     }
 
-    destroy() {
-    }
-
     supports(feature) {
         if (!supportedFeatures) {
             supportedFeatures = getSupportedFeatures();
