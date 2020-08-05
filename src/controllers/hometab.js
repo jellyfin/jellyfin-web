@@ -2,6 +2,7 @@ define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManage
     'use strict';
 
     loading = loading.default || loading;
+    focusManager = focusManager.default || focusManager;
 
     function HomeTab(view, params) {
         this.view = view;

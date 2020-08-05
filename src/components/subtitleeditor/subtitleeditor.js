@@ -2,6 +2,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     'use strict';
 
     loading = loading.default || loading;
+    focusManager = focusManager.default || focusManager;
 
     var currentItem;
     var hasChanges;
