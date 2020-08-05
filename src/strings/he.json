@@ -760,5 +760,9 @@
     "ButtonSyncPlay": "SyncPlay",
     "ButtonPlayer": "נגן",
     "StopPlayback": "הפסק הפעלה",
-    "ClearQueue": "נקה תור"
+    "ClearQueue": "נקה תור",
+    "DashboardServerName": "שרת: {0}",
+    "DashboardVersionNumber": "גירסה: {0}",
+    "DashboardArchitecture": "ארכיטקטורה: {0}",
+    "DashboardOperatingSystem": "מערכת הפעלה: {0}"
 }
