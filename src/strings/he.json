@@ -790,5 +790,15 @@
     "LabelDidlMode": "מצב DIDL:",
     "LabelDeviceDescription": "תיאור מכשיר",
     "LabelDefaultScreen": "מסך ברירת-מחדל:",
-    "LabelCustomDeviceDisplayName": "שם תצוגה:"
+    "LabelCustomDeviceDisplayName": "שם תצוגה:",
+    "LabelImageType": "סוג תמונה:",
+    "LabelHttpsPortHelp": "מספר פורט ה-TCP עבור שרת ה-HTTPS.",
+    "LabelHttpsPort": "מספר פורט HTTPS מקומי:",
+    "LabelGroupMoviesIntoCollections": "אגד סרטים לתוך אוספים",
+    "LabelFriendlyName": "שם ידידותי:",
+    "LabelFormat": "תבנית:",
+    "LabelForgotPasswordUsernameHelp": "הכנס/י את שם המשתמש שלך, אם את/ה זוכר/ת אותו.",
+    "LabelFont": "גופן:",
+    "LabelFolder": "תיקייה:",
+    "LabelFileOrUrl": "קובץ או כתובת אינטרנט:"
 }
