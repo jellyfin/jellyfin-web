@@ -318,6 +318,7 @@
     "Firefox ESR"
   ],
   "scripts": {
+    "start": "yarn serve",
     "serve": "gulp serve --development",
     "prepare": "gulp --production",
     "build:development": "gulp --development",
