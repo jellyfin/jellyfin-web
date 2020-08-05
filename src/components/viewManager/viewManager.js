@@ -127,9 +127,6 @@ function resetCachedViews() {
 document.addEventListener('skinunload', resetCachedViews);
 
 class ViewManager {
-    constructor() {
-    }
-
     loadView(options) {
         const lastView = currentView;
 
