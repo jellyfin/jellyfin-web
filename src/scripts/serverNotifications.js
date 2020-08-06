@@ -15,7 +15,7 @@ function notifyApp() {
 function displayMessage(cmd) {
     const args = cmd.Arguments;
     if (args.TimeoutMs) {
-        import('toast').then((toast) => {
+        import('toast').then(({default: toast}) => {
             toast({ title: args.Header, text: args.Text });
         });
     } else {
