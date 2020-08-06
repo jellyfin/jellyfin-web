@@ -135,6 +135,7 @@
           "src/components/metadataEditor/metadataEditor.js",
           "src/components/metadataEditor/personEditor.js",
           "src/components/multiSelect/multiSelect.js",
+          "src/components/notifications/notifications.js",
           "src/components/nowPlayingBar/nowPlayingBar.js",
           "src/components/playback/brightnessosd.js",
           "src/components/playback/mediasession.js",
