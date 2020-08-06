@@ -471,7 +471,7 @@
     "TabTrailers": "טריילרים",
     "TabTranscoding": "קידוד",
     "TabUpcoming": "בקרוב",
-    "Tags": "תגים",
+    "Tags": "מילות מפתח",
     "TellUsAboutYourself": "ספר לנו על עצמך",
     "ThisWizardWillGuideYou": "אשף זה יעזור לך בהתליך ההתקנה.",
     "Thursday": "חמישי",
@@ -588,7 +588,7 @@
     "MessageConfirmRestart": "‫האם אתה בטוח שברצונך לאתחל את שרת ה-Jellyfin‏?",
     "HeaderThisUserIsCurrentlyDisabled": "משתמש זה אינו פעיל כרגע",
     "HeaderTaskTriggers": "טריגרים של המשימה",
-    "HeaderTags": "תגיות",
+    "HeaderTags": "מילות מפתח",
     "HeaderStopRecording": "עצור הקלטה",
     "HeaderSortOrder": "סדר מיון",
     "HeaderSortBy": "מיין לפי",
@@ -867,5 +867,7 @@
     "OptionEveryday": "כל יום",
     "OptionEnableExternalContentInSuggestions": "הפעל תוכן חיצוני בהמלצות",
     "OptionEnableAccessToAllLibraries": "אפשר גישה לכל הספריות",
-    "OptionEnableAccessToAllChannels": "אפשר גישה לכל הערוצים"
+    "OptionEnableAccessToAllChannels": "אפשר גישה לכל הערוצים",
+    "HeaderSyncPlaySelectGroup": "הצטרף לקבוצה",
+    "TabUsers": "משתמשים"
 }
