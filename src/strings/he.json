@@ -800,5 +800,6 @@
     "LabelForgotPasswordUsernameHelp": "הכנס/י את שם המשתמש שלך, אם את/ה זוכר/ת אותו.",
     "LabelFont": "גופן:",
     "LabelFolder": "תיקייה:",
-    "LabelFileOrUrl": "קובץ או כתובת אינטרנט:"
+    "LabelFileOrUrl": "קובץ או כתובת אינטרנט:",
+    "Season": "עונה"
 }
