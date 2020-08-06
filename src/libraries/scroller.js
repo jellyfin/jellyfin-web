@@ -2,7 +2,7 @@
  * and will be replaced soon by a Vue component.
  */
 
- import browser from 'browser';
+import browser from 'browser';
 import layoutManager from 'layoutManager';
 import dom from 'dom';
 import focusManager from 'focusManager';
