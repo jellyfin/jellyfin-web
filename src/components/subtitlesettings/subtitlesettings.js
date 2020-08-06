@@ -136,7 +136,7 @@ function embed(options, self) {
             options.element.querySelector('.btnSave').classList.remove('hide');
         }
 
-        if (appHost.default.supports('subtitleappearancesettings')) {
+        if (appHost.supports('subtitleappearancesettings')) {
             options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
         }
 

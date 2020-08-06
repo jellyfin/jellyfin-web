@@ -415,7 +415,7 @@ import 'emby-ratingbutton';
             showVolumeSlider = false;
         }
 
-        if (currentPlayer.isLocalPlayer && appHost.default.supports('physicalvolumecontrol')) {
+        if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
             showMuteButton = false;
             showVolumeSlider = false;
         }

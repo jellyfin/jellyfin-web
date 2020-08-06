@@ -113,7 +113,7 @@ import appHost from 'apphost';
             'back': () => {
                 if (appRouter.canGoBack()) {
                     appRouter.back();
-                } else if (appHost.default.supports('exit')) {
+                } else if (appHost.supports('exit')) {
                     appHost.exit();
                 }
             },

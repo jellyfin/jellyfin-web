@@ -896,7 +896,7 @@ import 'css!assets/css/videoosd';
                 showVolumeSlider = false;
             }
 
-            if (player.isLocalPlayer && appHost.default.supports('physicalvolumecontrol')) {
+            if (player.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
                 showMuteButton = false;
                 showVolumeSlider = false;
             }

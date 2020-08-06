@@ -273,13 +273,10 @@ function initClient() {
     function createConnectionManager() {
         return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, appHost, credentialProvider, events, userSettings) {
             var credentialProviderInstance = new credentialProvider();
-            var promises = [appHost.default.getSyncProfile(), appHost.default.init()];
+            var promises = [appHost.default.init()];
 
             return Promise.all(promises).then(function (responses) {
-                var deviceProfile = responses[0];
                 var capabilities = Dashboard.capabilities(appHost);
-
-                capabilities.DeviceProfile = deviceProfile;
 
                 var connectionManager = new ConnectionManager(credentialProviderInstance, appHost.default.appName(), appHost.default.appVersion(), appHost.default.deviceName(), appHost.default.deviceId(), capabilities);
 
@@ -481,7 +478,7 @@ function initClient() {
             require(['webSettings'], function (webSettings) {
                 webSettings.getPlugins().then(function (list) {
                     // these two plugins are dependent on features
-                    if (!appHost.supports('remotecontrol')) {
+                    if (!appHost.default.supports('remotecontrol')) {
                         list.splice(list.indexOf('sessionPlayer'), 1);
 
                         if (!browser.chrome && !browser.opera) {

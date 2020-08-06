@@ -141,23 +141,6 @@ function supportsFullscreen() {
     return (element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen) || document.createElement('video').webkitEnterFullscreen;
 }
 
-function getSyncProfile() {
-    return new Promise(function (resolve) {
-        require(['browserdeviceprofile', 'appSettings'], function (profileBuilder, appSettings) {
-            let profile;
-
-            if (window.NativeShell) {
-                profile = window.NativeShell.AppHost.getSyncProfile(profileBuilder, appSettings);
-            } else {
-                profile = profileBuilder();
-                profile.MaxStaticMusicBitrate = appSettings.maxStaticMusicBitrate();
-            }
-
-            resolve(profile);
-        });
-    });
-}
-
 function getDefaultLayout() {
     return 'desktop';
 }
@@ -271,7 +254,7 @@ const supportedFeatures = function () {
     features.push('targetblank');
     features.push('screensaver');
 
-    webSettings.enableMultiServer().then(enabled => {
+    webSettings.getMultiServer().then(enabled => {
         if (enabled) features.push('multiserver');
     });
 
@@ -323,7 +306,7 @@ function askForExit() {
         return;
     }
 
-    require(['actionsheet'], function (actionsheet) {
+    import('actionsheet').then(({default: actionsheet}) => {
         exitPromise = actionsheet.show({
             title: globalize.translate('MessageConfirmAppExit'),
             items: [
@@ -367,7 +350,6 @@ const appHost = {
         return supportedFeatures.indexOf(command.toLowerCase()) !== -1;
     },
     preferVisualCards: browser.android || browser.chrome,
-    getSyncProfile: getSyncProfile,
     getDefaultLayout: function () {
         if (window.NativeShell) {
             return window.NativeShell.AppHost.getDefaultLayout();
