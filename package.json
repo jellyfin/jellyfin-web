@@ -167,6 +167,7 @@
           "src/components/syncPlay/playbackPermissionManager.js",
           "src/components/syncPlay/syncPlayManager.js",
           "src/components/syncPlay/timeSyncManager.js",
+          "src/components/themeMediaPlayer.js",
           "src/components/toast/toast.js",
           "src/components/upnextdialog/upnextdialog.js",
           "src/components/viewContainer.js",
