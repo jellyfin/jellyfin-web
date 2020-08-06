@@ -3,7 +3,6 @@ import dom from 'dom';
 import 'scrollStyles';
 
 function getBoundingClientRect(elem) {
-
     // Support: BlackBerry 5, iOS 3 (original iPhone)
     // If we don't have gBCR, just use 0,0 rather than error
     if (elem.getBoundingClientRect) {
@@ -14,7 +13,6 @@ function getBoundingClientRect(elem) {
 }
 
 export function getPosition(scrollContainer, item, horizontal) {
-
     const slideeOffset = getBoundingClientRect(scrollContainer);
     const itemOffset = getBoundingClientRect(item);
 
@@ -130,7 +128,7 @@ export const centerFocus = {
             });
         }
     }
-}
+};
 
 export default {
     getPosition: getPosition,

@@ -15,12 +15,12 @@ function notifyApp() {
 function displayMessage(cmd) {
     const args = cmd.Arguments;
     if (args.TimeoutMs) {
-        require(['toast'], function (toast) {
+        import('toast').then((toast) => {
             toast({ title: args.Header, text: args.Text });
         });
     } else {
-        require(['alert'], function (alert) {
-            alert.default({ title: args.Header, text: args.Text });
+        import('alert').then((alert) => {
+            alert({ title: args.Header, text: args.Text });
         });
     }
 }
