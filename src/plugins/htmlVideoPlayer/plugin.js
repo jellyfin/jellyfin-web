@@ -822,8 +822,8 @@ function tryRemoveElement(elem) {
                     }
                 });
 
-                if (self._currentPlayOptions.fullscreen) {
-                    appRouter.show('videoosd.html').then(this.onNavigatedToOsd);
+                if (this._currentPlayOptions.fullscreen) {
+                    appRouter.showVideoOsd().then(this.onNavigatedToOsd);
                 } else {
                     appRouter.setTransparency('backdrop');
                     this.#videoDialog.classList.remove('videoPlayerContainer-onTop');

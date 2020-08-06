@@ -69,27 +69,31 @@ class AppRouter {
     }
 
     showLocalLogin(serverId) {
-        this.show('login.html?serverid=' + serverId);
+        Dashboard.navigate('login.html?serverid=' + serverId);
+    }
+
+    showVideoOsd() {
+        return Dashboard.navigate('video');
     }
 
     showSelectServer() {
-        this.show(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
+        Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
     }
 
     showWelcome() {
-        this.show(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
+        Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
     }
 
     showSettings() {
-        this.show('mypreferencesmenu.html');
+        Dashboard.navigate('mypreferencesmenu.html');
     }
 
     showNowPlaying() {
-        this.show('/nowplaying.html');
+        this.show('queue');
     }
 
     beginConnectionWizard() {
-        backdrop.clear();
+        backdrop.clearBackdrop();
         loading.show();
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
@@ -231,7 +235,7 @@ class AppRouter {
         }
 
         if (level === 'full' || level === 2) {
-            backdrop.clear(true);
+            backdrop.clearBackdrop(true);
             document.documentElement.classList.add('transparentDocument');
             this.backgroundContainer.classList.add('backgroundContainer-transparent');
             this.backdropContainer.classList.add('hide');
@@ -628,27 +632,27 @@ class AppRouter {
     }
 
     showGuide() {
-        this.show('livetv.html?tab=1');
+        Dashboard.navigate('livetv.html?tab=1');
     }
 
     goHome() {
-        this.show('home.html');
+        Dashboard.navigate('home.html');
     }
 
     showSearch() {
-        this.show('search.html');
+        Dashboard.navigate('search.html');
     }
 
     showLiveTV() {
-        this.show('livetv.html');
+        Dashboard.navigate('livetv.html');
     }
 
     showRecordedTV() {
-        this.show('livetv.html?tab=3');
+        Dashboard.navigate('livetv.html?tab=3');
     }
 
     showFavorites() {
-        this.show('home.html?tab=1');
+        Dashboard.navigate('home.html?tab=1');
     }
 
     setTitle(title) {

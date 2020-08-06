@@ -106,7 +106,7 @@ function onPlaying(instance, playOptions, resolve) {
         instance.timeUpdateInterval = setInterval(onTimeUpdate.bind(instance), 500);
 
         if (playOptions.fullscreen) {
-            appRouter.show('videoosd.html').then(function () {
+            appRouter.showVideoOsd().then(function () {
                 instance.videoDialog.classList.remove('onTop');
             });
         } else {
