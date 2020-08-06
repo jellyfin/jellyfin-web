@@ -1,14 +1,7 @@
 define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (connectionManager, globalize, userSettings, appHost) {
     'use strict';
 
-    function getRequirePromise(deps) {
-
-        return new Promise(function (resolve, reject) {
-
-            require(deps, resolve);
-        });
-    }
-
+    // TODO: Replace with date-fns
     // https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
     function getWeek(date) {
         var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -19,13 +12,13 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     }
 
     function showMessage(text, userSettingsKey, appHostFeature) {
-
         if (appHost.supports(appHostFeature)) {
             return Promise.resolve();
         }
 
         var now = new Date();
 
+        // TODO: Use date-fns
         userSettingsKey += now.getFullYear() + '-w' + getWeek(now);
 
         if (userSettings.get(userSettingsKey, false) === '1') {
@@ -33,11 +26,9 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
         }
 
         return new Promise(function (resolve, reject) {
-
             userSettings.set(userSettingsKey, '1', false);
 
             require(['alert'], function (alert) {
-
                 return alert(text).then(resolve, resolve);
             });
         });
@@ -56,14 +47,12 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     }
 
     function ExpirementalPlaybackWarnings() {
-
         this.name = 'Experimental playback warnings';
         this.type = 'preplayintercept';
         this.id = 'expirementalplaybackwarnings';
     }
 
     ExpirementalPlaybackWarnings.prototype.intercept = function (options) {
-
         var item = options.item;
         if (!item) {
             return Promise.resolve();

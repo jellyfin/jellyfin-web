@@ -1,8 +1,8 @@
-import require from 'require';
 import globalize from 'globalize';
 import appHost from 'apphost';
 import appSettings from 'appSettings';
 import focusManager from 'focusManager';
+import layoutManager from 'layoutManager';
 import loading from 'loading';
 import connectionManager from 'connectionManager';
 import subtitleAppearanceHelper from 'subtitleAppearanceHelper';
@@ -11,9 +11,11 @@ import dom from 'dom';
 import events from 'events';
 import 'listViewStyle';
 import 'emby-select';
+import 'emby-slider';
 import 'emby-input';
 import 'emby-checkbox';
 import 'flexStyles';
+import 'css!./subtitlesettings';
 
 /**
  * Subtitle settings.
@@ -28,14 +30,13 @@ function getSubtitleAppearanceObject(context) {
     appearanceSettings.font = context.querySelector('#selectFont').value;
     appearanceSettings.textBackground = context.querySelector('#inputTextBackground').value;
     appearanceSettings.textColor = context.querySelector('#inputTextColor').value;
+    appearanceSettings.verticalPosition = context.querySelector('#sliderVerticalPosition').value;
 
     return appearanceSettings;
 }
 
 function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
-
     apiClient.getCultures().then(function (allCultures) {
-
         if (appHost.supports('subtitleburnsettings') && user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.fldBurnIn').classList.remove('hide');
         }
@@ -54,6 +55,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#inputTextBackground').value = appearanceSettings.textBackground || 'transparent';
         context.querySelector('#inputTextColor').value = appearanceSettings.textColor || '#ffffff';
         context.querySelector('#selectFont').value = appearanceSettings.font || '';
+        context.querySelector('#sliderVerticalPosition').value = appearanceSettings.verticalPosition;
 
         context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
 
@@ -66,7 +68,6 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
 }
 
 function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient) {
-
     let appearanceSettings = userSettingsInstance.getSubtitleAppearanceSettings(appearanceKey);
     appearanceSettings = Object.assign(appearanceSettings, getSubtitleAppearanceObject(context));
 
@@ -79,15 +80,12 @@ function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient)
 }
 
 function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
-
     loading.show();
 
     appSettings.set('subtitleburnin', context.querySelector('#selectSubtitleBurnIn').value);
 
     apiClient.getUser(userId).then(function (user) {
-
         saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
-
             loading.hide();
             if (enableSaveConfirmation) {
                 import('toast').then(({default: toast}) => {
@@ -96,7 +94,6 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
             }
 
             events.trigger(instance, 'saved');
-
         }, function () {
             loading.hide();
         });
@@ -104,7 +101,6 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
 }
 
 function onSubtitleModeChange(e) {
-
     let view = dom.parentWithClass(e.target, 'subtitlesettings');
 
     let subtitlesHelp = view.querySelectorAll('.subtitlesHelp');
@@ -115,23 +111,55 @@ function onSubtitleModeChange(e) {
 }
 
 function onAppearanceFieldChange(e) {
-
     let view = dom.parentWithClass(e.target, 'subtitlesettings');
 
     let appearanceSettings = getSubtitleAppearanceObject(view);
 
     let elements = {
         window: view.querySelector('.subtitleappearance-preview-window'),
-        text: view.querySelector('.subtitleappearance-preview-text')
+        text: view.querySelector('.subtitleappearance-preview-text'),
+        preview: true
     };
 
     subtitleAppearanceHelper.applyStyles(elements, appearanceSettings);
+
+    subtitleAppearanceHelper.applyStyles({
+        window: view.querySelector('.subtitleappearance-fullpreview-window'),
+        text: view.querySelector('.subtitleappearance-fullpreview-text')
+    }, appearanceSettings);
+}
+
+const subtitlePreviewDelay = 1000;
+let subtitlePreviewTimer;
+
+function showSubtitlePreview(persistent) {
+    clearTimeout(subtitlePreviewTimer);
+
+    this._fullPreview.classList.remove('subtitleappearance-fullpreview-hide');
+
+    if (persistent) {
+        this._refFullPreview++;
+    }
+
+    if (this._refFullPreview === 0) {
+        subtitlePreviewTimer = setTimeout(hideSubtitlePreview.bind(this), subtitlePreviewDelay);
+    }
+}
+
+function hideSubtitlePreview(persistent) {
+    clearTimeout(subtitlePreviewTimer);
+
+    if (persistent) {
+        this._refFullPreview--;
+    }
+
+    if (this._refFullPreview === 0) {
+        this._fullPreview.classList.add('subtitleappearance-fullpreview-hide');
+    }
 }
 
 function embed(options, self) {
-
     import('text!./subtitlesettings.template.html').then(({default: template}) => {
-
         options.element.classList.add('subtitlesettings');
         options.element.innerHTML = globalize.translateHtml(template, 'core');
 
@@ -150,6 +178,36 @@ function embed(options, self) {
 
         if (appHost.supports('subtitleappearancesettings')) {
             options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
+
+            self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');
+            self._refFullPreview = 0;
+
+            const sliderVerticalPosition = options.element.querySelector('#sliderVerticalPosition');
+            sliderVerticalPosition.addEventListener('input', onAppearanceFieldChange);
+            sliderVerticalPosition.addEventListener('input', () => showSubtitlePreview.call(self));
+
+            const eventPrefix = window.PointerEvent ? 'pointer' : 'mouse';
+            sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSubtitlePreview.call(self, true));
+            sliderVerticalPosition.addEventListener(`${eventPrefix}leave`, () => hideSubtitlePreview.call(self, true));
+
+            if (layoutManager.tv) {
+                sliderVerticalPosition.addEventListener('focus', () => showSubtitlePreview.call(self, true));
+                sliderVerticalPosition.addEventListener('blur', () => hideSubtitlePreview.call(self, true));
+
+                // Give CustomElements time to attach
+                setTimeout(() => {
+                    sliderVerticalPosition.classList.add('focusable');
+                    sliderVerticalPosition.enableKeyboardDragging();
+                }, 0);
+            }
+
+            options.element.querySelector('.chkPreview').addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    showSubtitlePreview.call(self, true);
+                } else {
+                    hideSubtitlePreview.call(self, true);
+                }
+            });
         }
 
         self.loadData();
@@ -161,9 +219,7 @@ function embed(options, self) {
 }
 
 export class SubtitleSettings {
-
     constructor(options) {
-
         this.options = options;
 
         embed(options, this);
@@ -205,7 +261,6 @@ export class SubtitleSettings {
         let userSettings = self.options.userSettings;
 
         userSettings.setUserInfo(userId, apiClient).then(function () {
-
             let enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });

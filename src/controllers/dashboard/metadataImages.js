@@ -1,5 +1,4 @@
 import $ from 'jQuery';
-import dom from 'dom';
 import loading from 'loading';
 import libraryMenu from 'libraryMenu';
 import globalize from 'globalize';

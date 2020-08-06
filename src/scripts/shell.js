@@ -6,7 +6,6 @@ export default {
         } else {
             window.open(url, target || '_blank');
         }
-
     },
     enableFullscreen: function () {
         if (window.NativeShell) {

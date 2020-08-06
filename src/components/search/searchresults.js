@@ -1,7 +1,5 @@
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
-import require from 'require';
-import events from 'events';
 import connectionManager from 'connectionManager';
 import cardBuilder from 'cardBuilder';
 import appRouter from 'appRouter';
@@ -12,7 +10,6 @@ import 'emby-button';
 /* eslint-disable indent */
 
     function loadSuggestions(instance, context, apiClient) {
-
         const options = {
 
             SortBy: 'IsFavoriteOrLiked,Random',
@@ -26,20 +23,17 @@ import 'emby-button';
         };
 
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-
             if (instance.mode !== 'suggestions') {
                 result.Items = [];
             }
 
             const html = result.Items.map(function (i) {
-
                 const href = appRouter.getRouteUrl(i);
 
                 let itemHtml = '<div><a is="emby-linkbutton" class="button-link" style="display:inline-block;padding:.5em 1em;" href="' + href + '">';
                 itemHtml += i.Name;
                 itemHtml += '</a></div>';
                 return itemHtml;
-
             }).join('');
 
             const searchSuggestions = context.querySelector('.searchSuggestions');
@@ -52,7 +46,6 @@ import 'emby-button';
     }
 
     function getSearchHints(instance, apiClient, query) {
-
         if (!query.searchTerm) {
             return Promise.resolve({
                 SearchHints: []
@@ -131,7 +124,6 @@ import 'emby-button';
 
         // Convert the search hint query to a regular item query
         if (apiClient.isMinServerVersion('3.4.1.31')) {
-
             query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount';
             query.Recursive = true;
             query.EnableTotalRecordCount = false;
@@ -142,7 +134,6 @@ import 'emby-button';
             if (!query.IncludeMedia) {
                 if (query.IncludePeople) {
                     methodName = 'getPeople';
-
                 } else if (query.IncludeArtists) {
                     methodName = 'getArtists';
                 }
@@ -157,7 +148,6 @@ import 'emby-button';
     }
 
     function search(instance, apiClient, context, value) {
-
         if (value || layoutManager.tv) {
             instance.mode = 'search';
             context.querySelector('.searchSuggestions').classList.add('hide');
@@ -167,7 +157,6 @@ import 'emby-button';
         }
 
         if (instance.options.collectionType === 'livetv') {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -196,7 +185,6 @@ import 'emby-button';
                 showChannelName: true
             });
         } else {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -233,7 +221,6 @@ import 'emby-button';
         });
 
         if (instance.options.collectionType === 'livetv') {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -262,9 +249,7 @@ import 'emby-button';
                 showAirDateTime: true,
                 showChannelName: true
             });
-
         } else {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -562,18 +547,15 @@ import 'emby-button';
     }
 
     function searchType(instance, apiClient, query, context, section, cardOptions) {
-
         query.Limit = enableScrollX() ? 24 : 16;
         query.ParentId = instance.options.parentId;
 
         getSearchHints(instance, apiClient, query).then(function (result) {
-
             populateResults(result, context, section, cardOptions);
         });
     }
 
     function populateResults(result, context, section, cardOptions) {
-
         section = context.querySelector(section);
 
         const items = result.Items || result.SearchHints;
@@ -603,9 +585,7 @@ import 'emby-button';
     }
 
     function embed(elem, instance, options) {
-
         import('text!./searchresults.template.html').then(({default: template}) => {
-
             if (!enableScrollX()) {
                 template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');
                 template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
@@ -622,24 +602,20 @@ import 'emby-button';
 
 class SearchResults {
     constructor(options) {
-
         this.options = options;
         embed(options.element, this, options);
     }
     search(value) {
-
         const apiClient = connectionManager.getApiClient(this.options.serverId);
 
         search(this, apiClient, this.options.element, value);
     }
     destroy() {
-
         const options = this.options;
         if (options) {
             options.element.classList.remove('searchFields');
         }
         this.options = null;
-
     }
 }
 

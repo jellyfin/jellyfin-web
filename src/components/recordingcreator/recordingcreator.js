@@ -8,27 +8,22 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     var currentRecordingFields;
 
     function closeDialog() {
-
         dialogHelper.close(currentDialog);
     }
 
     function init(context) {
-
         context.querySelector('.btnPlay').addEventListener('click', function () {
-
             closeAction = 'play';
             closeDialog();
         });
 
         context.querySelector('.btnCancel').addEventListener('click', function () {
-
             closeAction = null;
             closeDialog();
         });
     }
 
     function getImageUrl(item, apiClient, imageHeight) {
-
         var imageTags = item.ImageTags || {};
 
         if (item.PrimaryImageTag) {
@@ -36,14 +31,12 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         }
 
         if (imageTags.Primary) {
-
             return apiClient.getScaledImageUrl(item.Id, {
                 type: 'Primary',
                 maxHeight: imageHeight,
                 tag: item.ImageTags.Primary
             });
         } else if (imageTags.Thumb) {
-
             return apiClient.getScaledImageUrl(item.Id, {
                 type: 'Thumb',
                 maxHeight: imageHeight,
@@ -55,7 +48,6 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function renderRecording(context, defaultTimer, program, apiClient, refreshRecordingStateOnly) {
-
         if (!refreshRecordingStateOnly) {
             var imgUrl = getImageUrl(program, apiClient, 200);
             var imageContainer = context.querySelector('.recordingDialog-imageContainer');
@@ -93,7 +85,6 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function reload(context, programId, serverId, refreshRecordingStateOnly) {
-
         loading.show();
 
         var apiClient = connectionManager.getApiClient(serverId);
@@ -102,7 +93,6 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         var promise2 = apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId());
 
         Promise.all([promise1, promise2]).then(function (responses) {
-
             var defaults = responses[0];
             var program = responses[1];
 
@@ -111,16 +101,12 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function executeCloseAction(action, programId, serverId) {
-
         if (action === 'play') {
-
             require(['playbackManager'], function (playbackManager) {
-
                 var apiClient = connectionManager.getApiClient(serverId);
 
                 apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
-
-                    playbackManager.play({
+                    playbackManager.default.play({
                         ids: [item.ChannelId],
                         serverId: serverId
                     });
@@ -131,15 +117,12 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     }
 
     function showEditor(itemId, serverId) {
-
         return new Promise(function (resolve, reject) {
-
             closeAction = null;
 
             loading.show();
 
             require(['text!./recordingcreator.template.html'], function (template) {
-
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
@@ -169,7 +152,6 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                 }
 
                 dlg.addEventListener('close', function () {
-
                     events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
                     executeCloseAction(closeAction, itemId, serverId);
 

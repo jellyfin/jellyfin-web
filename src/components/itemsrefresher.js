@@ -2,25 +2,22 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     'use strict';
 
     serverNotifications = serverNotifications.default || serverNotifications;
+    playbackManager = playbackManager.default || playbackManager;
 
     function onUserDataChanged(e, apiClient, userData) {
-
         var instance = this;
 
         var eventsToMonitor = getEventsToMonitor(instance);
 
         // TODO: Check user data change reason?
         if (eventsToMonitor.indexOf('markfavorite') !== -1) {
-
             instance.notifyRefreshNeeded();
         } else if (eventsToMonitor.indexOf('markplayed') !== -1) {
-
             instance.notifyRefreshNeeded();
         }
     }
 
     function getEventsToMonitor(instance) {
-
         var options = instance.options;
         var monitor = options ? options.monitorEvents : null;
         if (monitor) {
@@ -31,21 +28,17 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     }
 
     function onTimerCreated(e, apiClient, data) {
-
         var instance = this;
 
         if (getEventsToMonitor(instance).indexOf('timers') !== -1) {
-
             instance.notifyRefreshNeeded();
             return;
         }
     }
 
     function onSeriesTimerCreated(e, apiClient, data) {
-
         var instance = this;
         if (getEventsToMonitor(instance).indexOf('seriestimers') !== -1) {
-
             instance.notifyRefreshNeeded();
             return;
         }
@@ -55,28 +48,23 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
         var instance = this;
 
         if (getEventsToMonitor(instance).indexOf('timers') !== -1) {
-
             instance.notifyRefreshNeeded();
             return;
         }
     }
 
     function onSeriesTimerCancelled(e, apiClient, data) {
-
         var instance = this;
         if (getEventsToMonitor(instance).indexOf('seriestimers') !== -1) {
-
             instance.notifyRefreshNeeded();
             return;
         }
     }
 
     function onLibraryChanged(e, apiClient, data) {
-
         var instance = this;
         var eventsToMonitor = getEventsToMonitor(instance);
         if (eventsToMonitor.indexOf('seriestimers') !== -1 || eventsToMonitor.indexOf('timers') !== -1) {
-
             // yes this is an assumption
             return;
         }
@@ -103,23 +91,18 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     }
 
     function onPlaybackStopped(e, stopInfo) {
-
         var instance = this;
 
         var state = stopInfo.state;
 
         var eventsToMonitor = getEventsToMonitor(instance);
         if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
-
             if (eventsToMonitor.indexOf('videoplayback') !== -1) {
-
                 instance.notifyRefreshNeeded(true);
                 return;
             }
         } else if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Audio') {
-
             if (eventsToMonitor.indexOf('audioplayback') !== -1) {
-
                 instance.notifyRefreshNeeded(true);
                 return;
             }
@@ -127,7 +110,6 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     }
 
     function addNotificationEvent(instance, name, handler, owner) {
-
         var localHandler = handler.bind(instance);
         owner = owner || serverNotifications;
         events.on(owner, name, localHandler);
@@ -135,7 +117,6 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     }
 
     function removeNotificationEvent(instance, name, owner) {
-
         var handler = instance['event_' + name];
         if (handler) {
             owner = owner || serverNotifications;
@@ -145,7 +126,6 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     }
 
     function ItemsRefresher(options) {
-
         this.options = options || {};
 
         addNotificationEvent(this, 'UserDataChanged', onUserDataChanged);
@@ -158,24 +138,19 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     }
 
     ItemsRefresher.prototype.pause = function () {
-
         clearRefreshInterval(this, true);
 
         this.paused = true;
     };
 
     ItemsRefresher.prototype.resume = function (options) {
-
         this.paused = false;
 
         var refreshIntervalEndTime = this.refreshIntervalEndTime;
         if (refreshIntervalEndTime) {
-
             var remainingMs = refreshIntervalEndTime - new Date().getTime();
             if (remainingMs > 0 && !this.needsRefresh) {
-
                 resetRefreshInterval(this, remainingMs);
-
             } else {
                 this.needsRefresh = true;
                 this.refreshIntervalEndTime = null;
@@ -190,7 +165,6 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     };
 
     ItemsRefresher.prototype.refreshItems = function () {
-
         if (!this.fetchData) {
             return Promise.resolve();
         }
@@ -206,7 +180,6 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     };
 
     ItemsRefresher.prototype.notifyRefreshNeeded = function (isInForeground) {
-
         if (this.paused) {
             this.needsRefresh = true;
             return;
@@ -225,9 +198,7 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     };
 
     function clearRefreshInterval(instance, isPausing) {
-
         if (instance.refreshInterval) {
-
             clearInterval(instance.refreshInterval);
             instance.refreshInterval = null;
 
@@ -238,7 +209,6 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     }
 
     function resetRefreshInterval(instance, intervalMs) {
-
         clearRefreshInterval(instance);
 
         if (!intervalMs) {
@@ -255,7 +225,6 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     }
 
     function onDataFetched(result) {
-
         resetRefreshInterval(this);
 
         if (this.afterRefresh) {
@@ -264,7 +233,6 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
     }
 
     ItemsRefresher.prototype.destroy = function () {
-
         clearRefreshInterval(this);
 
         removeNotificationEvent(this, 'UserDataChanged');

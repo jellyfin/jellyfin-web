@@ -262,8 +262,6 @@ import 'emby-button';
         function loadTab(page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
-                initialTabIndex = null;
-
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
@@ -294,10 +292,8 @@ import 'emby-button';
             }
         }
 
-        let isViewRestored;
         const self = this;
         let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        let initialTabIndex = currentTabIndex;
 
         self.initTab = function () {
             const tabContent = self.tabContent;
@@ -312,7 +308,6 @@ import 'emby-button';
         let renderedTabs = [];
         setScrollClasses(view.querySelector('#resumableItems'), enableScrollX());
         view.addEventListener('viewshow', function (e) {
-            isViewRestored = e.detail.isRestored;
             initTabs();
             if (!view.getAttribute('data-title')) {
                 const parentId = params.topParentId;

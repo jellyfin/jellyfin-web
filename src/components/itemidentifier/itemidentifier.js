@@ -35,7 +35,6 @@ import 'cardStyle';
     }
 
     function searchForIdentificationResults(page) {
-
         let lookupInfo = {
             ProviderIds: {}
         };
@@ -45,11 +44,9 @@ import 'cardStyle';
         const identifyField = page.querySelectorAll('.identifyField');
         let value;
         for (i = 0, length = identifyField.length; i < length; i++) {
-
             value = identifyField[i].value;
 
             if (value) {
-
                 if (identifyField[i].type === 'number') {
                     value = parseInt(value);
                 }
@@ -62,7 +59,6 @@ import 'cardStyle';
 
         const txtLookupId = page.querySelectorAll('.txtLookupId');
         for (i = 0, length = txtLookupId.length; i < length; i++) {
-
             value = txtLookupId[i].value;
 
             if (value) {
@@ -100,14 +96,12 @@ import 'cardStyle';
             dataType: 'json'
 
         }).then(results => {
-
             loading.hide();
             showIdentificationSearchResults(page, results);
         });
     }
 
     function showIdentificationSearchResults(page, results) {
-
         const identificationSearchResults = page.querySelector('.identificationSearchResults');
 
         page.querySelector('.popupIdentifyForm').classList.add('hide');
@@ -119,7 +113,6 @@ import 'cardStyle';
         let i;
         let length;
         for (i = 0, length = results.length; i < length; i++) {
-
             const result = results[i];
             html += getSearchResultHtml(result, i);
         }
@@ -133,17 +126,14 @@ import 'cardStyle';
             const currentResult = results[index];
 
             if (currentItem != null) {
-
                 showIdentifyOptions(page, currentResult);
             } else {
-
                 finishFindNewDialog(page, currentResult);
             }
         }
 
         const searchImages = elem.querySelectorAll('.card');
         for (i = 0, length = searchImages.length; i < length; i++) {
-
             searchImages[i].addEventListener('click', onSearchImageClick);
         }
 
@@ -161,7 +151,6 @@ import 'cardStyle';
     }
 
     function showIdentifyOptions(page, identifyResult) {
-
         const identifyOptionsForm = page.querySelector('.identifyOptionsForm');
 
         page.querySelector('.popupIdentifyForm').classList.add('hide');
@@ -193,7 +182,6 @@ import 'cardStyle';
     }
 
     function getSearchResultHtml(result, index) {
-
         // TODO move card creation code to Card component
 
         let html = '';
@@ -234,7 +222,6 @@ import 'cardStyle';
 
             html += `<div class="cardImageContainer coveredImage" style="background-image:url('${displayUrl}');"></div>`;
         } else {
-
             html += `<div class="cardImageContainer coveredImage defaultCardBackground defaultCardBackground1"><div class="cardText cardCenteredText">${result.Name}</div></div>`;
         }
         html += '</div>';
@@ -257,7 +244,6 @@ import 'cardStyle';
         }
 
         for (let i = 0; i < numLines; i++) {
-
             if (i === 0) {
                 html += '<div class="cardText cardText-first cardTextCentered">';
             } else {
@@ -279,7 +265,6 @@ import 'cardStyle';
     }
 
     function submitIdentficationResult(page) {
-
         loading.show();
 
         const options = {
@@ -295,14 +280,11 @@ import 'cardStyle';
             contentType: 'application/json'
 
         }).then(() => {
-
             hasChanges = true;
             loading.hide();
 
             dialogHelper.close(page);
-
         }, () => {
-
             loading.hide();
 
             dialogHelper.close(page);
@@ -310,15 +292,12 @@ import 'cardStyle';
     }
 
     function showIdentificationForm(page, item) {
-
         const apiClient = getApiClient();
 
         apiClient.getJSON(apiClient.getUrl(`Items/${item.Id}/ExternalIdInfos`)).then(idList => {
-
             let html = '';
 
             for (let i = 0, length = idList.length; i < length; i++) {
-
                 const idInfo = idList[i];
 
                 const id = `txtLookup${idInfo.Key}`;
@@ -340,11 +319,9 @@ import 'cardStyle';
             page.querySelector('#txtLookupName').value = '';
 
             if (item.Type === 'Person' || item.Type === 'BoxSet') {
-
                 page.querySelector('.fldLookupYear').classList.add('hide');
                 page.querySelector('#txtLookupYear').value = '';
             } else {
-
                 page.querySelector('.fldLookupYear').classList.remove('hide');
                 page.querySelector('#txtLookupYear').value = '';
             }
@@ -356,15 +333,12 @@ import 'cardStyle';
     }
 
     function showEditor(itemId) {
-
         loading.show();
 
         return import('text!./itemidentifier.template.html').then(({default: template}) => {
-
             const apiClient = getApiClient();
 
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
-
                 currentItem = item;
                 currentItemType = currentItem.Type;
 
@@ -406,21 +380,18 @@ import 'cardStyle';
                 dialogHelper.open(dlg);
 
                 dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
-
                     e.preventDefault();
                     searchForIdentificationResults(dlg);
                     return false;
                 });
 
                 dlg.querySelector('.identifyOptionsForm').addEventListener('submit', e => {
-
                     e.preventDefault();
                     submitIdentficationResult(dlg);
                     return false;
                 });
 
                 dlg.querySelector('.btnCancel').addEventListener('click', () => {
-
                     dialogHelper.close(dlg);
                 });
 
@@ -433,7 +404,6 @@ import 'cardStyle';
     }
 
     function onDialogClosed() {
-
         loading.hide();
         if (hasChanges) {
             currentResolve();
@@ -444,12 +414,10 @@ import 'cardStyle';
 
     // TODO investigate where this was used
     function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
-
         currentItem = null;
         currentItemType = itemType;
 
         return import('text!./itemidentifier.template.html').then(({default: template}) => {
-
             const dialogOptions = {
                 size: 'small',
                 removeOnClose: true,
@@ -477,19 +445,16 @@ import 'cardStyle';
             dialogHelper.open(dlg);
 
             dlg.querySelector('.btnCancel').addEventListener('click', () => {
-
                 dialogHelper.close(dlg);
             });
 
             dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
-
                 e.preventDefault();
                 searchForIdentificationResults(dlg);
                 return false;
             });
 
             dlg.addEventListener('close', () => {
-
                 loading.hide();
                 const foundItem = hasChanges ? currentSearchResult : null;
 
@@ -503,16 +468,12 @@ import 'cardStyle';
     }
 
     function showIdentificationFormFindNew(dlg, itemName, itemYear, itemType) {
-
         dlg.querySelector('#txtLookupName').value = itemName;
 
         if (itemType === 'Person' || itemType === 'BoxSet') {
-
             dlg.querySelector('.fldLookupYear').classList.add('hide');
             dlg.querySelector('#txtLookupYear').value = '';
-
         } else {
-
             dlg.querySelector('.fldLookupYear').classList.remove('hide');
             dlg.querySelector('#txtLookupYear').value = itemYear;
         }
@@ -521,9 +482,7 @@ import 'cardStyle';
     }
 
     export function show(itemId, serverId) {
-
         return new Promise((resolve, reject) => {
-
             currentResolve = resolve;
             currentReject = reject;
             currentServerId = serverId;
@@ -534,9 +493,7 @@ import 'cardStyle';
     }
 
     export function showFindNew(itemName, itemYear, itemType, serverId) {
-
         return new Promise((resolve) => {
-
             currentServerId = serverId;
 
             hasChanges = false;

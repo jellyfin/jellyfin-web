@@ -4,12 +4,10 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
     scrollHelper = scrollHelper.default || scrollHelper;
 
     function saveCategories(context, options) {
-
         var categories = [];
 
         var chkCategorys = context.querySelectorAll('.chkCategory');
         for (var i = 0, length = chkCategorys.length; i < length; i++) {
-
             var type = chkCategorys[i].getAttribute('data-type');
 
             if (chkCategorys[i].checked) {
@@ -27,12 +25,10 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
     }
 
     function loadCategories(context, options) {
-
         var selectedCategories = options.categories || [];
 
         var chkCategorys = context.querySelectorAll('.chkCategory');
         for (var i = 0, length = chkCategorys.length; i < length; i++) {
-
             var type = chkCategorys[i].getAttribute('data-type');
 
             chkCategorys[i].checked = !selectedCategories.length || selectedCategories.indexOf(type) !== -1;
@@ -40,13 +36,11 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
     }
 
     function save(context) {
-
         var i;
         var length;
 
         var chkIndicators = context.querySelectorAll('.chkIndicator');
         for (i = 0, length = chkIndicators.length; i < length; i++) {
-
             var type = chkIndicators[i].getAttribute('data-type');
             userSettings.set('guide-indicator-' + type, chkIndicators[i].checked);
         }
@@ -64,13 +58,11 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
     }
 
     function load(context) {
-
         var i;
         var length;
 
         var chkIndicators = context.querySelectorAll('.chkIndicator');
         for (i = 0, length = chkIndicators.length; i < length; i++) {
-
             var type = chkIndicators[i].getAttribute('data-type');
 
             if (chkIndicators[i].getAttribute('data-default') === 'true') {
@@ -92,13 +84,10 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
     }
 
     function showEditor(options) {
-
         return new Promise(function (resolve, reject) {
-
             var settingsChanged = false;
 
             require(['text!./guide-settings.template.html'], function (template) {
-
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
@@ -121,12 +110,10 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
                 dlg.innerHTML = html;
 
                 dlg.addEventListener('change', function () {
-
                     settingsChanged = true;
                 });
 
                 dlg.addEventListener('close', function () {
-
                     if (layoutManager.tv) {
                         scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
                     }

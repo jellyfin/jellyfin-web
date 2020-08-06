@@ -7,7 +7,6 @@ import 'webcomponents';
     let EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
 
     function onKeyDown(e) {
-
         // Don't submit form on enter
         // Real (non-emulator) Tizen does nothing on Space
         if (e.keyCode === 13 || e.keyCode === 32) {
@@ -37,7 +36,6 @@ import 'webcomponents';
         this.classList.add('mdl-radio__button');
 
         let labelElement = this.parentNode;
-        //labelElement.classList.add('"mdl-radio mdl-js-radio mdl-js-ripple-effect');
         labelElement.classList.add('mdl-radio');
         labelElement.classList.add('mdl-js-radio');
         labelElement.classList.add('mdl-js-ripple-effect');

@@ -1,4 +1,3 @@
-import itemHelper from 'itemHelper';
 import dom from 'dom';
 import layoutManager from 'layoutManager';
 import dialogHelper from 'dialogHelper';
@@ -31,16 +30,13 @@ import 'flexStyles';
     }
 
     function closeDialog(isSubmitted) {
-
         if (isDialog()) {
             dialogHelper.close(currentContext);
         }
     }
 
     function submitUpdatedItem(form, item) {
-
         function afterContentTypeUpdated() {
-
             require(['toast'], function (toast) {
                 toast(globalize.translate('MessageItemSaved'));
             });
@@ -52,11 +48,9 @@ import 'flexStyles';
         const apiClient = getApiClient();
 
         apiClient.updateItem(item).then(function () {
-
             const newContentType = form.querySelector('#selectContentType').value || '';
 
             if ((metadataEditorInfo.ContentType || '') !== newContentType) {
-
                 apiClient.ajax({
 
                     url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
@@ -68,11 +62,9 @@ import 'flexStyles';
                 }).then(function () {
                     afterContentTypeUpdated();
                 });
-
             } else {
                 afterContentTypeUpdated();
             }
-
         });
     }
 
@@ -84,13 +76,9 @@ import 'flexStyles';
     }
 
     function getAlbumArtists(form) {
-
         return form.querySelector('#txtAlbumArtist').value.trim().split(';').filter(function (s) {
-
             return s.length > 0;
-
         }).map(function (a) {
-
             return {
                 Name: a
             };
@@ -98,13 +86,9 @@ import 'flexStyles';
     }
 
     function getArtists(form) {
-
         return form.querySelector('#txtArtist').value.trim().split(';').filter(function (s) {
-
             return s.length > 0;
-
         }).map(function (a) {
-
             return {
                 Name: a
             };
@@ -112,7 +96,6 @@ import 'flexStyles';
     }
 
     function getDateValue(form, element, property) {
-
         let val = form.querySelector(element).value;
 
         if (!val) {
@@ -120,14 +103,12 @@ import 'flexStyles';
         }
 
         if (currentItem[property]) {
-
             const date = datetime.parseISO8601Date(currentItem[property], true);
 
             const parts = date.toISOString().split('T');
 
             // If the date is the same, preserve the time
             if (parts[0].indexOf(val) === 0) {
-
                 const iso = parts[1];
 
                 val += 'T' + iso;
@@ -138,7 +119,6 @@ import 'flexStyles';
     }
 
     function onSubmit(e) {
-
         loading.show();
 
         const form = this;
@@ -199,14 +179,12 @@ import 'flexStyles';
         item.PreferredMetadataCountryCode = form.querySelector('#selectCountry').value;
 
         if (currentItem.Type === 'Person') {
-
             const placeOfBirth = form.querySelector('#txtPlaceOfBirth').value;
 
             item.ProductionLocations = placeOfBirth ? [placeOfBirth] : [];
         }
 
         if (currentItem.Type === 'Series') {
-
             // 600000000
             const seriesRuntime = form.querySelector('#txtSeriesRuntime').value;
             item.RunTimeTicks = seriesRuntime ? (seriesRuntime * 600000000) : null;
@@ -249,11 +227,8 @@ import 'flexStyles';
     }
 
     function editPerson(context, person, index) {
-
         require(['personEditor'], function (personEditor) {
-
             personEditor.show(person).then(function (updatedPerson) {
-
                 const isNew = index === -1;
 
                 if (isNew) {
@@ -303,7 +278,6 @@ import 'flexStyles';
     }
 
     function onEditorClick(e) {
-
         const btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
         if (btnRemoveFromEditorList) {
             removeElementFromList(btnRemoveFromEditorList);
@@ -376,12 +350,10 @@ import 'flexStyles';
         form.addEventListener('submit', onSubmit);
 
         context.querySelector('#btnAddPerson').addEventListener('click', function (event, data) {
-
             editPerson(context, {}, -1);
         });
 
         context.querySelector('#peopleList').addEventListener('click', function (e) {
-
             let index;
             const btnDeletePerson = dom.parentWithClass(e.target, 'btnDeletePerson');
             if (btnDeletePerson) {
@@ -399,7 +371,6 @@ import 'flexStyles';
     }
 
     function getItem(itemId, serverId) {
-
         const apiClient = connectionManager.getApiClient(serverId);
 
         if (itemId) {
@@ -410,7 +381,6 @@ import 'flexStyles';
     }
 
     function getEditorConfig(itemId, serverId) {
-
         const apiClient = connectionManager.getApiClient(serverId);
 
         if (itemId) {
@@ -421,13 +391,11 @@ import 'flexStyles';
     }
 
     function populateCountries(select, allCountries) {
-
         let html = '';
 
         html += "<option value=''></option>";
 
         for (let i = 0, length = allCountries.length; i < length; i++) {
-
             const culture = allCountries[i];
 
             html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
@@ -437,13 +405,11 @@ import 'flexStyles';
     }
 
     function populateLanguages(select, languages) {
-
         let html = '';
 
         html += "<option value=''></option>";
 
         for (let i = 0, length = languages.length; i < length; i++) {
-
             const culture = languages[i];
 
             html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
@@ -453,7 +419,6 @@ import 'flexStyles';
     }
 
     function renderContentTypeOptions(context, metadataInfo) {
-
         if (!metadataInfo.ContentTypeOptions.length) {
             hideElement('#fldContentType', context);
         } else {
@@ -461,9 +426,7 @@ import 'flexStyles';
         }
 
         const html = metadataInfo.ContentTypeOptions.map(function (i) {
-
             return '<option value="' + i.Value + '">' + i.Name + '</option>';
-
         }).join('');
 
         const selectEl = context.querySelector('#selectContentType');
@@ -472,13 +435,11 @@ import 'flexStyles';
     }
 
     function loadExternalIds(context, item, externalIds) {
-
         let html = '';
 
         const providerIds = item.ProviderIds || {};
 
         for (let i = 0, length = externalIds.length; i < length; i++) {
-
             const idInfo = externalIds[i];
 
             const id = 'txt1' + idInfo.Key;
@@ -524,7 +485,6 @@ import 'flexStyles';
     function hideElement(selector, context, multiple) {
         context = context || document;
         if (typeof selector === 'string') {
-
             const elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
 
             Array.prototype.forEach.call(elements, function (el) {
@@ -543,7 +503,6 @@ import 'flexStyles';
     function showElement(selector, context, multiple) {
         context = context || document;
         if (typeof selector === 'string') {
-
             const elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
 
             Array.prototype.forEach.call(elements, function (el) {
@@ -745,7 +704,6 @@ import 'flexStyles';
     }
 
     function fillItemInfo(context, item, parentalRatingOptions) {
-
         let select = context.querySelector('#selectOfficialRating');
 
         populateRatings(parentalRatingOptions, select, item.OfficialRating);
@@ -867,7 +825,6 @@ import 'flexStyles';
         context.querySelector('#selectCountry').value = item.PreferredMetadataCountryCode || '';
 
         if (item.RunTimeTicks) {
-
             const minutes = item.RunTimeTicks / 600000000;
 
             context.querySelector('#txtSeriesRuntime').value = Math.round(minutes);
@@ -877,7 +834,6 @@ import 'flexStyles';
     }
 
     function populateRatings(allParentalRatings, select, currentValue) {
-
         let html = '';
 
         html += "<option value=''></option>";
@@ -888,7 +844,6 @@ import 'flexStyles';
         let currentValueFound = false;
 
         for (let i = 0, length = allParentalRatings.length; i < length; i++) {
-
             rating = allParentalRatings[i];
 
             ratings.push({ Name: rating.Name, Value: rating.Name });
@@ -903,7 +858,6 @@ import 'flexStyles';
         }
 
         for (let i = 0, length = ratings.length; i < length; i++) {
-
             rating = ratings[i];
 
             html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
@@ -922,7 +876,6 @@ import 'flexStyles';
     }
 
     function populateListView(list, items, sortCallback) {
-
         items = items || [];
         if (typeof (sortCallback) === 'undefined') {
             items.sort(function (a, b) {
@@ -954,14 +907,12 @@ import 'flexStyles';
     }
 
     function populatePeople(context, people) {
-
         let lastType = '';
         let html = '';
 
         const elem = context.querySelector('#peopleList');
 
         for (let i = 0, length = people.length; i < length; i++) {
-
             const person = people[i];
 
             html += '<div class="listItem">';
@@ -991,10 +942,8 @@ import 'flexStyles';
     }
 
     function getLockedFieldsHtml(fields, currentFields) {
-
         let html = '';
         for (let i = 0; i < fields.length; i++) {
-
             const field = fields[i];
             const name = field.name;
             const value = field.value || field.name;
@@ -1041,11 +990,9 @@ import 'flexStyles';
     }
 
     function reload(context, itemId, serverId) {
-
         loading.show();
 
         Promise.all([getItem(itemId, serverId), getEditorConfig(itemId, serverId)]).then(function (responses) {
-
             const item = responses[0];
             metadataEditorInfo = responses[1];
 
@@ -1137,7 +1084,6 @@ import 'flexStyles';
 
         embed: function (elem, itemId, serverId) {
             return new Promise(function (resolve, reject) {
-
                 loading.show();
 
                 import('text!./metadataEditor.template.html').then(({default: template}) => {

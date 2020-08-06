@@ -2,19 +2,16 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
     'use strict';
 
     function onSubmit(e) {
-
         e.preventDefault();
         return false;
     }
 
     function initEditor(context, settings) {
-
         context.querySelector('form').addEventListener('submit', onSubmit);
 
         var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
 
         for (var i = 0, length = elems.length; i < length; i++) {
-
             elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
         }
 
@@ -22,7 +19,6 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
     }
 
     function saveValues(context, settings, settingsKey) {
-
         var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
         for (var i = 0, length = elems.length; i < length; i++) {
             userSettings.set(settingsKey + '-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input').checked);
@@ -40,7 +36,6 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
     }
 
     function showIfAllowed(context, selector, visible) {
-
         var elem = context.querySelector(selector);
 
         if (visible && !elem.classList.contains('hiddenFromViewSettings')) {
@@ -55,11 +50,8 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
     }
 
     ViewSettings.prototype.show = function (options) {
-
         return new Promise(function (resolve, reject) {
-
             require(['text!./viewSettings.template.html'], function (template) {
-
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
@@ -101,13 +93,11 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
                 initEditor(dlg, options.settings);
 
                 dlg.querySelector('.selectImageType').addEventListener('change', function () {
-
                     showIfAllowed(dlg, '.chkTitleContainer', this.value !== 'list');
                     showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list');
                 });
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                     dialogHelper.close(dlg);
                 });
 
@@ -120,13 +110,10 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
                 dlg.querySelector('.selectImageType').dispatchEvent(new CustomEvent('change', {}));
 
                 dlg.querySelector('form').addEventListener('change', function () {
-
                     submitted = true;
-
                 }, true);
 
                 dialogHelper.open(dlg).then(function () {
-
                     if (layoutManager.tv) {
                         centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                     }

@@ -1,10 +1,20 @@
-define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, AlphaPicker, listView, cardBuilder, userSettings, globalize) {
-    'use strict';
+import loading from 'loading';
+import events from 'events';
+import libraryBrowser from 'libraryBrowser';
+import imageLoader from 'imageLoader';
+import AlphaPicker from 'alphaPicker';
+import listView from 'listView';
+import cardBuilder from 'cardBuilder';
+import * as userSettings from 'userSettings';
+import globalize from 'globalize';
+import 'emby-itemscontainer';
 
-    return function (view, params, tabContent) {
+/* eslint-disable indent */
+
+    export default function (view, params, tabContent) {
         function getPageData(context) {
-            var key = getSavedQueryKey(context);
-            var pageData = data[key];
+            const key = getSavedQueryKey(context);
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -43,11 +53,11 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             return context.savedQueryKey;
         }
 
-        function reloadItems() {
+        const reloadItems = () => {
             loading.show();
             isLoading = true;
-            var query = getQuery(tabContent);
-            ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
+            const query = getQuery(tabContent);
+            ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
                 function onNextPageClick() {
                     if (isLoading) {
                         return;
@@ -72,7 +82,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
 
                 window.scrollTo(0, 0);
                 updateFilterControls(tabContent);
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -82,8 +92,8 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                     sortButton: false,
                     filterButton: false
                 });
-                var html;
-                var viewStyle = self.getCurrentViewStyle();
+                let html;
+                const viewStyle = this.getCurrentViewStyle();
 
                 if (viewStyle == 'Thumb') {
                     html = cardBuilder.getCardsHtml({
@@ -139,22 +149,20 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                     });
                 }
 
-                var i;
-                var length;
-                var elems = tabContent.querySelectorAll('.paging');
+                let elems = tabContent.querySelectorAll('.paging');
 
-                for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].innerHTML = pagingHtml;
+                for (const elem of elems) {
+                    elem.innerHTML = pagingHtml;
                 }
 
                 elems = tabContent.querySelectorAll('.btnNextPage');
-                for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onNextPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll('.btnPreviousPage');
-                for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onPreviousPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onPreviousPageClick);
                 }
 
                 if (!result.Items.length) {
@@ -166,27 +174,26 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                     html += '</div>';
                 }
 
-                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                const itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(tabContent), query);
                 loading.hide();
                 isLoading = false;
             });
-        }
+        };
 
-        function updateFilterControls(tabContent) {
-            var query = getQuery(tabContent);
-            self.alphaPicker.value(query.NameStartsWithOrGreater);
-        }
+        const updateFilterControls = (tabContent) => {
+            const query = getQuery(tabContent);
+            this.alphaPicker.value(query.NameStartsWithOrGreater);
+        };
 
-        var self = this;
-        var data = {};
-        var isLoading = false;
+        const data = {};
+        let isLoading = false;
 
-        self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
-                var filterDialog = new filterDialogFactory({
+        this.showFilterMenu = function () {
+            import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+                const filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'movies',
                     serverId: ApiClient.serverId()
@@ -199,21 +206,21 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             });
         };
 
-        self.getCurrentViewStyle = function () {
+        this.getCurrentViewStyle = function () {
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
-            var alphaPickerElement = tabContent.querySelector('.alphaPicker');
-            var itemsContainer = tabContent.querySelector('.itemsContainer');
+        const initPage = (tabContent) => {
+            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                var newValue = e.detail.value;
-                var query = getQuery(tabContent);
+                const newValue = e.detail.value;
+                const query = getQuery(tabContent);
                 query.NameStartsWithOrGreater = newValue;
                 query.StartIndex = 0;
                 reloadItems();
             });
-            self.alphaPicker = new AlphaPicker.default({
+            this.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
                 valueChangeEvent: 'click'
             });
@@ -223,7 +230,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             itemsContainer.classList.add('padded-right-withalphapicker');
 
             tabContent.querySelector('.btnFilter').addEventListener('click', function () {
-                self.showFilterMenu();
+                this.showFilterMenu();
             });
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
@@ -257,15 +264,16 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                     button: e.target
                 });
             });
-        }
+        };
 
         initPage(tabContent);
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reloadItems();
             updateFilterControls(tabContent);
         };
 
-        self.destroy = function () {};
-    };
-});
+        this.destroy = function () {};
+    }
+
+/* eslint-enable indent */

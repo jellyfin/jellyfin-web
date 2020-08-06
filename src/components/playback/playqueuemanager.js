@@ -1,64 +1,56 @@
-define([], function () {
-    'use strict';
+/*eslint prefer-const: "error"*/
 
-    var currentId = 0;
-    function addUniquePlaylistItemId(item) {
+let currentId = 0;
+function addUniquePlaylistItemId(item) {
+    if (!item.PlaylistItemId) {
+        item.PlaylistItemId = 'playlistItem' + currentId;
+        currentId++;
+    }
+}
 
-        if (!item.PlaylistItemId) {
-
-            item.PlaylistItemId = 'playlistItem' + currentId;
-            currentId++;
+function findPlaylistIndex(playlistItemId, list) {
+    for (let i = 0, length = list.length; i < length; i++) {
+        if (list[i].PlaylistItemId === playlistItemId) {
+            return i;
         }
     }
 
-    function findPlaylistIndex(playlistItemId, list) {
+    return -1;
+}
 
-        for (var i = 0, length = list.length; i < length; i++) {
-            if (list[i].PlaylistItemId === playlistItemId) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    function PlayQueueManager() {
-
+class PlayQueueManager {
+    constructor() {
         this._sortedPlaylist = [];
         this._playlist = [];
         this._repeatMode = 'RepeatNone';
         this._shuffleMode = 'Sorted';
     }
 
-    PlayQueueManager.prototype.getPlaylist = function () {
+    getPlaylist() {
         return this._playlist.slice(0);
-    };
+    }
 
-    PlayQueueManager.prototype.setPlaylist = function (items) {
-
+    setPlaylist(items) {
         items = items.slice(0);
 
-        for (var i = 0, length = items.length; i < length; i++) {
-
+        for (let i = 0, length = items.length; i < length; i++) {
             addUniquePlaylistItemId(items[i]);
         }
 
         this._currentPlaylistItemId = null;
         this._playlist = items;
         this._repeatMode = 'RepeatNone';
-    };
+    }
 
-    PlayQueueManager.prototype.queue = function (items) {
-
-        for (var i = 0, length = items.length; i < length; i++) {
-
+    queue(items) {
+        for (let i = 0, length = items.length; i < length; i++) {
             addUniquePlaylistItemId(items[i]);
 
             this._playlist.push(items[i]);
         }
-    };
+    }
 
-    PlayQueueManager.prototype.shufflePlaylist = function () {
+    shufflePlaylist() {
         this._sortedPlaylist = [];
         for (const item of this._playlist) {
             this._sortedPlaylist.push(item);
@@ -73,43 +65,31 @@ define([], function () {
         }
         this._playlist.unshift(currentPlaylistItem);
         this._shuffleMode = 'Shuffle';
-    };
+    }
 
-    PlayQueueManager.prototype.sortShuffledPlaylist = function () {
+    sortShuffledPlaylist() {
         this._playlist = [];
-        for (let item of this._sortedPlaylist) {
+        for (const item of this._sortedPlaylist) {
             this._playlist.push(item);
         }
         this._sortedPlaylist = [];
         this._shuffleMode = 'Sorted';
-    };
+    }
 
-    PlayQueueManager.prototype.clearPlaylist = function (clearCurrentItem = false) {
+    clearPlaylist(clearCurrentItem = false) {
         const currentPlaylistItem = this._playlist.splice(this.getCurrentPlaylistIndex(), 1)[0];
         this._playlist = [];
         if (!clearCurrentItem) {
             this._playlist.push(currentPlaylistItem);
         }
-    };
-
-    function arrayInsertAt(destArray, pos, arrayToInsert) {
-        var args = [];
-        args.push(pos); // where to insert
-        args.push(0); // nothing to remove
-        args = args.concat(arrayToInsert); // add on array to insert
-        destArray.splice.apply(destArray, args); // splice it in
     }
 
-    PlayQueueManager.prototype.queueNext = function (items) {
-        var i;
-        var length;
-
-        for (i = 0, length = items.length; i < length; i++) {
-
+    queueNext(items) {
+        for (let i = 0, length = items.length; i < length; i++) {
             addUniquePlaylistItemId(items[i]);
         }
 
-        var currentIndex = this.getCurrentPlaylistIndex();
+        let currentIndex = this.getCurrentPlaylistIndex();
 
         if (currentIndex === -1) {
             currentIndex = this._playlist.length;
@@ -118,48 +98,43 @@ define([], function () {
         }
 
         arrayInsertAt(this._playlist, currentIndex, items);
-    };
+    }
 
-    PlayQueueManager.prototype.getCurrentPlaylistIndex = function () {
-
+    getCurrentPlaylistIndex() {
         return findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
-    };
+    }
 
-    PlayQueueManager.prototype.getCurrentItem = function () {
-
-        var index = findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
+    getCurrentItem() {
+        const index = findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
 
         return index === -1 ? null : this._playlist[index];
-    };
+    }
 
-    PlayQueueManager.prototype.getCurrentPlaylistItemId = function () {
+    getCurrentPlaylistItemId() {
         return this._currentPlaylistItemId;
-    };
+    }
 
-    PlayQueueManager.prototype.setPlaylistState = function (playlistItemId, playlistIndex) {
-
+    setPlaylistState(playlistItemId, playlistIndex) {
         this._currentPlaylistItemId = playlistItemId;
-    };
+    }
 
-    PlayQueueManager.prototype.setPlaylistIndex = function (playlistIndex) {
-
+    setPlaylistIndex(playlistIndex) {
         if (playlistIndex < 0) {
             this.setPlaylistState(null);
         } else {
             this.setPlaylistState(this._playlist[playlistIndex].PlaylistItemId);
         }
-    };
+    }
 
-    PlayQueueManager.prototype.removeFromPlaylist = function (playlistItemIds) {
-
+    removeFromPlaylist(playlistItemIds) {
         if (this._playlist.length <= playlistItemIds.length) {
             return {
                 result: 'empty'
             };
         }
 
-        var currentPlaylistItemId = this.getCurrentPlaylistItemId();
-        var isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
+        const currentPlaylistItemId = this.getCurrentPlaylistItemId();
+        const isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
 
         this._sortedPlaylist = this._sortedPlaylist.filter(function (item) {
             return !playlistItemIds.includes(item.PlaylistItemId);
@@ -173,18 +148,13 @@ define([], function () {
             result: 'removed',
             isCurrentIndex: isCurrentIndex
         };
-    };
-
-    function moveInArray(array, from, to) {
-        array.splice(to, 0, array.splice(from, 1)[0]);
     }
 
-    PlayQueueManager.prototype.movePlaylistItem = function (playlistItemId, newIndex) {
+    movePlaylistItem(playlistItemId, newIndex) {
+        const playlist = this.getPlaylist();
 
-        var playlist = this.getPlaylist();
-
-        var oldIndex;
-        for (var i = 0, length = playlist.length; i < length; i++) {
+        let oldIndex;
+        for (let i = 0, length = playlist.length; i < length; i++) {
             if (playlist[i].PlaylistItemId === playlistItemId) {
                 oldIndex = i;
                 break;
@@ -210,31 +180,30 @@ define([], function () {
             playlistItemId: playlistItemId,
             newIndex: newIndex
         };
-    };
+    }
 
-    PlayQueueManager.prototype.reset = function () {
-
+    reset() {
         this._sortedPlaylist = [];
         this._playlist = [];
         this._currentPlaylistItemId = null;
         this._repeatMode = 'RepeatNone';
         this._shuffleMode = 'Sorted';
-    };
+    }
 
-    PlayQueueManager.prototype.setRepeatMode = function (value) {
+    setRepeatMode(value) {
         const repeatModes = ['RepeatOne', 'RepeatAll', 'RepeatNone'];
         if (repeatModes.includes(value)) {
             this._repeatMode = value;
         } else {
             throw new TypeError('invalid value provided for setRepeatMode');
         }
-    };
+    }
 
-    PlayQueueManager.prototype.getRepeatMode = function () {
+    getRepeatMode() {
         return this._repeatMode;
-    };
+    }
 
-    PlayQueueManager.prototype.setShuffleMode = function (value) {
+    setShuffleMode(value) {
         switch (value) {
             case 'Shuffle':
                 this.shufflePlaylist();
@@ -245,9 +214,9 @@ define([], function () {
             default:
                 throw new TypeError('invalid value provided to setShuffleMode');
         }
-    };
+    }
 
-    PlayQueueManager.prototype.toggleShuffleMode = function () {
+    toggleShuffleMode() {
         switch (this._shuffleMode) {
             case 'Shuffle':
                 this.setShuffleMode('Sorted');
@@ -258,20 +227,18 @@ define([], function () {
             default:
                 throw new TypeError('current value for shufflequeue is invalid');
         }
-    };
+    }
 
-    PlayQueueManager.prototype.getShuffleMode = function () {
+    getShuffleMode() {
         return this._shuffleMode;
-    };
+    }
 
-    PlayQueueManager.prototype.getNextItemInfo = function () {
-
-        var newIndex;
-        var playlist = this.getPlaylist();
-        var playlistLength = playlist.length;
+    getNextItemInfo() {
+        let newIndex;
+        const playlist = this.getPlaylist();
+        const playlistLength = playlist.length;
 
         switch (this.getRepeatMode()) {
-
             case 'RepeatOne':
                 newIndex = this.getCurrentPlaylistIndex();
                 break;
@@ -290,7 +257,7 @@ define([], function () {
             return null;
         }
 
-        var item = playlist[newIndex];
+        const item = playlist[newIndex];
 
         if (!item) {
             return null;
@@ -300,7 +267,19 @@ define([], function () {
             item: item,
             index: newIndex
         };
-    };
+    }
+}
 
-    return PlayQueueManager;
-});
+function arrayInsertAt(destArray, pos, arrayToInsert) {
+    let args = [];
+    args.push(pos); // where to insert
+    args.push(0); // nothing to remove
+    args = args.concat(arrayToInsert); // add on array to insert
+    destArray.splice.apply(destArray, args); // splice it in
+}
+
+function moveInArray(array, from, to) {
+    array.splice(to, 0, array.splice(from, 1)[0]);
+}
+
+export default PlayQueueManager;

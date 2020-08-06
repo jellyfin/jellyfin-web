@@ -3,7 +3,6 @@ import listView from 'listView';
 import cardBuilder from 'cardBuilder';
 import libraryMenu from 'libraryMenu';
 import libraryBrowser from 'libraryBrowser';
-import appHost from 'apphost';
 import imageLoader from 'imageLoader';
 import userSettings from 'userSettings';
 import 'emby-itemscontainer';
@@ -61,7 +60,7 @@ export default function (view, params) {
         const viewStyle = getPageData(view).view;
         const itemsContainer = view.querySelector('.itemsContainer');
 
-        if ('List' == viewStyle) {
+        if (viewStyle == 'List') {
             itemsContainer.classList.add('vertical-list');
             itemsContainer.classList.remove('vertical-wrap');
         } else {

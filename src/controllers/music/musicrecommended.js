@@ -1,8 +1,24 @@
-define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', 'cardBuilder', 'dom', 'apphost', 'imageLoader', 'libraryMenu', 'playbackManager', 'mainTabsManager', 'globalize', 'scrollStyles', 'emby-itemscontainer', 'emby-tabs', 'emby-button', 'flexStyles'], function (browser, layoutManager, userSettings, inputManager, loading, cardBuilder, dom, appHost, imageLoader, libraryMenu, playbackManager, mainTabsManager, globalize) {
-    'use strict';
+import browser from 'browser';
+import layoutManager from 'layoutManager';
+import * as userSettings from 'userSettings';
+import inputManager from 'inputManager';
+import loading from 'loading';
+import cardBuilder from 'cardBuilder';
+import dom from 'dom';
+import imageLoader from 'imageLoader';
+import libraryMenu from 'libraryMenu';
+import * as mainTabsManager from 'mainTabsManager';
+import globalize from 'globalize';
+import 'scrollStyles';
+import 'emby-itemscontainer';
+import 'emby-tabs';
+import 'emby-button';
+import 'flexStyles';
+
+/* eslint-disable indent */
 
     function itemsPerRow() {
-        var screenWidth = dom.getWindowSize().innerWidth;
+        const screenWidth = dom.getWindowSize().innerWidth;
 
         if (screenWidth >= 1920) {
             return 9;
@@ -29,8 +45,8 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
 
     function loadLatest(page, parentId) {
         loading.show();
-        var userId = ApiClient.getCurrentUserId();
-        var options = {
+        const userId = ApiClient.getCurrentUserId();
+        const options = {
             IncludeItemTypes: 'Audio',
             Limit: enableScrollX() ? 3 * itemsPerRow() : 2 * itemsPerRow(),
             Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
@@ -41,8 +57,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         };
         ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
             var elem = page.querySelector('#recentlyAddedSongs');
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
             elem.innerHTML = cardBuilder.getCardsHtml({
                 items: items,
                 showUnplayedIndicator: false,
@@ -51,23 +65,23 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 showTitle: true,
                 showParentTitle: true,
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayPlayButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayPlayButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(elem);
             loading.hide();
 
-            require(['autoFocuser'], function (autoFocuser) {
+            import('autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(page);
             });
         });
     }
 
     function loadRecentlyPlayed(page, parentId) {
-        var options = {
+        const options = {
             SortBy: 'DatePlayed',
             SortOrder: 'Descending',
             IncludeItemTypes: 'Audio',
@@ -81,7 +95,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             EnableTotalRecordCount: false
         };
         ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-            var elem = page.querySelector('#recentlyPlayed');
+            const elem = page.querySelector('#recentlyPlayed');
 
             if (result.Items.length) {
                 elem.classList.remove('hide');
@@ -90,8 +104,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             }
 
             var itemsContainer = elem.querySelector('.itemsContainer');
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
+
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -100,10 +113,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 showParentTitle: true,
                 action: 'instantmix',
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayMoreButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayMoreButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(itemsContainer);
@@ -111,7 +124,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
     }
 
     function loadFrequentlyPlayed(page, parentId) {
-        var options = {
+        const options = {
             SortBy: 'PlayCount',
             SortOrder: 'Descending',
             IncludeItemTypes: 'Audio',
@@ -125,7 +138,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             EnableTotalRecordCount: false
         };
         ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-            var elem = page.querySelector('#topPlayed');
+            const elem = page.querySelector('#topPlayed');
 
             if (result.Items.length) {
                 elem.classList.remove('hide');
@@ -134,8 +147,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             }
 
             var itemsContainer = elem.querySelector('.itemsContainer');
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -144,10 +155,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 showParentTitle: true,
                 action: 'instantmix',
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayMoreButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayMoreButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(itemsContainer);
@@ -160,7 +171,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         loadRecentlyPlayed(tabContent, parentId);
         loadFrequentlyPlayed(tabContent, parentId);
 
-        require(['components/favoriteitems'], function (favoriteItems) {
+        import('components/favoriteitems').then(({default: favoriteItems}) => {
             favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']);
         });
     }
@@ -208,10 +219,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         }
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function reload() {
             loading.show();
-            var tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
             loadSuggestionsTab(view, tabContent, params.topParentId);
         }
 
@@ -254,43 +265,44 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         }
 
         function getTabController(page, index, callback) {
-            var depends = [];
+            let depends;
 
             switch (index) {
                 case 0:
+                    depends = 'controllers/music/musicrecommended';
                     break;
 
                 case 1:
-                    depends.push('controllers/music/musicalbums');
+                    depends = 'controllers/music/musicalbums';
                     break;
 
                 case 2:
                 case 3:
-                    depends.push('controllers/music/musicartists');
+                    depends = 'controllers/music/musicartists';
                     break;
 
                 case 4:
-                    depends.push('controllers/music/musicplaylists');
+                    depends = 'controllers/music/musicplaylists';
                     break;
 
                 case 5:
-                    depends.push('controllers/music/songs');
+                    depends = 'controllers/music/songs';
                     break;
 
                 case 6:
-                    depends.push('controllers/music/musicgenres');
+                    depends = 'controllers/music/musicgenres';
                     break;
             }
 
-            require(depends, function (controllerFactory) {
-                var tabContent;
+            import(depends).then(({default: controllerFactory}) => {
+                let tabContent;
 
-                if (0 == index) {
+                if (index == 0) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
 
-                var controller = tabControllers[index];
+                let controller = tabControllers[index];
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
@@ -333,8 +345,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         function loadTab(page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
-                initialTabIndex = null;
-
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
@@ -350,16 +360,14 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             }
         }
 
-        var isViewRestored;
         var self = this;
         var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        var initialTabIndex = currentTabIndex;
 
         self.initTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='0']");
-            var containers = tabContent.querySelectorAll('.itemsContainer');
+            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const containers = tabContent.querySelectorAll('.itemsContainer');
 
-            for (var i = 0, length = containers.length; i < length; i++) {
+            for (let i = 0, length = containers.length; i < length; i++) {
                 setScrollClasses(containers[i], enableScrollX());
             }
         };
@@ -368,13 +376,12 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             reload();
         };
 
-        var tabControllers = [];
-        var renderedTabs = [];
+        const tabControllers = [];
+        const renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
-            isViewRestored = e.detail.isRestored;
             initTabs();
             if (!view.getAttribute('data-title')) {
-                var parentId = params.topParentId;
+                const parentId = params.topParentId;
 
                 if (parentId) {
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
@@ -399,5 +406,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 }
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

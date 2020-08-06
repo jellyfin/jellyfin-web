@@ -10,7 +10,6 @@ import 'emby-select';
 /* eslint-disable indent */
 
     function fillTimeOfDay(select) {
-
         const options = [];
 
         for (let i = 0; i < 86400000; i += 900000) {
@@ -85,21 +84,20 @@ import 'emby-select';
         },
         // TODO: Replace this mess with date-fns and remove datetime completely
         getTriggerFriendlyName: function (trigger) {
-            if ('DailyTrigger' == trigger.Type) {
+            if (trigger.Type == 'DailyTrigger') {
                 return globalize.translate('DailyAt', ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
             }
 
-            if ('WeeklyTrigger' == trigger.Type) {
+            if (trigger.Type == 'WeeklyTrigger') {
                 // TODO: The day of week isn't localised as well
                 return globalize.translate('WeeklyAt', trigger.DayOfWeek, ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
             }
 
-            if ('SystemEventTrigger' == trigger.Type && 'WakeFromSleep' == trigger.SystemEvent) {
+            if (trigger.Type == 'SystemEventTrigger' && trigger.SystemEvent == 'WakeFromSleep') {
                 return globalize.translate('OnWakeFromSleep');
             }
 
             if (trigger.Type == 'IntervalTrigger') {
-
                 const hours = trigger.IntervalTicks / 36e9;
 
                 if (hours == 0.25) {
@@ -138,7 +136,7 @@ import 'emby-select';
         },
         confirmDeleteTrigger: function (view, index) {
             import('confirm').then(({default: confirm}) => {
-                confirm.default(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
+                confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
                     ScheduledTaskPage.deleteTrigger(view, index);
                 });
             });

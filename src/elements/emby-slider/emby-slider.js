@@ -12,10 +12,7 @@ import 'emby-input';
 
     let supportsValueSetOverride = false;
 
-    let enableWidthWithTransform;
-
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-
         const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
         // descriptor returning null in webos
         if (descriptor && descriptor.configurable) {
@@ -85,7 +82,6 @@ import 'emby-input';
      * @param {boolean} [isValueSet] update by 'valueset' event or by timer
      */
     function updateValues(isValueSet) {
-
         // Do not update values by 'valueset' in case of soft-implemented dragging
         if (!!isValueSet && (!!this.keyboardDragging || !!this.touched)) {
             return;
@@ -98,24 +94,18 @@ import 'emby-input';
         // Keep only one per slider frame request
         cancelAnimationFrame(range.updateValuesFrame);
         range.updateValuesFrame = requestAnimationFrame(function () {
-
             let backgroundLower = range.backgroundLower;
 
             if (backgroundLower) {
                 let fraction = (value - range.min) / (range.max - range.min);
 
-                if (enableWidthWithTransform) {
-                    backgroundLower.style.transform = 'scaleX(' + (fraction) + ')';
-                } else {
-                    fraction *= 100;
-                    backgroundLower.style.width = fraction + '%';
-                }
+                fraction *= 100;
+                backgroundLower.style.width = fraction + '%';
             }
         });
     }
 
     function updateBubble(range, value, bubble, bubbleText) {
-
         requestAnimationFrame(function () {
             const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
             const bubbleRect = bubble.getBoundingClientRect();
@@ -141,13 +131,8 @@ import 'emby-input';
     }
 
     EmbySliderPrototype.attachedCallback = function () {
-
         if (this.getAttribute('data-embyslider') === 'true') {
             return;
-        }
-
-        if (enableWidthWithTransform == null) {
-            //enableWidthWithTransform = browser.supportsCssAnimation();
         }
 
         this.setAttribute('data-embyslider', 'true');
@@ -165,6 +150,16 @@ import 'emby-input';
             this.classList.add('show-focus');
         }
 
+        const topContainer = dom.parentWithClass(this, 'sliderContainer-settings');
+
+        if (topContainer && this.getAttribute('label')) {
+            const label = this.ownerDocument.createElement('label');
+            label.innerHTML = this.getAttribute('label');
+            label.classList.add('sliderLabel');
+            label.htmlFor = this.id;
+            topContainer.insertBefore(label, topContainer.firstChild);
+        }
+
         const containerElement = this.parentNode;
         containerElement.classList.add('mdl-slider-container');
 
@@ -177,11 +172,7 @@ import 'emby-input';
         // the more of these, the more ranges we can display
         htmlToInsert += '<div class="mdl-slider-background-upper"></div>';
 
-        if (enableWidthWithTransform) {
-            htmlToInsert += '<div class="mdl-slider-background-lower mdl-slider-background-lower-withtransform"></div>';
-        } else {
-            htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
-        }
+        htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
 
         htmlToInsert += '</div>';
         htmlToInsert += '</div>';
@@ -225,14 +216,12 @@ import 'emby-input';
 
             sliderBubble.classList.add('hide');
             hasHideClass = true;
-
         }, {
             passive: true
         });
 
         /* eslint-disable-next-line compat/compat */
         dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
-
             if (!this.dragging) {
                 const bubbleValue = mapClientToFraction(this, e.clientX) * 100;
 
@@ -243,7 +232,6 @@ import 'emby-input';
                     hasHideClass = false;
                 }
             }
-
         }, {
             passive: true
         });
@@ -422,7 +410,6 @@ import 'emby-input';
     };
 
     function setRange(elem, startPercent, endPercent) {
-
         const style = elem.style;
         style.left = Math.max(startPercent, 0) + '%';
 
@@ -431,13 +418,11 @@ import 'emby-input';
     }
 
     function mapRangesFromRuntimeToPercent(ranges, runtime) {
-
         if (!runtime) {
             return [];
         }
 
         return ranges.map(function (r) {
-
             return {
                 start: (r.start / runtime) * 100,
                 end: (r.end / runtime) * 100
@@ -446,7 +431,6 @@ import 'emby-input';
     }
 
     EmbySliderPrototype.setBufferedRanges = function (ranges, runtime, position) {
-
         const elem = this.backgroundUpper;
         if (!elem) {
             return;
@@ -459,7 +443,6 @@ import 'emby-input';
         }
 
         for (const range in ranges) {
-
             if (position != null) {
                 if (position >= range.end) {
                     continue;
@@ -474,7 +457,6 @@ import 'emby-input';
     };
 
     EmbySliderPrototype.setIsClear = function (isClear) {
-
         const backgroundLower = this.backgroundLower;
         if (backgroundLower) {
             if (isClear) {
@@ -494,7 +476,6 @@ import 'emby-input';
     }
 
     EmbySliderPrototype.detachedCallback = function () {
-
         const interval = this.interval;
         if (interval) {
             clearInterval(interval);

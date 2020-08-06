@@ -1,12 +1,13 @@
 define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'dom', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-programcell', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'webcomponents'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, dom) {
     'use strict';
 
-    scrollHelper = scrollHelper.default || scrollHelper;
-
+    playbackManager = playbackManager.default || playbackManager;
+    browser = browser.default || browser;
+    loading = loading.default || loading;
+    focusManager = focusManager.default || focusManager;scrollHelper = scrollHelper.default || scrollHelper;
     serverNotifications = serverNotifications.default || serverNotifications;
 
     function showViewSettings(instance) {
-
         require(['guide-settings-dialog'], function (guideSettingsDialog) {
             guideSettingsDialog.show(instance.categoryOptions).then(function () {
                 instance.refresh();
@@ -15,7 +16,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
     }
 
     function updateProgramCellOnScroll(cell, scrollPct) {
-
         var left = cell.posLeft;
         if (!left) {
             left = parseFloat(cell.style.left.replace('%', ''));
@@ -47,11 +47,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
         if (guideProgramName) {
             if (pctOfWidth > 0 && pctOfWidth <= 100) {
-                //guideProgramName.style.marginLeft = pctOfWidth + '%';
                 guideProgramName.style.transform = 'translateX(' + pctOfWidth + '%)';
                 caret.classList.remove('hide');
             } else {
-                //guideProgramName.style.marginLeft = '0';
                 guideProgramName.style.transform = 'none';
                 caret.classList.add('hide');
             }
@@ -60,7 +58,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
     var isUpdatingProgramCellScroll = false;
     function updateProgramCellsOnScroll(programGrid, programCells) {
-
         if (isUpdatingProgramCellScroll) {
             return;
         }
@@ -68,13 +65,11 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         isUpdatingProgramCellScroll = true;
 
         requestAnimationFrame(function () {
-
             var scrollLeft = programGrid.scrollLeft;
 
             var scrollPct = scrollLeft ? (scrollLeft / programGrid.scrollWidth) * 100 : 0;
 
             for (var i = 0, length = programCells.length; i < length; i++) {
-
                 updateProgramCellOnScroll(programCells[i], scrollPct);
             }
 
@@ -83,14 +78,12 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
     }
 
     function onProgramGridClick(e) {
-
         if (!layoutManager.tv) {
             return;
         }
 
         var programCell = dom.parentWithClass(e.target, 'programCell');
         if (programCell) {
-
             var startDate = programCell.getAttribute('data-startdate');
             var endDate = programCell.getAttribute('data-enddate');
             startDate = datetime.parseISO8601Date(startDate, { toLocal: true }).getTime();
@@ -98,7 +91,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             var now = new Date().getTime();
             if (now >= startDate && now < endDate) {
-
                 var channelId = programCell.getAttribute('data-channelid');
                 var serverId = programCell.getAttribute('data-serverid');
 
@@ -114,7 +106,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
     }
 
     function Guide(options) {
-
         var self = this;
         var items = {};
 
@@ -125,7 +116,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         var cellCurationMinutes = 30;
         var cellDurationMs = cellCurationMinutes * 60 * 1000;
         var msPerDay = 86400000;
-        var totalRendererdMs = msPerDay;
 
         var currentDate;
         var currentStartIndex = 0;
@@ -136,7 +126,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         var programGrid;
 
         self.refresh = function () {
-
             currentDate = null;
             reloadPage(options.element);
             restartAutoRefresh();
@@ -155,7 +144,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         };
 
         self.destroy = function () {
-
             stopAutoRefresh();
 
             events.off(serverNotifications, 'TimerCreated', onTimerCreated);
@@ -169,7 +157,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         };
 
         function restartAutoRefresh() {
-
             stopAutoRefresh();
 
             var intervalMs = 60000 * 15; // (minutes)
@@ -187,15 +174,11 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function normalizeDateToTimeslot(date) {
-
             var minutesOffset = date.getMinutes() - cellCurationMinutes;
 
             if (minutesOffset >= 0) {
-
                 date.setHours(date.getHours(), cellCurationMinutes, 0, 0);
-
             } else {
-
                 date.setHours(date.getHours(), 0, 0, 0);
             }
 
@@ -211,7 +194,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-
             var apiClient = connectionManager.getApiClient(options.serverId);
 
             var channelQuery = {
@@ -294,12 +276,10 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             };
 
             apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
-
                 var btnPreviousPage = context.querySelector('.btnPreviousPage');
                 var btnNextPage = context.querySelector('.btnNextPage');
 
                 if (channelsResult.TotalRecordCount > channelLimit) {
-
                     context.querySelector('.guideOptions').classList.remove('hide');
 
                     btnPreviousPage.classList.remove('hide');
@@ -316,7 +296,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     } else {
                         btnNextPage.disabled = true;
                     }
-
                 } else {
                     context.querySelector('.guideOptions').classList.add('hide');
                 }
@@ -347,22 +326,17 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 }
 
                 apiClient.getLiveTvPrograms(programQuery).then(function (programsResult) {
-
                     renderGuide(context, date, channelsResult.Items, programsResult.Items, renderOptions, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender);
 
                     hideLoading();
-
                 });
             });
         }
 
         function getDisplayTime(date) {
-
             if ((typeof date).toString().toLowerCase() === 'string') {
                 try {
-
                     date = datetime.parseISO8601Date(date, { toLocal: true });
-
                 } catch (err) {
                     return date;
                 }
@@ -372,7 +346,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function getTimeslotHeadersHtml(startDate, endDateTime) {
-
             var html = '';
 
             // clone
@@ -381,7 +354,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             html += '<div class="timeslotHeadersInner">';
 
             while (startDate.getTime() < endDateTime) {
-
                 html += '<div class="timeslotHeader">';
 
                 html += getDisplayTime(startDate);
@@ -415,23 +387,19 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function getTimerIndicator(item) {
-
             var status;
 
             if (item.Type === 'SeriesTimer') {
                 return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
             } else if (item.TimerId || item.SeriesTimerId) {
-
                 status = item.Status || 'Cancelled';
             } else if (item.Type === 'Timer') {
-
                 status = item.Status;
             } else {
                 return '';
             }
 
             if (item.SeriesTimerId) {
-
                 if (status !== 'Cancelled') {
                     return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
                 }
@@ -443,7 +411,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
-
             var html = '';
 
             var startMs = date.getTime();
@@ -467,11 +434,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var now = new Date().getTime();
 
             for (var i = listInfo.startIndex, length = programs.length; i < length; i++) {
-
                 var program = programs[i];
 
                 if (program.ChannelId !== channel.Id) {
-
                     if (programsFound) {
                         break;
                     }
@@ -581,7 +546,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     html += '</div>';
 
                     if (program.IsHD && options.showHdIcon) {
-                        //html += '<span class="guideHdIcon material-icons programIcon hd"></span>';
                         if (layoutManager.tv) {
                             html += '<div class="programIcon guide-programTextIcon guide-programTextIcon-tv">HD</div>';
                         } else {
@@ -603,11 +567,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function renderChannelHeaders(context, channels, apiClient) {
-
             var html = '';
 
             for (var i = 0, length = channels.length; i < length; i++) {
-
                 var channel = channels[i];
                 var hasChannelImage = channel.ImageTags.Primary;
 
@@ -619,18 +581,15 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                 var title = [];
                 if (channel.ChannelNumber) {
-
                     title.push(channel.ChannelNumber);
                 }
                 if (channel.Name) {
-
                     title.push(channel.Name);
                 }
 
                 html += '<button title="' + title.join(' ') + '" type="button" class="' + cssClass + '"' + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
 
                 if (hasChannelImage) {
-
                     var url = apiClient.getScaledImageUrl(channel.Id, {
                         maxHeight: 220,
                         tag: channel.ImageTags.Primary,
@@ -641,7 +600,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 }
 
                 if (channel.ChannelNumber) {
-
                     html += '<h3 class="guideChannelNumber">' + channel.ChannelNumber + '</h3>';
                 }
 
@@ -658,7 +616,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function renderPrograms(context, date, channels, programs, options) {
-
             var listInfo = {
                 startIndex: 0
             };
@@ -666,7 +623,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var html = [];
 
             for (var i = 0, length = channels.length; i < length; i++) {
-
                 html.push(getChannelProgramsHtml(context, date, channels[i], programs, options, listInfo));
             }
 
@@ -678,7 +634,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function getProgramSortOrder(program, channels) {
-
             var channelId = program.ChannelId;
             var channelIndex = -1;
 
@@ -695,7 +650,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function renderGuide(context, date, channels, programs, renderOptions, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-
             programs.sort(function (a, b) {
                 return getProgramSortOrder(a, channels) - getProgramSortOrder(b, channels);
             });
@@ -725,7 +679,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs) {
-
             scrollToTimeMs -= startTimeOfDayMs;
 
             var pct = scrollToTimeMs / msPerDay;
@@ -738,7 +691,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function focusProgram(context, itemId, channelRowId, focusToTimeMs, startTimeOfDayMs) {
-
             var focusElem;
             if (itemId) {
                 focusElem = context.querySelector('[data-id="' + itemId + '"]');
@@ -747,7 +699,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             if (focusElem) {
                 focusManager.focus(focusElem);
             } else {
-
                 var autoFocusParent;
 
                 if (channelRowId) {
@@ -765,7 +716,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 var programCell = autoFocusParent.querySelector('.programCell');
 
                 while (programCell) {
-
                     var left = (programCell.style.left || '').replace('%', '');
                     left = left ? parseFloat(left) : 0;
                     var width = (programCell.style.width || '').replace('%', '');
@@ -786,7 +736,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function nativeScrollTo(container, pos, horizontal) {
-
             if (container.scrollTo) {
                 if (horizontal) {
                     container.scrollTo(pos, 0);
@@ -806,7 +755,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         var lastHeaderScroll = 0;
         var scrollXPct = 0;
         function onProgramGridScroll(context, elem, timeslotHeaders) {
-
             if ((new Date().getTime() - lastHeaderScroll) >= 1000) {
                 lastGridScroll = new Date().getTime();
 
@@ -819,7 +767,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function onTimeslotHeadersScroll(context, elem) {
-
             if ((new Date().getTime() - lastGridScroll) >= 1000) {
                 lastHeaderScroll = new Date().getTime();
                 nativeScrollTo(programGrid, elem.scrollLeft, true);
@@ -827,7 +774,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function changeDate(page, date, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-
             var newStartDate = normalizeDateToTimeslot(date);
             currentDate = newStartDate;
 
@@ -835,7 +781,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function getDateTabText(date, isActive, tabIndex) {
-
             var cssClass = isActive ? 'emby-tab-button guide-date-tab-button emby-tab-button-active' : 'emby-tab-button guide-date-tab-button';
 
             var html = '<button is="emby-button" class="' + cssClass + '" data-index="' + tabIndex + '" data-date="' + date.getTime() + '">';
@@ -850,7 +795,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function setDateRange(page, guideInfo) {
-
             var today = new Date();
             var nowHours = today.getHours();
             today.setHours(nowHours, 0, 0, 0);
@@ -870,6 +814,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var dateTabsHtml = '';
             var tabIndex = 0;
 
+            // TODO: Use date-fns
             var date = new Date();
 
             if (currentDate) {
@@ -877,13 +822,11 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             }
 
             date.setHours(nowHours, 0, 0, 0);
-            //start.setHours(0, 0, 0, 0);
 
             var startTimeOfDayMs = (start.getHours() * 60 * 60 * 1000);
             startTimeOfDayMs += start.getMinutes() * 60 * 1000;
 
             while (start <= end) {
-
                 var isActive = date.getDate() === start.getDate() && date.getMonth() === start.getMonth() && date.getFullYear() === start.getFullYear();
 
                 dateTabsHtml += getDateTabText(start, isActive, tabIndex);
@@ -910,19 +853,16 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function reloadPage(page) {
-
             showLoading();
 
             var apiClient = connectionManager.getApiClient(options.serverId);
 
             apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
-
                 setDateRange(page, guideInfo);
             });
         }
 
         function getChannelProgramsFocusableElements(container) {
-
             var elements = container.querySelectorAll('.programCell');
 
             var list = [];
@@ -930,7 +870,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var currentScrollXPct = scrollXPct + 1;
 
             for (var i = 0, length = elements.length; i < length; i++) {
-
                 var elem = elements[i];
 
                 var left = (elem.style.left || '').replace('%', '');
@@ -947,7 +886,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function onInputCommand(e) {
-
             var target = e.target;
             var programCell = dom.parentWithClass(target, 'programCell');
             var container;
@@ -955,10 +893,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var focusableElements;
             var newRow;
 
-            var scrollX = false;
-
             switch (e.detail.command) {
-
                 case 'up':
                     if (programCell) {
                         container = programGrid;
@@ -1022,7 +957,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     focusManager.moveLeft(target, {
                         container: container
                     });
-                    scrollX = true;
                     break;
                 case 'right':
                     container = programCell ? dom.parentWithClass(programCell, 'channelPrograms') : null;
@@ -1031,7 +965,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     focusManager.moveRight(target, {
                         container: container
                     });
-                    scrollX = true;
                     break;
                 default:
                     return;
@@ -1042,7 +975,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function onScrollerFocus(e) {
-
             var target = e.target;
             var programCell = dom.parentWithClass(target, 'programCell');
 
@@ -1061,22 +993,16 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             }
 
             if (lastFocusDirection === 'left') {
-
                 if (programCell) {
-
                     scrollHelper.toStart(programGrid, programCell, true, true);
                 }
             } else if (lastFocusDirection === 'right') {
-
                 if (programCell) {
-
                     scrollHelper.toCenter(programGrid, programCell, true, true);
                 }
             } else if (lastFocusDirection === 'up' || lastFocusDirection === 'down') {
-
                 var verticalScroller = dom.parentWithClass(target, 'guideVerticalScroller');
                 if (verticalScroller) {
-
                     var focusedElement = programCell || dom.parentWithTag(target, 'BUTTON');
                     verticalScroller.toCenter(focusedElement, true);
                 }
@@ -1084,7 +1010,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function setScrollEvents(view, enabled) {
-
             if (layoutManager.tv) {
                 var guideVerticalScroller = view.querySelector('.guideVerticalScroller');
 
@@ -1097,7 +1022,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function onTimerCreated(e, apiClient, data) {
-
             var programId = data.ProgramId;
             // This could be null, not supported by all tv providers
             var newTimerId = data.Id;
@@ -1150,7 +1074,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         require(['text!./tvguide.template.html'], function (template) {
-
             var context = options.element;
 
             context.classList.add('tvguide');
@@ -1207,12 +1130,10 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             });
 
             context.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
-
                 var allTabButtons = e.target.querySelectorAll('.guide-date-tab-button');
 
                 var tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex)];
                 if (tabButton) {
-
                     var previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex)];
 
                     var date = new Date();
@@ -1227,7 +1148,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     }
 
                     if (previousButton) {
-
                         var previousDate = new Date();
                         previousDate.setTime(parseInt(previousButton.getAttribute('data-date')));
 
