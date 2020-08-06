@@ -171,6 +171,7 @@
           "src/components/toast/toast.js",
           "src/components/upnextdialog/upnextdialog.js",
           "src/components/viewContainer.js",
+          "src/components/viewSettings/viewSettings.js",
           "src/controllers/session/addServer/index.js",
           "src/controllers/session/forgotPassword/index.js",
           "src/controllers/session/redeemPassword/index.js",
