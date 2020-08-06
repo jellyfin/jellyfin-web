@@ -98,40 +98,43 @@ function centerOnFocus(e, scrollSlider, horizontal) {
 function centerOnFocusHorizontal(e) {
     centerOnFocus(e, this, true);
 }
+
 function centerOnFocusVertical(e) {
     centerOnFocus(e, this, false);
 }
 
-export default {
-    getPosition: getPosition,
-    centerFocus: {
-        on: function (element, horizontal) {
-            if (horizontal) {
-                dom.addEventListener(element, 'focus', centerOnFocusHorizontal, {
-                    capture: true,
-                    passive: true
-                });
-            } else {
-                dom.addEventListener(element, 'focus', centerOnFocusVertical, {
-                    capture: true,
-                    passive: true
-                });
-            }
-        },
-        off: function (element, horizontal) {
-            if (horizontal) {
-                dom.removeEventListener(element, 'focus', centerOnFocusHorizontal, {
-                    capture: true,
-                    passive: true
-                });
-            } else {
-                dom.removeEventListener(element, 'focus', centerOnFocusVertical, {
-                    capture: true,
-                    passive: true
-                });
-            }
+export const centerFocus = {
+    on: function (element, horizontal) {
+        if (horizontal) {
+            dom.addEventListener(element, 'focus', centerOnFocusHorizontal, {
+                capture: true,
+                passive: true
+            });
+        } else {
+            dom.addEventListener(element, 'focus', centerOnFocusVertical, {
+                capture: true,
+                passive: true
+            });
         }
     },
+    off: function (element, horizontal) {
+        if (horizontal) {
+            dom.removeEventListener(element, 'focus', centerOnFocusHorizontal, {
+                capture: true,
+                passive: true
+            });
+        } else {
+            dom.removeEventListener(element, 'focus', centerOnFocusVertical, {
+                capture: true,
+                passive: true
+            });
+        }
+    }
+}
+
+export default {
+    getPosition: getPosition,
+    centerFocus: centerFocus,
     toCenter: toCenter,
     toStart: toStart
 };
