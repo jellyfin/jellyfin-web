@@ -4608,6 +4608,11 @@ flv.js@^1.5.0:
     es6-promise "^4.2.5"
     webworkify "^1.5.0"
 
+focus-options-polyfill@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/focus-options-polyfill/-/focus-options-polyfill-1.5.0.tgz#fd2e6a0d6d8f828346726a5adf02f3d2bdfece5f"
+  integrity sha512-HiMSaXGUz2OFjOuoGTWXlp+YjZCGnVXPu6vPeccgaSOzGmqLVz8tJRcKXWfMJnj16LXf/IM1rJI0zrZMVc9q7g==
+
 follow-redirects@1.5.10:
   version "1.5.10"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"

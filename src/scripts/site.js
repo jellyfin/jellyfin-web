@@ -689,7 +689,8 @@ function initClient() {
                     'events',
                     'credentialprovider',
                     'connectionManagerFactory',
-                    'appStorage'
+                    'appStorage',
+                    'focus-options-polyfill'
                 ]
             },
             urlArgs: urlArgs,
@@ -698,7 +699,7 @@ function initClient() {
         });
 
         promise = require(['fetch'])
-            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
+            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'focus-options-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
                 // Expose jQuery globally
                 window.$ = jQuery;
                 window.jQuery = jQuery;

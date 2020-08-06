@@ -10,6 +10,11 @@ _define('fetch', function() {
     return fetch;
 });
 
+var focusPreventScroll = require('focus-options-polyfill');
+_define('focus-options-polyfill', function() {
+    return focusPreventScroll;
+});
+
 // Blurhash
 var blurhash = require('blurhash');
 _define('blurhash', function() {
