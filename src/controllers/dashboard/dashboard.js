@@ -313,7 +313,7 @@ import 'emby-itemscontainer';
                 btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('ViewPlaybackInfo') + '"><span class="material-icons info"></span></button>';
 
-                btnCssClass = session.ServerId && -1 !== session.SupportedCommands.indexOf('DisplayMessage') && session.DeviceId !== connectionManager.deviceId() ? '' : ' hide';
+                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== connectionManager.deviceId() ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('SendMessage') + '"><span class="material-icons message"></span></button>';
                 html += '</div>';
 
@@ -346,7 +346,7 @@ import 'emby-itemscontainer';
     function renderRunningTasks(view, tasks) {
         let html = '';
         tasks = tasks.filter(function (task) {
-            if ('Idle' != task.State) {
+            if (task.State != 'Idle') {
                 return !task.IsHidden;
             }
 
@@ -551,7 +551,7 @@ import 'emby-itemscontainer';
                 row.classList.remove('playingSession');
             }
 
-            if (session.ServerId && -1 !== session.SupportedCommands.indexOf('DisplayMessage') && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== connectionManager.deviceId()) {
                 row.querySelector('.btnSessionSendMessage').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionSendMessage').classList.add('hide');

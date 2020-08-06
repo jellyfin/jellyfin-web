@@ -1,6 +1,9 @@
 define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'scrollStyles'], function (browser, layoutManager, dom, focusManager, ResizeObserver) {
     'use strict';
 
+    browser = browser.default || browser;
+    focusManager = focusManager.default || focusManager;
+
     /**
 * Return type of the value.
 *

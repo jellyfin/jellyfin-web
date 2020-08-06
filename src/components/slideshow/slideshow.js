@@ -5,6 +5,9 @@
 define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'dom', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputManager, connectionManager, layoutManager, focusManager, browser, appHost, dom) {
     'use strict';
 
+    browser = browser.default || browser;
+    focusManager = focusManager.default || focusManager;
+
     /**
      * Name of transition event.
      */

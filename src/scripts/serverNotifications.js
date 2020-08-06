@@ -1,6 +1,9 @@
 define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'inputManager', 'focusManager', 'appRouter'], function (connectionManager, playbackManager, syncPlayManager, events, inputManager, focusManager, appRouter) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
+    focusManager = focusManager.default || focusManager;
+
     var serverNotifications = {};
 
     function notifyApp() {

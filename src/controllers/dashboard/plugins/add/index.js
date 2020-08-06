@@ -1,6 +1,8 @@
 define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'emby-button'], function ($, loading, libraryMenu, globalize, connectionManager) {
     'use strict';
 
+    loading = loading.default || loading;
+
     function populateHistory(packageInfo, page) {
         var html = '';
         var length = Math.min(packageInfo.versions.length, 10);
@@ -79,7 +81,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
             page.querySelector('#btnInstall').disabled = true;
             ApiClient.installPlugin(name, guid, version).then(function () {
                 loading.hide();
-                alertText(globalize.translate('PluginInstalledMessage'));
+                alertText(globalize.translate('MessagePluginInstalled'));
             });
         };
 
