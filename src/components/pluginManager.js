@@ -51,8 +51,6 @@ import globalize from 'globalize';
         }
 
         loadPlugin(pluginSpec) {
-            var instance = this;
-
             if (typeof pluginSpec === 'string') {
                 console.debug('Loading plugin (via deprecated requirejs method): ' + pluginSpec);
 
