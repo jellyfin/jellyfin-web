@@ -229,15 +229,15 @@ var scrollerFactory = function (frame, options) {
             }
         } else if (!immediate && container.scrollTo) {
             if (o.horizontal) {
-                container.scrollTo(Math.Math.round(pos), 0);
+                container.scrollTo(Math.round(pos), 0);
             } else {
-                container.scrollTo(0, Math.Math.round(pos));
+                container.scrollTo(0, Math.round(pos));
             }
         } else {
             if (o.horizontal) {
-                container.scrollLeft = Math.Math.round(pos);
+                container.scrollLeft = Math.round(pos);
             } else {
-                container.scrollTop = Math.Math.round(pos);
+                container.scrollTop = Math.round(pos);
             }
         }
     }
