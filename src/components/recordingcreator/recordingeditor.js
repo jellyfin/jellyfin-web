@@ -12,6 +12,8 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     function deleteTimer(apiClient, timerId) {
         return new Promise(function (resolve, reject) {
             require(['recordingHelper'], function (recordingHelper) {
+                recordingHelper = recordingHelper.default || recordingHelper;
+
                 recordingHelper.cancelTimerWithConfirmation(timerId, apiClient.serverId()).then(resolve, reject);
             });
         });
