@@ -19,7 +19,7 @@ function displayMessage(cmd) {
             toast({ title: args.Header, text: args.Text });
         });
     } else {
-        import('alert').then((alert) => {
+        import('alert').then(({default: alert}) => {
             alert({ title: args.Header, text: args.Text });
         });
     }
