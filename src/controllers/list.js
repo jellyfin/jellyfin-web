@@ -371,7 +371,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         var instance = this;
 
         require(['sortMenu'], function (SortMenu) {
-            new SortMenu().show({
+            new SortMenu.default().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getSortValues(),
                 onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
