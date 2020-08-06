@@ -2,6 +2,7 @@ define(['connectionManager', 'playbackManager', 'syncPlayManager', 'events', 'in
     'use strict';
 
     playbackManager = playbackManager.default || playbackManager;
+    focusManager = focusManager.default || focusManager;
 
     var serverNotifications = {};
 

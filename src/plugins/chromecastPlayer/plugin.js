@@ -577,7 +577,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         this.isLocalPlayer = false;
         this.lastPlayerData = {};
 
-        castSenderApiLoader.load().then(initializeChromecast.bind(this));
+        new castSenderApiLoader.default().load().then(initializeChromecast.bind(this));
     }
 
     ChromecastPlayer.prototype.tryPair = function (target) {
