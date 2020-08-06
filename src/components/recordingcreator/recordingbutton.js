@@ -5,8 +5,6 @@ import 'paper-icon-button-light';
 import 'emby-button';
 import 'css!./recordingfields';
 
-/*eslint prefer-const: "error"*/
-
 function onRecordingButtonClick(e) {
     const item = this.item;
 
