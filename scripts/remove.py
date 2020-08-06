@@ -11,7 +11,7 @@ langlst = os.listdir(langdir)
 
 keys = []
 
-with open('scout.txt', 'r') as f:
+with open('unused.txt', 'r') as f:
     for line in f:
         keys.append(line.strip('\n'))
 

@@ -1,6 +1,8 @@
 define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'globalize', 'userSettings', 'emby-select', 'paper-icon-button-light', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (require, dom, focusManager, dialogHelper, loading, layoutManager, connectionManager, globalize, userSettings) {
     'use strict';
 
+    focusManager = focusManager.default || focusManager;
+
     function onSubmit(e) {
         e.preventDefault();
         return false;
