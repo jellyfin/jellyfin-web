@@ -22,13 +22,14 @@ function reloadList(page) {
 
 function getHeaderText(category) {
     category = category.replace(' ', '');
-    if ('Channel' === category) {
+    // TODO: Replace with switch
+    if (category === 'Channel') {
         category = 'Channels';
-    } else if ('Theme' === category) {
+    } else if (category === 'Theme') {
         category = 'Themes';
-    } else if ('LiveTV' === category) {
+    } else if (category === 'LiveTV') {
         category = 'HeaderLiveTV';
-    } else if ('ScreenSaver' === category) {
+    } else if (category === 'ScreenSaver') {
         category = 'HeaderScreenSavers';
     }
 
