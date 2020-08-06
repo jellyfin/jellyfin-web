@@ -219,6 +219,7 @@
           "src/controllers/playback/video/index.js",
           "src/controllers/searchpage.js",
           "src/controllers/livetv/livetvchannels.js",
+          "src/controllers/livetv/livetvguide.js",
           "src/controllers/livetvtuner.js",
           "src/controllers/livetvstatus.js",
           "src/controllers/livetvguideprovider.js",
