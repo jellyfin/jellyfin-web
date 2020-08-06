@@ -470,7 +470,6 @@ function initClient() {
 
         require(['apphost', 'css!assets/css/librarybrowser'], function (appHost) {
             loadPlugins(appHost, browser).then(function () {
-                console.groupEnd('loading packages');
                 onAppReady(browser);
             });
         });
