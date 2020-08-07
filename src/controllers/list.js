@@ -184,9 +184,9 @@ import 'emby-scroller';
             const values = instance.getSortValues();
             const sortBy = values.sortBy;
 
-            for (let i = 0, length = options.length; i < length; i++) {
-                if (sortBy === options[i].value) {
-                    btnSortText.innerHTML = globalize.translate('SortByValue', options[i].name);
+            for (const option of options) {
+                if (sortBy === option.value) {
+                    btnSortText.innerHTML = globalize.translate('SortByValue', option.name);
                     break;
                 }
             }
@@ -407,18 +407,18 @@ import 'emby-scroller';
     }
 
     function hideOrShowAll(elems, hide) {
-        for (let i = 0, length = elems.length; i < length; i++) {
+        for (const elem of elems) {
             if (hide) {
-                elems[i].classList.add('hide');
+                elem.classList.add('hide');
             } else {
-                elems[i].classList.remove('hide');
+                elem.classList.remove('hide');
             }
         }
     }
 
     function bindAll(elems, eventName, fn) {
-        for (let i = 0, length = elems.length; i < length; i++) {
-            elems[i].addEventListener(eventName, fn);
+        for (const elem of elems) {
+            elem.addEventListener(eventName, fn);
         }
     }
 
@@ -724,16 +724,15 @@ class ItemsView {
 
         const btnViewSettings = view.querySelectorAll('.btnViewSettings');
 
-        for (let i = 0, length = btnViewSettings.length; i < length; i++) {
-            btnViewSettings[i].addEventListener('click', showViewSettingsMenu.bind(this));
+        for (const btnViewSetting of btnViewSettings) {
+            btnViewSetting.addEventListener('click', showViewSettingsMenu.bind(this));
         }
 
         const filterButtons = view.querySelectorAll('.btnFilter');
         this.filterButtons = filterButtons;
         const hasVisibleFilters = this.getVisibleFilters().length;
 
-        for (let i = 0, length = filterButtons.length; i < length; i++) {
-            const btnFilter = filterButtons[i];
+        for (const btnFilter of filterButtons) {
             btnFilter.addEventListener('click', showFilterMenu.bind(this));
 
             if (hasVisibleFilters) {
@@ -744,10 +743,9 @@ class ItemsView {
         }
 
         const sortButtons = view.querySelectorAll('.btnSort');
-        let i;
-        let length;
-        for (this.sortButtons = sortButtons, i = 0, length = sortButtons.length; i < length; i++) {
-            const sortButton = sortButtons[i];
+
+        this.sortButtons = sortButtons;
+        for (const sortButton of sortButtons) {
             sortButton.addEventListener('click', showSortMenu.bind(this));
 
             if (params.type !== 'nextup') {
@@ -886,10 +884,9 @@ class ItemsView {
     }
 
     getDefaultSortBy() {
-        const params = this.params;
-        const sortNameOption = this.getNameSortOption(params);
+        const sortNameOption = this.getNameSortOption(this.params);
 
-        if (params.type) {
+        if (this.params.type) {
             return sortNameOption.value;
         }
 
@@ -898,16 +895,15 @@ class ItemsView {
 
     getSortMenuOptions() {
         const sortBy = [];
-        const params = this.params;
 
-        if (params.type === 'Programs') {
+        if (this.params.type === 'Programs') {
             sortBy.push({
                 name: globalize.translate('AirDate'),
                 value: 'StartDate,SortName'
             });
         }
 
-        let option = this.getNameSortOption(params);
+        let option = this.getNameSortOption(this.params);
 
         if (option) {
             sortBy.push(option);
@@ -925,7 +921,7 @@ class ItemsView {
             sortBy.push(option);
         }
 
-        if (params.type !== 'Programs') {
+        if (this.params.type !== 'Programs') {
             sortBy.push({
                 name: globalize.translate('DateAdded'),
                 value: 'DateCreated,SortName'
@@ -938,8 +934,8 @@ class ItemsView {
             sortBy.push(option);
         }
 
-        if (!params.type) {
-            option = this.getNameSortOption(params);
+        if (!this.params.type) {
+            option = this.getNameSortOption(this.params);
             sortBy.push({
                 name: globalize.translate('Folders'),
                 value: 'IsFolder,' + option.value
@@ -1054,8 +1050,7 @@ class ItemsView {
         const filterButtons = this.filterButtons;
 
         if (filterButtons.length) {
-            for (let i = 0, length = filterButtons.length; i < length; i++) {
-                const btnFilter = filterButtons[i];
+            for (const btnFilter of filterButtons) {
                 let bubble = btnFilter.querySelector('.filterButtonBubble');
 
                 if (!bubble) {

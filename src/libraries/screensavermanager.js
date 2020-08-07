@@ -34,9 +34,7 @@ function getScreensaverPlugin(isLoggedIn) {
 
     const plugins = pluginManager.ofType('screensaver');
 
-    for (let i = 0, length = plugins.length; i < length; i++) {
-        const plugin = plugins[i];
-
+    for (const plugin of plugins) {
         if (plugin.id === option) {
             return plugin;
         }
