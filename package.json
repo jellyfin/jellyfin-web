@@ -160,6 +160,7 @@
           "src/components/scrollManager.js",
           "src/plugins/htmlVideoPlayer/plugin.js",
           "src/plugins/logoScreensaver/plugin.js",
+          "src/plugins/playAccessValidation/plugin.js",
           "src/components/search/searchfields.js",
           "src/components/search/searchresults.js",
           "src/components/settingshelper.js",
