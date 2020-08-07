@@ -236,9 +236,6 @@ import 'emby-button';
             name: globalize.translate('TabCollections')
         }, {
             name: globalize.translate('TabGenres')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
         }];
     }
 
@@ -305,10 +302,6 @@ import 'emby-button';
 
                 case 5:
                     depends = 'controllers/movies/moviegenres';
-                    break;
-
-                case 6:
-                    depends = 'scripts/searchtab';
                     break;
             }
 
