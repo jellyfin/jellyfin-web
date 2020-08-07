@@ -13,7 +13,7 @@ function deletePlugin(page, uniqueid, name) {
             title: globalize.translate('HeaderUninstallPlugin'),
             text: msg,
             primary: 'delete',
-            confirmText: globalize.translate('UninstallPluginHeader')
+            confirmText: globalize.translate('HeaderUninstallPlugin')
         }).then(function () {
             loading.show();
             ApiClient.uninstallPlugin(uniqueid).then(function () {
