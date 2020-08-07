@@ -1,3 +1,4 @@
+import appHost from 'apphost';
 import loading from 'loading';
 import appRouter from 'appRouter';
 import layoutManager from 'layoutManager';
@@ -657,7 +658,7 @@ import 'emby-select';
         setPeopleHeader(page, item);
         loading.hide();
 
-        if (item.Type === 'Book') {
+        if (item.Type === 'Book' && item.CanDownload && appHost.supports('filedownload')) {
             hideAll(page, 'btnDownload', true);
         }
 
