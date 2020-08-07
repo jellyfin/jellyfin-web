@@ -1431,5 +1431,21 @@
     "OptionDisplayFolderViewHelp": "Prikaže mape poleg ostalih knjižnic predstavnosti. Uporabno za preprost ogled map.",
     "OptionDisplayFolderView": "Prikaži pogled mape za prikaz navadnih map predstavnosti",
     "Yesterday": "Včeraj",
-    "Yes": "Da"
+    "Yes": "Da",
+    "RecommendationStarring": "Nastopa {0}",
+    "Recordings": "Posnetki",
+    "RemoveFromCollection": "Odstrani iz zbirke",
+    "ResumeAt": "Nadaljuj od {0}",
+    "SaveSubtitlesIntoMediaFolders": "Shrani podnapise v mape predstavnosti",
+    "ScanForNewAndUpdatedFiles": "Poišči nove in spremenjene datoteke",
+    "Screenshot": "Posnetek zaslona",
+    "Screenshots": "Posnetki zaslona",
+    "Search": "Iskanje",
+    "ShowAdvancedSettings": "Prikaži napredne nastavitve",
+    "New": "Novo",
+    "SubtitleOffset": "Zamik podnapisev",
+    "Subtitles": "Podnapisi",
+    "Sunday": "Nedelja",
+    "TabAdvanced": "Napredno",
+    "TabAlbums": "Albumi"
 }
