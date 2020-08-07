@@ -13,8 +13,6 @@ import 'emby-button';
 import 'emby-itemscontainer';
 import 'cardStyle';
 
-/*eslint prefer-const: "error"*/
-
 const enableFocusTransform = !browser.slow && !browser.edge;
 
 function getEditorHtml() {
