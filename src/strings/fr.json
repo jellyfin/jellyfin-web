@@ -1542,5 +1542,8 @@
     "ViewAlbumArtist": "Voir l'album de l'artiste",
     "PreviousTrack": "Revenir au précédent",
     "NextTrack": "Passer au prochain",
-    "LabelUnstable": "Instable"
+    "LabelUnstable": "Instable",
+    "Preview": "Aperçu",
+    "SubtitleVerticalPositionHelp": "Numéro de ligne où le texte apparaît. Un nombre positif compte les lignes de haut en bas. Un nombre négatif, de bas en haut.",
+    "LabelSubtitleVerticalPosition": "Position verticale :"
 }
