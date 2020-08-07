@@ -399,7 +399,7 @@ import 'emby-scroller';
         const instance = this;
 
         import('playlistEditor').then(({default: playlistEditor}) => {
-            new playlistEditor.showEditor({
+            new playlistEditor({
                 items: [],
                 serverId: instance.params.serverId
             });
