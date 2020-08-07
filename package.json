@@ -172,6 +172,7 @@
           "src/components/tvproviders/schedulesdirect.js",
           "src/components/tvproviders/xmltv.js",
           "src/components/toast/toast.js",
+          "src/components/tunerPicker.js",
           "src/components/upnextdialog/upnextdialog.js",
           "src/components/viewContainer.js",
           "src/components/castSenderApi.js",
