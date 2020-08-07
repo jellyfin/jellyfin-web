@@ -40,7 +40,6 @@ function renderTimer(context, item, apiClient) {
 
 function closeDialog(isDeleted) {
     recordingDeleted = isDeleted;
-
     dialogHelper.close(currentDialog);
 }
 
@@ -68,7 +67,8 @@ function init(context) {
 
     context.querySelector('.btnCancelRecording').addEventListener('click', function () {
         const apiClient = connectionManager.getApiClient(currentServerId);
-        deleteTimer(apiClient, currentItemId).then(function () {
+        
+      (apiClient, currentItemId).then(function () {
             closeDialog(true);
         });
     });

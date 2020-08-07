@@ -152,13 +152,13 @@ var Dashboard = {
     processPluginConfigurationUpdateResult: function () {
         require(['loading', 'toast'], function (loading, toast) {
             loading.hide();
-            toast(Globalize.translate('MessageSettingsSaved'));
+            toast.default(Globalize.translate('MessageSettingsSaved'));
         });
     },
     processServerConfigurationUpdateResult: function (result) {
         require(['loading', 'toast'], function (loading, toast) {
             loading.hide();
-            toast(Globalize.translate('MessageSettingsSaved'));
+            toast.default(Globalize.translate('MessageSettingsSaved'));
         });
     },
     processErrorResponse: function (response) {
@@ -180,7 +180,7 @@ var Dashboard = {
     alert: function (options) {
         if (typeof options == 'string') {
             return void require(['toast'], function (toast) {
-                toast({
+                toast.default({
                     text: options
                 });
             });
@@ -615,6 +615,7 @@ function initClient() {
     }
 
     var localApiClient;
+    let promise;
 
     (function () {
         var urlArgs = 'v=' + (window.dashboardVersion || new Date().getDate());
@@ -696,20 +697,12 @@ function initClient() {
             onError: onRequireJsError
         });
 
-        require(['fetch']);
-        require(['polyfill']);
-        require(['fast-text-encoding']);
-        require(['intersection-observer']);
-        require(['classlist-polyfill']);
-
-        // Expose jQuery globally
-        require(['jQuery'], function(jQuery) {
-            window.$ = jQuery;
-            window.jQuery = jQuery;
-        });
-
-        require(['css!assets/css/site']);
-        require(['jellyfin-noto']);
+        promise = require(['fetch'])
+            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
+                // Expose jQuery globally
+                window.$ = jQuery;
+                window.jQuery = jQuery;
+            }));
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves
@@ -820,8 +813,8 @@ function initClient() {
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
-            window.ViewManager = viewManager;
-            viewManager.dispatchPageEvents(true);
+            window.ViewManager = viewManager.default;
+            viewManager.default.dispatchPageEvents(true);
             return viewManager;
         });
         define('slideshow', [componentsPath + '/slideshow/slideshow'], returnFirstDependency);
@@ -1115,7 +1108,7 @@ function initClient() {
         });
     })();
 
-    return onWebComponentsReady();
+    promise.then(onWebComponentsReady);
 }
 
 initClient();

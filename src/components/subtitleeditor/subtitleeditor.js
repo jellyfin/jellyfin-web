@@ -2,6 +2,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     'use strict';
 
     loading = loading.default || loading;
+    focusManager = focusManager.default || focusManager;
 
     var currentItem;
     var hasChanges;
@@ -336,6 +337,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
+            scrollHelper = scrollHelper.default || scrollHelper;
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
