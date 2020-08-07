@@ -1429,5 +1429,7 @@
     "OptionEnableM2tsModeHelp": "Omogoči m2ts način pri kodiranju v mpegts.",
     "OptionEnableM2tsMode": "Omogoči M2ts način",
     "OptionDisplayFolderViewHelp": "Prikaže mape poleg ostalih knjižnic predstavnosti. Uporabno za preprost ogled map.",
-    "OptionDisplayFolderView": "Prikaži pogled mape za prikaz navadnih map predstavnosti"
+    "OptionDisplayFolderView": "Prikaži pogled mape za prikaz navadnih map predstavnosti",
+    "Yesterday": "Včeraj",
+    "Yes": "Da"
 }
