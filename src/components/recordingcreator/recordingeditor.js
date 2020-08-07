@@ -15,21 +15,11 @@ import 'css!./recordingcreator';
 import 'material-icons';
 import 'flexStyles';
 
-/*eslint prefer-const: "error"*/
-
 let currentDialog;
 let recordingDeleted = false;
 let currentItemId;
 let currentServerId;
 let currentResolve;
-
-function deleteTimer(apiClient, timerId) {
-    return new Promise(function (resolve, reject) {
-        require(['recordingHelper'], function (recordingHelper) {
-            recordingHelper.cancelTimerWithConfirmation(timerId, apiClient.serverId()).then(resolve, reject);
-        });
-    });
-}
 
 function renderTimer(context, item, apiClient) {
     context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
@@ -67,8 +57,8 @@ function init(context) {
 
     context.querySelector('.btnCancelRecording').addEventListener('click', function () {
         const apiClient = connectionManager.getApiClient(currentServerId);
-        
-      (apiClient, currentItemId).then(function () {
+
+        (apiClient, currentItemId).then(function () {
             closeDialog(true);
         });
     });
