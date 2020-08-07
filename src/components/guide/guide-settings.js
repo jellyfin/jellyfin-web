@@ -2,6 +2,7 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
     'use strict';
 
     layoutManager = layoutManager.default || layoutManager;
+    scrollHelper = scrollHelper.default || scrollHelper;
 
     function saveCategories(context, options) {
         var categories = [];

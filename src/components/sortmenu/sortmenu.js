@@ -18,6 +18,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
+            scrollHelper = scrollHelper.default || scrollHelper;
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });

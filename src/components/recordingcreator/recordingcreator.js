@@ -2,6 +2,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     'use strict';
 
     layoutManager = layoutManager.default || layoutManager;
+    scrollHelper = scrollHelper.default || scrollHelper;
 
     var currentDialog;
     var closeAction;

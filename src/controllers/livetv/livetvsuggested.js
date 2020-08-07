@@ -170,9 +170,6 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             name: globalize.translate('HeaderSchedule')
         }, {
             name: globalize.translate('TabSeries')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
         }];
     }
 
@@ -256,9 +253,6 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
                 case 5:
                     depends.push('controllers/livetv/livetvseriestimers');
                     break;
-
-                case 6:
-                    depends.push('scripts/searchtab');
             }
 
             require(depends, function (controllerFactory) {
