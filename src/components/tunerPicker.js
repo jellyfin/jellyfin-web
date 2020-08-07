@@ -3,6 +3,8 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
 
     browser = browser.default || browser;
     loading = loading.default || loading;
+    focusManager = focusManager.default || focusManager;
+    scrollHelper = scrollHelper.default || scrollHelper;
 
     var enableFocusTransform = !browser.slow && !browser.edge;
 
