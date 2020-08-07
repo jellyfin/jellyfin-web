@@ -8,7 +8,6 @@ import browser from 'browser';
 import layoutManager from 'layoutManager';
 import scrollHelper from 'scrollHelper';
 import globalize from 'globalize';
-import require from 'require';
 import 'emby-checkbox';
 import 'paper-icon-button-light';
 import 'emby-button';
