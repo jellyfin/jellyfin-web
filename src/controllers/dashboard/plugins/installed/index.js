@@ -10,7 +10,7 @@ function deletePlugin(page, uniqueid, name) {
 
     import('confirm').then(({default: confirm}) => {
         confirm.default({
-            title: globalize.translate('UninstallPluginHeader'),
+            title: globalize.translate('HeaderUninstallPlugin'),
             text: msg,
             primary: 'delete',
             confirmText: globalize.translate('UninstallPluginHeader')
