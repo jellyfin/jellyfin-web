@@ -25,7 +25,7 @@ function deletePlugin(page, uniqueid, name) {
 
 function showNoConfigurationMessage() {
     Dashboard.alert({
-        message: globalize.translate('NoPluginConfigurationMessage')
+        message: globalize.translate('MessageNoPluginConfiguration')
     });
 }
 
