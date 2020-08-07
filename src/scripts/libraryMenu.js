@@ -806,6 +806,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve, reject) {
             require(['navdrawer'], function (navdrawer) {
+                navdrawer = navdrawer.default || navdrawer;
+
                 navDrawerInstance = new navdrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {
