@@ -169,6 +169,7 @@
           "src/components/syncPlay/playbackPermissionManager.js",
           "src/components/syncPlay/syncPlayManager.js",
           "src/components/syncPlay/timeSyncManager.js",
+          "src/components/viewManager/viewManager.js",
           "src/components/tvproviders/schedulesdirect.js",
           "src/components/tvproviders/xmltv.js",
           "src/components/toast/toast.js",
