@@ -1217,7 +1217,7 @@
     "ReleaseDate": "Data lansării",
     "RefreshQueued": "Actualizare adăugată în coadă.",
     "RefreshMetadata": "Actualizați metadatele",
-    "RefreshDialogHelp": "Metadatele sunt actualizate pe baza setărilor și a serviciilor de internet care sunt activate în tabloul de bord Jellyfin Server.",
+    "RefreshDialogHelp": "Metadatele sunt actualizate pe baza setărilor și a serviciilor de internet care sunt activate în tabloul de bord.",
     "Refresh": "Reîmprospătează",
     "Recordings": "Înregistrări",
     "RecordingScheduled": "Înregistrare programată.",
@@ -1263,7 +1263,7 @@
     "PerfectMatch": "Potrivire perfectă",
     "People": "Oameni",
     "PasswordSaved": "Parolă salvată.",
-    "PasswordResetProviderHelp": "Alegeți un furnizor de resetare a parolei pentru a fi utilizat atunci când acest utilizator solicită o resetare a parolei",
+    "PasswordResetProviderHelp": "Alegeți un furnizor de resetare a parolei pentru a fi utilizat atunci când acest utilizator solicită o resetare a parolei.",
     "HeaderResetPassword": "Resetează parola",
     "PasswordResetConfirmation": "Sigur doriți să resetați parola?",
     "PasswordResetComplete": "Parola a fost resetată.",
@@ -1541,5 +1541,9 @@
     "StopPlayback": "Oprește redarea",
     "ViewAlbumArtist": "Vezi artistul albumului",
     "NextTrack": "Sari la următorul",
-    "LabelUnstable": "Instabil"
+    "LabelUnstable": "Instabil",
+    "Preview": "Previzualizare",
+    "SubtitleVerticalPositionHelp": "Numărul de linie unde apare textul. Numerele pozitive indică de sus în jos. Numerele negative indică de jos în sus.",
+    "LabelSubtitleVerticalPosition": "Poziție verticală:",
+    "PreviousTrack": "Sari anterior"
 }
