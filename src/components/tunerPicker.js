@@ -32,9 +32,8 @@ function getEditorHtml() {
 
 function getDeviceHtml(device) {
     let html = '';
-    let cssClass = 'card scalableCard';
+    let cssClass = 'card scalableCard backdropCard backdropCard-scalable';
     const cardBoxCssClass = 'cardBox visualCardBox';
-    cssClass += ' backdropCard backdropCard-scalable';
     const padderClass = 'cardPadder-backdrop';
 
     // TODO move card creation code to Card component
