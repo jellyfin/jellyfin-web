@@ -3,6 +3,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
 
     scrollHelper = scrollHelper.default || scrollHelper;
     loading = loading.default || loading;
+    layoutManager = layoutManager.default || layoutManager;
 
     var currentDialog;
     var recordingDeleted = false;
