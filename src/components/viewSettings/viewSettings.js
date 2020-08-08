@@ -1,6 +1,8 @@
 define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'userSettings', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (require, dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize, userSettings) {
     'use strict';
 
+    layoutManager = layoutManager.default || layoutManager;
+
     function onSubmit(e) {
         e.preventDefault();
         return false;
@@ -29,6 +31,7 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
+            scrollHelper = scrollHelper.default || scrollHelper;
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
