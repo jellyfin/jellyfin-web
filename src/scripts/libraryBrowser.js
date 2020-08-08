@@ -122,7 +122,7 @@ export function showSortMenu (options) {
     Promise.all([
         import('dialogHelper'),
         import('emby-radio')
-    ]).then(({default: dialogHelper}) => {
+    ]).then(([{default: dialogHelper}]) => {
         function onSortByChange() {
             var newValue = this.value;
 
