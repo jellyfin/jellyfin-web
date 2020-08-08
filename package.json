@@ -163,6 +163,8 @@
           "src/components/search/searchresults.js",
           "src/components/settingshelper.js",
           "src/components/shortcuts.js",
+          "src/components/subtitleeditor/subtitleeditor.js",
+          "src/components/subtitlesync/subtitlesync.js",
           "src/components/subtitlesettings/subtitleappearancehelper.js",
           "src/components/subtitlesettings/subtitlesettings.js",
           "src/components/syncPlay/groupSelectionMenu.js",
