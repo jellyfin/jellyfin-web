@@ -158,6 +158,7 @@
           "src/components/recordingcreator/seriesrecordingeditor.js",
           "src/components/recordingcreator/recordinghelper.js",
           "src/components/refreshdialog/refreshdialog.js",
+          "src/components/remotecontrol/remotecontrol.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
           "src/components/slideshow/slideshow.js",
