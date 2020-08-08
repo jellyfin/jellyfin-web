@@ -1,36 +1,34 @@
-define(['css!./toast'], function () {
-    'use strict';
+import 'css!./toast';
 
-    function remove(elem) {
-        setTimeout(function () {
-            elem.parentNode.removeChild(elem);
-        }, 300);
+function remove(elem) {
+    setTimeout(function () {
+        elem.parentNode.removeChild(elem);
+    }, 300);
+}
+
+function animateRemove(elem) {
+    setTimeout(function () {
+        elem.classList.remove('toastVisible');
+        remove(elem);
+    }, 3300);
+}
+
+export default function (options) {
+    if (typeof options === 'string') {
+        options = {
+            text: options
+        };
     }
 
-    function animateRemove(elem) {
-        setTimeout(function () {
-            elem.classList.remove('toastVisible');
-            remove(elem);
-        }, 3300);
-    }
+    const elem = document.createElement('div');
+    elem.classList.add('toast');
+    elem.innerHTML = options.text;
 
-    return function (options) {
-        if (typeof options === 'string') {
-            options = {
-                text: options
-            };
-        }
+    document.body.appendChild(elem);
 
-        var elem = document.createElement('div');
-        elem.classList.add('toast');
-        elem.innerHTML = options.text;
+    setTimeout(function () {
+        elem.classList.add('toastVisible');
 
-        document.body.appendChild(elem);
-
-        setTimeout(function () {
-            elem.classList.add('toastVisible');
-
-            animateRemove(elem);
-        }, 300);
-    };
-});
+        animateRemove(elem);
+    }, 300);
+}

@@ -80,43 +80,6 @@ import events from 'events';
         return val ? parseInt(val) : null;
     }
 
-    export function syncOnlyOnWifi(val) {
-        if (val !== undefined) {
-            this.set('syncOnlyOnWifi', val.toString());
-        }
-
-        return this.get('syncOnlyOnWifi') !== 'false';
-    }
-
-    export function syncPath(val) {
-        if (val !== undefined) {
-            this.set('syncPath', val);
-        }
-
-        return this.get('syncPath');
-    }
-
-    export function cameraUploadServers(val) {
-        if (val !== undefined) {
-            this.set('cameraUploadServers', val.join(','));
-        }
-
-        val = this.get('cameraUploadServers');
-        if (val) {
-            return val.split(',');
-        }
-
-        return [];
-    }
-
-    export function runAtStartup(val) {
-        if (val !== undefined) {
-            this.set('runatstartup', val.toString());
-        }
-
-        return this.get('runatstartup') === 'true';
-    }
-
     export function set(name, value, userId) {
         const currentValue = this.get(name, userId);
         appStorage.setItem(getKey(name, userId), value);
@@ -139,10 +102,6 @@ export default {
     maxStreamingBitrate: maxStreamingBitrate,
     maxStaticMusicBitrate: maxStaticMusicBitrate,
     maxChromecastBitrate: maxChromecastBitrate,
-    syncOnlyOnWifi: syncOnlyOnWifi,
-    syncPath: syncPath,
-    cameraUploadServers: cameraUploadServers,
-    runAtStartup: runAtStartup,
     set: set,
     get: get
 };

@@ -1,6 +1,8 @@
 define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', 'globalize', 'events', 'require', 'castSenderApiLoader'], function (appSettings, userSettings, playbackManager, connectionManager, globalize, events, require, castSenderApiLoader) {
     'use strict';
 
+    playbackManager = playbackManager.default || playbackManager;
+
     // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
     var currentResolve;
     var currentReject;
@@ -363,7 +365,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         }
 
         return new Promise(function (resolve, reject) {
-            require(['chromecastHelper'], function (chromecastHelper) {
+            require(['./chromecastHelper'], function (chromecastHelper) {
                 chromecastHelper.getServerAddress(apiClient).then(function (serverAddress) {
                     message.serverAddress = serverAddress;
                     player.sendMessageInternal(message).then(resolve, reject);
@@ -575,7 +577,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         this.isLocalPlayer = false;
         this.lastPlayerData = {};
 
-        castSenderApiLoader.load().then(initializeChromecast.bind(this));
+        new castSenderApiLoader.default().load().then(initializeChromecast.bind(this));
     }
 
     ChromecastPlayer.prototype.tryPair = function (target) {

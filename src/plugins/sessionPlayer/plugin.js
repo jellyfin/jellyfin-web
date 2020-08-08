@@ -1,6 +1,9 @@
 define(['playbackManager', 'events', 'serverNotifications', 'connectionManager'], function (playbackManager, events, serverNotifications, connectionManager) {
     'use strict';
 
+    serverNotifications = serverNotifications.default || serverNotifications;
+    playbackManager = playbackManager.default || playbackManager;
+
     function getActivePlayerId() {
         var info = playbackManager.getPlayerInfo();
         return info ? info.id : null;

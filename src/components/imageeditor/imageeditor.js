@@ -19,8 +19,6 @@ import 'css!./imageeditor';
 
     const enableFocusTransform = !browser.slow && !browser.edge;
 
-    loading = loading.default || loading;
-
     let currentItem;
     let hasChanges = false;
 
@@ -61,8 +59,8 @@ import 'css!./imageeditor';
         currentItem = item;
 
         apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
-            const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
-            for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
+            var btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
+            for (var i = 0, length = btnBrowseAllImages.length; i < length; i++) {
                 if (providers.length) {
                     btnBrowseAllImages[i].classList.remove('hide');
                 } else {

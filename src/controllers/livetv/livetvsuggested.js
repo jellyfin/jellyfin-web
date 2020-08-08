@@ -177,9 +177,6 @@ function getTabs() {
         name: globalize.translate('HeaderSchedule')
     }, {
         name: globalize.translate('TabSeries')
-    }, {
-        name: globalize.translate('ButtonSearch'),
-        cssClass: 'searchTabButton'
     }];
 }
 

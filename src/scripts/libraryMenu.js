@@ -1,6 +1,11 @@
 define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncPlayManager', 'groupSelectionMenu', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncPlayManager, groupSelectionMenu, browser, globalize, imageHelper) {
     'use strict';
 
+    viewManager = viewManager.default || viewManager;
+    playbackManager = playbackManager.default || playbackManager;
+    browser = browser.default || browser;
+    layoutManager = layoutManager.default || layoutManager;
+
     function renderHeader() {
         var html = '';
         html += '<div class="flex align-items-center flex-grow headerTop">';
@@ -803,6 +808,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve, reject) {
             require(['navdrawer'], function (navdrawer) {
+                navdrawer = navdrawer.default || navdrawer;
+
                 navDrawerInstance = new navdrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {

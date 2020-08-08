@@ -1,6 +1,9 @@
 define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'datetime', 'imageLoader', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-collapse', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, datetime, imageLoader, recordingFields, events) {
     'use strict';
 
+    layoutManager = layoutManager.default || layoutManager;
+    scrollHelper = scrollHelper.default || scrollHelper;
+
     var currentDialog;
     var closeAction;
     var currentRecordingFields;
@@ -104,7 +107,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                 var apiClient = connectionManager.getApiClient(serverId);
 
                 apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
-                    playbackManager.play({
+                    playbackManager.default.play({
                         ids: [item.ChannelId],
                         serverId: serverId
                     });
