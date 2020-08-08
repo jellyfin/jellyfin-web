@@ -83,7 +83,7 @@ function performInstallation(page, name, guid, version) {
             loading.hide();
             alertText(globalize.translate('MessagePluginInstalled'));
         }).catch(() => {
-            alertText(globalize.translate('MessagePluginIntallError'));
+            alertText(globalize.translate('MessagePluginInstallError'));
         });
     };
 
@@ -95,7 +95,7 @@ function performInstallation(page, name, guid, version) {
         msg += globalize.translate('PleaseConfirmPluginInstallation');
 
         import('confirm').then(({default: confirm}) => {
-            confirm.default(msg, globalize.translate('HeaderConfirmPluginInstallation')).then(function () {
+            confirm(msg, globalize.translate('HeaderConfirmPluginInstallation')).then(function () {
                 alertCallback();
             }).catch(() => {
                 console.debug('plugin not installed');
