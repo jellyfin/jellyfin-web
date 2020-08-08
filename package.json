@@ -206,7 +206,7 @@
           "src/controllers/music/musicplaylists.js",
           "src/controllers/music/musicrecommended.js",
           "src/controllers/music/songs.js",
-          "src/controllers/dashboard/mediaLibrary.js",
+          "src/controllers/dashboard/library.js",
           "src/controllers/dashboard/metadataImages.js",
           "src/controllers/dashboard/metadatanfo.js",
           "src/controllers/dashboard/networking.js",
