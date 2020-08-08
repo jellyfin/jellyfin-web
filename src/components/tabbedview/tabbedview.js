@@ -1,6 +1,8 @@
 define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (backdrop, mainTabsManager, layoutManager) {
     'use strict';
 
+    layoutManager = layoutManager.default || layoutManager;
+
     function onViewDestroy(e) {
         var tabControllers = this.tabControllers;
 
