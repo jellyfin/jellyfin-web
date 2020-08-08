@@ -694,7 +694,7 @@ define(['dom', 'userSettings', 'layoutManager', 'inputManager', 'connectionManag
         }
     }
 
-    function updateMenuForPageType(isDashboardPage, isLibraryPage) {
+    function updateMenuForPageType(isDashboardPage, isLibraryPage, isStickyDrawerDisabledPage) {
         var newPageType = isDashboardPage ? 2 : isLibraryPage ? 1 : 3;
 
         if (currentPageType !== newPageType) {
@@ -708,7 +708,7 @@ define(['dom', 'userSettings', 'layoutManager', 'inputManager', 'connectionManag
 
             var bodyClassList = document.body.classList;
 
-            if (layoutManager.desktop && userSettings.enableStickyDrawer()) {
+            if (layoutManager.desktop && userSettings.enableStickyDrawer() && !isStickyDrawerDisabledPage) {
                 bodyClassList.add('stickyDrawer');
             }
 
@@ -914,6 +914,8 @@ define(['dom', 'userSettings', 'layoutManager', 'inputManager', 'connectionManag
         var isDashboardPage = page.classList.contains('type-interior');
         var isHomePage = page.classList.contains('homePage');
         var isLibraryPage = !isDashboardPage && page.classList.contains('libraryPage');
+        var isStickyDrawerDisabledPage = page.classList.contains('metadataEditorPage') || page.classList.contains('standalonePage') || page.id === 'videoOsdPage';
+        console.error(page.classList);
         var apiClient = getCurrentApiClient();
 
         if (isDashboardPage) {
@@ -936,7 +938,7 @@ define(['dom', 'userSettings', 'layoutManager', 'inputManager', 'connectionManag
             }
         }
 
-        updateMenuForPageType(isDashboardPage, isLibraryPage);
+        updateMenuForPageType(isDashboardPage, isLibraryPage, isStickyDrawerDisabledPage);
 
         // TODO: Seems to do nothing? Check if needed (also in other views).
         if (!e.detail.isRestored) {
