@@ -4,6 +4,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     viewManager = viewManager.default || viewManager;
     playbackManager = playbackManager.default || playbackManager;
     browser = browser.default || browser;
+    layoutManager = layoutManager.default || layoutManager;
 
     function renderHeader() {
         var html = '';
