@@ -2,6 +2,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
     'use strict';
 
     playbackManager = playbackManager.default || playbackManager;
+    layoutManager = layoutManager.default || layoutManager;
 
     var showMuteButton = true;
     var showVolumeSlider = true;

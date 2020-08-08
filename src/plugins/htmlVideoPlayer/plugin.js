@@ -1132,7 +1132,7 @@ function tryRemoveElement(elem) {
          */
         getCueCss(appearance, selector) {
             return `${selector}::cue {
-                ${appearance.text.map((s) => `${s.name}:${s.value}!important;`).join('')}
+                ${appearance.text.map((s) => s.value !== undefined && s.value !== '' ? `${s.name}:${s.value}!important;` : '').join('')}
             }`;
         }
 
@@ -1150,7 +1150,7 @@ function tryRemoveElement(elem) {
                     document.getElementsByTagName('head')[0].appendChild(styleElem);
                 }
 
-                styleElem.innerHTML = this.getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings(), true), '.htmlvideoplayer');
+                styleElem.innerHTML = this.getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings()), '.htmlvideoplayer');
             });
         }
 
@@ -1195,17 +1195,28 @@ function tryRemoveElement(elem) {
 
             // download the track json
             this.fetchSubtitles(track, item).then(function (data) {
-                // show in ui
-                console.debug(`downloaded ${data.TrackEvents.length} track events`);
-                // add some cues to show the text
-                // in safari, the cues need to be added before setting the track mode to showing
-                for (const trackEvent of data.TrackEvents) {
-                    const trackCueObject = window.VTTCue || window.TextTrackCue;
-                    const cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+                import('userSettings').then((userSettings) => {
+                    // show in ui
+                    console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
-                    trackElement.addCue(cue);
-                }
-                trackElement.mode = 'showing';
+                    const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+                    const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
+
+                    // add some cues to show the text
+                    // in safari, the cues need to be added before setting the track mode to showing
+                    for (const trackEvent of data.TrackEvents) {
+                        const trackCueObject = window.VTTCue || window.TextTrackCue;
+                        const cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+
+                        if (cue.line === 'auto') {
+                            cue.line = cueLine;
+                        }
+
+                        trackElement.addCue(cue);
+                    }
+
+                    trackElement.mode = 'showing';
+                });
             });
         }
 

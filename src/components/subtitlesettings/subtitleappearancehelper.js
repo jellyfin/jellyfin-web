@@ -3,52 +3,29 @@
  * @module components/subtitleSettings/subtitleAppearanceHelper
  */
 
-function getTextStyles(settings, isCue) {
+function getTextStyles(settings, preview) {
     const list = [];
 
-    if (isCue) {
-        switch (settings.textSize || '') {
-            case 'smaller':
-                list.push({ name: 'font-size', value: '.5em' });
-                break;
-            case 'small':
-                list.push({ name: 'font-size', value: '.7em' });
-                break;
-            case 'large':
-                list.push({ name: 'font-size', value: '1.3em' });
-                break;
-            case 'larger':
-                list.push({ name: 'font-size', value: '1.72em' });
-                break;
-            case 'extralarge':
-                list.push({ name: 'font-size', value: '2em' });
-                break;
-            default:
-            case 'medium':
-                break;
-        }
-    } else {
-        switch (settings.textSize || '') {
-            case 'smaller':
-                list.push({ name: 'font-size', value: '.8em' });
-                break;
-            case 'small':
-                list.push({ name: 'font-size', value: 'inherit' });
-                break;
-            case 'larger':
-                list.push({ name: 'font-size', value: '2em' });
-                break;
-            case 'extralarge':
-                list.push({ name: 'font-size', value: '2.2em' });
-                break;
-            case 'large':
-                list.push({ name: 'font-size', value: '1.72em' });
-                break;
-            default:
-            case 'medium':
-                list.push({ name: 'font-size', value: '1.36em' });
-                break;
-        }
+    switch (settings.textSize || '') {
+        case 'smaller':
+            list.push({ name: 'font-size', value: '.8em' });
+            break;
+        case 'small':
+            list.push({ name: 'font-size', value: 'inherit' });
+            break;
+        case 'larger':
+            list.push({ name: 'font-size', value: '2em' });
+            break;
+        case 'extralarge':
+            list.push({ name: 'font-size', value: '2.2em' });
+            break;
+        case 'large':
+            list.push({ name: 'font-size', value: '1.72em' });
+            break;
+        default:
+        case 'medium':
+            list.push({ name: 'font-size', value: '1.36em' });
+            break;
     }
 
     switch (settings.dropShadow || '') {
@@ -111,13 +88,43 @@ function getTextStyles(settings, isCue) {
             break;
     }
 
+    if (!preview) {
+        const pos = parseInt(settings.verticalPosition, 10);
+        const lineHeight = 1.35; // FIXME: It is better to read this value from element
+        const line = Math.abs(pos * lineHeight);
+        if (pos < 0) {
+            list.push({ name: 'min-height', value: `${line}em` });
+            list.push({ name: 'margin-top', value: '' });
+        } else {
+            list.push({ name: 'min-height', value: '' });
+            list.push({ name: 'margin-top', value: `${line}em` });
+        }
+    }
+
     return list;
 }
 
-export function getStyles(settings, isCue) {
+function getWindowStyles(settings, preview) {
+    const list = [];
+
+    if (!preview) {
+        const pos = parseInt(settings.verticalPosition, 10);
+        if (pos < 0) {
+            list.push({ name: 'top', value: '' });
+            list.push({ name: 'bottom', value: '0' });
+        } else {
+            list.push({ name: 'top', value: '0' });
+            list.push({ name: 'bottom', value: '' });
+        }
+    }
+
+    return list;
+}
+
+export function getStyles(settings, preview) {
     return {
-        text: getTextStyles(settings, isCue),
-        window: []
+        text: getTextStyles(settings, preview),
+        window: getWindowStyles(settings, preview)
     };
 }
 
@@ -130,7 +137,7 @@ function applyStyleList(styles, elem) {
 }
 
 export function applyStyles(elements, appearanceSettings) {
-    const styles = getStyles(appearanceSettings);
+    const styles = getStyles(appearanceSettings, !!elements.preview);
 
     if (elements.text) {
         applyStyleList(styles.text, elements.text);

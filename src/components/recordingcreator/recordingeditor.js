@@ -1,7 +1,9 @@
 define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'imageLoader', 'scrollStyles', 'emby-button', 'emby-collapse', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'flexStyles'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, imageLoader) {
     'use strict';
 
+    scrollHelper = scrollHelper.default || scrollHelper;
     loading = loading.default || loading;
+    layoutManager = layoutManager.default || layoutManager;
 
     var currentDialog;
     var recordingDeleted = false;
