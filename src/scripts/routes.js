@@ -254,7 +254,7 @@ import 'detailtablecss';
     });
 
     defineRoute({
-        path: '/playbackconfiguration.html',
+        alias: '/playbackconfiguration.html',
         path: '/controllers/dashboard/playback.html',
         autoFocus: false,
         roles: 'admin',
