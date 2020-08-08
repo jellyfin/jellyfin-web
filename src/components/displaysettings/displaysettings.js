@@ -40,7 +40,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     }
 
     function loadSoundEffects(context, userSettings) {
-
         var selectSoundEffects = context.querySelector('.selectSoundEffects');
         var options = pluginManager.ofType('soundeffects').map(function (plugin) {
             return {
@@ -66,7 +65,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     }
 
     function loadSkins(context, userSettings) {
-
         var selectSkin = context.querySelector('.selectSkin');
 
         var options = pluginManager.ofType('skin').map(function (plugin) {
@@ -93,7 +91,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     }
 
     function showOrHideMissingEpisodesField(context, user, apiClient) {
-
         if (browser.tizen || browser.web0s) {
             context.querySelector('.fldDisplayMissingEpisodes').classList.add('hide');
             return;
@@ -103,10 +100,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     }
 
     function loadForm(context, user, userSettings, apiClient) {
-
-        var loggedInUserId = apiClient.getCurrentUserId();
-        var userId = user.Id;
-
         if (user.Policy.IsAdministrator) {
             context.querySelector('.selectDashboardThemeContainer').classList.remove('hide');
         } else {
@@ -200,7 +193,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     }
 
     function saveUser(context, user, userSettingsInstance, apiClient) {
-
         appSettings.runAtStartup(context.querySelector('.chkRunAtStartup').checked);
 
         user.Configuration.DisplayMissingEpisodes = context.querySelector('.chkDisplayMissingEpisodes').checked;

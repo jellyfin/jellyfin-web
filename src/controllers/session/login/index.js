@@ -195,6 +195,9 @@ import 'emby-checkbox';
         view.querySelector('.btnSelectServer').addEventListener('click', function () {
             Dashboard.selectServer();
         });
+        view.addEventListener('viewbeforeshow', function (e) {
+            document.body.classList.remove('stickyDrawer');
+        });
         view.addEventListener('viewshow', function (e) {
             loading.show();
             libraryMenu.setTransparentMenu(true);

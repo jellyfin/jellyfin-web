@@ -914,8 +914,8 @@ define(['dom', 'userSettings', 'layoutManager', 'inputManager', 'connectionManag
         var isDashboardPage = page.classList.contains('type-interior');
         var isHomePage = page.classList.contains('homePage');
         var isLibraryPage = !isDashboardPage && page.classList.contains('libraryPage');
+        console.error(page.id);
         var isStickyDrawerDisabledPage = page.classList.contains('metadataEditorPage') || page.classList.contains('standalonePage') || page.id === 'videoOsdPage';
-        console.error(page.classList);
         var apiClient = getCurrentApiClient();
 
         if (isDashboardPage) {

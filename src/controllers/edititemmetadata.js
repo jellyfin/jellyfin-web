@@ -1,4 +1,6 @@
 import loading from 'loading';
+import layoutManager from 'layoutManager';
+import * as userSettings from 'userSettings';
 import 'scripts/editorsidebar';
 
 function reload(context, itemId) {
@@ -15,8 +17,16 @@ function reload(context, itemId) {
 }
 
 export default function (view, params) {
+    view.addEventListener('viewbeforeshow', function (e) {
+        document.body.classList.remove('stickyDrawer');
+    });
     view.addEventListener('viewshow', function () {
         reload(this, MetadataEditor.getCurrentItemId());
+    });
+    view.addEventListener('viewbeforehide', function (e) {
+        if (layoutManager.desktop && userSettings.enableStickyDrawer()) {
+            document.body.classList.add('stickyDrawer');
+        }
     });
     MetadataEditor.setCurrentItemId(null);
     view.querySelector('.libraryTree').addEventListener('itemclicked', function (event) {

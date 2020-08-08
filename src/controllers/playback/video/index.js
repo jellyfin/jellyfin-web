@@ -1400,6 +1400,7 @@ import 'css!assets/css/videoosd';
         view.addEventListener('viewbeforeshow', function (e) {
             headerElement.classList.add('osdHeader');
             Emby.Page.setTransparency('full');
+            document.body.classList.remove('stickyDrawer');
         });
         view.addEventListener('viewshow', function (e) {
             try {
@@ -1483,6 +1484,11 @@ import 'css!assets/css/videoosd';
             stopOsdHideTimer();
             headerElement.classList.remove('osdHeader');
             headerElement.classList.remove('osdHeader-hidden');
+
+            if (layoutManager.desktop && userSettings.enableStickyDrawer()) {
+                document.body.classList.add('stickyDrawer');
+            }
+
             /* eslint-disable-next-line compat/compat */
             dom.removeEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
                 passive: true

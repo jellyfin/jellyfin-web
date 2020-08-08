@@ -1,3 +1,4 @@
+
 import loading from 'loading';
 import appRouter from 'appRouter';
 import layoutManager from 'layoutManager';
@@ -192,6 +193,11 @@ import 'emby-button';
 
         let servers;
         updatePageStyle(view, params);
+
+        view.addEventListener('viewbeforeshow', function (e) {
+            document.body.classList.remove('stickyDrawer');
+        });
+
         view.addEventListener('viewshow', function (e) {
             const isRestored = e.detail.isRestored;
             appRouter.setTitle(null);
@@ -201,6 +207,7 @@ import 'emby-button';
                 loadServers();
             }
         });
+
         view.querySelector('.servers').addEventListener('click', function (e) {
             const card = dom.parentWithClass(e.target, 'card');
 

@@ -467,6 +467,7 @@ export const set = currentSettings.set.bind(currentSettings);
 export const get = currentSettings.get.bind(currentSettings);
 export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
+export const enableStickyDrawer = currentSettings.enableStickyDrawer.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
