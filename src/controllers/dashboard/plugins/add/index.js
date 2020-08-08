@@ -118,14 +118,12 @@ export default function(view, params) {
             })[0];
 
             const version = $('#selectVersion', page).val();
-            if (installedPlugin) {
-                if (installedPlugin.Version === version) {
-                    loading.hide();
-                    Dashboard.alert({
-                        message: globalize.translate('MessageAlreadyInstalled'),
-                        title: globalize.translate('HeaderPluginInstallation')
-                    });
-                }
+            if (installedPlugin && installedPlugin.Version === version) {
+                loading.hide();
+                Dashboard.alert({
+                    message: globalize.translate('MessageAlreadyInstalled'),
+                    title: globalize.translate('HeaderPluginInstallation')
+                });
             } else {
                 performInstallation(page, name, guid, version);
             }
