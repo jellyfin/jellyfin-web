@@ -693,7 +693,7 @@ export default function () {
         import('playlistEditor').then(({ default: playlistEditor }) => {
             getSaveablePlaylistItems().then(function (items) {
                 const serverId = items.length ? items[0].ServerId : ApiClient.serverId();
-                new playlistEditor.showEditor({
+                new playlistEditor({
                     items: items.map(function (i) {
                         return i.Id;
                     }),
