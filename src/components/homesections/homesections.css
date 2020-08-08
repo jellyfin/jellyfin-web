@@ -3,12 +3,6 @@
     margin: 0.5em !important;
 }
 
-@media all and (max-width: 768px) {
-    .homeLibraryButton {
-        width: 46% !important;
-    }
-}
-
 .homeLibraryIcon {
     margin-left: 0.5em;
     margin-right: 0.5em;
@@ -21,4 +15,10 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+@media all and (max-width: 768px) {
+    .homeLibraryButton {
+        width: 46% !important;
+    }
 }

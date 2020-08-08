@@ -36,25 +36,6 @@
     color: #fff;
 }
 
-@media all and (orientation: landscape) {
-    .upNextDialog {
-        flex-direction: row;
-    }
-
-    .upNextDialog-poster {
-        max-width: initial;
-        max-height: initial;
-        width: 10%;
-        margin-bottom: 0;
-    }
-}
-
-@media all and (max-width: 768px) {
-    .upNextDialog-overview {
-        display: none !important;
-    }
-}
-
 .upNextDialog-poster-img {
     position: absolute;
     bottom: 0;
@@ -70,4 +51,23 @@
     -webkit-user-drag: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+}
+
+@media all and (max-width: 768px) {
+    .upNextDialog-overview {
+        display: none !important;
+    }
+}
+
+@media all and (orientation: landscape) {
+    .upNextDialog {
+        flex-direction: row;
+    }
+
+    .upNextDialog-poster {
+        max-width: initial;
+        max-height: initial;
+        width: 10%;
+        margin-bottom: 0;
+    }
 }

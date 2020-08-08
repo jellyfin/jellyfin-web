@@ -43,46 +43,6 @@
     flex-grow: 1;
 }
 
-@media all and (max-height: 768px) {
-    .alphaPicker-fixed {
-        bottom: 5em;
-    }
-
-    .alphaPickerButton-vertical {
-        padding-top: 1px !important;
-        padding-bottom: 1px !important;
-    }
-}
-
-@media all and (max-height: 768px) {
-    .alphaPicker-vertical {
-        font-size: 94%;
-    }
-}
-
-@media all and (max-height: 768px) {
-    .alphaPicker-vertical {
-        font-size: 90%;
-    }
-
-    .alphaPickerButton-vertical {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
-}
-
-@media all and (max-height: 37em) {
-    .alphaPicker-vertical {
-        font-size: 82%;
-    }
-}
-
-@media all and (max-height: 32em) {
-    .alphaPicker-vertical {
-        font-size: 74%;
-    }
-}
-
 .alphaPicker-vertical.alphaPicker-tv {
     font-size: 86%;
 }
@@ -109,6 +69,27 @@
 
 .alphaPicker-fixed-right {
     right: 0.4em;
+}
+
+@media all and (max-height: 576px) {
+    .alphaPicker-vertical {
+        font-size: 82%;
+    }
+}
+
+@media all and (max-height: 768px) {
+    .alphaPicker-fixed {
+        bottom: 5em;
+    }
+
+    .alphaPicker-vertical {
+        font-size: 90%;
+    }
+
+    .alphaPickerButton-vertical {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
 }
 
 @media all and (min-width: 992px) {

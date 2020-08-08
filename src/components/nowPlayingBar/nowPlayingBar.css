@@ -121,33 +121,6 @@
     height: 1.2em !important;
 }
 
-@media all and (max-width: 1200px) {
-    .nowPlayingBarRight .nowPlayingBarUserDataButtons {
-        display: none;
-    }
-}
-
-@media all and (max-width: 992px) {
-    .toggleRepeatButton {
-        display: none !important;
-    }
-
-    .nowPlayingBar .btnShuffleQueue {
-        display: none !important;
-    }
-}
-
-@media all and (max-width: 1200px) {
-    .nowPlayingBarCenter .nowPlayingBarCurrentTime,
-    .nowPlayingBarCenter .stopButton {
-        display: none !important;
-    }
-
-    .nowPlayingBarInfoContainer {
-        width: 45%;
-    }
-}
-
 .layout-mobile .nowPlayingBarRight button:not(.playPauseButton, .nextTrackButton) {
     display: none;
 }
@@ -163,12 +136,18 @@
 }
 
 @media all and (max-width: 992px) {
+    .toggleRepeatButton {
+        display: none !important;
+    }
+
+    .nowPlayingBar .btnShuffleQueue {
+        display: none !important;
+    }
+
     .nowPlayingBarCenter {
         display: none !important;
     }
-}
 
-@media all and (max-width: 992px) {
     .nowPlayingBarRight .nowPlayingBarVolumeSliderContainer {
         display: none !important;
     }
@@ -178,9 +157,17 @@
     }
 }
 
-@media all and (max-width: 24em) {
-    .nowPlayingBar .muteButton,
-    .nowPlayingBar .unmuteButton {
+@media all and (max-width: 1200px) {
+    .nowPlayingBarCenter .nowPlayingBarCurrentTime,
+    .nowPlayingBarCenter .stopButton {
+        display: none !important;
+    }
+
+    .nowPlayingBarInfoContainer {
+        width: 45%;
+    }
+
+    .nowPlayingBarRight .nowPlayingBarUserDataButtons {
         display: none;
     }
 }

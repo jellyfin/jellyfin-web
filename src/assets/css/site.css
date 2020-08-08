@@ -85,13 +85,6 @@ div[data-role=page] {
     padding-bottom: 5em !important;
 }
 
-@media all and (min-width: 768px) {
-    .readOnlyContent,
-    form {
-        max-width: 54em;
-    }
-}
-
 .headerHelpButton {
     margin-left: 1.25em !important;
     padding-bottom: 0.4em !important;
@@ -142,4 +135,11 @@ div[data-role=page] {
 .margin-auto-y {
     margin-top: auto;
     margin-bottom: auto;
+}
+
+@media all and (min-width: 768px) {
+    .readOnlyContent,
+    form {
+        max-width: 54em;
+    }
 }

@@ -53,12 +53,6 @@ html {
     opacity: 0.86;
 }
 
-@media (orientation: portrait) {
-    .backgroundContainer {
-        background-position: 30% top;
-    }
-}
-
 .paper-icon-button-light:hover:not(:disabled) {
     color: rgb(12, 232, 214);
     background-color: rgba(0, 164, 220, 0.2);
@@ -628,4 +622,10 @@ a[data-role=button] {
     padding-bottom: 100%;
     contain: strict;
     border-radius: 50% !important;
+}
+
+@media (orientation: portrait) {
+    .backgroundContainer {
+        background-position: 30% top;
+    }
 }
