@@ -1,33 +1,30 @@
-define(['loading', 'scripts/editorsidebar'], function (loading) {
-    'use strict';
+import loading from 'loading';
+import 'scripts/editorsidebar';
 
-    loading = loading.default || loading;
+function reload(context, itemId) {
+    loading.show();
 
-    function reload(context, itemId) {
-        loading.show();
-
-        if (itemId) {
-            require(['metadataEditor'], function ({default: metadataEditor}) {
-                metadataEditor.embed(context.querySelector('.editPageInnerContent'), itemId, ApiClient.serverInfo().Id);
-            });
-        } else {
-            context.querySelector('.editPageInnerContent').innerHTML = '';
-            loading.hide();
-        }
+    if (itemId) {
+        import('metadataEditor').then(({ default: metadataEditor }) => {
+            metadataEditor.embed(context.querySelector('.editPageInnerContent'), itemId, ApiClient.serverInfo().Id);
+        });
+    } else {
+        context.querySelector('.editPageInnerContent').innerHTML = '';
+        loading.hide();
     }
+}
 
-    return function (view, params) {
-        view.addEventListener('viewshow', function () {
-            reload(this, MetadataEditor.getCurrentItemId());
-        });
-        MetadataEditor.setCurrentItemId(null);
-        view.querySelector('.libraryTree').addEventListener('itemclicked', function (event) {
-            var data = event.detail;
+export default function (view, params) {
+    view.addEventListener('viewshow', function () {
+        reload(this, MetadataEditor.getCurrentItemId());
+    });
+    MetadataEditor.setCurrentItemId(null);
+    view.querySelector('.libraryTree').addEventListener('itemclicked', function (event) {
+        var data = event.detail;
 
-            if (data.id != MetadataEditor.getCurrentItemId()) {
-                MetadataEditor.setCurrentItemId(data.id);
-                reload(view, data.id);
-            }
-        });
-    };
-});
+        if (data.id != MetadataEditor.getCurrentItemId()) {
+            MetadataEditor.setCurrentItemId(data.id);
+            reload(view, data.id);
+        }
+    });
+}
