@@ -22,7 +22,7 @@ function getTimersHtml(timers, options) {
     let currentGroupName = '';
     let currentGroup = [];
 
-    for (const item in items) {
+    for (const item of items) {
         let dateText = '';
 
         if (options.indexByDate !== false && item.StartDate) {
@@ -60,7 +60,7 @@ function getTimersHtml(timers, options) {
         });
     }
     let html = '';
-    for (const group in groups) {
+    for (const group of groups) {
         if (group.name) {
             html += '<div class="verticalSection">';
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + '</h2>';
