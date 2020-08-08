@@ -51,7 +51,7 @@
     margin-right: 0.4em;
 }
 
-@media all and (min-width: 50em) {
+@media all and (min-width: 768px) {
     .editPageSidebar {
         position: fixed;
         top: 5.2em;
@@ -68,7 +68,7 @@
     }
 }
 
-@media all and (min-width: 112.5em) {
+@media all and (min-width: 1400px) {
     .editPageSidebar {
         width: 25%;
     }

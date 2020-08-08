@@ -3,7 +3,7 @@
     margin: 0.5em !important;
 }
 
-@media all and (max-width: 50em) {
+@media all and (max-width: 768px) {
     .homeLibraryButton {
         width: 46% !important;
     }

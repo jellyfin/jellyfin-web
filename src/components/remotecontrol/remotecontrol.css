@@ -257,19 +257,19 @@
     display: none;
 }
 
-@media all and (min-width: 63em) {
+@media all and (min-width: 992px) {
     .nowPlayingPage {
         padding: 8em 0 0 0 !important;
     }
 }
 
-@media all and (min-width: 80em) {
+@media all and (min-width: 1200px) {
     .nowPlayingPageImageContainer {
         margin-right: 0.75em;
     }
 }
 
-@media all and (orientation: portrait) and (max-width: 43em) {
+@media all and (orientation: portrait) and (max-width: 768px) {
     .remoteControlContent {
         padding-left: 7.3% !important;
         padding-right: 7.3% !important;
@@ -467,7 +467,7 @@
     width: 9em;
 }
 
-@media all and (max-width: 63em) {
+@media all and (max-width: 992px) {
     .nowPlayingSecondaryButtons .repeatToggleButton,
     .nowPlayingInfoButtons .playlist .listItemMediaInfo,
     .nowPlayingInfoButtons .btnStop {

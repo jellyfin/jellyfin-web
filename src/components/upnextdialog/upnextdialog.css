@@ -49,7 +49,7 @@
     }
 }
 
-@media all and (max-width: 50em) {
+@media all and (max-width: 768px) {
     .upNextDialog-overview {
         display: none !important;
     }

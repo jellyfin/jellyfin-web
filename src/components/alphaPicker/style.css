@@ -43,7 +43,7 @@
     flex-grow: 1;
 }
 
-@media all and (max-height: 50em) {
+@media all and (max-height: 768px) {
     .alphaPicker-fixed {
         bottom: 5em;
     }
@@ -54,13 +54,13 @@
     }
 }
 
-@media all and (max-height: 49em) {
+@media all and (max-height: 768px) {
     .alphaPicker-vertical {
         font-size: 94%;
     }
 }
 
-@media all and (max-height: 44em) {
+@media all and (max-height: 768px) {
     .alphaPicker-vertical {
         font-size: 90%;
     }
@@ -111,13 +111,13 @@
     right: 0.4em;
 }
 
-@media all and (min-width: 62.5em) {
+@media all and (min-width: 992px) {
     .alphaPicker-fixed-right {
         right: 1em;
     }
 }
 
-@media all and (max-height: 31.25em) {
+@media all and (max-height: 500px) {
     .alphaPicker-fixed {
         display: none !important;
     }

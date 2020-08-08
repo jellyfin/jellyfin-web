@@ -121,13 +121,13 @@
     height: 1.2em !important;
 }
 
-@media all and (max-width: 70em) {
+@media all and (max-width: 1200px) {
     .nowPlayingBarRight .nowPlayingBarUserDataButtons {
         display: none;
     }
 }
 
-@media all and (max-width: 66em) {
+@media all and (max-width: 992px) {
     .toggleRepeatButton {
         display: none !important;
     }
@@ -137,7 +137,7 @@
     }
 }
 
-@media all and (max-width: 80em) {
+@media all and (max-width: 1200px) {
     .nowPlayingBarCenter .nowPlayingBarCurrentTime,
     .nowPlayingBarCenter .stopButton {
         display: none !important;
@@ -162,13 +162,13 @@
     display: none;
 }
 
-@media all and (max-width: 56em) {
+@media all and (max-width: 992px) {
     .nowPlayingBarCenter {
         display: none !important;
     }
 }
 
-@media all and (max-width: 60em) {
+@media all and (max-width: 992px) {
     .nowPlayingBarRight .nowPlayingBarVolumeSliderContainer {
         display: none !important;
     }

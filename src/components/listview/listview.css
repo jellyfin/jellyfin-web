@@ -164,7 +164,7 @@
     padding: 0.2em;
 }
 
-@media all and (max-width: 64em) {
+@media all and (max-width: 992px) {
     .listItemImage-large {
         width: 22vw;
         height: 16vw;
@@ -256,7 +256,7 @@
     margin-top: 0.2em;
 }
 
-@media all and (max-width: 50em) {
+@media all and (max-width: 768px) {
     .listItem .endsAt,
     .listItem .criticRating,
     .listItem-overview {
@@ -264,7 +264,7 @@
     }
 }
 
-@media all and (min-width: 50em) {
+@media all and (min-width: 768px) {
     .listItem-bottomoverview {
         display: none !important;
     }

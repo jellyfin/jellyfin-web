@@ -120,7 +120,7 @@ button::-moz-focus-inner {
     margin-bottom: 1.8em !important;
 }
 
-@media (max-width: 50em) {
+@media (max-width: 768px) {
     .cardBox-bottompadded {
         margin-bottom: 1.2em !important;
     }
@@ -541,7 +541,7 @@ button::-moz-focus-inner {
     }
 }
 
-@media (min-width: 75em) {
+@media (min-width: 1200px) {
     .backdropCard {
         width: 25%;
     }
@@ -701,7 +701,7 @@ button::-moz-focus-inner {
     }
 }
 
-@media (min-width: 75em) {
+@media (min-width: 1200px) {
     .overflowBackdropCard,
     .overflowSmallBackdropCard {
         width: 23.1vw;
