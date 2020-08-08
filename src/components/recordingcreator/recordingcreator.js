@@ -1,6 +1,9 @@
 define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'datetime', 'imageLoader', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-collapse', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, datetime, imageLoader, recordingFields, events) {
     'use strict';
 
+    layoutManager = layoutManager.default || layoutManager;
+    scrollHelper = scrollHelper.default || scrollHelper;
+
     var currentDialog;
     var closeAction;
     var currentRecordingFields;

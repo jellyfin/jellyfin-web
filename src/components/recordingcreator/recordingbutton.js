@@ -1,6 +1,8 @@
 define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'paper-icon-button-light', 'emby-button', 'css!./recordingfields'], function (globalize, connectionManager, require, loading, appHost, dom, recordingHelper, events) {
     'use strict';
 
+    recordingHelper = recordingHelper.default || recordingHelper;
+
     function onRecordingButtonClick(e) {
         var item = this.item;
 
