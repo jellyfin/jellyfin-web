@@ -218,7 +218,7 @@
     margin: 1em 0 0.5em;
 }
 
-.dashboardDocument .skinBody {
+.stickyDrawer .skinBody {
     -webkit-transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
     -o-transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
     transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
@@ -241,12 +241,12 @@
 }
 
 @media all and (min-width: 40em) {
-    .dashboardDocument .adminDrawerLogo,
-    .dashboardDocument .mainDrawerButton {
+    .stickyDrawer .adminDrawerLogo,
+    .stickyDrawer .mainDrawerButton {
         display: none !important;
     }
 
-    .dashboardDocument .mainDrawer {
+    .stickyDrawer .mainDrawer {
         z-index: inherit !important;
         left: 0 !important;
         top: 0 !important;
@@ -258,11 +258,11 @@
         font-size: 94%;
     }
 
-    .dashboardDocument .mainDrawer-scrollContainer {
+    .stickyDrawer .mainDrawer-scrollContainer {
         margin-top: 5em !important;
     }
 
-    .dashboardDocument .skinBody {
+    .stickyDrawer .skinBody {
         left: 20em;
     }
 }

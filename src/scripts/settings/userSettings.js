@@ -128,6 +128,15 @@ export class UserSettings {
         return val !== 'false';
     }
 
+    enableStickyDrawer(val) {
+        if (val !== undefined) {
+            return this.set('enableStickyDrawer', val.toString(), false);
+        }
+
+        val = this.get('enableStickyDrawer', false);
+        return val !== 'false';
+    }
+
     /**
      * Get or set 'Next Video Info Overlay' state.
      * @param {boolean|undefined} val - Flag to enable 'Next Video Info Overlay' or undefined.

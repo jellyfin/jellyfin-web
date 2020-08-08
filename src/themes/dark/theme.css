@@ -305,6 +305,10 @@ html {
     background-color: #101010;
 }
 
+.stickyDrawer .mainDrawer {
+    background-color: #151515;
+}
+
 .navMenuOption:hover {
     background: #252528;
 }

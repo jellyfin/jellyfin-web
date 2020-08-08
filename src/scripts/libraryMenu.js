@@ -1,4 +1,4 @@
-define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncPlayManager', 'groupSelectionMenu', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncPlayManager, groupSelectionMenu, browser, globalize, imageHelper) {
+define(['dom', 'userSettings', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncPlayManager', 'groupSelectionMenu', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, userSettings, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncPlayManager, groupSelectionMenu, browser, globalize, imageHelper) {
     'use strict';
 
     viewManager = viewManager.default || viewManager;
@@ -708,6 +708,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
             var bodyClassList = document.body.classList;
 
+            if (layoutManager.desktop && userSettings.enableStickyDrawer()) {
+                bodyClassList.add('stickyDrawer');
+            }
+
             if (isLibraryPage) {
                 bodyClassList.add('libraryDocument');
                 bodyClassList.remove('dashboardDocument');
@@ -812,9 +816,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
                 navDrawerInstance = new navdrawer(getNavDrawerOptions());
 
-                if (!layoutManager.tv) {
-                    navDrawerElement.classList.remove('hide');
-                }
+                navDrawerElement.classList.remove('hide');
 
                 resolve(navDrawerInstance);
             });
