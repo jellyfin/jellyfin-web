@@ -119,7 +119,7 @@ export function getQueryPagingHtml (options) {
 }
 
 export function showSortMenu (options) {
-    Promise.All([
+    Promise.all([
         import('dialogHelper'),
         import('emby-radio')
     ]).then(({default: dialogHelper}) => {
