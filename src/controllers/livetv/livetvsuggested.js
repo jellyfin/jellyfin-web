@@ -261,6 +261,8 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             }
 
             require(depends, function (controllerFactory) {
+                controllerFactory = controllerFactory.default || controllerFactory;
+
                 var tabContent;
 
                 if (index == 0) {
