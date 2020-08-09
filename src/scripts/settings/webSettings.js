@@ -31,7 +31,7 @@ async function getDefaultConfig() {
             throw new Error('network response was not ok');
         }
 
-        data = response.json();
+        data = await response.json();
         return data;
     } catch (error) {
         console.error('failed to fetch the default web config file:', error);
@@ -49,7 +49,6 @@ export function getMultiServer() {
 
 export function getThemes() {
     return getConfig().then(config => {
-        console.warn(config.themes);
         return config.themes;
     }).catch(error => {
         console.log('cannot get web config:', error);
