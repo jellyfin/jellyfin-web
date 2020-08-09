@@ -112,6 +112,8 @@
           "src/components/filterdialog/filterdialog.js",
           "src/components/focusManager.js",
           "src/components/groupedcards.js",
+          "src/components/guide/guide.js",
+          "src/components/guide/guide-settings.js",
           "src/components/homeScreenSettings/homeScreenSettings.js",
           "src/components/homesections/homesections.js",
           "src/components/htmlMediaHelper.js",
