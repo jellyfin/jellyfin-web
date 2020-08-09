@@ -6,7 +6,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
 
         if (item.ArtistCount) {
             sections.push({
-                name: globalize.translate('TabArtists'),
+                name: globalize.translate('Artists'),
                 type: 'MusicArtist'
             });
         }

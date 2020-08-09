@@ -696,7 +696,7 @@ import 'listViewStyle';
     let currentProfile;
     let currentSubProfile;
     let isSubProfileNew;
-    const allText = globalize.translate('LabelAll');
+    const allText = globalize.translate('All');
 
     $(document).on('pageinit', '#dlnaProfilePage', function () {
         const page = this;
