@@ -850,7 +850,7 @@ import 'flexStyles';
     let requiresUserRefresh = true;
 
     function setTabs (type, selectedIndex, builder) {
-        import('mainTabsManager').then(({default: mainTabsManager}) => {
+        import('mainTabsManager').then((mainTabsManager) => {
             if (type) {
                 mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
                     return [];

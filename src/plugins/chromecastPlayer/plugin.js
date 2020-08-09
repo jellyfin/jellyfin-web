@@ -584,7 +584,7 @@ class ChromecastPlayer {
         this.isLocalPlayer = false;
         this.lastPlayerData = {};
 
-        new castSenderApiLoader.default().load().then(initializeChromecast.bind(this));
+        new castSenderApiLoader().load().then(initializeChromecast.bind(this));
     }
 
     tryPair(target) {
