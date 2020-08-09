@@ -1,6 +1,8 @@
 define(['layoutManager', 'datetime', 'cardBuilder', 'apphost'], function (layoutManager, datetime, cardBuilder, appHost) {
     'use strict';
 
+    layoutManager = layoutManager.default || layoutManager;
+
     function enableScrollX() {
         return !layoutManager.desktop;
     }

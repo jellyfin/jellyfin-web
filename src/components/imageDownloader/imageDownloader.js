@@ -8,7 +8,6 @@ import browser from 'browser';
 import layoutManager from 'layoutManager';
 import scrollHelper from 'scrollHelper';
 import globalize from 'globalize';
-import require from 'require';
 import 'emby-checkbox';
 import 'paper-icon-button-light';
 import 'emby-button';
@@ -317,7 +316,7 @@ import 'cardStyle';
     function showEditor(itemId, serverId, itemType) {
         loading.show();
 
-        require(['text!./imageDownloader.template.html'], function (template) {
+        import('text!./imageDownloader.template.html').then(({default: template}) => {
             const apiClient = connectionManager.getApiClient(serverId);
 
             currentItemId = itemId;
