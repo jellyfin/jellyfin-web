@@ -2,6 +2,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     'use strict';
 
     playbackManager = playbackManager.default || playbackManager;
+    serverNotifications = serverNotifications.default || serverNotifications;
 
     function onOneDocumentClick() {
         document.removeEventListener('click', onOneDocumentClick);

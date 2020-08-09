@@ -350,6 +350,7 @@ function initClient() {
     }
 
     function getLayoutManager(layoutManager, appHost) {
+        layoutManager = layoutManager.default || layoutManager;
         if (appHost.getDefaultLayout) {
             layoutManager.defaultLayout = appHost.getDefaultLayout();
         }
@@ -813,8 +814,8 @@ function initClient() {
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
-            window.ViewManager = viewManager;
-            viewManager.dispatchPageEvents(true);
+            window.ViewManager = viewManager.default;
+            viewManager.default.dispatchPageEvents(true);
             return viewManager;
         });
         define('slideshow', [componentsPath + '/slideshow/slideshow'], returnFirstDependency);

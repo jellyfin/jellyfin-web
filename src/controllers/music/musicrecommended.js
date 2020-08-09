@@ -191,9 +191,6 @@ import 'flexStyles';
             name: globalize.translate('TabSongs')
         }, {
             name: globalize.translate('TabGenres')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
         }];
     }
 
@@ -294,10 +291,6 @@ import 'flexStyles';
 
                 case 6:
                     depends = 'controllers/music/musicgenres';
-                    break;
-
-                case 7:
-                    depends = 'scripts/searchtab';
                     break;
             }
 
