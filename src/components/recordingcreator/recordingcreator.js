@@ -122,7 +122,7 @@ function executeCloseAction(action, programId, serverId) {
             const apiClient = connectionManager.getApiClient(serverId);
 
             apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
-                playbackManager.default.play({
+                playbackManager.play({
                     ids: [item.ChannelId],
                     serverId: serverId
                 });
