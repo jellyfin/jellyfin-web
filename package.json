@@ -161,6 +161,7 @@
           "src/components/remotecontrol/remotecontrol.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
+          "src/plugins/chromecastPlayer/plugin.js",
           "src/components/slideshow/slideshow.js",
           "src/components/sortmenu/sortmenu.js",
           "src/plugins/htmlVideoPlayer/plugin.js",
