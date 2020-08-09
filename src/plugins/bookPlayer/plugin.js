@@ -94,7 +94,9 @@ export class BookPlayer {
 
     onWindowKeyUp(e) {
         const key = keyboardnavigation.getKeyName(e);
-        const rendition = this._rendition;
+
+        // TODO: depending on the event this can be the document or the rendition itself
+        const rendition = this._rendition || this;
         const book = rendition.book;
 
         if (this._loaded === false) return;

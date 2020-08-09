@@ -200,8 +200,8 @@ var Dashboard = {
             SupportsPersistentIdentifier: self.appMode === 'cordova' || self.appMode === 'android',
             SupportsMediaControl: true
         };
-        appHost.default.getPushTokenInfo();
-        return capabilities = Object.assign(capabilities, appHost.default.getPushTokenInfo());
+        appHost.getPushTokenInfo();
+        return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
     },
     selectServer: function () {
         if (window.NativeShell && typeof window.NativeShell.selectServer === 'function') {
@@ -272,13 +272,15 @@ function initClient() {
 
     function createConnectionManager() {
         return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, appHost, credentialProvider, events, userSettings) {
+            appHost = appHost.default || appHost;
+
             var credentialProviderInstance = new credentialProvider();
-            var promises = [appHost.default.init()];
+            var promises = [appHost.init()];
 
             return Promise.all(promises).then(function (responses) {
                 var capabilities = Dashboard.capabilities(appHost);
 
-                var connectionManager = new ConnectionManager(credentialProviderInstance, appHost.default.appName(), appHost.default.appVersion(), appHost.default.deviceName(), appHost.default.deviceId(), capabilities);
+                var connectionManager = new ConnectionManager(credentialProviderInstance, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId(), capabilities);
 
                 defineConnectionManager(connectionManager);
                 bindConnectionManagerEvents(connectionManager, events, userSettings);
@@ -289,7 +291,7 @@ function initClient() {
                     return require(['apiclient'], function (apiClientFactory) {
                         console.debug('creating ApiClient singleton');
 
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), appHost.default.appName(), appHost.default.appVersion(), appHost.default.deviceName(), appHost.default.deviceId());
+                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
 
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
@@ -468,6 +470,8 @@ function initClient() {
         }
 
         require(['apphost', 'css!assets/css/librarybrowser'], function (appHost) {
+            appHost = appHost.default || appHost;
+
             loadPlugins(appHost, browser).then(function () {
                 onAppReady(browser);
             });
@@ -480,7 +484,7 @@ function initClient() {
             require(['webSettings'], function (webSettings) {
                 webSettings.getPlugins().then(function (list) {
                     // these two plugins are dependent on features
-                    if (!appHost.default.supports('remotecontrol')) {
+                    if (!appHost.supports('remotecontrol')) {
                         list.splice(list.indexOf('sessionPlayer'), 1);
 
                         if (!browser.chrome && !browser.opera) {
@@ -516,6 +520,8 @@ function initClient() {
 
         // ensure that appHost is loaded in this point
         require(['apphost', 'appRouter'], function (appHost, appRouter) {
+            appHost = appHost.default || appHost;
+
             window.Emby = {};
 
             console.debug('onAppReady: loading dependencies');
@@ -537,13 +543,13 @@ function initClient() {
                     require(['components/nowPlayingBar/nowPlayingBar']);
                 }
 
-                if (appHost.default.supports('remotecontrol')) {
+                if (appHost.supports('remotecontrol')) {
                     require(['playerSelectionMenu', 'components/playback/remotecontrolautoplay']);
                 }
 
                 require(['libraries/screensavermanager']);
 
-                if (!appHost.default.supports('physicalvolumecontrol') || browser.touch) {
+                if (!appHost.supports('physicalvolumecontrol') || browser.touch) {
                     require(['components/playback/volumeosd']);
                 }
 

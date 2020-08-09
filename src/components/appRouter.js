@@ -1,6 +1,7 @@
 define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
+    appHost = appHost.default || appHost;
     viewManager = viewManager.default || viewManager;
     browser = browser.default || browser;
     loading = loading.default || loading;
@@ -330,8 +331,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
 
         if (shouldExitApp) {
-            if (appHost.default.supports('exit')) {
-                appHost.default.exit();
+            if (appHost.supports('exit')) {
+                appHost.exit();
                 return;
             }
             return;

@@ -22,6 +22,8 @@
 require(['apphost'], function (appHost) {
     'use strict';
 
+    appHost = appHost.default || appHost;
+
     var _GAMEPAD_A_BUTTON_INDEX = 0;
     var _GAMEPAD_B_BUTTON_INDEX = 1;
     var _GAMEPAD_DPAD_UP_BUTTON_INDEX = 12;
@@ -187,7 +189,7 @@ require(['apphost'], function (appHost) {
             return false;
         }
 
-        if (appHost.default.getWindowState() === 'Minimized') {
+        if (appHost.getWindowState() === 'Minimized') {
             return false;
         }
 

@@ -1,6 +1,7 @@
 define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncPlayManager', 'groupSelectionMenu', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncPlayManager, groupSelectionMenu, browser, globalize, imageHelper) {
     'use strict';
 
+    appHost = appHost.default || appHost;
     viewManager = viewManager.default || viewManager;
     playbackManager = playbackManager.default || playbackManager;
     browser = browser.default || browser;
@@ -279,7 +280,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             html += globalize.translate('HeaderUser');
             html += '</h3>';
 
-            if (appHost.default.supports('multiserver')) {
+            if (appHost.supports('multiserver')) {
                 html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSelectServer') + '</span></a>';
             }
 
@@ -591,7 +592,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             showBySelector('.lnkSyncToOtherDevices', false);
         }
 
-        if (user.Policy.EnableContentDownloading && appHost.default.supports('sync')) {
+        if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {
             showBySelector('.libraryMenuDownloads', true);
         } else {
             showBySelector('.libraryMenuDownloads', false);

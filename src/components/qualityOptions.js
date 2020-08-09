@@ -12,7 +12,6 @@ export function getVideoQualityOptions(options) {
     }
 
     var maxAllowedWidth = videoWidth || 4096;
-    //var maxAllowedHeight = videoHeight || 2304;
 
     var qualityOptions = [];
 

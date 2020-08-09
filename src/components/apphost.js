@@ -113,14 +113,6 @@ function getDeviceName() {
         deviceName += ' Android';
     }
 
-    if (browser.ipad) {
-        deviceName += ' iPad';
-    } else if (browser.iphone) {
-        deviceName += ' iPhone';
-    } else if (browser.android) {
-        deviceName += ' Android';
-    }
-
     return deviceName;
 }
 
@@ -326,7 +318,7 @@ function askForExit() {
 let deviceId;
 let deviceName;
 const appName = 'Jellyfin Web';
-const appVersion = '10.6.0';
+const appVersion = '10.7.0';
 
 const appHost = {
     getWindowState: function () {
@@ -382,13 +374,6 @@ const appHost = {
     },
     getPushTokenInfo: function () {
         return {};
-    },
-    setThemeColor: function (color) {
-        const metaThemeColor = document.querySelector('meta[name=theme-color]');
-
-        if (metaThemeColor) {
-            metaThemeColor.setAttribute('content', color);
-        }
     },
     setUserScalable: function (scalable) {
         if (!browser.tv) {

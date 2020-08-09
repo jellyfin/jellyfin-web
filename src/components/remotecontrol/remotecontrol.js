@@ -1,6 +1,7 @@
 define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageLoader', 'playbackManager', 'nowPlayingHelper', 'events', 'connectionManager', 'apphost', 'globalize', 'layoutManager', 'userSettings', 'cardBuilder', 'itemContextMenu', 'cardStyle', 'emby-itemscontainer', 'css!./remotecontrol.css', 'emby-ratingbutton'], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings, cardBuilder, itemContextMenu) {
     'use strict';
 
+    appHost = appHost.default || appHost;
     playbackManager = playbackManager.default || playbackManager;
     layoutManager = layoutManager.default || layoutManager;
 
@@ -398,7 +399,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 showVolumeSlider = false;
             }
 
-            if (currentPlayer.isLocalPlayer && appHost.default.supports('physicalvolumecontrol')) {
+            if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
                 showMuteButton = false;
                 showVolumeSlider = false;
             }
