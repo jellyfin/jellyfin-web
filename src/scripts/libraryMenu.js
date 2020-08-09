@@ -1,13 +1,26 @@
-define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncPlayManager', 'groupSelectionMenu', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncPlayManager, groupSelectionMenu, browser, globalize, imageHelper) {
-    'use strict';
+import dom from 'dom';
+import layoutManager from 'layoutManager';
+import inputManager from 'inputManager';
+import connectionManager from 'connectionManager';
+import events from 'events';
+import viewManager from 'viewManager';
+import appRouter from 'appRouter';
+import appHost from 'apphost';
+import playbackManager from 'playbackManager';
+import syncPlayManager from 'syncPlayManager';
+import groupSelectionMenu from 'groupSelectionMenu';
+import browser from 'browser';
+import globalize from 'globalize';
+import imageHelper from 'scripts/imagehelper';
+import 'paper-icon-button-light';
+import 'material-icons';
+import 'scrollStyles';
+import 'flexStyles';
 
-    viewManager = viewManager.default || viewManager;
-    playbackManager = playbackManager.default || playbackManager;
-    browser = browser.default || browser;
-    layoutManager = layoutManager.default || layoutManager;
+/* eslint-disable indent */
 
     function renderHeader() {
-        var html = '';
+        let html = '';
         html += '<div class="flex align-items-center flex-grow headerTop">';
         html += '<div class="headerLeft">';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><span class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '"></span></button>';
@@ -51,7 +64,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function lazyLoadViewMenuBarImages() {
-        require(['imageLoader'], function (imageLoader) {
+        import('imageLoader').then(({default: imageLoader}) => {
             imageLoader.lazyChildren(skinHeader);
         });
     }
@@ -61,11 +74,11 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function updateUserInHeader(user) {
-        var hasImage;
+        let hasImage;
 
         if (user && user.name) {
             if (user.imageUrl) {
-                var url = user.imageUrl;
+                const url = user.imageUrl;
                 updateHeaderUserButton(url);
                 hasImage = true;
             }
@@ -92,9 +105,9 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                 headerCastButton.classList.remove('hide');
             }
 
-            var policy = user.Policy ? user.Policy : user.localUser.Policy;
+            const policy = user.Policy ? user.Policy : user.localUser.Policy;
 
-            var apiClient = getCurrentApiClient();
+            const apiClient = getCurrentApiClient();
             if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
                 headerSyncButton.classList.remove('hide');
             }
@@ -144,7 +157,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             mainDrawerButton.addEventListener('click', toggleMainDrawer);
         }
 
-        var headerBackButton = skinHeader.querySelector('.headerBackButton');
+        const headerBackButton = skinHeader.querySelector('.headerBackButton');
 
         if (headerBackButton) {
             headerBackButton.addEventListener('click', onBackClick);
@@ -186,20 +199,20 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function onCastButtonClicked() {
-        var btn = this;
+        const btn = this;
 
-        require(['playerSelectionMenu'], function (playerSelectionMenu) {
+        import('playerSelectionMenu').then(({default: playerSelectionMenu}) => {
             playerSelectionMenu.show(btn);
         });
     }
 
     function onSyncButtonClicked() {
-        var btn = this;
+        const btn = this;
         groupSelectionMenu.show(btn);
     }
 
     function onSyncPlayEnabled(event, enabled) {
-        var icon = headerSyncButton.querySelector('span');
+        const icon = headerSyncButton.querySelector('span');
         icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
         if (enabled) {
             icon.classList.add('sync');
@@ -209,7 +222,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function onSyncPlaySyncing(event, is_syncing, syncMethod) {
-        var icon = headerSyncButton.querySelector('span');
+        const icon = headerSyncButton.querySelector('span');
         icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
         if (is_syncing) {
             icon.classList.add('sync_problem');
@@ -255,7 +268,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function refreshLibraryInfoInDrawer(user, drawer) {
-        var html = '';
+        let html = '';
         html += '<div style="height:.5em;"></div>';
         html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('ButtonHome') + '</span></a>';
 
@@ -291,12 +304,12 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;
 
-        var btnSettings = navDrawerScrollContainer.querySelector('.btnSettings');
+        const btnSettings = navDrawerScrollContainer.querySelector('.btnSettings');
         if (btnSettings) {
             btnSettings.addEventListener('click', onSettingsClick);
         }
 
-        var btnLogout = navDrawerScrollContainer.querySelector('.btnLogout');
+        const btnLogout = navDrawerScrollContainer.querySelector('.btnLogout');
         if (btnLogout) {
             btnLogout.addEventListener('click', onLogoutClick);
         }
@@ -318,20 +331,20 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function updateDashboardMenuSelectedItem() {
-        var links = navDrawerScrollContainer.querySelectorAll('.navMenuOption');
-        var currentViewId = viewManager.currentView().id;
+        const links = navDrawerScrollContainer.querySelectorAll('.navMenuOption');
+        const currentViewId = viewManager.currentView().id;
 
-        for (var i = 0, length = links.length; i < length; i++) {
-            var link = links[i];
-            var selected = false;
-            var pageIds = link.getAttribute('data-pageids');
+        for (let i = 0, length = links.length; i < length; i++) {
+            let link = links[i];
+            let selected = false;
+            let pageIds = link.getAttribute('data-pageids');
 
             if (pageIds) {
                 pageIds = pageIds.split('|');
                 selected = pageIds.indexOf(currentViewId) != -1;
             }
 
-            var pageUrls = link.getAttribute('data-pageurls');
+            let pageUrls = link.getAttribute('data-pageurls');
 
             if (pageUrls) {
                 pageUrls = pageUrls.split('|');
@@ -340,7 +353,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
             if (selected) {
                 link.classList.add('navMenuOption-selected');
-                var title = '';
+                let title = '';
                 link = link.querySelector('.navMenuOptionText') || link;
                 title += (link.innerText || link.textContent).trim();
                 LibraryMenu.setTitle(title);
@@ -351,7 +364,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function createToolsMenuList(pluginItems) {
-        var links = [{
+        const links = [{
             name: globalize.translate('TabServer')
         }, {
             name: globalize.translate('TabDashboard'),
@@ -463,8 +476,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function addPluginPagesToMainMenu(links, pluginItems, section) {
-        for (var i = 0, length = pluginItems.length; i < length; i++) {
-            var pluginItem = pluginItems[i];
+        for (let i = 0, length = pluginItems.length; i < length; i++) {
+            const pluginItem = pluginItems[i];
 
             if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
                 links.push({
@@ -484,10 +497,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function getToolsLinkHtml(item) {
-        var menuHtml = '';
-        var pageIds = item.pageIds ? item.pageIds.join('|') : '';
+        let menuHtml = '';
+        let pageIds = item.pageIds ? item.pageIds.join('|') : '';
         pageIds = pageIds ? ' data-pageids="' + pageIds + '"' : '';
-        var pageUrls = item.pageUrls ? item.pageUrls.join('|') : '';
+        let pageUrls = item.pageUrls ? item.pageUrls.join('|') : '';
         pageUrls = pageUrls ? ' data-pageurls="' + pageUrls + '"' : '';
         menuHtml += '<a is="emby-linkbutton" class="navMenuOption" href="' + item.href + '"' + pageIds + pageUrls + '>';
 
@@ -503,11 +516,11 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
     function getToolsMenuHtml(apiClient) {
         return getToolsMenuLinks(apiClient).then(function (items) {
-            var item;
-            var menuHtml = '';
+            let item;
+            let menuHtml = '';
             menuHtml += '<div class="drawerContent">';
 
-            for (var i = 0; i < items.length; i++) {
+            for (let i = 0; i < items.length; i++) {
                 item = items[i];
 
                 if (item.href) {
@@ -525,7 +538,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
     function createDashboardMenu(apiClient) {
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
-            var html = '';
+            let html = '';
             html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html">';
             html += '<img src="assets/img/icon-transparent.png" />';
             html += '</a>';
@@ -536,24 +549,24 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function onSidebarLinkClick() {
-        var section = this.getElementsByClassName('sectionName')[0];
-        var text = section ? section.innerHTML : this.innerHTML;
+        const section = this.getElementsByClassName('sectionName')[0];
+        const text = section ? section.innerHTML : this.innerHTML;
         LibraryMenu.setTitle(text);
     }
 
     function getUserViews(apiClient, userId) {
         return apiClient.getUserViews({}, userId).then(function (result) {
-            var items = result.Items;
-            var list = [];
+            const items = result.Items;
+            const list = [];
 
-            for (var i = 0, length = items.length; i < length; i++) {
-                var view = items[i];
+            for (let i = 0, length = items.length; i < length; i++) {
+                const view = items[i];
                 list.push(view);
 
                 if (view.CollectionType == 'livetv') {
                     view.ImageTags = {};
                     view.icon = 'live_tv';
-                    var guideView = Object.assign({}, view);
+                    const guideView = Object.assign({}, view);
                     guideView.Name = globalize.translate('ButtonGuide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
@@ -567,7 +580,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function showBySelector(selector, show) {
-        var elem = document.querySelector(selector);
+        const elem = document.querySelector(selector);
 
         if (elem) {
             if (show) {
@@ -597,17 +610,17 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             showBySelector('.libraryMenuDownloads', false);
         }
 
-        var userId = Dashboard.getCurrentUserId();
-        var apiClient = getCurrentApiClient();
-        var libraryMenuOptions = document.querySelector('.libraryMenuOptions');
+        const userId = Dashboard.getCurrentUserId();
+        const apiClient = getCurrentApiClient();
+        const libraryMenuOptions = document.querySelector('.libraryMenuOptions');
 
         if (libraryMenuOptions) {
             getUserViews(apiClient, userId).then(function (result) {
-                var items = result;
-                var html = `<h3 class="sidebarHeader">${globalize.translate('HeaderMedia')}</h3>`;
+                const items = result;
+                let html = `<h3 class="sidebarHeader">${globalize.translate('HeaderMedia')}</h3>`;
                 html += items.map(function (i) {
-                    var icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
-                    var itemId = i.Id;
+                    const icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
+                    const itemId = i.Id;
 
                     return `<a is="emby-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="${getItemHref(i, i.CollectionType)}">
                                     <span class="material-icons navMenuOptionIcon ${icon}"></span>
@@ -615,8 +628,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                                   </a>`;
                 }).join('');
                 libraryMenuOptions.innerHTML = html;
-                var elem = libraryMenuOptions;
-                var sidebarLinks = elem.querySelectorAll('.navMenuOption');
+                const elem = libraryMenuOptions;
+                const sidebarLinks = elem.querySelectorAll('.navMenuOption');
 
                 for (const sidebarLink of sidebarLinks) {
                     sidebarLink.removeEventListener('click', onSidebarLinkClick);
@@ -645,9 +658,9 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function updateCastIcon() {
-        var context = document;
-        var info = playbackManager.getPlayerInfo();
-        var icon = headerCastButton.querySelector('.material-icons');
+        const context = document;
+        const info = playbackManager.getPlayerInfo();
+        const icon = headerCastButton.querySelector('.material-icons');
 
         icon.classList.remove('cast_connected', 'cast');
 
@@ -663,18 +676,16 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function updateLibraryNavLinks(page) {
-        var i;
-        var length;
-        var isLiveTvPage = page.classList.contains('liveTvPage');
-        var isChannelsPage = page.classList.contains('channelsPage');
-        var isEditorPage = page.classList.contains('metadataEditorPage');
-        var isMySyncPage = page.classList.contains('mySyncPage');
-        var id = isLiveTvPage || isChannelsPage || isEditorPage || isMySyncPage || page.classList.contains('allLibraryPage') ? '' : getTopParentId() || '';
-        var elems = document.getElementsByClassName('lnkMediaFolder');
+        const isLiveTvPage = page.classList.contains('liveTvPage');
+        const isChannelsPage = page.classList.contains('channelsPage');
+        const isEditorPage = page.classList.contains('metadataEditorPage');
+        const isMySyncPage = page.classList.contains('mySyncPage');
+        const id = isLiveTvPage || isChannelsPage || isEditorPage || isMySyncPage || page.classList.contains('allLibraryPage') ? '' : getTopParentId() || '';
+        const elems = document.getElementsByClassName('lnkMediaFolder');
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-            var lnkMediaFolder = elems[i];
-            var itemId = lnkMediaFolder.getAttribute('data-itemid');
+        for (let i = 0, length = elems.length; i < length; i++) {
+            const lnkMediaFolder = elems[i];
+            const itemId = lnkMediaFolder.getAttribute('data-itemid');
 
             if (isChannelsPage && itemId === 'channels') {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
@@ -695,7 +706,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function updateMenuForPageType(isDashboardPage, isLibraryPage) {
-        var newPageType = isDashboardPage ? 2 : isLibraryPage ? 1 : 3;
+        const newPageType = isDashboardPage ? 2 : isLibraryPage ? 1 : 3;
 
         if (currentPageType !== newPageType) {
             currentPageType = newPageType;
@@ -706,7 +717,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                 skinHeader.classList.remove('headroomDisabled');
             }
 
-            var bodyClassList = document.body.classList;
+            const bodyClassList = document.body.classList;
 
             if (isLibraryPage) {
                 bodyClassList.add('libraryDocument');
@@ -743,7 +754,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function updateTitle(page) {
-        var title = page.getAttribute('data-title');
+        const title = page.getAttribute('data-title');
 
         if (title) {
             LibraryMenu.setTitle(title);
@@ -767,8 +778,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function initHeadRoom(elem) {
-        require(['headroom'], function (Headroom) {
-            var headroom = new Headroom(elem);
+        import('headroom').then(({default: Headroom}) => {
+            const headroom = new Headroom(elem);
             headroom.init();
         });
     }
@@ -788,7 +799,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function getNavDrawerOptions() {
-        var drawerWidth = screen.availWidth - 50;
+        let drawerWidth = screen.availWidth - 50;
         drawerWidth = Math.max(drawerWidth, 240);
         drawerWidth = Math.min(drawerWidth, 320);
         return {
@@ -807,9 +818,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve, reject) {
-            require(['navdrawer'], function (navdrawer) {
-                navdrawer = navdrawer.default || navdrawer;
-
+            import('navdrawer').then(({default: navdrawer}) => {
                 navDrawerInstance = new navdrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {
@@ -821,98 +830,98 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         });
     }
 
-    var navDrawerElement;
-    var navDrawerScrollContainer;
-    var navDrawerInstance;
-    var mainDrawerButton;
-    var headerHomeButton;
-    var currentDrawerType;
-    var pageTitleElement;
-    var headerBackButton;
-    var headerUserButton;
-    var currentUser;
-    var headerCastButton;
-    var headerSearchButton;
-    var headerAudioPlayerButton;
-    var headerSyncButton;
-    var enableLibraryNavDrawer = layoutManager.desktop;
-    var enableLibraryNavDrawerHome = !layoutManager.tv;
-    var skinHeader = document.querySelector('.skinHeader');
-    var requiresUserRefresh = true;
-    window.LibraryMenu = {
-        getTopParentId: getTopParentId,
-        onHardwareMenuButtonClick: function () {
-            toggleMainDrawer();
-        },
-        setTabs: function (type, selectedIndex, builder) {
-            require(['mainTabsManager'], function (mainTabsManager) {
-                if (type) {
-                    mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
-                        return [];
-                    });
-                } else {
-                    mainTabsManager.setTabs(null);
-                }
-            });
-        },
-        setDefaultTitle: function () {
-            if (!pageTitleElement) {
-                pageTitleElement = document.querySelector('.pageTitle');
-            }
+    let navDrawerElement;
+    let navDrawerScrollContainer;
+    let navDrawerInstance;
+    let mainDrawerButton;
+    let headerHomeButton;
+    let currentDrawerType;
+    let pageTitleElement;
+    let headerBackButton;
+    let headerUserButton;
+    let currentUser;
+    let headerCastButton;
+    let headerSearchButton;
+    let headerAudioPlayerButton;
+    let headerSyncButton;
+    const enableLibraryNavDrawer = layoutManager.desktop;
+    const enableLibraryNavDrawerHome = !layoutManager.tv;
+    const skinHeader = document.querySelector('.skinHeader');
+    let requiresUserRefresh = true;
 
-            if (pageTitleElement) {
-                pageTitleElement.classList.add('pageTitleWithLogo');
-                pageTitleElement.classList.add('pageTitleWithDefaultLogo');
-                pageTitleElement.style.backgroundImage = null;
-                pageTitleElement.innerHTML = '';
-            }
-
-            document.title = 'Jellyfin';
-        },
-        setTitle: function (title) {
-            if (title == null) {
-                return void LibraryMenu.setDefaultTitle();
-            }
-
-            if (title === '-') {
-                title = '';
-            }
-
-            var html = title;
-
-            if (!pageTitleElement) {
-                pageTitleElement = document.querySelector('.pageTitle');
-            }
-
-            if (pageTitleElement) {
-                pageTitleElement.classList.remove('pageTitleWithLogo');
-                pageTitleElement.classList.remove('pageTitleWithDefaultLogo');
-                pageTitleElement.style.backgroundImage = null;
-                pageTitleElement.innerHTML = html || '';
-            }
-
-            document.title = title || 'Jellyfin';
-        },
-        setTransparentMenu: function (transparent) {
-            if (transparent) {
-                skinHeader.classList.add('semiTransparent');
+    function setTabs (type, selectedIndex, builder) {
+        import('mainTabsManager').then((mainTabsManager) => {
+            if (type) {
+                mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
+                    return [];
+                });
             } else {
-                skinHeader.classList.remove('semiTransparent');
+                mainTabsManager.setTabs(null);
             }
+        });
+    }
+
+    function setDefaultTitle () {
+        if (!pageTitleElement) {
+            pageTitleElement = document.querySelector('.pageTitle');
         }
-    };
-    var currentPageType;
+
+        if (pageTitleElement) {
+            pageTitleElement.classList.add('pageTitleWithLogo');
+            pageTitleElement.classList.add('pageTitleWithDefaultLogo');
+            pageTitleElement.style.backgroundImage = null;
+            pageTitleElement.innerHTML = '';
+        }
+
+        document.title = 'Jellyfin';
+    }
+
+    function setTitle (title) {
+        if (title == null) {
+            return void LibraryMenu.setDefaultTitle();
+        }
+
+        if (title === '-') {
+            title = '';
+        }
+
+        const html = title;
+
+        if (!pageTitleElement) {
+            pageTitleElement = document.querySelector('.pageTitle');
+        }
+
+        if (pageTitleElement) {
+            pageTitleElement.classList.remove('pageTitleWithLogo');
+            pageTitleElement.classList.remove('pageTitleWithDefaultLogo');
+            pageTitleElement.style.backgroundImage = null;
+            pageTitleElement.innerHTML = html || '';
+        }
+
+        document.title = title || 'Jellyfin';
+    }
+
+    function setTransparentMenu (transparent) {
+        if (transparent) {
+            skinHeader.classList.add('semiTransparent');
+        } else {
+            skinHeader.classList.remove('semiTransparent');
+        }
+    }
+
+    let currentPageType;
     pageClassOn('pagebeforeshow', 'page', function (e) {
         if (!this.classList.contains('withTabs')) {
             LibraryMenu.setTabs(null);
         }
     });
+
     pageClassOn('pageshow', 'page', function (e) {
-        var page = this;
-        var isDashboardPage = page.classList.contains('type-interior');
-        var isHomePage = page.classList.contains('homePage');
-        var isLibraryPage = !isDashboardPage && page.classList.contains('libraryPage');
-        var apiClient = getCurrentApiClient();
+        const page = this;
+        const isDashboardPage = page.classList.contains('type-interior');
+        const isHomePage = page.classList.contains('homePage');
+        const isLibraryPage = !isDashboardPage && page.classList.contains('libraryPage');
+        const apiClient = getCurrentApiClient();
 
         if (isDashboardPage) {
             if (mainDrawerButton) {
@@ -949,7 +958,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     renderHeader();
 
     events.on(connectionManager, 'localusersignedin', function (e, user) {
-        var currentApiClient = connectionManager.getApiClient(user.ServerId);
+        const currentApiClient = connectionManager.getApiClient(user.ServerId);
 
         currentDrawerType = null;
         currentUser = {
@@ -963,15 +972,32 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             updateUserInHeader(user);
         });
     });
+
     events.on(connectionManager, 'localusersignedout', function () {
         currentUser = {};
         updateUserInHeader();
     });
+
     events.on(playbackManager, 'playerchange', updateCastIcon);
 
     events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
     events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
 
     loadNavDrawer();
-    return LibraryMenu;
-});
+
+    const LibraryMenu = {
+        getTopParentId: getTopParentId,
+        onHardwareMenuButtonClick: function () {
+            toggleMainDrawer();
+        },
+        setTabs: setTabs,
+        setDefaultTitle: setDefaultTitle,
+        setTitle: setTitle,
+        setTransparentMenu: setTransparentMenu
+    };
+
+    window.LibraryMenu = LibraryMenu;
+
+export default LibraryMenu;
+
+/* eslint-enable indent */

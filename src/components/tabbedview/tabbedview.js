@@ -1,32 +1,33 @@
-define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (backdrop, mainTabsManager, layoutManager) {
-    'use strict';
+import backdrop from 'backdrop';
+import * as mainTabsManager from 'mainTabsManager';
+import layoutManager from 'layoutManager';
+import 'emby-tabs';
 
-    layoutManager = layoutManager.default || layoutManager;
+function onViewDestroy(e) {
+    var tabControllers = this.tabControllers;
 
-    function onViewDestroy(e) {
-        var tabControllers = this.tabControllers;
+    if (tabControllers) {
+        tabControllers.forEach(function (t) {
+            if (t.destroy) {
+                t.destroy();
+            }
+        });
 
-        if (tabControllers) {
-            tabControllers.forEach(function (t) {
-                if (t.destroy) {
-                    t.destroy();
-                }
-            });
-
-            this.tabControllers = null;
-        }
-
-        this.view = null;
-        this.params = null;
-        this.currentTabController = null;
-        this.initialTabIndex = null;
+        this.tabControllers = null;
     }
 
-    function onBeforeTabChange() {
+    this.view = null;
+    this.params = null;
+    this.currentTabController = null;
+    this.initialTabIndex = null;
+}
 
-    }
+function onBeforeTabChange() {
 
-    function TabbedView(view, params) {
+}
+
+class TabbedView {
+    constructor(view, params) {
         this.tabControllers = [];
         this.view = view;
         this.params = params;
@@ -87,7 +88,7 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
         view.addEventListener('viewdestroy', onViewDestroy.bind(this));
     }
 
-    TabbedView.prototype.onResume = function (options) {
+    onResume(options) {
         this.setTitle();
         backdrop.clearBackdrop();
 
@@ -98,19 +99,18 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
         } else if (currentTabController && currentTabController.onResume) {
             currentTabController.onResume({});
         }
-    };
+    }
 
-    TabbedView.prototype.onPause = function () {
+    onPause() {
         var currentTabController = this.currentTabController;
 
         if (currentTabController && currentTabController.onPause) {
             currentTabController.onPause();
         }
-    };
-
-    TabbedView.prototype.setTitle = function () {
+    }
+    setTitle() {
         Emby.Page.setTitle('');
-    };
+    }
+}
 
-    return TabbedView;
-});
+export default TabbedView;
