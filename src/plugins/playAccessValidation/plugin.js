@@ -1,33 +1,26 @@
-define(['connectionManager', 'globalize'], function (connectionManager, globalize) {
-    'use strict';
+import connectionManager from 'connectionManager';
+import globalize from 'globalize';
 
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-            require(deps, resolve);
-        });
-    }
+function showErrorMessage() {
+    return import('alert').then(({default: alert}) => {
+        return alert(globalize.translate('MessagePlayAccessRestricted'));
+    });
+}
 
-    function showErrorMessage() {
-        return getRequirePromise(['alert']).then(function (alert) {
-            return alert(globalize.translate('MessagePlayAccessRestricted')).then(function () {
-                return Promise.reject();
-            });
-        });
-    }
-
-    function PlayAccessValidation() {
+class PlayAccessValidation {
+    constructor() {
         this.name = 'Playback validation';
         this.type = 'preplayintercept';
         this.id = 'playaccessvalidation';
         this.order = -2;
     }
 
-    PlayAccessValidation.prototype.intercept = function (options) {
-        var item = options.item;
+    intercept(options) {
+        const item = options.item;
         if (!item) {
             return Promise.resolve();
         }
-        var serverId = item.ServerId;
+        const serverId = item.ServerId;
         if (!serverId) {
             return Promise.resolve();
         }
@@ -44,7 +37,7 @@ define(['connectionManager', 'globalize'], function (connectionManager, globaliz
 
             return showErrorMessage();
         });
-    };
+    }
+}
 
-    return PlayAccessValidation;
-});
+export default PlayAccessValidation;

@@ -38,6 +38,16 @@
             ${HeaderSubtitleAppearance}
         </h2>
 
+        <div class="subtitleappearance-fullpreview subtitleappearance-fullpreview-hide">
+            <div class="subtitleappearance-fullpreview-window">
+                <div class="subtitleappearance-fullpreview-text">
+                    ${HeaderSubtitleAppearance}
+                    <br>
+                    ${TheseSettingsAffectSubtitlesOnThisDevice}
+                </div>
+            </div>
+        </div>
+
         <div style="margin: 2em 0 2em;">
             <div class="subtitleappearance-preview flex align-items-center justify-content-center" style="margin:2em 0;padding:1.6em;color:black;background:linear-gradient(140deg,#aa5cc3,#00a4dc);">
                 <div class="subtitleappearance-preview-window flex align-items-center justify-content-center" style="width: 90%; padding: .25em;">
@@ -88,6 +98,20 @@
                 <option value="uniform">${Uniform}</option>
                 <option value="">${DropShadow}</option>
             </select>
+        </div>
+
+        <div class="sliderContainer-settings">
+            <div class="sliderContainer">
+                <input is="emby-slider" id="sliderVerticalPosition" label="${LabelSubtitleVerticalPosition}" type="range" min="-16" max="16" />
+            </div>
+            <div class="fieldDescription">${SubtitleVerticalPositionHelp}</div>
+        </div>
+
+        <div class="checkboxContainer">
+            <label>
+                <input is="emby-checkbox" type="checkbox" class="chkPreview" />
+                <span>${Preview}</span>
+            </label>
         </div>
     </div>
 

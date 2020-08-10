@@ -2,4 +2,3 @@ node_modules
 dist
 .idea
 .vscode
-src/libraries
