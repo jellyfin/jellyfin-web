@@ -318,6 +318,7 @@
           "src/scripts/filesystem.js",
           "src/scripts/globalize.js",
           "src/scripts/imagehelper.js",
+          "src/scripts/itembynamedetailpage.js",
           "src/scripts/inputManager.js",
           "src/scripts/autoThemes.js",
           "src/scripts/themeManager.js",
