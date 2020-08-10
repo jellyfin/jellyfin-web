@@ -341,7 +341,7 @@ function initClient() {
     function getPlaybackManager(playbackManager) {
         window.addEventListener('beforeunload', function () {
             try {
-                playbackManager.onAppClose();
+                playbackManager.default.onAppClose();
             } catch (err) {
                 console.error('error in onAppClose: ' + err);
             }

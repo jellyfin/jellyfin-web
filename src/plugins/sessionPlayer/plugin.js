@@ -444,9 +444,6 @@ class SessionPlayer {
         });
     }
 
-    setMaxStreamingBitrate(options) {
-    }
-
     setRepeatMode(mode) {
         sendCommandByName(this, 'SetRepeatMode', {
             RepeatMode: mode
