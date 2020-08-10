@@ -6,7 +6,6 @@ import loading from 'loading';
 import focusManager from 'focusManager';
 import connectionManager from 'connectionManager';
 import globalize from 'globalize';
-import require from 'require';
 import shell from 'shell';
 import 'emby-checkbox';
 import 'emby-input';
@@ -37,7 +36,7 @@ import 'flexStyles';
 
     function submitUpdatedItem(form, item) {
         function afterContentTypeUpdated() {
-            require(['toast'], function (toast) {
+            import('toast').then(({default: toast}) => {
                 toast(globalize.translate('MessageItemSaved'));
             });
 
@@ -227,7 +226,7 @@ import 'flexStyles';
     }
 
     function editPerson(context, person, index) {
-        require(['personEditor'], function (personEditor) {
+        import('personEditor').then(({default: personEditor}) => {
             personEditor.show(person).then(function (updatedPerson) {
                 const isNew = index === -1;
 
@@ -246,14 +245,14 @@ import 'flexStyles';
         if (parentId) {
             reload(context, parentId, item.ServerId);
         } else {
-            require(['appRouter'], function (appRouter) {
+            import('appRouter').then(({default: appRouter}) => {
                 appRouter.goHome();
             });
         }
     }
 
     function showMoreMenu(context, button, user) {
-        require(['itemContextMenu'], function (itemContextMenu) {
+        import('itemContextMenu').then(({default: itemContextMenu}) => {
             var item = currentItem;
 
             itemContextMenu.show({

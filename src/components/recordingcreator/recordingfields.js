@@ -1,6 +1,10 @@
 define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'paper-icon-button-light', 'emby-button', 'css!./recordingfields', 'flexStyles'], function (globalize, connectionManager, serverNotifications, require, loading, appHost, dom, recordingHelper, events) {
     'use strict';
 
+    serverNotifications = serverNotifications.default || serverNotifications;
+    recordingHelper = recordingHelper.default || recordingHelper;
+    loading = loading.default || loading;
+
     function loadData(parent, program, apiClient) {
         if (program.IsSeries) {
             parent.querySelector('.recordSeriesContainer').classList.remove('hide');

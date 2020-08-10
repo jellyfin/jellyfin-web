@@ -1,6 +1,12 @@
 define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize', 'loading', 'browser', 'focusManager', 'scrollHelper', 'material-icons', 'formDialogStyle', 'emby-button', 'emby-itemscontainer', 'cardStyle'], function (dialogHelper, dom, layoutManager, connectionManager, globalize, loading, browser, focusManager, scrollHelper) {
     'use strict';
 
+    browser = browser.default || browser;
+    loading = loading.default || loading;
+    layoutManager = layoutManager.default || layoutManager;
+    focusManager = focusManager.default || focusManager;
+    scrollHelper = scrollHelper.default || scrollHelper;
+
     var enableFocusTransform = !browser.slow && !browser.edge;
 
     function getEditorHtml() {

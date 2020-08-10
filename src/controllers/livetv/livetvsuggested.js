@@ -1,6 +1,9 @@
 define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize', 'libraryBrowser', 'mainTabsManager', 'cardBuilder', 'apphost', 'imageLoader', 'scrollStyles', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (layoutManager, userSettings, inputManager, loading, globalize, libraryBrowser, mainTabsManager, cardBuilder, appHost, imageLoader) {
     'use strict';
 
+    loading = loading.default || loading;
+    layoutManager = layoutManager.default || layoutManager;
+
     function enableScrollX() {
         return !layoutManager.desktop;
     }
@@ -167,9 +170,6 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             name: globalize.translate('HeaderSchedule')
         }, {
             name: globalize.translate('TabSeries')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
         }];
     }
 
@@ -253,12 +253,11 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
                 case 5:
                     depends.push('controllers/livetv/livetvseriestimers');
                     break;
-
-                case 6:
-                    depends.push('scripts/searchtab');
             }
 
             require(depends, function (controllerFactory) {
+                controllerFactory = controllerFactory.default || controllerFactory;
+
                 var tabContent;
 
                 if (index == 0) {

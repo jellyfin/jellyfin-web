@@ -152,13 +152,13 @@ var Dashboard = {
     processPluginConfigurationUpdateResult: function () {
         require(['loading', 'toast'], function (loading, toast) {
             loading.hide();
-            toast(Globalize.translate('MessageSettingsSaved'));
+            toast.default(Globalize.translate('MessageSettingsSaved'));
         });
     },
     processServerConfigurationUpdateResult: function (result) {
         require(['loading', 'toast'], function (loading, toast) {
             loading.hide();
-            toast(Globalize.translate('MessageSettingsSaved'));
+            toast.default(Globalize.translate('MessageSettingsSaved'));
         });
     },
     processErrorResponse: function (response) {
@@ -180,7 +180,7 @@ var Dashboard = {
     alert: function (options) {
         if (typeof options == 'string') {
             return void require(['toast'], function (toast) {
-                toast({
+                toast.default({
                     text: options
                 });
             });
@@ -350,6 +350,7 @@ function initClient() {
     }
 
     function getLayoutManager(layoutManager, appHost) {
+        layoutManager = layoutManager.default || layoutManager;
         if (appHost.getDefaultLayout) {
             layoutManager.defaultLayout = appHost.getDefaultLayout();
         }
@@ -477,36 +478,30 @@ function initClient() {
 
     function loadPlugins(appHost, browser, shell) {
         console.debug('loading installed plugins');
-        var list = [
-            'plugins/playAccessValidation/plugin',
-            'plugins/experimentalWarnings/plugin',
-            'plugins/htmlAudioPlayer/plugin',
-            'plugins/htmlVideoPlayer/plugin',
-            'plugins/photoPlayer/plugin',
-            'plugins/bookPlayer/plugin',
-            'plugins/youtubePlayer/plugin',
-            'plugins/backdropScreensaver/plugin',
-            'plugins/logoScreensaver/plugin'
-        ];
-
-        if (appHost.supports('remotecontrol')) {
-            list.push('plugins/sessionPlayer/plugin');
-
-            if (browser.chrome || browser.edgeChromium || browser.opera) {
-                list.push('plugins/chromecastPlayer/plugin');
-            }
-        }
-
-        if (window.NativeShell) {
-            list = list.concat(window.NativeShell.getPlugins());
-        }
-
         return new Promise(function (resolve, reject) {
-            Promise.all(list.map(loadPlugin)).then(function () {
-                require(['packageManager'], function (packageManager) {
-                    packageManager.init().then(resolve, reject);
+            require(['webSettings'], function (webSettings) {
+                webSettings.getPlugins().then(function (list) {
+                    // these two plugins are dependent on features
+                    if (!appHost.supports('remotecontrol')) {
+                        list.splice(list.indexOf('sessionPlayer'), 1);
+
+                        if (!browser.chrome && !browser.opera) {
+                            list.splice(list.indexOf('chromecastPlayer', 1));
+                        }
+                    }
+
+                    // add any native plugins
+                    if (window.NativeShell) {
+                        list = list.concat(window.NativeShell.getPlugins());
+                    }
+
+                    Promise.all(list.map(loadPlugin)).then(function () {
+                        require(['packageManager'], function (packageManager) {
+                            packageManager.init().then(resolve, reject);
+                        });
+                    }, reject);
                 });
-            }, reject);
+            });
         });
     }
 
@@ -532,7 +527,7 @@ function initClient() {
 
             window.Emby.Page = appRouter;
 
-            require(['emby-button', 'scripts/themeLoader', 'libraryMenu', 'scripts/routes'], function () {
+            require(['emby-button', 'scripts/autoThemes', 'libraryMenu', 'scripts/routes'], function () {
                 Emby.Page.start({
                     click: false,
                     hashbang: true
@@ -621,6 +616,7 @@ function initClient() {
     }
 
     var localApiClient;
+    let promise;
 
     (function () {
         var urlArgs = 'v=' + (window.dashboardVersion || new Date().getDate());
@@ -653,8 +649,7 @@ function initClient() {
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
             packageManager: componentsPath + '/packageManager',
-            screensaverManager: componentsPath + '/screensavermanager',
-            chromecastHelper: 'plugins/chromecastPlayer/chromecastHelpers'
+            screensaverManager: componentsPath + '/screensavermanager'
         };
 
         requirejs.onError = onRequireJsError;
@@ -703,20 +698,12 @@ function initClient() {
             onError: onRequireJsError
         });
 
-        require(['fetch']);
-        require(['polyfill']);
-        require(['fast-text-encoding']);
-        require(['intersection-observer']);
-        require(['classlist-polyfill']);
-
-        // Expose jQuery globally
-        require(['jQuery'], function(jQuery) {
-            window.$ = jQuery;
-            window.jQuery = jQuery;
-        });
-
-        require(['css!assets/css/site']);
-        require(['jellyfin-noto']);
+        promise = require(['fetch'])
+            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
+                // Expose jQuery globally
+                window.$ = jQuery;
+                window.jQuery = jQuery;
+            }));
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves
@@ -827,8 +814,8 @@ function initClient() {
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
-            window.ViewManager = viewManager;
-            viewManager.dispatchPageEvents(true);
+            window.ViewManager = viewManager.default;
+            viewManager.default.dispatchPageEvents(true);
             return viewManager;
         });
         define('slideshow', [componentsPath + '/slideshow/slideshow'], returnFirstDependency);
@@ -848,7 +835,7 @@ function initClient() {
         define('viewContainer', [componentsPath + '/viewContainer'], returnFirstDependency);
         define('dialogHelper', [componentsPath + '/dialogHelper/dialogHelper'], returnFirstDependency);
         define('serverNotifications', [scriptsPath + '/serverNotifications'], returnFirstDependency);
-        define('skinManager', [componentsPath + '/skinManager'], returnFirstDependency);
+        define('skinManager', [scriptsPath + '/themeManager'], returnFirstDependency);
         define('keyboardnavigation', [scriptsPath + '/keyboardNavigation'], returnFirstDependency);
         define('mouseManager', [scriptsPath + '/mouseManager'], returnFirstDependency);
         define('scrollManager', [componentsPath + '/scrollManager'], returnFirstDependency);
@@ -1122,7 +1109,7 @@ function initClient() {
         });
     })();
 
-    return onWebComponentsReady();
+    promise.then(onWebComponentsReady);
 }
 
 initClient();

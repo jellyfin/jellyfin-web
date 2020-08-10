@@ -1,10 +1,15 @@
-define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'dom'], function (inputManager, focusManager, browser, layoutManager, events, dom) {
-    'use strict';
+import inputManager from 'inputManager';
+import focusManager from 'focusManager';
+import browser from 'browser';
+import layoutManager from 'layoutManager';
+import events from 'events';
+import dom from 'dom';
+/* eslint-disable indent */
 
-    var self = {};
+    const self = {};
 
-    var lastMouseInputTime = new Date().getTime();
-    var isMouseIdle;
+    let lastMouseInputTime = new Date().getTime();
+    let isMouseIdle;
 
     function mouseIdleTime() {
         return new Date().getTime() - lastMouseInputTime;
@@ -15,14 +20,14 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function removeIdleClasses() {
-        var classList = document.body.classList;
+        const classList = document.body.classList;
 
         classList.remove('mouseIdle');
         classList.remove('mouseIdle-tv');
     }
 
     function addIdleClasses() {
-        var classList = document.body.classList;
+        const classList = document.body.classList;
 
         classList.add('mouseIdle');
 
@@ -31,7 +36,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         }
     }
 
-    function showCursor() {
+    export function showCursor() {
         if (isMouseIdle) {
             isMouseIdle = false;
             removeIdleClasses();
@@ -39,7 +44,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         }
     }
 
-    function hideCursor() {
+    export function hideCursor() {
         if (!isMouseIdle) {
             isMouseIdle = true;
             addIdleClasses();
@@ -47,17 +52,17 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         }
     }
 
-    var lastPointerMoveData;
+    let lastPointerMoveData;
     function onPointerMove(e) {
-        var eventX = e.screenX;
-        var eventY = e.screenY;
+        const eventX = e.screenX;
+        const eventY = e.screenY;
 
         // if coord don't exist how could it move
         if (typeof eventX === 'undefined' && typeof eventY === 'undefined') {
             return;
         }
 
-        var obj = lastPointerMoveData;
+        const obj = lastPointerMoveData;
         if (!obj) {
             lastPointerMoveData = {
                 x: eventX,
@@ -81,11 +86,11 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function onPointerEnter(e) {
-        var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
+        const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
         if (pointerType === 'mouse') {
             if (!isMouseIdle) {
-                var parent = focusManager.focusableParent(e.target);
+                const parent = focusManager.focusableParent(e.target);
                 if (parent) {
                     focusManager.focus(parent);
                 }
@@ -115,7 +120,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         }
     }
 
-    var mouseInterval;
+    let mouseInterval;
     function startMouseInterval() {
         if (!mouseInterval) {
             mouseInterval = setInterval(onMouseInterval, 5000);
@@ -123,7 +128,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     function stopMouseInterval() {
-        var interval = mouseInterval;
+        const interval = mouseInterval;
 
         if (interval) {
             clearInterval(interval);
@@ -167,8 +172,10 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
     events.on(layoutManager, 'modechange', initMouse);
 
-    self.hideCursor = hideCursor;
-    self.showCursor = showCursor;
+/* eslint-enable indent */
 
-    return self;
-});
+export default {
+    hideCursor,
+    showCursor
+};
+
