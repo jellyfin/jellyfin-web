@@ -1492,7 +1492,6 @@
     "ListPaging": "{0}-{1} z {2}",
     "WriteAccessRequired": "Serwer Jellyfin wymaga praw zapisu do tego katalogu. Upewnij się, że prawa zapisu zostały przyznane i spróbuj ponownie.",
     "PathNotFound": "Ścieżka nie została znaleziona. Upewnij się, że ścieżka jest poprawna i spróbuj ponownie.",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "Writers": "Scenariusz",
     "ViewAlbumArtist": "Zobacz wykonawcę albumu",

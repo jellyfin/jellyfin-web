@@ -1476,7 +1476,6 @@
     "ListPaging": "{0}-{1} di {2}",
     "WriteAccessRequired": "Jellyfin Server richiede il permesso di scrittura su questa cartella. Verificare l'autorizzazione e riprovare.",
     "PathNotFound": "Percorso non trovato. Assicurarsi che sia valido e riprovare.",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "Track": "Traccia",
     "Season": "Stagione",

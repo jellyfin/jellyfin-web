@@ -1484,7 +1484,6 @@
     "ListPaging": "{0}-{1} av {2}",
     "WriteAccessRequired": "Jellyfin Server krever skrivetilgang til denne mappen. Vennligst påse at skrivetilgang er gitt og prøv igjen.",
     "PathNotFound": "Banen ble ikke funnet. Påse at banen er gyldig og prøv igjen.",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "Track": "Spor",
     "TabDVR": "Opptak",

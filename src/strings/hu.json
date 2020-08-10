@@ -1486,7 +1486,6 @@
     "LabelDeinterlaceMethod": "Deinterlacing mód:",
     "DeinterlaceMethodHelp": "Válassza ki a váltottsorosság megszűntetéséhez használandó módszert a váltottsoros tartalmak transzkódolásakor.",
     "UnsupportedPlayback": "Jellyfin nem tud DRM-titkosított tartalmak dekriptálására, ettől függetlenül a lejátszással mindig megpróbálkozik. Néhány fájl emiatt teljesen fekete képernyőt ad, amely vagy a titkosítás miatt van, vagy nem olyan nem támogatott tartalmak miatt, mint az interaktív címek.",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "ReleaseGroup": "Kiadócsoport",
     "MessageUnauthorizedUser": "Jelenleg nincs jogosultságod a szerverhez való hozzáféréshez. Kérjük, lépj kapcsolatba az adminisztrátorral további információkért!",

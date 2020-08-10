@@ -1400,7 +1400,6 @@
     "ListPaging": "{0}-{1} af {2}",
     "WriteAccessRequired": "Jellyfin Server kræver skriveadgang til denne mappe. Sørg for skriveadgang, og prøv igen.",
     "PathNotFound": "Stien blev ikke fundet. Sørg for, at stien er gyldig, og prøv igen.",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "Track": "Spor",
     "TabNetworking": "Netværk",

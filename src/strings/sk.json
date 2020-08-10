@@ -1473,7 +1473,6 @@
     "ListPaging": "{0}-{1} z {2}",
     "WriteAccessRequired": "Jellyfin Server vyžaduje práva na zapisovanie do tohoto priečinku. Prosím, uistite sa že má práva na zapisovanie a skúste to znova.",
     "PathNotFound": "Táto cesta nebola nájdená. Prosím, uistite sa že cesta je správna a skúste to znovu.",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "Track": "Stopa",
     "Season": "Séria",

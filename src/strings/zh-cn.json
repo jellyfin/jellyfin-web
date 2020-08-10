@@ -1482,7 +1482,6 @@
     "EveryXMinutes": "每 {0} 分钟",
     "WriteAccessRequired": "Jellyfin 服务端需要此文件夹的写入权限。请确认是否拥有写入权限并重试。",
     "PathNotFound": "无法找到此路径。请确认路径有效并重试。",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "LabelDeinterlaceMethod": "反交错方法：",
     "DeinterlaceMethodHelp": "选择对隔行扫描内容进行转码时所用的反交错方法。",

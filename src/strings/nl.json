@@ -1486,7 +1486,6 @@
     "ListPaging": "{0}-{1} van de {2}",
     "WriteAccessRequired": "De Jellyfin Server vereist schrijftoegang tot deze map. Zorg evoor dat Jellyfin schrijftoegang tot de map heeft en probeer opnieuw.",
     "PathNotFound": "Het pad kan niet gevonden worden. Zorg ervoor dat het pad correct is en probeer opnieuw.",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "Track": "Nummer",
     "SelectAdminUsername": "Selecteer een gebruikersnaam voor het beheerder account.",
