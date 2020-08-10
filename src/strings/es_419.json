@@ -181,7 +181,7 @@
     "OptionPoster": "Póster",
     "OptionPlayed": "Reproducido",
     "OptionPlayCount": "Contador de reproducciones",
-    "OptionPlainVideoItemsHelp": "Si se habilita, todos los videos serán representados en DIDL como «object.item.videoItem» en lugar de un tipo más específico, como «object.item.videoItem.movie».",
+    "OptionPlainVideoItemsHelp": "Todos los videos serán representados en DIDL como «object.item.videoItem» en vez de un tipo más específico, como «object.item.videoItem.movie».",
     "OptionPlainVideoItems": "Mostrar todos los videos como elementos de video simples",
     "OptionPlainStorageFoldersHelp": "Todos las carpetas serán representadas en DIDL como «object.container.storageFolder» en lugar de un tipo más específico, como «object.container.person.musicArtist».",
     "OptionPlainStorageFolders": "Mostrar todas las carpetas como carpetas de almacenamiento simples",
@@ -563,7 +563,7 @@
     "ReleaseDate": "Fecha de estreno",
     "RefreshQueued": "Actualización puesta en la cola.",
     "RefreshMetadata": "Actualizar metadatos",
-    "RefreshDialogHelp": "Los metadatos son actualizados basándose en las configuraciones y servicios de Internet que estén activados en el panel de control de tu servidor Jellyfin.",
+    "RefreshDialogHelp": "Los metadatos se actualizan según las configuraciones y servicios de internet que se habilitan en el panel de control.",
     "Refresh": "Actualizar",
     "Recordings": "Grabaciones",
     "RecordingScheduled": "Grabación programada.",
@@ -1541,5 +1541,11 @@
     "ViewAlbumArtist": "Ver Álbum de Artista",
     "TabRepositories": "Repositorios",
     "NextTrack": "Saltar al siguiente",
-    "LabelUnstable": "Inestable"
+    "LabelUnstable": "Inestable",
+    "Preview": "Vista previa",
+    "SubtitleVerticalPositionHelp": "Número de línea donde aparece el texto. Números positivos representan de arriba hacia abajo. Números negativos representan de abajo hacia arriba.",
+    "LabelSubtitleVerticalPosition": "Posición Vertical:",
+    "PreviousTrack": "Saltar al anterior",
+    "MessageGetInstalledPluginsError": "Ocurrió un error buscando la lista de plugins instalados.",
+    "MessagePluginInstallError": "Ocurrió un error instalando el plugin."
 }
