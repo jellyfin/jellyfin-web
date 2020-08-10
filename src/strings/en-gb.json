@@ -1475,6 +1475,7 @@
     "PathNotFound": "The path could not be found. Please ensure the path is valid and try again.",
     "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
+    "Bwdif": "BWDIF",
     "Track": "Track",
     "Season": "Season",
     "ReleaseGroup": "Release Group",
