@@ -4,10 +4,8 @@ import appHost from 'apphost';
 import * as htmlMediaHelper from 'htmlMediaHelper';
 
 function getDefaultProfile() {
-    return new Promise(function (resolve, reject) {
-        import('browserdeviceprofile').then(({default: profileBuilder}) => {
-            resolve(profileBuilder({}));
-        });
+    return import('browserdeviceprofile').then(({ default: profileBuilder }) => {
+        return profileBuilder({});
     });
 }
 
@@ -53,7 +51,7 @@ function supportsFade() {
 }
 
 function requireHlsPlayer(callback) {
-    import('hlsjs').then(({default: hls}) => {
+    import('hlsjs').then(({ default: hls }) => {
         window.Hls = hls;
         callback();
     });
@@ -70,7 +68,7 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
 
     // issue head request to get content type
     return new Promise(function (resolve, reject) {
-        import('fetchHelper').then(({default: fetchHelper}) => {
+        import('fetchHelper').then((fetchHelper) => {
             fetchHelper.ajax({
                 url: url,
                 type: 'HEAD'
