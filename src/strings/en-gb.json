@@ -1487,7 +1487,7 @@
     "LabelLibraryPageSize": "Library page size:",
     "LabelDeinterlaceMethod": "Deinterlacing method:",
     "Episode": "Episode",
-    "DeinterlaceMethodHelp": "Select the deinterlacing method to use when transcoding interlaced content.",
+    "DeinterlaceMethodHelp": "Select the deinterlacing method to use when software transcoding interlaced content. When hardware acceleration supporting hardware deinterlacing is enabled the hardware deinterlacer will be used instead of this setting.",
     "UseDoubleRateDeinterlacing": "Double the frame rate when deinterlacing",
     "UseDoubleRateDeinterlacingHelp": "This setting uses the field rate when deinterlacing, often referred to as bob deinterlacing, which doubles the frame rate of the video to provide full motion like what you would see when viewing interlaced video on a TV.",
     "ClientSettings": "Client Settings",

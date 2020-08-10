@@ -181,7 +181,7 @@
     "DefaultErrorMessage": "There was an error processing the request. Please try again later.",
     "DefaultMetadataLangaugeDescription": "These are your defaults and can be customized on a per-library basis.",
     "DefaultSubtitlesHelp": "Subtitles are loaded based on the default and forced flags in the embedded metadata. Language preferences are considered when multiple options are available.",
-    "DeinterlaceMethodHelp": "Select the deinterlacing method to use when transcoding interlaced content.",
+    "DeinterlaceMethodHelp": "Select the deinterlacing method to use when software transcoding interlaced content. When hardware acceleration supporting hardware deinterlacing is enabled the hardware deinterlacer will be used instead of this setting.",
     "Delete": "Delete",
     "DeleteDeviceConfirmation": "Are you sure you wish to delete this device? It will reappear the next time a user signs in with it.",
     "DeleteImage": "Delete Image",
