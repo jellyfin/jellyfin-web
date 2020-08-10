@@ -1542,5 +1542,10 @@
     "ViewAlbumArtist": "Zeige Albumkünstler",
     "PreviousTrack": "Zum Vorherigen springen",
     "NextTrack": "Zum Nächsten springen",
-    "LabelUnstable": "Instabil"
+    "LabelUnstable": "Instabil",
+    "SubtitleVerticalPositionHelp": "Zeilennummer, in der der Text angezeigt wird. Positive Zahlen geben die Zeile von oben an. Negative Zahlen geben die Zeile von unten an.",
+    "Preview": "Vorschau",
+    "LabelSubtitleVerticalPosition": "Vertikale Position:",
+    "MessageGetInstalledPluginsError": "Beim Abrufen der Liste der derzeit installierten Plugins ist ein Fehler aufgetreten.",
+    "MessagePluginInstallError": "Bei der Installation des Plugins ist ein Fehler aufgetreten."
 }
