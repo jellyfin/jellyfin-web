@@ -350,6 +350,7 @@ function initClient() {
     }
 
     function getLayoutManager(layoutManager, appHost) {
+        layoutManager = layoutManager.default || layoutManager;
         if (appHost.getDefaultLayout) {
             layoutManager.defaultLayout = appHost.getDefaultLayout();
         }

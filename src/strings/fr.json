@@ -1542,5 +1542,10 @@
     "ViewAlbumArtist": "Voir l'album de l'artiste",
     "PreviousTrack": "Revenir au précédent",
     "NextTrack": "Passer au prochain",
-    "LabelUnstable": "Instable"
+    "LabelUnstable": "Instable",
+    "Preview": "Aperçu",
+    "SubtitleVerticalPositionHelp": "Numéro de ligne où le texte apparaît. Un nombre positif compte les lignes de haut en bas. Un nombre négatif, de bas en haut.",
+    "LabelSubtitleVerticalPosition": "Position verticale :",
+    "MessageGetInstalledPluginsError": "Une erreur est survenue lors de la récupération de la liste des extensions installées.",
+    "MessagePluginInstallError": "Une erreur est survenue durant l'installation de l'extension."
 }
