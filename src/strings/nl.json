@@ -575,7 +575,7 @@
     "LabelHomeNetworkQuality": "Thuisnetwerk kwaliteit:",
     "LabelHomeScreenSectionValue": "Beginscherm sectie {0}:",
     "LabelHttpsPort": "Lokale HTTPS poort nummer:",
-    "LabelHttpsPortHelp": "Het TCP poort nummer waar Jellyfin's HTTPS server aan moet verbinden.",
+    "LabelHttpsPortHelp": "Het TCP poort nummer voor de HTTPS server.",
     "LabelIconMaxHeight": "Pictogram maximum hoogte:",
     "LabelIconMaxHeightHelp": "Maximum resolutie van pictogrammen weergegeven via upnp:icon.",
     "LabelIconMaxWidth": "Pictogram maximum breedte:",
