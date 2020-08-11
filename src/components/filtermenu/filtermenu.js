@@ -102,9 +102,7 @@ function onInputCommand(e) {
 }
 function saveValues(context, settings, settingsKey) {
     var elems = context.querySelectorAll('.simpleFilter');
-    var i;
-    var length;
-    for (i = 0, length = elems.length; i < length; i++) {
+    for (let i = 0, length = elems.length; i < length; i++) {
         if (elems[i].tagName === 'INPUT') {
             setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
         } else {
