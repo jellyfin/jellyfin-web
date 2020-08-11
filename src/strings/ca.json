@@ -777,7 +777,7 @@
     "Aired": "Transmès",
     "AirDate": "Data d'emissió",
     "AdditionalNotificationServices": "Examineu el catàleg de complements per instal·lar serveis de notificació addicionals.",
-    "AddedOnValue": "Afegit  {0}",
+    "AddedOnValue": "Afegit {0}",
     "Actor": "Actor",
     "Absolute": "Absolut",
     "ClientSettings": "Configuració del client",
@@ -814,5 +814,10 @@
     "CommunityRating": "Ràting comunitari",
     "ColorTransfer": "Transferència de color",
     "ColorSpace": "Espai de color",
-    "ColorPrimaries": "Colors primaris"
+    "ColorPrimaries": "Colors primaris",
+    "DefaultMetadataLangaugeDescription": "Aquests són els teus valors per defecte i poden ser personalitats per cada biblioteca.",
+    "Default": "Per defecte",
+    "DatePlayed": "Data reproduït",
+    "DateAdded": "Data d'afegit",
+    "CustomDlnaProfilesHelp": "Crear un perfil personalitzat per a un nou dispositiu o substitueix un perfil de sistema."
 }
