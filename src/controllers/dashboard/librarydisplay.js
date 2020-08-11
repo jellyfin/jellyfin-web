@@ -12,10 +12,10 @@ import 'emby-button';
             name: globalize.translate('HeaderLibraries')
         }, {
             href: 'librarydisplay.html',
-            name: globalize.translate('TabDisplay')
+            name: globalize.translate('Display')
         }, {
             href: 'metadataimages.html',
-            name: globalize.translate('TabMetadata')
+            name: globalize.translate('Metadata')
         }, {
             href: 'metadatanfo.html',
             name: globalize.translate('TabNfoSettings')

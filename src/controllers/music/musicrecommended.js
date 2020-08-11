@@ -178,13 +178,13 @@ import 'flexStyles';
 
     function getTabs() {
         return [{
-            name: globalize.translate('TabSuggestions')
+            name: globalize.translate('Suggestions')
         }, {
             name: globalize.translate('TabAlbums')
         }, {
             name: globalize.translate('TabAlbumArtists')
         }, {
-            name: globalize.translate('TabArtists')
+            name: globalize.translate('Artists')
         }, {
             name: globalize.translate('TabPlaylists')
         }, {
