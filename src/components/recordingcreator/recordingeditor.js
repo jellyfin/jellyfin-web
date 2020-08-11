@@ -21,6 +21,12 @@ let currentItemId;
 let currentServerId;
 let currentResolve;
 
+function deleteTimer(apiClient, timerId) {
+    return import('recordingHelper').then(({ default: recordingHelper }) => {
+        recordingHelper.cancelTimerWithConfirmation(timerId, apiClient.serverId());
+    });
+}
+
 function renderTimer(context, item, apiClient) {
     context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
     context.querySelector('#txtPostPaddingMinutes').value = item.PostPaddingSeconds / 60;
@@ -58,7 +64,7 @@ function init(context) {
     context.querySelector('.btnCancelRecording').addEventListener('click', function () {
         const apiClient = connectionManager.getApiClient(currentServerId);
 
-        (apiClient, currentItemId).then(function () {
+        deleteTimer(apiClient, currentItemId).then(function () {
             closeDialog(true);
         });
     });
