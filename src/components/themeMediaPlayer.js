@@ -1,5 +1,5 @@
 import playbackManager from 'playbackManager';
-import userSettings from 'userSettings';
+import * as userSettings from 'userSettings';
 import connectionManager from 'connectionManager';
 
 let currentOwnerId;
@@ -99,4 +99,3 @@ Events.on(playbackManager, 'playbackstart', function (e, player) {
         currentOwnerId = null;
     }
 });
-
