@@ -13,8 +13,6 @@ import 'webcomponents';
         if (e.keyCode === 13 || e.keyCode === 32) {
             e.preventDefault();
 
-            this.checked = !this.checked;
-
             this.dispatchEvent(new CustomEvent('change', {
                 bubbles: true
             }));
