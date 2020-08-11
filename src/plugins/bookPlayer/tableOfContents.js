@@ -11,7 +11,7 @@ export default class TableOfContents {
     }
 
     destroy() {
-        let elem = this._elem;
+        const elem = this._elem;
         if (elem) {
             this.unbindEvents();
             dialogHelper.close(elem);
@@ -21,14 +21,14 @@ export default class TableOfContents {
     }
 
     bindEvents() {
-        let elem = this._elem;
+        const elem = this._elem;
 
         elem.addEventListener('close', this.onDialogClosed, {once: true});
         elem.querySelector('.btnBookplayerTocClose').addEventListener('click', this.onDialogClosed, {once: true});
     }
 
     unbindEvents() {
-        let elem = this._elem;
+        const elem = this._elem;
 
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('.btnBookplayerTocClose').removeEventListener('click', this.onDialogClosed);
@@ -39,10 +39,10 @@ export default class TableOfContents {
     }
 
     replaceLinks(contents, f) {
-        let links = contents.querySelectorAll('a[href]');
+        const links = contents.querySelectorAll('a[href]');
 
         links.forEach((link) => {
-            let href = link.getAttribute('href');
+            const href = link.getAttribute('href');
 
             link.onclick = () => {
                 f(href);
@@ -52,9 +52,9 @@ export default class TableOfContents {
     }
 
     createMediaElement() {
-        let rendition = this._rendition;
+        const rendition = this._rendition;
 
-        let elem = dialogHelper.createDialog({
+        const elem = dialogHelper.createDialog({
             size: 'small',
             autoFocus: false,
             removeOnClose: true
@@ -69,7 +69,7 @@ export default class TableOfContents {
         rendition.book.navigation.forEach((chapter) => {
             tocHtml += '<li>';
             // Remove '../' from href
-            let link = chapter.href.startsWith('../') ? chapter.href.substr(3) : chapter.href;
+            const link = chapter.href.startsWith('../') ? chapter.href.substr(3) : chapter.href;
             tocHtml += `<a href="${rendition.book.path.directory + link}">${chapter.label}</a>`;
             tocHtml += '</li>';
         });
@@ -78,7 +78,7 @@ export default class TableOfContents {
         elem.innerHTML = tocHtml;
 
         this.replaceLinks(elem, (href) => {
-            let relative = rendition.book.path.relative(href);
+            const relative = rendition.book.path.relative(href);
             rendition.display(relative);
             this.destroy();
         });

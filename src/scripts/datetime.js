@@ -24,7 +24,7 @@ import globalize from 'globalize';
 
         // parse strings, leading zeros into proper ints
         const a = [1, 2, 3, 4, 5, 6, 10, 11];
-        for (let i in a) {
+        for (const i in a) {
             d[a[i]] = parseInt(d[a[i]], 10);
         }
         d[7] = parseFloat(d[7]);

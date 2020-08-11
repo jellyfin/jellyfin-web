@@ -44,6 +44,7 @@ module.exports = {
         'no-unused-vars': ['error', { 'vars': 'all', 'args': 'none', 'ignoreRestSiblings': true }],
         'one-var': ['error', 'never'],
         'padded-blocks': ['error', 'never'],
+        //'prefer-const': ['error', {'destructuring': 'all'}],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         'semi': ['error'],
         'space-before-blocks': ['error'],

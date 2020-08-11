@@ -374,7 +374,7 @@ import 'emby-select';
     }
 
     function getArtistLinksHtml(artists, serverId, context) {
-        let html = [];
+        const html = [];
 
         for (const artist of artists) {
             const href = appRouter.getRouteUrl(artist, {

@@ -104,7 +104,6 @@ import 'flexStyles';
             }
 
             var itemsContainer = elem.querySelector('.itemsContainer');
-
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
