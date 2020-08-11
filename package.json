@@ -166,7 +166,6 @@
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
           "src/plugins/experimentalWarnings/plugin.js",
-          "src/plugins/htmlVideoPlayer/plugin.js",
           "src/plugins/sessionPlayer/plugin.js",
           "src/plugins/htmlAudioPlayer/plugin.js",
           "src/plugins/chromecastPlayer/plugin.js",
