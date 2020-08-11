@@ -1525,5 +1525,10 @@
     "ViewAlbumArtist": "Zobrazit interpreta alba",
     "PreviousTrack": "Předchozí",
     "NextTrack": "Další",
-    "LabelUnstable": "Nestabilní"
+    "LabelUnstable": "Nestabilní",
+    "Preview": "Náhled",
+    "SubtitleVerticalPositionHelp": "Číslo řádku, na kterém se zobrazí text. Kladná čísla znamenají směr shora dolů. Záporná čísla zdola nahoru.",
+    "LabelSubtitleVerticalPosition": "Svislé umístění:",
+    "MessageGetInstalledPluginsError": "Při načítání seznamu nainstalovaných zásuvných modulů došlo k chybě.",
+    "MessagePluginInstallError": "Při instalaci zásuvného modulu došlo k chybě."
 }
