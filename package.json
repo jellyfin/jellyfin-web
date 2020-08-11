@@ -110,6 +110,7 @@
           "src/components/favoriteitems.js",
           "src/components/fetchhelper.js",
           "src/components/filterdialog/filterdialog.js",
+          "src/components/filtermenu/filtermenu.js",
           "src/components/focusManager.js",
           "src/components/groupedcards.js",
           "src/components/guide/guide.js",

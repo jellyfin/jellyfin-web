@@ -1,15 +1,26 @@
-define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 'inputManager', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'userSettings', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (require, dom, focusManager, dialogHelper, loading, appHost, inputManager, layoutManager, connectionManager, appRouter, globalize, userSettings) {
-    'use strict';
-    focusManager = focusManager.default || focusManager;
+import dom from 'dom';
+import focusManager from 'focusManager';
+import dialogHelper from 'dialogHelper';
+import inputManager from 'inputManager';
+import layoutManager from 'layoutManager';
+import connectionManager from 'connectionManager';
+import globalize from 'globalize';
+import * as userSettings from 'userSettings';
+import 'emby-checkbox';
+import 'emby-input';
+import 'paper-icon-button-light';
+import 'emby-select';
+import 'material-icons';
+import 'css!./../formdialog';
+import 'emby-button';
+import 'flexStyles';
 
-    layoutManager = layoutManager.default || layoutManager;
-
-    function onSubmit(e) {
+class FilterMenu {
+    onSubmit(e) {
         e.preventDefault();
         return false;
     }
-
-    function renderOptions(context, selector, cssClass, items, isCheckedFn) {
+    renderOptions(context, selector, cssClass, items, isCheckedFn) {
         var elem = context.querySelector(selector);
 
         if (items.length) {
@@ -35,15 +46,14 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         elem.querySelector('.filterOptions').innerHTML = html;
     }
 
-    function renderDynamicFilters(context, result, options) {
-        renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
+    renderDynamicFilters(context, result, options) {
+        this.renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
             // Switching from | to ,
             var delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
             return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
         });
     }
-
-    function loadDynamicFilters(context, options) {
+    loadDynamicFilters(context, options) {
         var apiClient = connectionManager.getApiClient(options.serverId);
 
         var filterMenuOptions = Object.assign(options.filterMenuOptions, {
@@ -53,13 +63,13 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
             IncludeItemTypes: options.itemTypes.join(',')
         });
 
-        apiClient.getFilters(filterMenuOptions).then(function (result) {
-            renderDynamicFilters(context, result, options);
+        apiClient.getFilters(filterMenuOptions).then((result) => {
+            this.renderDynamicFilters(context, result, options);
         });
     }
 
-    function initEditor(context, settings) {
-        context.querySelector('form').addEventListener('submit', onSubmit);
+    initEditor(context, settings) {
+        context.querySelector('form').addEventListener('submit', this.onSubmit);
 
         var elems = context.querySelectorAll('.simpleFilter');
         var i;
@@ -100,15 +110,15 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         }
     }
 
-    function saveValues(context, settings, settingsKey) {
+    saveValues(context, settings, settingsKey) {
         var elems = context.querySelectorAll('.simpleFilter');
         var i;
         var length;
         for (i = 0, length = elems.length; i < length; i++) {
             if (elems[i].tagName === 'INPUT') {
-                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
+                this.setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
             } else {
-                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
+                this.setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
             }
         }
 
@@ -144,22 +154,12 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         }
         userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
     }
-
-    function setBasicFilter(context, key, elem) {
+    setBasicFilter(context, key, elem) {
         var value = elem.checked;
         value = value ? value : null;
         userSettings.setFilter(key, value);
     }
-
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            scrollHelper = scrollHelper.default || scrollHelper;
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
-    }
-
-    function moveCheckboxFocus(elem, offset) {
+    moveCheckboxFocus(elem, offset) {
         var parent = dom.parentWithClass(elem, 'checkboxList-verticalwrap');
         var elems = focusManager.getFocusableElements(parent);
 
@@ -181,45 +181,43 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
             focusManager.focus(newElem);
         }
     }
-
-    function onInputCommand(e) {
+    centerFocus(elem, horiz, on) {
+        import('scrollHelper').then(({ default: scrollHelper }) => {
+            var fn = on ? 'on' : 'off';
+            scrollHelper.centerFocus[fn](elem, horiz);
+        });
+    }
+    onInputCommand(e) {
         switch (e.detail.command) {
             case 'left':
-                moveCheckboxFocus(e.target, -1);
+                this.moveCheckboxFocus(e.target, -1);
                 e.preventDefault();
                 break;
             case 'right':
-                moveCheckboxFocus(e.target, 1);
+                this.moveCheckboxFocus(e.target, 1);
                 e.preventDefault();
                 break;
             default:
                 break;
         }
     }
-
-    function FilterMenu() {
-
-    }
-
-    function bindCheckboxInput(context, on) {
+    bindCheckboxInput(context, on) {
         var elems = context.querySelectorAll('.checkboxList-verticalwrap');
         for (var i = 0, length = elems.length; i < length; i++) {
             if (on) {
-                inputManager.on(elems[i], onInputCommand);
+                inputManager.on(elems[i], this.onInputCommand);
             } else {
-                inputManager.off(elems[i], onInputCommand);
+                inputManager.off(elems[i], this.onInputCommand);
             }
         }
     }
-
-    FilterMenu.prototype.show = function (options) {
-        return new Promise(function (resolve, reject) {
-            require(['text!./filtermenu.template.html'], function (template) {
+    show(options) {
+        return new Promise( (resolve, reject) => {
+            import('text!./filtermenu.template.html').then(({ default: template }) => {
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
                 };
-
                 if (layoutManager.tv) {
                     dialogOptions.size = 'fullscreen';
                 } else {
@@ -251,17 +249,16 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
                     }
                 }
 
-                initEditor(dlg, options.settings);
-                loadDynamicFilters(dlg, options);
+                this.initEditor(dlg, options.settings);
+                this.loadDynamicFilters(dlg, options);
 
-                bindCheckboxInput(dlg, true);
-
+                this.bindCheckboxInput(dlg, true);
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
                     dialogHelper.close(dlg);
                 });
 
                 if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+                    this.centerFocus(dlg.querySelector('.formDialogContent'), false, true);
                 }
 
                 var submitted;
@@ -270,26 +267,24 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
                     submitted = true;
                 }, true);
 
-                dialogHelper.open(dlg).then(function () {
-                    bindCheckboxInput(dlg, false);
+                dialogHelper.open(dlg).then( () => {
+                    this.bindCheckboxInput(dlg, false);
 
                     if (layoutManager.tv) {
-                        centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                        this.centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                     }
 
                     if (submitted) {
                         //if (!options.onChange) {
-                        saveValues(dlg, options.settings, options.settingsKey);
-                        resolve();
+                        this.saveValues(dlg, options.settings, options.settingsKey);
+                        return resolve();
                         //}
-                        return;
                     }
-
-                    reject();
+                    return resolve();
                 });
             });
         });
-    };
+    }
+}
 
-    return FilterMenu;
-});
+export default FilterMenu;
