@@ -109,9 +109,9 @@
     "HeaderFavoriteEpisodes": "Улюблені серії",
     "Movies": "Фільми",
     "Collections": "Колекції",
-    "Folders": "Директорії",
+    "Folders": "Каталоги",
     "HeaderNextUp": "Наступний",
-    "HeaderAlbumArtists": "Виконавці альбомів",
+    "HeaderAlbumArtists": "Виконавці альбому",
     "HeaderFavoriteSongs": "Улюблені пісні",
     "Favorites": "Улюблені",
     "HeaderFavoriteAlbums": "Улюблені альбоми",
@@ -154,5 +154,11 @@
     "AllowOnTheFlySubtitleExtraction": "Дозволити експортування субтитрів «на льоту»",
     "AllowHWTranscodingHelp": "Дозволити клієнту перекодування на «на льоту». Це дозволить відмикати перекодування, якщо вона вимагається сервером.",
     "AllComplexFormats": "Усі складні формати (ASS, SSA, VOBSUB, PGS, SUB, IDX, …)",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "ValueSpecialEpisodeName": "Спецепізод - {0}",
+    "Sync": "Синхронізація",
+    "Songs": "Пісні",
+    "Shows": "Шоу",
+    "Playlists": "Плейлисти",
+    "Photos": "Фотографії"
 }
