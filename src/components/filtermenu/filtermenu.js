@@ -63,7 +63,7 @@ function moveCheckboxFocus(elem, offset) {
     var elems = focusManager.getFocusableElements(parent);
 
     var index = -1;
-    for (var i = 0, length = elems.length; i < length; i++) {
+    for (let i = 0, length = elems.length; i < length; i++) {
         if (elems[i] === elem) {
             index = i;
             break;
@@ -114,7 +114,7 @@ function saveValues(context, settings, settingsKey) {
     var videoTypes = [];
     elems = context.querySelectorAll('.chkVideoTypeFilter');
 
-    for (i = 0, length = elems.length; i < length; i++) {
+    for (let i = 0, length = elems.length; i < length; i++) {
         if (elems[i].checked) {
             videoTypes.push(elems[i].getAttribute('data-filter'));
         }
@@ -125,7 +125,7 @@ function saveValues(context, settings, settingsKey) {
     var seriesStatuses = [];
     elems = context.querySelectorAll('.chkSeriesStatus');
 
-    for (i = 0, length = elems.length; i < length; i++) {
+    for (let i = 0, length = elems.length; i < length; i++) {
         if (elems[i].checked) {
             seriesStatuses.push(elems[i].getAttribute('data-filter'));
         }
@@ -135,7 +135,7 @@ function saveValues(context, settings, settingsKey) {
     var genres = [];
     elems = context.querySelectorAll('.chkGenreFilter');
 
-    for (i = 0, length = elems.length; i < length; i++) {
+    for (let i = 0, length = elems.length; i < length; i++) {
         if (elems[i].checked) {
             genres.push(elems[i].getAttribute('data-filter'));
         }
@@ -144,7 +144,7 @@ function saveValues(context, settings, settingsKey) {
 }
 function bindCheckboxInput(context, on) {
     var elems = context.querySelectorAll('.checkboxList-verticalwrap');
-    for (var i = 0, length = elems.length; i < length; i++) {
+    for (let i = 0, length = elems.length; i < length; i++) {
         if (on) {
             inputManager.on(elems[i], onInputCommand);
         } else {
@@ -238,7 +238,7 @@ class FilterMenu {
                 dlg.innerHTML = globalize.translateHtml(html, 'core');
 
                 var settingElements = dlg.querySelectorAll('.viewSetting');
-                for (var i = 0, length = settingElements.length; i < length; i++) {
+                for (let i = 0, length = settingElements.length; i < length; i++) {
                     if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
                         settingElements[i].classList.add('hide');
                     } else {
