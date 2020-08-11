@@ -85,11 +85,9 @@ function getTunerName(providerId) {
 }
 
 function renderDevices(view, devices) {
-    let i;
-    let length;
     let html = '';
 
-    for (i = 0, length = devices.length; i < length; i++) {
+    for (let i = 0, length = devices.length; i < length; i++) {
         html += getDeviceHtml(devices[i]);
     }
 
