@@ -2,6 +2,7 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
     'use strict';
 
     loading = loading.default || loading;
+    layoutManager = layoutManager.default || layoutManager;
 
     function enableScrollX() {
         return !layoutManager.desktop;
@@ -255,6 +256,8 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             }
 
             require(depends, function (controllerFactory) {
+                controllerFactory = controllerFactory.default || controllerFactory;
+
                 var tabContent;
 
                 if (index == 0) {

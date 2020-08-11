@@ -251,7 +251,7 @@ import layoutManager from 'layoutManager';
      * @return {ScrollerData} Scroller data.
      */
     function getScrollerData(scroller, vertical) {
-        let data = {};
+        const data = {};
 
         if (!vertical) {
             data.scrollPos = scroller.scrollLeft;
