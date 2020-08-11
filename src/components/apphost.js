@@ -26,7 +26,7 @@ function getBaseProfileOptions(item) {
 
 function getDeviceProfile(item, options = {}) {
     return new Promise(function (resolve) {
-        import(['browserdeviceprofile']).then(({default: profileBuilder}) => {
+        import('browserdeviceprofile').then(({default: profileBuilder}) => {
             let profile;
 
             if (window.NativeShell) {
@@ -262,7 +262,7 @@ const supportedFeatures = function () {
         features.push('fileinput');
     }
 
-    if (browser.chrome) {
+    if (browser.chrome || browser.edgeChromium) {
         features.push('chromecast');
     }
 
