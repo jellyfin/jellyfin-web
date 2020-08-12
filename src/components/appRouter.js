@@ -287,7 +287,7 @@ class AppRouter {
                 this.showWelcome();
                 break;
             case 'ServerUpdateNeeded':
-                require(['alert'], (alert) => {
+                import('alert').then(({default: alert}) =>{
                     alert({
                         text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
                         html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
@@ -322,7 +322,8 @@ class AppRouter {
             url += '?' + ctx.querystring;
         }
 
-        require(['text!' + url], (html) => {
+        import('text!' + url).then(({default: html}) => {
+            console.warn(html)
             this.loadContent(ctx, route, html, request);
         });
     }
@@ -339,7 +340,7 @@ class AppRouter {
         };
 
         if (route.controller) {
-            require(['controllers/' + route.controller], onInitComplete);
+            import('controllers/' + route.controller).then(onInitComplete);
         } else {
             onInitComplete();
         }
@@ -406,7 +407,7 @@ class AppRouter {
         this.forcedLogoutMsg = null;
 
         if (msg) {
-            require(['alert'], (alert) => {
+            import('alert').then((alert) => {
                 alert(msg);
             });
         }
