@@ -10,7 +10,6 @@ import pluginManager from 'pluginManager';
             console.groupCollapsed('loading packages');
             var manifestUrls = JSON.parse(appSettings.get(this.#settingsKey) || '[]');
 
-            var instance = this;
             return Promise.all(manifestUrls.map((url) => {
                 return this.loadPackage(url);
             }))

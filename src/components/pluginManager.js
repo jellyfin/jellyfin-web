@@ -21,8 +21,8 @@ import globalize from 'globalize';
         }
 
         #definePluginRoute(route, plugin) {
-            route.contentPath = this.#mapPath(plugin, route.path);
-            route.path = this.mapRoute(plugin, route);
+            route.contentPath = this.mapPath(plugin, route.path);
+            route.path = this.#mapRoute(plugin, route);
 
             Emby.App.defineRoute(route, plugin.id);
         }
@@ -128,7 +128,7 @@ import globalize from 'globalize';
             return '/plugins/' + plugin.id + '/' + route;
         }
 
-        #mapPath(plugin, path, addCacheParam) {
+        mapPath(plugin, path, addCacheParam) {
             if (typeof plugin === 'string') {
                 plugin = this.pluginsList.filter((p) => {
                     return (p.id || p.packageName) === plugin;
