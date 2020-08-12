@@ -1440,7 +1440,7 @@ import 'css!assets/css/videoosd';
                 });
             } catch (e) {
                 import('appRouter').then(({default: appRouter}) => {
-                    appRouter.default.goHome();
+                    appRouter.goHome();
                 });
             }
         });
