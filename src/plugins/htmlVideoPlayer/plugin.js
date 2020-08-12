@@ -1299,7 +1299,7 @@ function tryRemoveElement(elem) {
                         }
 
                         let html = '';
-                        let cssClass = 'htmlvideoplayer';
+                        const cssClass = 'htmlvideoplayer';
 
                         // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
                         if (!appHost.supports('htmlvideoautoplay')) {

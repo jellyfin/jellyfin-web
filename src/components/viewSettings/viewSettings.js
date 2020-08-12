@@ -2,6 +2,7 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
     'use strict';
 
     appRouter = appRouter.default || appRouter;
+    layoutManager = layoutManager.default || layoutManager;
 
     function onSubmit(e) {
         e.preventDefault();
@@ -31,6 +32,7 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
+            scrollHelper = scrollHelper.default || scrollHelper;
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });

@@ -38,7 +38,7 @@ import 'cardStyle';
     }
 
     function showDeviceMenu(view, btn, deviceId) {
-        let menuItems = [];
+        const menuItems = [];
 
         if (canEdit) {
             menuItems.push({

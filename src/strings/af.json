@@ -47,7 +47,6 @@
     "TabGenres": "Genres",
     "TabFavorites": "Gunstellinge",
     "TabEpisodes": "Episodes",
-    "TabDisplay": "Vertoon",
     "TabDirectPlay": "Speel Direk",
     "TabDevices": "Toestelle",
     "TabDashboard": "Paneelbord",
@@ -131,9 +130,7 @@
     "TellUsAboutYourself": "Vertel ons van jouself",
     "TabUsers": "Gebruikers",
     "TabUpcoming": "Komende",
-    "TabTranscoding": "Transkodering",
     "TabTrailers": "Voorprente",
-    "TabSuggestions": "Voorstelle",
     "TabStreaming": "Stroom",
     "TabSongs": "Liedjies",
     "TabShows": "Programme",
@@ -147,7 +144,6 @@
     "TabProfiles": "Profiele",
     "TabProfile": "Profiel",
     "TabPlaylists": "Speel lyste",
-    "TabPlayback": "Terugspeel",
     "TabPassword": "Wagwoord",
     "TabParentalControl": "Ouer Beheer",
     "TabOther": "Ander",
@@ -158,7 +154,6 @@
     "TabMusicVideos": "Musiek Videos",
     "TabMusic": "Musiek",
     "TabMovies": "Rolprente",
-    "TabMetadata": "Meta Inligting",
     "TabLogs": "Logs",
     "TabLiveTV": "Lewendige TV"
 }

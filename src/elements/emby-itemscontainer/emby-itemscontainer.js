@@ -18,7 +18,7 @@ import 'webcomponents';
 
     function onClick(e) {
         const itemsContainer = this;
-        let multiSelect = itemsContainer.multiSelect;
+        const multiSelect = itemsContainer.multiSelect;
 
         if (multiSelect) {
             if (multiSelect.onContainerClick.call(itemsContainer, e) === false) {
@@ -164,7 +164,7 @@ import 'webcomponents';
     }
 
     function getEventsToMonitor(itemsContainer) {
-        let monitor = itemsContainer.getAttribute('data-monitor');
+        const monitor = itemsContainer.getAttribute('data-monitor');
         if (monitor) {
             return monitor.split(',');
         }
@@ -356,7 +356,7 @@ import 'webcomponents';
     ItemsContainerPrototype.resume = function (options) {
         this.paused = false;
 
-        let refreshIntervalEndTime = this.refreshIntervalEndTime;
+        const refreshIntervalEndTime = this.refreshIntervalEndTime;
         if (refreshIntervalEndTime) {
             const remainingMs = refreshIntervalEndTime - new Date().getTime();
             if (remainingMs > 0 && !this.needsRefresh) {
@@ -395,7 +395,7 @@ import 'webcomponents';
             return;
         }
 
-        let timeout = this.refreshTimeout;
+        const timeout = this.refreshTimeout;
         if (timeout) {
             clearTimeout(timeout);
         }
@@ -434,7 +434,7 @@ import 'webcomponents';
     function onDataFetched(result) {
         const items = result.Items || result;
 
-        let parentContainer = this.parentContainer;
+        const parentContainer = this.parentContainer;
         if (parentContainer) {
             if (items.length) {
                 parentContainer.classList.remove('hide');

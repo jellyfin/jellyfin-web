@@ -271,17 +271,16 @@ function initClient() {
     }
 
     function createConnectionManager() {
-        return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
+        return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, appHost, credentialProvider, events, userSettings) {
+            appHost = appHost.default || appHost;
+
             var credentialProviderInstance = new credentialProvider();
-            var promises = [apphost.getSyncProfile(), apphost.init()];
+            var promises = [appHost.init()];
 
             return Promise.all(promises).then(function (responses) {
-                var deviceProfile = responses[0];
-                var capabilities = Dashboard.capabilities(apphost);
+                var capabilities = Dashboard.capabilities(appHost);
 
-                capabilities.DeviceProfile = deviceProfile;
-
-                var connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities);
+                var connectionManager = new ConnectionManager(credentialProviderInstance, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId(), capabilities);
 
                 defineConnectionManager(connectionManager);
                 bindConnectionManagerEvents(connectionManager, events, userSettings);
@@ -292,7 +291,7 @@ function initClient() {
                     return require(['apiclient'], function (apiClientFactory) {
                         console.debug('creating ApiClient singleton');
 
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId());
+                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
 
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
@@ -350,6 +349,8 @@ function initClient() {
     }
 
     function getLayoutManager(layoutManager, appHost) {
+        layoutManager = layoutManager.default || layoutManager;
+        appHost = appHost.default || appHost;
         if (appHost.getDefaultLayout) {
             layoutManager.defaultLayout = appHost.getDefaultLayout();
         }
@@ -469,6 +470,8 @@ function initClient() {
         }
 
         require(['apphost', 'css!assets/css/librarybrowser'], function (appHost) {
+            appHost = appHost.default || appHost;
+
             loadPlugins(appHost, browser).then(function () {
                 onAppReady(browser);
             });
@@ -518,6 +521,8 @@ function initClient() {
         // ensure that appHost is loaded in this point
         require(['apphost', 'appRouter'], function (appHost, appRouter) {
             appRouter = appRouter.default || appRouter;
+            appHost = appHost.default || appHost;
+
             window.Emby = {};
 
             console.debug('onAppReady: loading dependencies');
@@ -816,8 +821,8 @@ function initClient() {
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
-            window.ViewManager = viewManager;
-            viewManager.dispatchPageEvents(true);
+            window.ViewManager = viewManager.default;
+            viewManager.default.dispatchPageEvents(true);
             return viewManager;
         });
         define('slideshow', [componentsPath + '/slideshow/slideshow'], returnFirstDependency);

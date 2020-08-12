@@ -1,6 +1,8 @@
 define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (connectionManager, globalize, userSettings, appHost) {
     'use strict';
 
+    appHost = appHost.default || appHost;
+
     // TODO: Replace with date-fns
     // https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
     function getWeek(date) {
