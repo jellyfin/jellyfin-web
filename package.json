@@ -259,6 +259,7 @@
           "src/controllers/searchpage.js",
           "src/controllers/livetv/livetvguide.js",
           "src/controllers/livetvtuner.js",
+          "src/controllers/livetv/livetvsuggested.js",
           "src/controllers/livetvstatus.js",
           "src/controllers/livetvguideprovider.js",
           "src/controllers/livetvsettings.js",
