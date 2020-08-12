@@ -19,7 +19,7 @@ import 'emby-button';
         return [{
             name: globalize.translate('TabShows')
         }, {
-            name: globalize.translate('TabSuggestions')
+            name: globalize.translate('Suggestions')
         }, {
             name: globalize.translate('TabLatest')
         }, {
@@ -30,9 +30,6 @@ import 'emby-button';
             name: globalize.translate('TabNetworks')
         }, {
             name: globalize.translate('TabEpisodes')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
         }];
     }
 
@@ -216,10 +213,6 @@ import 'emby-button';
 
                 case 6:
                     depends = 'controllers/shows/episodes';
-                    break;
-
-                case 7:
-                    depends = 'scripts/searchtab';
                     break;
             }
 

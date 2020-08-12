@@ -24,7 +24,7 @@ import 'emby-itemscontainer';
     function showPlaybackInfo(btn, session) {
         import('alert').then(({default: alert}) => {
             let title;
-            let text = [];
+            const text = [];
             const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
             if (displayPlayMethod === 'DirectStream') {
