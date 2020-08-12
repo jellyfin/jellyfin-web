@@ -384,11 +384,15 @@ function initClient() {
                             return response.text();
                         })
                         .then(function(css) {
-                            // Inject the branding css as a dom element in body so it will take
-                            // precedence over other stylesheets
-                            var style = document.createElement('style');
-                            style.appendChild(document.createTextNode(css));
-                            document.body.appendChild(style);
+                            let style = document.querySelector('#cssBranding');
+                            if (!style) {
+                                // Inject the branding css as a dom element in body so it will take
+                                // precedence over other stylesheets
+                                style = document.createElement('style');
+                                style.id = 'cssBranding';
+                                document.body.appendChild(style);
+                            }
+                            style.textContent = css;
                         })
                         .catch(function(err) {
                             console.warn('Error applying custom css', err);
