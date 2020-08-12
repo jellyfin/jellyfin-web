@@ -261,9 +261,6 @@ export default function (view, params) {
             case 5:
                 depends = 'controllers/livetv/livetvseriestimers';
                 break;
-
-            case 6:
-                depends = 'scripts/searchtab';
         }
 
         import(depends).then(({default: controllerFactory}) => {
