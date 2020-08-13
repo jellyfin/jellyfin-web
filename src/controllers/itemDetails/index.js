@@ -785,7 +785,7 @@ import 'emby-select';
 
     function setPeopleHeader(page, item) {
         if (item.MediaType == 'Audio' || item.Type == 'MusicAlbum' || item.MediaType == 'Book' || item.MediaType == 'Photo') {
-            page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderPeople');
+            page.querySelector('#peopleHeader').innerHTML = globalize.translate('People');
         } else {
             page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderCastAndCrew');
         }
@@ -1432,7 +1432,7 @@ import 'emby-select';
                     name: globalize.translate('HeaderVideos'),
                     mediaType: 'Video'
                 }, {
-                    name: globalize.translate('HeaderSeries'),
+                    name: globalize.translate('Series'),
                     type: 'Series'
                 }, {
                     name: globalize.translate('Albums'),

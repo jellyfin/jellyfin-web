@@ -377,7 +377,7 @@ import 'flexStyles';
             pageIds: ['dashboardGeneralPage'],
             icon: 'settings'
         }, {
-            name: globalize.translate('TabUsers'),
+            name: globalize.translate('HeaderUsers'),
             href: 'userprofiles.html',
             pageIds: ['userProfilesPage', 'newUserPage', 'editUserPage', 'userLibraryAccessPage', 'userParentalControlPage', 'userPasswordPage'],
             icon: 'people'
@@ -417,10 +417,10 @@ import 'flexStyles';
         });
         links.push({
             divider: true,
-            name: globalize.translate('TabLiveTV')
+            name: globalize.translate('LiveTV')
         });
         links.push({
-            name: globalize.translate('TabLiveTV'),
+            name: globalize.translate('LiveTV'),
             href: 'livetvstatus.html',
             pageIds: ['liveTvStatusPage', 'liveTvTunerPage'],
             icon: 'live_tv'

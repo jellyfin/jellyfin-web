@@ -86,7 +86,7 @@ import 'material-icons';
             if (result.TotalRecordCount) {
                 nodes.push({
                     id: 'livetv',
-                    text: globalize.translate('HeaderLiveTV'),
+                    text: globalize.translate('LiveTV'),
                     state: {
                         opened: false
                     },

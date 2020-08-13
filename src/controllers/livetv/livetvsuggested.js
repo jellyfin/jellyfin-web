@@ -172,11 +172,11 @@ function getTabs() {
     }, {
         name: globalize.translate('Channels')
     }, {
-        name: globalize.translate('TabRecordings')
+        name: globalize.translate('Recordings')
     }, {
-        name: globalize.translate('HeaderSchedule')
+        name: globalize.translate('Schedule')
     }, {
-        name: globalize.translate('TabSeries')
+        name: globalize.translate('Series')
     }];
 }
 
