@@ -118,7 +118,7 @@ function reload(context, programId, serverId, refreshRecordingStateOnly) {
 
 function executeCloseAction(action, programId, serverId) {
     if (action === 'play') {
-        import('playbackManager').then(({default: playbackManager}) => {
+        import('playbackManager').then(({ default: playbackManager }) => {
             const apiClient = connectionManager.getApiClient(serverId);
 
             apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
@@ -138,7 +138,7 @@ function showEditor(itemId, serverId) {
 
         loading.show();
 
-        import('text!./recordingcreator.template.html').then(({default: template}) => {
+        import('text!./recordingcreator.template.html').then(({ default: template }) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -184,13 +184,13 @@ function showEditor(itemId, serverId) {
 
             init(dlg);
 
-                currentRecordingFields = new recordingFields.default({
-                    parent: dlg.querySelector('.recordingFields'),
-                    programId: itemId,
-                    serverId: serverId
-                });
+            currentRecordingFields = new recordingFields({
+                parent: dlg.querySelector('.recordingFields'),
+                programId: itemId,
+                serverId: serverId
+            });
 
-                events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+            events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
 
             currentRecordingFields = new recordingFields({
                 parent: dlg.querySelector('.recordingFields'),
