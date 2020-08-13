@@ -184,13 +184,7 @@ function showEditor(itemId, serverId) {
 
             init(dlg);
 
-            currentRecordingFields = new recordingFields({
-                parent: dlg.querySelector('.recordingFields'),
-                programId: itemId,
-                serverId: serverId
-            });
-
-            events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+            reload(dlg, itemId, serverId);
 
             currentRecordingFields = new recordingFields({
                 parent: dlg.querySelector('.recordingFields'),
