@@ -146,7 +146,7 @@ function setCurrentSrc(instance, elem, options) {
                         'onError': () => {
                             instance.destroy();
                             loading.hide();
-                        },
+                        }
                     },
                     playerVars: {
                         controls: 0,
