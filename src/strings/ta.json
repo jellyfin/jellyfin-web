@@ -91,5 +91,21 @@
     "Albums": "ஆல்பங்கள்",
     "Preview": "முன்னோட்டம்",
     "ButtonArrowUp": "மேலே",
-    "ButtonArrowRight": "வலப்பக்க"
+    "ButtonArrowRight": "வலப்பக்க",
+    "ButtonGotIt": "அறிந்துகொண்டேன்",
+    "ButtonFullscreen": "முழு திரை",
+    "ButtonForgotPassword": "கடவுச்சொல்லை மறந்துவிட்டீர்களா",
+    "ButtonFilter": "வடிகட்டு",
+    "ButtonEditOtherUserPreferences": "இந்த பயனரின் சுயவிவரம், படம் மற்றும் தனிப்பட்ட விருப்பங்களைத் திருத்தவும்.",
+    "ButtonEditImages": "படங்களைத் திருத்து",
+    "ButtonEdit": "தொகு",
+    "ButtonDownload": "பதிவிறக்க",
+    "ButtonDown": "கீழே",
+    "ButtonDeleteImage": "படத்தை நீக்கு",
+    "ButtonDelete": "அழி",
+    "ButtonConnect": "இணை",
+    "ButtonChangeServer": "சேவையகத்தை மாற்று",
+    "ButtonCancel": "ரத்துசெய்",
+    "ButtonBack": "பின்னால்",
+    "ButtonAudioTracks": "ஒலிப்பதிவுகள்"
 }
