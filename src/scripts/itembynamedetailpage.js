@@ -25,7 +25,7 @@ function renderItems(page, item) {
 
     if (item.MovieCount) {
         sections.push({
-            name: globalize.translate('TabMovies'),
+            name: globalize.translate('Movies'),
             type: 'Movie'
         });
     }

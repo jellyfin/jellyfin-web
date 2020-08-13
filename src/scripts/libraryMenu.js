@@ -395,10 +395,10 @@ import 'flexStyles';
         addPluginPagesToMainMenu(links, pluginItems, 'server');
         links.push({
             divider: true,
-            name: globalize.translate('TabDevices')
+            name: globalize.translate('HeaderDevices')
         });
         links.push({
-            name: globalize.translate('TabDevices'),
+            name: globalize.translate('HeaderDevices'),
             href: 'devices.html',
             pageIds: ['devicesPage', 'devicePage'],
             icon: 'devices'
@@ -426,7 +426,7 @@ import 'flexStyles';
             icon: 'live_tv'
         });
         links.push({
-            name: globalize.translate('TabDVR'),
+            name: globalize.translate('HeaderDVR'),
             href: 'livetvsettings.html',
             pageIds: ['liveTvSettingsPage'],
             icon: 'dvr'

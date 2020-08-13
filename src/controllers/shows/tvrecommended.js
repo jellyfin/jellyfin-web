@@ -25,7 +25,7 @@ import 'emby-button';
         }, {
             name: globalize.translate('TabUpcoming')
         }, {
-            name: globalize.translate('TabGenres')
+            name: globalize.translate('Genres')
         }, {
             name: globalize.translate('TabNetworks')
         }, {

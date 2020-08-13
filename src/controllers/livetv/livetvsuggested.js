@@ -170,7 +170,7 @@ function getTabs() {
     }, {
         name: globalize.translate('Guide')
     }, {
-        name: globalize.translate('TabChannels')
+        name: globalize.translate('Channels')
     }, {
         name: globalize.translate('TabRecordings')
     }, {

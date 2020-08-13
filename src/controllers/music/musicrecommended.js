@@ -189,7 +189,7 @@ import 'flexStyles';
         }, {
             name: globalize.translate('Songs')
         }, {
-            name: globalize.translate('TabGenres')
+            name: globalize.translate('Genres')
         }];
     }
 
