@@ -142,7 +142,11 @@ function setCurrentSrc(instance, elem, options) {
                             } else if (event.data === YT.PlayerState.PAUSED) {
                                 events.trigger(instance, 'pause');
                             }
-                        }
+                        },
+                        'onError': () => {
+                            instance.destroy();
+                            loading.hide();
+                        },
                     },
                     playerVars: {
                         controls: 0,
