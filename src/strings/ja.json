@@ -23,7 +23,7 @@
     "AllowMediaConversionHelp": "メディア変換機能へのアクセスを許可もしくは、拒否します。",
     "AllowOnTheFlySubtitleExtraction": "字幕の抽出の許可/拒否",
     "AllowOnTheFlySubtitleExtractionHelp": "埋め込まれた字幕は、ビデオのトランスコードを防ぐために、ビデオから抽出してプレーンテキストでクライアントに配信できます。 システムによっては、これに時間がかかり、抽出中にビデオの再生が止まることがあります。 これを無効にし、埋め込み字幕がクライアントデバイスでネイティブにサポートされていない場合、ビデオのトランスコードが強制されます。",
-    "AllowRemoteAccess": "Jellyfin Serverへのリモート接続の許可。",
+    "AllowRemoteAccess": "サーバへのリモート接続の許可。",
     "AllowRemoteAccessHelp": "チェックが入っていない場合すべてのリモート接続をブロックします。",
     "AllowedRemoteAddressesHelp": "リモート接続を許可するネットワークのIPアドレスまたはIPアドレス/マスク長 空白のままにすると、すべてのリモートアドレスが許可されます。",
     "AlwaysPlaySubtitles": "常に有効",
