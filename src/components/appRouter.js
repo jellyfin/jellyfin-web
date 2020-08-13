@@ -323,7 +323,6 @@ class AppRouter {
         }
 
         import('text!' + url).then(({default: html}) => {
-            console.warn(html)
             this.loadContent(ctx, route, html, request);
         });
     }
