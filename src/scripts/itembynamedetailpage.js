@@ -11,7 +11,7 @@ function renderItems(page, item) {
 
     if (item.ArtistCount) {
         sections.push({
-            name: globalize.translate('TabArtists'),
+            name: globalize.translate('Artists'),
             type: 'MusicArtist'
         });
     }

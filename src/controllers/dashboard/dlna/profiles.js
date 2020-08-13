@@ -36,7 +36,7 @@ import 'emby-button';
         }
 
         for (let i = 0, length = profiles.length; i < length; i++) {
-            let profile = profiles[i];
+            const profile = profiles[i];
             html += '<div class="listItem listItem-border">';
             html += '<span class="listItemIcon material-icons live_tv"></span>';
             html += '<div class="listItemBody two-line">';

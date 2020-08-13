@@ -17,8 +17,8 @@ import 'css!./style';
             // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
             // improving the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
-            let width = 18;
-            let height = 18;
+            const width = 18;
+            const height = 18;
             let pixels;
             try {
                 pixels = blurhash.decode(blurhashstr, width, height);
@@ -27,11 +27,11 @@ import 'css!./style';
                 target.classList.add('non-blurhashable');
                 return;
             }
-            let canvas = document.createElement('canvas');
+            const canvas = document.createElement('canvas');
             canvas.width = width;
             canvas.height = height;
-            let ctx = canvas.getContext('2d');
-            let imgData = ctx.createImageData(width, height);
+            const ctx = canvas.getContext('2d');
+            const imgData = ctx.createImageData(width, height);
 
             imgData.data.set(pixels);
             ctx.putImageData(imgData, 0, 0);
@@ -55,7 +55,7 @@ import 'css!./style';
         if (!entry) {
             throw new Error('entry cannot be null');
         }
-        let target = entry.target;
+        const target = entry.target;
         var source = undefined;
 
         if (target) {
@@ -78,7 +78,7 @@ import 'css!./style';
             throw new TypeError('url cannot be undefined');
         }
 
-        let preloaderImg = new Image();
+        const preloaderImg = new Image();
         preloaderImg.src = url;
 
         elem.classList.add('lazy-hidden');

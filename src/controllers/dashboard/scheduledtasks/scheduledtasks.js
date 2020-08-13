@@ -103,7 +103,7 @@ import 'emby-button';
     }
 
     function setTaskButtonIcon(button, icon) {
-        let inner = button.querySelector('.material-icons');
+        const inner = button.querySelector('.material-icons');
         inner.classList.remove('stop', 'play_arrow');
         inner.classList.add(icon);
     }
@@ -160,7 +160,7 @@ import 'emby-button';
 
         $('.divScheduledTasks', view).on('click', '.btnStartTask', function() {
             const button = this;
-            let id = button.getAttribute('data-taskid');
+            const id = button.getAttribute('data-taskid');
             ApiClient.startScheduledTask(id).then(function() {
                 updateTaskButton(button, 'Running');
                 reloadList(view);
@@ -169,7 +169,7 @@ import 'emby-button';
 
         $('.divScheduledTasks', view).on('click', '.btnStopTask', function() {
             const button = this;
-            let id = button.getAttribute('data-taskid');
+            const id = button.getAttribute('data-taskid');
             ApiClient.stopScheduledTask(id).then(function() {
                 updateTaskButton(button, '');
                 reloadList(view);
