@@ -118,7 +118,7 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
     }
 
     function onScrollButtonClick(e) {
-        let scroller = this.parentNode.nextSibling;
+        const scroller = this.parentNode.nextSibling;
 
         const direction = this.getAttribute('data-direction');
         const scrollSize = getScrollSize(scroller);
@@ -161,7 +161,7 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
         const parent = this.scroller;
         this.scroller = null;
 
-        let scrollHandler = this.scrollHandler;
+        const scrollHandler = this.scrollHandler;
         if (parent && scrollHandler) {
             parent.removeScrollEventListener(scrollHandler, {
                 capture: false,

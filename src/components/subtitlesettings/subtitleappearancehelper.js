@@ -4,7 +4,7 @@
  */
 
 function getTextStyles(settings, preview) {
-    let list = [];
+    const list = [];
 
     switch (settings.textSize || '') {
         case 'smaller':
@@ -130,14 +130,14 @@ export function getStyles(settings, preview) {
 
 function applyStyleList(styles, elem) {
     for (let i = 0, length = styles.length; i < length; i++) {
-        let style = styles[i];
+        const style = styles[i];
 
         elem.style[style.name] = style.value;
     }
 }
 
 export function applyStyles(elements, appearanceSettings) {
-    let styles = getStyles(appearanceSettings, !!elements.preview);
+    const styles = getStyles(appearanceSettings, !!elements.preview);
 
     if (elements.text) {
         applyStyleList(styles.text, elements.text);

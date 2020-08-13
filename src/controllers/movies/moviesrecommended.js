@@ -227,7 +227,7 @@ import 'emby-button';
         return [{
             name: globalize.translate('Movies')
         }, {
-            name: globalize.translate('TabSuggestions')
+            name: globalize.translate('Suggestions')
         }, {
             name: globalize.translate('TabTrailers')
         }, {

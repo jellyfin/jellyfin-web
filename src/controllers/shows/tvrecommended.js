@@ -19,7 +19,7 @@ import 'emby-button';
         return [{
             name: globalize.translate('TabShows')
         }, {
-            name: globalize.translate('TabSuggestions')
+            name: globalize.translate('Suggestions')
         }, {
             name: globalize.translate('TabLatest')
         }, {

@@ -23,7 +23,7 @@ import 'css!./subtitlesettings';
  */
 
 function getSubtitleAppearanceObject(context) {
-    let appearanceSettings = {};
+    const appearanceSettings = {};
 
     appearanceSettings.textSize = context.querySelector('#selectTextSize').value;
     appearanceSettings.dropShadow = context.querySelector('#selectDropShadow').value;
@@ -41,7 +41,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
             context.querySelector('.fldBurnIn').classList.remove('hide');
         }
 
-        let selectSubtitleLanguage = context.querySelector('#selectSubtitleLanguage');
+        const selectSubtitleLanguage = context.querySelector('#selectSubtitleLanguage');
 
         settingsHelper.populateLanguages(selectSubtitleLanguage, allCultures);
 
@@ -101,9 +101,9 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
 }
 
 function onSubtitleModeChange(e) {
-    let view = dom.parentWithClass(e.target, 'subtitlesettings');
+    const view = dom.parentWithClass(e.target, 'subtitlesettings');
 
-    let subtitlesHelp = view.querySelectorAll('.subtitlesHelp');
+    const subtitlesHelp = view.querySelectorAll('.subtitlesHelp');
     for (let i = 0, length = subtitlesHelp.length; i < length; i++) {
         subtitlesHelp[i].classList.add('hide');
     }
@@ -111,11 +111,11 @@ function onSubtitleModeChange(e) {
 }
 
 function onAppearanceFieldChange(e) {
-    let view = dom.parentWithClass(e.target, 'subtitlesettings');
+    const view = dom.parentWithClass(e.target, 'subtitlesettings');
 
-    let appearanceSettings = getSubtitleAppearanceObject(view);
+    const appearanceSettings = getSubtitleAppearanceObject(view);
 
-    let elements = {
+    const elements = {
         window: view.querySelector('.subtitleappearance-preview-window'),
         text: view.querySelector('.subtitleappearance-preview-text'),
         preview: true
@@ -226,20 +226,20 @@ export class SubtitleSettings {
     }
 
     loadData() {
-        let self = this;
-        let context = self.options.element;
+        const self = this;
+        const context = self.options.element;
 
         loading.show();
 
-        let userId = self.options.userId;
-        let apiClient = connectionManager.getApiClient(self.options.serverId);
-        let userSettings = self.options.userSettings;
+        const userId = self.options.userId;
+        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const userSettings = self.options.userSettings;
 
         apiClient.getUser(userId).then(function (user) {
             userSettings.setUserInfo(userId, apiClient).then(function () {
                 self.dataLoaded = true;
 
-                let appearanceSettings = userSettings.getSubtitleAppearanceSettings(self.options.appearanceKey);
+                const appearanceSettings = userSettings.getSubtitleAppearanceSettings(self.options.appearanceKey);
 
                 loadForm(context, user, userSettings, appearanceSettings, apiClient);
             });
@@ -256,12 +256,12 @@ export class SubtitleSettings {
 
     onSubmit(e) {
         const self = this;
-        let apiClient = connectionManager.getApiClient(self.options.serverId);
-        let userId = self.options.userId;
-        let userSettings = self.options.userSettings;
+        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const userId = self.options.userId;
+        const userSettings = self.options.userSettings;
 
         userSettings.setUserInfo(userId, apiClient).then(function () {
-            let enableSaveConfirmation = self.options.enableSaveConfirmation;
+            const enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
 

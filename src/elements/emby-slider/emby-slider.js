@@ -8,7 +8,7 @@ import 'emby-input';
 
 /* eslint-disable indent */
 
-    let EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
+    const EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 
     let supportsValueSetOverride = false;
 
@@ -94,7 +94,7 @@ import 'emby-input';
         // Keep only one per slider frame request
         cancelAnimationFrame(range.updateValuesFrame);
         range.updateValuesFrame = requestAnimationFrame(function () {
-            let backgroundLower = range.backgroundLower;
+            const backgroundLower = range.backgroundLower;
 
             if (backgroundLower) {
                 let fraction = (value - range.min) / (range.max - range.min);

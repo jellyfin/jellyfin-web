@@ -105,7 +105,7 @@ export default function(view, params) {
     });
 
     view.querySelector('.btnNewRepository').addEventListener('click', () => {
-        let dialog = dialogHelper.createDialog({
+        const dialog = dialogHelper.createDialog({
             scrollY: false,
             size: 'large',
             modal: false,
@@ -127,7 +127,7 @@ export default function(view, params) {
         html += `<input is="emby-input" id="txtRepositoryUrl" label="${globalize.translate('LabelRepositoryUrl')}" type="url" required />`;
         html += `<div class="fieldDescription">${globalize.translate('LabelRepositoryUrlHelp')}</div>`;
         html += '</div>';
-        html += `<button is="emby-button" type="submit" class="raised button-submit block"><span>${globalize.translate('ButtonSave')}</span></button>`;
+        html += `<button is="emby-button" type="submit" class="raised button-submit block"><span>${globalize.translate('Save')}</span></button>`;
         html += '</div>';
         html += '</form>';
 

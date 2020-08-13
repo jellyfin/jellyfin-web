@@ -4,7 +4,7 @@ import 'webcomponents';
 
 /* eslint-disable indent */
 
-    let EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
+    const EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
 
     function onKeyDown(e) {
         // Don't submit form on enter
@@ -35,7 +35,7 @@ import 'webcomponents';
 
         this.classList.add('mdl-radio__button');
 
-        let labelElement = this.parentNode;
+        const labelElement = this.parentNode;
         labelElement.classList.add('mdl-radio');
         labelElement.classList.add('mdl-js-radio');
         labelElement.classList.add('mdl-js-ripple-effect');
@@ -43,7 +43,7 @@ import 'webcomponents';
             labelElement.classList.add('show-focus');
         }
 
-        let labelTextElement = labelElement.querySelector('span');
+        const labelTextElement = labelElement.querySelector('span');
 
         labelTextElement.classList.add('radioButtonLabel');
         labelTextElement.classList.add('mdl-radio__label');
