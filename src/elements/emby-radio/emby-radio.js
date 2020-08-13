@@ -1,6 +1,7 @@
 import layoutManager from 'layoutManager';
 import 'css!./emby-radio';
 import 'webcomponents';
+import browser from 'browser';
 
 /* eslint-disable indent */
 
