@@ -168,7 +168,7 @@ function getTabs() {
     return [{
         name: globalize.translate('Programs')
     }, {
-        name: globalize.translate('TabGuide')
+        name: globalize.translate('Guide')
     }, {
         name: globalize.translate('TabChannels')
     }, {

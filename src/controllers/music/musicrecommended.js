@@ -187,7 +187,7 @@ import 'flexStyles';
         }, {
             name: globalize.translate('TabPlaylists')
         }, {
-            name: globalize.translate('TabSongs')
+            name: globalize.translate('Songs')
         }, {
             name: globalize.translate('TabGenres')
         }];

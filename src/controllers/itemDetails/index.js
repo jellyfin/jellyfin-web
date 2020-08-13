@@ -1452,7 +1452,7 @@ import 'emby-select';
         } else if (item.Type == 'MusicAlbum') {
             page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderTracks');
         } else {
-            page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderItems');
+            page.querySelector('#childrenTitle').innerHTML = globalize.translate('Items');
         }
 
         if (item.Type == 'MusicAlbum' || item.Type == 'Season') {
@@ -1652,7 +1652,7 @@ import 'emby-select';
 
         if (!items.length) {
             renderCollectionItemType(page, parentItem, {
-                name: globalize.translate('HeaderItems')
+                name: globalize.translate('Items')
             }, items);
         }
 

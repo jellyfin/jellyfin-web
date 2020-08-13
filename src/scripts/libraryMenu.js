@@ -567,7 +567,7 @@ import 'flexStyles';
                     view.ImageTags = {};
                     view.icon = 'live_tv';
                     const guideView = Object.assign({}, view);
-                    guideView.Name = globalize.translate('ButtonGuide');
+                    guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
                     guideView.url = 'livetv.html?tab=1';

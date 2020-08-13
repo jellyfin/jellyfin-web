@@ -32,7 +32,7 @@ function renderItems(page, item) {
 
     if (item.SeriesCount) {
         sections.push({
-            name: globalize.translate('TabShows'),
+            name: globalize.translate('Shows'),
             type: 'Series'
         });
     }
