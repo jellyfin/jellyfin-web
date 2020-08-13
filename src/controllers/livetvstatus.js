@@ -137,7 +137,7 @@ function renderProviders(page, providers) {
 function showProviderOptions(page, providerId, button) {
     const items = [];
     items.push({
-        name: globalize.translate('ButtonDelete'),
+        name: globalize.translate('Delete'),
         id: 'delete'
     });
     items.push({
@@ -255,7 +255,7 @@ function addDevice(button) {
 function showDeviceMenu(button, tunerDeviceId) {
     const items = [];
     items.push({
-        name: globalize.translate('ButtonDelete'),
+        name: globalize.translate('Delete'),
         id: 'delete'
     });
     items.push({

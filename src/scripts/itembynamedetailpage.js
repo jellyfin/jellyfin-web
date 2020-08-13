@@ -53,7 +53,7 @@ function renderItems(page, item) {
 
     if (item.AlbumCount) {
         sections.push({
-            name: globalize.translate('TabAlbums'),
+            name: globalize.translate('Albums'),
             type: 'MusicAlbum'
         });
     }

@@ -1435,7 +1435,7 @@ import 'emby-select';
                     name: globalize.translate('HeaderSeries'),
                     type: 'Series'
                 }, {
-                    name: globalize.translate('HeaderAlbums'),
+                    name: globalize.translate('Albums'),
                     type: 'MusicAlbum'
                 }, {
                     name: globalize.translate('HeaderBooks'),

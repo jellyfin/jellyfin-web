@@ -179,7 +179,7 @@ import 'flexStyles';
         return [{
             name: globalize.translate('Suggestions')
         }, {
-            name: globalize.translate('TabAlbums')
+            name: globalize.translate('Albums')
         }, {
             name: globalize.translate('TabAlbumArtists')
         }, {

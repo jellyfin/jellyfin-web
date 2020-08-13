@@ -737,7 +737,7 @@ import 'emby-itemscontainer';
         shutdown: function (btn) {
             import('confirm').then(({default: confirm}) => {
                 confirm({
-                    title: globalize.translate('HeaderShutdown'),
+                    title: globalize.translate('ButtonShutdown'),
                     text: globalize.translate('MessageConfirmShutdown'),
                     confirmText: globalize.translate('ButtonShutdown'),
                     primary: 'delete'
