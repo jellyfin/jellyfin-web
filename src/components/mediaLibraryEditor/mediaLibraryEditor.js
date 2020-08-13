@@ -76,7 +76,7 @@ import 'flexStyles';
             confirm({
                 title: globalize.translate('HeaderRemoveMediaLocation'),
                 text: globalize.translate('MessageConfirmRemoveMediaLocation'),
-                confirmText: globalize.translate('ButtonDelete'),
+                confirmText: globalize.translate('Delete'),
                 primary: 'delete'
             }).then(() => {
                 const refreshAfterChange = currentOptions.refresh;

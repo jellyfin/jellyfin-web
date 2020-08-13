@@ -25,14 +25,14 @@ function renderItems(page, item) {
 
     if (item.MovieCount) {
         sections.push({
-            name: globalize.translate('TabMovies'),
+            name: globalize.translate('Movies'),
             type: 'Movie'
         });
     }
 
     if (item.SeriesCount) {
         sections.push({
-            name: globalize.translate('TabShows'),
+            name: globalize.translate('Shows'),
             type: 'Series'
         });
     }
@@ -53,7 +53,7 @@ function renderItems(page, item) {
 
     if (item.AlbumCount) {
         sections.push({
-            name: globalize.translate('TabAlbums'),
+            name: globalize.translate('Albums'),
             type: 'MusicAlbum'
         });
     }

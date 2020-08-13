@@ -785,7 +785,7 @@ import 'emby-select';
 
     function setPeopleHeader(page, item) {
         if (item.MediaType == 'Audio' || item.Type == 'MusicAlbum' || item.MediaType == 'Book' || item.MediaType == 'Photo') {
-            page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderPeople');
+            page.querySelector('#peopleHeader').innerHTML = globalize.translate('People');
         } else {
             page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderCastAndCrew');
         }
@@ -1432,10 +1432,10 @@ import 'emby-select';
                     name: globalize.translate('HeaderVideos'),
                     mediaType: 'Video'
                 }, {
-                    name: globalize.translate('HeaderSeries'),
+                    name: globalize.translate('Series'),
                     type: 'Series'
                 }, {
-                    name: globalize.translate('HeaderAlbums'),
+                    name: globalize.translate('Albums'),
                     type: 'MusicAlbum'
                 }, {
                     name: globalize.translate('HeaderBooks'),
@@ -1452,7 +1452,7 @@ import 'emby-select';
         } else if (item.Type == 'MusicAlbum') {
             page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderTracks');
         } else {
-            page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderItems');
+            page.querySelector('#childrenTitle').innerHTML = globalize.translate('Items');
         }
 
         if (item.Type == 'MusicAlbum' || item.Type == 'Season') {
@@ -1652,7 +1652,7 @@ import 'emby-select';
 
         if (!items.length) {
             renderCollectionItemType(page, parentItem, {
-                name: globalize.translate('HeaderItems')
+                name: globalize.translate('Items')
             }, items);
         }
 
