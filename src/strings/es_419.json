@@ -1502,7 +1502,7 @@
     "EnableBlurHash": "Habilitar marcadores de posición borrosos para imágenes",
     "ShowMore": "Mostrar más",
     "ShowLess": "Mostrar menos",
-    "EnableBlurHashHelp": "Las imágenes que aún se están cargando se mostrarán con un marcador de posición borroso",
+    "EnableBlurHashHelp": "Las imágenes que aún se están cargando se mostrarán con uno temporal.",
     "ButtonSyncPlay": "SyncPlay",
     "MessageNoGenresAvailable": "Permitir a algunos proveedores de metadatos obtener géneros desde Internet.",
     "MessageAddRepository": "Si desea agregar un repositorio, haga clic en el botón al lado del encabezado y complete la información solicitada.",
