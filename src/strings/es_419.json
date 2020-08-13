@@ -1414,7 +1414,7 @@
     "Backdrops": "Imágenes de fondo",
     "Backdrop": "Imagen de fondo",
     "Auto": "Auto",
-    "AuthProviderHelp": "Selecciona el proveedor de autenticación que se utilizará para autenticar la contraseña de este usuario.",
+    "AuthProviderHelp": "Selecciona un proveedor de autenticación que se utilizará para autenticar la contraseña de este usuario.",
     "Audio": "Audio",
     "AspectRatio": "Relación de aspecto",
     "AskAdminToCreateLibrary": "Pide a un administrador crear una biblioteca.",
@@ -1472,7 +1472,7 @@
     "LabelUnstable": "Inestable",
     "Preview": "Vista previa",
     "SubtitleVerticalPositionHelp": "Número de línea donde aparece el texto. Números positivos representan de arriba hacia abajo. Números negativos representan de abajo hacia arriba.",
-    "LabelSubtitleVerticalPosition": "Posición Vertical:",
+    "LabelSubtitleVerticalPosition": "Posición vertical:",
     "PreviousTrack": "Saltar al anterior",
     "MessageGetInstalledPluginsError": "Ocurrió un error buscando la lista de plugins instalados.",
     "MessagePluginInstallError": "Ocurrió un error instalando el plugin."
