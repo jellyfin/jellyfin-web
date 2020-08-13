@@ -2,7 +2,6 @@ import dialogHelper from 'dialogHelper';
 import globalize from 'globalize';
 import layoutManager from 'layoutManager';
 import connectionManager from 'connectionManager';
-import require from 'require';
 import loading from 'loading';
 import scrollHelper from 'scrollHelper';
 import 'scrollStyles';
@@ -91,7 +90,7 @@ function showEditor(itemId, serverId, options) {
         options = options || {};
         currentResolve = resolve;
 
-        require(['text!./recordingeditor.template.html'], function (template) {
+        import('text!./recordingeditor.template.html').then(({default: template}) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
