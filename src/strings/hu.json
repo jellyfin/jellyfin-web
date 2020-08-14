@@ -1471,7 +1471,7 @@
     "PreviousTrack": "Ugrás az előzőhöz",
     "NextTrack": "Ugrás a következőre",
     "LabelUnstable": "Instabil",
-    "SubtitleVerticalPositionHelp": "Annak a sornak a száma, ahol a szöveg megjelenik. A pozitív számok fentről lefelé mutatnak. A negatív számok alulról felfelé mutatnak.",
+    "SubtitleVerticalPositionHelp": "Annak a sornak a száma, ahol a szöveg megjelenik. Pozitív számok fentről lefele számolnak, negatív számok pedig lentről felfelé.",
     "Preview": "Előnézet",
     "LabelSubtitleVerticalPosition": "Függőleges pozíció:",
     "MessageGetInstalledPluginsError": "Hiba történt a jelenleg telepített bővítmények lekérdezése során.",
