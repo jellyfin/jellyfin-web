@@ -169,4 +169,7 @@ class ViewManager {
     }
 }
 
-export default new ViewManager();
+const viewManager = new ViewManager();
+viewManager.default.dispatchPageEvents(true);
+
+export default viewManager;

@@ -33,4 +33,4 @@ class appFooter {
     }
 }
 
-export default appFooter;
+export default new appFooter({});

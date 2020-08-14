@@ -257,7 +257,7 @@ import 'emby-ratingbutton';
 
         return new Promise(function (resolve, reject) {
             Promise.all([
-                import('appFooter-shared'),
+                import('appFooter'),
                 import('itemShortcuts'),
                 import('css!./nowPlayingBar.css'),
                 import('emby-slider')

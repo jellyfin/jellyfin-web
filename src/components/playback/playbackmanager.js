@@ -3770,4 +3770,14 @@ class PlaybackManager {
     }
 }
 
-export default new PlaybackManager();
+const playbackManager = new PlayQueueManager();
+
+window.addEventListener('beforeunload', function () {
+    try {
+        playbackManager.onAppClose();
+    } catch (err) {
+        console.error('error in onAppClose: ' + err);
+    }
+});
+
+export default playbackManager;

@@ -1,5 +1,6 @@
-import browser from 'browser';
-import appSettings from 'appSettings';
+import appHost from './apphost';
+import browser from '../scripts/browser';
+import { set, get } from '../scripts/settings/appSettings';
 import events from 'events';
 
 function setLayout(instance, layout, selectedLayout) {
@@ -18,7 +19,7 @@ class LayoutManager {
             this.autoLayout();
 
             if (save !== false) {
-                appSettings.set('layout', '');
+                set('layout', '');
             }
         } else {
             setLayout(this, 'mobile', layout);
@@ -26,15 +27,15 @@ class LayoutManager {
             setLayout(this, 'desktop', layout);
 
             if (save !== false) {
-                appSettings.set('layout', layout);
+                set('layout', layout);
             }
         }
 
         events.trigger(this, 'modechange');
     }
 
-    getSavedLayout(layout) {
-        return appSettings.get('layout');
+    getSavedLayout() {
+        return get('layout');
     }
 
     autoLayout() {
@@ -58,4 +59,12 @@ class LayoutManager {
     }
 }
 
-export default new LayoutManager();
+const layoutManager = new LayoutManager();
+
+if (appHost.getDefaultLayout) {
+    layoutManager.defaultLayout = appHost.getDefaultLayout();
+}
+
+layoutManager.init();
+
+export default layoutManager;
