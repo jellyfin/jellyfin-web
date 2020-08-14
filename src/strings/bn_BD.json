@@ -83,5 +83,14 @@
     "Aired": "উন্মুক্ত করন",
     "Add": "যোগ",
     "ButtonPreviousTrack": "পূর্ববর্তী ট্র্যাক",
-    "ButtonProfile": "প্রোফাইল"
+    "ButtonProfile": "প্রোফাইল",
+    "ButtonResume": "রিসিউম",
+    "ButtonRestart": "রিস্টার্ট",
+    "ButtonResetPassword": "পাসওয়ার্ড রিসেট করুন",
+    "ButtonResetEasyPassword": "সহজ পিন কোডটি রিসেট করুন",
+    "ButtonRename": "নামান্তর",
+    "ButtonRemove": "সরান",
+    "ButtonRefreshGuideData": "গাইড ডেটা রিফ্রেশ করুন",
+    "ButtonRefresh": "রিফ্রেশ",
+    "ButtonQuickStartGuide": "দ্রুত শুরু করার নির্দেশাবলী"
 }
