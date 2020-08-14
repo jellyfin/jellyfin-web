@@ -1,4 +1,4 @@
-define(['layoutManager', 'css!./emby-radio', 'webcomponents'], function (layoutManager) {
+define(['browser', 'layoutManager', 'css!./emby-radio', 'webcomponents'], function (browser, layoutManager) {
     'use strict';
 
     var EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
@@ -7,7 +7,7 @@ define(['layoutManager', 'css!./emby-radio', 'webcomponents'], function (layoutM
 
         // Don't submit form on enter
         // Real (non-emulator) Tizen does nothing on Space
-        if (e.keyCode === 13 || e.keyCode === 32) {
+        if (e.keyCode === 13 || (e.keyCode === 32 && browser.tizen)) {
             e.preventDefault();
 
             if (!this.checked) {
