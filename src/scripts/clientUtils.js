@@ -1,3 +1,4 @@
+
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
 }
@@ -5,7 +6,7 @@ export function getCurrentUser() {
 //TODO: investigate url prefix support for serverAddress function
 export function serverAddress() {
     if (AppInfo.isNativeApp) {
-        var apiClient = window.ApiClient;
+        const apiClient = window.ApiClient;
 
         if (apiClient) {
             return apiClient.serverAddress();
@@ -14,15 +15,15 @@ export function serverAddress() {
         return null;
     }
 
-    var urlLower = window.location.href.toLowerCase();
-    var index = urlLower.lastIndexOf('/web');
+    const urlLower = window.location.href.toLowerCase();
+    const index = urlLower.lastIndexOf('/web');
 
     if (index != -1) {
         return urlLower.substring(0, index);
     }
 
-    var loc = window.location;
-    var address = loc.protocol + '//' + loc.hostname;
+    const loc = window.location;
+    let address = loc.protocol + '//' + loc.hostname;
 
     if (loc.port) {
         address += ':' + loc.port;
@@ -32,7 +33,7 @@ export function serverAddress() {
 }
 
 export function getCurrentUserId() {
-    var apiClient = window.ApiClient;
+    const apiClient = window.ApiClient;
 
     if (apiClient) {
         return apiClient.getCurrentUserId();
@@ -48,7 +49,7 @@ export function onServerChanged(userId, accessToken, apiClient) {
 
 export function logout() {
     ConnectionManager.logout().then(function () {
-        var loginPage;
+        let loginPage;
 
         if (AppInfo.isNativeApp) {
             loginPage = 'selectserver.html';
@@ -80,39 +81,47 @@ export function navigate(url, preserveQueryString) {
         throw new Error('url cannot be null or empty');
     }
 
-    var queryString = getWindowLocationSearch();
+    const queryString = getWindowLocationSearch();
 
     if (preserveQueryString && queryString) {
         url += queryString;
     }
 
     return new Promise(function (resolve, reject) {
-        require(['appRouter'], function (appRouter) {
+        import('appRouter').then(({default: appRouter}) => {
             return appRouter.show(url).then(resolve, reject);
         });
     });
 }
 
 export function processPluginConfigurationUpdateResult() {
-    require(['loading', 'toast'], function (loading, toast) {
-        loading.hide();
-        toast.default(Globalize.translate('MessageSettingsSaved'));
-    });
+    Promise.all([
+        import('loading'),
+        import('toast')
+    ])
+        .then(([{default: loading}, {default: toast}]) => {
+            loading.hide();
+            toast.default(Globalize.translate('MessageSettingsSaved'));
+        });
 }
 
 export function processServerConfigurationUpdateResult(result) {
-    require(['loading', 'toast'], function (loading, toast) {
-        loading.hide();
-        toast.default(Globalize.translate('MessageSettingsSaved'));
-    });
+    Promise.all([
+        import('loading'),
+        import('toast')
+    ])
+        .then(([{default: loading}, {default: toast}]) => {
+            loading.hide();
+            toast.default(Globalize.translate('MessageSettingsSaved'));
+        });
 }
 
 export function processErrorResponse(response) {
-    require(['loading'], function (loading) {
+    import('loading').then(({default: loading}) => {
         loading.hide();
     });
 
-    var status = '' + response.status;
+    let status = '' + response.status;
 
     if (response.statusText) {
         status = response.statusText;
@@ -126,14 +135,14 @@ export function processErrorResponse(response) {
 
 export function alert(options) {
     if (typeof options == 'string') {
-        return void require(['toast'], function (toast) {
+        return void import('toast').then(({default: toast}) => {
             toast.default({
                 text: options
             });
         });
     }
 
-    require(['alert'], function (alert) {
+    import('alert').then(({default: alert}) => {
         alert.default({
             title: options.title || Globalize.translate('HeaderAlert'),
             text: options.message
@@ -142,7 +151,7 @@ export function alert(options) {
 }
 
 export function capabilities(appHost) {
-    var capabilities = {
+    let capabilities = {
         PlayableMediaTypes: ['Audio', 'Video'],
         SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
         SupportsPersistentIdentifier: self.appMode === 'cordova' || self.appMode === 'android',
@@ -161,22 +170,19 @@ export function selectServer() {
 }
 
 export function hideLoadingMsg() {
-    'use strict';
-    require(['loading'], function(loading) {
+    import('loading').then(({default: loading}) => {
         loading.hide();
     });
 }
 
 export function showLoadingMsg() {
-    'use strict';
-    require(['loading'], function(loading) {
+    import('loading').then(({default: loading}) => {
         loading.show();
     });
 }
 
 export function confirm(message, title, callback) {
-    'use strict';
-    require(['confirm'], function(confirm) {
+    import('confirm').then(({default: confirm}) => {
         confirm(message, title).then(function() {
             callback(!0);
         }).catch(function() {
