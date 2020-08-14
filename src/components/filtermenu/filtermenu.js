@@ -1,18 +1,19 @@
-import dom from 'dom';
-import focusManager from 'focusManager';
-import dialogHelper from 'dialogHelper';
-import inputManager from 'inputManager';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import * as userSettings from 'userSettings';
-import 'emby-checkbox';
-import 'emby-input';
-import 'paper-icon-button-light';
-import 'emby-select';
-import 'material-icons';
-import 'css!./../formdialog';
-import 'emby-button';
-import 'flexStyles';
+import dom from '../../scripts/dom';
+import focusManager from '../focusManager';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import inputManager from '../../scripts/inputManager';
+import layoutManager from '../layoutManager';
+import connectionManager from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-select/emby-select';
+import 'material-design-icons-iconfont';
+import '../formdialog.css';
+import '../../assets/css/flexstyles.css';
 
 function onSubmit(e) {
     e.preventDefault();
@@ -80,7 +81,7 @@ function moveCheckboxFocus(elem, offset) {
     }
 }
 function centerFocus(elem, horiz, on) {
-    import('scrollHelper').then(({ default: scrollHelper }) => {
+    import('../../scripts/scrollHelper').then((scrollHelper) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -209,7 +210,7 @@ function loadDynamicFilters(context, options) {
 class FilterMenu {
     show(options) {
         return new Promise( (resolve, reject) => {
-            import('text!./filtermenu.template.html').then(({ default: template }) => {
+            import('./filtermenu.template.html').then(({ default: template }) => {
                 const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false

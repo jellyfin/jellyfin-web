@@ -1,13 +1,14 @@
-import appHost from 'apphost';
-import appSettings from 'appSettings';
-import backdrop from 'backdrop';
-import browser from 'browser';
-import events from 'events';
-import globalize from 'globalize';
-import itemHelper from 'itemHelper';
-import loading from 'loading';
+import appHost from './apphost';
+import appSettings from '../scripts/settings/appSettings';
+import backdrop from './backdrop/backdrop';
+import browser from '../scripts/browser';
+import connectionManager from 'jellyfin-apiclient';
+import events from 'jellyfin-apiclient';
+import globalize from '../scripts/globalize';
+import itemHelper from './itemHelper';
+import loading from './loading/loading';
 import page from 'page';
-import viewManager from 'viewManager';
+import viewManager from './viewManager/viewManager';
 
 class AppRouter {
     allRoutes = [];
@@ -286,7 +287,7 @@ class AppRouter {
                 this.showWelcome();
                 break;
             case 'ServerUpdateNeeded':
-                import('alert').then(({default: alert}) =>{
+                import('./alert').then((alert) =>{
                     alert({
                         text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
                         html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
@@ -323,7 +324,7 @@ class AppRouter {
             url += '?' + ctx.querystring;
         }
 
-        import('text!' + url).then(({default: html}) => {
+        import('' + url).then(({default: html}) => {
             this.loadContent(ctx, route, html, request);
         });
     }
@@ -340,7 +341,7 @@ class AppRouter {
         };
 
         if (route.controller) {
-            import('controllers/' + route.controller).then(onInitComplete);
+            import('../controllers/' + route.controller).then(onInitComplete);
         } else {
             onInitComplete();
         }
@@ -407,7 +408,7 @@ class AppRouter {
         this.forcedLogoutMsg = null;
 
         if (msg) {
-            import('alert').then((alert) => {
+            import('./alert').then((alert) => {
                 alert(msg);
             });
         }

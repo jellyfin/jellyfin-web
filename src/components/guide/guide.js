@@ -1,32 +1,33 @@
-import inputManager from 'inputManager';
-import browser from 'browser';
-import globalize from 'globalize';
-import scrollHelper from 'scrollHelper';
-import serverNotifications from 'serverNotifications';
-import loading from 'loading';
-import datetime from 'datetime';
-import focusManager from 'focusManager';
-import playbackManager from 'playbackManager';
-import * as userSettings from 'userSettings';
-import imageLoader from 'imageLoader';
-import events from 'events';
-import layoutManager from 'layoutManager';
-import itemShortcuts from 'itemShortcuts';
-import dom from 'dom';
-import 'css!./guide.css';
-import 'programStyles';
-import 'material-icons';
-import 'scrollStyles';
-import 'emby-programcell';
-import 'emby-button';
-import 'paper-icon-button-light';
-import 'emby-tabs';
-import 'emby-scroller';
-import 'flexStyles';
-import 'webcomponents';
+import inputManager from '../../scripts/inputManager';
+import browser from '../../scripts/browser';
+import globalize from '../../scripts/globalize';
+import connectionManager from 'jellyfin-apiclient';
+import scrollHelper from '../../scripts/scrollHelper';
+import serverNotifications from '../../scripts/serverNotifications';
+import loading from '../loading/loading';
+import datetime from '../../scripts/datetime';
+import focusManager from '../focusManager';
+import playbackManager from '../playback/playbackmanager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import imageLoader from '../images/imageLoader';
+import events from 'jellyfin-apiclient';
+import layoutManager from '../layoutManager';
+import itemShortcuts from '../shortcuts';
+import dom from '../../scripts/dom';
+import './guide.css';
+import './programs.css';
+import 'material-design-icons-iconfont';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-programcell/emby-programcell';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../assets/css/flexstyles.css';
+import 'webcomponents.js';
 
 function showViewSettings(instance) {
-    import('guide-settings-dialog').then(({default: guideSettingsDialog}) => {
+    import('./guide-settings').then((guideSettingsDialog) => {
         guideSettingsDialog.show(instance.categoryOptions).then(function () {
             instance.refresh();
         });
@@ -1091,7 +1092,7 @@ function Guide(options) {
         }
     }
 
-    import('text!./tvguide.template.html').then(({default: template}) => {
+    import('./tvguide.template.html').then(({default: template}) => {
         const context = options.element;
 
         context.classList.add('tvguide');

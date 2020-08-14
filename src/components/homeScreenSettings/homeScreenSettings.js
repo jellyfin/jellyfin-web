@@ -1,13 +1,15 @@
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import loading from 'loading';
-import homeSections from 'homeSections';
-import dom from 'dom';
-import events from 'events';
-import 'listViewStyle';
-import 'emby-select';
-import 'emby-checkbox';
+
+import layoutManager from '../layoutManager';
+import focusManager from '../focusManager';
+import globalize from '../../scripts/globalize';
+import loading from '../loading/loading';
+import connectionManager from 'jellyfin-apiclient';
+import homeSections from '../homesections/homesections';
+import dom from '../../scripts/dom';
+import events from 'jellyfin-apiclient';
+import '../listview/listview.css';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-checkbox/emby-checkbox';
 
 /* eslint-disable indent */
 
@@ -369,7 +371,7 @@ import 'emby-checkbox';
             saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    import('toast').then(({default: toast}) => {
+                    import('../toast/toast').then((toast) => {
                         toast(globalize.translate('SettingsSaved'));
                     });
                 }
@@ -417,7 +419,7 @@ import 'emby-checkbox';
     }
 
     function embed(options, self) {
-        return import('text!./homeScreenSettings.template.html').then(({default: template}) => {
+        return import('./homeScreenSettings.template.html').then(({default: template}) => {
             for (let i = 1; i <= numConfigurableSections; i++) {
                 template = template.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
             }

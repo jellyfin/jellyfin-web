@@ -1,15 +1,15 @@
-import layoutManager from 'layoutManager';
-import * as userSettings from 'userSettings';
-import inputManager from 'inputManager';
-import loading from 'loading';
-import globalize from 'globalize';
-import * as mainTabsManager from 'mainTabsManager';
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
-import 'scrollStyles';
-import 'emby-itemscontainer';
-import 'emby-tabs';
-import 'emby-button';
+import layoutManager from '../../components/layoutManager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import inputManager from '../../scripts/inputManager';
+import loading from '../../components/loading/loading';
+import globalize from '../../scripts/globalize';
+import * as mainTabsManager from '../../components/maintabsmanager';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-button/emby-button';
 
 function enableScrollX() {
     return !layoutManager.desktop;
@@ -60,7 +60,7 @@ function loadRecommendedPrograms(page) {
         });
         loading.hide();
 
-        import('autoFocuser').then(({default: autoFocuser}) => {
+        import('../../components/autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(page);
         });
     });

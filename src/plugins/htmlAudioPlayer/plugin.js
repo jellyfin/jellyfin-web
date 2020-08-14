@@ -1,4 +1,4 @@
-import events from 'events';
+import events from 'jellyfin-apiclient';
 import browser from 'browser';
 import appHost from 'apphost';
 import * as htmlMediaHelper from 'htmlMediaHelper';

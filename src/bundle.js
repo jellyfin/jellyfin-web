@@ -86,7 +86,7 @@ _define('JavascriptSubtitlesOctopus', function() {
 
 // material-icons
 const materialIcons = require('material-design-icons-iconfont/dist/material-design-icons.css');
-_define('material-icons', function() {
+_define('material-design-icons-iconfont', function() {
     return materialIcons;
 });
 

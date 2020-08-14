@@ -1,7 +1,7 @@
-import backdrop from 'backdrop';
-import * as mainTabsManager from 'mainTabsManager';
-import layoutManager from 'layoutManager';
-import 'emby-tabs';
+import backdrop from '../backdrop/backdrop';
+import * as mainTabsManager from '../maintabsmanager';
+import layoutManager from '../layoutManager';
+import '../../elements/emby-tabs/emby-tabs';
 
 function onViewDestroy(e) {
     const tabControllers = this.tabControllers;

@@ -1,7 +1,7 @@
 import browser from 'browser';
-import events from 'events';
+import events from 'jellyfin-apiclient';
 import appHost from 'apphost';
-import loading from 'loading';
+import loading from '../../components/loading/loading';
 import dom from 'dom';
 import playbackManager from 'playbackManager';
 import appRouter from 'appRouter';
@@ -1282,7 +1282,7 @@ function tryRemoveElement(elem) {
             const dlg = document.querySelector('.videoPlayerContainer');
 
                 if (!dlg) {
-                    return import('css!./style').then(() => {
+                    return import('./style').then(() => {
                         loading.show();
 
                         const dlg = document.createElement('div');

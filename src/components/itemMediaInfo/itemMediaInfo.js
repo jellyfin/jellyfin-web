@@ -5,17 +5,18 @@
  * @module components/itemMediaInfo/itemMediaInfo
  */
 
-import dialogHelper from 'dialogHelper';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import loading from 'loading';
-import 'emby-select';
-import 'listViewStyle';
-import 'paper-icon-button-light';
-import 'css!./../formdialog';
-import 'material-icons';
-import 'emby-button';
-import 'flexStyles';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import connectionManager from 'jellyfin-apiclient';
+import loading from '../loading/loading';
+import '../../elements/emby-select/emby-select';
+import '../listview/listview.css';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import 'material-design-icons-iconfont';
+import '../../assets/css/flexstyles.css';
 
     function setMediaInfo(user, page, item) {
         let html = item.MediaSources.map(version => {
@@ -193,7 +194,7 @@ import 'flexStyles';
 
     export function show(itemId, serverId) {
         loading.show();
-        return import('text!./itemMediaInfo.template.html').then(({default: template}) => {
+        return import('./itemMediaInfo.template.html').then(({default: template}) => {
             return new Promise((resolve, reject) => {
                 loadMediaInfo(itemId, serverId, template).then(resolve, reject);
             });

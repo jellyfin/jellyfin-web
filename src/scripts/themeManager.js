@@ -1,4 +1,4 @@
-import * as webSettings from 'webSettings';
+import * as webSettings from './settings/webSettings';
 
 let themeStyleElement = document.querySelector('#cssTheme');
 let currentThemeId;

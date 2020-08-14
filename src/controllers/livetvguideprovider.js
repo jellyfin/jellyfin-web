@@ -1,6 +1,6 @@
-import events from 'events';
-import loading from 'loading';
-import globalize from 'globalize';
+import events from 'jellyfin-apiclient';
+import loading from '../components/loading/loading';
+import globalize from '../scripts/globalize';
 
 function onListingsSubmitted() {
     Dashboard.navigate('livetvstatus.html');
@@ -17,7 +17,7 @@ function init(page, type, providerId) {
 }
 
 function loadTemplate(page, type, providerId) {
-    import('text!./../components/tvproviders/' + type + '.template.html').then(({default: html}) => {
+    import('./../components/tvproviders/' + type + '.template.html').then(({default: html}) => {
         page.querySelector('.providerTemplate').innerHTML = globalize.translateHtml(html);
         init(page, type, providerId);
     });

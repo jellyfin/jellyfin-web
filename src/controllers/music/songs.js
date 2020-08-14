@@ -1,11 +1,12 @@
-import events from 'events';
-import libraryBrowser from 'libraryBrowser';
-import imageLoader from 'imageLoader';
-import listView from 'listView';
-import loading from 'loading';
-import * as userSettings from 'userSettings';
-import globalize from 'globalize';
-import 'emby-itemscontainer';
+
+import events from 'jellyfin-apiclient';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import imageLoader from '../../components/images/imageLoader';
+import listView from '../../components/listview/listview';
+import loading from '../../components/loading/loading';
+import * as userSettings from '../../scripts/settings/userSettings';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
@@ -119,7 +120,7 @@ import 'emby-itemscontainer';
                 loading.hide();
                 isLoading = false;
 
-                import('autoFocuser').then(({default: autoFocuser}) => {
+                import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(page);
                 });
             });
@@ -130,7 +131,7 @@ import 'emby-itemscontainer';
         let isLoading = false;
 
         self.showFilterMenu = function () {
-            import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+            import('../../components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
                 const filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'songs',

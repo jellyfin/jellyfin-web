@@ -1,10 +1,11 @@
-import appHost from 'apphost';
-import globalize from 'globalize';
-import itemHelper from 'itemHelper';
-import appRouter from 'appRouter';
-import playbackManager from 'playbackManager';
-import browser from 'browser';
-import actionsheet from 'actionsheet';
+import connectionManager from 'jellyfin-apiclient';
+import browser from '../scripts/browser';
+import globalize from '../scripts/globalize';
+import actionsheet from './actionSheet/actionSheet';
+import appHost from './apphost';
+import appRouter from './appRouter';
+import itemHelper from './itemHelper';
+import playbackManager from './playback/playbackmanager';
 
 /* eslint-disable indent */
     export function getCommands(options) {
@@ -334,7 +335,7 @@ import actionsheet from 'actionsheet';
         return new Promise(function (resolve, reject) {
             switch (id) {
                 case 'addtocollection':
-                    import('collectionEditor').then(({default: collectionEditor}) => {
+                    import('./collectionEditor/collectionEditor').then((collectionEditor) => {
                         new collectionEditor({
                             items: [itemId],
                             serverId: serverId
@@ -342,7 +343,7 @@ import actionsheet from 'actionsheet';
                     });
                     break;
                 case 'addtoplaylist':
-                    import('playlistEditor').then(({default: playlistEditor}) => {
+                    import('./playlisteditor/playlisteditor').then((playlistEditor) => {
                         new playlistEditor({
                             items: [itemId],
                             serverId: serverId
@@ -350,7 +351,7 @@ import actionsheet from 'actionsheet';
                     });
                     break;
                 case 'download':
-                    import('fileDownloader').then((fileDownloader) => {
+                    import('../scripts/fileDownloader').then((fileDownloader) => {
                         const downloadHref = apiClient.getItemDownloadUrl(itemId);
                         fileDownloader.download([{
                             url: downloadHref,
@@ -372,7 +373,7 @@ import actionsheet from 'actionsheet';
                         textArea.select();
 
                         if (document.execCommand('copy')) {
-                            import('toast').then(({default: toast}) => {
+                            import('./toast/toast').then((toast) => {
                                 toast(globalize.translate('CopyStreamURLSuccess'));
                             });
                         } else {
@@ -387,7 +388,7 @@ import actionsheet from 'actionsheet';
                     } else {
                         /* eslint-disable-next-line compat/compat */
                         navigator.clipboard.writeText(downloadHref).then(function () {
-                            import('toast').then(({default: toast}) => {
+                            import('./toast/toast').then((toast) => {
                                 toast(globalize.translate('CopyStreamURLSuccess'));
                             });
                         }).catch(function () {
@@ -398,7 +399,7 @@ import actionsheet from 'actionsheet';
                     break;
                 }
                 case 'editsubtitles':
-                    import('subtitleEditor').then(({default: subtitleEditor}) => {
+                    import('./subtitleeditor/subtitleeditor').then((subtitleEditor) => {
                         subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
@@ -406,7 +407,7 @@ import actionsheet from 'actionsheet';
                     editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
                 case 'editimages':
-                    import('imageEditor').then(({default: imageEditor}) => {
+                    import('./imageeditor/imageeditor').then((imageEditor) => {
                         imageEditor.show({
                             itemId: itemId,
                             serverId: serverId
@@ -414,12 +415,12 @@ import actionsheet from 'actionsheet';
                     });
                     break;
                 case 'identify':
-                    import('itemIdentifier').then(({default: itemIdentifier}) => {
+                    import('./itemidentifier/itemidentifier').then((itemIdentifier) => {
                         itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'moremediainfo':
-                    import('itemMediaInfo').then(({default: itemMediaInfo}) => {
+                    import('./itemMediaInfo/itemMediaInfo').then((itemMediaInfo) => {
                         itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id), getResolveFunction(resolve, id));
                     });
                     break;
@@ -454,7 +455,7 @@ import actionsheet from 'actionsheet';
                     playbackManager.clearQueue();
                     break;
                 case 'record':
-                    import('recordingCreator').then(({default: recordingCreator}) => {
+                    import('./recordingcreator/recordingcreator').then((recordingCreator) => {
                         recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
@@ -525,7 +526,7 @@ import actionsheet from 'actionsheet';
     }
 
     function deleteTimer(apiClient, item, resolve, command) {
-        import('recordingHelper').then(({default: recordingHelper}) => {
+        import('./recordingcreator/recordinghelper').then((recordingHelper) => {
             const timerId = item.TimerId || item.Id;
             recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
                 getResolveFunction(resolve, command, true)();
@@ -534,7 +535,7 @@ import actionsheet from 'actionsheet';
     }
 
     function deleteSeriesTimer(apiClient, item, resolve, command) {
-        import('recordingHelper').then(({default: recordingHelper}) => {
+        import('./recordingcreator/recordinghelper').then((recordingHelper) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
                 getResolveFunction(resolve, command, true)();
             });
@@ -568,15 +569,15 @@ import actionsheet from 'actionsheet';
             const serverId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
-                import('recordingEditor').then(({default: recordingEditor}) => {
+                import('./recordingcreator/recordingeditor').then((recordingEditor) => {
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             } else if (item.Type === 'SeriesTimer') {
-                import('seriesRecordingEditor').then(({default: recordingEditor}) => {
+                import('./recordingcreator/seriesrecordingeditor').then((recordingEditor) => {
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             } else {
-                import('metadataEditor').then(({default: metadataEditor}) => {
+                import('./metadataEditor/metadataEditor').then((metadataEditor) => {
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             }
@@ -585,7 +586,7 @@ import actionsheet from 'actionsheet';
 
     function deleteItem(apiClient, item) {
         return new Promise(function (resolve, reject) {
-            import('deleteHelper').then(({default: deleteHelper}) => {
+            import('../scripts/deleteHelper').then((deleteHelper) => {
                 deleteHelper.deleteItem({
                     item: item,
                     navigate: false
@@ -597,7 +598,7 @@ import actionsheet from 'actionsheet';
     }
 
     function refresh(apiClient, item) {
-        import('refreshDialog').then(({default: refreshDialog}) => {
+        import('./refreshdialog/refreshdialog').then((refreshDialog) => {
             new refreshDialog({
                 itemIds: [item.Id],
                 serverId: apiClient.serverInfo().Id,

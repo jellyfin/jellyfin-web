@@ -1,14 +1,15 @@
-import dom from 'dom';
-import dialogHelper from 'dialogHelper';
-import loading from 'loading';
-import globalize from 'globalize';
-import actionsheet from 'actionsheet';
-import 'emby-input';
-import 'paper-icon-button-light';
-import 'emby-button';
-import 'listViewStyle';
-import 'material-icons';
-import 'formDialogStyle';
+import dom from '../../scripts/dom';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import loading from '../loading/loading';
+import connectionManager from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
+import actionsheet from '../actionSheet/actionSheet';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
+import '../listview/listview.css';
+import 'material-design-icons-iconfont';
+import '../formdialog.css';
 
 export default class channelMapper {
     constructor(options) {

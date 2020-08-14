@@ -1,7 +1,8 @@
-import * as userSettings from 'userSettings';
-import * as webSettings from 'webSettings';
-import skinManager from 'skinManager';
-import events from 'events';
+import * as userSettings from './settings/userSettings';
+import * as webSettings from './settings/webSettings';
+import skinManager from './themeManager';
+import connectionManager from 'jellyfin-apiclient';
+import events from 'jellyfin-apiclient';
 
 // set the default theme when loading
 skinManager.setTheme(userSettings.theme());

@@ -1,19 +1,20 @@
-import appHost from 'apphost';
-import dialogHelper from 'dialogHelper';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import * as userSettings from 'userSettings';
-import loading from 'loading';
-import focusManager from 'focusManager';
-import dom from 'dom';
-import 'emby-select';
-import 'listViewStyle';
-import 'paper-icon-button-light';
-import 'css!./../formdialog';
-import 'material-icons';
-import 'css!./subtitleeditor';
-import 'emby-button';
-import 'flexStyles';
+import appHost from '../apphost';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
+import connectionManager from 'jellyfin-apiclient';
+import loading from '../loading/loading';
+import focusManager from '../focusManager';
+import dom from '../../scripts/dom';
+import '../../elements/emby-select/emby-select';
+import '../listview/listview.css';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import 'material-design-icons-iconfont';
+import './subtitleeditor.css';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.css';
 
 let currentItem;
 let hasChanges;
@@ -30,7 +31,7 @@ function downloadRemoteSubtitles(context, id) {
     }).then(function () {
         hasChanges = true;
 
-        import('toast').then(({default: toast}) => {
+        import('../toast/toast').then((toast) => {
             toast(globalize.translate('MessageDownloadQueued'));
         });
 
@@ -41,7 +42,7 @@ function downloadRemoteSubtitles(context, id) {
 function deleteLocalSubtitle(context, index) {
     const msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
-    import('confirm').then(({default: confirm}) => {
+    import('../confirm/confirm').then((confirm) => {
         confirm({
 
             title: globalize.translate('ConfirmDeletion'),
@@ -329,7 +330,7 @@ function showDownloadOptions(button, context, subtitleId) {
         id: 'download'
     });
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
             items: items,
             positionTo: button
@@ -347,7 +348,7 @@ function showDownloadOptions(button, context, subtitleId) {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('scrollHelper').then(({default: scrollHelper}) => {
+    import('../../scripts/scrollHelper').then(({default: scrollHelper}) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -431,7 +432,7 @@ function showEditor(itemId, serverId) {
     loading.show();
 
     return new Promise(function (resolve, reject) {
-        import('text!./subtitleeditor.template.html').then(({default: template}) => {
+        import('./subtitleeditor.template.html').then(({default: template}) => {
             showEditorInternal(itemId, serverId, template).then(resolve, reject);
         });
     });

@@ -1,5 +1,5 @@
-import * as userSettings from 'userSettings';
-import events from 'events';
+import * as userSettings from './settings/userSettings';
+import events from 'jellyfin-apiclient';
 
 /* eslint-disable indent */
 

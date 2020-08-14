@@ -1,9 +1,9 @@
-import UserPasswordPage from 'controllers/dashboard/users/userpasswordpage';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import appHost from 'apphost';
-import globalize from 'globalize';
-import 'emby-button';
+import UserPasswordPage from '../../dashboard/users/userpasswordpage';
+import loading from '../../../components/loading/loading';
+import libraryMenu from '../../../scripts/libraryMenu';
+import appHost from '../../../components/apphost';
+import globalize from '../../../scripts/globalize';
+import '../../../elements/emby-button/emby-button';
 
 function reloadUser(page) {
     const userId = getParameterByName('userId');
@@ -40,7 +40,7 @@ function onFileReaderError(evt) {
     loading.hide();
     switch (evt.target.error.code) {
         case evt.target.error.NOT_FOUND_ERR:
-            import('toast').then(({default: toast}) => {
+            import('../../../components/toast/toast').then((toast) => {
                 toast(globalize.translate('FileNotFound'));
             });
             break;
@@ -49,7 +49,7 @@ function onFileReaderError(evt) {
             break;
         case evt.target.error.NOT_READABLE_ERR:
         default:
-            import('toast').then(({default: toast}) => {
+            import('../../../components/toast/toast').then((toast) => {
                 toast(globalize.translate('FileReadError'));
             });
     }
@@ -57,7 +57,7 @@ function onFileReaderError(evt) {
 
 function onFileReaderAbort(evt) {
     loading.hide();
-    import('toast').then(({default: toast}) => {
+    import('../../../components/toast/toast').then((toast) => {
         toast(globalize.translate('FileReadCancelled'));
     });
 }
@@ -89,7 +89,7 @@ export default function (view, params) {
     reloadUser(view);
     new UserPasswordPage(view, params);
     view.querySelector('#btnDeleteImage').addEventListener('click', function () {
-        import('confirm').then(({default: confirm}) => {
+        import('../../../components/confirm/confirm').then(({default: confirm}) => {
             confirm(globalize.translate('DeleteImageConfirmation'), globalize.translate('DeleteImage')).then(function () {
                 loading.show();
                 const userId = getParameterByName('userId');

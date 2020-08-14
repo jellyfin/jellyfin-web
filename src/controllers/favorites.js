@@ -1,12 +1,13 @@
-import appRouter from 'appRouter';
-import cardBuilder from 'cardBuilder';
-import dom from 'dom';
-import globalize from 'globalize';
-import appHost from 'apphost';
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import 'emby-itemscontainer';
-import 'emby-scroller';
+import appRouter from '../components/appRouter';
+import cardBuilder from '../components/cardbuilder/cardBuilder';
+import dom from '../scripts/dom';
+import globalize from '../scripts/globalize';
+import connectionManager from 'jellyfin-apiclient';
+import appHost from '../components/apphost';
+import layoutManager from '../components/layoutManager';
+import focusManager from '../components/focusManager';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../elements/emby-scroller/emby-scroller';
 
 /* eslint-disable indent */
 

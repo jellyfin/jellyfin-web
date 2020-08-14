@@ -1,7 +1,7 @@
-import * as lazyLoader from 'lazyLoader';
-import * as userSettings from 'userSettings';
+import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
+import * as userSettings from '../../scripts/settings/userSettings';
 import * as blurhash from 'blurhash';
-import 'css!./style';
+import './style.css';
 /* eslint-disable indent */
 
     export function lazyImage(elem, source = elem.getAttribute('data-src')) {

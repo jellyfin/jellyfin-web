@@ -1,10 +1,10 @@
-import dom from 'dom';
-import scroller from 'scroller';
-import browser from 'browser';
-import focusManager from 'focusManager';
-import 'webcomponents';
-import 'css!./emby-tabs';
-import 'scrollStyles';
+import dom from '../../scripts/dom';
+import scroller from '../../libraries/scroller';
+import browser from '../../scripts/browser';
+import focusManager from '../../components/focusManager';
+import 'webcomponents.js';
+import './emby-tabs.css';
+import '../../assets/css/scrollstyles.css';
 
 /* eslint-disable indent */
 

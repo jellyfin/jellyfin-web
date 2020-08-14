@@ -1,12 +1,12 @@
-import appSettings from 'appSettings';
-import events from 'events';
-import browser from 'browser';
-import loading from 'loading';
-import playbackManager from 'playbackManager';
-import appRouter from 'appRouter';
-import globalize from 'globalize';
-import appHost from 'apphost';
-import * as autocast from 'autocast';
+import appSettings from '../../scripts/settings/appSettings';
+import events from 'jellyfin-apiclient';
+import browser from '../../scripts/browser';
+import loading from '../loading/loading';
+import playbackManager from '../playback/playbackmanager';
+import appRouter from '../appRouter';
+import globalize from '../../scripts/globalize';
+import appHost from '../apphost';
+import { enable, isEnabled, supported } from '../../scripts/autocast';
 
 function mirrorItem(info, player) {
     const item = info.item;
@@ -108,7 +108,7 @@ export function show(button) {
             };
         });
 
-        import('actionsheet').then(({default: actionsheet}) => {
+        import('../actionSheet/actionSheet').then((actionsheet) => {
             loading.hide();
 
             const menuOptions = {
@@ -141,10 +141,10 @@ export function show(button) {
 
 function showActivePlayerMenu(playerInfo) {
     Promise.all([
-        import('dialogHelper'),
-        import('dialog'),
-        import('emby-checkbox'),
-        import('emby-button')
+        import('../dialogHelper/dialogHelper'),
+        import('../dialog/dialog'),
+        import('../../elements/emby-checkbox/emby-checkbox'),
+        import('../../elements/emby-button/emby-button')
     ]).then(([dialogHelper]) => {
         showActivePlayerMenuInternal(dialogHelper, playerInfo);
     });
@@ -152,7 +152,7 @@ function showActivePlayerMenu(playerInfo) {
 
 function disconnectFromPlayer(currentDeviceName) {
     if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
-        import('dialog').then(({default: dialog}) => {
+        import('../dialog/dialog').then(({default: dialog}) => {
             const menuItems = [];
 
             menuItems.push({
@@ -222,9 +222,9 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
 
     html += '</div>';
 
-    if (autocast.supported()) {
+    if (supported()) {
         html += '<div><label class="checkboxContainer">';
-        const checkedHtmlAC = autocast.isEnabled() ? ' checked' : '';
+        const checkedHtmlAC = isEnabled() ? ' checked' : '';
         html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
         html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
         html += '</label></div>';
@@ -285,7 +285,7 @@ function onMirrorChange() {
 }
 
 function onAutoCastChange() {
-    autocast.enable(this.checked);
+    enable(this.checked);
 }
 
 document.addEventListener('viewshow', function (e) {

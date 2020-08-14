@@ -1,13 +1,14 @@
-import appHost from 'apphost';
-import appSettings from 'appSettings';
-import dom from 'dom';
-import loading from 'loading';
-import layoutManager from 'layoutManager';
-import libraryMenu from 'libraryMenu';
-import browser from 'browser';
-import globalize from 'globalize';
-import 'cardStyle';
-import 'emby-checkbox';
+import appHost from '../../../components/apphost';
+import appSettings from '../../../scripts/settings/appSettings';
+import dom from '../../../scripts/dom';
+import connectionManager from 'jellyfin-apiclient';
+import loading from '../../../components/loading/loading';
+import layoutManager from '../../../components/layoutManager';
+import libraryMenu from '../../../scripts/libraryMenu';
+import browser from '../../../scripts/browser';
+import globalize from '../../../scripts/globalize';
+import '../../../components/cardbuilder/card.css';
+import '../../../elements/emby-checkbox/emby-checkbox';
 
 /* eslint-disable indent */
 
@@ -27,7 +28,7 @@ import 'emby-checkbox';
 
             const UnauthorizedOrForbidden = [401, 403];
             if (UnauthorizedOrForbidden.includes(response.status)) {
-                import('toast').then(({default: toast}) => {
+                import('../../../components/toast/toast').then((toast) => {
                     const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
                     toast(globalize.translate(messageKey));
                 });
@@ -202,7 +203,7 @@ import 'emby-checkbox';
             view.querySelector('.manualLoginForm').classList.add('hide');
             view.querySelector('.btnManual').classList.remove('hide');
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
+            import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(view);
             });
         }

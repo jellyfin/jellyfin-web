@@ -1,10 +1,12 @@
-import confirm from 'confirm';
-import appRouter from 'appRouter';
-import globalize from 'globalize';
+
+import connectionManager from 'jellyfin-apiclient';
+import confirm from '../components/confirm/confirm';
+import appRouter from '../components/appRouter';
+import globalize from './globalize';
 
 function alertText(options) {
     return new Promise(function (resolve, reject) {
-        import('alert').then(({default: alert}) => {
+        import('../components/alert').then((alert) => {
             alert(options).then(resolve, resolve);
         });
     });

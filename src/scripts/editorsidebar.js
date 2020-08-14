@@ -1,6 +1,6 @@
-import $ from 'jQuery';
-import globalize from 'globalize';
-import 'material-icons';
+import 'jquery';
+import globalize from './globalize';
+import 'material-design-icons-iconfont';
 
 /* eslint-disable indent */
 
@@ -303,7 +303,7 @@ import 'material-icons';
         updateEditorNode(this, item);
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
         /* eslint-disable-next-line  @babel/no-unused-expressions */
-        import('css!assets/css/metadataeditor.css');
+        import('../assets/css/metadataeditor.css');
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
         const page = this;
         Dashboard.getCurrentUser().then(function (user) {

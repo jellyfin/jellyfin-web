@@ -5,10 +5,11 @@
  * @module components/cardBuilder/chaptercardbuilder
  */
 
-import datetime from 'datetime';
-import imageLoader from 'imageLoader';
-import layoutManager from 'layoutManager';
-import browser from 'browser';
+import datetime from '../../scripts/datetime';
+import imageLoader from '../images/imageLoader';
+import connectionManager from 'jellyfin-apiclient';
+import layoutManager from '../layoutManager';
+import browser from '../../scripts/browser';
 
     const enableFocusTransform = !browser.slow && !browser.edge;
 

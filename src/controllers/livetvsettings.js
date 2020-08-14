@@ -1,7 +1,7 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-button';
+import 'jquery';
+import loading from '../components/loading/loading';
+import globalize from '../scripts/globalize';
+import '../elements/emby-button/emby-button';
 
 function loadPage(page, config) {
     $('.liveTvSettingsForm', page).show();
@@ -50,7 +50,7 @@ function showSaveMessage(recordingPathChanged) {
     }
 
     if (msg) {
-        import('alert').then(({default: alert}) => {
+        import('../components/alert').then(({default: alert}) => {
             alert(msg);
         });
     }
@@ -61,7 +61,7 @@ export default function () {
         const page = this;
         $('.liveTvSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
         $('#btnSelectRecordingPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {
@@ -76,7 +76,7 @@ export default function () {
             });
         });
         $('#btnSelectMovieRecordingPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {
@@ -91,7 +91,7 @@ export default function () {
             });
         });
         $('#btnSelectSeriesRecordingPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {
@@ -106,7 +106,7 @@ export default function () {
             });
         });
         $('#btnSelectPostProcessorPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     includeFiles: true,

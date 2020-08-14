@@ -1,4 +1,3 @@
-
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
 }
@@ -78,7 +77,7 @@ export function navigate(url, preserveQueryString) {
     }
 
     return new Promise(function (resolve, reject) {
-        import('appRouter').then(({default: appRouter}) => {
+        import('../components/appRouter').then((appRouter) => {
             return appRouter.show(url).then(resolve, reject);
         });
     });
@@ -86,28 +85,28 @@ export function navigate(url, preserveQueryString) {
 
 export function processPluginConfigurationUpdateResult() {
     Promise.all([
-        import('loading'),
-        import('toast')
+        import('../components/loading/loading'),
+        import('../components/toast/toast')
     ])
-        .then(([{default: loading}, {default: toast}]) => {
+        .then(([loading, toast]) => {
             loading.hide();
-            toast(Globalize.translate('SettingsSaved'));
+            toast(Globalize.translate('MessageSettingsSaved'));
         });
 }
 
 export function processServerConfigurationUpdateResult(result) {
     Promise.all([
-        import('loading'),
-        import('toast')
+        import('../components/loading/loading'),
+        import('../components/toast/toast')
     ])
-        .then(([{default: loading}, {default: toast}]) => {
+        .then(([loading, toast]) => {
             loading.hide();
-            toast(Globalize.translate('SettingsSaved'));
+            toast.default(Globalize.translate('MessageSettingsSaved'));
         });
 }
 
 export function processErrorResponse(response) {
-    import('loading').then(({default: loading}) => {
+    import('../components/loading/loading').then((loading) => {
         loading.hide();
     });
 
@@ -125,15 +124,15 @@ export function processErrorResponse(response) {
 
 export function alert(options) {
     if (typeof options == 'string') {
-        return void import('toast').then(({default: toast}) => {
-            toast({
+        return void import('../components/toast/toast').then((toast) => {
+            toast.default({
                 text: options
             });
         });
     }
 
-    import('alert').then(({default: alert}) => {
-        alert({
+    import('../components/alert').then((alert) => {
+        alert.default({
             title: options.title || Globalize.translate('HeaderAlert'),
             text: options.message
         }).then(options.callback || function () {});
@@ -147,7 +146,8 @@ export function capabilities(appHost) {
         SupportsPersistentIdentifier: window.appMode === 'cordova' || window.appMode === 'android',
         SupportsMediaControl: true
     };
-    return Object.assign(capabilities, appHost.getPushTokenInfo());
+    appHost.getPushTokenInfo();
+    return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
 }
 
 export function selectServer() {
@@ -159,19 +159,19 @@ export function selectServer() {
 }
 
 export function hideLoadingMsg() {
-    import('loading').then(({default: loading}) => {
+    import('../components/loading/loading').then(({default: loading}) => {
         loading.hide();
     });
 }
 
 export function showLoadingMsg() {
-    import('loading').then(({default: loading}) => {
+    import('../components/loading/loading').then(({default: loading}) => {
         loading.show();
     });
 }
 
 export function confirm(message, title, callback) {
-    import('confirm').then(({default: confirm}) => {
+    import('../components/confirm/confirm').then((confirm) => {
         confirm(message, title).then(function() {
             callback(!0);
         }).catch(function() {

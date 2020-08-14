@@ -1,7 +1,7 @@
-import viewContainer from 'viewContainer';
-import focusManager from 'focusManager';
-import queryString from 'queryString';
-import layoutManager from 'layoutManager';
+import viewContainer from '../viewContainer';
+import focusManager from '../focusManager';
+import queryString from 'query-string';
+import layoutManager from '../layoutManager';
 
 let currentView;
 let dispatchPageEvents;
@@ -170,6 +170,6 @@ class ViewManager {
 }
 
 const viewManager = new ViewManager();
-viewManager.default.dispatchPageEvents(true);
+viewManager.dispatchPageEvents(true);
 
 export default viewManager;

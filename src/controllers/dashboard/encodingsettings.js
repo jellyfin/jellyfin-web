@@ -1,8 +1,8 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import globalize from 'globalize';
-import dom from 'dom';
-import libraryMenu from 'libraryMenu';
+import 'jquery';
+import loading from '../../components/loading/loading';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import libraryMenu from '../../scripts/libraryMenu';
 
 /* eslint-disable indent */
 
@@ -45,7 +45,7 @@ import libraryMenu from 'libraryMenu';
         let msg = '';
         msg = globalize.translate('FFmpegSavePathNotFound');
 
-        import('alert').then(({default: alert}) => {
+        import('../../components/alert').then(({default: alert}) => {
             alert(msg);
         });
     }
@@ -101,7 +101,7 @@ import libraryMenu from 'libraryMenu';
                 ApiClient.updateNamedConfiguration('encoding', config).then(function () {
                     updateEncoder(form);
                 }, function () {
-                    import('alert').then(({default: alert}) => {
+                    import('../../components/alert').then(({default: alert}) => {
                         alert(globalize.translate('ErrorDefault'));
                     });
 
@@ -111,7 +111,7 @@ import libraryMenu from 'libraryMenu';
         };
 
         if ($('#selectVideoDecoder', form).val()) {
-            import('alert').then(({default: alert}) => {
+            import('../../components/alert').then(({default: alert}) => {
                 alert({
                     title: globalize.translate('TitleHardwareAcceleration'),
                     text: globalize.translate('HardwareAccelerationWarning')
@@ -186,7 +186,7 @@ import libraryMenu from 'libraryMenu';
             setDecodingCodecsVisible(page, this.value);
         });
         $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     includeFiles: true,
@@ -201,7 +201,7 @@ import libraryMenu from 'libraryMenu';
             });
         });
         $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {

@@ -1,6 +1,6 @@
-import playbackManager from 'playbackManager';
-import serverNotifications from 'serverNotifications';
-import events from 'events';
+import playbackManager from './playback/playbackmanager';
+import serverNotifications from '../scripts/serverNotifications';
+import events from 'jellyfin-apiclient';
 
 function onUserDataChanged(e, apiClient, userData) {
     const instance = this;

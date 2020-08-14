@@ -1,20 +1,21 @@
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import inputManager from 'inputManager';
-import events from 'events';
-import viewManager from 'viewManager';
-import appRouter from 'appRouter';
-import appHost from 'apphost';
-import playbackManager from 'playbackManager';
-import syncPlayManager from 'syncPlayManager';
-import * as groupSelectionMenu from 'groupSelectionMenu';
-import browser from 'browser';
-import globalize from 'globalize';
-import imageHelper from 'scripts/imagehelper';
-import 'paper-icon-button-light';
-import 'material-icons';
-import 'scrollStyles';
-import 'flexStyles';
+import dom from './dom';
+import layoutManager from '../components/layoutManager';
+import inputManager from './inputManager';
+import connectionManager from 'jellyfin-apiclient';
+import events from 'jellyfin-apiclient';
+import viewManager from '../components/viewManager/viewManager';
+import appRouter from '../components/appRouter';
+import appHost from '../components/apphost';
+import playbackManager from '../components/playback/playbackmanager';
+import syncPlayManager from '../components/syncPlay/syncPlayManager';
+import groupSelectionMenu from '../components/syncPlay/groupSelectionMenu';
+import browser from './browser';
+import globalize from './globalize';
+import imageHelper from './imagehelper';
+import '../elements/emby-button/paper-icon-button-light';
+import 'material-design-icons-iconfont';
+import '../assets/css/scrollstyles.css';
+import '../assets/css/flexstyles.css';
 
 /* eslint-disable indent */
 
@@ -67,7 +68,7 @@ import 'flexStyles';
     }
 
     function lazyLoadViewMenuBarImages() {
-        import('imageLoader').then(({default: imageLoader}) => {
+        import('../components/images/imageLoader').then((imageLoader) => {
             imageLoader.lazyChildren(skinHeader);
         });
     }
@@ -220,7 +221,7 @@ import 'flexStyles';
     function onCastButtonClicked() {
         const btn = this;
 
-        import('playerSelectionMenu').then(({default: playerSelectionMenu}) => {
+        import('../components/playback/playerSelectionMenu').then((playerSelectionMenu) => {
             playerSelectionMenu.show(btn);
         });
     }
@@ -799,7 +800,7 @@ import 'flexStyles';
     }
 
     function initHeadRoom(elem) {
-        import('headroom').then(({default: Headroom}) => {
+        import('headroom.js').then((Headroom) => {
             const headroom = new Headroom(elem);
             headroom.init();
         });
@@ -839,7 +840,7 @@ import 'flexStyles';
         navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve, reject) {
-            import('navdrawer').then(({default: navdrawer}) => {
+            import('../libraries/navdrawer/navdrawer').then((navdrawer) => {
                 navDrawerInstance = new navdrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {
@@ -871,7 +872,7 @@ import 'flexStyles';
     let requiresUserRefresh = true;
 
     function setTabs (type, selectedIndex, builder) {
-        import('mainTabsManager').then((mainTabsManager) => {
+        import('../components/maintabsmanager').then((mainTabsManager) => {
             if (type) {
                 mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
                     return [];

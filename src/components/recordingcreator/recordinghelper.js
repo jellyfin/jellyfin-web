@@ -1,5 +1,6 @@
-import globalize from 'globalize';
-import loading from 'loading';
+import globalize from '../../scripts/globalize';
+import loading from '../loading/loading';
+import connectionManager from 'jellyfin-apiclient';
 
 /*eslint prefer-const: "error"*/
 
@@ -28,7 +29,7 @@ function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCanc
 
 function cancelTimerWithConfirmation(timerId, serverId) {
     return new Promise(function (resolve, reject) {
-        import('confirm').then(({ default: confirm }) => {
+        import('../confirm/confirm').then((confirm) => {
             confirm.default({
 
                 text: globalize.translate('MessageConfirmRecordingCancellation'),
@@ -48,7 +49,7 @@ function cancelTimerWithConfirmation(timerId, serverId) {
 
 function cancelSeriesTimerWithConfirmation(timerId, serverId) {
     return new Promise(function (resolve, reject) {
-        import('confirm').then(({ default: confirm }) => {
+        import('../confirm/confirm').then((confirm) => {
             confirm.default({
 
                 text: globalize.translate('MessageConfirmRecordingCancellation'),
@@ -61,7 +62,7 @@ function cancelSeriesTimerWithConfirmation(timerId, serverId) {
 
                 const apiClient = window.connectionManager.getApiClient(serverId);
                 apiClient.cancelLiveTvSeriesTimer(timerId).then(function () {
-                    import('toast').then(({default: toast}) => {
+                    import('../toast/toast').then((toast) => {
                         toast(globalize.translate('SeriesCancelled'));
                     });
 
@@ -98,14 +99,14 @@ function createRecording(apiClient, programId, isSeries) {
 }
 
 function sendToast(msg) {
-    import('toast').then(({ default: toast }) => {
+    import('../toast/toast').then((toast) => {
         toast(msg);
     });
 }
 
 function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId) {
     return new Promise(function (resolve, reject) {
-        import('dialog').then(({ default: dialog }) => {
+        import('../dialog/dialog').then((dialog) => {
             const items = [];
 
             items.push({
@@ -150,7 +151,7 @@ function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, 
                     loading.show();
 
                     apiClient.cancelLiveTvSeriesTimer(seriesTimerId).then(function () {
-                        import('toast').then(({ default: toast }) => {
+                        import('../toast/toast').then((toast) => {
                             toast(globalize.translate('SeriesCancelled'));
                         });
 

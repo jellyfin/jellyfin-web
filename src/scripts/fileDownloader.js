@@ -1,5 +1,5 @@
-import multiDownload from 'multi-download';
-import shell from 'shell';
+import multiDownload from './multiDownload';
+import shell from './shell';
 
 export function download(items) {
     if (!shell.downloadFiles(items)) {

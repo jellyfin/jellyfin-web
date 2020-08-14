@@ -1,8 +1,9 @@
+
 /* eslint-disable indent */
 
-import appSettings from 'appSettings' ;
-import browser from 'browser';
-import events from 'events';
+import appSettings from '../scripts/settings/appSettings' ;
+import browser from '../scripts/browser';
+import events from 'jellyfin-apiclient';
 
     export function getSavedVolume() {
         return appSettings.get('volume') || 1;

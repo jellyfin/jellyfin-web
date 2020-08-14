@@ -1,19 +1,19 @@
-import browser from 'browser';
-import layoutManager from 'layoutManager';
-import * as userSettings from 'userSettings';
-import inputManager from 'inputManager';
-import loading from 'loading';
-import cardBuilder from 'cardBuilder';
-import dom from 'dom';
-import imageLoader from 'imageLoader';
-import libraryMenu from 'libraryMenu';
-import * as mainTabsManager from 'mainTabsManager';
-import globalize from 'globalize';
-import 'scrollStyles';
-import 'emby-itemscontainer';
-import 'emby-tabs';
-import 'emby-button';
-import 'flexStyles';
+import browser from '../../scripts/browser';
+import layoutManager from '../../components/layoutManager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import inputManager from '../../scripts/inputManager';
+import loading from '../../components/loading/loading';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import dom from '../../scripts/dom';
+import imageLoader from '../../components/images/imageLoader';
+import libraryMenu from '../../scripts/libraryMenu';
+import * as mainTabsManager from '../../components/maintabsmanager';
+import globalize from '../../scripts/globalize';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.css';
 
 /* eslint-disable indent */
 
@@ -74,7 +74,7 @@ import 'flexStyles';
             imageLoader.lazyChildren(elem);
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(page);
             });
         });
@@ -170,7 +170,7 @@ import 'flexStyles';
         loadRecentlyPlayed(tabContent, parentId);
         loadFrequentlyPlayed(tabContent, parentId);
 
-        import('components/favoriteitems').then(({default: favoriteItems}) => {
+        import('../../components/favoriteitems').then(({default: favoriteItems}) => {
             favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']);
         });
     }

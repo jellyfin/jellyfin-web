@@ -1,8 +1,9 @@
-import events from 'events';
-import playbackManager from 'playbackManager';
-import pluginManager from 'pluginManager';
-import inputManager from 'inputManager';
-import * as userSettings from 'userSettings';
+import events from 'jellyfin-apiclient';
+import playbackManager from '../components/playback/playbackmanager';
+import pluginManager from '../components/pluginManager';
+import inputManager from '../scripts/inputManager';
+import connectionManager from 'jellyfin-apiclient';
+import * as userSettings from '../scripts/settings/userSettings';
 
 function getMinIdleTime() {
     // Returns the minimum amount of idle time required before the screen saver can be displayed

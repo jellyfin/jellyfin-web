@@ -1,16 +1,17 @@
-import browser from 'browser';
-import layoutManager from 'layoutManager';
-import pluginManager from 'pluginManager';
-import appHost from 'apphost';
-import focusManager from 'focusManager';
-import datetime from 'datetime';
-import globalize from 'globalize';
-import loading from 'loading';
-import skinManager from 'skinManager';
-import events from 'events';
-import 'emby-select';
-import 'emby-checkbox';
-import 'emby-button';
+import browser from '../../scripts/browser';
+import layoutManager from '../layoutManager';
+import pluginManager from '../pluginManager';
+import appHost from '../apphost';
+import focusManager from '../focusManager';
+import datetime from '../../scripts/datetime';
+import globalize from '../../scripts/globalize';
+import loading from '../loading/loading';
+import connectionManager from 'jellyfin-apiclient';
+import skinManager from '../../scripts/themeManager';
+import events from 'jellyfin-apiclient';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 
@@ -168,7 +169,7 @@ import 'emby-button';
             saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    import('toast').then(({default: toast}) => {
+                    import('../toast/toast').then((toast) => {
                         toast(globalize.translate('SettingsSaved'));
                     });
                 }
@@ -198,7 +199,7 @@ import 'emby-button';
     }
 
     async function embed(options, self) {
-        const { default: template } = await import('text!./displaySettings.template.html');
+        const { default: template } = await import('./displaySettings.template.html');
         options.element.innerHTML = globalize.translateHtml(template, 'core');
         options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
         if (options.enableSaveButton) {

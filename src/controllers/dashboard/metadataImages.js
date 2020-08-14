@@ -1,8 +1,8 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
-import 'listViewStyle';
+import 'jquery';
+import loading from '../../components/loading/loading';
+import libraryMenu from '../../scripts/libraryMenu';
+import globalize from '../../scripts/globalize';
+import '../../components/listview/listview.css';
 
 /* eslint-disable indent */
 

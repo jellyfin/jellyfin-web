@@ -1,8 +1,9 @@
-import browser from 'browser';
-import playbackManager from 'playbackManager';
-import dom from 'dom';
-import * as userSettings from 'userSettings';
-import 'css!./backdrop';
+import browser from '../../scripts/browser';
+import connectionManager from 'jellyfin-apiclient';
+import playbackManager from '../playback/playbackmanager';
+import dom from '../../scripts/dom';
+import * as userSettings from '../../scripts/settings/userSettings';
+import './backdrop.css';
 
 /* eslint-disable indent */
 

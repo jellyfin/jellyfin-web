@@ -1,15 +1,15 @@
-import dialogHelper from 'dialogHelper';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import * as userSettings from 'userSettings';
-import 'emby-checkbox';
-import 'emby-input';
-import 'paper-icon-button-light';
-import 'emby-select';
-import 'material-icons';
-import 'css!./../formdialog';
-import 'emby-button';
-import 'flexStyles';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-select/emby-select';
+import 'material-design-icons-iconfont';
+import '../formdialog.css';
+import '../../assets/css/flexstyles.css';
 
 function onSubmit(e) {
     e.preventDefault();
@@ -38,7 +38,7 @@ function saveValues(context, settings, settingsKey) {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('scrollHelper').then(({default: scrollHelper}) => {
+    import('../../scripts/scrollHelper').then((scrollHelper) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -59,7 +59,7 @@ class ViewSettings {
     }
     show(options) {
         return new Promise(function (resolve, reject) {
-            import('text!./viewSettings.template.html').then(({default: template}) => {
+            import('./viewSettings.template.html').then(({default: template}) => {
                 const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false

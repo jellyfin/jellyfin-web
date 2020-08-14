@@ -1,4 +1,4 @@
-import 'css!components/viewManager/viewContainer';
+import './viewManager/viewContainer.css';
 /* eslint-disable indent */
 
     function setControllerClass(view, options) {

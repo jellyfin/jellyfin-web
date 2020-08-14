@@ -1,6 +1,6 @@
-import SubtitleSettings from 'subtitleSettings';
-import * as userSettings from 'userSettings';
-import autoFocuser from 'autoFocuser';
+import SubtitleSettings from '../../../components/subtitlesettings/subtitlesettings';
+import * as userSettings from '../../../scripts/settings/userSettings';
+import autoFocuser from '../../../components/autoFocuser';
 
 /* eslint-disable indent */
 

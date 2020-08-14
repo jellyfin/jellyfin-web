@@ -1,15 +1,16 @@
-import cardBuilder from 'cardBuilder';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import imageLoader from 'imageLoader';
-import globalize from 'globalize';
-import appRouter from 'appRouter';
-import imageHelper from 'scripts/imagehelper';
-import 'paper-icon-button-light';
-import 'emby-itemscontainer';
-import 'emby-scroller';
-import 'emby-button';
-import 'css!./homesections';
+import connectionManager from 'jellyfin-apiclient';
+import cardBuilder from '../cardbuilder/cardBuilder';
+import dom from '../../scripts/dom';
+import layoutManager from '../layoutManager';
+import imageLoader from '../images/imageLoader';
+import globalize from '../../scripts/globalize';
+import appRouter from '../appRouter';
+import imageHelper from '../../scripts/imagehelper';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-button/emby-button';
+import './homesections';
 
 /* eslint-disable indent */
 

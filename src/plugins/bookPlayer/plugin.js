@@ -1,12 +1,12 @@
-import browser from 'browser';
-import loading from 'loading';
+import connectionManager from 'jellyfin-apiclient';
+import loading from '../../components/loading/loading';
 import keyboardnavigation from 'keyboardnavigation';
 import dialogHelper from 'dialogHelper';
 import dom from 'dom';
-import events from 'events';
-import 'css!./style';
-import 'material-icons';
-import 'paper-icon-button-light';
+import events from 'jellyfin-apiclient';
+import './style';
+import 'material-design-icons-iconfont';
+import '../../elements/emby-button/paper-icon-button-light';
 
 import TableOfContents from './tableOfContents';
 

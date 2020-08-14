@@ -1,14 +1,14 @@
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import dom from 'dom';
-import globalize from 'globalize';
-import 'cardStyle';
-import 'emby-button';
+import loading from '../../../../components/loading/loading';
+import libraryMenu from '../../../../scripts/libraryMenu';
+import dom from '../../../../scripts/dom';
+import globalize from '../../../../scripts/globalize';
+import '../../../../components/cardbuilder/card.css';
+import '../../../../elements/emby-button/emby-button';
 
 function deletePlugin(page, uniqueid, name) {
     const msg = globalize.translate('UninstallPluginConfirmation', name);
 
-    import('confirm').then(({default: confirm}) => {
+    import('../../../../components/confirm/confirm').then((confirm) => {
         confirm.default({
             title: globalize.translate('HeaderUninstallPlugin'),
             text: msg,
@@ -132,7 +132,7 @@ function showPluginMenu(page, elem) {
         });
     }
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../../../../components/actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
             items: menuItems,
             positionTo: elem,

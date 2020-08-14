@@ -1,11 +1,11 @@
-import loading from 'loading';
+import loading from '../../components/loading/loading';
 import listView from 'listView';
 import cardBuilder from 'cardBuilder';
 import libraryMenu from 'libraryMenu';
 import libraryBrowser from 'libraryBrowser';
 import imageLoader from 'imageLoader';
-import userSettings from 'userSettings';
-import 'emby-itemscontainer';
+import * as userSettings from '../scripts/settings/userSettings';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params) {
     function getPageData(context) {

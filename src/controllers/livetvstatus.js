@@ -1,16 +1,16 @@
-import $ from 'jQuery';
-import globalize from 'globalize';
-import taskButton from 'scripts/taskbutton';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import loading from 'loading';
-import browser from 'browser';
-import 'listViewStyle';
-import 'flexStyles';
-import 'emby-itemscontainer';
-import 'cardStyle';
-import 'material-icons';
-import 'emby-button';
+import 'jquery';
+import globalize from '../scripts/globalize';
+import taskButton from '../scripts/taskbutton';
+import dom from '../scripts/dom';
+import layoutManager from '../components/layoutManager';
+import loading from '../components/loading/loading';
+import browser from '../scripts/browser';
+import '../components/listview/listview.css';
+import '../assets/css/flexstyles.css';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../components/cardbuilder/card.css';
+import 'material-design-icons-iconfont';
+import '../elements/emby-button/emby-button';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -56,7 +56,7 @@ function renderDevices(page, devices) {
 function deleteDevice(page, id) {
     const message = globalize.translate('MessageConfirmDeleteTunerDevice');
 
-    import('confirm').then(({default: confirm}) => {
+    import('../components/confirm/confirm').then(({default: confirm}) => {
         confirm(message, globalize.translate('HeaderDeleteDevice')).then(function () {
             loading.show();
             ApiClient.ajax({
@@ -145,7 +145,7 @@ function showProviderOptions(page, providerId, button) {
         id: 'map'
     });
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
         actionsheet.show({
             items: items,
             positionTo: button
@@ -163,7 +163,7 @@ function showProviderOptions(page, providerId, button) {
 }
 
 function mapChannels(page, providerId) {
-    import('components/channelMapper/channelMapper').then(({default: channelMapper}) => {
+    import('../components/channelMapper/channelMapper').then(({default: channelMapper}) => {
         new channelMapper({
             serverId: ApiClient.serverInfo().Id,
             providerId: providerId
@@ -174,7 +174,7 @@ function mapChannels(page, providerId) {
 function deleteProvider(page, id) {
     const message = globalize.translate('MessageConfirmDeleteGuideProvider');
 
-    import('confirm').then(({default: confirm}) => {
+    import('../components/confirm/confirm').then(({default: confirm}) => {
         confirm(message, globalize.translate('HeaderDeleteProvider')).then(function () {
             loading.show();
             ApiClient.ajax({
@@ -237,7 +237,7 @@ function addProvider(button) {
         id: 'xmltv'
     });
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -263,7 +263,7 @@ function showDeviceMenu(button, tunerDeviceId) {
         id: 'edit'
     });
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
         actionsheet.show({
             items: items,
             positionTo: button

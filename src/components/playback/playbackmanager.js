@@ -1,13 +1,14 @@
-import events from 'events';
-import datetime from 'datetime';
-import appSettings from 'appSettings';
-import itemHelper from 'itemHelper';
-import pluginManager from 'pluginManager';
-import PlayQueueManager from 'playQueueManager';
-import * as userSettings from 'userSettings';
-import globalize from 'globalize';
-import loading from 'loading';
-import appHost from 'apphost';
+import events from 'jellyfin-apiclient';
+import datetime from '../../scripts/datetime';
+import appSettings from '../../scripts/settings/appSettings';
+import itemHelper from '../itemHelper';
+import pluginManager from '../pluginManager';
+import PlayQueueManager from './playqueuemanager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import globalize from '../../scripts/globalize';
+import connectionManager from 'jellyfin-apiclient';
+import loading from '../loading/loading';
+import appHost from '../apphost';
 import screenfull from 'screenfull';
 
 function enableLocalPlaylistManagement(player) {
@@ -619,7 +620,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
         } else if (mediaSource.Protocol === 'File') {
             return new Promise(function (resolve, reject) {
                 // Determine if the file can be accessed directly
-                import('filesystem').then((filesystem) => {
+                import('../../scripts/filesystem').then((filesystem) => {
                     const method = isFolderRip ?
                         'directoryExists' :
                         'fileExists';
@@ -647,7 +648,7 @@ function validatePlaybackInfoResult(instance, result) {
 }
 
 function showPlaybackInfoErrorMessage(instance, errorCode) {
-    import('alert').then(({ default: alert }) => {
+    import('../alert').then(({ default: alert }) => {
         alert({
             text: globalize.translate(errorCode),
             title: globalize.translate('HeaderPlaybackError')
@@ -1161,7 +1162,7 @@ class PlaybackManager {
                 if (!brightnessOsdLoaded) {
                     brightnessOsdLoaded = true;
                     // TODO: Have this trigger an event instead to get the osd out of here
-                    import('brightnessOsd').then();
+                    import('./brightnessosd').then();
                 }
                 player.setBrightness(val);
             }
@@ -3190,7 +3191,7 @@ class PlaybackManager {
         };
 
         if (appHost.supports('remotecontrol')) {
-            import('serverNotifications').then(({ default: serverNotifications }) => {
+            import('../../scripts/serverNotifications').then((serverNotifications) => {
                 events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
             });

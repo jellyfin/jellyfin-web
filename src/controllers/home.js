@@ -1,8 +1,8 @@
-import TabbedView from 'tabbedView';
-import globalize from 'globalize';
-import 'emby-tabs';
-import 'emby-button';
-import 'emby-scroller';
+import TabbedView from '../components/tabbedview/tabbedview';
+import globalize from '../scripts/globalize';
+import '../elements/emby-tabs/emby-tabs';
+import '../elements/emby-button/emby-button';
+import '../elements/emby-scroller/emby-scroller';
 
 class HomeView extends TabbedView {
     constructor(view, params) {

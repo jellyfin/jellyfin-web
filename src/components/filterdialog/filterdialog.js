@@ -1,10 +1,11 @@
-import dom from 'dom';
-import dialogHelper from 'dialogHelper';
-import globalize from 'globalize';
-import events from 'events';
-import 'emby-checkbox';
-import 'emby-collapse';
-import 'css!./style.css';
+import dom from '../../scripts/dom';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import globalize from '../../scripts/globalize';
+import connectionManager from 'jellyfin-apiclient';
+import events from 'jellyfin-apiclient';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-collapse/emby-collapse';
+import './style.css';
 
 /* eslint-disable indent */
     function renderOptions(context, selector, cssClass, items, isCheckedFn) {
@@ -401,7 +402,7 @@ import 'css!./style.css';
         }
 
         show() {
-            return import('text!./filterdialog.template.html').then(({default: template}) => {
+            return import('./filterdialog.template.html').then(({default: template}) => {
                 return new Promise((resolve) => {
                     const dlg = dialogHelper.createDialog({
                         removeOnClose: true,

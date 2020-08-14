@@ -5,7 +5,7 @@
  * @module components/cardBuilder/peoplecardbuilder
  */
 
-import cardBuilder from 'cardBuilder';
+import cardBuilder from '../cardbuilder/cardBuilder';
 
     export function buildPeopleCards(items, options) {
         options = Object.assign(options || {}, {

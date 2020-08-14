@@ -1,7 +1,7 @@
-import serverNotifications from 'serverNotifications';
-import playbackManager from 'playbackManager';
-import events from 'events';
-import globalize from 'globalize';
+import serverNotifications from '../../scripts/serverNotifications';
+import playbackManager from '../playback/playbackmanager';
+import events from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
 
 function onOneDocumentClick() {
     document.removeEventListener('click', onOneDocumentClick);

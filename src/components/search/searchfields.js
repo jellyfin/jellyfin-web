@@ -1,12 +1,12 @@
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import events from 'events';
-import browser from 'browser';
-import AlphaPicker from 'alphaPicker';
-import 'emby-input';
-import 'flexStyles';
-import 'material-icons';
-import 'css!./searchfields';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import events from 'jellyfin-apiclient';
+import browser from '../../scripts/browser';
+import AlphaPicker from '../alphaPicker/alphaPicker';
+import '../../elements/emby-input/emby-input';
+import '../../assets/css/flexstyles.css';
+import 'material-design-icons-iconfont';
+import './searchfields.css';
 
 /* eslint-disable indent */
 
@@ -61,7 +61,7 @@ import 'css!./searchfields';
     }
 
     function embed(elem, instance, options) {
-        import('text!./searchfields.template.html').then(({default: template}) => {
+        import('./searchfields.template.html').then(({default: template}) => {
             let html = globalize.translateHtml(template, 'core');
 
             if (browser.tizen || browser.orsay) {

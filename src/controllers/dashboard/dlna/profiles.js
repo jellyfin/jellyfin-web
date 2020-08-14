@@ -1,9 +1,9 @@
-import $ from 'jQuery';
-import globalize from 'globalize';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import 'listViewStyle';
-import 'emby-button';
+import 'jquery';
+import globalize from '../../../scripts/globalize';
+import loading from '../../../components/loading/loading';
+import libraryMenu from '../../../scripts/libraryMenu';
+import '../../../components/listview/listview.css';
+import '../../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 
@@ -64,7 +64,7 @@ import 'emby-button';
     }
 
     function deleteProfile(page, id) {
-        import('confirm').then(({default: confirm}) => {
+        import('../../../components/confirm/confirm').then(({default: confirm}) => {
             confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
                 loading.show();
                 ApiClient.ajax({

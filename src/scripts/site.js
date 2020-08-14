@@ -3,10 +3,11 @@ import 'regenerator-runtime/runtime';
 import 'jquery';
 import 'fast-text-encoding';
 import 'intersection-observer';
-import 'classlist-polyfill';
+import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
 import 'jellyfin-noto';
+import 'webcomponents.js';
 import '../assets/css/site.css';
 
 // TODO: Move this elsewhere
@@ -91,10 +92,10 @@ function initClient() {
 
     function createConnectionManager() {
         return Promise.all([
-            import('jellyfin-apiclient/src/connectionManager'),
+            import('jellyfin-apiclient'),
             import('../components/apphost'),
-            import('jellyfin-apiclient/src/connectionManager'),
-            import('jellyfin-apiclient/src/events'),
+            import('jellyfin-apiclient'),
+            import('jellyfin-apiclient'),
             import('./settings/userSettings')
         ])
             .then(([ConnectionManager, appHost, credentialProvider, events, userSettings]) => {
@@ -114,7 +115,7 @@ function initClient() {
                         console.debug('loading ApiClient singleton');
 
                         return Promise.all([
-                            import('jellyfin-apiclient/src/apiClient'),
+                            import('jellyfin-apiclient'),
                             import('./clientUtils')
                         ])
                             .then(([apiClientFactory, clientUtils]) => {
@@ -165,8 +166,8 @@ function initClient() {
                     });
                     Promise.all([
                         import('./globalize'),
-                        import('jellyfin-apiclient/src/connectionManager'),
-                        import('jellyfin-apiclient/src/events')
+                        import('jellyfin-apiclient'),
+                        import('jellyfin-apiclient')
                     ])
                         .then((globalize, connectionManager, events) => {
                             events.on(connectionManager, 'localusersignedin', globalize.updateCurrentCulture);
@@ -246,7 +247,7 @@ function initClient() {
                                 console.groupEnd('loading installed plugins');
                                 import('../components/packageManager')
                                     .then((packageManager) => {
-                                        packageManager.default.init().then(resolve, reject);
+                                        packageManager.init().then(resolve, reject);
                                     });
                             })
                         ;
@@ -257,9 +258,9 @@ function initClient() {
 
     function loadPlugin(url) {
         return new Promise(function (resolve, reject) {
-            import('pluginManager')
+            import('../components/pluginManager')
                 .then((pluginManager) => {
-                    pluginManager.default.loadPlugin(url).then(resolve, reject);
+                    pluginManager.loadPlugin(url).then(resolve, reject);
                 });
         });
     }
@@ -269,7 +270,7 @@ function initClient() {
 
         // ensure that appHost is loaded in this point
         Promise.all([
-            import('jellyfin-apiclient/src/apiClient'),
+            import('jellyfin-apiclient'),
             import('../components/appRouter')
         ])
             .then(([appHost, appRouter]) => {

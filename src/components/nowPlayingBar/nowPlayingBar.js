@@ -1,15 +1,16 @@
-import datetime from 'datetime';
-import events from 'events';
-import browser from 'browser';
-import imageLoader from 'imageLoader';
-import layoutManager from 'layoutManager';
-import playbackManager from 'playbackManager';
-import nowPlayingHelper from 'nowPlayingHelper';
-import appHost from 'apphost';
-import dom from 'dom';
-import itemContextMenu from 'itemContextMenu';
-import 'paper-icon-button-light';
-import 'emby-ratingbutton';
+import datetime from '../../scripts/datetime';
+import events from 'jellyfin-apiclient';
+import browser from '../../scripts/browser';
+import imageLoader from '../../scripts/imagehelper';
+import layoutManager from '../layoutManager';
+import playbackManager from '../playback/playbackmanager';
+import nowPlayingHelper from '../playback/nowplayinghelper';
+import appHost from '../apphost';
+import dom from '../../scripts/dom';
+import connectionManager from 'jellyfin-apiclient';
+import itemContextMenu from '../itemContextMenu';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-ratingbutton/emby-ratingbutton';
 
 /* eslint-disable indent */
 
@@ -243,7 +244,7 @@ import 'emby-ratingbutton';
     }
 
     function showRemoteControl() {
-        import('appRouter').then(({default: appRouter}) => {
+        import('../appRouter').then(({default: appRouter}) => {
             appRouter.showNowPlaying();
         });
     }
@@ -256,10 +257,10 @@ import 'emby-ratingbutton';
 
         return new Promise(function (resolve, reject) {
             Promise.all([
-                import('appFooter'),
-                import('itemShortcuts'),
-                import('css!./nowPlayingBar.css'),
-                import('emby-slider')
+                import('../appFooter/appFooter'),
+                import('../shortcuts'),
+                import('./nowPlayingBar.css'),
+                import('../../elements/emby-slider/emby-slider')
             ])
             .then(([appfooter, itemShortcuts]) => {
                 const parentContainer = appfooter.element;

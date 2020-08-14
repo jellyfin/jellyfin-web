@@ -1,28 +1,28 @@
-import datetime from 'datetime';
-import events from 'events';
-import itemHelper from 'itemHelper';
-import serverNotifications from 'serverNotifications';
-import dom from 'dom';
-import taskButton from 'scripts/taskbutton';
-import globalize from 'globalize';
-import * as datefns from 'date-fns';
-import dfnshelper from 'dfnshelper';
-import loading from 'loading';
-import playMethodHelper from 'playMethodHelper';
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
-import ActivityLog from 'components/activitylog';
-import imageHelper from 'scripts/imagehelper';
-import indicators from 'indicators';
-import 'listViewStyle';
-import 'emby-button';
-import 'flexStyles';
-import 'emby-itemscontainer';
+import datetime from '../../scripts/datetime';
+import { connectionManager, events } from 'jellyfin-apiclient';
+import itemHelper from '../../components/itemHelper';
+import serverNotifications from '../../scripts/serverNotifications';
+import dom from '../../scripts/dom';
+import globalize from '../../scripts/globalize';
+import { formatDistanceToNow } from 'date-fns';
+import { localeWithSuffix } from '../../scripts/dfnshelper';
+import loading from '../../components/loading/loading';
+import playMethodHelper from '../../components/playback/playmethodhelper';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import ActivityLog from '../../components/activitylog';
+import imageHelper from '../../scripts/imagehelper';
+import indicators from '../../components/indicators/indicators';
+import '../../components/listview/listview.css';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import taskButton from '../../scripts/taskbutton';
 
 /* eslint-disable indent */
 
     function showPlaybackInfo(btn, session) {
-        import('alert').then(({default: alert}) => {
+        import('../../components/alert').then(({default: alert}) => {
             let title;
             const text = [];
             const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
@@ -53,7 +53,7 @@ import 'emby-itemscontainer';
     }
 
     function showSendMessageForm(btn, session) {
-        import('prompt').then(({default: prompt}) => {
+        import('../../components/prompt/prompt').then(({default: prompt}) => {
             prompt({
                 title: globalize.translate('HeaderSendMessage'),
                 label: globalize.translate('LabelMessageText'),
@@ -70,7 +70,7 @@ import 'emby-itemscontainer';
     }
 
     function showOptionsMenu(btn, session) {
-        import('actionsheet').then(({default: actionsheet}) => {
+        import('../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
             const menuItems = [];
 
             if (session.ServerId && session.DeviceId !== window.connectionManager.deviceId()) {
@@ -473,7 +473,7 @@ import 'emby-itemscontainer';
             // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
             if (!nowPlayingItem) {
                 return {
-                    html: globalize.translate('LastSeen', datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), dfnshelper.localeWithSuffix)),
+                    html: globalize.translate('LastSeen', formatDistanceToNow(Date.parse(session.LastActivityDate), localeWithSuffix)),
                     image: imgUrl
                 };
             }
@@ -720,7 +720,7 @@ import 'emby-itemscontainer';
             });
         },
         restart: function (btn) {
-            import('confirm').then(({default: confirm}) => {
+            import('../../components/confirm/confirm').then(({default: confirm}) => {
                 confirm({
                     title: globalize.translate('Restart'),
                     text: globalize.translate('MessageConfirmRestart'),
@@ -735,7 +735,7 @@ import 'emby-itemscontainer';
             });
         },
         shutdown: function (btn) {
-            import('confirm').then(({default: confirm}) => {
+            import('../../components/confirm/confirm').then(({default: confirm}) => {
                 confirm({
                     title: globalize.translate('ButtonShutdown'),
                     text: globalize.translate('MessageConfirmShutdown'),

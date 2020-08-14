@@ -1,7 +1,8 @@
 /* eslint-disable indent */
 
-import dom from 'dom';
-import appRouter from 'appRouter';
+import dom from '../scripts/dom';
+import appRouter from './appRouter';
+import connectionManager from 'jellyfin-apiclient';
 
     function onGroupedCardClick(e, card) {
         const itemId = card.getAttribute('data-id');

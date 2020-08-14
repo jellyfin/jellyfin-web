@@ -1,11 +1,12 @@
-import events from 'events';
-import playbackManager from 'playbackManager';
-import syncPlayManager from 'syncPlayManager';
-import loading from 'loading';
-import toast from 'toast';
-import actionsheet from 'actionsheet';
-import globalize from 'globalize';
-import playbackPermissionManager from 'playbackPermissionManager';
+import events from 'jellyfin-apiclient';
+import connectionManager from 'jellyfin-apiclient';
+import playbackManager from '../playback/playbackmanager';
+import syncPlayManager from './syncPlayManager';
+import loading from '../loading/loading';
+import toast from '../toast/toast';
+import actionsheet from '../actionSheet/actionSheet';
+import globalize from '../../scripts/globalize';
+import playbackPermissionManager from './playbackPermissionManager';
 
 /**
  * Gets active player id.
@@ -158,7 +159,7 @@ events.on(syncPlayManager, 'enabled', function (e, enabled) {
  * Shows a menu to handle SyncPlay groups.
  * @param {HTMLElement} button - Element where to place the menu.
  */
-export function show (button) {
+export default function show (button) {
     loading.show();
 
     // TODO: should feature be disabled if playback permission is missing?

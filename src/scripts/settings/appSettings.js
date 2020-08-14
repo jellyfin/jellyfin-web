@@ -1,7 +1,5 @@
 /* eslint-disable indent */
-
-import appStorage from 'appStorage';
-import events from 'events';
+import { appStorage, events } from 'jellyfin-apiclient';
 
     function getKey(name, userId) {
         if (userId) {

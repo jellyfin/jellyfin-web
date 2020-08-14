@@ -1,21 +1,22 @@
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import dialogHelper from 'dialogHelper';
-import datetime from 'datetime';
-import loading from 'loading';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import shell from 'shell';
-import 'emby-checkbox';
-import 'emby-input';
-import 'emby-select';
-import 'listViewStyle';
-import 'emby-textarea';
-import 'emby-button';
-import 'paper-icon-button-light';
-import 'css!./../formdialog';
-import 'clearButtonStyle';
-import 'flexStyles';
+import dom from '../../scripts/dom';
+import layoutManager from '../layoutManager';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import datetime from '../../scripts/datetime';
+import loading from '../loading/loading';
+import focusManager from '../focusManager';
+import connectionManager from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
+import shell from '../../scripts/shell';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-select/emby-select';
+import '../listview/listview.css';
+import '../../elements/emby-textarea/emby-textarea';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import '../../assets/css/clearbutton.css';
+import '../../assets/css/flexstyles.css';
 
 /* eslint-disable indent */
 
@@ -35,7 +36,7 @@ import 'flexStyles';
 
     function submitUpdatedItem(form, item) {
         function afterContentTypeUpdated() {
-            import('toast').then(({default: toast}) => {
+            import('../toast/toast').then(({default: toast}) => {
                 toast(globalize.translate('MessageItemSaved'));
             });
 
@@ -207,7 +208,7 @@ import 'flexStyles';
     }
 
     function addElementToList(source, sortCallback) {
-        import('prompt').then(({default: prompt}) => {
+        import('../prompt/prompt').then(({default: prompt}) => {
             prompt({
                 label: 'Value:'
             }).then(function (text) {
@@ -225,7 +226,7 @@ import 'flexStyles';
     }
 
     function editPerson(context, person, index) {
-        import('personEditor').then(({default: personEditor}) => {
+        import('./personEditor').then((personEditor) => {
             personEditor.show(person).then(function (updatedPerson) {
                 const isNew = index === -1;
 
@@ -244,14 +245,14 @@ import 'flexStyles';
         if (parentId) {
             reload(context, parentId, item.ServerId);
         } else {
-            import('appRouter').then(({default: appRouter}) => {
+            import('../appRouter').then((appRouter) => {
                 appRouter.goHome();
             });
         }
     }
 
     function showMoreMenu(context, button, user) {
-        import('itemContextMenu').then(({default: itemContextMenu}) => {
+        import('../itemContextMenu').then(({default: itemContextMenu}) => {
             const item = currentItem;
 
             itemContextMenu.show({
@@ -1020,7 +1021,7 @@ import 'flexStyles';
     }
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then(({default: scrollHelper}) => {
+        import('../../scripts/scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
@@ -1029,7 +1030,7 @@ import 'flexStyles';
     function show(itemId, serverId, resolve, reject) {
         loading.show();
 
-        import('text!./metadataEditor.template.html').then(({default: template}) => {
+        import('./metadataEditor.template.html').then(({default: template}) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -1084,7 +1085,7 @@ import 'flexStyles';
             return new Promise(function (resolve, reject) {
                 loading.show();
 
-                import('text!./metadataEditor.template.html').then(({default: template}) => {
+                import('./metadataEditor.template.html').then(({default: template}) => {
                     elem.innerHTML = globalize.translateHtml(template, 'core');
 
                     elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');

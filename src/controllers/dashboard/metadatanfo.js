@@ -1,7 +1,7 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
+import 'jquery';
+import loading from '../../components/loading/loading';
+import libraryMenu from '../../scripts/libraryMenu';
+import globalize from '../../scripts/globalize';
 
 /* eslint-disable indent */
 
@@ -39,7 +39,7 @@ import globalize from 'globalize';
         const msg = [];
         msg.push(globalize.translate('MetadataSettingChangeHelp'));
 
-        import('alert').then(({default: alert}) => {
+        import('../../components/alert').then(({default: alert}) => {
             alert({
                 text: msg.join('<br/><br/>')
             });

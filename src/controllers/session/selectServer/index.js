@@ -1,19 +1,20 @@
-import loading from 'loading';
-import appRouter from 'appRouter';
-import layoutManager from 'layoutManager';
-import libraryMenu from 'libraryMenu';
-import appSettings from 'appSettings';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import actionSheet from 'actionsheet';
-import dom from 'dom';
-import browser from 'browser';
-import 'material-icons';
-import 'flexStyles';
-import 'emby-scroller';
-import 'emby-itemscontainer';
-import 'cardStyle';
-import 'emby-button';
+import loading from '../../../components/loading/loading';
+import appRouter from '../../../components/appRouter';
+import layoutManager from '../../../components/layoutManager';
+import libraryMenu from '../../../scripts/libraryMenu';
+import appSettings from '../../../scripts/settings/appSettings';
+import focusManager from '../../../components/focusManager';
+import connectionManager from 'jellyfin-apiclient';
+import globalize from '../../../scripts/globalize';
+import actionSheet from '../../../components/actionSheet/actionSheet';
+import dom from '../../../scripts/dom';
+import browser from '../../../scripts/browser';
+import 'material-design-icons-iconfont';
+import '../../../assets/css/flexstyles.css';
+import '../../../elements/emby-scroller/emby-scroller';
+import '../../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../../components/cardbuilder/card.css';
+import '../../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 
@@ -100,7 +101,7 @@ import 'emby-button';
     }
 
     function alertTextWithOptions(options) {
-        import('alert').then(({default: alert}) => {
+        import('../../../components/alert').then(({default: alert}) => {
             alert(options);
         });
     }

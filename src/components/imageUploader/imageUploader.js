@@ -5,16 +5,17 @@
  * @module components/imageUploader/imageUploader
  */
 
-import dialogHelper from 'dialogHelper';
-import dom from 'dom';
-import loading from 'loading';
-import scrollHelper from 'scrollHelper';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import 'emby-button';
-import 'emby-select';
-import 'formDialogStyle';
-import 'css!./style';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import connectionManager from 'jellyfin-apiclient';
+import dom from '../../scripts/dom';
+import loading from '../loading/loading';
+import scrollHelper from '../../scripts/scrollHelper';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-select/emby-select';
+import '../formdialog.css';
+import './style.css';
 
     let currentItemId;
     let currentServerId;
@@ -26,14 +27,14 @@ import 'css!./style';
 
         switch (evt.target.error.code) {
             case evt.target.error.NOT_FOUND_ERR:
-                import('toast').then(({default: toast}) => {
+                import('../toast/toast').then((toast) => {
                     toast(globalize.translate('MessageFileReadError'));
                 });
                 break;
             case evt.target.error.ABORT_ERR:
                 break; // noop
             default:
-                import('toast').then(({default: toast}) => {
+                import('../toast/toast').then((toast) => {
                     toast(globalize.translate('MessageFileReadError'));
                 });
                 break;
@@ -87,7 +88,7 @@ import 'css!./style';
         }
 
         if (!file.type.startsWith('image/')) {
-            import('toast').then(({default: toast}) => {
+            import('../toast/toast').then((toast) => {
                 toast(globalize.translate('MessageImageFileTypeAllowed'));
             });
             e.preventDefault();
@@ -100,7 +101,7 @@ import 'css!./style';
 
         const imageType = dlg.querySelector('#selectImageType').value;
         if (imageType === 'None') {
-            import('toast').then(({default: toast}) => {
+            import('../toast/toast').then((toast) => {
                 toast(globalize.translate('MessageImageTypeNotSelected'));
             });
             e.preventDefault();
@@ -134,7 +135,7 @@ import 'css!./style';
     function showEditor(options, resolve) {
         options = options || {};
 
-        return import('text!./imageUploader.template.html').then(({default: template}) => {
+        return import('./imageUploader.template.html').then(({default: template}) => {
             currentItemId = options.itemId;
             currentServerId = options.serverId;
 

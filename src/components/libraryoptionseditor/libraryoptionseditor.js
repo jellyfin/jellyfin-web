@@ -5,11 +5,11 @@
  * @module components/libraryoptionseditor/libraryoptionseditor
  */
 
-import globalize from 'globalize';
-import dom from 'dom';
-import 'emby-checkbox';
-import 'emby-select';
-import 'emby-input';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-input/emby-input';
 
     function populateLanguages(parent) {
         return ApiClient.getCultures().then(languages => {
@@ -306,7 +306,7 @@ import 'emby-input';
     }
 
     function showImageOptionsForType(type) {
-        import('imageoptionseditor').then(({default: ImageOptionsEditor}) => {
+        import('../imageOptionsEditor/imageOptionsEditor').then(({default: ImageOptionsEditor}) => {
             let typeOptions = getTypeOptions(currentLibraryOptions, type);
             if (!typeOptions) {
                 typeOptions = {

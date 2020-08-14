@@ -1,10 +1,10 @@
-import browser from 'browser';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import keyboardnavigation from 'keyboardnavigation';
-import 'css!./emby-slider';
-import 'webcomponents';
-import 'emby-input';
+import browser from '../../scripts/browser';
+import dom from '../../scripts/dom';
+import layoutManager from '../../components/layoutManager';
+import keyboardnavigation from '../../scripts/keyboardNavigation';
+import './emby-slider.css';
+import 'webcomponents.js';
+import '../emby-input/emby-input';
 
 /* eslint-disable indent */
 
