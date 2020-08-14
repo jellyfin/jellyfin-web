@@ -1,10 +1,10 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-checkbox';
-import 'emby-input';
-import 'listViewStyle';
-import 'paper-icon-button-light';
+import 'jquery';
+import loading from '../loading/loading';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
+import '../listview/listview.css';
+import '../../elements/emby-button/paper-icon-button-light';
 
 export default function (page, providerId, options) {
     function getListingProvider(config, id) {
@@ -143,7 +143,7 @@ export default function (page, providerId, options) {
     function onSelectPathClick(e) {
         const page = $(e.target).parents('.xmltvForm')[0];
 
-        import('directorybrowser').then(({default: directoryBrowser}) => {
+        import('../directorybrowser/directorybrowser').then((directoryBrowser) => {
             const picker = new directoryBrowser();
             picker.show({
                 includeFiles: true,

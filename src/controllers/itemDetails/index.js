@@ -1,32 +1,31 @@
-import appHost from 'apphost';
-import loading from 'loading';
-import appRouter from 'appRouter';
-import layoutManager from 'layoutManager';
-import connectionManager from 'connectionManager';
-import * as userSettings from 'userSettings';
-import cardBuilder from 'cardBuilder';
-import datetime from 'datetime';
-import mediaInfo from 'mediaInfo';
-import backdrop from 'backdrop';
-import listView from 'listView';
-import itemContextMenu from 'itemContextMenu';
-import itemHelper from 'itemHelper';
-import dom from 'dom';
-import indicators from 'indicators';
-import imageLoader from 'imageLoader';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
-import browser from 'browser';
-import events from 'events';
-import playbackManager from 'playbackManager';
-import 'scrollStyles';
-import 'emby-itemscontainer';
-import 'emby-checkbox';
-import 'emby-button';
-import 'emby-playstatebutton';
-import 'emby-ratingbutton';
-import 'emby-scroller';
-import 'emby-select';
+import appHost from '../../components/apphost';
+import loading from '../../components/loading/loading';
+import appRouter from '../../components/appRouter';
+import layoutManager from '../../components/layoutManager';
+import { connectionManager, events } from 'jellyfin-apiclient';
+import * as userSettings from '../../scripts/settings/userSettings';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import datetime from '../../scripts/datetime';
+import mediaInfo from '../../components/mediainfo/mediainfo';
+import backdrop from '../../components/backdrop/backdrop';
+import listView from '../../components/listview/listview';
+import itemContextMenu from '../../components/itemContextMenu';
+import itemHelper from '../../components/itemHelper';
+import dom from '../../scripts/dom';
+import indicators from '../../components/indicators/indicators';
+import imageLoader from '../../components/images/imageLoader';
+import libraryMenu from '../../scripts/libraryMenu';
+import globalize from '../../scripts/globalize';
+import browser from '../../scripts/browser';
+import playbackManager from '../../components/playback/playbackmanager';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-playstatebutton/emby-playstatebutton';
+import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-select/emby-select';
 
 /* eslint-disable indent */
 
@@ -142,7 +141,7 @@ import 'emby-select';
         }
 
         if (user.Policy.EnableLiveTvManagement) {
-            import('seriesRecordingEditor').then(({default: seriesRecordingEditor}) => {
+            import('../../components/recordingcreator/seriesrecordingeditor').then((seriesRecordingEditor) => {
                 seriesRecordingEditor.embed(item, apiClient.serverId(), {
                     context: page.querySelector('.seriesRecordingEditor')
                 });
@@ -662,7 +661,7 @@ import 'emby-select';
             hideAll(page, 'btnDownload', true);
         }
 
-        import('autoFocuser').then(({default: autoFocuser}) => {
+        import('../../components/autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(page);
         });
     }
@@ -704,7 +703,7 @@ import 'emby-select';
             const recordingFieldsElement = page.querySelector('.recordingFields');
 
             if (item.Type == 'Program' && user.Policy.EnableLiveTvManagement) {
-                import('recordingFields').then(({default: recordingFields}) => {
+                import('../../components/recordingcreator/recordingfields').then((recordingFields) => {
                     instance.currentRecordingFields = new recordingFields({
                         parent: recordingFieldsElement,
                         programId: item.Id,
@@ -1464,13 +1463,13 @@ import 'emby-select';
     }
 
     function renderItemsByName(page, item) {
-        import('scripts/itembynamedetailpage').then(() => {
+        import('../../scripts/itembynamedetailpage').then(() => {
             window.ItemsByName.renderItems(page, item);
         });
     }
 
     function renderPlaylistItems(page, item) {
-        import('scripts/playlistedit').then(() => {
+        import('../../scripts/playlistedit').then(() => {
             PlaylistViewer.render(page, item);
         });
     }
@@ -1674,7 +1673,7 @@ import 'emby-select';
 
         // HACK: Call autoFocuser again because btnPlay may be hidden, but focused by reloadFromItem
         // FIXME: Sometimes focus does not move until all (?) sections are loaded
-        import('autoFocuser').then(({default: autoFocuser}) => {
+        import('../../components/autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(page);
         });
     }
@@ -1749,7 +1748,7 @@ import 'emby-select';
             page.querySelector('#scenesCollapsible').classList.remove('hide');
             const scenesContent = page.querySelector('#scenesContent');
 
-            import('chaptercardbuilder').then(({default: chaptercardbuilder}) => {
+            import('../../components/cardbuilder/chaptercardbuilder').then(({default: chaptercardbuilder}) => {
                 chaptercardbuilder.buildChapterCards(item, chapters, {
                     itemsContainer: scenesContent,
                     backdropShape: 'overflowBackdrop',
@@ -1794,7 +1793,7 @@ import 'emby-select';
         page.querySelector('#castCollapsible').classList.remove('hide');
         const castContent = page.querySelector('#castContent');
 
-        import('peoplecardbuilder').then(({default: peoplecardbuilder}) => {
+        import('../../components/cardbuilder/peoplecardbuilder').then((peoplecardbuilder) => {
             peoplecardbuilder.buildPeopleCards(people, {
                 itemsContainer: castContent,
                 coverImage: true,
@@ -1842,7 +1841,7 @@ import 'emby-select';
         }
 
         function splitVersions(instance, page, apiClient, params) {
-            import('confirm').then(({default: confirm}) => {
+            import('../../components/confirm/confirm').then(({default: confirm}) => {
                 confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
                     loading.show();
                     apiClient.ajax({
@@ -1904,7 +1903,7 @@ import 'emby-select';
         }
 
         function onCancelSeriesTimerClick() {
-            import('recordingHelper').then(({default: recordingHelper}) => {
+            import('../../components/recordingcreator/recordinghelper').then((recordingHelper) => {
                 recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
                     Dashboard.navigate('livetv.html');
                 });
@@ -1912,7 +1911,7 @@ import 'emby-select';
         }
 
         function onCancelTimerClick() {
-            import('recordingHelper').then(({default: recordingHelper}) => {
+            import('../../components/recordingcreator/recordinghelper').then((recordingHelper) => {
                 recordingHelper.cancelTimer(connectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
                     reload(self, view, params);
                 });
@@ -1924,7 +1923,7 @@ import 'emby-select';
         }
 
         function onDownloadClick() {
-            import('fileDownloader').then(({default: fileDownloader}) => {
+            import('../../scripts/fileDownloader').then(({default: fileDownloader}) => {
                 const downloadHref = apiClient.getItemDownloadUrl(currentItem.Id);
                 fileDownloader.download([{
                     url: downloadHref,

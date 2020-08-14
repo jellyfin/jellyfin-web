@@ -1,4 +1,4 @@
-import connectionManager from 'connectionManager';
+import connectionManager from 'jellyfin-apiclient';
 import globalize from 'globalize';
 
 function showErrorMessage() {

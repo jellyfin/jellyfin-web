@@ -1,9 +1,9 @@
-import events from 'events';
-import playbackManager from 'playbackManager';
-import dom from 'dom';
-import browser from 'browser';
-import 'css!./iconosd';
-import 'material-icons';
+import events from 'jellyfin-apiclient';
+import playbackManager from './playbackmanager';
+import dom from '../../scripts/dom';
+import browser from '../../scripts/browser';
+import './iconosd.css';
+import 'material-design-icons-iconfont';
 
 var currentPlayer;
 var osdElement;

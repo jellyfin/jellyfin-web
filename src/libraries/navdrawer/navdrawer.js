@@ -2,10 +2,10 @@
  * and will be replaced soon by a Vue component.
  */
 
-import browser from 'browser';
-import dom from 'dom';
-import 'css!./navdrawer';
-import 'scrollStyles';
+import browser from '../../scripts/browser';
+import dom from '../../scripts/dom';
+import './navdrawer.css';
+import '../../assets/css/scrollstyles.css';
 
 export default function (options) {
     function getTouches(e) {

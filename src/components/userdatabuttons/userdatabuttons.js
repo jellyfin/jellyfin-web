@@ -1,11 +1,11 @@
-import connectionManager from 'connectionManager';
-import globalize from 'globalize';
-import dom from 'dom';
-import itemHelper from 'itemHelper';
-import 'paper-icon-button-light';
-import 'material-icons';
-import 'emby-button';
-import 'css!./userdatabuttons';
+import connectionManager from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import itemHelper from '../itemHelper';
+import '../../elements/emby-button/paper-icon-button-light';
+import 'material-design-icons-iconfont';
+import '../../elements/emby-button/emby-button';
+import './userdatabuttons.css';
 
 const userDataMethods = {
     markPlayed: markPlayed,
@@ -20,7 +20,7 @@ function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCss
         buttonCssClass = buttonCssClass ? (buttonCssClass + ' mini') : 'mini';
     }
 
-    const is = style === 'fab' ? 'emby-button' : 'paper-icon-button-light';
+    const is = style === 'fab' ? '../../elements/emby-button/emby-button' : '../../elements/emby-button/paper-icon-button-light';
     let className = style === 'fab' ? 'autoSize fab' : 'autoSize';
 
     if (buttonCssClass) {
@@ -33,7 +33,7 @@ function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCss
         iconCssClass = '';
     }
 
-    iconCssClass += 'material-icons';
+    iconCssClass += 'material-design-icons-iconfont';
 
     return '<button title="' + tooltip + '" data-itemid="' + itemId + '" data-serverid="' + serverId + '" is="' + is + '" data-method="' + method + '" class="' + className + '"><span class="' + iconCssClass + ' ' + icon + '"></span></button>';
 }

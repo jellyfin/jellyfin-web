@@ -1,11 +1,11 @@
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import connectionManager from 'connectionManager';
-import cardBuilder from 'cardBuilder';
-import appRouter from 'appRouter';
-import 'emby-scroller';
-import 'emby-itemscontainer';
-import 'emby-button';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import connectionManager from 'jellyfin-apiclient';
+import cardBuilder from '../cardbuilder/cardBuilder';
+import appRouter from '../appRouter';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 
@@ -585,7 +585,7 @@ import 'emby-button';
     }
 
     function embed(elem, instance, options) {
-        import('text!./searchresults.template.html').then(({default: template}) => {
+        import('./searchresults.template.html').then(({default: template}) => {
             if (!enableScrollX()) {
                 template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');
                 template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');

@@ -1,8 +1,8 @@
-import connectionManager from 'connectionManager';
-import serverNotifications from 'serverNotifications';
-import events from 'events';
-import globalize from 'globalize';
-import EmbyButtonPrototype from 'emby-button';
+import connectionManager from 'jellyfin-apiclient';
+import serverNotifications from '../../scripts/serverNotifications';
+import events from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
+import EmbyButtonPrototype from '../emby-button/emby-button';
 
 /* eslint-disable indent */
 

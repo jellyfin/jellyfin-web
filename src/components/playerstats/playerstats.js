@@ -1,12 +1,12 @@
-import events from 'events';
-import globalize from 'globalize';
-import playbackManager from 'playbackManager';
-import connectionManager from 'connectionManager';
-import syncPlayManager from 'syncPlayManager';
-import playMethodHelper from 'playMethodHelper';
-import layoutManager from 'layoutManager';
-import 'paper-icon-button-light';
-import 'css!./playerstats';
+import connectionManager from 'jellyfin-apiclient';
+import events from 'jellyfin-apiclient';
+import '../../elements/emby-button/paper-icon-button-light';
+import globalize from '../../scripts/globalize';
+import layoutManager from '../layoutManager';
+import playbackManager from '../playback/playbackmanager';
+import playMethodHelper from '../playback/playmethodhelper';
+import syncPlayManager from '../syncPlay/syncPlayManager';
+import './playerstats.css';
 
 /* eslint-disable indent */
 

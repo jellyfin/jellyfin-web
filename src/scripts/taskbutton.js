@@ -1,9 +1,8 @@
 
-import events from 'events';
-import serverNotifications from 'serverNotifications';
-import connectionManager from 'connectionManager';
-import globalize from 'globalize';
-import 'emby-button';
+import { connectionManager, events } from 'jellyfin-apiclient';
+import serverNotifications from '../scripts/serverNotifications';
+import globalize from '../scripts/globalize';
+import '../elements/emby-button/emby-button';
 
 export default function (options) {
     function pollTasks() {

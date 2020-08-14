@@ -1,7 +1,7 @@
-import HomescreenSettings from 'homescreenSettings';
-import * as userSettings from 'userSettings';
-import autoFocuser from 'autoFocuser';
-import 'listViewStyle';
+import HomescreenSettings from '../../../components/homeScreenSettings/homeScreenSettings';
+import * as userSettings from '../../../scripts/settings/userSettings';
+import autoFocuser from '../../../components/autoFocuser';
+import '../../../components/listview/listview.css';
 
 /* eslint-disable indent */
 

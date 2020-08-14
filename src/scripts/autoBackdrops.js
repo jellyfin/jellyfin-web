@@ -1,6 +1,6 @@
-import backdrop from 'backdrop';
-import * as userSettings from 'userSettings';
-import libraryMenu from 'libraryMenu';
+import backdrop from '../components/backdrop/backdrop';
+import * as userSettings from './settings/userSettings';
+import libraryMenu from './libraryMenu';
 
 const cache = {};
 

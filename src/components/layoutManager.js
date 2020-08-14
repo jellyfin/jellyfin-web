@@ -1,7 +1,7 @@
 import appHost from './apphost';
 import browser from '../scripts/browser';
 import { set, get } from '../scripts/settings/appSettings';
-import events from 'events';
+import events from 'jellyfin-apiclient';
 
 function setLayout(instance, layout, selectedLayout) {
     if (layout === selectedLayout) {

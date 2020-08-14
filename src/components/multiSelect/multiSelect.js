@@ -1,10 +1,10 @@
-import browser from 'browser';
-import appHost from 'apphost';
-import loading from 'loading';
-import connectionManager from 'connectionManager';
-import globalize from 'globalize';
-import dom from 'dom';
-import 'css!./multiSelect';
+import browser from '../../scripts/browser';
+import appHost from '../apphost';
+import loading from '../loading/loading';
+import connectionManager from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import './multiSelect.css';
 
 /* eslint-disable indent */
 
@@ -139,7 +139,7 @@ import 'css!./multiSelect';
 
     function alertText(options) {
         return new Promise((resolve, reject) => {
-            import('alert').then(({default: alert}) => {
+            import('../alert').then((alert) => {
                 alert(options).then(resolve, resolve);
             });
         });
@@ -155,7 +155,7 @@ import 'css!./multiSelect';
                 title = globalize.translate('HeaderDeleteItems');
             }
 
-            import('confirm').then(({default: confirm}) => {
+            import('../confirm/confirm').then((confirm) => {
                 confirm(msg, title).then(() => {
                     const promises = itemIds.map(itemId => {
                         apiClient.deleteItem(itemId);
@@ -230,7 +230,7 @@ import 'css!./multiSelect';
                 icon: 'refresh'
             });
 
-            import('actionsheet').then(({default: actionsheet}) => {
+            import('../actionSheet/actionSheet').then((actionsheet) => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: e.target,
@@ -240,7 +240,7 @@ import 'css!./multiSelect';
 
                         switch (id) {
                             case 'addtocollection':
-                                import('collectionEditor').then(({default: collectionEditor}) => {
+                                import('../collectionEditor/collectionEditor').then((collectionEditor) => {
                                     new collectionEditor({
                                         items: items,
                                         serverId: serverId
@@ -250,7 +250,7 @@ import 'css!./multiSelect';
                                 dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
-                                import('playlistEditor').then(({default: playlistEditor}) => {
+                                import('../playlisteditor/playlisteditor').then((laylistEditor) => {
                                     new playlistEditor({
                                         items: items,
                                         serverId: serverId
@@ -282,7 +282,7 @@ import 'css!./multiSelect';
                                 dispatchNeedsRefresh();
                                 break;
                             case 'refresh':
-                                import('refreshDialog').then(({default: refreshDialog}) => {
+                                import('../refreshdialog/refreshdialog').then((refreshDialog) => {
                                     new refreshDialog({
                                         itemIds: items,
                                         serverId: serverId
@@ -318,7 +318,7 @@ import 'css!./multiSelect';
 
     function combineVersions(apiClient, selection) {
         if (selection.length < 2) {
-            import('alert').then(({default: alert}) => {
+            import('../alert').then((alert) => {
                 alert({
 
                     text: globalize.translate('PleaseSelectTwoItems')
@@ -342,7 +342,7 @@ import 'css!./multiSelect';
     }
 
     function showSelections(initialCard) {
-        import('emby-checkbox').then(() => {
+        import('../../elements/emby-checkbox/emby-checkbox').then(() => {
             const cards = document.querySelectorAll('.card');
             for (let i = 0, length = cards.length; i < length; i++) {
                 showSelection(cards[i], initialCard === cards[i]);

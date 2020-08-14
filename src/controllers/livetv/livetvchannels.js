@@ -1,10 +1,10 @@
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
-import libraryBrowser from 'libraryBrowser';
-import loading from 'loading';
-import events from 'events';
-import * as userSettings from 'userSettings';
-import 'emby-itemscontainer';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import loading from '../../components/loading/loading';
+import events from 'jellyfin-apiclient';
+import * as userSettings from '../../scripts/settings/userSettings';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
     function getPageData() {
@@ -115,7 +115,7 @@ export default function (view, params, tabContent) {
             loading.hide();
             isLoading = false;
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(view);
             });
         });

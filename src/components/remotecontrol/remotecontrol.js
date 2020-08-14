@@ -1,21 +1,21 @@
-import datetime from 'datetime';
-import backdrop from 'backdrop';
-import listView from 'listView';
-import imageLoader from 'imageLoader';
-import playbackManager from 'playbackManager';
-import nowPlayingHelper from 'nowPlayingHelper';
-import events from 'events';
-import connectionManager from 'connectionManager';
-import appHost from 'apphost';
-import globalize from 'globalize';
-import layoutManager from 'layoutManager';
-import * as userSettings from 'userSettings';
-import cardBuilder from 'cardBuilder';
-import itemContextMenu from 'itemContextMenu';
-import 'cardStyle';
-import 'emby-itemscontainer';
-import 'css!./remotecontrol.css';
-import 'emby-ratingbutton';
+import datetime from '../../scripts/datetime';
+import backdrop from '../backdrop/backdrop';
+import listView from '../listview/listview';
+import imageLoader from '../images/imageLoader';
+import playbackManager from '../playback/playbackmanager';
+import nowPlayingHelper from '../playback/nowplayinghelper';
+import events from 'jellyfin-apiclient';
+import connectionManager from 'jellyfin-apiclient';
+import appHost from '../apphost';
+import globalize from '../../scripts/globalize';
+import layoutManager from '../layoutManager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import cardBuilder from '../cardbuilder/cardBuilder';
+import itemContextMenu from '../itemContextMenu';
+import '../cardbuilder/card.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import './remotecontrol.css';
+import '../../elements/emby-ratingbutton/emby-ratingbutton';
 
 /*eslint prefer-const: "error"*/
 
@@ -38,7 +38,7 @@ function showAudioMenu(context, player, button, item) {
         return menuItem;
     });
 
-    import('actionsheet').then(({ default: actionsheet }) => {
+    import('../actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -70,7 +70,7 @@ function showSubtitleMenu(context, player, button, item) {
         selected: currentIndex == null
     });
 
-    import('actionsheet').then(({ default: actionsheet }) => {
+    import('../actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -690,7 +690,7 @@ export default function () {
     }
 
     function savePlaylist() {
-        import('playlistEditor').then(({ default: playlistEditor }) => {
+        import('../playlisteditor/playlisteditor').then((playlistEditor) => {
             getSaveablePlaylistItems().then(function (items) {
                 const serverId = items.length ? items[0].ServerId : ApiClient.serverId();
                 new playlistEditor({
@@ -860,7 +860,7 @@ export default function () {
         }, currentPlayer);
         form.querySelector('input').value = '';
 
-        import('toast').then(({ default: toast }) => {
+        import('../toast/toast').then((toast) => {
             toast('Message sent.');
         });
 
@@ -879,7 +879,7 @@ export default function () {
         }, currentPlayer);
         form.querySelector('input').value = '';
 
-        import('toast').then(({ default: toast }) => {
+        import('../toast/toast').then((toast) => {
             toast('Text sent.');
         });
 

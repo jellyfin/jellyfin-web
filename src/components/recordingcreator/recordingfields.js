@@ -1,14 +1,14 @@
-import globalize from 'globalize';
-import connectionManager from 'connectionManager';
-import serverNotifications from 'serverNotifications';
-import loading from 'loading';
-import dom from 'dom';
-import recordingHelper from 'recordingHelper';
-import events from 'events';
-import 'paper-icon-button-light';
-import 'emby-button';
-import 'css!./recordingfields';
-import 'flexStyles';
+import globalize from '../../scripts/globalize';
+import connectionManager from 'jellyfin-apiclient';
+import serverNotifications from '../../scripts/serverNotifications';
+import loading from '../loading/loading';
+import dom from '../../scripts/dom';
+import recordingHelper from './recordinghelper';
+import events from 'jellyfin-apiclient';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import './recordingfields.css';
+import '../../assets/css/flexstyles.css';
 
 /*eslint prefer-const: "error"*/
 
@@ -118,7 +118,7 @@ class RecordingEditor {
     embed() {
         const self = this;
         return new Promise(function (resolve, reject) {
-            import('text!./recordingfields.template.html').then(({default: template}) => {
+            import('./recordingfields.template.html').then(({default: template}) => {
                 const options = self.options;
                 const context = options.parent;
                 context.innerHTML = globalize.translateHtml(template, 'core');
@@ -163,7 +163,7 @@ function onManageRecordingClick(e) {
     }
 
     const self = this;
-    import('recordingEditor').then(({default: recordingEditor}) => {
+    import('./recordingeditor').then((recordingEditor) => {
         recordingEditor.show(self.TimerId, options.serverId, {
             enableCancel: false
         }).then(function () {
@@ -181,7 +181,7 @@ function onManageSeriesRecordingClick(e) {
 
     const self = this;
 
-    import('seriesRecordingEditor').then(({default: seriesRecordingEditor}) => {
+    import('./seriesrecordingeditor').then((seriesRecordingEditor) => {
         seriesRecordingEditor.show(self.SeriesTimerId, options.serverId, {
 
             enableCancel: false
@@ -226,7 +226,7 @@ function onRecordChange(e) {
 }
 
 function sendToast(msg) {
-    import('toast').then(({default: toast}) => {
+    import('../toast/toast').then((toast) => {
         toast(msg);
     });
 }

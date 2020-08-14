@@ -1,16 +1,17 @@
-import itemShortcuts from 'itemShortcuts';
-import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
-import playbackManager from 'playbackManager';
-import imageLoader from 'imageLoader';
-import layoutManager from 'layoutManager';
-import browser from 'browser';
-import dom from 'dom';
-import loading from 'loading';
-import focusManager from 'focusManager';
-import serverNotifications from 'serverNotifications';
-import events from 'events';
-import 'webcomponents';
+
+import itemShortcuts from '../../components/shortcuts';
+import inputManager from '../../scripts/inputManager';
+import connectionManager from 'jellyfin-apiclient';
+import playbackManager from '../../components/playback/playbackmanager';
+import imageLoader from '../../components/images/imageLoader';
+import layoutManager from '../../components/layoutManager';
+import browser from '../../scripts/browser';
+import dom from '../../scripts/dom';
+import loading from '../../components/loading/loading';
+import focusManager from '../../components/focusManager';
+import serverNotifications from '../../scripts/serverNotifications';
+import events from 'jellyfin-apiclient';
+import 'webcomponents.js';
 
 /* eslint-disable indent */
 
@@ -73,7 +74,7 @@ import 'webcomponents';
         }
 
         const self = this;
-        import('multiSelect').then(({default: MultiSelect}) => {
+        import('../../components/multiSelect/multiSelect').then((MultiSelect) => {
             self.multiSelect = new MultiSelect({
                 container: self,
                 bindOnClick: false
@@ -133,7 +134,7 @@ import 'webcomponents';
         }
 
         const self = this;
-        import('sortable').then(({default: Sortable}) => {
+        import('sortablejs').then((Sortable) => {
             self.sortable = new Sortable(self, {
                 draggable: '.listItem',
                 handle: '.listViewDragHandle',
@@ -149,7 +150,7 @@ import 'webcomponents';
     function onUserDataChanged(e, apiClient, userData) {
         const itemsContainer = this;
 
-        import('cardBuilder').then(({default: cardBuilder}) => {
+        import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
             cardBuilder.onUserDataChanged(userData, itemsContainer);
         });
 
@@ -184,7 +185,7 @@ import 'webcomponents';
         // This could be null, not supported by all tv providers
         const newTimerId = data.Id;
 
-        import('cardBuilder').then(({default: cardBuilder}) => {
+        import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
             cardBuilder.onTimerCreated(programId, newTimerId, itemsContainer);
         });
     }
@@ -204,7 +205,7 @@ import 'webcomponents';
             return;
         }
 
-        import('cardBuilder').then(({default: cardBuilder}) => {
+        import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
             cardBuilder.onTimerCancelled(data.Id, itemsContainer);
         });
     }
@@ -216,7 +217,7 @@ import 'webcomponents';
             return;
         }
 
-        import('cardBuilder').then(({default: cardBuilder}) => {
+        import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
             cardBuilder.onSeriesTimerCancelled(data.Id, itemsContainer);
         });
     }
@@ -483,7 +484,7 @@ import 'webcomponents';
         focusManager.autoFocus(itemsContainer);
     }
 
-    document.registerElement('emby-itemscontainer', {
+    document.registerElement('../../elements/emby-itemscontainer/emby-itemscontainer', {
         prototype: ItemsContainerPrototype,
         extends: 'div'
     });

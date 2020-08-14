@@ -1,7 +1,7 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
+import 'jquery';
+import loading from '../../../components/loading/loading';
+import libraryMenu from '../../../scripts/libraryMenu';
+import globalize from '../../../scripts/globalize';
 
 /* eslint-disable indent */
 
@@ -112,7 +112,7 @@ import globalize from 'globalize';
         Dashboard.navigate('userprofiles.html');
         loading.hide();
 
-        import('toast').then(({default: toast}) => {
+        import('../../../components/toast/toast').then((toast) => {
             toast(globalize.translate('SettingsSaved'));
         });
     }

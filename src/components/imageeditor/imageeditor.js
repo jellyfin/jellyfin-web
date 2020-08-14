@@ -1,19 +1,19 @@
-import dialogHelper from 'dialogHelper';
-import connectionManager from 'connectionManager';
-import loading from 'loading';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import scrollHelper from 'scrollHelper';
-import imageLoader from 'imageLoader';
-import browser from 'browser';
-import appHost from 'apphost';
-import 'cardStyle';
-import 'formDialogStyle';
-import 'emby-button';
-import 'paper-icon-button-light';
-import 'css!./imageeditor';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import connectionManager from 'jellyfin-apiclient';
+import loading from '../loading/loading';
+import dom from '../../scripts/dom';
+import layoutManager from '../layoutManager';
+import focusManager from '../focusManager';
+import globalize from '../../scripts/globalize';
+import scrollHelper from '../../scripts/scrollHelper';
+import imageLoader from '../images/imageLoader';
+import browser from '../../scripts/browser';
+import appHost from '../apphost';
+import '../cardbuilder/card.css';
+import '../formdialog.css';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import './imageeditor.css';
 
 /* eslint-disable indent */
 
@@ -200,7 +200,7 @@ import 'css!./imageeditor';
             return;
         }
 
-        import('confirm').then(({default: confirm}) => {
+        import('../confirm/confirm').then(({default: confirm}) => {
             confirm({
 
                 text: globalize.translate('ConfirmDeleteImage'),
@@ -216,7 +216,7 @@ import 'css!./imageeditor';
             hasChanges = true;
             reload(context, null, focusContext);
         }, function () {
-            import('alert').then(({default: alert}) => {
+            import('../alert').then((alert) => {
                 alert(globalize.translate('ErrorDefault'));
             });
         });
@@ -282,7 +282,7 @@ import 'css!./imageeditor';
     }
 
     function showImageDownloader(page, imageType) {
-        import('imageDownloader').then(({default: ImageDownloader}) => {
+        import('../imageDownloader/imageDownloader').then((ImageDownloader) => {
             ImageDownloader.show(currentItem.Id, currentItem.ServerId, currentItem.Type, imageType).then(function () {
                 hasChanges = true;
                 reload(page);
@@ -300,7 +300,7 @@ import 'css!./imageeditor';
         const providerCount = parseInt(imageCard.getAttribute('data-providers'));
         const numImages = parseInt(imageCard.getAttribute('data-numimages'));
 
-        import('actionsheet').then(({default: actionSheet}) => {
+        import('../actionSheet/actionSheet').then(({default: actionSheet}) => {
             const commands = [];
 
             commands.push({
@@ -371,7 +371,7 @@ import 'css!./imageeditor';
         addListeners(context, 'btnOpenUploadMenu', 'click', function () {
             const imageType = this.getAttribute('data-imagetype');
 
-            import('imageUploader').then(({default: imageUploader}) => {
+            import('../imageUploader/imageUploader').then(({default: imageUploader}) => {
                 imageUploader.show({
 
                     theme: options.theme,
@@ -423,7 +423,7 @@ import 'css!./imageeditor';
 
         loading.show();
 
-        import('text!./imageeditor.template.html').then(({default: template}) => {
+        import('./imageeditor.template.html').then(({default: template}) => {
             const apiClient = connectionManager.getApiClient(serverId);
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
                 const dialogOptions = {

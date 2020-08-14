@@ -1,7 +1,7 @@
-import events from 'events';
+import events from 'jellyfin-apiclient';
 import browser from 'browser';
 import appRouter from 'appRouter';
-import loading from 'loading';
+import loading from '../../components/loading/loading';
 
 /* globals YT */
 
@@ -20,7 +20,7 @@ function createMediaElement(instance, options) {
         const dlg = document.querySelector('.youtubePlayerContainer');
 
         if (!dlg) {
-            import('css!./style').then(() => {
+            import('./style').then(() => {
                 loading.show();
 
                 const dlg = document.createElement('div');

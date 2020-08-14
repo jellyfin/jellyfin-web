@@ -1,6 +1,6 @@
-import 'css!./emby-collapse';
-import 'webcomponents';
-import 'emby-button';
+import './emby-collapse';
+import 'webcomponents.js';
+import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 

@@ -1,23 +1,22 @@
-import playbackManager from 'playbackManager';
-import dom from 'dom';
-import inputManager from 'inputManager';
-import mouseManager from 'mouseManager';
-import datetime from 'datetime';
-import itemHelper from 'itemHelper';
-import mediaInfo from 'mediaInfo';
-import focusManager from 'focusManager';
-import events from 'events';
-import connectionManager from 'connectionManager';
-import browser from 'browser';
-import globalize from 'globalize';
-import appHost from 'apphost';
-import layoutManager from 'layoutManager';
-import * as userSettings from 'userSettings';
-import keyboardnavigation from 'keyboardnavigation';
-import 'scrollStyles';
-import 'emby-slider';
-import 'paper-icon-button-light';
-import 'css!assets/css/videoosd';
+import playbackManager from '../../../components/playback/playbackmanager';
+import dom from '../../../scripts/dom';
+import inputManager from '../../../scripts/inputManager';
+import mouseManager from '../../../scripts/mouseManager';
+import datetime from '../../../scripts/datetime';
+import itemHelper from '../../../components/itemHelper';
+import mediaInfo from '../../../components/mediainfo/mediainfo';
+import focusManager from '../../../components/focusManager';
+import { connectionManager, events } from 'jellyfin-apiclient';;
+import browser from '../../../scripts/browser';
+import globalize from '../../../scripts/globalize';
+import appHost from '../../../components/apphost';
+import layoutManager from '../../../components/layoutManager';
+import * as userSettings from '../../../scripts/settings/userSettings';
+import keyboardnavigation from '../../../scripts/keyboardNavigation';
+import '../../../assets/css/scrollstyles.css';
+import '../../../elements/emby-slider/emby-slider';
+import '../../../elements/emby-button/paper-icon-button-light';
+import '../../../assets/css/videoosd.css';
 
 /* eslint-disable indent */
 
@@ -144,7 +143,7 @@ import 'css!assets/css/videoosd';
 
             connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
-                    import('recordingButton').then(({default: RecordingButton}) => {
+                    import('../../../components/recordingcreator/recordingbutton').then((RecordingButton) => {
                         if (recordingButtonManager) {
                             return void recordingButtonManager.refreshItem(item);
                         }
@@ -721,7 +720,7 @@ import 'css!assets/css/videoosd';
         }
 
         function showComingUpNext(player) {
-            import('upNextDialog').then(({default: UpNextDialog}) => {
+            import('../../../components/upnextdialog/upnextdialog').then((UpNextDialog) => {
                 if (!(currentVisibleMenu || currentUpNextDialog)) {
                     currentVisibleMenu = 'upnext';
                     comingUpNextDisplayed = true;
@@ -960,7 +959,7 @@ import 'css!assets/css/videoosd';
         function onSettingsButtonClick(e) {
             const btn = this;
 
-            import('playerSettingsMenu').then(({default: playerSettingsMenu}) => {
+            import('../../../components/playback/playersettingsmenu').then((playerSettingsMenu) => {
                 const player = currentPlayer;
 
                 if (player) {
@@ -997,7 +996,7 @@ import 'css!assets/css/videoosd';
         }
 
         function toggleStats() {
-            import('playerStats').then(({default: PlayerStats}) => {
+            import('../../../components/playerstats/playerstats').then((PlayerStats) => {
                 const player = currentPlayer;
 
                 if (player) {
@@ -1037,7 +1036,7 @@ import 'css!assets/css/videoosd';
             });
             const positionTo = this;
 
-            import('actionsheet').then(({default: actionsheet}) => {
+            import('../../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
                 actionsheet.show({
                     items: menuItems,
                     title: globalize.translate('Audio'),
@@ -1083,7 +1082,7 @@ import 'css!assets/css/videoosd';
             });
             const positionTo = this;
 
-            import('actionsheet').then(({default: actionsheet}) => {
+            import('../../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
                 actionsheet.show({
                     title: globalize.translate('Subtitles'),
                     items: menuItems,
@@ -1105,7 +1104,7 @@ import 'css!assets/css/videoosd';
         }
 
         function toggleSubtitleSync(action) {
-            import('subtitleSync').then(({default: SubtitleSync}) => {
+            import('../../../components/subtitlesync/subtitlesync').then((SubtitleSync) => {
                 const player = currentPlayer;
                 if (subtitleSyncOverlay) {
                     subtitleSyncOverlay.toggle(action);
@@ -1336,7 +1335,7 @@ import 'css!assets/css/videoosd';
         let playPauseClickTimeout;
         function onViewHideStopPlayback() {
             if (playbackManager.isPlayingVideo()) {
-                import('shell').then(({default: shell}) => {
+                import('../../../scripts/shell').then((shell) => {
                     shell.disableFullscreen();
                 });
 
@@ -1356,7 +1355,7 @@ import 'css!assets/css/videoosd';
             }
         }
 
-        import('shell').then(({default: shell}) => {
+        import('../../../scripts/shell').then(({default: shell}) => {
             shell.enableFullscreen();
         });
 
@@ -1445,7 +1444,7 @@ import 'css!assets/css/videoosd';
                     passive: true
                 });
             } catch (e) {
-                import('appRouter').then(({default: appRouter}) => {
+                import('../../../components/appRouter').then(({default: appRouter}) => {
                     appRouter.goHome();
                 });
             }
@@ -1656,7 +1655,7 @@ import 'css!assets/css/videoosd';
 
         if (browser.touch) {
             (function () {
-                import('touchHelper').then(({default: TouchHelper}) => {
+                import('../../../scripts/touchHelper').then((TouchHelper) => {
                     self.touchHelper = new TouchHelper(view, {
                         swipeYThreshold: 30,
                         triggerOnMove: true,

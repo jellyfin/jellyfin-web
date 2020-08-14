@@ -1,21 +1,21 @@
-import globalize from 'globalize';
-import appHost from 'apphost';
-import appSettings from 'appSettings';
-import focusManager from 'focusManager';
-import layoutManager from 'layoutManager';
-import loading from 'loading';
-import connectionManager from 'connectionManager';
-import subtitleAppearanceHelper from 'subtitleAppearanceHelper';
-import settingsHelper from 'settingsHelper';
-import dom from 'dom';
-import events from 'events';
-import 'listViewStyle';
-import 'emby-select';
-import 'emby-slider';
-import 'emby-input';
-import 'emby-checkbox';
-import 'flexStyles';
-import 'css!./subtitlesettings';
+import globalize from '../../scripts/globalize';
+import appHost from '../apphost';
+import appSettings from '../../scripts/settings/appSettings';
+import focusManager from '../focusManager';
+import layoutManager from '../layoutManager';
+import loading from '../loading/loading';
+import connectionManager from 'jellyfin-apiclient';
+import subtitleAppearanceHelper from './subtitleappearancehelper';
+import settingsHelper from '../settingshelper';
+import dom from '../../scripts/dom';
+import events from 'jellyfin-apiclient';
+import '../listview/listview.css';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-slider/emby-slider';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../assets/css/flexstyles.css';
+import './subtitlesettings.css';
 
 /**
  * Subtitle settings.
@@ -88,7 +88,7 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
         saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
             loading.hide();
             if (enableSaveConfirmation) {
-                import('toast').then(({default: toast}) => {
+                import('../toast/toast').then((toast) => {
                     toast(globalize.translate('SettingsSaved'));
                 });
             }
@@ -159,7 +159,7 @@ function hideSubtitlePreview(persistent) {
 }
 
 function embed(options, self) {
-    import('text!./subtitlesettings.template.html').then(({default: template}) => {
+    import('./subtitlesettings.template.html').then(({default: template}) => {
         options.element.classList.add('subtitlesettings');
         options.element.innerHTML = globalize.translateHtml(template, 'core');
 

@@ -1,7 +1,7 @@
-import loading from 'loading';
-import groupedcards from 'components/groupedcards';
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
+import loading from '../../components/loading/loading';
+import groupedcards from '../../components/groupedcards';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
 
 /* eslint-disable indent */
 
@@ -44,7 +44,7 @@ import imageLoader from 'imageLoader';
             imageLoader.lazyChildren(elem);
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(context);
             });
         });

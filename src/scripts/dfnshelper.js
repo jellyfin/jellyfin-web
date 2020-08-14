@@ -1,6 +1,6 @@
 import { ar, be, bg, ca, cs, da, de, el, enGB, enUS, es, faIR, fi, fr, frCA, he, hi, hr, hu, id, it, ja, kk, ko, lt, ms, nb,
     nl, pl, ptBR, pt, ro, ru, sk, sl, sv, tr, uk, vi, zhCN, zhTW } from 'date-fns/locale';
-import globalize from 'globalize';
+import globalize from './globalize';
 
 const dateLocales = (locale) => ({
     'ar': ar,

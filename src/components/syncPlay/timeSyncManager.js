@@ -3,8 +3,8 @@
  * @module components/syncPlay/timeSyncManager
  */
 
-import events from 'events';
-import connectionManager from 'connectionManager';
+import events from 'jellyfin-apiclient';
+import connectionManager from 'jellyfin-apiclient';
 
 /**
  * Time estimation

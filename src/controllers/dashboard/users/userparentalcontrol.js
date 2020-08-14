@@ -1,10 +1,10 @@
-import $ from 'jQuery';
-import datetime from 'datetime';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
-import 'listViewStyle';
-import 'paper-icon-button-light';
+import 'jquery';
+import datetime from '../../../scripts/datetime';
+import loading from '../../../components/loading/loading';
+import libraryMenu from '../../../scripts/libraryMenu';
+import globalize from '../../../scripts/globalize';
+import '../../../components/listview/listview.css';
+import '../../../elements/emby-button/paper-icon-button-light';
 
 /* eslint-disable indent */
 
@@ -163,7 +163,7 @@ import 'paper-icon-button-light';
     function onSaveComplete(page) {
         loading.hide();
 
-        import('toast').then(({default: toast}) => {
+        import('../../../components/toast/toast').then((toast) => {
             toast(globalize.translate('SettingsSaved'));
         });
     }
@@ -195,7 +195,7 @@ import 'paper-icon-button-light';
 
     function showSchedulePopup(page, schedule, index) {
         schedule = schedule || {};
-        import('components/accessSchedule/accessSchedule').then(({default: accessschedule}) => {
+        import('../../../components/accessSchedule/accessSchedule').then(({default: accessschedule}) => {
             accessschedule.show({
                 schedule: schedule
             }).then(function (updatedSchedule) {
@@ -228,7 +228,7 @@ import 'paper-icon-button-light';
     }
 
     function showBlockedTagPopup(page) {
-        import('prompt').then(({default: prompt}) => {
+        import('../../../components/prompt/prompt').then(({default: prompt}) => {
             prompt({
                 label: globalize.translate('LabelTag')
             }).then(function (value) {

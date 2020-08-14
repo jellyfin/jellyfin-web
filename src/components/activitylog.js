@@ -1,12 +1,12 @@
-import events from 'events';
-import globalize from 'globalize';
-import dom from 'dom';
+import events from 'jellyfin-apiclient';
+import globalize from '../scripts/globalize';
+import dom from '../scripts/dom';
 import * as datefns from 'date-fns';
-import dfnshelper from 'dfnshelper';
-import serverNotifications from 'serverNotifications';
-import connectionManager from 'connectionManager';
-import 'emby-button';
-import 'listViewStyle';
+import dfnshelper from '../scripts/dfnshelper';
+import serverNotifications from '../scripts/serverNotifications';
+import connectionManager from 'jellyfin-apiclient';
+import '../elements/emby-button/emby-button';
+import './listview/listview.css';
 
 /* eslint-disable indent */
 
@@ -128,7 +128,7 @@ import 'listViewStyle';
     }
 
     function showItemOverview(item) {
-        import('alert').then(({default: alert}) => {
+        import('./alert').then((alert) => {
             alert({
                 text: item.Overview
             });

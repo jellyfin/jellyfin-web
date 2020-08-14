@@ -1,6 +1,6 @@
-import appHost from 'apphost';
-import 'listViewStyle';
-import 'emby-button';
+import appHost from '../../../components/apphost';
+import '../../../components/listview/listview.css';
+import '../../../elements/emby-button/emby-button';
 
 export default function (view, params) {
     view.querySelector('.btnLogout').addEventListener('click', function () {
@@ -51,7 +51,7 @@ export default function (view, params) {
             }
         });
 
-        import('autoFocuser').then(({default: autoFocuser}) => {
+        import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(view);
         });
     });

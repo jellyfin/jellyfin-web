@@ -1,10 +1,10 @@
-import connectionManager from 'connectionManager';
-import listView from 'listView';
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
-import globalize from 'globalize';
-import 'emby-itemscontainer';
-import 'emby-button';
+import connectionManager from 'jellyfin-apiclient';
+import listView from '../components/listview/listview';
+import cardBuilder from '../components/cardbuilder/cardBuilder';
+import imageLoader from '../components/images/imageLoader';
+import globalize from './globalize';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../elements/emby-button/emby-button';
 
 function renderItems(page, item) {
     const sections = [];

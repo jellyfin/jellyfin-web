@@ -5,9 +5,9 @@
  * @module components/scrollManager
  */
 
-import dom from 'dom';
-import browser from 'browser';
-import layoutManager from 'layoutManager';
+import dom from '../scripts/dom';
+import browser from '../scripts/browser';
+import layoutManager from './layoutManager';
 
     /**
      * Scroll time in ms.
@@ -223,7 +223,7 @@ import layoutManager from 'layoutManager';
             let parent = element.parentElement;
 
             while (parent) {
-                // Skip 'emby-scroller' because it scrolls by itself
+                // Skip '../../elements/emby-scroller/emby-scroller' because it scrolls by itself
                 if (!parent.classList.contains('emby-scroller') &&
                     parent[nameScroll] > parent[nameClient] && parent.classList.contains(nameClass)) {
                     return parent;

@@ -1,9 +1,9 @@
 import appSettings from 'appSettings';
-import * as userSettings from 'userSettings';
+import * as userSettings from '../../scripts/settings/userSettings';
 import playbackManager from 'playbackManager';
-import connectionManager from 'connectionManager';
+import connectionManager from 'jellyfin-apiclient';
 import globalize from 'globalize';
-import events from 'events';
+import events from 'jellyfin-apiclient';
 import castSenderApiLoader from 'castSenderApiLoader';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js

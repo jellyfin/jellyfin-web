@@ -128,7 +128,7 @@ export default function () {
     }
 
     self.show = function () {
-        import('css!' + pluginManager.mapPath(self, 'style.css')).then(() => {
+        import('' + pluginManager.mapPath(self, 'style.css')).then(() => {
             let elem = document.querySelector('.logoScreenSaver');
 
             if (!elem) {

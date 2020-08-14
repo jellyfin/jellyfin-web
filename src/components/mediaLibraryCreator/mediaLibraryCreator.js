@@ -5,20 +5,20 @@
  * @module components/mediaLibraryCreator/mediaLibraryCreator
  */
 
-import loading from 'loading';
-import dialogHelper from 'dialogHelper';
-import dom from 'dom';
-import $ from 'jQuery';
-import libraryoptionseditor from 'components/libraryoptionseditor/libraryoptionseditor';
-import globalize from 'globalize';
-import 'emby-toggle';
-import 'emby-input';
-import 'emby-select';
-import 'paper-icon-button-light';
-import 'listViewStyle';
-import 'formDialogStyle';
-import 'emby-button';
-import 'flexStyles';
+import loading from '../loading/loading';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import dom from '../../scripts/dom';
+import 'jquery';
+import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-toggle/emby-toggle';
+import '../listview/listview.css';
+import '../formdialog.css';
+import '../../assets/css/flexstyles.css';
 
     function onAddLibrary() {
         if (isCreating) {
@@ -26,7 +26,7 @@ import 'flexStyles';
         }
 
         if (pathInfos.length == 0) {
-            import('alert').then(({default: alert}) => {
+            import('../alert').then((alert) => {
                 alert({
                     text: globalize.translate('PleaseAddAtLeastOneFolder'),
                     type: 'error'
@@ -54,7 +54,7 @@ import 'flexStyles';
             loading.hide();
             dialogHelper.close(dlg);
         }, () => {
-            import('toast').then(({default: toast}) => {
+            import('../toast/toast').then((toast) => {
                 toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
             });
 
@@ -109,7 +109,7 @@ import 'flexStyles';
     function onAddButtonClick() {
         const page = dom.parentWithClass(this, 'dlg-librarycreator');
 
-        import('directorybrowser').then(({default: directoryBrowser}) => {
+        import('../directorybrowser/directorybrowser').then((directoryBrowser) => {
             const picker = new directoryBrowser();
             picker.show({
                 enableNetworkSharePath: true,
@@ -200,7 +200,7 @@ export class showEditor {
             currentOptions = options;
             currentResolve = resolve;
             hasChanges = false;
-            import('text!./components/mediaLibraryCreator/mediaLibraryCreator.template.html').then(({default: template}) => {
+            import('./mediaLibraryCreator.template.html').then(({default: template}) => {
                 const dlg = dialogHelper.createDialog({
                     size: 'small',
                     modal: false,

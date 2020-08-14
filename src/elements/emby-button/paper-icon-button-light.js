@@ -1,18 +1,18 @@
-import layoutManager from 'layoutManager';
-import 'css!./emby-button';
-import 'webcomponents';
+import layoutManager from '../../components/layoutManager';
+import './emby-button.css';
+import 'webcomponents.js';
 
 const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
 
 EmbyButtonPrototype.createdCallback = function () {
-    this.classList.add('paper-icon-button-light');
+    this.classList.add('../../elements/emby-button/paper-icon-button-light');
 
     if (layoutManager.tv) {
         this.classList.add('show-focus');
     }
 };
 
-document.registerElement('paper-icon-button-light', {
+document.registerElement('../../elements/emby-button/paper-icon-button-light', {
     prototype: EmbyButtonPrototype,
     extends: 'button'
 });

@@ -1,4 +1,4 @@
-import multiDownload from 'multi-download';
+import multiDownload from './multiDownload';
 
 export function download(items) {
     if (window.NativeShell) {

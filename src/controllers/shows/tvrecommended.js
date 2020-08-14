@@ -1,17 +1,18 @@
-import events from 'events';
-import inputManager from 'inputManager';
-import libraryMenu from 'libraryMenu';
-import layoutManager from 'layoutManager';
-import loading from 'loading';
-import dom from 'dom';
-import * as userSettings from 'userSettings';
-import cardBuilder from 'cardBuilder';
-import playbackManager from 'playbackManager';
-import * as mainTabsManager from 'mainTabsManager';
-import globalize from 'globalize';
-import 'scrollStyles';
-import 'emby-itemscontainer';
-import 'emby-button';
+
+import events from 'jellyfin-apiclient';
+import inputManager from '../../scripts/inputManager';
+import libraryMenu from '../../scripts/libraryMenu';
+import layoutManager from '../../components/layoutManager';
+import loading from '../../components/loading/loading';
+import dom from '../../scripts/dom';
+import * as userSettings from '../../scripts/settings/userSettings';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import playbackManager from '../../components/playback/playbackmanager';
+import * as mainTabsManager from '../../components/maintabsmanager';
+import globalize from '../../scripts/globalize';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 
@@ -109,7 +110,7 @@ import 'emby-button';
                 });
                 loading.hide();
 
-                import('autoFocuser').then(({default: autoFocuser}) => {
+                import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(view);
                 });
             });

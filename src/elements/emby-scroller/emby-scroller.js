@@ -1,18 +1,18 @@
-import scroller from 'scroller';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import inputManager from 'inputManager';
-import focusManager from 'focusManager';
-import browser from 'browser';
-import 'webcomponents';
-import 'css!./emby-scroller';
+import scroller from '../../libraries/scroller';
+import dom from '../../scripts/dom';
+import layoutManager from '../../components/layoutManager';
+import inputManager from '../../scripts/inputManager';
+import focusManager from '../../components/focusManager';
+import browser from '../../scripts/browser';
+import 'webcomponents.js';
+import './emby-scroller.css';
 
 /* eslint-disable indent */
 
     const ScrollerPrototype = Object.create(HTMLDivElement.prototype);
 
     ScrollerPrototype.createdCallback = function () {
-        this.classList.add('emby-scroller');
+        this.classList.add('../../elements/emby-scroller/emby-scroller');
     };
 
     function initCenterFocus(elem, scrollerInstance) {
@@ -156,7 +156,7 @@ import 'css!./emby-scroller';
     };
 
     function loadScrollButtons(scroller) {
-        import('emby-scrollbuttons').then(() => {
+        import('../emby-scrollbuttons/emby-scrollbuttons').then(() => {
             scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
         });
     }
@@ -193,7 +193,7 @@ import 'css!./emby-scroller';
         }
     };
 
-    document.registerElement('emby-scroller', {
+    document.registerElement('../../elements/emby-scroller/emby-scroller', {
         prototype: ScrollerPrototype,
         extends: 'div'
     });

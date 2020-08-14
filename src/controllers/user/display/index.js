@@ -1,6 +1,6 @@
-import DisplaySettings from 'displaySettings';
-import * as userSettings from 'userSettings';
-import autoFocuser from 'autoFocuser';
+import DisplaySettings from '../../../components/displaySettings/displaySettings';
+import * as userSettings from '../../../scripts/settings/userSettings';
+import autoFocuser from '../../../components/autoFocuser';
 
 /* eslint-disable indent */
 

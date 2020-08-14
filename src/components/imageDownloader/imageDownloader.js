@@ -1,18 +1,18 @@
-import dom from 'dom';
-import loading from 'loading';
-import appHost from 'apphost';
-import dialogHelper from 'dialogHelper';
-import connectionManager from 'connectionManager';
-import imageLoader from 'imageLoader';
-import browser from 'browser';
-import layoutManager from 'layoutManager';
-import scrollHelper from 'scrollHelper';
-import globalize from 'globalize';
-import 'emby-checkbox';
-import 'paper-icon-button-light';
-import 'emby-button';
-import 'formDialogStyle';
-import 'cardStyle';
+import dom from '../../scripts/dom';
+import loading from '../loading/loading';
+import appHost from '../apphost';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import connectionManager from 'jellyfin-apiclient';
+import imageLoader from '../images/imageLoader';
+import browser from '../../scripts/browser';
+import layoutManager from '../layoutManager';
+import scrollHelper from '../../scripts/scrollHelper';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
+import '../formdialog.css';
+import '../cardbuilder/card.css';
 
 /* eslint-disable indent */
 
@@ -316,7 +316,7 @@ import 'cardStyle';
     function showEditor(itemId, serverId, itemType) {
         loading.show();
 
-        import('text!./imageDownloader.template.html').then(({default: template}) => {
+        import('./imageDownloader.template.html').then(({default: template}) => {
             const apiClient = connectionManager.getApiClient(serverId);
 
             currentItemId = itemId;

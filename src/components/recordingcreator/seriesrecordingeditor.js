@@ -1,20 +1,20 @@
-import dialogHelper from 'dialogHelper';
-import globalize from 'globalize';
-import layoutManager from 'layoutManager';
-import connectionManager from 'connectionManager';
-import loading from 'loading';
-import scrollHelper from 'scrollHelper';
-import datetime from 'datetime';
-import 'scrollStyles';
-import 'emby-button';
-import 'emby-checkbox';
-import 'emby-input';
-import 'emby-select';
-import 'paper-icon-button-light';
-import 'css!./../formdialog';
-import 'css!./recordingcreator';
-import 'material-icons';
-import 'flexStyles';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import globalize from '../../scripts/globalize';
+import layoutManager from '../layoutManager';
+import connectionManager from 'jellyfin-apiclient';
+import loading from '../loading/loading';
+import scrollHelper from '../../scripts/scrollHelper';
+import datetime from '../../scripts/datetime';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import './recordingcreator.css';
+import 'material-design-icons-iconfont';
+import '../../assets/css/flexstyles.css';
 
 /*eslint prefer-const: "error"*/
 
@@ -26,7 +26,7 @@ let currentServerId;
 
 function deleteTimer(apiClient, timerId) {
     return new Promise(function (resolve, reject) {
-        import('recordingHelper').then(({ default: recordingHelper }) => {
+        import('./recordinghelper').then((recordingHelper) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(timerId, apiClient.serverId()).then(resolve, reject);
         });
     });
@@ -151,7 +151,7 @@ function embed(itemId, serverId, options) {
     loading.show();
     options = options || {};
 
-    import('text!./seriesrecordingeditor.template.html').then(({ default: template }) => {
+    import('./seriesrecordingeditor.template.html').then(({ default: template }) => {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -193,7 +193,7 @@ function showEditor(itemId, serverId, options) {
         loading.show();
         options = options || {};
 
-        import('text!./seriesrecordingeditor.template.html').then(({ default: template }) => {
+        import('./seriesrecordingeditor.template.html').then(({ default: template }) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false

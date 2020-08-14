@@ -1,9 +1,9 @@
-import connectionManager from 'connectionManager';
-import dom from 'dom';
-import recordingHelper from 'recordingHelper';
-import 'paper-icon-button-light';
-import 'emby-button';
-import 'css!./recordingfields';
+import connectionManager from 'jellyfin-apiclient';
+import dom from '../../scripts/dom';
+import recordingHelper from './recordinghelper';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
+import './recordingfields.css';
 
 function onRecordingButtonClick(e) {
     const item = this.item;

@@ -1,13 +1,13 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-checkbox';
-import 'emby-input';
-import 'listViewStyle';
-import 'paper-icon-button-light';
-import 'emby-select';
-import 'emby-button';
-import 'flexStyles';
+import 'jquery';
+import loading from '../loading/loading';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
+import '../listview/listview.css';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.css';
 
 export default function (page, providerId, options) {
     function reload() {

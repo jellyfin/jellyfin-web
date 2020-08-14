@@ -1,16 +1,16 @@
-import 'emby-button';
-import 'emby-input';
-import 'scripts/livetvcomponents';
-import 'paper-icon-button-light';
-import 'emby-itemscontainer';
-import 'emby-collapse';
-import 'emby-select';
-import 'livetvcss';
-import 'emby-checkbox';
-import 'emby-slider';
-import 'listViewStyle';
-import 'dashboardcss';
-import 'detailtablecss';
+import '../elements/emby-button/emby-button';
+import '../elements/emby-input/emby-input';
+import '../scripts/livetvcomponents';
+import '../elements/emby-button/paper-icon-button-light';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../elements/emby-collapse/emby-collapse';
+import '../elements/emby-select/emby-select';
+import '../elements/emby-checkbox/emby-checkbox';
+import '../elements/emby-slider/emby-slider';
+import '../assets/css/livetv.css';
+import '../components/listview/listview.css';
+import '../assets/css/dashboard.css';
+import '../assets/css/detailtable.css';
 
 /* eslint-disable indent */
 

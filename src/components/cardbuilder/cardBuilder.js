@@ -5,22 +5,22 @@
  * @module components/cardBuilder/cardBuilder
  */
 
-import datetime from 'datetime';
-import imageLoader from 'imageLoader';
-import connectionManager from 'connectionManager';
-import itemHelper from 'itemHelper';
-import focusManager from 'focusManager';
-import indicators from 'indicators';
-import globalize from 'globalize';
-import layoutManager from 'layoutManager';
-import dom from 'dom';
-import browser from 'browser';
-import playbackManager from 'playbackManager';
-import itemShortcuts from 'itemShortcuts';
-import imageHelper from 'scripts/imagehelper';
-import 'css!./card';
-import 'paper-icon-button-light';
-import 'programStyles';
+import datetime from '../../scripts/datetime';
+import imageLoader from '../images/imageLoader';
+import connectionManager from 'jellyfin-apiclient';
+import itemHelper from '../itemHelper';
+import focusManager from '../focusManager';
+import indicators from '../indicators/indicators';
+import globalize from '../../scripts/globalize';
+import layoutManager from '../layoutManager';
+import dom from '../../scripts/dom';
+import browser from '../../scripts/browser';
+import playbackManager from '../playback/playbackmanager';
+import itemShortcuts from '../shortcuts';
+import imageHelper from '../../scripts/imagehelper';
+import './card.css';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../guide/programs.css';
 
         const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -1122,7 +1122,7 @@ import 'programStyles';
             if (!refreshIndicatorLoaded) {
                 refreshIndicatorLoaded = true;
                 /* eslint-disable-next-line  @babel/no-unused-expressions */
-                import('emby-itemrefreshindicator');
+                import('../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator');
             }
         }
 
@@ -1454,7 +1454,7 @@ import 'programStyles';
 
             if (itemHelper.canMarkPlayed(item)) {
                 /* eslint-disable-next-line  @babel/no-unused-expressions */
-                import('emby-playstatebutton');
+                import('../../elements/emby-playstatebutton/emby-playstatebutton');
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
 
@@ -1462,7 +1462,7 @@ import 'programStyles';
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
                 /* eslint-disable-next-line  @babel/no-unused-expressions */
-                import('emby-ratingbutton');
+                import('../../elements/emby-ratingbutton/emby-ratingbutton');
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 

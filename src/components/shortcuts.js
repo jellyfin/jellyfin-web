@@ -5,13 +5,13 @@
  * @module components/shortcuts
  */
 
-import playbackManager from 'playbackManager';
-import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
-import appRouter from 'appRouter';
-import globalize from 'globalize';
-import dom from 'dom';
-import recordingHelper from 'recordingHelper';
+import playbackManager from './playback/playbackmanager';
+import inputManager from '../scripts/inputManager';
+import connectionManager from 'jellyfin-apiclient';
+import appRouter from './appRouter';
+import globalize from '../scripts/globalize';
+import dom from '../scripts/dom';
+import recordingHelper from './recordingcreator/recordinghelper';
 
     function playAllFromHere(card, serverId, queue) {
         const parent = card.parentNode;
@@ -70,7 +70,8 @@ import recordingHelper from 'recordingHelper';
     }
 
     function showProgramDialog(item) {
-        import('recordingCreator').then(({default:recordingCreator}) => {
+        import('./recordingcreator/recordingcreator' +
+        '').then(({default:recordingCreator}) => {
             recordingCreator.show(item.Id, item.ServerId);
         });
     }
@@ -110,7 +111,7 @@ import recordingHelper from 'recordingHelper';
                 item.PlaylistItemId = elem ? elem.getAttribute('data-playlistitemid') : null;
             }
 
-            import('itemContextMenu').then(({default: itemContextMenu}) => {
+            import('./itemContextMenu').then((itemContextMenu) => {
                 connectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
                     itemContextMenu.show(Object.assign({
                         item: item,
@@ -154,7 +155,7 @@ import recordingHelper from 'recordingHelper';
     function showPlayMenu(card, target) {
         const item = getItemInfoFromCard(card);
 
-        import('playMenu').then(({default: playMenu}) => {
+        import('./playmenu').then((playMenu) => {
             playMenu.show({
 
                 item: item,
@@ -164,7 +165,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function sendToast(text) {
-        import('toast').then(({default: toast}) => {
+        import('./toast/toast').then((toast) => {
             toast(text);
         });
     }
@@ -270,7 +271,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function addToPlaylist(item) {
-        import('playlistEditor').then(({default: playlistEditor}) => {
+        import('./playlisteditor/playlisteditor').then((playlistEditor) => {
             new playlistEditor().show({
                 items: [item.Id],
                 serverId: item.ServerId
@@ -295,16 +296,16 @@ import recordingHelper from 'recordingHelper';
 
             if (item.Type === 'Timer') {
                 if (item.ProgramId) {
-                    import('recordingCreator').then(({default: recordingCreator}) => {
+                    import('./recordingcreator/recordingcreator').then((recordingCreator) => {
                         recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
                     });
                 } else {
-                    import('recordingEditor').then(({default: recordingEditor}) => {
+                    import('./recordingcreator/recordingeditor').then((recordingEditor) => {
                         recordingEditor.show(item.Id, serverId).then(resolve, reject);
                     });
                 }
             } else {
-                import('metadataEditor').then(({default: metadataEditor}) => {
+                import('./metadataEditor/metadataEditor').then((metadataEditor) => {
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             }

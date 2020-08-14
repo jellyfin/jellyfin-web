@@ -2,17 +2,17 @@
  * Image viewer component
  * @module components/slideshow/slideshow
  */
-import dialogHelper from 'dialogHelper';
-import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import browser from 'browser';
-import appHost from 'apphost';
-import dom from 'dom';
-import 'css!./style';
-import 'material-icons';
-import 'paper-icon-button-light';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import inputManager from '../../scripts/inputManager';
+import connectionManager from 'jellyfin-apiclient';
+import layoutManager from '../layoutManager';
+import focusManager from '../focusManager';
+import browser from '../../scripts/browser';
+import appHost from '../apphost';
+import dom from '../../scripts/dom';
+import './style.css';
+import 'material-design-icons-iconfont';
+import '../../elements/emby-button/paper-icon-button-light';
 
 /**
  * Name of transition event.
@@ -432,7 +432,7 @@ export default function (options) {
     function download() {
         const imageInfo = getCurrentImageInfo();
 
-        import('fileDownloader').then(({default: fileDownloader}) => {
+        import('../../scripts/fileDownloader').then((fileDownloader) => {
             fileDownloader.download([imageInfo]);
         });
     }

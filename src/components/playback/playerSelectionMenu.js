@@ -1,11 +1,11 @@
-import appSettings from 'appSettings';
-import events from 'events';
-import browser from 'browser';
-import loading from 'loading';
-import playbackManager from 'playbackManager';
-import appRouter from 'appRouter';
-import globalize from 'globalize';
-import appHost from 'apphost';
+import appSettings from '../../scripts/settings/appSettings';
+import events from 'jellyfin-apiclient';
+import browser from '../../scripts/browser';
+import loading from '../loading/loading';
+import playbackManager from '../playback/playbackmanager';
+import appRouter from '../appRouter';
+import globalize from '../../scripts/globalize';
+import appHost from '../apphost';
 
 function mirrorItem(info, player) {
     var item = info.item;
@@ -107,7 +107,7 @@ export function show(button) {
             };
         });
 
-        import('actionsheet').then(({default: actionsheet}) => {
+        import('../actionSheet/actionSheet').then((actionsheet) => {
             loading.hide();
 
             var menuOptions = {
@@ -140,10 +140,10 @@ export function show(button) {
 
 function showActivePlayerMenu(playerInfo) {
     Promise.all([
-        import('dialogHelper'),
-        import('dialog'),
-        import('emby-checkbox'),
-        import('emby-button')
+        import('../dialogHelper/dialogHelper'),
+        import('../dialog/dialog'),
+        import('../../elements/emby-checkbox/emby-checkbox'),
+        import('../../elements/emby-button/emby-button')
     ]).then(([dialogHelper]) => {
         showActivePlayerMenuInternal(dialogHelper, playerInfo);
     });
@@ -151,7 +151,7 @@ function showActivePlayerMenu(playerInfo) {
 
 function disconnectFromPlayer(currentDeviceName) {
     if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
-        import('dialog').then(({default: dialog}) => {
+        import('../dialog/dialog').then(({default: dialog}) => {
             var menuItems = [];
 
             menuItems.push({

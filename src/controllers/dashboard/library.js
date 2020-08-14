@@ -1,17 +1,17 @@
-import $ from 'jQuery';
-import taskButton from 'scripts/taskbutton';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
-import dom from 'dom';
-import imageHelper from 'scripts/imagehelper';
-import 'cardStyle';
-import 'emby-itemrefreshindicator';
+import 'jquery';
+import taskButton from '../../scripts/taskbutton';
+import loading from '../../components/loading/loading';
+import libraryMenu from '../../scripts/libraryMenu';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import imageHelper from '../../scripts/imagehelper';
+import '../../components/cardbuilder/card.css';
+import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 
 /* eslint-disable indent */
 
     function addVirtualFolder(page) {
-        import('medialibrarycreator').then(({default: medialibrarycreator}) => {
+        import('../../components/mediaLibraryCreator/mediaLibraryCreator').then((medialibrarycreator) => {
             new medialibrarycreator({
                 collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                     return !f.hidden;
@@ -26,7 +26,7 @@ import 'emby-itemrefreshindicator';
     }
 
     function editVirtualFolder(page, virtualFolder) {
-        import('medialibraryeditor').then(({default: medialibraryeditor}) => {
+        import('../../components/mediaLibraryEditor/mediaLibraryEditor').then((medialibraryeditor) => {
             new medialibraryeditor({
                 refresh: shouldRefreshLibraryAfterChanges(page),
                 library: virtualFolder
@@ -46,7 +46,7 @@ import 'emby-itemrefreshindicator';
             msg += virtualFolder.Locations.join('<br/>');
         }
 
-        import('confirm').then(({default: confirm}) => {
+        import('../../components/confirm/confirm').then((confirm) => {
             confirm({
                 text: msg,
                 title: globalize.translate('HeaderRemoveMediaFolder'),
@@ -62,7 +62,7 @@ import 'emby-itemrefreshindicator';
     }
 
     function refreshVirtualFolder(page, virtualFolder) {
-        import('refreshDialog').then(({default: refreshDialog}) => {
+        import('../../components/refreshdialog/refreshdialog').then((refreshDialog) => {
             new refreshDialog({
                 itemIds: [virtualFolder.ItemId],
                 serverId: ApiClient.serverId(),
@@ -72,7 +72,7 @@ import 'emby-itemrefreshindicator';
     }
 
     function renameVirtualFolder(page, virtualFolder) {
-        import('prompt').then(({default: prompt}) => {
+        import('../../components/prompt/prompt').then((prompt) => {
             prompt({
                 label: globalize.translate('LabelNewName'),
                 confirmText: globalize.translate('ButtonRename')
@@ -118,7 +118,7 @@ import 'emby-itemrefreshindicator';
             icon: 'refresh'
         });
 
-        import('actionsheet').then(({default: actionsheet}) => {
+        import('../../components/actionSheet/actionSheet').then((actionsheet) => {
             actionsheet.show({
                 items: menuItems,
                 positionTo: elem,
@@ -199,7 +199,7 @@ import 'emby-itemrefreshindicator';
     }
 
     function editImages(page, virtualFolder) {
-        import('imageEditor').then(({default: imageEditor}) => {
+        import('../../components/imageeditor/imageeditor').then((imageEditor) => {
             imageEditor.show({
                 itemId: virtualFolder.ItemId,
                 serverId: ApiClient.serverId()

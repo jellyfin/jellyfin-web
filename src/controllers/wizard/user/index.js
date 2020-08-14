@@ -1,8 +1,8 @@
-import loading from 'loading';
-import globalize from 'globalize';
-import 'dashboardcss';
-import 'emby-input';
-import 'emby-button';
+import loading from '../../../components/loading/loading';
+import globalize from '../../../scripts/globalize';
+import '../../../assets/css/dashboard.css';
+import '../../../elements/emby-input/emby-input';
+import '../../../elements/emby-button/emby-button';
 
 function getApiClient() {
     return ApiClient;
@@ -35,7 +35,7 @@ function onSubmit(e) {
     const form = this;
 
     if (form.querySelector('#txtManualPassword').value != form.querySelector('#txtPasswordConfirm').value) {
-        import('toast').then(({default: toast}) => {
+        import('../../../components/toast/toast').then((toast) => {
             toast(globalize.translate('PasswordMatchError'));
         });
     } else {

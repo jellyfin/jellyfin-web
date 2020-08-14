@@ -1,14 +1,14 @@
-import browser from 'browser';
-import appSettings from 'appSettings';
-import appHost from 'apphost';
-import focusManager from 'focusManager';
-import qualityoptions from 'qualityoptions';
-import globalize from 'globalize';
-import loading from 'loading';
-import connectionManager from 'connectionManager';
-import events from 'events';
-import 'emby-select';
-import 'emby-checkbox';
+import browser from '../../scripts/browser';
+import appSettings from '../../scripts/settings/appSettings';
+import appHost from '../apphost';
+import focusManager from '../focusManager';
+import qualityoptions from '../qualityOptions';
+import globalize from '../../scripts/globalize';
+import loading from '../loading/loading';
+import connectionManager from 'jellyfin-apiclient';
+import events from 'jellyfin-apiclient';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-checkbox/emby-checkbox';
 
 /* eslint-disable indent */
 
@@ -244,7 +244,7 @@ import 'emby-checkbox';
             saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    import('toast').then(({default: toast}) => {
+                    import('../toast/toast').then((toast) => {
                         toast(globalize.translate('SettingsSaved'));
                     });
                 }
@@ -275,7 +275,7 @@ import 'emby-checkbox';
     }
 
     function embed(options, self) {
-        return import('text!./playbackSettings.template.html').then(({default: template}) => {
+        return import('./playbackSettings.template.html').then(({default: template}) => {
             options.element.innerHTML = globalize.translateHtml(template, 'core');
 
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));

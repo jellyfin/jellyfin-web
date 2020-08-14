@@ -1,4 +1,4 @@
-import connectionManager from 'connectionManager';
+import connectionManager from 'jellyfin-apiclient';
 
 export default class PhotoPlayer {
     constructor() {

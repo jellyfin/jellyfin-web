@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import connectionManager from 'connectionManager';
+import connectionManager from 'jellyfin-apiclient';
 
 class BackdropScreensaver {
     constructor() {

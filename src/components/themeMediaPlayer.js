@@ -1,6 +1,6 @@
-import playbackManager from 'playbackManager';
-import * as userSettings from 'userSettings';
-import connectionManager from 'connectionManager';
+import playbackManager from './playback/playbackmanager';
+import * as userSettings from '../scripts/settings/userSettings';
+import connectionManager from 'jellyfin-apiclient';
 
 let currentOwnerId;
 let currentThemeIds = [];

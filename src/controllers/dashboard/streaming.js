@@ -1,7 +1,7 @@
-import $ from 'jQuery';
-import libraryMenu from 'libraryMenu';
-import loading from 'loading';
-import globalize from 'globalize';
+import 'jquery';
+import libraryMenu from '../../scripts/libraryMenu';
+import loading from '../../components/loading/loading';
+import globalize from '../../scripts/globalize';
 
 /* eslint-disable indent */
 

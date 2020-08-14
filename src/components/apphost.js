@@ -1,9 +1,9 @@
-import appSettings from 'appSettings';
-import browser from 'browser';
-import events from 'events';
-import * as htmlMediaHelper from 'htmlMediaHelper';
-import * as webSettings from 'webSettings';
-import globalize from 'globalize';
+import appSettings from '../scripts/settings/appSettings';
+import browser from '../scripts/browser';
+import events from 'jellyfin-apiclient';
+import * as htmlMediaHelper from '../components/htmlMediaHelper';
+import * as webSettings from '../scripts/settings/webSettings';
+import globalize from '../scripts/globalize';
 
 function getBaseProfileOptions(item) {
     const disableHlsVideoAudioCodecs = [];
@@ -26,7 +26,7 @@ function getBaseProfileOptions(item) {
 
 function getDeviceProfile(item, options = {}) {
     return new Promise(function (resolve) {
-        import('browserdeviceprofile').then(({default: profileBuilder}) => {
+        import('../scripts/browserDeviceProfile').then((profileBuilder) => {
             let profile;
 
             if (window.NativeShell) {
@@ -298,7 +298,7 @@ function askForExit() {
         return;
     }
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then((actionsheet) => {
         exitPromise = actionsheet.show({
             title: globalize.translate('MessageConfirmAppExit'),
             items: [

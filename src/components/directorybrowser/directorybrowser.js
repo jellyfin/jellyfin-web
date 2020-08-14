@@ -1,13 +1,13 @@
-import loading from 'loading';
-import dialogHelper from 'dialogHelper';
-import dom from 'dom';
-import globalize from 'globalize';
-import 'listViewStyle';
-import 'emby-input';
-import 'paper-icon-button-light';
-import 'css!./directorybrowser';
-import 'formDialogStyle';
-import 'emby-button';
+import loading from '../loading/loading';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import dom from '../../scripts/dom';
+import globalize from '../../scripts/globalize';
+import '../listview/listview.css';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-button/paper-icon-button-light';
+import './directorybrowser.css';
+import '../formdialog.css';
+import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 
@@ -157,7 +157,7 @@ import 'emby-button';
     }
 
     function alertTextWithOptions(options) {
-        import('alert').then(({default: alert}) => {
+        import('../alert').then((alert) => {
             alert(options);
         });
     }

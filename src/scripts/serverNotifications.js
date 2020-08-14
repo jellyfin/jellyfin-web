@@ -1,10 +1,10 @@
-import connectionManager from 'connectionManager';
-import playbackManager from 'playbackManager';
-import syncPlayManager from 'syncPlayManager';
-import events from 'events';
-import inputManager from 'inputManager';
-import focusManager from 'focusManager';
-import appRouter from 'appRouter';
+import connectionManager from 'jellyfin-apiclient';
+import playbackManager from '../components/playback/playbackmanager';
+import syncPlayManager from '../components/syncPlay/syncPlayManager';
+import events from 'jellyfin-apiclient';
+import inputManager from '../scripts/inputManager';
+import focusManager from '../components/focusManager';
+import appRouter from '../components/appRouter';
 
 const serverNotifications = {};
 
@@ -15,11 +15,11 @@ function notifyApp() {
 function displayMessage(cmd) {
     const args = cmd.Arguments;
     if (args.TimeoutMs) {
-        import('toast').then(({default: toast}) => {
+        import('../components/toast/toast').then((toast) => {
             toast({ title: args.Header, text: args.Text });
         });
     } else {
-        import('alert').then(({default: alert}) => {
+        import('../components/alert').then(({default: alert}) => {
             alert({ title: args.Header, text: args.Text });
         });
     }

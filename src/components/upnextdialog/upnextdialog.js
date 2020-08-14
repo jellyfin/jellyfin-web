@@ -1,15 +1,15 @@
-import dom from 'dom';
-import playbackManager from 'playbackManager';
-import connectionManager from 'connectionManager';
-import events from 'events';
-import mediaInfo from 'mediaInfo';
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import itemHelper from 'itemHelper';
-import 'css!./upnextdialog';
-import 'emby-button';
-import 'flexStyles';
+import dom from '../../scripts/dom';
+import playbackManager from '../playback/playbackmanager';
+import connectionManager from 'jellyfin-apiclient';
+import events from 'jellyfin-apiclient';
+import mediaInfo from '../mediainfo/mediainfo';
+import layoutManager from '../layoutManager';
+import focusManager from '../focusManager';
+import globalize from '../../scripts/globalize';
+import itemHelper from '../itemHelper';
+import './upnextdialog.css';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.css';
 
 /* eslint-disable indent */
 

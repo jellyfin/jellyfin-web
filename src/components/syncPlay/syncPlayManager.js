@@ -3,12 +3,12 @@
  * @module components/syncPlay/syncPlayManager
  */
 
-import events from 'events';
-import connectionManager from 'connectionManager';
-import playbackManager from 'playbackManager';
-import timeSyncManager from 'timeSyncManager';
-import toast from 'toast';
-import globalize from 'globalize';
+import events from 'jellyfin-apiclient';
+import connectionManager from 'jellyfin-apiclient';
+import playbackManager from '../playback/playbackmanager';
+import timeSyncManager from './timeSyncManager';
+import toast from '../toast/toast';
+import globalize from '../../scripts//globalize';
 
 /**
  * Waits for an event to be triggered on an object. An optional timeout can specified after which the promise is rejected.

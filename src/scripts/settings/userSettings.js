@@ -1,5 +1,5 @@
-import appSettings from 'appSettings';
-import events from 'events';
+import appSettings from './appSettings';
+import events from 'jellyfin-apiclient';
 
 function onSaveTimeout() {
     const self = this;
