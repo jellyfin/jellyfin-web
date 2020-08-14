@@ -136,7 +136,7 @@ export function processErrorResponse(response) {
 export function alert(options) {
     if (typeof options == 'string') {
         return void import('toast').then(({default: toast}) => {
-            toast.default({
+            toast({
                 text: options
             });
         });
