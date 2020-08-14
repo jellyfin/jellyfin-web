@@ -101,7 +101,7 @@ export function processPluginConfigurationUpdateResult() {
     ])
         .then(([{default: loading}, {default: toast}]) => {
             loading.hide();
-            toast.default(Globalize.translate('MessageSettingsSaved'));
+            toast(Globalize.translate('MessageSettingsSaved'));
         });
 }
 
