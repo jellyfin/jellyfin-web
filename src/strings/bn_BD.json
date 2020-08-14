@@ -1,4 +1,20 @@
 {
     "Actor": "অভিনেতা",
-    "AccessRestrictedTryAgainLater": "অ্যাক্সেস বর্তমানে সীমাবদ্ধ। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন."
+    "AccessRestrictedTryAgainLater": "অ্যাক্সেস বর্তমানে সীমাবদ্ধ। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন.",
+    "AllLibraries": "সব লাইব্রেরি",
+    "AllLanguages": "সব ভাষা",
+    "AllEpisodes": "সব এপিসোড",
+    "AllComplexFormats": "সমস্ত জটিল ফর্ম্যাট",
+    "AllChannels": "সব চ্যানেল",
+    "All": "সবগুলি",
+    "Alerts": "এলার্টস",
+    "Albums": "অ্যালবাম সমূহ",
+    "AlbumArtist": "অ্যালবাম আর্টিস্ট",
+    "Album": "অ্যালবাম",
+    "AirDate": "উন্মুক্তের তারিখ",
+    "AdditionalNotificationServices": "আরো নোটিফিকেশন সার্ভিস ইনস্টল করতে প্লাগিন ক্যাটালগে ব্রাউস করুন।",
+    "AddedOnValue": "এডেড {০}",
+    "AddToPlaylist": "প্লেলিস্টে অ্যাড করুন",
+    "AddToPlayQueue": "প্লে কিউ তে অ্যাড করুন",
+    "AddToCollection": "কালেকশন এ অ্যাড করুন"
 }
