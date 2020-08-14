@@ -143,7 +143,7 @@ export function alert(options) {
     }
 
     import('alert').then(({default: alert}) => {
-        alert.default({
+        alert({
             title: options.title || Globalize.translate('HeaderAlert'),
             text: options.message
         }).then(options.callback || function () {});
