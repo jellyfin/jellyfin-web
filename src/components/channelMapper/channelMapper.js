@@ -19,11 +19,11 @@ export default class channelMapper {
             connectionManager.getApiClient(options.serverId).ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ChannelMappings'),
-                data: {
+                data: JSON.stringify({
                     providerId: providerId,
                     tunerChannelId: channelId,
                     providerChannelId: providerChannelId
-                },
+                }),
                 dataType: 'json'
             }).then(mapping => {
                 const listItem = dom.parentWithClass(button, 'listItem');
