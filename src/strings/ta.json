@@ -1239,5 +1239,7 @@
     "OptionFavorite": "பிடித்தவை",
     "OptionExtractChapterImage": "அத்தியாயம் படத்தை பிரித்தெடுப்பதை இயக்கு",
     "OptionExternallyDownloaded": "வெளிப்புற பதிவிறக்க",
-    "PlaybackData": "பின்னணி தரவு"
+    "PlaybackData": "பின்னணி தரவு",
+    "PlayFromBeginning": "ஆரம்பத்தில் இருந்து வாசிக்கவும்",
+    "PlayCount": "வாசிப்பு எண்ணிக்கை"
 }
