@@ -332,8 +332,14 @@ export default function () {
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
         if (layoutManager.mobile) {
-            buttonVisible(context.querySelector('.btnRewind'), false);
-            buttonVisible(context.querySelector('.btnFastForward'), false);
+            const playingVideo = playbackManager.isPlayingVideo() && item != null;
+            const playingAudio = !playbackManager.isPlayingVideo() && item != null;
+            buttonVisible(context.querySelector('.btnRepeat'), playingAudio);
+            buttonVisible(context.querySelector('.btnShuffleQueue'), playingAudio);
+            buttonVisible(context.querySelector('.btnRewind'), playingVideo);
+            buttonVisible(context.querySelector('.btnFastForward'), playingVideo);
+            buttonVisible(context.querySelector('.nowPlayingSecondaryButtons .btnShuffleQueue'), playingVideo);
+            buttonVisible(context.querySelector('.nowPlayingSecondaryButtons .btnRepeat'), playingVideo);
         } else {
             buttonVisible(context.querySelector('.btnRewind'), item != null);
             buttonVisible(context.querySelector('.btnFastForward'), item != null);
