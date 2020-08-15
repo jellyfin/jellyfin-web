@@ -4,6 +4,7 @@ const packageConfig = require('./package.json');
 
 module.exports = merge(common, {
     mode: 'production',
+    entry: './scripts/site.js',
     module: {
         rules: [
             {
