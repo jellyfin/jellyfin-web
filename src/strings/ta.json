@@ -921,5 +921,6 @@
     "LabelPreferredDisplayLanguage": "விருப்பமான காட்சி மொழி:",
     "LabelPostProcessorArgumentsHelp": "பதிவு கோப்புக்கான பாதையாக {path} ஐப் பயன்படுத்தவும்.",
     "LabelPostProcessorArguments": "பிந்தைய செயலி கட்டளை வரி வாதங்கள்:",
-    "LabelPostProcessor": "செயலாக்கத்திற்கு பிந்தைய பயன்பாடு:"
+    "LabelPostProcessor": "செயலாக்கத்திற்கு பிந்தைய பயன்பாடு:",
+    "MapChannels": "சேனல் மேப்பிங்"
 }
