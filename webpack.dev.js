@@ -1,18 +1,20 @@
-const path = require('path');
 const common = require('./webpack.common');
 const merge = require('webpack-merge');
 const packageConfig = require('./package.json');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
     mode: 'development',
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        libraryTarget: 'amd-require'
-    },
-    devtool: 'inline-source-map',
+    entry: './scripts/standalone.js',
+    devtool: 'source-map',
     module: {
         rules: [
+            {
+                test: /\.(html)$/,
+                use: {
+                    loader: 'html-loader'
+                }
+            },
             {
                 test: /\.js$/,
                 exclude: /node_modules[\\/](?!date-fns|epubjs|libarchive|jellyfin-apiclient|query-string|split-on-first|strict-uri-encode|xmldom)/,
@@ -39,7 +41,7 @@ module.exports = merge(common, {
                 ]
             },
             {
-                test: /\.(png|jpg|gif)$/i,
+                test: /\.(png|jpg|gif|svg)$/i,
                 use: ['file-loader']
             },
             {
@@ -53,5 +55,11 @@ module.exports = merge(common, {
                 use: ['file-loader']
             }
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'index.html'
+        })
+    ]
 });
