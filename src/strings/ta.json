@@ -1238,5 +1238,6 @@
     "OptionHasSpecialFeatures": "சிறப்பு அம்சங்கள்",
     "OptionFavorite": "பிடித்தவை",
     "OptionExtractChapterImage": "அத்தியாயம் படத்தை பிரித்தெடுப்பதை இயக்கு",
-    "OptionExternallyDownloaded": "வெளிப்புற பதிவிறக்க"
+    "OptionExternallyDownloaded": "வெளிப்புற பதிவிறக்க",
+    "PlaybackData": "பின்னணி தரவு"
 }
