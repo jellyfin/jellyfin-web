@@ -138,7 +138,7 @@
     "DetectingDevices": "Söker efter enheter",
     "DeviceAccessHelp": "Detta tillämpas endast för enheter som kan bli unikt identifierade och som inte förhindrar åtkomst till browsern. Filtering av användarenheter kommer att blockera dom från att använda nya enheter tills dom har blivit godkända här.",
     "DirectPlaying": "Direktuppspelning",
-    "DirectStreamHelp1": "Innehållet är kompatibelt med enheten vad gäller upplösning och medietyp (H.264, AC3 osv.) men är i ett inkompatibelt filformat (mkv, avi, wmv osv.). Videofilen kommer att packas om i realtid innan den strömmas till enheten.",
+    "DirectStreamHelp1": "Innehållet har en kompatibel upplösning och mediatyp (H.264, AC3, osv.) för enheten, men är i en inkompatibel filbehållare (mkv, avi, wmv, osv.). Videofilen kommer att packas om i realtid innan den strömmas till enheten.",
     "DirectStreamHelp2": "Direktströmning av en fil använder väldigt lite resurser av CPU'n utan att bildkvaliten försämras.",
     "DirectStreaming": "Direktströmning",
     "Director": "Regissör",
