@@ -692,18 +692,12 @@ class AppRouter {
             return 'dashboard.html';
         }
 
-<<<<<<< HEAD
-    function show(path, options) {
-        if (path.indexOf('/') !== 0 && path.indexOf('://') === -1) {
-            path = '/' + path;
-=======
         if (item === 'recordedtv') {
             return 'livetv.html?tab=3&serverId=' + options.serverId;
         }
 
         if (item === 'nextup') {
             return 'list.html?type=nextup&serverId=' + options.serverId;
->>>>>>> upstream/master
         }
 
         if (item === 'list') {
@@ -851,31 +845,4 @@ class AppRouter {
     }
 }
 
-<<<<<<< HEAD
-    appRouter.addRoute = addRoute;
-    appRouter.param = param;
-    appRouter.back = back;
-    appRouter.show = show;
-    appRouter.start = start;
-    appRouter.baseUrl = baseUrl;
-    appRouter.canGoBack = canGoBack;
-    appRouter.current = current;
-    appRouter.beginConnectionWizard = beginConnectionWizard;
-    appRouter.invokeShortcut = invokeShortcut;
-    appRouter.showItem = showItem;
-    appRouter.setTransparency = setTransparency;
-    appRouter.getRoutes = getRoutes;
-    appRouter.pushState = pushState;
-    appRouter.enableNativeHistory = enableNativeHistory;
-    appRouter.handleAnchorClick = page.clickHandler;
-    appRouter.TransparencyLevel = {
-        None: 0,
-        Backdrop: 1,
-        Full: 2
-    };
-
-    return appRouter;
-});
-=======
 export default new AppRouter();
->>>>>>> upstream/master
