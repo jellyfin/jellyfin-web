@@ -1416,8 +1416,8 @@ class PlaybackManager {
 
         self.toggleFullscreen = function (player) {
             player = player || self._currentPlayer;
-            if (!player.isLocalPlayer || player.toggleFulscreen) {
-                return player.toggleFulscreen();
+            if (!player.isLocalPlayer || player.toggleFullscreen) {
+                return player.toggleFullscreen();
             }
 
             if (screenfull.isEnabled) {
