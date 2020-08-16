@@ -19,11 +19,11 @@ export default class channelMapper {
             connectionManager.getApiClient(options.serverId).ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ChannelMappings'),
-                data: {
+                data: JSON.stringify({
                     providerId: providerId,
                     tunerChannelId: channelId,
                     providerChannelId: providerChannelId
-                },
+                }),
                 dataType: 'json'
             }).then(mapping => {
                 const listItem = dom.parentWithClass(button, 'listItem');
@@ -93,7 +93,7 @@ export default class channelMapper {
             html += '<div class="formDialogContent smoothScrollY">';
             html += '<div class="dialogContentInner dialog-content-centered">';
             html += '<form style="margin:auto;">';
-            html += `<h1>${globalize.translate('HeaderChannels')}</h1>`;
+            html += `<h1>${globalize.translate('Channels')}</h1>`;
             html += '<div class="channels paperList">';
             html += '</div>';
             html += '</form>';

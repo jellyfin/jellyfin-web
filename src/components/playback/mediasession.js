@@ -127,7 +127,7 @@ import connectionManager from 'connectionManager';
                 artwork: getImageUrls(item)
             });
         } else {
-            let itemImageUrl = seriesImageUrl(item, { maxHeight: 3000 }) || imageUrl(item, { maxHeight: 3000 });
+            const itemImageUrl = seriesImageUrl(item, { maxHeight: 3000 }) || imageUrl(item, { maxHeight: 3000 });
 
             window.NativeShell.updateMediaSession({
                 action: eventName,
@@ -244,10 +244,10 @@ import connectionManager from 'connectionManager';
 
         /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('seekto', function (object) {
-            let item = playbackManager.getPlayerState(currentPlayer).NowPlayingItem;
+            const item = playbackManager.getPlayerState(currentPlayer).NowPlayingItem;
             // Convert to ms
-            let duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
-            let wantedTime = object.seekTime * 1000;
+            const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
+            const wantedTime = object.seekTime * 1000;
             playbackManager.seekPercent(wantedTime / duration * 100, currentPlayer);
         });
     }

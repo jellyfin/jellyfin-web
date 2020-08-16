@@ -11,7 +11,7 @@ function save(page) {
     config.EnableAutomaticPortMapping = page.querySelector('#chkEnableUpnp').checked;
     apiClient.ajax({
         type: 'POST',
-        data: config,
+        data: JSON.stringify(config),
         url: apiClient.getUrl('Startup/RemoteAccess')
     }).then(function () {
         loading.hide();

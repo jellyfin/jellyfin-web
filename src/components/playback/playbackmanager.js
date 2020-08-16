@@ -8,7 +8,7 @@ import * as userSettings from 'userSettings';
 import globalize from 'globalize';
 import connectionManager from 'connectionManager';
 import loading from 'loading';
-import apphost from 'apphost';
+import appHost from 'apphost';
 import screenfull from 'screenfull';
 
 function enableLocalPlaylistManagement(player) {
@@ -322,7 +322,7 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBi
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
-        EnableRemoteMedia: apphost.supports('remoteaudio')
+        EnableRemoteMedia: appHost.supports('remoteaudio')
     });
 }
 
@@ -606,7 +606,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     const isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
 
     if (mediaSource.SupportsDirectPlay || isFolderRip) {
-        if (mediaSource.IsRemote && !apphost.supports('remotevideo')) {
+        if (mediaSource.IsRemote && !appHost.supports('remotevideo')) {
             return Promise.resolve(false);
         }
 
@@ -1416,8 +1416,8 @@ class PlaybackManager {
 
         self.toggleFullscreen = function (player) {
             player = player || self._currentPlayer;
-            if (!player.isLocalPlayer || player.toggleFulscreen) {
-                return player.toggleFulscreen();
+            if (!player.isLocalPlayer || player.toggleFullscreen) {
+                return player.toggleFullscreen();
             }
 
             if (screenfull.isEnabled) {
@@ -3156,7 +3156,7 @@ class PlaybackManager {
             return streamInfo ? streamInfo.playbackStartTimeTicks : null;
         };
 
-        if (apphost.supports('remotecontrol')) {
+        if (appHost.supports('remotecontrol')) {
             import('serverNotifications').then(({ default: serverNotifications }) => {
                 events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
@@ -3520,7 +3520,7 @@ class PlaybackManager {
                 'PlayTrailers'
             ];
 
-            if (apphost.supports('fullscreenchange')) {
+            if (appHost.supports('fullscreenchange')) {
                 list.push('ToggleFullscreen');
             }
 

@@ -1,49 +1,51 @@
-define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'globalize', 'userSettings', 'emby-select', 'paper-icon-button-light', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (require, dom, focusManager, dialogHelper, loading, layoutManager, connectionManager, globalize, userSettings) {
-    'use strict';
+import dialogHelper from 'dialogHelper';
+import layoutManager from 'layoutManager';
+import globalize from 'globalize';
+import * as userSettings from 'userSettings';
+import 'emby-select';
+import 'paper-icon-button-light';
+import 'material-icons';
+import 'css!./../formdialog';
+import 'emby-button';
+import 'flexStyles';
 
-    focusManager = focusManager.default || focusManager;
+function onSubmit(e) {
+    e.preventDefault();
+    return false;
+}
 
-    function onSubmit(e) {
-        e.preventDefault();
-        return false;
-    }
+function initEditor(context, settings) {
+    context.querySelector('form').addEventListener('submit', onSubmit);
 
-    function initEditor(context, settings) {
-        context.querySelector('form').addEventListener('submit', onSubmit);
+    context.querySelector('.selectSortOrder').value = settings.sortOrder;
+    context.querySelector('.selectSortBy').value = settings.sortBy;
+}
 
-        context.querySelector('.selectSortOrder').value = settings.sortOrder;
-        context.querySelector('.selectSortBy').value = settings.sortBy;
-    }
+function centerFocus(elem, horiz, on) {
+    import('scrollHelper').then(({default: scrollHelper}) => {
+        const fn = on ? 'on' : 'off';
+        scrollHelper.centerFocus[fn](elem, horiz);
+    });
+}
 
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            scrollHelper = scrollHelper.default || scrollHelper;
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
-    }
+function fillSortBy(context, options) {
+    const selectSortBy = context.querySelector('.selectSortBy');
 
-    function fillSortBy(context, options) {
-        var selectSortBy = context.querySelector('.selectSortBy');
+    selectSortBy.innerHTML = options.map(function (o) {
+        return '<option value="' + o.value + '">' + o.name + '</option>';
+    }).join('');
+}
 
-        selectSortBy.innerHTML = options.map(function (o) {
-            return '<option value="' + o.value + '">' + o.name + '</option>';
-        }).join('');
-    }
+function saveValues(context, settingsKey) {
+    userSettings.setFilter(settingsKey + '-sortorder', context.querySelector('.selectSortOrder').value);
+    userSettings.setFilter(settingsKey + '-sortby', context.querySelector('.selectSortBy').value);
+}
 
-    function saveValues(context, settings, settingsKey) {
-        userSettings.setFilter(settingsKey + '-sortorder', context.querySelector('.selectSortOrder').value);
-        userSettings.setFilter(settingsKey + '-sortby', context.querySelector('.selectSortBy').value);
-    }
-
-    function SortMenu() {
-
-    }
-
-    SortMenu.prototype.show = function (options) {
+class SortMenu {
+    show(options) {
         return new Promise(function (resolve, reject) {
-            require(['text!./sortmenu.template.html'], function (template) {
-                var dialogOptions = {
+            import('text!./sortmenu.template.html').then(({default: template}) => {
+                const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -54,11 +56,11 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
                     dialogOptions.size = 'small';
                 }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+                const dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
 
-                var html = '';
+                let html = '';
 
                 html += '<div class="formDialogHeader">';
                 html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
@@ -81,7 +83,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
                     centerFocus(dlg.querySelector('.formDialogContent'), false, true);
                 }
 
-                var submitted;
+                let submitted;
 
                 dlg.querySelector('form').addEventListener('change', function () {
                     submitted = true;
@@ -93,7 +95,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
                     }
 
                     if (submitted) {
-                        saveValues(dlg, options.settings, options.settingsKey);
+                        saveValues(dlg, options.settingsKey);
                         resolve();
                         return;
                     }
@@ -102,7 +104,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
                 });
             });
         });
-    };
+    }
+}
 
-    return SortMenu;
-});
+export default SortMenu;

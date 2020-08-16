@@ -17,15 +17,15 @@ import 'emby-button';
 
     function getTabs() {
         return [{
-            name: globalize.translate('TabShows')
+            name: globalize.translate('Shows')
         }, {
-            name: globalize.translate('TabSuggestions')
+            name: globalize.translate('Suggestions')
         }, {
             name: globalize.translate('TabLatest')
         }, {
             name: globalize.translate('TabUpcoming')
         }, {
-            name: globalize.translate('TabGenres')
+            name: globalize.translate('Genres')
         }, {
             name: globalize.translate('TabNetworks')
         }, {
@@ -318,8 +318,8 @@ import 'emby-button';
                         libraryMenu.setTitle(item.Name);
                     });
                 } else {
-                    view.setAttribute('data-title', globalize.translate('TabShows'));
-                    libraryMenu.setTitle(globalize.translate('TabShows'));
+                    view.setAttribute('data-title', globalize.translate('Shows'));
+                    libraryMenu.setTitle(globalize.translate('Shows'));
                 }
             }
 

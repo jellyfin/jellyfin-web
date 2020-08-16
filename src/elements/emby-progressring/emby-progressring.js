@@ -3,7 +3,7 @@ import 'webcomponents';
 
 /* eslint-disable indent */
 
-    let EmbyProgressRing = Object.create(HTMLDivElement.prototype);
+    const EmbyProgressRing = Object.create(HTMLDivElement.prototype);
 
     EmbyProgressRing.createdCallback = function () {
         this.classList.add('progressring');
@@ -79,7 +79,7 @@ import 'webcomponents';
     };
 
     EmbyProgressRing.detachedCallback = function () {
-        let observer = this.observer;
+        const observer = this.observer;
 
         if (observer) {
             // later, you can stop observing

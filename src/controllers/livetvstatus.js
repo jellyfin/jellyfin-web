@@ -15,12 +15,10 @@ import 'emby-button';
 const enableFocusTransform = !browser.slow && !browser.edge;
 
 function getDeviceHtml(device) {
-    let padderClass;
+    const padderClass = 'cardPadder-backdrop';
+    let cssClass = 'card scalableCard backdropCard backdropCard-scalable';
+    const cardBoxCssClass = 'cardBox visualCardBox';
     let html = '';
-    let cssClass = 'card scalableCard';
-    let cardBoxCssClass = 'cardBox visualCardBox';
-    cssClass += ' backdropCard backdropCard-scalable';
-    padderClass = 'cardPadder-backdrop';
 
     // TODO move card creation code to Card component
 
@@ -139,7 +137,7 @@ function renderProviders(page, providers) {
 function showProviderOptions(page, providerId, button) {
     const items = [];
     items.push({
-        name: globalize.translate('ButtonDelete'),
+        name: globalize.translate('Delete'),
         id: 'delete'
     });
     items.push({
@@ -257,7 +255,7 @@ function addDevice(button) {
 function showDeviceMenu(button, tunerDeviceId) {
     const items = [];
     items.push({
-        name: globalize.translate('ButtonDelete'),
+        name: globalize.translate('Delete'),
         id: 'delete'
     });
     items.push({
