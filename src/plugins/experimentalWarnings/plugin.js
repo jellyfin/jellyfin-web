@@ -2,8 +2,6 @@ import globalize from 'globalize';
 import * as userSettings from 'userSettings';
 import appHost from 'apphost';
 
-/*eslint prefer-const: "error"*/
-
 // TODO: Replace with date-fns
 // https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
 function getWeek(date) {
