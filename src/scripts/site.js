@@ -655,7 +655,6 @@ function initClient() {
             pluginManager: componentsPath + '/pluginManager',
             packageManager: componentsPath + '/packageManager',
             screensaverManager: componentsPath + '/screensavermanager',
-            chromecastHelper: 'plugins/chromecastPlayer/chromecastHelpers',
             appRouter: 'components/appRouter'
         };
 
