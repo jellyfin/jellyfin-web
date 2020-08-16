@@ -7,7 +7,7 @@ import dom from '../../scripts/dom';
 import './navdrawer.css';
 import '../../assets/css/scrollstyles.css';
 
-export default function (options) {
+export function NavigationDrawer(options) {
     function getTouches(e) {
         return e.changedTouches || e.targetTouches || e.touches;
     }

@@ -1,9 +1,8 @@
-import appHost from './apphost';
+import { appHost } from './apphost';
 import appSettings from '../scripts/settings/appSettings';
 import backdrop from './backdrop/backdrop';
 import browser from '../scripts/browser';
-import connectionManager from 'jellyfin-apiclient';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
 import itemHelper from './itemHelper';
 import loading from './loading/loading';
@@ -95,7 +94,7 @@ class AppRouter {
     beginConnectionWizard() {
         backdrop.clearBackdrop();
         loading.show();
-        connectionManager.connect({
+        window.ConnectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.handleConnectionResult(result);
@@ -154,7 +153,7 @@ class AppRouter {
         events.on(appHost, 'beforeexit', this.onBeforeExit);
         events.on(appHost, 'resume', this.onAppResume);
 
-        connectionManager.connect({
+        window.ConnectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.firstConnectionResult = result;
@@ -210,7 +209,7 @@ class AppRouter {
     showItem(item, serverId, options) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof (item) === 'string') {
-            const apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
+            const apiClient = serverId ? window.ConnectionManager.getApiClient(serverId) : window.ConnectionManager.currentApiClient();
             apiClient.getItem(apiClient.getCurrentUserId(), item).then((itemObject) => {
                 this.showItem(itemObject, options);
             });
@@ -309,20 +308,11 @@ class AppRouter {
             url = route.contentPath || route.path;
         }
 
-        if (url.indexOf('://') === -1) {
-            // Put a slash at the beginning but make sure to avoid a double slash
-            if (url.indexOf('/') !== 0) {
-                url = '/' + url;
-            }
-
-            url = this.baseUrl() + url;
-        }
-
         if (ctx.querystring && route.enableContentQueryString) {
             url += '?' + ctx.querystring;
         }
 
-        import('' + url).then(({default: html}) => {
+        import(/* webpackChunkName: "[request]" */ `../controllers/${url}`).then((html) => {
             this.loadContent(ctx, route, html, request);
         });
     }
@@ -492,15 +482,15 @@ class AppRouter {
     }
 
     initApiClients() {
-        connectionManager.getApiClients().forEach((apiClient) => {
+        window.ConnectionManager.getApiClients().forEach((apiClient) => {
             this.initApiClient(apiClient, this);
         });
 
-        events.on(connectionManager, 'apiclientcreated', this.onApiClientCreated);
+        events.on(window.ConnectionManager, 'apiclientcreated', this.onApiClientCreated);
     }
 
     onAppResume() {
-        const apiClient = connectionManager.currentApiClient();
+        const apiClient = window.ConnectionManager.currentApiClient();
 
         if (apiClient) {
             apiClient.ensureWebSocket();
@@ -518,7 +508,7 @@ class AppRouter {
             }
         }
 
-        const apiClient = connectionManager.currentApiClient();
+        const apiClient = window.ConnectionManager.currentApiClient();
         const pathname = ctx.pathname.toLowerCase();
 
         console.debug('appRouter - processing path request ' + pathname);
@@ -845,4 +835,4 @@ class AppRouter {
     }
 }
 
-export default new AppRouter();
+export const appRouter = new AppRouter();

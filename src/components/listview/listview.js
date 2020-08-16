@@ -8,7 +8,7 @@
 import itemHelper from '../itemHelper';
 import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import datetime from '../../scripts/datetime';
@@ -77,7 +77,7 @@ import '../../elements/emby-playstatebutton/emby-playstatebutton';
     }
 
     function getImageUrl(item, width) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = ConnectionManager.getApiClient(item.ServerId);
         let itemId;
 
         const options = {
@@ -106,7 +106,7 @@ import '../../elements/emby-playstatebutton/emby-playstatebutton';
     }
 
     function getChannelImageUrl(item, width) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = ConnectionManager.getApiClient(item.ServerId);
         const options = {
             maxWidth: width,
             type: 'Primary'

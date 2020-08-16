@@ -7,7 +7,6 @@
 
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
-import connectionManager from 'jellyfin-apiclient';
 import itemHelper from '../itemHelper';
 import focusManager from '../focusManager';
 import indicators from '../indicators/indicators';
@@ -15,7 +14,7 @@ import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
-import playbackManager from '../playback/playbackmanager';
+import { playbackManager } from '../playback/playbackmanager';
 import itemShortcuts from '../shortcuts';
 import imageHelper from '../../scripts/imagehelper';
 import './card.css';
@@ -371,7 +370,7 @@ import '../guide/programs.css';
 
                 if (serverId !== lastServerId) {
                     lastServerId = serverId;
-                    apiClient = connectionManager.getApiClient(lastServerId);
+                    apiClient = window.ConnectionManager.getApiClient(lastServerId);
                 }
 
                 if (options.indexBy) {

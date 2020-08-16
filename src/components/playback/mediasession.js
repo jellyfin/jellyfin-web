@@ -1,7 +1,6 @@
-import playbackManager from '../playback/playbackmanager';
+import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
-import events from 'jellyfin-apiclient';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 /* eslint-disable indent */
 
     // Reports media playback to the device for lock screen control
@@ -16,16 +15,16 @@ import connectionManager from 'jellyfin-apiclient';
         } else if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
 
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+            return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         } else if (options.type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             } else if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -38,11 +37,11 @@ import connectionManager from 'jellyfin-apiclient';
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
 
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
+            return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
         } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
 
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;

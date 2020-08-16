@@ -1,12 +1,65 @@
 import { removeEventListener, addEventListener } from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import shell from '../../scripts/shell';
-import appRouter from '../../components/appRouter';
-import appHost from '../../components/apphost';
+import { appRouter } from '../../components/appRouter';
+import { appHost } from '../../components/apphost';
 import './emby-button.css';
 
-const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
-const EmbyLinkButtonPrototype = Object.create(HTMLAnchorElement.prototype);
+class EmbyButton extends HTMLButtonElement {
+    createdCallback() {
+        if (this.classList.contains('emby-button')) {
+            return;
+        }
+
+        this.classList.add('../../elements/emby-button/emby-button');
+        // TODO replace all instances of element-showfocus with this method
+        if (layoutManager.tv) {
+            // handles all special css for tv layout
+            // this method utilizes class chaining
+            this.classList.add('show-focus');
+        }
+    }
+
+    attachedCallback() {
+        if (this.tagName === 'A') {
+            removeEventListener(this, 'click', onAnchorClick, {});
+            addEventListener(this, 'click', onAnchorClick, {});
+
+            if (this.getAttribute('data-autohide') === 'true') {
+                if (appHost.supports('externallinks')) {
+                    this.classList.remove('hide');
+                } else {
+                    this.classList.add('hide');
+                }
+            }
+        }
+    }
+
+    detachedCallback() {
+        removeEventListener(this, 'click', onAnchorClick, {});
+    }
+}
+
+class EmbyLinkButton extends HTMLAnchorElement {
+    attachedCallback() {
+        if (this.tagName === 'A') {
+            removeEventListener(this, 'click', onAnchorClick, {});
+            addEventListener(this, 'click', onAnchorClick, {});
+
+            if (this.getAttribute('data-autohide') === 'true') {
+                if (appHost.supports('externallinks')) {
+                    this.classList.remove('hide');
+                } else {
+                    this.classList.add('hide');
+                }
+            }
+        }
+    }
+
+    detachedCallback() {
+        removeEventListener(this, 'click', onAnchorClick, {});
+    }
+}
 
 function onAnchorClick(e) {
     const href = this.getAttribute('href') || '';
@@ -24,50 +77,8 @@ function onAnchorClick(e) {
     }
 }
 
-EmbyButtonPrototype.createdCallback = function () {
-    if (this.classList.contains('emby-button')) {
-        return;
-    }
+customElements.define('emby-button', EmbyButton, { extends: 'button' });
 
-    this.classList.add('../../elements/emby-button/emby-button');
-    // TODO replace all instances of element-showfocus with this method
-    if (layoutManager.tv) {
-        // handles all special css for tv layout
-        // this method utilizes class chaining
-        this.classList.add('show-focus');
-    }
-};
+customElements.define('emby-linkbutton', EmbyLinkButton, { extends: 'a' });
 
-EmbyButtonPrototype.attachedCallback = function () {
-    if (this.tagName === 'A') {
-        removeEventListener(this, 'click', onAnchorClick, {});
-        addEventListener(this, 'click', onAnchorClick, {});
-
-        if (this.getAttribute('data-autohide') === 'true') {
-            if (appHost.supports('externallinks')) {
-                this.classList.remove('hide');
-            } else {
-                this.classList.add('hide');
-            }
-        }
-    }
-};
-
-EmbyButtonPrototype.detachedCallback = function () {
-    removeEventListener(this, 'click', onAnchorClick, {});
-};
-
-EmbyLinkButtonPrototype.createdCallback = EmbyButtonPrototype.createdCallback;
-EmbyLinkButtonPrototype.attachedCallback = EmbyButtonPrototype.attachedCallback;
-
-document.registerElement('../../elements/emby-button/emby-button', {
-    prototype: EmbyButtonPrototype,
-    extends: 'button'
-});
-
-document.registerElement('emby-linkbutton', {
-    prototype: EmbyLinkButtonPrototype,
-    extends: 'a'
-});
-
-export default EmbyButtonPrototype;
+export default EmbyButton;

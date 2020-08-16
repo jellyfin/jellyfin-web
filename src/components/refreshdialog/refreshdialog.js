@@ -2,7 +2,7 @@ import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
@@ -66,7 +66,7 @@ function onSubmit(e) {
     const dlg = dom.parentWithClass(e.target, 'dialog');
     const options = instance.options;
 
-    const apiClient = connectionManager.getApiClient(options.serverId);
+    const apiClient = ConnectionManager.getApiClient(options.serverId);
 
     const replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
 

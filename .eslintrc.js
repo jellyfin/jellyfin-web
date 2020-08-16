@@ -23,7 +23,6 @@ module.exports = {
         'eslint:recommended',
         // 'plugin:promise/recommended',
         'plugin:import/errors',
-        'plugin:import/warnings',
         'plugin:eslint-comments/recommended',
         'plugin:compat/recommended'
     ],

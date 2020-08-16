@@ -6,7 +6,7 @@
  */
 
 import dialogHelper from '../dialogHelper/dialogHelper';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import dom from '../../scripts/dom';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
@@ -108,7 +108,7 @@ import './style.css';
             return false;
         }
 
-        connectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
+        ConnectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
             dlg.querySelector('#uploadImage').value = '';
 
             loading.hide();

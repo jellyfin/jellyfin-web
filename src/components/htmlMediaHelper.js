@@ -3,7 +3,7 @@
 
 import appSettings from '../scripts/settings/appSettings' ;
 import browser from '../scripts/browser';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 
     export function getSavedVolume() {
         return appSettings.get('volume') || 1;

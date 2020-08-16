@@ -94,14 +94,10 @@ function initClient() {
         return Promise.all([
             import('jellyfin-apiclient'),
             import('../components/apphost'),
-            import('jellyfin-apiclient'),
-            import('jellyfin-apiclient'),
             import('./settings/userSettings')
         ])
-            .then(([ConnectionManager, appHost, credentialProvider, events, userSettings]) => {
-                appHost = appHost.default || appHost;
-
-                var credentialProviderInstance = new credentialProvider();
+            .then(([{ ConnectionManager, Credentials, events }, { appHost} , userSettings]) => {
+                var credentialProviderInstance = new Credentials();
                 var promises = [appHost.init()];
 
                 return Promise.all(promises).then(function (responses) {
@@ -118,10 +114,10 @@ function initClient() {
                             import('jellyfin-apiclient'),
                             import('./clientUtils')
                         ])
-                            .then(([apiClientFactory, clientUtils]) => {
+                            .then(([{ ApiClient }, clientUtils]) => {
                                 console.debug('creating ApiClient singleton');
 
-                                var apiClient = new apiClientFactory(Dashboard.serverAddress(), appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
+                                var apiClient = new ApiClient(Dashboard.serverAddress(), appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
 
                                 apiClient.enableAutomaticNetworking = false;
                                 apiClient.manualAddressOnly = true;
@@ -160,17 +156,16 @@ function initClient() {
                         .then((keyboardnavigation) => {
                             keyboardnavigation.enable();
                         });
-                    import(['./mouseManager']);
+                    import('./mouseManager');
                     import('../components/autoFocuser').then((autoFocuser) => {
                         autoFocuser.enable();
                     });
                     Promise.all([
                         import('./globalize'),
-                        import('jellyfin-apiclient'),
                         import('jellyfin-apiclient')
                     ])
-                        .then((globalize, connectionManager, events) => {
-                            events.on(connectionManager, 'localusersignedin', globalize.updateCurrentCulture);
+                        .then(([ globalize, { ConnectionManager, events } ]) => {
+                            events.on(ConnectionManager, 'localusersignedin', globalize.updateCurrentCulture);
                         });
                 });
             });
@@ -181,7 +176,7 @@ function initClient() {
         var translations = languages.map(function (language) {
             return {
                 lang: language,
-                path: 'strings/' + language + '.json'
+                path: language + '.json'
             };
         });
         globalize.defaultModule('core');
@@ -208,21 +203,24 @@ function initClient() {
             import('../assets/css/fonts.css');
         }
 
-        Promise.all([
-            import('../components/apphost'),
-            import('../assets/css/librarybrowser.css')
-        ]).then((appHost) => {
-            loadPlugins(appHost, browser).then(function () {
-                onAppReady(browser);
+        import('../assets/css/librarybrowser.css')
+        import('../components/apphost')
+            .then(({ appHost }) => {
+                loadPlugins(appHost, browser).then(function () {
+                    onAppReady(browser);
+                });
             });
-        });
     }
 
     function loadPlugins(appHost, browser, shell) {
         console.groupCollapsed('loading installed plugins');
         return new Promise(function (resolve, reject) {
-            import('./settings/webSettings')
-                .then((webSettings) => {
+            Promise.all([
+                import('./settings/webSettings'),
+                import('../components/pluginManager')
+            ])
+                .then(([webSettings, { pluginManager: pluginManager }]) => {
+                    console.dir(pluginManager);
                     webSettings.getPlugins().then(function (list) {
                         // these two plugins are dependent on features
                         if (!appHost.supports('remotecontrol')) {
@@ -238,15 +236,17 @@ function initClient() {
                             list = list.concat(window.NativeShell.getPlugins());
                         }
 
-                        Promise.all(list.map(loadPlugin))
-                            .then(function () {
+                        Promise.all(list.map((plugin) => {
+                            return pluginManager.loadPlugin(import(/* webpackChunkName: "[request]" */ `../plugins/${plugin}`));
+                        }))
+                            .then(function (pluginPromises) {
                                 console.debug('finished loading plugins');
                             })
                             .catch(() => reject)
                             .finally(() => {
                                 console.groupEnd('loading installed plugins');
                                 import('../components/packageManager')
-                                    .then((packageManager) => {
+                                    .then(({ default: packageManager }) => {
                                         packageManager.init().then(resolve, reject);
                                     });
                             })
@@ -256,27 +256,15 @@ function initClient() {
         });
     }
 
-    function loadPlugin(url) {
-        return new Promise(function (resolve, reject) {
-            import('../components/pluginManager')
-                .then((pluginManager) => {
-                    pluginManager.loadPlugin(url).then(resolve, reject);
-                });
-        });
-    }
-
     function onAppReady(browser) {
         console.debug('begin onAppReady');
 
         // ensure that appHost is loaded in this point
         Promise.all([
-            import('jellyfin-apiclient'),
+            import('../components/apphost'),
             import('../components/appRouter')
         ])
-            .then(([appHost, appRouter]) => {
-                appRouter = appRouter.default || appRouter;
-                appHost = appHost.default || appHost;
-
+            .then(([{ appHost }, { appRouter }]) => {
                 window.Emby = {};
 
                 console.debug('onAppReady: loading dependencies');

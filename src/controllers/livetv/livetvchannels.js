@@ -2,7 +2,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import loading from '../../components/loading/loading';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 

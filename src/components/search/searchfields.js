@@ -1,6 +1,6 @@
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import AlphaPicker from '../alphaPicker/alphaPicker';
 import '../../elements/emby-input/emby-input';

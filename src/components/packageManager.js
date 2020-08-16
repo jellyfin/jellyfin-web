@@ -1,5 +1,5 @@
 import appSettings from '../scripts/settings/appSettings';
-import pluginManager from './pluginManager';
+import { pluginManager } from './pluginManager';
 /* eslint-disable indent */
 
     class PackageManager {

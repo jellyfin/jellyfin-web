@@ -2,7 +2,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
 import dom from '../../scripts/dom';
@@ -21,7 +21,7 @@ let hasChanges;
 function downloadRemoteSubtitles(context, id) {
     let url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
 
-    let apiClient = connectionManager.getApiClient(currentItem.ServerId);
+    let apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
     apiClient.ajax({
 
         type: 'POST',
@@ -55,7 +55,7 @@ function deleteLocalSubtitle(context, index) {
             let itemId = currentItem.Id;
             let url = 'Videos/' + itemId + '/Subtitles/' + index;
 
-            let apiClient = connectionManager.getApiClient(currentItem.ServerId);
+            let apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
 
             apiClient.ajax({
 
@@ -243,7 +243,7 @@ function searchForSubtitles(context, language) {
 
     loading.show();
 
-    let apiClient = connectionManager.getApiClient(currentItem.ServerId);
+    let apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
     let url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
 
     apiClient.getJSON(url).then(function (results) {
@@ -356,7 +356,7 @@ function centerFocus(elem, horiz, on) {
 function showEditorInternal(itemId, serverId, template) {
     hasChanges = false;
 
-    let apiClient = connectionManager.getApiClient(serverId);
+    let apiClient = ConnectionManager.getApiClient(serverId);
     return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
         let dialogOptions = {
             removeOnClose: true,

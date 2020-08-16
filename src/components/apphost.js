@@ -1,6 +1,7 @@
+
 import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import * as htmlMediaHelper from '../components/htmlMediaHelper';
 import * as webSettings from '../scripts/settings/webSettings';
 import globalize from '../scripts/globalize';
@@ -320,7 +321,7 @@ let deviceName;
 const appName = 'Jellyfin Web';
 const appVersion = '10.7.0';
 
-const appHost = {
+export const appHost = {
     getWindowState: function () {
         return document.windowState || 'Normal';
     },
@@ -408,5 +409,3 @@ if (self.addEventListener) {
     self.addEventListener('focus', onAppVisible);
     self.addEventListener('blur', onAppHidden);
 }
-
-export default appHost;

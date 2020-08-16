@@ -1,14 +1,13 @@
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
-import pluginManager from '../pluginManager';
-import appHost from '../apphost';
+import { pluginManager } from '../pluginManager';
+import { appHost } from '../apphost';
 import focusManager from '../focusManager';
 import datetime from '../../scripts/datetime';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import connectionManager from 'jellyfin-apiclient';
 import skinManager from '../../scripts/themeManager';
-import events from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
@@ -182,7 +181,7 @@ import '../../elements/emby-button/emby-button';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ConnectionManager.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -221,7 +220,7 @@ import '../../elements/emby-button/emby-button';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = connectionManager.getApiClient(self.options.serverId);
+            const apiClient = ConnectionManager.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             return apiClient.getUser(userId).then(user => {

@@ -1,7 +1,7 @@
 import loading from './loading/loading';
 import cardBuilder from './cardbuilder/cardBuilder';
 import dom from '../scripts/dom';
-import appHost from './apphost';
+import { appHost } from './apphost';
 import imageLoader from './images/imageLoader';
 import globalize from '../scripts/globalize';
 import layoutManager from './layoutManager';

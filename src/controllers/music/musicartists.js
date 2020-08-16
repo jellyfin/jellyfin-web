@@ -1,5 +1,5 @@
 import loading from '../../components/loading/loading';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import imageLoader from '../../components/images/imageLoader';
 import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';

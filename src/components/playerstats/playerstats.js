@@ -1,9 +1,8 @@
-import connectionManager from 'jellyfin-apiclient';
-import events from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import '../../elements/emby-button/paper-icon-button-light';
 import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
-import playbackManager from '../playback/playbackmanager';
+import { playbackManager } from '../playback/playbackmanager';
 import playMethodHelper from '../playback/playmethodhelper';
 import syncPlayManager from '../syncPlay/syncPlayManager';
 import './playerstats.css';
@@ -95,7 +94,7 @@ import './playerstats.css';
             return Promise.resolve(instance.lastSession);
         }
 
-        const apiClient = connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+        const apiClient = ConnectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
 
         return apiClient.getSessions({
             deviceId: apiClient.deviceId()
@@ -386,7 +385,7 @@ import './playerstats.css';
                 name: 'Original Media Info'
             });
 
-            var apiClient = connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+            var apiClient = ConnectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
             if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),

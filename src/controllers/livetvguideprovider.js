@@ -1,4 +1,4 @@
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import loading from '../components/loading/loading';
 import globalize from '../scripts/globalize';
 

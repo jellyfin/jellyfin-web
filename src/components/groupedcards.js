@@ -1,13 +1,13 @@
 /* eslint-disable indent */
 
 import dom from '../scripts/dom';
-import appRouter from './appRouter';
-import connectionManager from 'jellyfin-apiclient';
+import { appRouter } from './appRouter';
+import { ConnectionManager } from 'jellyfin-apiclient';
 
     function onGroupedCardClick(e, card) {
         var itemId = card.getAttribute('data-id');
         var serverId = card.getAttribute('data-serverid');
-        var apiClient = connectionManager.getApiClient(serverId);
+        var apiClient = ConnectionManager.getApiClient(serverId);
         var userId = apiClient.getCurrentUserId();
         var playedIndicator = card.querySelector('.playedIndicator');
         var playedIndicatorHtml = playedIndicator ? playedIndicator.innerHTML : null;

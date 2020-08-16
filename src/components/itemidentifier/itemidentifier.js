@@ -7,7 +7,7 @@
 
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
@@ -31,7 +31,7 @@ import '../cardbuilder/card.css';
     let currentSearchResult;
 
     function getApiClient() {
-        return connectionManager.getApiClient(currentServerId);
+        return ConnectionManager.getApiClient(currentServerId);
     }
 
     function searchForIdentificationResults(page) {

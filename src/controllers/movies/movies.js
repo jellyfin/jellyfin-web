@@ -1,6 +1,6 @@
 import loading from '../../components/loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
 import listView from '../../components/listview/listview';

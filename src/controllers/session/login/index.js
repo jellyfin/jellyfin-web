@@ -1,7 +1,7 @@
-import appHost from '../../../components/apphost';
+import { appHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../scripts/dom';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import loading from '../../../components/loading/loading';
 import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
@@ -139,7 +139,7 @@ import '../../../elements/emby-checkbox/emby-checkbox';
             const serverId = params.serverid;
 
             if (serverId) {
-                return connectionManager.getOrCreateApiClient(serverId);
+                return ConnectionManager.getOrCreateApiClient(serverId);
             }
 
             return ApiClient;

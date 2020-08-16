@@ -1,3 +1,4 @@
+const path = require('path');
 const common = require('./webpack.common');
 const merge = require('webpack-merge');
 const packageConfig = require('./package.json');
@@ -17,7 +18,7 @@ module.exports = merge(common, {
             },
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!date-fns|epubjs|jellyfin-apiclient|query-string|split-on-first|strict-uri-encode|xmldom)/,
+                exclude: /node_modules[\\/](?!date-fns|epubjs|jellyfin-apiclient|query-string|split-on-first)/,
                 use: {
                     loader: 'babel-loader',
                     options: {
@@ -61,5 +62,9 @@ module.exports = merge(common, {
             filename: 'index.html',
             template: 'index.html'
         })
-    ]
+    ],
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true
+    }
 });

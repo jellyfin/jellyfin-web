@@ -1,18 +1,12 @@
+
 let data;
 
 async function getConfig() {
     if (data) return Promise.resolve(data);
     try {
-        const response = await fetch('config.json', {
-            cache: 'no-cache'
-        });
+        data = await import('../../config.json');
 
-        if (!response.ok) {
-            throw new Error('network response was not ok');
-        }
-
-        data = await response.json();
-
+        console.dir(data);
         return data;
     } catch (error) {
         console.warn('failed to fetch the web config file:', error);
@@ -22,15 +16,9 @@ async function getConfig() {
 
 async function getDefaultConfig() {
     try {
-        const response = await fetch('config.template.json', {
-            cache: 'no-cache'
-        });
+        data = await import('../../config.template.json');
 
-        if (!response.ok) {
-            throw new Error('network response was not ok');
-        }
-
-        data = await response.json();
+        console.dir(data);
         return data;
     } catch (error) {
         console.error('failed to fetch the default web config file:', error);

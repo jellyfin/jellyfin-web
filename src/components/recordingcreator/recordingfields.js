@@ -1,10 +1,9 @@
 import globalize from '../../scripts/globalize';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
 import dom from '../../scripts/dom';
 import recordingHelper from './recordinghelper';
-import events from 'jellyfin-apiclient';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import './recordingfields.css';
@@ -46,7 +45,7 @@ function loadData(parent, program, apiClient) {
 
 function fetchData(instance) {
     const options = instance.options;
-    const apiClient = connectionManager.getApiClient(options.serverId);
+    const apiClient = ConnectionManager.getApiClient(options.serverId);
 
     options.parent.querySelector('.recordingFields').classList.remove('hide');
     return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then(function (program) {
@@ -197,7 +196,7 @@ function onRecordChange(e) {
 
     const self = this;
     const options = this.options;
-    const apiClient = connectionManager.getApiClient(options.serverId);
+    const apiClient = ConnectionManager.getApiClient(options.serverId);
 
     const button = dom.parentWithTag(e.target, 'BUTTON');
     const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
@@ -236,7 +235,7 @@ function onRecordSeriesChange(e) {
 
     const self = this;
     const options = this.options;
-    const apiClient = connectionManager.getApiClient(options.serverId);
+    const apiClient = ConnectionManager.getApiClient(options.serverId);
 
     const button = dom.parentWithTag(e.target, 'BUTTON');
     const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');

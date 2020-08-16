@@ -1,8 +1,8 @@
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import cardBuilder from '../cardbuilder/cardBuilder';
-import appRouter from '../appRouter';
+import { appRouter } from '../appRouter';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-button/emby-button';
@@ -606,7 +606,7 @@ class SearchResults {
         embed(options.element, this, options);
     }
     search(value) {
-        const apiClient = connectionManager.getApiClient(this.options.serverId);
+        const apiClient = ConnectionManager.getApiClient(this.options.serverId);
 
         search(this, apiClient, this.options.element, value);
     }

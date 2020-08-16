@@ -1,13 +1,12 @@
 import datetime from '../../scripts/datetime';
-import events from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import imageLoader from '../../scripts/imagehelper';
 import layoutManager from '../layoutManager';
-import playbackManager from '../playback/playbackmanager';
+import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
-import appHost from '../apphost';
+import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
-import connectionManager from 'jellyfin-apiclient';
 import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
@@ -452,7 +451,7 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
             if (item.SeriesPrimaryImageTag) {
                 options.tag = item.SeriesPrimaryImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
         }
 
@@ -460,12 +459,12 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -482,12 +481,12 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+            return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;
@@ -548,7 +547,7 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 
         if (nowPlayingItem.Id) {
             if (isRefreshing) {
-                const apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
+                const apiClient = ConnectionManager.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
                     const userData = item.UserData || {};
                     const likes = userData.Likes == null ? '' : userData.Likes;

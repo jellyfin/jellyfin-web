@@ -1,14 +1,13 @@
 import globalize from '../../scripts/globalize';
-import appHost from '../apphost';
+import { appHost } from '../apphost';
 import appSettings from '../../scripts/settings/appSettings';
 import focusManager from '../focusManager';
 import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
-import connectionManager from 'jellyfin-apiclient';
 import subtitleAppearanceHelper from './subtitleappearancehelper';
 import settingsHelper from '../settingshelper';
 import dom from '../../scripts/dom';
-import events from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import '../listview/listview.css';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-slider/emby-slider';
@@ -232,7 +231,7 @@ export class SubtitleSettings {
         loading.show();
 
         const userId = self.options.userId;
-        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ConnectionManager.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
         apiClient.getUser(userId).then(function (user) {
@@ -256,7 +255,7 @@ export class SubtitleSettings {
 
     onSubmit(e) {
         const self = this;
-        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ConnectionManager.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 

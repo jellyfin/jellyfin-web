@@ -1,6 +1,5 @@
-import connectionManager from 'jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
-import events from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import EmbyButtonPrototype from '../emby-button/emby-button';
 
@@ -28,7 +27,7 @@ import EmbyButtonPrototype from '../emby-button/emby-button';
         const button = this;
         const id = button.getAttribute('data-id');
         const serverId = button.getAttribute('data-serverid');
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = ConnectionManager.getApiClient(serverId);
 
         let likes = this.getAttribute('data-likes');
         const isFavorite = this.getAttribute('data-isfavorite') === 'true';

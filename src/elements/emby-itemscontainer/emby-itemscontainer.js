@@ -1,8 +1,7 @@
 
 import itemShortcuts from '../../components/shortcuts';
 import inputManager from '../../scripts/inputManager';
-import connectionManager from 'jellyfin-apiclient';
-import playbackManager from '../../components/playback/playbackmanager';
+import { playbackManager } from '../../components/playback/playbackmanager';
 import imageLoader from '../../components/images/imageLoader';
 import layoutManager from '../../components/layoutManager';
 import browser from '../../scripts/browser';
@@ -10,7 +9,7 @@ import dom from '../../scripts/dom';
 import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import serverNotifications from '../../scripts/serverNotifications';
-import events from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import 'webcomponents.js';
 
 /* eslint-disable indent */
@@ -104,7 +103,7 @@ import 'webcomponents.js';
         }
 
         const serverId = el.getAttribute('data-serverid');
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = ConnectionManager.getApiClient(serverId);
 
         loading.show();
 

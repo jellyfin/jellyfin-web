@@ -8,7 +8,7 @@
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.css';
@@ -137,7 +137,7 @@ import '../../assets/css/flexstyles.css';
     }
 
     function loadMediaInfo(itemId, serverId, template) {
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = ConnectionManager.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
             const dialogOptions = {
                 size: 'small',

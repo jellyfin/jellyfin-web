@@ -1,4 +1,4 @@
-import appHost from '../../../components/apphost';
+import { appHost } from '../../../components/apphost';
 import '../../../components/listview/listview.css';
 import '../../../elements/emby-button/emby-button';
 

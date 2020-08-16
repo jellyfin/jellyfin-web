@@ -1,5 +1,5 @@
 import datetime from '../../scripts/datetime';
-import { connectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import itemHelper from '../../components/itemHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import dom from '../../scripts/dom';
@@ -59,7 +59,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 confirmText: globalize.translate('ButtonSend')
             }).then(function (text) {
                 if (text) {
-                    connectionManager.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
+                    ConnectionManager.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
                         Text: text,
                         TimeoutMs: 5e3
                     });
@@ -72,7 +72,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         import('../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
             const menuItems = [];
 
-            if (session.ServerId && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && session.DeviceId !== ConnectionManager.deviceId()) {
                 menuItems.push({
                     name: globalize.translate('SendMessage'),
                     id: 'sendmessage'
@@ -122,9 +122,9 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     } else if (btn.classList.contains('btnSessionSendMessage')) {
                         showSendMessageForm(btn, session);
                     } else if (btn.classList.contains('btnSessionStop')) {
-                        connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'Stop');
+                        ConnectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'Stop');
                     } else if (btn.classList.contains('btnSessionPlayPause') && session.PlayState) {
-                        connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'PlayPause');
+                        ConnectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'PlayPause');
                     }
                 }
             }
@@ -312,7 +312,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('ViewPlaybackInfo') + '"><span class="material-icons info"></span></button>';
 
-                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== connectionManager.deviceId() ? '' : ' hide';
+                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== ConnectionManager.deviceId() ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('SendMessage') + '"><span class="material-icons message"></span></button>';
                 html += '</div>';
 
@@ -550,7 +550,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 row.classList.remove('playingSession');
             }
 
-            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== ConnectionManager.deviceId()) {
                 row.querySelector('.btnSessionSendMessage').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionSendMessage').classList.add('hide');
@@ -564,7 +564,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
             const btnSessionPlayPause = row.querySelector('.btnSessionPlayPause');
 
-            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== ConnectionManager.deviceId()) {
                 btnSessionPlayPause.classList.remove('hide');
                 row.querySelector('.btnSessionStop').classList.remove('hide');
             } else {

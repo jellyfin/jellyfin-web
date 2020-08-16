@@ -1,6 +1,6 @@
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import actionsheet from '../actionSheet/actionSheet';
-import playbackManager from '../playback/playbackmanager';
+import { playbackManager } from '../playback/playbackmanager';
 import globalize from '../../scripts/globalize';
 import qualityoptions from '../qualityOptions';
 
@@ -251,7 +251,7 @@ export function show(options) {
         return showWithUser(options, player, null);
     }
 
-    var apiClient = connectionManager.getApiClient(currentItem.ServerId);
+    var apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
     return apiClient.getCurrentUser().then(function (user) {
         return showWithUser(options, player, user);
     });

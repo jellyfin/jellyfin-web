@@ -1,16 +1,15 @@
-import connectionManager from 'jellyfin-apiclient';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
 import imageLoader from '../images/imageLoader';
 import globalize from '../../scripts/globalize';
-import appRouter from '../appRouter';
+import { appRouter } from '../appRouter';
 import imageHelper from '../../scripts/imagehelper';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-button/emby-button';
-import './homesections';
+import './homesections.css';
 
 /* eslint-disable indent */
 
@@ -212,7 +211,7 @@ import './homesections';
 
     function getFetchLatestItemsFn(serverId, parentId, collectionType) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.ConnectionManager.getApiClient(serverId);
             let limit = 16;
 
             if (enableScrollX()) {
@@ -368,7 +367,7 @@ import './homesections';
 
     function getContinueWatchingFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.ConnectionManager.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
 
             let limit;
@@ -441,7 +440,7 @@ import './homesections';
 
     function getContinueListeningFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.ConnectionManager.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
 
             let limit;
@@ -514,7 +513,7 @@ import './homesections';
 
     function getOnNowFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.ConnectionManager.getApiClient(serverId);
             return apiClient.getLiveTvRecommendedPrograms({
                 userId: apiClient.getCurrentUserId(),
                 IsAiring: true,
@@ -657,7 +656,7 @@ import './homesections';
 
     function getNextUpFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.ConnectionManager.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
                 Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo,Path',
@@ -728,7 +727,7 @@ import './homesections';
 
     function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.ConnectionManager.getApiClient(serverId);
             return apiClient.getLiveTvRecordings({
                 userId: apiClient.getCurrentUserId(),
                 Limit: enableScrollX() ? 12 : 5,

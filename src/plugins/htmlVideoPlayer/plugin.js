@@ -1,11 +1,10 @@
-import browser from 'browser';
-import events from 'jellyfin-apiclient';
-import appHost from 'apphost';
+import browser from '../../scripts/browser';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
-import dom from 'dom';
-import playbackManager from 'playbackManager';
-import appRouter from 'appRouter';
-import connectionManager from 'jellyfin-apiclient';
+import dom from '../../scripts/dom';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import { appRouter } from '../../components/appRouter';
 import {
     bindEventsToHlsPlayer,
     destroyHlsPlayer,
@@ -23,10 +22,10 @@ import {
     getSavedVolume,
     isValidDuration,
     getBufferedRanges
-} from 'htmlMediaHelper';
-import itemHelper from 'itemHelper';
-import screenfull from 'screenfull';
-import globalize from 'globalize';
+} from '../../components/htmlMediaHelper';
+import itemHelper from '../../components/itemHelper';
+import Screenfull from 'screenfull';
+import globalize from '../../scripts/globalize';
 
 /* eslint-disable indent */
 
@@ -86,7 +85,7 @@ function tryRemoveElement(elem) {
     }
 
     function requireHlsPlayer(callback) {
-        import('hlsjs').then(({default: hls}) => {
+        import('hls.js').then(({default: hls}) => {
             window.Hls = hls;
             callback();
         });
@@ -141,7 +140,7 @@ function tryRemoveElement(elem) {
     }
 
     function getDefaultProfile() {
-        return import('browserdeviceprofile').then(({default: profileBuilder}) => {
+        return import('../../scripts/browserDeviceProfile').then(({default: profileBuilder}) => {
             return profileBuilder({});
         });
     }
@@ -325,7 +324,7 @@ function tryRemoveElement(elem) {
 
                 console.debug(`prefetching hls playlist: ${hlsPlaylistUrl}`);
 
-                return connectionManager.getApiClient(item.ServerId).ajax({
+                return ConnectionManager.getApiClient(item.ServerId).ajax({
 
                     type: 'GET',
                     url: hlsPlaylistUrl
@@ -364,7 +363,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setSrcWithFlvJs(elem, options, url) {
-            return import('flvjs').then(({default: flvjs}) => {
+            return import('flv.js').then(({default: flvjs}) => {
                 const flvPlayer = flvjs.createPlayer({
                         type: 'flv',
                         url: url
@@ -709,8 +708,8 @@ function tryRemoveElement(elem) {
                 dlg.parentNode.removeChild(dlg);
             }
 
-            if (screenfull.isEnabled) {
-                screenfull.exit();
+            if (Screenfull.isEnabled) {
+                Screenfull.exit();
             } else {
                 // iOS Safari
                 if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
@@ -1036,7 +1035,7 @@ function tryRemoveElement(elem) {
          */
         renderSsaAss(videoElement, track, item) {
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
-            const apiClient = connectionManager.getApiClient(item);
+            const apiClient = ConnectionManager.getApiClient(item);
             const htmlVideoPlayer = this;
             const options = {
                 video: videoElement,
@@ -1063,7 +1062,7 @@ function tryRemoveElement(elem) {
                 resizeVariation: 0.2,
                 renderAhead: 90
             };
-            import('JavascriptSubtitlesOctopus').then(({default: SubtitlesOctopus}) => {
+            import('libass-wasm').then(({default: SubtitlesOctopus}) => {
                 this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
             });
         }
@@ -1119,7 +1118,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setSubtitleAppearance(elem, innerElem) {
-            Promise.all([import('userSettings'), import('subtitleAppearanceHelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
+            Promise.all([import('../../scripts/settings/userSettings'), import('../../components/subtitlesettings/subtitleappearancehelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
                 subtitleAppearanceHelper.applyStyles({
                     text: innerElem,
                     window: elem
@@ -1140,7 +1139,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setCueAppearance() {
-            Promise.all([import('userSettings'), import('subtitleAppearanceHelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
+            Promise.all([import('../../scripts/settings/userSettings'), import('../../components/subtitlesettings/subtitleappearancehelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
                 const elementId = `${this.id}-cuestyle`;
 
                 let styleElem = document.querySelector(`#${elementId}`);
@@ -1195,7 +1194,7 @@ function tryRemoveElement(elem) {
 
             // download the track json
             this.fetchSubtitles(track, item).then(function (data) {
-                import('userSettings').then((userSettings) => {
+                import('../../scripts/settings/userSettings').then((userSettings) => {
                     // show in ui
                     console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
@@ -1287,7 +1286,7 @@ function tryRemoveElement(elem) {
             const dlg = document.querySelector('.videoPlayerContainer');
 
                 if (!dlg) {
-                    return import('./style').then(() => {
+                    return import('./style.css').then(() => {
                         loading.show();
 
                         const dlg = document.createElement('div');

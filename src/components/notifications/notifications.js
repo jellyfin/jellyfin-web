@@ -1,6 +1,6 @@
 import serverNotifications from '../../scripts/serverNotifications';
-import playbackManager from '../playback/playbackmanager';
-import events from 'jellyfin-apiclient';
+import { playbackManager } from '../playback/playbackmanager';
+import { events } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 
 function onOneDocumentClick() {

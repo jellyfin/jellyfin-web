@@ -1,4 +1,3 @@
-(function() {
-    'use strict';
-    window.appMode = 'standalone';
-})();
+window.appMode = 'standalone';
+
+import('./site');

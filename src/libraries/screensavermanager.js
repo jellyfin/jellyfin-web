@@ -1,8 +1,7 @@
-import events from 'jellyfin-apiclient';
-import playbackManager from '../components/playback/playbackmanager';
-import pluginManager from '../components/pluginManager';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { playbackManager } from '../components/playback/playbackmanager';
+import { pluginManager } from '../components/pluginManager';
 import inputManager from '../scripts/inputManager';
-import connectionManager from 'jellyfin-apiclient';
 import * as userSettings from '../scripts/settings/userSettings';
 
 function getMinIdleTime() {
@@ -85,7 +84,7 @@ function ScreenSaverManager() {
 
     this.show = function () {
         let isLoggedIn;
-        const apiClient = connectionManager.currentApiClient();
+        const apiClient = ConnectionManager.currentApiClient();
 
         if (apiClient && apiClient.isLoggedIn()) {
             isLoggedIn = true;

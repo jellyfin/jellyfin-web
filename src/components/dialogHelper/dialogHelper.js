@@ -1,4 +1,4 @@
-import appRouter from '../appRouter';
+import { appRouter } from '../appRouter';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';

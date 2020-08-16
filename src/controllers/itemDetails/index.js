@@ -1,8 +1,8 @@
-import appHost from '../../components/apphost';
+import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
-import appRouter from '../../components/appRouter';
+import { appRouter } from '../../components/appRouter';
 import layoutManager from '../../components/layoutManager';
-import { connectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import datetime from '../../scripts/datetime';
@@ -17,7 +17,7 @@ import imageLoader from '../../components/images/imageLoader';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import browser from '../../scripts/browser';
-import playbackManager from '../../components/playback/playbackmanager';
+import { playbackManager } from '../../components/playback/playbackmanager';
 import '../../assets/css/scrollstyles.css';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -564,7 +564,7 @@ import '../../elements/emby-select/emby-select';
     }
 
     function reloadFromItem(instance, page, params, item, user) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = ConnectionManager.getApiClient(item.ServerId);
 
         Emby.Page.setTitle('');
 
@@ -797,7 +797,7 @@ import '../../elements/emby-select/emby-select';
             return void section.classList.add('hide');
         }
 
-        connectionManager.getApiClient(item.ServerId).getNextUpEpisodes({
+        ConnectionManager.getApiClient(item.ServerId).getNextUpEpisodes({
             SeriesId: item.Id,
             UserId: user.Id
         }).then(function (result) {
@@ -1196,7 +1196,7 @@ import '../../elements/emby-select/emby-select';
             }
 
             similarCollapsible.classList.remove('hide');
-            const apiClient = connectionManager.getApiClient(item.ServerId);
+            const apiClient = ConnectionManager.getApiClient(item.ServerId);
             const options = {
                 userId: apiClient.getCurrentUserId(),
                 limit: 12,
@@ -1310,7 +1310,7 @@ import '../../elements/emby-select/emby-select';
         }
 
         let promise;
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = ConnectionManager.getApiClient(item.ServerId);
         const userId = apiClient.getCurrentUserId();
 
         if (item.Type == 'Series') {
@@ -1549,7 +1549,7 @@ import '../../elements/emby-select/emby-select';
     }
 
     function renderSeriesSchedule(page, item) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = ConnectionManager.getApiClient(item.ServerId);
         apiClient.getLiveTvPrograms({
             UserId: apiClient.getCurrentUserId(),
             HasAired: false,
@@ -1709,7 +1709,7 @@ import '../../elements/emby-select/emby-select';
     }
 
     function renderMusicVideos(page, item, user) {
-        connectionManager.getApiClient(item.ServerId).getItems(user.Id, {
+        ConnectionManager.getApiClient(item.ServerId).getItems(user.Id, {
             SortBy: 'SortName',
             SortOrder: 'Ascending',
             IncludeItemTypes: 'MusicVideo',
@@ -1729,7 +1729,7 @@ import '../../elements/emby-select/emby-select';
     }
 
     function renderAdditionalParts(page, item, user) {
-        connectionManager.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
+        ConnectionManager.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
             if (result.Items.length) {
                 page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
                 const additionalPartsContent = page.querySelector('#additionalPartsContent');
@@ -1774,7 +1774,7 @@ import '../../elements/emby-select/emby-select';
     }
 
     function renderSpecials(page, item, user) {
-        connectionManager.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
+        ConnectionManager.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
             const specialsContent = page.querySelector('#specialsContent');
             specialsContent.innerHTML = getVideosHtml(specials);
             imageLoader.lazyChildren(specialsContent);
@@ -1830,7 +1830,7 @@ import '../../elements/emby-select/emby-select';
         function reload(instance, page, params) {
             loading.show();
 
-            const apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
+            const apiClient = params.serverId ? ConnectionManager.getApiClient(params.serverId) : ApiClient;
 
             Promise.all([getPromise(apiClient, params), apiClient.getCurrentUser()]).then(([item, user]) => {
                 currentItem = item;
@@ -1879,7 +1879,7 @@ import '../../elements/emby-select/emby-select';
             const item = currentItem;
 
             if (item.Type === 'Program') {
-                const apiClient = connectionManager.getApiClient(item.ServerId);
+                const apiClient = ConnectionManager.getApiClient(item.ServerId);
                 return void apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
                     playbackManager.play({
                         items: [channel]
@@ -1912,7 +1912,7 @@ import '../../elements/emby-select/emby-select';
 
         function onCancelTimerClick() {
             import('../../components/recordingcreator/recordinghelper').then((recordingHelper) => {
-                recordingHelper.cancelTimer(connectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
+                recordingHelper.cancelTimer(ConnectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
                     reload(self, view, params);
                 });
             });
@@ -1975,7 +1975,7 @@ import '../../elements/emby-select/emby-select';
 
         let currentItem;
         const self = this;
-        const apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
+        const apiClient = params.serverId ? ConnectionManager.getApiClient(params.serverId) : ApiClient;
         view.querySelectorAll('.btnPlay');
         bindAll(view, '.btnPlay', 'click', onPlayClick);
         bindAll(view, '.btnResume', 'click', onPlayClick);

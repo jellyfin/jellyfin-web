@@ -1,8 +1,9 @@
+
 import inputManager from './inputManager';
 import focusManager from '../components/focusManager';
 import browser from '../scripts/browser';
 import layoutManager from '../components/layoutManager';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import dom from '../scripts/dom';
 /* eslint-disable indent */
 

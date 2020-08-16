@@ -7,7 +7,7 @@
 
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import layoutManager from '../layoutManager';
 import browser from '../../scripts/browser';
 
@@ -48,7 +48,7 @@ import browser from '../../scripts/browser';
         let html = '';
         let itemsInRow = 0;
 
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = ConnectionManager.getApiClient(item.ServerId);
 
         for (let i = 0, length = chapters.length; i < length; i++) {
             if (options.rows && itemsInRow === 0) {

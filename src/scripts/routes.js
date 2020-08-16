@@ -25,7 +25,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/addserver.html',
-        path: '/controllers/session/addServer/index.html',
+        path: 'session/addServer/index.html',
         autoFocus: false,
         anonymous: true,
         startup: true,
@@ -34,7 +34,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/selectserver.html',
-        path: '/controllers/session/selectServer/index.html',
+        path: 'session/selectServer/index.html',
         autoFocus: false,
         anonymous: true,
         startup: true,
@@ -44,7 +44,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/login.html',
-        path: '/controllers/session/login/index.html',
+        path: 'session/login/index.html',
         autoFocus: false,
         anonymous: true,
         startup: true,
@@ -54,7 +54,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/forgotpassword.html',
-        path: '/controllers/session/forgotPassword/index.html',
+        path: 'session/forgotPassword/index.html',
         anonymous: true,
         startup: true,
         controller: 'session/forgotPassword/index'
@@ -62,7 +62,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/forgotpasswordpin.html',
-        path: '/controllers/session/redeemPassword/index.html',
+        path: 'session/redeemPassword/index.html',
         autoFocus: false,
         anonymous: true,
         startup: true,
@@ -71,49 +71,49 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/mypreferencesmenu.html',
-        path: '/controllers/user/menu/index.html',
+        path: 'user/menu/index.html',
         autoFocus: false,
         controller: 'user/menu/index'
     });
 
     defineRoute({
         alias: '/myprofile.html',
-        path: '/controllers/user/profile/index.html',
+        path: 'user/profile/index.html',
         autoFocus: false,
         controller: 'user/profile/index'
     });
 
     defineRoute({
         alias: '/mypreferencesdisplay.html',
-        path: '/controllers/user/display/index.html',
+        path: 'user/display/index.html',
         autoFocus: false,
         controller: 'user/display/index'
     });
 
     defineRoute({
         alias: '/mypreferenceshome.html',
-        path: '/controllers/user/home/index.html',
+        path: 'user/home/index.html',
         autoFocus: false,
         controller: 'user/home/index'
     });
 
     defineRoute({
         alias: '/mypreferencesplayback.html',
-        path: '/controllers/user/playback/index.html',
+        path: 'user/playback/index.html',
         autoFocus: false,
         controller: 'user/playback/index'
     });
 
     defineRoute({
         alias: '/mypreferencessubtitles.html',
-        path: '/controllers/user/subtitles/index.html',
+        path: 'user/subtitles/index.html',
         autoFocus: false,
         controller: 'user/subtitles/index'
     });
 
     defineRoute({
         alias: '/dashboard.html',
-        path: '/controllers/dashboard/dashboard.html',
+        path: 'dashboard/dashboard.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/dashboard'
@@ -121,7 +121,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/dashboardgeneral.html',
-        path: '/controllers/dashboard/general.html',
+        path: 'dashboard/general.html',
         controller: 'dashboard/general',
         autoFocus: false,
         roles: 'admin'
@@ -129,7 +129,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/networking.html',
-        path: '/controllers/dashboard/networking.html',
+        path: 'dashboard/networking.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/networking'
@@ -137,7 +137,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/devices.html',
-        path: '/controllers/dashboard/devices/devices.html',
+        path: 'dashboard/devices/devices.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/devices/devices'
@@ -145,7 +145,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/device.html',
-        path: '/controllers/dashboard/devices/device.html',
+        path: 'dashboard/devices/device.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/devices/device'
@@ -153,7 +153,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/dlnaprofile.html',
-        path: '/controllers/dashboard/dlna/profile.html',
+        path: 'dashboard/dlna/profile.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/dlna/profile'
@@ -161,7 +161,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/dlnaprofiles.html',
-        path: '/controllers/dashboard/dlna/profiles.html',
+        path: 'dashboard/dlna/profiles.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/dlna/profiles'
@@ -169,7 +169,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/dlnasettings.html',
-        path: '/controllers/dashboard/dlna/settings.html',
+        path: 'dashboard/dlna/settings.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/dlna/settings'
@@ -177,7 +177,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/addplugin.html',
-        path: '/controllers/dashboard/plugins/add/index.html',
+        path: 'dashboard/plugins/add/index.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/plugins/add/index'
@@ -185,7 +185,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/library.html',
-        path: '/controllers/dashboard/library.html',
+        path: 'dashboard/library.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/library'
@@ -193,7 +193,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/librarydisplay.html',
-        path: '/controllers/dashboard/librarydisplay.html',
+        path: 'dashboard/librarydisplay.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/librarydisplay'
@@ -201,14 +201,14 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/edititemmetadata.html',
-        path: '/controllers/edititemmetadata.html',
+        path: 'edititemmetadata.html',
         controller: 'edititemmetadata',
         autoFocus: false
     });
 
     defineRoute({
         alias: '/encodingsettings.html',
-        path: '/controllers/dashboard/encodingsettings.html',
+        path: 'dashboard/encodingsettings.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/encodingsettings'
@@ -216,14 +216,14 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/log.html',
-        path: '/controllers/dashboard/logs.html',
+        path: 'dashboard/logs.html',
         roles: 'admin',
         controller: 'dashboard/logs'
     });
 
     defineRoute({
         alias: '/metadataimages.html',
-        path: '/controllers/dashboard/metadataimages.html',
+        path: 'dashboard/metadataimages.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/metadataImages'
@@ -231,7 +231,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/metadatanfo.html',
-        path: '/controllers/dashboard/metadatanfo.html',
+        path: 'dashboard/metadatanfo.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/metadatanfo'
@@ -239,7 +239,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/notificationsetting.html',
-        path: '/controllers/dashboard/notifications/notification/index.html',
+        path: 'dashboard/notifications/notification/index.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/notifications/notification/index'
@@ -247,7 +247,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/notificationsettings.html',
-        path: '/controllers/dashboard/notifications/notifications/index.html',
+        path: 'dashboard/notifications/notifications/index.html',
         controller: 'dashboard/notifications/notifications/index',
         autoFocus: false,
         roles: 'admin'
@@ -255,7 +255,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/playbackconfiguration.html',
-        path: '/controllers/dashboard/playback.html',
+        path: 'dashboard/playback.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/playback'
@@ -263,7 +263,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/availableplugins.html',
-        path: '/controllers/dashboard/plugins/available/index.html',
+        path: 'dashboard/plugins/available/index.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/plugins/available/index'
@@ -271,7 +271,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/repositories.html',
-        path: '/controllers/dashboard/plugins/repositories/index.html',
+        path: 'dashboard/plugins/repositories/index.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/plugins/repositories/index'
@@ -279,7 +279,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/home.html',
-        path: '/controllers/home.html',
+        path: 'home.html',
         autoFocus: false,
         controller: 'home',
         type: 'home'
@@ -287,34 +287,34 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/search.html',
-        path: '/controllers/search.html',
+        path: 'search.html',
         controller: 'searchpage'
     });
 
     defineRoute({
         alias: '/list.html',
-        path: '/controllers/list.html',
+        path: 'list.html',
         autoFocus: false,
         controller: 'list'
     });
 
     defineRoute({
         alias: '/details',
-        path: '/controllers/itemDetails/index.html',
+        path: 'itemDetails/index.html',
         controller: 'itemDetails/index',
         autoFocus: false
     });
 
     defineRoute({
         alias: '/livetv.html',
-        path: '/controllers/livetv.html',
+        path: 'livetv.html',
         controller: 'livetv/livetvsuggested',
         autoFocus: false
     });
 
     defineRoute({
         alias: '/livetvguideprovider.html',
-        path: '/controllers/livetvguideprovider.html',
+        path: 'livetvguideprovider.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'livetvguideprovider'
@@ -322,14 +322,14 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/livetvsettings.html',
-        path: '/controllers/livetvsettings.html',
+        path: 'livetvsettings.html',
         autoFocus: false,
         controller: 'livetvsettings'
     });
 
     defineRoute({
         alias: '/livetvstatus.html',
-        path: '/controllers/livetvstatus.html',
+        path: 'livetvstatus.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'livetvstatus'
@@ -337,7 +337,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/livetvtuner.html',
-        path: '/controllers/livetvtuner.html',
+        path: 'livetvtuner.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'livetvtuner'
@@ -345,21 +345,21 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/movies.html',
-        path: '/controllers/movies/movies.html',
+        path: 'movies/movies.html',
         autoFocus: false,
         controller: 'movies/moviesrecommended'
     });
 
     defineRoute({
         alias: '/music.html',
-        path: '/controllers/music/music.html',
+        path: 'music/music.html',
         controller: 'music/musicrecommended',
         autoFocus: false
     });
 
     defineRoute({
         alias: '/installedplugins.html',
-        path: '/controllers/dashboard/plugins/installed/index.html',
+        path: 'dashboard/plugins/installed/index.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/plugins/installed/index'
@@ -367,7 +367,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/scheduledtask.html',
-        path: '/controllers/dashboard/scheduledtasks/scheduledtask.html',
+        path: 'dashboard/scheduledtasks/scheduledtask.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/scheduledtasks/scheduledtask'
@@ -375,7 +375,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/scheduledtasks.html',
-        path: '/controllers/dashboard/scheduledtasks/scheduledtasks.html',
+        path: 'dashboard/scheduledtasks/scheduledtasks.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/scheduledtasks/scheduledtasks'
@@ -383,7 +383,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/serveractivity.html',
-        path: '/controllers/dashboard/serveractivity.html',
+        path: 'dashboard/serveractivity.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/serveractivity'
@@ -391,7 +391,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/apikeys.html',
-        path: '/controllers/dashboard/apikeys.html',
+        path: 'dashboard/apikeys.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/apikeys'
@@ -399,7 +399,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/streamingsettings.html',
-        path: '/controllers/dashboard/streaming.html',
+        path: 'dashboard/streaming.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/streaming'
@@ -407,14 +407,14 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/tv.html',
-        path: '/controllers/shows/tvrecommended.html',
+        path: 'shows/tvrecommended.html',
         autoFocus: false,
         controller: 'shows/tvrecommended'
     });
 
     defineRoute({
         alias: '/useredit.html',
-        path: '/controllers/dashboard/users/useredit.html',
+        path: 'dashboard/users/useredit.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/users/useredit'
@@ -422,7 +422,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/userlibraryaccess.html',
-        path: '/controllers/dashboard/users/userlibraryaccess.html',
+        path: 'dashboard/users/userlibraryaccess.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/users/userlibraryaccess'
@@ -430,7 +430,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/usernew.html',
-        path: '/controllers/dashboard/users/usernew.html',
+        path: 'dashboard/users/usernew.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/users/usernew'
@@ -438,7 +438,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/userparentalcontrol.html',
-        path: '/controllers/dashboard/users/userparentalcontrol.html',
+        path: 'dashboard/users/userparentalcontrol.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/users/userparentalcontrol'
@@ -446,14 +446,14 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/userpassword.html',
-        path: '/controllers/dashboard/users/userpassword.html',
+        path: 'dashboard/users/userpassword.html',
         autoFocus: false,
         controller: 'dashboard/users/userpasswordpage'
     });
 
     defineRoute({
         alias: '/userprofiles.html',
-        path: '/controllers/dashboard/users/userprofiles.html',
+        path: 'dashboard/users/userprofiles.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/users/userprofilespage'
@@ -461,7 +461,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/wizardremoteaccess.html',
-        path: '/controllers/wizard/remote/index.html',
+        path: 'wizard/remote/index.html',
         autoFocus: false,
         anonymous: true,
         controller: 'wizard/remote/index'
@@ -469,7 +469,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/wizardfinish.html',
-        path: '/controllers/wizard/finish/index.html',
+        path: 'wizard/finish/index.html',
         autoFocus: false,
         anonymous: true,
         controller: 'wizard/finish/index'
@@ -477,7 +477,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/wizardlibrary.html',
-        path: '/controllers/wizard/library.html',
+        path: 'wizard/library.html',
         autoFocus: false,
         anonymous: true,
         controller: 'dashboard/library'
@@ -485,7 +485,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/wizardsettings.html',
-        path: '/controllers/wizard/settings/index.html',
+        path: 'wizard/settings/index.html',
         autoFocus: false,
         anonymous: true,
         controller: 'wizard/settings/index'
@@ -493,7 +493,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/wizardstart.html',
-        path: '/controllers/wizard/start/index.html',
+        path: 'wizard/start/index.html',
         autoFocus: false,
         anonymous: true,
         controller: 'wizard/start/index'
@@ -501,7 +501,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/wizarduser.html',
-        path: '/controllers/wizard/user/index.html',
+        path: 'wizard/user/index.html',
         controller: 'wizard/user/index',
         autoFocus: false,
         anonymous: true
@@ -509,7 +509,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/video',
-        path: '/controllers/playback/video/index.html',
+        path: 'playback/video/index.html',
         controller: 'playback/video/index',
         autoFocus: false,
         type: 'video-osd',
@@ -520,7 +520,7 @@ import '../assets/css/detailtable.css';
 
     defineRoute({
         alias: '/queue',
-        path: '/controllers/playback/queue/index.html',
+        path: 'playback/queue/index.html',
         controller: 'playback/queue/index',
         autoFocus: false,
         fullscreen: true,
@@ -529,7 +529,7 @@ import '../assets/css/detailtable.css';
     });
 
     defineRoute({
-        path: '/configurationpage',
+        path: 'configurationpage',
         autoFocus: false,
         enableCache: false,
         enableContentQueryString: true,
@@ -537,13 +537,13 @@ import '../assets/css/detailtable.css';
     });
 
     defineRoute({
-        path: '/',
+        path: '',
         isDefaultRoute: true,
         autoFocus: false
     });
 
     defineRoute({
-        path: '/index.html',
+        path: 'index.html',
         autoFocus: false,
         isDefaultRoute: true
     });

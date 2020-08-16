@@ -1,10 +1,10 @@
 import loading from '../../../components/loading/loading';
-import appRouter from '../../../components/appRouter';
+import { appRouter } from '../../../components/appRouter';
 import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
 import appSettings from '../../../scripts/settings/appSettings';
 import focusManager from '../../../components/focusManager';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../../scripts/globalize';
 import actionSheet from '../../../components/actionSheet/actionSheet';
 import dom from '../../../scripts/dom';
@@ -113,7 +113,7 @@ import '../../../elements/emby-button/emby-button';
     export default function (view, params) {
         function connectToServer(server) {
             loading.show();
-            connectionManager.connectToServer(server, {
+            ConnectionManager.connectToServer(server, {
                 enableAutoLogin: appSettings.enableAutoLogin()
             }).then(function (result) {
                 loading.hide();
@@ -145,7 +145,7 @@ import '../../../elements/emby-button/emby-button';
 
         function deleteServer(server) {
             loading.show();
-            connectionManager.deleteServer(server.Id).then(function () {
+            ConnectionManager.deleteServer(server.Id).then(function () {
                 loading.hide();
                 loadServers();
             });
@@ -187,7 +187,7 @@ import '../../../elements/emby-button/emby-button';
 
         function loadServers() {
             loading.show();
-            connectionManager.getAvailableServers().then(onServersRetrieved);
+            ConnectionManager.getAvailableServers().then(onServersRetrieved);
         }
 
         let servers;

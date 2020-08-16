@@ -1,6 +1,6 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import globalize from '../../../scripts/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';

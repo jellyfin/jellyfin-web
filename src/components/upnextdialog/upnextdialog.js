@@ -1,7 +1,6 @@
 import dom from '../../scripts/dom';
-import playbackManager from '../playback/playbackmanager';
-import connectionManager from 'jellyfin-apiclient';
-import events from 'jellyfin-apiclient';
+import { playbackManager } from '../playback/playbackmanager';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import mediaInfo from '../mediainfo/mediainfo';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
@@ -27,7 +26,7 @@ import '../../assets/css/flexstyles.css';
             if (item.SeriesPrimaryImageTag) {
                 options.tag = item.SeriesPrimaryImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
         }
 
@@ -35,12 +34,12 @@ import '../../assets/css/flexstyles.css';
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -53,13 +52,13 @@ import '../../assets/css/flexstyles.css';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+            return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (options.type === 'Primary') {
             if (item.AlbumId && item.AlbumPrimaryImageTag) {
                 options.tag = item.AlbumPrimaryImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
             }
         }
 
