@@ -1,7 +1,6 @@
 import dom from '../../scripts/dom';
-import playbackManager from '../playback/playbackmanager';
-import connectionManager from 'jellyfin-apiclient';
-import events from 'jellyfin-apiclient';
+import { playbackManager } from '../playback/playbackmanager';
+import { events } from 'jellyfin-apiclient';
 import mediaInfo from '../mediainfo/mediainfo';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';

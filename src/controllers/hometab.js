@@ -1,6 +1,5 @@
 import * as userSettings from '../scripts/settings/userSettings';
 import loading from '../components/loading/loading';
-import connectionManager from 'jellyfin-apiclient';
 import focusManager from '../components/focusManager';
 import homeSections from '../components/homesections/homesections';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
@@ -9,7 +8,7 @@ class HomeTab {
     constructor(view, params) {
         this.view = view;
         this.params = params;
-        this.apiClient = window.connectionManager.currentApiClient();
+        this.apiClient = window.ConnectionManager.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
         view.querySelector('.sections').addEventListener('settingschange', onHomeScreenSettingsChanged.bind(this));
     }

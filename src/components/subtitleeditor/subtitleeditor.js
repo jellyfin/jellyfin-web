@@ -3,7 +3,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
 import dom from '../../scripts/dom';
@@ -22,7 +22,7 @@ let hasChanges;
 function downloadRemoteSubtitles(context, id) {
     const url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
 
-    const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+    const apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
     apiClient.ajax({
 
         type: 'POST',
@@ -56,7 +56,7 @@ function deleteLocalSubtitle(context, index) {
             const itemId = currentItem.Id;
             const url = 'Videos/' + itemId + '/Subtitles/' + index;
 
-            const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+            const apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
 
             apiClient.ajax({
 
@@ -244,7 +244,7 @@ function searchForSubtitles(context, language) {
 
     loading.show();
 
-    const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+    const apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
     const url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
 
     apiClient.getJSON(url).then(function (results) {
@@ -357,7 +357,7 @@ function centerFocus(elem, horiz, on) {
 function showEditorInternal(itemId, serverId, template) {
     hasChanges = false;
 
-    const apiClient = window.connectionManager.getApiClient(serverId);
+    const apiClient = ConnectionManager.getApiClient(serverId);
     return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
         const dialogOptions = {
             removeOnClose: true,

@@ -1,6 +1,5 @@
-import events from 'jellyfin-apiclient';
-import connectionManager from 'jellyfin-apiclient';
-import playbackManager from '../playback/playbackmanager';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { playbackManager } from '../playback/playbackmanager';
 import syncPlayManager from './syncPlayManager';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
@@ -172,8 +171,8 @@ export default function show (button) {
         });
     });
 
-    const apiClient = window.connectionManager.currentApiClient();
-    window.connectionManager.user(apiClient).then((user) => {
+    const apiClient = ConnectionManager.currentApiClient();
+    ConnectionManager.user(apiClient).then((user) => {
         if (syncPlayEnabled) {
             showLeaveGroupSelection(button, user, apiClient);
         } else {

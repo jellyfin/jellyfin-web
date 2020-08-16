@@ -1,6 +1,5 @@
-import connectionManager from 'jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
-import events from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import EmbyButtonPrototype from '../../elements/emby-button/emby-button';
 
@@ -24,7 +23,7 @@ import EmbyButtonPrototype from '../../elements/emby-button/emby-button';
         const button = this;
         const id = button.getAttribute('data-id');
         const serverId = button.getAttribute('data-serverid');
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ConnectionManager.getApiClient(serverId);
 
         if (!button.classList.contains('playstatebutton-played')) {
             apiClient.markPlayed(apiClient.getCurrentUserId(), id, new Date());

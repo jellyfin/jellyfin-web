@@ -1,7 +1,5 @@
-define(['browser'], function (browser) {
-    'use strict';
-
-    browser = browser.default || browser;
+import browser from './browser';
+/* eslint-disable indent */
 
     function canPlayH264(videoTestElement) {
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
@@ -294,7 +292,7 @@ define(['browser'], function (browser) {
                     (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
-    return function (options) {
+    export default function (options) {
         options = options || {};
 
         const physicalAudioChannels = options.audioChannels || (browser.tv || browser.ps4 || browser.xboxOne ? 6 : 2);
@@ -861,4 +859,4 @@ define(['browser'], function (browser) {
 
         return profile;
     };
-});
+/* eslint-enable indent */

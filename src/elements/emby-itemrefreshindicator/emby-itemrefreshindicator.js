@@ -1,7 +1,7 @@
 import EmbyProgressRing from '../emby-progressring/emby-progressring';
 import dom from '../../scripts/dom';
 import serverNotifications from '../../scripts/serverNotifications';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import 'webcomponents.js';
 
 /* eslint-disable indent */

@@ -1,14 +1,13 @@
 import * as userSettings from './settings/userSettings';
 import * as webSettings from './settings/webSettings';
 import skinManager from './themeManager';
-import connectionManager from 'jellyfin-apiclient';
-import events from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 
 // set the default theme when loading
 skinManager.setTheme(userSettings.theme());
 
 // set the saved theme once a user authenticates
-events.on(window.connectionManager, 'localusersignedin', function (e, user) {
+events.on(ConnectionManager, 'localusersignedin', function (e, user) {
     skinManager.setTheme(userSettings.theme());
 });
 

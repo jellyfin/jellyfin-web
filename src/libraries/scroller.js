@@ -195,6 +195,7 @@ const scrollerFactory = function (frame, options) {
 
         self.frameResizeObserver = new ResizeObserver(onResize, observerOptions);
 
+        console.warn(frame);
         self.frameResizeObserver.observe(frame);
     }
 

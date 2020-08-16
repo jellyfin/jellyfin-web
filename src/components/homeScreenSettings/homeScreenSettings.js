@@ -3,10 +3,9 @@ import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import homeSections from '../homesections/homesections';
 import dom from '../../scripts/dom';
-import events from 'jellyfin-apiclient';
 import '../listview/listview.css';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -385,7 +384,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ConnectionManager.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -457,7 +456,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+            const apiClient = ConnectionManager.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             apiClient.getUser(userId).then(user => {

@@ -1,4 +1,4 @@
-import playbackManager from '../../../components/playback/playbackmanager';
+import { playbackManager } from '../../../components/playback/playbackmanager';
 import dom from '../../../scripts/dom';
 import inputManager from '../../../scripts/inputManager';
 import mouseManager from '../../../scripts/mouseManager';
@@ -6,10 +6,10 @@ import datetime from '../../../scripts/datetime';
 import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
-import { connectionManager, events } from 'jellyfin-apiclient';;
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import browser from '../../../scripts/browser';
 import globalize from '../../../scripts/globalize';
-import appHost from '../../../components/apphost';
+import { appHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
 import * as userSettings from '../../../scripts/settings/userSettings';
 import keyboardnavigation from '../../../scripts/keyboardNavigation';
@@ -73,7 +73,7 @@ import '../../../assets/css/videoosd.css';
 
         function getDisplayItem(item) {
             if (item.Type === 'TvChannel') {
-                const apiClient = window.connectionManager.getApiClient(item.ServerId);
+                const apiClient = ConnectionManager.getApiClient(item.ServerId);
                 return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
                     return {
                         originalItem: refreshedItem,
@@ -97,7 +97,7 @@ import '../../../assets/css/videoosd.css';
                 return void view.querySelector('.btnRecord').classList.add('hide');
             }
 
-            window.connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+            ConnectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
                     import('../../../components/recordingcreator/recordingbutton').then((RecordingButton) => {
                         if (recordingButtonManager) {
@@ -1515,7 +1515,7 @@ import '../../../assets/css/videoosd.css';
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
-                const html = getChapterBubbleHtml(window.connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+                const html = getChapterBubbleHtml(ConnectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
                 if (html) {
                     return html;

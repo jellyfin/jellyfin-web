@@ -5,10 +5,10 @@
  * @module components/shortcuts
  */
 
-import playbackManager from './playback/playbackmanager';
+import { playbackManager } from './playback/playbackmanager';
 import inputManager from '../scripts/inputManager';
-import connectionManager from 'jellyfin-apiclient';
-import appRouter from './appRouter';
+import { ConnectionManager } from 'jellyfin-apiclient';
+import { appRouter } from './appRouter';
 import globalize from '../scripts/globalize';
 import dom from '../scripts/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
@@ -82,7 +82,7 @@ import recordingHelper from './recordingcreator/recordinghelper';
         const id = button.getAttribute('data-id');
         const type = button.getAttribute('data-type');
 
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ConnectionManager.getApiClient(serverId);
 
         if (type === 'Timer') {
             return apiClient.getLiveTvTimer(id);
@@ -112,7 +112,7 @@ import recordingHelper from './recordingcreator/recordinghelper';
             }
 
             import('./itemContextMenu').then((itemContextMenu) => {
-                window.connectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
+                ConnectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
                     itemContextMenu.show(Object.assign({
                         item: item,
                         play: true,
@@ -281,7 +281,7 @@ import recordingHelper from './recordingcreator/recordinghelper';
     }
 
     function playTrailer(item) {
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ConnectionManager.getApiClient(item.ServerId);
 
         apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(trailers => {
             playbackManager.play({ items: trailers });
@@ -289,7 +289,7 @@ import recordingHelper from './recordingcreator/recordinghelper';
     }
 
     function editItem(item, serverId) {
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ConnectionManager.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             const serverId = apiClient.serverInfo().Id;

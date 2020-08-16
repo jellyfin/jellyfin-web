@@ -1,4 +1,4 @@
-import appHost from './apphost';
+import { appHost } from './apphost';
 import globalize from '../scripts/globalize';
 
 export function getDisplayName(item, options = {}) {

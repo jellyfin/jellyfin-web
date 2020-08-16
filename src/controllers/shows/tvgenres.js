@@ -4,7 +4,7 @@ import libraryBrowser from '../../scripts/libraryBrowser';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
 import globalize from '../../scripts/globalize';
-import appRouter from '../../components/appRouter';
+import { appRouter } from '../../components/appRouter';
 import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */

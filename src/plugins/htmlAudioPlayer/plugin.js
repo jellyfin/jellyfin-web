@@ -1,10 +1,10 @@
-import events from 'jellyfin-apiclient';
-import browser from 'browser';
-import appHost from 'apphost';
-import * as htmlMediaHelper from 'htmlMediaHelper';
+import { events } from 'jellyfin-apiclient';
+import browser from '../../scripts/browser';
+import { appHost } from '../../components/apphost';
+import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 
 function getDefaultProfile() {
-    return import('browserdeviceprofile').then(({ default: profileBuilder }) => {
+    return import('../../scripts/browserDeviceProfile').then(({ default: profileBuilder }) => {
         return profileBuilder({});
     });
 }
@@ -51,7 +51,7 @@ function supportsFade() {
 }
 
 function requireHlsPlayer(callback) {
-    import('hlsjs').then(({ default: hls }) => {
+    import('hls.js').then(({ default: hls }) => {
         window.Hls = hls;
         callback();
     });
@@ -68,7 +68,7 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
 
     // issue head request to get content type
     return new Promise(function (resolve, reject) {
-        import('fetchHelper').then((fetchHelper) => {
+        import('../../components/fetchhelper').then((fetchHelper) => {
             fetchHelper.ajax({
                 url: url,
                 type: 'HEAD'

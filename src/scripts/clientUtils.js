@@ -77,7 +77,7 @@ export function navigate(url, preserveQueryString) {
     }
 
     return new Promise(function (resolve, reject) {
-        import('../components/appRouter').then((appRouter) => {
+        import('../components/appRouter').then(({ appRouter }) => {
             return appRouter.show(url).then(resolve, reject);
         });
     });

@@ -1,16 +1,15 @@
 import inputManager from '../../scripts/inputManager';
 import browser from '../../scripts/browser';
 import globalize from '../../scripts/globalize';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import scrollHelper from '../../scripts/scrollHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
 import datetime from '../../scripts/datetime';
 import focusManager from '../focusManager';
-import playbackManager from '../playback/playbackmanager';
+import { playbackManager } from '../playback/playbackmanager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import imageLoader from '../images/imageLoader';
-import events from 'jellyfin-apiclient';
 import layoutManager from '../layoutManager';
 import itemShortcuts from '../shortcuts';
 import dom from '../../scripts/dom';
@@ -213,7 +212,7 @@ function Guide(options) {
     }
 
     function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-        const apiClient = window.connectionManager.getApiClient(options.serverId);
+        const apiClient = ConnectionManager.getApiClient(options.serverId);
 
         const channelQuery = {
 
@@ -873,7 +872,7 @@ function Guide(options) {
     function reloadPage(page) {
         showLoading();
 
-        const apiClient = window.connectionManager.getApiClient(options.serverId);
+        const apiClient = ConnectionManager.getApiClient(options.serverId);
 
         apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
             setDateRange(page, guideInfo);

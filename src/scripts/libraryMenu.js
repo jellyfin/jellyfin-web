@@ -1,12 +1,11 @@
 import dom from './dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
-import connectionManager from 'jellyfin-apiclient';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import viewManager from '../components/viewManager/viewManager';
-import appRouter from '../components/appRouter';
-import appHost from '../components/apphost';
-import playbackManager from '../components/playback/playbackmanager';
+import { appRouter } from '../components/appRouter';
+import { appHost } from '../components/apphost';
+import { playbackManager } from '../components/playback/playbackmanager';
 import syncPlayManager from '../components/syncPlay/syncPlayManager';
 import groupSelectionMenu from '../components/syncPlay/groupSelectionMenu';
 import browser from './browser';
@@ -61,10 +60,10 @@ import '../assets/css/flexstyles.css';
 
     function getCurrentApiClient() {
         if (currentUser && currentUser.localUser) {
-            return window.connectionManager.getApiClient(currentUser.localUser.ServerId);
+            return window.ConnectionManager.getApiClient(currentUser.localUser.ServerId);
         }
 
-        return window.connectionManager.currentApiClient();
+        return window.ConnectionManager.currentApiClient();
     }
 
     function lazyLoadViewMenuBarImages() {
@@ -775,7 +774,7 @@ import '../assets/css/flexstyles.css';
         }
 
         if (requiresUserRefresh) {
-            window.connectionManager.user(getCurrentApiClient()).then(updateUserInHeader);
+            window.ConnectionManager.user(getCurrentApiClient()).then(updateUserInHeader);
         }
     }
 
@@ -813,7 +812,7 @@ import '../assets/css/flexstyles.css';
         if (user) {
             Promise.resolve(user);
         } else {
-            window.connectionManager.user(getCurrentApiClient()).then(function (user) {
+            window.ConnectionManager.user(getCurrentApiClient()).then(function (user) {
                 refreshLibraryInfoInDrawer(user);
                 updateLibraryMenu(user.localUser);
             });
@@ -840,8 +839,8 @@ import '../assets/css/flexstyles.css';
         navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve, reject) {
-            import('../libraries/navdrawer/navdrawer').then((navdrawer) => {
-                navDrawerInstance = new navdrawer(getNavDrawerOptions());
+            import('../libraries/navdrawer/navdrawer').then(({ NavigationDrawer }) => {
+                navDrawerInstance = new NavigationDrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {
                     navDrawerElement.classList.remove('hide');
@@ -977,8 +976,10 @@ import '../assets/css/flexstyles.css';
         updateLibraryNavLinks(page);
     });
 
-    events.on(window.connectionManager, 'localusersignedin', function (e, user) {
-        const currentApiClient = window.connectionManager.getApiClient(user.ServerId);
+    renderHeader();
+
+    events.on(window.ConnectionManager, 'localusersignedin', function (e, user) {
+        const currentApiClient = window.ConnectionManager.getApiClient(user.ServerId);
 
         currentDrawerType = null;
         currentUser = {
@@ -987,13 +988,13 @@ import '../assets/css/flexstyles.css';
 
         loadNavDrawer();
 
-        window.connectionManager.user(currentApiClient).then(function (user) {
+        window.ConnectionManager.user(currentApiClient).then(function (user) {
             currentUser = user;
             updateUserInHeader(user);
         });
     });
 
-    events.on(window.connectionManager, 'localusersignedout', function () {
+    events.on(window.ConnectionManager, 'localusersignedout', function () {
         currentUser = {};
         updateUserInHeader();
     });

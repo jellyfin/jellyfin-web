@@ -1,5 +1,5 @@
 import dialogHelper from '../dialogHelper/dialogHelper';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import loading from '../loading/loading';
 import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
@@ -8,7 +8,7 @@ import globalize from '../../scripts/globalize';
 import scrollHelper from '../../scripts/scrollHelper';
 import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';
-import appHost from '../apphost';
+import { appHost } from '../apphost';
 import '../cardbuilder/card.css';
 import '../formdialog.css';
 import '../../elements/emby-button/emby-button';
@@ -36,10 +36,10 @@ import './imageeditor.css';
         let apiClient;
 
         if (item) {
-            apiClient = window.connectionManager.getApiClient(item.ServerId);
+            apiClient = ConnectionManager.getApiClient(item.ServerId);
             reloadItem(page, item, apiClient, focusContext);
         } else {
-            apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+            apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
             apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (item) {
                 reloadItem(page, item, apiClient, focusContext);
             });
@@ -293,7 +293,7 @@ import './imageeditor.css';
     function showActionSheet(context, imageCard) {
         const itemId = imageCard.getAttribute('data-id');
         const serverId = imageCard.getAttribute('data-serverid');
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ConnectionManager.getApiClient(serverId);
 
         const type = imageCard.getAttribute('data-imagetype');
         const index = parseInt(imageCard.getAttribute('data-index'));
@@ -404,7 +404,7 @@ import './imageeditor.css';
             const type = this.getAttribute('data-imagetype');
             let index = this.getAttribute('data-index');
             index = index === 'null' ? null : parseInt(index);
-            const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+            const apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
             deleteImage(context, currentItem.Id, type, index, apiClient, true);
         });
 
@@ -412,7 +412,7 @@ import './imageeditor.css';
             const type = this.getAttribute('data-imagetype');
             const index = this.getAttribute('data-index');
             const newIndex = this.getAttribute('data-newindex');
-            const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+            const apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
             moveImage(context, apiClient, currentItem.Id, type, index, newIndex, dom.parentWithClass(this, 'itemsContainer'));
         });
     }
@@ -424,7 +424,7 @@ import './imageeditor.css';
         loading.show();
 
         import('./imageeditor.template.html').then(({default: template}) => {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+            const apiClient = ConnectionManager.getApiClient(serverId);
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
                 const dialogOptions = {
                     removeOnClose: true

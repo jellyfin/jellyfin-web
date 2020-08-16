@@ -1,8 +1,8 @@
-import appHost from '../../components/apphost';
+import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
-import appRouter from '../../components/appRouter';
+import { appRouter } from '../../components/appRouter';
 import layoutManager from '../../components/layoutManager';
-import { connectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import datetime from '../../scripts/datetime';
@@ -17,7 +17,7 @@ import imageLoader from '../../components/images/imageLoader';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import browser from '../../scripts/browser';
-import playbackManager from '../../components/playback/playbackmanager';
+import { playbackManager } from '../../components/playback/playbackmanager';
 import '../../assets/css/scrollstyles.css';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -563,7 +563,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
 }
 
 function reloadFromItem(instance, page, params, item, user) {
-    const apiClient = window.connectionManager.getApiClient(item.ServerId);
+    const apiClient = ConnectionManager.getApiClient(item.ServerId);
 
     Emby.Page.setTitle('');
 
@@ -805,7 +805,7 @@ function renderNextUp(page, item, user) {
         return void section.classList.add('hide');
     }
 
-    window.connectionManager.getApiClient(item.ServerId).getNextUpEpisodes({
+    ConnectionManager.getApiClient(item.ServerId).getNextUpEpisodes({
         SeriesId: item.Id,
         UserId: user.Id
     }).then(function (result) {
@@ -1209,7 +1209,7 @@ function renderSimilarItems(page, item, context) {
         }
 
         similarCollapsible.classList.remove('hide');
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ConnectionManager.getApiClient(item.ServerId);
         const options = {
             userId: apiClient.getCurrentUserId(),
             limit: 12,
@@ -1323,7 +1323,7 @@ function renderChildren(page, item) {
     }
 
     let promise;
-    const apiClient = window.connectionManager.getApiClient(item.ServerId);
+    const apiClient = ConnectionManager.getApiClient(item.ServerId);
     const userId = apiClient.getCurrentUserId();
 
     if (item.Type == 'Series') {
@@ -1571,7 +1571,7 @@ function renderChannelGuide(page, apiClient, item) {
 }
 
 function renderSeriesSchedule(page, item) {
-    const apiClient = window.connectionManager.getApiClient(item.ServerId);
+    const apiClient = ConnectionManager.getApiClient(item.ServerId);
     apiClient.getLiveTvPrograms({
         UserId: apiClient.getCurrentUserId(),
         HasAired: false,
@@ -1731,7 +1731,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
 }
 
 function renderMusicVideos(page, item, user) {
-    window.connectionManager.getApiClient(item.ServerId).getItems(user.Id, {
+    ConnectionManager.getApiClient(item.ServerId).getItems(user.Id, {
         SortBy: 'SortName',
         SortOrder: 'Ascending',
         IncludeItemTypes: 'MusicVideo',
@@ -1751,7 +1751,7 @@ function renderMusicVideos(page, item, user) {
 }
 
 function renderAdditionalParts(page, item, user) {
-    window.connectionManager.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
+    ConnectionManager.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
         if (result.Items.length) {
             page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
             const additionalPartsContent = page.querySelector('#additionalPartsContent');
@@ -1796,7 +1796,7 @@ function getVideosHtml(items) {
 }
 
 function renderSpecials(page, item, user) {
-    window.connectionManager.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
+    ConnectionManager.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
         const specialsContent = page.querySelector('#specialsContent');
         specialsContent.innerHTML = getVideosHtml(specials);
         imageLoader.lazyChildren(specialsContent);
@@ -1852,7 +1852,7 @@ export default function (view, params) {
     function reload(instance, page, params) {
         loading.show();
 
-        const apiClient = params.serverId ? window.connectionManager.getApiClient(params.serverId) : ApiClient;
+        const apiClient = params.serverId ? ConnectionManager.getApiClient(params.serverId) : ApiClient;
 
         Promise.all([getPromise(apiClient, params), apiClient.getCurrentUser()]).then(([item, user]) => {
             currentItem = item;
@@ -1901,7 +1901,7 @@ export default function (view, params) {
         const item = currentItem;
 
         if (item.Type === 'Program') {
-            const apiClient = window.connectionManager.getApiClient(item.ServerId);
+            const apiClient = ConnectionManager.getApiClient(item.ServerId);
             return void apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
                 playbackManager.play({
                     items: [channel]
@@ -1938,7 +1938,7 @@ export default function (view, params) {
 
     function onCancelTimerClick() {
         import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-            recordingHelper.cancelTimer(window.connectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
+            recordingHelper.cancelTimer(ConnectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
                 reload(self, view, params);
             });
         });
@@ -2002,7 +2002,7 @@ export default function (view, params) {
 
     let currentItem;
     const self = this;
-    const apiClient = params.serverId ? window.connectionManager.getApiClient(params.serverId) : ApiClient;
+    const apiClient = params.serverId ? ConnectionManager.getApiClient(params.serverId) : ApiClient;
 
     const btnResume = view.querySelector('.mainDetailButtons .btnResume');
     const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');

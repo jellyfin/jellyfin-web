@@ -44,15 +44,15 @@ class HomeView extends TabbedView {
 
         switch (index) {
             case 0:
-                depends = 'controllers/hometab';
+                depends = 'hometab';
                 break;
 
             case 1:
-                depends = 'controllers/favorites';
+                depends = 'favorites';
         }
 
         const instance = this;
-        return import(depends).then(({ default: controllerFactory }) => {
+        return import(/* webpackChunkName: "[request]" */ `../controllers/${depends}`).then(({ default: controllerFactory }) => {
             let controller = instance.tabControllers[index];
 
             if (!controller) {

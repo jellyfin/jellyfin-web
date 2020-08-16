@@ -1,5 +1,5 @@
-import events from 'jellyfin-apiclient';
-import playbackManager from './playbackmanager';
+import { events } from 'jellyfin-apiclient';
+import { playbackManager } from './playbackmanager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
 import './iconosd.css';

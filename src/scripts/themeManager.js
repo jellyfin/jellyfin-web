@@ -21,6 +21,14 @@ function getThemeStylesheetInfo(id) {
             return id ? theme.id === id : theme.default;
         });
 
+        if (!theme) {
+            theme = {
+                'name': 'Dark',
+                'id': 'dark',
+                'default': true
+            };
+        }
+
         return {
             stylesheetPath: 'themes/' + theme.id + '/theme.css',
             themeId: theme.id

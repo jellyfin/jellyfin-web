@@ -1,4 +1,4 @@
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import itemHelper from '../itemHelper';
@@ -188,12 +188,12 @@ function markPlayed(link) {
 }
 
 function likes(id, serverId, isLiked) {
-    const apiClient = window.connectionManager.getApiClient(serverId);
+    const apiClient = ConnectionManager.getApiClient(serverId);
     return apiClient.updateUserItemRating(apiClient.getCurrentUserId(), id, isLiked);
 }
 
 function played(id, serverId, isPlayed) {
-    const apiClient = window.connectionManager.getApiClient(serverId);
+    const apiClient = ConnectionManager.getApiClient(serverId);
 
     const method = isPlayed ? 'markPlayed' : 'markUnplayed';
 
@@ -201,13 +201,13 @@ function played(id, serverId, isPlayed) {
 }
 
 function favorite(id, serverId, isFavorite) {
-    const apiClient = window.connectionManager.getApiClient(serverId);
+    const apiClient = ConnectionManager.getApiClient(serverId);
 
     return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), id, isFavorite);
 }
 
 function clearLike(id, serverId) {
-    const apiClient = window.connectionManager.getApiClient(serverId);
+    const apiClient = ConnectionManager.getApiClient(serverId);
 
     return apiClient.clearUserItemRating(apiClient.getCurrentUserId(), id);
 }

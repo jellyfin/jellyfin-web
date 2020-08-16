@@ -1,4 +1,4 @@
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import dom from '../../scripts/dom';
 import recordingHelper from './recordinghelper';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -53,7 +53,7 @@ class RecordingButton {
     }
 
     refresh(serverId, itemId) {
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ConnectionManager.getApiClient(serverId);
         const self = this;
         apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
             self.refreshItem(item);

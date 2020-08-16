@@ -1,4 +1,4 @@
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import listView from '../components/listview/listview';
 import cardBuilder from '../components/cardbuilder/cardBuilder';
 import imageLoader from '../components/images/imageLoader';
@@ -358,7 +358,7 @@ function getItemsFunction(options, item) {
             query.Fields += ',' + fields;
         }
 
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ConnectionManager.getApiClient(item.ServerId);
 
         if (query.IncludeItemTypes === 'MusicArtist') {
             query.IncludeItemTypes = null;

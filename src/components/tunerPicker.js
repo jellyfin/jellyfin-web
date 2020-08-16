@@ -1,7 +1,7 @@
 import dialogHelper from './dialogHelper/dialogHelper';
 import dom from '../scripts/dom';
 import layoutManager from './layoutManager';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
 import loading from './loading/loading';
 import browser from '../scripts/browser';
@@ -163,7 +163,7 @@ function tunerPicker() {
             scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
         }
 
-        const apiClient = window.connectionManager.getApiClient(options.serverId);
+        const apiClient = ConnectionManager.getApiClient(options.serverId);
         discoverDevices(dlg, apiClient);
 
         if (layoutManager.tv) {

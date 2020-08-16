@@ -3,7 +3,7 @@ import focusManager from '../focusManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import inputManager from '../../scripts/inputManager';
 import layoutManager from '../layoutManager';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -194,7 +194,7 @@ function initEditor(context, settings) {
     }
 }
 function loadDynamicFilters(context, options) {
-    const apiClient = window.connectionManager.getApiClient(options.serverId);
+    var apiClient = ConnectionManager.getApiClient(options.serverId);
 
     const filterMenuOptions = Object.assign(options.filterMenuOptions, {
 

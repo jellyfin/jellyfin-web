@@ -1,5 +1,5 @@
 import * as userSettings from './settings/userSettings';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 
 /* eslint-disable indent */
 
@@ -156,6 +156,7 @@ import events from 'jellyfin-apiclient';
             });
         }
 
+        //import('../strings/')
         return new Promise(function (resolve, reject) {
             if (!filtered.length) {
                 resolve();
@@ -164,24 +165,11 @@ import events from 'jellyfin-apiclient';
 
             let url = filtered[0].path;
 
-            url += url.indexOf('?') === -1 ? '?' : '&';
-            url += 'v=' + cacheParam;
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-
-            xhr.onload = function (e) {
-                if (this.status < 400) {
-                    resolve(JSON.parse(this.response));
-                } else {
-                    resolve({});
-                }
-            };
-
-            xhr.onerror = function () {
+            import(`../strings/${url}`).then((fileContent) => {
+                resolve(fileContent);
+            }).catch(() => {
                 resolve({});
-            };
-            xhr.send();
+            });
         });
     }
 
@@ -221,6 +209,8 @@ import events from 'jellyfin-apiclient';
     }
 
     export function translateHtml(html, module) {
+        html = html.default || html;
+
         if (!module) {
             module = defaultModule();
         }

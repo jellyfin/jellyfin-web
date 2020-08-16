@@ -1,5 +1,5 @@
 
-import playbackManager from '../playback/playbackmanager';
+import { playbackManager } from '../playback/playbackmanager';
 import layoutManager from '../layoutManager';
 import template from './subtitlesync.template.html';
 import './subtitlesync.css';

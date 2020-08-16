@@ -1,6 +1,6 @@
 import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
 import * as userSettings from '../../scripts/settings/userSettings';
-import * as blurhash from 'blurhash';
+import { decode, isBlurhashValid } from 'blurhash';
 import './style.css';
 /* eslint-disable indent */
 
@@ -13,7 +13,7 @@ import './style.css';
     }
 
     function itemBlurhashing(target, blurhashstr) {
-        if (blurhash.isBlurhashValid(blurhashstr)) {
+        if (isBlurhashValid(blurhashstr)) {
             // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
             // improving the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
@@ -21,7 +21,7 @@ import './style.css';
             const height = 18;
             let pixels;
             try {
-                pixels = blurhash.decode(blurhashstr, width, height);
+                pixels = decode(blurhashstr, width, height);
             } catch (err) {
                 console.error('Blurhash decode error: ', err);
                 target.classList.add('non-blurhashable');
@@ -124,15 +124,18 @@ import './style.css';
 
     export function lazyChildren(elem) {
         if (userSettings.enableBlurhash()) {
-            for (const lazyElem of elem.querySelectorAll('.lazy')) {
+            const lazyElems = Array.from(elem.querySelectorAll('.lazy'));
+            console.warn(lazyElems);
+            lazyElems.forEach((lazyElem) => {
                 const blurhashstr = lazyElem.getAttribute('data-blurhash');
                 if (!lazyElem.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
                     itemBlurhashing(lazyElem, blurhashstr);
                 } else if (!blurhashstr && !lazyElem.classList.contains('blurhashed')) {
                     lazyElem.classList.add('non-blurhashable');
                 }
-            }
+            });
         }
+        console.warn(elem);
         lazyLoader.lazyChildren(elem, fillImage);
     }
 

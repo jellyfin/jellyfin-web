@@ -1,6 +1,6 @@
 import SearchFields from '../components/search/searchfields';
 import SearchResults from '../components/search/searchresults';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 
 export default function (view, params) {
     function onSearch(e, value) {

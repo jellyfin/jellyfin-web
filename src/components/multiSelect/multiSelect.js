@@ -1,7 +1,7 @@
 import browser from '../../scripts/browser';
-import appHost from '../apphost';
+import { appHost } from '../apphost';
 import loading from '../loading/loading';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import './multiSelect.css';
@@ -170,7 +170,7 @@ import './multiSelect.css';
     }
 
     function showMenuForSelectedItems(e) {
-        const apiClient = window.connectionManager.currentApiClient();
+        const apiClient = ConnectionManager.currentApiClient();
 
         apiClient.getCurrentUser().then(user => {
             const menuItems = [];

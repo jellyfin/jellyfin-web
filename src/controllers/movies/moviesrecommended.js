@@ -1,5 +1,5 @@
 
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -8,7 +8,7 @@ import * as mainTabsManager from '../../components/maintabsmanager';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import dom from '../../scripts/dom';
 import imageLoader from '../../components/images/imageLoader';
-import playbackManager from '../../components/playback/playbackmanager';
+import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';

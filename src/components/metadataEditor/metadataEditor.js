@@ -4,7 +4,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import datetime from '../../scripts/datetime';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import shell from '../../scripts/shell';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -290,7 +290,7 @@ import '../../assets/css/flexstyles.css';
     }
 
     function getApiClient() {
-        return window.connectionManager.getApiClient(currentItem.ServerId);
+        return ConnectionManager.getApiClient(currentItem.ServerId);
     }
 
     function bindAll(elems, eventName, fn) {
@@ -370,7 +370,7 @@ import '../../assets/css/flexstyles.css';
     }
 
     function getItem(itemId, serverId) {
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ConnectionManager.getApiClient(serverId);
 
         if (itemId) {
             return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
@@ -380,7 +380,7 @@ import '../../assets/css/flexstyles.css';
     }
 
     function getEditorConfig(itemId, serverId) {
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ConnectionManager.getApiClient(serverId);
 
         if (itemId) {
             return apiClient.getJSON(apiClient.getUrl('Items/' + itemId + '/MetadataEditor'));
@@ -1068,7 +1068,7 @@ import '../../assets/css/flexstyles.css';
 
             currentContext = dlg;
 
-            init(dlg, window.connectionManager.getApiClient(serverId));
+            init(dlg, ConnectionManager.getApiClient(serverId));
 
             reload(dlg, itemId, serverId);
         });
@@ -1095,7 +1095,7 @@ import '../../assets/css/flexstyles.css';
 
                     currentContext = elem;
 
-                    init(elem, window.connectionManager.getApiClient(serverId));
+                    init(elem, ConnectionManager.getApiClient(serverId));
                     reload(elem, itemId, serverId);
 
                     focusManager.autoFocus(elem);

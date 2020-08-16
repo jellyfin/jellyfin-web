@@ -1,7 +1,7 @@
 
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import confirm from '../components/confirm/confirm';
-import appRouter from '../components/appRouter';
+import { appRouter } from '../components/appRouter';
 import globalize from './globalize';
 
 function alertText(options) {
@@ -16,7 +16,7 @@ export function deleteItem(options) {
     const item = options.item;
     const parentId = item.SeasonId || item.SeriesId || item.ParentId;
 
-    const apiClient = window.connectionManager.getApiClient(item.ServerId);
+    const apiClient = ConnectionManager.getApiClient(item.ServerId);
 
     return confirm({
 

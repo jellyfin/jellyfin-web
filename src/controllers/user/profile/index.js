@@ -1,7 +1,7 @@
 import UserPasswordPage from '../../dashboard/users/userpasswordpage';
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
-import appHost from '../../../components/apphost';
+import { appHost } from '../../../components/apphost';
 import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-button/emby-button';
 

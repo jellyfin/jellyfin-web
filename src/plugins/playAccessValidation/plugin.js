@@ -1,7 +1,8 @@
-import globalize from 'globalize';
+import { ConnectionManager } from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
 
 function showErrorMessage() {
-    return import('alert').then(({default: alert}) => {
+    return import('../../components/alert').then(({default: alert}) => {
         return alert(globalize.translate('MessagePlayAccessRestricted'));
     });
 }
@@ -24,7 +25,7 @@ class PlayAccessValidation {
             return Promise.resolve();
         }
 
-        return window.connectionManager.getApiClient(serverId).getCurrentUser().then(function (user) {
+        return ConnectionManager.getApiClient(serverId).getCurrentUser().then(function (user) {
             if (user.Policy.EnableMediaPlayback) {
                 return Promise.resolve();
             }

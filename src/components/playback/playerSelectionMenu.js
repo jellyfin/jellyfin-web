@@ -1,11 +1,11 @@
 import appSettings from '../../scripts/settings/appSettings';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import loading from '../loading/loading';
-import playbackManager from '../playback/playbackmanager';
-import appRouter from '../appRouter';
+import { playbackManager } from '../playback/playbackmanager';
+import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
-import appHost from '../apphost';
+import { appHost } from '../apphost';
 import { enable, isEnabled, supported } from '../../scripts/autocast';
 
 function mirrorItem(info, player) {

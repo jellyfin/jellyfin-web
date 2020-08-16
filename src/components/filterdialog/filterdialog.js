@@ -1,8 +1,7 @@
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../scripts/globalize';
-import connectionManager from 'jellyfin-apiclient';
-import events from 'jellyfin-apiclient';
+import { ConnectionManager, events } from 'jellyfin-apiclient';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import './style.css';
@@ -420,7 +419,7 @@ import './style.css';
                     this.bindEvents(dlg);
                     if (enableDynamicFilters(this.options.mode)) {
                         dlg.classList.add('dynamicFilterDialog');
-                        const apiClient = window.connectionManager.getApiClient(this.options.serverId);
+                        const apiClient = ConnectionManager.getApiClient(this.options.serverId);
                         loadDynamicFilters(dlg, apiClient, apiClient.getCurrentUserId(), this.options.query);
                     }
                 });

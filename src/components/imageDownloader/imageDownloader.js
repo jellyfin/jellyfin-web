@@ -1,8 +1,8 @@
 import dom from '../../scripts/dom';
 import loading from '../loading/loading';
-import appHost from '../apphost';
+import { appHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import connectionManager from 'jellyfin-apiclient';
+import { ConnectionManager } from 'jellyfin-apiclient';
 import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
@@ -317,7 +317,7 @@ import '../cardbuilder/card.css';
         loading.show();
 
         import('./imageDownloader.template.html').then(({default: template}) => {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+            const apiClient = ConnectionManager.getApiClient(serverId);
 
             currentItemId = itemId;
             currentItemType = itemType;

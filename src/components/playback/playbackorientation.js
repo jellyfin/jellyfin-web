@@ -1,7 +1,7 @@
 
-import playbackManager from './playbackmanager';
+import { playbackManager } from './playbackmanager';
 import layoutManager from '../layoutManager';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 
 let orientationLocked;
 

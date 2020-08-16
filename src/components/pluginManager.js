@@ -1,4 +1,4 @@
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
 /* eslint-disable indent */
 
@@ -41,7 +41,7 @@ import globalize from '../scripts/globalize';
                 return Promise.resolve(plugin);
             } else {
                 return new Promise((resolve, reject) => {
-                    this.#loadStrings(plugin)
+                    PluginManager.loadStrings(plugin)
                         .then(function () {
                             resolve(plugin);
                         })
@@ -52,39 +52,35 @@ import globalize from '../scripts/globalize';
 
         loadPlugin(pluginSpec) {
             if (typeof pluginSpec === 'string') {
-                console.debug('Loading plugin (via deprecated requirejs method): ' + pluginSpec);
+                console.debug('Loading plugin (via dynamic import): ' + pluginSpec);
 
-                return new Promise((resolve, reject) => {
-                    require([pluginSpec], (pluginFactory) => {
-                        const plugin = pluginFactory.default ? new pluginFactory.default() : new pluginFactory();
+                import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`).then((plugin) => {
+                    // See if it's already installed
+                    const existing = this.plugins.filter(function (p) {
+                        return p.id === plugin.id;
+                    })[0];
 
-                        // See if it's already installed
-                        const existing = this.pluginsList.filter(function (p) {
-                            return p.id === plugin.id;
-                        })[0];
+                    if (existing) {
+                        return Promise.resolve(pluginSpec);
+                    }
 
-                        if (existing) {
-                            resolve(pluginSpec);
-                        }
+                    plugin.installUrl = pluginSpec;
 
-                        plugin.installUrl = pluginSpec;
+                    const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
+                    plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
 
-                        const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
-                        plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
+                    const paths = {};
+                    paths[plugin.id] = plugin.baseUrl;
 
-                        const paths = {};
-                        paths[plugin.id] = plugin.baseUrl;
-
-                        requirejs.config({
-                            waitSeconds: 0,
-                            paths: paths
-                        });
-
-                        this.#registerPlugin(plugin).then(resolve).catch(reject);
+                    requirejs.config({
+                        waitSeconds: 0,
+                        paths: paths
                     });
+
+                    this.#registerPlugin(plugin).then(Promise.resolve).catch(Promise.reject);
                 });
             } else if (pluginSpec.then) {
-                return pluginSpec.then(pluginBuilder => {
+                return pluginSpec.then(({ default: pluginBuilder }) => {
                     return pluginBuilder();
                 }).then((plugin) => {
                     console.debug(`Plugin loaded: ${plugin.id}`);
@@ -148,4 +144,4 @@ import globalize from '../scripts/globalize';
 
 /* eslint-enable indent */
 
-export default new PluginManager();
+export const pluginManager = new PluginManager();

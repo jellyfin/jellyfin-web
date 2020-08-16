@@ -7,8 +7,6 @@ import './emby-tabs.css';
 import '../../assets/css/scrollstyles.css';
 
 /* eslint-disable indent */
-
-    const EmbyTabs = Object.create(HTMLDivElement.prototype);
     const buttonClass = 'emby-tab-button';
     const activeButtonClass = buttonClass + '-active';
 
@@ -145,182 +143,181 @@ import '../../assets/css/scrollstyles.css';
         }
     }
 
-    EmbyTabs.createdCallback = function () {
-        if (this.classList.contains('emby-tabs')) {
-            return;
+    class EmbyTabs extends HTMLDivElement {
+        createdCallback() {
+            if (this.classList.contains('emby-tabs')) {
+                return;
+            }
+            this.classList.add('emby-tabs');
+            this.classList.add('focusable');
+
+            dom.addEventListener(this, 'click', onClick, {
+                passive: true
+            });
+
+            dom.addEventListener(this, 'focusout', onFocusOut);
         }
-        this.classList.add('emby-tabs');
-        this.classList.add('focusable');
 
-        dom.addEventListener(this, 'click', onClick, {
-            passive: true
-        });
+        focus() {
+            const selected = this.querySelector('.' + activeButtonClass);
 
-        dom.addEventListener(this, 'focusout', onFocusOut);
-    };
-
-    EmbyTabs.focus = function onFocusIn() {
-        const selectedTab = this.querySelector('.' + activeButtonClass);
-        const lastFocused = this.querySelector('.lastFocused');
-
-        if (lastFocused) {
-            focusManager.focus(lastFocused);
-        } else if (selectedTab) {
-            focusManager.focus(selectedTab);
-        } else {
-            focusManager.autoFocus(this);
-        }
-    };
-
-    EmbyTabs.refresh = function () {
-        if (this.scroller) {
-            this.scroller.reload();
-        }
-    };
-
-    EmbyTabs.attachedCallback = function () {
-        initScroller(this);
-
-        const current = this.querySelector('.' + activeButtonClass);
-        const currentIndex = current ? parseInt(current.getAttribute('data-index')) : parseInt(this.getAttribute('data-index') || '0');
-
-        if (currentIndex !== -1) {
-            this.selectedTabIndex = currentIndex;
-
-            const tabButtons = this.querySelectorAll('.' + buttonClass);
-
-            const newTabButton = tabButtons[currentIndex];
-
-            if (newTabButton) {
-                setActiveTabButton(newTabButton);
+            if (this.lastFocused) {
+                focusManager.focus(this.lastFocused);
+            } else if (this.selectedTab) {
+                focusManager.focus(this.selectedTab);
+            } else {
+                focusManager.autoFocus(this);
             }
         }
 
-        if (!this.readyFired) {
-            this.readyFired = true;
-            this.dispatchEvent(new CustomEvent('ready', {}));
-        }
-    };
-
-    EmbyTabs.detachedCallback = function () {
-        if (this.scroller) {
-            this.scroller.destroy();
-            this.scroller = null;
+        refresh() {
+            if (this.scroller) {
+                this.scroller.reload();
+            }
         }
 
-        dom.removeEventListener(this, 'click', onClick, {
-            passive: true
-        });
-    };
+        attachedCallback() {
+            console.warn(this);
+            initScroller(this);
 
-    function getSelectedTabButton(elem) {
-        return elem.querySelector('.' + activeButtonClass);
-    }
+            const current = this.querySelector('.' + activeButtonClass);
+            const currentIndex = current ? parseInt(current.getAttribute('data-index')) : parseInt(this.getAttribute('data-index') || '0');
 
-    EmbyTabs.selectedIndex = function (selected, triggerEvent) {
-        const tabs = this;
+            if (currentIndex !== -1) {
+                this.selectedTabIndex = currentIndex;
 
-        if (selected == null) {
-            return tabs.selectedTabIndex || 0;
+                const tabButtons = this.querySelectorAll('.' + buttonClass);
+
+                const newTabButton = tabButtons[currentIndex];
+
+                if (newTabButton) {
+                    setActiveTabButton(newTabButton);
+                }
+            }
+
+            if (!this.readyFired) {
+                this.readyFired = true;
+                this.dispatchEvent(new CustomEvent('ready', {}));
+            }
         }
 
-        const current = tabs.selectedIndex();
+        detachedCallback() {
+            if (this.scroller) {
+                this.scroller.destroy();
+                this.scroller = null;
+            }
 
-        tabs.selectedTabIndex = selected;
+            dom.removeEventListener(this, 'click', onClick, {
+                passive: true
+            });
+        }
 
-        const tabButtons = tabs.querySelectorAll('.' + buttonClass);
+        getSelectedTabButton(elem) {
+            return elem.querySelector('.' + activeButtonClass);
+        }
 
-        if (current === selected || triggerEvent === false) {
-            triggerBeforeTabChange(tabs, selected, current);
+        selectedIndex(selected, triggerEvent) {
+            const tabs = this;
+
+            if (selected == null) {
+                return tabs.selectedTabIndex || 0;
+            }
+
+            const current = tabs.selectedIndex();
+
+            tabs.selectedTabIndex = selected;
+
+            const tabButtons = tabs.querySelectorAll('.' + buttonClass);
+
+            if (current === selected || triggerEvent === false) {
+                triggerBeforeTabChange(tabs, selected, current);
+
+                tabs.dispatchEvent(new CustomEvent('tabchange', {
+                    detail: {
+                        selectedTabIndex: selected
+                    }
+                }));
+
+                const currentTabButton = tabButtons[current];
+                setActiveTabButton(tabButtons[selected]);
+
+                if (current !== selected && currentTabButton) {
+                    currentTabButton.classList.remove(activeButtonClass);
+                }
+            } else {
+                onClick.call(tabs, {
+                    target: tabButtons[selected]
+                });
+            }
+        }
+
+        getSibling(elem, method) {
+            let sibling = elem[method];
+
+            while (sibling) {
+                if (sibling.classList.contains(buttonClass)) {
+                    if (!sibling.classList.contains('hide')) {
+                        return sibling;
+                    }
+                }
+
+                sibling = sibling[method];
+            }
+
+            return null;
+        }
+
+        selectNext() {
+            const current = this.getSelectedTabButton(this);
+
+            const sibling = this.getSibling(current, 'nextSibling');
+
+            if (sibling) {
+                onClick.call(this, {
+                    target: sibling
+                });
+            }
+        }
+
+        selectPrevious() {
+            const current = this.getSelectedTabButton(this);
+
+            const sibling = this.getSibling(current, 'previousSibling');
+
+            if (sibling) {
+                onClick.call(this, {
+                    target: sibling
+                });
+            }
+        }
+
+        triggerBeforeTabChange(selected) {
+            const tabs = this;
+
+            triggerBeforeTabChange(tabs, tabs.selectedIndex());
+        }
+
+        triggerTabChange(selected) {
+            const tabs = this;
 
             tabs.dispatchEvent(new CustomEvent('tabchange', {
                 detail: {
-                    selectedTabIndex: selected
+                    selectedTabIndex: tabs.selectedIndex()
                 }
             }));
-
-            const currentTabButton = tabButtons[current];
-            setActiveTabButton(tabButtons[selected]);
-
-            if (current !== selected && currentTabButton) {
-                currentTabButton.classList.remove(activeButtonClass);
-            }
-        } else {
-            onClick.call(tabs, {
-                target: tabButtons[selected]
-            });
-        }
-    };
-
-    function getSibling(elem, method) {
-        let sibling = elem[method];
-
-        while (sibling) {
-            if (sibling.classList.contains(buttonClass)) {
-                if (!sibling.classList.contains('hide')) {
-                    return sibling;
-                }
-            }
-
-            sibling = sibling[method];
         }
 
-        return null;
+        setTabEnabled(index, enabled) {
+            const btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
+
+            if (enabled) {
+                btn.classList.remove('hide');
+            } else {
+                btn.classList.remove('add');
+            }
+        }
     }
 
-    EmbyTabs.selectNext = function () {
-        const current = getSelectedTabButton(this);
-
-        const sibling = getSibling(current, 'nextSibling');
-
-        if (sibling) {
-            onClick.call(this, {
-                target: sibling
-            });
-        }
-    };
-
-    EmbyTabs.selectPrevious = function () {
-        const current = getSelectedTabButton(this);
-
-        const sibling = getSibling(current, 'previousSibling');
-
-        if (sibling) {
-            onClick.call(this, {
-                target: sibling
-            });
-        }
-    };
-
-    EmbyTabs.triggerBeforeTabChange = function (selected) {
-        const tabs = this;
-
-        triggerBeforeTabChange(tabs, tabs.selectedIndex());
-    };
-
-    EmbyTabs.triggerTabChange = function (selected) {
-        const tabs = this;
-
-        tabs.dispatchEvent(new CustomEvent('tabchange', {
-            detail: {
-                selectedTabIndex: tabs.selectedIndex()
-            }
-        }));
-    };
-
-    EmbyTabs.setTabEnabled = function (index, enabled) {
-        const btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
-
-        if (enabled) {
-            btn.classList.remove('hide');
-        } else {
-            btn.classList.remove('add');
-        }
-    };
-
-    document.registerElement('emby-tabs', {
-        prototype: EmbyTabs,
-        extends: 'div'
-    });
+    customElements.define('emby-tabs', EmbyTabs, { extends: 'div' });
 
 /* eslint-enable indent */

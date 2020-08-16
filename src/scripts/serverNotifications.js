@@ -1,10 +1,9 @@
-import connectionManager from 'jellyfin-apiclient';
-import playbackManager from '../components/playback/playbackmanager';
+import { playbackManager } from '../components/playback/playbackmanager';
 import syncPlayManager from '../components/syncPlay/syncPlayManager';
-import events from 'jellyfin-apiclient';
+import { events } from 'jellyfin-apiclient';
 import inputManager from '../scripts/inputManager';
 import focusManager from '../components/focusManager';
-import appRouter from '../components/appRouter';
+import { appRouter } from '../components/appRouter';
 
 const serverNotifications = {};
 
@@ -208,8 +207,8 @@ function bindEvents(apiClient) {
     events.on(apiClient, 'message', onMessageReceived);
 }
 
-window.connectionManager.getApiClients().forEach(bindEvents);
-events.on(window.connectionManager, 'apiclientcreated', function (e, newApiClient) {
+window.ConnectionManager.getApiClients().forEach(bindEvents);
+events.on(window.ConnectionManager, 'apiclientcreated', function (e, newApiClient) {
     bindEvents(newApiClient);
 });
 
