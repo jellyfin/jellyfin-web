@@ -450,6 +450,9 @@ class SessionPlayer {
         });
     }
 
+    getRepeatMode() {
+    }
+
     setQueueShuffleMode(mode) {
         sendCommandByName(this, 'SetShuffleQueue', {
             ShuffleMode: mode
@@ -482,6 +485,9 @@ class SessionPlayer {
 
     getPlaylist() {
         return Promise.resolve([]);
+    }
+
+    getCurrentPlaylistItemId() {
     }
 
     setCurrentPlaylistItem(playlistItemId) {
