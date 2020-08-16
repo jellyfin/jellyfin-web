@@ -165,6 +165,8 @@
           "src/components/recordingcreator/seriesrecordingeditor.js",
           "src/components/recordingcreator/recordinghelper.js",
           "src/components/refreshdialog/refreshdialog.js",
+          "src/components/recordingcreator/recordingeditor.js",
+          "src/components/recordingcreator/recordingfields.js",
           "src/components/qualityOptions.js",
           "src/components/remotecontrol/remotecontrol.js",
           "src/components/sanatizefilename.js",
