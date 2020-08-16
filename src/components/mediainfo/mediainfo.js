@@ -9,7 +9,6 @@ import 'programStyles';
 import 'emby-button';
 
 /* eslint-disable indent */
-
     function getTimerIndicator(item) {
         let status;
 
