@@ -479,7 +479,7 @@ function initClient() {
     }
 
     function loadPlugins(appHost, browser, shell) {
-        console.debug('loading installed plugins');
+        console.groupCollapsed('loading installed plugins');
         return new Promise(function (resolve, reject) {
             require(['webSettings'], function (webSettings) {
                 webSettings.getPlugins().then(function (list) {
@@ -497,11 +497,18 @@ function initClient() {
                         list = list.concat(window.NativeShell.getPlugins());
                     }
 
-                    Promise.all(list.map(loadPlugin)).then(function () {
-                        require(['packageManager'], function (packageManager) {
-                            packageManager.init().then(resolve, reject);
-                        });
-                    }, reject);
+                    Promise.all(list.map(loadPlugin))
+                        .then(function () {
+                            console.debug('finished loading plugins');
+                        })
+                        .catch(() => reject)
+                        .finally(() => {
+                            console.groupEnd('loading installed plugins');
+                            require(['packageManager'], function (packageManager) {
+                                packageManager.default.init().then(resolve, reject);
+                            });
+                        })
+                    ;
                 });
             });
         });
@@ -510,7 +517,7 @@ function initClient() {
     function loadPlugin(url) {
         return new Promise(function (resolve, reject) {
             require(['pluginManager'], function (pluginManager) {
-                pluginManager.loadPlugin(url).then(resolve, reject);
+                pluginManager.default.loadPlugin(url).then(resolve, reject);
             });
         });
     }
