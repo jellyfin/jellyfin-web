@@ -532,9 +532,7 @@ import layoutManager from 'layoutManager';
 
     if (isEnabled()) {
         dom.addEventListener(window, 'focusin', function(e) {
-            setTimeout(function() {
-                scrollToElement(e.target, useSmoothScroll());
-            }, 0);
+            scrollToElement(e.target, useSmoothScroll());
         }, {capture: true});
     }
 

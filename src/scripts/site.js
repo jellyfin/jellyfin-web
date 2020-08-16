@@ -425,7 +425,6 @@ function initClient() {
                     keyboardnavigation.enable();
                 });
                 require(['mouseManager']);
-                require(['focusPreventScroll']);
                 require(['autoFocuser'], function(autoFocuser) {
                     autoFocuser.enable();
                 });
@@ -819,7 +818,6 @@ function initClient() {
             return viewManager;
         });
         define('slideshow', [componentsPath + '/slideshow/slideshow'], returnFirstDependency);
-        define('focusPreventScroll', ['legacy/focusPreventScroll'], returnFirstDependency);
         define('userdataButtons', [componentsPath + '/userdatabuttons/userdatabuttons'], returnFirstDependency);
         define('listView', [componentsPath + '/listview/listview'], returnFirstDependency);
         define('indicators', [componentsPath + '/indicators/indicators'], returnFirstDependency);

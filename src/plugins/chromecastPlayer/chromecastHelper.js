@@ -170,7 +170,7 @@ function isLocalIpAddress(address) {
     return false;
 }
 
-function getServerAddress(apiClient) {
+export function getServerAddress(apiClient) {
     const serverAddress = apiClient.serverAddress();
 
     if (isValidIpAddress(serverAddress) && !isLocalIpAddress(serverAddress)) {
