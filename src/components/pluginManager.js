@@ -135,8 +135,6 @@ import globalize from 'globalize';
                 })[0];
             }
 
-            console.dir(plugin);
-
             var url = plugin.baseUrl + '/' + path;
 
             if (addCacheParam) {

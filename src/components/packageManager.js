@@ -73,11 +73,11 @@ import pluginManager from 'pluginManager';
         }
 
         addPackage(pkg) {
-            this.packagesList = this.packagesList.filter((p) => {
+            this.#packagesList = this.#packagesList.filter((p) => {
                 return p.name !== pkg.name;
             });
 
-            this.packagesList.push(pkg);
+            this.#packagesList.push(pkg);
         }
 
         removeUrl(url) {
