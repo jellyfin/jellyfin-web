@@ -66,7 +66,7 @@ function showSubtitleMenu(context, player, button, item) {
     });
     menuItems.unshift({
         id: -1,
-        name: globalize.translate('ButtonOff'),
+        name: globalize.translate('Off'),
         selected: currentIndex == null
     });
 

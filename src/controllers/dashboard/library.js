@@ -93,7 +93,7 @@ import 'emby-itemrefreshindicator';
         const virtualFolder = virtualFolders[index];
         const menuItems = [];
         menuItems.push({
-            name: globalize.translate('ButtonEditImages'),
+            name: globalize.translate('EditImages'),
             id: 'editimages',
             icon: 'photo'
         });

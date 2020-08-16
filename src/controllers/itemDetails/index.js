@@ -242,7 +242,7 @@ import 'emby-select';
             return m.Type === 'Audio';
         });
         const select = page.querySelector('.selectAudio');
-        select.setLabel(globalize.translate('LabelAudio'));
+        select.setLabel(globalize.translate('Audio'));
         const selectedId = mediaSource.DefaultAudioStreamIndex;
         select.innerHTML = tracks.map(function (v) {
             const selected = v.Index === selectedId ? ' selected' : '';
@@ -271,7 +271,7 @@ import 'emby-select';
             return m.Type === 'Subtitle';
         });
         const select = page.querySelector('.selectSubtitles');
-        select.setLabel(globalize.translate('LabelSubtitles'));
+        select.setLabel(globalize.translate('Subtitles'));
         const selectedId = mediaSource.DefaultSubtitleStreamIndex == null ? -1 : mediaSource.DefaultSubtitleStreamIndex;
 
         const videoTracks = mediaSource.MediaStreams.filter(function (m) {
@@ -1438,7 +1438,7 @@ import 'emby-select';
                     name: globalize.translate('Albums'),
                     type: 'MusicAlbum'
                 }, {
-                    name: globalize.translate('HeaderBooks'),
+                    name: globalize.translate('Books'),
                     type: 'Book'
                 }];
                 renderCollectionItems(page, item, collectionItemTypes, result.Items);
@@ -1446,7 +1446,7 @@ import 'emby-select';
         });
 
         if (item.Type == 'Season') {
-            page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderEpisodes');
+            page.querySelector('#childrenTitle').innerHTML = globalize.translate('Episodes');
         } else if (item.Type == 'Series') {
             page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderSeasons');
         } else if (item.Type == 'MusicAlbum') {

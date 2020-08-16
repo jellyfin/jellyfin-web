@@ -181,7 +181,7 @@ import 'flexStyles';
         }, {
             name: globalize.translate('Albums')
         }, {
-            name: globalize.translate('TabAlbumArtists')
+            name: globalize.translate('HeaderAlbumArtists')
         }, {
             name: globalize.translate('Artists')
         }, {
