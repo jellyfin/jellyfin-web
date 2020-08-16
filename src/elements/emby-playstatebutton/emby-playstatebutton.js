@@ -75,7 +75,7 @@ import EmbyButtonPrototype from 'emby-button';
             button.title = globalize.translate('Played');
         }
 
-        let text = button.querySelector('.button-text');
+        const text = button.querySelector('.button-text');
         if (text) {
             text.innerHTML = button.title;
         }

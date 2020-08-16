@@ -8,7 +8,7 @@ import 'scrollStyles';
 
 /* eslint-disable indent */
 
-    let EmbyTabs = Object.create(HTMLDivElement.prototype);
+    const EmbyTabs = Object.create(HTMLDivElement.prototype);
     const buttonClass = 'emby-tab-button';
     const activeButtonClass = buttonClass + '-active';
 
@@ -21,7 +21,7 @@ import 'scrollStyles';
     }
 
     function removeActivePanelClass(tabs, index) {
-        let tabPanel = getTabPanel(tabs, index);
+        const tabPanel = getTabPanel(tabs, index);
         if (tabPanel) {
             tabPanel.classList.remove('is-active');
         }
@@ -52,7 +52,7 @@ import 'scrollStyles';
             removeActivePanelClass(tabs, previousIndex);
         }
 
-        let newPanel = getTabPanel(tabs, index);
+        const newPanel = getTabPanel(tabs, index);
 
         if (newPanel) {
             // animate new panel ?
@@ -225,7 +225,7 @@ import 'scrollStyles';
                 }
             }));
 
-            let currentTabButton = tabButtons[current];
+            const currentTabButton = tabButtons[current];
             setActiveTabButton(tabs, tabButtons[selected], currentTabButton, false);
 
             if (current !== selected && currentTabButton) {

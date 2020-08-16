@@ -547,7 +547,7 @@ function Guide(options) {
                 } else if (program.IsPremiere && options.showPremiereIndicator) {
                     indicatorHtml = '<span class="premiereTvProgram guideProgramIndicator">' + globalize.translate('Premiere') + '</span>';
                 } else if (program.IsSeries && !program.IsRepeat && options.showNewIndicator) {
-                    indicatorHtml = '<span class="newTvProgram guideProgramIndicator">' + globalize.translate('AttributeNew') + '</span>';
+                    indicatorHtml = '<span class="newTvProgram guideProgramIndicator">' + globalize.translate('New') + '</span>';
                 } else if (program.IsSeries && program.IsRepeat && options.showRepeatIndicator) {
                     indicatorHtml = '<span class="repeatTvProgram guideProgramIndicator">' + globalize.translate('Repeat') + '</span>';
                 }

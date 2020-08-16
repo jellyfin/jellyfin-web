@@ -208,7 +208,7 @@ import 'emby-button';
                     });
                 } else if (item.IsSeries && !item.IsRepeat) {
                     miscInfo.push({
-                        html: `<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">${globalize.translate('AttributeNew')}</div>`
+                        html: `<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">${globalize.translate('New')}</div>`
                     });
                 } else if (item.IsSeries && item.IsRepeat) {
                     miscInfo.push({

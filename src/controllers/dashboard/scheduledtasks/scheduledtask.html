@@ -31,18 +31,18 @@
                         <option value="DailyTrigger">${OptionDaily}</option>
                         <option value="WeeklyTrigger">${OptionWeekly}</option>
                         <option value="IntervalTrigger">${OptionOnInterval}</option>
-                        <option value="StartupTrigger">${OptionOnAppStartup}</option>
+                        <option value="StartupTrigger">${OnApplicationStartup}</option>
                     </select>
                 </div>
                 <div id="fldDayOfWeek" class="selectContainer">
                     <select is="emby-select" id="selectDayOfWeek" name="selectDayOfWeek" label="${LabelDay}">
-                        <option value="Sunday">${OptionSunday}</option>
-                        <option value="Monday">${OptionMonday}</option>
-                        <option value="Tuesday">${OptionTuesday}</option>
-                        <option value="Wednesday">${OptionWednesday}</option>
-                        <option value="Thursday">${OptionThursday}</option>
-                        <option value="Friday">${OptionFriday}</option>
-                        <option value="Saturday">${OptionSaturday}</option>
+                        <option value="Sunday">${Sunday}</option>
+                        <option value="Monday">${Monday}</option>
+                        <option value="Tuesday">${Tuesday}</option>
+                        <option value="Wednesday">${Wednesday}</option>
+                        <option value="Thursday">${Thursday}</option>
+                        <option value="Friday">${Friday}</option>
+                        <option value="Saturday">${Saturday}</option>
                     </select>
                 </div>
                 <div id="fldTimeOfDay" class="selectContainer">
@@ -73,7 +73,7 @@
                 </div>
                 <div>
                     <button is="emby-button" type="submit" class="raised button-submit block" data-icon="check">
-                        <span>${ButtonAdd}</span>
+                        <span>${Add}</span>
                     </button>
                     <button is="emby-button" type="button" class="raised button-cancel block" data-icon="delete" onclick="$(this).parents('.dialog').addClass('hide');">
                         <span>${ButtonCancel}</span>

@@ -166,10 +166,10 @@ import 'emby-button';
         return apiClient.ajax({
             type: 'POST',
             url: apiClient.getUrl('Environment/ValidatePath'),
-            data: {
+            data: JSON.stringify({
                 ValidateWriteable: validateWriteable,
                 Path: path
-            }
+            })
         }).catch(response => {
             if (response) {
                 if (response.status === 404) {

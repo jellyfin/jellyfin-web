@@ -8,7 +8,7 @@ function populateHistory(packageInfo, page) {
     const length = Math.min(packageInfo.versions.length, 10);
 
     for (let i = 0; i < length; i++) {
-        let version = packageInfo.versions[i];
+        const version = packageInfo.versions[i];
         html += '<h2 style="margin:.5em 0;">' + version.version + '</h2>';
         html += '<div style="margin-bottom:1.5em;">' + version.changelog + '</div>';
     }

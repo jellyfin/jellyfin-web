@@ -39,7 +39,7 @@ import appHost from 'apphost';
         dom.removeEventListener(scope, 'command', fn, {});
     }
 
-    let commandTimes = {};
+    const commandTimes = {};
 
     function checkCommandTime(command) {
         const last = commandTimes[command] || 0;

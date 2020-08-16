@@ -105,7 +105,7 @@ export function getQueryPagingHtml (options) {
         }
 
         if (options.sortButton) {
-            html += '<button is="paper-icon-button-light" class="btnSort autoSize" title="' + globalize.translate('ButtonSort') + '"><span class="material-icons sort_by_alpha"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnSort autoSize" title="' + globalize.translate('Sort') + '"><span class="material-icons sort_by_alpha"></span></button>';
         }
 
         if (options.filterButton) {

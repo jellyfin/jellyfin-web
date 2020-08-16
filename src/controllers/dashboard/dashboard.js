@@ -24,7 +24,7 @@ import 'emby-itemscontainer';
     function showPlaybackInfo(btn, session) {
         import('alert').then(({default: alert}) => {
             let title;
-            let text = [];
+            const text = [];
             const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
             if (displayPlayMethod === 'DirectStream') {
@@ -737,7 +737,7 @@ import 'emby-itemscontainer';
         shutdown: function (btn) {
             import('confirm').then(({default: confirm}) => {
                 confirm({
-                    title: globalize.translate('HeaderShutdown'),
+                    title: globalize.translate('ButtonShutdown'),
                     text: globalize.translate('MessageConfirmShutdown'),
                     confirmText: globalize.translate('ButtonShutdown'),
                     primary: 'delete'

@@ -33,7 +33,7 @@ import 'flexStyles';
         html += `<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonSyncPlay')}"><span class="material-icons sync_disabled"></span></button>`;
         html += `<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonPlayer')}"><span class="material-icons music_note"></span></button>`;
         html += `<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonCast')}"><span class="material-icons cast"></span></button>`;
-        html += `<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide" title="${globalize.translate('ButtonSearch')}"><span class="material-icons search"></span></button>`;
+        html += `<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide" title="${globalize.translate('Search')}"><span class="material-icons search"></span></button>`;
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person"></span></button>';
         html += '</div>';
         html += '</div>';
@@ -377,7 +377,7 @@ import 'flexStyles';
             pageIds: ['dashboardGeneralPage'],
             icon: 'settings'
         }, {
-            name: globalize.translate('TabUsers'),
+            name: globalize.translate('HeaderUsers'),
             href: 'userprofiles.html',
             pageIds: ['userProfilesPage', 'newUserPage', 'editUserPage', 'userLibraryAccessPage', 'userParentalControlPage', 'userPasswordPage'],
             icon: 'people'
@@ -387,7 +387,7 @@ import 'flexStyles';
             pageIds: ['mediaLibraryPage', 'librarySettingsPage', 'libraryDisplayPage', 'metadataImagesConfigurationPage', 'metadataNfoPage'],
             icon: 'folder'
         }, {
-            name: globalize.translate('TabPlayback'),
+            name: globalize.translate('TitlePlayback'),
             icon: 'play_arrow',
             href: 'encodingsettings.html',
             pageIds: ['encodingSettingsPage', 'playbackConfigurationPage', 'streamingSettingsPage']
@@ -395,10 +395,10 @@ import 'flexStyles';
         addPluginPagesToMainMenu(links, pluginItems, 'server');
         links.push({
             divider: true,
-            name: globalize.translate('TabDevices')
+            name: globalize.translate('HeaderDevices')
         });
         links.push({
-            name: globalize.translate('TabDevices'),
+            name: globalize.translate('HeaderDevices'),
             href: 'devices.html',
             pageIds: ['devicesPage', 'devicePage'],
             icon: 'devices'
@@ -417,16 +417,16 @@ import 'flexStyles';
         });
         links.push({
             divider: true,
-            name: globalize.translate('TabLiveTV')
+            name: globalize.translate('LiveTV')
         });
         links.push({
-            name: globalize.translate('TabLiveTV'),
+            name: globalize.translate('LiveTV'),
             href: 'livetvstatus.html',
             pageIds: ['liveTvStatusPage', 'liveTvTunerPage'],
             icon: 'live_tv'
         });
         links.push({
-            name: globalize.translate('TabDVR'),
+            name: globalize.translate('HeaderDVR'),
             href: 'livetvsettings.html',
             pageIds: ['liveTvSettingsPage'],
             icon: 'dvr'
@@ -567,7 +567,7 @@ import 'flexStyles';
                     view.ImageTags = {};
                     view.icon = 'live_tv';
                     const guideView = Object.assign({}, view);
-                    guideView.Name = globalize.translate('ButtonGuide');
+                    guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
                     guideView.url = 'livetv.html?tab=1';
