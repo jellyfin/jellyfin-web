@@ -1,3 +1,9 @@
+jellyfin-web (10.6.3-1) unstable; urgency=medium
+
+  * New upstream version 10.6.3; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v10.6.3
+
+ -- Jellyfin Packaging Team <packaging@jellyfin.org>  Sun, 16 Aug 2020 19:48:03 -0400
+
 jellyfin-web (10.6.2-1) unstable; urgency=medium
 
   * New upstream version 10.6.2; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v10.6.2
