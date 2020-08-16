@@ -8,7 +8,7 @@ import appRouter from 'appRouter';
 import appHost from 'apphost';
 import playbackManager from 'playbackManager';
 import syncPlayManager from 'syncPlayManager';
-import { show as showGroupSelectionMenu } from 'groupSelectionMenu';
+import * as groupSelectionMenu from 'groupSelectionMenu';
 import browser from 'browser';
 import globalize from 'globalize';
 import imageHelper from 'scripts/imagehelper';
@@ -208,7 +208,7 @@ import 'flexStyles';
 
     function onSyncButtonClicked() {
         const btn = this;
-        showGroupSelectionMenu(btn);
+        groupSelectionMenu.show(btn);
     }
 
     function onSyncPlayEnabled(event, enabled) {
