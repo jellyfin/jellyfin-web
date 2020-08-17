@@ -1467,5 +1467,13 @@
     "Writers": "Escritores",
     "ClearQueue": "Eliminar cola",
     "StopPlayback": "Detener reproducción",
-    "ViewAlbumArtist": "Ver artista del álbum"
+    "ViewAlbumArtist": "Ver artista del álbum",
+    "Preview": "Avance",
+    "SubtitleVerticalPositionHelp": "Número de línea donde aparece el texto. Los números positivos indican de arriba hacia abajo. Los números negativos indican de abajo hacia arriba.",
+    "LabelSubtitleVerticalPosition": "Posición vertical:",
+    "PreviousTrack": "Pasar al anterior",
+    "MessageGetInstalledPluginsError": "Se produjo un error al obtener la lista de complementos instalados actualmente.",
+    "MessagePluginInstallError": "Ocurrió un error al instalar el complemento.",
+    "NextTrack": "Pasar al siguiente",
+    "LabelUnstable": "Inestable"
 }
