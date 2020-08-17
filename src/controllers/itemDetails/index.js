@@ -1935,14 +1935,19 @@ import 'emby-select';
         }
 
         function onMoreCommandsClick() {
-            const button = this;
-            apiClient.getCurrentUser().then(function (user) {
-                itemContextMenu.show(getContextMenuOptions(currentItem, user, button)).then(function (result) {
-                    if (result.deleted) {
-                        appRouter.goHome();
-                    } else if (result.updated) {
-                        reload(self, view, params);
-                    }
+            var button = this;
+            var selectedItem = currentItem;
+            apiClient.getItem(apiClient.getCurrentUserId(),view.querySelector('.selectSource').value).then(function (item) {
+                 selectedItem = item;
+
+                 apiClient.getCurrentUser().then(function (user) {
+                    itemContextMenu.show(getContextMenuOptions(selectedItem, user, button)).then(function (result) {
+                        if (result.deleted) {
+                            appRouter.goHome();
+                        } else if (result.updated) {
+                            reload(self, view, params);
+                        }
+                    });
                 });
             });
         }
