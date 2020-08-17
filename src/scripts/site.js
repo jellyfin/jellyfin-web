@@ -1,4 +1,4 @@
-function getWindowLocationSearch(win) {
+window.getWindowLocationSearch = function(win) {
     'use strict';
 
     var search = (win || window).location.search;
@@ -12,9 +12,9 @@ function getWindowLocationSearch(win) {
     }
 
     return search || '';
-}
+};
 
-window.getParameterByName = function (name, url) {
+window.getParameterByName = function(name, url) {
     'use strict';
 
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -29,7 +29,7 @@ window.getParameterByName = function (name, url) {
     return decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
-function pageClassOn(eventName, className, fn) {
+window.pageClassOn = function(eventName, className, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
@@ -39,7 +39,7 @@ function pageClassOn(eventName, className, fn) {
             fn.call(target, event);
         }
     });
-}
+};
 
 window.pageIdOn = function(eventName, id, fn) {
     'use strict';
@@ -51,187 +51,6 @@ window.pageIdOn = function(eventName, id, fn) {
             fn.call(target, event);
         }
     });
-};
-
-var Dashboard = {
-    getCurrentUser: function () {
-        return window.ApiClient.getCurrentUser(false);
-    },
-
-    //TODO: investigate url prefix support for serverAddress function
-    serverAddress: function () {
-        if (AppInfo.isNativeApp) {
-            var apiClient = window.ApiClient;
-
-            if (apiClient) {
-                return apiClient.serverAddress();
-            }
-
-            return null;
-        }
-
-        var urlLower = window.location.href.toLowerCase();
-        var index = urlLower.lastIndexOf('/web');
-
-        if (index != -1) {
-            return urlLower.substring(0, index);
-        }
-
-        var loc = window.location;
-        var address = loc.protocol + '//' + loc.hostname;
-
-        if (loc.port) {
-            address += ':' + loc.port;
-        }
-
-        return address;
-    },
-    getCurrentUserId: function () {
-        var apiClient = window.ApiClient;
-
-        if (apiClient) {
-            return apiClient.getCurrentUserId();
-        }
-
-        return null;
-    },
-    onServerChanged: function (userId, accessToken, apiClient) {
-        apiClient = apiClient || window.ApiClient;
-        window.ApiClient = apiClient;
-    },
-    logout: function () {
-        ConnectionManager.logout().then(function () {
-            var loginPage;
-
-            if (AppInfo.isNativeApp) {
-                loginPage = 'selectserver.html';
-                window.ApiClient = null;
-            } else {
-                loginPage = 'login.html';
-            }
-
-            Dashboard.navigate(loginPage);
-        });
-    },
-    getConfigurationPageUrl: function (name) {
-        return 'configurationpage?name=' + encodeURIComponent(name);
-    },
-    getConfigurationResourceUrl: function (name) {
-        if (AppInfo.isNativeApp) {
-            return ApiClient.getUrl('web/ConfigurationPage', {
-                name: name
-            });
-        }
-
-        return Dashboard.getConfigurationPageUrl(name);
-    },
-    navigate: function (url, preserveQueryString) {
-        if (!url) {
-            throw new Error('url cannot be null or empty');
-        }
-
-        var queryString = getWindowLocationSearch();
-
-        if (preserveQueryString && queryString) {
-            url += queryString;
-        }
-
-        return new Promise(function (resolve, reject) {
-            require(['appRouter'], function (appRouter) {
-                return appRouter.default.show(url).then(resolve, reject);
-            });
-        });
-    },
-    navigate_direct: function (path) {
-        return new Promise(function (resolve, reject) {
-            require(['appRouter'], function (appRouter) {
-                return appRouter.default.showDirect(path).then(resolve, reject);
-            });
-        });
-    },
-    processPluginConfigurationUpdateResult: function () {
-        require(['loading', 'toast'], function (loading, toast) {
-            loading.hide();
-            toast.default(Globalize.translate('MessageSettingsSaved'));
-        });
-    },
-    processServerConfigurationUpdateResult: function (result) {
-        require(['loading', 'toast'], function (loading, toast) {
-            loading.hide();
-            toast.default(Globalize.translate('MessageSettingsSaved'));
-        });
-    },
-    processErrorResponse: function (response) {
-        require(['loading'], function (loading) {
-            loading.hide();
-        });
-
-        var status = '' + response.status;
-
-        if (response.statusText) {
-            status = response.statusText;
-        }
-
-        Dashboard.alert({
-            title: status,
-            message: response.headers ? response.headers.get('X-Application-Error-Code') : null
-        });
-    },
-    alert: function (options) {
-        if (typeof options == 'string') {
-            return void require(['toast'], function (toast) {
-                toast.default({
-                    text: options
-                });
-            });
-        }
-
-        require(['alert'], function (alert) {
-            alert.default({
-                title: options.title || Globalize.translate('HeaderAlert'),
-                text: options.message
-            }).then(options.callback || function () {});
-        });
-    },
-    capabilities: function (appHost) {
-        var capabilities = {
-            PlayableMediaTypes: ['Audio', 'Video'],
-            SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
-            SupportsPersistentIdentifier: self.appMode === 'cordova' || self.appMode === 'android',
-            SupportsMediaControl: true
-        };
-        appHost.getPushTokenInfo();
-        return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
-    },
-    selectServer: function () {
-        if (window.NativeShell && typeof window.NativeShell.selectServer === 'function') {
-            window.NativeShell.selectServer();
-        } else {
-            Dashboard.navigate('selectserver.html');
-        }
-    },
-    hideLoadingMsg: function() {
-        'use strict';
-        require(['loading'], function(loading) {
-            loading.hide();
-        });
-    },
-    showLoadingMsg: function() {
-        'use strict';
-        require(['loading'], function(loading) {
-            loading.show();
-        });
-    },
-    confirm: function(message, title, callback) {
-        'use strict';
-        require(['confirm'], function(confirm) {
-            confirm(message, title).then(function() {
-                callback(!0);
-            }).catch(function() {
-                callback(!1);
-            });
-        });
-    }
 };
 
 var AppInfo = {};
@@ -288,7 +107,7 @@ function initClient() {
                 if (!AppInfo.isNativeApp) {
                     console.debug('loading ApiClient singleton');
 
-                    return require(['apiclient'], function (apiClientFactory) {
+                    return require(['apiclient', 'clientUtils'], function (apiClientFactory, clientUtils) {
                         console.debug('creating ApiClient singleton');
 
                         var apiClient = new apiClientFactory(Dashboard.serverAddress(), appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
@@ -377,35 +196,11 @@ function initClient() {
         }
     }
 
-    function initRequireWithBrowser() {
-        var componentsPath = getComponentsPath();
-        var scriptsPath = getScriptsPath();
-
-        define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
-
-        define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
-        define('shell', [scriptsPath + '/shell'], returnFirstDependency);
-
-        define('alert', [componentsPath + '/alert'], returnFirstDependency);
-
-        defineResizeObserver();
-
-        define('dialog', [componentsPath + '/dialog/dialog'], returnFirstDependency);
-
-        define('confirm', [componentsPath + '/confirm/confirm'], returnFirstDependency);
-
-        define('prompt', [componentsPath + '/prompt/prompt'], returnFirstDependency);
-
-        define('loading', [componentsPath + '/loading/loading'], returnFirstDependency);
-        define('multi-download', [scriptsPath + '/multiDownload'], returnFirstDependency);
-        define('fileDownloader', [scriptsPath + '/fileDownloader'], returnFirstDependency);
-
-        define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
-    }
-
     function init() {
         define('livetvcss', ['css!assets/css/livetv.css'], returnFirstDependency);
         define('detailtablecss', ['css!assets/css/detailtable.css'], returnFirstDependency);
+
+        require(['clientUtils']);
 
         var promises = [];
         if (!window.fetch) {
@@ -618,7 +413,29 @@ function initClient() {
     }
 
     function onWebComponentsReady() {
-        initRequireWithBrowser();
+        var componentsPath = getComponentsPath();
+        var scriptsPath = getScriptsPath();
+
+        define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
+
+        define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
+        define('shell', [scriptsPath + '/shell'], returnFirstDependency);
+
+        define('alert', [componentsPath + '/alert'], returnFirstDependency);
+
+        defineResizeObserver();
+
+        define('dialog', [componentsPath + '/dialog/dialog'], returnFirstDependency);
+
+        define('confirm', [componentsPath + '/confirm/confirm'], returnFirstDependency);
+
+        define('prompt', [componentsPath + '/prompt/prompt'], returnFirstDependency);
+
+        define('loading', [componentsPath + '/loading/loading'], returnFirstDependency);
+        define('multi-download', [scriptsPath + '/multiDownload'], returnFirstDependency);
+        define('fileDownloader', [scriptsPath + '/fileDownloader'], returnFirstDependency);
+
+        define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
 
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
@@ -662,6 +479,7 @@ function initClient() {
             pluginManager: componentsPath + '/pluginManager',
             packageManager: componentsPath + '/packageManager',
             screensaverManager: componentsPath + '/screensavermanager',
+            clientUtils: scriptsPath + '/clientUtils',
             appRouter: 'components/appRouter'
         };
 

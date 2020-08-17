@@ -325,6 +325,7 @@
           "src/scripts/alphanumericshortcuts.js",
           "src/scripts/autoBackdrops.js",
           "src/scripts/browser.js",
+          "src/scripts/clientUtils.js",
           "src/scripts/datetime.js",
           "src/scripts/deleteHelper.js",
           "src/scripts/dfnshelper.js",
