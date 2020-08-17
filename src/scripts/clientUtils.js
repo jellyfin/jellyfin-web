@@ -157,8 +157,7 @@ export function capabilities(appHost) {
         SupportsPersistentIdentifier: self.appMode === 'cordova' || self.appMode === 'android',
         SupportsMediaControl: true
     };
-    appHost.getPushTokenInfo();
-    return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
+    return Object.assign(capabilities, appHost.getPushTokenInfo());
 }
 
 export function selectServer() {
