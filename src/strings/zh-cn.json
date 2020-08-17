@@ -1475,5 +1475,6 @@
     "MessageGetInstalledPluginsError": "获取已安装插件列表时出现错误。",
     "MessagePluginInstallError": "安装插件时出现错误。",
     "NextTrack": "下一曲",
-    "LabelUnstable": "不稳定"
+    "LabelUnstable": "不稳定",
+    "PlaybackRate": "播放速率"
 }
