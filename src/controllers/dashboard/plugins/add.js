@@ -66,7 +66,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
     }
 
     function alertText(options) {
-        require(['alert'], function ({default: alert}) {
+        require(['alert'], function (alert) {
             alert(options);
         });
     }
