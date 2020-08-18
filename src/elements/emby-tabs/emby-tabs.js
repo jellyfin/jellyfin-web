@@ -12,7 +12,7 @@ import 'scrollStyles';
     const buttonClass = 'emby-tab-button';
     const activeButtonClass = buttonClass + '-active';
 
-    function setActiveTabButton(tabs, newButton) {
+    function setActiveTabButton(newButton) {
         newButton.classList.add(activeButtonClass);
     }
 
@@ -77,7 +77,7 @@ import 'scrollStyles';
 
             const previousIndex = current ? parseInt(current.getAttribute('data-index')) : null;
 
-            setActiveTabButton(tabs, tabButton);
+            setActiveTabButton(tabButton);
 
             const index = parseInt(tabButton.getAttribute('data-index'));
 
@@ -192,7 +192,7 @@ import 'scrollStyles';
             const newTabButton = tabButtons[currentIndex];
 
             if (newTabButton) {
-                setActiveTabButton(this, newTabButton, current, false);
+                setActiveTabButton(newTabButton);
             }
         }
 
@@ -240,7 +240,7 @@ import 'scrollStyles';
             }));
 
             const currentTabButton = tabButtons[current];
-            setActiveTabButton(tabs, tabButtons[selected], currentTabButton, false);
+            setActiveTabButton(tabButtons[selected]);
 
             if (current !== selected && currentTabButton) {
                 currentTabButton.classList.remove(activeButtonClass);
