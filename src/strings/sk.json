@@ -1475,5 +1475,6 @@
     "MessageGetInstalledPluginsError": "Pri načítaní zoznamu nainštalovaných zásuvných modulov došlo k chybe.",
     "MessagePluginInstallError": "Pri inštalácií zásuvného modulu došlo k chybe.",
     "NextTrack": "Ďalšia",
-    "LabelUnstable": "Nestabilný"
+    "LabelUnstable": "Nestabilný",
+    "PlaybackRate": "Rýchlosť prehrávania"
 }
