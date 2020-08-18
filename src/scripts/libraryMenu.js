@@ -8,7 +8,7 @@ import appRouter from 'appRouter';
 import appHost from 'apphost';
 import playbackManager from 'playbackManager';
 import syncPlayManager from 'syncPlayManager';
-import groupSelectionMenu from 'groupSelectionMenu';
+import * as groupSelectionMenu from 'groupSelectionMenu';
 import browser from 'browser';
 import globalize from 'globalize';
 import imageHelper from 'scripts/imagehelper';
