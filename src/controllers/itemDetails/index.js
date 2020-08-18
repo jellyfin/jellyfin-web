@@ -1937,7 +1937,7 @@ import 'emby-select';
         function onMoreCommandsClick() {
             var button = this;
             var selectedItem = currentItem;
-            apiClient.getItem(apiClient.getCurrentUserId(),view.querySelector('.selectSource').value).then(function (item) {
+            apiClient.getItem(apiClient.getCurrentUserId(), view.querySelector('.selectSource').value).then(function (item) {
                  selectedItem = item;
 
                  apiClient.getCurrentUser().then(function (user) {
