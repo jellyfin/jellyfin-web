@@ -12,7 +12,7 @@ import 'scrollStyles';
     const buttonClass = 'emby-tab-button';
     const activeButtonClass = buttonClass + '-active';
 
-    function setActiveTabButton(tabs, newButton, oldButton, animate) {
+    function setActiveTabButton(tabs, newButton) {
         newButton.classList.add(activeButtonClass);
     }
 
@@ -77,7 +77,7 @@ import 'scrollStyles';
 
             const previousIndex = current ? parseInt(current.getAttribute('data-index')) : null;
 
-            setActiveTabButton(tabs, tabButton, current, true);
+            setActiveTabButton(tabs, tabButton);
 
             const index = parseInt(tabButton.getAttribute('data-index'));
 
@@ -99,6 +99,15 @@ import 'scrollStyles';
                 tabs.scroller.toCenter(tabButton, false);
             }
         }
+    }
+
+    function onFocusOut(e) {
+        const parentContainer = e.target.parentNode;
+        const previousFocus = parentContainer.querySelector('.lastFocused');
+        if (previousFocus) {
+            previousFocus.classList.remove('lastFocused');
+        }
+        e.target.classList.add('lastFocused');
     }
 
     function initScroller(tabs) {
@@ -146,13 +155,18 @@ import 'scrollStyles';
         dom.addEventListener(this, 'click', onClick, {
             passive: true
         });
+
+        dom.addEventListener(this, 'focusout', onFocusOut);
     };
 
-    EmbyTabs.focus = function () {
-        const selected = this.querySelector('.' + activeButtonClass);
+    EmbyTabs.focus = function onFocusIn() {
+        const selectedTab = this.querySelector('.' + activeButtonClass);
+        const lastFocused = this.querySelector('.lastFocused');
 
-        if (selected) {
-            focusManager.focus(selected);
+        if (lastFocused) {
+            focusManager.focus(lastFocused);
+        } else if (selectedTab) {
+            focusManager.focus(selectedTab);
         } else {
             focusManager.autoFocus(this);
         }
