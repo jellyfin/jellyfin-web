@@ -9,7 +9,7 @@ import 'css!./emby-scroller';
 
 /* eslint-disable indent */
 
-    let ScrollerPrototype = Object.create(HTMLDivElement.prototype);
+    const ScrollerPrototype = Object.create(HTMLDivElement.prototype);
 
     ScrollerPrototype.createdCallback = function () {
         this.classList.add('emby-scroller');

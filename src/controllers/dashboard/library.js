@@ -93,7 +93,7 @@ import 'emby-itemrefreshindicator';
         const virtualFolder = virtualFolders[index];
         const menuItems = [];
         menuItems.push({
-            name: globalize.translate('ButtonEditImages'),
+            name: globalize.translate('EditImages'),
             id: 'editimages',
             icon: 'photo'
         });
@@ -363,10 +363,10 @@ import 'emby-itemrefreshindicator';
             name: globalize.translate('HeaderLibraries')
         }, {
             href: 'librarydisplay.html',
-            name: globalize.translate('TabDisplay')
+            name: globalize.translate('Display')
         }, {
             href: 'metadataimages.html',
-            name: globalize.translate('TabMetadata')
+            name: globalize.translate('Metadata')
         }, {
             href: 'metadatanfo.html',
             name: globalize.translate('TabNfoSettings')

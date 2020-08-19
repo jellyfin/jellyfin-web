@@ -1,939 +1,954 @@
-define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageLoader', 'playbackManager', 'nowPlayingHelper', 'events', 'connectionManager', 'apphost', 'globalize', 'layoutManager', 'userSettings', 'cardBuilder', 'itemContextMenu', 'cardStyle', 'emby-itemscontainer', 'css!./remotecontrol.css', 'emby-ratingbutton'], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings, cardBuilder, itemContextMenu) {
-    'use strict';
+import datetime from 'datetime';
+import backdrop from 'backdrop';
+import listView from 'listView';
+import imageLoader from 'imageLoader';
+import playbackManager from 'playbackManager';
+import nowPlayingHelper from 'nowPlayingHelper';
+import events from 'events';
+import connectionManager from 'connectionManager';
+import appHost from 'apphost';
+import globalize from 'globalize';
+import layoutManager from 'layoutManager';
+import * as userSettings from 'userSettings';
+import cardBuilder from 'cardBuilder';
+import itemContextMenu from 'itemContextMenu';
+import 'cardStyle';
+import 'emby-itemscontainer';
+import 'css!./remotecontrol.css';
+import 'emby-ratingbutton';
 
-    playbackManager = playbackManager.default || playbackManager;
+/*eslint prefer-const: "error"*/
 
-    var showMuteButton = true;
-    var showVolumeSlider = true;
+let showMuteButton = true;
+let showVolumeSlider = true;
 
-    function showAudioMenu(context, player, button, item) {
-        var currentIndex = playbackManager.getAudioStreamIndex(player);
-        var streams = playbackManager.audioTracks(player);
-        var menuItems = streams.map(function (s) {
-            var menuItem = {
-                name: s.DisplayTitle,
-                id: s.Index
-            };
+function showAudioMenu(context, player, button, item) {
+    const currentIndex = playbackManager.getAudioStreamIndex(player);
+    const streams = playbackManager.audioTracks(player);
+    const menuItems = streams.map(function (s) {
+        const menuItem = {
+            name: s.DisplayTitle,
+            id: s.Index
+        };
 
-            if (s.Index == currentIndex) {
-                menuItem.selected = true;
-            }
-
-            return menuItem;
-        });
-
-        require(['actionsheet'], function (actionsheet) {
-            actionsheet.show({
-                items: menuItems,
-                positionTo: button,
-                callback: function (id) {
-                    playbackManager.setAudioStreamIndex(parseInt(id), player);
-                }
-            });
-        });
-    }
-
-    function showSubtitleMenu(context, player, button, item) {
-        var currentIndex = playbackManager.getSubtitleStreamIndex(player);
-        var streams = playbackManager.subtitleTracks(player);
-        var menuItems = streams.map(function (s) {
-            var menuItem = {
-                name: s.DisplayTitle,
-                id: s.Index
-            };
-
-            if (s.Index == currentIndex) {
-                menuItem.selected = true;
-            }
-
-            return menuItem;
-        });
-        menuItems.unshift({
-            id: -1,
-            name: globalize.translate('ButtonOff'),
-            selected: currentIndex == null
-        });
-
-        require(['actionsheet'], function (actionsheet) {
-            actionsheet.show({
-                items: menuItems,
-                positionTo: button,
-                callback: function (id) {
-                    playbackManager.setSubtitleStreamIndex(parseInt(id), player);
-                }
-            });
-        });
-    }
-
-    function getNowPlayingNameHtml(nowPlayingItem, includeNonNameInfo) {
-        return nowPlayingHelper.getNowPlayingNames(nowPlayingItem, includeNonNameInfo).map(function (i) {
-            return i.text;
-        }).join('<br/>');
-    }
-
-    function seriesImageUrl(item, options) {
-        if (item.Type !== 'Episode') {
-            return null;
+        if (s.Index == currentIndex) {
+            menuItem.selected = true;
         }
 
-        options = options || {};
-        options.type = options.type || 'Primary';
-        if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
-            options.tag = item.SeriesPrimaryImageTag;
+        return menuItem;
+    });
+
+    import('actionsheet').then(({ default: actionsheet }) => {
+        actionsheet.show({
+            items: menuItems,
+            positionTo: button,
+            callback: function (id) {
+                playbackManager.setAudioStreamIndex(parseInt(id), player);
+            }
+        });
+    });
+}
+
+function showSubtitleMenu(context, player, button, item) {
+    const currentIndex = playbackManager.getSubtitleStreamIndex(player);
+    const streams = playbackManager.subtitleTracks(player);
+    const menuItems = streams.map(function (s) {
+        const menuItem = {
+            name: s.DisplayTitle,
+            id: s.Index
+        };
+
+        if (s.Index == currentIndex) {
+            menuItem.selected = true;
+        }
+
+        return menuItem;
+    });
+    menuItems.unshift({
+        id: -1,
+        name: globalize.translate('Off'),
+        selected: currentIndex == null
+    });
+
+    import('actionsheet').then(({ default: actionsheet }) => {
+        actionsheet.show({
+            items: menuItems,
+            positionTo: button,
+            callback: function (id) {
+                playbackManager.setSubtitleStreamIndex(parseInt(id), player);
+            }
+        });
+    });
+}
+
+function getNowPlayingNameHtml(nowPlayingItem, includeNonNameInfo) {
+    return nowPlayingHelper.getNowPlayingNames(nowPlayingItem, includeNonNameInfo).map(function (i) {
+        return i.text;
+    }).join('<br/>');
+}
+
+function seriesImageUrl(item, options) {
+    if (item.Type !== 'Episode') {
+        return null;
+    }
+
+    options = options || {};
+    options.type = options.type || 'Primary';
+    if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
+        options.tag = item.SeriesPrimaryImageTag;
+        return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+    }
+
+    if (options.type === 'Thumb') {
+        if (item.SeriesThumbImageTag) {
+            options.tag = item.SeriesThumbImageTag;
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
-        if (options.type === 'Thumb') {
-            if (item.SeriesThumbImageTag) {
-                options.tag = item.SeriesThumbImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-
-            if (item.ParentThumbImageTag) {
-                options.tag = item.ParentThumbImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
-            }
+        if (item.ParentThumbImageTag) {
+            options.tag = item.ParentThumbImageTag;
+            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
         }
-
-        return null;
     }
 
-    function imageUrl(item, options) {
-        options = options || {};
-        options.type = options.type || 'Primary';
+    return null;
+}
 
-        if (item.ImageTags && item.ImageTags[options.type]) {
-            options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
-        }
+function imageUrl(item, options) {
+    options = options || {};
+    options.type = options.type || 'Primary';
 
-        if (item.AlbumId && item.AlbumPrimaryImageTag) {
-            options.tag = item.AlbumPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
-        }
-
-        return null;
+    if (item.ImageTags && item.ImageTags[options.type]) {
+        options.tag = item.ImageTags[options.type];
+        return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
     }
 
-    function updateNowPlayingInfo(context, state, serverId) {
-        var item = state.NowPlayingItem;
-        var displayName = item ? getNowPlayingNameHtml(item).replace('<br/>', ' - ') : '';
-        if (typeof item !== 'undefined') {
-            var nowPlayingServerId = (item.ServerId || serverId);
-            if (item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
-                var songName = item.Name;
-                var artistsSeries = '';
-                var albumName = '';
-                if (item.Artists != null) {
-                    if (item.ArtistItems != null) {
-                        for (const artist of item.ArtistItems) {
-                            let artistName = artist.Name;
-                            let artistId = artist.Id;
-                            artistsSeries += `<a class="button-link emby-button" is="emby-linkbutton" href="details?id=${artistId}&serverId=${nowPlayingServerId}">${artistName}</a>`;
-                            if (artist !== item.ArtistItems.slice(-1)[0]) {
-                                artistsSeries += ', ';
-                            }
+    if (item.AlbumId && item.AlbumPrimaryImageTag) {
+        options.tag = item.AlbumPrimaryImageTag;
+        return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+    }
+
+    return null;
+}
+
+function updateNowPlayingInfo(context, state, serverId) {
+    const item = state.NowPlayingItem;
+    const displayName = item ? getNowPlayingNameHtml(item).replace('<br/>', ' - ') : '';
+    if (typeof item !== 'undefined') {
+        const nowPlayingServerId = (item.ServerId || serverId);
+        if (item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
+            const songName = item.Name;
+            let artistsSeries = '';
+            let albumName = '';
+            if (item.Artists != null) {
+                if (item.ArtistItems != null) {
+                    for (const artist of item.ArtistItems) {
+                        const artistName = artist.Name;
+                        const artistId = artist.Id;
+                        artistsSeries += `<a class="button-link emby-button" is="emby-linkbutton" href="details?id=${artistId}&serverId=${nowPlayingServerId}">${artistName}</a>`;
+                        if (artist !== item.ArtistItems.slice(-1)[0]) {
+                            artistsSeries += ', ';
                         }
-                    } else if (item.Artists) {
-                        // For some reason, Chromecast Player doesn't return a item.ArtistItems object, so we need to fallback
-                        // to normal item.Artists item.
-                        // TODO: Normalise fields returned by all the players
-                        for (const artist of item.Artists) {
-                            artistsSeries += `<a>${artist}</a>`;
-                            if (artist !== item.Artists.slice(-1)[0]) {
-                                artistsSeries += ', ';
-                            }
+                    }
+                } else if (item.Artists) {
+                    // For some reason, Chromecast Player doesn't return a item.ArtistItems object, so we need to fallback
+                    // to normal item.Artists item.
+                    // TODO: Normalise fields returned by all the players
+                    for (const artist of item.Artists) {
+                        artistsSeries += `<a>${artist}</a>`;
+                        if (artist !== item.Artists.slice(-1)[0]) {
+                            artistsSeries += ', ';
                         }
                     }
                 }
-                if (item.Album != null) {
-                    albumName = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + item.Album + '</a>';
-                }
-                context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
-                context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
-                context.querySelector('.nowPlayingSongName').innerHTML = songName;
-            } else if (item.Type == 'Episode') {
-                if (item.SeasonName != null) {
-                    var seasonName = item.SeasonName;
-                    context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.SeasonId + `&serverId=${nowPlayingServerId}">${seasonName}</a>`;
-                }
-                if (item.SeriesName != null) {
-                    var seriesName = item.SeriesName;
-                    if (item.SeriesId != null) {
-                        context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.SeriesId + `&serverId=${nowPlayingServerId}">${seriesName}</a>`;
-                    } else {
-                        context.querySelector('.nowPlayingSerie').innerHTML = seriesName;
-                    }
-                }
-                context.querySelector('.nowPlayingEpisode').innerHTML = item.Name;
-            } else {
-                context.querySelector('.nowPlayingPageTitle').innerHTML = displayName;
             }
-
-            if (displayName.length > 0 && item.Type != 'Audio' && item.Type != 'Episode') {
-                context.querySelector('.nowPlayingPageTitle').classList.remove('hide');
-            } else {
-                context.querySelector('.nowPlayingPageTitle').classList.add('hide');
+            if (item.Album != null) {
+                albumName = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + item.Album + '</a>';
             }
-
-            var url = item ? seriesImageUrl(item, {
-                maxHeight: 300
-            }) || imageUrl(item, {
-                maxHeight: 300
-            }) : null;
-
-            let contextButton = context.querySelector('.btnToggleContextMenu');
-            // We remove the previous event listener by replacing the item in each update event
-            const autoFocusContextButton = document.activeElement === contextButton;
-            let contextButtonClone = contextButton.cloneNode(true);
-            contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
-            contextButton = context.querySelector('.btnToggleContextMenu');
-            if (autoFocusContextButton) {
-                contextButton.focus();
+            context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
+            context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
+            context.querySelector('.nowPlayingSongName').innerHTML = songName;
+        } else if (item.Type == 'Episode') {
+            if (item.SeasonName != null) {
+                const seasonName = item.SeasonName;
+                context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.SeasonId + `&serverId=${nowPlayingServerId}">${seasonName}</a>`;
             }
-            const stopPlayback = !!layoutManager.mobile;
-            var options = {
-                play: false,
-                queue: false,
-                stopPlayback: stopPlayback,
-                clearQueue: true,
-                openAlbum: false,
-                positionTo: contextButton
-            };
-            var apiClient = connectionManager.getApiClient(item.ServerId);
-            apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
-                apiClient.getCurrentUser().then(function (user) {
-                    contextButton.addEventListener('click', function () {
-                        itemContextMenu.show(Object.assign({
-                            item: fullItem,
-                            user: user
-                        }, options));
-                    });
-                });
-            });
-            setImageUrl(context, state, url);
-            if (item) {
-                backdrop.setBackdrops([item]);
-                apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
-                    var userData = fullItem.UserData || {};
-                    var likes = userData.Likes == null ? '' : userData.Likes;
-                    context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
-                    context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
-                });
-            } else {
-                backdrop.clearBackdrop();
-                context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
-            }
-        }
-    }
-
-    function setImageUrl(context, state, url) {
-        var item = state.NowPlayingItem;
-        var imgContainer = context.querySelector('.nowPlayingPageImageContainer');
-
-        if (url) {
-            imgContainer.innerHTML = '<img class="nowPlayingPageImage" src="' + url + '" />';
-            if (item.Type == 'Audio') {
-                context.querySelector('.nowPlayingPageImage').classList.add('nowPlayingPageImageAudio');
-                context.querySelector('.nowPlayingPageImageContainer').classList.remove('nowPlayingPageImageAudio');
-            } else {
-                context.querySelector('.nowPlayingPageImageContainer').classList.add('nowPlayingPageImagePoster');
-                context.querySelector('.nowPlayingPageImage').classList.remove('nowPlayingPageImageAudio');
-            }
-        } else {
-            imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + cardBuilder.getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album"></span></button></div>';
-        }
-    }
-
-    function buttonVisible(btn, enabled) {
-        if (enabled) {
-            btn.classList.remove('hide');
-        } else {
-            btn.classList.add('hide');
-        }
-    }
-
-    function updateSupportedCommands(context, commands) {
-        var all = context.querySelectorAll('.btnCommand');
-
-        for (var i = 0, length = all.length; i < length; i++) {
-            var enableButton = commands.indexOf(all[i].getAttribute('data-command')) !== -1;
-            all[i].disabled = !enableButton;
-        }
-    }
-
-    return function () {
-        function toggleRepeat() {
-            switch (playbackManager.getRepeatMode()) {
-                case 'RepeatAll':
-                    playbackManager.setRepeatMode('RepeatOne');
-                    break;
-                case 'RepeatOne':
-                    playbackManager.setRepeatMode('RepeatNone');
-                    break;
-                case 'RepeatNone':
-                    playbackManager.setRepeatMode('RepeatAll');
-            }
-        }
-
-        function updatePlayerState(player, context, state) {
-            lastPlayerState = state;
-            var item = state.NowPlayingItem;
-            var playerInfo = playbackManager.getPlayerInfo();
-            var supportedCommands = playerInfo.supportedCommands;
-            currentPlayerSupportedCommands = supportedCommands;
-            var playState = state.PlayState || {};
-            var isSupportedCommands = supportedCommands.includes('DisplayMessage') || supportedCommands.includes('SendString') || supportedCommands.includes('Select');
-            buttonVisible(context.querySelector('.btnToggleFullscreen'), item && item.MediaType == 'Video' && supportedCommands.includes('ToggleFullscreen'));
-            updateAudioTracksDisplay(player, context);
-            updateSubtitleTracksDisplay(player, context);
-
-            if (supportedCommands.includes('DisplayMessage') && !currentPlayer.isLocalPlayer) {
-                context.querySelector('.sendMessageSection').classList.remove('hide');
-            } else {
-                context.querySelector('.sendMessageSection').classList.add('hide');
-            }
-
-            if (supportedCommands.includes('SendString') && !currentPlayer.isLocalPlayer) {
-                context.querySelector('.sendTextSection').classList.remove('hide');
-            } else {
-                context.querySelector('.sendTextSection').classList.add('hide');
-            }
-
-            if (supportedCommands.includes('Select') && !currentPlayer.isLocalPlayer) {
-                context.querySelector('.navigationSection').classList.remove('hide');
-            } else {
-                context.querySelector('.navigationSection').classList.add('hide');
-            }
-
-            if (isSupportedCommands && !currentPlayer.isLocalPlayer) {
-                context.querySelector('.remoteControlSection').classList.remove('hide');
-            } else {
-                context.querySelector('.remoteControlSection').classList.add('hide');
-            }
-
-            buttonVisible(context.querySelector('.btnStop'), item != null);
-            buttonVisible(context.querySelector('.btnNextTrack'), item != null);
-            buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
-            if (layoutManager.mobile) {
-                buttonVisible(context.querySelector('.btnRewind'), false);
-                buttonVisible(context.querySelector('.btnFastForward'), false);
-            } else {
-                buttonVisible(context.querySelector('.btnRewind'), item != null);
-                buttonVisible(context.querySelector('.btnFastForward'), item != null);
-            }
-            var positionSlider = context.querySelector('.nowPlayingPositionSlider');
-
-            if (positionSlider && item && item.RunTimeTicks) {
-                positionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / item.RunTimeTicks,
-                    userSettings.skipForwardLength() * 1000000 / item.RunTimeTicks);
-            }
-
-            if (positionSlider && !positionSlider.dragging) {
-                positionSlider.disabled = !playState.CanSeek;
-                var isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
-                positionSlider.setIsClear(isProgressClear);
-            }
-
-            updatePlayPauseState(playState.IsPaused, item != null);
-            updateTimeDisplay(playState.PositionTicks, item ? item.RunTimeTicks : null);
-            updatePlayerVolumeState(context, playState.IsMuted, playState.VolumeLevel);
-
-            if (item && item.MediaType == 'Video') {
-                context.classList.remove('hideVideoButtons');
-            } else {
-                context.classList.add('hideVideoButtons');
-            }
-
-            updateRepeatModeDisplay(playbackManager.getRepeatMode());
-            onShuffleQueueModeChange(false);
-            updateNowPlayingInfo(context, state);
-        }
-
-        function updateAudioTracksDisplay(player, context) {
-            var supportedCommands = currentPlayerSupportedCommands;
-            buttonVisible(context.querySelector('.btnAudioTracks'), playbackManager.audioTracks(player).length > 1 && supportedCommands.indexOf('SetAudioStreamIndex') != -1);
-        }
-
-        function updateSubtitleTracksDisplay(player, context) {
-            var supportedCommands = currentPlayerSupportedCommands;
-            buttonVisible(context.querySelector('.btnSubtitles'), playbackManager.subtitleTracks(player).length && supportedCommands.indexOf('SetSubtitleStreamIndex') != -1);
-        }
-
-        function updateRepeatModeDisplay(repeatMode) {
-            var context = dlg;
-            let toggleRepeatButtons = context.querySelectorAll('.repeatToggleButton');
-            const cssClass = 'buttonActive';
-            let innHtml = '<span class="material-icons repeat"></span>';
-            let repeatOn = true;
-
-            switch (repeatMode) {
-                case 'RepeatAll':
-                    break;
-                case 'RepeatOne':
-                    innHtml = '<span class="material-icons repeat_one"></span>';
-                    break;
-                case 'RepeatNone':
-                default:
-                    repeatOn = false;
-                    break;
-            }
-
-            for (const toggleRepeatButton of toggleRepeatButtons) {
-                toggleRepeatButton.classList.toggle(cssClass, repeatOn);
-                toggleRepeatButton.innerHTML = innHtml;
-            }
-        }
-
-        function updatePlayerVolumeState(context, isMuted, volumeLevel) {
-            var view = context;
-            var supportedCommands = currentPlayerSupportedCommands;
-
-            if (supportedCommands.indexOf('Mute') === -1) {
-                showMuteButton = false;
-            }
-
-            if (supportedCommands.indexOf('SetVolume') === -1) {
-                showVolumeSlider = false;
-            }
-
-            if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
-                showMuteButton = false;
-                showVolumeSlider = false;
-            }
-
-            const buttonMute = view.querySelector('.buttonMute');
-            const buttonMuteIcon = buttonMute.querySelector('.material-icons');
-
-            buttonMuteIcon.classList.remove('volume_off', 'volume_up');
-
-            if (isMuted) {
-                buttonMute.setAttribute('title', globalize.translate('Unmute'));
-                buttonMuteIcon.classList.add('volume_off');
-            } else {
-                buttonMute.setAttribute('title', globalize.translate('Mute'));
-                buttonMuteIcon.classList.add('volume_up');
-            }
-
-            if (!showMuteButton && !showVolumeSlider) {
-                context.querySelector('.volumecontrol').classList.add('hide');
-            } else {
-                buttonMute.classList.toggle('hide', !showMuteButton);
-
-                var nowPlayingVolumeSlider = context.querySelector('.nowPlayingVolumeSlider');
-                var nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
-
-                if (nowPlayingVolumeSlider) {
-                    nowPlayingVolumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
-
-                    if (!nowPlayingVolumeSlider.dragging) {
-                        nowPlayingVolumeSlider.value = volumeLevel || 0;
-                    }
-                }
-            }
-        }
-
-        function updatePlayPauseState(isPaused, isActive) {
-            var context = dlg;
-            var btnPlayPause = context.querySelector('.btnPlayPause');
-            const btnPlayPauseIcon = btnPlayPause.querySelector('.material-icons');
-
-            btnPlayPauseIcon.classList.remove('play_circle_filled', 'pause_circle_filled');
-            btnPlayPauseIcon.classList.add(isPaused ? 'play_circle_filled' : 'pause_circle_filled');
-
-            buttonVisible(btnPlayPause, isActive);
-        }
-
-        function updateTimeDisplay(positionTicks, runtimeTicks) {
-            var context = dlg;
-            var positionSlider = context.querySelector('.nowPlayingPositionSlider');
-
-            if (positionSlider && !positionSlider.dragging) {
-                if (runtimeTicks) {
-                    var pct = positionTicks / runtimeTicks;
-                    pct *= 100;
-                    positionSlider.value = pct;
+            if (item.SeriesName != null) {
+                const seriesName = item.SeriesName;
+                if (item.SeriesId != null) {
+                    context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="details?id=' + item.SeriesId + `&serverId=${nowPlayingServerId}">${seriesName}</a>`;
                 } else {
-                    positionSlider.value = 0;
+                    context.querySelector('.nowPlayingSerie').innerHTML = seriesName;
                 }
             }
-
-            context.querySelector('.positionTime').innerHTML = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
-            context.querySelector('.runtime').innerHTML = runtimeTicks != null ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
+            context.querySelector('.nowPlayingEpisode').innerHTML = item.Name;
+        } else {
+            context.querySelector('.nowPlayingPageTitle').innerHTML = displayName;
         }
 
-        function getPlaylistItems(player) {
-            return playbackManager.getPlaylist(player);
+        if (displayName.length > 0 && item.Type != 'Audio' && item.Type != 'Episode') {
+            context.querySelector('.nowPlayingPageTitle').classList.remove('hide');
+        } else {
+            context.querySelector('.nowPlayingPageTitle').classList.add('hide');
         }
 
-        function loadPlaylist(context, player) {
-            getPlaylistItems(player).then(function (items) {
-                var html = '';
-                let favoritesEnabled = true;
-                if (layoutManager.mobile) {
-                    if (items.length > 0) {
-                        context.querySelector('.btnTogglePlaylist').classList.remove('hide');
-                    } else {
-                        context.querySelector('.btnTogglePlaylist').classList.add('hide');
-                    }
-                    favoritesEnabled = false;
-                }
+        const url = item ? seriesImageUrl(item, {
+            maxHeight: 300
+        }) || imageUrl(item, {
+            maxHeight: 300
+        }) : null;
 
-                html += listView.getListViewHtml({
-                    items: items,
-                    smallIcon: true,
-                    action: 'setplaylistindex',
-                    enableUserDataButtons: favoritesEnabled,
-                    rightButtons: [{
-                        icon: 'remove_circle_outline',
-                        title: globalize.translate('ButtonRemove'),
-                        id: 'remove'
-                    }],
-                    dragHandle: true
+        let contextButton = context.querySelector('.btnToggleContextMenu');
+        // We remove the previous event listener by replacing the item in each update event
+        const autoFocusContextButton = document.activeElement === contextButton;
+        const contextButtonClone = contextButton.cloneNode(true);
+        contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
+        contextButton = context.querySelector('.btnToggleContextMenu');
+        if (autoFocusContextButton) {
+            contextButton.focus();
+        }
+        const stopPlayback = !!layoutManager.mobile;
+        const options = {
+            play: false,
+            queue: false,
+            stopPlayback: stopPlayback,
+            clearQueue: true,
+            openAlbum: false,
+            positionTo: contextButton
+        };
+        const apiClient = connectionManager.getApiClient(item.ServerId);
+        apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
+            apiClient.getCurrentUser().then(function (user) {
+                contextButton.addEventListener('click', function () {
+                    itemContextMenu.show(Object.assign({
+                        item: fullItem,
+                        user: user
+                    }, options));
                 });
-
-                var itemsContainer = context.querySelector('.playlist');
-                let focusedItemPlaylistId = itemsContainer.querySelector('button:focus');
-                itemsContainer.innerHTML = html;
-                if (focusedItemPlaylistId !== null) {
-                    focusedItemPlaylistId = focusedItemPlaylistId.getAttribute('data-playlistitemid');
-                    const newFocusedItem = itemsContainer.querySelector(`button[data-playlistitemid="${focusedItemPlaylistId}"]`);
-                    if (newFocusedItem !== null) {
-                        newFocusedItem.focus();
-                    }
-                }
-
-                var playlistItemId = playbackManager.getCurrentPlaylistItemId(player);
-
-                if (playlistItemId) {
-                    var img = itemsContainer.querySelector(`.listItem[data-playlistItemId="${playlistItemId}"] .listItemImage`);
-
-                    if (img) {
-                        img.classList.remove('lazy');
-                        img.classList.add('playlistIndexIndicatorImage');
-                    }
-                }
-
-                imageLoader.lazyChildren(itemsContainer);
             });
+        });
+        setImageUrl(context, state, url);
+        if (item) {
+            backdrop.setBackdrops([item]);
+            apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
+                const userData = fullItem.UserData || {};
+                const likes = userData.Likes == null ? '' : userData.Likes;
+                context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
+                context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
+            });
+        } else {
+            backdrop.clearBackdrop();
+            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
+        }
+    }
+}
+
+function setImageUrl(context, state, url) {
+    const item = state.NowPlayingItem;
+    const imgContainer = context.querySelector('.nowPlayingPageImageContainer');
+
+    if (url) {
+        imgContainer.innerHTML = '<img class="nowPlayingPageImage" src="' + url + '" />';
+        if (item.Type == 'Audio') {
+            context.querySelector('.nowPlayingPageImage').classList.add('nowPlayingPageImageAudio');
+            context.querySelector('.nowPlayingPageImageContainer').classList.remove('nowPlayingPageImageAudio');
+        } else {
+            context.querySelector('.nowPlayingPageImageContainer').classList.add('nowPlayingPageImagePoster');
+            context.querySelector('.nowPlayingPageImage').classList.remove('nowPlayingPageImageAudio');
+        }
+    } else {
+        imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + cardBuilder.getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album"></span></button></div>';
+    }
+}
+
+function buttonVisible(btn, enabled) {
+    if (enabled) {
+        btn.classList.remove('hide');
+    } else {
+        btn.classList.add('hide');
+    }
+}
+
+function updateSupportedCommands(context, commands) {
+    const all = context.querySelectorAll('.btnCommand');
+
+    for (let i = 0, length = all.length; i < length; i++) {
+        const enableButton = commands.indexOf(all[i].getAttribute('data-command')) !== -1;
+        all[i].disabled = !enableButton;
+    }
+}
+
+export default function () {
+    function toggleRepeat() {
+        switch (playbackManager.getRepeatMode()) {
+            case 'RepeatAll':
+                playbackManager.setRepeatMode('RepeatOne');
+                break;
+            case 'RepeatOne':
+                playbackManager.setRepeatMode('RepeatNone');
+                break;
+            case 'RepeatNone':
+                playbackManager.setRepeatMode('RepeatAll');
+        }
+    }
+
+    function updatePlayerState(player, context, state) {
+        lastPlayerState = state;
+        const item = state.NowPlayingItem;
+        const playerInfo = playbackManager.getPlayerInfo();
+        const supportedCommands = playerInfo.supportedCommands;
+        currentPlayerSupportedCommands = supportedCommands;
+        const playState = state.PlayState || {};
+        const isSupportedCommands = supportedCommands.includes('DisplayMessage') || supportedCommands.includes('SendString') || supportedCommands.includes('Select');
+        buttonVisible(context.querySelector('.btnToggleFullscreen'), item && item.MediaType == 'Video' && supportedCommands.includes('ToggleFullscreen'));
+        updateAudioTracksDisplay(player, context);
+        updateSubtitleTracksDisplay(player, context);
+
+        if (supportedCommands.includes('DisplayMessage') && !currentPlayer.isLocalPlayer) {
+            context.querySelector('.sendMessageSection').classList.remove('hide');
+        } else {
+            context.querySelector('.sendMessageSection').classList.add('hide');
         }
 
-        function onPlaybackStart(e, state) {
-            console.debug('remotecontrol event: ' + e.type);
-            var player = this;
-            onStateChanged.call(player, e, state);
+        if (supportedCommands.includes('SendString') && !currentPlayer.isLocalPlayer) {
+            context.querySelector('.sendTextSection').classList.remove('hide');
+        } else {
+            context.querySelector('.sendTextSection').classList.add('hide');
         }
 
-        function onRepeatModeChange() {
-            updateRepeatModeDisplay(playbackManager.getRepeatMode());
+        if (supportedCommands.includes('Select') && !currentPlayer.isLocalPlayer) {
+            context.querySelector('.navigationSection').classList.remove('hide');
+        } else {
+            context.querySelector('.navigationSection').classList.add('hide');
         }
 
-        function onShuffleQueueModeChange(updateView = true) {
-            let shuffleMode = playbackManager.getQueueShuffleMode(this);
-            let context = dlg;
-            const cssClass = 'buttonActive';
-            let shuffleButtons = context.querySelectorAll('.btnShuffleQueue');
+        if (isSupportedCommands && !currentPlayer.isLocalPlayer) {
+            context.querySelector('.remoteControlSection').classList.remove('hide');
+        } else {
+            context.querySelector('.remoteControlSection').classList.add('hide');
+        }
 
-            for (let shuffleButton of shuffleButtons) {
-                switch (shuffleMode) {
-                    case 'Shuffle':
-                        shuffleButton.classList.add(cssClass);
-                        break;
-                    case 'Sorted':
-                    default:
-                        shuffleButton.classList.remove(cssClass);
-                        break;
+        buttonVisible(context.querySelector('.btnStop'), item != null);
+        buttonVisible(context.querySelector('.btnNextTrack'), item != null);
+        buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
+        if (layoutManager.mobile) {
+            buttonVisible(context.querySelector('.btnRewind'), false);
+            buttonVisible(context.querySelector('.btnFastForward'), false);
+        } else {
+            buttonVisible(context.querySelector('.btnRewind'), item != null);
+            buttonVisible(context.querySelector('.btnFastForward'), item != null);
+        }
+        const positionSlider = context.querySelector('.nowPlayingPositionSlider');
+
+        if (positionSlider && item && item.RunTimeTicks) {
+            positionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / item.RunTimeTicks,
+                userSettings.skipForwardLength() * 1000000 / item.RunTimeTicks);
+        }
+
+        if (positionSlider && !positionSlider.dragging) {
+            positionSlider.disabled = !playState.CanSeek;
+            const isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
+            positionSlider.setIsClear(isProgressClear);
+        }
+
+        updatePlayPauseState(playState.IsPaused, item != null);
+        updateTimeDisplay(playState.PositionTicks, item ? item.RunTimeTicks : null);
+        updatePlayerVolumeState(context, playState.IsMuted, playState.VolumeLevel);
+
+        if (item && item.MediaType == 'Video') {
+            context.classList.remove('hideVideoButtons');
+        } else {
+            context.classList.add('hideVideoButtons');
+        }
+
+        updateRepeatModeDisplay(playbackManager.getRepeatMode());
+        onShuffleQueueModeChange(false);
+        updateNowPlayingInfo(context, state);
+    }
+
+    function updateAudioTracksDisplay(player, context) {
+        const supportedCommands = currentPlayerSupportedCommands;
+        buttonVisible(context.querySelector('.btnAudioTracks'), playbackManager.audioTracks(player).length > 1 && supportedCommands.indexOf('SetAudioStreamIndex') != -1);
+    }
+
+    function updateSubtitleTracksDisplay(player, context) {
+        const supportedCommands = currentPlayerSupportedCommands;
+        buttonVisible(context.querySelector('.btnSubtitles'), playbackManager.subtitleTracks(player).length && supportedCommands.indexOf('SetSubtitleStreamIndex') != -1);
+    }
+
+    function updateRepeatModeDisplay(repeatMode) {
+        const context = dlg;
+        const toggleRepeatButtons = context.querySelectorAll('.repeatToggleButton');
+        const cssClass = 'buttonActive';
+        let innHtml = '<span class="material-icons repeat"></span>';
+        let repeatOn = true;
+
+        switch (repeatMode) {
+            case 'RepeatAll':
+                break;
+            case 'RepeatOne':
+                innHtml = '<span class="material-icons repeat_one"></span>';
+                break;
+            case 'RepeatNone':
+            default:
+                repeatOn = false;
+                break;
+        }
+
+        for (const toggleRepeatButton of toggleRepeatButtons) {
+            toggleRepeatButton.classList.toggle(cssClass, repeatOn);
+            toggleRepeatButton.innerHTML = innHtml;
+        }
+    }
+
+    function updatePlayerVolumeState(context, isMuted, volumeLevel) {
+        const view = context;
+        const supportedCommands = currentPlayerSupportedCommands;
+
+        if (supportedCommands.indexOf('Mute') === -1) {
+            showMuteButton = false;
+        }
+
+        if (supportedCommands.indexOf('SetVolume') === -1) {
+            showVolumeSlider = false;
+        }
+
+        if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
+            showMuteButton = false;
+            showVolumeSlider = false;
+        }
+
+        const buttonMute = view.querySelector('.buttonMute');
+        const buttonMuteIcon = buttonMute.querySelector('.material-icons');
+
+        buttonMuteIcon.classList.remove('volume_off', 'volume_up');
+
+        if (isMuted) {
+            buttonMute.setAttribute('title', globalize.translate('Unmute'));
+            buttonMuteIcon.classList.add('volume_off');
+        } else {
+            buttonMute.setAttribute('title', globalize.translate('Mute'));
+            buttonMuteIcon.classList.add('volume_up');
+        }
+
+        if (!showMuteButton && !showVolumeSlider) {
+            context.querySelector('.volumecontrol').classList.add('hide');
+        } else {
+            buttonMute.classList.toggle('hide', !showMuteButton);
+
+            const nowPlayingVolumeSlider = context.querySelector('.nowPlayingVolumeSlider');
+            const nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
+
+            if (nowPlayingVolumeSlider) {
+                nowPlayingVolumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
+
+                if (!nowPlayingVolumeSlider.dragging) {
+                    nowPlayingVolumeSlider.value = volumeLevel || 0;
                 }
             }
-
-            if (updateView) {
-                onPlaylistUpdate();
-            }
         }
+    }
 
-        function onPlaylistUpdate(e) {
-            loadPlaylist(dlg, this);
-        }
+    function updatePlayPauseState(isPaused, isActive) {
+        const context = dlg;
+        const btnPlayPause = context.querySelector('.btnPlayPause');
+        const btnPlayPauseIcon = btnPlayPause.querySelector('.material-icons');
 
-        function onPlaylistItemRemoved(e, info) {
-            var context = dlg;
-            if (info !== undefined) {
-                var playlistItemIds = info.playlistItemIds;
+        btnPlayPauseIcon.classList.remove('play_circle_filled', 'pause_circle_filled');
+        btnPlayPauseIcon.classList.add(isPaused ? 'play_circle_filled' : 'pause_circle_filled');
 
-                for (var i = 0, length = playlistItemIds.length; i < length; i++) {
-                    var listItem = context.querySelector('.listItem[data-playlistItemId="' + playlistItemIds[i] + '"]');
+        buttonVisible(btnPlayPause, isActive);
+    }
 
-                    if (listItem) {
-                        listItem.parentNode.removeChild(listItem);
-                    }
-                }
+    function updateTimeDisplay(positionTicks, runtimeTicks) {
+        const context = dlg;
+        const positionSlider = context.querySelector('.nowPlayingPositionSlider');
+
+        if (positionSlider && !positionSlider.dragging) {
+            if (runtimeTicks) {
+                let pct = positionTicks / runtimeTicks;
+                pct *= 100;
+                positionSlider.value = pct;
             } else {
-                onPlaylistUpdate();
+                positionSlider.value = 0;
             }
         }
 
-        function onPlaybackStopped(e, state) {
-            console.debug('remotecontrol event: ' + e.type);
-            var player = this;
+        context.querySelector('.positionTime').innerHTML = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+        context.querySelector('.runtime').innerHTML = runtimeTicks != null ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
+    }
 
-            if (!state.NextMediaType) {
-                updatePlayerState(player, dlg, {});
-                Emby.Page.back();
+    function getPlaylistItems(player) {
+        return playbackManager.getPlaylist(player);
+    }
+
+    function loadPlaylist(context, player) {
+        getPlaylistItems(player).then(function (items) {
+            let html = '';
+            let favoritesEnabled = true;
+            if (layoutManager.mobile) {
+                if (items.length > 0) {
+                    context.querySelector('.btnTogglePlaylist').classList.remove('hide');
+                } else {
+                    context.querySelector('.btnTogglePlaylist').classList.add('hide');
+                }
+                favoritesEnabled = false;
+            }
+
+            html += listView.getListViewHtml({
+                items: items,
+                smallIcon: true,
+                action: 'setplaylistindex',
+                enableUserDataButtons: favoritesEnabled,
+                rightButtons: [{
+                    icon: 'remove_circle_outline',
+                    title: globalize.translate('ButtonRemove'),
+                    id: 'remove'
+                }],
+                dragHandle: true
+            });
+
+            const itemsContainer = context.querySelector('.playlist');
+            let focusedItemPlaylistId = itemsContainer.querySelector('button:focus');
+            itemsContainer.innerHTML = html;
+            if (focusedItemPlaylistId !== null) {
+                focusedItemPlaylistId = focusedItemPlaylistId.getAttribute('data-playlistitemid');
+                const newFocusedItem = itemsContainer.querySelector(`button[data-playlistitemid="${focusedItemPlaylistId}"]`);
+                if (newFocusedItem !== null) {
+                    newFocusedItem.focus();
+                }
+            }
+
+            const playlistItemId = playbackManager.getCurrentPlaylistItemId(player);
+
+            if (playlistItemId) {
+                const img = itemsContainer.querySelector(`.listItem[data-playlistItemId="${playlistItemId}"] .listItemImage`);
+
+                if (img) {
+                    img.classList.remove('lazy');
+                    img.classList.add('playlistIndexIndicatorImage');
+                }
+            }
+
+            imageLoader.lazyChildren(itemsContainer);
+        });
+    }
+
+    function onPlaybackStart(e, state) {
+        console.debug('remotecontrol event: ' + e.type);
+        const player = this;
+        onStateChanged.call(player, e, state);
+    }
+
+    function onRepeatModeChange() {
+        updateRepeatModeDisplay(playbackManager.getRepeatMode());
+    }
+
+    function onShuffleQueueModeChange(updateView = true) {
+        const shuffleMode = playbackManager.getQueueShuffleMode(this);
+        const context = dlg;
+        const cssClass = 'buttonActive';
+        const shuffleButtons = context.querySelectorAll('.btnShuffleQueue');
+
+        for (const shuffleButton of shuffleButtons) {
+            switch (shuffleMode) {
+                case 'Shuffle':
+                    shuffleButton.classList.add(cssClass);
+                    break;
+                case 'Sorted':
+                default:
+                    shuffleButton.classList.remove(cssClass);
+                    break;
             }
         }
 
-        function onPlayPauseStateChanged(e) {
-            updatePlayPauseState(this.paused(), true);
-        }
-
-        function onStateChanged(event, state) {
-            var player = this;
-            updatePlayerState(player, dlg, state);
+        if (updateView) {
             onPlaylistUpdate();
         }
+    }
 
-        function onTimeUpdate(e) {
-            var now = new Date().getTime();
+    function onPlaylistUpdate(e) {
+        loadPlaylist(dlg, this);
+    }
 
-            if (!(now - lastUpdateTime < 700)) {
-                lastUpdateTime = now;
-                var player = this;
-                currentRuntimeTicks = playbackManager.duration(player);
-                updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks);
+    function onPlaylistItemRemoved(e, info) {
+        const context = dlg;
+        if (info !== undefined) {
+            const playlistItemIds = info.playlistItemIds;
+
+            for (let i = 0, length = playlistItemIds.length; i < length; i++) {
+                const listItem = context.querySelector('.listItem[data-playlistItemId="' + playlistItemIds[i] + '"]');
+
+                if (listItem) {
+                    listItem.parentNode.removeChild(listItem);
+                }
+            }
+        } else {
+            onPlaylistUpdate();
+        }
+    }
+
+    function onPlaybackStopped(e, state) {
+        console.debug('remotecontrol event: ' + e.type);
+        const player = this;
+
+        if (!state.NextMediaType) {
+            updatePlayerState(player, dlg, {});
+            Emby.Page.back();
+        }
+    }
+
+    function onPlayPauseStateChanged(e) {
+        updatePlayPauseState(this.paused(), true);
+    }
+
+    function onStateChanged(event, state) {
+        const player = this;
+        updatePlayerState(player, dlg, state);
+        onPlaylistUpdate();
+    }
+
+    function onTimeUpdate(e) {
+        const now = new Date().getTime();
+
+        if (!(now - lastUpdateTime < 700)) {
+            lastUpdateTime = now;
+            const player = this;
+            currentRuntimeTicks = playbackManager.duration(player);
+            updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks);
+        }
+    }
+
+    function onVolumeChanged(e) {
+        const player = this;
+        updatePlayerVolumeState(dlg, player.isMuted(), player.getVolume());
+    }
+
+    function releaseCurrentPlayer() {
+        const player = currentPlayer;
+
+        if (player) {
+            events.off(player, 'playbackstart', onPlaybackStart);
+            events.off(player, 'statechange', onStateChanged);
+            events.off(player, 'repeatmodechange', onRepeatModeChange);
+            events.off(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
+            events.off(player, 'playlistitemremove', onPlaylistItemRemoved);
+            events.off(player, 'playlistitemmove', onPlaylistUpdate);
+            events.off(player, 'playlistitemadd', onPlaylistUpdate);
+            events.off(player, 'playbackstop', onPlaybackStopped);
+            events.off(player, 'volumechange', onVolumeChanged);
+            events.off(player, 'pause', onPlayPauseStateChanged);
+            events.off(player, 'unpause', onPlayPauseStateChanged);
+            events.off(player, 'timeupdate', onTimeUpdate);
+            currentPlayer = null;
+        }
+    }
+
+    function bindToPlayer(context, player) {
+        if (releaseCurrentPlayer(), currentPlayer = player, player) {
+            const state = playbackManager.getPlayerState(player);
+            onStateChanged.call(player, {
+                type: 'init'
+            }, state);
+            events.on(player, 'playbackstart', onPlaybackStart);
+            events.on(player, 'statechange', onStateChanged);
+            events.on(player, 'repeatmodechange', onRepeatModeChange);
+            events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
+            events.on(player, 'playlistitemremove', onPlaylistItemRemoved);
+            events.on(player, 'playlistitemmove', onPlaylistUpdate);
+            events.on(player, 'playlistitemadd', onPlaylistUpdate);
+            events.on(player, 'playbackstop', onPlaybackStopped);
+            events.on(player, 'volumechange', onVolumeChanged);
+            events.on(player, 'pause', onPlayPauseStateChanged);
+            events.on(player, 'unpause', onPlayPauseStateChanged);
+            events.on(player, 'timeupdate', onTimeUpdate);
+            const playerInfo = playbackManager.getPlayerInfo();
+            const supportedCommands = playerInfo.supportedCommands;
+            currentPlayerSupportedCommands = supportedCommands;
+            updateSupportedCommands(context, supportedCommands);
+        }
+    }
+
+    function onBtnCommandClick() {
+        if (currentPlayer) {
+            if (this.classList.contains('repeatToggleButton')) {
+                toggleRepeat();
+            } else {
+                playbackManager.sendCommand({
+                    Name: this.getAttribute('data-command')
+                }, currentPlayer);
             }
         }
+    }
 
-        function onVolumeChanged(e) {
-            var player = this;
-            updatePlayerVolumeState(dlg, player.isMuted(), player.getVolume());
+    function getSaveablePlaylistItems() {
+        return getPlaylistItems(currentPlayer).then(function (items) {
+            return items.filter(function (i) {
+                return i.Id && i.ServerId;
+            });
+        });
+    }
+
+    function savePlaylist() {
+        import('playlistEditor').then(({ default: playlistEditor }) => {
+            getSaveablePlaylistItems().then(function (items) {
+                const serverId = items.length ? items[0].ServerId : ApiClient.serverId();
+                new playlistEditor({
+                    items: items.map(function (i) {
+                        return i.Id;
+                    }),
+                    serverId: serverId,
+                    enableAddToPlayQueue: false,
+                    defaultValue: 'new'
+                });
+            });
+        });
+    }
+
+    function bindEvents(context) {
+        const btnCommand = context.querySelectorAll('.btnCommand');
+        const positionSlider = context.querySelector('.nowPlayingPositionSlider');
+
+        for (let i = 0, length = btnCommand.length; i < length; i++) {
+            btnCommand[i].addEventListener('click', onBtnCommandClick);
         }
 
-        function releaseCurrentPlayer() {
-            var player = currentPlayer;
-
-            if (player) {
-                events.off(player, 'playbackstart', onPlaybackStart);
-                events.off(player, 'statechange', onStateChanged);
-                events.off(player, 'repeatmodechange', onRepeatModeChange);
-                events.off(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
-                events.off(player, 'playlistitemremove', onPlaylistItemRemoved);
-                events.off(player, 'playlistitemmove', onPlaylistUpdate);
-                events.off(player, 'playlistitemadd', onPlaylistUpdate);
-                events.off(player, 'playbackstop', onPlaybackStopped);
-                events.off(player, 'volumechange', onVolumeChanged);
-                events.off(player, 'pause', onPlayPauseStateChanged);
-                events.off(player, 'unpause', onPlayPauseStateChanged);
-                events.off(player, 'timeupdate', onTimeUpdate);
-                currentPlayer = null;
-            }
-        }
-
-        function bindToPlayer(context, player) {
-            if (releaseCurrentPlayer(), currentPlayer = player, player) {
-                var state = playbackManager.getPlayerState(player);
-                onStateChanged.call(player, {
-                    type: 'init'
-                }, state);
-                events.on(player, 'playbackstart', onPlaybackStart);
-                events.on(player, 'statechange', onStateChanged);
-                events.on(player, 'repeatmodechange', onRepeatModeChange);
-                events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
-                events.on(player, 'playlistitemremove', onPlaylistItemRemoved);
-                events.on(player, 'playlistitemmove', onPlaylistUpdate);
-                events.on(player, 'playlistitemadd', onPlaylistUpdate);
-                events.on(player, 'playbackstop', onPlaybackStopped);
-                events.on(player, 'volumechange', onVolumeChanged);
-                events.on(player, 'pause', onPlayPauseStateChanged);
-                events.on(player, 'unpause', onPlayPauseStateChanged);
-                events.on(player, 'timeupdate', onTimeUpdate);
-                var playerInfo = playbackManager.getPlayerInfo();
-                var supportedCommands = playerInfo.supportedCommands;
-                currentPlayerSupportedCommands = supportedCommands;
-                updateSupportedCommands(context, supportedCommands);
-            }
-        }
-
-        function onBtnCommandClick() {
+        context.querySelector('.btnToggleFullscreen').addEventListener('click', function (e) {
             if (currentPlayer) {
-                if (this.classList.contains('repeatToggleButton')) {
-                    toggleRepeat();
+                playbackManager.sendCommand({
+                    Name: e.target.getAttribute('data-command')
+                }, currentPlayer);
+            }
+        });
+        context.querySelector('.btnAudioTracks').addEventListener('click', function (e) {
+            if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
+                showAudioMenu(context, currentPlayer, e.target, lastPlayerState.NowPlayingItem);
+            }
+        });
+        context.querySelector('.btnSubtitles').addEventListener('click', function (e) {
+            if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
+                showSubtitleMenu(context, currentPlayer, e.target, lastPlayerState.NowPlayingItem);
+            }
+        });
+        context.querySelector('.btnStop').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.stop(currentPlayer);
+            }
+        });
+        context.querySelector('.btnPlayPause').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.playPause(currentPlayer);
+            }
+        });
+        context.querySelector('.btnNextTrack').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.nextTrack(currentPlayer);
+            }
+        });
+        context.querySelector('.btnRewind').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.rewind(currentPlayer);
+            }
+        });
+        context.querySelector('.btnFastForward').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.fastForward(currentPlayer);
+            }
+        });
+        for (const shuffleButton of context.querySelectorAll('.btnShuffleQueue')) {
+            shuffleButton.addEventListener('click', function () {
+                if (currentPlayer) {
+                    playbackManager.toggleQueueShuffleMode(currentPlayer);
+                }
+            });
+        }
+
+        context.querySelector('.btnPreviousTrack').addEventListener('click', function (e) {
+            if (currentPlayer) {
+                if (lastPlayerState.NowPlayingItem.MediaType === 'Audio' && (currentPlayer._currentTime >= 5 || !playbackManager.previousTrack(currentPlayer))) {
+                    // Cancel this event if doubleclick is fired
+                    if (e.detail > 1 && playbackManager.previousTrack(currentPlayer)) {
+                        return;
+                    }
+                    playbackManager.seekPercent(0, currentPlayer);
+                    // This is done automatically by playbackManager. However, setting this here gives instant visual feedback.
+                    // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
+                    positionSlider.value = 0;
                 } else {
-                    playbackManager.sendCommand({
-                        Name: this.getAttribute('data-command')
-                    }, currentPlayer);
-                }
-            }
-        }
-
-        function getSaveablePlaylistItems() {
-            return getPlaylistItems(currentPlayer).then(function (items) {
-                return items.filter(function (i) {
-                    return i.Id && i.ServerId;
-                });
-            });
-        }
-
-        function savePlaylist() {
-            require(['playlistEditor'], function (playlistEditor) {
-                getSaveablePlaylistItems().then(function (items) {
-                    var serverId = items.length ? items[0].ServerId : ApiClient.serverId();
-                    new playlistEditor.showEditor({
-                        items: items.map(function (i) {
-                            return i.Id;
-                        }),
-                        serverId: serverId,
-                        enableAddToPlayQueue: false,
-                        defaultValue: 'new'
-                    });
-                });
-            });
-        }
-
-        function bindEvents(context) {
-            var btnCommand = context.querySelectorAll('.btnCommand');
-            var positionSlider = context.querySelector('.nowPlayingPositionSlider');
-
-            for (var i = 0, length = btnCommand.length; i < length; i++) {
-                btnCommand[i].addEventListener('click', onBtnCommandClick);
-            }
-
-            context.querySelector('.btnToggleFullscreen').addEventListener('click', function (e) {
-                if (currentPlayer) {
-                    playbackManager.sendCommand({
-                        Name: e.target.getAttribute('data-command')
-                    }, currentPlayer);
-                }
-            });
-            context.querySelector('.btnAudioTracks').addEventListener('click', function (e) {
-                if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
-                    showAudioMenu(context, currentPlayer, e.target, lastPlayerState.NowPlayingItem);
-                }
-            });
-            context.querySelector('.btnSubtitles').addEventListener('click', function (e) {
-                if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
-                    showSubtitleMenu(context, currentPlayer, e.target, lastPlayerState.NowPlayingItem);
-                }
-            });
-            context.querySelector('.btnStop').addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.stop(currentPlayer);
-                }
-            });
-            context.querySelector('.btnPlayPause').addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.playPause(currentPlayer);
-                }
-            });
-            context.querySelector('.btnNextTrack').addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.nextTrack(currentPlayer);
-                }
-            });
-            context.querySelector('.btnRewind').addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.rewind(currentPlayer);
-                }
-            });
-            context.querySelector('.btnFastForward').addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.fastForward(currentPlayer);
-                }
-            });
-            for (const shuffleButton of context.querySelectorAll('.btnShuffleQueue')) {
-                shuffleButton.addEventListener('click', function () {
-                    if (currentPlayer) {
-                        playbackManager.toggleQueueShuffleMode(currentPlayer);
-                    }
-                });
-            }
-
-            context.querySelector('.btnPreviousTrack').addEventListener('click', function (e) {
-                if (currentPlayer) {
-                    if (lastPlayerState.NowPlayingItem.MediaType === 'Audio' && (currentPlayer._currentTime >= 5 || !playbackManager.previousTrack(currentPlayer))) {
-                        // Cancel this event if doubleclick is fired
-                        if (e.detail > 1 && playbackManager.previousTrack(currentPlayer)) {
-                            return;
-                        }
-                        playbackManager.seekPercent(0, currentPlayer);
-                        // This is done automatically by playbackManager. However, setting this here gives instant visual feedback.
-                        // TODO: Check why seekPercentage doesn't reflect the changes inmmediately, so we can remove this workaround.
-                        positionSlider.value = 0;
-                    } else {
-                        playbackManager.previousTrack(currentPlayer);
-                    }
-                }
-            });
-
-            context.querySelector('.btnPreviousTrack').addEventListener('dblclick', function () {
-                if (currentPlayer) {
                     playbackManager.previousTrack(currentPlayer);
                 }
-            });
-            positionSlider.addEventListener('change', function () {
-                var value = this.value;
+            }
+        });
 
-                if (currentPlayer) {
-                    var newPercent = parseFloat(value);
-                    playbackManager.seekPercent(newPercent, currentPlayer);
-                }
-            });
+        context.querySelector('.btnPreviousTrack').addEventListener('dblclick', function () {
+            if (currentPlayer) {
+                playbackManager.previousTrack(currentPlayer);
+            }
+        });
+        positionSlider.addEventListener('change', function () {
+            const value = this.value;
 
-            positionSlider.getBubbleText = function (value) {
-                var state = lastPlayerState;
+            if (currentPlayer) {
+                const newPercent = parseFloat(value);
+                playbackManager.seekPercent(newPercent, currentPlayer);
+            }
+        });
 
-                if (!state || !state.NowPlayingItem || !currentRuntimeTicks) {
-                    return '--:--';
-                }
+        positionSlider.getBubbleText = function (value) {
+            const state = lastPlayerState;
 
-                var ticks = currentRuntimeTicks;
-                ticks /= 100;
-                ticks *= value;
-                return datetime.getDisplayRunningTime(ticks);
-            };
+            if (!state || !state.NowPlayingItem || !currentRuntimeTicks) {
+                return '--:--';
+            }
 
-            context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {
-                playbackManager.setVolume(e.target.value, currentPlayer);
-            });
+            let ticks = currentRuntimeTicks;
+            ticks /= 100;
+            ticks *= value;
+            return datetime.getDisplayRunningTime(ticks);
+        };
 
-            context.querySelector('.buttonMute').addEventListener('click', function () {
-                playbackManager.toggleMute(currentPlayer);
-            });
-            var playlistContainer = context.querySelector('.playlist');
-            playlistContainer.addEventListener('action-remove', function (e) {
-                playbackManager.removeFromPlaylist([e.detail.playlistItemId], currentPlayer);
-            });
-            playlistContainer.addEventListener('itemdrop', function (e) {
-                var newIndex = e.detail.newIndex;
-                var playlistItemId = e.detail.playlistItemId;
-                playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
-            });
-            context.querySelector('.btnSavePlaylist').addEventListener('click', savePlaylist);
-            context.querySelector('.btnTogglePlaylist').addEventListener('click', function () {
-                if (context.querySelector('.playlist').classList.contains('hide')) {
-                    context.querySelector('.playlist').classList.remove('hide');
-                    context.querySelector('.btnSavePlaylist').classList.remove('hide');
-                    context.querySelector('.volumecontrol').classList.add('hide');
-                    if (layoutManager.mobile) {
-                        context.querySelector('.playlistSectionButton').classList.remove('playlistSectionButtonTransparent');
-                    }
-                } else {
-                    context.querySelector('.playlist').classList.add('hide');
-                    context.querySelector('.btnSavePlaylist').classList.add('hide');
-                    if (showMuteButton || showVolumeSlider) {
-                        context.querySelector('.volumecontrol').classList.remove('hide');
-                    }
-                    if (layoutManager.mobile) {
-                        context.querySelector('.playlistSectionButton').classList.add('playlistSectionButtonTransparent');
-                    }
-                }
-            });
-        }
+        context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {
+            playbackManager.setVolume(e.target.value, currentPlayer);
+        });
 
-        function onPlayerChange() {
-            bindToPlayer(dlg, playbackManager.getCurrentPlayer());
-        }
-
-        function onMessageSubmit(e) {
-            var form = e.target;
-            playbackManager.sendCommand({
-                Name: 'DisplayMessage',
-                Arguments: {
-                    Header: form.querySelector('#txtMessageTitle').value,
-                    Text: form.querySelector('#txtMessageText', form).value
-                }
-            }, currentPlayer);
-            form.querySelector('input').value = '';
-
-            require(['toast'], function (toast) {
-                toast('Message sent.');
-            });
-
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
-
-        function onSendStringSubmit(e) {
-            var form = e.target;
-            playbackManager.sendCommand({
-                Name: 'SendString',
-                Arguments: {
-                    String: form.querySelector('#txtTypeText', form).value
-                }
-            }, currentPlayer);
-            form.querySelector('input').value = '';
-
-            require(['toast'], function (toast) {
-                toast('Text sent.');
-            });
-
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
-
-        function init(ownerView, context) {
-            let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
-            volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up"></span></button>`;
-            volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
-            volumecontrolHtml += '</div>';
-            let optionsSection = context.querySelector('.playlistSectionButton');
-            if (!layoutManager.mobile) {
-                context.querySelector('.nowPlayingSecondaryButtons').insertAdjacentHTML('beforeend', volumecontrolHtml);
-                optionsSection.classList.remove('align-items-center', 'justify-content-center');
-                optionsSection.classList.add('align-items-right', 'justify-content-flex-end');
+        context.querySelector('.buttonMute').addEventListener('click', function () {
+            playbackManager.toggleMute(currentPlayer);
+        });
+        const playlistContainer = context.querySelector('.playlist');
+        playlistContainer.addEventListener('action-remove', function (e) {
+            playbackManager.removeFromPlaylist([e.detail.playlistItemId], currentPlayer);
+        });
+        playlistContainer.addEventListener('itemdrop', function (e) {
+            const newIndex = e.detail.newIndex;
+            const playlistItemId = e.detail.playlistItemId;
+            playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
+        });
+        context.querySelector('.btnSavePlaylist').addEventListener('click', savePlaylist);
+        context.querySelector('.btnTogglePlaylist').addEventListener('click', function () {
+            if (context.querySelector('.playlist').classList.contains('hide')) {
                 context.querySelector('.playlist').classList.remove('hide');
                 context.querySelector('.btnSavePlaylist').classList.remove('hide');
-                context.classList.add('padded-bottom');
+                context.querySelector('.volumecontrol').classList.add('hide');
+                if (layoutManager.mobile) {
+                    context.querySelector('.playlistSectionButton').classList.remove('playlistSectionButtonTransparent');
+                }
             } else {
-                optionsSection.querySelector('.btnTogglePlaylist').insertAdjacentHTML('afterend', volumecontrolHtml);
-                optionsSection.classList.add('playlistSectionButtonTransparent');
-                context.querySelector('.btnTogglePlaylist').classList.remove('hide');
-                context.querySelector('.playlistSectionButton').classList.remove('justify-content-center');
-                context.querySelector('.playlistSectionButton').classList.add('justify-content-space-between');
+                context.querySelector('.playlist').classList.add('hide');
+                context.querySelector('.btnSavePlaylist').classList.add('hide');
+                if (showMuteButton || showVolumeSlider) {
+                    context.querySelector('.volumecontrol').classList.remove('hide');
+                }
+                if (layoutManager.mobile) {
+                    context.querySelector('.playlistSectionButton').classList.add('playlistSectionButtonTransparent');
+                }
             }
+        });
+    }
 
-            bindEvents(context);
-            context.querySelector('.sendMessageForm').addEventListener('submit', onMessageSubmit);
-            context.querySelector('.typeTextForm').addEventListener('submit', onSendStringSubmit);
-            events.on(playbackManager, 'playerchange', onPlayerChange);
+    function onPlayerChange() {
+        bindToPlayer(dlg, playbackManager.getCurrentPlayer());
+    }
 
-            if (layoutManager.tv) {
-                var positionSlider = context.querySelector('.nowPlayingPositionSlider');
-                positionSlider.classList.add('focusable');
-                positionSlider.enableKeyboardDragging();
+    function onMessageSubmit(e) {
+        const form = e.target;
+        playbackManager.sendCommand({
+            Name: 'DisplayMessage',
+            Arguments: {
+                Header: form.querySelector('#txtMessageTitle').value,
+                Text: form.querySelector('#txtMessageText', form).value
             }
+        }, currentPlayer);
+        form.querySelector('input').value = '';
+
+        import('toast').then(({ default: toast }) => {
+            toast('Message sent.');
+        });
+
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    function onSendStringSubmit(e) {
+        const form = e.target;
+        playbackManager.sendCommand({
+            Name: 'SendString',
+            Arguments: {
+                String: form.querySelector('#txtTypeText', form).value
+            }
+        }, currentPlayer);
+        form.querySelector('input').value = '';
+
+        import('toast').then(({ default: toast }) => {
+            toast('Text sent.');
+        });
+
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    function init(ownerView, context) {
+        let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
+        volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up"></span></button>`;
+        volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
+        volumecontrolHtml += '</div>';
+        const optionsSection = context.querySelector('.playlistSectionButton');
+        if (!layoutManager.mobile) {
+            context.querySelector('.nowPlayingSecondaryButtons').insertAdjacentHTML('beforeend', volumecontrolHtml);
+            optionsSection.classList.remove('align-items-center', 'justify-content-center');
+            optionsSection.classList.add('align-items-right', 'justify-content-flex-end');
+            context.querySelector('.playlist').classList.remove('hide');
+            context.querySelector('.btnSavePlaylist').classList.remove('hide');
+            context.classList.add('padded-bottom');
+        } else {
+            optionsSection.querySelector('.btnTogglePlaylist').insertAdjacentHTML('afterend', volumecontrolHtml);
+            optionsSection.classList.add('playlistSectionButtonTransparent');
+            context.querySelector('.btnTogglePlaylist').classList.remove('hide');
+            context.querySelector('.playlistSectionButton').classList.remove('justify-content-center');
+            context.querySelector('.playlistSectionButton').classList.add('justify-content-space-between');
         }
 
-        function onDialogClosed(e) {
-            releaseCurrentPlayer();
-            events.off(playbackManager, 'playerchange', onPlayerChange);
-            lastPlayerState = null;
+        bindEvents(context);
+        context.querySelector('.sendMessageForm').addEventListener('submit', onMessageSubmit);
+        context.querySelector('.typeTextForm').addEventListener('submit', onSendStringSubmit);
+        events.on(playbackManager, 'playerchange', onPlayerChange);
+
+        if (layoutManager.tv) {
+            const positionSlider = context.querySelector('.nowPlayingPositionSlider');
+            positionSlider.classList.add('focusable');
+            positionSlider.enableKeyboardDragging();
         }
+    }
 
-        function onShow(context, tab) {
-            bindToPlayer(context, playbackManager.getCurrentPlayer());
-        }
+    function onDialogClosed(e) {
+        releaseCurrentPlayer();
+        events.off(playbackManager, 'playerchange', onPlayerChange);
+        lastPlayerState = null;
+    }
 
-        var dlg;
-        var currentPlayer;
-        var lastPlayerState;
-        var currentPlayerSupportedCommands = [];
-        var lastUpdateTime = 0;
-        var currentRuntimeTicks = 0;
-        var self = this;
+    function onShow(context, tab) {
+        bindToPlayer(context, playbackManager.getCurrentPlayer());
+    }
 
-        self.init = function (ownerView, context) {
-            dlg = context;
-            init(ownerView, dlg);
-        };
+    let dlg;
+    let currentPlayer;
+    let lastPlayerState;
+    let currentPlayerSupportedCommands = [];
+    let lastUpdateTime = 0;
+    let currentRuntimeTicks = 0;
+    const self = this;
 
-        self.onShow = function () {
-            onShow(dlg, window.location.hash);
-        };
-
-        self.destroy = function () {
-            onDialogClosed();
-        };
+    self.init = function (ownerView, context) {
+        dlg = context;
+        init(ownerView, dlg);
     };
-});
+
+    self.onShow = function () {
+        onShow(dlg, window.location.hash);
+    };
+
+    self.destroy = function () {
+        onDialogClosed();
+    };
+}

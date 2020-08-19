@@ -198,7 +198,7 @@ import 'css!./multiSelect';
 
             if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
                 menuItems.push({
-                    name: globalize.translate('ButtonDownload'),
+                    name: globalize.translate('Download'),
                     id: 'download',
                     icon: 'file_download'
                 });

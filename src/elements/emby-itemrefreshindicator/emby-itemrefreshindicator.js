@@ -40,7 +40,7 @@ import 'webcomponents';
         }
     }
 
-    let EmbyItemRefreshIndicatorPrototype = Object.create(EmbyProgressRing);
+    const EmbyItemRefreshIndicatorPrototype = Object.create(EmbyProgressRing);
 
     EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
         // base method

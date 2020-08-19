@@ -18,7 +18,7 @@ import 'flexStyles';
             confirm({
                 title: globalize.translate('DeleteUser'),
                 text: msg,
-                confirmText: globalize.translate('ButtonDelete'),
+                confirmText: globalize.translate('Delete'),
                 primary: 'delete'
             }).then(function () {
                 loading.show();
@@ -50,7 +50,7 @@ import 'flexStyles';
             icon: 'person'
         });
         menuItems.push({
-            name: globalize.translate('ButtonDelete'),
+            name: globalize.translate('Delete'),
             id: 'delete',
             icon: 'delete'
         });

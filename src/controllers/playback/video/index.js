@@ -172,9 +172,7 @@ import 'css!assets/css/videoosd';
             }
 
             setTitle(displayItem, parentName);
-            let titleElement;
-            const osdTitle = view.querySelector('.osdTitle');
-            titleElement = osdTitle;
+            const titleElement = view.querySelector('.osdTitle');
             let displayName = itemHelper.getDisplayName(displayItem, {
                 includeParentInfo: displayItem.Type !== 'Program',
                 includeIndexNumber: displayItem.Type !== 'Program'
@@ -769,7 +767,7 @@ import 'css!assets/css/videoosd';
 
             if (isPaused) {
                 btnPlayPauseIcon.classList.add('play_arrow');
-                btnPlayPause.setAttribute('title', globalize.translate('ButtonPlay') + ' (k)');
+                btnPlayPause.setAttribute('title', globalize.translate('Play') + ' (k)');
             } else {
                 btnPlayPauseIcon.classList.add('pause');
                 btnPlayPause.setAttribute('title', globalize.translate('ButtonPause') + ' (k)');
@@ -1245,6 +1243,12 @@ import 'css!assets/css/videoosd';
                     }
                     break;
                 }
+                case '>':
+                    playbackManager.increasePlaybackRate(currentPlayer);
+                    break;
+                case '<':
+                    playbackManager.decreasePlaybackRate(currentPlayer);
+                    break;
             }
         }
 
@@ -1619,7 +1623,7 @@ import 'css!assets/css/videoosd';
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
-                let html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+                const html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
                 if (html) {
                     return html;

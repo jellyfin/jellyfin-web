@@ -1,3 +1,4 @@
+import appHost from 'apphost';
 import loading from 'loading';
 import appRouter from 'appRouter';
 import layoutManager from 'layoutManager';
@@ -241,7 +242,7 @@ import 'emby-select';
             return m.Type === 'Audio';
         });
         const select = page.querySelector('.selectAudio');
-        select.setLabel(globalize.translate('LabelAudio'));
+        select.setLabel(globalize.translate('Audio'));
         const selectedId = mediaSource.DefaultAudioStreamIndex;
         select.innerHTML = tracks.map(function (v) {
             const selected = v.Index === selectedId ? ' selected' : '';
@@ -270,7 +271,7 @@ import 'emby-select';
             return m.Type === 'Subtitle';
         });
         const select = page.querySelector('.selectSubtitles');
-        select.setLabel(globalize.translate('LabelSubtitles'));
+        select.setLabel(globalize.translate('Subtitles'));
         const selectedId = mediaSource.DefaultSubtitleStreamIndex == null ? -1 : mediaSource.DefaultSubtitleStreamIndex;
 
         const videoTracks = mediaSource.MediaStreams.filter(function (m) {
@@ -373,7 +374,7 @@ import 'emby-select';
     }
 
     function getArtistLinksHtml(artists, serverId, context) {
-        let html = [];
+        const html = [];
 
         for (const artist of artists) {
             const href = appRouter.getRouteUrl(artist, {
@@ -657,7 +658,7 @@ import 'emby-select';
         setPeopleHeader(page, item);
         loading.hide();
 
-        if (item.Type === 'Book') {
+        if (item.Type === 'Book' && item.CanDownload && appHost.supports('filedownload')) {
             hideAll(page, 'btnDownload', true);
         }
 
@@ -784,7 +785,7 @@ import 'emby-select';
 
     function setPeopleHeader(page, item) {
         if (item.MediaType == 'Audio' || item.Type == 'MusicAlbum' || item.MediaType == 'Book' || item.MediaType == 'Photo') {
-            page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderPeople');
+            page.querySelector('#peopleHeader').innerHTML = globalize.translate('People');
         } else {
             page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderCastAndCrew');
         }
@@ -1431,13 +1432,13 @@ import 'emby-select';
                     name: globalize.translate('HeaderVideos'),
                     mediaType: 'Video'
                 }, {
-                    name: globalize.translate('HeaderSeries'),
+                    name: globalize.translate('Series'),
                     type: 'Series'
                 }, {
-                    name: globalize.translate('HeaderAlbums'),
+                    name: globalize.translate('Albums'),
                     type: 'MusicAlbum'
                 }, {
-                    name: globalize.translate('HeaderBooks'),
+                    name: globalize.translate('Books'),
                     type: 'Book'
                 }];
                 renderCollectionItems(page, item, collectionItemTypes, result.Items);
@@ -1445,13 +1446,13 @@ import 'emby-select';
         });
 
         if (item.Type == 'Season') {
-            page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderEpisodes');
+            page.querySelector('#childrenTitle').innerHTML = globalize.translate('Episodes');
         } else if (item.Type == 'Series') {
             page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderSeasons');
         } else if (item.Type == 'MusicAlbum') {
             page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderTracks');
         } else {
-            page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderItems');
+            page.querySelector('#childrenTitle').innerHTML = globalize.translate('Items');
         }
 
         if (item.Type == 'MusicAlbum' || item.Type == 'Season') {
@@ -1651,7 +1652,7 @@ import 'emby-select';
 
         if (!items.length) {
             renderCollectionItemType(page, parentItem, {
-                name: globalize.translate('HeaderItems')
+                name: globalize.translate('Items')
             }, items);
         }
 

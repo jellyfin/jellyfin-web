@@ -8,7 +8,7 @@ import * as userSettings from 'userSettings';
 import globalize from 'globalize';
 import connectionManager from 'connectionManager';
 import loading from 'loading';
-import apphost from 'apphost';
+import appHost from 'apphost';
 import screenfull from 'screenfull';
 
 function enableLocalPlaylistManagement(player) {
@@ -322,7 +322,7 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBi
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
-        EnableRemoteMedia: apphost.supports('remoteaudio')
+        EnableRemoteMedia: appHost.supports('remoteaudio')
     });
 }
 
@@ -606,7 +606,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     const isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
 
     if (mediaSource.SupportsDirectPlay || isFolderRip) {
-        if (mediaSource.IsRemote && !apphost.supports('remotevideo')) {
+        if (mediaSource.IsRemote && !appHost.supports('remotevideo')) {
             return Promise.resolve(false);
         }
 
@@ -1112,6 +1112,52 @@ class PlaybackManager {
             }
         };
 
+        self.increasePlaybackRate = function (player) {
+            player = player || self._currentPlayer;
+            if (player) {
+                let current = self.getPlaybackRate(player);
+                let supported = self.getSupportedPlaybackRates(player);
+
+                let index = -1;
+                for (let i = 0, length = supported.length; i < length; i++) {
+                    if (supported[i].id === current) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                index = Math.min(index + 1, supported.length - 1);
+                self.setPlaybackRate(supported[index].id, player);
+            }
+        };
+
+        self.decreasePlaybackRate = function (player) {
+            player = player || self._currentPlayer;
+            if (player) {
+                let current = self.getPlaybackRate(player);
+                let supported = self.getSupportedPlaybackRates(player);
+
+                let index = -1;
+                for (let i = 0, length = supported.length; i < length; i++) {
+                    if (supported[i].id === current) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                index = Math.max(index - 1, 0);
+                self.setPlaybackRate(supported[index].id, player);
+            }
+        };
+
+        self.getSupportedPlaybackRates = function (player) {
+            player = player || self._currentPlayer;
+            if (player && player.getSupportedPlaybackRates) {
+                return player.getSupportedPlaybackRates();
+            }
+            return [];
+        };
+
         let brightnessOsdLoaded;
         self.setBrightness = function (val, player) {
             player = player || self._currentPlayer;
@@ -1416,8 +1462,8 @@ class PlaybackManager {
 
         self.toggleFullscreen = function (player) {
             player = player || self._currentPlayer;
-            if (!player.isLocalPlayer || player.toggleFulscreen) {
-                return player.toggleFulscreen();
+            if (!player.isLocalPlayer || player.toggleFullscreen) {
+                return player.toggleFullscreen();
             }
 
             if (screenfull.isEnabled) {
@@ -3156,7 +3202,7 @@ class PlaybackManager {
             return streamInfo ? streamInfo.playbackStartTimeTicks : null;
         };
 
-        if (apphost.supports('remotecontrol')) {
+        if (appHost.supports('remotecontrol')) {
             import('serverNotifications').then(({ default: serverNotifications }) => {
                 events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
@@ -3520,7 +3566,7 @@ class PlaybackManager {
                 'PlayTrailers'
             ];
 
-            if (apphost.supports('fullscreenchange')) {
+            if (appHost.supports('fullscreenchange')) {
                 list.push('ToggleFullscreen');
             }
 
@@ -3696,6 +3742,9 @@ class PlaybackManager {
                 break;
             case 'SetAspectRatio':
                 this.setAspectRatio(cmd.Arguments.AspectRatio, player);
+                break;
+            case 'PlaybackRate':
+                this.setPlaybackRate(cmd.Arguments.PlaybackRate, player);
                 break;
             case 'SetBrightness':
                 this.setBrightness(cmd.Arguments.Brightness, player);

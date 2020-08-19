@@ -7,7 +7,6 @@
 }
 
 .osdPoster img,
-.pageContainer,
 .videoOsdBottom {
     bottom: 0;
     left: 0;
@@ -246,11 +245,6 @@
     -webkit-animation: spin 4s linear infinite;
     -moz-animation: spin 4s linear infinite;
     animation: spin 4s linear infinite;
-}
-
-.pageContainer {
-    top: 0;
-    position: fixed;
 }
 
 @media all and (max-width: 30em) {

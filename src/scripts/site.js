@@ -1,4 +1,4 @@
-function getWindowLocationSearch(win) {
+window.getWindowLocationSearch = function(win) {
     'use strict';
 
     var search = (win || window).location.search;
@@ -12,9 +12,9 @@ function getWindowLocationSearch(win) {
     }
 
     return search || '';
-}
+};
 
-window.getParameterByName = function (name, url) {
+window.getParameterByName = function(name, url) {
     'use strict';
 
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -29,7 +29,7 @@ window.getParameterByName = function (name, url) {
     return decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
-function pageClassOn(eventName, className, fn) {
+window.pageClassOn = function(eventName, className, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
@@ -39,7 +39,7 @@ function pageClassOn(eventName, className, fn) {
             fn.call(target, event);
         }
     });
-}
+};
 
 window.pageIdOn = function(eventName, id, fn) {
     'use strict';
@@ -51,187 +51,6 @@ window.pageIdOn = function(eventName, id, fn) {
             fn.call(target, event);
         }
     });
-};
-
-var Dashboard = {
-    getCurrentUser: function () {
-        return window.ApiClient.getCurrentUser(false);
-    },
-
-    //TODO: investigate url prefix support for serverAddress function
-    serverAddress: function () {
-        if (AppInfo.isNativeApp) {
-            var apiClient = window.ApiClient;
-
-            if (apiClient) {
-                return apiClient.serverAddress();
-            }
-
-            return null;
-        }
-
-        var urlLower = window.location.href.toLowerCase();
-        var index = urlLower.lastIndexOf('/web');
-
-        if (index != -1) {
-            return urlLower.substring(0, index);
-        }
-
-        var loc = window.location;
-        var address = loc.protocol + '//' + loc.hostname;
-
-        if (loc.port) {
-            address += ':' + loc.port;
-        }
-
-        return address;
-    },
-    getCurrentUserId: function () {
-        var apiClient = window.ApiClient;
-
-        if (apiClient) {
-            return apiClient.getCurrentUserId();
-        }
-
-        return null;
-    },
-    onServerChanged: function (userId, accessToken, apiClient) {
-        apiClient = apiClient || window.ApiClient;
-        window.ApiClient = apiClient;
-    },
-    logout: function () {
-        ConnectionManager.logout().then(function () {
-            var loginPage;
-
-            if (AppInfo.isNativeApp) {
-                loginPage = 'selectserver.html';
-                window.ApiClient = null;
-            } else {
-                loginPage = 'login.html';
-            }
-
-            Dashboard.navigate(loginPage);
-        });
-    },
-    getConfigurationPageUrl: function (name) {
-        return 'configurationpage?name=' + encodeURIComponent(name);
-    },
-    getConfigurationResourceUrl: function (name) {
-        if (AppInfo.isNativeApp) {
-            return ApiClient.getUrl('web/ConfigurationPage', {
-                name: name
-            });
-        }
-
-        return Dashboard.getConfigurationPageUrl(name);
-    },
-    navigate: function (url, preserveQueryString) {
-        if (!url) {
-            throw new Error('url cannot be null or empty');
-        }
-
-        var queryString = getWindowLocationSearch();
-
-        if (preserveQueryString && queryString) {
-            url += queryString;
-        }
-
-        return new Promise(function (resolve, reject) {
-            require(['appRouter'], function (appRouter) {
-                return appRouter.show(url).then(resolve, reject);
-            });
-        });
-    },
-    navigate_direct: function (path) {
-        return new Promise(function (resolve, reject) {
-            require(['appRouter'], function (appRouter) {
-                return appRouter.showDirect(path).then(resolve, reject);
-            });
-        });
-    },
-    processPluginConfigurationUpdateResult: function () {
-        require(['loading', 'toast'], function (loading, toast) {
-            loading.hide();
-            toast.default(Globalize.translate('MessageSettingsSaved'));
-        });
-    },
-    processServerConfigurationUpdateResult: function (result) {
-        require(['loading', 'toast'], function (loading, toast) {
-            loading.hide();
-            toast.default(Globalize.translate('MessageSettingsSaved'));
-        });
-    },
-    processErrorResponse: function (response) {
-        require(['loading'], function (loading) {
-            loading.hide();
-        });
-
-        var status = '' + response.status;
-
-        if (response.statusText) {
-            status = response.statusText;
-        }
-
-        Dashboard.alert({
-            title: status,
-            message: response.headers ? response.headers.get('X-Application-Error-Code') : null
-        });
-    },
-    alert: function (options) {
-        if (typeof options == 'string') {
-            return void require(['toast'], function (toast) {
-                toast.default({
-                    text: options
-                });
-            });
-        }
-
-        require(['alert'], function (alert) {
-            alert.default({
-                title: options.title || Globalize.translate('HeaderAlert'),
-                text: options.message
-            }).then(options.callback || function () {});
-        });
-    },
-    capabilities: function (appHost) {
-        var capabilities = {
-            PlayableMediaTypes: ['Audio', 'Video'],
-            SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
-            SupportsPersistentIdentifier: self.appMode === 'cordova' || self.appMode === 'android',
-            SupportsMediaControl: true
-        };
-        appHost.getPushTokenInfo();
-        return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
-    },
-    selectServer: function () {
-        if (window.NativeShell && typeof window.NativeShell.selectServer === 'function') {
-            window.NativeShell.selectServer();
-        } else {
-            Dashboard.navigate('selectserver.html');
-        }
-    },
-    hideLoadingMsg: function() {
-        'use strict';
-        require(['loading'], function(loading) {
-            loading.hide();
-        });
-    },
-    showLoadingMsg: function() {
-        'use strict';
-        require(['loading'], function(loading) {
-            loading.show();
-        });
-    },
-    confirm: function(message, title, callback) {
-        'use strict';
-        require(['confirm'], function(confirm) {
-            confirm(message, title).then(function() {
-                callback(!0);
-            }).catch(function() {
-                callback(!1);
-            });
-        });
-    }
 };
 
 var AppInfo = {};
@@ -271,17 +90,16 @@ function initClient() {
     }
 
     function createConnectionManager() {
-        return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
+        return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, appHost, credentialProvider, events, userSettings) {
+            appHost = appHost.default || appHost;
+
             var credentialProviderInstance = new credentialProvider();
-            var promises = [apphost.getSyncProfile(), apphost.init()];
+            var promises = [appHost.init()];
 
             return Promise.all(promises).then(function (responses) {
-                var deviceProfile = responses[0];
-                var capabilities = Dashboard.capabilities(apphost);
+                var capabilities = Dashboard.capabilities(appHost);
 
-                capabilities.DeviceProfile = deviceProfile;
-
-                var connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities);
+                var connectionManager = new ConnectionManager(credentialProviderInstance, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId(), capabilities);
 
                 defineConnectionManager(connectionManager);
                 bindConnectionManagerEvents(connectionManager, events, userSettings);
@@ -289,10 +107,10 @@ function initClient() {
                 if (!AppInfo.isNativeApp) {
                     console.debug('loading ApiClient singleton');
 
-                    return require(['apiclient'], function (apiClientFactory) {
+                    return require(['apiclient', 'clientUtils'], function (apiClientFactory, clientUtils) {
                         console.debug('creating ApiClient singleton');
 
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId());
+                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
 
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
@@ -341,7 +159,7 @@ function initClient() {
     function getPlaybackManager(playbackManager) {
         window.addEventListener('beforeunload', function () {
             try {
-                playbackManager.onAppClose();
+                playbackManager.default.onAppClose();
             } catch (err) {
                 console.error('error in onAppClose: ' + err);
             }
@@ -350,6 +168,8 @@ function initClient() {
     }
 
     function getLayoutManager(layoutManager, appHost) {
+        layoutManager = layoutManager.default || layoutManager;
+        appHost = appHost.default || appHost;
         if (appHost.getDefaultLayout) {
             layoutManager.defaultLayout = appHost.getDefaultLayout();
         }
@@ -376,35 +196,11 @@ function initClient() {
         }
     }
 
-    function initRequireWithBrowser() {
-        var componentsPath = getComponentsPath();
-        var scriptsPath = getScriptsPath();
-
-        define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
-
-        define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
-        define('shell', [scriptsPath + '/shell'], returnFirstDependency);
-
-        define('alert', [componentsPath + '/alert'], returnFirstDependency);
-
-        defineResizeObserver();
-
-        define('dialog', [componentsPath + '/dialog/dialog'], returnFirstDependency);
-
-        define('confirm', [componentsPath + '/confirm/confirm'], returnFirstDependency);
-
-        define('prompt', [componentsPath + '/prompt/prompt'], returnFirstDependency);
-
-        define('loading', [componentsPath + '/loading/loading'], returnFirstDependency);
-        define('multi-download', [scriptsPath + '/multiDownload'], returnFirstDependency);
-        define('fileDownloader', [scriptsPath + '/fileDownloader'], returnFirstDependency);
-
-        define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
-    }
-
     function init() {
         define('livetvcss', ['css!assets/css/livetv.css'], returnFirstDependency);
         define('detailtablecss', ['css!assets/css/detailtable.css'], returnFirstDependency);
+
+        require(['clientUtils']);
 
         var promises = [];
         if (!window.fetch) {
@@ -468,6 +264,8 @@ function initClient() {
         }
 
         require(['apphost', 'css!assets/css/librarybrowser'], function (appHost) {
+            appHost = appHost.default || appHost;
+
             loadPlugins(appHost, browser).then(function () {
                 onAppReady(browser);
             });
@@ -475,7 +273,7 @@ function initClient() {
     }
 
     function loadPlugins(appHost, browser, shell) {
-        console.debug('loading installed plugins');
+        console.groupCollapsed('loading installed plugins');
         return new Promise(function (resolve, reject) {
             require(['webSettings'], function (webSettings) {
                 webSettings.getPlugins().then(function (list) {
@@ -493,11 +291,18 @@ function initClient() {
                         list = list.concat(window.NativeShell.getPlugins());
                     }
 
-                    Promise.all(list.map(loadPlugin)).then(function () {
-                        require(['packageManager'], function (packageManager) {
-                            packageManager.init().then(resolve, reject);
-                        });
-                    }, reject);
+                    Promise.all(list.map(loadPlugin))
+                        .then(function () {
+                            console.debug('finished loading plugins');
+                        })
+                        .catch(() => reject)
+                        .finally(() => {
+                            console.groupEnd('loading installed plugins');
+                            require(['packageManager'], function (packageManager) {
+                                packageManager.default.init().then(resolve, reject);
+                            });
+                        })
+                    ;
                 });
             });
         });
@@ -506,7 +311,7 @@ function initClient() {
     function loadPlugin(url) {
         return new Promise(function (resolve, reject) {
             require(['pluginManager'], function (pluginManager) {
-                pluginManager.loadPlugin(url).then(resolve, reject);
+                pluginManager.default.loadPlugin(url).then(resolve, reject);
             });
         });
     }
@@ -516,6 +321,9 @@ function initClient() {
 
         // ensure that appHost is loaded in this point
         require(['apphost', 'appRouter'], function (appHost, appRouter) {
+            appRouter = appRouter.default || appRouter;
+            appHost = appHost.default || appHost;
+
             window.Emby = {};
 
             console.debug('onAppReady: loading dependencies');
@@ -604,7 +412,29 @@ function initClient() {
     }
 
     function onWebComponentsReady() {
-        initRequireWithBrowser();
+        var componentsPath = getComponentsPath();
+        var scriptsPath = getScriptsPath();
+
+        define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
+
+        define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
+        define('shell', [scriptsPath + '/shell'], returnFirstDependency);
+
+        define('alert', [componentsPath + '/alert'], returnFirstDependency);
+
+        defineResizeObserver();
+
+        define('dialog', [componentsPath + '/dialog/dialog'], returnFirstDependency);
+
+        define('confirm', [componentsPath + '/confirm/confirm'], returnFirstDependency);
+
+        define('prompt', [componentsPath + '/prompt/prompt'], returnFirstDependency);
+
+        define('loading', [componentsPath + '/loading/loading'], returnFirstDependency);
+        define('multi-download', [scriptsPath + '/multiDownload'], returnFirstDependency);
+        define('fileDownloader', [scriptsPath + '/fileDownloader'], returnFirstDependency);
+
+        define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
 
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
@@ -613,10 +443,10 @@ function initClient() {
         init();
     }
 
+    var promise;
     var localApiClient;
-    let promise;
 
-    (function () {
+    function initRequireJs() {
         var urlArgs = 'v=' + (window.dashboardVersion || new Date().getDate());
 
         var bowerPath = getBowerPath();
@@ -647,7 +477,9 @@ function initClient() {
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
             packageManager: componentsPath + '/packageManager',
-            screensaverManager: componentsPath + '/screensavermanager'
+            screensaverManager: componentsPath + '/screensavermanager',
+            clientUtils: scriptsPath + '/clientUtils',
+            appRouter: 'components/appRouter'
         };
 
         requirejs.onError = onRequireJsError;
@@ -813,8 +645,8 @@ function initClient() {
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
-            window.ViewManager = viewManager;
-            viewManager.dispatchPageEvents(true);
+            window.ViewManager = viewManager.default;
+            viewManager.default.dispatchPageEvents(true);
             return viewManager;
         });
         define('slideshow', [componentsPath + '/slideshow/slideshow'], returnFirstDependency);
@@ -846,267 +678,9 @@ function initClient() {
                 return window.ApiClient;
             };
         });
-        define('appRouter', [componentsPath + '/appRouter', 'itemHelper'], function (appRouter, itemHelper) {
-            function showItem(item, serverId, options) {
-                if (typeof item == 'string') {
-                    require(['connectionManager'], function (connectionManager) {
-                        var apiClient = connectionManager.currentApiClient();
-                        apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
-                            appRouter.showItem(item, options);
-                        });
-                    });
-                } else {
-                    if (arguments.length == 2) {
-                        options = arguments[1];
-                    }
+    }
 
-                    appRouter.show('/' + appRouter.getRouteUrl(item, options), {
-                        item: item
-                    });
-                }
-            }
-
-            appRouter.showLocalLogin = function (serverId, manualLogin) {
-                Dashboard.navigate('login.html?serverid=' + serverId);
-            };
-
-            appRouter.showVideoOsd = function () {
-                return Dashboard.navigate('video');
-            };
-
-            appRouter.showSelectServer = function () {
-                Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
-            };
-
-            appRouter.showWelcome = function () {
-                Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
-            };
-
-            appRouter.showSettings = function () {
-                Dashboard.navigate('mypreferencesmenu.html');
-            };
-
-            appRouter.showGuide = function () {
-                Dashboard.navigate('livetv.html?tab=1');
-            };
-
-            appRouter.goHome = function () {
-                Dashboard.navigate('home.html');
-            };
-
-            appRouter.showSearch = function () {
-                Dashboard.navigate('search.html');
-            };
-
-            appRouter.showLiveTV = function () {
-                Dashboard.navigate('livetv.html');
-            };
-
-            appRouter.showRecordedTV = function () {
-                Dashboard.navigate('livetv.html?tab=3');
-            };
-
-            appRouter.showFavorites = function () {
-                Dashboard.navigate('home.html?tab=1');
-            };
-
-            appRouter.showSettings = function () {
-                Dashboard.navigate('mypreferencesmenu.html');
-            };
-
-            appRouter.setTitle = function (title) {
-                LibraryMenu.setTitle(title);
-            };
-
-            appRouter.getRouteUrl = function (item, options) {
-                if (!item) {
-                    throw new Error('item cannot be null');
-                }
-
-                if (item.url) {
-                    return item.url;
-                }
-
-                var context = options ? options.context : null;
-                var id = item.Id || item.ItemId;
-
-                if (!options) {
-                    options = {};
-                }
-
-                var url;
-                var itemType = item.Type || (options ? options.itemType : null);
-                var serverId = item.ServerId || options.serverId;
-
-                if (item === 'settings') {
-                    return 'mypreferencesmenu.html';
-                }
-
-                if (item === 'wizard') {
-                    return 'wizardstart.html';
-                }
-
-                if (item === 'manageserver') {
-                    return 'dashboard.html';
-                }
-
-                if (item === 'recordedtv') {
-                    return 'livetv.html?tab=3&serverId=' + options.serverId;
-                }
-
-                if (item === 'nextup') {
-                    return 'list.html?type=nextup&serverId=' + options.serverId;
-                }
-
-                if (item === 'list') {
-                    var url = 'list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
-
-                    if (options.isFavorite) {
-                        url += '&IsFavorite=true';
-                    }
-
-                    return url;
-                }
-
-                if (item === 'livetv') {
-                    if (options.section === 'programs') {
-                        return 'livetv.html?tab=0&serverId=' + options.serverId;
-                    }
-                    if (options.section === 'guide') {
-                        return 'livetv.html?tab=1&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'movies') {
-                        return 'list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'shows') {
-                        return 'list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'sports') {
-                        return 'list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'kids') {
-                        return 'list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'news') {
-                        return 'list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'onnow') {
-                        return 'list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'dvrschedule') {
-                        return 'livetv.html?tab=4&serverId=' + options.serverId;
-                    }
-
-                    if (options.section === 'seriesrecording') {
-                        return 'livetv.html?tab=5&serverId=' + options.serverId;
-                    }
-
-                    return 'livetv.html?serverId=' + options.serverId;
-                }
-
-                if (itemType == 'SeriesTimer') {
-                    return 'details?seriesTimerId=' + id + '&serverId=' + serverId;
-                }
-
-                if (item.CollectionType == 'livetv') {
-                    return 'livetv.html';
-                }
-
-                if (item.Type === 'Genre') {
-                    url = 'list.html?genreId=' + item.Id + '&serverId=' + serverId;
-
-                    if (context === 'livetv') {
-                        url += '&type=Programs';
-                    }
-
-                    if (options.parentId) {
-                        url += '&parentId=' + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if (item.Type === 'MusicGenre') {
-                    url = 'list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
-
-                    if (options.parentId) {
-                        url += '&parentId=' + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if (item.Type === 'Studio') {
-                    url = 'list.html?studioId=' + item.Id + '&serverId=' + serverId;
-
-                    if (options.parentId) {
-                        url += '&parentId=' + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-                    if (item.CollectionType == 'movies') {
-                        url = 'movies.html?topParentId=' + item.Id;
-
-                        if (options && options.section === 'latest') {
-                            url += '&tab=1';
-                        }
-
-                        return url;
-                    }
-
-                    if (item.CollectionType == 'tvshows') {
-                        url = 'tv.html?topParentId=' + item.Id;
-
-                        if (options && options.section === 'latest') {
-                            url += '&tab=2';
-                        }
-
-                        return url;
-                    }
-
-                    if (item.CollectionType == 'music') {
-                        return 'music.html?topParentId=' + item.Id;
-                    }
-                }
-
-                var itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
-
-                if (itemTypes.indexOf(itemType) >= 0) {
-                    return 'details?id=' + id + '&serverId=' + serverId;
-                }
-
-                var contextSuffix = context ? '&context=' + context : '';
-
-                if (itemType == 'Series' || itemType == 'Season' || itemType == 'Episode') {
-                    return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;
-                }
-
-                if (item.IsFolder) {
-                    if (id) {
-                        return 'list.html?parentId=' + id + '&serverId=' + serverId;
-                    }
-
-                    return '#';
-                }
-
-                return 'details?id=' + id + '&serverId=' + serverId;
-            };
-
-            appRouter.showItem = showItem;
-            return appRouter;
-        });
-    })();
-
+    initRequireJs();
     promise.then(onWebComponentsReady);
 }
 
