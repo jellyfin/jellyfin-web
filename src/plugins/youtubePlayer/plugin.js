@@ -143,7 +143,7 @@ function setCurrentSrc(instance, elem, options) {
                                 events.trigger(instance, 'pause');
                             }
                         },
-                        'onError': () => reject(),
+                        'onError': () => reject()
                     },
                     playerVars: {
                         controls: 0,
