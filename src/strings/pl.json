@@ -116,7 +116,7 @@
     "ColorTransfer": "Transfer kolorów",
     "CommunityRating": "Ocena społeczności",
     "Composer": "Kompozytor",
-    "ConfigureDateAdded": "Skonfiguruj sposób określania dodanej daty na pulpicie nawigacyjnym w ustawieniach biblioteki.",
+    "ConfigureDateAdded": "Skonfiguruj sposób określania dodanej daty na pulpicie nawigacyjnym w ustawieniach biblioteki",
     "ConfirmDeleteImage": "Usunąć obraz?",
     "ConfirmDeleteItem": "Usunięcie tej pozycji usunie ją zarówno z systemu plików jak i z biblioteki mediów. Czy chcesz kontynuować?",
     "ConfirmDeleteItems": "Usunięcie tej pozycji usunie ją zarówno z systemu plików jak i z biblioteki mediów. Czy chcesz kontynuować?",
@@ -460,7 +460,7 @@
     "LabelAppName": "Nazwa Aplikacji",
     "LabelAppNameExample": "Przykład: Sickbeard, Sonarr",
     "LabelArtists": "Wykonawcy:",
-    "LabelArtistsHelp": "Oddziel wielu artystów średnikiem \";\"",
+    "LabelArtistsHelp": "Oddziel wielu artystów średnikiem \";\".",
     "LabelAudioLanguagePreference": "Preferowany język ścieżki dźwiękowej:",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Odświeżaj automatycznie metadane z Internetu:",
     "LabelBindToLocalNetworkAddress": "Przypisz do lokalnego adresu sieciowego:",
@@ -807,7 +807,7 @@
     "MessageConfirmRecordingCancellation": "Anulować nagranie?",
     "MessageConfirmRemoveMediaLocation": "Czy na pewno chcesz usunąć tę lokalizację?",
     "MessageConfirmRestart": "Czy na pewno chcesz uruchomić Jellyfin ponownie?",
-    "MessageConfirmRevokeApiKey": "Czy na pewno chcesz unieważnić kluczAPI? Połączenia aplikacji z serwerem  zostaną natychmiastowo zakończone.",
+    "MessageConfirmRevokeApiKey": "Czy na pewno chcesz unieważnić klucz API? Połączenia aplikacji z serwerem zostaną natychmiastowo zakończone.",
     "MessageConfirmShutdown": "Czy na pewno chcesz zamknąć serwer?",
     "MessageContactAdminToResetPassword": "W celu wyczyszczenia hasła. skontaktuj się z administratorem systemu.",
     "MessageCreateAccountAt": "Utwórz konto na {0}",
@@ -1349,7 +1349,7 @@
     "StopPlayback": "Zatrzymaj odtwarzanie",
     "ButtonPlayer": "Odtwarzacz",
     "ButtonCast": "Obsada",
-    "EnableBlurHashHelp": "Obrazy które wciąż się ładują zostaną zastąpione rozmazanym symbolem",
+    "EnableBlurHashHelp": "Obrazy które wciąż się ładują zostaną zastąpione rozmazanym symbolem.",
     "EnableBlurHash": "Włącz rozmazane zamienniki dla obrazów",
     "UnsupportedPlayback": "Jellyfin nie może odszyfrować zawartości zabezpieczonej przy pomocy DRM, ale spróbuje pomimo tego. Niektóre pliki mogą pojawiać się jako zupełnie czarne z powodu szyfrowania lub innych nie wspieranych funkcji jak np. interaktywne tytuły.",
     "OnApplicationStartup": "Przy starcie aplikacji",
@@ -1441,5 +1441,6 @@
     "SubtitleVerticalPositionHelp": "Numer wiersza, w którym pojawia się tekst. Liczby dodatnie wskazują z góry na dół. Liczby ujemne wskazują od dołu do góry.",
     "LabelSubtitleVerticalPosition": "Pozycja pionowa:",
     "MessageGetInstalledPluginsError": "Wystąpił błąd podczas pobierania listy aktualnie zainstalowanych wtyczek.",
-    "MessagePluginInstallError": "Wystąpił błąd podczas instalacji wtyczki."
+    "MessagePluginInstallError": "Wystąpił błąd podczas instalacji wtyczki.",
+    "PlaybackRate": "Szybkość odtwarzania"
 }
