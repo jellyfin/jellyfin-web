@@ -332,8 +332,8 @@ export default function () {
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
         if (layoutManager.mobile) {
-            const playingVideo = playbackManager.isPlayingVideo() && item != null;
-            const playingAudio = !playbackManager.isPlayingVideo() && item != null;
+            const playingVideo = playbackManager.isPlayingVideo() && item !== null;
+            const playingAudio = !playbackManager.isPlayingVideo() && item !== null;
             buttonVisible(context.querySelector('.btnRepeat'), playingAudio);
             buttonVisible(context.querySelector('.btnShuffleQueue'), playingAudio);
             buttonVisible(context.querySelector('.btnRewind'), playingVideo);
