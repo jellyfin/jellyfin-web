@@ -221,7 +221,7 @@
     "FolderTypeMovies": "Фильмы",
     "FolderTypeMusic": "Музыка",
     "FolderTypeMusicVideos": "Музыкальные видео",
-    "FolderTypeTvShows": "ТВ-передачи",
+    "FolderTypeTvShows": "Сериалы",
     "FolderTypeUnset": "Разнородное содержание",
     "Folders": "Папки",
     "FormatValue": "Формат: {0}",
@@ -1251,7 +1251,7 @@
     "OptionResElement": "res-элемент",
     "AuthProviderHelp": "Выберите поставщика аутентификации, который будет использоваться для аутентификации пароля этого пользователя.",
     "HeaderFavoriteMovies": "Избранные фильмы",
-    "HeaderFavoriteShows": "Избранные передачи",
+    "HeaderFavoriteShows": "Избранные сериалы",
     "HeaderFavoriteEpisodes": "Избранные эпизоды",
     "HeaderFavoriteAlbums": "Избранные альбомы",
     "HeaderFavoriteArtists": "Избранные исполнители",
@@ -1441,5 +1441,6 @@
     "SubtitleVerticalPositionHelp": "Номер строки, где появляется текст. Положительные числа означают сверху вниз. Отрицательные числа означают снизу вверх.",
     "Preview": "Предварительный просмотр",
     "MessageGetInstalledPluginsError": "Произошла ошибка при получении списка установленных плагинов.",
-    "MessagePluginInstallError": "Во время установки плагина произошла ошибка."
+    "MessagePluginInstallError": "Во время установки плагина произошла ошибка.",
+    "PlaybackRate": "Рейтинг"
 }
