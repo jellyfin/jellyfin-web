@@ -1,14 +1,16 @@
-define(['browser', 'dialog', 'globalize'], function (browser, dialog, globalize) {
-    'use strict';
+import browser from 'browser';
+import dialog from 'dialog';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
 
     function replaceAll(originalString, strReplace, strWith) {
-        var reg = new RegExp(strReplace, 'ig');
+        const reg = new RegExp(strReplace, 'ig');
         return originalString.replace(reg, strWith);
     }
 
-    return function (text, title) {
-
-        var options;
+    export default function (text, title) {
+        let options;
         if (typeof text === 'string') {
             options = {
                 title: title,
@@ -21,7 +23,7 @@ define(['browser', 'dialog', 'globalize'], function (browser, dialog, globalize)
         if (browser.tv && window.alert) {
             alert(replaceAll(options.text || '', '<br/>', '\n'));
         } else {
-            var items = [];
+            const items = [];
 
             items.push({
                 name: globalize.translate('ButtonGotIt'),
@@ -31,7 +33,7 @@ define(['browser', 'dialog', 'globalize'], function (browser, dialog, globalize)
 
             options.buttons = items;
 
-            return dialog(options).then(function (result) {
+            return dialog.show(options).then(function (result) {
                 if (result === 'ok') {
                     return Promise.resolve();
                 }
@@ -41,5 +43,6 @@ define(['browser', 'dialog', 'globalize'], function (browser, dialog, globalize)
         }
 
         return Promise.resolve();
-    };
-});
+    }
+
+/* eslint-enable indent */

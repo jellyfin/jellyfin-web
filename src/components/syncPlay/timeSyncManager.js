@@ -140,7 +140,6 @@ class TimeSyncManager {
                 }).finally(() => {
                     this.requestPing();
                 });
-
             }, this.pollingInterval);
         }
     }

@@ -199,7 +199,7 @@ a[data-role=button] {
 }
 
 .cardContent {
-    border-radius: 1em;
+    border-radius: 0.8em;
 }
 
 .collapseContent,
@@ -208,10 +208,14 @@ a[data-role=button] {
 .paperList,
 .visualCardBox {
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 1em;
+    border-radius: 0.8em;
 }
 
 .cardOverlayContainer {
+    border-radius: 0.8em;
+}
+
+.blurhash-canvas {
     border-radius: 0.8em;
 }
 
@@ -538,8 +542,8 @@ a[data-role=button] {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .personCard .cardScalable {
@@ -549,7 +553,7 @@ a[data-role=button] {
 
 .cardBox:not(.visualCardBox) .cardPadder {
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 1em;
+    border-radius: 0.8em;
 }
 
 .card:focus .cardBox.visualCardBox,
@@ -559,7 +563,7 @@ a[data-role=button] {
 
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
-    border-radius: 1.5em;
+    border-radius: 1.3em;
 }
 
 .layout-desktop,

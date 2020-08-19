@@ -22,6 +22,8 @@
 require(['apphost'], function (appHost) {
     'use strict';
 
+    appHost = appHost.default || appHost;
+
     var _GAMEPAD_A_BUTTON_INDEX = 0;
     var _GAMEPAD_B_BUTTON_INDEX = 1;
     var _GAMEPAD_DPAD_UP_BUTTON_INDEX = 12;
@@ -182,7 +184,6 @@ require(['apphost'], function (appHost) {
 
     var isElectron = navigator.userAgent.toLowerCase().indexOf('electron') !== -1;
     function allowInput() {
-
         // This would be nice but always seems to return true with electron
         if (!isElectron && document.hidden) { /* eslint-disable-line compat/compat */
             return false;
@@ -196,7 +197,6 @@ require(['apphost'], function (appHost) {
     }
 
     function raiseEvent(name, key, keyCode) {
-
         if (!allowInput()) {
             return;
         }
@@ -209,7 +209,6 @@ require(['apphost'], function (appHost) {
     }
 
     function clickElement(elem) {
-
         if (!allowInput()) {
             return;
         }
@@ -218,10 +217,8 @@ require(['apphost'], function (appHost) {
     }
 
     function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp) {
-
         // No-op if oldPressedState === newPressedState
         if (newPressedState === true) {
-
             // button down
             var fire = false;
 
@@ -236,9 +233,7 @@ require(['apphost'], function (appHost) {
             if (fire && keyCode) {
                 raiseEvent('keydown', key, keyCode);
             }
-
         } else if (newPressedState === false && oldPressedState === true) {
-
             resetThrottle(key);
 
             // button up
@@ -406,5 +401,4 @@ require(['apphost'], function (appHost) {
         // and provide input to the DOM navigator.getGamepads API.
         window.navigator.gamepadInputEmulation = 'gamepad';
     }
-
 });

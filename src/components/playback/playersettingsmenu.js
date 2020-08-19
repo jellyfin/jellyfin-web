@@ -5,7 +5,6 @@ import globalize from 'globalize';
 import qualityoptions from 'qualityoptions';
 
 function showQualityMenu(player, btn) {
-
     var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
         return stream.Type === 'Video';
     })[0];
@@ -88,8 +87,6 @@ function showRepeatModeMenu(player, btn) {
 
 function getQualitySecondaryText(player) {
     var state = playbackManager.getPlayerState(player);
-    var isAutoEnabled = playbackManager.enableAutomaticBitrateDetection(player);
-    var currentMaxBitrate = playbackManager.getMaxStreamingBitrate(player);
 
     var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
         return stream.Type === 'Video';
@@ -104,20 +101,6 @@ function getQualitySecondaryText(player) {
         videoWidth: videoWidth,
         videoHeight: videoHeight,
         enableAuto: true
-    });
-
-    var menuItems = options.map(function (o) {
-        var opt = {
-            name: o.name,
-            id: o.bitrate,
-            asideText: o.secondaryText
-        };
-
-        if (o.selected) {
-            opt.selected = true;
-        }
-
-        return opt;
     });
 
     var selectedOption = options.filter(function (o) {
@@ -166,9 +149,30 @@ function showAspectRatioMenu(player, btn) {
     });
 }
 
+function showPlaybackRateMenu(player, btn) {
+    // each has a name and id
+    const currentId = playbackManager.getPlaybackRate(player);
+    const menuItems = playbackManager.getSupportedPlaybackRates(player).map(i => ({
+        id: i.id,
+        name: i.name,
+        selected: i.id === currentId
+    }));
+
+    return actionsheet.show({
+        items: menuItems,
+        positionTo: btn
+    }).then(function (id) {
+        if (id) {
+            playbackManager.setPlaybackRate(id, player);
+            return Promise.resolve();
+        }
+
+        return Promise.reject();
+    });
+}
+
 function showWithUser(options, player, user) {
     var supportedCommands = playbackManager.getSupportedCommands(player);
-    var mediaType = options.mediaType;
 
     var menuItems = [];
     if (supportedCommands.indexOf('SetAspectRatio') !== -1) {
@@ -181,6 +185,17 @@ function showWithUser(options, player, user) {
             name: globalize.translate('AspectRatio'),
             id: 'aspectratio',
             asideText: currentAspectRatio ? currentAspectRatio.name : null
+        });
+    }
+
+    if (supportedCommands.indexOf('PlaybackRate') !== -1) {
+        const currentPlaybackRateId = playbackManager.getPlaybackRate(player);
+        const currentPlaybackRate = playbackManager.getSupportedPlaybackRates(player).filter(i => i.id === currentPlaybackRateId)[0];
+
+        menuItems.push({
+            name: globalize.translate('PlaybackRate'),
+            id: 'playbackrate',
+            asideText: currentPlaybackRate ? currentPlaybackRate.name : null
         });
     }
 
@@ -248,6 +263,8 @@ function handleSelectedOption(id, options, player) {
             return showQualityMenu(player, options.positionTo);
         case 'aspectratio':
             return showAspectRatioMenu(player, options.positionTo);
+        case 'playbackrate':
+            return showPlaybackRateMenu(player, options.positionTo);
         case 'repeatmode':
             return showRepeatModeMenu(player, options.positionTo);
         case 'stats':

@@ -23,10 +23,8 @@ function getOsdElementHtml() {
 }
 
 function ensureOsdElement() {
-
     var elem = osdElement;
     if (!elem) {
-
         enableAnimation = browser.supportsCssAnimation();
 
         elem = document.createElement('div');
@@ -50,7 +48,6 @@ function onHideComplete() {
 
 var hideTimeout;
 function showOsd() {
-
     clearHideTimeout();
 
     var elem = osdElement;
@@ -79,12 +76,10 @@ function clearHideTimeout() {
 }
 
 function hideOsd() {
-
     clearHideTimeout();
 
     var elem = osdElement;
     if (elem) {
-
         if (enableAnimation) {
             // trigger reflow
             void elem.offsetWidth;
@@ -108,7 +103,6 @@ function setIcon(iconElement, icon) {
 }
 
 function updateElementsFromPlayer(brightness) {
-
     if (iconElement) {
         if (brightness >= 80) {
             setIcon(iconElement, 'brightness_high');
@@ -124,7 +118,6 @@ function updateElementsFromPlayer(brightness) {
 }
 
 function releaseCurrentPlayer() {
-
     var player = currentPlayer;
 
     if (player) {
@@ -135,7 +128,6 @@ function releaseCurrentPlayer() {
 }
 
 function onBrightnessChanged(e) {
-
     var player = this;
 
     ensureOsdElement();
@@ -146,7 +138,6 @@ function onBrightnessChanged(e) {
 }
 
 function bindToPlayer(player) {
-
     if (player === currentPlayer) {
         return;
     }

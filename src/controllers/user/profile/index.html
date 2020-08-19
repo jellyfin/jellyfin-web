@@ -1,0 +1,69 @@
+<div id="userImagePage" data-role="page" class="page libraryPage userPreferencesPage userPasswordPage noSecondaryNavPage" data-title="${HeaderProfile}" data-menubutton="false">
+    <div class="padded-left padded-right padded-bottom-page">
+        <div class="readOnlyContent" style="margin: 0 auto; padding: 0 1em;">
+            <div style="position:relative;display:inline-block;max-width:200px;">
+                <input id="uploadImage" type="file" accept="image/*" style="position:absolute;right:0;width:100%;height:100%;opacity:0;" />
+                <div id="image" style="width:200px;height:200px;background-repeat:no-repeat;background-position:center;border-radius:100%;background-size:cover;"></div>
+            </div>
+            <div style="vertical-align:top;margin:1em 2em;display:inline-block;">
+                <h2 class="username" style="margin:0;font-size:xx-large;"></h2>
+                <br/>
+                <button is="emby-button" type="button" class="raised hide" id="btnAddImage">
+                    <span>${ButtonAddImage}</span>
+                </button>
+                <button is="emby-button" type="button" class="raised hide" id="btnDeleteImage">
+                    <span>${DeleteImage}</span>
+                </button>
+            </div>
+        </div>
+        <form class="updatePasswordForm passwordSection userProfileSettingsForm hide" style="margin: 3em auto 0;">
+            <div class="verticalSection">
+                <h2 class="sectionTitle">
+                    ${HeaderPassword}
+                </h2>
+                <div id="fldCurrentPassword" class="inputContainer hide">
+                    <input is="emby-input" type="password" id="txtCurrentPassword" label="${LabelCurrentPassword}" autocomplete="off" />
+                </div>
+                <div class="inputContainer">
+                    <input is="emby-input" type="password" id="txtNewPassword" label="${LabelNewPassword}" autocomplete="off" />
+                </div>
+                <div class="inputContainer">
+                    <input is="emby-input" type="password" id="txtNewPasswordConfirm" label="${LabelNewPasswordConfirm}" autocomplete="off" />
+                </div>
+                <div>
+                    <button is="emby-button" type="submit" class="raised button-submit block">
+                        <span>${Save}</span>
+                    </button>
+                    <button is="emby-button" type="button" id="btnResetPassword" class="raised cancel block hide">
+                        <span>${ButtonResetPassword}</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <form class="localAccessForm localAccessSection userProfileSettingsForm hide" style="margin: 3em auto 0;">
+            <div class="verticalSection">
+                <h2 class="sectionTitle">${HeaderEasyPinCode}</h2>
+                <div>${EasyPasswordHelp}</div>
+                <br />
+                <div class="inputContainer">
+                    <input is="emby-input" type="number" id="txtEasyPassword" label="${LabelEasyPinCode}" autocomplete="off" pattern="[0-9]*" step="1" maxlength="5" />
+                </div>
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input type="checkbox" is="emby-checkbox" class="chkEnableLocalEasyPassword" />
+                        <span>${LabelInNetworkSignInWithEasyPassword}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${LabelInNetworkSignInWithEasyPasswordHelp}</div>
+                </div>
+                <div>
+                    <button is="emby-button" type="submit" class="raised button-submit block">
+                        <span>${Save}</span>
+                    </button>
+                    <button is="emby-button" type="button" id="btnResetEasyPassword" class="raised cancel block hide">
+                        <span>${ButtonResetEasyPassword}</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

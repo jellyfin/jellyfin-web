@@ -109,7 +109,7 @@ html {
 .formDialogHeader:not(.formDialogHeader-clear),
 .paperList,
 .visualCardBox {
-    background-color: #242424;
+    background-color: #202020;
 }
 
 .defaultCardBackground1 {
@@ -412,8 +412,8 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .card:focus .cardBox.visualCardBox,
@@ -432,6 +432,7 @@ html {
 
 .layout-desktop ::-webkit-scrollbar {
     width: 0.4em;
+    height: 0.4em;
 }
 
 ::-webkit-scrollbar-thumb:horizontal,

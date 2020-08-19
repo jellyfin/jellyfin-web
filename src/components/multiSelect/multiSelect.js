@@ -1,24 +1,28 @@
-define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'globalize', 'appRouter', 'dom', 'css!./multiSelect'], function (browser, appStorage, appHost, loading, connectionManager, globalize, appRouter, dom) {
-    'use strict';
+import browser from 'browser';
+import appHost from 'apphost';
+import loading from 'loading';
+import connectionManager from 'connectionManager';
+import globalize from 'globalize';
+import dom from 'dom';
+import 'css!./multiSelect';
 
-    var selectedItems = [];
-    var selectedElements = [];
-    var currentSelectionCommandsPanel;
+/* eslint-disable indent */
+
+    let selectedItems = [];
+    let selectedElements = [];
+    let currentSelectionCommandsPanel;
 
     function hideSelections() {
-
-        var selectionCommandsPanel = currentSelectionCommandsPanel;
+        const selectionCommandsPanel = currentSelectionCommandsPanel;
         if (selectionCommandsPanel) {
-
             selectionCommandsPanel.parentNode.removeChild(selectionCommandsPanel);
             currentSelectionCommandsPanel = null;
 
             selectedItems = [];
             selectedElements = [];
-            var elems = document.querySelectorAll('.itemSelectionPanel');
-            for (var i = 0, length = elems.length; i < length; i++) {
-
-                var parent = elems[i].parentNode;
+            const elems = document.querySelectorAll('.itemSelectionPanel');
+            for (let i = 0, length = elems.length; i < length; i++) {
+                const parent = elems[i].parentNode;
                 parent.removeChild(elems[i]);
                 parent.classList.remove('withMultiSelect');
             }
@@ -26,17 +30,15 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
     }
 
     function onItemSelectionPanelClick(e, itemSelectionPanel) {
-
         // toggle the checkbox, if it wasn't clicked on
         if (!dom.parentWithClass(e.target, 'chkItemSelect')) {
-            var chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
+            const chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
 
             if (chkItemSelect) {
-
                 if (chkItemSelect.classList.contains('checkedInitial')) {
                     chkItemSelect.classList.remove('checkedInitial');
                 } else {
-                    var newValue = !chkItemSelect.checked;
+                    const newValue = !chkItemSelect.checked;
                     chkItemSelect.checked = newValue;
                     updateItemSelection(chkItemSelect, newValue);
                 }
@@ -49,12 +51,10 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
     }
 
     function updateItemSelection(chkItemSelect, selected) {
-
-        var id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
+        const id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
 
         if (selected) {
-
-            var current = selectedItems.filter(function (i) {
+            const current = selectedItems.filter(i => {
                 return i === id;
             });
 
@@ -62,18 +62,17 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 selectedItems.push(id);
                 selectedElements.push(chkItemSelect);
             }
-
         } else {
-            selectedItems = selectedItems.filter(function (i) {
+            selectedItems = selectedItems.filter(i => {
                 return i !== id;
             });
-            selectedElements = selectedElements.filter(function (i) {
+            selectedElements = selectedElements.filter(i => {
                 return i !== chkItemSelect;
             });
         }
 
         if (selectedItems.length) {
-            var itemSelectionCount = document.querySelector('.itemSelectionCount');
+            const itemSelectionCount = document.querySelector('.itemSelectionCount');
             if (itemSelectionCount) {
                 itemSelectionCount.innerHTML = selectedItems.length;
             }
@@ -87,107 +86,94 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
     }
 
     function showSelection(item, isChecked) {
-
-        var itemSelectionPanel = item.querySelector('.itemSelectionPanel');
+        let itemSelectionPanel = item.querySelector('.itemSelectionPanel');
 
         if (!itemSelectionPanel) {
-
             itemSelectionPanel = document.createElement('div');
             itemSelectionPanel.classList.add('itemSelectionPanel');
 
-            var parent = item.querySelector('.cardBox') || item.querySelector('.cardContent');
+            const parent = item.querySelector('.cardBox') || item.querySelector('.cardContent');
             parent.classList.add('withMultiSelect');
             parent.appendChild(itemSelectionPanel);
 
-            var cssClass = 'chkItemSelect';
+            let cssClass = 'chkItemSelect';
             if (isChecked && !browser.firefox) {
                 // In firefox, the initial tap hold doesnt' get treated as a click
                 // In other browsers it does, so we need to make sure that initial click is ignored
                 cssClass += ' checkedInitial';
             }
-            var checkedAttribute = isChecked ? ' checked' : '';
-            itemSelectionPanel.innerHTML = '<label class="checkboxContainer"><input type="checkbox" is="emby-checkbox" data-outlineclass="multiSelectCheckboxOutline" class="' + cssClass + '"' + checkedAttribute + '/><span></span></label>';
-            var chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
+            const checkedAttribute = isChecked ? ' checked' : '';
+            itemSelectionPanel.innerHTML = `<label class="checkboxContainer"><input type="checkbox" is="emby-checkbox" data-outlineclass="multiSelectCheckboxOutline" class="${cssClass}"${checkedAttribute}/><span></span></label>`;
+            const chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
             chkItemSelect.addEventListener('change', onSelectionChange);
         }
     }
 
     function showSelectionCommands() {
-
-        var selectionCommandsPanel = currentSelectionCommandsPanel;
+        let selectionCommandsPanel = currentSelectionCommandsPanel;
 
         if (!selectionCommandsPanel) {
-
             selectionCommandsPanel = document.createElement('div');
             selectionCommandsPanel.classList.add('selectionCommandsPanel');
 
             document.body.appendChild(selectionCommandsPanel);
             currentSelectionCommandsPanel = selectionCommandsPanel;
 
-            var html = '';
+            let html = '';
 
             html += '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><span class="material-icons close"></span></button>';
             html += '<h1 class="itemSelectionCount"></h1>';
 
             const moreIcon = 'more_vert';
-            html += '<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize" style="margin-left:auto;"><span class="material-icons ' + moreIcon + '"></span></button>';
+            html += `<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize" style="margin-left:auto;"><span class="material-icons ${moreIcon}"></span></button>`;
 
             selectionCommandsPanel.innerHTML = html;
 
             selectionCommandsPanel.querySelector('.btnCloseSelectionPanel').addEventListener('click', hideSelections);
 
-            var btnSelectionPanelOptions = selectionCommandsPanel.querySelector('.btnSelectionPanelOptions');
+            const btnSelectionPanelOptions = selectionCommandsPanel.querySelector('.btnSelectionPanelOptions');
 
             dom.addEventListener(btnSelectionPanelOptions, 'click', showMenuForSelectedItems, { passive: true });
         }
     }
 
     function alertText(options) {
-
-        return new Promise(function (resolve, reject) {
-
-            require(['alert'], function (alert) {
+        return new Promise((resolve, reject) => {
+            import('alert').then(({default: alert}) => {
                 alert(options).then(resolve, resolve);
             });
         });
     }
 
     function deleteItems(apiClient, itemIds) {
-
-        return new Promise(function (resolve, reject) {
-
-            var msg = globalize.translate('ConfirmDeleteItem');
-            var title = globalize.translate('HeaderDeleteItem');
+        return new Promise((resolve, reject) => {
+            let msg = globalize.translate('ConfirmDeleteItem');
+            let title = globalize.translate('HeaderDeleteItem');
 
             if (itemIds.length > 1) {
                 msg = globalize.translate('ConfirmDeleteItems');
                 title = globalize.translate('HeaderDeleteItems');
             }
 
-            require(['confirm'], function (confirm) {
-
-                confirm(msg, title).then(function () {
-                    var promises = itemIds.map(function (itemId) {
+            import('confirm').then(({default: confirm}) => {
+                confirm(msg, title).then(() => {
+                    const promises = itemIds.map(itemId => {
                         apiClient.deleteItem(itemId);
                     });
 
-                    Promise.all(promises).then(resolve, function () {
-
+                    Promise.all(promises).then(resolve, () => {
                         alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);
                     });
                 }, reject);
-
             });
         });
     }
 
     function showMenuForSelectedItems(e) {
+        const apiClient = connectionManager.currentApiClient();
 
-        var apiClient = connectionManager.currentApiClient();
-
-        apiClient.getCurrentUser().then(function (user) {
-
-            var menuItems = [];
+        apiClient.getCurrentUser().then(user => {
+            const menuItems = [];
 
             menuItems.push({
                 name: globalize.translate('AddToCollection'),
@@ -212,7 +198,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
 
             if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
                 menuItems.push({
-                    name: globalize.translate('ButtonDownload'),
+                    name: globalize.translate('Download'),
                     id: 'download',
                     icon: 'file_download'
                 });
@@ -244,18 +230,18 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 icon: 'refresh'
             });
 
-            require(['actionsheet'], function (actionsheet) {
+            import('actionsheet').then(({default: actionsheet}) => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: e.target,
                     callback: function (id) {
-                        var items = selectedItems.slice(0);
-                        var serverId = apiClient.serverInfo().Id;
+                        const items = selectedItems.slice(0);
+                        const serverId = apiClient.serverInfo().Id;
 
                         switch (id) {
                             case 'addtocollection':
-                                require(['collectionEditor'], function (collectionEditor) {
-                                    new collectionEditor().show({
+                                import('collectionEditor').then(({default: collectionEditor}) => {
+                                    new collectionEditor({
                                         items: items,
                                         serverId: serverId
                                     });
@@ -264,8 +250,8 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                                 dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
-                                require(['playlistEditor'], function (playlistEditor) {
-                                    new playlistEditor().show({
+                                import('playlistEditor').then(({default: playlistEditor}) => {
+                                    new playlistEditor({
                                         items: items,
                                         serverId: serverId
                                     });
@@ -282,21 +268,21 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                                 combineVersions(apiClient, items);
                                 break;
                             case 'markplayed':
-                                items.forEach(function (itemId) {
+                                items.forEach(itemId => {
                                     apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
                             case 'markunplayed':
-                                items.forEach(function (itemId) {
+                                items.forEach(itemId => {
                                     apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
                             case 'refresh':
-                                require(['refreshDialog'], function (refreshDialog) {
+                                import('refreshDialog').then(({default: refreshDialog}) => {
                                     new refreshDialog({
                                         itemIds: items,
                                         serverId: serverId
@@ -310,35 +296,31 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                         }
                     }
                 });
-
             });
         });
     }
 
     function dispatchNeedsRefresh() {
+        const elems = [];
 
-        var elems = [];
+        [].forEach.call(selectedElements, i => {
+            const container = dom.parentWithAttribute(i, 'is', 'emby-itemscontainer');
 
-        [].forEach.call(selectedElements, function (i) {
-
-            var container = dom.parentWithAttribute(i, 'is', 'emby-itemscontainer');
-
-            if (container && elems.indexOf(container) === -1) {
+            if (container && !elems.includes(container)) {
                 elems.push(container);
             }
         });
 
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (let i = 0, length = elems.length; i < length; i++) {
             elems[i].notifyRefreshNeeded(true);
         }
     }
 
     function combineVersions(apiClient, selection) {
-
         if (selection.length < 2) {
-
-            require(['alert'], function (alert) {
+            import('alert').then(({default: alert}) => {
                 alert({
+
                     text: globalize.translate('PleaseSelectTwoItems')
                 });
             });
@@ -352,8 +334,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             type: 'POST',
             url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
 
-        }).then(function () {
-
+        }).then(() => {
             loading.hide();
             hideSelections();
             dispatchNeedsRefresh();
@@ -361,10 +342,9 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
     }
 
     function showSelections(initialCard) {
-
-        require(['emby-checkbox'], function () {
-            var cards = document.querySelectorAll('.card');
-            for (var i = 0, length = cards.length; i < length; i++) {
+        import('emby-checkbox').then(() => {
+            const cards = document.querySelectorAll('.card');
+            for (let i = 0, length = cards.length; i < length; i++) {
                 showSelection(cards[i], initialCard === cards[i]);
             }
 
@@ -374,14 +354,12 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
     }
 
     function onContainerClick(e) {
-
-        var target = e.target;
+        const target = e.target;
 
         if (selectedItems.length) {
-
-            var card = dom.parentWithClass(target, 'card');
+            const card = dom.parentWithClass(target, 'card');
             if (card) {
-                var itemSelectionPanel = card.querySelector('.itemSelectionPanel');
+                const itemSelectionPanel = card.querySelector('.itemSelectionPanel');
                 if (itemSelectionPanel) {
                     return onItemSelectionPanelClick(e, itemSelectionPanel);
                 }
@@ -395,18 +373,15 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
 
     document.addEventListener('viewbeforehide', hideSelections);
 
-    return function (options) {
+    export default function (options) {
+        const self = this;
 
-        var self = this;
-
-        var container = options.container;
+        const container = options.container;
 
         function onTapHold(e) {
-
-            var card = dom.parentWithClass(e.target, 'card');
+            const card = dom.parentWithClass(e.target, 'card');
 
             if (card) {
-
                 showSelections(card);
             }
 
@@ -419,17 +394,15 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         }
 
         function getTouches(e) {
-
             return e.changedTouches || e.targetTouches || e.touches;
         }
 
-        var touchTarget;
-        var touchStartTimeout;
-        var touchStartX;
-        var touchStartY;
+        let touchTarget;
+        let touchStartTimeout;
+        let touchStartX;
+        let touchStartY;
         function onTouchStart(e) {
-
-            var touch = getTouches(e)[0];
+            const touch = getTouches(e)[0];
             touchTarget = null;
             touchStartX = 0;
             touchStartY = 0;
@@ -437,13 +410,12 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             if (touch) {
                 touchStartX = touch.clientX;
                 touchStartY = touch.clientY;
-                var element = touch.target;
+                const element = touch.target;
 
                 if (element) {
-                    var card = dom.parentWithClass(element, 'card');
+                    const card = dom.parentWithClass(element, 'card');
 
                     if (card) {
-
                         if (touchStartTimeout) {
                             clearTimeout(touchStartTimeout);
                             touchStartTimeout = null;
@@ -457,15 +429,14 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         }
 
         function onTouchMove(e) {
-
             if (touchTarget) {
-                var touch = getTouches(e)[0];
-                var deltaX;
-                var deltaY;
+                const touch = getTouches(e)[0];
+                let deltaX;
+                let deltaY;
 
                 if (touch) {
-                    var touchEndX = touch.clientX || 0;
-                    var touchEndY = touch.clientY || 0;
+                    const touchEndX = touch.clientX || 0;
+                    const touchEndY = touch.clientY || 0;
                     deltaX = Math.abs(touchEndX - (touchStartX || 0));
                     deltaY = Math.abs(touchEndY - (touchStartY || 0));
                 } else {
@@ -479,12 +450,10 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         }
 
         function onTouchEnd(e) {
-
             onMouseOut(e);
         }
 
         function onMouseDown(e) {
-
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;
@@ -495,7 +464,6 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         }
 
         function onMouseOut(e) {
-
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;
@@ -504,22 +472,19 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         }
 
         function onTouchStartTimerFired() {
-
             if (!touchTarget) {
                 return;
             }
 
-            var card = dom.parentWithClass(touchTarget, 'card');
+            const card = dom.parentWithClass(touchTarget, 'card');
             touchTarget = null;
 
             if (card) {
-
                 showSelections(card);
             }
         }
 
         function initTapHold(element) {
-
             // mobile safari doesn't allow contextmenu override
             if (browser.touch && !browser.safari) {
                 element.addEventListener('contextmenu', onTapHold);
@@ -556,12 +521,11 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
 
         self.onContainerClick = onContainerClick;
 
-        self.destroy = function () {
-
+        self.destroy = () => {
             container.removeEventListener('click', onContainerClick);
             container.removeEventListener('contextmenu', onTapHold);
 
-            var element = container;
+            const element = container;
 
             dom.removeEventListener(element, 'touchstart', onTouchStart, {
                 passive: true
@@ -572,10 +536,6 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             dom.removeEventListener(element, 'touchend', onTouchEnd, {
                 passive: true
             });
-            // this fires in safari due to magnifying class
-            //dom.removeEventListener(element, "touchcancel", onTouchEnd, {
-            //    passive: true
-            //});
             dom.removeEventListener(element, 'mousedown', onMouseDown, {
                 passive: true
             });
@@ -586,5 +546,6 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 passive: true
             });
         };
-    };
-});
+    }
+
+/* eslint-enable indent */

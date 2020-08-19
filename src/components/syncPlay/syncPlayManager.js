@@ -139,7 +139,7 @@ class SyncPlayManager {
                     return;
                 }
 
-                apiClient.sendSyncPlayCommand('UpdatePing', {
+                apiClient.sendSyncPlayPing({
                     Ping: ping
                 });
             }
@@ -212,6 +212,7 @@ class SyncPlayManager {
         if (!this.lastPlaybackWaiting) {
             this.lastPlaybackWaiting = new Date();
         }
+
         events.trigger(this, 'waiting');
     }
 
@@ -288,6 +289,7 @@ class SyncPlayManager {
                 player.setPlaybackRate(this.localPlayerPlaybackRate);
                 this.localPlayerPlaybackRate = 1.0;
             }
+
             this.currentPlayer = null;
             this.playbackRateSupported = false;
         }
@@ -433,6 +435,7 @@ class SyncPlayManager {
                     });
                     return;
                 }
+
                 // Get playing item id
                 let playingItemId;
                 try {
@@ -447,7 +450,7 @@ class SyncPlayManager {
                     if (!success) {
                         console.warning('Error reporting playback state to server. Joining group will fail.');
                     }
-                    apiClient.sendSyncPlayCommand('JoinGroup', {
+                    apiClient.joinSyncPlayGroup({
                         GroupId: groupId,
                         PlayingItemId: playingItemId
                     });
@@ -551,7 +554,6 @@ class SyncPlayManager {
                 this.syncTimeout = setTimeout(() => {
                     this.syncEnabled = true;
                 }, SyncMethodThreshold / 2);
-
             }, playTimeout);
 
             console.debug('Scheduled play in', playTimeout / 1000.0, 'seconds.');
@@ -619,6 +621,7 @@ class SyncPlayManager {
         if (this.currentPlayer) {
             this.currentPlayer.setPlaybackRate(1);
         }
+
         this.clearSyncIcon();
     }
 
@@ -658,7 +661,7 @@ class SyncPlayManager {
      */
     playRequest (player) {
         var apiClient = connectionManager.currentApiClient();
-        apiClient.sendSyncPlayCommand('PlayRequest');
+        apiClient.requestSyncPlayStart();
     }
 
     /**
@@ -666,7 +669,7 @@ class SyncPlayManager {
      */
     pauseRequest (player) {
         var apiClient = connectionManager.currentApiClient();
-        apiClient.sendSyncPlayCommand('PauseRequest');
+        apiClient.requestSyncPlayPause();
         // Pause locally as well, to give the user some little control
         playbackManager._localUnpause(player);
     }
@@ -676,7 +679,7 @@ class SyncPlayManager {
      */
     seekRequest (PositionTicks, player) {
         var apiClient = connectionManager.currentApiClient();
-        apiClient.sendSyncPlayCommand('SeekRequest', {
+        apiClient.requestSyncPlaySeek({
             PositionTicks: PositionTicks
         });
     }

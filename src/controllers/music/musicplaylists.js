@@ -1,10 +1,14 @@
-define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], function (libraryBrowser, cardBuilder, appHost, imageLoader, loading) {
-    'use strict';
+import libraryBrowser from 'libraryBrowser';
+import cardBuilder from 'cardBuilder';
+import imageLoader from 'imageLoader';
+import loading from 'loading';
 
-    return function (view, params, tabContent) {
+/* eslint-disable indent */
+
+    export default function (view, params, tabContent) {
         function getPageData() {
-            var key = getSavedQueryKey();
-            var pageData = data[key];
+            const key = getSavedQueryKey();
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -35,14 +39,14 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
 
         function getPromise() {
             loading.show();
-            var query = getQuery();
+            const query = getQuery();
             return ApiClient.getItems(ApiClient.getCurrentUserId(), query);
         }
 
         function reloadItems(context, promise) {
-            var query = getQuery();
+            const query = getQuery();
             promise.then(function (result) {
-                var html = '';
+                let html = '';
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'square',
@@ -53,26 +57,26 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
                     allowBottomPadding: true,
                     cardLayout: false
                 });
-                var elem = context.querySelector('#items');
+                const elem = context.querySelector('#items');
                 elem.innerHTML = html;
                 imageLoader.lazyChildren(elem);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(context);
                 });
             });
         }
 
-        var self = this;
-        var data = {};
+        const self = this;
+        const data = {};
 
         self.getCurrentViewStyle = function () {
             return getPageData().view;
         };
 
-        var promise;
+        let promise;
 
         self.preRender = function () {
             promise = getPromise();
@@ -81,5 +85,6 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
         self.renderTab = function () {
             reloadItems(tabContent, promise);
         };
-    };
-});
+    }
+
+/* eslint-enable indent */

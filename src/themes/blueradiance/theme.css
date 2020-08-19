@@ -441,8 +441,8 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .cardBox:not(.visualCardBox) .cardPadder {

@@ -1,20 +1,19 @@
-define([], function() {
-    'use strict';
+/* eslint-disable indent */
 
-    var ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
+    const ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
 
     function onAutoTimeProgress() {
-        var start = parseInt(this.getAttribute('data-starttime'));
-        var end = parseInt(this.getAttribute('data-endtime'));
+        const start = parseInt(this.getAttribute('data-starttime'));
+        const end = parseInt(this.getAttribute('data-endtime'));
 
-        var now = new Date().getTime();
-        var total = end - start;
-        var pct = 100 * ((now - start) / total);
+        const now = new Date().getTime();
+        const total = end - start;
+        let pct = 100 * ((now - start) / total);
 
         pct = Math.min(100, pct);
         pct = Math.max(0, pct);
 
-        var itemProgressBarForeground = this.querySelector('.itemProgressBarForeground');
+        const itemProgressBarForeground = this.querySelector('.itemProgressBarForeground');
         itemProgressBarForeground.style.width = pct + '%';
     }
 
@@ -39,4 +38,5 @@ define([], function() {
         prototype: ProgressBarPrototype,
         extends: 'div'
     });
-});
+
+/* eslint-enable indent */

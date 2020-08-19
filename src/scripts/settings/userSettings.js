@@ -2,7 +2,7 @@ import appSettings from 'appSettings';
 import events from 'events';
 
 function onSaveTimeout() {
-    var self = this;
+    const self = this;
     self.saveTimeout = null;
     self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
 }
@@ -14,6 +14,10 @@ function saveServerPreferences(instance) {
 
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
 }
+
+const defaultSubtitleAppearanceSettings = {
+    verticalPosition: -3
+};
 
 export class UserSettings {
     constructor() {
@@ -37,7 +41,7 @@ export class UserSettings {
             return Promise.resolve();
         }
 
-        var self = this;
+        const self = this;
 
         return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
             result.CustomPrefs = result.CustomPrefs || {};
@@ -63,9 +67,9 @@ export class UserSettings {
      * @param {boolean} enableOnServer - Flag to save preferences on server.
      */
     set(name, value, enableOnServer) {
-        var userId = this.currentUserId;
-        var currentValue = this.get(name, enableOnServer);
-        var result = appSettings.set(name, value, userId);
+        const userId = this.currentUserId;
+        const currentValue = this.get(name, enableOnServer);
+        const result = appSettings.set(name, value, userId);
 
         if (enableOnServer !== false && this.displayPrefs) {
             this.displayPrefs.CustomPrefs[name] = value == null ? value : value.toString();
@@ -86,7 +90,7 @@ export class UserSettings {
      * @return {string} Value of setting.
      */
     get(name, enableOnServer) {
-        var userId = this.currentUserId;
+        const userId = this.currentUserId;
         if (enableOnServer !== false && this.displayPrefs) {
             return this.displayPrefs.CustomPrefs[name];
         }
@@ -100,7 +104,7 @@ export class UserSettings {
      * @return {Object|Promise} Configuration or Promise.
      */
     serverConfig(config) {
-        var apiClient = this.currentApiClient;
+        const apiClient = this.currentApiClient;
         if (config) {
             return apiClient.updateUserConfiguration(this.currentUserId, config);
         }
@@ -349,7 +353,7 @@ export class UserSettings {
             return this.set('libraryPageSize', parseInt(val, 10), false);
         }
 
-        var libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
+        const libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
         if (libraryPageSize === 0) {
             // Explicitly return 0 to avoid returning 100 because 0 is falsy.
             return 0;
@@ -378,7 +382,7 @@ export class UserSettings {
      * @return {Object} Query.
      */
     loadQuerySettings(key, query) {
-        var values = this.get(key);
+        let values = this.get(key);
         if (values) {
             values = JSON.parse(values);
             return Object.assign(query, values);
@@ -393,7 +397,7 @@ export class UserSettings {
      * @param {Object} query - Query.
      */
     saveQuerySettings(key, query) {
-        var values = {};
+        const values = {};
         if (query.SortBy) {
             values.SortBy = query.SortBy;
         }
@@ -412,7 +416,7 @@ export class UserSettings {
      */
     getSubtitleAppearanceSettings(key) {
         key = key || 'localplayersubtitleappearance3';
-        return JSON.parse(this.get(key, false) || '{}');
+        return Object.assign(defaultSubtitleAppearanceSettings, JSON.parse(this.get(key, false) || '{}'));
     }
 
     /**

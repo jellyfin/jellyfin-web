@@ -175,6 +175,10 @@
     width: 100%;
 }
 
+.layout-tv .sectionTabs {
+    width: 55%;
+}
+
 .selectedMediaFolder {
     background-color: #f2f2f2 !important;
 }
@@ -232,12 +236,6 @@
     text-align: center;
 }
 
-.layout-desktop .searchTabButton,
-.layout-mobile .searchTabButton,
-.layout-tv .headerSearchButton {
-    display: none !important;
-}
-
 .mainDrawer-scrollContainer {
     padding-bottom: 10vh;
 }
@@ -269,7 +267,7 @@
     }
 }
 
-@media all and (max-width: 84em) {
+@media all and (max-width: 100em) {
     .withSectionTabs .headerTop {
         padding-bottom: 0.55em;
     }
@@ -277,9 +275,13 @@
     .sectionTabs {
         font-size: 83.5%;
     }
+
+    .layout-tv .sectionTabs {
+        width: 100%;
+    }
 }
 
-@media all and (min-width: 84em) {
+@media all and (min-width: 100em) {
     .headerTop {
         padding: 0.8em 0.8em;
     }
@@ -638,7 +640,7 @@
 .layout-desktop .detailRibbon,
 .layout-tv .detailRibbon {
     margin-top: -7.2em;
-    height: 7.18em;
+    height: 7.2em;
 }
 
 .layout-desktop .noBackdrop .detailRibbon,
@@ -910,21 +912,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     }
 }
 
-@media all and (min-width: 62.5em) {
-    .headerTop {
-        padding-left: 0.8em;
-        padding-right: 0.8em;
-    }
-
-    .headerTabs {
-        align-self: center;
-        width: auto;
-        align-items: center;
-        justify-content: center;
-        margin-top: -4.2em;
-        position: relative;
-    }
-
+@media all and (min-width: 100em) {
     .detailFloatingButton {
         display: none !important;
     }
