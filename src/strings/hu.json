@@ -1441,5 +1441,6 @@
     "Preview": "Előnézet",
     "LabelSubtitleVerticalPosition": "Függőleges pozíció:",
     "MessageGetInstalledPluginsError": "Hiba történt a jelenleg telepített bővítmények lekérdezése során.",
-    "MessagePluginInstallError": "Hiba történt a bővítmény telepítése során."
+    "MessagePluginInstallError": "Hiba történt a bővítmény telepítése során.",
+    "PlaybackRate": "Lejátszási sebesség"
 }
