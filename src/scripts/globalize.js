@@ -63,11 +63,11 @@ import events from 'events';
     }
 
     function ensureTranslations(culture) {
-        for (let i in allTranslations) {
+        for (const i in allTranslations) {
             ensureTranslation(allTranslations[i], culture);
         }
         if (culture !== fallbackCulture) {
-            for (let i in allTranslations) {
+            for (const i in allTranslations) {
                 ensureTranslation(allTranslations[i], fallbackCulture);
             }
         }

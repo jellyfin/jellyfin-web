@@ -1,12 +1,10 @@
 (function() {
-    'use strict';
-
     function injectScriptElement(src, onload) {
         if (!src) {
             return;
         }
 
-        var script = document.createElement('script');
+        const script = document.createElement('script');
         if (self.dashboardVersion) {
             src += `?v=${self.dashboardVersion}`;
         }

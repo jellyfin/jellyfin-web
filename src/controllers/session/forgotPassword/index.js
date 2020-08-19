@@ -3,21 +3,21 @@ import globalize from 'globalize';
 /* eslint-disable indent */
 
     function processForgotPasswordResult(result) {
-        if ('ContactAdmin' == result.Action) {
+        if (result.Action == 'ContactAdmin') {
             return void Dashboard.alert({
                 message: globalize.translate('MessageContactAdminToResetPassword'),
                 title: globalize.translate('HeaderForgotPassword')
             });
         }
 
-        if ('InNetworkRequired' == result.Action) {
+        if (result.Action == 'InNetworkRequired') {
             return void Dashboard.alert({
                 message: globalize.translate('MessageForgotPasswordInNetworkRequired'),
                 title: globalize.translate('HeaderForgotPassword')
             });
         }
 
-        if ('PinCode' == result.Action) {
+        if (result.Action == 'PinCode') {
             let msg = globalize.translate('MessageForgotPasswordFileCreated');
             msg += '<br/>';
             msg += '<br/>';
@@ -41,9 +41,9 @@ import globalize from 'globalize';
                 type: 'POST',
                 url: ApiClient.getUrl('Users/ForgotPassword'),
                 dataType: 'json',
-                data: {
+                data: JSON.stringify({
                     EnteredUsername: view.querySelector('#txtName').value
-                }
+                })
             }).then(processForgotPasswordResult);
             e.preventDefault();
             return false;

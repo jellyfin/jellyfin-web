@@ -354,7 +354,7 @@ import 'scrollStyles';
     }
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then(scrollHelper => {
+        import('scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
@@ -375,7 +375,7 @@ import 'scrollStyles';
             dlg.setAttribute('data-lockscroll', 'true');
         }
 
-        if (options.enableHistory !== false && appRouter.enableNativeHistory()) {
+        if (options.enableHistory !== false) {
             dlg.setAttribute('data-history', 'true');
         }
 
@@ -391,11 +391,8 @@ import 'scrollStyles';
             dlg.setAttribute('data-autofocus', 'true');
         }
 
-        let defaultEntryAnimation;
-        let defaultExitAnimation;
-
-        defaultEntryAnimation = 'scaleup';
-        defaultExitAnimation = 'scaledown';
+        const defaultEntryAnimation = 'scaleup';
+        const defaultExitAnimation = 'scaledown';
         const entryAnimation = options.entryAnimation || defaultEntryAnimation;
         const exitAnimation = options.exitAnimation || defaultExitAnimation;
 

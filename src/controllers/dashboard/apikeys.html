@@ -1,0 +1,26 @@
+<div id="apiKeysPage" data-role="page" class="page type-interior advancedConfigurationPage fullWidthContent">
+    <div>
+        <div class="content-primary">
+            <div class="detailSectionHeader">
+                <h2 style="margin:.6em 0;vertical-align:middle;display:inline-block;">${HeaderApiKeys}</h2>
+                <button is="emby-button" type="button" class="fab btnNewKey submit" style="margin-left:1em;" title="${Add}">
+                    <span class="material-icons add" aria-hidden="true"></span>
+                </button>
+            </div>
+            <p>${HeaderApiKeysHelp}</p>
+            <br />
+            <table class="tblApiKeys detailTable">
+                <caption class="clipForScreenReader">${ApiKeysCaption}</caption>
+                <thead>
+                    <tr>
+                        <th scope="col" class="detailTableHeaderCell"></th>
+                        <th scope="col" class="detailTableHeaderCell">${HeaderApiKey}</th>
+                        <th scope="col" class="detailTableHeaderCell">${HeaderApp}</th>
+                        <th scope="col" class="detailTableHeaderCell">${HeaderDateIssued}</th>
+                    </tr>
+                </thead>
+                <tbody class="resultBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>

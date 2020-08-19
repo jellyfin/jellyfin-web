@@ -12,10 +12,10 @@ import 'emby-button';
             name: globalize.translate('HeaderLibraries')
         }, {
             href: 'librarydisplay.html',
-            name: globalize.translate('TabDisplay')
+            name: globalize.translate('Display')
         }, {
             href: 'metadataimages.html',
-            name: globalize.translate('TabMetadata')
+            name: globalize.translate('Metadata')
         }, {
             href: 'metadatanfo.html',
             name: globalize.translate('TabNfoSettings')
@@ -48,7 +48,7 @@ import 'emby-button';
                 ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
             });
             ApiClient.getNamedConfiguration('metadata').then(function(config) {
-                config.UseFileCreationTimeForDateAdded = '1' === $('#selectDateAdded', form).val();
+                config.UseFileCreationTimeForDateAdded = $('#selectDateAdded', form).val() === '1';
                 ApiClient.updateNamedConfiguration('metadata', config);
             });
 
@@ -61,7 +61,7 @@ import 'emby-button';
             libraryMenu.setTabs('librarysetup', 1, getTabs);
             loadData();
             ApiClient.getSystemInfo().then(function(info) {
-                if ('Windows' === info.OperatingSystem) {
+                if (info.OperatingSystem === 'Windows') {
                     view.querySelector('.fldSaveMetadataHidden').classList.remove('hide');
                 } else {
                     view.querySelector('.fldSaveMetadataHidden').classList.add('hide');

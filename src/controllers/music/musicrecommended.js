@@ -104,7 +104,6 @@ import 'flexStyles';
             }
 
             var itemsContainer = elem.querySelector('.itemsContainer');
-
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -178,22 +177,19 @@ import 'flexStyles';
 
     function getTabs() {
         return [{
-            name: globalize.translate('TabSuggestions')
+            name: globalize.translate('Suggestions')
         }, {
-            name: globalize.translate('TabAlbums')
+            name: globalize.translate('Albums')
         }, {
             name: globalize.translate('TabAlbumArtists')
         }, {
-            name: globalize.translate('TabArtists')
+            name: globalize.translate('Artists')
         }, {
-            name: globalize.translate('TabPlaylists')
+            name: globalize.translate('Playlists')
         }, {
-            name: globalize.translate('TabSongs')
+            name: globalize.translate('Songs')
         }, {
-            name: globalize.translate('TabGenres')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
+            name: globalize.translate('Genres')
         }];
     }
 
@@ -295,16 +291,12 @@ import 'flexStyles';
                 case 6:
                     depends = 'controllers/music/musicgenres';
                     break;
-
-                case 7:
-                    depends = 'scripts/searchtab';
-                    break;
             }
 
             import(depends).then(({default: controllerFactory}) => {
                 let tabContent;
 
-                if (0 == index) {
+                if (index == 0) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }

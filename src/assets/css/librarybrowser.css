@@ -236,12 +236,6 @@
     text-align: center;
 }
 
-.layout-desktop .searchTabButton,
-.layout-mobile .searchTabButton,
-.layout-tv .headerSearchButton {
-    display: none !important;
-}
-
 .mainDrawer-scrollContainer {
     padding-bottom: 10vh;
 }
@@ -646,7 +640,7 @@
 .layout-desktop .detailRibbon,
 .layout-tv .detailRibbon {
     margin-top: -7.2em;
-    height: 7.18em;
+    height: 7.2em;
 }
 
 .layout-desktop .noBackdrop .detailRibbon,
