@@ -79,7 +79,7 @@ import libraryMenu from 'libraryMenu';
                 config.TonemappingDesat = form.querySelector('#txtTonemappingDesat').value;
                 config.TonemappingThreshold = form.querySelector('#txtTonemappingThreshold').value;
                 config.TonemappingPeak = form.querySelector('#txtTonemappingPeak').value;
-                config.TonemappingParam = form.querySelector('#txtTonemappingParam').value;
+                config.TonemappingParam = form.querySelector('#txtTonemappingParam').value || '0';
                 config.EncoderPreset = form.querySelector('#selectEncoderPreset').value;
                 config.H264Crf = parseInt(form.querySelector('#txtH264Crf').value || '0');
                 config.DeinterlaceMethod = form.querySelector('#selectDeinterlaceMethod').value;
@@ -162,7 +162,7 @@ import libraryMenu from 'libraryMenu';
                 page.querySelector('#txtVaapiDevice').removeAttribute('required');
             }
 
-            if ('nvenc' == this.value) {
+            if (this.value == 'nvenc') {
                 page.querySelector('.fldOpenclDevice').classList.remove('hide');
                 page.querySelector('#txtOpenclDevice').setAttribute('required', 'required');
                 page.querySelector('.tonemappingOptions').classList.remove('hide');
