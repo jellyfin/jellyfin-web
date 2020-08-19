@@ -64,7 +64,7 @@ import libraryMenu from 'libraryMenu';
                 config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
                 config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();
                 config.FallbackFontPath = form.querySelector('#txtFallbackFontPath').value;
-                config.EnableFallbackFont = form.querySelector('#txtFallbackFontPath').value && form.querySelector('#chkEnableFallbackFont').checked;
+                config.EnableFallbackFont = form.querySelector('#txtFallbackFontPath').value ? form.querySelector('#chkEnableFallbackFont').checked : false;
                 config.EncodingThreadCount = $('#selectThreadCount', form).val();
                 config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
                 config.VaapiDevice = $('#txtVaapiDevice', form).val();
@@ -191,8 +191,8 @@ import libraryMenu from 'libraryMenu';
             });
         });
         $('#btnSelectFallbackFontPath', page).on('click.selectDirectory', function () {
-            require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+            import('directorybrowser').then(({default: directoryBrowser}) => {
+                const picker = new directoryBrowser();
                 picker.show({
                     includeDirectories: true,
                     callback: function (path) {
