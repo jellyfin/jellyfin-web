@@ -229,7 +229,7 @@ import 'emby-button';
         }, {
             name: globalize.translate('Suggestions')
         }, {
-            name: globalize.translate('TabTrailers')
+            name: globalize.translate('Trailers')
         }, {
             name: globalize.translate('Favorites')
         }, {

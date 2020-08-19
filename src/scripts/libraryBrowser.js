@@ -109,7 +109,7 @@ export function getQueryPagingHtml (options) {
         }
 
         if (options.filterButton) {
-            html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + globalize.translate('ButtonFilter') + '"><span class="material-icons filter_list"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + globalize.translate('Filter') + '"><span class="material-icons filter_list"></span></button>';
         }
 
         html += '</div>';

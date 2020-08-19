@@ -6,14 +6,14 @@ import globalize from 'globalize';
         if (result.Action == 'ContactAdmin') {
             return void Dashboard.alert({
                 message: globalize.translate('MessageContactAdminToResetPassword'),
-                title: globalize.translate('HeaderForgotPassword')
+                title: globalize.translate('ButtonForgotPassword')
             });
         }
 
         if (result.Action == 'InNetworkRequired') {
             return void Dashboard.alert({
                 message: globalize.translate('MessageForgotPasswordInNetworkRequired'),
-                title: globalize.translate('HeaderForgotPassword')
+                title: globalize.translate('ButtonForgotPassword')
             });
         }
 
@@ -27,7 +27,7 @@ import globalize from 'globalize';
             msg += '<br/>';
             return void Dashboard.alert({
                 message: msg,
-                title: globalize.translate('HeaderForgotPassword'),
+                title: globalize.translate('ButtonForgotPassword'),
                 callback: function () {
                     Dashboard.navigate('forgotpasswordpin.html');
                 }
