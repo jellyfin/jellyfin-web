@@ -17,7 +17,7 @@ function save(page) {
         config.UICulture = $('#selectLocalizationLanguage', page).val();
         apiClient.ajax({
             type: 'POST',
-            data: config,
+            data: JSON.stringify(config),
             url: apiClient.getUrl('Startup/Configuration')
         }).then(function () {
             Dashboard.navigate('wizarduser.html');

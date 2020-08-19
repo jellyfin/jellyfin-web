@@ -8,7 +8,7 @@ import appRouter from 'appRouter';
 import appHost from 'apphost';
 import playbackManager from 'playbackManager';
 import syncPlayManager from 'syncPlayManager';
-import groupSelectionMenu from 'groupSelectionMenu';
+import * as groupSelectionMenu from 'groupSelectionMenu';
 import browser from 'browser';
 import globalize from 'globalize';
 import imageHelper from 'scripts/imagehelper';
@@ -270,7 +270,7 @@ import 'flexStyles';
     function refreshLibraryInfoInDrawer(user, drawer) {
         let html = '';
         html += '<div style="height:.5em;"></div>';
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('ButtonHome') + '</span></a>';
+        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
 
         // libraries are added here
         html += '<div class="libraryMenuOptions">';
@@ -377,7 +377,7 @@ import 'flexStyles';
             pageIds: ['dashboardGeneralPage'],
             icon: 'settings'
         }, {
-            name: globalize.translate('TabUsers'),
+            name: globalize.translate('HeaderUsers'),
             href: 'userprofiles.html',
             pageIds: ['userProfilesPage', 'newUserPage', 'editUserPage', 'userLibraryAccessPage', 'userParentalControlPage', 'userPasswordPage'],
             icon: 'people'
@@ -395,10 +395,10 @@ import 'flexStyles';
         addPluginPagesToMainMenu(links, pluginItems, 'server');
         links.push({
             divider: true,
-            name: globalize.translate('TabDevices')
+            name: globalize.translate('HeaderDevices')
         });
         links.push({
-            name: globalize.translate('TabDevices'),
+            name: globalize.translate('HeaderDevices'),
             href: 'devices.html',
             pageIds: ['devicesPage', 'devicePage'],
             icon: 'devices'
@@ -417,16 +417,16 @@ import 'flexStyles';
         });
         links.push({
             divider: true,
-            name: globalize.translate('TabLiveTV')
+            name: globalize.translate('LiveTV')
         });
         links.push({
-            name: globalize.translate('TabLiveTV'),
+            name: globalize.translate('LiveTV'),
             href: 'livetvstatus.html',
             pageIds: ['liveTvStatusPage', 'liveTvTunerPage'],
             icon: 'live_tv'
         });
         links.push({
-            name: globalize.translate('TabDVR'),
+            name: globalize.translate('HeaderDVR'),
             href: 'livetvsettings.html',
             pageIds: ['liveTvSettingsPage'],
             icon: 'dvr'
@@ -567,7 +567,7 @@ import 'flexStyles';
                     view.ImageTags = {};
                     view.icon = 'live_tv';
                     const guideView = Object.assign({}, view);
-                    guideView.Name = globalize.translate('ButtonGuide');
+                    guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
                     guideView.url = 'livetv.html?tab=1';

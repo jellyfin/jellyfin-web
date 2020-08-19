@@ -32,7 +32,7 @@ import globalize from 'globalize';
 
     function loadChannels(page, user, channels) {
         let html = '';
-        html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderChannels') + '</h3>';
+        html += '<h3 class="checkboxListLabel">' + globalize.translate('Channels') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         for (let i = 0, length = channels.length; i < length; i++) {

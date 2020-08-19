@@ -25,42 +25,42 @@ function renderItems(page, item) {
 
     if (item.MovieCount) {
         sections.push({
-            name: globalize.translate('TabMovies'),
+            name: globalize.translate('Movies'),
             type: 'Movie'
         });
     }
 
     if (item.SeriesCount) {
         sections.push({
-            name: globalize.translate('TabShows'),
+            name: globalize.translate('Shows'),
             type: 'Series'
         });
     }
 
     if (item.EpisodeCount) {
         sections.push({
-            name: globalize.translate('TabEpisodes'),
+            name: globalize.translate('Episodes'),
             type: 'Episode'
         });
     }
 
     if (item.TrailerCount) {
         sections.push({
-            name: globalize.translate('TabTrailers'),
+            name: globalize.translate('Trailers'),
             type: 'Trailer'
         });
     }
 
     if (item.AlbumCount) {
         sections.push({
-            name: globalize.translate('TabAlbums'),
+            name: globalize.translate('Albums'),
             type: 'MusicAlbum'
         });
     }
 
     if (item.MusicVideoCount) {
         sections.push({
-            name: globalize.translate('TabMusicVideos'),
+            name: globalize.translate('HeaderMusicVideos'),
             type: 'MusicVideo'
         });
     }

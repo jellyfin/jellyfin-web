@@ -1,132 +1,123 @@
-define(['playbackManager', 'events', 'serverNotifications', 'connectionManager'], function (playbackManager, events, serverNotifications, connectionManager) {
-    'use strict';
+import playbackManager from 'playbackManager';
+import events from 'events';
+import serverNotifications from 'serverNotifications';
+import connectionManager from 'connectionManager';
 
-    serverNotifications = serverNotifications.default || serverNotifications;
-    playbackManager = playbackManager.default || playbackManager;
+function getActivePlayerId() {
+    const info = playbackManager.getPlayerInfo();
+    return info ? info.id : null;
+}
 
-    function getActivePlayerId() {
-        var info = playbackManager.getPlayerInfo();
-        return info ? info.id : null;
+function sendPlayCommand(apiClient, options, playType) {
+    const sessionId = getActivePlayerId();
+
+    const ids = options.ids || options.items.map(function (i) {
+        return i.Id;
+    });
+
+    const remoteOptions = {
+        ItemIds: ids.join(','),
+
+        PlayCommand: playType
+    };
+
+    if (options.startPositionTicks) {
+        remoteOptions.StartPositionTicks = options.startPositionTicks;
     }
 
-    function sendPlayCommand(apiClient, options, playType) {
-        var sessionId = getActivePlayerId();
-
-        var ids = options.ids || options.items.map(function (i) {
-            return i.Id;
-        });
-
-        var remoteOptions = {
-            ItemIds: ids.join(','),
-
-            PlayCommand: playType
-        };
-
-        if (options.startPositionTicks) {
-            remoteOptions.StartPositionTicks = options.startPositionTicks;
-        }
-
-        if (options.mediaSourceId) {
-            remoteOptions.MediaSourceId = options.mediaSourceId;
-        }
-
-        if (options.audioStreamIndex != null) {
-            remoteOptions.AudioStreamIndex = options.audioStreamIndex;
-        }
-
-        if (options.subtitleStreamIndex != null) {
-            remoteOptions.SubtitleStreamIndex = options.subtitleStreamIndex;
-        }
-
-        if (options.startIndex != null) {
-            remoteOptions.StartIndex = options.startIndex;
-        }
-
-        return apiClient.sendPlayCommand(sessionId, remoteOptions);
+    if (options.mediaSourceId) {
+        remoteOptions.MediaSourceId = options.mediaSourceId;
     }
 
-    function sendPlayStateCommand(apiClient, command, options) {
-        var sessionId = getActivePlayerId();
-
-        apiClient.sendPlayStateCommand(sessionId, command, options);
+    if (options.audioStreamIndex != null) {
+        remoteOptions.AudioStreamIndex = options.audioStreamIndex;
     }
 
-    function getCurrentApiClient(instance) {
-        var currentServerId = instance.currentServerId;
-
-        if (currentServerId) {
-            return connectionManager.getApiClient(currentServerId);
-        }
-
-        return connectionManager.currentApiClient();
+    if (options.subtitleStreamIndex != null) {
+        remoteOptions.SubtitleStreamIndex = options.subtitleStreamIndex;
     }
 
-    function sendCommandByName(instance, name, options) {
-        var command = {
-            Name: name
-        };
-
-        if (options) {
-            command.Arguments = options;
-        }
-
-        instance.sendCommand(command);
+    if (options.startIndex != null) {
+        remoteOptions.StartIndex = options.startIndex;
     }
 
-    function unsubscribeFromPlayerUpdates(instance) {
-        instance.isUpdating = true;
+    return apiClient.sendPlayCommand(sessionId, remoteOptions);
+}
 
-        var apiClient = getCurrentApiClient(instance);
-        apiClient.sendMessage('SessionsStop');
-        if (instance.pollInterval) {
-            clearInterval(instance.pollInterval);
-            instance.pollInterval = null;
-        }
+function sendPlayStateCommand(apiClient, command, options) {
+    const sessionId = getActivePlayerId();
+
+    apiClient.sendPlayStateCommand(sessionId, command, options);
+}
+
+function getCurrentApiClient(instance) {
+    const currentServerId = instance.currentServerId;
+
+    if (currentServerId) {
+        return connectionManager.getApiClient(currentServerId);
     }
 
-    function processUpdatedSessions(instance, sessions, apiClient) {
-        var serverId = apiClient.serverId();
+    return connectionManager.currentApiClient();
+}
 
-        sessions.map(function (s) {
-            if (s.NowPlayingItem) {
-                s.NowPlayingItem.ServerId = serverId;
-            }
-        });
+function sendCommandByName(instance, name, options) {
+    const command = {
+        Name: name
+    };
 
-        var currentTargetId = getActivePlayerId();
-
-        var session = sessions.filter(function (s) {
-            return s.Id === currentTargetId;
-        })[0];
-
-        if (session) {
-            normalizeImages(session, apiClient);
-
-            var eventNames = getChangedEvents(instance.lastPlayerData, session);
-            instance.lastPlayerData = session;
-
-            for (var i = 0, length = eventNames.length; i < length; i++) {
-                events.trigger(instance, eventNames[i], [session]);
-            }
-        } else {
-            instance.lastPlayerData = session;
-
-            playbackManager.setDefaultPlayerActive();
-        }
+    if (options) {
+        command.Arguments = options;
     }
 
-    function getChangedEvents(state1, state2) {
-        var names = [];
+    instance.sendCommand(command);
+}
 
-        if (!state1) {
-            names.push('statechange');
-            names.push('timeupdate');
-            names.push('pause');
+function unsubscribeFromPlayerUpdates(instance) {
+    instance.isUpdating = true;
 
-            return names;
+    const apiClient = getCurrentApiClient(instance);
+    apiClient.sendMessage('SessionsStop');
+    if (instance.pollInterval) {
+        clearInterval(instance.pollInterval);
+        instance.pollInterval = null;
+    }
+}
+
+function processUpdatedSessions(instance, sessions, apiClient) {
+    const serverId = apiClient.serverId();
+
+    sessions.map(function (s) {
+        if (s.NowPlayingItem) {
+            s.NowPlayingItem.ServerId = serverId;
         }
+    });
 
-        // TODO: Trim these down to prevent the UI from over-refreshing
+    const currentTargetId = getActivePlayerId();
+
+    const session = sessions.filter(function (s) {
+        return s.Id === currentTargetId;
+    })[0];
+
+    if (session) {
+        normalizeImages(session, apiClient);
+
+        const eventNames = getChangedEvents(instance.lastPlayerData, session);
+        instance.lastPlayerData = session;
+
+        for (let i = 0, length = eventNames.length; i < length; i++) {
+            events.trigger(instance, eventNames[i], [session]);
+        }
+    } else {
+        instance.lastPlayerData = session;
+
+        playbackManager.setDefaultPlayerActive();
+    }
+}
+
+function getChangedEvents(state1, state2) {
+    const names = [];
+
+    if (!state1) {
         names.push('statechange');
         names.push('timeupdate');
         names.push('pause');
@@ -134,53 +125,62 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         return names;
     }
 
-    function onPollIntervalFired() {
-        var instance = this;
-        var apiClient = getCurrentApiClient(instance);
-        if (!apiClient.isMessageChannelOpen()) {
-            apiClient.getSessions().then(function (sessions) {
-                processUpdatedSessions(instance, sessions, apiClient);
-            });
-        }
+    // TODO: Trim these down to prevent the UI from over-refreshing
+    names.push('statechange');
+    names.push('timeupdate');
+    names.push('pause');
+
+    return names;
+}
+
+function onPollIntervalFired() {
+    const instance = this;
+    const apiClient = getCurrentApiClient(instance);
+    if (!apiClient.isMessageChannelOpen()) {
+        apiClient.getSessions().then(function (sessions) {
+            processUpdatedSessions(instance, sessions, apiClient);
+        });
     }
+}
 
-    function subscribeToPlayerUpdates(instance) {
-        instance.isUpdating = true;
+function subscribeToPlayerUpdates(instance) {
+    instance.isUpdating = true;
 
-        var apiClient = getCurrentApiClient(instance);
-        apiClient.sendMessage('SessionsStart', '100,800');
-        if (instance.pollInterval) {
-            clearInterval(instance.pollInterval);
-            instance.pollInterval = null;
-        }
-        instance.pollInterval = setInterval(onPollIntervalFired.bind(instance), 5000);
+    const apiClient = getCurrentApiClient(instance);
+    apiClient.sendMessage('SessionsStart', '100,800');
+    if (instance.pollInterval) {
+        clearInterval(instance.pollInterval);
+        instance.pollInterval = null;
     }
+    instance.pollInterval = setInterval(onPollIntervalFired.bind(instance), 5000);
+}
 
-    function normalizeImages(state, apiClient) {
-        if (state && state.NowPlayingItem) {
-            var item = state.NowPlayingItem;
+function normalizeImages(state, apiClient) {
+    if (state && state.NowPlayingItem) {
+        const item = state.NowPlayingItem;
 
-            if (!item.ImageTags || !item.ImageTags.Primary) {
-                if (item.PrimaryImageTag) {
-                    item.ImageTags = item.ImageTags || {};
-                    item.ImageTags.Primary = item.PrimaryImageTag;
-                }
-            }
-            if (item.BackdropImageTag && item.BackdropItemId === item.Id) {
-                item.BackdropImageTags = [item.BackdropImageTag];
-            }
-            if (item.BackdropImageTag && item.BackdropItemId !== item.Id) {
-                item.ParentBackdropImageTags = [item.BackdropImageTag];
-                item.ParentBackdropItemId = item.BackdropItemId;
-            }
-            if (!item.ServerId) {
-                item.ServerId = apiClient.serverId();
+        if (!item.ImageTags || !item.ImageTags.Primary) {
+            if (item.PrimaryImageTag) {
+                item.ImageTags = item.ImageTags || {};
+                item.ImageTags.Primary = item.PrimaryImageTag;
             }
         }
+        if (item.BackdropImageTag && item.BackdropItemId === item.Id) {
+            item.BackdropImageTags = [item.BackdropImageTag];
+        }
+        if (item.BackdropImageTag && item.BackdropItemId !== item.Id) {
+            item.ParentBackdropImageTags = [item.BackdropImageTag];
+            item.ParentBackdropItemId = item.BackdropItemId;
+        }
+        if (!item.ServerId) {
+            item.ServerId = apiClient.serverId();
+        }
     }
+}
 
-    function SessionPlayer() {
-        var self = this;
+class SessionPlayer {
+    constructor() {
+        const self = this;
 
         this.name = 'Remote Control';
         this.type = 'mediaplayer';
@@ -192,7 +192,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         });
     }
 
-    SessionPlayer.prototype.beginPlayerUpdates = function () {
+    beginPlayerUpdates() {
         this.playerListenerCount = this.playerListenerCount || 0;
 
         if (this.playerListenerCount <= 0) {
@@ -202,9 +202,9 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         }
 
         this.playerListenerCount++;
-    };
+    }
 
-    SessionPlayer.prototype.endPlayerUpdates = function () {
+    endPlayerUpdates() {
         this.playerListenerCount = this.playerListenerCount || 0;
         this.playerListenerCount--;
 
@@ -212,21 +212,21 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
             unsubscribeFromPlayerUpdates(this);
             this.playerListenerCount = 0;
         }
-    };
+    }
 
-    SessionPlayer.prototype.getPlayerState = function () {
+    getPlayerState() {
         return this.lastPlayerData || {};
-    };
+    }
 
-    SessionPlayer.prototype.getTargets = function () {
-        var apiClient = getCurrentApiClient(this);
+    getTargets() {
+        const apiClient = getCurrentApiClient(this);
 
-        var sessionQuery = {
+        const sessionQuery = {
             ControllableByUserId: apiClient.getCurrentUserId()
         };
 
         if (apiClient) {
-            var name = this.name;
+            const name = this.name;
 
             return apiClient.getSessions(sessionQuery).then(function (sessions) {
                 return sessions.filter(function (s) {
@@ -243,11 +243,9 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
                         isLocalPlayer: false,
                         supportedCommands: s.Capabilities.SupportedCommands,
                         user: s.UserId ? {
-
                             Id: s.UserId,
                             Name: s.UserName,
                             PrimaryImageTag: s.UserPrimaryImageTag
-
                         } : null
                     };
                 });
@@ -255,16 +253,16 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         } else {
             return Promise.resolve([]);
         }
-    };
+    }
 
-    SessionPlayer.prototype.sendCommand = function (command) {
-        var sessionId = getActivePlayerId();
+    sendCommand(command) {
+        const sessionId = getActivePlayerId();
 
-        var apiClient = getCurrentApiClient(this);
+        const apiClient = getCurrentApiClient(this);
         apiClient.sendCommand(sessionId, command);
-    };
+    }
 
-    SessionPlayer.prototype.play = function (options) {
+    play(options) {
         options = Object.assign({}, options);
 
         if (options.items) {
@@ -276,251 +274,233 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         }
 
         return sendPlayCommand(getCurrentApiClient(this), options, 'PlayNow');
-    };
+    }
 
-    SessionPlayer.prototype.shuffle = function (item) {
+    shuffle(item) {
         sendPlayCommand(getCurrentApiClient(this), { ids: [item.Id] }, 'PlayShuffle');
-    };
+    }
 
-    SessionPlayer.prototype.instantMix = function (item) {
+    instantMix(item) {
         sendPlayCommand(getCurrentApiClient(this), { ids: [item.Id] }, 'PlayInstantMix');
-    };
+    }
 
-    SessionPlayer.prototype.queue = function (options) {
+    queue(options) {
         sendPlayCommand(getCurrentApiClient(this), options, 'PlayNext');
-    };
+    }
 
-    SessionPlayer.prototype.queueNext = function (options) {
+    queueNext(options) {
         sendPlayCommand(getCurrentApiClient(this), options, 'PlayLast');
-    };
+    }
 
-    SessionPlayer.prototype.canPlayMediaType = function (mediaType) {
+    canPlayMediaType(mediaType) {
         mediaType = (mediaType || '').toLowerCase();
         return mediaType === 'audio' || mediaType === 'video';
-    };
+    }
 
-    SessionPlayer.prototype.canQueueMediaType = function (mediaType) {
+    canQueueMediaType(mediaType) {
         return this.canPlayMediaType(mediaType);
-    };
+    }
 
-    SessionPlayer.prototype.stop = function () {
+    stop() {
         sendPlayStateCommand(getCurrentApiClient(this), 'stop');
-    };
+    }
 
-    SessionPlayer.prototype.nextTrack = function () {
+    nextTrack() {
         sendPlayStateCommand(getCurrentApiClient(this), 'nextTrack');
-    };
+    }
 
-    SessionPlayer.prototype.previousTrack = function () {
+    previousTrack() {
         sendPlayStateCommand(getCurrentApiClient(this), 'previousTrack');
-    };
+    }
 
-    SessionPlayer.prototype.seek = function (positionTicks) {
+    seek(positionTicks) {
         sendPlayStateCommand(getCurrentApiClient(this), 'seek',
             {
                 SeekPositionTicks: positionTicks
             });
-    };
+    }
 
-    SessionPlayer.prototype.currentTime = function (val) {
+    currentTime(val) {
         if (val != null) {
             return this.seek(val);
         }
 
-        var state = this.lastPlayerData || {};
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.PositionTicks;
-    };
+    }
 
-    SessionPlayer.prototype.duration = function () {
-        var state = this.lastPlayerData || {};
+    duration() {
+        let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         return state.RunTimeTicks;
-    };
+    }
 
-    SessionPlayer.prototype.paused = function () {
-        var state = this.lastPlayerData || {};
+    paused() {
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.IsPaused;
-    };
+    }
 
-    SessionPlayer.prototype.getVolume = function () {
-        var state = this.lastPlayerData || {};
+    getVolume() {
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.VolumeLevel;
-    };
+    }
 
-    SessionPlayer.prototype.isMuted = function () {
-        var state = this.lastPlayerData || {};
+    isMuted() {
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.IsMuted;
-    };
+    }
 
-    SessionPlayer.prototype.pause = function () {
+    pause() {
         sendPlayStateCommand(getCurrentApiClient(this), 'Pause');
-    };
+    }
 
-    SessionPlayer.prototype.unpause = function () {
+    unpause() {
         sendPlayStateCommand(getCurrentApiClient(this), 'Unpause');
-    };
+    }
 
-    SessionPlayer.prototype.playPause = function () {
+    playPause() {
         sendPlayStateCommand(getCurrentApiClient(this), 'PlayPause');
-    };
+    }
 
-    SessionPlayer.prototype.setMute = function (isMuted) {
+    setMute(isMuted) {
         if (isMuted) {
             sendCommandByName(this, 'Mute');
         } else {
             sendCommandByName(this, 'Unmute');
         }
-    };
+    }
 
-    SessionPlayer.prototype.toggleMute = function () {
+    toggleMute() {
         sendCommandByName(this, 'ToggleMute');
-    };
+    }
 
-    SessionPlayer.prototype.setVolume = function (vol) {
+    setVolume(vol) {
         sendCommandByName(this, 'SetVolume', {
             Volume: vol
         });
-    };
+    }
 
-    SessionPlayer.prototype.volumeUp = function () {
+    volumeUp() {
         sendCommandByName(this, 'VolumeUp');
-    };
+    }
 
-    SessionPlayer.prototype.volumeDown = function () {
+    volumeDown() {
         sendCommandByName(this, 'VolumeDown');
-    };
+    }
 
-    SessionPlayer.prototype.toggleFullscreen = function () {
+    toggleFullscreen() {
         sendCommandByName(this, 'ToggleFullscreen');
-    };
+    }
 
-    SessionPlayer.prototype.audioTracks = function () {
-        var state = this.lastPlayerData || {};
+    audioTracks() {
+        let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
-        var streams = state.MediaStreams || [];
+        const streams = state.MediaStreams || [];
         return streams.filter(function (s) {
             return s.Type === 'Audio';
         });
-    };
+    }
 
-    SessionPlayer.prototype.getAudioStreamIndex = function () {
-        var state = this.lastPlayerData || {};
+    getAudioStreamIndex() {
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.AudioStreamIndex;
-    };
+    }
 
-    SessionPlayer.prototype.playTrailers = function (item) {
+    playTrailers(item) {
         sendCommandByName(this, 'PlayTrailers', {
             ItemId: item.Id
         });
-    };
+    }
 
-    SessionPlayer.prototype.setAudioStreamIndex = function (index) {
+    setAudioStreamIndex(index) {
         sendCommandByName(this, 'SetAudioStreamIndex', {
             Index: index
         });
-    };
+    }
 
-    SessionPlayer.prototype.subtitleTracks = function () {
-        var state = this.lastPlayerData || {};
+    subtitleTracks() {
+        let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
-        var streams = state.MediaStreams || [];
+        const streams = state.MediaStreams || [];
         return streams.filter(function (s) {
             return s.Type === 'Subtitle';
         });
-    };
+    }
 
-    SessionPlayer.prototype.getSubtitleStreamIndex = function () {
-        var state = this.lastPlayerData || {};
+    getSubtitleStreamIndex() {
+        let state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.SubtitleStreamIndex;
-    };
+    }
 
-    SessionPlayer.prototype.setSubtitleStreamIndex = function (index) {
+    setSubtitleStreamIndex(index) {
         sendCommandByName(this, 'SetSubtitleStreamIndex', {
             Index: index
         });
-    };
+    }
 
-    SessionPlayer.prototype.getMaxStreamingBitrate = function () {
-
-    };
-
-    SessionPlayer.prototype.setMaxStreamingBitrate = function (options) {
-
-    };
-
-    SessionPlayer.prototype.isFullscreen = function () {
-
-    };
-
-    SessionPlayer.prototype.toggleFullscreen = function () {
-
-    };
-
-    SessionPlayer.prototype.getRepeatMode = function () {
-
-    };
-
-    SessionPlayer.prototype.setRepeatMode = function (mode) {
+    setRepeatMode(mode) {
         sendCommandByName(this, 'SetRepeatMode', {
             RepeatMode: mode
         });
-    };
+    }
 
-    SessionPlayer.prototype.setQueueShuffleMode = function (mode) {
+    getRepeatMode() {
+    }
+
+    setQueueShuffleMode(mode) {
         sendCommandByName(this, 'SetShuffleQueue', {
             ShuffleMode: mode
         });
-    };
+    }
 
-    SessionPlayer.prototype.getQueueShuffleMode = function () {
+    getQueueShuffleMode() {
+    }
 
-    };
-
-    SessionPlayer.prototype.displayContent = function (options) {
+    displayContent(options) {
         sendCommandByName(this, 'DisplayContent', options);
-    };
+    }
 
-    SessionPlayer.prototype.isPlaying = function () {
-        var state = this.lastPlayerData || {};
+    isPlaying() {
+        const state = this.lastPlayerData || {};
         return state.NowPlayingItem != null;
-    };
+    }
 
-    SessionPlayer.prototype.isPlayingVideo = function () {
-        var state = this.lastPlayerData || {};
+    isPlayingVideo() {
+        let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         return state.MediaType === 'Video';
-    };
+    }
 
-    SessionPlayer.prototype.isPlayingAudio = function () {
-        var state = this.lastPlayerData || {};
+    isPlayingAudio() {
+        let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         return state.MediaType === 'Audio';
-    };
+    }
 
-    SessionPlayer.prototype.getPlaylist = function () {
+    getPlaylist() {
         return Promise.resolve([]);
-    };
+    }
 
-    SessionPlayer.prototype.getCurrentPlaylistItemId = function () {
-    };
+    getCurrentPlaylistItemId() {
+    }
 
-    SessionPlayer.prototype.setCurrentPlaylistItem = function (playlistItemId) {
+    setCurrentPlaylistItem(playlistItemId) {
         return Promise.resolve();
-    };
+    }
 
-    SessionPlayer.prototype.removeFromPlaylist = function (playlistItemIds) {
+    removeFromPlaylist(playlistItemIds) {
         return Promise.resolve();
-    };
+    }
 
-    SessionPlayer.prototype.tryPair = function (target) {
+    tryPair(target) {
         return Promise.resolve();
-    };
+    }
+}
 
-    return SessionPlayer;
-});
+export default SessionPlayer;

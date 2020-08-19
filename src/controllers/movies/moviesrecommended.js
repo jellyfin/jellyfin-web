@@ -229,13 +229,13 @@ import 'emby-button';
         }, {
             name: globalize.translate('Suggestions')
         }, {
-            name: globalize.translate('TabTrailers')
+            name: globalize.translate('Trailers')
         }, {
-            name: globalize.translate('TabFavorites')
+            name: globalize.translate('Favorites')
         }, {
-            name: globalize.translate('TabCollections')
+            name: globalize.translate('Collections')
         }, {
-            name: globalize.translate('TabGenres')
+            name: globalize.translate('Genres')
         }];
     }
 
@@ -403,8 +403,8 @@ import 'emby-button';
                         libraryMenu.setTitle(item.Name);
                     });
                 } else {
-                    view.setAttribute('data-title', globalize.translate('TabMovies'));
-                    libraryMenu.setTitle(globalize.translate('TabMovies'));
+                    view.setAttribute('data-title', globalize.translate('Movies'));
+                    libraryMenu.setTitle(globalize.translate('Movies'));
                 }
             }
 

@@ -83,7 +83,7 @@ import 'emby-button';
                     loading.hide();
 
                     import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('MessageSettingsSaved'));
+                        toast(globalize.translate('SettingsSaved'));
                     });
 
                     loadUser(view, params);

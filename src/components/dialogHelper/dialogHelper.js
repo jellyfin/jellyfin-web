@@ -375,7 +375,7 @@ import 'scrollStyles';
             dlg.setAttribute('data-lockscroll', 'true');
         }
 
-        if (options.enableHistory !== false && appRouter.enableNativeHistory()) {
+        if (options.enableHistory !== false) {
             dlg.setAttribute('data-history', 'true');
         }
 

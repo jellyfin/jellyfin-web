@@ -179,17 +179,17 @@ import 'flexStyles';
         return [{
             name: globalize.translate('Suggestions')
         }, {
-            name: globalize.translate('TabAlbums')
+            name: globalize.translate('Albums')
         }, {
-            name: globalize.translate('TabAlbumArtists')
+            name: globalize.translate('HeaderAlbumArtists')
         }, {
             name: globalize.translate('Artists')
         }, {
-            name: globalize.translate('TabPlaylists')
+            name: globalize.translate('Playlists')
         }, {
-            name: globalize.translate('TabSongs')
+            name: globalize.translate('Songs')
         }, {
-            name: globalize.translate('TabGenres')
+            name: globalize.translate('Genres')
         }];
     }
 

@@ -21,7 +21,7 @@ import 'cardStyle';
             confirm({
                 text: msg,
                 title: globalize.translate('HeaderDeleteDevice'),
-                confirmText: globalize.translate('ButtonDelete'),
+                confirmText: globalize.translate('Delete'),
                 primary: 'delete'
             }).then(function () {
                 loading.show();
