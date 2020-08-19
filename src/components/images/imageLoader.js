@@ -87,7 +87,9 @@ import 'css!./style';
             requestAnimationFrame(() => {
                 if (elem.tagName !== 'IMG') {
                     elem.style.backgroundImage = "url('" + url + "')";
-                    elem.style.backgroundColor = '#fff';
+                    if (!elem.classList.contains('non-blurhashable')) {
+                        elem.style.backgroundColor = '#fff';
+                    }
                 } else {
                     elem.setAttribute('src', url);
                 }
