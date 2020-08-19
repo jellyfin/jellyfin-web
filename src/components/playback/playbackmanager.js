@@ -2260,6 +2260,10 @@ class PlaybackManager {
                     }, function () {
                         // TODO: show error message
                         self.stop(player);
+                        loading.hide();
+                    }).catch(() => {
+                        player.destroy();
+                        loading.hide();
                     });
                 });
             }

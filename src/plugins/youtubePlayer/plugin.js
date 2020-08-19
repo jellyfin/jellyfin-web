@@ -143,10 +143,7 @@ function setCurrentSrc(instance, elem, options) {
                                 events.trigger(instance, 'pause');
                             }
                         },
-                        'onError': () => {
-                            instance.destroy();
-                            loading.hide();
-                        }
+                        'onError': () => reject(),
                     },
                     playerVars: {
                         controls: 0,
