@@ -1,7 +1,6 @@
 {
     "ButtonOpen": "उघडा",
     "ButtonOk": "ऑन",
-    "ButtonOff": "ऑफ",
     "ButtonNextTrack": "पुढचा ट्रॅक",
     "ButtonNetwork": "नेटवर्क",
     "ButtonMore": "अजून",
@@ -9,8 +8,6 @@
     "ButtonGuide": "गाईड",
     "ButtonGotIt": "समजले",
     "ButtonForgotPassword": "पासवर्ड विसरलो",
-    "ButtonEditImages": "चित्र संपादित करा",
-    "ButtonEdit": "संपादित करा",
     "ButtonChangeServer": "सर्व्हर बदला",
     "ButtonCancel": "रद्द करा",
     "ButtonBack": "मागे",
@@ -69,7 +66,6 @@
     "CancelRecording": "रेकॉर्डिंग रद्द करा",
     "ButtonWebsite": "संकेतस्थळ",
     "ButtonTrailer": "ट्रेलर",
-    "ButtonSubtitles": "सबटायटल",
     "ButtonStop": "थांबा",
     "ButtonStart": "सुरू करा",
     "ButtonSettings": "सेटिंग्झ",
@@ -81,7 +77,6 @@
     "ButtonRename": "नाव बदला",
     "ButtonRemove": "काढून टाका",
     "ButtonPreviousTrack": "मागचा ट्रॅक",
-    "ButtonPlay": "प्ले",
     "ButtonPause": "पॉझ",
     "ButtonSyncPlay": "SyncPlay",
     "Collections": "संग्रह"

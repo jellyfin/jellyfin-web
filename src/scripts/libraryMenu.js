@@ -8,7 +8,7 @@ import appRouter from 'appRouter';
 import appHost from 'apphost';
 import playbackManager from 'playbackManager';
 import syncPlayManager from 'syncPlayManager';
-import groupSelectionMenu from 'groupSelectionMenu';
+import * as groupSelectionMenu from 'groupSelectionMenu';
 import browser from 'browser';
 import globalize from 'globalize';
 import imageHelper from 'scripts/imagehelper';
@@ -270,7 +270,7 @@ import 'flexStyles';
     function refreshLibraryInfoInDrawer(user, drawer) {
         let html = '';
         html += '<div style="height:.5em;"></div>';
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('ButtonHome') + '</span></a>';
+        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
 
         // libraries are added here
         html += '<div class="libraryMenuOptions">';

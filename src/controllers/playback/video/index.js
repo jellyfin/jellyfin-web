@@ -767,7 +767,7 @@ import 'css!assets/css/videoosd';
 
             if (isPaused) {
                 btnPlayPauseIcon.classList.add('play_arrow');
-                btnPlayPause.setAttribute('title', globalize.translate('ButtonPlay') + ' (k)');
+                btnPlayPause.setAttribute('title', globalize.translate('Play') + ' (k)');
             } else {
                 btnPlayPauseIcon.classList.add('pause');
                 btnPlayPause.setAttribute('title', globalize.translate('ButtonPause') + ' (k)');
@@ -1243,6 +1243,12 @@ import 'css!assets/css/videoosd';
                     }
                     break;
                 }
+                case '>':
+                    playbackManager.increasePlaybackRate(currentPlayer);
+                    break;
+                case '<':
+                    playbackManager.decreasePlaybackRate(currentPlayer);
+                    break;
             }
         }
 

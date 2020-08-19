@@ -1112,6 +1112,52 @@ class PlaybackManager {
             }
         };
 
+        self.increasePlaybackRate = function (player) {
+            player = player || self._currentPlayer;
+            if (player) {
+                let current = self.getPlaybackRate(player);
+                let supported = self.getSupportedPlaybackRates(player);
+
+                let index = -1;
+                for (let i = 0, length = supported.length; i < length; i++) {
+                    if (supported[i].id === current) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                index = Math.min(index + 1, supported.length - 1);
+                self.setPlaybackRate(supported[index].id, player);
+            }
+        };
+
+        self.decreasePlaybackRate = function (player) {
+            player = player || self._currentPlayer;
+            if (player) {
+                let current = self.getPlaybackRate(player);
+                let supported = self.getSupportedPlaybackRates(player);
+
+                let index = -1;
+                for (let i = 0, length = supported.length; i < length; i++) {
+                    if (supported[i].id === current) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                index = Math.max(index - 1, 0);
+                self.setPlaybackRate(supported[index].id, player);
+            }
+        };
+
+        self.getSupportedPlaybackRates = function (player) {
+            player = player || self._currentPlayer;
+            if (player && player.getSupportedPlaybackRates) {
+                return player.getSupportedPlaybackRates();
+            }
+            return [];
+        };
+
         let brightnessOsdLoaded;
         self.setBrightness = function (val, player) {
             player = player || self._currentPlayer;
@@ -1416,8 +1462,8 @@ class PlaybackManager {
 
         self.toggleFullscreen = function (player) {
             player = player || self._currentPlayer;
-            if (!player.isLocalPlayer || player.toggleFulscreen) {
-                return player.toggleFulscreen();
+            if (!player.isLocalPlayer || player.toggleFullscreen) {
+                return player.toggleFullscreen();
             }
 
             if (screenfull.isEnabled) {
@@ -3688,6 +3734,9 @@ class PlaybackManager {
                 break;
             case 'SetAspectRatio':
                 this.setAspectRatio(cmd.Arguments.AspectRatio, player);
+                break;
+            case 'PlaybackRate':
+                this.setPlaybackRate(cmd.Arguments.PlaybackRate, player);
                 break;
             case 'SetBrightness':
                 this.setBrightness(cmd.Arguments.Brightness, player);

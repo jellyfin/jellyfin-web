@@ -8,7 +8,6 @@ import browser from 'browser';
 import actionsheet from 'actionsheet';
 
 /* eslint-disable indent */
-
     export function getCommands(options) {
         const item = options.item;
         const user = options.user;

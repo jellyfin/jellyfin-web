@@ -128,7 +128,7 @@ import libraryMenu from 'libraryMenu';
             name: globalize.translate('Transcoding')
         }, {
             href: 'playbackconfiguration.html',
-            name: globalize.translate('TabResumeSettings')
+            name: globalize.translate('ButtonResume')
         }, {
             href: 'streamingsettings.html',
             name: globalize.translate('TabStreaming')
