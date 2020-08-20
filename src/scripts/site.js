@@ -94,12 +94,11 @@ function initClient() {
             appHost = appHost.default || appHost;
 
             var credentialProviderInstance = new credentialProvider();
-            var promises = [appHost.init()];
 
-            return Promise.all(promises).then(function (responses) {
+            return appHost.init().then(function (appInfo) {
                 var capabilities = Dashboard.capabilities(appHost);
 
-                var connectionManager = new ConnectionManager(credentialProviderInstance, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId(), capabilities);
+                var connectionManager = new ConnectionManager(credentialProviderInstance, appInfo.appName, appInfo.appVersion, appInfo.deviceName, appInfo.deviceId, capabilities);
 
                 defineConnectionManager(connectionManager);
                 bindConnectionManagerEvents(connectionManager, events, userSettings);
@@ -110,7 +109,7 @@ function initClient() {
                     return require(['apiclient', 'clientUtils'], function (apiClientFactory, clientUtils) {
                         console.debug('creating ApiClient singleton');
 
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
+                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), appInfo.appName, appInfo.appVersion, appInfo.deviceName, appInfo.deviceId);
 
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
@@ -123,8 +122,6 @@ function initClient() {
                         console.debug('loaded ApiClient singleton');
                     });
                 }
-
-                return Promise.resolve();
             });
         });
     }

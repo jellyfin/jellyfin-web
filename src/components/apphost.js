@@ -315,8 +315,6 @@ function askForExit() {
     });
 }
 
-let deviceId;
-let deviceName;
 const appName = 'Jellyfin Web';
 const appVersion = '10.7.0';
 
@@ -350,27 +348,27 @@ const appHost = {
         return getDefaultLayout();
     },
     getDeviceProfile: getDeviceProfile,
+    /**
+     * @returns {Promise<{appVersion: string, appName: string, deviceId: string, deviceName: string}>}
+     */
     init: function () {
         if (window.NativeShell) {
-            return window.NativeShell.AppHost.init();
+            try {
+                return Promise.resolve(window.NativeShell.AppHost.init());
+            } catch (e) {
+                return Promise.reject(e);
+            }
         }
 
-        deviceName = getDeviceName();
-        getDeviceId().then(function (id) {
-            deviceId = id;
+        const deviceName = getDeviceName();
+        return getDeviceId().then(function (id) {
+            return {
+                deviceId: id,
+                deviceName,
+                appName,
+                appVersion
+            };
         });
-    },
-    deviceName: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.deviceName() : deviceName;
-    },
-    deviceId: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.deviceId() : deviceId;
-    },
-    appName: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.appName() : appName;
-    },
-    appVersion: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.appVersion() : appVersion;
     },
     getPushTokenInfo: function () {
         return {};
