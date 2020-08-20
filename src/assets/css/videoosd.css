@@ -14,19 +14,21 @@
 }
 
 .osdHeader {
-    -webkit-transition: opacity 0.3s ease-out;
-    -o-transition: opacity 0.3s ease-out;
     transition: opacity 0.3s ease-out;
     position: relative;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.7) !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    color: #eee !important;
+    background: linear-gradient(180deg, rgba(16, 16 16, 0.75) 0%, rgba(16, 16, 16, 0.15) 80%, rgba(16, 16, 16, 0) 100%);
+    backdrop-filter: none;
+    color: #eee;
+    height: 7.5em;
 }
 
 .osdHeader-hidden {
     opacity: 0;
+}
+
+.osdHeader .headerTop {
+    max-height: 3.5em;
 }
 
 .osdHeader .headerButton:not(.headerBackButton):not(.headerCastButton):not(.headerSyncButton) {
@@ -88,18 +90,13 @@
 
 .videoOsdBottom {
     position: fixed;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 1%;
-    display: -webkit-box;
-    display: -webkit-flex;
+    background: linear-gradient(0deg, rgba(16, 16, 16, 0.75) 0%, rgba(16, 16, 16, 0.15) 80%, rgba(16, 16, 16, 0) 100%);
+    padding-top: 10em;
+    padding-bottom: 1.75em;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
     flex-direction: row;
+    justify-content: center;
     will-change: opacity;
-    -webkit-transition: opacity 0.3s ease-out;
-    -o-transition: opacity 0.3s ease-out;
     transition: opacity 0.3s ease-out;
     color: #fff;
     user-select: none;
@@ -111,9 +108,9 @@
 }
 
 .osdControls {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
+    max-width: calc(100vh * 1.77);
+    padding: 0 0.8em;
 }
 
 .videoOsdBottom .buttons {
@@ -145,7 +142,7 @@
 }
 
 .volumeButtons {
-    margin: 0 0.5em 0 auto;
+    margin: 0 1em 0 0.29em;
     display: flex;
     -webkit-align-items: center;
     align-items: center;
@@ -153,6 +150,7 @@
 
 .osdTimeText {
     margin-left: 1em;
+    margin-right: auto;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;

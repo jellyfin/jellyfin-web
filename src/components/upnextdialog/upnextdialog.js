@@ -1,6 +1,5 @@
 import dom from 'dom';
 import playbackManager from 'playbackManager';
-import connectionManager from 'connectionManager';
 import events from 'events';
 import mediaInfo from 'mediaInfo';
 import layoutManager from 'layoutManager';
@@ -14,78 +13,6 @@ import 'flexStyles';
 /* eslint-disable indent */
 
     const transitionEndEventName = dom.whichTransitionEvent();
-
-    function seriesImageUrl(item, options) {
-        if (item.Type !== 'Episode') {
-            return null;
-        }
-
-        options = options || {};
-        options.type = options.type || 'Primary';
-
-        if (options.type === 'Primary') {
-            if (item.SeriesPrimaryImageTag) {
-                options.tag = item.SeriesPrimaryImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-        }
-
-        if (options.type === 'Thumb') {
-            if (item.SeriesThumbImageTag) {
-                options.tag = item.SeriesThumbImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-            if (item.ParentThumbImageTag) {
-                options.tag = item.ParentThumbImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
-            }
-        }
-
-        return null;
-    }
-
-    function imageUrl(item, options) {
-        options = options || {};
-        options.type = options.type || 'Primary';
-
-        if (item.ImageTags && item.ImageTags[options.type]) {
-            options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
-        }
-
-        if (options.type === 'Primary') {
-            if (item.AlbumId && item.AlbumPrimaryImageTag) {
-                options.tag = item.AlbumPrimaryImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
-            }
-        }
-
-        return null;
-    }
-
-    function setPoster(osdPoster, item, secondaryItem) {
-        if (item) {
-            let imgUrl = seriesImageUrl(item, { type: 'Primary' }) ||
-                seriesImageUrl(item, { type: 'Thumb' }) ||
-                imageUrl(item, { type: 'Primary' });
-
-            if (!imgUrl && secondaryItem) {
-                imgUrl = seriesImageUrl(secondaryItem, { type: 'Primary' }) ||
-                    seriesImageUrl(secondaryItem, { type: 'Thumb' }) ||
-                    imageUrl(secondaryItem, { type: 'Primary' });
-            }
-
-            if (imgUrl) {
-                osdPoster.innerHTML = '<img class="upNextDialog-poster-img" src="' + imgUrl + '" />';
-                return;
-            }
-        }
-
-        osdPoster.innerHTML = '';
-    }
 
     function getHtml() {
         let html = '';
@@ -145,8 +72,6 @@ import 'flexStyles';
         const instance = this;
 
         const elem = instance.options.parent;
-
-        setPoster(elem.querySelector('.upNextDialog-poster'), item);
 
         elem.querySelector('.upNextDialog-overview').innerHTML = item.Overview || '';
 

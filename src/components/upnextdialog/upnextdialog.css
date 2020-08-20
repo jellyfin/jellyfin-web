@@ -1,6 +1,7 @@
 .upNextDialog {
+    width: 30vw;
     position: fixed;
-    left: 0;
+    left: auto;
     bottom: 0;
     right: 0;
     padding: 1%;
@@ -23,12 +24,17 @@
 }
 
 .upNextDialog-poster {
+    display: none;
     max-width: 40%;
     max-height: 15%;
     position: relative;
     margin-right: 1em;
     flex-shrink: 0;
     margin-bottom: 0.5em;
+}
+
+.upNextDialog-buttons {
+    justify-content: end;
 }
 
 .upNextDialog-button {
@@ -44,7 +50,7 @@
     .upNextDialog-poster {
         max-width: initial;
         max-height: initial;
-        width: 10%;
+        width: 30%;
         margin-bottom: 0;
     }
 }
