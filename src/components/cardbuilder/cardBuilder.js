@@ -1211,6 +1211,10 @@ import 'programStyles';
 
             if (coveredImage) {
                 cardImageContainerClass += ' coveredImage';
+
+                if (item.Type === 'TvChannel') {
+                    cardImageContainerClass += ' coveredImage-contain';
+                }
             }
 
             if (!imgUrl) {
