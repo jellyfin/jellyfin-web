@@ -1441,5 +1441,6 @@
     "Preview": "Vorschau",
     "LabelSubtitleVerticalPosition": "Vertikale Position:",
     "MessageGetInstalledPluginsError": "Beim Abrufen der Liste der derzeit installierten Plugins ist ein Fehler aufgetreten.",
-    "MessagePluginInstallError": "Bei der Installation des Plugins ist ein Fehler aufgetreten."
+    "MessagePluginInstallError": "Bei der Installation des Plugins ist ein Fehler aufgetreten.",
+    "PlaybackRate": "Wiedergabegeschwindigkeit"
 }
