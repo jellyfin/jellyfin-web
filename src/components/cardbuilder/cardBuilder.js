@@ -1211,10 +1211,6 @@ import 'programStyles';
 
             if (coveredImage) {
                 cardImageContainerClass += ' coveredImage';
-
-                if (item.MediaType === 'Photo' || item.Type === 'PhotoAlbum' || item.Type === 'Folder' || item.ProgramInfo || item.Type === 'Program' || item.Type === 'Recording') {
-                    cardImageContainerClass += ' coveredImage-noScale';
-                }
             }
 
             if (!imgUrl) {

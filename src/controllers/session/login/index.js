@@ -115,11 +115,11 @@ import 'emby-checkbox';
                     tag: user.PrimaryImageTag,
                     type: 'Primary'
                 });
-                html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');\"></div>";
+                html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
             } else {
                 const background = getMetroColor(user.Id);
                 imgUrl = 'assets/img/avatar.png';
-                html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
+                html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
             }
 
             html += '</div>';
