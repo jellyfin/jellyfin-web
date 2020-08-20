@@ -986,6 +986,10 @@ import 'programStyles';
                 lines = [];
             }
 
+            if (overlayText && showTitle) {
+                lines = [item.Name];
+            }
+
             const addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
 
             html += getCardTextLines(lines, cssClass, !options.overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
