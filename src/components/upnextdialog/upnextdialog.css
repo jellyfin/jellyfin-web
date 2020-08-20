@@ -1,9 +1,24 @@
-.upNextDialog {
-    width: 30vw;
+.upNextContainer {
+    box-sizing: border-box;
     position: fixed;
-    left: auto;
+    top: 0;
     bottom: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1em;
+    display: flex;
+    flex-grow: 1;
+    width: calc(100vh * (16 / 9));
+    height: 100vh;
+    justify-content: end;
+    align-items: flex-end;
+}
+
+.upNextDialog-container {
+    border-radius: 5px;
+    width: 30em;
+    height: 11em;
+    left: auto;
     padding: 1%;
     display: flex;
     flex-direction: column;

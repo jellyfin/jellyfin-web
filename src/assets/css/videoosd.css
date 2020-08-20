@@ -6,18 +6,29 @@
     -ms-user-select: none;
 }
 
-.osdPoster img,
 .videoOsdBottom {
     bottom: 0;
     left: 0;
     right: 0;
+    position: fixed;
+    background: linear-gradient(0deg, rgba(16, 16, 16, 0.6) 0%, rgba(16, 16, 16, 0) 100%);
+    padding-top: 7.5em;
+    padding-bottom: 1.75em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    will-change: opacity;
+    transition: opacity 0.3s ease-out;
+    color: #fff;
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .osdHeader {
     transition: opacity 0.3s ease-out;
     position: relative;
     z-index: 1;
-    background: linear-gradient(180deg, rgba(16, 16 16, 0.75) 0%, rgba(16, 16, 16, 0.15) 80%, rgba(16, 16, 16, 0) 100%);
+    background: linear-gradient(180deg, rgba(16, 16, 16, 0.6) 0%, rgba(16, 16, 16, 0) 100%);
     backdrop-filter: none;
     color: #eee;
     height: 7.5em;
@@ -88,21 +99,6 @@
     opacity: 0.6;
 }
 
-.videoOsdBottom {
-    position: fixed;
-    background: linear-gradient(0deg, rgba(16, 16, 16, 0.75) 0%, rgba(16, 16, 16, 0.15) 80%, rgba(16, 16, 16, 0) 100%);
-    padding-top: 10em;
-    padding-bottom: 1.75em;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    will-change: opacity;
-    transition: opacity 0.3s ease-out;
-    color: #fff;
-    user-select: none;
-    -webkit-touch-callout: none;
-}
-
 .videoOsdBottom-hidden {
     opacity: 0;
 }
@@ -155,27 +151,6 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-.osdPoster {
-    width: 10%;
-    position: relative;
-    margin-right: 0.5em;
-}
-
-.osdPoster img {
-    position: absolute;
-    height: auto;
-    width: 100%;
-    -webkit-box-shadow: 0 0 1.9vh #000;
-    box-shadow: 0 0 1.9vh #000;
-    border: 0.08em solid #222;
-    user-drag: none;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-drag: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
 }
 
 .osdTitle,

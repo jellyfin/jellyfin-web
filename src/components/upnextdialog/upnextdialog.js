@@ -17,9 +17,7 @@ import 'flexStyles';
     function getHtml() {
         let html = '';
 
-        html += '<div class="upNextDialog-poster">';
-        html += '</div>';
-
+        html += '<div class="upNextDialog-container">';
         html += '<div class="flex flex-direction-column flex-grow">';
 
         html += '<h2 class="upNextDialog-nextVideoText" style="margin:.25em 0;">&nbsp;</h2>';
@@ -28,8 +26,6 @@ import 'flexStyles';
 
         html += '<div class="flex flex-direction-row upNextDialog-mediainfo">';
         html += '</div>';
-
-        html += '<div class="upNextDialog-overview" style="margin-top:1em;"></div>';
 
         html += '<div class="flex flex-direction-row upNextDialog-buttons" style="margin-top:1em;">';
 
@@ -45,6 +41,7 @@ import 'flexStyles';
         html += '</div>';
 
         // main
+        html += '</div>';
         html += '</div>';
 
         return html;
@@ -73,9 +70,11 @@ import 'flexStyles';
 
         const elem = instance.options.parent;
 
-        elem.querySelector('.upNextDialog-overview').innerHTML = item.Overview || '';
-
         elem.querySelector('.upNextDialog-mediainfo').innerHTML = mediaInfo.getPrimaryMediaInfoHtml(item, {
+            criticRating: false,
+            originalAirDate: false,
+            starRating: false,
+            subtitles: false
         });
 
         let title = itemHelper.getDisplayName(item);
