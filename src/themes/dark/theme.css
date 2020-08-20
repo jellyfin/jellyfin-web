@@ -112,24 +112,9 @@ html {
     background-color: #202020;
 }
 
-.defaultCardBackground1 {
-    background-color: #00455c;
-}
-
-.defaultCardBackground2 {
-    background-color: #44bae1;
-}
-
-.defaultCardBackground3 {
-    background-color: #00a4db;
-}
-
-.defaultCardBackground4 {
-    background-color: #1c4c5c;
-}
-
-.defaultCardBackground5 {
-    background-color: #007ea8;
+.defaultCardBackground {
+    background: #00a4dc;
+    background: linear-gradient(133deg, #aa5cc3 0%, #00a4dc 100%);
 }
 
 .cardText-secondary,

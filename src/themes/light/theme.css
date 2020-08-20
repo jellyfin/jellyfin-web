@@ -123,24 +123,9 @@ html {
     background-color: #fff;
 }
 
-.defaultCardBackground1 {
-    background-color: #009688;
-}
-
-.defaultCardBackground2 {
-    background-color: #d32f2f;
-}
-
-.defaultCardBackground3 {
-    background-color: #0288d1;
-}
-
-.defaultCardBackground4 {
-    background-color: #388e3c;
-}
-
-.defaultCardBackground5 {
-    background-color: #f57f17;
+.defaultCardBackground {
+    background: #00a4dc;
+    background: linear-gradient(133deg, #aa5cc3 0%, #00a4dc 100%);
 }
 
 .formDialogHeader:not(.formDialogHeader-clear) {
