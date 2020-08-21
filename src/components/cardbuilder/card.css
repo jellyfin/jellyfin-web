@@ -170,6 +170,7 @@ button::-moz-focus-inner {
 }
 
 .cardScalable .cardImageContainer {
+    display: flex;
     height: 100%;
     contain: strict;
 }
