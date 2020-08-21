@@ -117,12 +117,12 @@ button::-moz-focus-inner {
 }
 
 .cardBox-bottompadded {
-    margin-bottom: 1.8em !important;
+    margin-bottom: 0.6em;
 }
 
 @media (max-width: 50em) {
     .cardBox-bottompadded {
-        margin-bottom: 1.2em !important;
+        margin-bottom: 0.6em;
     }
 }
 
@@ -604,134 +604,40 @@ button::-moz-focus-inner {
     width: 16.666666666666666666666666666667%;
 }
 
-.overflowBackdropCard {
-    width: 72vw;
-}
-
+/* Phone (0px+) */
+.overflowBackdropCard,
 .overflowSmallBackdropCard {
-    width: 72vw;
+    width: calc(100vw / 2 - 0.95em);
 }
 
 .overflowSquareCard,
 .overflowPortraitCard {
-    width: 40vw;
+    width: calc(100vw / 3 - 0.65em);
 }
 
-@media (min-width: 25em) {
-    .overflowPortraitCard {
-        width: 31.2vw;
-    }
-}
-
-@media (min-width: 35em) {
-    .overflowSquareCard {
-        width: 31.2vw;
-    }
-
-    .overflowBackdropCard {
-        width: 45.5vw;
-    }
-
-    .overflowSmallBackdropCard {
-        width: 30vw;
-    }
-}
-
-@media (min-width: 43.75em) {
-    .overflowSquareCard,
-    .overflowPortraitCard {
-        width: 23.1vw;
-    }
-}
-
-@media (min-width: 48.125em) {
+/* Desktop (992px+) */
+@media (min-width: 768px) {
     .overflowBackdropCard,
     .overflowSmallBackdropCard {
-        width: 30vw;
+        width: calc(100vw / 3 - 2.2vw);
+    }
+
+    .overflowSquareCard,
+    .overflowPortraitCard {
+        width: calc(100vw / 6 - 1.1vw);
     }
 }
 
-@media (orientation: landscape) {
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
     .overflowBackdropCard,
     .overflowSmallBackdropCard {
-        width: 30vw;
+        width: calc(100vw / 4.295);
     }
 
     .overflowSquareCard,
     .overflowPortraitCard {
-        width: 23.1vw;
-    }
-}
-
-@media (orientation: landscape) and (min-width: 48.125em) {
-    .overflowBackdropCard,
-    .overflowSmallBackdropCard {
-        width: 23.1vw;
-    }
-}
-
-@media (orientation: landscape) and (min-width: 50em) {
-    .overflowSmallBackdropCard {
-        width: 15.5vw;
-    }
-}
-
-@media (min-width: 50em) {
-    .overflowSquareCard,
-    .overflowPortraitCard {
-        width: 18.5vw;
-    }
-}
-
-@media (min-width: 75em) {
-    .overflowBackdropCard,
-    .overflowSmallBackdropCard {
-        width: 23.1vw;
-    }
-
-    .overflowSquareCard,
-    .overflowPortraitCard {
-        width: 15.5vw;
-    }
-}
-
-@media (min-width: 87.5em) {
-    .overflowSquareCard,
-    .overflowPortraitCard {
-        width: 13.3vw;
-    }
-}
-
-@media (min-width: 100em) {
-    .overflowBackdropCard,
-    .overflowSmallBackdropCard {
-        width: 18.7vw;
-    }
-
-    .overflowSquareCard,
-    .overflowPortraitCard {
-        width: 11.6vw;
-    }
-}
-
-@media (min-width: 120em) {
-    .overflowSquareCard,
-    .overflowPortraitCard {
-        width: 10.41vw;
-    }
-}
-
-@media (min-width: 131.25em) {
-    .overflowSquareCard,
-    .overflowPortraitCard {
-        width: 9.3vw;
-    }
-}
-
-@media (min-width: 156.25em) {
-    .overflowBackdropCard,
-    .overflowSmallBackdropCard {
-        width: 15.6vw;
+        width: 11.64vw;
     }
 }
 
