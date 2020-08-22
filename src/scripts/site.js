@@ -221,6 +221,7 @@ function initClient() {
                     keyboardnavigation.enable();
                 });
                 require(['mouseManager']);
+                require(['focusPreventScroll']);
                 require(['autoFocuser'], function(autoFocuser) {
                     autoFocuser.enable();
                 });
@@ -462,6 +463,7 @@ function initClient() {
             datetime: 'scripts/datetime',
             globalize: 'scripts/globalize',
             dfnshelper: 'scripts/dfnshelper',
+
             libraryMenu: 'scripts/libraryMenu',
             playlisteditor: componentsPath + '/playlisteditor/playlisteditor',
             medialibrarycreator: componentsPath + '/mediaLibraryCreator/mediaLibraryCreator',
@@ -520,8 +522,7 @@ function initClient() {
                     'events',
                     'credentialprovider',
                     'connectionManagerFactory',
-                    'appStorage',
-                    'focus-options-polyfill'
+                    'appStorage'
                 ]
             },
             urlArgs: urlArgs,
@@ -530,7 +531,7 @@ function initClient() {
         });
 
         promise = require(['fetch'])
-            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'focus-options-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
+            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
                 // Expose jQuery globally
                 window.$ = jQuery;
                 window.jQuery = jQuery;
@@ -650,6 +651,7 @@ function initClient() {
             return viewManager;
         });
         define('slideshow', [componentsPath + '/slideshow/slideshow'], returnFirstDependency);
+        define('focusPreventScroll', ['legacy/focusPreventScroll'], returnFirstDependency);
         define('userdataButtons', [componentsPath + '/userdatabuttons/userdatabuttons'], returnFirstDependency);
         define('listView', [componentsPath + '/listview/listview'], returnFirstDependency);
         define('indicators', [componentsPath + '/indicators/indicators'], returnFirstDependency);

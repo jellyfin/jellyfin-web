@@ -17,12 +17,10 @@ import 'css!./emby-scroller';
 
     function initCenterFocus(elem, scrollerInstance) {
         dom.addEventListener(elem, 'focus', function (e) {
-            setTimeout(function() {
-                const focused = focusManager.focusableParent(e.target);
-                if (focused) {
-                    scrollerInstance.toCenter(focused);
-                }
-            }, 0);
+            const focused = focusManager.focusableParent(e.target);
+            if (focused) {
+                scrollerInstance.toCenter(focused);
+            }
         }, {
             capture: true,
             passive: true

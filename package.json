@@ -62,7 +62,6 @@
     "epubjs": "^0.3.85",
     "fast-text-encoding": "^1.0.3",
     "flv.js": "^1.5.0",
-    "focus-options-polyfill": "^1.5.0",
     "headroom.js": "^0.11.0",
     "hls.js": "^0.14.8",
     "howler": "^2.2.0",
