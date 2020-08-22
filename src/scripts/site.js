@@ -463,7 +463,6 @@ function initClient() {
             datetime: 'scripts/datetime',
             globalize: 'scripts/globalize',
             dfnshelper: 'scripts/dfnshelper',
-
             libraryMenu: 'scripts/libraryMenu',
             playlisteditor: componentsPath + '/playlisteditor/playlisteditor',
             medialibrarycreator: componentsPath + '/mediaLibraryCreator/mediaLibraryCreator',
