@@ -320,6 +320,7 @@
           "src/plugins/backdropScreensaver/plugin.js",
           "src/plugins/bookPlayer/plugin.js",
           "src/plugins/bookPlayer/tableOfContents.js",
+          "src/plugins/chromecastPlayer/chromecastHelper.js",
           "src/plugins/photoPlayer/plugin.js",
           "src/plugins/youtubePlayer/plugin.js",
           "src/scripts/alphanumericshortcuts.js",
