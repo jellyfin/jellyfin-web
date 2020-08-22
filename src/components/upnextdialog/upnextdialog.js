@@ -17,7 +17,6 @@ import 'flexStyles';
     function getHtml() {
         let html = '';
 
-        html += '<div class="upNextDialog-container">';
         html += '<div class="flex flex-direction-column flex-grow">';
 
         html += '<h2 class="upNextDialog-nextVideoText" style="margin:.25em 0;">&nbsp;</h2>';
@@ -41,7 +40,6 @@ import 'flexStyles';
         html += '</div>';
 
         // main
-        html += '</div>';
         html += '</div>';
 
         return html;
