@@ -25,7 +25,7 @@
     "AllowRemoteAccess": "Autoriser les connexions distantes à ce serveur.",
     "AllowRemoteAccessHelp": "Si l'option est désactivée, toutes les connexions distantes seront bloquées.",
     "AllowedRemoteAddressesHelp": "Liste d'adresses IP ou d'IP/masque de sous-réseau séparées par des virgules qui seront autorisées à se connecter à distance. Si la liste est vide, toutes les adresses distantes seront autorisées.",
-    "AlwaysPlaySubtitles": "Toujours afficher les sous-titres",
+    "AlwaysPlaySubtitles": "Toujours afficher",
     "AlwaysPlaySubtitlesHelp": "Les sous-titres correspondant à la préférence linguistique seront chargés indépendamment de la langue de l'audio.",
     "AnyLanguage": "N'importe quel langage",
     "Anytime": "N'importe quand",
