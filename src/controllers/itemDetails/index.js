@@ -1,6 +1,7 @@
 import appHost from 'apphost';
 import loading from 'loading';
 import appRouter from 'appRouter';
+import itemShortcuts from 'itemShortcuts';
 import layoutManager from 'layoutManager';
 import connectionManager from 'connectionManager';
 import * as userSettings from 'userSettings';
@@ -758,8 +759,8 @@ import 'emby-select';
             overlayText: false,
             transition: false,
             disableIndicators: true,
-            disableHoverMenu: true,
             overlayPlayButton: true,
+            action: 'play',
             width: dom.getWindowSize().innerWidth * 0.25
         });
 
@@ -1895,6 +1896,10 @@ import 'emby-select';
             playCurrentItem(this, this.getAttribute('data-mode'));
         }
 
+        function onPosterClick(e) {
+            itemShortcuts.onClick.call(view.querySelector('.detailImageContainer'), e);
+        }
+
         function onInstantMixClick() {
             playbackManager.instantMix(currentItem);
         }
@@ -1986,6 +1991,7 @@ import 'emby-select';
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
+        view.querySelector('.detailImageContainer').addEventListener('click', onPosterClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
