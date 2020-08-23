@@ -182,9 +182,9 @@ export function showSortMenu (options) {
         html += '</h2>';
         html += '<div>';
         isChecked = options.query.SortOrder == 'Ascending' ? ' checked' : '';
-        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('OptionAscending') + '</span></label>';
+        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Ascending') + '</span></label>';
         isChecked = options.query.SortOrder == 'Descending' ? ' checked' : '';
-        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('OptionDescending') + '</span></label>';
+        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Descending') + '</span></label>';
         html += '</div>';
         html += '</div>';
         dlg.innerHTML = html;

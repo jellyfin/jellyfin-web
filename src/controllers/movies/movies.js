@@ -219,7 +219,7 @@ import 'emby-itemscontainer';
                             name: globalize.translate('OptionReleaseDate'),
                             id: 'PremiereDate,SortName,ProductionYear'
                         }, {
-                            name: globalize.translate('OptionRuntime'),
+                            name: globalize.translate('Runtime'),
                             id: 'Runtime,SortName,ProductionYear'
                         }],
                         callback: function () {

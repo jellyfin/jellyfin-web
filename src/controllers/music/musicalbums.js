@@ -242,7 +242,7 @@ import 'emby-itemscontainer';
                         name: globalize.translate('OptionNameSort'),
                         id: 'SortName'
                     }, {
-                        name: globalize.translate('OptionAlbumArtist'),
+                        name: globalize.translate('AlbumArtist'),
                         id: 'AlbumArtist,SortName'
                     }, {
                         name: globalize.translate('OptionCommunityRating'),

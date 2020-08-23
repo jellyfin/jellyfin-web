@@ -40,7 +40,7 @@ import 'paper-icon-button-light';
 
     function loadUnratedItems(page, user) {
         const items = [{
-            name: globalize.translate('OptionBlockBooks'),
+            name: globalize.translate('Books'),
             value: 'Book'
         }, {
             name: globalize.translate('OptionBlockChannelContent'),
@@ -49,10 +49,10 @@ import 'paper-icon-button-light';
             name: globalize.translate('OptionBlockLiveTvChannels'),
             value: 'LiveTvChannel'
         }, {
-            name: globalize.translate('OptionBlockMovies'),
+            name: globalize.translate('Movies'),
             value: 'Movie'
         }, {
-            name: globalize.translate('OptionBlockMusic'),
+            name: globalize.translate('Music'),
             value: 'Music'
         }, {
             name: globalize.translate('OptionBlockTrailers'),

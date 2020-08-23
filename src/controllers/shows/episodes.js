@@ -216,7 +216,7 @@ import 'emby-itemscontainer';
                         name: globalize.translate('OptionPlayCount'),
                         id: 'PlayCount,SeriesSortName,SortName'
                     }, {
-                        name: globalize.translate('OptionRuntime'),
+                        name: globalize.translate('Runtime'),
                         id: 'Runtime,SeriesSortName,SortName'
                     }],
                     callback: function () {

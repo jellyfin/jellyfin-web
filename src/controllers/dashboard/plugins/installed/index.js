@@ -118,7 +118,7 @@ function showPluginMenu(page, elem) {
 
     if (configHref) {
         menuItems.push({
-            name: globalize.translate('ButtonSettings'),
+            name: globalize.translate('Settings'),
             id: 'open',
             icon: 'mode_edit'
         });

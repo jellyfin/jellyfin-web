@@ -724,7 +724,7 @@ import 'emby-itemscontainer';
                 confirm({
                     title: globalize.translate('HeaderRestart'),
                     text: globalize.translate('MessageConfirmRestart'),
-                    confirmText: globalize.translate('ButtonRestart'),
+                    confirmText: globalize.translate('HeaderRestart'),
                     primary: 'delete'
                 }).then(function () {
                     const page = dom.parentWithClass(btn, 'page');
