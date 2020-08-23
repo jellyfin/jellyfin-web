@@ -43,10 +43,10 @@ import 'paper-icon-button-light';
             name: globalize.translate('Books'),
             value: 'Book'
         }, {
-            name: globalize.translate('OptionBlockChannelContent'),
+            name: globalize.translate('Channels'),
             value: 'ChannelContent'
         }, {
-            name: globalize.translate('OptionBlockLiveTvChannels'),
+            name: globalize.translate('LiveTV'),
             value: 'LiveTvChannel'
         }, {
             name: globalize.translate('Movies'),
@@ -55,10 +55,10 @@ import 'paper-icon-button-light';
             name: globalize.translate('Music'),
             value: 'Music'
         }, {
-            name: globalize.translate('OptionBlockTrailers'),
+            name: globalize.translate('Trailers'),
             value: 'Trailer'
         }, {
-            name: globalize.translate('OptionBlockTvShows'),
+            name: globalize.translate('Shows'),
             value: 'Series'
         }];
         let html = '';

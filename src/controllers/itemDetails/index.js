@@ -208,7 +208,7 @@ import 'emby-select';
         });
 
         const select = page.querySelector('.selectVideo');
-        select.setLabel(globalize.translate('LabelVideo'));
+        select.setLabel(globalize.translate('Video'));
         const selectedId = tracks.length ? tracks[0].Index : -1;
         select.innerHTML = tracks.map(function (v) {
             const selected = v.Index === selectedId ? ' selected' : '';

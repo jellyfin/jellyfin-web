@@ -195,7 +195,7 @@ import 'emby-itemscontainer';
                 btnSort.addEventListener('click', function (e) {
                     libraryBrowser.showSortMenu({
                         items: [{
-                            name: globalize.translate('OptionNameSort'),
+                            name: globalize.translate('Name'),
                             id: 'SortName,ProductionYear'
                         }, {
                             name: globalize.translate('OptionImdbRating'),
