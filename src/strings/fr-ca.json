@@ -154,7 +154,7 @@
     "AskAdminToCreateLibrary": "Demander un administrateur de créer une médiathèque.",
     "Artist": "Artiste",
     "AllowFfmpegThrottlingHelp": "Quand un transcodage ou rémux se déplace après la position de relecture, suspendre le processus pour consommer moins de ressources. Ceci est le plus utile pour chercher moins. Désactiver s'il y a des problèmes de relecture.",
-    "AllowFfmpegThrottling": "Restreindre la vitesse de transcodage",
+    "AllowFfmpegThrottling": "Limiter la vitesse de transcodage",
     "AlbumArtist": "Artiste de l'Album",
     "Album": "Album",
     "AuthProviderHelp": "Sélectionner un fournisseur d'authentification pour authentifier le mot de passe de cet utilisateur.",
