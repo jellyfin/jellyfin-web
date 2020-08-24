@@ -16,6 +16,7 @@ import libraryMenu from 'libraryMenu';
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
         $('#selectThreadCount', page).val(config.EncodingThreadCount);
         $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
+        page.querySelector('#txtMaxMuxingQueueSize').value = config.MaxMuxingQueueSize || '';
         page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
         $('#txtTranscodingTempPath', page).val(systemInfo.TranscodingTempPath || '');
         $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
@@ -60,6 +61,7 @@ import libraryMenu from 'libraryMenu';
             loading.show();
             ApiClient.getNamedConfiguration('encoding').then(function (config) {
                 config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
+                config.MaxMuxingQueueSize = form.querySelector('#txtMaxMuxingQueueSize').value;
                 config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();
                 config.EncodingThreadCount = $('#selectThreadCount', form).val();
                 config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
