@@ -799,7 +799,7 @@ import 'flexStyles';
     }
 
     function getNavDrawerOptions() {
-        let drawerWidth = screen.availWidth - 50;
+        let drawerWidth = window.screen.availWidth - 50;
         drawerWidth = Math.max(drawerWidth, 240);
         drawerWidth = Math.min(drawerWidth, 320);
         return {

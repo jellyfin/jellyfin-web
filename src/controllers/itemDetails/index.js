@@ -1067,7 +1067,7 @@ import 'emby-select';
     }
 
     function enableScrollX() {
-        return browser.mobile && screen.availWidth <= 1000;
+        return browser.mobile && window.screen.availWidth <= 1000;
     }
 
     function getPortraitShape(scrollX) {

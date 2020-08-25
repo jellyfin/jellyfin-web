@@ -19,7 +19,7 @@ export default (() => {
             }
 
             const text = replaceAll(options.text || '', '<br/>', '\n');
-            const result = confirm(text);
+            const result = window.confirm(text);
 
             if (result) {
                 return Promise.resolve();

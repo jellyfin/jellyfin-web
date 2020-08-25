@@ -41,7 +41,7 @@ class AppRouter {
             }
         });
 
-        this.baseRoute = self.location.href.split('?')[0].replace(this.getRequestFile(), '');
+        this.baseRoute = window.location.href.split('?')[0].replace(this.getRequestFile(), '');
         // support hashbang
         this.baseRoute = this.baseRoute.split('#')[0];
         if (this.baseRoute.endsWith('/') && !this.baseRoute.endsWith('://')) {
@@ -55,7 +55,7 @@ class AppRouter {
      * @private
      */
     setBaseRoute() {
-        let baseRoute = self.location.pathname.replace(this.getRequestFile(), '');
+        let baseRoute = window.location.pathname.replace(this.getRequestFile(), '');
         if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
             baseRoute = baseRoute.substring(0, baseRoute.length - 1);
         }
@@ -182,7 +182,7 @@ class AppRouter {
             return false;
         }
 
-        return history.length > 1;
+        return window.history.length > 1;
     }
 
     current() {
@@ -258,7 +258,7 @@ class AppRouter {
 
     pushState(state, title, url) {
         state.navigate = false;
-        history.pushState(state, title, url);
+        window.history.pushState(state, title, url);
     }
 
     enableNativeHistory() {
@@ -594,7 +594,7 @@ class AppRouter {
     }
 
     getRequestFile() {
-        let path = self.location.pathname || '';
+        let path = window.location.pathname || '';
 
         const index = path.lastIndexOf('/');
         if (index !== -1) {
