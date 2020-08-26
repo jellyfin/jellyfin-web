@@ -1146,13 +1146,13 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .layout-tv .padded-top-focusscale {
-    padding-top: 1em;
-    margin-top: -1em;
+    padding-top: 1.5em;
+    margin-top: -1.5em;
 }
 
 .layout-tv .padded-bottom-focusscale {
-    padding-bottom: 1em;
-    margin-bottom: -1em;
+    padding-bottom: 1.5em;
+    margin-bottom: -1.5em;
 }
 
 @media all and (min-height: 31.25em) {
