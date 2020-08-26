@@ -192,11 +192,11 @@ function updateNowPlayingInfo(context, state, serverId) {
             context.querySelector('.nowPlayingPageTitle').classList.add('hide');
         }
 
-        const url = item ? seriesImageUrl(item, {
+        const url = seriesImageUrl(item, {
             maxHeight: 300
         }) || imageUrl(item, {
             maxHeight: 300
-        }) : null;
+        });
 
         let contextButton = context.querySelector('.btnToggleContextMenu');
         // We remove the previous event listener by replacing the item in each update event
