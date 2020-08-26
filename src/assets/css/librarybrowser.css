@@ -163,6 +163,12 @@
     transition: background ease-in-out 0.5s;
 }
 
+.layout-tv .skinHeader {
+    /* In TV layout, it makes more sense to keep the top bar at the top of the page
+       Having it follow the view only makes us lose vertical space, while not being focusable */
+    position: relative;
+}
+
 .hiddenViewMenuBar .skinHeader {
     display: none;
 }
