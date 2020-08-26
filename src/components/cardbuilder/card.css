@@ -441,226 +441,12 @@ button::-moz-focus-inner {
     transition: transform 200ms ease-out;
 }
 
-.bannerCard {
-    width: 100%;
-}
-
-.backdropCard {
-    width: 100%;
-}
-
-.smallBackdropCard {
-    width: 50%;
-}
-
-.squareCard {
-    width: 50%;
-}
-
-.portraitCard {
-    width: 33.333333333333333333333333333333%;
-}
-
-.mixedPortraitCard {
-    width: 12em;
-}
-
-.mixedSquareCard {
-    width: 18em;
-}
-
-.mixedBackdropCard {
-    width: 32em;
-}
-
-@media (min-width: 25em) {
-    .backdropCard {
-        width: 50%;
-    }
-}
-
-@media (min-width: 31.25em) {
-    .smallBackdropCard {
-        width: 33.333333333333333333333333333333%;
-    }
-
-    .squareCard,
-    .portraitCard {
-        width: 33.333333333333333333333333333333%;
-    }
-}
-
-@media (min-width: 43.75em) {
-    .squareCard,
-    .portraitCard {
-        width: 25%;
-    }
-}
-
-@media (min-width: 48.125em) {
-    .backdropCard {
-        width: 33.333333333333333333333333333333%;
-    }
-}
-
-@media (min-width: 50em) {
-    .bannerCard {
-        width: 50%;
-    }
-
-    .squareCard,
-    .portraitCard {
-        width: 20%;
-    }
-
-    .smallBackdropCard {
-        width: 25%;
-    }
-}
-
-@media (min-width: 62.5em) {
-    .smallBackdropCard {
-        width: 20%;
-    }
-}
-
-@media (min-width: 75em) {
-    .backdropCard {
-        width: 25%;
-    }
-
-    .squareCard,
-    .portraitCard {
-        width: 16.666666666666666666666666666667%;
-    }
-
-    .bannerCard {
-        width: 33.333333333333333333333333333333%;
-    }
-
-    .smallBackdropCard {
-        width: 16.666666666666666666666666666667%;
-    }
-}
-
-@media (min-width: 87.5em) {
-    .squareCard,
-    .portraitCard {
-        width: 14.285714285714285714285714285714%;
-    }
-
-    .smallBackdropCard {
-        width: 14.285714285714285714285714285714%;
-    }
-}
-
-@media (min-width: 100em) {
-    .smallBackdropCard {
-        width: 12.5%;
-    }
-
-    .backdropCard {
-        width: 20%;
-    }
-
-    .squareCard,
-    .portraitCard {
-        width: 12.5%;
-    }
-}
-
-@media (min-width: 120em) {
-    .squareCard,
-    .portraitCard {
-        width: 11.111111111111111111111111111111%;
-    }
-}
-
-@media (min-width: 131.25em) {
-    .bannerCard {
-        width: 25%;
-    }
-
-    .squareCard,
-    .portraitCard {
-        width: 10%;
-    }
-}
-
-@media (min-width: 156.25em) {
-    .backdropCard {
-        width: 16.666666666666666666666666666667%;
-    }
-}
-
-.itemsContainer-tv > .backdropCard {
-    width: 25%;
-}
-
-.itemsContainer-tv > .squareCard {
-    width: 16.666666666666666666666666666667%;
-}
-
-.itemsContainer-tv > .portraitCard {
-    width: 16.666666666666666666666666666667%;
-}
-
-/* Phone (0px+) */
-.overflowBackdropCard,
-.overflowSmallBackdropCard {
-    width: calc(100vw / 2 - 0.95em);
-}
-
-.overflowSquareCard,
-.overflowPortraitCard {
-    width: calc(100vw / 3 - 0.65em);
-}
-
-/* Desktop (992px+) */
-@media (min-width: 768px) {
-    .overflowBackdropCard,
-    .overflowSmallBackdropCard {
-        width: calc(100vw / 3 - 2.2vw);
-    }
-
-    .overflowSquareCard,
-    .overflowPortraitCard {
-        width: calc(100vw / 6 - 1.1vw);
-    }
-}
-
-/* Large Desktop (1200px+) */
-@media (min-width: 1200px) {
-    .overflowBackdropCard,
-    .overflowSmallBackdropCard {
-        width: calc(100vw / 4.295);
-    }
-
-    .overflowSquareCard,
-    .overflowPortraitCard {
-        width: 11.64vw;
-    }
-}
-
-.itemsContainer-tv > .overflowBackdropCard {
-    width: 23.5vw;
-}
-
 .overflowBackdropCard-textCard {
     width: 15.5vw !important;
 }
 
 .overflowBackdropCard-textCardPadder {
     padding-bottom: 87.75%;
-}
-
-.itemsContainer-tv > .overflowSquareCard,
-.itemsContainer-tv > .overflowPortraitCard {
-    width: 15.6vw;
-}
-
-.itemsContainer-tv > .overflowSmallBackdropCard {
-    width: 18.8vw;
 }
 
 .cardOverlayContainer {
@@ -710,4 +496,61 @@ button::-moz-focus-inner {
 .cardOverlayFab-primary:hover {
     transform: scale(1.4, 1.4);
     transition: 0.2s;
+}
+
+/* Phone (0px+) */
+.bannerCard {
+    width: 100%;
+}
+
+.backdropCard {
+    width: 100%;
+}
+
+.smallBackdropCard {
+    width: calc(50% / 2);
+}
+
+.squareCard {
+    width: calc(50% / 2);
+}
+
+.portraitCard {
+    width: calc(100% / 3);
+}
+
+.overflowBackdropCard,
+.overflowSmallBackdropCard {
+    width: calc(100% / 2);
+}
+
+.overflowSquareCard,
+.overflowPortraitCard {
+    width: calc(100% / 3);
+}
+
+/* Desktop (992px+) */
+@media (min-width: 768px) {
+    .overflowBackdropCard,
+    .overflowSmallBackdropCard {
+        width: calc(100% / 3);
+    }
+
+    .overflowSquareCard,
+    .overflowPortraitCard {
+        width: calc(100% / 6);
+    }
+}
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+    .overflowBackdropCard,
+    .overflowSmallBackdropCard {
+        width: calc(100% / 4);
+    }
+
+    .overflowSquareCard,
+    .overflowPortraitCard {
+        width: calc(100% / 8);
+    }
 }
