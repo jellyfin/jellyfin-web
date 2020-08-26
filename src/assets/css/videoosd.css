@@ -248,8 +248,6 @@
 }
 
 @media all and (max-width: 30em) {
-    .osdControls .btnFastForward,
-    .osdControls .btnRewind,
     .osdMediaInfo,
     .osdPoster {
         display: none !important;
