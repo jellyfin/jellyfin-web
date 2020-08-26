@@ -47,6 +47,10 @@ html {
     background-image: url(../../assets/img/banner-light.png);
 }
 
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
+}
+
 .backgroundContainer,
 .dialog,
 .nowPlayingPlaylist,

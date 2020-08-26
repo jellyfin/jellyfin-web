@@ -38,6 +38,10 @@ html {
     background-image: url(../../assets/img/banner-dark.png);
 }
 
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
+}
+
 html {
     background: #d5e9f2;
 }
