@@ -87,6 +87,9 @@ import 'css!./style';
             requestAnimationFrame(() => {
                 if (elem.tagName !== 'IMG') {
                     elem.style.backgroundImage = "url('" + url + "')";
+                    if (elem.classList.contains('blurhashed')) {
+                        elem.style.backgroundColor = '#fff';
+                    }
                 } else {
                     elem.setAttribute('src', url);
                 }
@@ -108,6 +111,7 @@ import 'css!./style';
         if (elem.tagName !== 'IMG') {
             url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, '');
             elem.style.backgroundImage = 'none';
+            elem.style.backgroundColor = null;
         } else {
             url = elem.getAttribute('src');
             elem.setAttribute('src', '');

@@ -29,7 +29,7 @@ import 'emby-button';
         }, {
             name: globalize.translate('TabNetworks')
         }, {
-            name: globalize.translate('TabEpisodes')
+            name: globalize.translate('Episodes')
         }];
     }
 

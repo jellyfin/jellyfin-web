@@ -18,7 +18,7 @@ events.on(playbackManager, 'playbackstart', function (e, player, state) {
 
     if (isLocalVideo && layoutManager.mobile) {
         /* eslint-disable-next-line compat/compat */
-        var lockOrientation = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation || (screen.orientation && screen.orientation.lock);
+        var lockOrientation = window.screen.lockOrientation || window.screen.mozLockOrientation || window.screen.msLockOrientation || (window.screen.orientation && window.screen.orientation.lock);
 
         if (lockOrientation) {
             try {
@@ -39,7 +39,7 @@ events.on(playbackManager, 'playbackstart', function (e, player, state) {
 events.on(playbackManager, 'playbackstop', function (e, playbackStopInfo) {
     if (orientationLocked && !playbackStopInfo.nextMediaType) {
         /* eslint-disable-next-line compat/compat */
-        var unlockOrientation = screen.unlockOrientation || screen.mozUnlockOrientation || screen.msUnlockOrientation || (screen.orientation && screen.orientation.unlock);
+        var unlockOrientation = window.screen.unlockOrientation || window.screen.mozUnlockOrientation || window.screen.msUnlockOrientation || (window.screen.orientation && window.screen.orientation.unlock);
 
         if (unlockOrientation) {
             try {

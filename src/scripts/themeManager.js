@@ -1,13 +1,12 @@
 import * as webSettings from 'webSettings';
 
-var themeStyleElement;
+var themeStyleElement = document.querySelector('#cssTheme');
 var currentThemeId;
 
 function unloadTheme() {
     var elem = themeStyleElement;
     if (elem) {
-        elem.parentNode.removeChild(elem);
-        themeStyleElement = null;
+        elem.removeAttribute('href');
         currentThemeId = null;
     }
 }
@@ -45,15 +44,26 @@ function setTheme(id) {
             var linkUrl = info.stylesheetPath;
             unloadTheme();
 
-            var link = document.createElement('link');
-            link.setAttribute('rel', 'stylesheet');
-            link.setAttribute('type', 'text/css');
-            link.onload = function () {
+            let link = themeStyleElement;
+
+            if (!link) {
+                // Inject the theme css as a dom element in body so it will take
+                // precedence over other stylesheets
+                link = document.createElement('link');
+                link.id = 'cssTheme';
+                link.setAttribute('rel', 'stylesheet');
+                link.setAttribute('type', 'text/css');
+                document.body.appendChild(link);
+            }
+
+            const onLoad = function (e) {
+                e.target.removeEventListener('load', onLoad);
                 resolve();
             };
 
+            link.addEventListener('load', onLoad);
+
             link.setAttribute('href', linkUrl);
-            document.head.appendChild(link);
             themeStyleElement = link;
             currentThemeId = info.themeId;
         });

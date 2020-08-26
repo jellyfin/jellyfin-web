@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <div data-role="controlgroup" data-type="horizontal" data-mini="true">
-                    <a href="#" is="emby-linkbutton" data-role="button" class="radioTabButton" id="radioInfo" data-value="tabInfo">${TabInfo}</a>
+                    <a href="#" is="emby-linkbutton" data-role="button" class="radioTabButton" id="radioInfo" data-value="tabInfo">${ButtonInfo}</a>
                     <a href="#" is="emby-linkbutton" data-role="button" class="radioTabButton" id="radioDirectPlay" data-value="tabDirectPlayProfiles">${TabDirectPlay}</a>
                     <a href="#" is="emby-linkbutton" data-role="button" class="radioTabButton" id="radioTranscoding" data-value="tabTranscodingProfiles">${Transcoding}</a>
                     <a href="#" is="emby-linkbutton" data-role="button" class="radioTabButton" id="radioContainers" data-value="tabContainerProfiles">${TabContainers}</a>
@@ -319,7 +319,7 @@
             <div data-role="content">
                 <div data-role="controlgroup" data-type="horizontal" data-mini="true">
                     <input type="radio" name="radioTranscodingTab" class="radioTabButton" id="radioTranscodingBasics" value="tabTranscodingBasics">
-                    <label for="radioTranscodingBasics">${TabInfo}</label>
+                    <label for="radioTranscodingBasics">${ButtonInfo}</label>
                     <input type="radio" name="radioTranscodingTab" class="radioTabButton" id="radioTranscodingAdvanced" value="tabTranscodingAdvanced">
                     <label for="radioTranscodingAdvanced">${TabAdvanced}</label>
                 </div>
@@ -341,16 +341,16 @@
                         </div>
                     </div>
                     <div class="inputContainer">
-                        <input is="emby-input" type="text" id="txtTranscodingContainer" label="${LabelTranscodingContainer}"; required="required" />
+                        <input is="emby-input" type="text" id="txtTranscodingContainer" label="${LabelProfileContainer}"; required="required" />
                     </div>
                     <div id="fldTranscodingVideoCodec" style="margin: 1em 0;">
                         <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtTranscodingVideoCodec" label="${LabelTranscodingVideoCodec}" />
+                            <input is="emby-input" type="text" id="txtTranscodingVideoCodec" label="${LabelVideoCodec}" />
                         </div>
                     </div>
                     <div id="fldTranscodingAudioCodec" style="margin: 1em 0;">
                         <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtTranscodingAudioCodec" label="${LabelTranscodingAudioCodec}" />
+                            <input is="emby-input" type="text" id="txtTranscodingAudioCodec" label="${LabelAudioCodec}" />
                         </div>
                     </div>
                 </div>

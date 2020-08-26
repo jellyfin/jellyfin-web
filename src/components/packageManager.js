@@ -1,134 +1,140 @@
-define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
-    'use strict';
+import appSettings from 'appSettings';
+import pluginManager from 'pluginManager';
+/* eslint-disable indent */
 
-    var settingsKey = 'installedpackages1';
+    class PackageManager {
+        #packagesList = [];
+        #settingsKey = 'installedpackages1';
 
-    function addPackage(packageManager, pkg) {
-        packageManager.packagesList = packageManager.packagesList.filter(function (p) {
-            return p.name !== pkg.name;
-        });
+        init() {
+            console.groupCollapsed('loading packages');
+            var manifestUrls = JSON.parse(appSettings.get(this.#settingsKey) || '[]');
 
-        packageManager.packagesList.push(pkg);
-    }
+            return Promise.all(manifestUrls.map((url) => {
+                return this.loadPackage(url);
+            }))
+            .then(() => {
+                console.debug('finished loading packages');
+                return Promise.resolve();
+            })
+            .catch(() => {
+                return Promise.resolve();
+            }).finally(() => {
+                console.groupEnd('loading packages');
+            });
+        }
 
-    function removeUrl(url) {
-        var manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
+        get packages() {
+            return this.#packagesList.slice(0);
+        }
 
-        manifestUrls = manifestUrls.filter(function (i) {
-            return i !== url;
-        });
+        install(url) {
+            return this.loadPackage(url, true).then((pkg) => {
+                var manifestUrls = JSON.parse(appSettings.get(this.#settingsKey) || '[]');
 
-        appSettings.set(settingsKey, JSON.stringify(manifestUrls));
-    }
-
-    function loadPackage(packageManager, url, throwError) {
-        return new Promise(function (resolve, reject) {
-            var xhr = new XMLHttpRequest();
-            var originalUrl = url;
-            url += url.indexOf('?') === -1 ? '?' : '&';
-            url += 't=' + new Date().getTime();
-
-            xhr.open('GET', url, true);
-
-            var onError = function () {
-                if (throwError === true) {
-                    reject();
-                } else {
-                    removeUrl(originalUrl);
-                    resolve();
+                if (!manifestUrls.includes(url)) {
+                    manifestUrls.push(url);
+                    appSettings.set(this.#settingsKey, JSON.stringify(manifestUrls));
                 }
-            };
 
-            xhr.onload = function (e) {
-                if (this.status < 400) {
-                    var pkg = JSON.parse(this.response);
-                    pkg.url = originalUrl;
+                return pkg;
+            });
+        }
 
-                    addPackage(packageManager, pkg);
+        uninstall(name) {
+            var pkg = this.#packagesList.filter((p) => {
+                return p.name === name;
+            })[0];
 
-                    var plugins = pkg.plugins || [];
-                    if (pkg.plugin) {
-                        plugins.push(pkg.plugin);
-                    }
-                    var promises = plugins.map(function (pluginUrl) {
-                        return pluginManager.loadPlugin(packageManager.mapPath(pkg, pluginUrl));
-                    });
-                    Promise.all(promises).then(resolve, resolve);
-                } else {
-                    onError();
-                }
-            };
+            if (pkg) {
+                this.#packagesList = this.#packagesList.filter((p) => {
+                    return p.name !== name;
+                });
 
-            xhr.onerror = onError;
-
-            xhr.send();
-        });
-    }
-
-    function PackageManager() {
-        this.packagesList = [];
-    }
-
-    PackageManager.prototype.init = function () {
-        var manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
-
-        var instance = this;
-        return Promise.all(manifestUrls.map(function (u) {
-            return loadPackage(instance, u);
-        })).then(function () {
-            return Promise.resolve();
-        }, function () {
-            return Promise.resolve();
-        });
-    };
-
-    PackageManager.prototype.packages = function () {
-        return this.packagesList.slice(0);
-    };
-
-    PackageManager.prototype.install = function (url) {
-        return loadPackage(this, url, true).then(function (pkg) {
-            var manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
-
-            if (manifestUrls.indexOf(url) === -1) {
-                manifestUrls.push(url);
-                appSettings.set(settingsKey, JSON.stringify(manifestUrls));
+                this.removeUrl(pkg.url);
             }
 
-            return pkg;
-        });
-    };
+            return Promise.resolve();
+        }
 
-    PackageManager.prototype.uninstall = function (name) {
-        var pkg = this.packagesList.filter(function (p) {
-            return p.name === name;
-        })[0];
+        mapPath(pkg, pluginUrl) {
+            var urlLower = pluginUrl.toLowerCase();
+            if (urlLower.startsWith('http:') || urlLower.startsWith('https:') || urlLower.startsWith('file:')) {
+                return pluginUrl;
+            }
 
-        if (pkg) {
-            this.packagesList = this.packagesList.filter(function (p) {
-                return p.name !== name;
+            var packageUrl = pkg.url;
+            packageUrl = packageUrl.substring(0, packageUrl.lastIndexOf('/'));
+
+            packageUrl += '/';
+            packageUrl += pluginUrl;
+
+            return packageUrl;
+        }
+
+        addPackage(pkg) {
+            this.#packagesList = this.#packagesList.filter((p) => {
+                return p.name !== pkg.name;
             });
 
-            removeUrl(pkg.url);
+            this.#packagesList.push(pkg);
         }
 
-        return Promise.resolve();
-    };
+        removeUrl(url) {
+            var manifestUrls = JSON.parse(appSettings.get(this.#settingsKey) || '[]');
 
-    PackageManager.prototype.mapPath = function (pkg, pluginUrl) {
-        var urlLower = pluginUrl.toLowerCase();
-        if (urlLower.indexOf('http:') === 0 || urlLower.indexOf('https:') === 0 || urlLower.indexOf('file:') === 0) {
-            return pluginUrl;
+            manifestUrls = manifestUrls.filter((i) => {
+                return i !== url;
+            });
+
+            appSettings.set(this.#settingsKey, JSON.stringify(manifestUrls));
         }
 
-        var packageUrl = pkg.url;
-        packageUrl = packageUrl.substring(0, packageUrl.lastIndexOf('/'));
+        loadPackage(url, throwError = false) {
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                var originalUrl = url;
+                url += url.indexOf('?') === -1 ? '?' : '&';
+                url += 't=' + new Date().getTime();
 
-        packageUrl += '/';
-        packageUrl += pluginUrl;
+                xhr.open('GET', url, true);
 
-        return packageUrl;
-    };
+                var onError = () => {
+                    if (throwError === true) {
+                        reject();
+                    } else {
+                        this.removeUrl(originalUrl);
+                        resolve();
+                    }
+                };
 
-    return new PackageManager();
-});
+                xhr.onload = () => {
+                    if (this.status < 400) {
+                        var pkg = JSON.parse(this.response);
+                        pkg.url = originalUrl;
+
+                        this.addPackage(pkg);
+
+                        var plugins = pkg.plugins || [];
+                        if (pkg.plugin) {
+                            plugins.push(pkg.plugin);
+                        }
+                        var promises = plugins.map((pluginUrl) => {
+                            return pluginManager.loadPlugin(this.mapPath(pkg, pluginUrl));
+                        });
+                        Promise.all(promises).then(resolve, resolve);
+                    } else {
+                        onError();
+                    }
+                };
+
+                xhr.onerror = onError;
+
+                xhr.send();
+            });
+        }
+    }
+
+/* eslint-enable indent */
+
+export default new PackageManager();

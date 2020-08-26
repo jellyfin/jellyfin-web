@@ -1,6 +1,7 @@
 import appHost from 'apphost';
 import loading from 'loading';
 import appRouter from 'appRouter';
+import itemShortcuts from 'itemShortcuts';
 import layoutManager from 'layoutManager';
 import connectionManager from 'connectionManager';
 import * as userSettings from 'userSettings';
@@ -242,7 +243,7 @@ import 'emby-select';
             return m.Type === 'Audio';
         });
         const select = page.querySelector('.selectAudio');
-        select.setLabel(globalize.translate('LabelAudio'));
+        select.setLabel(globalize.translate('Audio'));
         const selectedId = mediaSource.DefaultAudioStreamIndex;
         select.innerHTML = tracks.map(function (v) {
             const selected = v.Index === selectedId ? ' selected' : '';
@@ -271,7 +272,7 @@ import 'emby-select';
             return m.Type === 'Subtitle';
         });
         const select = page.querySelector('.selectSubtitles');
-        select.setLabel(globalize.translate('LabelSubtitles'));
+        select.setLabel(globalize.translate('Subtitles'));
         const selectedId = mediaSource.DefaultSubtitleStreamIndex == null ? -1 : mediaSource.DefaultSubtitleStreamIndex;
 
         const videoTracks = mediaSource.MediaStreams.filter(function (m) {
@@ -758,8 +759,8 @@ import 'emby-select';
             overlayText: false,
             transition: false,
             disableIndicators: true,
-            disableHoverMenu: true,
             overlayPlayButton: true,
+            action: 'play',
             width: dom.getWindowSize().innerWidth * 0.25
         });
 
@@ -1066,7 +1067,7 @@ import 'emby-select';
     }
 
     function enableScrollX() {
-        return browser.mobile && screen.availWidth <= 1000;
+        return browser.mobile && window.screen.availWidth <= 1000;
     }
 
     function getPortraitShape(scrollX) {
@@ -1438,7 +1439,7 @@ import 'emby-select';
                     name: globalize.translate('Albums'),
                     type: 'MusicAlbum'
                 }, {
-                    name: globalize.translate('HeaderBooks'),
+                    name: globalize.translate('Books'),
                     type: 'Book'
                 }];
                 renderCollectionItems(page, item, collectionItemTypes, result.Items);
@@ -1446,7 +1447,7 @@ import 'emby-select';
         });
 
         if (item.Type == 'Season') {
-            page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderEpisodes');
+            page.querySelector('#childrenTitle').innerHTML = globalize.translate('Episodes');
         } else if (item.Type == 'Series') {
             page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderSeasons');
         } else if (item.Type == 'MusicAlbum') {
@@ -1895,6 +1896,10 @@ import 'emby-select';
             playCurrentItem(this, this.getAttribute('data-mode'));
         }
 
+        function onPosterClick(e) {
+            itemShortcuts.onClick.call(view.querySelector('.detailImageContainer'), e);
+        }
+
         function onInstantMixClick() {
             playbackManager.instantMix(currentItem);
         }
@@ -1935,14 +1940,19 @@ import 'emby-select';
         }
 
         function onMoreCommandsClick() {
-            const button = this;
-            apiClient.getCurrentUser().then(function (user) {
-                itemContextMenu.show(getContextMenuOptions(currentItem, user, button)).then(function (result) {
-                    if (result.deleted) {
-                        appRouter.goHome();
-                    } else if (result.updated) {
-                        reload(self, view, params);
-                    }
+            var button = this;
+            var selectedItem = currentItem;
+            apiClient.getItem(apiClient.getCurrentUserId(), view.querySelector('.selectSource').value).then(function (item) {
+                 selectedItem = item;
+
+                 apiClient.getCurrentUser().then(function (user) {
+                    itemContextMenu.show(getContextMenuOptions(selectedItem, user, button)).then(function (result) {
+                        if (result.deleted) {
+                            appRouter.goHome();
+                        } else if (result.updated) {
+                            reload(self, view, params);
+                        }
+                    });
                 });
             });
         }
@@ -1981,6 +1991,7 @@ import 'emby-select';
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
+        view.querySelector('.detailImageContainer').addEventListener('click', onPosterClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
