@@ -38,6 +38,10 @@ html {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.layout-tv .skinHeader.semiTransparent {
+    background: none;
+}
+
 .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/banner-light.png);
 }
@@ -235,6 +239,10 @@ html {
     color: rgba(255, 255, 255, 0.87);
     -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+}
+
+.layout-tv .detailRibbon {
+    background: none;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {

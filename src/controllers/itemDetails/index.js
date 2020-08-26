@@ -383,7 +383,7 @@ import 'emby-select';
                 itemType: 'MusicArtist',
                 serverId: serverId
             });
-            html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + artist.Name + '</a>');
+            html.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + href + '">' + artist.Name + '</a>');
         }
 
         return html.join(' / ');
@@ -416,7 +416,7 @@ import 'emby-select';
             }, {
                 context: context
             });
-            parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+            parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
         } else if (item.IsSeries || item.EpisodeTitle) {
             parentNameHtml.push(item.Name);
         }
@@ -431,7 +431,7 @@ import 'emby-select';
             }, {
                 context: context
             });
-            parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+            parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
         } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
             parentRoute = appRouter.getRouteUrl({
                 Id: item.SeasonId,
@@ -442,7 +442,7 @@ import 'emby-select';
             }, {
                 context: context
             });
-            parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
+            parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
         } else if (item.ParentIndexNumber != null && item.IsSeries) {
             parentNameHtml.push(item.SeasonName || 'S' + item.ParentIndexNumber);
         } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
@@ -455,7 +455,7 @@ import 'emby-select';
             }, {
                 context: context
             });
-            parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
+            parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
         } else if (item.Album) {
             parentNameHtml.push(item.Album);
         }
@@ -572,9 +572,13 @@ import 'emby-select';
 
         // Start rendering the artwork first
         renderImage(page, item);
-        renderLogo(page, item, apiClient);
+
+        // Same some screen real estate in TV mode
+        if (!layoutManager.tv) {
+            renderLogo(page, item, apiClient);
+            renderDetailPageBackdrop(page, item, apiClient);
+        }
         renderBackdrop(item);
-        renderDetailPageBackdrop(page, item, apiClient);
 
         // Render the main information for the item
         page.querySelector('.detailPagePrimaryContainer').classList.add('detailRibbon');
@@ -766,6 +770,9 @@ import 'emby-select';
 
         elem.innerHTML = cardHtml;
         imageLoader.lazyChildren(elem);
+
+        // Avoid breaking the design by preventing focus of the poster using the keyboard.
+        elem.querySelector('button').tabIndex = -1;
     }
 
     function renderImage(page, item) {
@@ -1061,7 +1068,12 @@ import 'emby-select';
         renderOverview(page, item);
         renderMiscInfo(page, item);
         reloadUserDataButtons(page, item);
-        renderLinks(page, item);
+
+        // Don't allow redirection to other websites from the TV layout
+        if (!layoutManager.tv) {
+            renderLinks(page, item);
+        }
+
         renderTags(page, item);
         renderSeriesAirTime(page, item, isStatic);
     }
@@ -1672,12 +1684,6 @@ import 'emby-select';
             hideAll(page, 'btnPlay', false);
             hideAll(page, 'btnShuffle', false);
         }
-
-        // HACK: Call autoFocuser again because btnPlay may be hidden, but focused by reloadFromItem
-        // FIXME: Sometimes focus does not move until all (?) sections are loaded
-        import('autoFocuser').then(({default: autoFocuser}) => {
-            autoFocuser.autoFocus(page);
-        });
     }
 
     function renderCollectionItemType(page, parentItem, type, items) {
@@ -1982,7 +1988,16 @@ import 'emby-select';
         let currentItem;
         const self = this;
         const apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
-        view.querySelectorAll('.btnPlay');
+
+        const btnResume = view.querySelector('.mainDetailButtons .btnResume');
+        const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');
+        if (layoutManager.tv && !btnResume.classList.contains('hide')) {
+            btnResume.classList.add('fab');
+            btnResume.classList.add('detailFloatingButton');
+        } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
+            btnPlay.classList.add('fab');
+            btnPlay.classList.add('detailFloatingButton');
+        }
         bindAll(view, '.btnPlay', 'click', onPlayClick);
         bindAll(view, '.btnResume', 'click', onPlayClick);
         bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
