@@ -134,7 +134,7 @@ function imageUrl(item, options) {
 function updateNowPlayingInfo(context, state, serverId) {
     const item = state.NowPlayingItem;
     const displayName = item ? getNowPlayingNameHtml(item).replace('<br/>', ' - ') : '';
-    if (typeof item !== 'undefined' && item !== null) {
+    if (item) {
         const nowPlayingServerId = (item.ServerId || serverId);
         if (item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
             const songName = item.Name;
