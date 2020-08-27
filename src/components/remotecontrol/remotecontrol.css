@@ -3,13 +3,12 @@
 }
 
 .nowPlayingInfoContainer {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
     -webkit-flex-direction: row;
     flex-direction: row;
+    align-items: center;
 }
 
 .navigationSection {
@@ -61,7 +60,7 @@
 }
 
 .nowPlayingPositionSliderContainer {
-    margin: 0.2em 1em 0.2em 1em;
+    /* margin: 0.2em 1em 0.2em 1em; */
     width: 100%;
     z-index: 0;
 }
@@ -85,11 +84,12 @@
 }
 
 .nowPlayingPageImageContainer {
+    display: flex;
+    align-items: center;
     width: 16%;
     margin-right: 1em;
     position: relative;
-    -webkit-flex-shrink: 0;
-    flex-shrink: 0;
+    flex-grow: 1;
 }
 
 .nowPlayingPageImageContainerNoAlbum {
@@ -114,9 +114,6 @@
 }
 
 .nowPlayingInfoControls {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    flex-grow: 1;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -124,7 +121,7 @@
     flex-direction: column;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .nowPlayingPageImage {
@@ -136,7 +133,6 @@
     width: 100%;
     -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
-    border: 0.1em solid #222;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
@@ -303,12 +299,7 @@
         width: 80%;
     }
 
-    .nowPlayingPositionSliderContainer {
-        margin: 0.2em 1em 0.2em 1em;
-    }
-
     .nowPlayingInfoButtons {
-        /* margin: 1.5em 0 0 0; */
         -webkit-box-pack: center;
         -webkit-justify-content: center;
         justify-content: center;
@@ -331,7 +322,7 @@
         width: 100%;
         -webkit-box-pack: start !important;
         -webkit-justify-content: start !important;
-        justify-content: start !important;
+        justify-content: flex-end !important;
     }
 
     .nowPlayingSecondaryButtons {
@@ -419,7 +410,6 @@
 
     .nowPlayingButtonsContainer {
         display: flex;
-        height: 100%;
         flex-direction: column;
     }
 }
