@@ -9,6 +9,7 @@
     -webkit-flex-direction: row;
     flex-direction: row;
     align-items: center;
+    justify-content: space-around;
 }
 
 .navigationSection {
@@ -60,7 +61,6 @@
 }
 
 .nowPlayingPositionSliderContainer {
-    /* margin: 0.2em 1em 0.2em 1em; */
     width: 100%;
     z-index: 0;
 }
@@ -86,7 +86,7 @@
 .nowPlayingPageImageContainer {
     display: flex;
     align-items: center;
-    width: 16%;
+    height: 80vh;
     margin-right: 1em;
     position: relative;
     flex-grow: 1;
@@ -117,7 +117,6 @@
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
     flex-direction: column;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
@@ -131,7 +130,6 @@
     right: 0;
     margin: 0 auto;
     width: 100%;
-    -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
     user-select: none;
     -moz-user-select: none;
@@ -255,9 +253,14 @@
     .nowPlayingPageImageContainer {
         margin-right: 0.75em;
     }
+
+    .nowPlayingPageImage {
+        width: auto;
+        height: 100%;
+    }
 }
 
-@media all and (orientation: portrait) and (max-width: 43em) {
+@media all and (orientation: portrait) and (max-width: 50em) {
     .remoteControlContent {
         padding-left: 7.3% !important;
         padding-right: 7.3% !important;
@@ -320,8 +323,8 @@
     .nowPlayingInfoControls {
         margin: 0.5em 0 1em 0;
         width: 100%;
-        -webkit-box-pack: start !important;
-        -webkit-justify-content: start !important;
+        -webkit-box-pack: end !important;
+        -webkit-justify-content: flex-end !important;
         justify-content: flex-end !important;
     }
 
