@@ -6,7 +6,6 @@
     "ButtonRename": "Перейменувати",
     "ButtonSignOut": "Вийти",
     "DeathDateValue": "Помер: {0}",
-    "Dislike": "Не подобається",
     "Favorite": "Улюблене",
     "FolderTypeBooks": "Книги",
     "FolderTypeMovies": "Фільми",
@@ -28,7 +27,6 @@
     "LabelLanguage": "Мова:",
     "LabelNewPassword": "Новий пароль:",
     "LabelPath": "Шлях:",
-    "Like": "Подобається",
     "MediaInfoAspectRatio": "Співвідношення сторін",
     "MediaInfoChannels": "Канали",
     "MediaInfoCodec": "Кодек",
@@ -250,7 +248,6 @@
     "DirectStreaming": "Пряме мовлення",
     "Director": "Режисер",
     "Directors": "Режисери",
-    "Disabled": "Відключено",
     "Disc": "Диск",
     "Display": "Дисплей",
     "Disconnect": "Відключити"
