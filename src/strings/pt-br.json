@@ -1440,5 +1440,6 @@
     "Preview": "Pré-visualização",
     "LabelSubtitleVerticalPosition": "Posição Vertical:",
     "MessageGetInstalledPluginsError": "Um erro ocorreu durante a requisição da lista de plugins atualmente instalados.",
-    "MessagePluginInstallError": "Um erro ocorreu durante a instalação do plugin."
+    "MessagePluginInstallError": "Um erro ocorreu durante a instalação do plugin.",
+    "PlaybackRate": "Taxa de Reprodução"
 }
