@@ -187,9 +187,9 @@ function initClient() {
     }
 
     function defineResizeObserver() {
-        if (self.ResizeObserver) {
+        if (window.ResizeObserver) {
             define('ResizeObserver', [], function () {
-                return self.ResizeObserver;
+                return window.ResizeObserver;
             });
         } else {
             define('ResizeObserver', ['resize-observer-polyfill'], returnFirstDependency);
@@ -248,8 +248,8 @@ function initClient() {
     }
 
     function onGlobalizeInit(browser, globalize) {
-        if (self.appMode === 'android') {
-            if (self.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1) {
+        if (window.appMode === 'android') {
+            if (window.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1) {
                 return onAppReady(browser);
             }
         }
@@ -404,7 +404,7 @@ function initClient() {
 
     function registerServiceWorker() {
         /* eslint-disable compat/compat */
-        if (navigator.serviceWorker && self.appMode !== 'cordova' && self.appMode !== 'android') {
+        if (navigator.serviceWorker && window.appMode !== 'cordova' && window.appMode !== 'android') {
             try {
                 navigator.serviceWorker.register('serviceworker.js');
             } catch (err) {
@@ -441,7 +441,7 @@ function initClient() {
 
         define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
 
-        if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
+        if (window.appMode === 'cordova' || window.appMode === 'android' || window.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
         }
 
