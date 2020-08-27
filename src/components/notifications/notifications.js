@@ -248,7 +248,7 @@ events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
         [
             {
                 action: 'restart',
-                title: globalize.translate('HeaderRestart'),
+                title: globalize.translate('Restart'),
                 icon: getIconUrl()
             }
         ];

@@ -722,9 +722,9 @@ import 'emby-itemscontainer';
         restart: function (btn) {
             import('confirm').then(({default: confirm}) => {
                 confirm({
-                    title: globalize.translate('HeaderRestart'),
+                    title: globalize.translate('Restart'),
                     text: globalize.translate('MessageConfirmRestart'),
-                    confirmText: globalize.translate('HeaderRestart'),
+                    confirmText: globalize.translate('Restart'),
                     primary: 'delete'
                 }).then(function () {
                     const page = dom.parentWithClass(btn, 'page');

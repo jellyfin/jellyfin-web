@@ -287,7 +287,6 @@
     "HeaderServerAddressSettings": "Pengaturan Alamat Server",
     "HeaderSelectServerCachePathHelp": "Jelajahi atau masukkan jalur yang akan digunakan untuk file cache server. Folder harus dapat akses.",
     "HeaderSelectServerCachePath": "Pilih lokasi Cache Server",
-    "HeaderSelectServer": "Pilih Server",
     "HeaderProfileServerSettingsHelp": "Nilai-nilai ini mengontrol bagaimana server akan menampilkan dirinya kepada klien.",
     "HeaderConnectToServer": "Sambungkan ke server",
     "HeaderApiKeysHelp": "Aplikasi eksternal diharuskan memiliki kunci API untuk berkomunikasi dengan server. Kunci dikeluarkan dengan masuk dengan akun pengguna biasa atau secara manual memberi aplikasi kunci.",
