@@ -18,12 +18,15 @@
 
                 </div>
 
-                <div class="sliderContainer flex">
-                    <div class="positionTime"></div>
-                        <div class="nowPlayingPositionSliderContainer">
-                            <input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="nowPlayingPositionSlider" data-slider-keep-progress="true" />
-                        </div>
-                    <div class="runtime"></div>
+                <div class="sliderContainer flex flex-direction-column">
+                    <div class="nowPlayingPositionSliderContainer">
+                        <input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="nowPlayingPositionSlider" data-slider-keep-progress="true" />
+                    </div>
+
+                    <div class="flex flex-direction-row justify-content-space-between">
+                        <div class="positionTime"></div>
+                        <div class="runtime"></div>
+                    </div>
                 </div>
 
                 <div class="nowPlayingButtonsContainer focuscontainer-x justify-content-space-between">
