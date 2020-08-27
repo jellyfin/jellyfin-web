@@ -1393,5 +1393,7 @@
     "LabelSubtitleVerticalPosition": "Posizione verticale:",
     "PreviousTrack": "Traccia precedente",
     "MessageGetInstalledPluginsError": "Errore durante la generazione della lista dei plugin installati.",
-    "MessagePluginInstallError": "Errore durante l'installazione del plugin."
+    "MessagePluginInstallError": "Errore durante l'installazione del plugin.",
+    "SubtitleVerticalPositionHelp": "Numero di riga in cui viene visualizzato il testo. I numeri positivi indicano dall'alto verso il basso. I numeri negativi indicano dal basso verso l'alto.",
+    "PlaybackRate": "Velocità di riproduzione"
 }

@@ -1394,5 +1394,6 @@
     "LabelSubtitleVerticalPosition": "Posición vertical:",
     "PreviousTrack": "Saltar al anterior",
     "MessageGetInstalledPluginsError": "Ocurrió un error buscando la lista de complementos instalados.",
-    "MessagePluginInstallError": "Ocurrió un error instalando el complemento."
+    "MessagePluginInstallError": "Ocurrió un error instalando el complemento.",
+    "PlaybackRate": "Tasa de reproducción"
 }
