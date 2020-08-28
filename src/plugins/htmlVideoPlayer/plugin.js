@@ -1428,16 +1428,16 @@ function tryRemoveElement(elem) {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             if (val != null) {
-                mediaElement.currentTime = val / 1000;
+                mediaElement.currentTime = val / 10000000;
                 return;
             }
 
             const currentTime = this.#currentTime;
             if (currentTime) {
-                return currentTime * 1000;
+                return currentTime * 10000000;
             }
 
-            return (mediaElement.currentTime || 0) * 1000;
+            return (mediaElement.currentTime || 0) * 10000000;
         }
     }
 
@@ -1446,7 +1446,7 @@ function tryRemoveElement(elem) {
         if (mediaElement) {
             const duration = mediaElement.duration;
             if (isValidDuration(duration)) {
-                return duration * 1000;
+                return duration * 10000000;
             }
         }
 

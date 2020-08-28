@@ -685,7 +685,7 @@ function getNowPlayingItemForReporting(player, item, mediaSource) {
         nowPlayingItem.MediaSources = null;
     }
 
-    nowPlayingItem.RunTimeTicks = nowPlayingItem.RunTimeTicks || player.duration() * 10000;
+    nowPlayingItem.RunTimeTicks = nowPlayingItem.RunTimeTicks || player.duration();
 
     return nowPlayingItem;
 }
@@ -1618,11 +1618,7 @@ class PlaybackManager {
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
-                if (player.isLocalPlayer) {
-                    return player.seek((ticks || 0) / 10000);
-                } else {
-                    return player.seek(ticks);
-                }
+                return player.seek(ticks);
             }
 
             changeStream(player, ticks);
@@ -1631,11 +1627,7 @@ class PlaybackManager {
         self.seekRelative = function (offsetTicks, player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player) && player.seekRelative) {
-                if (player.isLocalPlayer) {
-                    return player.seekRelative((ticks || 0) / 10000);
-                } else {
-                    return player.seekRelative(ticks);
-                }
+                return player.seekRelative(ticks);
             }
 
             const ticks = getCurrentTicks(player) + offsetTicks;
@@ -1671,7 +1663,7 @@ class PlaybackManager {
 
         function changeStream(player, ticks, params) {
             if (canPlayerSeek(player) && params == null) {
-                player.currentTime(parseInt(ticks / 10000));
+                player.currentTime(ticks);
                 return;
             }
 
@@ -2022,10 +2014,6 @@ class PlaybackManager {
 
             let playerDuration = player.duration();
 
-            if (playerDuration) {
-                playerDuration *= 10000;
-            }
-
             return playerDuration;
         };
 
@@ -2034,7 +2022,7 @@ class PlaybackManager {
                 throw new Error('player cannot be null');
             }
 
-            let playerTime = Math.floor(10000 * (player).currentTime());
+            let playerTime = player.currentTime();
 
             const streamInfo = getPlayerData(player).streamInfo;
             if (streamInfo) {
