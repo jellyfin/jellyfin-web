@@ -466,9 +466,9 @@ class SessionPlayer {
         sendCommandByName(this, 'DisplayContent', options);
     }
 
-    isPlaying() {
+    isPlaying(mediaType) {
         const state = this.lastPlayerData || {};
-        return state.NowPlayingItem != null;
+        return state.NowPlayingItem != null && (state.NowPlayingItem.MediaType === mediaType || !mediaType);
     }
 
     isPlayingVideo() {

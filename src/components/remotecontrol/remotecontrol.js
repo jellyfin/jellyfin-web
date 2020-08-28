@@ -134,7 +134,7 @@ function imageUrl(item, options) {
 function updateNowPlayingInfo(context, state, serverId) {
     const item = state.NowPlayingItem;
     const displayName = item ? getNowPlayingNameHtml(item).replace('<br/>', ' - ') : '';
-    if (typeof item !== 'undefined') {
+    if (item) {
         const nowPlayingServerId = (item.ServerId || serverId);
         if (item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
             const songName = item.Name;
@@ -192,11 +192,11 @@ function updateNowPlayingInfo(context, state, serverId) {
             context.querySelector('.nowPlayingPageTitle').classList.add('hide');
         }
 
-        const url = item ? seriesImageUrl(item, {
+        const url = seriesImageUrl(item, {
             maxHeight: 300
         }) || imageUrl(item, {
             maxHeight: 300
-        }) : null;
+        });
 
         let contextButton = context.querySelector('.btnToggleContextMenu');
         // We remove the previous event listener by replacing the item in each update event
@@ -228,18 +228,16 @@ function updateNowPlayingInfo(context, state, serverId) {
             });
         });
         setImageUrl(context, state, url);
-        if (item) {
-            backdrop.setBackdrops([item]);
-            apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
-                const userData = fullItem.UserData || {};
-                const likes = userData.Likes == null ? '' : userData.Likes;
-                context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
-                context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
-            });
-        } else {
-            backdrop.clearBackdrop();
-            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
-        }
+        backdrop.setBackdrops([item]);
+        apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
+            const userData = fullItem.UserData || {};
+            const likes = userData.Likes == null ? '' : userData.Likes;
+            context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
+            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
+        });
+    } else {
+        backdrop.clearBackdrop();
+        context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
     }
 }
 
@@ -332,8 +330,14 @@ export default function () {
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
         if (layoutManager.mobile) {
-            buttonVisible(context.querySelector('.btnRewind'), false);
-            buttonVisible(context.querySelector('.btnFastForward'), false);
+            const playingVideo = playbackManager.isPlayingVideo() && item !== null;
+            const playingAudio = !playbackManager.isPlayingVideo() && item !== null;
+            buttonVisible(context.querySelector('.btnRepeat'), playingAudio);
+            buttonVisible(context.querySelector('.btnShuffleQueue'), playingAudio);
+            buttonVisible(context.querySelector('.btnRewind'), playingVideo);
+            buttonVisible(context.querySelector('.btnFastForward'), playingVideo);
+            buttonVisible(context.querySelector('.nowPlayingSecondaryButtons .btnShuffleQueue'), playingVideo);
+            buttonVisible(context.querySelector('.nowPlayingSecondaryButtons .btnRepeat'), playingVideo);
         } else {
             buttonVisible(context.querySelector('.btnRewind'), item != null);
             buttonVisible(context.querySelector('.btnFastForward'), item != null);
