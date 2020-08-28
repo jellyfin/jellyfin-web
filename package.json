@@ -52,7 +52,7 @@
     "stylelint-order": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-merge": "^4.2.2",
-    "webpack-stream": "^5.2.1"
+    "webpack-stream": "^6.0.0"
   },
   "dependencies": {
     "alameda": "^1.4.0",
