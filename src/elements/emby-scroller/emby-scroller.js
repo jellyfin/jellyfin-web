@@ -17,9 +17,32 @@ import 'css!./emby-scroller';
 
     function initCenterFocus(elem, scrollerInstance) {
         dom.addEventListener(elem, 'focus', function (e) {
-            const focused = focusManager.focusableParent(e.target);
-            if (focused) {
-                scrollerInstance.toCenter(focused);
+            if (e.explicitOriginalTarget.parentNode === e.target.parentNode) {
+                const focused = focusManager.focusableParent(e.target);
+                if (focused) {
+                    scrollerInstance.toCenter(focused);
+                }
+            } else {
+                const focused = this.querySelector('.lastFocused');
+                if (focused) {
+                    focusManager.focus(focused);
+                    scrollerInstance.toCenter(focused);
+                }
+                e.stopPropagation();
+            }
+        }, {
+            capture: true,
+            passive: true
+        });
+
+        dom.addEventListener(elem, 'focusout', function (e) {
+            if (e.explicitOriginalTarget.parentNode === e.target.parentNode) {
+                const parentContainer = e.target.parentNode;
+                const previousFocus = parentContainer.querySelector('.lastFocused');
+                if (previousFocus) {
+                    previousFocus.classList.remove('lastFocused');
+                }
+                e.target.classList.add('lastFocused');
             }
         }, {
             capture: true,
