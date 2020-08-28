@@ -49,7 +49,7 @@ export function showLayoutMenu (button, currentLayout, views) {
 
     var menuItems = views.map(function (v) {
         return {
-            name: globalize.translate('Option' + v),
+            name: globalize.translate(v),
             id: v,
             selected: currentLayout == v
         };
