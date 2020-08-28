@@ -161,7 +161,17 @@ var scrollerFactory = function (frame, options) {
             requiresReflow = false;
 
             // Reset global variables
-            frameSize = o.horizontal ? (frame).offsetWidth : (frame).offsetHeight;
+            if (layoutManager.tv) {
+                // In TV layout, the width is wrong, as the item will be aligned to the end of the element, with padding.
+                // We actually want to align it without the padding, so compute the size properly.
+                const computedStyle = getComputedStyle(frame);
+                const frameHeight = frame.clientHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));  // height with padding
+                const frameWidth = frame.clientWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
+
+                frameSize = o.horizontal ? frameWidth : frameHeight;
+            } else {
+                frameSize = o.horizontal ? (frame).offsetWidth : (frame).offsetHeight;
+            }
 
             slideeSize = o.scrollWidth || Math.max(slideeElement[o.horizontal ? 'offsetWidth' : 'offsetHeight'], slideeElement[o.horizontal ? 'scrollWidth' : 'scrollHeight']);
 
@@ -829,6 +839,10 @@ scrollerFactory.prototype.to = function (location, item, immediate) {
     if (type(item) === 'boolean') {
         immediate = item;
         item = undefined;
+    }
+
+    if (location === 'end') {
+        console.warn(this._pos[location]);
     }
 
     if (item === undefined) {
