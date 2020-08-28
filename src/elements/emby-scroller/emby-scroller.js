@@ -1,7 +1,15 @@
-define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'registerElement', 'css!./emby-scroller'], function (scroller, dom, layoutManager, inputManager, focusManager, browser) {
-    'use strict';
+import scroller from 'scroller';
+import dom from 'dom';
+import layoutManager from 'layoutManager';
+import inputManager from 'inputManager';
+import focusManager from 'focusManager';
+import browser from 'browser';
+import 'webcomponents';
+import 'css!./emby-scroller';
 
-    var ScrollerPrototype = Object.create(HTMLDivElement.prototype);
+/* eslint-disable indent */
+
+    const ScrollerPrototype = Object.create(HTMLDivElement.prototype);
 
     ScrollerPrototype.createdCallback = function () {
         this.classList.add('emby-scroller');
@@ -9,7 +17,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
 
     function initCenterFocus(elem, scrollerInstance) {
         dom.addEventListener(elem, 'focus', function (e) {
-            var focused = focusManager.focusableParent(e.target);
+            const focused = focusManager.focusableParent(e.target);
             if (focused) {
                 scrollerInstance.toCenter(focused);
             }
@@ -80,7 +88,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
     };
 
     function onInputCommand(e) {
-        var cmd = e.detail.command;
+        const cmd = e.detail.command;
         if (cmd === 'end') {
             focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
             e.preventDefault();
@@ -101,18 +109,18 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
             inputManager.on(this, onInputCommand);
         }
 
-        var horizontal = this.getAttribute('data-horizontal') !== 'false';
+        const horizontal = this.getAttribute('data-horizontal') !== 'false';
 
-        var slider = this.querySelector('.scrollSlider');
+        const slider = this.querySelector('.scrollSlider');
 
         if (horizontal) {
             slider.style['white-space'] = 'nowrap';
         }
 
-        var scrollFrame = this;
-        var enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
+        const scrollFrame = this;
+        const enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
 
-        var options = {
+        const options = {
             horizontal: horizontal,
             mouseDragging: 1,
             mouseWheel: this.getAttribute('data-mousewheel') !== 'false',
@@ -148,20 +156,20 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
     };
 
     function loadScrollButtons(scroller) {
-        require(['emby-scrollbuttons'], function () {
+        import('emby-scrollbuttons').then(() => {
             scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
         });
     }
 
     ScrollerPrototype.pause = function () {
-        var headroom = this.headroom;
+        const headroom = this.headroom;
         if (headroom) {
             headroom.pause();
         }
     };
 
     ScrollerPrototype.resume = function () {
-        var headroom = this.headroom;
+        const headroom = this.headroom;
         if (headroom) {
             headroom.resume();
         }
@@ -172,13 +180,13 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
             inputManager.off(this, onInputCommand);
         }
 
-        var headroom = this.headroom;
+        const headroom = this.headroom;
         if (headroom) {
             headroom.destroy();
             this.headroom = null;
         }
 
-        var scrollerInstance = this.scroller;
+        const scrollerInstance = this.scroller;
         if (scrollerInstance) {
             scrollerInstance.destroy();
             this.scroller = null;
@@ -189,4 +197,5 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         prototype: ScrollerPrototype,
         extends: 'div'
     });
-});
+
+/* eslint-enable indent */

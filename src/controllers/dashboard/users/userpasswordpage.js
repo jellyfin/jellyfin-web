@@ -1,16 +1,20 @@
-define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading, libraryMenu, globalize) {
-    'use strict';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import globalize from 'globalize';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function loadUser(page, params) {
-        var userid = params.userId;
+        const userid = params.userId;
         ApiClient.getUser(userid).then(function (user) {
             Dashboard.getCurrentUser().then(function (loggedInUser) {
                 libraryMenu.setTitle(user.Name);
                 page.querySelector('.username').innerHTML = user.Name;
-                var showPasswordSection = true;
-                var showLocalAccessSection = false;
+                let showPasswordSection = true;
+                let showLocalAccessSection = false;
 
-                if ('Guest' == user.ConnectLinkType) {
+                if (user.ConnectLinkType == 'Guest') {
                     page.querySelector('.localAccessSection').classList.add('hide');
                     showPasswordSection = false;
                 } else if (user.HasConfiguredPassword) {
@@ -34,7 +38,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
                     page.querySelector('.localAccessSection').classList.add('hide');
                 }
 
-                var txtEasyPassword = page.querySelector('#txtEasyPassword');
+                const txtEasyPassword = page.querySelector('#txtEasyPassword');
                 txtEasyPassword.value = '';
 
                 if (user.HasConfiguredEasyPassword) {
@@ -48,7 +52,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
 
                 page.querySelector('.chkEnableLocalEasyPassword').checked = user.Configuration.EnableLocalPassword;
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(page);
                 });
             });
@@ -58,10 +62,10 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
         page.querySelector('#txtNewPasswordConfirm').value = '';
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function saveEasyPassword() {
-            var userId = params.userId;
-            var easyPassword = view.querySelector('#txtEasyPassword').value;
+            const userId = params.userId;
+            const easyPassword = view.querySelector('#txtEasyPassword').value;
 
             if (easyPassword) {
                 ApiClient.updateEasyPassword(userId, easyPassword).then(function () {
@@ -78,8 +82,8 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
                 ApiClient.updateUserConfiguration(user.Id, user.Configuration).then(function () {
                     loading.hide();
 
-                    require(['toast'], function (toast) {
-                        toast(globalize.translate('MessageSettingsSaved'));
+                    import('toast').then(({default: toast}) => {
+                        toast(globalize.translate('SettingsSaved'));
                     });
 
                     loadUser(view, params);
@@ -88,9 +92,9 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
         }
 
         function savePassword() {
-            var userId = params.userId;
-            var currentPassword = view.querySelector('#txtCurrentPassword').value;
-            var newPassword = view.querySelector('#txtNewPassword').value;
+            const userId = params.userId;
+            let currentPassword = view.querySelector('#txtCurrentPassword').value;
+            const newPassword = view.querySelector('#txtNewPassword').value;
 
             if (view.querySelector('#fldCurrentPassword').classList.contains('hide')) {
                 // Firefox does not respect autocomplete=off, so clear it if the field is supposed to be hidden (and blank)
@@ -101,7 +105,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
             ApiClient.updateUserPassword(userId, currentPassword, newPassword).then(function () {
                 loading.hide();
 
-                require(['toast'], function (toast) {
+                import('toast').then(({default: toast}) => {
                     toast(globalize.translate('PasswordSaved'));
                 });
 
@@ -116,10 +120,10 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
         }
 
         function onSubmit(e) {
-            var form = this;
+            const form = this;
 
             if (form.querySelector('#txtNewPassword').value != form.querySelector('#txtNewPasswordConfirm').value) {
-                require(['toast'], function (toast) {
+                import('toast').then(({default: toast}) => {
                     toast(globalize.translate('PasswordMatchError'));
                 });
             } else {
@@ -139,17 +143,16 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
         }
 
         function resetPassword() {
-            var msg = globalize.translate('PasswordResetConfirmation');
-
-            require(['confirm'], function (confirm) {
-                confirm(msg, globalize.translate('PasswordResetHeader')).then(function () {
-                    var userId = params.userId;
+            const msg = globalize.translate('PasswordResetConfirmation');
+            import('confirm').then(({default: confirm}) => {
+                confirm(msg, globalize.translate('HeaderResetPassword')).then(function () {
+                    const userId = params.userId;
                     loading.show();
                     ApiClient.resetUserPassword(userId).then(function () {
                         loading.hide();
                         Dashboard.alert({
                             message: globalize.translate('PasswordResetComplete'),
-                            title: globalize.translate('PasswordResetHeader')
+                            title: globalize.translate('HeaderResetPassword')
                         });
                         loadUser(view, params);
                     });
@@ -158,11 +161,11 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
         }
 
         function resetEasyPassword() {
-            var msg = globalize.translate('PinCodeResetConfirmation');
+            const msg = globalize.translate('PinCodeResetConfirmation');
 
-            require(['confirm'], function (confirm) {
+            import('confirm').then(({default: confirm}) => {
                 confirm(msg, globalize.translate('HeaderPinCodeReset')).then(function () {
-                    var userId = params.userId;
+                    const userId = params.userId;
                     loading.show();
                     ApiClient.resetEasyPassword(userId).then(function () {
                         loading.hide();
@@ -183,5 +186,6 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-button'], function (loading
         view.addEventListener('viewshow', function () {
             loadUser(view, params);
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

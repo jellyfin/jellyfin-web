@@ -15,7 +15,7 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!date-fns|jellyfin-apiclient|query-string|split-on-first|strict-uri-encode)/,
+                exclude: /node_modules[\\/](?!date-fns|epubjs|jellyfin-apiclient|query-string|split-on-first|strict-uri-encode|xmldom)/,
                 use: {
                     loader: 'babel-loader',
                     options: {

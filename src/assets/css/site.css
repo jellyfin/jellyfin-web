@@ -5,6 +5,12 @@ html {
     height: 100%;
 }
 
+.layout-mobile,
+.layout-tv {
+    -webkit-touch-callout: none;
+    user-select: none;
+}
+
 .clipForScreenReader {
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
@@ -18,7 +24,7 @@ html {
 
 .material-icons {
     /* Fix font ligatures on older WebOS versions */
-    -webkit-font-feature-settings: "liga";
+    font-feature-settings: "liga";
 }
 
 .backgroundContainer {
@@ -32,16 +38,6 @@ html {
 
 html {
     line-height: 1.35;
-}
-
-.layout-mobile,
-.layout-tv {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 body {
@@ -121,10 +117,29 @@ div[data-role=page] {
     transform: translateY(-100%);
 }
 
+.drawerContent {
+    /* make sure the bottom of the drawer is visible when music is playing */
+    padding-bottom: 4em;
+}
+
 .force-scroll {
     overflow-y: scroll;
 }
 
 .hide-scroll {
     overflow-y: hidden;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.margin-auto-x {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.margin-auto-y {
+    margin-top: auto;
+    margin-bottom: auto;
 }

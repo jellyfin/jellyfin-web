@@ -4,6 +4,7 @@
 
 set -o errexit
 set -o pipefail
+set -o xtrace
 
 usage() {
     echo -e "bump_version - increase the shared version and generate changelogs"
@@ -23,10 +24,7 @@ build_file="./build.yaml"
 new_version="$1"
 
 # Parse the version from shared version file
-old_version="$(
-    grep "appVersion" ${shared_version_file} | head -1 \
-        | sed -E 's/var appVersion = "([0-9\.]+)";/\1/'
-)"
+old_version="$( grep "appVersion" ${shared_version_file} | head -1 | sed -E "s/var appVersion = '([0-9\.]+)';/\1/" | tr -d '[:space:]' )"
 echo "Old version in appHost is: $old_version"
 
 # Set the shared version to the specified new_version
@@ -34,11 +32,8 @@ old_version_sed="$( sed 's/\./\\./g' <<<"${old_version}" )" # Escape the '.' cha
 new_version_sed="$( cut -f1 -d'-' <<<"${new_version}" )"
 sed -i "s/${old_version_sed}/${new_version_sed}/g" ${shared_version_file}
 
-old_version="$(
-    grep "version:" ${build_file} \
-        | sed -E 's/version: "([0-9\.]+[-a-z0-9]*)"/\1/'
-)"
-echo "Old version in ${build_file}: $old_version`"
+old_version="$( grep "version:" ${build_file} | sed -E 's/version: "([0-9\.]+[-a-z0-9]*)"/\1/' )"
+echo "Old version in ${build_file}: ${old_version}"
 
 # Set the build.yaml version to the specified new_version
 old_version_sed="$( sed 's/\./\\./g' <<<"${old_version}" )" # Escape the '.' chars
@@ -54,7 +49,7 @@ fi
 debian_changelog_file="debian/changelog"
 debian_changelog_temp="$( mktemp )"
 # Create new temp file with our changelog
-echo -e "jellyfin (${new_version_deb}) unstable; urgency=medium
+echo -e "jellyfin-web (${new_version_deb}) unstable; urgency=medium
 
   * New upstream version ${new_version}; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v${new_version}
 
@@ -65,15 +60,15 @@ cat ${debian_changelog_file} >> ${debian_changelog_temp}
 mv ${debian_changelog_temp} ${debian_changelog_file}
 
 # Write out a temporary Yum changelog with our new stuff prepended and some templated formatting
-fedora_spec_file="fedora/jellyfin.spec"
+fedora_spec_file="fedora/jellyfin-web.spec"
 fedora_changelog_temp="$( mktemp )"
 fedora_spec_temp_dir="$( mktemp -d )"
-fedora_spec_temp="${fedora_spec_temp_dir}/jellyfin.spec.tmp"
+fedora_spec_temp="${fedora_spec_temp_dir}/jellyfin-web.spec.tmp"
 # Make a copy of our spec file for hacking
 cp ${fedora_spec_file} ${fedora_spec_temp_dir}/
 pushd ${fedora_spec_temp_dir}
 # Split out the stuff before and after changelog
-csplit jellyfin.spec  "/^%changelog/" # produces xx00 xx01
+csplit jellyfin-web.spec  "/^%changelog/" # produces xx00 xx01
 # Update the version in xx00
 sed -i "s/${old_version_sed}/${new_version_sed}/g" xx00
 # Remove the header from xx01
@@ -92,5 +87,5 @@ mv ${fedora_spec_temp} ${fedora_spec_file}
 rm -rf ${fedora_changelog_temp} ${fedora_spec_temp_dir}
 
 # Stage the changed files for commit
-git add ${shared_version_file} ${build_file} ${debian_changelog_file} ${fedora_spec_file} Dockerfile*
+git add ${shared_version_file} ${build_file} ${debian_changelog_file} ${fedora_spec_file}
 git status

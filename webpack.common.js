@@ -23,6 +23,7 @@ const LibarchiveWasm = [
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     entry: './bundle.js',
+    stats: 'errors-only',
     resolve: {
         modules: [
             path.resolve(__dirname, 'node_modules')

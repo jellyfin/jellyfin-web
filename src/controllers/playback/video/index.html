@@ -1,0 +1,87 @@
+<div id="videoOsdPage" data-role="page" class="page libraryPage" data-backbutton="true">
+    <div class="upNextContainer hide"></div>
+    <div class="videoOsdBottom videoOsdBottom-maincontrols">
+        <div class="osdPoster"></div>
+        <div class="osdControls">
+            <div class="osdTextContainer osdMainTextContainer">
+                <h3 class="osdTitle"></h3>
+                <div class="osdMediaInfo"></div>
+                <div class="osdMediaStatus hide">
+                    <span class="material-icons animate autorenew"></span>
+                    <span>${FetchingData}</span>
+                </div>
+            </div>
+
+            <div class="osdTextContainer osdSecondaryMediaInfo"></div>
+
+            <div class="flex flex-direction-row align-items-center">
+                <div class="osdTextContainer startTimeText" style="margin: 0 .25em 0 0;"></div>
+                <div class="sliderContainer flex-grow" style="margin: .5em .5em .25em;">
+                    <input type="range" step=".01" min="0" max="100" value="0" is="emby-slider" class="osdPositionSlider" data-slider-keep-progress="true" />
+                </div>
+                <div class="osdTextContainer endTimeText" style="margin: 0 0 0 .25em;"></div>
+            </div>
+
+            <div class="buttons focuscontainer-x">
+                <button is="paper-icon-button-light" class="btnRecord autoSize hide">
+                    <span class="xlargePaperIconButton material-icons fiber_manual_record"></span>
+                </button>
+
+                <button is="paper-icon-button-light" class="btnPreviousTrack autoSize hide" title="${PreviousTrack}">
+                    <span class="xlargePaperIconButton material-icons skip_previous"></span>
+                </button>
+
+                <button is="paper-icon-button-light" class="btnRewind" title="${Rewind} (j)">
+                    <span class="xlargePaperIconButton material-icons fast_rewind"></span>
+                </button>
+
+                <button is="paper-icon-button-light" class="btnPause autoSize">
+                    <span class="xlargePaperIconButton material-icons pause"></span>
+                </button>
+
+                <button is="paper-icon-button-light" class="btnFastForward" title="${FastForward} (l)">
+                    <span class="xlargePaperIconButton material-icons fast_forward"></span>
+                </button>
+
+                <button is="paper-icon-button-light" class="btnNextTrack autoSize hide" title="${NextTrack}">
+                    <span class="xlargePaperIconButton material-icons skip_next"></span>
+                </button>
+
+                <button is="paper-icon-button-light" class="btnAudio hide autoSize" title="${Audio}">
+                    <span class="xlargePaperIconButton material-icons audiotrack"></span>
+                </button>
+                <button is="paper-icon-button-light" class="btnSubtitles hide autoSize" title="${Subtitles}">
+                    <span class="xlargePaperIconButton material-icons closed_caption"></span>
+                </button>
+
+                <button is="paper-icon-button-light" class="btnVideoOsdSettings hide autoSize" title="${Settings}">
+                    <span class="largePaperIconButton material-icons settings"></span>
+                </button>
+                <button is="paper-icon-button-light" class="btnFullscreen hide autoSize" title="${Fullscreen} (f)">
+                    <span class="xlargePaperIconButton material-icons fullscreen"></span>
+                </button>
+                <button is="paper-icon-button-light" class="btnPip hide autoSize" title="${PictureInPicture}">
+                    <span class="xlargePaperIconButton material-icons picture_in_picture_alt"></span>
+                </button>
+                <button is="paper-icon-button-light" class="btnAirPlay hide autoSize" title="${AirPlay}">
+                    <span class="xlargePaperIconButton material-icons airplay"></span>
+                </button>
+
+                <div class="osdTimeText">
+                    <span class="osdPositionText"></span>
+                    <span class="osdDurationText"></span>
+                    <span class="endsAtText"></span>
+                </div>
+
+                <div class="volumeButtons hide-mouse-idle-tv">
+                    <button is="paper-icon-button-light" class="buttonMute autoSize" title="${Mute} (m)">
+                        <span class="xlargePaperIconButton material-icons volume_up"></span>
+                    </button>
+                    <div class="sliderContainer osdVolumeSliderContainer">
+                        <input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="osdVolumeSlider" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

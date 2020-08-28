@@ -1,7 +1,7 @@
 %global         debug_package %{nil}
 
 Name:           jellyfin-web
-Version:        10.6.0
+Version:        10.7.0
 Release:        1%{?dist}
 Summary:        The Free Software Media System web client
 License:        GPLv3
@@ -12,7 +12,7 @@ Source0:        jellyfin-web-%{version}.tar.gz
 %if 0%{?centos}
 BuildRequires:  yarn
 %else
-BuildRequires   nodejs-yarn
+BuildRequires:  nodejs-yarn
 %endif
 BuildArch:		noarch
 
@@ -39,5 +39,7 @@ mv dist %{buildroot}%{_datadir}/jellyfin-web
 %{_datadir}/licenses/jellyfin/LICENSE
 
 %changelog
+* Mon Jul 27 2020 Jellyfin Packaging Team <packaging@jellyfin.org>
+- Forthcoming stable release
 * Mon Mar 23 2020 Jellyfin Packaging Team <packaging@jellyfin.org>
 - Forthcoming stable release

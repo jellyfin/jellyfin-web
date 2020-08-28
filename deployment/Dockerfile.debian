@@ -1,0 +1,27 @@
+FROM debian:10
+
+# Docker build arguments
+ARG SOURCE_DIR=/jellyfin
+ARG ARTIFACT_DIR=/dist
+
+# Docker run environment
+ENV SOURCE_DIR=/jellyfin
+ENV ARTIFACT_DIR=/dist
+ENV DEB_BUILD_OPTIONS=noddebs
+ENV IS_DOCKER=YES
+
+# Prepare Debian build environment
+RUN apt-get update \
+  && apt-get install -y debhelper mmv npm git
+
+# Prepare Yarn
+RUN npm install -g yarn
+
+# Link to build script
+RUN ln -sf ${SOURCE_DIR}/deployment/build.debian /build.sh
+
+VOLUME ${SOURCE_DIR}
+
+VOLUME ${ARTIFACT_DIR}
+
+ENTRYPOINT ["/build.sh"]

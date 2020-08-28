@@ -1,28 +1,32 @@
-define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], function ($, loading, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import loading from 'loading';
+import globalize from 'globalize';
+import 'emby-checkbox';
+
+/* eslint-disable indent */
 
     function loadMediaFolders(page, mediaFolders) {
-        var html = '';
+        let html = '';
         html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderLibraries') + '</h3>';
         html += '<div class="checkboxList paperList" style="padding:.5em 1em;">';
 
-        for (var i = 0; i < mediaFolders.length; i++) {
-            var folder = mediaFolders[i];
+        for (let i = 0; i < mediaFolders.length; i++) {
+            const folder = mediaFolders[i];
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '"/><span>' + folder.Name + '</span></label>';
         }
 
         html += '</div>';
         $('.folderAccess', page).html(html).trigger('create');
-        $('#chkEnableAllFolders', page).checked(false).trigger('change');
+        $('#chkEnableAllFolders', page).prop('checked', false);
     }
 
     function loadChannels(page, channels) {
-        var html = '';
-        html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderChannels') + '</h3>';
+        let html = '';
+        html += '<h3 class="checkboxListLabel">' + globalize.translate('Channels') + '</h3>';
         html += '<div class="checkboxList paperList" style="padding:.5em 1em;">';
 
-        for (var i = 0; i < channels.length; i++) {
-            var folder = channels[i];
+        for (let i = 0; i < channels.length; i++) {
+            const folder = channels[i];
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkChannel" data-id="' + folder.Id + '"/><span>' + folder.Name + '</span></label>';
         }
 
@@ -35,17 +39,17 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
             $('.channelAccessContainer', page).hide();
         }
 
-        $('#chkEnableAllChannels', page).checked(false).trigger('change');
+        $('#chkEnableAllChannels', page).prop('checked', false);
     }
 
     function loadUser(page) {
         $('#txtUsername', page).val('');
         $('#txtPassword', page).val('');
         loading.show();
-        var promiseFolders = ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders', {
+        const promiseFolders = ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
         }));
-        var promiseChannels = ApiClient.getJSON(ApiClient.getUrl('Channels'));
+        const promiseChannels = ApiClient.getJSON(ApiClient.getUrl('Channels'));
         Promise.all([promiseFolders, promiseChannels]).then(function (responses) {
             loadMediaFolders(page, responses[0].Items);
             loadChannels(page, responses[1].Items);
@@ -54,11 +58,11 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
     }
 
     function saveUser(page) {
-        var user = {};
+        const user = {};
         user.Name = $('#txtUsername', page).val();
         user.Password = $('#txtPassword', page).val();
         ApiClient.createUser(user).then(function (user) {
-            user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).checked();
+            user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).is(':checked');
             user.Policy.EnabledFolders = [];
 
             if (!user.Policy.EnableAllFolders) {
@@ -69,7 +73,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
                 });
             }
 
-            user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).checked();
+            user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).is(':checked');
             user.Policy.EnabledChannels = [];
 
             if (!user.Policy.EnableAllChannels) {
@@ -84,8 +88,8 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
                 Dashboard.navigate('useredit.html?userId=' + user.Id);
             });
         }, function (response) {
-            require(['toast'], function (toast) {
-                toast(globalize.translate('DefaultErrorMessage'));
+            import('toast').then(({default: toast}) => {
+                toast(globalize.translate('ErrorDefault'));
             });
 
             loading.hide();
@@ -93,7 +97,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
     }
 
     function onSubmit() {
-        var page = $(this).parents('.page')[0];
+        const page = $(this).parents('.page')[0];
         loading.show();
         saveUser(page);
         return false;
@@ -104,7 +108,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
     }
 
     $(document).on('pageinit', '#newUserPage', function () {
-        var page = this;
+        const page = this;
         $('#chkEnableAllChannels', page).on('change', function () {
             if (this.checked) {
                 $('.channelAccessListContainer', page).hide();
@@ -123,4 +127,5 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
     }).on('pageshow', '#newUserPage', function () {
         loadData(this);
     });
-});
+
+/* eslint-enable indent */

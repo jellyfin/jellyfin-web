@@ -41,6 +41,8 @@
     width: auto !important;
     height: auto !important;
     font-size: 1.4em;
+    margin-right: 0.125em;
+    color: #f2b01e;
 }
 
 .mediaInfoCriticRating {

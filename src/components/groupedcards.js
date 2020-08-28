@@ -1,5 +1,8 @@
-define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, connectionManager) {
-    'use strict';
+/* eslint-disable indent */
+
+import dom from 'dom';
+import appRouter from 'appRouter';
+import connectionManager from 'connectionManager';
 
     function onGroupedCardClick(e, card) {
         var itemId = card.getAttribute('data-id');
@@ -18,11 +21,11 @@ define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, conn
 
         if (!actionableParent || actionableParent.classList.contains('cardContent')) {
             apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-                if (1 === items.length) {
+                if (items.length === 1) {
                     return void appRouter.showItem(items[0]);
                 }
 
-                var url = 'itemdetails.html?id=' + itemId + '&serverId=' + serverId;
+                var url = 'details?id=' + itemId + '&serverId=' + serverId;
                 Dashboard.navigate(url);
             });
             e.stopPropagation();
@@ -31,7 +34,7 @@ define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, conn
         }
     }
 
-    function onItemsContainerClick(e) {
+    export default function onItemsContainerClick(e) {
         var groupedCard = dom.parentWithClass(e.target, 'groupedCard');
 
         if (groupedCard) {
@@ -39,7 +42,4 @@ define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, conn
         }
     }
 
-    return {
-        onItemsContainerClick: onItemsContainerClick
-    };
-});
+/* eslint-enable indent */
