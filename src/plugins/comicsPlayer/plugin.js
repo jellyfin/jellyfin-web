@@ -19,7 +19,7 @@ export class ComicsPlayer {
     }
 
     play(options) {
-        this._progress = 0;
+        this.progress = 0;
 
         let elem = this.createMediaElement();
         return this.setCurrentSrc(elem, options);
@@ -75,7 +75,7 @@ export class ComicsPlayer {
                 removeOnClose: true
             });
 
-            elem.id = 'bookPlayer';
+            elem.id = 'comicsPlayer';
             elem.classList.add('slideshowDialog');
 
             elem.innerHTML = '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
@@ -90,7 +90,7 @@ export class ComicsPlayer {
 
     setCurrentSrc(elem, options) {
         let item = options.items[0];
-        this._currentItem = item;
+        this.currentItem = item;
 
         loading.show();
 
