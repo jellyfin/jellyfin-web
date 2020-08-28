@@ -843,6 +843,28 @@ scrollerFactory.prototype.to = function (location, item, immediate) {
 };
 
 /**
+ * Scrolls an element into view
+ *
+ * @param  {Mixed}  previousItem
+ * @param  {Mixed}  item
+ * @param  {Bool}   immediate
+ *
+ * @return {Void}
+ */
+scrollerFactory.prototype.scrollUntilVisible = function (previousItem, item, immediate) {
+    const previousItemPos = this.getPos(previousItem);
+    const itemPos = this.getPos(item);
+
+    if (previousItemPos.start < itemPos.start && !itemPos.isVisible) {
+        // We're going left
+        this.to('end', item, immediate);
+    } else if (!itemPos.isVisible) {
+        // We're going right
+        this.to('start', item, immediate);
+    }
+}
+
+/**
  * Animate element or the whole SLIDEE to the start of the frame.
  *
  * @param {Mixed} item      Item DOM element, or index starting at 0. Omitting will animate SLIDEE.

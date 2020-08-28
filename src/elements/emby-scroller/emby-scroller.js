@@ -20,13 +20,13 @@ import 'css!./emby-scroller';
             if (e.explicitOriginalTarget.parentNode === e.target.parentNode) {
                 const focused = focusManager.focusableParent(e.target);
                 if (focused) {
-                    scrollerInstance.toCenter(focused);
+                    scrollerInstance.scrollUntilVisible(e.explicitOriginalTarget, focused);
                 }
             } else {
                 const focused = this.querySelector('.lastFocused');
                 if (focused) {
                     focusManager.focus(focused);
-                    scrollerInstance.toCenter(focused);
+                    scrollerInstance.scrollUntilVisible(e.explicitOriginalTarget, focused);
                 }
                 e.stopPropagation();
             }
