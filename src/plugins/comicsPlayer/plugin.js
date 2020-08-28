@@ -28,14 +28,12 @@ export class ComicsPlayer {
     stop() {
         this.unbindEvents();
 
-        let elem = this._mediaElement;
-
+        let elem = this.mediaElement;
         if (elem) {
             dialogHelper.close(elem);
-            this._mediaElement = null;
+            this.mediaElement = null;
         }
 
-        // Hide loader in case player was not fully loaded yet
         loading.hide();
     }
 
@@ -61,8 +59,7 @@ export class ComicsPlayer {
     }
 
     createMediaElement() {
-        let elem = this._mediaElement;
-
+        let elem = this.mediaElement;
         if (elem) {
             return elem;
         }
@@ -77,19 +74,17 @@ export class ComicsPlayer {
                 exitAnimation: 'fadeout',
                 removeOnClose: true
             });
-            elem.id = 'bookPlayer';
 
+            elem.id = 'bookPlayer';
             elem.classList.add('slideshowDialog');
 
             elem.innerHTML = '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
             this.bindEvents();
-
             dialogHelper.open(elem);
         }
 
-        this._mediaElement = elem;
-
+        this.mediaElement = elem;
         return elem;
     }
 
@@ -109,13 +104,14 @@ export class ComicsPlayer {
         return new Promise((resolve, reject) => {
             let downloadUrl = apiClient.getItemDownloadUrl(item.Id);
             const archiveSource = new ArchiveSource(downloadUrl);
+
             var instance = this;
             import('swiper').then(({default: Swiper}) => {
                 archiveSource.load().then(() => {
                     loading.hide();
                     this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
                         direction: 'horizontal',
-                        // Loop is disabled due to the virtual slides option not supporting it.
+                        // loop is disabled due to the lack of support in virtual slides
                         loop: false,
                         zoom: {
                             minRatio: 1,
@@ -130,7 +126,7 @@ export class ComicsPlayer {
                         slidesPerView: 1,
                         slidesPerColumn: 1,
                         initialSlide: 0,
-                        // Virtual slides reduce memory consumption for large libraries while allowing preloading of images;
+                        // reduces memory consumption for large libraries while allowing preloading of images
                         virtual: {
                             slides: archiveSource.urls,
                             cache: true,
@@ -160,6 +156,7 @@ export class ComicsPlayer {
         if (item.Path && (item.Path.endsWith('cbz') || item.Path.endsWith('cbr'))) {
             return true;
         }
+
         return false;
     }
 }
@@ -178,6 +175,7 @@ class ArchiveSource {
         if (!res.ok) {
             return;
         }
+
         let blob = await res.blob();
         this.archive = await libarchive.Archive.open(blob);
         this.raw = await this.archive.getFilesArray();
@@ -186,10 +184,11 @@ class ArchiveSource {
 
         let files = await this.archive.getFilesArray();
         files.sort((a, b) => {
-            if (a.file.name < b.file.name)
+            if (a.file.name < b.file.name) {
                 return -1;
-            else
+            } else {
                 return 1;
+            }
         });
 
         for (let file of files) {
