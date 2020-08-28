@@ -17,8 +17,6 @@ import 'emby-itemscontainer';
 import 'css!./remotecontrol.css';
 import 'emby-ratingbutton';
 
-/*eslint prefer-const: "error"*/
-
 let showMuteButton = true;
 let showVolumeSlider = true;
 
@@ -193,9 +191,9 @@ function updateNowPlayingInfo(context, state, serverId) {
         }
 
         const url = seriesImageUrl(item, {
-            maxHeight: 300
+            maxHeight: 900
         }) || imageUrl(item, {
-            maxHeight: 300
+            maxHeight: 900
         });
 
         let contextButton = context.querySelector('.btnToggleContextMenu');
