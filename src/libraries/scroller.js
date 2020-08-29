@@ -165,7 +165,7 @@ var scrollerFactory = function (frame, options) {
                 // In TV layout, the width is wrong, as the item will be aligned to the end of the element, with padding.
                 // We actually want to align it without the padding, so compute the size properly.
                 const computedStyle = getComputedStyle(frame);
-                const frameHeight = frame.clientHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));  // height with padding
+                const frameHeight = frame.clientHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
                 const frameWidth = frame.clientWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
 
                 frameSize = o.horizontal ? frameWidth : frameHeight;
@@ -876,7 +876,7 @@ scrollerFactory.prototype.scrollUntilVisible = function (previousItem, item, imm
         // We're going right
         this.to('start', item, immediate);
     }
-}
+};
 
 /**
  * Animate element or the whole SLIDEE to the start of the frame.
