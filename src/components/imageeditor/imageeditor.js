@@ -59,8 +59,8 @@ import 'css!./imageeditor';
         currentItem = item;
 
         apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
-            const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
-            for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
+            var btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
+            for (var i = 0, length = btnBrowseAllImages.length; i < length; i++) {
                 if (providers.length) {
                     btnBrowseAllImages[i].classList.remove('hide');
                 } else {
@@ -217,7 +217,7 @@ import 'css!./imageeditor';
             reload(context, null, focusContext);
         }, function () {
             import('alert').then(({default: alert}) => {
-                alert(globalize.translate('DefaultErrorMessage'));
+                alert(globalize.translate('ErrorDefault'));
             });
         });
     }

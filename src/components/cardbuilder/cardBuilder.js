@@ -362,12 +362,12 @@ import 'programStyles';
             let hasOpenRow;
             let hasOpenSection;
 
-            let sectionTitleTagName = options.sectionTitleTagName || 'div';
+            const sectionTitleTagName = options.sectionTitleTagName || 'div';
             let apiClient;
             let lastServerId;
 
             for (const [i, item] of items.entries()) {
-                let serverId = item.ServerId || options.serverId;
+                const serverId = item.ServerId || options.serverId;
 
                 if (serverId !== lastServerId) {
                     lastServerId = serverId;
@@ -621,7 +621,7 @@ import 'programStyles';
                 });
             }
 
-            let blurHashes = options.imageBlurhashes || item.ImageBlurHashes || {};
+            const blurHashes = options.imageBlurhashes || item.ImageBlurHashes || {};
 
             return {
                 imgUrl: imgUrl,
@@ -656,7 +656,7 @@ import 'programStyles';
                 for (let i = 0; i < character.length; i++) {
                     sum += parseInt(character.charAt(i));
                 }
-                let index = String(sum).substr(-1);
+                const index = String(sum).substr(-1);
 
                 return (index % numRandomColors) + 1;
             } else {
@@ -682,7 +682,7 @@ import 'programStyles';
 
             for (let i = 0; i < lines.length; i++) {
                 let currentCssClass = cssClass;
-                let text = lines[i];
+                const text = lines[i];
 
                 if (valid > 0 && isOuterFooter) {
                     currentCssClass += ' cardText-secondary';
@@ -707,7 +707,7 @@ import 'programStyles';
             }
 
             if (forceLines) {
-                let linesLength = maxLines || Math.min(lines.length, maxLines || lines.length);
+                const linesLength = maxLines || Math.min(lines.length, maxLines || lines.length);
 
                 while (valid < linesLength) {
                     html += "<div class='" + cssClass + "'>&nbsp;</div>";
@@ -986,6 +986,10 @@ import 'programStyles';
                 lines = [];
             }
 
+            if (overlayText && showTitle) {
+                lines = [item.Name];
+            }
+
             const addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
 
             html += getCardTextLines(lines, cssClass, !options.overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
@@ -1036,7 +1040,7 @@ import 'programStyles';
          * @returns {string} HTML markup for the item count indicator.
          */
         function getItemCountsHtml(options, item) {
-            let counts = [];
+            const counts = [];
             let childText;
 
             if (item.Type === 'Playlist') {
@@ -1117,7 +1121,7 @@ import 'programStyles';
         function importRefreshIndicator() {
             if (!refreshIndicatorLoaded) {
                 refreshIndicatorLoaded = true;
-                /* eslint-disable-next-line no-unused-expressions */
+                /* eslint-disable-next-line  @babel/no-unused-expressions */
                 import('emby-itemrefreshindicator');
             }
         }
@@ -1212,8 +1216,8 @@ import 'programStyles';
             if (coveredImage) {
                 cardImageContainerClass += ' coveredImage';
 
-                if (item.MediaType === 'Photo' || item.Type === 'PhotoAlbum' || item.Type === 'Folder' || item.ProgramInfo || item.Type === 'Program' || item.Type === 'Recording') {
-                    cardImageContainerClass += ' coveredImage-noScale';
+                if (item.Type === 'TvChannel') {
+                    cardImageContainerClass += ' coveredImage-contain';
                 }
             }
 
@@ -1318,7 +1322,7 @@ import 'programStyles';
             let cardBoxClose = '';
             let cardScalableClose = '';
 
-            let cardContentClass = 'cardContent';
+            const cardContentClass = 'cardContent';
 
             let blurhashAttrib = '';
             if (blurhash && blurhash.length > 0) {
@@ -1337,7 +1341,7 @@ import 'programStyles';
                 cardImageContainerClose = '</button>';
             }
 
-            let cardScalableClass = 'cardScalable';
+            const cardScalableClass = 'cardScalable';
 
             cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
             cardBoxClose = '</div>';
@@ -1449,7 +1453,7 @@ import 'programStyles';
             const userData = item.UserData || {};
 
             if (itemHelper.canMarkPlayed(item)) {
-                /* eslint-disable-next-line no-unused-expressions */
+                /* eslint-disable-next-line  @babel/no-unused-expressions */
                 import('emby-playstatebutton');
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
@@ -1457,7 +1461,7 @@ import 'programStyles';
             if (itemHelper.canRate(item)) {
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
-                /* eslint-disable-next-line no-unused-expressions */
+                /* eslint-disable-next-line  @babel/no-unused-expressions */
                 import('emby-ratingbutton');
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
@@ -1681,7 +1685,7 @@ import 'programStyles';
             const cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
 
             for (let i = 0, length = cells.length; i < length; i++) {
-                let cell = cells[i];
+                const cell = cells[i];
                 const icon = cell.querySelector('.timerIndicator');
                 if (!icon) {
                     const indicatorsElem = ensureIndicators(cell);
@@ -1700,8 +1704,8 @@ import 'programStyles';
             const cells = itemsContainer.querySelectorAll('.card[data-timerid="' + timerId + '"]');
 
             for (let i = 0; i < cells.length; i++) {
-                let cell = cells[i];
-                let icon = cell.querySelector('.timerIndicator');
+                const cell = cells[i];
+                const icon = cell.querySelector('.timerIndicator');
                 if (icon) {
                     icon.parentNode.removeChild(icon);
                 }
@@ -1718,8 +1722,8 @@ import 'programStyles';
             const cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + cancelledTimerId + '"]');
 
             for (let i = 0; i < cells.length; i++) {
-                let cell = cells[i];
-                let icon = cell.querySelector('.timerIndicator');
+                const cell = cells[i];
+                const icon = cell.querySelector('.timerIndicator');
                 if (icon) {
                     icon.parentNode.removeChild(icon);
                 }

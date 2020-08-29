@@ -105,11 +105,11 @@ export function getQueryPagingHtml (options) {
         }
 
         if (options.sortButton) {
-            html += '<button is="paper-icon-button-light" class="btnSort autoSize" title="' + globalize.translate('ButtonSort') + '"><span class="material-icons sort_by_alpha"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnSort autoSize" title="' + globalize.translate('Sort') + '"><span class="material-icons sort_by_alpha"></span></button>';
         }
 
         if (options.filterButton) {
-            html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + globalize.translate('ButtonFilter') + '"><span class="material-icons filter_list"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + globalize.translate('Filter') + '"><span class="material-icons filter_list"></span></button>';
         }
 
         html += '</div>';
@@ -119,7 +119,10 @@ export function getQueryPagingHtml (options) {
 }
 
 export function showSortMenu (options) {
-    require(['dialogHelper', 'emby-radio'], function (dialogHelper) {
+    Promise.all([
+        import('dialogHelper'),
+        import('emby-radio')
+    ]).then(([{default: dialogHelper}]) => {
         function onSortByChange() {
             var newValue = this.value;
 

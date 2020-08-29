@@ -26,7 +26,7 @@
         });
     }
 
-    self.addEventListener('notificationclick', function (event) {
+    window.addEventListener('notificationclick', function (event) {
         var notification = event.notification;
         notification.close();
 

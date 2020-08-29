@@ -45,10 +45,10 @@ import libraryMenu from 'libraryMenu';
             return ApiClient.ajax({
                 url: ApiClient.getUrl('System/MediaEncoder/Path'),
                 type: 'POST',
-                data: {
+                data: JSON.stringify({
                     Path: form.querySelector('.txtEncoderPath').value,
                     PathType: 'Custom'
-                }
+                })
             }).then(Dashboard.processServerConfigurationUpdateResult, onSaveEncodingPathFailure);
         });
     }
@@ -81,7 +81,7 @@ import libraryMenu from 'libraryMenu';
                     updateEncoder(form);
                 }, function () {
                     import('alert').then(({default: alert}) => {
-                        alert(globalize.translate('DefaultErrorMessage'));
+                        alert(globalize.translate('ErrorDefault'));
                     });
 
                     Dashboard.processServerConfigurationUpdateResult();
@@ -128,7 +128,7 @@ import libraryMenu from 'libraryMenu';
             name: globalize.translate('Transcoding')
         }, {
             href: 'playbackconfiguration.html',
-            name: globalize.translate('TabResumeSettings')
+            name: globalize.translate('ButtonResume')
         }, {
             href: 'streamingsettings.html',
             name: globalize.translate('TabStreaming')

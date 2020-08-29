@@ -36,7 +36,7 @@ import 'emby-button';
         }
 
         for (let i = 0, length = profiles.length; i < length; i++) {
-            let profile = profiles[i];
+            const profile = profiles[i];
             html += '<div class="listItem listItem-border">';
             html += '<span class="listItemIcon material-icons live_tv"></span>';
             html += '<div class="listItemBody two-line">';
@@ -46,7 +46,7 @@ import 'emby-button';
             html += '</div>';
 
             if (profile.Type == 'User') {
-                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('ButtonDelete') + '"><span class="material-icons delete"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('Delete') + '"><span class="material-icons delete"></span></button>';
             }
 
             html += '</div>';

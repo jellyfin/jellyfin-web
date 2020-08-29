@@ -1,6 +1,8 @@
 define(['browser'], function (browser) {
     'use strict';
 
+    browser = browser.default || browser;
+
     function canPlayH264(videoTestElement) {
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
     }
@@ -313,10 +315,12 @@ define(['browser'], function (browser) {
         // Not sure how to test for this
         var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
 
+        /* eslint-disable compat/compat */
         var maxVideoWidth = browser.xboxOne ?
-            (self.screen ? self.screen.width : null) :
+            (window.screen ? window.screen.width : null) :
             null;
 
+        /* eslint-enable compat/compat */
         if (options.maxVideoWidth) {
             maxVideoWidth = options.maxVideoWidth;
         }

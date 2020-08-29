@@ -315,7 +315,7 @@ import 'listViewStyle';
         let currentType;
 
         for (let i = 0, length = profiles.length; i < length; i++) {
-            let profile = profiles[i];
+            const profile = profiles[i];
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + '</li>';
@@ -401,7 +401,7 @@ import 'listViewStyle';
         let currentType;
 
         for (let i = 0, length = profiles.length; i < length; i++) {
-            let profile = profiles[i];
+            const profile = profiles[i];
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + '</li>';
@@ -472,7 +472,7 @@ import 'listViewStyle';
         let currentType;
 
         for (let i = 0, length = profiles.length; i < length; i++) {
-            let profile = profiles[i];
+            const profile = profiles[i];
             const type = profile.Type.replace('VideoAudio', 'Video Audio');
 
             if (type !== currentType) {
@@ -696,7 +696,7 @@ import 'listViewStyle';
     let currentProfile;
     let currentSubProfile;
     let isSubProfileNew;
-    const allText = globalize.translate('LabelAll');
+    const allText = globalize.translate('All');
 
     $(document).on('pageinit', '#dlnaProfilePage', function () {
         const page = this;

@@ -8,7 +8,7 @@ import 'emby-input';
 
 /* eslint-disable indent */
 
-    let EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
+    const EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 
     let supportsValueSetOverride = false;
 
@@ -94,7 +94,7 @@ import 'emby-input';
         // Keep only one per slider frame request
         cancelAnimationFrame(range.updateValuesFrame);
         range.updateValuesFrame = requestAnimationFrame(function () {
-            let backgroundLower = range.backgroundLower;
+            const backgroundLower = range.backgroundLower;
 
             if (backgroundLower) {
                 let fraction = (value - range.min) / (range.max - range.min);
@@ -148,6 +148,16 @@ import 'emby-input';
         }
         if (layoutManager.tv) {
             this.classList.add('show-focus');
+        }
+
+        const topContainer = dom.parentWithClass(this, 'sliderContainer-settings');
+
+        if (topContainer && this.getAttribute('label')) {
+            const label = this.ownerDocument.createElement('label');
+            label.innerHTML = this.getAttribute('label');
+            label.classList.add('sliderLabel');
+            label.htmlFor = this.id;
+            topContainer.insertBefore(label, topContainer.firstChild);
         }
 
         const containerElement = this.parentNode;

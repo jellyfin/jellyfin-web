@@ -8,11 +8,11 @@ import 'scrollStyles';
 
 /* eslint-disable indent */
 
-    let EmbyTabs = Object.create(HTMLDivElement.prototype);
+    const EmbyTabs = Object.create(HTMLDivElement.prototype);
     const buttonClass = 'emby-tab-button';
     const activeButtonClass = buttonClass + '-active';
 
-    function setActiveTabButton(tabs, newButton, oldButton, animate) {
+    function setActiveTabButton(newButton) {
         newButton.classList.add(activeButtonClass);
     }
 
@@ -21,7 +21,7 @@ import 'scrollStyles';
     }
 
     function removeActivePanelClass(tabs, index) {
-        let tabPanel = getTabPanel(tabs, index);
+        const tabPanel = getTabPanel(tabs, index);
         if (tabPanel) {
             tabPanel.classList.remove('is-active');
         }
@@ -52,7 +52,7 @@ import 'scrollStyles';
             removeActivePanelClass(tabs, previousIndex);
         }
 
-        let newPanel = getTabPanel(tabs, index);
+        const newPanel = getTabPanel(tabs, index);
 
         if (newPanel) {
             // animate new panel ?
@@ -77,7 +77,7 @@ import 'scrollStyles';
 
             const previousIndex = current ? parseInt(current.getAttribute('data-index')) : null;
 
-            setActiveTabButton(tabs, tabButton, current, true);
+            setActiveTabButton(tabButton);
 
             const index = parseInt(tabButton.getAttribute('data-index'));
 
@@ -99,6 +99,15 @@ import 'scrollStyles';
                 tabs.scroller.toCenter(tabButton, false);
             }
         }
+    }
+
+    function onFocusOut(e) {
+        const parentContainer = e.target.parentNode;
+        const previousFocus = parentContainer.querySelector('.lastFocused');
+        if (previousFocus) {
+            previousFocus.classList.remove('lastFocused');
+        }
+        e.target.classList.add('lastFocused');
     }
 
     function initScroller(tabs) {
@@ -146,13 +155,18 @@ import 'scrollStyles';
         dom.addEventListener(this, 'click', onClick, {
             passive: true
         });
+
+        dom.addEventListener(this, 'focusout', onFocusOut);
     };
 
-    EmbyTabs.focus = function () {
-        const selected = this.querySelector('.' + activeButtonClass);
+    EmbyTabs.focus = function onFocusIn() {
+        const selectedTab = this.querySelector('.' + activeButtonClass);
+        const lastFocused = this.querySelector('.lastFocused');
 
-        if (selected) {
-            focusManager.focus(selected);
+        if (lastFocused) {
+            focusManager.focus(lastFocused);
+        } else if (selectedTab) {
+            focusManager.focus(selectedTab);
         } else {
             focusManager.autoFocus(this);
         }
@@ -178,7 +192,7 @@ import 'scrollStyles';
             const newTabButton = tabButtons[currentIndex];
 
             if (newTabButton) {
-                setActiveTabButton(this, newTabButton, current, false);
+                setActiveTabButton(newTabButton);
             }
         }
 
@@ -225,8 +239,8 @@ import 'scrollStyles';
                 }
             }));
 
-            let currentTabButton = tabButtons[current];
-            setActiveTabButton(tabs, tabButtons[selected], currentTabButton, false);
+            const currentTabButton = tabButtons[current];
+            setActiveTabButton(tabButtons[selected]);
 
             if (current !== selected && currentTabButton) {
                 currentTabButton.classList.remove(activeButtonClass);

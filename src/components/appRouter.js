@@ -1,63 +1,298 @@
-define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
-    'use strict';
+import appHost from 'apphost';
+import appSettings from 'appSettings';
+import backdrop from 'backdrop';
+import browser from 'browser';
+import connectionManager from 'connectionManager';
+import events from 'events';
+import globalize from 'globalize';
+import itemHelper from 'itemHelper';
+import loading from 'loading';
+import page from 'page';
+import viewManager from 'viewManager';
 
-    var appRouter = {
-        showLocalLogin: function (serverId, manualLogin) {
-            var pageName = manualLogin ? 'manuallogin' : 'login';
-            show('/startup/' + pageName + '.html?serverid=' + serverId);
-        },
-        showSelectServer: function () {
-            show('/startup/selectserver.html');
-        },
-        showWelcome: function () {
-            show('/startup/welcome.html');
-        },
-        showSettings: function () {
-            show('/settings/settings.html');
-        },
-        showNowPlaying: function () {
-            show('queue');
+class AppRouter {
+    allRoutes = [];
+    backdropContainer;
+    backgroundContainer;
+    currentRouteInfo;
+    currentViewLoadRequest;
+    firstConnectionResult;
+    forcedLogoutMsg;
+    handleAnchorClick = page.clickHandler;
+    isDummyBackToHome;
+    msgTimeout;
+    popstateOccurred = false;
+    resolveOnNextShow;
+    /**
+     * Pages of "no return" (when "Go back" should behave differently, probably quitting the application).
+     */
+    startPages = ['home', 'login', 'selectserver'];
+
+    constructor() {
+        window.addEventListener('popstate', () => {
+            this.popstateOccurred = true;
+        });
+
+        document.addEventListener('viewshow', () => {
+            const resolve = this.resolveOnNextShow;
+            if (resolve) {
+                this.resolveOnNextShow = null;
+                resolve();
+            }
+        });
+
+        this.baseRoute = window.location.href.split('?')[0].replace(this.getRequestFile(), '');
+        // support hashbang
+        this.baseRoute = this.baseRoute.split('#')[0];
+        if (this.baseRoute.endsWith('/') && !this.baseRoute.endsWith('://')) {
+            this.baseRoute = this.baseRoute.substring(0, this.baseRoute.length - 1);
         }
-    };
 
-    function beginConnectionWizard() {
+        this.setBaseRoute();
+    }
+
+    /**
+     * @private
+     */
+    setBaseRoute() {
+        let baseRoute = window.location.pathname.replace(this.getRequestFile(), '');
+        if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
+            baseRoute = baseRoute.substring(0, baseRoute.length - 1);
+        }
+        console.debug('setting page base to ' + baseRoute);
+        page.base(baseRoute);
+    }
+
+    addRoute(path, newRoute) {
+        page(path, this.getHandler(newRoute));
+        this.allRoutes.push(newRoute);
+    }
+
+    showLocalLogin(serverId) {
+        Dashboard.navigate('login.html?serverid=' + serverId);
+    }
+
+    showVideoOsd() {
+        return Dashboard.navigate('video');
+    }
+
+    showSelectServer() {
+        Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
+    }
+
+    showWelcome() {
+        Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
+    }
+
+    showSettings() {
+        Dashboard.navigate('mypreferencesmenu.html');
+    }
+
+    showNowPlaying() {
+        this.show('queue');
+    }
+
+    beginConnectionWizard() {
         backdrop.clearBackdrop();
         loading.show();
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
-        }).then(function (result) {
-            handleConnectionResult(result);
+        }).then((result) => {
+            this.handleConnectionResult(result);
         });
     }
 
-    function handleConnectionResult(result) {
+    param(name, url) {
+        name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+        const regexS = '[\\?&]' + name + '=([^&#]*)';
+        const regex = new RegExp(regexS, 'i');
+
+        const results = regex.exec(url || getWindowLocationSearch());
+        if (results == null) {
+            return '';
+        } else {
+            return decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+    }
+
+    back() {
+        page.back();
+    }
+
+    show(path, options) {
+        if (path.indexOf('/') !== 0 && path.indexOf('://') === -1) {
+            path = '/' + path;
+        }
+
+        path = path.replace(this.baseUrl(), '');
+
+        if (this.currentRouteInfo && this.currentRouteInfo.path === path) {
+            // can't use this with home right now due to the back menu
+            if (this.currentRouteInfo.route.type !== 'home') {
+                loading.hide();
+                return Promise.resolve();
+            }
+        }
+
+        return new Promise((resolve) => {
+            this.resolveOnNextShow = resolve;
+            page.show(path, options);
+        });
+    }
+
+    showDirect(path) {
+        return new Promise(function(resolve) {
+            this.resolveOnNextShow = resolve;
+            page.show(this.baseUrl() + path);
+        });
+    }
+
+    start(options) {
+        loading.show();
+        this.initApiClients();
+
+        events.on(appHost, 'beforeexit', this.onBeforeExit);
+        events.on(appHost, 'resume', this.onAppResume);
+
+        connectionManager.connect({
+            enableAutoLogin: appSettings.enableAutoLogin()
+        }).then((result) => {
+            this.firstConnectionResult = result;
+            options = options || {};
+            page({
+                click: options.click !== false,
+                hashbang: options.hashbang !== false
+            });
+        }).catch().then(() => {
+            loading.hide();
+        });
+    }
+
+    baseUrl() {
+        return this.baseRoute;
+    }
+
+    canGoBack() {
+        const curr = this.current();
+        if (!curr) {
+            return false;
+        }
+
+        if (!document.querySelector('.dialogContainer') && this.startPages.indexOf(curr.type) !== -1) {
+            return false;
+        }
+
+        return window.history.length > 1;
+    }
+
+    current() {
+        return this.currentRouteInfo ? this.currentRouteInfo.route : null;
+    }
+
+    invokeShortcut(id) {
+        if (id.indexOf('library-') === 0) {
+            id = id.replace('library-', '');
+            id = id.split('_');
+
+            this.showItem(id[0], id[1]);
+        } else if (id.indexOf('item-') === 0) {
+            id = id.replace('item-', '');
+            id = id.split('_');
+            this.showItem(id[0], id[1]);
+        } else {
+            id = id.split('_');
+            this.show(this.getRouteUrl(id[0], {
+                serverId: id[1]
+            }));
+        }
+    }
+
+    showItem(item, serverId, options) {
+        // TODO: Refactor this so it only gets items, not strings.
+        if (typeof (item) === 'string') {
+            const apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
+            apiClient.getItem(apiClient.getCurrentUserId(), item).then((itemObject) => {
+                this.showItem(itemObject, options);
+            });
+        } else {
+            if (arguments.length === 2) {
+                options = arguments[1];
+            }
+
+            const url = this.getRouteUrl(item, options);
+            this.show(url, {
+                item: item
+            });
+        }
+    }
+
+    setTransparency(level) {
+        if (!this.backdropContainer) {
+            this.backdropContainer = document.querySelector('.backdropContainer');
+        }
+        if (!this.backgroundContainer) {
+            this.backgroundContainer = document.querySelector('.backgroundContainer');
+        }
+
+        if (level === 'full' || level === 2) {
+            backdrop.clearBackdrop(true);
+            document.documentElement.classList.add('transparentDocument');
+            this.backgroundContainer.classList.add('backgroundContainer-transparent');
+            this.backdropContainer.classList.add('hide');
+        } else if (level === 'backdrop' || level === 1) {
+            backdrop.externalBackdrop(true);
+            document.documentElement.classList.add('transparentDocument');
+            this.backgroundContainer.classList.add('backgroundContainer-transparent');
+            this.backdropContainer.classList.add('hide');
+        } else {
+            backdrop.externalBackdrop(false);
+            document.documentElement.classList.remove('transparentDocument');
+            this.backgroundContainer.classList.remove('backgroundContainer-transparent');
+            this.backdropContainer.classList.remove('hide');
+        }
+    }
+
+    getRoutes() {
+        return this.allRoutes;
+    }
+
+    pushState(state, title, url) {
+        state.navigate = false;
+        window.history.pushState(state, title, url);
+    }
+
+    enableNativeHistory() {
+        return false;
+    }
+
+    handleConnectionResult(result) {
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
-                skinManager.loadUserSkin();
+                Emby.Page.goHome();
                 break;
             case 'ServerSignIn':
-                result.ApiClient.getPublicUsers().then(function (users) {
+                result.ApiClient.getPublicUsers().then((users) => {
                     if (users.length) {
-                        appRouter.showLocalLogin(result.Servers[0].Id);
+                        this.showLocalLogin(result.Servers[0].Id);
                     } else {
-                        appRouter.showLocalLogin(result.Servers[0].Id, true);
+                        this.showLocalLogin(result.Servers[0].Id, true);
                     }
                 });
                 break;
             case 'ServerSelection':
-                appRouter.showSelectServer();
+                this.showSelectServer();
                 break;
             case 'ConnectSignIn':
-                appRouter.showWelcome();
+                this.showWelcome();
                 break;
             case 'ServerUpdateNeeded':
-                require(['alert'], function (alert) {
-                    alert.default({
+                import('alert').then(({default: alert}) =>{
+                    alert({
                         text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
                         html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
-                    }).then(function () {
-                        appRouter.showSelectServer();
+                    }).then(() => {
+                        this.showSelectServer();
                     });
                 });
                 break;
@@ -66,8 +301,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
     }
 
-    function loadContentUrl(ctx, next, route, request) {
-        var url;
+    loadContentUrl(ctx, next, route, request) {
+        let url;
         if (route.contentPath && typeof (route.contentPath) === 'function') {
             url = route.contentPath(ctx.querystring);
         } else {
@@ -80,55 +315,54 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
                 url = '/' + url;
             }
 
-            url = baseUrl() + url;
+            url = this.baseUrl() + url;
         }
 
         if (ctx.querystring && route.enableContentQueryString) {
             url += '?' + ctx.querystring;
         }
 
-        require(['text!' + url], function (html) {
-            loadContent(ctx, route, html, request);
+        import('text!' + url).then(({default: html}) => {
+            this.loadContent(ctx, route, html, request);
         });
     }
 
-    function handleRoute(ctx, next, route) {
-        authenticate(ctx, route, function () {
-            initRoute(ctx, next, route);
+    handleRoute(ctx, next, route) {
+        this.authenticate(ctx, route, () => {
+            this.initRoute(ctx, next, route);
         });
     }
 
-    function initRoute(ctx, next, route) {
-        var onInitComplete = function (controllerFactory) {
-            sendRouteToViewManager(ctx, next, route, controllerFactory);
+    initRoute(ctx, next, route) {
+        const onInitComplete = (controllerFactory) => {
+            this.sendRouteToViewManager(ctx, next, route, controllerFactory);
         };
 
         if (route.controller) {
-            require(['controllers/' + route.controller], onInitComplete);
+            import('controllers/' + route.controller).then(onInitComplete);
         } else {
             onInitComplete();
         }
     }
 
-    function cancelCurrentLoadRequest() {
-        var currentRequest = currentViewLoadRequest;
+    cancelCurrentLoadRequest() {
+        const currentRequest = this.currentViewLoadRequest;
         if (currentRequest) {
             currentRequest.cancel = true;
         }
     }
 
-    var currentViewLoadRequest;
-    function sendRouteToViewManager(ctx, next, route, controllerFactory) {
-        if (isDummyBackToHome && route.type === 'home') {
-            isDummyBackToHome = false;
+    sendRouteToViewManager(ctx, next, route, controllerFactory) {
+        if (this.isDummyBackToHome && route.type === 'home') {
+            this.isDummyBackToHome = false;
             return;
         }
 
-        cancelCurrentLoadRequest();
-        var isBackNav = ctx.isBack;
+        this.cancelCurrentLoadRequest();
+        const isBackNav = ctx.isBack;
 
-        var currentRequest = {
-            url: baseUrl() + ctx.path,
+        const currentRequest = {
+            url: this.baseUrl() + ctx.path,
             transition: route.transition,
             isBack: isBackNav,
             state: ctx.state,
@@ -141,13 +375,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             },
             autoFocus: route.autoFocus
         };
-        currentViewLoadRequest = currentRequest;
+        this.currentViewLoadRequest = currentRequest;
 
-        var onNewViewNeeded = function () {
+        const onNewViewNeeded = () => {
             if (typeof route.path === 'string') {
-                loadContentUrl(ctx, next, route, currentRequest);
+                this.loadContentUrl(ctx, next, route, currentRequest);
             } else {
-                // ? TODO
                 next();
             }
         };
@@ -156,64 +389,62 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             onNewViewNeeded();
             return;
         }
-        viewManager.tryRestoreView(currentRequest, function () {
-            currentRouteInfo = {
+        viewManager.tryRestoreView(currentRequest, () => {
+            this.currentRouteInfo = {
                 route: route,
                 path: ctx.path
             };
-        }).catch(function (result) {
+        }).catch((result) => {
             if (!result || !result.cancelled) {
                 onNewViewNeeded();
             }
         });
     }
 
-    var msgTimeout;
-    var forcedLogoutMsg;
-    function onForcedLogoutMessageTimeout() {
-        var msg = forcedLogoutMsg;
-        forcedLogoutMsg = null;
+    onForcedLogoutMessageTimeout() {
+        const msg = this.forcedLogoutMsg;
+        this.forcedLogoutMsg = null;
 
         if (msg) {
-            require(['alert'], function (alert) {
+            import('alert').then((alert) => {
                 alert(msg);
             });
         }
     }
 
-    function showForcedLogoutMessage(msg) {
-        forcedLogoutMsg = msg;
-        if (msgTimeout) {
-            clearTimeout(msgTimeout);
+    showForcedLogoutMessage(msg) {
+        this.forcedLogoutMsg = msg;
+        if (this.msgTimeout) {
+            clearTimeout(this.msgTimeout);
         }
 
-        msgTimeout = setTimeout(onForcedLogoutMessageTimeout, 100);
+        this.msgTimeout = setTimeout(this.onForcedLogoutMessageTimeout, 100);
     }
 
-    function onRequestFail(e, data) {
-        var apiClient = this;
+    onRequestFail(e, data) {
+        const apiClient = this;
 
         if (data.status === 403) {
             if (data.errorCode === 'ParentalControl') {
-                var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
+                const isCurrentAllowed = this.currentRouteInfo ? (this.currentRouteInfo.route.anonymous || this.currentRouteInfo.route.startup) : true;
 
                 // Bounce to the login screen, but not if a password entry fails, obviously
                 if (!isCurrentAllowed) {
-                    showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
-                    appRouter.showLocalLogin(apiClient.serverId());
+                    this.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
+                    this.showLocalLogin(apiClient.serverId());
                 }
             }
         }
     }
 
-    function onBeforeExit(e) {
+    onBeforeExit() {
         if (browser.web0s) {
             page.restorePreviousState();
         }
     }
 
-    function normalizeImageOptions(options) {
-        var setQuality;
+    normalizeImageOptions(options) {
+        let setQuality;
         if (options.maxWidth || options.width || options.maxHeight || options.height) {
             setQuality = true;
         }
@@ -223,10 +454,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
     }
 
-    function getMaxBandwidth() {
+    getMaxBandwidth() {
         /* eslint-disable compat/compat */
         if (navigator.connection) {
-            var max = navigator.connection.downlinkMax;
+            let max = navigator.connection.downlinkMax;
             if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
                 max /= 8;
                 max *= 1000000;
@@ -239,93 +470,65 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         return null;
     }
 
-    function getMaxBandwidthIOS() {
+    getMaxBandwidthIOS() {
         return 800000;
     }
 
-    function onApiClientCreated(e, newApiClient) {
-        newApiClient.normalizeImageOptions = normalizeImageOptions;
+    onApiClientCreated(e, newApiClient) {
+        newApiClient.normalizeImageOptions = this.normalizeImageOptions;
 
         if (browser.iOS) {
-            newApiClient.getMaxBandwidth = getMaxBandwidthIOS;
+            newApiClient.getMaxBandwidth = this.getMaxBandwidthIOS;
         } else {
-            newApiClient.getMaxBandwidth = getMaxBandwidth;
+            newApiClient.getMaxBandwidth = this.getMaxBandwidth;
         }
 
-        events.off(newApiClient, 'requestfail', onRequestFail);
-        events.on(newApiClient, 'requestfail', onRequestFail);
+        events.off(newApiClient, 'requestfail', this.onRequestFail);
+        events.on(newApiClient, 'requestfail', this.onRequestFail);
     }
 
-    function initApiClient(apiClient) {
-        onApiClientCreated({}, apiClient);
+    initApiClient(apiClient, instance) {
+        instance.onApiClientCreated({}, apiClient);
     }
 
-    function initApiClients() {
-        connectionManager.getApiClients().forEach(initApiClient);
+    initApiClients() {
+        connectionManager.getApiClients().forEach((apiClient) => {
+            this.initApiClient(apiClient, this);
+        });
 
-        events.on(connectionManager, 'apiclientcreated', onApiClientCreated);
+        events.on(connectionManager, 'apiclientcreated', this.onApiClientCreated);
     }
 
-    function onAppResume() {
-        var apiClient = connectionManager.currentApiClient();
+    onAppResume() {
+        const apiClient = connectionManager.currentApiClient();
 
         if (apiClient) {
             apiClient.ensureWebSocket();
         }
     }
 
-    var firstConnectionResult;
-    function start(options) {
-        loading.show();
-
-        initApiClients();
-
-        events.on(appHost, 'beforeexit', onBeforeExit);
-        events.on(appHost, 'resume', onAppResume);
-
-        connectionManager.connect({
-            enableAutoLogin: appSettings.enableAutoLogin()
-
-        }).then(function (result) {
-            firstConnectionResult = result;
-
-            options = options || {};
-
-            page({
-                click: options.click !== false,
-                hashbang: options.hashbang !== false
-            });
-        }).catch().then(function() {
-            loading.hide();
-        });
-    }
-
-    function enableNativeHistory() {
-        return false;
-    }
-
-    function authenticate(ctx, route, callback) {
-        var firstResult = firstConnectionResult;
+    authenticate(ctx, route, callback) {
+        const firstResult = this.firstConnectionResult;
         if (firstResult) {
-            firstConnectionResult = null;
+            this.firstConnectionResult = null;
 
             if (firstResult.State !== 'SignedIn' && !route.anonymous) {
-                handleConnectionResult(firstResult);
+                this.handleConnectionResult(firstResult);
                 return;
             }
         }
 
-        var apiClient = connectionManager.currentApiClient();
-        var pathname = ctx.pathname.toLowerCase();
+        const apiClient = connectionManager.currentApiClient();
+        const pathname = ctx.pathname.toLowerCase();
 
         console.debug('appRouter - processing path request ' + pathname);
 
-        var isCurrentRouteStartup = currentRouteInfo ? currentRouteInfo.route.startup : true;
-        var shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
+        const isCurrentRouteStartup = this.currentRouteInfo ? this.currentRouteInfo.route.startup : true;
+        const shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
 
         if (!shouldExitApp && (!apiClient || !apiClient.isLoggedIn()) && !route.anonymous) {
             console.debug('appRouter - route does not allow anonymous access, redirecting to login');
-            beginConnectionWizard();
+            this.beginConnectionWizard();
             return;
         }
 
@@ -342,12 +545,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
 
             if (route.isDefaultRoute) {
                 console.debug('appRouter - loading skin home page');
-                loadUserSkinWithOptions(ctx);
+                Emby.Page.goHome();
                 return;
             } else if (route.roles) {
-                validateRoles(apiClient, route.roles).then(function () {
+                this.validateRoles(apiClient, route.roles).then(() => {
                     callback();
-                }, beginConnectionWizard);
+                }, this.beginConnectionWizard);
                 return;
             }
         }
@@ -356,24 +559,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         callback();
     }
 
-    function loadUserSkinWithOptions(ctx) {
-        require(['queryString'], function (queryString) {
-            var params = queryString.parse(ctx.querystring);
-            skinManager.loadUserSkin({
-                start: params.start
-            });
-        });
-    }
-
-    function validateRoles(apiClient, roles) {
-        return Promise.all(roles.split(',').map(function (role) {
-            return validateRole(apiClient, role);
+    validateRoles(apiClient, roles) {
+        return Promise.all(roles.split(',').map((role) => {
+            return this.validateRole(apiClient, role);
         }));
     }
 
-    function validateRole(apiClient, role) {
+    validateRole(apiClient, role) {
         if (role === 'admin') {
-            return apiClient.getCurrentUser().then(function (user) {
+            return apiClient.getCurrentUser().then((user) => {
                 if (user.Policy.IsAdministrator) {
                     return Promise.resolve();
                 }
@@ -385,15 +579,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         return Promise.resolve();
     }
 
-    var isDummyBackToHome;
-
-    function loadContent(ctx, route, html, request) {
+    loadContent(ctx, route, html, request) {
         html = globalize.translateHtml(html, route.dictionary);
         request.view = html;
 
         viewManager.loadView(request);
 
-        currentRouteInfo = {
+        this.currentRouteInfo = {
             route: route,
             path: ctx.path
         };
@@ -401,10 +593,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         ctx.handled = true;
     }
 
-    function getRequestFile() {
-        var path = self.location.pathname || '';
+    getRequestFile() {
+        let path = window.location.pathname || '';
 
-        var index = path.lastIndexOf('/');
+        const index = path.lastIndexOf('/');
         if (index !== -1) {
             path = path.substring(index);
         } else {
@@ -418,39 +610,19 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         return path;
     }
 
-    function endsWith(str, srch) {
-        return str.lastIndexOf(srch) === srch.length - 1;
-    }
-
-    var baseRoute = self.location.href.split('?')[0].replace(getRequestFile(), '');
-    // support hashbang
-    baseRoute = baseRoute.split('#')[0];
-    if (endsWith(baseRoute, '/') && !endsWith(baseRoute, '://')) {
-        baseRoute = baseRoute.substring(0, baseRoute.length - 1);
-    }
-
-    function baseUrl() {
-        return baseRoute;
-    }
-
-    var popstateOccurred = false;
-    window.addEventListener('popstate', function () {
-        popstateOccurred = true;
-    });
-
-    function getHandler(route) {
-        return function (ctx, next) {
-            ctx.isBack = popstateOccurred;
-            handleRoute(ctx, next, route);
-            popstateOccurred = false;
+    getHandler(route) {
+        return (ctx, next) => {
+            ctx.isBack = this.popstateOccurred;
+            this.handleRoute(ctx, next, route);
+            this.popstateOccurred = false;
         };
     }
 
-    function getWindowLocationSearch(win) {
-        var currentPath = currentRouteInfo ? (currentRouteInfo.path || '') : '';
+    getWindowLocationSearch() {
+        const currentPath = this.currentRouteInfo ? (this.currentRouteInfo.path || '') : '';
 
-        var index = currentPath.indexOf('?');
-        var search = '';
+        const index = currentPath.indexOf('?');
+        let search = '';
 
         if (index !== -1) {
             search = currentPath.substring(index);
@@ -459,199 +631,218 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         return search || '';
     }
 
-    function param(name, url) {
-        name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
-        var regexS = '[\\?&]' + name + '=([^&#]*)';
-        var regex = new RegExp(regexS, 'i');
-
-        var results = regex.exec(url || getWindowLocationSearch());
-        if (results == null) {
-            return '';
-        } else {
-            return decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
+    showGuide() {
+        Dashboard.navigate('livetv.html?tab=1');
     }
 
-    function back() {
-        page.back();
+    goHome() {
+        Dashboard.navigate('home.html');
     }
 
-    /**
-     * Pages of "no return" (when "Go back" should behave differently, probably quitting the application).
-     */
-    var startPages = ['home', 'login', 'selectserver'];
-
-    function canGoBack() {
-        var curr = current();
-        if (!curr) {
-            return false;
-        }
-
-        if (!document.querySelector('.dialogContainer') && startPages.indexOf(curr.type) !== -1) {
-            return false;
-        }
-
-        return (page.len || 0) > 0;
+    showSearch() {
+        Dashboard.navigate('search.html');
     }
 
-    function showDirect(path) {
-        return new Promise(function(resolve, reject) {
-            resolveOnNextShow = resolve;
-            page.show(baseUrl() + path);
-        });
+    showLiveTV() {
+        Dashboard.navigate('livetv.html');
     }
 
-    function show(path, options) {
-        if (path.indexOf('/') !== 0 && path.indexOf('://') === -1) {
-            path = '/' + path;
+    showRecordedTV() {
+        Dashboard.navigate('livetv.html?tab=3');
+    }
+
+    showFavorites() {
+        Dashboard.navigate('home.html?tab=1');
+    }
+
+    setTitle(title) {
+        LibraryMenu.setTitle(title);
+    }
+
+    getRouteUrl(item, options) {
+        if (!item) {
+            throw new Error('item cannot be null');
         }
 
-        path = path.replace(baseUrl(), '');
+        if (item.url) {
+            return item.url;
+        }
 
-        if (currentRouteInfo && currentRouteInfo.path === path) {
-            // can't use this with home right now due to the back menu
-            if (currentRouteInfo.route.type !== 'home') {
-                loading.hide();
-                return Promise.resolve();
+        const context = options ? options.context : null;
+        const id = item.Id || item.ItemId;
+
+        if (!options) {
+            options = {};
+        }
+
+        let url;
+        // TODO: options will never be false. Replace condition with lodash's isEmpty()
+        const itemType = item.Type || (options ? options.itemType : null);
+        const serverId = item.ServerId || options.serverId;
+
+        if (item === 'settings') {
+            return 'mypreferencesmenu.html';
+        }
+
+        if (item === 'wizard') {
+            return 'wizardstart.html';
+        }
+
+        if (item === 'manageserver') {
+            return 'dashboard.html';
+        }
+
+        if (item === 'recordedtv') {
+            return 'livetv.html?tab=3&serverId=' + options.serverId;
+        }
+
+        if (item === 'nextup') {
+            return 'list.html?type=nextup&serverId=' + options.serverId;
+        }
+
+        if (item === 'list') {
+            let url = 'list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
+
+            if (options.isFavorite) {
+                url += '&IsFavorite=true';
+            }
+
+            return url;
+        }
+
+        if (item === 'livetv') {
+            if (options.section === 'programs') {
+                return 'livetv.html?tab=0&serverId=' + options.serverId;
+            }
+            if (options.section === 'guide') {
+                return 'livetv.html?tab=1&serverId=' + options.serverId;
+            }
+
+            if (options.section === 'movies') {
+                return 'list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
+            }
+
+            if (options.section === 'shows') {
+                return 'list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
+            }
+
+            if (options.section === 'sports') {
+                return 'list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
+            }
+
+            if (options.section === 'kids') {
+                return 'list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
+            }
+
+            if (options.section === 'news') {
+                return 'list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
+            }
+
+            if (options.section === 'onnow') {
+                return 'list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
+            }
+
+            if (options.section === 'dvrschedule') {
+                return 'livetv.html?tab=4&serverId=' + options.serverId;
+            }
+
+            if (options.section === 'seriesrecording') {
+                return 'livetv.html?tab=5&serverId=' + options.serverId;
+            }
+
+            return 'livetv.html?serverId=' + options.serverId;
+        }
+
+        if (itemType == 'SeriesTimer') {
+            return 'details?seriesTimerId=' + id + '&serverId=' + serverId;
+        }
+
+        if (item.CollectionType == 'livetv') {
+            return 'livetv.html';
+        }
+
+        if (item.Type === 'Genre') {
+            url = 'list.html?genreId=' + item.Id + '&serverId=' + serverId;
+
+            if (context === 'livetv') {
+                url += '&type=Programs';
+            }
+
+            if (options.parentId) {
+                url += '&parentId=' + options.parentId;
+            }
+
+            return url;
+        }
+
+        if (item.Type === 'MusicGenre') {
+            url = 'list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
+
+            if (options.parentId) {
+                url += '&parentId=' + options.parentId;
+            }
+
+            return url;
+        }
+
+        if (item.Type === 'Studio') {
+            url = 'list.html?studioId=' + item.Id + '&serverId=' + serverId;
+
+            if (options.parentId) {
+                url += '&parentId=' + options.parentId;
+            }
+
+            return url;
+        }
+
+        if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
+            if (item.CollectionType == 'movies') {
+                url = 'movies.html?topParentId=' + item.Id;
+
+                if (options && options.section === 'latest') {
+                    url += '&tab=1';
+                }
+
+                return url;
+            }
+
+            if (item.CollectionType == 'tvshows') {
+                url = 'tv.html?topParentId=' + item.Id;
+
+                if (options && options.section === 'latest') {
+                    url += '&tab=2';
+                }
+
+                return url;
+            }
+
+            if (item.CollectionType == 'music') {
+                return 'music.html?topParentId=' + item.Id;
             }
         }
 
-        return new Promise(function (resolve, reject) {
-            resolveOnNextShow = resolve;
-            page.show(path, options);
-        });
-    }
+        const itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
 
-    var resolveOnNextShow;
-    document.addEventListener('viewshow', function () {
-        var resolve = resolveOnNextShow;
-        if (resolve) {
-            resolveOnNextShow = null;
-            resolve();
+        if (itemTypes.indexOf(itemType) >= 0) {
+            return 'details?id=' + id + '&serverId=' + serverId;
         }
-    });
 
-    var currentRouteInfo;
-    function current() {
-        return currentRouteInfo ? currentRouteInfo.route : null;
-    }
+        const contextSuffix = context ? '&context=' + context : '';
 
-    function showItem(item, serverId, options) {
-        // TODO: Refactor this so it only gets items, not strings.
-        if (typeof (item) === 'string') {
-            var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
-            apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (itemObject) {
-                appRouter.showItem(itemObject, options);
-            });
-        } else {
-            if (arguments.length === 2) {
-                options = arguments[1];
+        if (itemType == 'Series' || itemType == 'Season' || itemType == 'Episode') {
+            return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;
+        }
+
+        if (item.IsFolder) {
+            if (id) {
+                return 'list.html?parentId=' + id + '&serverId=' + serverId;
             }
 
-            var url = appRouter.getRouteUrl(item, options);
-            appRouter.show(url, {
-                item: item
-            });
-        }
-    }
-
-    var allRoutes = [];
-
-    function addRoute(path, newRoute) {
-        page(path, getHandler(newRoute));
-        allRoutes.push(newRoute);
-    }
-
-    function getRoutes() {
-        return allRoutes;
-    }
-
-    var backdropContainer;
-    var backgroundContainer;
-    function setTransparency(level) {
-        if (!backdropContainer) {
-            backdropContainer = document.querySelector('.backdropContainer');
-        }
-        if (!backgroundContainer) {
-            backgroundContainer = document.querySelector('.backgroundContainer');
+            return '#';
         }
 
-        if (level === 'full' || level === 2) {
-            backdrop.clearBackdrop(true);
-            document.documentElement.classList.add('transparentDocument');
-            backgroundContainer.classList.add('backgroundContainer-transparent');
-            backdropContainer.classList.add('hide');
-        } else if (level === 'backdrop' || level === 1) {
-            backdrop.externalBackdrop(true);
-            document.documentElement.classList.add('transparentDocument');
-            backgroundContainer.classList.add('backgroundContainer-transparent');
-            backdropContainer.classList.add('hide');
-        } else {
-            backdrop.externalBackdrop(false);
-            document.documentElement.classList.remove('transparentDocument');
-            backgroundContainer.classList.remove('backgroundContainer-transparent');
-            backdropContainer.classList.remove('hide');
-        }
+        return 'details?id=' + id + '&serverId=' + serverId;
     }
+}
 
-    function pushState(state, title, url) {
-        state.navigate = false;
-        history.pushState(state, title, url);
-    }
-
-    function setBaseRoute() {
-        var baseRoute = self.location.pathname.replace(getRequestFile(), '');
-        if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
-            baseRoute = baseRoute.substring(0, baseRoute.length - 1);
-        }
-
-        console.debug('setting page base to ' + baseRoute);
-        page.base(baseRoute);
-    }
-
-    setBaseRoute();
-
-    function invokeShortcut(id) {
-        if (id.indexOf('library-') === 0) {
-            id = id.replace('library-', '');
-            id = id.split('_');
-
-            appRouter.showItem(id[0], id[1]);
-        } else if (id.indexOf('item-') === 0) {
-            id = id.replace('item-', '');
-            id = id.split('_');
-
-            appRouter.showItem(id[0], id[1]);
-        } else {
-            id = id.split('_');
-            appRouter.show(appRouter.getRouteUrl(id[0], {
-                serverId: id[1]
-            }));
-        }
-    }
-
-    appRouter.addRoute = addRoute;
-    appRouter.param = param;
-    appRouter.back = back;
-    appRouter.show = show;
-    appRouter.showDirect = showDirect;
-    appRouter.start = start;
-    appRouter.baseUrl = baseUrl;
-    appRouter.canGoBack = canGoBack;
-    appRouter.current = current;
-    appRouter.beginConnectionWizard = beginConnectionWizard;
-    appRouter.invokeShortcut = invokeShortcut;
-    appRouter.showItem = showItem;
-    appRouter.setTransparency = setTransparency;
-    appRouter.getRoutes = getRoutes;
-    appRouter.pushState = pushState;
-    appRouter.enableNativeHistory = enableNativeHistory;
-    appRouter.handleAnchorClick = page.clickHandler;
-    appRouter.TransparencyLevel = {
-        None: 0,
-        Backdrop: 1,
-        Full: 2
-    };
-
-    return appRouter;
-});
+export default new AppRouter();

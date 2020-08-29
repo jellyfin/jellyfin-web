@@ -49,7 +49,7 @@ import 'formDialogStyle';
         };
 
         if (parseFloat(updatedSchedule.StartHour) >= parseFloat(updatedSchedule.EndHour)) {
-            return void alert(globalize.translate('ErrorMessageStartHourGreaterThanEnd'));
+            return void alert(globalize.translate('ErrorStartHourGreaterThanEnd'));
         }
 
         context.submitted = true;

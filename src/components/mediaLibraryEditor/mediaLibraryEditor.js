@@ -76,7 +76,7 @@ import 'flexStyles';
             confirm({
                 title: globalize.translate('HeaderRemoveMediaLocation'),
                 text: globalize.translate('MessageConfirmRemoveMediaLocation'),
-                confirmText: globalize.translate('ButtonDelete'),
+                confirmText: globalize.translate('Delete'),
                 primary: 'delete'
             }).then(() => {
                 const refreshAfterChange = currentOptions.refresh;
@@ -85,7 +85,7 @@ import 'flexStyles';
                     refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
                 }, () => {
                     import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('DefaultErrorMessage'));
+                        toast(globalize.translate('ErrorDefault'));
                     });
                 });
             });
