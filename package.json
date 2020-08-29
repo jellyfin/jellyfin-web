@@ -17,7 +17,7 @@
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.12",
     "confusing-browser-globals": "^1.0.9",
-    "copy-webpack-plugin": "^5.1.1",
+    "copy-webpack-plugin": "^6.0.4",
     "css-loader": "^4.2.2",
     "cssnano": "^4.1.10",
     "del": "^5.1.0",
