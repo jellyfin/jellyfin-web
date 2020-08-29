@@ -10,7 +10,7 @@
 
     function polyfillProperty(name) {
         if (!(name in elem.style)) {
-            for (const vendorName of vendorProperties[name] || []) {
+            (vendorProperties[name] || []).every((vendorName) => {
                 if (vendorName in elem.style) {
                     console.debug(`polyfill '${name}' with '${vendorName}'`);
 
@@ -19,9 +19,11 @@
                         set: function (val) { this[vendorName] = val; }
                     });
 
-                    break;
+                    return false;
                 }
-            }
+
+                return true;
+            });
         }
     }
 
