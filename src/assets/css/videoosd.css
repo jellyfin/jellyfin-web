@@ -11,7 +11,7 @@
     left: 0;
     right: 0;
     position: fixed;
-    background: linear-gradient(0deg, rgba(16, 16, 16, 0.6) 0%, rgba(16, 16, 16, 0) 100%);
+    background: linear-gradient(0deg, rgba(16, 16, 16, 0.75) 0%, rgba(16, 16, 16, 0) 100%);
     padding-top: 7.5em;
     padding-bottom: 1.75em;
     display: flex;
@@ -28,7 +28,7 @@
     transition: opacity 0.3s ease-out;
     position: relative;
     z-index: 1;
-    background: linear-gradient(180deg, rgba(16, 16, 16, 0.6) 0%, rgba(16, 16, 16, 0) 100%);
+    background: linear-gradient(180deg, rgba(16, 16, 16, 0.75) 0%, rgba(16, 16, 16, 0) 100%);
     backdrop-filter: none;
     color: #eee;
     height: 7.5em;
