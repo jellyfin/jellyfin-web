@@ -40,7 +40,7 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-terser": "^1.4.0",
-    "html-webpack-plugin": "^4.3.0",
+    "html-webpack-plugin": "^4.4.0",
     "lazypipe": "^1.0.2",
     "node-sass": "^4.13.1",
     "postcss-loader": "^3.0.0",
