@@ -128,11 +128,24 @@
     align-items: center;
 }
 
-.osdVolumeSliderContainer {
-    width: 9em;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    flex-grow: 1;
+@media (hover: hover) {
+    .osdVolumeSliderContainer {
+        width: 1em;
+        opacity: 0;
+        transition: all 0.25s ease-in-out;
+    }
+
+    .volumeButtons:hover .osdVolumeSliderContainer {
+        width: 9em;
+        opacity: 1;
+        transition: width 0.25s ease-in-out;
+    }
+}
+
+@media (hover: none) {
+    .osdVolumeSliderContainer {
+        width: 9em;
+    }
 }
 
 .osdMediaInfo,
