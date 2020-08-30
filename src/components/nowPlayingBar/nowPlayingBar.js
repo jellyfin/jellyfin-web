@@ -701,7 +701,7 @@ import 'emby-ratingbutton';
 
         const player = this;
         currentRuntimeTicks = playbackManager.duration(player);
-        updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks, playbackManager.getBufferedRanges(player));
+        updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks, playbackManager.getBufferedRanges(player));
     }
 
     function releaseCurrentPlayer() {

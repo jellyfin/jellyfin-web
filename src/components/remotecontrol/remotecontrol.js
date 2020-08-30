@@ -619,7 +619,7 @@ export default function () {
             lastUpdateTime = now;
             const player = this;
             currentRuntimeTicks = playbackManager.duration(player);
-            updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks);
+            updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks);
         }
     }
 

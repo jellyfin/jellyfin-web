@@ -52,7 +52,7 @@
     "stylelint-order": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-merge": "^4.2.2",
-    "webpack-stream": "^5.2.1"
+    "webpack-stream": "^6.0.0"
   },
   "dependencies": {
     "alameda": "^1.4.0",
@@ -79,7 +79,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "screenfull": "^5.0.2",
     "sortablejs": "^1.10.2",
-    "swiper": "^5.4.5",
+    "swiper": "^6.1.1",
     "webcomponents.js": "^0.7.24",
     "whatwg-fetch": "^3.4.0"
   },

@@ -178,7 +178,7 @@ import 'flexStyles';
             const runtimeTicks = playbackManager.duration(options.player);
 
             if (runtimeTicks) {
-                const timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player);
+                const timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player) * 10000;
 
                 return Math.round(timeRemainingTicks / 10000);
             }

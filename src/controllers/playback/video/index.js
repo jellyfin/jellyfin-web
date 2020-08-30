@@ -586,7 +586,7 @@ import 'css!assets/css/videoosd';
                     lastUpdateTime = now;
                     const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
-                    const currentTime = playbackManager.currentTime(player);
+                    const currentTime = playbackManager.currentTime(player) * 10000;
                     updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getBufferedRanges(player));
                     const item = currentItem;
                     refreshProgramInfoIfNeeded(player, item);
