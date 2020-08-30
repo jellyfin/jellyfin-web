@@ -7,7 +7,6 @@ import playbackManager from 'playbackManager';
 import nowPlayingHelper from 'nowPlayingHelper';
 import appHost from 'apphost';
 import dom from 'dom';
-import connectionManager from 'connectionManager';
 import itemContextMenu from 'itemContextMenu';
 import 'paper-icon-button-light';
 import 'emby-ratingbutton';
@@ -452,7 +451,7 @@ import 'emby-ratingbutton';
             if (item.SeriesPrimaryImageTag) {
                 options.tag = item.SeriesPrimaryImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
         }
 
@@ -460,12 +459,12 @@ import 'emby-ratingbutton';
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -482,12 +481,12 @@ import 'emby-ratingbutton';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;
@@ -548,7 +547,7 @@ import 'emby-ratingbutton';
 
         if (nowPlayingItem.Id) {
             if (isRefreshing) {
-                const apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
+                const apiClient = window.connectionManager.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
                     const userData = item.UserData || {};
                     const likes = userData.Likes == null ? '' : userData.Likes;

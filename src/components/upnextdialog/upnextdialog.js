@@ -1,6 +1,5 @@
 import dom from 'dom';
 import playbackManager from 'playbackManager';
-import connectionManager from 'connectionManager';
 import events from 'events';
 import mediaInfo from 'mediaInfo';
 import layoutManager from 'layoutManager';
@@ -27,7 +26,7 @@ import 'flexStyles';
             if (item.SeriesPrimaryImageTag) {
                 options.tag = item.SeriesPrimaryImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
         }
 
@@ -35,12 +34,12 @@ import 'flexStyles';
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -53,13 +52,13 @@ import 'flexStyles';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (options.type === 'Primary') {
             if (item.AlbumId && item.AlbumPrimaryImageTag) {
                 options.tag = item.AlbumPrimaryImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
             }
         }
 

@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 
 function showErrorMessage() {
@@ -25,7 +24,7 @@ class PlayAccessValidation {
             return Promise.resolve();
         }
 
-        return connectionManager.getApiClient(serverId).getCurrentUser().then(function (user) {
+        return window.connectionManager.getApiClient(serverId).getCurrentUser().then(function (user) {
             if (user.Policy.EnableMediaPlayback) {
                 return Promise.resolve();
             }

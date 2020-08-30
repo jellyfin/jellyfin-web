@@ -8,7 +8,6 @@
 import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
 import indicators from 'indicators';
-import connectionManager from 'connectionManager';
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
 import datetime from 'datetime';
@@ -77,7 +76,7 @@ import 'emby-playstatebutton';
     }
 
     function getImageUrl(item, width) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
         let itemId;
 
         const options = {
@@ -106,7 +105,7 @@ import 'emby-playstatebutton';
     }
 
     function getChannelImageUrl(item, width) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
         const options = {
             maxWidth: width,
             type: 'Primary'

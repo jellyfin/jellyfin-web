@@ -5,7 +5,6 @@ import imageLoader from 'imageLoader';
 import playbackManager from 'playbackManager';
 import nowPlayingHelper from 'nowPlayingHelper';
 import events from 'events';
-import connectionManager from 'connectionManager';
 import appHost from 'apphost';
 import globalize from 'globalize';
 import layoutManager from 'layoutManager';
@@ -96,18 +95,18 @@ function seriesImageUrl(item, options) {
     options.type = options.type || 'Primary';
     if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
         options.tag = item.SeriesPrimaryImageTag;
-        return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+        return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
     }
 
     if (options.type === 'Thumb') {
         if (item.SeriesThumbImageTag) {
             options.tag = item.SeriesThumbImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
         if (item.ParentThumbImageTag) {
             options.tag = item.ParentThumbImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
         }
     }
 
@@ -120,12 +119,12 @@ function imageUrl(item, options) {
 
     if (item.ImageTags && item.ImageTags[options.type]) {
         options.tag = item.ImageTags[options.type];
-        return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+        return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
     }
 
     if (item.AlbumId && item.AlbumPrimaryImageTag) {
         options.tag = item.AlbumPrimaryImageTag;
-        return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+        return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
     }
 
     return null;
@@ -216,7 +215,7 @@ function updateNowPlayingInfo(context, state, serverId) {
             openAlbum: false,
             positionTo: contextButton
         };
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
         apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
             apiClient.getCurrentUser().then(function (user) {
                 contextButton.addEventListener('click', function () {

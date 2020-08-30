@@ -4,7 +4,6 @@ import dialogHelper from 'dialogHelper';
 import datetime from 'datetime';
 import loading from 'loading';
 import focusManager from 'focusManager';
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import shell from 'shell';
 import 'emby-checkbox';
@@ -290,7 +289,7 @@ import 'flexStyles';
     }
 
     function getApiClient() {
-        return connectionManager.getApiClient(currentItem.ServerId);
+        return window.connectionManager.getApiClient(currentItem.ServerId);
     }
 
     function bindAll(elems, eventName, fn) {
@@ -370,7 +369,7 @@ import 'flexStyles';
     }
 
     function getItem(itemId, serverId) {
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         if (itemId) {
             return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
@@ -380,7 +379,7 @@ import 'flexStyles';
     }
 
     function getEditorConfig(itemId, serverId) {
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         if (itemId) {
             return apiClient.getJSON(apiClient.getUrl('Items/' + itemId + '/MetadataEditor'));
@@ -1068,7 +1067,7 @@ import 'flexStyles';
 
             currentContext = dlg;
 
-            init(dlg, connectionManager.getApiClient(serverId));
+            init(dlg, window.connectionManager.getApiClient(serverId));
 
             reload(dlg, itemId, serverId);
         });
@@ -1095,7 +1094,7 @@ import 'flexStyles';
 
                     currentContext = elem;
 
-                    init(elem, connectionManager.getApiClient(serverId));
+                    init(elem, window.connectionManager.getApiClient(serverId));
                     reload(elem, itemId, serverId);
 
                     focusManager.autoFocus(elem);

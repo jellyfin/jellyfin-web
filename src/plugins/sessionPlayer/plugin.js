@@ -1,7 +1,6 @@
 import playbackManager from 'playbackManager';
 import events from 'events';
 import serverNotifications from 'serverNotifications';
-import connectionManager from 'connectionManager';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();
@@ -54,10 +53,10 @@ function getCurrentApiClient(instance) {
     const currentServerId = instance.currentServerId;
 
     if (currentServerId) {
-        return connectionManager.getApiClient(currentServerId);
+        return window.connectionManager.getApiClient(currentServerId);
     }
 
-    return connectionManager.currentApiClient();
+    return window.connectionManager.currentApiClient();
 }
 
 function sendCommandByName(instance, name, options) {

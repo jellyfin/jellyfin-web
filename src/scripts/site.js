@@ -56,30 +56,23 @@ window.pageIdOn = function(eventName, id, fn) {
 var AppInfo = {};
 
 function initClient() {
-    function defineConnectionManager(connectionManager) {
-        window.ConnectionManager = connectionManager;
-        define('connectionManager', [], function () {
-            return connectionManager;
-        });
-    }
-
     function bindConnectionManagerEvents(connectionManager, events, userSettings) {
         window.Events = events;
 
-        connectionManager.currentApiClient = function () {
+        window.connectionManager.currentApiClient = function () {
             if (!localApiClient) {
-                var server = connectionManager.getLastUsedServer();
+                var server = window.connectionManager.getLastUsedServer();
 
                 if (server) {
-                    localApiClient = connectionManager.getApiClient(server.Id);
+                    localApiClient = window.connectionManager.getApiClient(server.Id);
                 }
             }
 
             return localApiClient;
         };
 
-        connectionManager.onLocalUserSignedIn = function (user) {
-            localApiClient = connectionManager.getApiClient(user.ServerId);
+        window.connectionManager.onLocalUserSignedIn = function (user) {
+            localApiClient = window.connectionManager.getApiClient(user.ServerId);
             window.ApiClient = localApiClient;
             return userSettings.setUserInfo(user.Id, localApiClient);
         };
@@ -99,10 +92,9 @@ function initClient() {
             return Promise.all(promises).then(function (responses) {
                 var capabilities = Dashboard.capabilities(appHost);
 
-                var connectionManager = new ConnectionManager(credentialProviderInstance, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId(), capabilities);
+                window.connectionManager = new ConnectionManager(credentialProviderInstance, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId(), capabilities);
 
-                defineConnectionManager(connectionManager);
-                bindConnectionManagerEvents(connectionManager, events, userSettings);
+                bindConnectionManagerEvents(window.connectionManager, events, userSettings);
 
                 if (!AppInfo.isNativeApp) {
                     console.debug('loading ApiClient singleton');
@@ -115,7 +107,7 @@ function initClient() {
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
 
-                        connectionManager.addApiClient(apiClient);
+                        window.connectionManager.addApiClient(apiClient);
 
                         window.ApiClient = apiClient;
                         localApiClient = apiClient;
@@ -225,8 +217,8 @@ function initClient() {
                 require(['autoFocuser'], function(autoFocuser) {
                     autoFocuser.enable();
                 });
-                require(['globalize', 'connectionManager', 'events'], function (globalize, connectionManager, events) {
-                    events.on(connectionManager, 'localusersignedin', globalize.updateCurrentCulture);
+                require(['globalize', 'events'], function (globalize, events) {
+                    events.on(window.connectionManager, 'localusersignedin', globalize.updateCurrentCulture);
                 });
             });
         });
@@ -374,7 +366,7 @@ function initClient() {
 
                 require(['playerSelectionMenu']);
 
-                var apiClient = window.ConnectionManager && window.ConnectionManager.currentApiClient();
+                var apiClient = window.connectionManager && window.connectionManager.currentApiClient();
                 if (apiClient) {
                     fetch(apiClient.getUrl('Branding/Css'))
                         .then(function(response) {
@@ -675,9 +667,6 @@ function initClient() {
         define('mouseManager', [scriptsPath + '/mouseManager'], returnFirstDependency);
         define('scrollManager', [componentsPath + '/scrollManager'], returnFirstDependency);
         define('autoFocuser', [componentsPath + '/autoFocuser'], returnFirstDependency);
-        define('connectionManager', [], function () {
-            return ConnectionManager;
-        });
         define('apiClientResolver', [], function () {
             return function () {
                 return window.ApiClient;

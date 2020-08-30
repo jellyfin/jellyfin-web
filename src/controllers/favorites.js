@@ -2,7 +2,6 @@ import appRouter from 'appRouter';
 import cardBuilder from 'cardBuilder';
 import dom from 'dom';
 import globalize from 'globalize';
-import connectionManager from 'connectionManager';
 import appHost from 'apphost';
 import layoutManager from 'layoutManager';
 import focusManager from 'focusManager';
@@ -270,7 +269,7 @@ class FavoritesTab {
     constructor(view, params) {
         this.view = view;
         this.params = params;
-        this.apiClient = connectionManager.currentApiClient();
+        this.apiClient = window.connectionManager.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
         createSections(this, this.sectionsContainer, this.apiClient);
     }

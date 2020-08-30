@@ -1,6 +1,5 @@
 import itemShortcuts from 'itemShortcuts';
 import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
 import playbackManager from 'playbackManager';
 import imageLoader from 'imageLoader';
 import layoutManager from 'layoutManager';
@@ -103,7 +102,7 @@ import 'webcomponents';
         }
 
         const serverId = el.getAttribute('data-serverid');
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         loading.show();
 
