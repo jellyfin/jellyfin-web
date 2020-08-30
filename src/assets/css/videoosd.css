@@ -24,7 +24,7 @@
     -webkit-touch-callout: none;
 }
 
-.osdHeader {
+.skinHeader-withBackground.osdHeader {
     transition: opacity 0.3s ease-out;
     position: relative;
     z-index: 1;
