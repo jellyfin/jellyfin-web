@@ -84,7 +84,6 @@ module.exports = {
                 'ApiClient': 'writable',
                 'AppInfo': 'writable',
                 'chrome': 'writable',
-                'ConnectionManager': 'writable',
                 'DlnaProfilePage': 'writable',
                 'Dashboard': 'writable',
                 'DashboardPage': 'writable',
