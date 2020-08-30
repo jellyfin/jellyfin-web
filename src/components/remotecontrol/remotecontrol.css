@@ -86,7 +86,7 @@
 .nowPlayingPageImageContainer {
     display: flex;
     align-items: center;
-    height: 80vh;
+    height: 75vh;
     margin-right: 1em;
     position: relative;
     flex-grow: 1;
@@ -162,25 +162,19 @@
     background: rgba(0, 0, 0, 0) !important;
 }
 
+.playlist {
+    width: 100%;
+}
+
 .layout-mobile .playlistSection .playlist,
 .layout-mobile .playlistSection .contextMenu {
-    position: absolute;
-    top: 12.2em;
-    bottom: 4.2em;
     overflow: scroll;
     padding: 0 1em;
-    display: inline-block;
-    left: 0;
-    right: 0;
     z-index: 1000;
 }
 
 .layout-mobile .playlistSectionButton {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    height: 4.2em;
-    right: 0;
+    margin-top: 1em;
     padding-left: 7.3%;
     padding-right: 7.3%;
 }
@@ -282,7 +276,7 @@
         -webkit-align-items: center;
         align-items: center;
         width: 100%;
-        height: calc(100% - 4.2em);
+        height: calc(100% - 5.2em);
     }
 
     .nowPlayingPageTitle {
@@ -415,6 +409,13 @@
         display: flex;
         flex-direction: column;
     }
+}
+
+.playlistSection {
+    display: flex;
+    flex-direction: column;
+    max-width: 80em;
+    margin: auto;
 }
 
 .nowPlayingTime {
