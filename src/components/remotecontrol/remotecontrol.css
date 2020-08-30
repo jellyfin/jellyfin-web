@@ -457,8 +457,24 @@
     display: none;
 }
 
-.nowPlayingVolumeSliderContainer {
-    width: 9em;
+@media (hover: hover) {
+    .nowPlayingVolumeSliderContainer {
+        width: 1em;
+        opacity: 0;
+        transition: all 0.25s ease-in-out;
+    }
+
+    .volumecontrol:hover .nowPlayingVolumeSliderContainer {
+        width: 9em;
+        opacity: 1;
+        transition: width 0.25s ease-in-out;
+    }
+}
+
+@media (hover: none) {
+    .nowPlayingVolumeSliderContainer {
+        width: 9em;
+    }
 }
 
 @media all and (max-width: 63em) {
