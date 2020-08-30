@@ -573,7 +573,7 @@ import 'emby-select';
         // Start rendering the artwork first
         renderImage(page, item);
 
-        // Same some screen real estate in TV mode
+        // Save some screen real estate in TV mode
         if (!layoutManager.tv) {
             renderLogo(page, item, apiClient);
             renderDetailPageBackdrop(page, item, apiClient);
