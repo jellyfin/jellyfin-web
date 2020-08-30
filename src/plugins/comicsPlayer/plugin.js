@@ -191,6 +191,7 @@ class ArchiveSource {
         });
 
         for (let file of files) {
+            /* eslint-disable-next-line compat/compat */
             let url = URL.createObjectURL(file.file);
             this.urls.push(url);
         }
