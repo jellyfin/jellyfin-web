@@ -35,7 +35,6 @@ import {
     secondsToMs
 } from 'timeConversions';
 
-
 /* eslint-disable indent */
 
 function tryRemoveElement(elem) {
