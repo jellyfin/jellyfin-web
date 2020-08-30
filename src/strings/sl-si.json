@@ -1377,5 +1377,11 @@
     "Unmute": "Obnovi zvok",
     "Uniform": "Obroba",
     "Transcoding": "Prekodiranje",
-    "TrackCount": "{0} skladb"
+    "TrackCount": "{0} skladb",
+    "Preview": "Predogled",
+    "LabelSubtitleVerticalPosition": "Navpična lokacija:",
+    "LastSeen": "Nazadnje viden {0}",
+    "PersonRole": "kot {0}",
+    "ListPaging": "{0}-{1} od {2}",
+    "WriteAccessRequired": "Jellyfin potrebuje dostop za pisanje v to mapo. Prosimo zagotovite dostop za pisanje in poskusite znova."
 }
