@@ -10,6 +10,11 @@ import itemHelper from 'itemHelper';
 import 'css!./upnextdialog';
 import 'emby-button';
 import 'flexStyles';
+import {
+    msToTicks,
+    msToSeconds,
+    ticksToMs
+} from 'timeConversions';
 
 /* eslint-disable indent */
 
@@ -128,7 +133,7 @@ import 'flexStyles';
 
         const elem = instance.options.parent;
 
-        const secondsRemaining = Math.max(Math.round(getTimeRemainingMs(instance) / 1000), 0);
+        const secondsRemaining = Math.max(Math.round(msToSeconds(getTimeRemainingMs(instance))), 0);
 
         console.debug('up next seconds remaining: ' + secondsRemaining);
 
@@ -256,9 +261,9 @@ import 'flexStyles';
             const runtimeTicks = playbackManager.duration(options.player);
 
             if (runtimeTicks) {
-                const timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player) * 10000;
+                const timeRemainingTicks = runtimeTicks - msToTicks(playbackManager.currentTime(options.player));
 
-                return Math.round(timeRemainingTicks / 10000);
+                return Math.round(ticksToMs(timeRemainingTicks));
             }
         }
 

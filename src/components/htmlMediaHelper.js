@@ -3,6 +3,11 @@
 import appSettings from 'appSettings' ;
 import browser from 'browser';
 import events from 'events';
+import {
+    ticksToMs,
+    ticksToSeconds,
+    secondsToTicks
+} from 'timeConversions';
 
     export function getSavedVolume() {
         return appSettings.get('volume') || 1;
@@ -136,7 +141,7 @@ import events from 'events';
     }
 
     export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
-        var seconds = (ticks || 0) / 10000000;
+        var seconds = ticksToSeconds(ticks || 0);
 
         if (seconds) {
             // Appending #t=xxx to the query string doesn't seem to work with HLS
@@ -176,7 +181,7 @@ import events from 'events';
                 var playlist = new Windows.Media.Playback.MediaPlaybackList();
 
                 var source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
-                var startTime = (options.playerStartPositionTicks || 0) / 10000;
+                var startTime = ticksToMs(options.playerStartPositionTicks || 0);
                 playlist.items.append(new Windows.Media.Playback.MediaPlaybackItem(source1, startTime));
                 elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
                 return Promise.resolve();
@@ -392,8 +397,8 @@ import events from 'events';
             }
 
             ranges.push({
-                start: (start * 10000000) + offset,
-                end: (end * 10000000) + offset
+                start: secondsToTicks(start) + offset,
+                end: secondsToTicks(end) + offset
             });
         }
 

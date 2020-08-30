@@ -589,6 +589,7 @@ function initClient() {
         define('appSettings', [scriptsPath + '/settings/appSettings'], returnFirstDependency);
         define('userSettings', [scriptsPath + '/settings/userSettings'], returnFirstDependency);
 
+        define('timeConversions', [scriptsPath + '/timeConversions'], returnFirstDependency);
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
         define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
         define('tunerPicker', [componentsPath + '/tunerPicker'], returnFirstDependency);

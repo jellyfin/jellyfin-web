@@ -2,6 +2,7 @@ import events from 'events';
 import browser from 'browser';
 import appRouter from 'appRouter';
 import loading from 'loading';
+import { secondsToMs, msToSeconds } from 'timeConversions';
 
 /* globals YT */
 
@@ -253,18 +254,18 @@ class YoutubePlayer {
 
         if (currentYoutubePlayer) {
             if (val != null) {
-                currentYoutubePlayer.seekTo(val / 1000, true);
+                currentYoutubePlayer.seekTo(msToSeconds(val), true);
                 return;
             }
 
-            return currentYoutubePlayer.getCurrentTime() * 1000;
+            return secondsToMs(currentYoutubePlayer.getCurrentTime());
         }
     }
     duration(val) {
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
-            return currentYoutubePlayer.getDuration() * 1000;
+            return secondsToMs(currentYoutubePlayer.getDuration());
         }
         return null;
     }

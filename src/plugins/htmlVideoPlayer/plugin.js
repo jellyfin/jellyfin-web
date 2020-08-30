@@ -27,6 +27,14 @@ import {
 import itemHelper from 'itemHelper';
 import screenfull from 'screenfull';
 import globalize from 'globalize';
+import {
+    msToTicks,
+    msToSeconds,
+    ticksToMs,
+    ticksToSeconds,
+    secondsToMs
+} from 'timeConversions';
+
 
 /* eslint-disable indent */
 
@@ -418,7 +426,7 @@ function tryRemoveElement(elem) {
             console.debug(`playing url: ${val}`);
 
             // Convert to seconds
-            const seconds = (options.playerStartPositionTicks || 0) / 10000000;
+            const seconds = ticksToSeconds(options.playerStartPositionTicks || 0);
             if (seconds) {
                 val += `#t=${seconds}`;
             }
@@ -508,7 +516,7 @@ function tryRemoveElement(elem) {
             // if .ass currently rendering
             if (this.#currentSubtitlesOctopus) {
                 this.updateCurrentTrackOffset(offsetValue);
-                this.#currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+                this.#currentSubtitlesOctopus.timeOffset = ticksToSeconds(this._currentPlayOptions.transcodingOffsetTicks || 0) + offsetValue;
             } else {
                 const trackElement = this.getTextTrack();
                 // if .vtt currently rendering
@@ -751,8 +759,8 @@ function tryRemoveElement(elem) {
             const currentPlayOptions = this._currentPlayOptions;
             // Not sure yet how this is coming up null since we never null it out, but it is causing app crashes
             if (currentPlayOptions) {
-                let timeMs = time * 1000;
-                timeMs += ((currentPlayOptions.transcodingOffsetTicks || 0) / 10000);
+                let timeMs = secondsToMs(time);
+                timeMs += ticksToMs(currentPlayOptions.transcodingOffsetTicks || 0);
                 this.updateSubtitleText(timeMs);
             }
 
@@ -813,7 +821,7 @@ function tryRemoveElement(elem) {
 
                 seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
                     if (this.#currentSubtitlesOctopus) {
-                        this.#currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
+                        this.#currentSubtitlesOctopus.timeOffset = ticksToSeconds(this._currentPlayOptions.transcodingOffsetTicks || 0) + this.#currentTrackOffset;
                         this.#currentSubtitlesOctopus.resize();
                         this.#currentSubtitlesOctopus.resetRenderAheadCache(false);
                     }
@@ -1046,7 +1054,7 @@ function tryRemoveElement(elem) {
                 onError() {
                     onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
                 },
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                timeOffset: ticksToSeconds(this._currentPlayOptions.transcodingOffsetTicks || 0),
 
                 // new octopus options; override all, even defaults
                 renderMode: 'blend',
@@ -1203,7 +1211,7 @@ function tryRemoveElement(elem) {
                     // in safari, the cues need to be added before setting the track mode to showing
                     for (const trackEvent of data.TrackEvents) {
                         const trackCueObject = window.VTTCue || window.TextTrackCue;
-                        const cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+                        const cue = new trackCueObject(ticksToSeconds(trackEvent.StartPositionTicks), ticksToSeconds(trackEvent.EndPositionTicks), normalizeTrackEventText(trackEvent.Text, false));
 
                         if (cue.line === 'auto') {
                             cue.line = cueLine;
@@ -1224,7 +1232,7 @@ function tryRemoveElement(elem) {
             const clock = this.#currentClock;
             if (clock) {
                 try {
-                    clock.seek(timeMs / 1000);
+                    clock.seek(msToSeconds(timeMs));
                 } catch (err) {
                     console.error(`error in libjass: ${err}`);
                 }
@@ -1235,7 +1243,7 @@ function tryRemoveElement(elem) {
             const subtitleTextElement = this.#videoSubtitlesElem;
 
             if (trackEvents && subtitleTextElement) {
-                const ticks = timeMs * 10000;
+                const ticks = msToTicks(timeMs);
                 let selectedTrackEvent;
                 for (const trackEvent of trackEvents) {
                     if (trackEvent.StartPositionTicks <= ticks && trackEvent.EndPositionTicks >= ticks) {
@@ -1425,16 +1433,16 @@ function tryRemoveElement(elem) {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             if (val != null) {
-                mediaElement.currentTime = val / 1000;
+                mediaElement.currentTime = msToSeconds(val);
                 return;
             }
 
             const currentTime = this.#currentTime;
             if (currentTime) {
-                return currentTime * 1000;
+                return secondsToMs(currentTime);
             }
 
-            return (mediaElement.currentTime || 0) * 1000;
+            return secondsToMs(mediaElement.currentTime || 0);
         }
     }
 
@@ -1443,7 +1451,7 @@ function tryRemoveElement(elem) {
         if (mediaElement) {
             const duration = mediaElement.duration;
             if (isValidDuration(duration)) {
-                return duration * 1000;
+                return secondsToMs(duration);
             }
         }
 

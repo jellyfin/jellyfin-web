@@ -10,6 +10,7 @@ import connectionManager from 'connectionManager';
 import loading from 'loading';
 import appHost from 'apphost';
 import screenfull from 'screenfull';
+import { ticksToMs, msToTicks } from 'timeConversions';
 
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
@@ -685,7 +686,7 @@ function getNowPlayingItemForReporting(player, item, mediaSource) {
         nowPlayingItem.MediaSources = null;
     }
 
-    nowPlayingItem.RunTimeTicks = nowPlayingItem.RunTimeTicks || player.duration() * 10000;
+    nowPlayingItem.RunTimeTicks = nowPlayingItem.RunTimeTicks || msToTicks(player.duration());
 
     return nowPlayingItem;
 }
@@ -1663,7 +1664,7 @@ class PlaybackManager {
 
         function changeStream(player, ticks, params) {
             if (canPlayerSeek(player) && params == null) {
-                player.currentTime(parseInt(ticks / 10000));
+                player.currentTime(ticksToMs(parseInt(ticks)));
                 return;
             }
 
@@ -1995,6 +1996,8 @@ class PlaybackManager {
             return state;
         };
 
+        // TODO: Local player uses ms and other players use ticks here.
+        // TODO: Make this return milliseconds.
         self.duration = function (player) {
             player = player || self._currentPlayer;
 
@@ -2012,21 +2015,18 @@ class PlaybackManager {
                 return mediaSource.RunTimeTicks;
             }
 
-            let playerDuration = player.duration();
-
-            if (playerDuration) {
-                playerDuration *= 10000;
-            }
+            let playerDuration = msToTicks(player.duration());
 
             return playerDuration;
         };
 
+        // TODO: Get rid of this and change all uses to currentTime
         function getCurrentTicks(player) {
             if (!player) {
                 throw new Error('player cannot be null');
             }
 
-            let playerTime = Math.floor(10000 * (player).currentTime());
+            let playerTime = Math.floor(msToTicks(player.currentTime()));
 
             const streamInfo = getPlayerData(player).streamInfo;
             if (streamInfo) {
@@ -2764,7 +2764,7 @@ class PlaybackManager {
 
             playerData.streamInfo = streamInfo;
 
-            streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
+            streamInfo.playbackStartTimeTicks = msToTicks(new Date().getTime());
 
             if (mediaSource) {
                 playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
@@ -2807,7 +2807,7 @@ class PlaybackManager {
             playerData.streamInfo = {};
 
             const streamInfo = playerData.streamInfo;
-            streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
+            streamInfo.playbackStartTimeTicks = msToTicks(new Date().getTime());
 
             const state = self.getPlayerState(player, item, mediaSource);
 
@@ -2848,7 +2848,7 @@ class PlaybackManager {
             streamInfo.ended = true;
 
             if (isServerItem(playerStopInfo.item)) {
-                state.PlayState.PositionTicks = (playerStopInfo.positionMs || 0) * 10000;
+                state.PlayState.PositionTicks = msToTicks(playerStopInfo.positionMs || 0);
 
                 reportPlayback(self, state, player, true, playerStopInfo.item.ServerId, 'reportPlaybackStopped');
             }
@@ -3211,7 +3211,7 @@ class PlaybackManager {
             return player.currentTime();
         }
 
-        return this.getCurrentTicks(player) / 10000;
+        return ticksToMs(this.getCurrentTicks(player));
     }
 
     nextItem(player = this._currentPlayer) {
@@ -3329,7 +3329,7 @@ class PlaybackManager {
         }
 
         // Go back 15 seconds
-        const offsetTicks = userSettings.skipForwardLength() * 10000;
+        const offsetTicks = msToTicks(userSettings.skipForwardLength());
 
         this.seekRelative(offsetTicks, player);
     }
@@ -3341,7 +3341,7 @@ class PlaybackManager {
         }
 
         // Go back 15 seconds
-        const offsetTicks = 0 - (userSettings.skipBackLength() * 10000);
+        const offsetTicks = 0 - msToTicks(userSettings.skipBackLength());
 
         this.seekRelative(offsetTicks, player);
     }
@@ -3355,7 +3355,7 @@ class PlaybackManager {
     }
 
     seekMs(ms, player = this._currentPlayer) {
-        const ticks = ms * 10000;
+        const ticks = msToTicks(ms);
         this.seek(ticks, player);
     }
 

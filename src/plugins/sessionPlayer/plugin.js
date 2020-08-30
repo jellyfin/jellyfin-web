@@ -2,6 +2,7 @@ import playbackManager from 'playbackManager';
 import events from 'events';
 import serverNotifications from 'serverNotifications';
 import connectionManager from 'connectionManager';
+import { ticksToMs, msToTicks } from 'timeConversions';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();
@@ -322,14 +323,15 @@ class SessionPlayer {
 
     currentTime(val) {
         if (val != null) {
-            return this.seek(val * 10000);
+            return this.seek(msToTicks(val));
         }
 
         let state = this.lastPlayerData || {};
         state = state.PlayState || {};
-        return state.PositionTicks / 10000;
+        return ticksToMs(state.PositionTicks);
     }
 
+    // TODO: Make this return milliseconds.
     duration() {
         let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};

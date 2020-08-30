@@ -11,6 +11,9 @@ import connectionManager from 'connectionManager';
 import itemContextMenu from 'itemContextMenu';
 import 'paper-icon-button-light';
 import 'emby-ratingbutton';
+import {
+    msToTicks
+} from 'timeConversions';
 
 /* eslint-disable indent */
 
@@ -701,7 +704,7 @@ import 'emby-ratingbutton';
 
         const player = this;
         currentRuntimeTicks = playbackManager.duration(player);
-        updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks, playbackManager.getBufferedRanges(player));
+        updateTimeDisplay(msToTicks(playbackManager.currentTime(player)), currentRuntimeTicks, playbackManager.getBufferedRanges(player));
     }
 
     function releaseCurrentPlayer() {

@@ -6,16 +6,20 @@ import globalize from 'globalize';
 import 'emby-input';
 import 'emby-button';
 import 'emby-select';
+import {
+    msToTicks
+} from 'timeConversions';
 
 /* eslint-disable indent */
 
     function fillTimeOfDay(select) {
         const options = [];
 
+        // TODO: Figure out what these magic number mean.
         for (let i = 0; i < 86400000; i += 900000) {
             options.push({
-                name: ScheduledTaskPage.getDisplayTime(i * 10000),
-                value: i * 10000
+                name: ScheduledTaskPage.getDisplayTime(msToTicks(i)),
+                value: msToTicks(i)
             });
         }
 

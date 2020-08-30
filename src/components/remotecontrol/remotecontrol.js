@@ -16,6 +16,10 @@ import 'cardStyle';
 import 'emby-itemscontainer';
 import 'css!./remotecontrol.css';
 import 'emby-ratingbutton';
+import {
+    msToTicks,
+    secondsToTicks
+} from 'timeConversions';
 
 /*eslint prefer-const: "error"*/
 
@@ -345,8 +349,8 @@ export default function () {
         const positionSlider = context.querySelector('.nowPlayingPositionSlider');
 
         if (positionSlider && item && item.RunTimeTicks) {
-            positionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / item.RunTimeTicks,
-                userSettings.skipForwardLength() * 1000000 / item.RunTimeTicks);
+            positionSlider.setKeyboardSteps(secondsToTicks(userSettings.skipBackLength()) / 10 / item.RunTimeTicks,
+                secondsToTicks(userSettings.skipForwardLength()) / 10 / item.RunTimeTicks);
         }
 
         if (positionSlider && !positionSlider.dragging) {
@@ -619,7 +623,7 @@ export default function () {
             lastUpdateTime = now;
             const player = this;
             currentRuntimeTicks = playbackManager.duration(player);
-            updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks);
+            updateTimeDisplay(msToTicks(playbackManager.currentTime(player)), currentRuntimeTicks);
         }
     }
 

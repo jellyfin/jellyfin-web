@@ -7,6 +7,9 @@ import 'material-icons';
 import 'css!./mediainfo.css';
 import 'programStyles';
 import 'emby-button';
+import {
+    ticksToMs
+} from 'timeConversions';
 
 /* eslint-disable indent */
     function getTimerIndicator(item) {
@@ -318,7 +321,7 @@ import 'emby-button';
     export function getEndsAt(item) {
         if (item.MediaType === 'Video' && item.RunTimeTicks) {
             if (!item.StartDate) {
-                let endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
+                let endDate = new Date().getTime() + (ticksToMs(item.RunTimeTicks));
                 endDate = new Date(endDate);
 
                 const displayTime = datetime.getDisplayTime(endDate);
@@ -330,7 +333,7 @@ import 'emby-button';
     }
 
     export function getEndsAtFromPosition(runtimeTicks, positionTicks, includeText) {
-        let endDate = new Date().getTime() + ((runtimeTicks - (positionTicks || 0)) / 10000);
+        let endDate = new Date().getTime() + ticksToMs(runtimeTicks - (positionTicks || 0));
         endDate = new Date(endDate);
 
         const displayTime = datetime.getDisplayTime(endDate);

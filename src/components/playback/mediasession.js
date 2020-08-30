@@ -2,6 +2,11 @@ import playbackManager from 'playbackManager';
 import nowPlayingHelper from 'nowPlayingHelper';
 import events from 'events';
 import connectionManager from 'connectionManager';
+import {
+    ticksToMs,
+    secondsToMs
+} from 'timeConversions';
+
 /* eslint-disable indent */
 
     // Reports media playback to the device for lock screen control
@@ -112,8 +117,8 @@ import connectionManager from 'connectionManager';
         const itemId = item.Id;
 
         // Convert to ms
-        const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
-        const currentTime = parseInt(playState.PositionTicks ? (playState.PositionTicks / 10000) : 0);
+        const duration = parseInt(item.RunTimeTicks ? ticksToMs(item.RunTimeTicks) : 0);
+        const currentTime = parseInt(playState.PositionTicks ? ticksToMs(playState.PositionTicks) : 0);
 
         const isPaused = playState.IsPaused || false;
         const canSeek = playState.CanSeek || false;
@@ -246,8 +251,8 @@ import connectionManager from 'connectionManager';
         navigator.mediaSession.setActionHandler('seekto', function (object) {
             const item = playbackManager.getPlayerState(currentPlayer).NowPlayingItem;
             // Convert to ms
-            const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
-            const wantedTime = object.seekTime * 1000;
+            const duration = parseInt(item.RunTimeTicks ? ticksToMs(item.RunTimeTicks) : 0);
+            const wantedTime = secondsToMs(object.seekTime);
             playbackManager.seekPercent(wantedTime / duration * 100, currentPlayer);
         });
     }

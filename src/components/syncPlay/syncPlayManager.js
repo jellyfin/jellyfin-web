@@ -9,6 +9,11 @@ import playbackManager from 'playbackManager';
 import timeSyncManager from 'timeSyncManager';
 import toast from 'toast';
 import globalize from 'globalize';
+import {
+    msToTicks,
+    msToSeconds,
+    ticksToMs
+} from 'timeConversions';
 
 /**
  * Waits for an event to be triggered on an object. An optional timeout can specified after which the promise is rejected.
@@ -556,10 +561,10 @@ class SyncPlayManager {
                 }, SyncMethodThreshold / 2);
             }, playTimeout);
 
-            console.debug('Scheduled play in', playTimeout / 1000.0, 'seconds.');
+            console.debug('Scheduled play in', msToSeconds(playTimeout), 'seconds.');
         } else {
             // Group playback already started
-            const serverPositionTicks = positionTicks + (currentTime - playAtTimeLocal) * 10000;
+            const serverPositionTicks = positionTicks + msToTicks(currentTime - playAtTimeLocal);
             waitForEventOnce(this, 'unpause').then(() => {
                 this.localSeek(serverPositionTicks);
             });
@@ -595,7 +600,7 @@ class SyncPlayManager {
             const pauseTimeout = pauseAtTimeLocal - currentTime;
             this.scheduledCommand = setTimeout(callback, pauseTimeout);
 
-            console.debug('Scheduled pause in', pauseTimeout / 1000.0, 'seconds.');
+            console.debug('Scheduled pause in', msToSeconds(pauseTimeout), 'seconds.');
         } else {
             callback();
         }
@@ -741,12 +746,12 @@ class SyncPlayManager {
 
         const playAtTime = this.lastCommand.When;
 
-        const currentPositionTicks = playbackManager.currentTime() * 10000;
+        const currentPositionTicks = msToTicks(playbackManager.currentTime());
         // Estimate PositionTicks on server
-        const serverPositionTicks = this.lastCommand.PositionTicks + ((currentTime - playAtTime) + this.timeOffsetWithServer) * 10000;
+        const serverPositionTicks = this.lastCommand.PositionTicks + msToTicks((currentTime - playAtTime) + this.timeOffsetWithServer);
         // Measure delay that needs to be recovered
         // diff might be caused by the player internally starting the playback
-        const diffMillis = (serverPositionTicks - currentPositionTicks) / 10000.0;
+        const diffMillis = ticksToMs(serverPositionTicks - currentPositionTicks);
 
         this.playbackDiffMillis = diffMillis;
 

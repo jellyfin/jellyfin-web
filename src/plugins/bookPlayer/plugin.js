@@ -7,6 +7,10 @@ import events from 'events';
 import 'css!./style';
 import 'material-icons';
 import 'paper-icon-button-light';
+import {
+    ticksToSeconds,
+    secondsToMs
+} from 'timeConversions';
 
 import TableOfContents from './tableOfContents';
 
@@ -62,17 +66,17 @@ export class BookPlayer {
     }
 
     currentTime() {
-        return this._progress * 1000;
+        return secondsToMs(this._progress);
     }
 
     duration() {
-        return 1000;
+        return 1000; // 1 second in Ms
     }
 
     getBufferedRanges() {
         return [{
             start: 0,
-            end: 10000000
+            end: 10000000 // 1 second in Ticks
         }];
     }
 
@@ -270,7 +274,7 @@ export class BookPlayer {
                             return reject();
                         }
 
-                        const percentageTicks = options.startPositionTicks / 10000000;
+                        const percentageTicks = ticksToSeconds(options.startPositionTicks);
                         if (percentageTicks !== 0.0) {
                             const resumeLocation = book.locations.cfiFromPercentage(percentageTicks);
                             await rendition.display(resumeLocation);

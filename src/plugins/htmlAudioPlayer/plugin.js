@@ -2,6 +2,11 @@ import events from 'events';
 import browser from 'browser';
 import appHost from 'apphost';
 import * as htmlMediaHelper from 'htmlMediaHelper';
+import {
+    msToSeconds,
+    ticksToSeconds,
+    secondsToMs
+} from 'timeConversions';
 
 function getDefaultProfile() {
     return import('browserdeviceprofile').then(({ default: profileBuilder }) => {
@@ -114,7 +119,7 @@ class HtmlAudioPlayer {
             console.debug('playing url: ' + val);
 
             // Convert to seconds
-            const seconds = (options.playerStartPositionTicks || 0) / 10000000;
+            const seconds = ticksToSeconds(options.playerStartPositionTicks || 0);
             if (seconds) {
                 val += '#t=' + seconds;
             }
@@ -344,16 +349,16 @@ class HtmlAudioPlayer {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
             if (val != null) {
-                mediaElement.currentTime = val / 1000;
+                mediaElement.currentTime = msToSeconds(val);
                 return;
             }
 
             const currentTime = this._currentTime;
             if (currentTime) {
-                return currentTime * 1000;
+                return secondsToMs(currentTime);
             }
 
-            return (mediaElement.currentTime || 0) * 1000;
+            return secondsToMs(mediaElement.currentTime || 0);
         }
     }
 
@@ -362,7 +367,7 @@ class HtmlAudioPlayer {
         if (mediaElement) {
             const duration = mediaElement.duration;
             if (htmlMediaHelper.isValidDuration(duration)) {
-                return duration * 1000;
+                return secondsToMs(duration);
             }
         }
 

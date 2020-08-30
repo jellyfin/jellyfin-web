@@ -18,6 +18,10 @@ import 'scrollStyles';
 import 'emby-slider';
 import 'paper-icon-button-light';
 import 'css!assets/css/videoosd';
+import {
+    msToTicks,
+    secondsToTicks
+} from 'timeConversions';
 
 /* eslint-disable indent */
 
@@ -693,7 +697,7 @@ import 'css!assets/css/videoosd';
                     lastUpdateTime = now;
                     const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
-                    const currentTime = playbackManager.currentTime(player) * 10000;
+                    const currentTime = msToTicks(playbackManager.currentTime(player));
                     updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getBufferedRanges(player));
                     const item = currentItem;
                     refreshProgramInfoIfNeeded(player, item);
@@ -803,8 +807,8 @@ import 'css!assets/css/videoosd';
             nowPlayingPositionSlider.setIsClear(isProgressClear);
 
             if (nowPlayingItem.RunTimeTicks) {
-                nowPlayingPositionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / nowPlayingItem.RunTimeTicks,
-                    userSettings.skipForwardLength() * 1000000 / nowPlayingItem.RunTimeTicks);
+                nowPlayingPositionSlider.setKeyboardSteps(secondsToTicks(userSettings.skipBackLength()) / 10 / nowPlayingItem.RunTimeTicks,
+                    secondsToTicks(userSettings.skipForwardLength()) / 10 / nowPlayingItem.RunTimeTicks);
             }
 
             if (supportedCommands.indexOf('ToggleFullscreen') === -1 || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {

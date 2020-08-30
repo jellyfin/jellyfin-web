@@ -5,6 +5,11 @@ import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import events from 'events';
 import castSenderApiLoader from 'castSenderApiLoader';
+import {
+    msToTicks,
+    ticksToMs,
+    ticksToSeconds
+} from 'timeConversions';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 
@@ -695,7 +700,7 @@ class ChromecastPlayer {
     seek(position) {
         position = parseInt(position);
 
-        position = position / 10000000;
+        position = ticksToSeconds(position);
 
         this._castPlayer.sendMessage({
             options: {
@@ -950,14 +955,15 @@ class ChromecastPlayer {
 
     currentTime(val) {
         if (val != null) {
-            return this.seek(val * 10000);
+            return this.seek(msToTicks(val));
         }
 
         let state = this.lastPlayerData || {};
         state = state.PlayState || {};
-        return state.PositionTicks / 10000;
+        return ticksToMs(state.PositionTicks);
     }
 
+    // TODO: Make this return milliseconds.
     duration() {
         let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
