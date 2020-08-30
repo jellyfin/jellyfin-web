@@ -3,7 +3,6 @@ import loading from 'loading';
 import dialogHelper from 'dialogHelper';
 import keyboardnavigation from 'keyboardnavigation';
 import appRouter from 'appRouter';
-import 'css!../slideshow/style';
 import * as libarchive from 'libarchive';
 
 export class ComicsPlayer {
