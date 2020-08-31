@@ -191,6 +191,13 @@
     }
 }
 
+@media all and (max-width: 40em) {
+    [data-type='Movie'] .listItemImage,
+    [data-type='Series'] .listItemImage {
+        display: none;
+    }
+}
+
 .listItemImage-large-tv {
     width: 30vw !important;
     height: 20vw !important;
