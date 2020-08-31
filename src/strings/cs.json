@@ -1366,5 +1366,18 @@
     "LabelSubtitleVerticalPosition": "Svislé umístění:",
     "MessageGetInstalledPluginsError": "Při načítání seznamu nainstalovaných zásuvných modulů došlo k chybě.",
     "MessagePluginInstallError": "Při instalaci zásuvného modulu došlo k chybě.",
-    "PlaybackRate": "Rychlost přehrávání"
+    "PlaybackRate": "Rychlost přehrávání",
+    "Video": "Video",
+    "ThumbCard": "Karta náhledu",
+    "Subtitle": "Titulky",
+    "SpecialFeatures": "Zvláštní funkce",
+    "SelectServer": "Vybrat server",
+    "Restart": "Restartovat",
+    "ResetPassword": "Obnovit heslo",
+    "Profile": "Profil",
+    "PosterCard": "Karta plakátu",
+    "Poster": "Plakát",
+    "MusicVideos": "Hudební videa",
+    "Image": "Obrázek",
+    "Data": "Datumy"
 }
