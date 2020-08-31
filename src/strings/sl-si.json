@@ -582,7 +582,7 @@
     "LabelEnableSingleImageInDidlLimitHelp": "Nekatere naprave ne bodo prikazovale pravilno, če je več slik vdelanih v Didl.",
     "LabelEndDate": "Datum zaključka:",
     "LabelEpisodeNumber": "Številka epizode:",
-    "LabelEveryXMinutes": "Vsak:",
+    "LabelEveryXMinutes": "Vsakih:",
     "LabelBaseUrl": "Osnovni URL:",
     "LabelExtractChaptersDuringLibraryScan": "Izvleči slike poglavij med preiskovanjem knjižnjice",
     "LabelFormat": "Format:",
