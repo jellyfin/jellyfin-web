@@ -526,7 +526,8 @@ function initClient() {
                     'events',
                     'credentialprovider',
                     'connectionManagerFactory',
-                    'appStorage'
+                    'appStorage',
+                    'comicReader'
                 ]
             },
             urlArgs: urlArgs,

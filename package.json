@@ -52,7 +52,8 @@
     "stylelint-order": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-merge": "^4.2.2",
-    "webpack-stream": "^6.0.0"
+    "webpack-stream": "^6.0.0",
+    "worker-plugin": "^5.0.0"
   },
   "dependencies": {
     "alameda": "^1.4.0",
@@ -71,6 +72,7 @@
     "jellyfin-noto": "https://github.com/jellyfin/jellyfin-noto",
     "jquery": "^3.5.1",
     "jstree": "^3.3.10",
+    "libarchive.js": "^1.3.0",
     "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-smarttv",
     "material-design-icons-iconfont": "^5.0.1",
     "native-promise-only": "^0.8.0-a",
@@ -178,6 +180,7 @@
           "src/plugins/experimentalWarnings/plugin.js",
           "src/plugins/sessionPlayer/plugin.js",
           "src/plugins/htmlAudioPlayer/plugin.js",
+          "src/plugins/comicsPlayer/plugin.js",
           "src/plugins/chromecastPlayer/plugin.js",
           "src/components/slideshow/slideshow.js",
           "src/components/sortmenu/sortmenu.js",
