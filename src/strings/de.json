@@ -1366,5 +1366,14 @@
     "LabelSubtitleVerticalPosition": "Vertikale Position:",
     "MessageGetInstalledPluginsError": "Beim Abrufen der Liste der derzeit installierten Plugins ist ein Fehler aufgetreten.",
     "MessagePluginInstallError": "Bei der Installation des Plugins ist ein Fehler aufgetreten.",
-    "PlaybackRate": "Wiedergabegeschwindigkeit"
+    "PlaybackRate": "Wiedergabegeschwindigkeit",
+    "Video": "Video",
+    "Subtitle": "Untertitel",
+    "SelectServer": "Server auswählen",
+    "Restart": "Neustarten",
+    "ResetPassword": "Passwort zurücksetzten",
+    "Profile": "Profil",
+    "MusicVideos": "Musikvideos",
+    "Image": "Bild",
+    "Data": "Daten"
 }
