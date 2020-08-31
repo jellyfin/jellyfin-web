@@ -185,6 +185,10 @@
     .listItemBody {
         padding-right: 0.5em;
     }
+
+    .listItemMediaInfo {
+        display: none;
+    }
 }
 
 .listItemImage-large-tv {
