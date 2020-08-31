@@ -1340,7 +1340,7 @@ function renderChildren(page, item) {
             const equalSet = (arr1, arr2) => arr1.every(x => arr2.indexOf(x) !== -1) && arr1.length === arr2.length;
             let showArtist = false;
             for (const track of result.Items) {
-                if (!equalSet(track.ArtistItems.map(x => x.Id), track.AlbumArtists.map(x => x.Id) )) {
+                if (!equalSet(track.ArtistItems.map(x => x.Id), track.AlbumArtists.map(x => x.Id))) {
                     showArtist = true;
                     break;
                 }
