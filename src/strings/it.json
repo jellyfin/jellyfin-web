@@ -284,7 +284,7 @@
     "HeaderInstantMix": "Mix Istantaneo",
     "HeaderKeepRecording": "Mantieni la registrazione",
     "HeaderKeepSeries": "Mantieni Serie TV",
-    "HeaderKodiMetadataHelp": "Jellyfin include il supporto nativo per i file metadati NFO. Per attivare o disattivare i metadati NFO, utilizzare la scheda Metadati per configurare le opzioni per i tipi di supporto.",
+    "HeaderKodiMetadataHelp": "Per abilitare o disabilitare i metadati NFO, editare la libreria e configurare l'opzione nella sezione Metadati.",
     "HeaderLatestEpisodes": "Ultimi Episodi Aggiunti",
     "HeaderLatestMedia": "Ultimi Media",
     "HeaderLatestMovies": "Ultimi Film Aggiunti",

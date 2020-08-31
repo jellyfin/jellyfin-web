@@ -24,6 +24,7 @@ export default class channelMapper {
                     tunerChannelId: channelId,
                     providerChannelId: providerChannelId
                 }),
+                contentType: 'application/json',
                 dataType: 'json'
             }).then(mapping => {
                 const listItem = dom.parentWithClass(button, 'listItem');

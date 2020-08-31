@@ -35,7 +35,8 @@
         // Promise() being missing on some legacy browser, and a funky one
         // is Promise() present but buggy on WebOS 2
         window.Promise = undefined;
-        window.Promise = undefined;
+        /* eslint-disable-next-line no-restricted-globals -- Explicit check on self needed */
+        self.Promise = undefined;
     }
 
     if (!window.Promise) {

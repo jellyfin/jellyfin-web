@@ -931,9 +931,9 @@ class ChromecastPlayer {
         return state.VolumeLevel == null ? 100 : state.VolumeLevel;
     }
 
-    isPlaying() {
+    isPlaying(mediaType) {
         const state = this.lastPlayerData || {};
-        return state.NowPlayingItem != null;
+        return state.NowPlayingItem != null && (state.NowPlayingItem.MediaType === mediaType || !mediaType);
     }
 
     isPlayingVideo() {
@@ -950,12 +950,12 @@ class ChromecastPlayer {
 
     currentTime(val) {
         if (val != null) {
-            return this.seek(val);
+            return this.seek(val * 10000);
         }
 
         let state = this.lastPlayerData || {};
         state = state.PlayState || {};
-        return state.PositionTicks;
+        return state.PositionTicks / 10000;
     }
 
     duration() {

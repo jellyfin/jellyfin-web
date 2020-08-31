@@ -1618,11 +1618,7 @@ class PlaybackManager {
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
-                if (player.isLocalPlayer) {
-                    return player.seek((ticks || 0) / 10000);
-                } else {
-                    return player.seek(ticks);
-                }
+                return player.seek(ticks);
             }
 
             changeStream(player, ticks);
@@ -1631,11 +1627,7 @@ class PlaybackManager {
         self.seekRelative = function (offsetTicks, player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player) && player.seekRelative) {
-                if (player.isLocalPlayer) {
-                    return player.seekRelative((ticks || 0) / 10000);
-                } else {
-                    return player.seekRelative(ticks);
-                }
+                return player.seekRelative(ticks);
             }
 
             const ticks = getCurrentTicks(player) + offsetTicks;
@@ -3219,7 +3211,7 @@ class PlaybackManager {
             return player.currentTime();
         }
 
-        return this.getCurrentTicks(player);
+        return this.getCurrentTicks(player) / 10000;
     }
 
     nextItem(player = this._currentPlayer) {
