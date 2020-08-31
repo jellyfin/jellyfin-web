@@ -238,10 +238,10 @@ import 'emby-itemscontainer';
             tabContent.querySelector('.btnSort').addEventListener('click', (e) => {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: globalize.translate('OptionNameSort'),
+                        name: globalize.translate('Name'),
                         id: 'SortName'
                     }, {
-                        name: globalize.translate('OptionAlbumArtist'),
+                        name: globalize.translate('AlbumArtist'),
                         id: 'AlbumArtist,SortName'
                     }, {
                         name: globalize.translate('OptionCommunityRating'),

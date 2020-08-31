@@ -29,7 +29,7 @@ import 'emby-scroller';
 
     function getSections() {
         return [{
-            name: 'HeaderFavoriteMovies',
+            name: 'Movies',
             types: 'Movie',
             shape: getPosterShape(),
             showTitle: true,
@@ -38,7 +38,7 @@ import 'emby-scroller';
             overlayText: false,
             centerText: true
         }, {
-            name: 'HeaderFavoriteShows',
+            name: 'Shows',
             types: 'Series',
             shape: getPosterShape(),
             showTitle: true,
@@ -47,7 +47,7 @@ import 'emby-scroller';
             overlayText: false,
             centerText: true
         }, {
-            name: 'HeaderFavoriteEpisodes',
+            name: 'Episodes',
             types: 'Episode',
             shape: getThumbShape(),
             preferThumb: false,
@@ -57,7 +57,7 @@ import 'emby-scroller';
             overlayText: false,
             centerText: true
         }, {
-            name: 'HeaderFavoriteVideos',
+            name: 'Videos',
             types: 'Video',
             shape: getThumbShape(),
             preferThumb: true,
@@ -66,7 +66,7 @@ import 'emby-scroller';
             overlayText: false,
             centerText: true
         }, {
-            name: 'HeaderFavoriteCollections',
+            name: 'Collections',
             types: 'BoxSet',
             shape: getPosterShape(),
             showTitle: true,
@@ -74,7 +74,7 @@ import 'emby-scroller';
             overlayText: false,
             centerText: true
         }, {
-            name: 'HeaderFavoritePlaylists',
+            name: 'Playlists',
             types: 'Playlist',
             shape: getSquareShape(),
             preferThumb: false,
@@ -85,7 +85,7 @@ import 'emby-scroller';
             overlayPlayButton: true,
             coverImage: true
         }, {
-            name: 'HeaderFavoritePeople',
+            name: 'People',
             types: 'Person',
             shape: getPosterShape(),
             preferThumb: false,
@@ -96,7 +96,7 @@ import 'emby-scroller';
             overlayPlayButton: true,
             coverImage: true
         }, {
-            name: 'HeaderFavoriteArtists',
+            name: 'Artists',
             types: 'MusicArtist',
             shape: getSquareShape(),
             preferThumb: false,
@@ -107,7 +107,7 @@ import 'emby-scroller';
             overlayPlayButton: true,
             coverImage: true
         }, {
-            name: 'HeaderFavoriteAlbums',
+            name: 'Albums',
             types: 'MusicAlbum',
             shape: getSquareShape(),
             preferThumb: false,
@@ -118,7 +118,7 @@ import 'emby-scroller';
             overlayPlayButton: true,
             coverImage: true
         }, {
-            name: 'HeaderFavoriteSongs',
+            name: 'Songs',
             types: 'Audio',
             shape: getSquareShape(),
             preferThumb: false,
@@ -130,7 +130,7 @@ import 'emby-scroller';
             action: 'instantmix',
             coverImage: true
         }, {
-            name: 'HeaderFavoriteBooks',
+            name: 'Books',
             types: 'Book',
             shape: getPosterShape(),
             showTitle: true,

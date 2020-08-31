@@ -234,7 +234,7 @@ import 'emby-itemrefreshindicator';
             value: 'books',
             message: getLink('BookLibraryHelp', 'https://docs.jellyfin.org/general/server/media/books.html')
         }, {
-            name: globalize.translate('OptionHomeVideos'),
+            name: globalize.translate('Photos'),
             value: 'homevideos'
         }, {
             name: globalize.translate('FolderTypeMusicVideos'),
