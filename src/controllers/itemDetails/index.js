@@ -414,7 +414,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
     } else if (item.IsSeries || item.EpisodeTitle) {
         parentNameHtml.push(item.Name);
     }
@@ -429,7 +429,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
     } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
         parentRoute = appRouter.getRouteUrl({
             Id: item.SeasonId,
@@ -440,7 +440,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
         parentNameHtml.push(item.SeasonName || 'S' + item.ParentIndexNumber);
     } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
@@ -453,7 +453,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
     } else if (item.Album) {
         parentNameHtml.push(item.Album);
     }
@@ -570,9 +570,12 @@ function reloadFromItem(instance, page, params, item, user) {
 
     // Start rendering the artwork first
     renderImage(page, item);
-    renderLogo(page, item, apiClient);
+    // Save some screen real estate in TV mode
+    if (!layoutManager.tv) {
+        renderLogo(page, item, apiClient);
+        renderDetailPageBackdrop(page, item, apiClient);
+    }
     renderBackdrop(item);
-    renderDetailPageBackdrop(page, item, apiClient);
 
     // Render the main information for the item
     page.querySelector('.detailPagePrimaryContainer').classList.add('detailRibbon');
@@ -764,6 +767,9 @@ function renderDetailImage(elem, item, imageLoader) {
 
     elem.innerHTML = cardHtml;
     imageLoader.lazyChildren(elem);
+
+    // Avoid breaking the design by preventing focus of the poster using the keyboard.
+    elem.querySelector('button').tabIndex = -1;
 }
 
 function renderImage(page, item) {
@@ -1059,7 +1065,12 @@ function renderDetails(page, item, apiClient, context, isStatic) {
     renderOverview(page, item);
     renderMiscInfo(page, item);
     reloadUserDataButtons(page, item);
-    renderLinks(page, item);
+
+    // Don't allow redirection to other websites from the TV layout
+    if (!layoutManager.tv) {
+        renderLinks(page, item);
+    }
+
     renderTags(page, item);
     renderSeriesAirTime(page, item, isStatic);
 }
@@ -1990,6 +2001,17 @@ export default function (view, params) {
     let currentItem;
     const self = this;
     const apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
+
+    const btnResume = view.querySelector('.mainDetailButtons .btnResume');
+    const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');
+    if (layoutManager.tv && !btnResume.classList.contains('hide')) {
+        btnResume.classList.add('fab');
+        btnResume.classList.add('detailFloatingButton');
+    } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
+        btnPlay.classList.add('fab');
+        btnPlay.classList.add('detailFloatingButton');
+    }
+
     view.querySelectorAll('.btnPlay');
     bindAll(view, '.btnPlay', 'click', onPlayClick);
     bindAll(view, '.btnResume', 'click', onPlayClick);

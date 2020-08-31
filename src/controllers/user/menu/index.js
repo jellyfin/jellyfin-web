@@ -1,4 +1,5 @@
 import appHost from 'apphost';
+import layoutManager from 'layoutManager';
 import 'listViewStyle';
 import 'emby-button';
 
@@ -38,18 +39,18 @@ export default function (view, params) {
             page.querySelector('.selectServer').classList.add('hide');
         }
 
-        // hide the actions if user preferences are being edited for a different user
+        ApiClient.getUser(userId).then(function (user) {
+            page.querySelector('.headerUsername').innerHTML = user.Name;
+            if (user.Policy.IsAdministrator && !layoutManager.tv) {
+                page.querySelector('.adminSection').classList.remove('hide');
+            }
+        });
+
+        // Hide the actions if user preferences are being edited for a different user
         if (params.userId && params.userId !== Dashboard.getCurrentUserId) {
             page.querySelector('.userSection').classList.add('hide');
             page.querySelector('.adminSection').classList.add('hide');
         }
-
-        ApiClient.getUser(userId).then(function (user) {
-            page.querySelector('.headerUsername').innerHTML = user.Name;
-            if (!user.Policy.IsAdministrator) {
-                page.querySelector('.adminSection').classList.add('hide');
-            }
-        });
 
         import('autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(view);

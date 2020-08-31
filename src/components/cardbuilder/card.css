@@ -209,6 +209,10 @@ button::-moz-focus-inner {
     contain: strict;
 }
 
+.defaultCardBackground {
+    display: flex;
+}
+
 .cardContent:not(.defaultCardBackground) {
     background-color: transparent;
 }
