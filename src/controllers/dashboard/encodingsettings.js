@@ -48,7 +48,8 @@ import libraryMenu from 'libraryMenu';
                 data: JSON.stringify({
                     Path: form.querySelector('.txtEncoderPath').value,
                     PathType: 'Custom'
-                })
+                }),
+                contentType: 'application/json'
             }).then(Dashboard.processServerConfigurationUpdateResult, onSaveEncodingPathFailure);
         });
     }
