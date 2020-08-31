@@ -59,7 +59,14 @@ html {
     }
 }
 
-.paper-icon-button-light:hover:not(:disabled) {
+@media (hover: hover) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        color: rgb(12, 232, 214);
+        background-color: rgba(0, 164, 220, 0.2);
+    }
+}
+
+.paper-icon-button-light:active:not(:disabled) {
     color: rgb(12, 232, 214);
     background-color: rgba(0, 164, 220, 0.2);
 }
