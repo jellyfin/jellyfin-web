@@ -26,6 +26,11 @@ import 'emby-itemscontainer';
         const updateFilterControls = () => {
             if (this.alphaPicker) {
                 this.alphaPicker.value(query.NameStartsWithOrGreater);
+                if (query.SortBy.indexOf('SortName') === 0) {
+                    this.alphaPicker.visible(true);
+                } else {
+                    this.alphaPicker.visible(false);
+                }
             }
         };
 
