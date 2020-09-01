@@ -74,6 +74,8 @@ import 'flexStyles';
     }
 
     function updateUserInHeader(user) {
+        renderHeader();
+
         let hasImage;
 
         if (user && user.name) {
@@ -954,8 +956,6 @@ import 'flexStyles';
         updateBackButton(page);
         updateLibraryNavLinks(page);
     });
-
-    renderHeader();
 
     events.on(connectionManager, 'localusersignedin', function (e, user) {
         const currentApiClient = connectionManager.getApiClient(user.ServerId);
