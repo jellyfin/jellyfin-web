@@ -198,7 +198,16 @@ import 'emby-itemscontainer';
 
         function updateFilterControls(tabContent) {
             const query = getQuery(tabContent);
-            self.alphaPicker.value(query.NameStartsWithOrGreater);
+
+            if (self.alphaPicker) {
+                self.alphaPicker.value(query.NameStartsWithOrGreater);
+
+                if (query.SortBy.indexOf('SortName') === 0) {
+                    self.alphaPicker.visible(true);
+                } else {
+                    self.alphaPicker.visible(false);
+                }
+            }
         }
 
         const self = this;
