@@ -1365,5 +1365,19 @@
     "MessageGetInstalledPluginsError": "Se produjo un error al obtener la lista de complementos instalados actualmente.",
     "MessagePluginInstallError": "Ocurrió un error al instalar el complemento.",
     "NextTrack": "Pasar al siguiente",
-    "LabelUnstable": "Inestable"
+    "LabelUnstable": "Inestable",
+    "Video": "Video",
+    "ThumbCard": "Tarjeta de pulgar",
+    "Subtitle": "Subtítulo",
+    "SpecialFeatures": "Características especiales",
+    "SelectServer": "Seleccionar servidor",
+    "Restart": "Reiniciar",
+    "ResetPassword": "Restablecer contraseña",
+    "Profile": "Perfil",
+    "PosterCard": "Tarjeta de cartel",
+    "Poster": "Póster",
+    "PlaybackRate": "Tasa de reproducción",
+    "MusicVideos": "Videos musicales",
+    "Image": "Imagen",
+    "Data": "Datos"
 }
