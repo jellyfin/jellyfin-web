@@ -20,11 +20,13 @@ export class BookPlayer {
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.openTableOfContents = this.openTableOfContents.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
+        this.onTouchStart = this.onTouchStart.bind(this);
     }
 
     play(options) {
-        this._progress = 0;
-        this._loaded = false;
+        this.progress = 0;
+        this.cancellationToken = false;
+        this.loaded = false;
 
         loading.show();
         const elem = this.createMediaElement();
@@ -34,35 +36,35 @@ export class BookPlayer {
     stop() {
         this.unbindEvents();
 
-        const elem = this._mediaElement;
-        const tocElement = this._tocElement;
-        const rendition = this._rendition;
+        const elem = this.mediaElement;
+        const tocElement = this.tocElement;
+        const rendition = this.rendition;
 
         if (elem) {
             dialogHelper.close(elem);
-            this._mediaElement = null;
+            this.mediaElement = null;
         }
 
         if (tocElement) {
             tocElement.destroy();
-            this._tocElement = null;
+            this.tocElement = null;
         }
 
         if (rendition) {
             rendition.destroy();
         }
 
-        // Hide loader in case player was not fully loaded yet
+        // hide loader in case player was not fully loaded yet
         loading.hide();
-        this._cancellationToken.shouldCancel = true;
+        this.cancellationToken = true;
     }
 
     currentItem() {
-        return this._currentItem;
+        return this.item;
     }
 
     currentTime() {
-        return this._progress * 1000;
+        return this.progress * 1000;
     }
 
     duration() {
@@ -94,12 +96,10 @@ export class BookPlayer {
 
     onWindowKeyUp(e) {
         const key = keyboardnavigation.getKeyName(e);
-
-        // TODO: depending on the event this can be the document or the rendition itself
-        const rendition = this._rendition || this;
+        const rendition = this.rendition;
         const book = rendition.book;
 
-        if (this._loaded === false) return;
+        if (!this.loaded) return;
         switch (key) {
             case 'l':
             case 'ArrowRight':
@@ -112,9 +112,9 @@ export class BookPlayer {
                 book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev();
                 break;
             case 'Escape':
-                if (this._tocElement) {
+                if (this.tocElement) {
                     // Close table of contents on ESC if it is open
-                    this._tocElement.destroy();
+                    this.tocElement.destroy();
                 } else {
                     // Otherwise stop the entire book player
                     this.stop();
@@ -124,17 +124,12 @@ export class BookPlayer {
     }
 
     onTouchStart(e) {
-        // TODO: depending on the event this can be the document or the rendition itself
-        const rendition = this._rendition || this;
+        const rendition = this.rendition;
         const book = rendition.book;
-
-        // check that the event is from the book or the document
-        if (!book || this._loaded === false) return;
 
         // epubjs stores pages off the screen or something for preloading
         // get the modulus of the touch event to account for the increased width
-        if (!e.touches || e.touches.length === 0) return;
-
+        if (!this.loaded || !e.touches || e.touches.length === 0) return;
         const touch = e.touches[0].clientX % dom.getWindowSize().innerWidth;
         if (touch < dom.getWindowSize().innerWidth / 2) {
             book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev();
@@ -148,7 +143,7 @@ export class BookPlayer {
     }
 
     bindMediaElementEvents() {
-        const elem = this._mediaElement;
+        const elem = this.mediaElement;
 
         elem.addEventListener('close', this.onDialogClosed, {once: true});
         elem.querySelector('.btnBookplayerExit').addEventListener('click', this.onDialogClosed, {once: true});
@@ -161,13 +156,13 @@ export class BookPlayer {
         document.addEventListener('keyup', this.onWindowKeyUp);
         document.addEventListener('touchstart', this.onTouchStart);
 
-        // FIXME: I don't really get why document keyup event is not triggered when epub is in focus
-        this._rendition.on('keyup', this.onWindowKeyUp);
-        this._rendition.on('touchstart', this.onTouchStart);
+        // FIXME: document keyup event is not triggered when epub is in focus
+        this.rendition.on('keyup', this.onWindowKeyUp);
+        this.rendition.on('touchstart', this.onTouchStart);
     }
 
     unbindMediaElementEvents() {
-        const elem = this._mediaElement;
+        const elem = this.mediaElement;
 
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('.btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
@@ -175,27 +170,27 @@ export class BookPlayer {
     }
 
     unbindEvents() {
-        if (this._mediaElement) {
+        if (this.mediaElement) {
             this.unbindMediaElementEvents();
         }
 
         document.removeEventListener('keyup', this.onWindowKeyUp);
         document.removeEventListener('touchstart', this.onTouchStart);
 
-        if (this._rendition) {
-            this._rendition.off('keyup', this.onWindowKeyUp);
-            this._rendition.off('touchstart', this.onTouchStart);
+        if (this.rendition) {
+            this.rendition.off('keyup', this.onWindowKeyUp);
+            this.rendition.off('touchstart', this.onTouchStart);
         }
     }
 
     openTableOfContents() {
-        if (this._loaded) {
-            this._tocElement = new TableOfContents(this);
+        if (this.loaded) {
+            this.tocElement = new TableOfContents(this);
         }
     }
 
     createMediaElement() {
-        let elem = this._mediaElement;
+        let elem = this.mediaElement;
         if (elem) {
             return elem;
         }
@@ -211,8 +206,6 @@ export class BookPlayer {
                 removeOnClose: true
             });
 
-            elem.id = 'bookPlayer';
-
             let html = '';
             html += '<div class="topRightActionButtons">';
             html += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerExit hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon close"></i></button>';
@@ -221,19 +214,19 @@ export class BookPlayer {
             html += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerToc hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon toc"></i></button>';
             html += '</div>';
 
+            elem.id = 'bookPlayer';
             elem.innerHTML = html;
 
             dialogHelper.open(elem);
         }
 
-        this._mediaElement = elem;
-
+        this.mediaElement = elem;
         return elem;
     }
 
     setCurrentSrc(elem, options) {
         const item = options.items[0];
-        this._currentItem = item;
+        this.item = item;
         this.streamInfo = {
             started: true,
             ended: false,
@@ -249,15 +242,10 @@ export class BookPlayer {
             import('epubjs').then(({default: epubjs}) => {
                 const downloadHref = apiClient.getItemDownloadUrl(item.Id);
                 const book = epubjs(downloadHref, {openAs: 'epub'});
-                const rendition = book.renderTo(elem, {width: '100%', height: '97%'});
+                const rendition = book.renderTo(elem, {width: '100%', height: '96%'});
 
-                this._currentSrc = downloadHref;
-                this._rendition = rendition;
-                const cancellationToken = {
-                    shouldCancel: false
-                };
-
-                this._cancellationToken = cancellationToken;
+                this.currentSrc = downloadHref;
+                this.rendition = rendition;
 
                 return rendition.display().then(() => {
                     const epubElem = document.querySelector('.epub-container');
@@ -265,10 +253,8 @@ export class BookPlayer {
 
                     this.bindEvents();
 
-                    return this._rendition.book.locations.generate(1024).then(async () => {
-                        if (cancellationToken.shouldCancel) {
-                            return reject();
-                        }
+                    return this.rendition.book.locations.generate(1024).then(async () => {
+                        if (this.cancellationToken) reject();
 
                         const percentageTicks = options.startPositionTicks / 10000000;
                         if (percentageTicks !== 0.0) {
@@ -276,15 +262,14 @@ export class BookPlayer {
                             await rendition.display(resumeLocation);
                         }
 
-                        this._loaded = true;
+                        this.loaded = true;
                         epubElem.style.display = 'block';
                         rendition.on('relocated', (locations) => {
-                            this._progress = book.locations.percentageFromCfi(locations.start.cfi);
+                            this.progress = book.locations.percentageFromCfi(locations.start.cfi);
                             events.trigger(this, 'timeupdate');
                         });
 
                         loading.hide();
-
                         return resolve();
                     });
                 }, () => {
@@ -300,7 +285,7 @@ export class BookPlayer {
     }
 
     canPlayItem(item) {
-        if (item.Path && (item.Path.endsWith('epub'))) {
+        if (item.Path && item.Path.endsWith('epub')) {
             return true;
         }
 

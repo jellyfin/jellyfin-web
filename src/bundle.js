@@ -101,6 +101,11 @@ _define('epubjs', function () {
     return epubjs;
 });
 
+var pdfjs = require('pdfjs-dist/build/pdf');
+_define('pdfjs', function () {
+    return pdfjs;
+});
+
 // page.js
 const page = require('page');
 _define('page', function() {

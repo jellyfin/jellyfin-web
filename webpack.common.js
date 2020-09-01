@@ -12,7 +12,8 @@ const Assets = [
     'libass-wasm/dist/js/subtitles-octopus-worker.wasm',
     'libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
     'libass-wasm/dist/js/subtitles-octopus-worker-legacy.data',
-    'libass-wasm/dist/js/subtitles-octopus-worker-legacy.js.mem'
+    'libass-wasm/dist/js/subtitles-octopus-worker-legacy.js.mem',
+    'pdfjs-dist/build/pdf.worker.js'
 ];
 
 const LibarchiveWasm = [
