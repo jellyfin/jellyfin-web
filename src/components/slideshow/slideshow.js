@@ -255,7 +255,7 @@ export default function (options) {
     /**
      * Handles zoom changes.
      */
-    function onZoomChange(scale, imageEl, slideEl) {
+    function onZoomChange(swiper, scale, imageEl, slideEl) {
         const zoomImage = slideEl.querySelector('.swiper-zoom-fakeimg');
 
         if (zoomImage) {

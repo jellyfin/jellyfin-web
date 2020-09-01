@@ -73,6 +73,8 @@ import 'flexStyles';
     }
 
     function updateUserInHeader(user) {
+        renderHeader();
+
         let hasImage;
 
         if (user && user.name) {
@@ -292,10 +294,10 @@ import 'flexStyles';
             html += '</h3>';
 
             if (appHost.supports('multiserver')) {
-                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSelectServer') + '</span></a>';
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
             }
 
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSettings') + '</span></a>';
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('Settings') + '</span></a>';
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSignOut') + '</span></a>';
             html += '</div>';
         }
@@ -953,8 +955,6 @@ import 'flexStyles';
         updateBackButton(page);
         updateLibraryNavLinks(page);
     });
-
-    renderHeader();
 
     events.on(window.connectionManager, 'localusersignedin', function (e, user) {
         const currentApiClient = window.connectionManager.getApiClient(user.ServerId);

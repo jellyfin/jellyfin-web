@@ -369,18 +369,8 @@ import 'emby-playstatebutton';
                     }
                 }
             } else {
-                let showArtist = options.artist === true;
-                const artistItems = item.ArtistItems;
-
-                if (!showArtist && options.artist !== false) {
-                    if (!artistItems || !artistItems.length) {
-                        showArtist = true;
-                    } else if (artistItems.length > 1 || !containerAlbumArtistIds.includes(artistItems[0].Id)) {
-                        showArtist = true;
-                    }
-                }
-
-                if (showArtist) {
+                if (options.artist) {
+                    const artistItems = item.ArtistItems;
                     if (artistItems && item.Type !== 'MusicAlbum') {
                         textlines.push(artistItems.map(a => {
                             return a.Name;

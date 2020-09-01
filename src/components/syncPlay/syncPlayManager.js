@@ -740,7 +740,7 @@ class SyncPlayManager {
 
         const playAtTime = this.lastCommand.When;
 
-        const currentPositionTicks = playbackManager.currentTime();
+        const currentPositionTicks = playbackManager.currentTime() * 10000;
         // Estimate PositionTicks on server
         const serverPositionTicks = this.lastCommand.PositionTicks + ((currentTime - playAtTime) + this.timeOffsetWithServer) * 10000;
         // Measure delay that needs to be recovered

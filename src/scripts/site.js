@@ -214,6 +214,7 @@ function initClient() {
                 });
                 require(['mouseManager']);
                 require(['focusPreventScroll']);
+                require(['vendorStyles']);
                 require(['autoFocuser'], function(autoFocuser) {
                     autoFocuser.enable();
                 });
@@ -517,7 +518,8 @@ function initClient() {
                     'events',
                     'credentialprovider',
                     'connectionManagerFactory',
-                    'appStorage'
+                    'appStorage',
+                    'comicReader'
                 ]
             },
             urlArgs: urlArgs,
@@ -647,6 +649,7 @@ function initClient() {
         });
         define('slideshow', [componentsPath + '/slideshow/slideshow'], returnFirstDependency);
         define('focusPreventScroll', ['legacy/focusPreventScroll'], returnFirstDependency);
+        define('vendorStyles', ['legacy/vendorStyles'], returnFirstDependency);
         define('userdataButtons', [componentsPath + '/userdatabuttons/userdatabuttons'], returnFirstDependency);
         define('listView', [componentsPath + '/listview/listview'], returnFirstDependency);
         define('indicators', [componentsPath + '/indicators/indicators'], returnFirstDependency);

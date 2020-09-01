@@ -169,7 +169,8 @@ import 'emby-button';
             data: JSON.stringify({
                 ValidateWriteable: validateWriteable,
                 Path: path
-            })
+            }),
+            contentType: 'application/json'
         }).catch(response => {
             if (response) {
                 if (response.status === 404) {

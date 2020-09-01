@@ -949,12 +949,12 @@ class ChromecastPlayer {
 
     currentTime(val) {
         if (val != null) {
-            return this.seek(val);
+            return this.seek(val * 10000);
         }
 
         let state = this.lastPlayerData || {};
         state = state.PlayState || {};
-        return state.PositionTicks;
+        return state.PositionTicks / 10000;
     }
 
     duration() {

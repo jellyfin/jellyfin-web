@@ -51,8 +51,22 @@ import 'flexStyles';
             if (stream.Type === 'Data') {
                 continue;
             }
+
             html += '<div class="mediaInfoStream">';
-            const displayType = globalize.translate(`MediaInfoStreamType${stream.Type}`);
+            let translateString;
+            switch (stream.Type) {
+                case 'Audio':
+                case 'Data':
+                case 'Subtitle':
+                case 'Video':
+                    translateString = stream.Type;
+                    break;
+                case 'EmbeddedImage':
+                    translateString = 'Image';
+                    break;
+            }
+
+            const displayType = globalize.translate(translateString);
             html += `<h2 class="mediaInfoStreamType">${displayType}</h2>`;
             const attributes = [];
             if (stream.DisplayTitle) {

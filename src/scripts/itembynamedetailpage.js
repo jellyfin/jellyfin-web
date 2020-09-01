@@ -59,7 +59,7 @@ function renderItems(page, item) {
 
     if (item.MusicVideoCount) {
         sections.push({
-            name: globalize.translate('HeaderMusicVideos'),
+            name: globalize.translate('MusicVideos'),
             type: 'MusicVideo'
         });
     }
