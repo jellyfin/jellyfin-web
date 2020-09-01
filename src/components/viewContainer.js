@@ -82,7 +82,8 @@ import 'css!components/viewManager/viewContainer';
                 }
 
                 allPages[pageIndex] = view;
-                setControllerClass(view, options).then(() => {
+                // Timeout for polyfilled CustomElements (webOS 1.2)
+                setControllerClass(view, options).then(() => new Promise((resolve) => setTimeout(resolve, 0))).then(() => {
                     if (onBeforeChange) {
                         onBeforeChange(view, false, options);
                     }
