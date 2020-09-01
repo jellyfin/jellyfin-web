@@ -169,18 +169,18 @@ import 'emby-itemscontainer';
 
                 let elems = tabContent.querySelectorAll('.paging');
 
-                for (let i = 0, length = elems.length; i < length; i++) {
-                    elems[i].innerHTML = pagingHtml;
+                for (const elem of elems) {
+                    elem.innerHTML = pagingHtml;
                 }
 
                 elems = tabContent.querySelectorAll('.btnNextPage');
-                for (let i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onNextPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll('.btnPreviousPage');
-                for (let i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onPreviousPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onPreviousPageClick);
                 }
 
                 const itemsContainer = tabContent.querySelector('.itemsContainer');
@@ -194,7 +194,7 @@ import 'emby-itemscontainer';
                     autoFocuser.autoFocus(page);
                 });
             });
-        }
+        };
 
         const updateFilterControls = (tabContent) => {
             const query = getQuery(tabContent);
