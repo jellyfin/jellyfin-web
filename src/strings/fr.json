@@ -1366,5 +1366,14 @@
     "LabelSubtitleVerticalPosition": "Position verticale :",
     "MessageGetInstalledPluginsError": "Une erreur est survenue lors de la récupération de la liste des extensions installées.",
     "MessagePluginInstallError": "Une erreur est survenue durant l'installation de l'extension.",
-    "PlaybackRate": "Vitesse de lecture"
+    "PlaybackRate": "Vitesse de lecture",
+    "Subtitle": "Sous-titre",
+    "SelectServer": "Choisissez un serveur",
+    "Restart": "Redémarrer",
+    "ResetPassword": "Réinitialiser le mot de passe",
+    "Profile": "Profil",
+    "Poster": "Affiche",
+    "MusicVideos": "Clips musicaux",
+    "Image": "Image",
+    "Data": "Données"
 }
