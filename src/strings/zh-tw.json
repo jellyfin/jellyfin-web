@@ -1365,5 +1365,11 @@
     "LabelSubtitleVerticalPosition": "垂直位置：",
     "PreviousTrack": "上一首",
     "NextTrack": "下一首",
-    "LabelUnstable": "不穩定"
+    "LabelUnstable": "不穩定",
+    "Restart": "重新啟動",
+    "ResetPassword": "重設密碼",
+    "Poster": "海報",
+    "MusicVideos": "音樂影片",
+    "Image": "圖片",
+    "Data": "資料"
 }
