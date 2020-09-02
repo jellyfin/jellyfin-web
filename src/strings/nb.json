@@ -1365,5 +1365,19 @@
     "LabelSubtitleVerticalPosition": "Vertikal posisjon:",
     "PreviousTrack": "Hopp til forrige",
     "MessageGetInstalledPluginsError": "En feil oppstod under henting av listen over installerte tillegg.",
-    "MessagePluginInstallError": "En feil oppstod under installasjon av tillegget."
+    "MessagePluginInstallError": "En feil oppstod under installasjon av tillegget.",
+    "ThumbCard": "Miniatyrbildekort",
+    "SpecialFeatures": "Spesialfunksjoner",
+    "PosterCard": "Plakatkort",
+    "Video": "Video",
+    "Subtitle": "Undertekst",
+    "SelectServer": "Velg tjener",
+    "Restart": "Restart",
+    "ResetPassword": "Tilbakestill passord",
+    "Profile": "Profil",
+    "Poster": "Plakat",
+    "PlaybackRate": "Avspillingshastighet",
+    "MusicVideos": "Musikkvideoer",
+    "Image": "Bilde",
+    "Data": "Data"
 }
