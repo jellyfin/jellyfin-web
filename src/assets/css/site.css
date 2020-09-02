@@ -44,6 +44,11 @@ body {
     overflow-x: hidden;
     background-color: transparent !important;
     -webkit-font-smoothing: antialiased;
+
+    /* This keeps the scrollbar always present in all pages, so we avoid clipping while switching between pages
+       that need the scrollbar and pages that don't.
+     */
+    overflow-y: scroll;
 }
 
 .mainAnimatedPage {
@@ -120,10 +125,6 @@ div[data-role=page] {
 .drawerContent {
     /* make sure the bottom of the drawer is visible when music is playing */
     padding-bottom: 4em;
-}
-
-.force-scroll {
-    overflow-y: scroll;
 }
 
 .hide-scroll {

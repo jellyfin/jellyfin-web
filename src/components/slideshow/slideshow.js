@@ -492,7 +492,6 @@ export default function (options) {
         document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
         // Shows page scrollbar
         document.body.classList.remove('hide-scroll');
-        document.body.classList.add('force-scroll');
     }
 
     /**
@@ -657,7 +656,6 @@ export default function (options) {
     self.show = function () {
         createElements(options);
         // Hides page scrollbar
-        document.body.classList.remove('force-scroll');
         document.body.classList.add('hide-scroll');
     };
 

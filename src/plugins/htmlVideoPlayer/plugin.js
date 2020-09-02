@@ -107,7 +107,7 @@ function tryRemoveElement(elem) {
         const animatedPage = document.querySelector('.page:not(.hide)');
         animatedPage.classList.add('hide');
         // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
-        document.body.classList.remove('force-scroll');
+        document.body.classList.add('hide-scroll');
     }
 
     function zoomIn(elem) {
@@ -679,6 +679,7 @@ function tryRemoveElement(elem) {
             destroyFlvPlayer(this);
 
             appRouter.setTransparency('none');
+            document.body.classList.remove('hide-scroll');
 
             const videoElement = this.#mediaElement;
 
