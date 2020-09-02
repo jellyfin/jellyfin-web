@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import loading from 'loading';
 import dialogHelper from 'dialogHelper';
 import keyboardnavigation from 'keyboardnavigation';
@@ -94,7 +93,7 @@ export class ComicsPlayer {
         loading.show();
 
         let serverId = item.ServerId;
-        let apiClient = connectionManager.getApiClient(serverId);
+        let apiClient = window.connectionManager.getApiClient(serverId);
 
         libarchive.Archive.init({
             workerUrl: appRouter.baseUrl() + '/libraries/worker-bundle.js'

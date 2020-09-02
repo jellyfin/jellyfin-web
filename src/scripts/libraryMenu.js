@@ -484,8 +484,8 @@ import 'flexStyles';
                 links.push({
                     name: pluginItem.DisplayName,
                     icon: pluginItem.MenuIcon || 'folder',
-                    href: Dashboard.getConfigurationPageUrl(pluginItem.Name),
-                    pageUrls: [Dashboard.getConfigurationPageUrl(pluginItem.Name)]
+                    href: Dashboard.getPluginUrl(pluginItem.Name),
+                    pageUrls: [Dashboard.getPluginUrl(pluginItem.Name)]
                 });
             }
         }

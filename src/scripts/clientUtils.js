@@ -62,18 +62,8 @@ export function logout() {
     });
 }
 
-export function getConfigurationPageUrl(name) {
+export function getPluginUrl(name) {
     return 'configurationpage?name=' + encodeURIComponent(name);
-}
-
-export function getConfigurationResourceUrl(name) {
-    if (AppInfo.isNativeApp) {
-        return ApiClient.getUrl('web/ConfigurationPage', {
-            name: name
-        });
-    }
-
-    return getConfigurationPageUrl(name);
 }
 
 export function navigate(url, preserveQueryString) {
@@ -196,8 +186,7 @@ window.Dashboard = {
     alert,
     capabilities,
     confirm,
-    getConfigurationPageUrl,
-    getConfigurationResourceUrl,
+    getPluginUrl,
     getCurrentUser,
     getCurrentUserId,
     hideLoadingMsg,
@@ -216,8 +205,7 @@ export default {
     alert,
     capabilities,
     confirm,
-    getConfigurationPageUrl,
-    getConfigurationResourceUrl,
+    getPluginUrl,
     getCurrentUser,
     getCurrentUserId,
     hideLoadingMsg,
