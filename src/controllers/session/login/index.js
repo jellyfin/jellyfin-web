@@ -1,7 +1,6 @@
 import appHost from 'apphost';
 import appSettings from 'appSettings';
 import dom from 'dom';
-import connectionManager from 'connectionManager';
 import loading from 'loading';
 import layoutManager from 'layoutManager';
 import libraryMenu from 'libraryMenu';
@@ -139,7 +138,7 @@ import 'emby-checkbox';
             const serverId = params.serverid;
 
             if (serverId) {
-                return connectionManager.getOrCreateApiClient(serverId);
+                return window.connectionManager.getOrCreateApiClient(serverId);
             }
 
             return ApiClient;

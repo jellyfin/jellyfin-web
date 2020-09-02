@@ -1,7 +1,6 @@
 import dom from 'dom';
 import layoutManager from 'layoutManager';
 import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
 import events from 'events';
 import viewManager from 'viewManager';
 import appRouter from 'appRouter';
@@ -57,10 +56,10 @@ import 'flexStyles';
 
     function getCurrentApiClient() {
         if (currentUser && currentUser.localUser) {
-            return connectionManager.getApiClient(currentUser.localUser.ServerId);
+            return window.connectionManager.getApiClient(currentUser.localUser.ServerId);
         }
 
-        return connectionManager.currentApiClient();
+        return window.connectionManager.currentApiClient();
     }
 
     function lazyLoadViewMenuBarImages() {
@@ -751,7 +750,7 @@ import 'flexStyles';
         }
 
         if (requiresUserRefresh) {
-            connectionManager.user(getCurrentApiClient()).then(updateUserInHeader);
+            window.connectionManager.user(getCurrentApiClient()).then(updateUserInHeader);
         }
     }
 
@@ -793,7 +792,7 @@ import 'flexStyles';
         if (user) {
             Promise.resolve(user);
         } else {
-            connectionManager.user(getCurrentApiClient()).then(function (user) {
+            window.connectionManager.user(getCurrentApiClient()).then(function (user) {
                 refreshLibraryInfoInDrawer(user);
                 updateLibraryMenu(user.localUser);
             });
@@ -957,8 +956,8 @@ import 'flexStyles';
         updateLibraryNavLinks(page);
     });
 
-    events.on(connectionManager, 'localusersignedin', function (e, user) {
-        const currentApiClient = connectionManager.getApiClient(user.ServerId);
+    events.on(window.connectionManager, 'localusersignedin', function (e, user) {
+        const currentApiClient = window.connectionManager.getApiClient(user.ServerId);
 
         currentDrawerType = null;
         currentUser = {
@@ -967,13 +966,13 @@ import 'flexStyles';
 
         loadNavDrawer();
 
-        connectionManager.user(currentApiClient).then(function (user) {
+        window.connectionManager.user(currentApiClient).then(function (user) {
             currentUser = user;
             updateUserInHeader(user);
         });
     });
 
-    events.on(connectionManager, 'localusersignedout', function () {
+    events.on(window.connectionManager, 'localusersignedout', function () {
         currentUser = {};
         updateUserInHeader();
     });

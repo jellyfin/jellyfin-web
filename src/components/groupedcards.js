@@ -2,12 +2,11 @@
 
 import dom from 'dom';
 import appRouter from 'appRouter';
-import connectionManager from 'connectionManager';
 
     function onGroupedCardClick(e, card) {
         var itemId = card.getAttribute('data-id');
         var serverId = card.getAttribute('data-serverid');
-        var apiClient = connectionManager.getApiClient(serverId);
+        var apiClient = window.connectionManager.getApiClient(serverId);
         var userId = apiClient.getCurrentUserId();
         var playedIndicator = card.querySelector('.playedIndicator');
         var playedIndicatorHtml = playedIndicator ? playedIndicator.innerHTML : null;

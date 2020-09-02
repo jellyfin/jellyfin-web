@@ -5,7 +5,6 @@ import loading from 'loading';
 import dom from 'dom';
 import playbackManager from 'playbackManager';
 import appRouter from 'appRouter';
-import connectionManager from 'connectionManager';
 import {
     bindEventsToHlsPlayer,
     destroyHlsPlayer,
@@ -325,7 +324,7 @@ function tryRemoveElement(elem) {
 
                 console.debug(`prefetching hls playlist: ${hlsPlaylistUrl}`);
 
-                return connectionManager.getApiClient(item.ServerId).ajax({
+                return window.connectionManager.getApiClient(item.ServerId).ajax({
 
                     type: 'GET',
                     url: hlsPlaylistUrl
@@ -1033,7 +1032,7 @@ function tryRemoveElement(elem) {
          */
         renderSsaAss(videoElement, track, item) {
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
-            const apiClient = connectionManager.getApiClient(item);
+            const apiClient = window.connectionManager.getApiClient(item);
             const htmlVideoPlayer = this;
             const options = {
                 video: videoElement,

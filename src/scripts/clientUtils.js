@@ -48,7 +48,7 @@ export function onServerChanged(userId, accessToken, apiClient) {
 }
 
 export function logout() {
-    ConnectionManager.logout().then(function () {
+    window.connectionManager.logout().then(function () {
         let loginPage;
 
         if (AppInfo.isNativeApp) {

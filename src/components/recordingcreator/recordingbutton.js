@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import dom from 'dom';
 import recordingHelper from 'recordingHelper';
 import 'paper-icon-button-light';
@@ -53,7 +52,7 @@ class RecordingButton {
     }
 
     refresh(serverId, itemId) {
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
         const self = this;
         apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
             self.refreshItem(item);

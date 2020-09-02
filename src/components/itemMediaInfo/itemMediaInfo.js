@@ -8,7 +8,6 @@
 import dialogHelper from 'dialogHelper';
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
-import connectionManager from 'connectionManager';
 import loading from 'loading';
 import 'emby-select';
 import 'listViewStyle';
@@ -151,7 +150,7 @@ import 'flexStyles';
     }
 
     function loadMediaInfo(itemId, serverId, template) {
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
             const dialogOptions = {
                 size: 'small',
