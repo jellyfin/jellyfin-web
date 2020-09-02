@@ -1366,5 +1366,18 @@
     "MessagePluginInstallError": "An error occurred while installing the plugin.",
     "PlaybackRate": "Playback Rate",
     "NextTrack": "Skip to next",
-    "LabelUnstable": "Unstable"
+    "LabelUnstable": "Unstable",
+    "Video": "Video",
+    "ThumbCard": "Thumb Card",
+    "Subtitle": "Subtitle",
+    "SpecialFeatures": "Special Features",
+    "SelectServer": "Select Server",
+    "Restart": "Restart",
+    "ResetPassword": "Reset Password",
+    "Profile": "Profile",
+    "PosterCard": "Poster Card",
+    "Poster": "Poster",
+    "MusicVideos": "Music Videos",
+    "Image": "Image",
+    "Data": "Data"
 }
