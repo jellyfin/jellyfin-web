@@ -1268,7 +1268,7 @@
     "LabelDeinterlaceMethod": "Deinterlacing metode:",
     "DeinterlaceMethodHelp": "Velg deinterlacing metoden som skal bli brukt når man transkoder interlaced innhold.",
     "ButtonTogglePlaylist": "Spilleliste",
-    "EnableBlurHashHelp": "Bilder som fortsatt lastes inn vil vises med en tåkete plassholder",
+    "EnableBlurHashHelp": "Bilder som fortsatt lastes inn vil vises med en unik plassholder.",
     "EnableBlurHash": "Aktiver tåkete plassholdere for bilder",
     "UnsupportedPlayback": "Jellyfin kan ikke dekryptere innhold beskyttet med DRM, men alt innhold vil bli forsøkt uansett, inkludert beskyttede titler. Noen filer kan fremstå helt svarte grunnet kryptering eller andre ikke støttede funksjoner, som interaktive titler.",
     "OnApplicationStartup": "Ved oppstart av applikasjonen",
