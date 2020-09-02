@@ -1,5 +1,4 @@
 <form style="margin: 0 auto;">
-
     <h2 class="sectionTitle">
         ${Display}
     </h2>
@@ -123,40 +122,36 @@
         <div class="fieldDescription">${LabelPleaseRestart}</div>
     </div>
 
-    <div class="selectContainer hide selectSkinContainer">
-        <select is="emby-select" class="selectSkin" label="${LabelSkin}"></select>
-    </div>
-
     <div class="selectContainer">
         <select id="selectTheme" is="emby-select" label="${LabelTheme}"></select>
-    </div>
-
-    <div class="selectContainer selectDashboardThemeContainer hide">
-        <select id="selectDashboardTheme" is="emby-select" label="${LabelDashboardTheme}"></select>
     </div>
 
     <div class="selectContainer hide selectScreensaverContainer">
         <select is="emby-select" class="selectScreensaver" label="${LabelScreensaver}"></select>
     </div>
 
-    <div class="selectContainer fldSoundEffects hide">
-        <select is="emby-select" class="selectSoundEffects" label="${LabelSoundEffects}"></select>
-    </div>
-
-    <div class="inputContainer inputContainer-withDescription fldFadein">
+    <div class="inputContainer inputContainer-withDescription">
         <input is="emby-input" type="number" id="txtLibraryPageSize" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelLibraryPageSize}" />
         <div class="fieldDescription">${LabelLibraryPageSizeHelp}</div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldFadein">
+    <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkFadein" />
-            <span>${EnableFastImageFadeIn}</span>
+            <span>${EnableFasterAnimations}</span>
         </label>
-        <div class="fieldDescription checkboxFieldDescription">${EnableFastImageFadeInHelp}</div>
+        <div class="fieldDescription checkboxFieldDescription">${EnableFasterAnimationsHelp}</div>
     </div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription fldDetailsBanner">
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkBlurhash" />
+            <span>${EnableBlurHash}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${EnableBlurHashHelp}</div>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkDetailsBanner" />
             <span>${EnableDetailsBanner}</span>
@@ -167,7 +162,7 @@
     <div class="checkboxContainer checkboxContainer-withDescription fldBackdrops hide">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkBackdrops" />
-            <span>${EnableBackdrops}</span>
+            <span>${Backdrops}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">${EnableBackdropsHelp}</div>
     </div>
@@ -175,7 +170,7 @@
     <div class="checkboxContainer checkboxContainer-withDescription fldThemeSong hide">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkThemeSong" />
-            <span>${EnableThemeSongs}</span>
+            <span>${ThemeSongs}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">${EnableThemeSongsHelp}</div>
     </div>
@@ -183,16 +178,9 @@
     <div class="checkboxContainer checkboxContainer-withDescription fldThemeVideo hide">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkThemeVideo" />
-            <span>${EnableThemeVideos}</span>
+            <span>${ThemeVideos}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">${EnableThemeVideosHelp}</div>
-    </div>
-
-    <div class="checkboxContainer hide fldAutorun">
-        <label>
-            <input type="checkbox" is="emby-checkbox" class="chkRunAtStartup" />
-            <span>${RunAtStartup}</span>
-        </label>
     </div>
 
     <div class="checkboxContainer checkboxContainer-withDescription fldDisplayMissingEpisodes hide">

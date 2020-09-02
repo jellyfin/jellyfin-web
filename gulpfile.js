@@ -16,6 +16,7 @@ const stream = require('webpack-stream');
 const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
 const sass = require('gulp-sass');
+const gulpif = require('gulp-if');
 const lazypipe = require('lazypipe');
 
 sass.compiler = require('node-sass');
@@ -67,7 +68,7 @@ function serve() {
         }
     });
 
-    watch(options.apploader.query, apploader());
+    watch(options.apploader.query, apploader(true));
 
     watch('src/bundle.js', webpack);
 
@@ -130,12 +131,18 @@ function javascript(query) {
         .pipe(browserSync.stream());
 }
 
-function apploader() {
-    return src(options.apploader.query, { base: './src/' })
-        .pipe(concat('scripts/apploader.js'))
-        .pipe(pipelineJavascript())
-        .pipe(dest('dist/'))
-        .pipe(browserSync.stream());
+function apploader(standalone) {
+    function task() {
+        return src(options.apploader.query, { base: './src/' })
+            .pipe(gulpif(standalone, concat('scripts/apploader.js')))
+            .pipe(pipelineJavascript())
+            .pipe(dest('dist/'))
+            .pipe(browserSync.stream());
+    }
+
+    task.displayName = 'apploader';
+
+    return task;
 }
 
 function webpack() {
@@ -177,11 +184,21 @@ function copy(query) {
 function injectBundle() {
     return src(options.injectBundle.query, { base: './src/' })
         .pipe(inject(
-            src(['src/scripts/apploader.js'], { read: false }, { base: './src/' }), { relative: true }
+            src(['src/scripts/apploader.js'], { read: false }, { base: './src/' }), {
+                relative: true,
+                transform: function (filepath) {
+                    return `<script src="${filepath}" defer></script>`;
+                }
+            }
         ))
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
 }
 
-exports.default = series(clean, parallel(javascript, apploader, webpack, css, html, images, copy), injectBundle);
-exports.serve = series(exports.default, serve);
+function build(standalone) {
+    return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy));
+}
+
+exports.default = series(build(false), injectBundle);
+exports.standalone = series(build(true), injectBundle);
+exports.serve = series(exports.standalone, serve);

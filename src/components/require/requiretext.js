@@ -2,12 +2,11 @@ define(function () {
     'use strict';
 
     // hack to work around the server's auto-redirection feature
-    var addRedirectPrevention = self.dashboardVersion != null && self.Dashboard && !self.AppInfo.isNativeApp;
+    var addRedirectPrevention = window.dashboardVersion != null && window.Dashboard && !window.AppInfo.isNativeApp;
 
     return {
 
         load: function (url, req, load, config) {
-
             if (url.indexOf('://') === -1) {
                 url = config.baseUrl + url;
             }

@@ -23,19 +23,23 @@ html {
 .skinHeader-withBackground {
     color: rgba(0, 0, 0, 0.7);
     background: #303030;
-    background: -webkit-gradient(linear, left top, right top, from(#bcbcbc), color-stop(#a7b4b7), color-stop(#beb5a5), color-stop(#adbec2), to(#b9c7cb));
-    background: -webkit-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
-    background: -o-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
     background: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
 }
 
 .skinHeader.semiTransparent {
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+}
+
+.layout-tv .skinHeader.semiTransparent {
+    background: none;
 }
 
 .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/banner-dark.png);
+}
+
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
 }
 
 html {
@@ -122,9 +126,10 @@ html {
 }
 
 .paperList,
-.visualCardBox {
-    background-color: #fff;
+.visualCardBox,
+.cardBox:not(.visualCardBox) .cardPadder {
     background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
 }
 
 .defaultCardBackground1 {
@@ -171,6 +176,10 @@ html {
 .cardFooter-vibrant .cardText-secondary {
     color: inherit;
     opacity: 0.5;
+}
+
+.cardImageContainer {
+    border-radius: 0.5rem;
 }
 
 .formDialogHeader a,
@@ -227,12 +236,13 @@ html {
     color: #fff !important;
 }
 
-.detailSticky {
+.detailRibbon {
     background: #303030;
-    background: -webkit-gradient(linear, left top, right top, from(#bcbcbc), color-stop(#a7b4b7), color-stop(#beb5a5), color-stop(#adbec2), to(#b9c7cb));
-    background: -webkit-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
-    background: -o-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
     background: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+}
+
+.layout-tv .detailRibbon {
+    background: none;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
@@ -255,11 +265,6 @@ html {
 .mediaInfoText {
     color: #333;
     background: #fff;
-}
-
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #cb272a;
 }
 
 .emby-input,
@@ -291,7 +296,10 @@ html {
     border-color: #fff;
 }
 
-.emby-checkbox:checked + span + .checkboxOutline,
+.emby-checkbox:checked + span + .checkboxOutline {
+    background-color: #00a4dc;
+}
+
 .itemProgressBarForeground {
     background: linear-gradient(90deg, rgba(0, 210, 201, 1) 0%, rgba(13, 194, 98, 1) 28%, rgba(0, 75, 185, 1) 100%);
 }
@@ -446,16 +454,25 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: 0.5rem;
     border-color: #00a4dc !important;
 }
 
-.cardContent-button,
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: 1rem;
+}
+
+.blurhash-canvas {
+    border-radius: 0.5rem;
+}
+
 .itemDetailImage,
 .cardOverlayContainer {
     border-radius: 0.5rem;

@@ -21,24 +21,26 @@ html {
 
 .skinHeader-withBackground {
     background: #303030;
-    background: -webkit-gradient(linear, left top, right top, from(#291a31), color-stop(#033664), color-stop(#011432), color-stop(#141a3a), to(#291a31));
-    background: -webkit-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
-    background: -o-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
     background: linear-gradient(to right, #291a31, #033664, #011432, #141a3a, #291a31);
 }
 
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-    background: -o-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+.layout-tv .skinHeader.semiTransparent {
+    background: none;
+}
+
 .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/banner-light.png);
+}
+
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
 }
 
 .dialog,
@@ -131,23 +133,23 @@ html {
 }
 
 .defaultCardBackground1 {
-    background-color: #d2b019;
+    background-color: #213440;
 }
 
 .defaultCardBackground2 {
-    background-color: #338abb;
+    background-color: #8c6565;
 }
 
 .defaultCardBackground3 {
-    background-color: #6b689d;
+    background-color: #57778c;
 }
 
 .defaultCardBackground4 {
-    background-color: #dd452b;
+    background-color: #8c8c49;
 }
 
 .defaultCardBackground5 {
-    background-color: #5ccea9;
+    background-color: #404024;
 }
 
 .cardText-secondary,
@@ -223,12 +225,16 @@ html {
     color: #fff !important;
 }
 
-.detailSticky {
+.detailRibbon {
     background: #303030;
     background: -webkit-gradient(linear, left top, right top, from(#291a31), color-stop(#033664), color-stop(#011432), color-stop(#141a3a), to(#291a31));
     background: -webkit-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
     background: -o-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
     background: linear-gradient(to right, #291a31, #033664, #011432, #141a3a, #291a31);
+}
+
+.layout-tv .detailRibbon {
+    background: none;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
@@ -259,11 +265,6 @@ html {
 .mediaInfoText {
     color: #ddd;
     background: rgba(170, 170, 190, 0.2);
-}
-
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #cb272a;
 }
 
 .emby-input,
@@ -446,8 +447,12 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
+}
+
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .card:focus .cardBox.visualCardBox,

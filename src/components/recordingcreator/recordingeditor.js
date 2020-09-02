@@ -1,162 +1,154 @@
-define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'imageLoader', 'scrollStyles', 'emby-button', 'emby-collapse', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'flexStyles'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, imageLoader) {
-    'use strict';
+import dialogHelper from 'dialogHelper';
+import globalize from 'globalize';
+import layoutManager from 'layoutManager';
+import loading from 'loading';
+import scrollHelper from 'scrollHelper';
+import 'scrollStyles';
+import 'emby-button';
+import 'emby-collapse';
+import 'emby-input';
+import 'paper-icon-button-light';
+import 'css!./../formdialog';
+import 'css!./recordingcreator';
+import 'material-icons';
+import 'flexStyles';
 
-    var currentDialog;
-    var recordingDeleted = false;
-    var currentItemId;
-    var currentServerId;
-    var currentResolve;
+let currentDialog;
+let recordingDeleted = false;
+let currentItemId;
+let currentServerId;
+let currentResolve;
 
-    function deleteTimer(apiClient, timerId) {
+function deleteTimer(apiClient, timerId) {
+    return import('recordingHelper').then(({ default: recordingHelper }) => {
+        recordingHelper.cancelTimerWithConfirmation(timerId, apiClient.serverId());
+    });
+}
 
-        return new Promise(function (resolve, reject) {
+function renderTimer(context, item, apiClient) {
+    context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
+    context.querySelector('#txtPostPaddingMinutes').value = item.PostPaddingSeconds / 60;
 
-            require(['recordingHelper'], function (recordingHelper) {
+    loading.hide();
+}
 
-                recordingHelper.cancelTimerWithConfirmation(timerId, apiClient.serverId()).then(resolve, reject);
-            });
+function closeDialog(isDeleted) {
+    recordingDeleted = isDeleted;
+    dialogHelper.close(currentDialog);
+}
+
+function onSubmit(e) {
+    const form = this;
+
+    const apiClient = window.connectionManager.getApiClient(currentServerId);
+
+    apiClient.getLiveTvTimer(currentItemId).then(function (item) {
+        item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
+        item.PostPaddingSeconds = form.querySelector('#txtPostPaddingMinutes').value * 60;
+        apiClient.updateLiveTvTimer(item).then(currentResolve);
+    });
+
+    e.preventDefault();
+
+    // Disable default form submission
+    return false;
+}
+
+function init(context) {
+    context.querySelector('.btnCancel').addEventListener('click', function () {
+        closeDialog(false);
+    });
+
+    context.querySelector('.btnCancelRecording').addEventListener('click', function () {
+        const apiClient = window.connectionManager.getApiClient(currentServerId);
+
+        deleteTimer(apiClient, currentItemId).then(function () {
+            closeDialog(true);
         });
-    }
+    });
 
-    function renderTimer(context, item, apiClient) {
+    context.querySelector('form').addEventListener('submit', onSubmit);
+}
 
-        var program = item.ProgramInfo || {};
+function reload(context, id) {
+    loading.show();
+    currentItemId = id;
 
-        context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
-        context.querySelector('#txtPostPaddingMinutes').value = item.PostPaddingSeconds / 60;
-
+    const apiClient = window.connectionManager.getApiClient(currentServerId);
+    apiClient.getLiveTvTimer(id).then(function (result) {
+        renderTimer(context, result, apiClient);
         loading.hide();
-    }
+    });
+}
 
-    function closeDialog(isDeleted) {
-
-        recordingDeleted = isDeleted;
-
-        dialogHelper.close(currentDialog);
-    }
-
-    function onSubmit(e) {
-
-        var form = this;
-
-        var apiClient = connectionManager.getApiClient(currentServerId);
-
-        apiClient.getLiveTvTimer(currentItemId).then(function (item) {
-            item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
-            item.PostPaddingSeconds = form.querySelector('#txtPostPaddingMinutes').value * 60;
-            apiClient.updateLiveTvTimer(item).then(currentResolve);
-        });
-
-        e.preventDefault();
-
-        // Disable default form submission
-        return false;
-    }
-
-    function init(context) {
-
-        context.querySelector('.btnCancel').addEventListener('click', function () {
-
-            closeDialog(false);
-        });
-
-        context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-
-            var apiClient = connectionManager.getApiClient(currentServerId);
-            deleteTimer(apiClient, currentItemId).then(function () {
-                closeDialog(true);
-            });
-        });
-
-        context.querySelector('form').addEventListener('submit', onSubmit);
-    }
-
-    function reload(context, id) {
-
+function showEditor(itemId, serverId, options) {
+    return new Promise(function (resolve, reject) {
+        recordingDeleted = false;
+        currentServerId = serverId;
         loading.show();
-        currentItemId = id;
+        options = options || {};
+        currentResolve = resolve;
 
-        var apiClient = connectionManager.getApiClient(currentServerId);
-        apiClient.getLiveTvTimer(id).then(function (result) {
+        import('text!./recordingeditor.template.html').then(({default: template}) => {
+            const dialogOptions = {
+                removeOnClose: true,
+                scrollY: false
+            };
 
-            renderTimer(context, result, apiClient);
-            loading.hide();
-        });
-    }
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            }
 
-    function showEditor(itemId, serverId, options) {
+            const dlg = dialogHelper.createDialog(dialogOptions);
 
-        return new Promise(function (resolve, reject) {
+            dlg.classList.add('formDialog');
+            dlg.classList.add('recordingDialog');
 
-            recordingDeleted = false;
-            currentServerId = serverId;
-            loading.show();
-            options = options || {};
-            currentResolve = resolve;
+            if (!layoutManager.tv) {
+                dlg.style['min-width'] = '20%';
+                dlg.classList.add('dialog-fullscreen-lowres');
+            }
 
-            require(['text!./recordingeditor.template.html'], function (template) {
-                var dialogOptions = {
-                    removeOnClose: true,
-                    scrollY: false
-                };
+            let html = '';
 
-                if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
+            html += globalize.translateHtml(template, 'core');
+
+            dlg.innerHTML = html;
+
+            if (options.enableCancel === false) {
+                dlg.querySelector('.formDialogFooter').classList.add('hide');
+            }
+
+            currentDialog = dlg;
+
+            dlg.addEventListener('closing', function () {
+                if (!recordingDeleted) {
+                    dlg.querySelector('.btnSubmit').click();
                 }
-
-                var dlg = dialogHelper.createDialog(dialogOptions);
-
-                dlg.classList.add('formDialog');
-                dlg.classList.add('recordingDialog');
-
-                if (!layoutManager.tv) {
-                    dlg.style['min-width'] = '20%';
-                    dlg.classList.add('dialog-fullscreen-lowres');
-                }
-
-                var html = '';
-
-                html += globalize.translateDocument(template, 'core');
-
-                dlg.innerHTML = html;
-
-                if (options.enableCancel === false) {
-                    dlg.querySelector('.formDialogFooter').classList.add('hide');
-                }
-
-                currentDialog = dlg;
-
-                dlg.addEventListener('closing', function () {
-
-                    if (!recordingDeleted) {
-                        dlg.querySelector('.btnSubmit').click();
-                    }
-                });
-
-                dlg.addEventListener('close', function () {
-
-                    if (recordingDeleted) {
-                        resolve({
-                            updated: true,
-                            deleted: true
-                        });
-                    }
-                });
-
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-                }
-
-                init(dlg);
-
-                reload(dlg, itemId);
-
-                dialogHelper.open(dlg);
             });
-        });
-    }
 
-    return {
-        show: showEditor
-    };
-});
+            dlg.addEventListener('close', function () {
+                if (recordingDeleted) {
+                    resolve({
+                        updated: true,
+                        deleted: true
+                    });
+                }
+            });
+
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+            }
+
+            init(dlg);
+
+            reload(dlg, itemId);
+
+            dialogHelper.open(dlg);
+        });
+    });
+}
+
+export default {
+    show: showEditor
+};

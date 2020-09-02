@@ -9,15 +9,14 @@ import 'scrollStyles';
 import 'listViewStyle';
 
 function getOffsets(elems) {
-
-    let results = [];
+    const results = [];
 
     if (!document) {
         return results;
     }
 
-    for (let elem of elems) {
-        let box = elem.getBoundingClientRect();
+    for (const elem of elems) {
+        const box = elem.getBoundingClientRect();
 
         results.push({
             top: box.top,
@@ -31,12 +30,11 @@ function getOffsets(elems) {
 }
 
 function getPosition(options, dlg) {
-
     const windowSize = dom.getWindowSize();
     const windowHeight = windowSize.innerHeight;
     const windowWidth = windowSize.innerWidth;
 
-    let pos = getOffsets([options.positionTo])[0];
+    const pos = getOffsets([options.positionTo])[0];
 
     if (options.positionY !== 'top') {
         pos.top += (pos.height || 0) / 2;
@@ -73,19 +71,18 @@ function getPosition(options, dlg) {
 }
 
 function centerFocus(elem, horiz, on) {
-    require(['scrollHelper'], function (scrollHelper) {
+    import('scrollHelper').then(({default: scrollHelper}) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
 }
 
 export function show(options) {
-
     // items
     // positionTo
     // showCancel
     // title
-    let dialogOptions = {
+    const dialogOptions = {
         removeOnClose: true,
         enableHistory: options.enableHistory,
         scrollY: false
@@ -98,7 +95,6 @@ export function show(options) {
         isFullscreen = true;
         dialogOptions.autoFocus = true;
     } else {
-
         dialogOptions.modal = false;
         dialogOptions.entryAnimation = options.entryAnimation;
         dialogOptions.exitAnimation = options.exitAnimation;
@@ -107,7 +103,7 @@ export function show(options) {
         dialogOptions.autoFocus = false;
     }
 
-    let dlg = dialogHelper.createDialog(dialogOptions);
+    const dlg = dialogHelper.createDialog(dialogOptions);
 
     if (isFullscreen) {
         dlg.classList.add('actionsheet-fullscreen');
@@ -133,10 +129,9 @@ export function show(options) {
     }
 
     let renderIcon = false;
-    let icons = [];
+    const icons = [];
     let itemIcon;
-    for (let item of options.items) {
-
+    for (const item of options.items) {
         itemIcon = item.icon || (item.selected ? 'check' : null);
 
         if (itemIcon) {
@@ -161,7 +156,6 @@ export function show(options) {
     }
 
     if (options.title) {
-
         html += '<h1 class="actionSheetTitle">' + options.title + '</h1>';
     }
     if (options.text) {
@@ -197,7 +191,6 @@ export function show(options) {
         const item = options.items[i];
 
         if (item.divider) {
-
             html += '<div class="actionsheetDivider"></div>';
             continue;
         }
@@ -248,15 +241,13 @@ export function show(options) {
         centerFocus(dlg.querySelector('.actionSheetScroller'), false, true);
     }
 
-    let btnCloseActionSheet = dlg.querySelector('.btnCloseActionSheet');
+    const btnCloseActionSheet = dlg.querySelector('.btnCloseActionSheet');
     if (btnCloseActionSheet) {
         btnCloseActionSheet.addEventListener('click', function () {
             dialogHelper.close(dlg);
         });
     }
 
-    // Seeing an issue in some non-chrome browsers where this is requiring a double click
-    //var eventName = browser.firefox ? 'mousedown' : 'click';
     let selectedId;
 
     let timeout;
@@ -267,26 +258,20 @@ export function show(options) {
     }
 
     return new Promise(function (resolve, reject) {
-
         let isResolved;
 
         dlg.addEventListener('click', function (e) {
-
             const actionSheetMenuItem = dom.parentWithClass(e.target, 'actionSheetMenuItem');
 
             if (actionSheetMenuItem) {
                 selectedId = actionSheetMenuItem.getAttribute('data-id');
 
                 if (options.resolveOnClick) {
-
                     if (options.resolveOnClick.indexOf) {
-
                         if (options.resolveOnClick.indexOf(selectedId) !== -1) {
-
                             resolve(selectedId);
                             isResolved = true;
                         }
-
                     } else {
                         resolve(selectedId);
                         isResolved = true;
@@ -295,11 +280,9 @@ export function show(options) {
 
                 dialogHelper.close(dlg);
             }
-
         });
 
         dlg.addEventListener('close', function () {
-
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.actionSheetScroller'), false, false);
             }

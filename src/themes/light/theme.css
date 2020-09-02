@@ -38,8 +38,16 @@ html {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.layout-tv .skinHeader.semiTransparent {
+    background: none;
+}
+
 .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/banner-light.png);
+}
+
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
 }
 
 .backgroundContainer,
@@ -55,6 +63,10 @@ html {
 .nowPlayingPlaylist,
 .nowPlayingContextMenu {
     background-color: #f0f0f0;
+}
+
+.emby-scrollbuttons .paper-icon-button-light {
+    color: #000;
 }
 
 .paper-icon-button-light:hover:not(:disabled) {
@@ -221,7 +233,7 @@ html {
     color: #fff !important;
 }
 
-.detailSticky {
+.detailRibbon {
     background-color: #303030;
     color: #ccc;
     color: rgba(255, 255, 255, 0.87);
@@ -229,12 +241,16 @@ html {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
+.layout-tv .detailRibbon {
+    background: none;
+}
+
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #f8f8f8;
 }
 
 .listItem-border {
-    border-color: #f0f0f0 !important;
+    border-color: #a7a7a7 !important;
 }
 
 .listItem:focus {
@@ -248,11 +264,6 @@ html {
 .mediaInfoText {
     color: #333;
     background: #fff;
-}
-
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #cb272a;
 }
 
 .emby-input,
@@ -428,8 +439,12 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
+}
+
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: #fff;
 }
 
 .card:focus .cardBox.visualCardBox,

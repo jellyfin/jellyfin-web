@@ -1,9 +1,16 @@
-define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlayManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, globalize, playbackManager, connectionManager, syncPlayManager, playMethodHelper, layoutManager, serverNotifications) {
-    'use strict';
+import events from 'events';
+import globalize from 'globalize';
+import playbackManager from 'playbackManager';
+import syncPlayManager from 'syncPlayManager';
+import playMethodHelper from 'playMethodHelper';
+import layoutManager from 'layoutManager';
+import 'paper-icon-button-light';
+import 'css!./playerstats';
+
+/* eslint-disable indent */
 
     function init(instance) {
-
-        var parent = document.createElement('div');
+        const parent = document.createElement('div');
 
         parent.classList.add('playerStats');
 
@@ -13,7 +20,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
 
         parent.classList.add('hide');
 
-        var button;
+        let button;
 
         if (layoutManager.tv) {
             button = '';
@@ -21,7 +28,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
             button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><span class="material-icons close"></span></button>';
         }
 
-        var contentClass = layoutManager.tv ? 'playerStats-content playerStats-content-tv' : 'playerStats-content';
+        const contentClass = layoutManager.tv ? 'playerStats-content playerStats-content-tv' : 'playerStats-content';
 
         parent.innerHTML = '<div class="' + contentClass + '">' + button + '<div class="playerStats-stats"></div></div>';
 
@@ -41,12 +48,10 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
     }
 
     function renderStats(elem, categories) {
-
         elem.querySelector('.playerStats-stats').innerHTML = categories.map(function (category) {
+            let categoryHtml = '';
 
-            var categoryHtml = '';
-
-            var stats = category.stats;
+            const stats = category.stats;
 
             if (stats.length && category.name) {
                 categoryHtml += '<div class="playerStats-stat playerStats-stat-header">';
@@ -62,11 +67,10 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
                 categoryHtml += '</div>';
             }
 
-            for (var i = 0, length = stats.length; i < length; i++) {
-
+            for (let i = 0, length = stats.length; i < length; i++) {
                 categoryHtml += '<div class="playerStats-stat">';
 
-                var stat = stats[i];
+                const stat = stats[i];
 
                 categoryHtml += '<div class="playerStats-stat-label">';
                 categoryHtml += stat.label;
@@ -80,49 +84,43 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
             }
 
             return categoryHtml;
-
         }).join('');
     }
 
     function getSession(instance, player) {
-
-        var now = new Date().getTime();
+        const now = new Date().getTime();
 
         if ((now - (instance.lastSessionTime || 0)) < 10000) {
             return Promise.resolve(instance.lastSession);
         }
 
-        var apiClient = connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+        const apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
 
         return apiClient.getSessions({
             deviceId: apiClient.deviceId()
         }).then(function (sessions) {
-
             instance.lastSession = sessions[0] || {};
             instance.lastSessionTime = new Date().getTime();
 
             return Promise.resolve(instance.lastSession);
-
         }, function () {
             return Promise.resolve({});
         });
     }
 
     function translateReason(reason) {
-
         return globalize.translate('' + reason);
     }
 
     function getTranscodingStats(session, player, displayPlayMethod) {
-        var sessionStats = [];
+        const sessionStats = [];
 
-        var videoCodec;
-        var audioCodec;
-        var totalBitrate;
-        var audioChannels;
+        let videoCodec;
+        let audioCodec;
+        let totalBitrate;
+        let audioChannels;
 
         if (session.TranscodingInfo) {
-
             videoCodec = session.TranscodingInfo.VideoCodec;
             audioCodec = session.TranscodingInfo.AudioCodec;
             totalBitrate = session.TranscodingInfo.Bitrate;
@@ -130,7 +128,6 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
         }
 
         if (videoCodec) {
-
             sessionStats.push({
                 label: globalize.translate('LabelVideoCodec'),
                 value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
@@ -138,45 +135,39 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
         }
 
         if (audioCodec) {
-
             sessionStats.push({
                 label: globalize.translate('LabelAudioCodec'),
                 value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
             });
         }
 
-        //if (audioChannels) {
-
-        //    sessionStats.push({
-        //        label: 'Audio channels:',
-        //        value: audioChannels
-        //    });
-        //}
+        if (audioChannels) {
+            sessionStats.push({
+                label: globalize.translate('LabelAudioChannels'),
+                value: audioChannels
+            });
+        }
 
         if (displayPlayMethod === 'Transcode') {
             if (totalBitrate) {
-
                 sessionStats.push({
                     label: globalize.translate('LabelBitrate'),
                     value: getDisplayBitrate(totalBitrate)
                 });
             }
             if (session.TranscodingInfo.CompletionPercentage) {
-
                 sessionStats.push({
                     label: globalize.translate('LabelTranscodingProgress'),
                     value: session.TranscodingInfo.CompletionPercentage.toFixed(1) + '%'
                 });
             }
             if (session.TranscodingInfo.Framerate) {
-
                 sessionStats.push({
                     label: globalize.translate('LabelTranscodingFramerate'),
                     value: session.TranscodingInfo.Framerate + ' fps'
                 });
             }
             if (session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
-
                 sessionStats.push({
                     label: globalize.translate('LabelReasonForTranscoding'),
                     value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
@@ -188,7 +179,6 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
     }
 
     function getDisplayBitrate(bitrate) {
-
         if (bitrate > 1000000) {
             return (bitrate / 1000000).toFixed(1) + ' Mbps';
         } else {
@@ -207,12 +197,11 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
     }
 
     function getMediaSourceStats(session, player, displayPlayMethod) {
+        const sessionStats = [];
 
-        var sessionStats = [];
-
-        var mediaSource = playbackManager.currentMediaSource(player) || {};
-        var totalBitrate = mediaSource.Bitrate;
-        var mediaFileSize = mediaSource.Size;
+        const mediaSource = playbackManager.currentMediaSource(player) || {};
+        const totalBitrate = mediaSource.Bitrate;
+        const mediaFileSize = mediaSource.Size;
 
         if (mediaSource.Container) {
             sessionStats.push({
@@ -229,33 +218,28 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
         }
 
         if (totalBitrate) {
-
             sessionStats.push({
                 label: globalize.translate('LabelBitrate'),
                 value: getDisplayBitrate(totalBitrate)
             });
         }
 
-        var mediaStreams = mediaSource.MediaStreams || [];
-        var videoStream = mediaStreams.filter(function (s) {
-
+        const mediaStreams = mediaSource.MediaStreams || [];
+        const videoStream = mediaStreams.filter(function (s) {
             return s.Type === 'Video';
-
         })[0] || {};
 
-        var videoCodec = videoStream.Codec;
+        const videoCodec = videoStream.Codec;
 
-        var audioStreamIndex = playbackManager.getAudioStreamIndex(player);
-        var audioStream = playbackManager.audioTracks(player).filter(function (s) {
-
+        const audioStreamIndex = playbackManager.getAudioStreamIndex(player);
+        const audioStream = playbackManager.audioTracks(player).filter(function (s) {
             return s.Type === 'Audio' && s.Index === audioStreamIndex;
-
         })[0] || {};
 
-        var audioCodec = audioStream.Codec;
-        var audioChannels = audioStream.Channels;
+        const audioCodec = audioStream.Codec;
+        const audioChannels = audioStream.Channels;
 
-        var videoInfos = [];
+        const videoInfos = [];
 
         if (videoCodec) {
             videoInfos.push(videoCodec.toUpperCase());
@@ -279,7 +263,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
             });
         }
 
-        var audioInfos = [];
+        const audioInfos = [];
 
         if (audioCodec) {
             audioInfos.push(audioCodec.toUpperCase());
@@ -328,8 +312,8 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
     }
 
     function getSyncPlayStats() {
-        var syncStats = [];
-        var stats = syncPlayManager.getStats();
+        const syncStats = [];
+        const stats = syncPlayManager.getStats();
 
         syncStats.push({
             label: globalize.translate('LabelSyncPlayTimeOffset'),
@@ -350,19 +334,17 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
     }
 
     function getStats(instance, player) {
-
-        var statsPromise = player.getStats ? player.getStats() : Promise.resolve({});
-        var sessionPromise = getSession(instance, player);
+        const statsPromise = player.getStats ? player.getStats() : Promise.resolve({});
+        const sessionPromise = getSession(instance, player);
 
         return Promise.all([statsPromise, sessionPromise]).then(function (responses) {
+            const playerStatsResult = responses[0];
+            const playerStats = playerStatsResult.categories || [];
+            const session = responses[1];
 
-            var playerStatsResult = responses[0];
-            var playerStats = playerStatsResult.categories || [];
-            var session = responses[1];
+            const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
-            var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
-
-            var baseCategory = {
+            const baseCategory = {
                 stats: [],
                 name: 'Playback Info'
             };
@@ -377,13 +359,12 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
                 value: player.name
             });
 
-            var categories = [];
+            const categories = [];
 
             categories.push(baseCategory);
 
-            for (var i = 0, length = playerStats.length; i < length; i++) {
-
-                var category = playerStats[i];
+            for (let i = 0, length = playerStats.length; i < length; i++) {
+                const category = playerStats[i];
                 if (category.type === 'audio') {
                     category.name = 'Audio Info';
                 } else if (category.type === 'video') {
@@ -393,7 +374,6 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
             }
 
             if (session.TranscodingInfo) {
-
                 categories.push({
                     stats: getTranscodingStats(session, player, displayPlayMethod),
                     name: displayPlayMethod === 'Transcode' ? 'Transcoding Info' : 'Direct Stream Info'
@@ -405,7 +385,8 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
                 name: 'Original Media Info'
             });
 
-            if (syncPlayManager.isSyncPlayEnabled()) {
+            var apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+            if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),
                     name: 'SyncPlay Info'
@@ -417,8 +398,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
     }
 
     function renderPlayerStats(instance, player) {
-
-        var now = new Date().getTime();
+        const now = new Date().getTime();
 
         if ((now - (instance.lastRender || 0)) < 700) {
             return;
@@ -427,8 +407,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
         instance.lastRender = now;
 
         getStats(instance, player).then(function (stats) {
-
-            var elem = instance.element;
+            const elem = instance.element;
             if (!elem) {
                 return;
             }
@@ -438,8 +417,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
     }
 
     function bindEvents(instance, player) {
-
-        var localOnTimeUpdate = function () {
+        const localOnTimeUpdate = function () {
             renderPlayerStats(instance, player);
         };
 
@@ -448,16 +426,15 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
     }
 
     function unbindEvents(instance, player) {
-
-        var localOnTimeUpdate = instance.onTimeUpdate;
+        const localOnTimeUpdate = instance.onTimeUpdate;
 
         if (localOnTimeUpdate) {
             events.off(player, 'timeupdate', localOnTimeUpdate);
         }
     }
 
-    function PlayerStats(options) {
-
+class PlayerStats {
+    constructor(options) {
         this.options = options;
 
         init(this);
@@ -465,13 +442,12 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
         this.enabled(true);
     }
 
-    PlayerStats.prototype.enabled = function (enabled) {
-
+    enabled(enabled) {
         if (enabled == null) {
             return this._enabled;
         }
 
-        var options = this.options;
+        const options = this.options;
 
         if (!options) {
             return;
@@ -485,28 +461,28 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlay
             this.element.classList.add('hide');
             unbindEvents(this, options.player);
         }
-    };
+    }
 
-    PlayerStats.prototype.toggle = function () {
+    toggle() {
         this.enabled(!this.enabled());
-    };
+    }
 
-    PlayerStats.prototype.destroy = function () {
-
-        var options = this.options;
+    destroy() {
+        const options = this.options;
 
         if (options) {
-
             this.options = null;
             unbindEvents(this, options.player);
         }
 
-        var elem = this.element;
+        const elem = this.element;
         if (elem) {
             elem.parentNode.removeChild(elem);
             this.element = null;
         }
-    };
+    }
+}
 
-    return PlayerStats;
-});
+/* eslint-enable indent */
+
+export default PlayerStats;

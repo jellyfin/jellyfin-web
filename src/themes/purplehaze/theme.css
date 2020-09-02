@@ -17,23 +17,26 @@ html {
 
 .skinHeader-withBackground {
     background: #000420;
-    background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
-    background: -webkit-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
     background: linear-gradient(to right, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
 }
 
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-    background: -o-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+.layout-tv .skinHeader.semiTransparent {
+    background: none;
+}
+
 .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/banner-light.png);
+}
+
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
 }
 
 .dialog,
@@ -199,7 +202,7 @@ a[data-role=button] {
 }
 
 .cardContent {
-    border-radius: 1em;
+    border-radius: 0.8em;
 }
 
 .collapseContent,
@@ -208,10 +211,14 @@ a[data-role=button] {
 .paperList,
 .visualCardBox {
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 1em;
+    border-radius: 0.8em;
 }
 
 .cardOverlayContainer {
+    border-radius: 0.8em;
+}
+
+.blurhash-canvas {
     border-radius: 0.8em;
 }
 
@@ -221,23 +228,23 @@ a[data-role=button] {
 }
 
 .defaultCardBackground1 {
-    background-color: #d2b019;
+    background-color: #9c20ab;
 }
 
 .defaultCardBackground2 {
-    background-color: #338abb;
+    background-color: #d799de;
 }
 
 .defaultCardBackground3 {
-    background-color: #6b689d;
+    background-color: #412378;
 }
 
 .defaultCardBackground4 {
-    background-color: #dd452b;
+    background-color: #857b48;
 }
 
 .defaultCardBackground5 {
-    background-color: #5ccea9;
+    background-color: #ab8820;
 }
 
 .cardText-secondary,
@@ -307,11 +314,15 @@ a[data-role=button] {
     color: #f8f8fe !important;
 }
 
-.detailSticky {
+.detailRibbon {
     background: #000420;
     background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
     background: -webkit-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
     background: linear-gradient(to right, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
+}
+
+.layout-tv .detailRibbon {
+    background: none;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
@@ -342,11 +353,6 @@ a[data-role=button] {
 .mediaInfoText {
     color: #f8f8fe;
     background: rgba(170, 170, 190, 0.2);
-}
-
-.mediaInfoTimerIcon,
-.starIcon {
-    color: #f2b01e;
 }
 
 .emby-input,
@@ -543,18 +549,28 @@ a[data-role=button] {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .personCard .cardScalable {
-    border-radius: 50%;
+    border-radius: 50% !important;
     border: 1px solid rgb(255, 255, 255);
+}
+
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.8em;
 }
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-color: #ff77f1 !important;
+}
+
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: 1.3em;
 }
 
 .layout-desktop,
@@ -602,12 +618,6 @@ a[data-role=button] {
     width: 40vw;
 }
 
-.personCard .cardPadder-overflowPortrait,
-.personCard .cardPadder-portrait {
-    padding-bottom: 100%;
-    contain: strict;
-}
-
 .personCard .coveredImage {
     clip-path: circle(50% at 50% 50%);
 }
@@ -618,4 +628,11 @@ a[data-role=button] {
 
 .personCard .cardOverlayButton-br {
     right: 20%;
+}
+
+.personCard .cardPadder-overflowPortrait,
+.personCard .cardPadder-portrait {
+    padding-bottom: 100%;
+    contain: strict;
+    border-radius: 50% !important;
 }

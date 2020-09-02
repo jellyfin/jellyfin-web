@@ -1,0 +1,63 @@
+jobs:
+- job: Build
+  displayName: 'Build'
+
+  strategy:
+    matrix:
+      Development:
+        BuildConfiguration: development
+      Production:
+        BuildConfiguration: production
+      Standalone:
+        BuildConfiguration: standalone
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: NodeTool@0
+    displayName: 'Install Node'
+    inputs:
+      versionSpec: '12.x'
+
+  - task: Cache@2
+    displayName: 'Check Cache'
+    inputs:
+      key: 'yarn | yarn.lock'
+      path: 'node_modules'
+      cacheHitVar: CACHE_RESTORED
+
+  - script: 'yarn install --frozen-lockfile'
+    displayName: 'Install Dependencies'
+    condition: ne(variables.CACHE_RESTORED, 'true')
+
+  - script: 'yarn build:development'
+    displayName: 'Build Development'
+    condition: eq(variables['BuildConfiguration'], 'development')
+
+  - script: 'yarn build:production'
+    displayName: 'Build Production'
+    condition: eq(variables['BuildConfiguration'], 'production')
+
+  - script: 'yarn build:standalone'
+    displayName: 'Build Standalone'
+    condition: eq(variables['BuildConfiguration'], 'standalone')
+
+  - script: 'test -d dist'
+    displayName: 'Check Build'
+
+  - script: 'mv dist jellyfin-web'
+    displayName: 'Rename Directory'
+
+  - task: ArchiveFiles@2
+    displayName: 'Archive Directory'
+    inputs:
+      rootFolderOrFile: 'jellyfin-web'
+      includeRootFolder: true
+      archiveFile: 'jellyfin-web-$(BuildConfiguration)'
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Release'
+    inputs:
+      targetPath: '$(Build.SourcesDirectory)/jellyfin-web-$(BuildConfiguration).zip'
+      artifactName: 'jellyfin-web-$(BuildConfiguration)'

@@ -1,5 +1,24 @@
-define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionseditor/libraryoptionseditor', 'globalize', 'emby-toggle', 'emby-input', 'emby-select', 'paper-icon-button-light', 'listViewStyle', 'formDialogStyle', 'emby-button', 'flexStyles'], function (loading, dialogHelper, dom, $, libraryoptionseditor, globalize) {
-    'use strict';
+/* eslint-disable indent */
+
+/**
+ * Module for media library creator.
+ * @module components/mediaLibraryCreator/mediaLibraryCreator
+ */
+
+import loading from 'loading';
+import dialogHelper from 'dialogHelper';
+import dom from 'dom';
+import $ from 'jQuery';
+import libraryoptionseditor from 'components/libraryoptionseditor/libraryoptionseditor';
+import globalize from 'globalize';
+import 'emby-toggle';
+import 'emby-input';
+import 'emby-select';
+import 'paper-icon-button-light';
+import 'listViewStyle';
+import 'formDialogStyle';
+import 'emby-button';
+import 'flexStyles';
 
     function onAddLibrary() {
         if (isCreating) {
@@ -7,7 +26,7 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
         }
 
         if (pathInfos.length == 0) {
-            require(['alert'], function (alert) {
+            import('alert').then(({default: alert}) => {
                 alert({
                     text: globalize.translate('PleaseAddAtLeastOneFolder'),
                     type: 'error'
@@ -19,23 +38,23 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
 
         isCreating = true;
         loading.show();
-        var dlg = dom.parentWithClass(this, 'dlg-librarycreator');
-        var name = $('#txtValue', dlg).val();
-        var type = $('#selectCollectionType', dlg).val();
+        const dlg = dom.parentWithClass(this, 'dlg-librarycreator');
+        const name = $('#txtValue', dlg).val();
+        let type = $('#selectCollectionType', dlg).val();
 
         if (type == 'mixed') {
             type = null;
         }
 
-        var libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
+        const libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
         libraryOptions.PathInfos = pathInfos;
-        ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(function () {
+        ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
             hasChanges = true;
             isCreating = false;
             loading.hide();
             dialogHelper.close(dlg);
-        }, function () {
-            require(['toast'], function (toast) {
+        }, () => {
+            import('toast').then(({default: toast}) => {
                 toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
             });
 
@@ -46,15 +65,15 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
     }
 
     function getCollectionTypeOptionsHtml(collectionTypeOptions) {
-        return collectionTypeOptions.map(function (i) {
-            return '<option value="' + i.value + '">' + i.name + '</option>';
+        return collectionTypeOptions.map(i => {
+            return `<option value="${i.value}">${i.name}</option>`;
         }).join('');
     }
 
     function initEditor(page, collectionTypeOptions) {
         $('#selectCollectionType', page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val('').on('change', function () {
-            var value = this.value;
-            var dlg = $(this).parents('.dialog')[0];
+            const value = this.value;
+            const dlg = $(this).parents('.dialog')[0];
             libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value == 'mixed' ? '' : value);
 
             if (value) {
@@ -64,12 +83,12 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
             }
 
             if (value != 'mixed') {
-                var index = this.selectedIndex;
+                const index = this.selectedIndex;
 
                 if (index != -1) {
-                    var name = this.options[index].innerHTML.replace('*', '').replace('&amp;', '&');
+                    const name = this.options[index].innerHTML.replace('*', '').replace('&amp;', '&');
                     $('#txtValue', dlg).val(name);
-                    var folderOption = collectionTypeOptions.filter(function (i) {
+                    const folderOption = collectionTypeOptions.filter(i => {
                         return i.value == value;
                     })[0];
                     $('.collectionTypeFieldDescription', dlg).html(folderOption.message || '');
@@ -83,15 +102,15 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
     }
 
     function onToggleAdvancedChange() {
-        var dlg = dom.parentWithClass(this, 'dlg-librarycreator');
+        const dlg = dom.parentWithClass(this, 'dlg-librarycreator');
         libraryoptionseditor.setAdvancedVisible(dlg.querySelector('.libraryOptions'), this.checked);
     }
 
     function onAddButtonClick() {
-        var page = dom.parentWithClass(this, 'dlg-librarycreator');
+        const page = dom.parentWithClass(this, 'dlg-librarycreator');
 
-        require(['directorybrowser'], function (directoryBrowser) {
-            var picker = new directoryBrowser();
+        import('directorybrowser').then(({default: directoryBrowser}) => {
+            const picker = new directoryBrowser();
             picker.show({
                 enableNetworkSharePath: true,
                 callback: function (path, networkSharePath) {
@@ -106,24 +125,24 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
     }
 
     function getFolderHtml(pathInfo, index) {
-        var html = '';
+        let html = '';
         html += '<div class="listItem listItem-border lnkPath" style="padding-left:.5em;">';
-        html += '<div class="' + (pathInfo.NetworkPath ? 'listItemBody two-line' : 'listItemBody') + '">';
-        html += '<div class="listItemBodyText">' + pathInfo.Path + '</div>';
+        html += `<div class="${pathInfo.NetworkPath ? 'listItemBody two-line' : 'listItemBody'}">`;
+        html += `<div class="listItemBodyText">${pathInfo.Path}</div>`;
 
         if (pathInfo.NetworkPath) {
-            html += '<div class="listItemBodyText secondary">' + pathInfo.NetworkPath + '</div>';
+            html += `<div class="listItemBodyText secondary">${pathInfo.NetworkPath}</div>`;
         }
 
         html += '</div>';
-        html += '<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="' + index + '"><span class="material-icons remove_circle"></span></button>';
+        html += `<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle"></span></button>`;
         html += '</div>';
         return html;
     }
 
     function renderPaths(page) {
-        var foldersHtml = pathInfos.map(getFolderHtml).join('');
-        var folderList = page.querySelector('.folderList');
+        const foldersHtml = pathInfos.map(getFolderHtml).join('');
+        const folderList = page.querySelector('.folderList');
         folderList.innerHTML = foldersHtml;
 
         if (foldersHtml) {
@@ -134,13 +153,13 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
     }
 
     function addMediaLocation(page, path, networkSharePath) {
-        var pathLower = path.toLowerCase();
-        var pathFilter = pathInfos.filter(function (p) {
+        const pathLower = path.toLowerCase();
+        const pathFilter = pathInfos.filter(p => {
             return p.Path.toLowerCase() == pathLower;
         });
 
         if (!pathFilter.length) {
-            var pathInfo = {
+            const pathInfo = {
                 Path: path
             };
 
@@ -154,11 +173,11 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
     }
 
     function onRemoveClick(e) {
-        var button = dom.parentWithClass(e.target, 'btnRemovePath');
-        var index = parseInt(button.getAttribute('data-index'));
-        var location = pathInfos[index].Path;
-        var locationLower = location.toLowerCase();
-        pathInfos = pathInfos.filter(function (p) {
+        const button = dom.parentWithClass(e.target, 'btnRemovePath');
+        const index = parseInt(button.getAttribute('data-index'));
+        const location = pathInfos[index].Path;
+        const locationLower = location.toLowerCase();
+        pathInfos = pathInfos.filter(p => {
             return p.Path.toLowerCase() != locationLower;
         });
         renderPaths(dom.parentWithClass(button, 'dlg-librarycreator'));
@@ -169,54 +188,49 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
     }
 
     function initLibraryOptions(dlg) {
-        libraryoptionseditor.embed(dlg.querySelector('.libraryOptions')).then(function () {
+        libraryoptionseditor.embed(dlg.querySelector('.libraryOptions')).then(() => {
             $('#selectCollectionType', dlg).trigger('change');
             onToggleAdvancedChange.call(dlg.querySelector('.chkAdvanced'));
         });
     }
 
-    function editor() {
-        this.show = function (options) {
-            return new Promise(function (resolve, reject) {
-                currentOptions = options;
-                currentResolve = resolve;
-                hasChanges = false;
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'components/mediaLibraryCreator/mediaLibraryCreator.template.html', true);
-
-                xhr.onload = function (e) {
-                    var template = this.response;
-                    var dlg = dialogHelper.createDialog({
-                        size: 'small',
-                        modal: false,
-                        removeOnClose: true,
-                        scrollY: false
-                    });
-                    dlg.classList.add('ui-body-a');
-                    dlg.classList.add('background-theme-a');
-                    dlg.classList.add('dlg-librarycreator');
-                    dlg.classList.add('formDialog');
-                    dlg.innerHTML = globalize.translateDocument(template);
-                    initEditor(dlg, options.collectionTypeOptions);
-                    dlg.addEventListener('close', onDialogClosed);
-                    dialogHelper.open(dlg);
-                    dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                        dialogHelper.close(dlg);
-                    });
-                    pathInfos = [];
-                    renderPaths(dlg);
-                    initLibraryOptions(dlg);
-                };
-
-                xhr.send();
+export class showEditor {
+    constructor(options) {
+        return new Promise((resolve) => {
+            currentOptions = options;
+            currentResolve = resolve;
+            hasChanges = false;
+            import('text!./components/mediaLibraryCreator/mediaLibraryCreator.template.html').then(({default: template}) => {
+                const dlg = dialogHelper.createDialog({
+                    size: 'small',
+                    modal: false,
+                    removeOnClose: true,
+                    scrollY: false
+                });
+                dlg.classList.add('ui-body-a');
+                dlg.classList.add('background-theme-a');
+                dlg.classList.add('dlg-librarycreator');
+                dlg.classList.add('formDialog');
+                dlg.innerHTML = globalize.translateHtml(template);
+                initEditor(dlg, options.collectionTypeOptions);
+                dlg.addEventListener('close', onDialogClosed);
+                dialogHelper.open(dlg);
+                dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                    dialogHelper.close(dlg);
+                });
+                pathInfos = [];
+                renderPaths(dlg);
+                initLibraryOptions(dlg);
             });
-        };
+        });
     }
+}
 
-    var pathInfos = [];
-    var currentResolve;
-    var currentOptions;
-    var hasChanges = false;
-    var isCreating = false;
-    return editor;
-});
+    let pathInfos = [];
+    let currentResolve;
+    let currentOptions;
+    let hasChanges = false;
+    let isCreating = false;
+
+/* eslint-enable indent */
+export default showEditor;
