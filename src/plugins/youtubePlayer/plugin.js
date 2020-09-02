@@ -37,6 +37,9 @@ function createMediaElement(instance, options) {
                 document.body.insertBefore(dlg, document.body.firstChild);
                 instance.videoDialog = dlg;
 
+                // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
+                document.body.classList.add('hide-scroll');
+
                 if (options.fullscreen && dlg.animate && !browser.slow) {
                     zoomIn(dlg, 1).onfinish = function () {
                         resolve(videoElement);
@@ -214,6 +217,7 @@ class YoutubePlayer {
     }
     destroy() {
         appRouter.setTransparency('none');
+        document.body.classList.remove('hide-scroll');
 
         const dlg = this.videoDialog;
         if (dlg) {
