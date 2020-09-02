@@ -46,7 +46,7 @@ html {
     background-color: rgba(0, 0, 0, 0.86);
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .paper-icon-button-light:hover:not(:disabled) {
         color: #00a4dc;
         background-color: rgba(0, 164, 220, 0.2);
