@@ -1368,12 +1368,13 @@
     "MessagePluginInstallError": "Une erreur est survenue durant l'installation de l'extension.",
     "PlaybackRate": "Vitesse de lecture",
     "Subtitle": "Sous-titre",
-    "SelectServer": "Choisissez un serveur",
+    "SelectServer": "Sélectionnez un serveur",
     "Restart": "Redémarrer",
     "ResetPassword": "Réinitialiser le mot de passe",
     "Profile": "Profil",
     "Poster": "Affiche",
     "MusicVideos": "Clips musicaux",
     "Image": "Image",
-    "Data": "Données"
+    "Data": "Données",
+    "Video": "Vidéo"
 }
