@@ -10964,10 +10964,10 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
-supports-color@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-7.1.0.tgz#68e32591df73e25ad1c4b49108a2ec507962bfd1"
-  integrity sha512-oRSIpR8pxT1Wr2FquTNnGet79b3BWljqOuoW/h4oBhxJ/HUbX5nX6JSruTkvXDCFMwDPvsaTTbvMLKZWSy0R5g==
+supports-color@^7.1.0, supports-color@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-7.2.0.tgz#1b7dcdcb32b8138801b3e478ba6a51caa89648da"
+  integrity sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==
   dependencies:
     has-flag "^4.0.0"
 
@@ -11981,17 +11981,17 @@ webpack-sources@^1.4.0, webpack-sources@^1.4.1:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack-stream@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/webpack-stream/-/webpack-stream-6.0.0.tgz#0524b739a3c3a487362ee2e97522d0b8d366a510"
-  integrity sha512-bYv7apmGB1j0JBpa5Fgyky/1mWyzHOnUPXv+RmkgpK4FXPWCMBspgnYFmhE7Ly68JSp77eonFzm6WArWy4afpQ==
+webpack-stream@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/webpack-stream/-/webpack-stream-6.1.0.tgz#047348e36793432f329c7b5ff13e6e9b6872c152"
+  integrity sha512-kFMnDzFTzyvVmn4ajaj0xEJavvYizd3I/KmQ6C5aUstcAkNwZUidxkk/uEaEPSydaAn66v8ZcP1+bhKSshNJUQ==
   dependencies:
     fancy-log "^1.3.3"
     lodash.clone "^4.3.2"
     lodash.some "^4.2.2"
     memory-fs "^0.5.0"
     plugin-error "^1.0.1"
-    supports-color "^7.1.0"
+    supports-color "^7.2.0"
     through "^2.3.8"
     vinyl "^2.1.0"
     webpack "^4.26.1"
