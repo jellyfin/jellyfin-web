@@ -639,22 +639,18 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
 
 function validatePlaybackInfoResult(instance, result) {
     if (result.ErrorCode) {
-        showPlaybackInfoErrorMessage(instance, result.ErrorCode);
+        showPlaybackInfoErrorMessage(instance, 'PlaybackError' + result.ErrorCode);
         return false;
     }
 
     return true;
 }
 
-function showPlaybackInfoErrorMessage(instance, errorCode, playNextTrack) {
+function showPlaybackInfoErrorMessage(instance, errorCode) {
     import('alert').then(({ default: alert }) => {
         alert({
-            text: globalize.translate('PlaybackError' + errorCode),
+            text: globalize.translate(errorCode),
             title: globalize.translate('HeaderPlaybackError')
-        }).then(function () {
-            if (playNextTrack) {
-                instance.nextTrack();
-            }
         });
     });
 }
@@ -1701,7 +1697,7 @@ class PlaybackManager {
                         streamInfo.lastMediaInfoQuery = lastMediaInfoQuery;
 
                         if (!streamInfo.url) {
-                            showPlaybackInfoErrorMessage(self, 'NoCompatibleStream', true);
+                            showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
                             return;
                         }
 
@@ -2061,7 +2057,7 @@ class PlaybackManager {
 
             // If it's still null then there's nothing to play
             if (!firstItem) {
-                showPlaybackInfoErrorMessage(self, 'NoCompatibleStream', false);
+                showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
                 return Promise.reject();
             }
 
@@ -2110,7 +2106,7 @@ class PlaybackManager {
         function playInternal(item, playOptions, onPlaybackStartedFn) {
             if (item.IsPlaceHolder) {
                 loading.hide();
-                showPlaybackInfoErrorMessage(self, 'PlaceHolder', true);
+                showPlaybackInfoErrorMessage(self, 'PlaybackErrorPlaceHolder');
                 return Promise.reject();
             }
 
@@ -2479,7 +2475,7 @@ class PlaybackManager {
                                 return mediaSource;
                             }
                         } else {
-                            showPlaybackInfoErrorMessage(self, 'NoCompatibleStream');
+                            showPlaybackInfoErrorMessage(self, 'PlaybackErrorNoCompatibleStream');
                             return Promise.reject();
                         }
                     });
@@ -2968,7 +2964,7 @@ class PlaybackManager {
             }
 
             if (displayErrorCode && typeof (displayErrorCode) === 'string') {
-                showPlaybackInfoErrorMessage(self, displayErrorCode, nextItem);
+                showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
             } else if (nextItem) {
                 self.nextTrack();
             } else {
