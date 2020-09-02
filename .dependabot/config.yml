@@ -2,4 +2,4 @@ version: 1
 update_configs:
   - package_manager: "javascript"
     directory: "/"
-    update_schedule: "live"
+    update_schedule: "weekly"
