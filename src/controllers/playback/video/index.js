@@ -7,7 +7,6 @@ import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
 import focusManager from 'focusManager';
 import events from 'events';
-import connectionManager from 'connectionManager';
 import browser from 'browser';
 import globalize from 'globalize';
 import appHost from 'apphost';
@@ -30,18 +29,18 @@ import 'css!assets/css/videoosd';
         options.type = options.type || 'Primary';
         if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
         if (options.type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
 
             if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -54,12 +53,12 @@ import 'css!assets/css/videoosd';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (options.type === 'Primary' && item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;
@@ -118,7 +117,7 @@ import 'css!assets/css/videoosd';
 
         function getDisplayItem(item) {
             if (item.Type === 'TvChannel') {
-                const apiClient = connectionManager.getApiClient(item.ServerId);
+                const apiClient = window.connectionManager.getApiClient(item.ServerId);
                 return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
                     return {
                         originalItem: refreshedItem,
@@ -142,7 +141,7 @@ import 'css!assets/css/videoosd';
                 return void view.querySelector('.btnRecord').classList.add('hide');
             }
 
-            connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+            window.connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
                     import('recordingButton').then(({default: RecordingButton}) => {
                         if (recordingButtonManager) {
@@ -693,7 +692,7 @@ import 'css!assets/css/videoosd';
                     lastUpdateTime = now;
                     const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
-                    const currentTime = playbackManager.currentTime(player);
+                    const currentTime = playbackManager.currentTime(player) * 10000;
                     updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getBufferedRanges(player));
                     const item = currentItem;
                     refreshProgramInfoIfNeeded(player, item);
@@ -767,7 +766,7 @@ import 'css!assets/css/videoosd';
 
             if (isPaused) {
                 btnPlayPauseIcon.classList.add('play_arrow');
-                btnPlayPause.setAttribute('title', globalize.translate('ButtonPlay') + ' (k)');
+                btnPlayPause.setAttribute('title', globalize.translate('Play') + ' (k)');
             } else {
                 btnPlayPauseIcon.classList.add('pause');
                 btnPlayPause.setAttribute('title', globalize.translate('ButtonPause') + ' (k)');
@@ -1243,6 +1242,12 @@ import 'css!assets/css/videoosd';
                     }
                     break;
                 }
+                case '>':
+                    playbackManager.increasePlaybackRate(currentPlayer);
+                    break;
+                case '<':
+                    playbackManager.decreasePlaybackRate(currentPlayer);
+                    break;
             }
         }
 
@@ -1617,7 +1622,7 @@ import 'css!assets/css/videoosd';
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
-                const html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+                const html = getChapterBubbleHtml(window.connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
                 if (html) {
                     return html;

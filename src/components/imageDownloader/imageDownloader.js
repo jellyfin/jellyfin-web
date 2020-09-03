@@ -2,7 +2,6 @@ import dom from 'dom';
 import loading from 'loading';
 import appHost from 'apphost';
 import dialogHelper from 'dialogHelper';
-import connectionManager from 'connectionManager';
 import imageLoader from 'imageLoader';
 import browser from 'browser';
 import layoutManager from 'layoutManager';
@@ -317,7 +316,7 @@ import 'cardStyle';
         loading.show();
 
         import('text!./imageDownloader.template.html').then(({default: template}) => {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
 
             currentItemId = itemId;
             currentItemType = itemType;

@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import serverNotifications from 'serverNotifications';
 import events from 'events';
 import globalize from 'globalize';
@@ -24,7 +23,7 @@ import EmbyButtonPrototype from 'emby-button';
         const button = this;
         const id = button.getAttribute('data-id');
         const serverId = button.getAttribute('data-serverid');
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         if (!button.classList.contains('playstatebutton-played')) {
             apiClient.markPlayed(apiClient.getCurrentUserId(), id, new Date());

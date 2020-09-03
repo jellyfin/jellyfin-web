@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import confirm from 'confirm';
 import appRouter from 'appRouter';
 import globalize from 'globalize';
@@ -15,7 +14,7 @@ export function deleteItem(options) {
     const item = options.item;
     const parentId = item.SeasonId || item.SeriesId || item.ParentId;
 
-    const apiClient = connectionManager.getApiClient(item.ServerId);
+    const apiClient = window.connectionManager.getApiClient(item.ServerId);
 
     return confirm({
 

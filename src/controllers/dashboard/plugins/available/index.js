@@ -28,7 +28,7 @@ function getHeaderText(category) {
     } else if (category === 'Theme') {
         category = 'Themes';
     } else if (category === 'LiveTV') {
-        category = 'HeaderLiveTV';
+        category = 'LiveTV';
     } else if (category === 'ScreenSaver') {
         category = 'HeaderScreenSavers';
     }

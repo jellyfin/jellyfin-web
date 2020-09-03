@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import actionsheet from 'actionsheet';
 import playbackManager from 'playbackManager';
 import globalize from 'globalize';
@@ -149,6 +148,28 @@ function showAspectRatioMenu(player, btn) {
     });
 }
 
+function showPlaybackRateMenu(player, btn) {
+    // each has a name and id
+    const currentId = playbackManager.getPlaybackRate(player);
+    const menuItems = playbackManager.getSupportedPlaybackRates(player).map(i => ({
+        id: i.id,
+        name: i.name,
+        selected: i.id === currentId
+    }));
+
+    return actionsheet.show({
+        items: menuItems,
+        positionTo: btn
+    }).then(function (id) {
+        if (id) {
+            playbackManager.setPlaybackRate(id, player);
+            return Promise.resolve();
+        }
+
+        return Promise.reject();
+    });
+}
+
 function showWithUser(options, player, user) {
     var supportedCommands = playbackManager.getSupportedCommands(player);
 
@@ -163,6 +184,17 @@ function showWithUser(options, player, user) {
             name: globalize.translate('AspectRatio'),
             id: 'aspectratio',
             asideText: currentAspectRatio ? currentAspectRatio.name : null
+        });
+    }
+
+    if (supportedCommands.indexOf('PlaybackRate') !== -1) {
+        const currentPlaybackRateId = playbackManager.getPlaybackRate(player);
+        const currentPlaybackRate = playbackManager.getSupportedPlaybackRates(player).filter(i => i.id === currentPlaybackRateId)[0];
+
+        menuItems.push({
+            name: globalize.translate('PlaybackRate'),
+            id: 'playbackrate',
+            asideText: currentPlaybackRate ? currentPlaybackRate.name : null
         });
     }
 
@@ -218,7 +250,7 @@ export function show(options) {
         return showWithUser(options, player, null);
     }
 
-    var apiClient = connectionManager.getApiClient(currentItem.ServerId);
+    var apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
     return apiClient.getCurrentUser().then(function (user) {
         return showWithUser(options, player, user);
     });
@@ -230,6 +262,8 @@ function handleSelectedOption(id, options, player) {
             return showQualityMenu(player, options.positionTo);
         case 'aspectratio':
             return showAspectRatioMenu(player, options.positionTo);
+        case 'playbackrate':
+            return showPlaybackRateMenu(player, options.positionTo);
         case 'repeatmode':
             return showRepeatModeMenu(player, options.positionTo);
         case 'stats':

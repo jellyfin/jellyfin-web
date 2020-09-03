@@ -29,9 +29,10 @@ import globalize from 'globalize';
                 type: 'POST',
                 url: ApiClient.getUrl('Users/ForgotPassword/Pin'),
                 dataType: 'json',
-                data: {
+                data: JSON.stringify({
                     Pin: view.querySelector('#txtPin').value
-                }
+                }),
+                contentType: 'application/json'
             }).then(processForgotPasswordResult);
             e.preventDefault();
             return false;

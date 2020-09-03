@@ -1,7 +1,6 @@
 import appHost from 'apphost';
 import appSettings from 'appSettings';
 import dom from 'dom';
-import connectionManager from 'connectionManager';
 import loading from 'loading';
 import layoutManager from 'layoutManager';
 import libraryMenu from 'libraryMenu';
@@ -115,11 +114,11 @@ import 'emby-checkbox';
                     tag: user.PrimaryImageTag,
                     type: 'Primary'
                 });
-                html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');\"></div>";
+                html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
             } else {
                 const background = getMetroColor(user.Id);
                 imgUrl = 'assets/img/avatar.png';
-                html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
+                html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
             }
 
             html += '</div>';
@@ -139,7 +138,7 @@ import 'emby-checkbox';
             const serverId = params.serverid;
 
             if (serverId) {
-                return connectionManager.getOrCreateApiClient(serverId);
+                return window.connectionManager.getOrCreateApiClient(serverId);
             }
 
             return ApiClient;

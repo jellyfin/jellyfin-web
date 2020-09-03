@@ -28,21 +28,21 @@ import 'emby-itemscontainer';
 
     function getSections() {
         return [{
-            name: 'HeaderFavoriteMovies',
+            name: 'Movies',
             types: 'Movie',
             id: 'favoriteMovies',
             shape: getPosterShape(),
             showTitle: false,
             overlayPlayButton: true
         }, {
-            name: 'HeaderFavoriteShows',
+            name: 'Shows',
             types: 'Series',
             id: 'favoriteShows',
             shape: getPosterShape(),
             showTitle: false,
             overlayPlayButton: true
         }, {
-            name: 'HeaderFavoriteEpisodes',
+            name: 'Episodes',
             types: 'Episode',
             id: 'favoriteEpisode',
             shape: getThumbShape(),
@@ -53,7 +53,7 @@ import 'emby-itemscontainer';
             overlayText: false,
             centerText: true
         }, {
-            name: 'HeaderFavoriteVideos',
+            name: 'Videos',
             types: 'Video,MusicVideo',
             id: 'favoriteVideos',
             shape: getThumbShape(),
@@ -63,7 +63,7 @@ import 'emby-itemscontainer';
             overlayText: false,
             centerText: true
         }, {
-            name: 'HeaderFavoriteArtists',
+            name: 'Artists',
             types: 'MusicArtist',
             id: 'favoriteArtists',
             shape: getSquareShape(),
@@ -75,7 +75,7 @@ import 'emby-itemscontainer';
             overlayPlayButton: true,
             coverImage: true
         }, {
-            name: 'HeaderFavoriteAlbums',
+            name: 'Albums',
             types: 'MusicAlbum',
             id: 'favoriteAlbums',
             shape: getSquareShape(),
@@ -87,7 +87,7 @@ import 'emby-itemscontainer';
             overlayPlayButton: true,
             coverImage: true
         }, {
-            name: 'HeaderFavoriteSongs',
+            name: 'Songs',
             types: 'Audio',
             id: 'favoriteSongs',
             shape: getSquareShape(),

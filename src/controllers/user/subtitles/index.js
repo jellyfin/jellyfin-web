@@ -8,19 +8,13 @@ import autoFocuser from 'autoFocuser';
     const UserSettings = userSettings.UserSettings;
 
     export default function (view, params) {
-        function onBeforeUnload(e) {
-            if (hasChanges) {
-                e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
-            }
-        }
-
         let subtitleSettingsInstance;
         let hasChanges;
+
         const userId = params.userId || ApiClient.getCurrentUserId();
         const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
-        view.addEventListener('viewshow', function () {
-            window.addEventListener('beforeunload', onBeforeUnload);
 
+        view.addEventListener('viewshow', function () {
             if (subtitleSettingsInstance) {
                 subtitleSettingsInstance.loadData();
             } else {

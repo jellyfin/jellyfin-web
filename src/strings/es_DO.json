@@ -13,5 +13,10 @@
     "Albums": "Álbumes",
     "Artists": "Artistas",
     "Channels": "Canales",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "Aired": "Emitido",
+    "AirDate": "Fecha de Emisión",
+    "AddedOnValue": "Añadido {0}",
+    "AddToPlayQueue": "Añadir a la lista de reproducción",
+    "AddToCollection": "Añadir a la Colección"
 }

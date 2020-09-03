@@ -10,7 +10,7 @@ import 'webcomponents';
     function onKeyDown(e) {
         // Don't submit form on enter
         // Real (non-emulator) Tizen does nothing on Space
-        if (e.keyCode === 13 || e.keyCode === 32) {
+        if (e.keyCode === 13 || (e.keyCode === 32 && browser.tizen)) {
             e.preventDefault();
 
             this.checked = !this.checked;

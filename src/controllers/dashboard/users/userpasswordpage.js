@@ -83,7 +83,7 @@ import 'emby-button';
                     loading.hide();
 
                     import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('MessageSettingsSaved'));
+                        toast(globalize.translate('SettingsSaved'));
                     });
 
                     loadUser(view, params);
@@ -145,14 +145,14 @@ import 'emby-button';
         function resetPassword() {
             const msg = globalize.translate('PasswordResetConfirmation');
             import('confirm').then(({default: confirm}) => {
-                confirm(msg, globalize.translate('HeaderResetPassword')).then(function () {
+                confirm(msg, globalize.translate('ResetPassword')).then(function () {
                     const userId = params.userId;
                     loading.show();
                     ApiClient.resetUserPassword(userId).then(function () {
                         loading.hide();
                         Dashboard.alert({
                             message: globalize.translate('PasswordResetComplete'),
-                            title: globalize.translate('HeaderResetPassword')
+                            title: globalize.translate('ResetPassword')
                         });
                         loadUser(view, params);
                     });

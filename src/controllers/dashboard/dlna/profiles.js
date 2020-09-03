@@ -46,7 +46,7 @@ import 'emby-button';
             html += '</div>';
 
             if (profile.Type == 'User') {
-                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('ButtonDelete') + '"><span class="material-icons delete"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('Delete') + '"><span class="material-icons delete"></span></button>';
             }
 
             html += '</div>';
@@ -81,7 +81,7 @@ import 'emby-button';
     function getTabs() {
         return [{
             href: 'dlnasettings.html',
-            name: globalize.translate('TabSettings')
+            name: globalize.translate('Settings')
         }, {
             href: 'dlnaprofiles.html',
             name: globalize.translate('TabProfiles')

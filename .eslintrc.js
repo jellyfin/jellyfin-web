@@ -1,3 +1,5 @@
+const restrictedGlobals = require('confusing-browser-globals');
+
 module.exports = {
     root: true,
     plugins: [
@@ -39,14 +41,15 @@ module.exports = {
         'no-floating-decimal': ['error'],
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
+        'no-restricted-globals': ['error'].concat(restrictedGlobals),
         'no-trailing-spaces': ['error'],
-        'no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
-        'no-unused-vars': ['error', { 'vars': 'all', 'args': 'none', 'ignoreRestSiblings': true }],
+        '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+        //'no-unused-vars': ['error', { 'vars': 'all', 'args': 'none', 'ignoreRestSiblings': true }],
         'one-var': ['error', 'never'],
         'padded-blocks': ['error', 'never'],
         //'prefer-const': ['error', {'destructuring': 'all'}],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
-        'semi': ['error'],
+        '@babel/semi': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error'
@@ -81,7 +84,6 @@ module.exports = {
                 'ApiClient': 'writable',
                 'AppInfo': 'writable',
                 'chrome': 'writable',
-                'ConnectionManager': 'writable',
                 'DlnaProfilePage': 'writable',
                 'Dashboard': 'writable',
                 'DashboardPage': 'writable',
@@ -106,6 +108,7 @@ module.exports = {
                 // TODO: Fix warnings and remove these rules
                 'no-redeclare': ['off'],
                 'no-useless-escape': ['off'],
+                'no-unused-vars': ['off'],
                 // TODO: Remove after ES6 migration is complete
                 'import/no-unresolved': ['off']
             },

@@ -1,4 +1,4 @@
-<div id="liveTvSuggestedPage" data-dom-cache="true" data-role="page" class="page libraryPage liveTvPage pageWithAbsoluteTabs withTabs" data-title="${HeaderLiveTv}" data-backdroptype="series,movie">
+<div id="liveTvSuggestedPage" data-dom-cache="true" data-role="page" class="page libraryPage liveTvPage pageWithAbsoluteTabs withTabs" data-title="${LiveTV}" data-backdroptype="series,movie">
 
     <div class="liveTvContainer">
 
@@ -15,7 +15,7 @@
             <div id="upcomingEpisodes" class="verticalSection">
                 <div class="sectionTitleContainer sectionTitleContainer-cards padded-left">
                     <a href="list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false" is="emby-linkbutton" class="button-flat button-flat-mini sectionTitleTextButton sectionTitleTextButton-programs">
-                        <h2 class="sectionTitle sectionTitle-cards" style="display: inline-block; vertical-align: middle;">${TabShows}</h2>
+                        <h2 class="sectionTitle sectionTitle-cards" style="display: inline-block; vertical-align: middle;">${Shows}</h2>
                         <span class="material-icons chevron_right"></span>
                     </a>
                 </div>
@@ -24,7 +24,7 @@
             <div id="upcomingTvMovies" class="verticalSection">
                 <div class="sectionTitleContainer sectionTitleContainer-cards padded-left">
                     <a href="list.html?type=Programs&IsMovie=true" is="emby-linkbutton" class="button-flat button-flat-mini sectionTitleTextButton sectionTitleTextButton-programs">
-                        <h2 class="sectionTitle sectionTitle-cards" style="display: inline-block; vertical-align: middle;">${HeaderMovies}</h2>
+                        <h2 class="sectionTitle sectionTitle-cards" style="display: inline-block; vertical-align: middle;">${Movies}</h2>
                         <span class="material-icons chevron_right"></span>
                     </a>
                 </div>
@@ -63,7 +63,7 @@
         <div class="pageTabContent" id="channelsTab" data-index="2">
             <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom">
                 <div class="paging"></div>
-                <button is="paper-icon-button-light" class="btnFilter sectionTitleButton" title="${ButtonFilter}"><span class="material-icons filter_list"></span></button>
+                <button is="paper-icon-button-light" class="btnFilter sectionTitleButton" title="${Filter}"><span class="material-icons filter_list"></span></button>
             </div>
             <div is="emby-itemscontainer" id="items" class="itemsContainer vertical-wrap padded-left padded-right"></div>
         </div>

@@ -1,4 +1,3 @@
-// TODO: Move to external library (https://github.com/calvellido/focus-options-polyfill)
 // Polyfill to add support for preventScroll by focus function
 
 if (HTMLElement.prototype.nativeFocus === undefined) {

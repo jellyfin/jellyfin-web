@@ -60,8 +60,8 @@ _define('resize-observer-polyfill', function() {
 });
 
 // swiper
-const swiper = require('swiper/js/swiper');
-require('swiper/css/swiper.min.css');
+const swiper = require('swiper/swiper-bundle');
+require('swiper/swiper-bundle.css');
 _define('swiper', function() {
     return swiper;
 });
@@ -174,4 +174,10 @@ _define('connectionManagerFactory', function () {
 
 _define('appStorage', function () {
     return apiclient.AppStorage;
+});
+
+// libarchive.js
+var libarchive = require('libarchive.js');
+_define('libarchive', function () {
+    return libarchive;
 });

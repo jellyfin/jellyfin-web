@@ -6,12 +6,12 @@
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkStandardFilter videoStandard"
                         data-filter="IsPlayed" />
-                    <span>${OptionPlayed}</span>
+                    <span>${Played}</span>
                 </label>
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkStandardFilter videoStandard"
                         data-filter="IsUnPlayed" />
-                    <span>${OptionUnplayed}</span>
+                    <span>${Unplayed}</span>
                 </label>
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkStandardFilter videoStandard"
@@ -21,7 +21,7 @@
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkFavorite"
                         data-filter="IsFavorite" />
-                    <span>${OptionFavorite}</span>
+                    <span>${Favorites}</span>
                 </label>
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkLikes" data-filter="Likes" />
@@ -53,11 +53,11 @@
             <div class="checkboxList">
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkStatus" data-filter="Continuing" />
-                    <span>${OptionContinuing}</span>
+                    <span>${Continuing}</span>
                 </label>
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkStatus" data-filter="Ended" />
-                    <span>${OptionEnded}</span>
+                    <span>${Ended}</span>
                 </label>
             </div>
         </div>
@@ -68,15 +68,15 @@
             <div class="checkboxList">
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkFeatureFilter" id="chkSubtitle" />
-                    <span>${OptionHasSubtitles}</span>
+                    <span>${Subtitles}</span>
                 </label>
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkFeatureFilter" id="chkTrailer" />
-                    <span>${OptionHasTrailer}</span>
+                    <span>${ButtonTrailer}</span>
                 </label>
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkFeatureFilter" id="chkSpecialFeature" />
-                    <span>${OptionHasSpecialFeatures}</span>
+                    <span>${SpecialFeatures}</span>
                 </label>
                 <label>
                     <input type="checkbox" is="emby-checkbox" class="chkFeatureFilter" id="chkThemeSong" />
@@ -90,7 +90,7 @@
         </div>
     </div>
 
-    <div is="emby-collapse" title="${HeaderGenres}" class="genreFilters hide">
+    <div is="emby-collapse" title="${Genres}" class="genreFilters hide">
         <div class="collapseContent filterOptions">
         </div>
     </div>

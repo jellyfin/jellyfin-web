@@ -168,15 +168,15 @@ function getTabs() {
     return [{
         name: globalize.translate('Programs')
     }, {
-        name: globalize.translate('TabGuide')
+        name: globalize.translate('Guide')
     }, {
-        name: globalize.translate('TabChannels')
+        name: globalize.translate('Channels')
     }, {
-        name: globalize.translate('TabRecordings')
+        name: globalize.translate('Recordings')
     }, {
-        name: globalize.translate('HeaderSchedule')
+        name: globalize.translate('Schedule')
     }, {
-        name: globalize.translate('TabSeries')
+        name: globalize.translate('Series')
     }];
 }
 

@@ -85,9 +85,9 @@ import 'scrollStyles';
             }
 
             if (!self.closedByBack && isHistoryEnabled(dlg)) {
-                const state = history.state || {};
+                const state = window.history.state || {};
                 if (state.dialogId === hash) {
-                    history.back();
+                    window.history.back();
                 }
             }
 
@@ -213,7 +213,7 @@ import 'scrollStyles';
     export function close(dlg) {
         if (isOpened(dlg)) {
             if (isHistoryEnabled(dlg)) {
-                history.back();
+                window.history.back();
             } else {
                 closeDialog(dlg);
             }
@@ -375,7 +375,7 @@ import 'scrollStyles';
             dlg.setAttribute('data-lockscroll', 'true');
         }
 
-        if (options.enableHistory !== false && appRouter.enableNativeHistory()) {
+        if (options.enableHistory === true) {
             dlg.setAttribute('data-history', 'true');
         }
 
