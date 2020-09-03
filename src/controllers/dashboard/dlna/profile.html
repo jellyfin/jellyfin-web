@@ -33,11 +33,11 @@
                             </label>
                             <label>
                                 <input is="emby-checkbox" type="checkbox" id="chkPhoto" data-value="Photo" class="chkMediaType" />
-                                <span>${OptionProfilePhoto}</span>
+                                <span>${Photo}</span>
                             </label>
                             <label>
                                 <input is="emby-checkbox" type="checkbox" id="chkVideo" data-value="Video" class="chkMediaType" />
-                                <span>${OptionProfileVideo}</span>
+                                <span>${Video}</span>
                             </label>
                         </div>
                     </div>
@@ -144,19 +144,19 @@
                             </div>
                             <div class="inputContainer">
                                 <input type="number" is="emby-input" id="txtAlbumArtMaxWidth" pattern="[0-9]*" min="1" label="${LabelAlbumArtMaxWidth}" />
-                                <div class="fieldDescription">${LabelAlbumArtMaxWidthHelp}</div>
+                                <div class="fieldDescription">${LabelAlbumArtMaxResHelp}</div>
                             </div>
                             <div class="inputContainer">
                                 <input type="number" is="emby-input" id="txtAlbumArtMaxHeight" pattern="[0-9]*" min="1" label="${LabelAlbumArtMaxHeight}" />
-                                <div class="fieldDescription">${LabelAlbumArtMaxHeightHelp}</div>
+                                <div class="fieldDescription">${LabelAlbumArtMaxResHelp}</div>
                             </div>
                             <div class="inputContainer">
                                 <input type="number" is="emby-input" id="txtIconMaxWidth" pattern="[0-9]*" min="1" label="${LabelIconMaxWidth}" />
-                                <div class="fieldDescription">${LabelIconMaxWidthHelp}</div>
+                                <div class="fieldDescription">${LabelIconMaxResHelp}</div>
                             </div>
                             <div class="inputContainer">
                                 <input type="number" is="emby-input" id="txtIconMaxHeight" pattern="[0-9]*" min="1" label="${LabelIconMaxHeight}" />
-                                <div class="fieldDescription">${LabelIconMaxHeightHelp}</div>
+                                <div class="fieldDescription">${LabelIconMaxResHelp}</div>
                             </div>
                         </div>
                     </div>
@@ -280,8 +280,8 @@
                 <div class="selectContainer">
                     <select id="selectDirectPlayProfileType" name="selectDirectPlayProfileType" is="emby-select" label="${LabelType}">
                         <option value="Audio">${Audio}</option>
-                        <option value="Photo">${OptionProfilePhoto}</option>
-                        <option value="Video">${OptionProfileVideo}</option>
+                        <option value="Photo">${Photo}</option>
+                        <option value="Video">${Video}</option>
                     </select>
                 </div>
                 <div class="inputContainer">
@@ -328,8 +328,8 @@
                     <div class="selectContainer">
                         <select id="selectTranscodingProfileType" name="selectTranscodingProfileType" is="emby-select" label="${LabelType}">
                             <option value="Audio">${Audio}</option>
-                            <option value="Photo">${OptionProfilePhoto}</option>
-                            <option value="Video">${OptionProfileVideo}</option>
+                            <option value="Photo">${Photo}</option>
+                            <option value="Video">${Video}</option>
                         </select>
                     </div>
                     <div id="fldTranscodingProtocol" style="margin: 1em 0;">
@@ -404,8 +404,8 @@
                     <div class="selectContainer">
                         <select id="selectContainerProfileType" name="selectContainerProfileType" is="emby-select" label="${LabelType}">
                             <option value="Audio">${Audio}</option>
-                            <option value="Photo">${OptionProfilePhoto}</option>
-                            <option value="Video">${OptionProfileVideo}</option>
+                            <option value="Photo">${Photo}</option>
+                            <option value="Video">${Video}</option>
                         </select>
                     </div>
                     <div class="inputContainer">
@@ -434,8 +434,8 @@
                 <p>${HeaderCodecProfileHelp}</p>
                 <div class="selectContainer">
                     <select id="selectCodecProfileType" name="selectCodecProfileType" is="emby-select" label="${LabelType}">
-                        <option value="Video">${OptionProfileVideo}</option>
-                        <option value="VideoAudio">${OptionProfileVideoAudio}</option>
+                        <option value="Video">${Video}</option>
+                        <option value="VideoAudio">${VideoAudio}</option>
                         <option value="Audio">${Audio}</option>
                     </select>
                 </div>
@@ -463,8 +463,8 @@
                 <div class="selectContainer">
                     <select id="selectResponseProfileType" name="selectResponseProfileType" is="emby-select" label="${LabelType}">
                         <option value="Audio">${Audio}</option>
-                        <option value="Photo">${OptionProfilePhoto}</option>
-                        <option value="Video">${OptionProfileVideo}</option>
+                        <option value="Photo">${Photo}</option>
+                        <option value="Video">${Video}</option>
                     </select>
                 </div>
                 <div class="inputContainer">
