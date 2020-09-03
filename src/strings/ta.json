@@ -1380,5 +1380,10 @@
     "Poster": "சுவரொட்டி",
     "MusicVideos": "இசை கானொளி",
     "Image": "படம்",
-    "Data": "தகவல்கள்"
+    "Data": "தகவல்கள்",
+    "VideoAudio": "வீடியோ ஆடியோ",
+    "Photo": "புகைப்படம்",
+    "LabelIconMaxResHelp": "Upnp: ஐகான் வழியாக வெளிப்படும் ஐகான்களின் அதிகபட்ச தீர்மானம்.",
+    "LabelAlbumArtMaxResHelp": "ஆல்பம் படத்தின் அதிகபட்ச தெளிவுத்திறன் upnp: albumArtURI வழியாக வெளிப்படும்.",
+    "Other": "மற்றவை"
 }
