@@ -1,4 +1,6 @@
 import loading from 'loading';
+import toast from 'toast';
+import globalize from 'globalize';
 
 /* eslint-disable indent */
 
@@ -32,10 +34,7 @@ import loading from 'loading';
             type: 'POST',
             url: url
         }, true).then(() => {
-            require(['toast'], function (toast) {
-                toast('Settings saved');
-            });
-
+            toast(globalize.translate('SettingsSaved'));
             setTimeout(updatePage, 500);
 
             return true;

@@ -1153,7 +1153,7 @@
     "Quality": "Quality",
     "QuickConnect": "Quick Connect",
     "QuickConnectActivationSuccessful": "Successfully activated",
-    "QuickConnectAuthorizeCode": "Authorize request {0} to continue",
+    "QuickConnectAuthorizeCode": "Enter code {0} to login",
     "QuickConnectAuthorizeSuccess": "Request authorized",
     "QuickConnectAuthorizeFail": "Unknown quick connect code",
     "QuickConnectDeactivated": "Quick connect was deactivated before the login request could be approved",

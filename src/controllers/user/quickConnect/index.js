@@ -8,10 +8,7 @@ export default function (view) {
     view.addEventListener('viewshow', function () {
         let codeElement = view.querySelector('#txtQuickConnectCode');
 
-        quickConnectSettingsInstance = new QuickConnectSettings({
-            page: view,
-            interval: 0
-        });
+        quickConnectSettingsInstance = new QuickConnectSettings();
 
         view.querySelector('#btnQuickConnectActivate').addEventListener('click', () => {
             quickConnectSettingsInstance.activate(quickConnectSettingsInstance).then(() => {
@@ -30,24 +27,17 @@ export default function (view) {
             quickConnectSettingsInstance.authorize(code);
         });
 
+        view.querySelector('.quickConnectSettingsContainer').addEventListener('submit', (e) => {
+            e.preventDefault();
+        });
+
         renderPage();
     });
     view.addEventListener('viewbeforehide', function () {
         if (quickConnectSettingsInstance) {
             quickConnectSettingsInstance.submit();
         }
-        onDestroy();
     });
-    view.addEventListener('viewdestroy', function () {
-        onDestroy();
-    });
-
-    function onDestroy() {
-        if (quickConnectSettingsInstance) {
-            quickConnectSettingsInstance.destroy();
-            quickConnectSettingsInstance = null;
-        }
-    }
 
     function renderPage(forceActive = false) {
         ApiClient.getQuickConnect('Status').then((status) => {
