@@ -13,7 +13,7 @@ export default function (options) {
 
     function updateTasks(tasks) {
         const task = tasks.filter(function (t) {
-            return t.Key == options.taskKey;
+            return t.ScheduledTask.Key == options.taskKey;
         })[0];
 
         if (options.panel) {
