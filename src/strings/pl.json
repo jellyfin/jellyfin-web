@@ -1366,5 +1366,18 @@
     "LabelSubtitleVerticalPosition": "Pozycja pionowa:",
     "MessageGetInstalledPluginsError": "Wystąpił błąd podczas pobierania listy aktualnie zainstalowanych wtyczek.",
     "MessagePluginInstallError": "Wystąpił błąd podczas instalacji wtyczki.",
-    "PlaybackRate": "Szybkość odtwarzania"
+    "PlaybackRate": "Szybkość odtwarzania",
+    "Image": "Obraz",
+    "Data": "Data",
+    "Video": "Wideo",
+    "ThumbCard": "Karta miniaturki",
+    "Subtitle": "Napisy",
+    "SpecialFeatures": "Specjalne funkcje programu",
+    "SelectServer": "Wybierz serwer",
+    "Restart": "Ponowne uruchomienie",
+    "ResetPassword": "Reset hasła",
+    "Profile": "Profil",
+    "PosterCard": "Widokówka",
+    "Poster": "Plakat",
+    "MusicVideos": "Teledyski"
 }
