@@ -26,13 +26,10 @@ import loading from 'loading';
 
         let newStatus = page.querySelector('#chkQuickConnectAvailable').checked ? 'Available' : 'Unavailable';
 
-        let url = ApiClient.getUrl('/QuickConnect/Available');
+        let url = ApiClient.getUrl('/QuickConnect/Available?Status=' + newStatus);
 
         ApiClient.ajax({
             type: 'POST',
-            data: {
-                'Status': newStatus
-            },
             url: url
         }, true).then(() => {
             require(['toast'], function (toast) {

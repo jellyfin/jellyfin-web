@@ -5,21 +5,14 @@ export class QuickConnectSettings {
     constructor() { }
 
     authorize(code) {
-        let url = ApiClient.getUrl('/QuickConnect/Authorize');
+        let url = ApiClient.getUrl('/QuickConnect/Authorize?Code=' + code);
         ApiClient.ajax({
             type: 'POST',
-            url: url,
-            data: {
-                'Code': code
-            }
+            url: url
         }, true).then(() => {
-            require(['toast'], function (toast) {
-                toast(globalize.translate('QuickConnectAuthorizeSuccess'));
-            });
+            toast(globalize.translate('QuickConnectAuthorizeSuccess'));
         }).catch(() => {
-            require(['toast'], function (toast) {
-                toast(globalize.translate('QuickConnectAuthorizeFail'));
-            });
+            toast(globalize.translate('QuickConnectAuthorizeFail'));
         });
 
         // prevent bubbling
@@ -30,28 +23,16 @@ export class QuickConnectSettings {
         let url = ApiClient.getUrl('/QuickConnect/Activate');
         return ApiClient.ajax({
             type: 'POST',
-            url: url,
-            contentType: 'application/json',
-            dataType: 'json'
-        }).then((json) => {
-            let message = json.Error;
-
-            if (message && message !== '') {
-                console.error('Error activating quick connect. Error: ', json.Error);
-
-                Dashboard.alert({
-                    title: 'Unable to activate quick connect',
-                    message: message
-                });
-
-                return false;
-            }
-
+            url: url
+        }).then(() => {
             toast(globalize.translate('QuickConnectActivationSuccessful'));
-
             return true;
         }).catch((e) => {
             console.error('Error activating quick connect. Error:', e);
+            Dashboard.alert({
+                title: globalize.translate('HeaderError'),
+                message: globalize.translate('DefaultErrorMessage')
+            });
             throw e;
         });
     }

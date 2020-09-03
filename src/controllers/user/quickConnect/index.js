@@ -73,6 +73,4 @@ export default function (view) {
             throw e;
         });
     }
-
-    renderPage();
 }

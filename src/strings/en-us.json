@@ -1156,6 +1156,7 @@
     "QuickConnectAuthorizeCode": "Authorize request {0} to continue",
     "QuickConnectAuthorizeSuccess": "Request authorized",
     "QuickConnectAuthorizeFail": "Unknown quick connect code",
+    "QuickConnectDeactivated": "Quick connect was deactivated before the login request could be approved",
     "QuickConnectDescription": "To sign in with quick connect, select the Quick Connect button on the device you are logging in from and enter the displayed code below.",
     "QuickConnectInvalidCode": "Invalid quick connect code",
     "QuickConnectNotAvailable": "Ask your server administrator to enable quick connect",
