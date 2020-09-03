@@ -2,7 +2,7 @@
 
 Name:           jellyfin-web
 Version:        10.6.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Free Software Media System web client
 License:        GPLv3
 URL:            https://jellyfin.org
@@ -11,11 +11,12 @@ Source0:        jellyfin-web-%{version}.tar.gz
 
 %if 0%{?centos}
 BuildRequires:  yarn
-# sadly the yarn RPM at https://dl.yarnpkg.com/rpm/ uses git but doesn't Requires: it
-BuildRequires: git
 %else
 BuildRequires:  nodejs-yarn
 %endif
+# sadly the yarn RPM at https://dl.yarnpkg.com/rpm/ uses git but doesn't Requires: it
+# ditto for Fedora's yarn RPM
+BuildRequires: git
 BuildArch:		noarch
 
 # Disable Automatic Dependency Processing
