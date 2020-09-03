@@ -1353,5 +1353,20 @@
     "LabelSubtitleVerticalPosition": "Függőleges pozíció:",
     "MessageGetInstalledPluginsError": "Hiba történt a jelenleg telepített bővítmények lekérdezése során.",
     "MessagePluginInstallError": "Hiba történt a bővítmény telepítése során.",
-    "PlaybackRate": "Lejátszási sebesség"
+    "PlaybackRate": "Lejátszási sebesség",
+    "VideoAudio": "Videó hang",
+    "Video": "Videó",
+    "ThumbCard": "Miniatűr kártya",
+    "Subtitle": "Felirat",
+    "SelectServer": "Szerver kiválasztása",
+    "Restart": "Újraindítás",
+    "ResetPassword": "Jelszó visszaállítása",
+    "Profile": "Profil",
+    "PosterCard": "Poszter kártya",
+    "Poster": "Poszter",
+    "Photo": "Kép",
+    "MusicVideos": "Zenei videóklippek",
+    "Image": "Kép",
+    "Other": "További",
+    "Data": "Adat"
 }
