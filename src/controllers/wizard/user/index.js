@@ -23,11 +23,12 @@ function submit(form) {
     const apiClient = getApiClient();
     apiClient.ajax({
         type: 'POST',
-        data: {
+        data: JSON.stringify({
             Name: form.querySelector('#txtUsername').value,
             Password: form.querySelector('#txtManualPassword').value
-        },
-        url: apiClient.getUrl('Startup/User')
+        }),
+        url: apiClient.getUrl('Startup/User'),
+        contentType: 'application/json'
     }).then(onUpdateUserComplete);
 }
 

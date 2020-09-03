@@ -4,7 +4,6 @@ import globalize from 'globalize';
 
 /* eslint-disable indent */
 export default (() => {
-
     function replaceAll(str, find, replace) {
         return str.split(find).join(replace);
     }
@@ -20,7 +19,7 @@ export default (() => {
             }
 
             const text = replaceAll(options.text || '', '<br/>', '\n');
-            const result = confirm(text);
+            const result = window.confirm(text);
 
             if (result) {
                 return Promise.resolve();

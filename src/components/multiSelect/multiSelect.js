@@ -1,7 +1,6 @@
 import browser from 'browser';
 import appHost from 'apphost';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import dom from 'dom';
 import 'css!./multiSelect';
@@ -13,10 +12,8 @@ import 'css!./multiSelect';
     let currentSelectionCommandsPanel;
 
     function hideSelections() {
-
         const selectionCommandsPanel = currentSelectionCommandsPanel;
         if (selectionCommandsPanel) {
-
             selectionCommandsPanel.parentNode.removeChild(selectionCommandsPanel);
             currentSelectionCommandsPanel = null;
 
@@ -24,7 +21,6 @@ import 'css!./multiSelect';
             selectedElements = [];
             const elems = document.querySelectorAll('.itemSelectionPanel');
             for (let i = 0, length = elems.length; i < length; i++) {
-
                 const parent = elems[i].parentNode;
                 parent.removeChild(elems[i]);
                 parent.classList.remove('withMultiSelect');
@@ -33,13 +29,11 @@ import 'css!./multiSelect';
     }
 
     function onItemSelectionPanelClick(e, itemSelectionPanel) {
-
         // toggle the checkbox, if it wasn't clicked on
         if (!dom.parentWithClass(e.target, 'chkItemSelect')) {
             const chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
 
             if (chkItemSelect) {
-
                 if (chkItemSelect.classList.contains('checkedInitial')) {
                     chkItemSelect.classList.remove('checkedInitial');
                 } else {
@@ -56,11 +50,9 @@ import 'css!./multiSelect';
     }
 
     function updateItemSelection(chkItemSelect, selected) {
-
         const id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
 
         if (selected) {
-
             const current = selectedItems.filter(i => {
                 return i === id;
             });
@@ -69,7 +61,6 @@ import 'css!./multiSelect';
                 selectedItems.push(id);
                 selectedElements.push(chkItemSelect);
             }
-
         } else {
             selectedItems = selectedItems.filter(i => {
                 return i !== id;
@@ -94,11 +85,9 @@ import 'css!./multiSelect';
     }
 
     function showSelection(item, isChecked) {
-
         let itemSelectionPanel = item.querySelector('.itemSelectionPanel');
 
         if (!itemSelectionPanel) {
-
             itemSelectionPanel = document.createElement('div');
             itemSelectionPanel.classList.add('itemSelectionPanel');
 
@@ -120,11 +109,9 @@ import 'css!./multiSelect';
     }
 
     function showSelectionCommands() {
-
         let selectionCommandsPanel = currentSelectionCommandsPanel;
 
         if (!selectionCommandsPanel) {
-
             selectionCommandsPanel = document.createElement('div');
             selectionCommandsPanel.classList.add('selectionCommandsPanel');
 
@@ -150,9 +137,7 @@ import 'css!./multiSelect';
     }
 
     function alertText(options) {
-
         return new Promise((resolve, reject) => {
-
             import('alert').then(({default: alert}) => {
                 alert(options).then(resolve, resolve);
             });
@@ -160,9 +145,7 @@ import 'css!./multiSelect';
     }
 
     function deleteItems(apiClient, itemIds) {
-
         return new Promise((resolve, reject) => {
-
             let msg = globalize.translate('ConfirmDeleteItem');
             let title = globalize.translate('HeaderDeleteItem');
 
@@ -172,28 +155,23 @@ import 'css!./multiSelect';
             }
 
             import('confirm').then(({default: confirm}) => {
-
                 confirm(msg, title).then(() => {
                     const promises = itemIds.map(itemId => {
                         apiClient.deleteItem(itemId);
                     });
 
                     Promise.all(promises).then(resolve, () => {
-
                         alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);
                     });
                 }, reject);
-
             });
         });
     }
 
     function showMenuForSelectedItems(e) {
-
-        const apiClient = connectionManager.currentApiClient();
+        const apiClient = window.connectionManager.currentApiClient();
 
         apiClient.getCurrentUser().then(user => {
-
             const menuItems = [];
 
             menuItems.push({
@@ -219,7 +197,7 @@ import 'css!./multiSelect';
 
             if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
                 menuItems.push({
-                    name: globalize.translate('ButtonDownload'),
+                    name: globalize.translate('Download'),
                     id: 'download',
                     icon: 'file_download'
                 });
@@ -317,17 +295,14 @@ import 'css!./multiSelect';
                         }
                     }
                 });
-
             });
         });
     }
 
     function dispatchNeedsRefresh() {
-
         const elems = [];
 
         [].forEach.call(selectedElements, i => {
-
             const container = dom.parentWithAttribute(i, 'is', 'emby-itemscontainer');
 
             if (container && !elems.includes(container)) {
@@ -341,9 +316,7 @@ import 'css!./multiSelect';
     }
 
     function combineVersions(apiClient, selection) {
-
         if (selection.length < 2) {
-
             import('alert').then(({default: alert}) => {
                 alert({
 
@@ -361,7 +334,6 @@ import 'css!./multiSelect';
             url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
 
         }).then(() => {
-
             loading.hide();
             hideSelections();
             dispatchNeedsRefresh();
@@ -369,7 +341,6 @@ import 'css!./multiSelect';
     }
 
     function showSelections(initialCard) {
-
         import('emby-checkbox').then(() => {
             const cards = document.querySelectorAll('.card');
             for (let i = 0, length = cards.length; i < length; i++) {
@@ -382,11 +353,9 @@ import 'css!./multiSelect';
     }
 
     function onContainerClick(e) {
-
         const target = e.target;
 
         if (selectedItems.length) {
-
             const card = dom.parentWithClass(target, 'card');
             if (card) {
                 const itemSelectionPanel = card.querySelector('.itemSelectionPanel');
@@ -404,17 +373,14 @@ import 'css!./multiSelect';
     document.addEventListener('viewbeforehide', hideSelections);
 
     export default function (options) {
-
         const self = this;
 
         const container = options.container;
 
         function onTapHold(e) {
-
             const card = dom.parentWithClass(e.target, 'card');
 
             if (card) {
-
                 showSelections(card);
             }
 
@@ -427,7 +393,6 @@ import 'css!./multiSelect';
         }
 
         function getTouches(e) {
-
             return e.changedTouches || e.targetTouches || e.touches;
         }
 
@@ -436,7 +401,6 @@ import 'css!./multiSelect';
         let touchStartX;
         let touchStartY;
         function onTouchStart(e) {
-
             const touch = getTouches(e)[0];
             touchTarget = null;
             touchStartX = 0;
@@ -451,7 +415,6 @@ import 'css!./multiSelect';
                     const card = dom.parentWithClass(element, 'card');
 
                     if (card) {
-
                         if (touchStartTimeout) {
                             clearTimeout(touchStartTimeout);
                             touchStartTimeout = null;
@@ -465,7 +428,6 @@ import 'css!./multiSelect';
         }
 
         function onTouchMove(e) {
-
             if (touchTarget) {
                 const touch = getTouches(e)[0];
                 let deltaX;
@@ -487,12 +449,10 @@ import 'css!./multiSelect';
         }
 
         function onTouchEnd(e) {
-
             onMouseOut(e);
         }
 
         function onMouseDown(e) {
-
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;
@@ -503,7 +463,6 @@ import 'css!./multiSelect';
         }
 
         function onMouseOut(e) {
-
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;
@@ -512,7 +471,6 @@ import 'css!./multiSelect';
         }
 
         function onTouchStartTimerFired() {
-
             if (!touchTarget) {
                 return;
             }
@@ -521,13 +479,11 @@ import 'css!./multiSelect';
             touchTarget = null;
 
             if (card) {
-
                 showSelections(card);
             }
         }
 
         function initTapHold(element) {
-
             // mobile safari doesn't allow contextmenu override
             if (browser.touch && !browser.safari) {
                 element.addEventListener('contextmenu', onTapHold);
@@ -565,7 +521,6 @@ import 'css!./multiSelect';
         self.onContainerClick = onContainerClick;
 
         self.destroy = () => {
-
             container.removeEventListener('click', onContainerClick);
             container.removeEventListener('contextmenu', onTapHold);
 
@@ -580,10 +535,6 @@ import 'css!./multiSelect';
             dom.removeEventListener(element, 'touchend', onTouchEnd, {
                 passive: true
             });
-            // this fires in safari due to magnifying class
-            //dom.removeEventListener(element, "touchcancel", onTouchEnd, {
-            //    passive: true
-            //});
             dom.removeEventListener(element, 'mousedown', onMouseDown, {
                 passive: true
             });

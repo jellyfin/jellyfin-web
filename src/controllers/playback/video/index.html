@@ -1,5 +1,4 @@
 <div id="videoOsdPage" data-role="page" class="page libraryPage" data-backbutton="true">
-    <div class="pageContainer flex"></div>
     <div class="upNextContainer hide"></div>
     <div class="videoOsdBottom videoOsdBottom-maincontrols">
         <div class="osdPoster"></div>
@@ -28,7 +27,7 @@
                     <span class="xlargePaperIconButton material-icons fiber_manual_record"></span>
                 </button>
 
-                <button is="paper-icon-button-light" class="btnPreviousTrack autoSize hide">
+                <button is="paper-icon-button-light" class="btnPreviousTrack autoSize hide" title="${PreviousTrack}">
                     <span class="xlargePaperIconButton material-icons skip_previous"></span>
                 </button>
 
@@ -44,7 +43,7 @@
                     <span class="xlargePaperIconButton material-icons fast_forward"></span>
                 </button>
 
-                <button is="paper-icon-button-light" class="btnNextTrack autoSize hide">
+                <button is="paper-icon-button-light" class="btnNextTrack autoSize hide" title="${NextTrack}">
                     <span class="xlargePaperIconButton material-icons skip_next"></span>
                 </button>
 

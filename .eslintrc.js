@@ -1,6 +1,9 @@
+const restrictedGlobals = require('confusing-browser-globals');
+
 module.exports = {
     root: true,
     plugins: [
+        '@babel',
         'promise',
         'import',
         'eslint-comments'
@@ -28,7 +31,7 @@ module.exports = {
     ],
     rules: {
         'block-spacing': ['error'],
-        'brace-style': ['error'],
+        'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
         'comma-dangle': ['error', 'never'],
         'comma-spacing': ['error'],
         'eol-last': ['error'],
@@ -38,19 +41,25 @@ module.exports = {
         'no-floating-decimal': ['error'],
         'no-multi-spaces': ['error'],
         'no-multiple-empty-lines': ['error', { 'max': 1 }],
+        'no-restricted-globals': ['error'].concat(restrictedGlobals),
         'no-trailing-spaces': ['error'],
+        '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+        //'no-unused-vars': ['error', { 'vars': 'all', 'args': 'none', 'ignoreRestSiblings': true }],
         'one-var': ['error', 'never'],
+        'padded-blocks': ['error', 'never'],
+        //'prefer-const': ['error', {'destructuring': 'all'}],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
-        'semi': ['error'],
+        '@babel/semi': ['error'],
         'space-before-blocks': ['error'],
-        'space-infix-ops': 'error'
+        'space-infix-ops': 'error',
+        'yoda': 'error'
     },
     overrides: [
         {
             files: [
                 './src/**/*.js'
             ],
-            parser: 'babel-eslint',
+            parser: '@babel/eslint-parser',
             env: {
                 node: false,
                 amd: true,
@@ -75,7 +84,6 @@ module.exports = {
                 'ApiClient': 'writable',
                 'AppInfo': 'writable',
                 'chrome': 'writable',
-                'ConnectionManager': 'writable',
                 'DlnaProfilePage': 'writable',
                 'Dashboard': 'writable',
                 'DashboardPage': 'writable',
@@ -98,9 +106,9 @@ module.exports = {
             },
             rules: {
                 // TODO: Fix warnings and remove these rules
-                'no-redeclare': ['warn'],
-                'no-unused-vars': ['warn'],
-                'no-useless-escape': ['warn'],
+                'no-redeclare': ['off'],
+                'no-useless-escape': ['off'],
+                'no-unused-vars': ['off'],
                 // TODO: Remove after ES6 migration is complete
                 'import/no-unresolved': ['off']
             },

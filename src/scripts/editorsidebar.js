@@ -1,4 +1,3 @@
-import datetime from 'datetime';
 import $ from 'jQuery';
 import globalize from 'globalize';
 import 'material-icons';
@@ -87,7 +86,7 @@ import 'material-icons';
             if (result.TotalRecordCount) {
                 nodes.push({
                     id: 'livetv',
-                    text: globalize.translate('HeaderLiveTV'),
+                    text: globalize.translate('LiveTV'),
                     state: {
                         opened: false
                     },
@@ -303,6 +302,7 @@ import 'material-icons';
     $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
         updateEditorNode(this, item);
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
+        /* eslint-disable-next-line  @babel/no-unused-expressions */
         import('css!assets/css/metadataeditor.css');
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
         var page = this;

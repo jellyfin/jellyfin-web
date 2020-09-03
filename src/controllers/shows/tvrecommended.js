@@ -17,22 +17,19 @@ import 'emby-button';
 
     function getTabs() {
         return [{
-            name: globalize.translate('TabShows')
+            name: globalize.translate('Shows')
         }, {
-            name: globalize.translate('TabSuggestions')
+            name: globalize.translate('Suggestions')
         }, {
             name: globalize.translate('TabLatest')
         }, {
             name: globalize.translate('TabUpcoming')
         }, {
-            name: globalize.translate('TabGenres')
+            name: globalize.translate('Genres')
         }, {
             name: globalize.translate('TabNetworks')
         }, {
-            name: globalize.translate('TabEpisodes')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
+            name: globalize.translate('Episodes')
         }];
     }
 
@@ -217,10 +214,6 @@ import 'emby-button';
                 case 6:
                     depends = 'controllers/shows/episodes';
                     break;
-
-                case 7:
-                    depends = 'scripts/searchtab';
-                    break;
             }
 
             import(depends).then(({default: controllerFactory}) => {
@@ -269,8 +262,6 @@ import 'emby-button';
         function loadTab(page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
-                initialTabIndex = null;
-
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
@@ -301,10 +292,8 @@ import 'emby-button';
             }
         }
 
-        let isViewRestored;
         const self = this;
         let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        let initialTabIndex = currentTabIndex;
 
         self.initTab = function () {
             const tabContent = self.tabContent;
@@ -319,7 +308,6 @@ import 'emby-button';
         let renderedTabs = [];
         setScrollClasses(view.querySelector('#resumableItems'), enableScrollX());
         view.addEventListener('viewshow', function (e) {
-            isViewRestored = e.detail.isRestored;
             initTabs();
             if (!view.getAttribute('data-title')) {
                 const parentId = params.topParentId;
@@ -330,8 +318,8 @@ import 'emby-button';
                         libraryMenu.setTitle(item.Name);
                     });
                 } else {
-                    view.setAttribute('data-title', globalize.translate('TabShows'));
-                    libraryMenu.setTitle(globalize.translate('TabShows'));
+                    view.setAttribute('data-title', globalize.translate('Shows'));
+                    libraryMenu.setTitle(globalize.translate('Shows'));
                 }
             }
 

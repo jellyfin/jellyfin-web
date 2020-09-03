@@ -1,6 +1,5 @@
 import loading from 'loading';
 import dom from 'dom';
-import libraryMenu from 'libraryMenu';
 import globalize from 'globalize';
 import imageHelper from 'scripts/imagehelper';
 import * as datefns from 'date-fns';
@@ -22,7 +21,7 @@ import 'cardStyle';
             confirm({
                 text: msg,
                 title: globalize.translate('HeaderDeleteDevice'),
-                confirmText: globalize.translate('ButtonDelete'),
+                confirmText: globalize.translate('Delete'),
                 primary: 'delete'
             }).then(function () {
                 loading.show();
@@ -39,7 +38,7 @@ import 'cardStyle';
     }
 
     function showDeviceMenu(view, btn, deviceId) {
-        let menuItems = [];
+        const menuItems = [];
 
         if (canEdit) {
             menuItems.push({

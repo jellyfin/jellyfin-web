@@ -1,14 +1,12 @@
 (function() {
-    'use strict';
-
     function injectScriptElement(src, onload) {
         if (!src) {
             return;
         }
 
-        var script = document.createElement('script');
-        if (self.dashboardVersion) {
-            src += `?v=${self.dashboardVersion}`;
+        const script = document.createElement('script');
+        if (window.dashboardVersion) {
+            src += `?v=${window.dashboardVersion}`;
         }
         script.src = src;
         script.setAttribute('async', '');
@@ -37,10 +35,11 @@
         // Promise() being missing on some legacy browser, and a funky one
         // is Promise() present but buggy on WebOS 2
         window.Promise = undefined;
+        /* eslint-disable-next-line no-restricted-globals -- Explicit check on self needed */
         self.Promise = undefined;
     }
 
-    if (!self.Promise) {
+    if (!window.Promise) {
         // Load Promise polyfill if they are not natively supported
         injectScriptElement(
             './libraries/npo.js',

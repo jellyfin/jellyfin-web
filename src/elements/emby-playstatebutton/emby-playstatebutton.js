@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import serverNotifications from 'serverNotifications';
 import events from 'events';
 import globalize from 'globalize';
@@ -21,11 +20,10 @@ import EmbyButtonPrototype from 'emby-button';
     }
 
     function onClick(e) {
-
         const button = this;
         const id = button.getAttribute('data-id');
         const serverId = button.getAttribute('data-serverid');
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         if (!button.classList.contains('playstatebutton-played')) {
             apiClient.markPlayed(apiClient.getCurrentUserId(), id, new Date());
@@ -70,27 +68,24 @@ import EmbyButtonPrototype from 'emby-button';
     }
 
     function setTitle(button, itemType) {
-
         if (itemType !== 'AudioBook' && itemType !== 'AudioPodcast') {
             button.title = globalize.translate('Watched');
         } else {
             button.title = globalize.translate('Played');
         }
 
-        let text = button.querySelector('.button-text');
+        const text = button.querySelector('.button-text');
         if (text) {
             text.innerHTML = button.title;
         }
     }
 
     function clearEvents(button) {
-
         button.removeEventListener('click', onClick);
         removeNotificationEvent(button, 'UserDataChanged');
     }
 
     function bindEvents(button) {
-
         clearEvents(button);
 
         button.addEventListener('click', onClick);
@@ -100,7 +95,6 @@ import EmbyButtonPrototype from 'emby-button';
     const EmbyPlaystateButtonPrototype = Object.create(EmbyButtonPrototype);
 
     EmbyPlaystateButtonPrototype.createdCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.createdCallback) {
             EmbyButtonPrototype.createdCallback.call(this);
@@ -108,7 +102,6 @@ import EmbyButtonPrototype from 'emby-button';
     };
 
     EmbyPlaystateButtonPrototype.attachedCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.attachedCallback) {
             EmbyButtonPrototype.attachedCallback.call(this);
@@ -117,7 +110,6 @@ import EmbyButtonPrototype from 'emby-button';
         const itemId = this.getAttribute('data-id');
         const serverId = this.getAttribute('data-serverid');
         if (itemId && serverId) {
-
             setState(this, this.getAttribute('data-played') === 'true', false);
             bindEvents(this);
             setTitle(this, this.getAttribute('data-type'));
@@ -125,7 +117,6 @@ import EmbyButtonPrototype from 'emby-button';
     };
 
     EmbyPlaystateButtonPrototype.detachedCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.detachedCallback) {
             EmbyButtonPrototype.detachedCallback.call(this);
@@ -136,9 +127,7 @@ import EmbyButtonPrototype from 'emby-button';
     };
 
     EmbyPlaystateButtonPrototype.setItem = function (item) {
-
         if (item) {
-
             this.setAttribute('data-id', item.Id);
             this.setAttribute('data-serverid', item.ServerId);
 
@@ -147,9 +136,7 @@ import EmbyButtonPrototype from 'emby-button';
             bindEvents(this);
 
             setTitle(this, item.Type);
-
         } else {
-
             this.removeAttribute('data-id');
             this.removeAttribute('data-serverid');
             this.removeAttribute('data-played');

@@ -1,6 +1,5 @@
 import itemShortcuts from 'itemShortcuts';
 import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
 import playbackManager from 'playbackManager';
 import imageLoader from 'imageLoader';
 import layoutManager from 'layoutManager';
@@ -18,8 +17,7 @@ import 'webcomponents';
 
     function onClick(e) {
         const itemsContainer = this;
-        const target = e.target;
-        let multiSelect = itemsContainer.multiSelect;
+        const multiSelect = itemsContainer.multiSelect;
 
         if (multiSelect) {
             if (multiSelect.onContainerClick.call(itemsContainer, e) === false) {
@@ -104,7 +102,7 @@ import 'webcomponents';
         }
 
         const serverId = el.getAttribute('data-serverid');
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         loading.show();
 
@@ -148,7 +146,6 @@ import 'webcomponents';
     };
 
     function onUserDataChanged(e, apiClient, userData) {
-
         const itemsContainer = this;
 
         import('cardBuilder').then(({default: cardBuilder}) => {
@@ -166,7 +163,7 @@ import 'webcomponents';
     }
 
     function getEventsToMonitor(itemsContainer) {
-        let monitor = itemsContainer.getAttribute('data-monitor');
+        const monitor = itemsContainer.getAttribute('data-monitor');
         if (monitor) {
             return monitor.split(',');
         }
@@ -175,7 +172,6 @@ import 'webcomponents';
     }
 
     function onTimerCreated(e, apiClient, data) {
-
         const itemsContainer = this;
 
         if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
@@ -359,9 +355,8 @@ import 'webcomponents';
     ItemsContainerPrototype.resume = function (options) {
         this.paused = false;
 
-        let refreshIntervalEndTime = this.refreshIntervalEndTime;
+        const refreshIntervalEndTime = this.refreshIntervalEndTime;
         if (refreshIntervalEndTime) {
-
             const remainingMs = refreshIntervalEndTime - new Date().getTime();
             if (remainingMs > 0 && !this.needsRefresh) {
                 resetRefreshInterval(this, remainingMs);
@@ -399,7 +394,7 @@ import 'webcomponents';
             return;
         }
 
-        let timeout = this.refreshTimeout;
+        const timeout = this.refreshTimeout;
         if (timeout) {
             clearTimeout(timeout);
         }
@@ -438,7 +433,7 @@ import 'webcomponents';
     function onDataFetched(result) {
         const items = result.Items || result;
 
-        let parentContainer = this.parentContainer;
+        const parentContainer = this.parentContainer;
         if (parentContainer) {
             if (items.length) {
                 parentContainer.classList.remove('hide');

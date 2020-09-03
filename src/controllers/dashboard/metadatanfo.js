@@ -6,7 +6,7 @@ import globalize from 'globalize';
 /* eslint-disable indent */
 
     function loadPage(page, config, users) {
-        let html = '<option value="" selected="selected">' + globalize.translate('OptionNone') + '</option>';
+        let html = '<option value="" selected="selected">' + globalize.translate('None') + '</option>';
         html += users.map(function (user) {
             return '<option value="' + user.Id + '">' + user.Name + '</option>';
         }).join('');
@@ -52,10 +52,10 @@ import globalize from 'globalize';
             name: globalize.translate('HeaderLibraries')
         }, {
             href: 'librarydisplay.html',
-            name: globalize.translate('TabDisplay')
+            name: globalize.translate('Display')
         }, {
             href: 'metadataimages.html',
-            name: globalize.translate('TabMetadata')
+            name: globalize.translate('Metadata')
         }, {
             href: 'metadatanfo.html',
             name: globalize.translate('TabNfoSettings')

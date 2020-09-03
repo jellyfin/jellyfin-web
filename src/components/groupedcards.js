@@ -2,12 +2,11 @@
 
 import dom from 'dom';
 import appRouter from 'appRouter';
-import connectionManager from 'connectionManager';
 
     function onGroupedCardClick(e, card) {
         var itemId = card.getAttribute('data-id');
         var serverId = card.getAttribute('data-serverid');
-        var apiClient = connectionManager.getApiClient(serverId);
+        var apiClient = window.connectionManager.getApiClient(serverId);
         var userId = apiClient.getCurrentUserId();
         var playedIndicator = card.querySelector('.playedIndicator');
         var playedIndicatorHtml = playedIndicator ? playedIndicator.innerHTML : null;
@@ -21,7 +20,7 @@ import connectionManager from 'connectionManager';
 
         if (!actionableParent || actionableParent.classList.contains('cardContent')) {
             apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-                if (1 === items.length) {
+                if (items.length === 1) {
                     return void appRouter.showItem(items[0]);
                 }
 

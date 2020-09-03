@@ -1,16 +1,12 @@
 import appHost from 'apphost';
 import globalize from 'globalize';
-import connectionManager from 'connectionManager';
 import itemHelper from 'itemHelper';
 import appRouter from 'appRouter';
 import playbackManager from 'playbackManager';
-import loading from 'loading';
-import appSettings from 'appSettings';
 import browser from 'browser';
 import actionsheet from 'actionsheet';
 
 /* eslint-disable indent */
-
     export function getCommands(options) {
         const item = options.item;
         const user = options.user;
@@ -18,7 +14,7 @@ import actionsheet from 'actionsheet';
         const canPlay = playbackManager.canPlay(item);
         const restrictOptions = (browser.operaTv || browser.web0s) && !user.Policy.IsAdministrator;
 
-        let commands = [];
+        const commands = [];
 
         if (canPlay && item.MediaType !== 'Photo') {
             if (options.play !== false) {
@@ -144,7 +140,6 @@ import actionsheet from 'actionsheet';
         }
 
         if (item.CanDelete && options.deleteItem !== false) {
-
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
                 commands.push({
                     name: globalize.translate('Delete'),
@@ -334,7 +329,7 @@ import actionsheet from 'actionsheet';
     function executeCommand(item, id, options) {
         const itemId = item.Id;
         const serverId = item.ServerId;
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         return new Promise(function (resolve, reject) {
             switch (id) {
@@ -355,7 +350,7 @@ import actionsheet from 'actionsheet';
                     });
                     break;
                 case 'download':
-                    import('fileDownloader').then(({default: fileDownloader}) => {
+                    import('fileDownloader').then((fileDownloader) => {
                         const downloadHref = apiClient.getItemDownloadUrl(itemId);
                         fileDownloader.download([{
                             url: downloadHref,
@@ -370,7 +365,7 @@ import actionsheet from 'actionsheet';
                 case 'copy-stream': {
                     const downloadHref = apiClient.getItemDownloadUrl(itemId);
                     const textAreaCopy = function () {
-                        let textArea = document.createElement('textarea');
+                        const textArea = document.createElement('textarea');
                         textArea.value = downloadHref;
                         document.body.appendChild(textArea);
                         textArea.focus();

@@ -3,9 +3,7 @@ import globalize from 'globalize';
 import dom from 'dom';
 import * as datefns from 'date-fns';
 import dfnshelper from 'dfnshelper';
-import userSettings from 'userSettings';
 import serverNotifications from 'serverNotifications';
-import connectionManager from 'connectionManager';
 import 'emby-button';
 import 'listViewStyle';
 
@@ -17,7 +15,7 @@ import 'listViewStyle';
         let color = '#00a4dc';
         let icon = 'notifications';
 
-        if ('Error' == entry.Severity || 'Fatal' == entry.Severity || 'Warn' == entry.Severity) {
+        if (entry.Severity == 'Error' || entry.Severity == 'Fatal' || entry.Severity == 'Warn') {
             color = '#cc0000';
             icon = 'notification_important';
         }
@@ -61,14 +59,15 @@ import 'listViewStyle';
     }
 
     function reloadData(instance, elem, apiClient, startIndex, limit) {
-        if (null == startIndex) {
+        if (startIndex == null) {
             startIndex = parseInt(elem.getAttribute('data-activitystartindex') || '0');
         }
 
         limit = limit || parseInt(elem.getAttribute('data-activitylimit') || '7');
         const minDate = new Date();
-        const hasUserId = 'false' !== elem.getAttribute('data-useractivity');
+        const hasUserId = elem.getAttribute('data-useractivity') !== 'false';
 
+        // TODO: Use date-fns
         if (hasUserId) {
             minDate.setTime(minDate.getTime() - 24 * 60 * 60 * 1000); // one day back
         } else {
@@ -141,7 +140,7 @@ class ActivityLog {
         const element = options.element;
         element.classList.add('activityLogListWidget');
         element.addEventListener('click', onListClick.bind(this));
-        const apiClient = connectionManager.getApiClient(options.serverId);
+        const apiClient = window.connectionManager.getApiClient(options.serverId);
         reloadData(this, element, apiClient);
         const onUpdate = onActivityLogUpdate.bind(this);
         this.updateFn = onUpdate;
@@ -153,7 +152,7 @@ class ActivityLog {
 
         if (options) {
             options.element.classList.remove('activityLogListWidget');
-            connectionManager.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
+            window.connectionManager.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
         }
 
         const onUpdate = this.updateFn;

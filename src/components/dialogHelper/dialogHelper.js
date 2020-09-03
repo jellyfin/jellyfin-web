@@ -12,7 +12,6 @@ import 'scrollStyles';
     let globalOnOpenCallback;
 
     function enableAnimation() {
-
         // too slow
         if (browser.tv) {
             return false;
@@ -22,7 +21,6 @@ import 'scrollStyles';
     }
 
     function removeCenterFocus(dlg) {
-
         if (layoutManager.tv) {
             if (dlg.classList.contains('scrollX')) {
                 centerFocus(dlg, true, false);
@@ -35,7 +33,6 @@ import 'scrollStyles';
     function tryRemoveElement(elem) {
         const parentNode = elem.parentNode;
         if (parentNode) {
-
             // Seeing crashes in edge webview
             try {
                 parentNode.removeChild(elem);
@@ -46,14 +43,12 @@ import 'scrollStyles';
     }
 
     function DialogHashHandler(dlg, hash, resolve) {
-
         const self = this;
         self.originalUrl = window.location.href;
         const activeElement = document.activeElement;
         let removeScrollLockOnClose = false;
 
         function onHashChange(e) {
-
             const isBack = self.originalUrl === window.location.href;
 
             if (isBack || !isOpened(dlg)) {
@@ -67,7 +62,6 @@ import 'scrollStyles';
         }
 
         function onBackCommand(e) {
-
             if (e.detail.command === 'back') {
                 self.closedByBack = true;
                 e.preventDefault();
@@ -77,7 +71,6 @@ import 'scrollStyles';
         }
 
         function onDialogClosed() {
-
             if (!isHistoryEnabled(dlg)) {
                 inputManager.off(dlg, onBackCommand);
             }
@@ -92,9 +85,9 @@ import 'scrollStyles';
             }
 
             if (!self.closedByBack && isHistoryEnabled(dlg)) {
-                const state = history.state || {};
+                const state = window.history.state || {};
                 if (state.dialogId === hash) {
-                    history.back();
+                    window.history.back();
                 }
             }
 
@@ -158,7 +151,6 @@ import 'scrollStyles';
     }
 
     function addBackdropOverlay(dlg) {
-
         const backdrop = document.createElement('div');
         backdrop.classList.add('dialogBackdrop');
 
@@ -193,7 +185,6 @@ import 'scrollStyles';
     }
 
     export function open(dlg) {
-
         if (globalOnOpenCallback) {
             globalOnOpenCallback(dlg);
         }
@@ -210,22 +201,19 @@ import 'scrollStyles';
         document.body.appendChild(dialogContainer);
 
         return new Promise((resolve, reject) => {
-
             new DialogHashHandler(dlg, `dlg${new Date().getTime()}`, resolve);
         });
     }
 
     function isOpened(dlg) {
-
         //return dlg.opened;
         return !dlg.classList.contains('hide');
     }
 
     export function close(dlg) {
-
         if (isOpened(dlg)) {
             if (isHistoryEnabled(dlg)) {
-                history.back();
+                window.history.back();
             } else {
                 closeDialog(dlg);
             }
@@ -233,9 +221,7 @@ import 'scrollStyles';
     }
 
     function closeDialog(dlg) {
-
         if (!dlg.classList.contains('hide')) {
-
             dlg.dispatchEvent(new CustomEvent('closing', {
                 bubbles: false,
                 cancelable: false
@@ -256,7 +242,6 @@ import 'scrollStyles';
     }
 
     function animateDialogOpen(dlg) {
-
         const onAnimationFinish = () => {
             focusManager.pushScope(dlg);
 
@@ -271,7 +256,6 @@ import 'scrollStyles';
         };
 
         if (enableAnimation()) {
-
             const onFinish = () => {
                 dom.removeEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
                     once: true
@@ -288,13 +272,10 @@ import 'scrollStyles';
     }
 
     function animateDialogClose(dlg, onAnimationFinish) {
-
         if (enableAnimation()) {
-
             let animated = true;
 
             switch (dlg.animationConfig.exit.name) {
-
                 case 'fadeout':
                     dlg.style.animation = `fadeout ${dlg.animationConfig.exit.timing.duration}ms ease-out normal both`;
                     break;
@@ -329,7 +310,6 @@ import 'scrollStyles';
     const supportsOverscrollBehavior = 'overscroll-behavior-y' in document.body.style;
 
     function shouldLockDocumentScroll(options) {
-
         if (supportsOverscrollBehavior && (options.size || !browser.touch)) {
             return false;
         }
@@ -350,7 +330,6 @@ import 'scrollStyles';
     }
 
     function removeBackdrop(dlg) {
-
         const backdrop = dlg.backdrop;
 
         if (!backdrop) {
@@ -364,7 +343,6 @@ import 'scrollStyles';
         };
 
         if (enableAnimation()) {
-
             backdrop.classList.remove('dialogBackdropOpened');
 
             // this is not firing animatonend
@@ -376,14 +354,13 @@ import 'scrollStyles';
     }
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then(scrollHelper => {
+        import('scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
     export function createDialog(options) {
-
         options = options || {};
 
         // If there's no native dialog support, use a plain div
@@ -398,7 +375,7 @@ import 'scrollStyles';
             dlg.setAttribute('data-lockscroll', 'true');
         }
 
-        if (options.enableHistory !== false && appRouter.enableNativeHistory()) {
+        if (options.enableHistory === true) {
             dlg.setAttribute('data-history', 'true');
         }
 
@@ -414,11 +391,8 @@ import 'scrollStyles';
             dlg.setAttribute('data-autofocus', 'true');
         }
 
-        let defaultEntryAnimation;
-        let defaultExitAnimation;
-
-        defaultEntryAnimation = 'scaleup';
-        defaultExitAnimation = 'scaledown';
+        const defaultEntryAnimation = 'scaleup';
+        const defaultExitAnimation = 'scaledown';
         const entryAnimation = options.entryAnimation || defaultEntryAnimation;
         const exitAnimation = options.exitAnimation || defaultExitAnimation;
 
@@ -473,9 +447,7 @@ import 'scrollStyles';
         }
 
         if (enableAnimation()) {
-
             switch (dlg.animationConfig.entry.name) {
-
                 case 'fadein':
                     dlg.style.animation = `fadein ${entryAnimationDuration}ms ease-out normal`;
                     break;

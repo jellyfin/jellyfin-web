@@ -11,8 +11,9 @@ function save(page) {
         config.MetadataCountryCode = page.querySelector('#selectCountry').value;
         apiClient.ajax({
             type: 'POST',
-            data: config,
-            url: apiClient.getUrl('Startup/Configuration')
+            data: JSON.stringify(config),
+            url: apiClient.getUrl('Startup/Configuration'),
+            contentType: 'application/json'
         }).then(function () {
             loading.hide();
             navigateToNextPage();

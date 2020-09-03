@@ -3,7 +3,6 @@ import dialogHelper from 'dialogHelper';
 import loading from 'loading';
 import layoutManager from 'layoutManager';
 import playbackManager from 'playbackManager';
-import connectionManager from 'connectionManager';
 import * as userSettings from 'userSettings';
 import appRouter from 'appRouter';
 import globalize from 'globalize';
@@ -22,7 +21,7 @@ import 'emby-button';
         const panel = dom.parentWithClass(this, 'dialog');
 
         const playlistId = panel.querySelector('#selectPlaylistToAddTo').value;
-        const apiClient = connectionManager.getApiClient(currentServerId);
+        const apiClient = window.connectionManager.getApiClient(currentServerId);
 
         if (playlistId) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
@@ -113,7 +112,7 @@ import 'emby-button';
             EnableTotalRecordCount: false
         };
 
-        const apiClient = connectionManager.getApiClient(currentServerId);
+        const apiClient = window.connectionManager.getApiClient(currentServerId);
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
             let html = '';
 
@@ -210,7 +209,7 @@ import 'emby-button';
     }
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then(scrollHelper => {
+        import('scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });

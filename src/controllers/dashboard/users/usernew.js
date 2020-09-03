@@ -22,7 +22,7 @@ import 'emby-checkbox';
 
     function loadChannels(page, channels) {
         let html = '';
-        html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderChannels') + '</h3>';
+        html += '<h3 class="checkboxListLabel">' + globalize.translate('Channels') + '</h3>';
         html += '<div class="checkboxList paperList" style="padding:.5em 1em;">';
 
         for (let i = 0; i < channels.length; i++) {
@@ -89,7 +89,7 @@ import 'emby-checkbox';
             });
         }, function (response) {
             import('toast').then(({default: toast}) => {
-                toast(globalize.translate('DefaultErrorMessage'));
+                toast(globalize.translate('ErrorDefault'));
             });
 
             loading.hide();

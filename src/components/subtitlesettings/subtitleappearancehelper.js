@@ -3,59 +3,32 @@
  * @module components/subtitleSettings/subtitleAppearanceHelper
  */
 
-function getTextStyles(settings, isCue) {
+function getTextStyles(settings, preview) {
+    const list = [];
 
-    let list = [];
-
-    if (isCue) {
-        switch (settings.textSize || '') {
-
-            case 'smaller':
-                list.push({ name: 'font-size', value: '.5em' });
-                break;
-            case 'small':
-                list.push({ name: 'font-size', value: '.7em' });
-                break;
-            case 'large':
-                list.push({ name: 'font-size', value: '1.3em' });
-                break;
-            case 'larger':
-                list.push({ name: 'font-size', value: '1.72em' });
-                break;
-            case 'extralarge':
-                list.push({ name: 'font-size', value: '2em' });
-                break;
-            default:
-            case 'medium':
-                break;
-        }
-    } else {
-        switch (settings.textSize || '') {
-
-            case 'smaller':
-                list.push({ name: 'font-size', value: '.8em' });
-                break;
-            case 'small':
-                list.push({ name: 'font-size', value: 'inherit' });
-                break;
-            case 'larger':
-                list.push({ name: 'font-size', value: '2em' });
-                break;
-            case 'extralarge':
-                list.push({ name: 'font-size', value: '2.2em' });
-                break;
-            case 'large':
-                list.push({ name: 'font-size', value: '1.72em' });
-                break;
-            default:
-            case 'medium':
-                list.push({ name: 'font-size', value: '1.36em' });
-                break;
-        }
+    switch (settings.textSize || '') {
+        case 'smaller':
+            list.push({ name: 'font-size', value: '.8em' });
+            break;
+        case 'small':
+            list.push({ name: 'font-size', value: 'inherit' });
+            break;
+        case 'larger':
+            list.push({ name: 'font-size', value: '2em' });
+            break;
+        case 'extralarge':
+            list.push({ name: 'font-size', value: '2.2em' });
+            break;
+        case 'large':
+            list.push({ name: 'font-size', value: '1.72em' });
+            break;
+        default:
+        case 'medium':
+            list.push({ name: 'font-size', value: '1.36em' });
+            break;
     }
 
     switch (settings.dropShadow || '') {
-
         case 'raised':
             list.push({ name: 'text-shadow', value: '-1px -1px white, 0px -1px white, -1px 0px white, 1px 1px black, 0px 1px black, 1px 0px black' });
             break;
@@ -85,7 +58,6 @@ function getTextStyles(settings, isCue) {
     }
 
     switch (settings.font || '') {
-
         case 'typewriter':
             list.push({ name: 'font-family', value: '"Courier New",monospace' });
             list.push({ name: 'font-variant', value: 'none' });
@@ -116,30 +88,56 @@ function getTextStyles(settings, isCue) {
             break;
     }
 
+    if (!preview) {
+        const pos = parseInt(settings.verticalPosition, 10);
+        const lineHeight = 1.35; // FIXME: It is better to read this value from element
+        const line = Math.abs(pos * lineHeight);
+        if (pos < 0) {
+            list.push({ name: 'min-height', value: `${line}em` });
+            list.push({ name: 'margin-top', value: '' });
+        } else {
+            list.push({ name: 'min-height', value: '' });
+            list.push({ name: 'margin-top', value: `${line}em` });
+        }
+    }
+
     return list;
 }
 
-export function getStyles(settings, isCue) {
+function getWindowStyles(settings, preview) {
+    const list = [];
 
+    if (!preview) {
+        const pos = parseInt(settings.verticalPosition, 10);
+        if (pos < 0) {
+            list.push({ name: 'top', value: '' });
+            list.push({ name: 'bottom', value: '0' });
+        } else {
+            list.push({ name: 'top', value: '0' });
+            list.push({ name: 'bottom', value: '' });
+        }
+    }
+
+    return list;
+}
+
+export function getStyles(settings, preview) {
     return {
-        text: getTextStyles(settings, isCue),
-        window: []
+        text: getTextStyles(settings, preview),
+        window: getWindowStyles(settings, preview)
     };
 }
 
 function applyStyleList(styles, elem) {
-
     for (let i = 0, length = styles.length; i < length; i++) {
-
-        let style = styles[i];
+        const style = styles[i];
 
         elem.style[style.name] = style.value;
     }
 }
 
 export function applyStyles(elements, appearanceSettings) {
-
-    let styles = getStyles(appearanceSettings);
+    const styles = getStyles(appearanceSettings, !!elements.preview);
 
     if (elements.text) {
         applyStyleList(styles.text, elements.text);

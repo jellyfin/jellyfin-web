@@ -1,13 +1,8 @@
-import connectionManager from 'connectionManager';
 import cardBuilder from 'cardBuilder';
-import appSettings from 'appSettings';
 import dom from 'dom';
-import appHost from 'apphost';
 import layoutManager from 'layoutManager';
 import imageLoader from 'imageLoader';
 import globalize from 'globalize';
-import itemShortcuts from 'itemShortcuts';
-import itemHelper from 'itemHelper';
 import appRouter from 'appRouter';
 import imageHelper from 'scripts/imagehelper';
 import 'paper-icon-button-light';
@@ -135,7 +130,6 @@ import 'css!./homesections';
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
-
         const section = allSections[index];
         const userId = user.Id;
 
@@ -215,17 +209,9 @@ import 'css!./homesections';
         imageLoader.lazyChildren(elem);
     }
 
-    /**
-     * Returns a random integer between min (inclusive) and max (inclusive)
-     * Using Math.round() will give you a non-uniform distribution!
-     */
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
     function getFetchLatestItemsFn(serverId, parentId, collectionType) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             let limit = 16;
 
             if (enableScrollX()) {
@@ -347,14 +333,6 @@ import 'css!./homesections';
         }
     }
 
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-            import(deps).then(() => {
-                return resolve;
-            });
-        });
-    }
-
     export function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
         let html = '';
         if (userViews.length) {
@@ -389,7 +367,7 @@ import 'css!./homesections';
 
     function getContinueWatchingFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
 
             let limit;
@@ -462,7 +440,7 @@ import 'css!./homesections';
 
     function getContinueListeningFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
 
             let limit;
@@ -535,7 +513,7 @@ import 'css!./homesections';
 
     function getOnNowFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             return apiClient.getLiveTvRecommendedPrograms({
                 userId: apiClient.getCurrentUserId(),
                 IsAiring: true,
@@ -549,7 +527,6 @@ import 'css!./homesections';
     }
 
     function getOnNowItemsHtml(items) {
-        const cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
             preferThumb: 'auto',
@@ -576,7 +553,6 @@ import 'css!./homesections';
             return Promise.resolve();
         }
 
-        const userId = user.Id;
         return apiClient.getLiveTvRecommendedPrograms({
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
@@ -649,7 +625,6 @@ import 'css!./homesections';
                     html += '</h2>';
                     html += '<span class="material-icons chevron_right"></span>';
                     html += '</a>';
-
                 } else {
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderOnNow') + '</h2>';
                 }
@@ -681,7 +656,7 @@ import 'css!./homesections';
 
     function getNextUpFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
                 Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo,Path',
@@ -720,12 +695,12 @@ import 'css!./homesections';
                 serverId: apiClient.serverId()
             }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += globalize.translate('HeaderNextUp');
+            html += globalize.translate('NextUp');
             html += '</h2>';
             html += '<span class="material-icons chevron_right"></span>';
             html += '</a>';
         } else {
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderNextUp') + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('NextUp') + '</h2>';
         }
         html += '</div>';
 
@@ -752,7 +727,7 @@ import 'css!./homesections';
 
     function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             return apiClient.getLiveTvRecordings({
                 userId: apiClient.getCurrentUserId(),
                 Limit: enableScrollX() ? 12 : 5,
@@ -766,7 +741,6 @@ import 'css!./homesections';
 
     function getLatestRecordingItemsHtml(activeRecordingsOnly) {
         return function (items) {
-            const cardLayout = false;
             return cardBuilder.getCardsHtml({
                 items: items,
                 shape: enableScrollX() ? 'autooverflow' : 'auto',

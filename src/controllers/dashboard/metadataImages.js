@@ -1,5 +1,4 @@
 import $ from 'jQuery';
-import dom from 'dom';
 import loading from 'loading';
 import libraryMenu from 'libraryMenu';
 import globalize from 'globalize';
@@ -56,10 +55,10 @@ import 'listViewStyle';
             name: globalize.translate('HeaderLibraries')
         }, {
             href: 'librarydisplay.html',
-            name: globalize.translate('TabDisplay')
+            name: globalize.translate('Display')
         }, {
             href: 'metadataimages.html',
-            name: globalize.translate('TabMetadata')
+            name: globalize.translate('Metadata')
         }, {
             href: 'metadatanfo.html',
             name: globalize.translate('TabNfoSettings')

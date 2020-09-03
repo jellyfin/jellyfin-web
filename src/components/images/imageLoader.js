@@ -17,8 +17,8 @@ import 'css!./style';
             // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
             // improving the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
-            let width = 18;
-            let height = 18;
+            const width = 18;
+            const height = 18;
             let pixels;
             try {
                 pixels = blurhash.decode(blurhashstr, width, height);
@@ -27,11 +27,11 @@ import 'css!./style';
                 target.classList.add('non-blurhashable');
                 return;
             }
-            let canvas = document.createElement('canvas');
+            const canvas = document.createElement('canvas');
             canvas.width = width;
             canvas.height = height;
-            let ctx = canvas.getContext('2d');
-            let imgData = ctx.createImageData(width, height);
+            const ctx = canvas.getContext('2d');
+            const imgData = ctx.createImageData(width, height);
 
             imgData.data.set(pixels);
             ctx.putImageData(imgData, 0, 0);
@@ -55,7 +55,7 @@ import 'css!./style';
         if (!entry) {
             throw new Error('entry cannot be null');
         }
-        let target = entry.target;
+        const target = entry.target;
         var source = undefined;
 
         if (target) {
@@ -78,7 +78,7 @@ import 'css!./style';
             throw new TypeError('url cannot be undefined');
         }
 
-        let preloaderImg = new Image();
+        const preloaderImg = new Image();
         preloaderImg.src = url;
 
         elem.classList.add('lazy-hidden');
@@ -87,6 +87,9 @@ import 'css!./style';
             requestAnimationFrame(() => {
                 if (elem.tagName !== 'IMG') {
                     elem.style.backgroundImage = "url('" + url + "')";
+                    if (elem.classList.contains('blurhashed')) {
+                        elem.style.backgroundColor = '#fff';
+                    }
                 } else {
                     elem.setAttribute('src', url);
                 }
@@ -108,6 +111,7 @@ import 'css!./style';
         if (elem.tagName !== 'IMG') {
             url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, '');
             elem.style.backgroundImage = 'none';
+            elem.style.backgroundColor = null;
         } else {
             url = elem.getAttribute('src');
             elem.setAttribute('src', '');
@@ -133,11 +137,9 @@ import 'css!./style';
     }
 
     export function getPrimaryImageAspectRatio(items) {
-
         var values = [];
 
         for (var i = 0, length = items.length; i < length; i++) {
-
             var ratio = items[i].PrimaryImageAspectRatio || 0;
 
             if (!ratio) {
@@ -193,7 +195,6 @@ import 'css!./style';
     }
 
     export function fillImages(elems) {
-
         for (var i = 0, length = elems.length; i < length; i++) {
             var elem = elems[0];
             fillImage(elem);
@@ -208,7 +209,7 @@ import 'css!./style';
 
 /* eslint-enable indent */
 export default {
-    serLazyImage: setLazyImage,
+    setLazyImage: setLazyImage,
     fillImages: fillImages,
     fillImage: fillImage,
     lazyImage: lazyImage,

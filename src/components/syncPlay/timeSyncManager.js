@@ -4,7 +4,6 @@
  */
 
 import events from 'events';
-import connectionManager from 'connectionManager';
 
 /**
  * Time estimation
@@ -114,7 +113,7 @@ class TimeSyncManager {
         if (!this.poller) {
             this.poller = setTimeout(() => {
                 this.poller = null;
-                const apiClient = connectionManager.currentApiClient();
+                const apiClient = window.connectionManager.currentApiClient();
                 const requestSent = new Date();
                 apiClient.getServerTime().then((response) => {
                     const responseReceived = new Date();
@@ -140,7 +139,6 @@ class TimeSyncManager {
                 }).finally(() => {
                     this.requestPing();
                 });
-
             }, this.pollingInterval);
         }
     }

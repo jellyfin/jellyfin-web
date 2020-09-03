@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-    let ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
+    const ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
 
     function onAutoTimeProgress() {
         const start = parseInt(this.getAttribute('data-starttime'));

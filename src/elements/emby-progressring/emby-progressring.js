@@ -3,40 +3,37 @@ import 'webcomponents';
 
 /* eslint-disable indent */
 
-    let EmbyProgressRing = Object.create(HTMLDivElement.prototype);
+    const EmbyProgressRing = Object.create(HTMLDivElement.prototype);
 
     EmbyProgressRing.createdCallback = function () {
-
         this.classList.add('progressring');
         const instance = this;
 
         import('text!./emby-progressring.template.html').then(({default: template}) => {
             instance.innerHTML = template;
 
-            //if (window.MutationObserver) {
-            //    // create an observer instance
-            //    var observer = new MutationObserver(function (mutations) {
-            //        mutations.forEach(function (mutation) {
+            if (window.MutationObserver) {
+                // create an observer instance
+                var observer = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (mutation) {
+                        instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
+                    });
+                });
 
-            //            instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
-            //        });
-            //    });
+                // configuration of the observer:
+                var config = { attributes: true, childList: false, characterData: false };
 
-            //    // configuration of the observer:
-            //    var config = { attributes: true, childList: false, characterData: false };
+                // pass in the target node, as well as the observer options
+                observer.observe(instance, config);
 
-            //    // pass in the target node, as well as the observer options
-            //    observer.observe(instance, config);
-
-            //    instance.observer = observer;
-            //}
+                instance.observer = observer;
+            }
 
             instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
         });
     };
 
     EmbyProgressRing.setProgress = function (progress) {
-
         progress = Math.floor(progress);
 
         let angle;
@@ -50,7 +47,6 @@ import 'webcomponents';
             this.querySelector('.animate-50-75-b').style.transform = 'rotate(-90deg)';
             this.querySelector('.animate-75-100-b').style.transform = 'rotate(-90deg)';
         } else if (progress >= 25 && progress < 50) {
-
             angle = -90 + ((progress - 25) / 100) * 360;
 
             this.querySelector('.animate-0-25-b').style.transform = 'none';
@@ -83,8 +79,7 @@ import 'webcomponents';
     };
 
     EmbyProgressRing.detachedCallback = function () {
-
-        let observer = this.observer;
+        const observer = this.observer;
 
         if (observer) {
             // later, you can stop observing

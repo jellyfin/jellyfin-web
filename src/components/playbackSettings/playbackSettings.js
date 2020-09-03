@@ -5,7 +5,6 @@ import focusManager from 'focusManager';
 import qualityoptions from 'qualityoptions';
 import globalize from 'globalize';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import events from 'events';
 import 'emby-select';
 import 'emby-checkbox';
@@ -13,7 +12,6 @@ import 'emby-checkbox';
 /* eslint-disable indent */
 
     function fillSkipLengths(select) {
-
         const options = [5, 10, 15, 20, 25, 30];
 
         select.innerHTML = options.map(option => {
@@ -27,13 +25,11 @@ import 'emby-checkbox';
     }
 
     function populateLanguages(select, languages) {
-
         let html = '';
 
         html += `<option value=''>${globalize.translate('AnyLanguage')}</option>`;
 
         for (let i = 0, length = languages.length; i < length; i++) {
-
             const culture = languages[i];
 
             html += `<option value='${culture.ThreeLetterISOLanguageName}'>${culture.DisplayName}</option>`;
@@ -43,7 +39,6 @@ import 'emby-checkbox';
     }
 
     function setMaxBitrateIntoField(select, isInNetwork, mediatype) {
-
         const options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
 
             currentMaxBitrate: appSettings.maxStreamingBitrate(isInNetwork, mediatype),
@@ -59,7 +54,6 @@ import 'emby-checkbox';
         });
 
         select.innerHTML = options.map(i => {
-
             // render empty string instead of 0 for the auto option
             return `<option value="${i.bitrate || ''}">${i.name}</option>`;
         }).join('');
@@ -72,7 +66,6 @@ import 'emby-checkbox';
     }
 
     function fillChromecastQuality(select) {
-
         const options = qualityoptions.getVideoQualityOptions({
 
             currentMaxBitrate: appSettings.maxChromecastBitrate(),
@@ -81,7 +74,6 @@ import 'emby-checkbox';
         });
 
         select.innerHTML = options.map(i => {
-
             // render empty string instead of 0 for the auto option
             return `<option value="${i.bitrate || ''}">${i.name}</option>`;
         }).join('');
@@ -90,7 +82,6 @@ import 'emby-checkbox';
     }
 
     function setMaxBitrateFromField(select, isInNetwork, mediatype) {
-
         if (select.value) {
             appSettings.maxStreamingBitrate(isInNetwork, mediatype, select.value);
             appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype, false);
@@ -100,7 +91,6 @@ import 'emby-checkbox';
     }
 
     function showHideQualityFields(context, user, apiClient) {
-
         if (user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.videoQualitySection').classList.remove('hide');
         } else {
@@ -108,7 +98,6 @@ import 'emby-checkbox';
         }
 
         if (appHost.supports('multiserver')) {
-
             context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
             context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
 
@@ -122,15 +111,12 @@ import 'emby-checkbox';
         }
 
         apiClient.getEndpointInfo().then(endpointInfo => {
-
             if (endpointInfo.IsInNetwork) {
-
                 context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
 
                 context.querySelector('.fldVideoInternetQuality').classList.add('hide');
                 context.querySelector('.musicQualitySection').classList.add('hide');
             } else {
-
                 context.querySelector('.fldVideoInNetworkQuality').classList.add('hide');
 
                 context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
@@ -145,7 +131,6 @@ import 'emby-checkbox';
     }
 
     function showOrHideEpisodesField(context) {
-
         if (browser.tizen || browser.web0s) {
             context.querySelector('.fldEpisodeAutoPlay').classList.add('hide');
             return;
@@ -155,14 +140,12 @@ import 'emby-checkbox';
     }
 
     function loadForm(context, user, userSettings, apiClient) {
-
         const loggedInUserId = apiClient.getCurrentUserId();
         const userId = user.Id;
 
         showHideQualityFields(context, user, apiClient);
 
         apiClient.getCultures().then(allCultures => {
-
             populateLanguages(context.querySelector('#selectAudioLanguage'), allCultures);
 
             context.querySelector('#selectAudioLanguage', context).value = user.Configuration.AudioLanguagePreference || '';
@@ -171,7 +154,6 @@ import 'emby-checkbox';
 
         // hide cinema mode options if disabled at server level
         apiClient.getNamedConfiguration('cinemamode').then(cinemaConfig => {
-
             if (cinemaConfig.EnableIntrosForMovies || cinemaConfig.EnableIntrosForEpisodes) {
                 context.querySelector('.cinemaModeOptions').classList.remove('hide');
             } else {
@@ -232,7 +214,6 @@ import 'emby-checkbox';
     }
 
     function saveUser(context, user, userSettingsInstance, apiClient) {
-
         appSettings.enableSystemExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
 
         appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
@@ -256,13 +237,10 @@ import 'emby-checkbox';
     }
 
     function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
-
         loading.show();
 
         apiClient.getUser(userId).then(user => {
-
             saveUser(context, user, userSettings, apiClient).then(() => {
-
                 loading.hide();
                 if (enableSaveConfirmation) {
                     import('toast').then(({default: toast}) => {
@@ -271,7 +249,6 @@ import 'emby-checkbox';
                 }
 
                 events.trigger(instance, 'saved');
-
             }, () => {
                 loading.hide();
             });
@@ -279,14 +256,12 @@ import 'emby-checkbox';
     }
 
     function onSubmit(e) {
-
         const self = this;
-        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
         userSettings.setUserInfo(userId, apiClient).then(() => {
-
             const enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
@@ -299,9 +274,7 @@ import 'emby-checkbox';
     }
 
     function embed(options, self) {
-
         return import('text!./playbackSettings.template.html').then(({default: template}) => {
-
             options.element.innerHTML = globalize.translateHtml(template, 'core');
 
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
@@ -325,20 +298,17 @@ import 'emby-checkbox';
         }
 
         loadData() {
-
             const self = this;
             const context = self.options.element;
 
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = connectionManager.getApiClient(self.options.serverId);
+            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             apiClient.getUser(userId).then(user => {
-
                 userSettings.setUserInfo(userId, apiClient).then(() => {
-
                     self.dataLoaded = true;
 
                     loadForm(context, user, userSettings, apiClient);
@@ -351,7 +321,6 @@ import 'emby-checkbox';
         }
 
         destroy() {
-
             this.options = null;
         }
     }

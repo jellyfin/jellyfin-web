@@ -1,16 +1,16 @@
 import layoutManager from 'layoutManager';
 import 'css!./emby-radio';
 import 'webcomponents';
+import browser from 'browser';
 
 /* eslint-disable indent */
 
-    let EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
+    const EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
 
     function onKeyDown(e) {
-
         // Don't submit form on enter
         // Real (non-emulator) Tizen does nothing on Space
-        if (e.keyCode === 13 || e.keyCode === 32) {
+        if (e.keyCode === 13 || (e.keyCode === 32 && browser.tizen)) {
             e.preventDefault();
 
             if (!this.checked) {
@@ -36,8 +36,7 @@ import 'webcomponents';
 
         this.classList.add('mdl-radio__button');
 
-        let labelElement = this.parentNode;
-        //labelElement.classList.add('"mdl-radio mdl-js-radio mdl-js-ripple-effect');
+        const labelElement = this.parentNode;
         labelElement.classList.add('mdl-radio');
         labelElement.classList.add('mdl-js-radio');
         labelElement.classList.add('mdl-js-ripple-effect');
@@ -45,7 +44,7 @@ import 'webcomponents';
             labelElement.classList.add('show-focus');
         }
 
-        let labelTextElement = labelElement.querySelector('span');
+        const labelTextElement = labelElement.querySelector('span');
 
         labelTextElement.classList.add('radioButtonLabel');
         labelTextElement.classList.add('mdl-radio__label');

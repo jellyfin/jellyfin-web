@@ -28,6 +28,10 @@
     padding-top: 0 !important;
 }
 
+.layout-tv .itemDetailPage {
+    padding-top: 4.2em !important;
+}
+
 .standalonePage {
     padding-top: 4.5em !important;
 }
@@ -163,6 +167,12 @@
     transition: background ease-in-out 0.5s;
 }
 
+.layout-tv .skinHeader {
+    /* In TV layout, it makes more sense to keep the top bar at the top of the page
+       Having it follow the view only makes us lose vertical space, while not being focusable */
+    position: relative;
+}
+
 .hiddenViewMenuBar .skinHeader {
     display: none;
 }
@@ -234,12 +244,6 @@
     width: 30%;
     padding: 5em 0;
     text-align: center;
-}
-
-.layout-desktop .searchTabButton,
-.layout-mobile .searchTabButton,
-.layout-tv .headerSearchButton {
-    display: none !important;
 }
 
 .mainDrawer-scrollContainer {
@@ -453,8 +457,7 @@
     height: 26.5vh;
 }
 
-.layout-desktop .itemBackdrop::after,
-.layout-tv .itemBackdrop::after {
+.layout-desktop .itemBackdrop::after {
     content: "";
     width: 100%;
     height: 100%;
@@ -462,8 +465,8 @@
     display: block;
 }
 
-.layout-desktop .noBackdrop .itemBackdrop,
-.layout-tv .noBackdrop .itemBackdrop {
+.layout-tv .itemBackdrop,
+.layout-desktop .noBackdrop .itemBackdrop {
     display: none;
 }
 
@@ -630,6 +633,10 @@
     z-index: 2;
 }
 
+.layout-tv .detailPagePrimaryContainer {
+    display: block;
+}
+
 .layout-mobile .detailPagePrimaryContainer {
     display: block;
     position: relative;
@@ -643,10 +650,14 @@
     padding-left: 32.45vw;
 }
 
-.layout-desktop .detailRibbon,
-.layout-tv .detailRibbon {
+.layout-desktop .detailRibbon {
     margin-top: -7.2em;
-    height: 7.18em;
+    height: 7.2em;
+}
+
+.layout-tv .detailRibbon {
+    margin-top: 0;
+    height: inherit;
 }
 
 .layout-desktop .noBackdrop .detailRibbon,
@@ -754,8 +765,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
         position: relative;
     }
 
-    .layout-desktop .itemBackdrop,
-    .layout-tv .itemBackdrop {
+    .layout-desktop .itemBackdrop {
         height: 40vh;
     }
 
@@ -781,13 +791,8 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .emby-button.detailFloatingButton {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 3;
-    top: 100%;
-    left: 90%;
-    margin: -2.2em 0 0 -2.2em;
-    padding: 0.4em;
+    font-size: 1.4em;
+    margin-right: 0.5em !important;
     color: rgba(255, 255, 255, 0.76);
 }
 
@@ -850,7 +855,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     -webkit-align-items: center;
     align-items: center;
     margin: 0 !important;
-    padding: 0.5em 0.7em !important;
+    padding: 0.7em 0.7em !important;
 }
 
 @media all and (min-width: 29em) {
@@ -919,10 +924,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 @media all and (min-width: 100em) {
-    .detailFloatingButton {
-        display: none !important;
-    }
-
     .personBackdrop {
         display: none !important;
     }
@@ -930,6 +931,11 @@ div.itemDetailGalleryLink.defaultCardBackground {
     .mainDetailButtons {
         font-size: 108%;
         margin: 1.25em 0;
+    }
+
+    .layout-tv .mainDetailButtons {
+        font-size: 108%;
+        margin: 1em 0 1.25em;
     }
 }
 
@@ -1146,13 +1152,13 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .layout-tv .padded-top-focusscale {
-    padding-top: 1em;
-    margin-top: -1em;
+    padding-top: 1.5em;
+    margin-top: -1.5em;
 }
 
 .layout-tv .padded-bottom-focusscale {
-    padding-bottom: 1em;
-    margin-bottom: -1em;
+    padding-bottom: 1.5em;
+    margin-bottom: -1.5em;
 }
 
 @media all and (min-height: 31.25em) {

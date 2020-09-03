@@ -1,12 +1,12 @@
 import playbackManager from 'playbackManager';
 import dom from 'dom';
 import inputManager from 'inputManager';
+import mouseManager from 'mouseManager';
 import datetime from 'datetime';
 import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
 import focusManager from 'focusManager';
 import events from 'events';
-import connectionManager from 'connectionManager';
 import browser from 'browser';
 import globalize from 'globalize';
 import appHost from 'apphost';
@@ -21,26 +21,26 @@ import 'css!assets/css/videoosd';
 /* eslint-disable indent */
 
     function seriesImageUrl(item, options) {
-        if ('Episode' !== item.Type) {
+        if (item.Type !== 'Episode') {
             return null;
         }
 
         options = options || {};
         options.type = options.type || 'Primary';
-        if ('Primary' === options.type && item.SeriesPrimaryImageTag) {
+        if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
-        if ('Thumb' === options.type) {
+        if (options.type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
 
             if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -53,12 +53,12 @@ import 'css!assets/css/videoosd';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
-        if ('Primary' === options.type && item.AlbumId && item.AlbumPrimaryImageTag) {
+        if (options.type === 'Primary' && item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;
@@ -103,7 +103,7 @@ import 'css!assets/css/videoosd';
         function onDoubleClick(e) {
             const clientX = e.clientX;
 
-            if (null != clientX) {
+            if (clientX != null) {
                 if (clientX < dom.getWindowSize().innerWidth / 2) {
                     playbackManager.rewind(currentPlayer);
                 } else {
@@ -116,8 +116,8 @@ import 'css!assets/css/videoosd';
         }
 
         function getDisplayItem(item) {
-            if ('TvChannel' === item.Type) {
-                const apiClient = connectionManager.getApiClient(item.ServerId);
+            if (item.Type === 'TvChannel') {
+                const apiClient = window.connectionManager.getApiClient(item.ServerId);
                 return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
                     return {
                         originalItem: refreshedItem,
@@ -132,7 +132,7 @@ import 'css!assets/css/videoosd';
         }
 
         function updateRecordingButton(item) {
-            if (!item || 'Program' !== item.Type) {
+            if (!item || item.Type !== 'Program') {
                 if (recordingButtonManager) {
                     recordingButtonManager.destroy();
                     recordingButtonManager = null;
@@ -141,7 +141,7 @@ import 'css!assets/css/videoosd';
                 return void view.querySelector('.btnRecord').classList.add('hide');
             }
 
-            connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+            window.connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
                     import('recordingButton').then(({default: RecordingButton}) => {
                         if (recordingButtonManager) {
@@ -171,12 +171,10 @@ import 'css!assets/css/videoosd';
             }
 
             setTitle(displayItem, parentName);
-            let titleElement;
-            const osdTitle = view.querySelector('.osdTitle');
-            titleElement = osdTitle;
+            const titleElement = view.querySelector('.osdTitle');
             let displayName = itemHelper.getDisplayName(displayItem, {
-                includeParentInfo: 'Program' !== displayItem.Type,
-                includeIndexNumber: 'Program' !== displayItem.Type
+                includeParentInfo: displayItem.Type !== 'Program',
+                includeIndexNumber: displayItem.Type !== 'Program'
             });
 
             if (!displayName) {
@@ -197,8 +195,8 @@ import 'css!assets/css/videoosd';
                 tomatoes: false,
                 endsAt: false,
                 episodeTitle: false,
-                originalAirDate: 'Program' !== displayItem.Type,
-                episodeTitleIndexNumber: 'Program' !== displayItem.Type,
+                originalAirDate: displayItem.Type !== 'Program',
+                episodeTitleIndexNumber: displayItem.Type !== 'Program',
                 programIndicator: false
             });
             const osdMediaInfo = view.querySelector('.osdMediaInfo');
@@ -270,7 +268,7 @@ import 'css!assets/css/videoosd';
         }
 
         function shouldEnableProgressByTimeOfDay(item) {
-            return !('TvChannel' !== item.Type || !item.CurrentProgram);
+            return !(item.Type !== 'TvChannel' || !item.CurrentProgram);
         }
 
         function updateNowPlayingInfo(player, state) {
@@ -329,24 +327,24 @@ import 'css!assets/css/videoosd';
 
             if (item) {
                 let imgUrl = seriesImageUrl(item, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Primary'
                 }) || seriesImageUrl(item, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Thumb'
                 }) || imageUrl(item, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Primary'
                 });
 
                 if (!imgUrl && secondaryItem && (imgUrl = seriesImageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Primary'
                 }) || seriesImageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Thumb'
                 }) || imageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth * 2,
+                    maxWidth: osdPoster.clientWidth,
                     type: 'Primary'
                 })), imgUrl) {
                     return void (osdPoster.innerHTML = '<img src="' + imgUrl + '" />');
@@ -367,10 +365,11 @@ import 'css!assets/css/videoosd';
         function hideOsd() {
             slideUpToHide(headerElement);
             hideMainOsdControls();
+            mouseManager.hideCursor();
         }
 
         function toggleOsd() {
-            if ('osd' === currentVisibleMenu) {
+            if (currentVisibleMenu === 'osd') {
                 hideOsd();
             } else if (!currentVisibleMenu) {
                 showOsd();
@@ -431,10 +430,11 @@ import 'css!assets/css/videoosd';
         }
 
         function hideMainOsdControls() {
-            if ('osd' === currentVisibleMenu) {
+            if (currentVisibleMenu === 'osd') {
                 const elem = osdBottomElement;
                 clearHideAnimationEventListeners(elem);
                 elem.classList.add('videoOsdBottom-hidden');
+
                 dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                     once: true
                 });
@@ -460,7 +460,7 @@ import 'css!assets/css/videoosd';
         }
 
         function onPointerMove(e) {
-            if ('mouse' === (e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse'))) {
+            if ((e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse')) === 'mouse') {
                 const eventX = e.screenX || 0;
                 const eventY = e.screenY || 0;
                 const obj = lastPointerMoveData;
@@ -488,7 +488,7 @@ import 'css!assets/css/videoosd';
 
             switch (e.detail.command) {
                 case 'left':
-                    if ('osd' === currentVisibleMenu) {
+                    if (currentVisibleMenu === 'osd') {
                         showOsd();
                     } else {
                         if (!currentVisibleMenu) {
@@ -500,7 +500,7 @@ import 'css!assets/css/videoosd';
                     break;
 
                 case 'right':
-                    if ('osd' === currentVisibleMenu) {
+                    if (currentVisibleMenu === 'osd') {
                         showOsd();
                     } else if (!currentVisibleMenu) {
                         e.preventDefault();
@@ -615,7 +615,7 @@ import 'css!assets/css/videoosd';
             resetUpNextDialog();
             console.debug('nowplaying event: ' + e.type);
 
-            if ('Video' !== state.NextMediaType) {
+            if (state.NextMediaType !== 'Video') {
                 view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
                 Emby.Page.back();
             }
@@ -692,7 +692,7 @@ import 'css!assets/css/videoosd';
                     lastUpdateTime = now;
                     const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
-                    const currentTime = playbackManager.currentTime(player);
+                    const currentTime = playbackManager.currentTime(player) * 10000;
                     updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getBufferedRanges(player));
                     const item = currentItem;
                     refreshProgramInfoIfNeeded(player, item);
@@ -702,7 +702,7 @@ import 'css!assets/css/videoosd';
         }
 
         function showComingUpNextIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
-            if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && 'Episode' === currentItem.Type && userSettings.enableNextVideoInfoOverlay()) {
+            if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && currentItem.Type === 'Episode' && userSettings.enableNextVideoInfoOverlay()) {
                 const showAtSecondsLeft = runtimeTicks >= 3e10 ? 40 : runtimeTicks >= 24e9 ? 35 : 30;
                 const showAtTicks = runtimeTicks - 1e3 * showAtSecondsLeft * 1e4;
                 const timeRemainingTicks = runtimeTicks - currentTimeTicks;
@@ -714,7 +714,7 @@ import 'css!assets/css/videoosd';
         }
 
         function onUpNextHidden() {
-            if ('upnext' === currentVisibleMenu) {
+            if (currentVisibleMenu === 'upnext') {
                 currentVisibleMenu = null;
             }
         }
@@ -737,7 +737,7 @@ import 'css!assets/css/videoosd';
         }
 
         function refreshProgramInfoIfNeeded(player, item) {
-            if ('TvChannel' === item.Type) {
+            if (item.Type === 'TvChannel') {
                 const program = item.CurrentProgram;
 
                 if (program && program.EndDate) {
@@ -766,7 +766,7 @@ import 'css!assets/css/videoosd';
 
             if (isPaused) {
                 btnPlayPauseIcon.classList.add('play_arrow');
-                btnPlayPause.setAttribute('title', globalize.translate('ButtonPlay') + ' (k)');
+                btnPlayPause.setAttribute('title', globalize.translate('Play') + ' (k)');
             } else {
                 btnPlayPauseIcon.classList.add('pause');
                 btnPlayPause.setAttribute('title', globalize.translate('ButtonPause') + ' (k)');
@@ -778,7 +778,7 @@ import 'css!assets/css/videoosd';
             updatePlayPauseState(playState.IsPaused);
             const supportedCommands = playbackManager.getSupportedCommands(player);
             currentPlayerSupportedCommands = supportedCommands;
-            supportsBrightnessChange = -1 !== supportedCommands.indexOf('SetBrightness');
+            supportsBrightnessChange = supportedCommands.indexOf('SetBrightness') !== -1;
             updatePlayerVolumeState(player, playState.IsMuted, playState.VolumeLevel);
 
             if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
@@ -792,13 +792,13 @@ import 'css!assets/css/videoosd';
             updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.BufferedRanges || []);
             updateNowPlayingInfo(player, state);
 
-            if (state.MediaSource && state.MediaSource.SupportsTranscoding && -1 !== supportedCommands.indexOf('SetMaxStreamingBitrate')) {
+            if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
                 view.querySelector('.btnVideoOsdSettings').classList.remove('hide');
             } else {
                 view.querySelector('.btnVideoOsdSettings').classList.add('hide');
             }
 
-            const isProgressClear = state.MediaSource && null == state.MediaSource.RunTimeTicks;
+            const isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
             nowPlayingPositionSlider.setIsClear(isProgressClear);
 
             if (nowPlayingItem.RunTimeTicks) {
@@ -806,19 +806,19 @@ import 'css!assets/css/videoosd';
                     userSettings.skipForwardLength() * 1000000 / nowPlayingItem.RunTimeTicks);
             }
 
-            if (-1 === supportedCommands.indexOf('ToggleFullscreen') || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
+            if (supportedCommands.indexOf('ToggleFullscreen') === -1 || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
                 view.querySelector('.btnFullscreen').classList.add('hide');
             } else {
                 view.querySelector('.btnFullscreen').classList.remove('hide');
             }
 
-            if (-1 === supportedCommands.indexOf('PictureInPicture')) {
+            if (supportedCommands.indexOf('PictureInPicture') === -1) {
                 view.querySelector('.btnPip').classList.add('hide');
             } else {
                 view.querySelector('.btnPip').classList.remove('hide');
             }
 
-            if (-1 === supportedCommands.indexOf('AirPlay')) {
+            if (supportedCommands.indexOf('AirPlay') === -1) {
                 view.querySelector('.btnAirPlay').classList.add('hide');
             } else {
                 view.querySelector('.btnAirPlay').classList.remove('hide');
@@ -866,7 +866,7 @@ import 'css!assets/css/videoosd';
                         nowPlayingPositionSlider.value = 0;
                     }
 
-                    if (runtimeTicks && null != positionTicks && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && 'Recording' !== currentItem.Type) {
+                    if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording') {
                         endsAtText.innerHTML = '&nbsp;&nbsp;-&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
                     } else {
                         endsAtText.innerHTML = '';
@@ -887,11 +887,11 @@ import 'css!assets/css/videoosd';
             let showMuteButton = true;
             let showVolumeSlider = true;
 
-            if (-1 === supportedCommands.indexOf('Mute')) {
+            if (supportedCommands.indexOf('Mute') === -1) {
                 showMuteButton = false;
             }
 
-            if (-1 === supportedCommands.indexOf('SetVolume')) {
+            if (supportedCommands.indexOf('SetVolume') === -1) {
                 showVolumeSlider = false;
             }
 
@@ -942,7 +942,7 @@ import 'css!assets/css/videoosd';
         }
 
         function updateTimeText(elem, ticks, divider) {
-            if (null == ticks) {
+            if (ticks == null) {
                 elem.innerHTML = '';
                 return;
             }
@@ -963,7 +963,6 @@ import 'css!assets/css/videoosd';
                 const player = currentPlayer;
 
                 if (player) {
-
                     // show subtitle offset feature only if player and media support it
                     const showSubOffset = playbackManager.supportSubtitleOffset(player) &&
                         playbackManager.canHandleOffsetOnCurrentSubtitle(player);
@@ -985,9 +984,9 @@ import 'css!assets/css/videoosd';
         }
 
         function onSettingsOption(selectedOption) {
-            if ('stats' === selectedOption) {
+            if (selectedOption === 'stats') {
                 toggleStats();
-            } else if ('suboffset' === selectedOption) {
+            } else if (selectedOption === 'suboffset') {
                 const player = currentPlayer;
                 if (player) {
                     playbackManager.enableShowingSubtitleOffset(player);
@@ -1061,7 +1060,7 @@ import 'css!assets/css/videoosd';
             const streams = playbackManager.subtitleTracks(player);
             let currentIndex = playbackManager.getSubtitleStreamIndex(player);
 
-            if (null == currentIndex) {
+            if (currentIndex == null) {
                 currentIndex = -1;
             }
 
@@ -1132,8 +1131,9 @@ import 'css!assets/css/videoosd';
             clickedElement = e.target;
 
             const key = keyboardnavigation.getKeyName(e);
+            const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
 
-            if (!currentVisibleMenu && 32 === e.keyCode) {
+            if (!currentVisibleMenu && e.keyCode === 32) {
                 playbackManager.playPause(currentPlayer);
                 showOsd();
                 return;
@@ -1236,10 +1236,18 @@ import 'css!assets/css/videoosd';
                 case '7':
                 case '8':
                 case '9': {
-                    const percent = parseInt(key, 10) * 10;
-                    playbackManager.seekPercent(percent, currentPlayer);
+                    if (!isKeyModified) {
+                        const percent = parseInt(key, 10) * 10;
+                        playbackManager.seekPercent(percent, currentPlayer);
+                    }
                     break;
                 }
+                case '>':
+                    playbackManager.increasePlaybackRate(currentPlayer);
+                    break;
+                case '<':
+                    playbackManager.decreasePlaybackRate(currentPlayer);
+                    break;
             }
         }
 
@@ -1614,7 +1622,7 @@ import 'css!assets/css/videoosd';
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
-                let html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+                const html = getChapterBubbleHtml(window.connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
                 if (html) {
                     return html;

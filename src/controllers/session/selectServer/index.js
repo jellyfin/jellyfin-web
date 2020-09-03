@@ -3,9 +3,7 @@ import appRouter from 'appRouter';
 import layoutManager from 'layoutManager';
 import libraryMenu from 'libraryMenu';
 import appSettings from 'appSettings';
-import appHost from 'apphost';
 import focusManager from 'focusManager';
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import actionSheet from 'actionsheet';
 import dom from 'dom';
@@ -95,11 +93,6 @@ import 'emby-button';
         }
     }
 
-    function showGeneralError() {
-        loading.hide();
-        alertText(globalize.translate('DefaultErrorMessage'));
-    }
-
     function alertText(text) {
         alertTextWithOptions({
             text: text
@@ -119,7 +112,7 @@ import 'emby-button';
     export default function (view, params) {
         function connectToServer(server) {
             loading.show();
-            connectionManager.connectToServer(server, {
+            window.connectionManager.connectToServer(server, {
                 enableAutoLogin: appSettings.enableAutoLogin()
             }).then(function (result) {
                 loading.hide();
@@ -151,7 +144,7 @@ import 'emby-button';
 
         function deleteServer(server) {
             loading.show();
-            connectionManager.deleteServer(server.Id).then(function () {
+            window.connectionManager.deleteServer(server.Id).then(function () {
                 loading.hide();
                 loadServers();
             });
@@ -193,7 +186,7 @@ import 'emby-button';
 
         function loadServers() {
             loading.show();
-            connectionManager.getAvailableServers().then(onServersRetrieved);
+            window.connectionManager.getAvailableServers().then(onServersRetrieved);
         }
 
         let servers;

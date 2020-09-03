@@ -1,20 +1,19 @@
+
 import events from 'events';
-import * as userSettings from 'userSettings';
 import serverNotifications from 'serverNotifications';
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import 'emby-button';
 
 export default function (options) {
     function pollTasks() {
-        connectionManager.getApiClient(serverId).getScheduledTasks({
+        window.connectionManager.getApiClient(serverId).getScheduledTasks({
             IsEnabled: true
         }).then(updateTasks);
     }
 
     function updateTasks(tasks) {
         const task = tasks.filter(function (t) {
-            return t.Key == options.taskKey;
+            return t.ScheduledTask.Key == options.taskKey;
         })[0];
 
         if (options.panel) {
@@ -64,7 +63,7 @@ export default function (options) {
     }
 
     function onScheduledTaskMessageConfirmed(id) {
-        connectionManager.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
+        window.connectionManager.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
     }
 
     function onButtonClick() {
@@ -82,13 +81,13 @@ export default function (options) {
     const serverId = ApiClient.serverId();
 
     function onPollIntervalFired() {
-        if (!connectionManager.getApiClient(serverId).isMessageChannelOpen()) {
+        if (!window.connectionManager.getApiClient(serverId).isMessageChannelOpen()) {
             pollTasks();
         }
     }
 
     function startInterval() {
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         if (pollInterval) {
             clearInterval(pollInterval);
@@ -98,7 +97,7 @@ export default function (options) {
     }
 
     function stopInterval() {
-        connectionManager.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
+        window.connectionManager.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
 
         if (pollInterval) {
             clearInterval(pollInterval);

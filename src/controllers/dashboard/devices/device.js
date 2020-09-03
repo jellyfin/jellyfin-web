@@ -1,5 +1,4 @@
 import loading from 'loading';
-import libraryMenu from 'libraryMenu';
 import dom from 'dom';
 import 'emby-input';
 import 'emby-button';

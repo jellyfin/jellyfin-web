@@ -125,7 +125,7 @@ import 'emby-button';
         html += `<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ${readOnlyAttribute} label="${globalize.translate(labelKey)}"/>`;
         html += '</div>';
         if (!readOnlyAttribute) {
-            html += `<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="${globalize.translate('ButtonRefresh')}"><span class="material-icons search"></span></button>`;
+            html += `<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="${globalize.translate('Refresh')}"><span class="material-icons search"></span></button>`;
         }
         html += '</div>';
         if (!readOnlyAttribute) {
@@ -166,10 +166,11 @@ import 'emby-button';
         return apiClient.ajax({
             type: 'POST',
             url: apiClient.getUrl('Environment/ValidatePath'),
-            data: {
+            data: JSON.stringify({
                 ValidateWriteable: validateWriteable,
                 Path: path
-            }
+            }),
+            contentType: 'application/json'
         }).catch(response => {
             if (response) {
                 if (response.status === 404) {

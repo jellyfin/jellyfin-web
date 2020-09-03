@@ -1,4 +1,3 @@
-import layoutManager from 'layoutManager';
 import loading from 'loading';
 import events from 'events';
 import libraryBrowser from 'libraryBrowser';
@@ -59,7 +58,7 @@ import 'emby-itemscontainer';
             const viewStyle = self.getCurrentViewStyle();
             const itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ('List' == viewStyle) {
+            if (viewStyle == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {
@@ -251,7 +250,7 @@ import 'emby-itemscontainer';
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: globalize.translate('OptionNameSort'),
+                        name: globalize.translate('Name'),
                         id: 'SortName'
                     }, {
                         name: globalize.translate('OptionImdbRating'),

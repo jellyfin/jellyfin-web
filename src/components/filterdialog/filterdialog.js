@@ -1,7 +1,6 @@
 import dom from 'dom';
 import dialogHelper from 'dialogHelper';
 import globalize from 'globalize';
-import connectionManager from 'connectionManager';
 import events from 'events';
 import 'emby-checkbox';
 import 'emby-collapse';
@@ -420,7 +419,7 @@ import 'css!./style.css';
                     this.bindEvents(dlg);
                     if (enableDynamicFilters(this.options.mode)) {
                         dlg.classList.add('dynamicFilterDialog');
-                        const apiClient = connectionManager.getApiClient(this.options.serverId);
+                        const apiClient = window.connectionManager.getApiClient(this.options.serverId);
                         loadDynamicFilters(dlg, apiClient, apiClient.getCurrentUserId(), this.options.query);
                     }
                 });

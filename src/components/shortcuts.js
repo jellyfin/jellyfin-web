@@ -7,14 +7,12 @@
 
 import playbackManager from 'playbackManager';
 import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
 import appRouter from 'appRouter';
 import globalize from 'globalize';
 import dom from 'dom';
 import recordingHelper from 'recordingHelper';
 
     function playAllFromHere(card, serverId, queue) {
-
         const parent = card.parentNode;
         const className = card.classList.length ? (`.${card.classList[0]}`) : '';
         const cards = parent.querySelectorAll(`${className}[data-id]`);
@@ -36,17 +34,14 @@ import recordingHelper from 'recordingHelper';
 
         const itemsContainer = dom.parentWithClass(card, 'itemsContainer');
         if (itemsContainer && itemsContainer.fetchData) {
-
             const queryOptions = queue ? { StartIndex: startIndex } : {};
 
             return itemsContainer.fetchData(queryOptions).then(result => {
-
                 if (queue) {
                     return playbackManager.queue({
                         items: result.Items
                     });
                 } else {
-
                     return playbackManager.play({
                         items: result.Items,
                         startIndex: startIndex
@@ -65,7 +60,6 @@ import recordingHelper from 'recordingHelper';
                 serverId: serverId
             });
         } else {
-
             return playbackManager.play({
                 ids: ids,
                 serverId: serverId,
@@ -75,21 +69,18 @@ import recordingHelper from 'recordingHelper';
     }
 
     function showProgramDialog(item) {
-
         import('recordingCreator').then(({default:recordingCreator}) => {
-
             recordingCreator.show(item.Id, item.ServerId);
         });
     }
 
     function getItem(button) {
-
         button = dom.parentWithAttribute(button, 'data-id');
         const serverId = button.getAttribute('data-serverid');
         const id = button.getAttribute('data-id');
         const type = button.getAttribute('data-type');
 
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         if (type === 'Timer') {
             return apiClient.getLiveTvTimer(id);
@@ -101,7 +92,6 @@ import recordingHelper from 'recordingHelper';
     }
 
     function notifyRefreshNeeded(childElement, itemsContainer) {
-
         itemsContainer = itemsContainer || dom.parentWithAttribute(childElement, 'is', 'emby-itemscontainer');
 
         if (itemsContainer) {
@@ -110,9 +100,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function showContextMenu(card, options) {
-
         getItem(card).then(item => {
-
             const playlistId = card.getAttribute('data-playlistid');
             const collectionId = card.getAttribute('data-collectionid');
 
@@ -122,8 +110,7 @@ import recordingHelper from 'recordingHelper';
             }
 
             import('itemContextMenu').then(({default: itemContextMenu}) => {
-
-                connectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
+                window.connectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
                     itemContextMenu.show(Object.assign({
                         item: item,
                         play: true,
@@ -135,7 +122,6 @@ import recordingHelper from 'recordingHelper';
                         user: user
 
                     }, options || {})).then(result => {
-
                         if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
                             executeAction(card, options.positionTo, result.command);
                         } else if (result.updated || result.deleted) {
@@ -148,7 +134,6 @@ import recordingHelper from 'recordingHelper';
     }
 
     function getItemInfoFromCard(card) {
-
         return {
             Type: card.getAttribute('data-type'),
             Id: card.getAttribute('data-id'),
@@ -166,11 +151,9 @@ import recordingHelper from 'recordingHelper';
     }
 
     function showPlayMenu(card, target) {
-
         const item = getItemInfoFromCard(card);
 
         import('playMenu').then(({default: playMenu}) => {
-
             playMenu.show({
 
                 item: item,
@@ -186,7 +169,6 @@ import recordingHelper from 'recordingHelper';
     }
 
     function executeAction(card, target, action) {
-
         target = target || card;
 
         let id = card.getAttribute('data-id');
@@ -208,13 +190,11 @@ import recordingHelper from 'recordingHelper';
         }
 
         if (action === 'link') {
-
             appRouter.showItem(item, {
                 context: card.getAttribute('data-context'),
                 parentId: card.getAttribute('data-parentid')
             });
         } else if (action === 'programdialog') {
-
             showProgramDialog(item);
         } else if (action === 'instantmix') {
             playbackManager.instantMix({
@@ -222,7 +202,6 @@ import recordingHelper from 'recordingHelper';
                 ServerId: serverId
             });
         } else if (action === 'play' || action === 'resume') {
-
             const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0');
 
             playbackManager.play({
@@ -231,7 +210,6 @@ import recordingHelper from 'recordingHelper';
                 serverId: serverId
             });
         } else if (action === 'queue') {
-
             if (playbackManager.isPlaying()) {
                 playbackManager.queue({
                     ids: [playableItemId],
@@ -253,7 +231,6 @@ import recordingHelper from 'recordingHelper';
         } else if (action === 'record') {
             onRecordCommand(serverId, id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
         } else if (action === 'menu') {
-
             const options = target.getAttribute('data-playoptions') === 'false' ?
                 {
                     shuffle: false,
@@ -279,7 +256,6 @@ import recordingHelper from 'recordingHelper';
         } else if (action === 'addtoplaylist') {
             getItem(target).then(addToPlaylist);
         } else if (action === 'custom') {
-
             const customAction = target.getAttribute('data-customaction');
 
             card.dispatchEvent(new CustomEvent(`action-${customAction}`, {
@@ -294,7 +270,6 @@ import recordingHelper from 'recordingHelper';
 
     function addToPlaylist(item) {
         import('playlistEditor').then(({default: playlistEditor}) => {
-
             new playlistEditor().show({
                 items: [item.Id],
                 serverId: item.ServerId
@@ -304,8 +279,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function playTrailer(item) {
-
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
 
         apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(trailers => {
             playbackManager.play({ items: trailers });
@@ -313,28 +287,23 @@ import recordingHelper from 'recordingHelper';
     }
 
     function editItem(item, serverId) {
-
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
-
             const serverId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
                 if (item.ProgramId) {
                     import('recordingCreator').then(({default: recordingCreator}) => {
-
                         recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
                     });
                 } else {
                     import('recordingEditor').then(({default: recordingEditor}) => {
-
                         recordingEditor.show(item.Id, serverId).then(resolve, reject);
                     });
                 }
             } else {
                 import('metadataEditor').then(({default: metadataEditor}) => {
-
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             }
@@ -342,20 +311,16 @@ import recordingHelper from 'recordingHelper';
     }
 
     function onRecordCommand(serverId, id, type, timerId, seriesTimerId) {
-
         if (type === 'Program' || timerId || seriesTimerId) {
-
             const programId = type === 'Program' ? id : null;
             recordingHelper.toggleRecording(serverId, programId, timerId, seriesTimerId);
         }
     }
 
     export function onClick(e) {
-
         const card = dom.parentWithClass(e.target, 'itemAction');
 
         if (card) {
-
             let actionElement = card;
             let action = actionElement.getAttribute('data-action');
 
@@ -377,11 +342,9 @@ import recordingHelper from 'recordingHelper';
     }
 
     function onCommand(e) {
-
         const cmd = e.detail.command;
 
         if (cmd === 'play' || cmd === 'resume' || cmd === 'record' || cmd === 'menu' || cmd === 'info') {
-
             const target = e.target;
             const card = dom.parentWithClass(target, 'itemAction') || dom.parentWithAttribute(target, 'data-id');
 
@@ -394,7 +357,6 @@ import recordingHelper from 'recordingHelper';
     }
 
     export function on(context, options) {
-
         options = options || {};
 
         if (options.click !== false) {
@@ -417,7 +379,6 @@ import recordingHelper from 'recordingHelper';
     }
 
     export function getShortcutAttributesHtml(item, serverId) {
-
         let html = `data-id="${item.Id}" data-serverid="${serverId || item.ServerId}" data-type="${item.Type}" data-mediatype="${item.MediaType}" data-channelid="${item.ChannelId}" data-isfolder="${item.IsFolder}"`;
 
         const collectionType = item.CollectionType;

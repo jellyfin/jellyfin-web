@@ -12,7 +12,6 @@ import 'formDialogStyle';
 
 /* eslint-disable indent */
 export default (() => {
-
     function replaceAll(str, find, replace) {
         return str.split(find).join(replace);
     }
@@ -68,7 +67,6 @@ export default (() => {
         let submitValue;
 
         dlg.querySelector('form').addEventListener('submit', e => {
-
             submitValue = dlg.querySelector('#txtInput').value;
             e.preventDefault();
             e.stopPropagation();

@@ -40,25 +40,25 @@ import 'paper-icon-button-light';
 
     function loadUnratedItems(page, user) {
         const items = [{
-            name: globalize.translate('OptionBlockBooks'),
+            name: globalize.translate('Books'),
             value: 'Book'
         }, {
-            name: globalize.translate('OptionBlockChannelContent'),
+            name: globalize.translate('Channels'),
             value: 'ChannelContent'
         }, {
-            name: globalize.translate('OptionBlockLiveTvChannels'),
+            name: globalize.translate('LiveTV'),
             value: 'LiveTvChannel'
         }, {
-            name: globalize.translate('OptionBlockMovies'),
+            name: globalize.translate('Movies'),
             value: 'Movie'
         }, {
-            name: globalize.translate('OptionBlockMusic'),
+            name: globalize.translate('Music'),
             value: 'Music'
         }, {
-            name: globalize.translate('OptionBlockTrailers'),
+            name: globalize.translate('Trailers'),
             value: 'Trailer'
         }, {
-            name: globalize.translate('OptionBlockTvShows'),
+            name: globalize.translate('Shows'),
             value: 'Series'
         }];
         let html = '';
@@ -67,7 +67,7 @@ import 'paper-icon-button-light';
 
         for (let i = 0, length = items.length; i < length; i++) {
             const item = items[i];
-            const checkedAttribute = -1 != user.Policy.BlockUnratedItems.indexOf(item.value) ? ' checked="checked"' : '';
+            const checkedAttribute = user.Policy.BlockUnratedItems.indexOf(item.value) != -1 ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkUnratedItem" data-itemtype="' + item.value + '" type="checkbox"' + checkedAttribute + '><span>' + item.name + '</span></label>';
         }
 
@@ -201,7 +201,7 @@ import 'paper-icon-button-light';
             }).then(function (updatedSchedule) {
                 const schedules = getSchedulesFromPage(page);
 
-                if (-1 == index) {
+                if (index == -1) {
                     index = schedules.length;
                 }
 
@@ -228,14 +228,13 @@ import 'paper-icon-button-light';
     }
 
     function showBlockedTagPopup(page) {
-
         import('prompt').then(({default: prompt}) => {
             prompt({
                 label: globalize.translate('LabelTag')
             }).then(function (value) {
                 const tags = getBlockedTagsFromPage(page);
 
-                if (-1 == tags.indexOf(value)) {
+                if (tags.indexOf(value) == -1) {
                     tags.push(value);
                     loadBlockedTags(page, tags);
                 }
