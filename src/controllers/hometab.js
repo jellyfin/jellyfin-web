@@ -1,6 +1,5 @@
 import * as userSettings from 'userSettings';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import focusManager from 'focusManager';
 import homeSections from 'homeSections';
 import 'emby-itemscontainer';
@@ -9,7 +8,7 @@ class HomeTab {
     constructor(view, params) {
         this.view = view;
         this.params = params;
-        this.apiClient = connectionManager.currentApiClient();
+        this.apiClient = window.connectionManager.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
         view.querySelector('.sections').addEventListener('settingschange', onHomeScreenSettingsChanged.bind(this));
     }

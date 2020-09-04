@@ -3,7 +3,6 @@ import focusManager from 'focusManager';
 import dialogHelper from 'dialogHelper';
 import inputManager from 'inputManager';
 import layoutManager from 'layoutManager';
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import * as userSettings from 'userSettings';
 import 'emby-checkbox';
@@ -194,7 +193,7 @@ function initEditor(context, settings) {
     }
 }
 function loadDynamicFilters(context, options) {
-    var apiClient = connectionManager.getApiClient(options.serverId);
+    var apiClient = window.connectionManager.getApiClient(options.serverId);
 
     var filterMenuOptions = Object.assign(options.filterMenuOptions, {
 

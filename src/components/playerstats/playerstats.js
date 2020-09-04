@@ -1,7 +1,6 @@
 import events from 'events';
 import globalize from 'globalize';
 import playbackManager from 'playbackManager';
-import connectionManager from 'connectionManager';
 import syncPlayManager from 'syncPlayManager';
 import playMethodHelper from 'playMethodHelper';
 import layoutManager from 'layoutManager';
@@ -95,7 +94,7 @@ import 'css!./playerstats';
             return Promise.resolve(instance.lastSession);
         }
 
-        const apiClient = connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+        const apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
 
         return apiClient.getSessions({
             deviceId: apiClient.deviceId()
@@ -386,7 +385,7 @@ import 'css!./playerstats';
                 name: 'Original Media Info'
             });
 
-            var apiClient = connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+            var apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
             if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),

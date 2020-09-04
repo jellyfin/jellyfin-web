@@ -50,7 +50,8 @@ import libraryMenu from 'libraryMenu';
                 data: JSON.stringify({
                     Path: form.querySelector('.txtEncoderPath').value,
                     PathType: 'Custom'
-                })
+                }),
+                contentType: 'application/json'
             }).then(Dashboard.processServerConfigurationUpdateResult, onSaveEncodingPathFailure);
         });
     }
@@ -132,7 +133,7 @@ import libraryMenu from 'libraryMenu';
             name: globalize.translate('Transcoding')
         }, {
             href: 'playbackconfiguration.html',
-            name: globalize.translate('TabResumeSettings')
+            name: globalize.translate('ButtonResume')
         }, {
             href: 'streamingsettings.html',
             name: globalize.translate('TabStreaming')

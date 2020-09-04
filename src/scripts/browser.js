@@ -75,10 +75,24 @@ function hasKeyboard(browser) {
 function iOSversion() {
     // MacIntel: Apple iPad Pro 11 iOS 13.1
     if (/iP(hone|od|ad)|MacIntel/.test(navigator.platform)) {
-        // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
-        const v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
-        return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+        const tests = [
+            // Original test for getting full iOS version number in iOS 2.0+
+            /OS (\d+)_(\d+)_?(\d+)?/,
+            // Test for iPads running iOS 13+ that can only get the major OS version
+            /Version\/(\d+)/
+        ];
+        for (const test of tests) {
+            const matches = (navigator.appVersion).match(test);
+            if (matches) {
+                return [
+                    parseInt(matches[1], 10),
+                    parseInt(matches[2] || 0, 10),
+                    parseInt(matches[3] || 0, 10)
+                ];
+            }
+        }
     }
+    return [];
 }
 
 let _supportsCssAnimation;
@@ -196,6 +210,15 @@ if (!browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera 
     browser.safari = true;
 }
 
+browser.osx = userAgent.toLowerCase().indexOf('os x') !== -1;
+
+// This is a workaround to detect iPads on iOS 13+ that report as desktop Safari
+// This may break in the future if Apple releases a touchscreen Mac
+// https://forums.developer.apple.com/thread/119186
+if (browser.osx && !browser.iphone && !browser.ipod && !browser.ipad && navigator.maxTouchPoints > 1) {
+    browser.ipad = true;
+}
+
 if (userAgent.toLowerCase().indexOf('playstation 4') !== -1) {
     browser.ps4 = true;
     browser.tv = true;
@@ -210,7 +233,7 @@ if (userAgent.toLowerCase().indexOf('xbox') !== -1) {
     browser.tv = true;
 }
 browser.animate = typeof document !== 'undefined' && document.documentElement.animate != null;
-browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || self.tizen != null;
+browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || window.tizen != null;
 browser.web0s = userAgent.toLowerCase().indexOf('Web0S'.toLowerCase()) !== -1;
 browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
 
@@ -242,7 +265,6 @@ if (typeof document !== 'undefined') {
 browser.keyboard = hasKeyboard(browser);
 browser.supportsCssAnimation = supportsCssAnimation;
 
-browser.osx = userAgent.toLowerCase().indexOf('os x') !== -1;
 browser.iOS = browser.ipad || browser.iphone || browser.ipod;
 
 if (browser.iOS) {

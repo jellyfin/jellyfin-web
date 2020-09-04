@@ -1,7 +1,6 @@
 import playbackManager from 'playbackManager';
 import events from 'events';
 import serverNotifications from 'serverNotifications';
-import connectionManager from 'connectionManager';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();
@@ -54,10 +53,10 @@ function getCurrentApiClient(instance) {
     const currentServerId = instance.currentServerId;
 
     if (currentServerId) {
-        return connectionManager.getApiClient(currentServerId);
+        return window.connectionManager.getApiClient(currentServerId);
     }
 
-    return connectionManager.currentApiClient();
+    return window.connectionManager.currentApiClient();
 }
 
 function sendCommandByName(instance, name, options) {
@@ -322,12 +321,12 @@ class SessionPlayer {
 
     currentTime(val) {
         if (val != null) {
-            return this.seek(val);
+            return this.seek(val * 10000);
         }
 
         let state = this.lastPlayerData || {};
         state = state.PlayState || {};
-        return state.PositionTicks;
+        return state.PositionTicks / 10000;
     }
 
     duration() {
@@ -466,9 +465,9 @@ class SessionPlayer {
         sendCommandByName(this, 'DisplayContent', options);
     }
 
-    isPlaying() {
+    isPlaying(mediaType) {
         const state = this.lastPlayerData || {};
-        return state.NowPlayingItem != null;
+        return state.NowPlayingItem != null && (state.NowPlayingItem.MediaType === mediaType || !mediaType);
     }
 
     isPlayingVideo() {

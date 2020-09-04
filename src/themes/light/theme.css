@@ -38,8 +38,16 @@ html {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.layout-tv .skinHeader.semiTransparent {
+    background: none;
+}
+
 .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/banner-light.png);
+}
+
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
 }
 
 .backgroundContainer,
@@ -61,7 +69,14 @@ html {
     color: #000;
 }
 
-.paper-icon-button-light:hover:not(:disabled) {
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        color: #00a4dc;
+        background-color: rgba(0, 164, 220, 0.2);
+    }
+}
+
+.paper-icon-button-light:active:not(:disabled) {
     color: #00a4dc;
     background-color: rgba(0, 164, 220, 0.2);
 }
@@ -231,6 +246,10 @@ html {
     color: rgba(255, 255, 255, 0.87);
     -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+}
+
+.layout-tv .detailRibbon {
+    background: none;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {

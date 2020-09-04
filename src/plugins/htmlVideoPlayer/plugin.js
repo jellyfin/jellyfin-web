@@ -5,7 +5,6 @@ import loading from 'loading';
 import dom from 'dom';
 import playbackManager from 'playbackManager';
 import appRouter from 'appRouter';
-import connectionManager from 'connectionManager';
 import {
     bindEventsToHlsPlayer,
     destroyHlsPlayer,
@@ -325,7 +324,7 @@ function tryRemoveElement(elem) {
 
                 console.debug(`prefetching hls playlist: ${hlsPlaylistUrl}`);
 
-                return connectionManager.getApiClient(item.ServerId).ajax({
+                return window.connectionManager.getApiClient(item.ServerId).ajax({
 
                     type: 'GET',
                     url: hlsPlaylistUrl
@@ -393,10 +392,7 @@ function tryRemoveElement(elem) {
             return new Promise((resolve, reject) => {
                 requireHlsPlayer(() => {
                     const hls = new Hls({
-                        manifestLoadingTimeOut: 20000,
-                        xhrSetup(xhr) {
-                            xhr.withCredentials = true;
-                        }
+                        manifestLoadingTimeOut: 20000
                     });
                     hls.loadSource(url);
                     hls.attachMedia(elem);
@@ -1041,7 +1037,7 @@ function tryRemoveElement(elem) {
                 // embedded font url
                 return avaliableFonts.push(i.DeliveryUrl);
             });
-            const apiClient = connectionManager.getApiClient(item);
+            const apiClient = window.connectionManager.getApiClient(item);
             const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
                 api_key: apiClient.accessToken()
             });
@@ -1413,7 +1409,12 @@ function tryRemoveElement(elem) {
         const list = [];
 
         const video = document.createElement('video');
-        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' || document.pictureInPictureEnabled) {
+        if (
+            // Check non-standard Safari PiP support
+            typeof video.webkitSupportsPresentationMode === 'function' && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === 'function'
+            // Check standard PiP support
+            || document.pictureInPictureEnabled
+        ) {
             list.push('PictureInPicture');
         } else if (window.Windows) {
             if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {

@@ -36,7 +36,7 @@ import 'emby-button';
     function submitServer(page) {
         loading.show();
         const host = page.querySelector('#txtServerHost').value;
-        ConnectionManager.connectToAddress(host, {
+        window.connectionManager.connectToAddress(host, {
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function(result) {
             handleConnectionResult(page, result);

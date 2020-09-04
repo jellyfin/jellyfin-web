@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import listView from 'listView';
 import cardBuilder from 'cardBuilder';
 import imageLoader from 'imageLoader';
@@ -39,14 +38,14 @@ function renderItems(page, item) {
 
     if (item.EpisodeCount) {
         sections.push({
-            name: globalize.translate('TabEpisodes'),
+            name: globalize.translate('Episodes'),
             type: 'Episode'
         });
     }
 
     if (item.TrailerCount) {
         sections.push({
-            name: globalize.translate('TabTrailers'),
+            name: globalize.translate('Trailers'),
             type: 'Trailer'
         });
     }
@@ -60,7 +59,7 @@ function renderItems(page, item) {
 
     if (item.MusicVideoCount) {
         sections.push({
-            name: globalize.translate('TabMusicVideos'),
+            name: globalize.translate('MusicVideos'),
             type: 'MusicVideo'
         });
     }
@@ -358,7 +357,7 @@ function getItemsFunction(options, item) {
             query.Fields += ',' + fields;
         }
 
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
 
         if (query.IncludeItemTypes === 'MusicArtist') {
             query.IncludeItemTypes = null;

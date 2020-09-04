@@ -4,7 +4,6 @@
  */
 import dialogHelper from 'dialogHelper';
 import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
 import layoutManager from 'layoutManager';
 import focusManager from 'focusManager';
 import browser from 'browser';
@@ -85,7 +84,7 @@ function getBackdropImageUrl(item, options, apiClient) {
  * @returns {string} URL of the item's image.
  */
 function getImgUrl(item, user) {
-    const apiClient = connectionManager.getApiClient(item.ServerId);
+    const apiClient = window.connectionManager.getApiClient(item.ServerId);
     const imageOptions = {};
 
     if (item.BackdropImageTags && item.BackdropImageTags.length) {
@@ -256,7 +255,7 @@ export default function (options) {
     /**
      * Handles zoom changes.
      */
-    function onZoomChange(scale, imageEl, slideEl) {
+    function onZoomChange(swiper, scale, imageEl, slideEl) {
         const zoomImage = slideEl.querySelector('.swiper-zoom-fakeimg');
 
         if (zoomImage) {

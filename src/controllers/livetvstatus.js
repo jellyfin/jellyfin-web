@@ -259,7 +259,7 @@ function showDeviceMenu(button, tunerDeviceId) {
         id: 'delete'
     });
     items.push({
-        name: globalize.translate('ButtonEdit'),
+        name: globalize.translate('Edit'),
         id: 'edit'
     });
 

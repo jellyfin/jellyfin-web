@@ -49,7 +49,7 @@ export function showLayoutMenu (button, currentLayout, views) {
 
     var menuItems = views.map(function (v) {
         return {
-            name: globalize.translate('Option' + v),
+            name: globalize.translate(v),
             id: v,
             selected: currentLayout == v
         };
@@ -109,7 +109,7 @@ export function getQueryPagingHtml (options) {
         }
 
         if (options.filterButton) {
-            html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + globalize.translate('ButtonFilter') + '"><span class="material-icons filter_list"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + globalize.translate('Filter') + '"><span class="material-icons filter_list"></span></button>';
         }
 
         html += '</div>';
@@ -182,9 +182,9 @@ export function showSortMenu (options) {
         html += '</h2>';
         html += '<div>';
         isChecked = options.query.SortOrder == 'Ascending' ? ' checked' : '';
-        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('OptionAscending') + '</span></label>';
+        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Ascending') + '</span></label>';
         isChecked = options.query.SortOrder == 'Descending' ? ' checked' : '';
-        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('OptionDescending') + '</span></label>';
+        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Descending') + '</span></label>';
         html += '</div>';
         html += '</div>';
         dlg.innerHTML = html;
