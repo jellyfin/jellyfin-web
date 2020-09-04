@@ -1364,5 +1364,7 @@
     "Image": "Bild",
     "Data": "Daten",
     "SpecialFeatures": "Besonderheiten",
-    "Poster": "Poster"
+    "Poster": "Poster",
+    "Photo": "Foto",
+    "Other": "Sonstiges"
 }
