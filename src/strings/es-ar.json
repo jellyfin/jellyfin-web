@@ -1366,5 +1366,10 @@
     "PlaybackRate": "Tasa de reproducción",
     "MusicVideos": "Videos musicales",
     "Image": "Imagen",
-    "Data": "Datos"
+    "Data": "Datos",
+    "VideoAudio": "Video Audio",
+    "Photo": "Foto",
+    "LabelIconMaxResHelp": "Resolución máxima de los iconos expuestos a través de la propiedad upnp:icon.",
+    "LabelAlbumArtMaxResHelp": "Resolución máxima de la carátula del álbum expuesta a través de la propiedad upnp:albumArtURI.",
+    "Other": "Otro"
 }
