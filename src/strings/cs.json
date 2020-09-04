@@ -1366,5 +1366,10 @@
     "Poster": "Plakát",
     "MusicVideos": "Hudební videa",
     "Image": "Obrázek",
-    "Data": "Datumy"
+    "Data": "Datumy",
+    "VideoAudio": "Video audio",
+    "Photo": "Fotka",
+    "LabelIconMaxResHelp": "Maximální rozlišení ikon daných vlastností upnp:icon.",
+    "LabelAlbumArtMaxResHelp": "Maximální rozlišení obrázku v souboru dané vlastností upnp:albumArtURI.",
+    "Other": "Ostatní"
 }
