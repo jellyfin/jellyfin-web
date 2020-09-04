@@ -1370,5 +1370,6 @@
     "ThumbCard": "Vignette",
     "SpecialFeatures": "Particularités",
     "Photo": "Photo",
-    "Other": "Autre"
+    "Other": "Autre",
+    "PosterCard": "Carte d'affiche"
 }
