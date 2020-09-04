@@ -1363,5 +1363,12 @@
     "MusicVideos": "Clips musicaux",
     "Image": "Image",
     "Data": "Données",
-    "Video": "Vidéo"
+    "Video": "Vidéo",
+    "VideoAudio": "Piste audio",
+    "LabelIconMaxResHelp": "Résolution maximale des icônes disponibles via la propriété upnp:icon.",
+    "LabelAlbumArtMaxResHelp": "Résolution maximale de la pochette disponible via la propriété upnp:albumArtURI.",
+    "ThumbCard": "Vignette",
+    "SpecialFeatures": "Particularités",
+    "Photo": "Photo",
+    "Other": "Autre"
 }
