@@ -153,9 +153,17 @@
                 <div class="selectContainer">
                     <select is="emby-select" id="selectDeinterlaceMethod" label="${LabelDeinterlaceMethod}">
                         <option value="yadif">${Yadif}</option>
-                        <option value="yadif_bob">${YadifBob}</option>
+                        <option value="bwdif">${Bwdif}</option>
                     </select>
                     <div class="fieldDescription">${DeinterlaceMethodHelp}</div>
+                </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkDoubleRateDeinterlacing" />
+                        <span>${UseDoubleRateDeinterlacing}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${UseDoubleRateDeinterlacingHelp}</div>
                 </div>
 
                 <div class="checkboxContainer checkboxContainer-withDescription">

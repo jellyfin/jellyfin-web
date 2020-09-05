@@ -1250,7 +1250,6 @@
     "Artist": "演出者",
     "AlbumArtist": "專輯歌手",
     "Album": "專輯",
-    "YadifBob": "YADIF Bob",
     "WriteAccessRequired": "伺服器需要此資料夾的寫入權限，請確認是否擁有寫入權限並重試。",
     "PathNotFound": "無法找到此路徑，請確認路徑可用並重試。",
     "Yadif": "YADIF",

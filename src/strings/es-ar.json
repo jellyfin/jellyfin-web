@@ -1186,7 +1186,6 @@
     "WriteAccessRequired": "El servidor Jellyfin requiere acceso de escritura a esta carpeta. Asegúrese del acceso de escritura e intente nuevamente.",
     "PathNotFound": "La ruta no se pudo encontrar. Asegúrese de que la ruta sea válida e intente nuevamente.",
     "Yes": "Sí",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "XmlTvSportsCategoriesHelp": "Los programas con estas categorías se mostrarán como programas deportivos. Separe múltiples con '|'.",
     "XmlTvPathHelp": "Una ruta a un archivo XMLTV. Jellyfin leerá este archivo y lo revisará periódicamente en busca de actualizaciones. Usted es responsable de crear y actualizar el archivo.",

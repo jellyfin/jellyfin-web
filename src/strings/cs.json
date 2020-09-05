@@ -1267,7 +1267,6 @@
     "PathNotFound": "Cesta nebyla nalezena. Zkontrolujte, zda je platná a zkuste to znovu.",
     "WeeklyAt": "V {0} v {1}",
     "LastSeen": "Naposledy zobrazené {0}",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "LabelLibraryPageSizeHelp": "Určuje počet položek k zobrazení na stránce knihovny. Nastavte na 0 pro vypnutí stránkování.",
     "LabelLibraryPageSize": "Velikost stránky knihovny:",

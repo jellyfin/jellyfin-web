@@ -1267,7 +1267,6 @@
     "AllowFfmpegThrottling": "Regular transcodificaciones",
     "AlbumArtist": "Artista del álbum",
     "Album": "Álbum",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "LabelDeinterlaceMethod": "Método de desentrelazado:",
     "DeinterlaceMethodHelp": "Seleccione el método de desentrelazado que se usará al transcodificar contenido entrelazado.",

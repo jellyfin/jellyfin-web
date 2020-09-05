@@ -1267,7 +1267,6 @@
     "ListPaging": "{0}-{1} de {2}",
     "WriteAccessRequired": "Jellyfin a besoin d'un accès en écriture à ce dossier. Merci de vérifier l’accès en écriture et réessayez.",
     "PathNotFound": "Le chemin d'accès n'a pas pu être trouvé. Merci de le vérifier et de réessayer.",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "LabelDeinterlaceMethod": "Méthode de désentrelacement :",
     "DeinterlaceMethodHelp": "Sélectionnes la méthode de désentrelacement à utiliser lors du transcodage de contenu entrelacé.",

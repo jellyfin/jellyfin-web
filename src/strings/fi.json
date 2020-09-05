@@ -422,7 +422,6 @@
     "HeaderFetchImages": "Hae kuvia:",
     "Filters": "Suodattimet",
     "FastForward": "Hyppää eteenpäin",
-    "YadifBob": "YADIF Bob",
     "MessageInvalidUser": "Väärä käyttäjätunnus tai salasana. Yritä uudelleen.",
     "MessageConfirmRestart": "Haluatko varmasti uudelleenkäynnistää Jellyfin-palvelimen?",
     "MessageConfirmProfileDeletion": "Haluatko varmasti poistaa tämän profiilin?",

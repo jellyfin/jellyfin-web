@@ -1275,7 +1275,6 @@
     "LabelLibraryPageSize": "Tamaño de la página de la biblioteca:",
     "LabelLibraryPageSizeHelp": "Establece la cantidad de artículos a mostrar en una página de la biblioteca. Ponlo en 0 para desactivar la paginación.",
     "UnsupportedPlayback": "No es posible desencriptar contenido protegido mediante DRM; sin embargo se intentará su reproducción. Algunos archivos pueden aparecer completamente negros debido a encriptación u otras características no soportadas, como títulos interactivos.",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "ButtonTogglePlaylist": "Lista de reproducción",
     "Filter": "Filtro",

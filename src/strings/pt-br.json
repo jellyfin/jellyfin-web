@@ -1259,7 +1259,6 @@
     "ListPaging": "{0}-{1} de {2}",
     "WriteAccessRequired": "O Jellyfin necessita de acesso de escrita para essa pasta. Garanta o acesso e tente novamente.",
     "PathNotFound": "O caminho não pôde ser encontrado. Por favor certifique-se da validade e tente novamente.",
-    "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "Season": "Temporada",
     "Person": "Pessoa",
