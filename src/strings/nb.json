@@ -1253,7 +1253,7 @@
     "LabelLibraryPageSizeHelp": "Angir hvor mange elementer som vises på en bibliotekside. Velg 0 for å deaktivere oppdeling i sider.",
     "LabelLibraryPageSize": "Størrelse på bibliotekside:",
     "LabelDeinterlaceMethod": "Deinterlacing metode:",
-    "DeinterlaceMethodHelp": "Velg deinterlacing metoden som skal bli brukt når man transkoder interlaced innhold.",
+    "DeinterlaceMethodHelp": "Velg interlace metoden som skal bli brukt når man transkoder interlaced innhold.",
     "ButtonTogglePlaylist": "Spilleliste",
     "EnableBlurHashHelp": "Bilder som fortsatt lastes inn vil vises med en unik plassholder.",
     "EnableBlurHash": "Aktiver tåkete plassholdere for bilder",
