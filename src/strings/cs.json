@@ -1271,7 +1271,7 @@
     "LabelLibraryPageSizeHelp": "Určuje počet položek k zobrazení na stránce knihovny. Nastavte na 0 pro vypnutí stránkování.",
     "LabelLibraryPageSize": "Velikost stránky knihovny:",
     "LabelDeinterlaceMethod": "Metoda odstranění prokládání:",
-    "DeinterlaceMethodHelp": "Vyberte metodu odstranění prokládání obrazu při překódování obsahu.",
+    "DeinterlaceMethodHelp": "Vyberte způsob odstranění prokládání obrazu při softwarovém překódování obsahu. Pokud je povolena hardwarová akcelerace s podporou hardwarového odstranění prokládání, bude použita místo tohoto nastavení.",
     "UnsupportedPlayback": "Jellyfin nedokáže dešifrovat obsah chráněný Správou digitálních práv (DRM), ale pokusí se zobrazit veškerý obsah, včetně toho chráněného. Některé soubory se nemusí vůbec zobrazit kvůli šifrování nebo jiným nepodporovaným funkcím, např.: interaktivním názvům.",
     "Filter": "Filtr",
     "New": "Nové",
@@ -1370,5 +1370,8 @@
     "Photo": "Fotka",
     "LabelIconMaxResHelp": "Maximální rozlišení ikon daných vlastností upnp:icon.",
     "LabelAlbumArtMaxResHelp": "Maximální rozlišení obrázku v souboru dané vlastností upnp:albumArtURI.",
-    "Other": "Ostatní"
+    "Other": "Ostatní",
+    "Bwdif": "BWDIF",
+    "UseDoubleRateDeinterlacingHelp": "Toto nastavení při odstranění prokládání zdvojnásobuje snímkovou frekvenci, aby výsledné video vypadalo stejně plynule, jako při přehrávání prokládaného obsahu v televizi.",
+    "UseDoubleRateDeinterlacing": "Zdvojnásobit snímkovou frekvenci při odstranění prokládání"
 }
