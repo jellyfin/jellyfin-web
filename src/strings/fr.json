@@ -1371,5 +1371,7 @@
     "Photo": "Photo",
     "Other": "Autre",
     "PosterCard": "Affiche",
-    "UseDoubleRateDeinterlacing": "Multiplier par deux la fréquence d'images lors du désentrelacement"
+    "UseDoubleRateDeinterlacing": "Multiplier par deux la fréquence d'images lors du désentrelacement",
+    "Bwdif": "BWDIF",
+    "UseDoubleRateDeinterlacingHelp": "Ce réglage utilise la fréquence de trame lors du désentrelacement, souvent appelé \"bob deinterlacing\", qui double la fréquence d'image de la vidéo pour fournir un mouvement fluide comme en regardant une vidéo entrelacée sur un téléviseur."
 }
