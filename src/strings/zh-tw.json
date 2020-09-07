@@ -1270,7 +1270,7 @@
     "LabelLibraryPageSize": "媒體庫分頁大小：",
     "LabelDeinterlaceMethod": "反交錯方法：",
     "Episode": "劇集",
-    "DeinterlaceMethodHelp": "選擇對隔行掃描內容進行轉檔時所用的反交錯方法。",
+    "DeinterlaceMethodHelp": "選擇對隔行掃描內容進行軟體轉碼時所用的反交錯方法。當硬體加速支援的硬體反交錯選項啟用時，硬體方式將取代此設定。",
     "BoxSet": "套裝",
     "UnsupportedPlayback": "Jellyfin 無法解密受 DRM 保護的內容，但仍然會嘗試播放所有內容。某些檔案由於被加密或包含如互動標題等不受支援的內容，在播放時可能會沒有畫面。",
     "Filter": "篩選器",
@@ -1357,5 +1357,12 @@
     "Poster": "海報",
     "MusicVideos": "音樂影片",
     "Image": "圖片",
-    "Data": "資料"
+    "Data": "資料",
+    "Subtitle": "字幕",
+    "SelectServer": "選擇伺服器",
+    "Profile": "設定檔",
+    "Photo": "相片",
+    "LabelIconMaxResHelp": "透過 upnp:icon 屬性使用的圖示最高解析度。",
+    "LabelAlbumArtMaxResHelp": "透過 upnp:albumArtURI 屬性使用的專輯封面最高解析度。",
+    "Other": "其它"
 }
