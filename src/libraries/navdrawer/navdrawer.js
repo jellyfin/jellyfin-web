@@ -169,6 +169,7 @@ export default function (options) {
     var TouchMenuLA = function () {
         self = this;
         defaults = {
+            rtl: false,
             width: 260,
             handleSize: 10,
             disableMask: false,
@@ -181,7 +182,14 @@ export default function (options) {
     TouchMenuLA.prototype.initElements = function () {
         options.target.classList.add('touch-menu-la');
         options.target.style.width = options.width + 'px';
-        options.target.style.left = -options.width + 'px';
+        if (options.rtl) {
+            options.target.style.right = -options.width + 'px';
+        }
+        else {
+            options.target.style.left = -options.width + 'px';
+        }
+
+        console.warn(options);
 
         if (!options.disableMask) {
             mask = document.createElement('div');
@@ -201,7 +209,12 @@ export default function (options) {
 
     TouchMenuLA.prototype.animateToPosition = function (pos) {
         requestAnimationFrame(function () {
-            options.target.style.transform = pos ? 'translateX(' + pos + 'px)' : 'none';
+            if (options.rtl) {
+                options.target.style.transform = pos ? 'translateX(-' + pos + 'px)' : 'none';
+            }
+            else {
+                options.target.style.transform = pos ? 'translateX(' + pos + 'px)' : 'none';
+            }
         });
     };
 

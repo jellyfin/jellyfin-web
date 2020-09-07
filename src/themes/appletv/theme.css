@@ -30,7 +30,7 @@ html {
     backdrop-filter: none !important;
 }
 
-.layout-tv .skinHeader.semiTransparent {
+html.layout-tv .skinHeader.semiTransparent {
     background: none;
 }
 
@@ -38,7 +38,7 @@ html {
     background-image: url(../../assets/img/banner-dark.png);
 }
 
-.layout-tv .pageTitleWithDefaultLogo {
+html.layout-tv .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/icon-transparent.png);
 }
 
@@ -248,7 +248,7 @@ html {
     background: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
 }
 
-.layout-tv .detailRibbon {
+html.layout-tv .detailRibbon {
     background: none;
 }
 

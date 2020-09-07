@@ -10,7 +10,7 @@
 }
 
 .hiddenScrollX,
-.layout-tv .scrollX {
+html.layout-tv .scrollX {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
@@ -20,7 +20,7 @@
 }
 
 .hiddenScrollX::-webkit-scrollbar,
-.layout-tv .scrollX::-webkit-scrollbar {
+html.layout-tv .scrollX::-webkit-scrollbar {
     height: 0 !important;
     display: none;
 }
@@ -39,7 +39,7 @@
 }
 
 .hiddenScrollY,
-.layout-tv .smoothScrollY {
+html.layout-tv .smoothScrollY {
     -ms-overflow-style: none;
     scrollbar-width: none;
 
@@ -53,8 +53,8 @@
 }
 
 .hiddenScrollY::-webkit-scrollbar,
-.layout-tv .smoothScrollY::-webkit-scrollbar,
-.layout-tv .scrollY::-webkit-scrollbar {
+html.layout-tv .smoothScrollY::-webkit-scrollbar,
+html.layout-tv .scrollY::-webkit-scrollbar {
     width: 0 !important;
     display: none;
 }

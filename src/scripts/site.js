@@ -506,6 +506,7 @@ function initClient() {
                     'webcomponents',
                     'material-icons',
                     'jellyfin-noto',
+                    'rtl-detect',
                     'date-fns',
                     'page',
                     'polyfill',

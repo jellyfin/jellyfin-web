@@ -164,12 +164,12 @@
     z-index: 0;
 }
 
-.layout-mobile .playlistSectionButtonTransparent {
+html.layout-mobile .playlistSectionButtonTransparent {
     background: rgba(0, 0, 0, 0) !important;
 }
 
-.layout-mobile .playlistSection .playlist,
-.layout-mobile .playlistSection .contextMenu {
+html.layout-mobile .playlistSection .playlist,
+html.layout-mobile .playlistSection .contextMenu {
     position: absolute;
     top: 12.2em;
     bottom: 4.2em;
@@ -181,7 +181,7 @@
     z-index: 1000;
 }
 
-.layout-mobile .playlistSectionButton {
+html.layout-mobile .playlistSectionButton {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -191,53 +191,53 @@
     padding-right: 7.3%;
 }
 
-.layout-desktop .playlistSectionButton,
-.layout-tv .playlistSectionButton {
+html.layout-desktop .playlistSectionButton,
+html.layout-tv .playlistSectionButton {
     background: none;
 }
 
-.layout-desktop .nowPlayingPlaylist,
-.layout-tv .nowPlayingPlaylist {
+html.layout-desktop .nowPlayingPlaylist,
+html.layout-tv .nowPlayingPlaylist {
     background: none;
 }
 
-.layout-mobile .playlistSectionButton .btnTogglePlaylist {
+html.layout-mobile .playlistSectionButton .btnTogglePlaylist {
     font-size: larger;
     margin: 0;
 }
 
-.layout-mobile .playlistSectionButton .btnSavePlaylist {
+html.layout-mobile .playlistSectionButton .btnSavePlaylist {
     margin: 0;
     border-radius: 0;
 }
 
-.layout-mobile .playlistSectionButton .volumecontrol {
+html.layout-mobile .playlistSectionButton .volumecontrol {
     margin: 0;
     padding-right: 0;
     border-radius: 0;
 }
 
-.layout-mobile .playlistSectionButton .btnToggleContextMenu {
+html.layout-mobile .playlistSectionButton .btnToggleContextMenu {
     font-size: larger;
     margin: 0;
 }
 
-.layout-mobile .nowPlayingSecondaryButtons .volumecontrol {
+html.layout-mobile .nowPlayingSecondaryButtons .volumecontrol {
     display: none;
 }
 
-.layout-desktop .nowPlayingInfoButtons .btnRepeat,
-.layout-tv .nowPlayingInfoButtons .btnRepeat {
+html.layout-desktop .nowPlayingInfoButtons .btnRepeat,
+html.layout-tv .nowPlayingInfoButtons .btnRepeat {
     display: none;
 }
 
-.layout-desktop .nowPlayingInfoButtons .btnShuffleQueue,
-.layout-tv .nowPlayingInfoButtons .btnShuffleQueue {
+html.layout-desktop .nowPlayingInfoButtons .btnShuffleQueue,
+html.layout-tv .nowPlayingInfoButtons .btnShuffleQueue {
     display: none;
 }
 
-.layout-desktop .playlistSectionButton .volumecontrol,
-.layout-tv .playlistSectionButton .volumecontrol {
+html.layout-desktop .playlistSectionButton .volumecontrol,
+html.layout-tv .playlistSectionButton .volumecontrol {
     display: none;
 }
 
@@ -245,7 +245,7 @@
     display: none;
 }
 
-.layout-mobile .nowPlayingPageUserDataButtons {
+html.layout-mobile .nowPlayingPageUserDataButtons {
     display: none;
 }
 
@@ -270,7 +270,7 @@
         flex-direction: column;
     }
 
-    .layout-desktop .nowPlayingPageUserDataButtons {
+    html.layout-desktop .nowPlayingPageUserDataButtons {
         display: none;
     }
 

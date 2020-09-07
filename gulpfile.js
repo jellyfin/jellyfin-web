@@ -15,6 +15,7 @@ const mode = require('gulp-mode')({
 const stream = require('webpack-stream');
 const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
+const rtl = require('postcss-rtl');
 const sass = require('gulp-sass');
 const gulpif = require('gulp-if');
 const lazypipe = require('lazypipe');
@@ -155,7 +156,7 @@ function css(query) {
     return src(typeof query !== 'function' ? query : options.css.query, { base: './src/' })
         .pipe(mode.development(sourcemaps.init({ loadMaps: true })))
         .pipe(sass().on('error', sass.logError))
-        .pipe(postcss())
+        .pipe(postcss([ rtl() ]))
         .pipe(mode.development(sourcemaps.write('.')))
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());

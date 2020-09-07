@@ -38,7 +38,7 @@ html {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.layout-tv .skinHeader.semiTransparent {
+html.layout-tv .skinHeader.semiTransparent {
     background: none;
 }
 
@@ -46,7 +46,7 @@ html {
     background-image: url(../../assets/img/banner-light.png);
 }
 
-.layout-tv .pageTitleWithDefaultLogo {
+html.layout-tv .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/icon-transparent.png);
 }
 
@@ -248,7 +248,7 @@ html {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
-.layout-tv .detailRibbon {
+html.layout-tv .detailRibbon {
     background: none;
 }
 

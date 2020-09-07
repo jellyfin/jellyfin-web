@@ -1,5 +1,6 @@
 import * as userSettings from 'userSettings';
 import events from 'events';
+import rtlDetect from 'rtl-detect';
 
 /* eslint-disable indent */
 
@@ -60,6 +61,10 @@ import events from 'events';
             currentDateTimeCulture = currentCulture;
         }
         ensureTranslations(currentCulture);
+    }
+
+    export function setDocumentDirection() {
+        document.dir = rtlDetect.getLangDir(currentCulture);
     }
 
     function ensureTranslations(culture) {
@@ -270,6 +275,7 @@ export default {
     getCurrentLocale,
     getCurrentDateTimeLocale,
     register,
+    setDocumentDirection,
     updateCurrentCulture
 };
 

@@ -13,7 +13,7 @@
     contain: layout style paint;
 }
 
-.layout-desktop .tvGuideHeader {
+html.layout-desktop .tvGuideHeader {
     margin-bottom: 0.5em;
 }
 

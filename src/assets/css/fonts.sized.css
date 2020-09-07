@@ -3,7 +3,7 @@ h1 {
     font-size: 1.8em;
 }
 
-.layout-desktop h1 {
+html.layout-desktop h1 {
     font-size: 2em;
 }
 

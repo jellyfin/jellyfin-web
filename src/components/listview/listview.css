@@ -96,7 +96,7 @@
     contain: layout style;
 }
 
-.layout-tv .listItemBody {
+html.layout-tv .listItemBody {
     padding: 0.35em 0.75em;
 }
 
@@ -111,7 +111,7 @@
     text-overflow: ellipsis;
 }
 
-.layout-desktop .listItemBodyText {
+html.layout-desktop .listItemBodyText {
     margin: 0.25em 0 0 0;
 }
 

@@ -31,7 +31,7 @@ html {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-.layout-tv .skinHeader.semiTransparent {
+html.layout-tv .skinHeader.semiTransparent {
     background: none;
 }
 
@@ -39,7 +39,7 @@ html {
     background-image: url(../../assets/img/banner-light.png);
 }
 
-.layout-tv .pageTitleWithDefaultLogo {
+html.layout-tv .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/icon-transparent.png);
 }
 
@@ -240,7 +240,7 @@ html {
     background: linear-gradient(to right, #291a31, #033664, #011432, #141a3a, #291a31);
 }
 
-.layout-tv .detailRibbon {
+html.layout-tv .detailRibbon {
     background: none;
 }
 
@@ -476,7 +476,7 @@ html {
     background-color: #3b3b3b;
 }
 
-.layout-desktop ::-webkit-scrollbar {
+html.layout-desktop ::-webkit-scrollbar {
     width: 1em;
     height: 1em;
 }

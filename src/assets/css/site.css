@@ -5,8 +5,8 @@ html {
     height: 100%;
 }
 
-.layout-mobile,
-.layout-tv {
+html.layout-mobile,
+html.layout-tv {
     -webkit-touch-callout: none;
     user-select: none;
 }
@@ -142,4 +142,19 @@ div[data-role=page] {
 .margin-auto-y {
     margin-top: auto;
     margin-bottom: auto;
+}
+
+[dir=rtl] .chevron_right {
+    transform: rotate(180deg);
+}
+[dir=rtl] .chevron_left {
+    transform: rotate(-180deg);
+}
+
+[dir=rtl] .arrow_back {
+    transform: rotate(180deg);
+}
+
+[dir=rtl] .btnStartTask .play_arrow {
+    transform: rotate(180deg);
 }

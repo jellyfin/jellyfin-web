@@ -53,6 +53,11 @@ _define('howler', function() {
     return howler;
 });
 
+const rtlDetect = require('rtl-detect');
+_define('rtl-detect', function() {
+    return rtlDetect;
+});
+
 // resize-observer-polyfill
 const resize = require('resize-observer-polyfill').default;
 _define('resize-observer-polyfill', function() {

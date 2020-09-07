@@ -148,17 +148,17 @@
     }
 }
 
-.layout-mobile .nowPlayingBarRight button:not(.playPauseButton, .nextTrackButton) {
+html.layout-mobile .nowPlayingBarRight button:not(.playPauseButton, .nextTrackButton) {
     display: none;
 }
 
-.layout-desktop .nowPlayingBarRight .playPauseButton,
-.layout-tv .nowPlayingBarRight .playPauseButton {
+html.layout-desktop .nowPlayingBarRight .playPauseButton,
+html.layout-tv .nowPlayingBarRight .playPauseButton {
     display: none;
 }
 
-.layout-mobile .nowPlayingBarRight input,
-.layout-mobile .nowPlayingBarRight div {
+html.layout-mobile .nowPlayingBarRight input,
+html.layout-mobile .nowPlayingBarRight div {
     display: none;
 }
 

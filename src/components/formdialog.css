@@ -59,7 +59,7 @@
     flex-wrap: wrap;
 }
 
-.layout-tv .formDialogFooter {
+html.layout-tv .formDialogFooter {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
@@ -83,7 +83,7 @@
     flex-basis: 12em;
 }
 
-.layout-tv .formDialogFooterItem {
+html.layout-tv .formDialogFooterItem {
     flex-grow: 1;
     flex-basis: 0;
 }

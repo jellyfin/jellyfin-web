@@ -28,7 +28,7 @@
     padding-top: 0 !important;
 }
 
-.layout-tv .itemDetailPage {
+html.layout-tv .itemDetailPage {
     padding-top: 4.2em !important;
 }
 
@@ -167,7 +167,7 @@
     transition: background ease-in-out 0.5s;
 }
 
-.layout-tv .skinHeader {
+html.layout-tv .skinHeader {
     /* In TV layout, it makes more sense to keep the top bar at the top of the page
        Having it follow the view only makes us lose vertical space, while not being focusable */
     position: relative;
@@ -185,7 +185,7 @@
     width: 100%;
 }
 
-.layout-tv .sectionTabs {
+html.layout-tv .sectionTabs {
     width: 55%;
 }
 
@@ -286,7 +286,7 @@
         font-size: 83.5%;
     }
 
-    .layout-tv .sectionTabs {
+    html.layout-tv .sectionTabs {
         width: 100%;
     }
 }
@@ -452,12 +452,12 @@
     animation: backdrop-fadein 800ms ease-in normal both;
 }
 
-.layout-mobile .itemBackdrop {
+html.layout-mobile .itemBackdrop {
     background-attachment: scroll;
     height: 26.5vh;
 }
 
-.layout-desktop .itemBackdrop::after {
+html.layout-desktop .itemBackdrop::after {
     content: "";
     width: 100%;
     height: 100%;
@@ -465,8 +465,8 @@
     display: block;
 }
 
-.layout-tv .itemBackdrop,
-.layout-desktop .noBackdrop .itemBackdrop {
+html.layout-tv .itemBackdrop,
+html.layout-desktop .noBackdrop .itemBackdrop {
     display: none;
 }
 
@@ -477,23 +477,23 @@
     padding-right: 2%;
 }
 
-.layout-mobile .detailPageContent {
+html.layout-mobile .detailPageContent {
     padding-left: 5%;
     padding-right: 5%;
 }
 
-.layout-desktop .detailPageContent .emby-scroller,
-.layout-tv .detailPageContent .emby-scroller {
+html.layout-desktop .detailPageContent .emby-scroller,
+html.layout-tv .detailPageContent .emby-scroller {
     margin-left: 0;
 }
 
-.layout-desktop .noBackdrop .detailPageContent,
-.layout-tv .noBackdrop .detailPageContent {
+html.layout-desktop .noBackdrop .detailPageContent,
+html.layout-tv .noBackdrop .detailPageContent {
     margin-top: 2.5em;
 }
 
-.layout-desktop .noBackdrop .detailImageContainer img,
-.layout-tv .noBackdrop .detailImageContainer img {
+html.layout-desktop .noBackdrop .detailImageContainer img,
+html.layout-tv .noBackdrop .detailImageContainer img {
     margin-top: 0;
 }
 
@@ -522,7 +522,7 @@
     margin: 0 0 0;
 }
 
-.layout-mobile .parentName {
+html.layout-mobile .parentName {
     margin: 0.6em 0 0;
 }
 
@@ -530,11 +530,11 @@
     margin: 0.15em 0 0.2em;
 }
 
-.layout-mobile .musicParentName {
+html.layout-mobile .musicParentName {
     margin: -0.25em 0 0.25em;
 }
 
-.layout-mobile .itemExternalLinks {
+html.layout-mobile .itemExternalLinks {
     display: none;
 }
 
@@ -566,12 +566,12 @@
     margin: 0 0 0;
 }
 
-.layout-mobile .itemName.parentNameLast {
+html.layout-mobile .itemName.parentNameLast {
     margin: 0.4em 0 0.4em;
 }
 
-.layout-mobile h1.itemName,
-.layout-mobile h1.parentName {
+html.layout-mobile h1.itemName,
+html.layout-mobile h1.parentName {
     font-size: 1.6em;
 }
 
@@ -579,11 +579,11 @@
     margin: 0 0 0;
 }
 
-.layout-mobile .itemName.parentNameLast.withOriginalTitle {
+html.layout-mobile .itemName.parentNameLast.withOriginalTitle {
     margin: 0.6em 0 0;
 }
 
-.layout-mobile .itemName.originalTitle {
+html.layout-mobile .itemName.originalTitle {
     margin: 0.5em 0 0.5em;
 }
 
@@ -604,16 +604,16 @@
     align-items: center;
 }
 
-.layout-mobile .parentName,
-.layout-mobile .itemName,
-.layout-mobile .itemMiscInfo,
-.layout-mobile .mainDetailButtons {
+html.layout-mobile .parentName,
+html.layout-mobile .itemName,
+html.layout-mobile .itemMiscInfo,
+html.layout-mobile .mainDetailButtons {
     align-items: center;
     justify-content: center;
     text-align: center;
 }
 
-.layout-mobile .mainDetailButtons {
+html.layout-mobile .mainDetailButtons {
     margin-top: 1em;
     margin-bottom: 0.5em;
 }
@@ -622,7 +622,7 @@
     margin: 0.15em 0 0.2em;
 }
 
-.layout-mobile .subtitle {
+html.layout-mobile .subtitle {
     margin: 0.2em 0 0.2em;
 }
 
@@ -633,35 +633,35 @@
     z-index: 2;
 }
 
-.layout-tv .detailPagePrimaryContainer {
+html.layout-tv .detailPagePrimaryContainer {
     display: block;
 }
 
-.layout-mobile .detailPagePrimaryContainer {
+html.layout-mobile .detailPagePrimaryContainer {
     display: block;
     position: relative;
     padding: 0.5em 3.3% 0.5em;
 }
 
-.layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
-.layout-desktop #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer {
+html.layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
+html.layout-desktop #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer {
     position: relative;
     top: 0;
     padding-left: 32.45vw;
 }
 
-.layout-desktop .detailRibbon {
+html.layout-desktop .detailRibbon {
     margin-top: -7.2em;
     height: 7.2em;
 }
 
-.layout-tv .detailRibbon {
+html.layout-tv .detailRibbon {
     margin-top: 0;
     height: inherit;
 }
 
-.layout-desktop .noBackdrop .detailRibbon,
-.layout-tv .noBackdrop .detailRibbon {
+html.layout-desktop .noBackdrop .detailRibbon,
+html.layout-tv .noBackdrop .detailRibbon {
     margin-top: 0;
 }
 
@@ -678,7 +678,7 @@
     overflow: hidden;
 }
 
-.layout-mobile .infoText {
+html.layout-mobile .infoText {
     white-space: normal;
 }
 
@@ -686,11 +686,11 @@
     margin: 1.25em 0;
 }
 
-.layout-mobile .detailPageSecondaryContainer {
+html.layout-mobile .detailPageSecondaryContainer {
     margin: 1em 0;
 }
 
-.layout-mobile .detailImageContainer {
+html.layout-mobile .detailImageContainer {
     display: none;
 }
 
@@ -711,8 +711,8 @@
     top: 40%;
 }
 
-.layout-desktop .noBackdrop .detailImageContainer,
-.layout-tv .noBackdrop .detailImageContainer {
+html.layout-desktop .noBackdrop .detailImageContainer,
+html.layout-tv .noBackdrop .detailImageContainer {
     margin-top: 0;
 }
 
@@ -765,17 +765,17 @@ div.itemDetailGalleryLink.defaultCardBackground {
         position: relative;
     }
 
-    .layout-desktop .itemBackdrop {
+    html.layout-desktop .itemBackdrop {
         height: 40vh;
     }
 
-    .layout-desktop .detailPageWrapperContainer,
-    .layout-tv .detailPageWrapperContainer {
+    html.layout-desktop .detailPageWrapperContainer,
+    html.layout-tv .detailPageWrapperContainer {
         margin-top: 0.1em;
     }
 
-    .layout-desktop .detailImageContainer .card,
-    .layout-tv .detailImageContainer .card {
+    html.layout-desktop .detailImageContainer .card,
+    html.layout-tv .detailImageContainer .card {
         top: 10%;
     }
 
@@ -933,7 +933,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
         margin: 1.25em 0;
     }
 
-    .layout-tv .mainDetailButtons {
+    html.layout-tv .mainDetailButtons {
         font-size: 108%;
         margin: 1em 0 1.25em;
     }
@@ -962,7 +962,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     padding-top: 0.4em;
 }
 
-.layout-tv .detailVerticalSection {
+html.layout-tv .detailVerticalSection {
     margin-bottom: 3.4em !important;
 }
 
@@ -971,8 +971,8 @@ div.itemDetailGalleryLink.defaultCardBackground {
     border-collapse: collapse;
 }
 
-.layout-desktop .noBackdrop .detailPageWrapperContainer,
-.layout-tv .noBackdrop .detailPageWrapperContainer {
+html.layout-desktop .noBackdrop .detailPageWrapperContainer,
+html.layout-tv .noBackdrop .detailPageWrapperContainer {
     margin-top: 3.8em;
 }
 
@@ -1050,7 +1050,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     margin-bottom: 2.7em;
 }
 
-.layout-mobile .verticalSection-extrabottompadding {
+html.layout-mobile .verticalSection-extrabottompadding {
     margin-bottom: 1em;
 }
 
@@ -1083,7 +1083,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     padding-bottom: 0.2em;
 }
 
-.layout-mobile :not(.sectionTitleContainer-cards) > .sectionTitle-cards {
+html.layout-mobile :not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     margin: 0;
     padding-top: 0.5em;
 }
@@ -1151,12 +1151,12 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     padding-bottom: 1em;
 }
 
-.layout-tv .padded-top-focusscale {
+html.layout-tv .padded-top-focusscale {
     padding-top: 1.5em;
     margin-top: -1.5em;
 }
 
-.layout-tv .padded-bottom-focusscale {
+html.layout-tv .padded-bottom-focusscale {
     padding-bottom: 1.5em;
     margin-bottom: -1.5em;
 }
@@ -1204,7 +1204,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     margin: 0;
 }
 
-.layout-mobile #myPreferencesMenuPage {
+html.layout-mobile #myPreferencesMenuPage {
     padding-top: 3.75em;
 }
 
@@ -1241,8 +1241,8 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     line-height: 1.75;
 }
 
-.layout-mobile .detailsGroupItem .label,
-.layout-mobile .trackSelections .selectContainer .selectLabel {
+html.layout-mobile .detailsGroupItem .label,
+html.layout-mobile .trackSelections .selectContainer .selectLabel {
     flex-basis: 4.5em;
 }
 

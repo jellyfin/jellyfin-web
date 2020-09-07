@@ -4,11 +4,21 @@ html {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
 }
+[dir=rtl] html {
+    font-family: "Arial", sans-serif;
+}
 
 h1,
 h2,
 h3 {
     font-family: "Noto Sans", sans-serif;
+}
+
+[dir=rtl] h1,
+[dir=rtl] h2,
+[dir=rtl] h3,
+[dir=rtl] button {
+    font-family: "Arial", sans-serif;
 }
 
 h1 {
@@ -26,12 +36,12 @@ h3 {
     font-size: 1.17em;
 }
 
-.layout-tv {
+html.layout-tv {
     /* Per WebOS and Tizen guidelines, fonts must be 20px minimum.
        This takes the 16px baseline and multiplies it by 1.25 to get 20px. */
     font-size: 125%;
 }
 
-.layout-mobile {
+html.layout-mobile {
     font-size: 90%;
 }

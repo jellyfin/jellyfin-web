@@ -18,8 +18,8 @@
     margin-right: 0.6em;
 }
 
-.layout-tv .emby-scroller,
-.layout-mobile .emby-scroller {
+html.layout-tv .emby-scroller,
+html.layout-mobile .emby-scroller {
     padding-left: 3.3%;
     padding-right: 3.3%;
     margin-left: 0;

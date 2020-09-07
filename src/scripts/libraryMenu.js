@@ -10,6 +10,8 @@ import syncPlayManager from 'syncPlayManager';
 import * as groupSelectionMenu from 'groupSelectionMenu';
 import browser from 'browser';
 import globalize from 'globalize';
+import rtlDetect from 'rtl-detect';
+import appSettings from 'appSettings';
 import imageHelper from 'scripts/imagehelper';
 import 'paper-icon-button-light';
 import 'material-icons';
@@ -820,12 +822,19 @@ import 'flexStyles';
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve, reject) {
             import('navdrawer').then(({default: navdrawer}) => {
-                navDrawerInstance = new navdrawer(getNavDrawerOptions());
+                var o = getNavDrawerOptions();
 
-                if (!layoutManager.tv) {
-                    navDrawerElement.classList.remove('hide');
-                }
+                window.connectionManager.user(getCurrentApiClient()).then(function (user) {
+                    let userId = user.localUser.Id;
+                    o.rtl = rtlDetect.isRtlLang(appSettings.get('language', userId)) || false;
+                    navDrawerInstance = new navdrawer(o);
 
+                    if (!layoutManager.tv) {
+                        navDrawerElement.classList.remove('hide');
+                    }
+
+                });
+                
                 resolve(navDrawerInstance);
             });
         });

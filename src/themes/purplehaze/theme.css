@@ -27,7 +27,7 @@ html {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-.layout-tv .skinHeader.semiTransparent {
+html.layout-tv .skinHeader.semiTransparent {
     background: none;
 }
 
@@ -35,7 +35,7 @@ html {
     background-image: url(../../assets/img/banner-light.png);
 }
 
-.layout-tv .pageTitleWithDefaultLogo {
+html.layout-tv .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/icon-transparent.png);
 }
 
@@ -328,7 +328,7 @@ a[data-role=button] {
     background: linear-gradient(to right, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
 }
 
-.layout-tv .detailRibbon {
+html.layout-tv .detailRibbon {
     background: none;
 }
 
@@ -580,7 +580,7 @@ a[data-role=button] {
     border-radius: 1.3em;
 }
 
-.layout-desktop,
+html.layout-desktop,
 .scrollY {
     scrollbar-width: thin;
     scrollbar-color: #888 rgba(59, 59, 59, 0.5);
@@ -595,7 +595,7 @@ a[data-role=button] {
     background-color: rgba(59, 59, 59, 0.5);
 }
 
-.layout-desktop ::-webkit-scrollbar {
+html.layout-desktop ::-webkit-scrollbar {
     width: 0.4em;
     height: 1em;
 }
