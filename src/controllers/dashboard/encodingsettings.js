@@ -22,6 +22,7 @@ import libraryMenu from 'libraryMenu';
         page.querySelector('#selectEncoderPreset').value = config.EncoderPreset || '';
         page.querySelector('#txtH264Crf').value = config.H264Crf || '';
         page.querySelector('#selectDeinterlaceMethod').value = config.DeinterlaceMethod || '';
+        page.querySelector('#chkDoubleRateDeinterlacing').checked = config.DeinterlaceDoubleRate;
         page.querySelector('#chkEnableSubtitleExtraction').checked = config.EnableSubtitleExtraction || false;
         page.querySelector('#chkEnableThrottling').checked = config.EnableThrottling || false;
         page.querySelector('#selectVideoDecoder').dispatchEvent(new CustomEvent('change', {
@@ -68,6 +69,7 @@ import libraryMenu from 'libraryMenu';
                 config.EncoderPreset = form.querySelector('#selectEncoderPreset').value;
                 config.H264Crf = parseInt(form.querySelector('#txtH264Crf').value || '0');
                 config.DeinterlaceMethod = form.querySelector('#selectDeinterlaceMethod').value;
+                config.DeinterlaceDoubleRate = form.querySelector('#chkDoubleRateDeinterlacing').checked;
                 config.EnableSubtitleExtraction = form.querySelector('#chkEnableSubtitleExtraction').checked;
                 config.EnableThrottling = form.querySelector('#chkEnableThrottling').checked;
                 config.HardwareDecodingCodecs = Array.prototype.map.call(Array.prototype.filter.call(form.querySelectorAll('.chkDecodeCodec'), function (c) {
