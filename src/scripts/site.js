@@ -591,6 +591,7 @@ function initClient() {
         define('metadataEditor', [componentsPath + '/metadataEditor/metadataEditor'], returnFirstDependency);
         define('personEditor', [componentsPath + '/metadataEditor/personEditor'], returnFirstDependency);
         define('playerSelectionMenu', [componentsPath + '/playback/playerSelectionMenu'], returnFirstDependency);
+        define('autocast', [componentsPath + '/autocast'], returnFirstDependency);
         define('playerSettingsMenu', [componentsPath + '/playback/playersettingsmenu'], returnFirstDependency);
         define('playMethodHelper', [componentsPath + '/playback/playmethodhelper'], returnFirstDependency);
         define('brightnessOsd', [componentsPath + '/playback/brightnessosd'], returnFirstDependency);

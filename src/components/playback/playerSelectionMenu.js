@@ -6,6 +6,7 @@ import playbackManager from 'playbackManager';
 import appRouter from 'appRouter';
 import globalize from 'globalize';
 import appHost from 'apphost';
+import * as autocast from 'autocast';
 
 function mirrorItem(info, player) {
     var item = info.item;
@@ -219,6 +220,16 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
         html += '</label>';
     }
 
+    html += '</div><div>';
+
+    if (autocast.supported()) {
+        html += '<label class="checkboxContainer">';
+        var checkedHtml = autocast.isEnabled() ? ' checked' : '';
+        html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtml + '/>';
+        html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
+        html += '</label>';
+    }
+
     html += '</div>';
 
     html += '<div style="margin-top:1em;display:flex;justify-content: flex-end;">';
@@ -235,6 +246,12 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
 
     if (chkMirror) {
         chkMirror.addEventListener('change', onMirrorChange);
+    }
+
+    var chkAutoCast = dlg.querySelector('.chkAutoCast');
+
+    if (chkAutoCast) {
+        chkAutoCast.addEventListener('change', onAutoCastChange);
     }
 
     var destination = '';
@@ -267,6 +284,10 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
 
 function onMirrorChange() {
     playbackManager.enableDisplayMirroring(this.checked);
+}
+
+function onAutoCastChange() {
+    autocast.enable(this.checked);
 }
 
 document.addEventListener('viewshow', function (e) {

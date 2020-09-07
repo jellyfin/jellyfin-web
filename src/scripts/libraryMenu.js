@@ -52,6 +52,7 @@ import 'flexStyles';
 
         lazyLoadViewMenuBarImages();
         bindMenuEvents();
+        updateCastIcon();
     }
 
     function getCurrentApiClient() {
@@ -910,6 +911,12 @@ import 'flexStyles';
         }
     }
 
+    function ensureHeader() {
+        return new Promise(function (resolve) {
+            window.connectionManager.user(getCurrentApiClient()).then(updateUserInHeader).then(resolve);
+        });
+    }
+
     let currentPageType;
     pageClassOn('pagebeforeshow', 'page', function (e) {
         if (!this.classList.contains('withTabs')) {
@@ -996,6 +1003,7 @@ import 'flexStyles';
     };
 
     window.LibraryMenu = LibraryMenu;
+    renderHeader();
 
 export default LibraryMenu;
 
