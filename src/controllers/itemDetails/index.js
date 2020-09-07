@@ -167,7 +167,30 @@ function renderTrackSelections(page, instance, item, forceReload) {
         return;
     }
 
-    const mediaSources = item.MediaSources;
+    var mediaSources = item.MediaSources;
+
+    var resolutionNames = [];
+    var sourceNames = [];
+    mediaSources.forEach(function (v) {
+        (v.Name.endsWith('p') || v.Name.endsWith('i')) ? resolutionNames.push(v) : sourceNames.push(v);
+    });
+
+    resolutionNames.sort((a, b) => parseInt(b.Name) - parseInt(a.Name));
+    sourceNames.sort(function(a, b) {
+        var nameA = a.Name.toUpperCase();
+        var nameB = b.Name.toUpperCase();
+        if (nameA < nameB) {
+            return -1;
+        } else if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    });
+
+    mediaSources = [];
+    resolutionNames.forEach(v => mediaSources.push(v));
+    sourceNames.forEach(v => mediaSources.push(v));
+
     instance._currentPlaybackMediaSources = mediaSources;
 
     page.querySelector('.trackSelections').classList.remove('hide');
