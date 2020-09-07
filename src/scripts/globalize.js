@@ -64,7 +64,7 @@ import rtlDetect from 'rtl-detect';
     }
 
     export function setDocumentDirection() {
-        document.dir = rtlDetect.getLangDir(currentCulture);
+        document.documentElement.setAttribute('dir', rtlDetect.getLangDir(currentCulture));
     }
 
     function ensureTranslations(culture) {

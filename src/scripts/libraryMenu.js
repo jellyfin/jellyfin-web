@@ -832,9 +832,7 @@ import 'flexStyles';
                     if (!layoutManager.tv) {
                         navDrawerElement.classList.remove('hide');
                     }
-
                 });
-                
                 resolve(navDrawerInstance);
             });
         });

@@ -184,8 +184,7 @@ export default function (options) {
         options.target.style.width = options.width + 'px';
         if (options.rtl) {
             options.target.style.right = -options.width + 'px';
-        }
-        else {
+        } else {
             options.target.style.left = -options.width + 'px';
         }
 
@@ -211,8 +210,7 @@ export default function (options) {
         requestAnimationFrame(function () {
             if (options.rtl) {
                 options.target.style.transform = pos ? 'translateX(-' + pos + 'px)' : 'none';
-            }
-            else {
+            } else {
                 options.target.style.transform = pos ? 'translateX(' + pos + 'px)' : 'none';
             }
         });

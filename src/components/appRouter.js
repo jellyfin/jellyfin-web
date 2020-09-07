@@ -582,10 +582,9 @@ class AppRouter {
     }
 
     loadContent(ctx, route, html, request) {
-        if(route.type == 'video-osd') {
-            document.dir = 'ltr';
-        }
-        else {
+        if (route.type == 'video-osd') {
+            document.documentElement.setAttribute('dir', 'ltr');
+        } else {
             globalize.setDocumentDirection();
         }
         html = globalize.translateHtml(html, route.dictionary);
