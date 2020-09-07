@@ -224,8 +224,8 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
 
     if (autocast.supported()) {
         html += '<label class="checkboxContainer">';
-        var checkedHtml = autocast.isEnabled() ? ' checked' : '';
-        html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtml + '/>';
+        var checkedHtmlAC = autocast.isEnabled() ? ' checked' : '';
+        html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
         html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
         html += '</label>';
     }

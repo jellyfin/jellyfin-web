@@ -5,10 +5,10 @@ export function supported() {
     return typeof(Storage) !== 'undefined';
 }
 
-export function enable(isEnabled) {
+export function enable(enabled) {
     if (!supported()) return;
 
-    if (isEnabled) {
+    if (enabled) {
         const currentPlayerInfo = playbackManager.getPlayerInfo();
 
         if (currentPlayerInfo && currentPlayerInfo.id && currentPlayerInfo.id) {
