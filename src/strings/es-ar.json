@@ -1370,5 +1370,8 @@
     "Photo": "Foto",
     "LabelIconMaxResHelp": "Resolución máxima de los iconos expuestos a través de la propiedad upnp:icon.",
     "LabelAlbumArtMaxResHelp": "Resolución máxima de la carátula del álbum expuesta a través de la propiedad upnp:albumArtURI.",
-    "Other": "Otro"
+    "Other": "Otro",
+    "Bwdif": "BWDIF",
+    "UseDoubleRateDeinterlacingHelp": "Esta configuración utiliza la velocidad de campo al desentrelazar, a menudo denominado desentrelazado bob, que duplica la velocidad de fotogramas del video para proporcionar un movimiento completo como lo que vería al ver un video entrelazado en un televisor.",
+    "UseDoubleRateDeinterlacing": "Duplique la velocidad de fotogramas al desentrelazar"
 }
