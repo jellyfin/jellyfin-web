@@ -43,7 +43,7 @@ async function fetchLocal(url, options) {
 async function getConfig() {
     if (data) return Promise.resolve(data);
     try {
-        data = await import('../../config.json');
+        data = (await import('../../config.json')).default;
 
         console.dir(data);
         return data;
@@ -55,7 +55,7 @@ async function getConfig() {
 
 async function getDefaultConfig() {
     try {
-        data = await import('../../config.template.json');
+        data = (await import('../../config.template.json')).default;
 
         console.dir(data);
         return data;
