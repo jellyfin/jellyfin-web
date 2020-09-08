@@ -15,7 +15,7 @@ import './viewManager/viewContainer.css';
 
             controllerUrl = Dashboard.getPluginUrl(controllerUrl);
             const apiUrl = ApiClient.getUrl('/web/' + controllerUrl);
-            return import(apiUrl).then((ControllerFactory) => {
+            return import(/* webpackIgnore: true */ apiUrl).then((ControllerFactory) => {
                 options.controllerFactory = ControllerFactory;
             });
         }
