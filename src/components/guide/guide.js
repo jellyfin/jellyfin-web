@@ -23,7 +23,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../assets/css/flexstyles.css';
-import 'webcomponents.js';
+import 'webcomponents.js/webcomponents-lite';
 
 function showViewSettings(instance) {
     import('./guide-settings').then((guideSettingsDialog) => {

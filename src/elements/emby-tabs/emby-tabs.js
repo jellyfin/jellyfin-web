@@ -2,7 +2,7 @@ import dom from '../../scripts/dom';
 import scroller from '../../libraries/scroller';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
-import 'webcomponents.js';
+import 'webcomponents.js/webcomponents-lite';
 import './emby-tabs.css';
 import '../../assets/css/scrollstyles.css';
 

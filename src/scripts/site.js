@@ -7,7 +7,6 @@ import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
 import 'jellyfin-noto';
-import 'webcomponents.js';
 import '../assets/css/site.css';
 
 // TODO: Move this elsewhere

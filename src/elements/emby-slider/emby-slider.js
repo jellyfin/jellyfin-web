@@ -3,7 +3,7 @@ import dom from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.css';
-import 'webcomponents.js';
+import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
 
 /* eslint-disable indent */

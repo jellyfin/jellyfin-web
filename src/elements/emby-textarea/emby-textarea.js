@@ -1,5 +1,5 @@
 import './emby-textarea.css';
-import 'webcomponents.js';
+import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
 
 /* eslint-disable indent */

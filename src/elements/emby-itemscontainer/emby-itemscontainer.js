@@ -10,7 +10,7 @@ import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import serverNotifications from '../../scripts/serverNotifications';
 import { ConnectionManager, Events } from 'jellyfin-apiclient';
-import 'webcomponents.js';
+import 'webcomponents.js/webcomponents-lite';
 
 /* eslint-disable indent */
 
