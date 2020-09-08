@@ -127,7 +127,7 @@ class SyncPlayManager {
 
             // Report ping
             if (this.syncEnabled) {
-                const apiClient = ConnectionManager.currentApiClient();
+                const apiClient = window.ConnectionManager.currentApiClient();
                 const sessionId = getActivePlayerId();
 
                 if (!sessionId) {

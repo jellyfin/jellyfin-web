@@ -21,7 +21,7 @@ class BackdropScreensaver {
                 Limit: 200
             };
 
-            const apiClient = ConnectionManager.currentApiClient();
+            const apiClient = window.ConnectionManager.currentApiClient();
             apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
                 if (result.Items.length) {
                     import('../../components/slideshow/slideshow').then(({default: Slideshow}) => {

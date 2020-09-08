@@ -13,7 +13,7 @@ export default class PhotoPlayer {
             import('../../components/slideshow/slideshow').then(({default: Slideshow}) => {
                 var index = options.startIndex || 0;
 
-                var apiClient = ConnectionManager.currentApiClient();
+                var apiClient = window.ConnectionManager.currentApiClient();
                 apiClient.getCurrentUser().then(function(result) {
                     var newSlideShow = new Slideshow({
                         showTitle: false,

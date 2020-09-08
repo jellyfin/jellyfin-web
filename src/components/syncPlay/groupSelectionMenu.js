@@ -171,7 +171,7 @@ export default function show (button) {
         });
     });
 
-    const apiClient = ConnectionManager.currentApiClient();
+    const apiClient = window.ConnectionManager.currentApiClient();
     ConnectionManager.user(apiClient).then((user) => {
         if (syncPlayEnabled) {
             showLeaveGroupSelection(button, user, apiClient);

@@ -113,7 +113,7 @@ class TimeSyncManager {
         if (!this.poller) {
             this.poller = setTimeout(() => {
                 this.poller = null;
-                const apiClient = ConnectionManager.currentApiClient();
+                const apiClient = window.ConnectionManager.currentApiClient();
                 const requestSent = new Date();
                 apiClient.getServerTime().then((response) => {
                     const responseReceived = new Date();

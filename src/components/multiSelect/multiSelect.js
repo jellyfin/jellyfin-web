@@ -170,7 +170,7 @@ import './multiSelect.css';
     }
 
     function showMenuForSelectedItems(e) {
-        const apiClient = ConnectionManager.currentApiClient();
+        const apiClient = window.ConnectionManager.currentApiClient();
 
         apiClient.getCurrentUser().then(user => {
             const menuItems = [];

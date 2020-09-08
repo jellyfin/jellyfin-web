@@ -270,7 +270,7 @@ class FavoritesTab {
     constructor(view, params) {
         this.view = view;
         this.params = params;
-        this.apiClient = ConnectionManager.currentApiClient();
+        this.apiClient = window.ConnectionManager.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
         createSections(this, this.sectionsContainer, this.apiClient);
     }

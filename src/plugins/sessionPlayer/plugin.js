@@ -56,7 +56,7 @@ function getCurrentApiClient(instance) {
         return ConnectionManager.getApiClient(currentServerId);
     }
 
-    return ConnectionManager.currentApiClient();
+    return window.ConnectionManager.currentApiClient();
 }
 
 function sendCommandByName(instance, name, options) {

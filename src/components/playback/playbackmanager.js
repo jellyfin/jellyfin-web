@@ -869,7 +869,7 @@ class PlaybackManager {
             const promises = players.filter(displayPlayerIndividually).map(getPlayerTargets);
 
             return Promise.all(promises).then(function (responses) {
-                return ConnectionManager.currentApiClient().getCurrentUser().then(function (user) {
+                return window.ConnectionManager.currentApiClient().getCurrentUser().then(function (user) {
                     const targets = [];
 
                     targets.push({
@@ -1367,7 +1367,7 @@ class PlaybackManager {
         function getSavedMaxStreamingBitrate(apiClient, mediaType) {
             if (!apiClient) {
                 // This should hopefully never happen
-                apiClient = ConnectionManager.currentApiClient();
+                apiClient = window.ConnectionManager.currentApiClient();
             }
 
             const endpointInfo = apiClient.getSavedEndpointInfo() || {};
@@ -1390,7 +1390,7 @@ class PlaybackManager {
             const mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
             const currentItem = self.currentItem(player);
 
-            const apiClient = currentItem ? ConnectionManager.getApiClient(currentItem.ServerId) : ConnectionManager.currentApiClient();
+            const apiClient = currentItem ? ConnectionManager.getApiClient(currentItem.ServerId) : window.ConnectionManager.currentApiClient();
             return getSavedMaxStreamingBitrate(apiClient, mediaType);
         };
 
@@ -1404,7 +1404,7 @@ class PlaybackManager {
             const mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
             const currentItem = self.currentItem(player);
 
-            const apiClient = currentItem ? ConnectionManager.getApiClient(currentItem.ServerId) : ConnectionManager.currentApiClient();
+            const apiClient = currentItem ? ConnectionManager.getApiClient(currentItem.ServerId) : window.ConnectionManager.currentApiClient();
             const endpointInfo = apiClient.getSavedEndpointInfo() || {};
 
             return appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType);

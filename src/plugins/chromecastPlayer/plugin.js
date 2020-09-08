@@ -328,7 +328,7 @@ class CastPlayer {
         } else if (message.options && message.options.items && message.options.items.length) {
             apiClient = ConnectionManager.getApiClient(message.options.items[0].ServerId);
         } else {
-            apiClient = ConnectionManager.currentApiClient();
+            apiClient = window.ConnectionManager.currentApiClient();
         }
 
         message = Object.assign(message, {
