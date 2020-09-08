@@ -91,7 +91,7 @@ export default function (view, params, tabContent) {
     }
 
     function showFilterMenu(context) {
-        import(['components/filterdialog/filterdialog']).then(({default: FilterDialog}) => {
+        import('../../components/filterdialog/filterdialog').then(({default: FilterDialog}) => {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'livetvchannels',

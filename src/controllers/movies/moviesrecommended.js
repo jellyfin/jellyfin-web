@@ -282,31 +282,31 @@ import '../../elements/emby-button/emby-button';
 
             switch (index) {
                 case 0:
-                    depends = 'controllers/movies/movies';
+                    depends = 'movies';
                     break;
 
                 case 1:
-                    depends = 'controllers/movies/moviesrecommended.js';
+                    depends = 'moviesrecommended.js';
                     break;
 
                 case 2:
-                    depends = 'controllers/movies/movietrailers';
+                    depends = 'movietrailers';
                     break;
 
                 case 3:
-                    depends = 'controllers/movies/movies';
+                    depends = 'movies';
                     break;
 
                 case 4:
-                    depends = 'controllers/movies/moviecollections';
+                    depends = 'moviecollections';
                     break;
 
                 case 5:
-                    depends = 'controllers/movies/moviegenres';
+                    depends = 'moviegenres';
                     break;
             }
 
-            import(depends).then(({default: controllerFactory}) => {
+            import(`../movies/${depends}`).then(({default: controllerFactory}) => {
                 let tabContent;
 
                 if (index === suggestionsTabIndex) {

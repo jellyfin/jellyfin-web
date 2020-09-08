@@ -247,31 +247,31 @@ import '../../elements/emby-button/emby-button';
 
             switch (index) {
                 case 0:
-                    depends = 'controllers/shows/tvshows';
+                    depends = 'tvshows';
                     break;
 
                 case 1:
-                    depends = 'controllers/shows/tvrecommended';
+                    depends = 'tvrecommended';
                     break;
 
                 case 2:
-                    depends = 'controllers/shows/tvupcoming';
+                    depends = 'tvupcoming';
                     break;
 
                 case 3:
-                    depends = 'controllers/shows/tvgenres';
+                    depends = 'tvgenres';
                     break;
 
                 case 4:
-                    depends = 'controllers/shows/tvstudios';
+                    depends = 'tvstudios';
                     break;
 
                 case 5:
-                    depends = 'controllers/shows/episodes';
+                    depends = 'episodes';
                     break;
             }
 
-            import(depends).then(({default: controllerFactory}) => {
+            import(`../shows/${depends}`).then(({default: controllerFactory}) => {
                 let tabContent;
 
                 if (index === 1) {

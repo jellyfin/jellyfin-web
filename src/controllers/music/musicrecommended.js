@@ -268,32 +268,32 @@ import '../../assets/css/flexstyles.css';
 
             switch (index) {
                 case 0:
-                    depends = 'controllers/music/musicalbums';
+                    depends = 'musicalbums';
                     break;
 
                 case 1:
-                    depends = 'controllers/music/musicrecommended';
+                    depends = 'musicrecommended';
                     break;
 
                 case 2:
                 case 3:
-                    depends = 'controllers/music/musicartists';
+                    depends = 'musicartists';
                     break;
 
                 case 4:
-                    depends = 'controllers/music/musicplaylists';
+                    depends = 'musicplaylists';
                     break;
 
                 case 5:
-                    depends = 'controllers/music/songs';
+                    depends = 'songs';
                     break;
 
                 case 6:
-                    depends = 'controllers/music/musicgenres';
+                    depends = 'musicgenres';
                     break;
             }
 
-            import(depends).then(({default: controllerFactory}) => {
+            import(`../music/${depends}`).then(({default: controllerFactory}) => {
                 let tabContent;
 
                 if (index == 1) {

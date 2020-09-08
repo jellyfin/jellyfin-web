@@ -239,31 +239,31 @@ export default function (view, params) {
         // TODO int is a little hard to read
         switch (index) {
             case 0:
-                depends = 'controllers/livetv/livetvsuggested';
+                depends = 'livetvsuggested';
                 break;
 
             case 1:
-                depends = 'controllers/livetv/livetvguide';
+                depends = 'livetvguide';
                 break;
 
             case 2:
-                depends = 'controllers/livetv/livetvchannels';
+                depends = 'livetvchannels';
                 break;
 
             case 3:
-                depends = 'controllers/livetv/livetvrecordings';
+                depends = 'livetvrecordings';
                 break;
 
             case 4:
-                depends = 'controllers/livetv/livetvschedule';
+                depends = 'livetvschedule';
                 break;
 
             case 5:
-                depends = 'controllers/livetv/livetvseriestimers';
+                depends = 'livetvseriestimers';
                 break;
         }
 
-        import(depends).then(({default: controllerFactory}) => {
+        import(`../livetv/${depends}`).then(({default: controllerFactory}) => {
             let tabContent;
 
             if (index === 0) {
