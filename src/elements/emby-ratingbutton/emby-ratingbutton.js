@@ -1,5 +1,5 @@
 import serverNotifications from '../../scripts/serverNotifications';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import EmbyButtonPrototype from '../emby-button/emby-button';
 
@@ -7,14 +7,14 @@ import EmbyButtonPrototype from '../emby-button/emby-button';
 
     function addNotificationEvent(instance, name, handler) {
         const localHandler = handler.bind(instance);
-        events.on(serverNotifications, name, localHandler);
+        Events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
     function removeNotificationEvent(instance, name) {
         const handler = instance[name];
         if (handler) {
-            events.off(serverNotifications, name, handler);
+            Events.off(serverNotifications, name, handler);
             instance[name] = null;
         }
     }

@@ -1,4 +1,4 @@
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
 import itemHelper from '../itemHelper';
@@ -25,12 +25,12 @@ function enableLocalPlaylistManagement(player) {
 function bindToFullscreenChange(player) {
     if (Screenfull.isEnabled) {
         Screenfull.on('change', function () {
-            events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange');
         });
     } else {
         // iOS Safari
         document.addEventListener('webkitfullscreenchange', function () {
-            events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange');
         }, false);
     }
 }
@@ -46,14 +46,14 @@ function triggerPlayerChange(playbackManagerInstance, newPlayer, newTarget, prev
         }
     }
 
-    events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
+    Events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
 }
 
 function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
     if (!serverId) {
         // Not a server item
         // We can expand on this later and possibly report them
-        events.trigger(playbackManagerInstance, 'reportplayback', [false]);
+        Events.trigger(playbackManagerInstance, 'reportplayback', [false]);
         return;
     }
 
@@ -72,7 +72,7 @@ function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, 
     const reportPlaybackPromise = apiClient[method](info);
     // Notify that report has been sent
     reportPlaybackPromise.then(() => {
-        events.trigger(playbackManagerInstance, 'reportplayback', [true]);
+        Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
     });
 }
 
@@ -852,13 +852,13 @@ class PlaybackManager {
                 player.tryPair(targetInfo) :
                 Promise.resolve();
 
-            events.trigger(self, 'pairing');
+            Events.trigger(self, 'pairing');
 
             promise.then(function () {
-                events.trigger(self, 'paired');
+                Events.trigger(self, 'paired');
                 setCurrentPlayerInternal(player, targetInfo);
             }, function () {
-                events.trigger(self, 'pairerror');
+                Events.trigger(self, 'pairerror');
                 if (currentPairingId === targetInfo.id) {
                     currentPairingId = null;
                 }
@@ -2158,7 +2158,7 @@ class PlaybackManager {
                 removeCurrentPlayer(player);
             }
 
-            events.trigger(self, 'playbackcancelled');
+            Events.trigger(self, 'playbackcancelled');
 
             return Promise.reject();
         }
@@ -2548,7 +2548,7 @@ class PlaybackManager {
 
             const isCurrentIndex = removeResult.isCurrentIndex;
 
-            events.trigger(player, 'playlistitemremove', [
+            Events.trigger(player, 'playlistitemremove', [
                 {
                     playlistItemIds: playlistItemIds
                 }
@@ -2573,7 +2573,7 @@ class PlaybackManager {
                 return;
             }
 
-            events.trigger(player, 'playlistitemmove', [
+            Events.trigger(player, 'playlistitemmove', [
                 {
                     playlistItemId: moveResult.playlistItemId,
                     newIndex: moveResult.newIndex
@@ -2727,7 +2727,7 @@ class PlaybackManager {
             } else {
                 self._playQueueManager.queue(items);
             }
-            events.trigger(player, 'playlistitemadd');
+            Events.trigger(player, 'playlistitemadd');
         }
 
         function onPlayerProgressInterval() {
@@ -2779,8 +2779,8 @@ class PlaybackManager {
 
             state.IsFirstItem = isFirstItem;
             state.IsFullscreen = fullscreen;
-            events.trigger(player, 'playbackstart', [state]);
-            events.trigger(self, 'playbackstart', [player, state]);
+            Events.trigger(player, 'playbackstart', [state]);
+            Events.trigger(self, 'playbackstart', [player, state]);
 
             // only used internally as a safeguard to avoid reporting other events to the server before playback start
             streamInfo.started = true;
@@ -2810,8 +2810,8 @@ class PlaybackManager {
 
             state.IsFirstItem = isFirstItem;
             state.IsFullscreen = fullscreen;
-            events.trigger(player, 'playbackstart', [state]);
-            events.trigger(self, 'playbackstart', [player, state]);
+            Events.trigger(player, 'playbackstart', [state]);
+            Events.trigger(self, 'playbackstart', [player, state]);
 
             // only used internally as a safeguard to avoid reporting other events to the server before playback start
             streamInfo.started = true;
@@ -2850,8 +2850,8 @@ class PlaybackManager {
 
             state.NextItem = playbackStopInfo.nextItem;
 
-            events.trigger(player, 'playbackstop', [state]);
-            events.trigger(self, 'playbackstop', [playbackStopInfo]);
+            Events.trigger(player, 'playbackstop', [state]);
+            Events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
             const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
@@ -2952,8 +2952,8 @@ class PlaybackManager {
                 self._playQueueManager.reset();
             }
 
-            events.trigger(player, 'playbackstop', [state]);
-            events.trigger(self, 'playbackstop', [playbackStopInfo]);
+            Events.trigger(player, 'playbackstop', [state]);
+            Events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
             const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
@@ -2999,7 +2999,7 @@ class PlaybackManager {
                     reportPlayback(self, state, activePlayer, true, serverId, 'reportPlaybackStopped');
                 }
 
-                events.trigger(self, 'playbackstop', [{
+                Events.trigger(self, 'playbackstop', [{
                     player: activePlayer,
                     state: state,
                     nextItem: newItem,
@@ -3010,8 +3010,8 @@ class PlaybackManager {
 
         function bindStopped(player) {
             if (enableLocalPlaylistManagement(player)) {
-                events.off(player, 'stopped', onPlaybackStopped);
-                events.on(player, 'stopped', onPlaybackStopped);
+                Events.off(player, 'stopped', onPlaybackStopped);
+                Events.on(player, 'stopped', onPlaybackStopped);
             }
         }
 
@@ -3061,7 +3061,7 @@ class PlaybackManager {
         }
 
         function unbindStopped(player) {
-            events.off(player, 'stopped', onPlaybackStopped);
+            Events.off(player, 'stopped', onPlaybackStopped);
         }
 
         function initLegacyVolumeMethods(player) {
@@ -3090,28 +3090,28 @@ class PlaybackManager {
             }
 
             if (enableLocalPlaylistManagement(player)) {
-                events.on(player, 'error', onPlaybackError);
-                events.on(player, 'timeupdate', onPlaybackTimeUpdate);
-                events.on(player, 'pause', onPlaybackPause);
-                events.on(player, 'unpause', onPlaybackUnpause);
-                events.on(player, 'volumechange', onPlaybackVolumeChange);
-                events.on(player, 'repeatmodechange', onRepeatModeChange);
-                events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
-                events.on(player, 'playlistitemmove', onPlaylistItemMove);
-                events.on(player, 'playlistitemremove', onPlaylistItemRemove);
-                events.on(player, 'playlistitemadd', onPlaylistItemAdd);
+                Events.on(player, 'error', onPlaybackError);
+                Events.on(player, 'timeupdate', onPlaybackTimeUpdate);
+                Events.on(player, 'pause', onPlaybackPause);
+                Events.on(player, 'unpause', onPlaybackUnpause);
+                Events.on(player, 'volumechange', onPlaybackVolumeChange);
+                Events.on(player, 'repeatmodechange', onRepeatModeChange);
+                Events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
+                Events.on(player, 'playlistitemmove', onPlaylistItemMove);
+                Events.on(player, 'playlistitemremove', onPlaylistItemRemove);
+                Events.on(player, 'playlistitemadd', onPlaylistItemAdd);
             } else if (player.isLocalPlayer) {
-                events.on(player, 'itemstarted', onPlaybackStartedFromSelfManagingPlayer);
-                events.on(player, 'itemstopped', onPlaybackStoppedFromSelfManagingPlayer);
-                events.on(player, 'timeupdate', onPlaybackTimeUpdate);
-                events.on(player, 'pause', onPlaybackPause);
-                events.on(player, 'unpause', onPlaybackUnpause);
-                events.on(player, 'volumechange', onPlaybackVolumeChange);
-                events.on(player, 'repeatmodechange', onRepeatModeChange);
-                events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
-                events.on(player, 'playlistitemmove', onPlaylistItemMove);
-                events.on(player, 'playlistitemremove', onPlaylistItemRemove);
-                events.on(player, 'playlistitemadd', onPlaylistItemAdd);
+                Events.on(player, 'itemstarted', onPlaybackStartedFromSelfManagingPlayer);
+                Events.on(player, 'itemstopped', onPlaybackStoppedFromSelfManagingPlayer);
+                Events.on(player, 'timeupdate', onPlaybackTimeUpdate);
+                Events.on(player, 'pause', onPlaybackPause);
+                Events.on(player, 'unpause', onPlaybackUnpause);
+                Events.on(player, 'volumechange', onPlaybackVolumeChange);
+                Events.on(player, 'repeatmodechange', onRepeatModeChange);
+                Events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
+                Events.on(player, 'playlistitemmove', onPlaylistItemMove);
+                Events.on(player, 'playlistitemremove', onPlaylistItemRemove);
+                Events.on(player, 'playlistitemadd', onPlaylistItemAdd);
             }
 
             if (player.isLocalPlayer) {
@@ -3120,7 +3120,7 @@ class PlaybackManager {
             bindStopped(player);
         }
 
-        events.on(pluginManager, 'registered', function (e, plugin) {
+        Events.on(pluginManager, 'registered', function (e, plugin) {
             if (plugin.type === 'mediaplayer') {
                 initMediaPlayer(plugin);
             }
@@ -3165,7 +3165,7 @@ class PlaybackManager {
 
             ConnectionManager.getApiClient(serverId).getLiveStreamMediaInfo(liveStreamId).then(function (info) {
                 mediaSource.MediaStreams = info.MediaStreams;
-                events.trigger(player, 'mediastreamschange');
+                Events.trigger(player, 'mediastreamschange');
             }, function () {
             });
         }
@@ -3191,8 +3191,8 @@ class PlaybackManager {
 
         if (appHost.supports('remotecontrol')) {
             import('../../scripts/serverNotifications').then((serverNotifications) => {
-                events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
-                events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
+                Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
+                Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
             });
         }
     }
@@ -3588,7 +3588,7 @@ class PlaybackManager {
         }
 
         this._playQueueManager.setRepeatMode(value);
-        events.trigger(player, 'repeatmodechange');
+        Events.trigger(player, 'repeatmodechange');
     }
 
     getRepeatMode(player = this._currentPlayer) {
@@ -3605,7 +3605,7 @@ class PlaybackManager {
         }
 
         this._playQueueManager.setShuffleMode(value);
-        events.trigger(player, 'shufflequeuemodechange');
+        Events.trigger(player, 'shufflequeuemodechange');
     }
 
     getQueueShuffleMode(player = this._currentPlayer) {
@@ -3633,7 +3633,7 @@ class PlaybackManager {
         } else {
             this._playQueueManager.toggleShuffleMode();
         }
-        events.trigger(player, 'shufflequeuemodechange');
+        Events.trigger(player, 'shufflequeuemodechange');
     }
 
     clearQueue(clearCurrentItem = false, player = this._currentPlayer) {
@@ -3642,7 +3642,7 @@ class PlaybackManager {
         }
 
         this._playQueueManager.clearPlaylist(clearCurrentItem);
-        events.trigger(player, 'playlistitemremove');
+        Events.trigger(player, 'playlistitemremove');
     }
 
     trySetActiveDeviceName(name) {

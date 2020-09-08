@@ -1,4 +1,4 @@
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import loading from '../components/loading/loading';
 import globalize from '../scripts/globalize';
 
@@ -11,7 +11,7 @@ function init(page, type, providerId) {
 
     import(url).then(({default: factory}) => {
         const instance = new factory(page, providerId, {});
-        events.on(instance, 'submitted', onListingsSubmitted);
+        Events.on(instance, 'submitted', onListingsSubmitted);
         instance.init();
     });
 }

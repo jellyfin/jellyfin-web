@@ -1,5 +1,5 @@
 
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -404,7 +404,7 @@ import '../../elements/emby-button/emby-button';
                 }
             }
 
-            events.on(playbackManager, 'playbackstop', onPlaybackStop);
+            Events.on(playbackManager, 'playbackstop', onPlaybackStop);
             inputManager.on(window, onInputCommand);
         });
         view.addEventListener('viewbeforehide', function () {

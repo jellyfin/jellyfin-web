@@ -1,5 +1,5 @@
 import * as userSettings from './settings/userSettings';
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 
 /* eslint-disable indent */
 
@@ -246,7 +246,7 @@ import { events } from 'jellyfin-apiclient';
 
     updateCurrentCulture();
 
-    events.on(userSettings, 'change', function (e, name) {
+    Events.on(userSettings, 'change', function (e, name) {
         if (name === 'language' || name === 'datetimelocale') {
             updateCurrentCulture();
         }

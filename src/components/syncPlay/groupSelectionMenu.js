@@ -1,4 +1,4 @@
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import { playbackManager } from '../playback/playbackmanager';
 import syncPlayManager from './syncPlayManager';
 import loading from '../loading/loading';
@@ -150,7 +150,7 @@ function showLeaveGroupSelection (button, user, apiClient) {
 
 // Register to SyncPlay events
 let syncPlayEnabled = false;
-events.on(syncPlayManager, 'enabled', function (e, enabled) {
+Events.on(syncPlayManager, 'enabled', function (e, enabled) {
     syncPlayEnabled = enabled;
 });
 

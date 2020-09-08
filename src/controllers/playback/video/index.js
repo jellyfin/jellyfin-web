@@ -6,7 +6,7 @@ import datetime from '../../../scripts/datetime';
 import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import browser from '../../../scripts/browser';
 import globalize from '../../../scripts/globalize';
 import { appHost } from '../../../components/apphost';
@@ -540,16 +540,16 @@ import '../../../assets/css/videoosd.css';
             onStateChanged.call(player, {
                 type: 'init'
             }, state);
-            events.on(player, 'playbackstart', onPlaybackStart);
-            events.on(player, 'playbackstop', onPlaybackStopped);
-            events.on(player, 'volumechange', onVolumeChanged);
-            events.on(player, 'pause', onPlayPauseStateChanged);
-            events.on(player, 'unpause', onPlayPauseStateChanged);
-            events.on(player, 'timeupdate', onTimeUpdate);
-            events.on(player, 'fullscreenchange', updateFullscreenIcon);
-            events.on(player, 'mediastreamschange', onMediaStreamsChanged);
-            events.on(player, 'beginFetch', onBeginFetch);
-            events.on(player, 'endFetch', onEndFetch);
+            Events.on(player, 'playbackstart', onPlaybackStart);
+            Events.on(player, 'playbackstop', onPlaybackStopped);
+            Events.on(player, 'volumechange', onVolumeChanged);
+            Events.on(player, 'pause', onPlayPauseStateChanged);
+            Events.on(player, 'unpause', onPlayPauseStateChanged);
+            Events.on(player, 'timeupdate', onTimeUpdate);
+            Events.on(player, 'fullscreenchange', updateFullscreenIcon);
+            Events.on(player, 'mediastreamschange', onMediaStreamsChanged);
+            Events.on(player, 'beginFetch', onBeginFetch);
+            Events.on(player, 'endFetch', onEndFetch);
             resetUpNextDialog();
 
             if (player.isFetching) {
@@ -564,14 +564,14 @@ import '../../../assets/css/videoosd.css';
             const player = currentPlayer;
 
             if (player) {
-                events.off(player, 'playbackstart', onPlaybackStart);
-                events.off(player, 'playbackstop', onPlaybackStopped);
-                events.off(player, 'volumechange', onVolumeChanged);
-                events.off(player, 'pause', onPlayPauseStateChanged);
-                events.off(player, 'unpause', onPlayPauseStateChanged);
-                events.off(player, 'timeupdate', onTimeUpdate);
-                events.off(player, 'fullscreenchange', updateFullscreenIcon);
-                events.off(player, 'mediastreamschange', onMediaStreamsChanged);
+                Events.off(player, 'playbackstart', onPlaybackStart);
+                Events.off(player, 'playbackstop', onPlaybackStopped);
+                Events.off(player, 'volumechange', onVolumeChanged);
+                Events.off(player, 'pause', onPlayPauseStateChanged);
+                Events.off(player, 'unpause', onPlayPauseStateChanged);
+                Events.off(player, 'timeupdate', onTimeUpdate);
+                Events.off(player, 'fullscreenchange', updateFullscreenIcon);
+                Events.off(player, 'mediastreamschange', onMediaStreamsChanged);
                 currentPlayer = null;
             }
         }
@@ -623,7 +623,7 @@ import '../../../assets/css/videoosd.css';
                             player: player,
                             nextItem: nextItem
                         });
-                        events.on(currentUpNextDialog, 'hide', onUpNextHidden);
+                        Events.on(currentUpNextDialog, 'hide', onUpNextHidden);
                     }, onUpNextHidden);
                 }
             });
@@ -1299,7 +1299,7 @@ import '../../../assets/css/videoosd.css';
         });
         view.addEventListener('viewshow', function (e) {
             try {
-                events.on(playbackManager, 'playerchange', onPlayerChange);
+                Events.on(playbackManager, 'playerchange', onPlayerChange);
                 bindToPlayer(playbackManager.getCurrentPlayer());
                 /* eslint-disable-next-line compat/compat */
                 dom.addEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
@@ -1384,7 +1384,7 @@ import '../../../assets/css/videoosd.css';
                 passive: true
             });
             inputManager.off(window, onInputCommand);
-            events.off(playbackManager, 'playerchange', onPlayerChange);
+            Events.off(playbackManager, 'playerchange', onPlayerChange);
             releaseCurrentPlayer();
         });
         view.querySelector('.btnFullscreen').addEventListener('click', function () {
@@ -1555,8 +1555,8 @@ import '../../../assets/css/videoosd.css';
                         preventDefaultOnMove: true,
                         ignoreTagNames: ['BUTTON', 'INPUT', 'TEXTAREA']
                     });
-                    events.on(self.touchHelper, 'swipeup', onVerticalSwipe);
-                    events.on(self.touchHelper, 'swipedown', onVerticalSwipe);
+                    Events.on(self.touchHelper, 'swipeup', onVerticalSwipe);
+                    Events.on(self.touchHelper, 'swipedown', onVerticalSwipe);
                 });
             })();
         }

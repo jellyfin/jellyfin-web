@@ -1,5 +1,5 @@
 import { playbackManager } from '../../components/playback/playbackmanager';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
 
 function getActivePlayerId() {
@@ -104,7 +104,7 @@ function processUpdatedSessions(instance, sessions, apiClient) {
         instance.lastPlayerData = session;
 
         for (let i = 0, length = eventNames.length; i < length; i++) {
-            events.trigger(instance, eventNames[i], [session]);
+            Events.trigger(instance, eventNames[i], [session]);
         }
     } else {
         instance.lastPlayerData = session;
@@ -186,7 +186,7 @@ class SessionPlayer {
         this.isLocalPlayer = false;
         this.id = 'remoteplayer';
 
-        events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
+        Events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
             processUpdatedSessions(self, data, apiClient);
         });
     }

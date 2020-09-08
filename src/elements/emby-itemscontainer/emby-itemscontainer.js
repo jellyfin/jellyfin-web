@@ -9,7 +9,7 @@ import dom from '../../scripts/dom';
 import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import serverNotifications from '../../scripts/serverNotifications';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import 'webcomponents.js';
 
 /* eslint-disable indent */
@@ -271,7 +271,7 @@ import 'webcomponents.js';
     function addNotificationEvent(instance, name, handler, owner) {
         const localHandler = handler.bind(instance);
         owner = owner || serverNotifications;
-        events.on(owner, name, localHandler);
+        Events.on(owner, name, localHandler);
         instance['event_' + name] = localHandler;
     }
 
@@ -279,7 +279,7 @@ import 'webcomponents.js';
         const handler = instance['event_' + name];
         if (handler) {
             owner = owner || serverNotifications;
-            events.off(owner, name, handler);
+            Events.off(owner, name, handler);
             instance['event_' + name] = null;
         }
     }

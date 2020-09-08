@@ -2,7 +2,7 @@ import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../scripts/globalize';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import castSenderApiLoader from '../../components/castSenderApi';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
@@ -167,7 +167,7 @@ class CastPlayer {
                 alertText(globalize.translate('MessageChromecastConnectionError'), globalize.translate('HeaderError'));
             }, 300);
         } else if (message.type) {
-            events.trigger(this, message.type, [message.data]);
+            Events.trigger(this, message.type, [message.data]);
         }
     }
 
@@ -236,7 +236,7 @@ class CastPlayer {
         document.addEventListener('volumeupbutton', onVolumeUpKeyDown, false);
         document.addEventListener('volumedownbutton', onVolumeDownKeyDown, false);
 
-        events.trigger(this, 'connect');
+        Events.trigger(this, 'connect');
         this.sendMessage({
             options: {},
             command: 'Identify'
@@ -495,11 +495,11 @@ function getItemsForPlayback(apiClient, query) {
 }
 
 function bindEventForRelay(instance, eventName) {
-    events.on(instance._castPlayer, eventName, function (e, data) {
+    Events.on(instance._castPlayer, eventName, function (e, data) {
         console.debug('cc: ' + eventName);
         const state = instance.getPlayerStateInternal(data);
 
-        events.trigger(instance, eventName, [state]);
+        Events.trigger(instance, eventName, [state]);
     });
 }
 
@@ -514,7 +514,7 @@ function initializeChromecast() {
         }
     }));
 
-    events.on(instance._castPlayer, 'connect', function (e) {
+    Events.on(instance._castPlayer, 'connect', function (e) {
         if (currentResolve) {
             sendConnectionResult(true);
         } else {
@@ -526,20 +526,20 @@ function initializeChromecast() {
         instance.lastPlayerData = null;
     });
 
-    events.on(instance._castPlayer, 'playbackstart', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackstart', function (e, data) {
         console.debug('cc: playbackstart');
 
         instance._castPlayer.initializeCastPlayer();
 
         const state = instance.getPlayerStateInternal(data);
-        events.trigger(instance, 'playbackstart', [state]);
+        Events.trigger(instance, 'playbackstart', [state]);
     });
 
-    events.on(instance._castPlayer, 'playbackstop', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackstop', function (e, data) {
         console.debug('cc: playbackstop');
         let state = instance.getPlayerStateInternal(data);
 
-        events.trigger(instance, 'playbackstop', [state]);
+        Events.trigger(instance, 'playbackstop', [state]);
 
         state = instance.lastPlayerData.PlayState || {};
         const volume = state.VolumeLevel || 0.5;
@@ -552,11 +552,11 @@ function initializeChromecast() {
         instance.lastPlayerData.PlayState.IsMuted = mute;
     });
 
-    events.on(instance._castPlayer, 'playbackprogress', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackprogress', function (e, data) {
         console.debug('cc: positionchange');
         const state = instance.getPlayerStateInternal(data);
 
-        events.trigger(instance, 'timeupdate', [state]);
+        Events.trigger(instance, 'timeupdate', [state]);
     });
 
     bindEventForRelay(instance, 'timeupdate');
@@ -566,11 +566,11 @@ function initializeChromecast() {
     bindEventForRelay(instance, 'repeatmodechange');
     bindEventForRelay(instance, 'shufflequeuemodechange');
 
-    events.on(instance._castPlayer, 'playstatechange', function (e, data) {
+    Events.on(instance._castPlayer, 'playstatechange', function (e, data) {
         console.debug('cc: playstatechange');
         const state = instance.getPlayerStateInternal(data);
 
-        events.trigger(instance, 'pause', [state]);
+        Events.trigger(instance, 'pause', [state]);
     });
 }
 
@@ -664,7 +664,7 @@ class ChromecastPlayer {
         console.debug(JSON.stringify(data));
 
         if (triggerStateChange) {
-            events.trigger(this, 'statechange', [data]);
+            Events.trigger(this, 'statechange', [data]);
         }
 
         return data;

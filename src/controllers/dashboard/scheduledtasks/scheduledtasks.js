@@ -1,6 +1,6 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import globalize from '../../../scripts/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
@@ -177,7 +177,7 @@ import '../../../elements/emby-button/emby-button';
         });
 
         view.addEventListener('viewbeforehide', function() {
-            events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+            Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
             stopInterval();
         });
 
@@ -185,7 +185,7 @@ import '../../../elements/emby-button/emby-button';
             loading.show();
             startInterval();
             reloadList(view);
-            events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+            Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
         });
     }
 

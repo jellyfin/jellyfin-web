@@ -1,4 +1,4 @@
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from '../playback/playbackmanager';
 
 function transferPlayback(oldPlayer, newPlayer) {
@@ -26,7 +26,7 @@ function transferPlayback(oldPlayer, newPlayer) {
     });
 }
 
-events.on(playbackManager, 'playerchange', (e, newPlayer, newTarget, oldPlayer) => {
+Events.on(playbackManager, 'playerchange', (e, newPlayer, newTarget, oldPlayer) => {
     if (!oldPlayer || !newPlayer) {
         return;
     }

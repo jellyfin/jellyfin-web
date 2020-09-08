@@ -3,7 +3,7 @@ import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import homeSections from '../homesections/homesections';
 import dom from '../../scripts/dom';
 import '../listview/listview.css';
@@ -375,7 +375,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
                     });
                 }
 
-                events.trigger(instance, 'saved');
+                Events.trigger(instance, 'saved');
             }, () => {
                 loading.hide();
             });

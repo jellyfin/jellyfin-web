@@ -1,7 +1,7 @@
 import dom from './dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import viewManager from '../components/viewManager/viewManager';
 import { appRouter } from '../components/appRouter';
 import { appHost } from '../components/apphost';
@@ -199,8 +199,8 @@ import '../assets/css/flexstyles.css';
         if (layoutManager.mobile) {
             initHeadRoom(skinHeader);
         }
-        events.on(playbackManager, 'playbackstart', onPlaybackStart);
-        events.on(playbackManager, 'playbackstop', onPlaybackStop);
+        Events.on(playbackManager, 'playbackstart', onPlaybackStart);
+        Events.on(playbackManager, 'playbackstop', onPlaybackStop);
     }
 
     function onPlaybackStart(e) {
@@ -978,7 +978,7 @@ import '../assets/css/flexstyles.css';
 
     renderHeader();
 
-    events.on(window.ConnectionManager, 'localusersignedin', function (e, user) {
+    Events.on(window.ConnectionManager, 'localusersignedin', function (e, user) {
         const currentApiClient = window.ConnectionManager.getApiClient(user.ServerId);
 
         currentDrawerType = null;
@@ -994,15 +994,15 @@ import '../assets/css/flexstyles.css';
         });
     });
 
-    events.on(window.ConnectionManager, 'localusersignedout', function () {
+    Events.on(window.ConnectionManager, 'localusersignedout', function () {
         currentUser = {};
         updateUserInHeader();
     });
 
-    events.on(playbackManager, 'playerchange', updateCastIcon);
+    Events.on(playbackManager, 'playerchange', updateCastIcon);
 
-    events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
-    events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
+    Events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
+    Events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
 
     loadNavDrawer();
 

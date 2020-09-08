@@ -2,7 +2,7 @@ import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import './style.css';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -289,7 +289,7 @@ export class BookPlayer {
                         epubElem.style.display = 'block';
                         rendition.on('relocated', (locations) => {
                             this.progress = book.locations.percentageFromCfi(locations.start.cfi);
-                            events.trigger(this, 'timeupdate');
+                            Events.trigger(this, 'timeupdate');
                         });
 
                         loading.hide();

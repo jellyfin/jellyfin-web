@@ -1,5 +1,5 @@
 import browser from '../../scripts/browser';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
@@ -286,7 +286,7 @@ function tryRemoveElement(elem) {
         incrementFetchQueue() {
             if (this.#fetchQueue <= 0) {
                 this.isFetching = true;
-                events.trigger(this, 'beginFetch');
+                Events.trigger(this, 'beginFetch');
             }
 
             this.#fetchQueue++;
@@ -300,7 +300,7 @@ function tryRemoveElement(elem) {
 
             if (this.#fetchQueue <= 0) {
                 this.isFetching = false;
-                events.trigger(this, 'endFetch');
+                Events.trigger(this, 'endFetch');
             }
         }
 
@@ -754,7 +754,7 @@ function tryRemoveElement(elem) {
                 this.updateSubtitleText(timeMs);
             }
 
-            events.trigger(this, 'timeupdate');
+            Events.trigger(this, 'timeupdate');
         };
 
         /**
@@ -767,7 +767,7 @@ function tryRemoveElement(elem) {
              */
             const elem = e.target;
             saveVolume(elem.volume);
-            events.trigger(this, 'volumechange');
+            Events.trigger(this, 'volumechange');
         };
 
         /**
@@ -826,14 +826,14 @@ function tryRemoveElement(elem) {
                     this.onStartedAndNavigatedToOsd();
                 }
             }
-            events.trigger(this, 'playing');
+            Events.trigger(this, 'playing');
         };
 
         /**
          * @private
          */
         onPlay = () => {
-            events.trigger(this, 'unpause');
+            Events.trigger(this, 'unpause');
         };
 
         /**
@@ -859,25 +859,25 @@ function tryRemoveElement(elem) {
          * @private
          */
         onClick = () => {
-            events.trigger(this, 'click');
+            Events.trigger(this, 'click');
         };
 
         /**
          * @private
          */
         onDblClick = () => {
-            events.trigger(this, 'dblclick');
+            Events.trigger(this, 'dblclick');
         };
 
         /**
          * @private
          */
         onPause = () => {
-            events.trigger(this, 'pause');
+            Events.trigger(this, 'pause');
         };
 
         onWaiting() {
-            events.trigger(this, 'waiting');
+            Events.trigger(this, 'waiting');
         }
 
         /**
@@ -1561,7 +1561,7 @@ function tryRemoveElement(elem) {
             elem.style['-webkit-filter'] = `brightness(${cssValue})`;
             elem.style.filter = `brightness(${cssValue})`;
             elem.brightnessValue = val;
-            events.trigger(this, 'brightnesschange');
+            Events.trigger(this, 'brightnesschange');
         }
     }
 

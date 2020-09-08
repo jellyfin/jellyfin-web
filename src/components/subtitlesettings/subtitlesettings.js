@@ -7,7 +7,7 @@ import loading from '../loading/loading';
 import subtitleAppearanceHelper from './subtitleappearancehelper';
 import settingsHelper from '../settingshelper';
 import dom from '../../scripts/dom';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import '../listview/listview.css';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-slider/emby-slider';
@@ -92,7 +92,7 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
                 });
             }
 
-            events.trigger(instance, 'saved');
+            Events.trigger(instance, 'saved');
         }, function () {
             loading.hide();
         });

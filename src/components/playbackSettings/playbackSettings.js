@@ -5,7 +5,7 @@ import focusManager from '../focusManager';
 import qualityoptions from '../qualityOptions';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 
@@ -248,7 +248,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
                     });
                 }
 
-                events.trigger(instance, 'saved');
+                Events.trigger(instance, 'saved');
             }, () => {
                 loading.hide();
             });

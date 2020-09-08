@@ -1,6 +1,6 @@
 import dom from '../scripts/dom';
 import browser from '../scripts/browser';
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
 
@@ -68,8 +68,8 @@ import '../elements/emby-button/emby-button';
         import('../scripts/touchHelper').then((TouchHelper) => {
             const touchHelper = new TouchHelper(view.parentNode.parentNode);
 
-            events.on(touchHelper, 'swipeleft', onSwipeLeft);
-            events.on(touchHelper, 'swiperight', onSwipeRight);
+            Events.on(touchHelper, 'swipeleft', onSwipeLeft);
+            Events.on(touchHelper, 'swiperight', onSwipeRight);
 
             view.addEventListener('viewdestroy', function () {
                 touchHelper.destroy();

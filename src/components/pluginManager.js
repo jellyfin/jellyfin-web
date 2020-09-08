@@ -1,4 +1,4 @@
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
 /* eslint-disable indent */
 
@@ -99,7 +99,7 @@ import globalize from '../scripts/globalize';
         // type (skin, screensaver, etc)
         #register(obj) {
             this.pluginsList.push(obj);
-            events.trigger(this, 'registered', [obj]);
+            Events.trigger(this, 'registered', [obj]);
         }
 
         ofType(type) {

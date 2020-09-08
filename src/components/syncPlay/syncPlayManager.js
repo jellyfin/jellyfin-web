@@ -3,7 +3,7 @@
  * @module components/syncPlay/syncPlayManager
  */
 
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import { playbackManager } from '../playback/playbackmanager';
 import timeSyncManager from './timeSyncManager';
 import toast from '../toast/toast';
@@ -25,13 +25,13 @@ function waitForEventOnce(emitter, eventType, timeout) {
             }, timeout);
         }
         const callback = () => {
-            events.off(emitter, eventType, callback);
+            Events.off(emitter, eventType, callback);
             if (rejectTimeout) {
                 clearTimeout(rejectTimeout);
             }
             resolve(arguments);
         };
-        events.on(emitter, eventType, callback);
+        Events.on(emitter, eventType, callback);
     });
 }
 
@@ -92,25 +92,25 @@ class SyncPlayManager {
         this.roundTripDuration = 0;
         this.notifySyncPlayReady = false;
 
-        events.on(playbackManager, 'playbackstart', (player, state) => {
+        Events.on(playbackManager, 'playbackstart', (player, state) => {
             this.onPlaybackStart(player, state);
         });
 
-        events.on(playbackManager, 'playbackstop', (stopInfo) => {
+        Events.on(playbackManager, 'playbackstop', (stopInfo) => {
             this.onPlaybackStop(stopInfo);
         });
 
-        events.on(playbackManager, 'playerchange', () => {
+        Events.on(playbackManager, 'playerchange', () => {
             this.onPlayerChange();
         });
 
         this.bindToPlayer(playbackManager.getCurrentPlayer());
 
-        events.on(this, 'timeupdate', (event) => {
+        Events.on(this, 'timeupdate', (event) => {
             this.syncPlaybackTime();
         });
 
-        events.on(timeSyncManager, 'update', (event, error, timeOffset, ping) => {
+        Events.on(timeSyncManager, 'update', (event, error, timeOffset, ping) => {
             if (error) {
                 console.debug('SyncPlay, time update issue', error);
                 return;
@@ -121,7 +121,7 @@ class SyncPlayManager {
 
             if (this.notifySyncPlayReady) {
                 this.syncPlayReady = true;
-                events.trigger(this, 'ready');
+                Events.trigger(this, 'ready');
                 this.notifySyncPlayReady = false;
             }
 
@@ -149,14 +149,14 @@ class SyncPlayManager {
      * Called when playback starts.
      */
     onPlaybackStart (player, state) {
-        events.trigger(this, 'playbackstart', [player, state]);
+        Events.trigger(this, 'playbackstart', [player, state]);
     }
 
     /**
      * Called when playback stops.
      */
     onPlaybackStop (stopInfo) {
-        events.trigger(this, 'playbackstop', [stopInfo]);
+        Events.trigger(this, 'playbackstop', [stopInfo]);
         if (this.isSyncPlayEnabled()) {
             this.disableSyncPlay(false);
         }
@@ -167,21 +167,21 @@ class SyncPlayManager {
      */
     onPlayerChange () {
         this.bindToPlayer(playbackManager.getCurrentPlayer());
-        events.trigger(this, 'playerchange', [this.currentPlayer]);
+        Events.trigger(this, 'playerchange', [this.currentPlayer]);
     }
 
     /**
      * Called when playback unpauses.
      */
     onPlayerUnpause () {
-        events.trigger(this, 'unpause', [this.currentPlayer]);
+        Events.trigger(this, 'unpause', [this.currentPlayer]);
     }
 
     /**
      * Called when playback pauses.
      */
     onPlayerPause() {
-        events.trigger(this, 'pause', [this.currentPlayer]);
+        Events.trigger(this, 'pause', [this.currentPlayer]);
     }
 
     /**
@@ -191,7 +191,7 @@ class SyncPlayManager {
     onTimeUpdate (e) {
         // NOTICE: this event is unreliable, at least in Safari
         // which just stops firing the event after a while.
-        events.trigger(this, 'timeupdate', [e]);
+        Events.trigger(this, 'timeupdate', [e]);
     }
 
     /**
@@ -200,7 +200,7 @@ class SyncPlayManager {
     onPlaying () {
         // TODO: implement group wait
         this.lastPlaybackWaiting = null;
-        events.trigger(this, 'playing');
+        Events.trigger(this, 'playing');
     }
 
     /**
@@ -212,7 +212,7 @@ class SyncPlayManager {
             this.lastPlaybackWaiting = new Date();
         }
 
-        events.trigger(this, 'waiting');
+        Events.trigger(this, 'waiting');
     }
 
     /**
@@ -260,11 +260,11 @@ class SyncPlayManager {
             self.onWaiting();
         };
 
-        events.on(player, 'unpause', this._onPlayerUnpause);
-        events.on(player, 'pause', this._onPlayerPause);
-        events.on(player, 'timeupdate', this._onTimeUpdate);
-        events.on(player, 'playing', this._onPlaying);
-        events.on(player, 'waiting', this._onWaiting);
+        Events.on(player, 'unpause', this._onPlayerUnpause);
+        Events.on(player, 'pause', this._onPlayerPause);
+        Events.on(player, 'timeupdate', this._onTimeUpdate);
+        Events.on(player, 'playing', this._onPlaying);
+        Events.on(player, 'waiting', this._onWaiting);
 
         // Save player current PlaybackRate value
         if (player.supports && player.supports('PlaybackRate')) {
@@ -278,11 +278,11 @@ class SyncPlayManager {
     releaseCurrentPlayer () {
         const player = this.currentPlayer;
         if (player) {
-            events.off(player, 'unpause', this._onPlayerUnpause);
-            events.off(player, 'pause', this._onPlayerPause);
-            events.off(player, 'timeupdate', this._onTimeUpdate);
-            events.off(player, 'playing', this._onPlaying);
-            events.off(player, 'waiting', this._onWaiting);
+            Events.off(player, 'unpause', this._onPlayerUnpause);
+            Events.off(player, 'pause', this._onPlayerPause);
+            Events.off(player, 'timeupdate', this._onTimeUpdate);
+            Events.off(player, 'playing', this._onPlaying);
+            Events.off(player, 'waiting', this._onWaiting);
             // Restore player original PlaybackRate value
             if (this.playbackRateSupported) {
                 player.setPlaybackRate(this.localPlayerPlaybackRate);
@@ -486,7 +486,7 @@ class SyncPlayManager {
     enableSyncPlay (apiClient, enabledAt, showMessage = false) {
         this.syncPlayEnabledAt = enabledAt;
         this.injectPlaybackManager();
-        events.trigger(this, 'enabled', [true]);
+        Events.trigger(this, 'enabled', [true]);
 
         waitForEventOnce(this, 'ready').then(() => {
             this.processCommand(this.queuedCommand, apiClient);
@@ -515,7 +515,7 @@ class SyncPlayManager {
         this.lastCommand = null;
         this.queuedCommand = null;
         this.syncEnabled = false;
-        events.trigger(this, 'enabled', [false]);
+        Events.trigger(this, 'enabled', [false]);
         this.restorePlaybackManager();
 
         if (showMessage) {
@@ -814,7 +814,7 @@ class SyncPlayManager {
      */
     showSyncIcon (syncMethod) {
         this.syncMethod = syncMethod;
-        events.trigger(this, 'syncing', [true, this.syncMethod]);
+        Events.trigger(this, 'syncing', [true, this.syncMethod]);
     }
 
     /**
@@ -822,7 +822,7 @@ class SyncPlayManager {
      */
     clearSyncIcon () {
         this.syncMethod = 'None';
-        events.trigger(this, 'syncing', [false, this.syncMethod]);
+        Events.trigger(this, 'syncing', [false, this.syncMethod]);
     }
 
     /**

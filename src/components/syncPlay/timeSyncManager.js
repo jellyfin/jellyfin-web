@@ -3,7 +3,7 @@
  * @module components/syncPlay/timeSyncManager
  */
 
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 
 /**
  * Time estimation
@@ -131,11 +131,11 @@ class TimeSyncManager {
                             this.pings++;
                         }
 
-                        events.trigger(this, 'update', [null, this.getTimeOffset(), this.getPing()]);
+                        Events.trigger(this, 'update', [null, this.getTimeOffset(), this.getPing()]);
                     });
                 }).catch((error) => {
                     console.error(error);
-                    events.trigger(this, 'update', [error, null, null]);
+                    Events.trigger(this, 'update', [error, null, null]);
                 }).finally(() => {
                     this.requestPing();
                 });

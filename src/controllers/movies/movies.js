@@ -1,6 +1,6 @@
 import loading from '../../components/loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
 import listView from '../../components/listview/listview';
@@ -284,7 +284,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     mode: 'movies',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, 'filterchange', () => {
+                Events.on(filterDialog, 'filterchange', () => {
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });

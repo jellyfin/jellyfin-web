@@ -96,7 +96,7 @@ function initClient() {
             import('../components/apphost'),
             import('./settings/userSettings')
         ])
-            .then(([{ ConnectionManager, Credentials, events }, { appHost} , userSettings]) => {
+            .then(([{ ConnectionManager, Credentials, Events }, { appHost} , userSettings]) => {
                 var credentialProviderInstance = new Credentials();
                 var promises = [appHost.init()];
 
@@ -105,7 +105,7 @@ function initClient() {
 
                     window.ConnectionManager = new ConnectionManager(credentialProviderInstance, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId(), capabilities);
 
-                    bindConnectionManagerEvents(window.ConnectionManager, events, userSettings);
+                    bindConnectionManagerEvents(window.ConnectionManager, Events, userSettings);
 
                     if (!AppInfo.isNativeApp) {
                         console.debug('loading ApiClient singleton');
@@ -165,7 +165,7 @@ function initClient() {
                         import('jellyfin-apiclient')
                     ])
                         .then(([ globalize, { ConnectionManager, events } ]) => {
-                            events.on(ConnectionManager, 'localusersignedin', globalize.updateCurrentCulture);
+                            Events.on(ConnectionManager, 'localusersignedin', globalize.updateCurrentCulture);
                         });
                 });
             });

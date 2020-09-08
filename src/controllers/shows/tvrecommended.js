@@ -1,5 +1,5 @@
 
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import inputManager from '../../scripts/inputManager';
 import libraryMenu from '../../scripts/libraryMenu';
 import layoutManager from '../../components/layoutManager';
@@ -374,14 +374,14 @@ import '../../elements/emby-button/emby-button';
                 }
             }
 
-            events.on(playbackManager, 'playbackstop', onPlaybackStop);
-            events.on(ApiClient, 'message', onWebSocketMessage);
+            Events.on(playbackManager, 'playbackstop', onPlaybackStop);
+            Events.on(ApiClient, 'message', onWebSocketMessage);
             inputManager.on(window, onInputCommand);
         });
         view.addEventListener('viewbeforehide', function (e) {
             inputManager.off(window, onInputCommand);
-            events.off(playbackManager, 'playbackstop', onPlaybackStop);
-            events.off(ApiClient, 'message', onWebSocketMessage);
+            Events.off(playbackManager, 'playbackstop', onPlaybackStop);
+            Events.off(ApiClient, 'message', onWebSocketMessage);
         });
         view.addEventListener('viewdestroy', function (e) {
             tabControllers.forEach(function (t) {

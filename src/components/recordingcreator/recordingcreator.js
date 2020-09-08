@@ -7,7 +7,7 @@ import scrollHelper from '../../scripts/scrollHelper';
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
 import recordingFields from './recordingfields';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -166,7 +166,7 @@ function showEditor(itemId, serverId) {
             }
 
             dlg.addEventListener('close', function () {
-                events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+                Events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
                 executeCloseAction(closeAction, itemId, serverId);
 
                 if (currentRecordingFields && currentRecordingFields.hasChanged()) {
@@ -190,7 +190,7 @@ function showEditor(itemId, serverId) {
                 serverId: serverId
             });
 
-            events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+            Events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
 
             dialogHelper.open(dlg);
         });

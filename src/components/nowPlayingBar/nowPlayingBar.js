@@ -1,5 +1,5 @@
 import datetime from '../../scripts/datetime';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import imageLoader from '../../scripts/imagehelper';
 import layoutManager from '../layoutManager';
@@ -707,15 +707,15 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
         const player = currentPlayer;
 
         if (player) {
-            events.off(player, 'playbackstart', onPlaybackStart);
-            events.off(player, 'statechange', onPlaybackStart);
-            events.off(player, 'repeatmodechange', onRepeatModeChange);
-            events.off(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
-            events.off(player, 'playbackstop', onPlaybackStopped);
-            events.off(player, 'volumechange', onVolumeChanged);
-            events.off(player, 'pause', onPlayPauseStateChanged);
-            events.off(player, 'unpause', onPlayPauseStateChanged);
-            events.off(player, 'timeupdate', onTimeUpdate);
+            Events.off(player, 'playbackstart', onPlaybackStart);
+            Events.off(player, 'statechange', onPlaybackStart);
+            Events.off(player, 'repeatmodechange', onRepeatModeChange);
+            Events.off(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
+            Events.off(player, 'playbackstop', onPlaybackStopped);
+            Events.off(player, 'volumechange', onVolumeChanged);
+            Events.off(player, 'pause', onPlayPauseStateChanged);
+            Events.off(player, 'unpause', onPlayPauseStateChanged);
+            Events.off(player, 'timeupdate', onTimeUpdate);
 
             currentPlayer = null;
             hideNowPlayingBar();
@@ -753,18 +753,18 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 
         refreshFromPlayer(player);
 
-        events.on(player, 'playbackstart', onPlaybackStart);
-        events.on(player, 'statechange', onPlaybackStart);
-        events.on(player, 'repeatmodechange', onRepeatModeChange);
-        events.on(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
-        events.on(player, 'playbackstop', onPlaybackStopped);
-        events.on(player, 'volumechange', onVolumeChanged);
-        events.on(player, 'pause', onPlayPauseStateChanged);
-        events.on(player, 'unpause', onPlayPauseStateChanged);
-        events.on(player, 'timeupdate', onTimeUpdate);
+        Events.on(player, 'playbackstart', onPlaybackStart);
+        Events.on(player, 'statechange', onPlaybackStart);
+        Events.on(player, 'repeatmodechange', onRepeatModeChange);
+        Events.on(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
+        Events.on(player, 'playbackstop', onPlaybackStopped);
+        Events.on(player, 'volumechange', onVolumeChanged);
+        Events.on(player, 'pause', onPlayPauseStateChanged);
+        Events.on(player, 'unpause', onPlayPauseStateChanged);
+        Events.on(player, 'timeupdate', onTimeUpdate);
     }
 
-    events.on(playbackManager, 'playerchange', function () {
+    Events.on(playbackManager, 'playerchange', function () {
         bindToPlayer(playbackManager.getCurrentPlayer());
     });
 

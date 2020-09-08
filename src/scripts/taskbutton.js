@@ -1,5 +1,5 @@
 
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import serverNotifications from '../scripts/serverNotifications';
 import globalize from '../scripts/globalize';
 import '../elements/emby-button/emby-button';
@@ -110,12 +110,12 @@ export default function (options) {
 
     if (options.mode == 'off') {
         button.removeEventListener('click', onButtonClick);
-        events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+        Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
         stopInterval();
     } else {
         button.addEventListener('click', onButtonClick);
         pollTasks();
         startInterval();
-        events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+        Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
     }
 }

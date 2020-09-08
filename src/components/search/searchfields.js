@@ -1,6 +1,6 @@
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import AlphaPicker from '../alphaPicker/alphaPicker';
 import '../../elements/emby-input/emby-input';
@@ -15,7 +15,7 @@ import './searchfields.css';
         let value = instance.nextSearchValue;
 
         value = (value || '').trim();
-        events.trigger(instance, 'search', [value]);
+        Events.trigger(instance, 'search', [value]);
     }
 
     function triggerSearch(instance, value) {

@@ -1,4 +1,4 @@
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from './playbackmanager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
@@ -121,8 +121,8 @@ function releaseCurrentPlayer() {
     const player = currentPlayer;
 
     if (player) {
-        events.off(player, 'brightnesschange', onBrightnessChanged);
-        events.off(player, 'playbackstop', hideOsd);
+        Events.off(player, 'brightnesschange', onBrightnessChanged);
+        Events.off(player, 'playbackstop', hideOsd);
         currentPlayer = null;
     }
 }
@@ -151,11 +151,11 @@ function bindToPlayer(player) {
     }
 
     hideOsd();
-    events.on(player, 'brightnesschange', onBrightnessChanged);
-    events.on(player, 'playbackstop', hideOsd);
+    Events.on(player, 'brightnesschange', onBrightnessChanged);
+    Events.on(player, 'playbackstop', hideOsd);
 }
 
-events.on(playbackManager, 'playerchange', function () {
+Events.on(playbackManager, 'playerchange', function () {
     bindToPlayer(playbackManager.getCurrentPlayer());
 });
 

@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { appStorage, events } from 'jellyfin-apiclient';
+import { AppStorage, Events } from 'jellyfin-apiclient';
 
     function getKey(name, userId) {
         if (userId) {
@@ -80,15 +80,15 @@ import { appStorage, events } from 'jellyfin-apiclient';
 
     export function set(name, value, userId) {
         const currentValue = this.get(name, userId);
-        appStorage.setItem(getKey(name, userId), value);
+        AppStorage.setItem(getKey(name, userId), value);
 
         if (currentValue !== value) {
-            events.trigger(this, 'change', [name]);
+            Events.trigger(this, 'change', [name]);
         }
     }
 
     export function get(name, userId) {
-        return appStorage.getItem(getKey(name, userId));
+        return AppStorage.getItem(getKey(name, userId));
     }
 
 /* eslint-enable indent */

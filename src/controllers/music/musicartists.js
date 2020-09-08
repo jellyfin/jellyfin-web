@@ -1,5 +1,5 @@
 import loading from '../../components/loading/loading';
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import imageLoader from '../../components/images/imageLoader';
 import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
@@ -182,7 +182,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     mode: this.mode,
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, 'filterchange', function () {
+                Events.on(filterDialog, 'filterchange', function () {
                     getQuery(tabContent).StartIndex = 0;
                     reloadItems(tabContent);
                 });

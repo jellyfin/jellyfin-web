@@ -1,4 +1,4 @@
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import '../../elements/emby-button/paper-icon-button-light';
 import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
@@ -450,14 +450,14 @@ import './playerstats.css';
         };
 
         instance.onTimeUpdate = localOnTimeUpdate;
-        events.on(player, 'timeupdate', localOnTimeUpdate);
+        Events.on(player, 'timeupdate', localOnTimeUpdate);
     }
 
     function unbindEvents(instance, player) {
         const localOnTimeUpdate = instance.onTimeUpdate;
 
         if (localOnTimeUpdate) {
-            events.off(player, 'timeupdate', localOnTimeUpdate);
+            Events.off(player, 'timeupdate', localOnTimeUpdate);
         }
     }
 

@@ -2,7 +2,7 @@ import { appHost } from './apphost';
 import appSettings from '../scripts/settings/appSettings';
 import backdrop from './backdrop/backdrop';
 import browser from '../scripts/browser';
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
 import itemHelper from './itemHelper';
 import loading from './loading/loading';
@@ -150,8 +150,8 @@ class AppRouter {
         loading.show();
         this.initApiClients();
 
-        events.on(appHost, 'beforeexit', this.onBeforeExit);
-        events.on(appHost, 'resume', this.onAppResume);
+        Events.on(appHost, 'beforeexit', this.onBeforeExit);
+        Events.on(appHost, 'resume', this.onAppResume);
 
         window.ConnectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
@@ -484,8 +484,8 @@ class AppRouter {
             newApiClient.getMaxBandwidth = this.getMaxBandwidth;
         }
 
-        events.off(newApiClient, 'requestfail', this.onRequestFail);
-        events.on(newApiClient, 'requestfail', this.onRequestFail);
+        Events.off(newApiClient, 'requestfail', this.onRequestFail);
+        Events.on(newApiClient, 'requestfail', this.onRequestFail);
     }
 
     initApiClient(apiClient, instance) {
@@ -497,7 +497,7 @@ class AppRouter {
             this.initApiClient(apiClient, this);
         });
 
-        events.on(window.ConnectionManager, 'apiclientcreated', this.onApiClientCreated);
+        Events.on(window.ConnectionManager, 'apiclientcreated', this.onApiClientCreated);
     }
 
     onAppResume() {

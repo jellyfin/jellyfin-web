@@ -1,6 +1,6 @@
 import SearchFields from '../components/search/searchfields';
 import SearchResults from '../components/search/searchresults';
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 
 export default function (view, params) {
     function onSearch(e, value) {
@@ -19,7 +19,7 @@ export default function (view, params) {
                 parentId: params.parentId,
                 collectionType: params.collectionType
             });
-            events.on(self.searchFields, 'search', onSearch);
+            Events.on(self.searchFields, 'search', onSearch);
         }
     });
     view.addEventListener('viewdestroy', function () {

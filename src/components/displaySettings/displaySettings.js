@@ -7,7 +7,7 @@ import datetime from '../../scripts/datetime';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
@@ -172,7 +172,7 @@ import '../../elements/emby-button/emby-button';
                         toast(globalize.translate('SettingsSaved'));
                     });
                 }
-                events.trigger(instance, 'saved');
+                Events.trigger(instance, 'saved');
             }, () => {
                 loading.hide();
             });

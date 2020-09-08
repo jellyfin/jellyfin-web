@@ -1,7 +1,7 @@
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../scripts/globalize';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import './style.css';
@@ -108,7 +108,7 @@ import './style.css';
      * @param instance {FilterDialog} An instance of FilterDialog
      */
     function triggerChange(instance) {
-        events.trigger(instance, 'filterchange');
+        Events.trigger(instance, 'filterchange');
     }
 
     function setVisibility(context, options) {

@@ -1,5 +1,5 @@
 import globalize from '../../scripts/globalize';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
 import dom from '../../scripts/dom';
@@ -104,14 +104,14 @@ class RecordingEditor {
         const timerChangedHandler = onTimerChangedExternally.bind(this);
         this.timerChangedHandler = timerChangedHandler;
 
-        events.on(serverNotifications, 'TimerCreated', timerChangedHandler);
-        events.on(serverNotifications, 'TimerCancelled', timerChangedHandler);
+        Events.on(serverNotifications, 'TimerCreated', timerChangedHandler);
+        Events.on(serverNotifications, 'TimerCancelled', timerChangedHandler);
 
         const seriesTimerChangedHandler = onSeriesTimerChangedExternally.bind(this);
         this.seriesTimerChangedHandler = seriesTimerChangedHandler;
 
-        events.on(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
-        events.on(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
+        Events.on(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
+        Events.on(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
     }
 
     embed() {
@@ -144,14 +144,14 @@ class RecordingEditor {
         const timerChangedHandler = this.timerChangedHandler;
         this.timerChangedHandler = null;
 
-        events.off(serverNotifications, 'TimerCreated', timerChangedHandler);
-        events.off(serverNotifications, 'TimerCancelled', timerChangedHandler);
+        Events.off(serverNotifications, 'TimerCreated', timerChangedHandler);
+        Events.off(serverNotifications, 'TimerCancelled', timerChangedHandler);
 
         const seriesTimerChangedHandler = this.seriesTimerChangedHandler;
         this.seriesTimerChangedHandler = null;
 
-        events.off(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
-        events.off(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
+        Events.off(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
+        Events.off(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
     }
 }
 
@@ -207,7 +207,7 @@ function onRecordChange(e) {
         if (!hasEnabledTimer) {
             loading.show();
             recordingHelper.createRecording(apiClient, options.programId, false).then(function () {
-                events.trigger(self, 'recordingchanged');
+                Events.trigger(self, 'recordingchanged');
                 fetchData(self);
                 loading.hide();
             });
@@ -216,7 +216,7 @@ function onRecordChange(e) {
         if (hasEnabledTimer) {
             loading.show();
             recordingHelper.cancelTimer(apiClient, this.TimerId, true).then(function () {
-                events.trigger(self, 'recordingchanged');
+                Events.trigger(self, 'recordingchanged');
                 fetchData(self);
                 loading.hide();
             });

@@ -1,5 +1,5 @@
 import appSettings from '../../scripts/settings/appSettings';
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';
@@ -300,21 +300,21 @@ document.addEventListener('viewshow', function (e) {
     }
 });
 
-events.on(appSettings, 'change', function (e, name) {
+Events.on(appSettings, 'change', function (e, name) {
     if (name === 'displaymirror') {
         mirrorIfEnabled();
     }
 });
 
-events.on(playbackManager, 'pairing', function (e) {
+Events.on(playbackManager, 'pairing', function (e) {
     loading.show();
 });
 
-events.on(playbackManager, 'paired', function (e) {
+Events.on(playbackManager, 'paired', function (e) {
     loading.hide();
 });
 
-events.on(playbackManager, 'pairerror', function (e) {
+Events.on(playbackManager, 'pairerror', function (e) {
     loading.hide();
 });
 

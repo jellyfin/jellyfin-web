@@ -2,7 +2,7 @@ import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import { appRouter } from '../../components/appRouter';
 import layoutManager from '../../components/layoutManager';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import datetime from '../../scripts/datetime';
@@ -2048,12 +2048,12 @@ export default function (view, params) {
             reload(self, page, params);
         }
 
-        events.on(apiClient, 'message', onWebSocketMessage);
-        events.on(playbackManager, 'playerchange', onPlayerChange);
+        Events.on(apiClient, 'message', onWebSocketMessage);
+        Events.on(playbackManager, 'playerchange', onPlayerChange);
     });
     view.addEventListener('viewbeforehide', function () {
-        events.off(apiClient, 'message', onWebSocketMessage);
-        events.off(playbackManager, 'playerchange', onPlayerChange);
+        Events.off(apiClient, 'message', onWebSocketMessage);
+        Events.off(playbackManager, 'playerchange', onPlayerChange);
         libraryMenu.setTransparentMenu(false);
     });
     view.addEventListener('viewdestroy', function () {

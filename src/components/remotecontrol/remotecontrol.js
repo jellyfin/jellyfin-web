@@ -4,7 +4,7 @@ import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
 import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import { appHost } from '../apphost';
 import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
@@ -631,18 +631,18 @@ export default function () {
         const player = currentPlayer;
 
         if (player) {
-            events.off(player, 'playbackstart', onPlaybackStart);
-            events.off(player, 'statechange', onStateChanged);
-            events.off(player, 'repeatmodechange', onRepeatModeChange);
-            events.off(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
-            events.off(player, 'playlistitemremove', onPlaylistItemRemoved);
-            events.off(player, 'playlistitemmove', onPlaylistUpdate);
-            events.off(player, 'playlistitemadd', onPlaylistUpdate);
-            events.off(player, 'playbackstop', onPlaybackStopped);
-            events.off(player, 'volumechange', onVolumeChanged);
-            events.off(player, 'pause', onPlayPauseStateChanged);
-            events.off(player, 'unpause', onPlayPauseStateChanged);
-            events.off(player, 'timeupdate', onTimeUpdate);
+            Events.off(player, 'playbackstart', onPlaybackStart);
+            Events.off(player, 'statechange', onStateChanged);
+            Events.off(player, 'repeatmodechange', onRepeatModeChange);
+            Events.off(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
+            Events.off(player, 'playlistitemremove', onPlaylistItemRemoved);
+            Events.off(player, 'playlistitemmove', onPlaylistUpdate);
+            Events.off(player, 'playlistitemadd', onPlaylistUpdate);
+            Events.off(player, 'playbackstop', onPlaybackStopped);
+            Events.off(player, 'volumechange', onVolumeChanged);
+            Events.off(player, 'pause', onPlayPauseStateChanged);
+            Events.off(player, 'unpause', onPlayPauseStateChanged);
+            Events.off(player, 'timeupdate', onTimeUpdate);
             currentPlayer = null;
         }
     }
@@ -653,18 +653,18 @@ export default function () {
             onStateChanged.call(player, {
                 type: 'init'
             }, state);
-            events.on(player, 'playbackstart', onPlaybackStart);
-            events.on(player, 'statechange', onStateChanged);
-            events.on(player, 'repeatmodechange', onRepeatModeChange);
-            events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
-            events.on(player, 'playlistitemremove', onPlaylistItemRemoved);
-            events.on(player, 'playlistitemmove', onPlaylistUpdate);
-            events.on(player, 'playlistitemadd', onPlaylistUpdate);
-            events.on(player, 'playbackstop', onPlaybackStopped);
-            events.on(player, 'volumechange', onVolumeChanged);
-            events.on(player, 'pause', onPlayPauseStateChanged);
-            events.on(player, 'unpause', onPlayPauseStateChanged);
-            events.on(player, 'timeupdate', onTimeUpdate);
+            Events.on(player, 'playbackstart', onPlaybackStart);
+            Events.on(player, 'statechange', onStateChanged);
+            Events.on(player, 'repeatmodechange', onRepeatModeChange);
+            Events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
+            Events.on(player, 'playlistitemremove', onPlaylistItemRemoved);
+            Events.on(player, 'playlistitemmove', onPlaylistUpdate);
+            Events.on(player, 'playlistitemadd', onPlaylistUpdate);
+            Events.on(player, 'playbackstop', onPlaybackStopped);
+            Events.on(player, 'volumechange', onVolumeChanged);
+            Events.on(player, 'pause', onPlayPauseStateChanged);
+            Events.on(player, 'unpause', onPlayPauseStateChanged);
+            Events.on(player, 'timeupdate', onTimeUpdate);
             const playerInfo = playbackManager.getPlayerInfo();
             const supportedCommands = playerInfo.supportedCommands;
             currentPlayerSupportedCommands = supportedCommands;
@@ -915,7 +915,7 @@ export default function () {
         bindEvents(context);
         context.querySelector('.sendMessageForm').addEventListener('submit', onMessageSubmit);
         context.querySelector('.typeTextForm').addEventListener('submit', onSendStringSubmit);
-        events.on(playbackManager, 'playerchange', onPlayerChange);
+        Events.on(playbackManager, 'playerchange', onPlayerChange);
 
         if (layoutManager.tv) {
             const positionSlider = context.querySelector('.nowPlayingPositionSlider');
@@ -926,7 +926,7 @@ export default function () {
 
     function onDialogClosed(e) {
         releaseCurrentPlayer();
-        events.off(playbackManager, 'playerchange', onPlayerChange);
+        Events.off(playbackManager, 'playerchange', onPlayerChange);
         lastPlayerState = null;
     }
 

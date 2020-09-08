@@ -1,4 +1,4 @@
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
 import dom from '../scripts/dom';
 import * as datefns from 'date-fns';
@@ -144,7 +144,7 @@ class ActivityLog {
         reloadData(this, element, apiClient);
         const onUpdate = onActivityLogUpdate.bind(this);
         this.updateFn = onUpdate;
-        events.on(serverNotifications, 'ActivityLogEntry', onUpdate);
+        Events.on(serverNotifications, 'ActivityLogEntry', onUpdate);
         apiClient.sendMessage('ActivityLogEntryStart', '0,1500');
     }
     destroy() {
@@ -158,7 +158,7 @@ class ActivityLog {
         const onUpdate = this.updateFn;
 
         if (onUpdate) {
-            events.off(serverNotifications, 'ActivityLogEntry', onUpdate);
+            Events.off(serverNotifications, 'ActivityLogEntry', onUpdate);
         }
 
         this.items = null;

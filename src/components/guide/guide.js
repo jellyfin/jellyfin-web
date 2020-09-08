@@ -1,7 +1,7 @@
 import inputManager from '../../scripts/inputManager';
 import browser from '../../scripts/browser';
 import globalize from '../../scripts/globalize';
-import { ConnectionManager, events } from 'jellyfin-apiclient';
+import { ConnectionManager, Events } from 'jellyfin-apiclient';
 import scrollHelper from '../../scripts/scrollHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
@@ -164,10 +164,10 @@ function Guide(options) {
     self.destroy = function () {
         stopAutoRefresh();
 
-        events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-        events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
+        Events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
+        Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
+        Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
 
         setScrollEvents(options.element, false);
         itemShortcuts.off(options.element);
@@ -1001,7 +1001,7 @@ function Guide(options) {
             const item = items[id];
 
             if (item) {
-                events.trigger(self, 'focus', [
+                Events.trigger(self, 'focus', [
                     {
                         item: item
                     }]);
@@ -1183,12 +1183,12 @@ function Guide(options) {
         setScrollEvents(context, true);
         itemShortcuts.on(context);
 
-        events.trigger(self, 'load');
+        Events.trigger(self, 'load');
 
-        events.on(serverNotifications, 'TimerCreated', onTimerCreated);
-        events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
+        Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
+        Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
+        Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
 
         self.refresh();
     });

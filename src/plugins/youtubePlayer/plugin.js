@@ -1,4 +1,4 @@
-import { events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import { appRouter } from '../../components/appRouter';
 import loading from '../../components/loading/loading';
@@ -80,7 +80,7 @@ function onEndedInternal(instance) {
         src: instance._currentSrc
     };
 
-    events.trigger(instance, 'stopped', [stopInfo]);
+    Events.trigger(instance, 'stopped', [stopInfo]);
 
     instance._currentSrc = null;
     if (instance.currentYoutubePlayer) {
@@ -95,7 +95,7 @@ function onPlayerReady(event) {
 }
 
 function onTimeUpdate(e) {
-    events.trigger(this, 'timeupdate');
+    Events.trigger(this, 'timeupdate');
 }
 
 function onPlaying(instance, playOptions, resolve) {
@@ -139,7 +139,7 @@ function setCurrentSrc(instance, elem, options) {
                         } else if (event.data === YT.PlayerState.ENDED) {
                             onEndedInternal(instance);
                         } else if (event.data === YT.PlayerState.PAUSED) {
-                            events.trigger(instance, 'pause');
+                            Events.trigger(instance, 'pause');
                         }
                     }
                 },
@@ -276,7 +276,7 @@ class YoutubePlayer {
 
             // This needs a delay before the youtube player will report the correct player state
             setTimeout(function () {
-                events.trigger(instance, 'pause');
+                Events.trigger(instance, 'pause');
             }, 200);
         }
     }
@@ -290,7 +290,7 @@ class YoutubePlayer {
 
             // This needs a delay before the youtube player will report the correct player state
             setTimeout(function () {
-                events.trigger(instance, 'unpause');
+                Events.trigger(instance, 'unpause');
             }, 200);
         }
     }
