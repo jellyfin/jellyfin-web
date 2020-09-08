@@ -1369,5 +1369,6 @@
     "MusicVideos": "Vídeos Musicales",
     "LabelIconMaxResHelp": "Máxima resolución de los iconos expuesta a través de la propiedad upnp:icon.",
     "LabelAlbumArtMaxResHelp": "Máxima resolución del material artístico del álbum expuesta a través de la propiedad upnp:albumArtURI.",
-    "Other": "Otro"
+    "Other": "Otro",
+    "VideoAudio": "Vídeo Audio"
 }
