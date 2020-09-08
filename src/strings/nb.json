@@ -1366,5 +1366,8 @@
     "MusicVideos": "Musikkvideoer",
     "Image": "Bilde",
     "Data": "Data",
-    "Other": "Annet"
+    "Other": "Annet",
+    "VideoAudio": "Film lyd",
+    "Photo": "Bilde",
+    "LabelAlbumArtMaxResHelp": "Høyeste tillatte oppløsning for album cover som er tilgjengelig via upnp:albumArtURI."
 }
