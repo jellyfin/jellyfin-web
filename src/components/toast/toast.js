@@ -21,7 +21,7 @@ export default function (options) {
     }
 
     const elem = document.createElement('div');
-    elem.classList.add('../toast/toast');
+    elem.classList.add('toast');
     elem.innerHTML = options.text;
 
     document.body.appendChild(elem);

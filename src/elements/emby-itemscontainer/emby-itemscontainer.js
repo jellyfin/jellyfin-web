@@ -483,7 +483,7 @@ import 'webcomponents.js/webcomponents-lite';
         focusManager.autoFocus(itemsContainer);
     }
 
-    document.registerElement('../../elements/emby-itemscontainer/emby-itemscontainer', {
+    document.registerElement('emby-itemscontainer', {
         prototype: ItemsContainerPrototype,
         extends: 'div'
     });

@@ -12,7 +12,7 @@ import './emby-scroller.css';
     const ScrollerPrototype = Object.create(HTMLDivElement.prototype);
 
     ScrollerPrototype.createdCallback = function () {
-        this.classList.add('../../elements/emby-scroller/emby-scroller');
+        this.classList.add('emby-scroller');
     };
 
     function initCenterFocus(elem, scrollerInstance) {
@@ -193,7 +193,7 @@ import './emby-scroller.css';
         }
     };
 
-    document.registerElement('../../elements/emby-scroller/emby-scroller', {
+    document.registerElement('emby-scroller', {
         prototype: ScrollerPrototype,
         extends: 'div'
     });

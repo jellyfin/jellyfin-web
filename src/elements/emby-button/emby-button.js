@@ -11,7 +11,7 @@ class EmbyButton extends HTMLButtonElement {
             return;
         }
 
-        this.classList.add('../../elements/emby-button/emby-button');
+        this.classList.add('emby-button');
         // TODO replace all instances of element-showfocus with this method
         if (layoutManager.tv) {
             // handles all special css for tv layout
