@@ -1231,7 +1231,7 @@
     "TabStreaming": "Streamen",
     "AlbumArtist": "Album Artiest",
     "Album": "Album",
-    "DeinterlaceMethodHelp": "Selecteer de deinterlacingmethode die u wilt gebruiken bij het transcoderen van geïnterlinieerde inhoud.",
+    "DeinterlaceMethodHelp": "Selecteer de deinterlacingmethode die u wilt gebruiken bij het software transcoderen van geïnterlinieerde inhoud. Wanneer hardware versnelling ondersteuning voor hardware deinterlacing is ingeschakeld de hardware deinterlacer gaat worden gebruikt in plaats van deze instelling.",
     "ClientSettings": "Client instellingen",
     "ButtonSplit": "Splitsen",
     "BoxSet": "Box Set",
@@ -1347,5 +1347,9 @@
     "MessageGetInstalledPluginsError": "Er is een fout opgetreden bij het ophalen van de lijst met geïnstalleerde plugins.",
     "MessagePluginInstallError": "Er is een fout opgetreden tijdens het installeren van de plugin.",
     "LabelUnstable": "Niet stabiel",
-    "NextTrack": "Ga naar volgende"
+    "NextTrack": "Ga naar volgende",
+    "LabelAlbumArtMaxResHelp": "Maximum resolutie van het album art is blootgesteld via de eigenschap upnp:albumArtURI.",
+    "Image": "Afbeelding",
+    "Other": "Andere",
+    "Data": "Gegevens"
 }
