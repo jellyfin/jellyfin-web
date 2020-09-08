@@ -1251,7 +1251,7 @@
     "OnWakeFromSleep": "Al risveglio",
     "Person": "Persona",
     "LabelDeinterlaceMethod": "Metodo di deinterlacciamento:",
-    "DeinterlaceMethodHelp": "Metodo di deinterlacciamento da usare durante la transcodifica.",
+    "DeinterlaceMethodHelp": "Metodo di deinterlacciamento da usare durante la transcodifica software. Se è abilitata l'accelerazione hardware per il deinterlacciamento, questa opzione sarà ignorata.",
     "Artist": "Artista",
     "OnApplicationStartup": "All'avvio",
     "EveryXHours": "Ogni {0} ore",
@@ -1368,5 +1368,7 @@
     "LabelAlbumArtMaxResHelp": "Massima risoluzione dell'album art esposto dalla proprietà upnp:albumArtURI.",
     "Image": "Immagine",
     "Other": "Altro",
-    "Data": "Dati"
+    "Data": "Dati",
+    "Bwdif": "BWDIF",
+    "UseDoubleRateDeinterlacing": "Raddoppia il frame rate durante il deinterlacciamento"
 }
