@@ -163,7 +163,7 @@ import 'emby-scroller';
         instance.setFilterStatus(hasFilters);
 
         if (instance.alphaPicker) {
-            query.NameStartsWithOrGreater = instance.alphaPicker.value();
+            query.NameStartsWith = instance.alphaPicker.value();
         }
 
         return query;

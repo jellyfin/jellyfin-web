@@ -186,7 +186,7 @@ import 'emby-itemscontainer';
 
         const updateFilterControls = (tabContent) => {
             const query = getQuery();
-            this.alphaPicker.value(query.NameStartsWithOrGreater);
+            this.alphaPicker.value(query.NameStartsWith);
         };
 
         let savedQueryKey;
@@ -219,7 +219,7 @@ import 'emby-itemscontainer';
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 const newValue = e.detail.value;
                 const query = getQuery();
-                query.NameStartsWithOrGreater = newValue;
+                query.NameStartsWith = newValue;
                 query.StartIndex = 0;
                 reloadItems(tabContent);
             });
