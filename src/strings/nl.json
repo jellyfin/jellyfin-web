@@ -1351,5 +1351,6 @@
     "LabelAlbumArtMaxResHelp": "Maximum resolutie van het album art is blootgesteld via de eigenschap upnp:albumArtURI.",
     "Image": "Afbeelding",
     "Other": "Andere",
-    "Data": "Gegevens"
+    "Data": "Gegevens",
+    "LabelIconMaxResHelp": "Maximale resolutie van pictogrammen die worden weergegeven via de eigenschap upnp:icon."
 }
