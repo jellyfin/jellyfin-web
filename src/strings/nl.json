@@ -1352,5 +1352,6 @@
     "Image": "Afbeelding",
     "Other": "Andere",
     "Data": "Gegevens",
-    "LabelIconMaxResHelp": "Maximale resolutie van pictogrammen die worden weergegeven via de eigenschap upnp:icon."
+    "LabelIconMaxResHelp": "Maximale resolutie van pictogrammen die worden weergegeven via de eigenschap upnp:icon.",
+    "MusicVideos": "Muziek Videos"
 }
