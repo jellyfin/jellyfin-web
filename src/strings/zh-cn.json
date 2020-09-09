@@ -1371,5 +1371,7 @@
     "Image": "图片",
     "Other": "其他",
     "Data": "数据",
-    "UseDoubleRateDeinterlacing": "反交错时使帧率翻倍"
+    "UseDoubleRateDeinterlacing": "反交错时使帧率翻倍",
+    "UseDoubleRateDeinterlacingHelp": "此设置使用去隔行时的场频，通常称为 Bob 去隔行，它将视频的帧频加倍，以提供完整的运动效果，就像在电视上观看隔行视频时看到的那样。",
+    "Bwdif": "BWDIF"
 }
