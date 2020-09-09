@@ -856,7 +856,7 @@
     "OptionHideUserFromLoginHelp": "Handig voor pivé of verborgen beheer accounts. De gebruiker zal handmatig moeten inloggen met een gebruikersnaam en wachtwoord.",
     "OptionHlsSegmentedSubtitles": "HLS gesegmenteerde ondertiteling",
     "OptionIgnoreTranscodeByteRangeRequests": "Transcodeer byte range-aanvragen negeren",
-    "OptionIgnoreTranscodeByteRangeRequestsHelp": "Indien ingeschakeld, zullen deze verzoeken worden gehonoreerd, maar zal de byte bereik header worden genegeerd.",
+    "OptionIgnoreTranscodeByteRangeRequestsHelp": "Deze verzoeken worden gehonoreerd, maar zal de byte bereik header worden genegeerd.",
     "OptionImdbRating": "IMDb Waardering",
     "OptionLikes": "Leuk",
     "OptionMissingEpisode": "Ontbrekende Afleveringen",
