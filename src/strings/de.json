@@ -1365,5 +1365,10 @@
     "SpecialFeatures": "Besonderheiten",
     "Poster": "Poster",
     "Photo": "Foto",
-    "Other": "Sonstiges"
+    "Other": "Sonstiges",
+    "Bwdif": "BWDIF",
+    "UseDoubleRateDeinterlacingHelp": "Diese Einstellung verwendet die Halbbildrate beim Deinterlacing, oft auch als Bob-Deinterlacing bezeichnet, die die Bildrate des Videos verdoppelt, um eine vollständige Bewegung wie beim Betrachten von Interlaced-Video auf einem Fernseher zu erzielen.",
+    "UseDoubleRateDeinterlacing": "Verdoppelung der Bildfrequenz beim Deinterlacing",
+    "LabelIconMaxResHelp": "Maximale Auflösung der Icons, die über die Eigenschaft upnp:icon bereitgestellt wird.",
+    "LabelAlbumArtMaxResHelp": "Maximale Auflösung des Albumcovers, die über die Eigenschaft upnp:albumArtURI bereitgestellt wird."
 }
