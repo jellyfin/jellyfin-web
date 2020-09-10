@@ -8,6 +8,7 @@ import itemHelper from 'itemHelper';
 import loading from 'loading';
 import page from 'page';
 import viewManager from 'viewManager';
+import * as webSettings from 'webSettings';
 
 class AppRouter {
     allRoutes = [];
@@ -72,15 +73,11 @@ class AppRouter {
     }
 
     showVideoOsd() {
-        return Dashboard.navigate('video');
+        Dashboard.navigate('video');
     }
 
     showSelectServer() {
-        Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
-    }
-
-    showWelcome() {
-        Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
+        Dashboard.navigate('selectserver.html');
     }
 
     showSettings() {
@@ -281,9 +278,6 @@ class AppRouter {
                 break;
             case 'ServerSelection':
                 this.showSelectServer();
-                break;
-            case 'ConnectSignIn':
-                this.showWelcome();
                 break;
             case 'ServerUpdateNeeded':
                 import('alert').then(({default: alert}) =>{
@@ -510,25 +504,33 @@ class AppRouter {
 
     authenticate(ctx, route, callback) {
         const firstResult = this.firstConnectionResult;
-        if (firstResult) {
-            this.firstConnectionResult = null;
 
-            if (firstResult.State !== 'SignedIn' && !route.anonymous) {
-                this.handleConnectionResult(firstResult);
-                return;
-            }
+        this.firstConnectionResult = null;
+        if (firstResult && firstResult.State === 'ServerSignIn' && !route.anonymous) {
+            let url = ApiClient.serverAddress() + '/System/Info/Public';
+            fetch(url).then(response => {
+                if (!response.ok) return;
+                response.json().then(data => {
+                    if (data !== null && data.StartupWizardCompleted === false) {
+                        Dashboard.navigate('wizardstart.html');
+                    } else {
+                        this.handleConnectionResult(firstResult);
+                    }
+                });
+            }).catch(error => {
+                console.error(error);
+            });
         }
 
+        console.debug('processing path request: ' + pathname);
         const apiClient = window.connectionManager.currentApiClient();
         const pathname = ctx.pathname.toLowerCase();
-
-        console.debug('appRouter - processing path request ' + pathname);
 
         const isCurrentRouteStartup = this.currentRouteInfo ? this.currentRouteInfo.route.startup : true;
         const shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
 
         if (!shouldExitApp && (!apiClient || !apiClient.isLoggedIn()) && !route.anonymous) {
-            console.debug('appRouter - route does not allow anonymous access, redirecting to login');
+            console.debug('route does not allow anonymous access: redirecting to login');
             this.beginConnectionWizard();
             return;
         }
@@ -536,16 +538,16 @@ class AppRouter {
         if (shouldExitApp) {
             if (appHost.supports('exit')) {
                 appHost.exit();
-                return;
             }
+
             return;
         }
 
         if (apiClient && apiClient.isLoggedIn()) {
-            console.debug('appRouter - user is authenticated');
+            console.debug('user is authenticated');
 
             if (route.isDefaultRoute) {
-                console.debug('appRouter - loading skin home page');
+                console.debug('loading home page');
                 Emby.Page.goHome();
                 return;
             } else if (route.roles) {
@@ -556,7 +558,7 @@ class AppRouter {
             }
         }
 
-        console.debug('appRouter - proceeding to ' + pathname);
+        console.debug('proceeding to page: ' + pathname);
         callback();
     }
 

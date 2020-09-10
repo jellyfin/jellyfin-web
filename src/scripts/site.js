@@ -63,7 +63,7 @@ function initClient() {
             if (!localApiClient) {
                 var server = window.connectionManager.getLastUsedServer();
 
-                if (server) {
+                if (server && server.Id) {
                     localApiClient = window.connectionManager.getApiClient(server.Id);
                 }
             }
@@ -83,40 +83,38 @@ function initClient() {
     }
 
     function createConnectionManager() {
-        return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, appHost, credentialProvider, events, userSettings) {
+        return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings', 'apiclient', 'clientUtils'], function (ConnectionManager, appHost, credentialProvider, events, userSettings, apiClientFactory, clientUtils) {
             appHost = appHost.default || appHost;
 
             var credentialProviderInstance = new credentialProvider();
             var promises = [appHost.init()];
 
-            return Promise.all(promises).then(function (responses) {
+            return Promise.all(promises).then(responses => {
                 var capabilities = Dashboard.capabilities(appHost);
 
                 window.connectionManager = new ConnectionManager(credentialProviderInstance, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId(), capabilities);
 
                 bindConnectionManagerEvents(window.connectionManager, events, userSettings);
+                clientUtils.serverAddress().then(server => {
+                    if (!server) {
+                        Dashboard.navigate('selectserver.html');
+                        return;
+                    }
 
-                if (!AppInfo.isNativeApp) {
-                    console.debug('loading ApiClient singleton');
+                    console.debug('creating apiclient singleton');
+                    let parts = server.split('/');
+                    let url = parts[0] + '//' + parts[2];
+                    var apiClient = new apiClientFactory(url, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
 
-                    return require(['apiclient', 'clientUtils'], function (apiClientFactory, clientUtils) {
-                        console.debug('creating ApiClient singleton');
+                    apiClient.enableAutomaticNetworking = false;
+                    apiClient.manualAddressOnly = true;
 
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
+                    window.connectionManager.addApiClient(apiClient);
+                    window.ApiClient = apiClient;
+                    console.debug('loaded apiclient singleton');
 
-                        apiClient.enableAutomaticNetworking = false;
-                        apiClient.manualAddressOnly = true;
-
-                        window.connectionManager.addApiClient(apiClient);
-
-                        window.ApiClient = apiClient;
-                        localApiClient = apiClient;
-
-                        console.debug('loaded ApiClient singleton');
-                    });
-                }
-
-                return Promise.resolve();
+                    return Promise.resolve();
+                });
             });
         });
     }
@@ -433,10 +431,6 @@ function initClient() {
         define('fileDownloader', [scriptsPath + '/fileDownloader'], returnFirstDependency);
 
         define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
-
-        if (window.appMode === 'cordova' || window.appMode === 'android' || window.appMode === 'standalone') {
-            AppInfo.isNativeApp = true;
-        }
 
         init();
     }

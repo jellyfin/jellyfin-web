@@ -44,10 +44,6 @@ import 'emby-button';
 
                     ApiClient.updateNamedConfiguration(brandingConfigKey, brandingConfig).then(function () {
                         Dashboard.processServerConfigurationUpdateResult();
-
-                        if (requiresReload && !AppInfo.isNativeApp) {
-                            window.location.reload(true);
-                        }
                     });
                 });
             }, function () {
