@@ -36,10 +36,6 @@ export class QuickConnectSettings {
             throw e;
         });
     }
-
-    submit() {
-        return false;
-    }
 }
 
 export default QuickConnectSettings;

@@ -33,11 +33,6 @@ export default function (view) {
 
         renderPage();
     });
-    view.addEventListener('viewbeforehide', function () {
-        if (quickConnectSettingsInstance) {
-            quickConnectSettingsInstance.submit();
-        }
-    });
 
     function renderPage(forceActive = false) {
         ApiClient.getQuickConnect('Status').then((status) => {
