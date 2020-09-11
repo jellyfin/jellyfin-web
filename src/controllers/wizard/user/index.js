@@ -27,7 +27,8 @@ function submit(form) {
             Name: form.querySelector('#txtUsername').value,
             Password: form.querySelector('#txtManualPassword').value
         }),
-        url: apiClient.getUrl('Startup/User')
+        url: apiClient.getUrl('Startup/User'),
+        contentType: 'application/json'
     }).then(onUpdateUserComplete);
 }
 

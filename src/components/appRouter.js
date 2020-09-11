@@ -2,7 +2,6 @@ import appHost from 'apphost';
 import appSettings from 'appSettings';
 import backdrop from 'backdrop';
 import browser from 'browser';
-import connectionManager from 'connectionManager';
 import events from 'events';
 import globalize from 'globalize';
 import itemHelper from 'itemHelper';
@@ -41,7 +40,7 @@ class AppRouter {
             }
         });
 
-        this.baseRoute = self.location.href.split('?')[0].replace(this.getRequestFile(), '');
+        this.baseRoute = window.location.href.split('?')[0].replace(this.getRequestFile(), '');
         // support hashbang
         this.baseRoute = this.baseRoute.split('#')[0];
         if (this.baseRoute.endsWith('/') && !this.baseRoute.endsWith('://')) {
@@ -55,7 +54,7 @@ class AppRouter {
      * @private
      */
     setBaseRoute() {
-        let baseRoute = self.location.pathname.replace(this.getRequestFile(), '');
+        let baseRoute = window.location.pathname.replace(this.getRequestFile(), '');
         if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
             baseRoute = baseRoute.substring(0, baseRoute.length - 1);
         }
@@ -95,7 +94,7 @@ class AppRouter {
     beginConnectionWizard() {
         backdrop.clearBackdrop();
         loading.show();
-        connectionManager.connect({
+        window.connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.handleConnectionResult(result);
@@ -154,7 +153,7 @@ class AppRouter {
         events.on(appHost, 'beforeexit', this.onBeforeExit);
         events.on(appHost, 'resume', this.onAppResume);
 
-        connectionManager.connect({
+        window.connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.firstConnectionResult = result;
@@ -182,7 +181,7 @@ class AppRouter {
             return false;
         }
 
-        return history.length > 1;
+        return window.history.length > 1;
     }
 
     current() {
@@ -210,7 +209,7 @@ class AppRouter {
     showItem(item, serverId, options) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof (item) === 'string') {
-            const apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
+            const apiClient = serverId ? window.connectionManager.getApiClient(serverId) : window.connectionManager.currentApiClient();
             apiClient.getItem(apiClient.getCurrentUserId(), item).then((itemObject) => {
                 this.showItem(itemObject, options);
             });
@@ -258,7 +257,7 @@ class AppRouter {
 
     pushState(state, title, url) {
         state.navigate = false;
-        history.pushState(state, title, url);
+        window.history.pushState(state, title, url);
     }
 
     enableNativeHistory() {
@@ -309,7 +308,9 @@ class AppRouter {
             url = route.contentPath || route.path;
         }
 
-        if (url.indexOf('://') === -1) {
+        if (url.includes('configurationpage')) {
+            url = ApiClient.getUrl('/web' + url);
+        } else if (url.indexOf('://') === -1) {
             // Put a slash at the beginning but make sure to avoid a double slash
             if (url.indexOf('/') !== 0) {
                 url = '/' + url;
@@ -492,15 +493,15 @@ class AppRouter {
     }
 
     initApiClients() {
-        connectionManager.getApiClients().forEach((apiClient) => {
+        window.connectionManager.getApiClients().forEach((apiClient) => {
             this.initApiClient(apiClient, this);
         });
 
-        events.on(connectionManager, 'apiclientcreated', this.onApiClientCreated);
+        events.on(window.connectionManager, 'apiclientcreated', this.onApiClientCreated);
     }
 
     onAppResume() {
-        const apiClient = connectionManager.currentApiClient();
+        const apiClient = window.connectionManager.currentApiClient();
 
         if (apiClient) {
             apiClient.ensureWebSocket();
@@ -518,7 +519,7 @@ class AppRouter {
             }
         }
 
-        const apiClient = connectionManager.currentApiClient();
+        const apiClient = window.connectionManager.currentApiClient();
         const pathname = ctx.pathname.toLowerCase();
 
         console.debug('appRouter - processing path request ' + pathname);
@@ -594,7 +595,7 @@ class AppRouter {
     }
 
     getRequestFile() {
-        let path = self.location.pathname || '';
+        let path = window.location.pathname || '';
 
         const index = path.lastIndexOf('/');
         if (index !== -1) {

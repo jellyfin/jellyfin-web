@@ -7,7 +7,6 @@
 
 import playbackManager from 'playbackManager';
 import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
 import appRouter from 'appRouter';
 import globalize from 'globalize';
 import dom from 'dom';
@@ -81,7 +80,7 @@ import recordingHelper from 'recordingHelper';
         const id = button.getAttribute('data-id');
         const type = button.getAttribute('data-type');
 
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         if (type === 'Timer') {
             return apiClient.getLiveTvTimer(id);
@@ -111,7 +110,7 @@ import recordingHelper from 'recordingHelper';
             }
 
             import('itemContextMenu').then(({default: itemContextMenu}) => {
-                connectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
+                window.connectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
                     itemContextMenu.show(Object.assign({
                         item: item,
                         play: true,
@@ -280,7 +279,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function playTrailer(item) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
 
         apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(trailers => {
             playbackManager.play({ items: trailers });
@@ -288,7 +287,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function editItem(item, serverId) {
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             const serverId = apiClient.serverInfo().Id;

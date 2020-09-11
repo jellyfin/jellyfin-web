@@ -1,6 +1,5 @@
 import globalize from 'globalize';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 
 /*eslint prefer-const: "error"*/
 
@@ -40,7 +39,7 @@ function cancelTimerWithConfirmation(timerId, serverId) {
             }).then(function () {
                 loading.show();
 
-                const apiClient = connectionManager.getApiClient(serverId);
+                const apiClient = window.connectionManager.getApiClient(serverId);
                 cancelTimer(apiClient, timerId, true).then(resolve, reject);
             }, reject);
         });
@@ -60,7 +59,7 @@ function cancelSeriesTimerWithConfirmation(timerId, serverId) {
             }).then(function () {
                 loading.show();
 
-                const apiClient = connectionManager.getApiClient(serverId);
+                const apiClient = window.connectionManager.getApiClient(serverId);
                 apiClient.cancelLiveTvSeriesTimer(timerId).then(function () {
                     import('toast').then(({default: toast}) => {
                         toast(globalize.translate('SeriesCancelled'));
@@ -141,7 +140,7 @@ function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, 
                 buttons: items
 
             }).then(function (result) {
-                const apiClient = connectionManager.getApiClient(serverId);
+                const apiClient = window.connectionManager.getApiClient(serverId);
 
                 if (result === 'canceltimer') {
                     loading.show();
@@ -167,7 +166,7 @@ function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, 
 }
 
 function toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId) {
-    const apiClient = connectionManager.getApiClient(serverId);
+    const apiClient = window.connectionManager.getApiClient(serverId);
     const hasTimer = timerId && timerStatus !== 'Cancelled';
     if (seriesTimerId && hasTimer) {
         // cancel

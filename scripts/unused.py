@@ -16,7 +16,7 @@ langlst.append('en-us.json')
 dep = []
 
 def grep(key):
-    command = 'grep -r -E "(\(\\\"|\(\'|\{)%s(\\\"|\'|\})" --include=\*.{js,html} --exclude-dir=../src/strings ../src' % key
+    command = 'grep -r -E "(\\\"|\'|\{)%s(\\\"|\'|\})" --include=\*.{js,html} --exclude-dir=../src/strings ../src' % key
     p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     output = p.stdout.readlines()
     if output:

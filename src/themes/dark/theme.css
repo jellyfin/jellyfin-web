@@ -30,8 +30,16 @@ html {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.layout-tv .skinHeader.semiTransparent {
+    background: none;
+}
+
 .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/banner-light.png);
+}
+
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
 }
 
 .backgroundContainer,
@@ -46,7 +54,14 @@ html {
     background-color: rgba(0, 0, 0, 0.86);
 }
 
-.paper-icon-button-light:hover:not(:disabled) {
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        color: #00a4dc;
+        background-color: rgba(0, 164, 220, 0.2);
+    }
+}
+
+.paper-icon-button-light:active:not(:disabled) {
     color: #00a4dc;
     background-color: rgba(0, 164, 220, 0.2);
 }
@@ -205,6 +220,10 @@ html {
 
 .detailRibbon {
     background: rgba(32, 32, 32, 0.8);
+}
+
+.layout-tv .detailRibbon {
+    background: none;
 }
 
 .noBackdrop .detailRibbon {
@@ -453,4 +472,9 @@ html {
 .emby-button.detailFloatingButton {
     background-color: #00a4dc;
     color: #fff;
+}
+
+.layout-tv .emby-button.detailFloatingButton:focus {
+    background-color: #f2f2f2;
+    color: #00a4dc;
 }

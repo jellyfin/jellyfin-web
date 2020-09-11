@@ -1,7 +1,6 @@
 {
     "ButtonSignOut": "Sign out",
     "Delete": "Padam",
-    "FolderTypeTvShows": "TV",
     "LabelFinish": "Habis",
     "LabelYoureDone": "Kamu Selesai!",
     "ParentalRating": "Parental Rating",
@@ -64,7 +63,6 @@
     "ButtonChangeServer": "Tukar pelayan",
     "ButtonLibraryAccess": "Akses pustaka",
     "ButtonInfo": "Info",
-    "ButtonGuide": "Panduan",
     "ButtonGotIt": "Terima",
     "ButtonFullscreen": "Paparan skrin penuh",
     "ButtonForgotPassword": "Lupa Kata Laluan",
@@ -85,11 +83,6 @@
     "Channels": "Saluran",
     "ButtonSyncPlay": "SyncPlay",
     "Movies": "Filem",
-    "HeaderFavoriteSongs": "Lagu-lagu Kegemaran",
-    "HeaderFavoriteShows": "Rancangan-rancangan Kegemaran",
-    "HeaderFavoriteEpisodes": "Episod-episod Kegemaran",
-    "HeaderFavoriteArtists": "Artis-artis Kegemaran",
-    "HeaderFavoriteAlbums": "Album-album Kegemaran",
     "HeaderAlbumArtists": "Album Artis-artis",
     "Folders": "Fail-fail",
     "Favorites": "Kegemaran"

@@ -11,6 +11,8 @@ Source0:        jellyfin-web-%{version}.tar.gz
 
 %if 0%{?centos}
 BuildRequires:  yarn
+# sadly the yarn RPM at https://dl.yarnpkg.com/rpm/ uses git but doesn't Requires: it
+BuildRequires: git
 %else
 BuildRequires:  nodejs-yarn
 %endif

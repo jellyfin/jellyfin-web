@@ -4,7 +4,6 @@ import dom from 'dom';
 import * as datefns from 'date-fns';
 import dfnshelper from 'dfnshelper';
 import serverNotifications from 'serverNotifications';
-import connectionManager from 'connectionManager';
 import 'emby-button';
 import 'listViewStyle';
 
@@ -141,7 +140,7 @@ class ActivityLog {
         const element = options.element;
         element.classList.add('activityLogListWidget');
         element.addEventListener('click', onListClick.bind(this));
-        const apiClient = connectionManager.getApiClient(options.serverId);
+        const apiClient = window.connectionManager.getApiClient(options.serverId);
         reloadData(this, element, apiClient);
         const onUpdate = onActivityLogUpdate.bind(this);
         this.updateFn = onUpdate;
@@ -153,7 +152,7 @@ class ActivityLog {
 
         if (options) {
             options.element.classList.remove('activityLogListWidget');
-            connectionManager.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
+            window.connectionManager.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
         }
 
         const onUpdate = this.updateFn;

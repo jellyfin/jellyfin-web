@@ -2,7 +2,6 @@ import dom from 'dom';
 import dialogHelper from 'dialogHelper';
 import loading from 'loading';
 import layoutManager from 'layoutManager';
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import 'emby-input';
 import 'emby-checkbox';
@@ -66,7 +65,7 @@ function onSubmit(e) {
     const dlg = dom.parentWithClass(e.target, 'dialog');
     const options = instance.options;
 
-    const apiClient = connectionManager.getApiClient(options.serverId);
+    const apiClient = window.connectionManager.getApiClient(options.serverId);
 
     const replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
 

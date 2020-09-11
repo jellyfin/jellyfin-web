@@ -25,7 +25,7 @@ import 'emby-itemscontainer';
 
         const updateFilterControls = () => {
             if (this.alphaPicker) {
-                this.alphaPicker.value(query.NameStartsWithOrGreater);
+                this.alphaPicker.value(query.NameStartsWith);
             }
         };
 
@@ -168,7 +168,7 @@ import 'emby-itemscontainer';
             if (alphaPickerElement) {
                 alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                     let newValue = e.detail.value;
-                    query.NameStartsWithOrGreater = newValue;
+                    query.NameStartsWith = newValue;
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });
@@ -195,7 +195,7 @@ import 'emby-itemscontainer';
                 btnSort.addEventListener('click', function (e) {
                     libraryBrowser.showSortMenu({
                         items: [{
-                            name: globalize.translate('OptionNameSort'),
+                            name: globalize.translate('Name'),
                             id: 'SortName,ProductionYear'
                         }, {
                             name: globalize.translate('OptionImdbRating'),
@@ -219,7 +219,7 @@ import 'emby-itemscontainer';
                             name: globalize.translate('OptionReleaseDate'),
                             id: 'PremiereDate,SortName,ProductionYear'
                         }, {
-                            name: globalize.translate('OptionRuntime'),
+                            name: globalize.translate('Runtime'),
                             id: 'Runtime,SortName,ProductionYear'
                         }],
                         callback: function () {

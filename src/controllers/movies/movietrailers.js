@@ -185,7 +185,7 @@ import 'emby-itemscontainer';
 
         const updateFilterControls = (tabContent) => {
             const query = getQuery(tabContent);
-            this.alphaPicker.value(query.NameStartsWithOrGreater);
+            this.alphaPicker.value(query.NameStartsWith);
         };
 
         const data = {};
@@ -216,7 +216,7 @@ import 'emby-itemscontainer';
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 const newValue = e.detail.value;
                 const query = getQuery(tabContent);
-                query.NameStartsWithOrGreater = newValue;
+                query.NameStartsWith = newValue;
                 query.StartIndex = 0;
                 reloadItems();
             });
@@ -235,7 +235,7 @@ import 'emby-itemscontainer';
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: globalize.translate('OptionNameSort'),
+                        name: globalize.translate('Name'),
                         id: 'SortName'
                     }, {
                         name: globalize.translate('OptionImdbRating'),

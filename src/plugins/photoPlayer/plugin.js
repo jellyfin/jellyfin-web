@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 
 export default class PhotoPlayer {
     constructor() {
@@ -13,7 +12,7 @@ export default class PhotoPlayer {
             import('slideshow').then(({default: slideshow}) => {
                 var index = options.startIndex || 0;
 
-                var apiClient = connectionManager.currentApiClient();
+                var apiClient = window.connectionManager.currentApiClient();
                 apiClient.getCurrentUser().then(function(result) {
                     var newSlideShow = new slideshow({
                         showTitle: false,

@@ -158,13 +158,13 @@ import 'emby-itemscontainer';
                         name: globalize.translate('OptionTrackName'),
                         id: 'Name'
                     }, {
-                        name: globalize.translate('OptionAlbum'),
+                        name: globalize.translate('Album'),
                         id: 'Album,SortName'
                     }, {
-                        name: globalize.translate('OptionAlbumArtist'),
+                        name: globalize.translate('AlbumArtist'),
                         id: 'AlbumArtist,Album,SortName'
                     }, {
-                        name: globalize.translate('OptionArtist'),
+                        name: globalize.translate('Artist'),
                         id: 'Artist,Album,SortName'
                     }, {
                         name: globalize.translate('OptionDateAdded'),
@@ -179,7 +179,7 @@ import 'emby-itemscontainer';
                         name: globalize.translate('OptionReleaseDate'),
                         id: 'PremiereDate,AlbumArtist,Album,SortName'
                     }, {
-                        name: globalize.translate('OptionRuntime'),
+                        name: globalize.translate('Runtime'),
                         id: 'Runtime,AlbumArtist,Album,SortName'
                     }],
                     callback: function () {
