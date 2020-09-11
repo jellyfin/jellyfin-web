@@ -163,11 +163,11 @@ import 'emby-itemscontainer';
             itemsContainer.fetchData = fetchData;
             itemsContainer.getItemsHtml = getItemsHtml;
             itemsContainer.afterRefresh = afterRefresh;
-            let alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
 
             if (alphaPickerElement) {
                 alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                    let newValue = e.detail.value;
+                    const newValue = e.detail.value;
                     query.NameStartsWith = newValue;
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
@@ -237,7 +237,7 @@ import 'emby-itemscontainer';
                 libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle, 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
-                let viewStyle = e.detail.viewStyle;
+                const viewStyle = e.detail.viewStyle;
                 userSettings.set(savedViewKey, viewStyle);
                 query.StartIndex = 0;
                 onViewStyleChange();
@@ -274,7 +274,7 @@ import 'emby-itemscontainer';
 
         this.showFilterMenu = function () {
             import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
-                let filterDialog = new filterDialogFactory({
+                const filterDialog = new filterDialogFactory({
                     query: query,
                     mode: 'movies',
                     serverId: ApiClient.serverId()
