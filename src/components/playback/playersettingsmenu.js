@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import actionsheet from 'actionsheet';
 import playbackManager from 'playbackManager';
 import globalize from 'globalize';
@@ -251,7 +250,7 @@ export function show(options) {
         return showWithUser(options, player, null);
     }
 
-    var apiClient = connectionManager.getApiClient(currentItem.ServerId);
+    var apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
     return apiClient.getCurrentUser().then(function (user) {
         return showWithUser(options, player, user);
     });

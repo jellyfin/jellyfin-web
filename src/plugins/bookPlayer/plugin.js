@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import loading from 'loading';
 import keyboardnavigation from 'keyboardnavigation';
 import dialogHelper from 'dialogHelper';
@@ -243,7 +242,7 @@ export class BookPlayer {
         };
 
         const serverId = item.ServerId;
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             import('epubjs').then(({default: epubjs}) => {

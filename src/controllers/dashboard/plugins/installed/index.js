@@ -39,7 +39,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     const configPage = pluginConfigurationPages.filter(function (pluginConfigurationPage) {
         return pluginConfigurationPage.PluginId == plugin.Id;
     })[0];
-    const configPageUrl = configPage ? Dashboard.getConfigurationPageUrl(configPage.Name) : null;
+    const configPageUrl = configPage ? Dashboard.getPluginUrl(configPage.Name) : null;
     let html = '';
     html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' class='card backdropCard'>";
     html += '<div class="cardBox visualCardBox">';
@@ -118,7 +118,7 @@ function showPluginMenu(page, elem) {
 
     if (configHref) {
         menuItems.push({
-            name: globalize.translate('ButtonSettings'),
+            name: globalize.translate('Settings'),
             id: 'open',
             icon: 'mode_edit'
         });

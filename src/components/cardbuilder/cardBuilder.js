@@ -7,7 +7,6 @@
 
 import datetime from 'datetime';
 import imageLoader from 'imageLoader';
-import connectionManager from 'connectionManager';
 import itemHelper from 'itemHelper';
 import focusManager from 'focusManager';
 import indicators from 'indicators';
@@ -371,7 +370,7 @@ import 'programStyles';
 
                 if (serverId !== lastServerId) {
                     lastServerId = serverId;
-                    apiClient = connectionManager.getApiClient(lastServerId);
+                    apiClient = window.connectionManager.getApiClient(lastServerId);
                 }
 
                 if (options.indexBy) {

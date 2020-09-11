@@ -28,6 +28,7 @@
         "plugins/htmlAudioPlayer/plugin",
         "plugins/htmlVideoPlayer/plugin",
         "plugins/photoPlayer/plugin",
+        "plugins/comicsPlayer/plugin",
         "plugins/bookPlayer/plugin",
         "plugins/youtubePlayer/plugin",
         "plugins/backdropScreensaver/plugin",

@@ -31,7 +31,8 @@ import globalize from 'globalize';
                 dataType: 'json',
                 data: JSON.stringify({
                     Pin: view.querySelector('#txtPin').value
-                })
+                }),
+                contentType: 'application/json'
             }).then(processForgotPasswordResult);
             e.preventDefault();
             return false;

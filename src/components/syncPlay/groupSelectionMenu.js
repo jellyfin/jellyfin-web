@@ -1,5 +1,4 @@
 import events from 'events';
-import connectionManager from 'connectionManager';
 import playbackManager from 'playbackManager';
 import syncPlayManager from 'syncPlayManager';
 import loading from 'loading';
@@ -172,8 +171,8 @@ export function show (button) {
         });
     });
 
-    const apiClient = connectionManager.currentApiClient();
-    connectionManager.user(apiClient).then((user) => {
+    const apiClient = window.connectionManager.currentApiClient();
+    window.connectionManager.user(apiClient).then((user) => {
         if (syncPlayEnabled) {
             showLeaveGroupSelection(button, user, apiClient);
         } else {

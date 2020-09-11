@@ -48,7 +48,7 @@ export function onServerChanged(userId, accessToken, apiClient) {
 }
 
 export function logout() {
-    ConnectionManager.logout().then(function () {
+    window.connectionManager.logout().then(function () {
         let loginPage;
 
         if (AppInfo.isNativeApp) {
@@ -62,18 +62,8 @@ export function logout() {
     });
 }
 
-export function getConfigurationPageUrl(name) {
+export function getPluginUrl(name) {
     return 'configurationpage?name=' + encodeURIComponent(name);
-}
-
-export function getConfigurationResourceUrl(name) {
-    if (AppInfo.isNativeApp) {
-        return ApiClient.getUrl('web/ConfigurationPage', {
-            name: name
-        });
-    }
-
-    return getConfigurationPageUrl(name);
 }
 
 export function navigate(url, preserveQueryString) {
@@ -151,7 +141,7 @@ export function alert(options) {
 }
 
 export function capabilities(appHost) {
-    let capabilities = {
+    const capabilities = {
         PlayableMediaTypes: ['Audio', 'Video'],
         SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
         SupportsPersistentIdentifier: window.appMode === 'cordova' || window.appMode === 'android',
@@ -196,8 +186,7 @@ window.Dashboard = {
     alert,
     capabilities,
     confirm,
-    getConfigurationPageUrl,
-    getConfigurationResourceUrl,
+    getPluginUrl,
     getCurrentUser,
     getCurrentUserId,
     hideLoadingMsg,
@@ -216,8 +205,7 @@ export default {
     alert,
     capabilities,
     confirm,
-    getConfigurationPageUrl,
-    getConfigurationResourceUrl,
+    getPluginUrl,
     getCurrentUser,
     getCurrentUserId,
     hideLoadingMsg,

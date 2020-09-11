@@ -189,7 +189,7 @@ import 'emby-itemscontainer';
             const query = getQuery();
 
             if (this.alphaPicker) {
-                this.alphaPicker.value(query.NameStartsWithOrGreater);
+                this.alphaPicker.value(query.NameStartsWith);
 
                 if (query.SortBy.indexOf('SortName') === 0) {
                     this.alphaPicker.visible(true);
@@ -231,7 +231,7 @@ import 'emby-itemscontainer';
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 const newValue = e.detail.value;
                 const query = getQuery();
-                query.NameStartsWithOrGreater = newValue;
+                query.NameStartsWith = newValue;
                 query.StartIndex = 0;
                 reloadItems(tabContent);
             });
@@ -252,10 +252,10 @@ import 'emby-itemscontainer';
             tabContent.querySelector('.btnSort').addEventListener('click', (e) => {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: globalize.translate('OptionNameSort'),
+                        name: globalize.translate('Name'),
                         id: 'SortName'
                     }, {
-                        name: globalize.translate('OptionAlbumArtist'),
+                        name: globalize.translate('AlbumArtist'),
                         id: 'AlbumArtist,SortName'
                     }, {
                         name: globalize.translate('OptionCommunityRating'),

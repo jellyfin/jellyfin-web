@@ -3,7 +3,6 @@ import loading from 'loading';
 import appRouter from 'appRouter';
 import itemShortcuts from 'itemShortcuts';
 import layoutManager from 'layoutManager';
-import connectionManager from 'connectionManager';
 import * as userSettings from 'userSettings';
 import cardBuilder from 'cardBuilder';
 import datetime from 'datetime';
@@ -206,7 +205,7 @@ function renderVideoSelections(page, mediaSources) {
     });
 
     const select = page.querySelector('.selectVideo');
-    select.setLabel(globalize.translate('LabelVideo'));
+    select.setLabel(globalize.translate('Video'));
     const selectedId = tracks.length ? tracks[0].Index : -1;
     select.innerHTML = tracks.map(function (v) {
         const selected = v.Index === selectedId ? ' selected' : '';
@@ -414,7 +413,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
     } else if (item.IsSeries || item.EpisodeTitle) {
         parentNameHtml.push(item.Name);
     }
@@ -429,7 +428,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
     } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
         parentRoute = appRouter.getRouteUrl({
             Id: item.SeasonId,
@@ -440,7 +439,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
         parentNameHtml.push(item.SeasonName || 'S' + item.ParentIndexNumber);
     } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
@@ -453,7 +452,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
+        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
     } else if (item.Album) {
         parentNameHtml.push(item.Album);
     }
@@ -564,15 +563,18 @@ function renderDetailPageBackdrop(page, item, apiClient) {
 }
 
 function reloadFromItem(instance, page, params, item, user) {
-    const apiClient = connectionManager.getApiClient(item.ServerId);
+    const apiClient = window.connectionManager.getApiClient(item.ServerId);
 
     Emby.Page.setTitle('');
 
     // Start rendering the artwork first
     renderImage(page, item);
-    renderLogo(page, item, apiClient);
+    // Save some screen real estate in TV mode
+    if (!layoutManager.tv) {
+        renderLogo(page, item, apiClient);
+        renderDetailPageBackdrop(page, item, apiClient);
+    }
     renderBackdrop(item);
-    renderDetailPageBackdrop(page, item, apiClient);
 
     // Render the main information for the item
     page.querySelector('.detailPagePrimaryContainer').classList.add('detailRibbon');
@@ -764,6 +766,9 @@ function renderDetailImage(elem, item, imageLoader) {
 
     elem.innerHTML = cardHtml;
     imageLoader.lazyChildren(elem);
+
+    // Avoid breaking the design by preventing focus of the poster using the keyboard.
+    elem.querySelector('button').tabIndex = -1;
 }
 
 function renderImage(page, item) {
@@ -797,7 +802,7 @@ function renderNextUp(page, item, user) {
         return void section.classList.add('hide');
     }
 
-    connectionManager.getApiClient(item.ServerId).getNextUpEpisodes({
+    window.connectionManager.getApiClient(item.ServerId).getNextUpEpisodes({
         SeriesId: item.Id,
         UserId: user.Id
     }).then(function (result) {
@@ -1059,7 +1064,12 @@ function renderDetails(page, item, apiClient, context, isStatic) {
     renderOverview(page, item);
     renderMiscInfo(page, item);
     reloadUserDataButtons(page, item);
-    renderLinks(page, item);
+
+    // Don't allow redirection to other websites from the TV layout
+    if (!layoutManager.tv) {
+        renderLinks(page, item);
+    }
+
     renderTags(page, item);
     renderSeriesAirTime(page, item, isStatic);
 }
@@ -1196,7 +1206,7 @@ function renderSimilarItems(page, item, context) {
         }
 
         similarCollapsible.classList.remove('hide');
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
         const options = {
             userId: apiClient.getCurrentUserId(),
             limit: 12,
@@ -1310,7 +1320,7 @@ function renderChildren(page, item) {
     }
 
     let promise;
-    const apiClient = connectionManager.getApiClient(item.ServerId);
+    const apiClient = window.connectionManager.getApiClient(item.ServerId);
     const userId = apiClient.getCurrentUserId();
 
     if (item.Type == 'Series') {
@@ -1337,16 +1347,25 @@ function renderChildren(page, item) {
         const childrenItemsContainer = page.querySelector('.childrenItemsContainer');
 
         if (item.Type == 'MusicAlbum') {
+            const equalSet = (arr1, arr2) => arr1.every(x => arr2.indexOf(x) !== -1) && arr1.length === arr2.length;
+            let showArtist = false;
+            for (const track of result.Items) {
+                if (!equalSet(track.ArtistItems.map(x => x.Id), track.AlbumArtists.map(x => x.Id))) {
+                    showArtist = true;
+                    break;
+                }
+            }
+            const discNumbers = result.Items.map(x => x.ParentIndexNumber);
             html = listView.getListViewHtml({
                 items: result.Items,
                 smallIcon: true,
-                showIndex: true,
+                showIndex: new Set(discNumbers).size > 1 || (discNumbers.length >= 1 && discNumbers[0] > 1),
                 index: 'disc',
                 showIndexNumberLeft: true,
                 playFromHere: true,
                 action: 'playallfromhere',
                 image: false,
-                artist: 'auto',
+                artist: showArtist,
                 containerAlbumArtists: item.AlbumArtists
             });
             isList = true;
@@ -1549,7 +1568,7 @@ function renderChannelGuide(page, apiClient, item) {
 }
 
 function renderSeriesSchedule(page, item) {
-    const apiClient = connectionManager.getApiClient(item.ServerId);
+    const apiClient = window.connectionManager.getApiClient(item.ServerId);
     apiClient.getLiveTvPrograms({
         UserId: apiClient.getCurrentUserId(),
         HasAired: false,
@@ -1709,7 +1728,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
 }
 
 function renderMusicVideos(page, item, user) {
-    connectionManager.getApiClient(item.ServerId).getItems(user.Id, {
+    window.connectionManager.getApiClient(item.ServerId).getItems(user.Id, {
         SortBy: 'SortName',
         SortOrder: 'Ascending',
         IncludeItemTypes: 'MusicVideo',
@@ -1729,7 +1748,7 @@ function renderMusicVideos(page, item, user) {
 }
 
 function renderAdditionalParts(page, item, user) {
-    connectionManager.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
+    window.connectionManager.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
         if (result.Items.length) {
             page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
             const additionalPartsContent = page.querySelector('#additionalPartsContent');
@@ -1774,7 +1793,7 @@ function getVideosHtml(items) {
 }
 
 function renderSpecials(page, item, user) {
-    connectionManager.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
+    window.connectionManager.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
         const specialsContent = page.querySelector('#specialsContent');
         specialsContent.innerHTML = getVideosHtml(specials);
         imageLoader.lazyChildren(specialsContent);
@@ -1830,7 +1849,7 @@ export default function (view, params) {
     function reload(instance, page, params) {
         loading.show();
 
-        const apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
+        const apiClient = params.serverId ? window.connectionManager.getApiClient(params.serverId) : ApiClient;
 
         Promise.all([getPromise(apiClient, params), apiClient.getCurrentUser()]).then(([item, user]) => {
             currentItem = item;
@@ -1879,7 +1898,7 @@ export default function (view, params) {
         const item = currentItem;
 
         if (item.Type === 'Program') {
-            const apiClient = connectionManager.getApiClient(item.ServerId);
+            const apiClient = window.connectionManager.getApiClient(item.ServerId);
             return void apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
                 playbackManager.play({
                     items: [channel]
@@ -1916,7 +1935,7 @@ export default function (view, params) {
 
     function onCancelTimerClick() {
         import('recordingHelper').then(({ default: recordingHelper }) => {
-            recordingHelper.cancelTimer(connectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
+            recordingHelper.cancelTimer(window.connectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
                 reload(self, view, params);
             });
         });
@@ -1980,7 +1999,18 @@ export default function (view, params) {
 
     let currentItem;
     const self = this;
-    const apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
+    const apiClient = params.serverId ? window.connectionManager.getApiClient(params.serverId) : ApiClient;
+
+    const btnResume = view.querySelector('.mainDetailButtons .btnResume');
+    const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');
+    if (layoutManager.tv && !btnResume.classList.contains('hide')) {
+        btnResume.classList.add('fab');
+        btnResume.classList.add('detailFloatingButton');
+    } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
+        btnPlay.classList.add('fab');
+        btnPlay.classList.add('detailFloatingButton');
+    }
+
     view.querySelectorAll('.btnPlay');
     bindAll(view, '.btnPlay', 'click', onPlayClick);
     bindAll(view, '.btnResume', 'click', onPlayClick);

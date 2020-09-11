@@ -38,6 +38,7 @@
  - [GuilhermeHideki](https://github.com/GuilhermeHideki)
  - [Andrei Oanca](https://github.com/OancaAndrei)
  - [Cromefire_](https://github.com/cromefire)
+ - [Orry Verducci](https://github.com/orryverducci)
 
 # Emby Contributors
 

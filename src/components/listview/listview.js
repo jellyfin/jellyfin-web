@@ -8,7 +8,6 @@
 import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
 import indicators from 'indicators';
-import connectionManager from 'connectionManager';
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
 import datetime from 'datetime';
@@ -77,7 +76,7 @@ import 'emby-playstatebutton';
     }
 
     function getImageUrl(item, width) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
         let itemId;
 
         const options = {
@@ -106,7 +105,7 @@ import 'emby-playstatebutton';
     }
 
     function getChannelImageUrl(item, width) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
         const options = {
             maxWidth: width,
             type: 'Primary'
@@ -370,18 +369,8 @@ import 'emby-playstatebutton';
                     }
                 }
             } else {
-                let showArtist = options.artist === true;
-                const artistItems = item.ArtistItems;
-
-                if (!showArtist && options.artist !== false) {
-                    if (!artistItems || !artistItems.length) {
-                        showArtist = true;
-                    } else if (artistItems.length > 1 || !containerAlbumArtistIds.includes(artistItems[0].Id)) {
-                        showArtist = true;
-                    }
-                }
-
-                if (showArtist) {
+                if (options.artist) {
+                    const artistItems = item.ArtistItems;
                     if (artistItems && item.Type !== 'MusicAlbum') {
                         textlines.push(artistItems.map(a => {
                             return a.Name;
