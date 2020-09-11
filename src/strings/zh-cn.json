@@ -1377,6 +1377,8 @@
     "NextTrack": "下一曲",
     "LabelUnstable": "不稳定",
     "PlaybackRate": "播放速率",
+    "LabelMaxMuxingQueueSize": "最大混合器队列大小：",
+    "LabelMaxMuxingQueueSizeHelp": "等待所有流初始化时可缓冲的最大数据包数。如果在 ffmpeg 日志中仍然遇到 \"Too many packets buffered for output stream\" 错误，请尝试增加该值。建议值为 2048。",
     "Profile": "简介",
     "LabelIconMaxResHelp": "通过 upnp:icon 属性公开的图标的最大分辨率。",
     "LabelAlbumArtMaxResHelp": "通过 upnp:albumArtURI 属性公开的专辑封面的最大分辨率。",

@@ -182,6 +182,10 @@
                     <input is="emby-input" type="number" id="txtDownMixAudioBoost" pattern="[0-9]*" required="required" min=".5" max="3" step=".1" label="${LabelDownMixAudioScale}" />
                     <div class="fieldDescription">${LabelDownMixAudioScaleHelp}</div>
                 </div>
+                <div class="inputContainer">
+                    <input is="emby-input" type="number" id="txtMaxMuxingQueueSize" pattern="[0-9]*" required="required" min="128" max="2147483647" step="1" label="${LabelMaxMuxingQueueSize}" />
+                    <div class="fieldDescription">${LabelMaxMuxingQueueSizeHelp}</div>
+                </div>
 
                 <div class="selectContainer">
                     <select is="emby-select" id="selectEncoderPreset" label="${LabelEncoderPreset}">

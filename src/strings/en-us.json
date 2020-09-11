@@ -1399,5 +1399,7 @@
     "ClearQueue": "Clear queue",
     "LabelSubtitleVerticalPosition": "Vertical position:",
     "SubtitleVerticalPositionHelp": "Line number where text appears. Positive numbers indicate top down. Negative numbers indicate bottom up.",
-    "Preview": "Preview"
+    "Preview": "Preview",
+    "LabelMaxMuxingQueueSize": "Max muxing queue size:",
+    "LabelMaxMuxingQueueSizeHelp": "Maximum number of packets that can be buffered while waiting for all streams to initialize. Try to increase it if you still encounter \"Too many packets buffered for output stream\" error in ffmpeg logs. The recommended value is 2048."
 }
