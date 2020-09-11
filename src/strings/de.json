@@ -1376,5 +1376,6 @@
     "LabelOpenclDevice": "OpenCL-Gerät:",
     "LabelColorSpace": "Farbraum:",
     "MediaInfoColorSpace": "Farbraum",
-    "VideoAudio": "Videoton"
+    "VideoAudio": "Videoton",
+    "AllowTonemappingHelp": "Tone Mapping kann die Dynamic Range eines Videos von HDR zu SDR umwandeln und dabei Bilddetails und Farben beibehalten. Dies funktioniert zur Zeit nur mit dem NVENC HEVC-Decoder beim Transkodieren von HDR10 oder HLG-Videos."
 }
