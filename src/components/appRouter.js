@@ -509,23 +509,23 @@ class AppRouter {
         if (firstResult && firstResult.State === 'ServerSignIn' && !route.anonymous) {
             let url = ApiClient.serverAddress() + '/System/Info/Public';
             fetch(url).then(response => {
-                if (!response.ok) return;
-                response.json().then(data => {
-                    if (data !== null && data.StartupWizardCompleted === false) {
-                        Dashboard.navigate('wizardstart.html');
-                    } else {
-                        this.handleConnectionResult(firstResult);
-                    }
-                });
+                if (!response.ok) return Promise.reject('fetch failed');
+                return response.json();
+            }).then(data => {
+                if (data !== null && data.StartupWizardCompleted === false) {
+                    Dashboard.navigate('wizardstart.html');
+                } else {
+                    this.handleConnectionResult(firstResult);
+                }
             }).catch(error => {
                 console.error(error);
             });
         }
 
-        console.debug('processing path request: ' + pathname);
         const apiClient = window.connectionManager.currentApiClient();
         const pathname = ctx.pathname.toLowerCase();
 
+        console.debug('processing path request: ' + pathname);
         const isCurrentRouteStartup = this.currentRouteInfo ? this.currentRouteInfo.route.startup : true;
         const shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
 
