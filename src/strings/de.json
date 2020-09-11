@@ -1370,5 +1370,11 @@
     "UseDoubleRateDeinterlacingHelp": "Diese Einstellung verwendet die Halbbildrate beim Deinterlacing, oft auch als Bob-Deinterlacing bezeichnet, die die Bildrate des Videos verdoppelt, um eine vollständige Bewegung wie beim Betrachten von Interlaced-Video auf einem Fernseher zu erzielen.",
     "UseDoubleRateDeinterlacing": "Verdoppelung der Bildfrequenz beim Deinterlacing",
     "LabelIconMaxResHelp": "Maximale Auflösung der Icons, die über die Eigenschaft upnp:icon bereitgestellt wird.",
-    "LabelAlbumArtMaxResHelp": "Maximale Auflösung des Albumcovers, die über die Eigenschaft upnp:albumArtURI bereitgestellt wird."
+    "LabelAlbumArtMaxResHelp": "Maximale Auflösung des Albumcovers, die über die Eigenschaft upnp:albumArtURI bereitgestellt wird.",
+    "EnableTonemapping": "Tone Mapping aktivieren",
+    "LabelOpenclDeviceHelp": "Dies ist das OpenCL-Gerät, welches für Tone Mapping genutzt wird. Die linke Seite des Punktes ist die Plattform-Nummer, und die rechte Seite ist die Gerätenummer. Der Standardwert ist 0.0. ffmpeg mit OpenCL-Hardwarebeschleunigung wird benötigt.",
+    "LabelOpenclDevice": "OpenCL-Gerät:",
+    "LabelColorSpace": "Farbraum:",
+    "MediaInfoColorSpace": "Farbraum",
+    "VideoAudio": "Videoton"
 }
