@@ -39,6 +39,7 @@
  - [Andrei Oanca](https://github.com/OancaAndrei)
  - [Cromefire_](https://github.com/cromefire)
  - [Orry Verducci](https://github.com/orryverducci)
+ - [Camc314](https://github.com/camc314)
 
 # Emby Contributors
 
