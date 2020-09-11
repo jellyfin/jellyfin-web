@@ -1110,8 +1110,8 @@ class PlaybackManager {
         self.increasePlaybackRate = function (player) {
             player = player || self._currentPlayer;
             if (player) {
-                let current = self.getPlaybackRate(player);
-                let supported = self.getSupportedPlaybackRates(player);
+                const current = self.getPlaybackRate(player);
+                const supported = self.getSupportedPlaybackRates(player);
 
                 let index = -1;
                 for (let i = 0, length = supported.length; i < length; i++) {
@@ -1129,8 +1129,8 @@ class PlaybackManager {
         self.decreasePlaybackRate = function (player) {
             player = player || self._currentPlayer;
             if (player) {
-                let current = self.getPlaybackRate(player);
-                let supported = self.getSupportedPlaybackRates(player);
+                const current = self.getPlaybackRate(player);
+                const supported = self.getSupportedPlaybackRates(player);
 
                 let index = -1;
                 for (let i = 0, length = supported.length; i < length; i++) {
