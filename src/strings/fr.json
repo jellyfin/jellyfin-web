@@ -1373,5 +1373,22 @@
     "PosterCard": "Affiche",
     "UseDoubleRateDeinterlacing": "Multiplier par deux la fréquence d'images lors du désentrelacement",
     "Bwdif": "BWDIF",
-    "UseDoubleRateDeinterlacingHelp": "Ce réglage utilise la fréquence de trame lors du désentrelacement, souvent appelé \"bob deinterlacing\", qui double la fréquence d'image de la vidéo pour fournir un mouvement fluide comme en regardant une vidéo entrelacée sur un téléviseur."
+    "UseDoubleRateDeinterlacingHelp": "Ce réglage utilise la fréquence de trame lors du désentrelacement, souvent appelé \"bob deinterlacing\", qui double la fréquence d'image de la vidéo pour fournir un mouvement fluide comme en regardant une vidéo entrelacée sur un téléviseur.",
+    "LabelTonemappingDesat": "Désaturation tonale :",
+    "TonemappingRangeHelp": "Sélectionnez la gamme de couleur de sortie. Auto représente la même gamme qu'en entrée.",
+    "LabelTonemappingRange": "Gamme de mappage tonal :",
+    "TonemappingAlgorithmHelp": "Le mappage tonal peut être affiné. Si vous n'êtes pas familier avec ces options, gardez les valeurs par défaut.<br>La valeur recommandée est Reinhard.",
+    "LabelTonemappingAlgorithm": "Sélectionnez l'algorithme de mappage tonal à utiliser :",
+    "AllowTonemappingHelp": "Le mappage tonal peut transformer la gamme dynamique d'une vidéo de HDR à SDR tout en maintenant les détails et les couleurs d'image qui sont des informations importantes pour la représentation de la scène originale. Actuellement, ne fonctionne uniquement lorsque le décodeur NVENC HEVC est utilisé et que des vidéos HDR10 ou HLG sont transcodées.",
+    "EnableTonemapping": "Activer le mappage tonal",
+    "LabelOpenclDeviceHelp": "Ce dispositif OpenCL est utilisé pour le mappage tonal. La partie à gauche du point est le numéro de plate-forme et la partie à droite est le numéro du dispositif sur la plate-forme. La valeur par défaut est 0.0. Le fichier de l'application ffmpeg contenant l'accélération matérielle OpenCL est nécessaire.",
+    "LabelOpenclDevice": "Dispositif OpenCL :",
+    "LabelColorPrimaries": "Couleurs primaires :",
+    "LabelColorTransfer": "Transfert couleur :",
+    "LabelColorSpace": "Espace couleur :",
+    "MediaInfoColorPrimaries": "Couleurs primaires",
+    "MediaInfoColorTransfer": "Transfert couleur",
+    "MediaInfoColorSpace": "Espace couleur",
+    "LabelKnownProxies": "Proxies connus :",
+    "KnownProxiesHelp": "Liste séparée par des virgules d'adresses IP des proxies connus utilisés pour se connecter à l'instance Jellyfin. Ceci est nécessaire afin de pouvoir utiliser correctement les entêtes X-Forwarded-For. Nécessite un redémarrage après sauvegarde."
 }
