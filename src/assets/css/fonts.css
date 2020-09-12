@@ -1,7 +1,5 @@
 html {
     font-family: "Noto Sans", sans-serif;
-    font-size: 93%;
-    -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -29,7 +27,9 @@ h3 {
 }
 
 .layout-tv {
-    font-size: 130%;
+    /* Per WebOS and Tizen guidelines, fonts must be 20px minimum.
+       This takes the 16px baseline and multiplies it by 1.25 to get 20px. */
+    font-size: 125%;
 }
 
 .layout-mobile {

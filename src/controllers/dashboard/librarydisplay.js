@@ -1,5 +1,10 @@
-define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', 'emby-button'], function(globalize, loading, libraryMenu) {
-    'use strict';
+import globalize from 'globalize';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import 'emby-checkbox';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function getTabs() {
         return [{
@@ -7,17 +12,17 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
             name: globalize.translate('HeaderLibraries')
         }, {
             href: 'librarydisplay.html',
-            name: globalize.translate('TabDisplay')
+            name: globalize.translate('Display')
         }, {
             href: 'metadataimages.html',
-            name: globalize.translate('TabMetadata')
+            name: globalize.translate('Metadata')
         }, {
             href: 'metadatanfo.html',
             name: globalize.translate('TabNfoSettings')
         }];
     }
 
-    return function(view, params) {
+    export default function(view, params) {
         function loadData() {
             ApiClient.getServerConfiguration().then(function(config) {
                 view.querySelector('.chkFolderView').checked = config.EnableFolderView;
@@ -33,7 +38,7 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
 
         view.querySelector('form').addEventListener('submit', function(e) {
             loading.show();
-            var form = this;
+            const form = this;
             ApiClient.getServerConfiguration().then(function(config) {
                 config.EnableFolderView = form.querySelector('.chkFolderView').checked;
                 config.EnableGroupingIntoCollections = form.querySelector('.chkGroupMoviesIntoCollections').checked;
@@ -43,7 +48,7 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
                 ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
             });
             ApiClient.getNamedConfiguration('metadata').then(function(config) {
-                config.UseFileCreationTimeForDateAdded = '1' === $('#selectDateAdded', form).val();
+                config.UseFileCreationTimeForDateAdded = $('#selectDateAdded', form).val() === '1';
                 ApiClient.updateNamedConfiguration('metadata', config);
             });
 
@@ -56,12 +61,13 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
             libraryMenu.setTabs('librarysetup', 1, getTabs);
             loadData();
             ApiClient.getSystemInfo().then(function(info) {
-                if ('Windows' === info.OperatingSystem) {
+                if (info.OperatingSystem === 'Windows') {
                     view.querySelector('.fldSaveMetadataHidden').classList.remove('hide');
                 } else {
                     view.querySelector('.fldSaveMetadataHidden').classList.add('hide');
                 }
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

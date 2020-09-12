@@ -1,22 +1,33 @@
-define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'dom', 'userSettings', 'cardBuilder', 'playbackManager', 'mainTabsManager', 'globalize', 'scrollStyles', 'emby-itemscontainer', 'emby-button'], function (events, inputManager, libraryMenu, layoutManager, loading, dom, userSettings, cardBuilder, playbackManager, mainTabsManager, globalize) {
-    'use strict';
+import events from 'events';
+import inputManager from 'inputManager';
+import libraryMenu from 'libraryMenu';
+import layoutManager from 'layoutManager';
+import loading from 'loading';
+import dom from 'dom';
+import * as userSettings from 'userSettings';
+import cardBuilder from 'cardBuilder';
+import playbackManager from 'playbackManager';
+import * as mainTabsManager from 'mainTabsManager';
+import globalize from 'globalize';
+import 'scrollStyles';
+import 'emby-itemscontainer';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function getTabs() {
         return [{
-            name: globalize.translate('TabShows')
+            name: globalize.translate('Shows')
         }, {
-            name: globalize.translate('TabSuggestions')
+            name: globalize.translate('Suggestions')
         }, {
             name: globalize.translate('TabUpcoming')
         }, {
-            name: globalize.translate('TabGenres')
+            name: globalize.translate('Genres')
         }, {
             name: globalize.translate('TabNetworks')
         }, {
-            name: globalize.translate('TabEpisodes')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
+            name: globalize.translate('Episodes')
         }];
     }
 
@@ -110,7 +121,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             });
             loading.hide();
 
-            require(['autoFocuser'], function (autoFocuser) {
+            import('autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(view);
             });
         });
@@ -151,7 +162,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             });
             loading.hide();
 
-            require(['autoFocuser'], function (autoFocuser) {
+            import('autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(view);
             });
         });
@@ -192,7 +203,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             });
             loading.hide();
 
-            require(['autoFocuser'], function (autoFocuser) {
+            import('autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(view);
             });
         });
@@ -206,14 +217,13 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
-    return function (view, params) {
-
+    export default function (view, params) {
         function onBeforeTabChange(e) {
             preLoadTab(view, parseInt(e.detail.selectedTabIndex));
         }
 
         function onTabChange(e) {
-            var newIndex = parseInt(e.detail.selectedTabIndex);
+            const newIndex = parseInt(e.detail.selectedTabIndex);
             loadTab(view, newIndex);
         }
 
@@ -226,45 +236,43 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }
 
         function getTabController(page, index, callback) {
-            var depends = [];
+            let depends;
 
             switch (index) {
                 case 0:
-                    depends.push('controllers/shows/tvshows');
+                    depends = 'controllers/shows/tvshows';
                     break;
 
                 case 1:
+                    depends = 'controllers/shows/tvrecommended';
                     break;
 
                 case 2:
-                    depends.push('controllers/shows/tvupcoming');
+                    depends = 'controllers/shows/tvupcoming';
                     break;
 
                 case 3:
-                    depends.push('controllers/shows/tvgenres');
+                    depends = 'controllers/shows/tvgenres';
                     break;
 
                 case 4:
-                    depends.push('controllers/shows/tvstudios');
+                    depends = 'controllers/shows/tvstudios';
                     break;
 
                 case 5:
-                    depends.push('controllers/shows/episodes');
+                    depends = 'controllers/shows/episodes';
                     break;
-
-                case 6:
-                    depends.push('scripts/searchtab');
             }
 
-            require(depends, function (controllerFactory) {
-                var tabContent;
+            import(depends).then(({default: controllerFactory}) => {
+                let tabContent;
 
                 if (index === 1) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
 
-                var controller = tabControllers[index];
+                let controller = tabControllers[index];
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
@@ -302,8 +310,6 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         function loadTab(page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
-                initialTabIndex = null;
-
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
@@ -319,7 +325,7 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }
 
         function onWebSocketMessage(e, data) {
-            var msg = data;
+            const msg = data;
 
             if (msg.MessageType === 'UserDataChanged' && msg.Data.UserId == ApiClient.getCurrentUserId()) {
                 renderedTabs = [];
@@ -334,11 +340,9 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             }
         }
 
-        var isViewRestored;
-        var self = this;
-        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        var initialTabIndex = currentTabIndex;
-        var suggestionsTabIndex = 1;
+        const self = this;
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        const suggestionsTabIndex = 1;
 
         self.initTab = function () {
             var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
@@ -350,13 +354,12 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             loadSuggestionsTab(view, params, tabContent);
         };
 
-        var tabControllers = [];
-        var renderedTabs = [];
+        const tabControllers = [];
+        let renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
-            isViewRestored = e.detail.isRestored;
             initTabs();
             if (!view.getAttribute('data-title')) {
-                var parentId = params.topParentId;
+                const parentId = params.topParentId;
 
                 if (parentId) {
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
@@ -364,8 +367,8 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
                         libraryMenu.setTitle(item.Name);
                     });
                 } else {
-                    view.setAttribute('data-title', globalize.translate('TabShows'));
-                    libraryMenu.setTitle(globalize.translate('TabShows'));
+                    view.setAttribute('data-title', globalize.translate('Shows'));
+                    libraryMenu.setTitle(globalize.translate('Shows'));
                 }
             }
 
@@ -385,5 +388,6 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
                 }
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

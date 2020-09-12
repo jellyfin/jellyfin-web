@@ -12,6 +12,7 @@
 .hiddenScrollX,
 .layout-tv .scrollX {
     -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .hiddenScrollX-forced {
@@ -40,6 +41,7 @@
 .hiddenScrollY,
 .layout-tv .smoothScrollY {
     -ms-overflow-style: none;
+    scrollbar-width: none;
 
     /* Can't do this because it not only hides the scrollbar, but also prevents scrolling */
 

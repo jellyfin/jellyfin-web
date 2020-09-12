@@ -26,6 +26,7 @@
         });
     }
 
+    /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
     self.addEventListener('notificationclick', function (event) {
         var notification = event.notification;
         notification.close();

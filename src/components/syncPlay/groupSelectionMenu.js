@@ -1,5 +1,4 @@
 import events from 'events';
-import connectionManager from 'connectionManager';
 import playbackManager from 'playbackManager';
 import syncPlayManager from 'syncPlayManager';
 import loading from 'loading';
@@ -37,7 +36,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
         console.debug('No item is currently playing.');
     }
 
-    apiClient.sendSyncPlayCommand('ListGroups').then(function (response) {
+    apiClient.getSyncPlayGroups().then(function (response) {
         response.json().then(function (groups) {
             var menuItems = groups.map(function (group) {
                 return {
@@ -83,9 +82,9 @@ function showNewJoinGroupSelection (button, user, apiClient) {
 
             actionsheet.show(menuOptions).then(function (id) {
                 if (id == 'new-group') {
-                    apiClient.sendSyncPlayCommand('NewGroup');
-                } else {
-                    apiClient.sendSyncPlayCommand('JoinGroup', {
+                    apiClient.createSyncPlayGroup();
+                } else if (id) {
+                    apiClient.joinSyncPlayGroup({
                         GroupId: id,
                         PlayingItemId: playingItemId
                     });
@@ -140,7 +139,7 @@ function showLeaveGroupSelection (button, user, apiClient) {
 
     actionsheet.show(menuOptions).then(function (id) {
         if (id == 'leave-group') {
-            apiClient.sendSyncPlayCommand('LeaveGroup');
+            apiClient.leaveSyncPlayGroup();
         }
     }).catch((error) => {
         console.error('SyncPlay: unexpected error showing group menu:', error);
@@ -172,8 +171,8 @@ export function show (button) {
         });
     });
 
-    const apiClient = connectionManager.currentApiClient();
-    connectionManager.user(apiClient).then((user) => {
+    const apiClient = window.connectionManager.currentApiClient();
+    window.connectionManager.user(apiClient).then((user) => {
         if (syncPlayEnabled) {
             showLeaveGroupSelection(button, user, apiClient);
         } else {

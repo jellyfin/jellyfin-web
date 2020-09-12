@@ -17,23 +17,26 @@ html {
 
 .skinHeader-withBackground {
     background: #000420;
-    background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
-    background: -webkit-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
     background: linear-gradient(to right, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
 }
 
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-    background: -o-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+.layout-tv .skinHeader.semiTransparent {
+    background: none;
+}
+
 .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/banner-light.png);
+}
+
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
 }
 
 .dialog,
@@ -59,7 +62,14 @@ html {
     }
 }
 
-.paper-icon-button-light:hover:not(:disabled) {
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        color: rgb(12, 232, 214);
+        background-color: rgba(0, 164, 220, 0.2);
+    }
+}
+
+.paper-icon-button-light:active:not(:disabled) {
     color: rgb(12, 232, 214);
     background-color: rgba(0, 164, 220, 0.2);
 }
@@ -199,7 +209,7 @@ a[data-role=button] {
 }
 
 .cardContent {
-    border-radius: 1em;
+    border-radius: 0.8em;
 }
 
 .collapseContent,
@@ -208,10 +218,14 @@ a[data-role=button] {
 .paperList,
 .visualCardBox {
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 1em;
+    border-radius: 0.8em;
 }
 
 .cardOverlayContainer {
+    border-radius: 0.8em;
+}
+
+.blurhash-canvas {
     border-radius: 0.8em;
 }
 
@@ -312,6 +326,10 @@ a[data-role=button] {
     background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
     background: -webkit-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
     background: linear-gradient(to right, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
+}
+
+.layout-tv .detailRibbon {
+    background: none;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
@@ -538,8 +556,8 @@ a[data-role=button] {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .personCard .cardScalable {
@@ -549,7 +567,7 @@ a[data-role=button] {
 
 .cardBox:not(.visualCardBox) .cardPadder {
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 1em;
+    border-radius: 0.8em;
 }
 
 .card:focus .cardBox.visualCardBox,
@@ -559,7 +577,7 @@ a[data-role=button] {
 
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
-    border-radius: 1.5em;
+    border-radius: 1.3em;
 }
 
 .layout-desktop,

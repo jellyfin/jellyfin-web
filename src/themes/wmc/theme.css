@@ -26,9 +26,6 @@ html {
 
 .formDialogHeader:not(.formDialogHeader-clear),
 .skinHeader-withBackground {
-    background: -webkit-gradient(linear, left top, left bottom, from(#0c2450), to(#081b3b));
-    background: -webkit-linear-gradient(top, #0c2450, #081b3b);
-    background: -o-linear-gradient(top, #0c2450, #081b3b);
     background: linear-gradient(to bottom, #0c2450, #081b3b);
     background-color: #0c2450;
 }
@@ -36,15 +33,20 @@ html {
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-    background: -o-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+.layout-tv .skinHeader.semiTransparent {
+    background: none;
+}
+
 .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/banner-light.png);
+}
+
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
 }
 
 .backgroundContainer,
@@ -62,7 +64,14 @@ html {
     background: rgba(17, 98, 164, 0.9);
 }
 
-.paper-icon-button-light:hover:not(:disabled) {
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        color: #00a4dc;
+        background-color: rgba(0, 164, 220, 0.2);
+    }
+}
+
+.paper-icon-button-light:active:not(:disabled) {
     color: #00a4dc;
     background-color: rgba(0, 164, 220, 0.2);
 }
@@ -211,6 +220,10 @@ html {
 
 .detailRibbon {
     background-color: #081b3b;
+}
+
+.layout-tv .detailRibbon {
+    background: none;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
@@ -421,8 +434,8 @@ html {
     color: #c33;
 }
 
-.repeatButton-active {
-    color: #4285f4;
+.buttonActive {
+    color: #00a4dc !important;
 }
 
 .cardBox:not(.visualCardBox) .cardPadder {

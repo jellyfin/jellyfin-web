@@ -167,8 +167,9 @@ button::-moz-focus-inner {
     position: relative;
     background-clip: content-box !important;
     color: inherit;
+}
 
-    /* This is only needed for scalable cards */
+.cardScalable .cardImageContainer {
     height: 100%;
     contain: strict;
 }
@@ -208,6 +209,10 @@ button::-moz-focus-inner {
     contain: strict;
 }
 
+.defaultCardBackground {
+    display: flex;
+}
+
 .cardContent:not(.defaultCardBackground) {
     background-color: transparent;
 }
@@ -238,33 +243,13 @@ button::-moz-focus-inner {
     border: none;
 }
 
-.cardImage-img {
-    max-height: 100%;
-    max-width: 100%;
-
-    /* This is simply for lazy image purposes, to ensure the image is visible sooner when scrolling */
-    min-height: 70%;
-    min-width: 70%;
-    margin: auto;
-}
-
-.coveredImage-img {
-    width: 100%;
-    height: 100%;
-}
-
-.coveredImage-noscale-img {
-    max-height: none;
-    max-width: none;
-}
-
 .coveredImage {
     background-size: cover;
     background-position: center center;
 }
 
-.coveredImage-noScale {
-    background-size: cover;
+.coveredImage.coveredImage-contain {
+    background-size: contain;
 }
 
 .cardFooter {
@@ -371,6 +356,8 @@ button::-moz-focus-inner {
 .cardDefaultText {
     white-space: normal;
     text-align: center;
+    font-size: 2em;
+    font-weight: bold;
 }
 
 .cardImageContainer .cardImageIcon {

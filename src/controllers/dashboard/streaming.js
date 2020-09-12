@@ -1,5 +1,9 @@
-define(['jQuery', 'libraryMenu', 'loading', 'globalize'], function ($, libraryMenu, loading, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import libraryMenu from 'libraryMenu';
+import loading from 'loading';
+import globalize from 'globalize';
+
+/* eslint-disable indent */
 
     function loadPage(page, config) {
         $('#txtRemoteClientBitrateLimit', page).val(config.RemoteClientBitrateLimit / 1e6 || '');
@@ -8,7 +12,7 @@ define(['jQuery', 'libraryMenu', 'loading', 'globalize'], function ($, libraryMe
 
     function onSubmit() {
         loading.show();
-        var form = this;
+        const form = this;
         ApiClient.getServerConfiguration().then(function (config) {
             config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($('#txtRemoteClientBitrateLimit', form).val() || '0'));
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
@@ -23,7 +27,7 @@ define(['jQuery', 'libraryMenu', 'loading', 'globalize'], function ($, libraryMe
             name: globalize.translate('Transcoding')
         }, {
             href: 'playbackconfiguration.html',
-            name: globalize.translate('TabResumeSettings')
+            name: globalize.translate('ButtonResume')
         }, {
             href: 'streamingsettings.html',
             name: globalize.translate('TabStreaming')
@@ -35,9 +39,10 @@ define(['jQuery', 'libraryMenu', 'loading', 'globalize'], function ($, libraryMe
     }).on('pageshow', '#streamingSettingsPage', function () {
         loading.show();
         libraryMenu.setTabs('playback', 2, getTabs);
-        var page = this;
+        const page = this;
         ApiClient.getServerConfiguration().then(function (config) {
             loadPage(page, config);
         });
     });
-});
+
+/* eslint-enable indent */
