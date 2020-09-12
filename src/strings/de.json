@@ -1377,5 +1377,10 @@
     "LabelColorSpace": "Farbraum:",
     "MediaInfoColorSpace": "Farbraum",
     "VideoAudio": "Videoton",
-    "AllowTonemappingHelp": "Tone Mapping kann die Dynamic Range eines Videos von HDR zu SDR umwandeln und dabei Bilddetails und Farben beibehalten. Dies funktioniert zur Zeit nur mit dem NVENC HEVC-Decoder beim Transkodieren von HDR10 oder HLG-Videos."
+    "AllowTonemappingHelp": "Tone Mapping kann die Dynamic Range eines Videos von HDR zu SDR umwandeln und dabei Bilddetails und Farben beibehalten. Dies funktioniert zur Zeit nur mit dem NVENC HEVC-Decoder beim Transkodieren von HDR10 oder HLG-Videos.",
+    "TonemappingRangeHelp": "Wählen Sie den Ausgabefarbbereich aus. Auto ist derselbe wie der Eingabebereich.",
+    "TonemappingAlgorithmHelp": "Das Tonemapping kann fein abgestimmt werden. Wenn Sie mit diesen Optionen nicht vertraut sind, behalten Sie einfach den Standardwert bei.<br>Der empfohlene Wert ist Reinhard.",
+    "LabelTonemappingAlgorithm": "Wählen Sie den zu verwendenden Tonemapping-Algorithmus aus:",
+    "LabelKnownProxies": "Bekannte Proxys:",
+    "KnownProxiesHelp": "Kommagetrennte Liste von IP-Adressen bekannter Proxys, die bei der Verbindung mit Ihrer Jellyfin-Instanz verwendet werden. Dies ist erforderlich, um die X-Forwarded-For-Header korrekt verwenden zu können. Erfordert nach dem Speichern einen Neustart."
 }
