@@ -1397,5 +1397,9 @@
     "MediaInfoColorPrimaries": "Primární barvy",
     "MediaInfoColorTransfer": "Převod barev",
     "MediaInfoColorSpace": "Barevný prostor",
-    "MediaInfoVideoRange": "Rozsah videa"
+    "MediaInfoVideoRange": "Rozsah videa",
+    "LabelMaxMuxingQueueSizeHelp": "Maximální počet paketů, které je možné napřed načíst při čekání na spuštění všech proudů. Pokud se stále zobrazuje chyba \"Příliš mnoho paketů načtených napřed ve výstupním proudu\" v protokolech ffmpeg, zkuste hodnotu zvýšit. Doporučená hodnota je 2048.",
+    "LabelMaxMuxingQueueSize": "Maximální velikost muxovací fronty:",
+    "LabelKnownProxies": "Známé proxy servery:",
+    "KnownProxiesHelp": "Čárkami oddělený seznam IP adres známých proxy serverů pro připojení k instanci Jellyfin. Vyžadováno pro správné využití HTTP hlavičky X-Forwarded-For. Vyžaduje restart."
 }
