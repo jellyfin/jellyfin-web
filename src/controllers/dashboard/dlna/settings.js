@@ -1,53 +1,54 @@
-import $ from 'jQuery';
 import loading from 'loading';
 import libraryMenu from 'libraryMenu';
 import globalize from 'globalize';
 
-/* eslint-disable indent */
+function loadPage(page, config, users) {
+    page.querySelector('#chkEnablePlayTo').checked = config.EnablePlayTo;
+    page.querySelector('#chkEnableDlnaDebugLogging').checked = config.EnableDebugLog;
+    page.querySelector('#txtClientDiscoveryInterval').value = config.ClientDiscoveryIntervalSeconds;
+    page.querySelector('#chkEnableServer').checked = config.EnableServer;
+    page.querySelector('#chkBlastAliveMessages').checked = config.BlastAliveMessages;
+    page.querySelector('#txtBlastInterval').value = config.BlastAliveMessageIntervalSeconds;
+    const usersHtml = users.map(function (u) {
+        return '<option value="' + u.Id + '">' + u.Name + '</option>';
+    }).join('');
+    const elem = page.querySelector('#selectUser');
+    elem.innerHTML = usersHtml;
+    elem.value = config.DefaultUserId || '';
+    loading.hide();
+}
 
-    function loadPage(page, config, users) {
-        page.querySelector('#chkEnablePlayTo').checked = config.EnablePlayTo;
-        page.querySelector('#chkEnableDlnaDebugLogging').checked = config.EnableDebugLog;
-        $('#txtClientDiscoveryInterval', page).val(config.ClientDiscoveryIntervalSeconds);
-        $('#chkEnableServer', page).prop('checked', config.EnableServer);
-        $('#chkBlastAliveMessages', page).prop('checked', config.BlastAliveMessages);
-        $('#txtBlastInterval', page).val(config.BlastAliveMessageIntervalSeconds);
-        const usersHtml = users.map(function (u) {
-            return '<option value="' + u.Id + '">' + u.Name + '</option>';
-        }).join('');
-        $('#selectUser', page).html(usersHtml).val(config.DefaultUserId || '');
-        loading.hide();
-    }
+function onSubmit(e) {
+    loading.show();
+    const form = this;
+    ApiClient.getNamedConfiguration('dlna').then(function (config) {
+        config.EnablePlayTo = form.querySelector('#chkEnablePlayTo').checked;
+        config.EnableDebugLog = form.querySelector('#chkEnableDlnaDebugLogging').checked;
+        config.ClientDiscoveryIntervalSeconds = form.querySelector('#txtClientDiscoveryInterval').value;
+        config.EnableServer = form.querySelector('#chkEnableServer').matches(':checked');
+        config.BlastAliveMessages = form.querySelector('#chkBlastAliveMessages').matches(':checked');
+        config.BlastAliveMessageIntervalSeconds = form.querySelector('#txtBlastInterval').value;
+        config.DefaultUserId = form.querySelector('#selectUser').value;
+        ApiClient.updateNamedConfiguration('dlna', config).then(Dashboard.processServerConfigurationUpdateResult);
+    });
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+}
 
-    function onSubmit() {
-        loading.show();
-        const form = this;
-        ApiClient.getNamedConfiguration('dlna').then(function (config) {
-            config.EnablePlayTo = form.querySelector('#chkEnablePlayTo').checked;
-            config.EnableDebugLog = form.querySelector('#chkEnableDlnaDebugLogging').checked;
-            config.ClientDiscoveryIntervalSeconds = $('#txtClientDiscoveryInterval', form).val();
-            config.EnableServer = $('#chkEnableServer', form).is(':checked');
-            config.BlastAliveMessages = $('#chkBlastAliveMessages', form).is(':checked');
-            config.BlastAliveMessageIntervalSeconds = $('#txtBlastInterval', form).val();
-            config.DefaultUserId = $('#selectUser', form).val();
-            ApiClient.updateNamedConfiguration('dlna', config).then(Dashboard.processServerConfigurationUpdateResult);
-        });
-        return false;
-    }
+function getTabs() {
+    return [{
+        href: 'dlnasettings.html',
+        name: globalize.translate('Settings')
+    }, {
+        href: 'dlnaprofiles.html',
+        name: globalize.translate('TabProfiles')
+    }];
+}
+export default function (view, params) {
+    view.querySelector('form').addEventListener('submit', onSubmit);
 
-    function getTabs() {
-        return [{
-            href: 'dlnasettings.html',
-            name: globalize.translate('Settings')
-        }, {
-            href: 'dlnaprofiles.html',
-            name: globalize.translate('TabProfiles')
-        }];
-    }
-
-    $(document).on('pageinit', '#dlnaSettingsPage', function () {
-        $('.dlnaSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
-    }).on('pageshow', '#dlnaSettingsPage', function () {
+    view.addEventListener('viewshow', function () {
         libraryMenu.setTabs('dlna', 0, getTabs);
         loading.show();
         const page = this;
@@ -57,5 +58,4 @@ import globalize from 'globalize';
             loadPage(page, responses[0], responses[1]);
         });
     });
-
-/* eslint-enable indent */
+}
