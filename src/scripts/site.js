@@ -86,11 +86,11 @@ function initClient() {
         return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings', 'apiclient', 'clientUtils'], function (ConnectionManager, appHost, credentialProvider, events, userSettings, apiClientFactory, clientUtils) {
             appHost = appHost.default || appHost;
 
-            var credentialProviderInstance = new credentialProvider();
-            var promises = [appHost.init()];
+            const credentialProviderInstance = new credentialProvider();
+            const promises = [appHost.init()];
 
             return Promise.all(promises).then(responses => {
-                var capabilities = Dashboard.capabilities(appHost);
+                const capabilities = Dashboard.capabilities(appHost);
 
                 window.connectionManager = new ConnectionManager(credentialProviderInstance, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId(), capabilities);
 
@@ -102,9 +102,7 @@ function initClient() {
                     }
 
                     console.debug('creating apiclient singleton');
-                    let parts = server.split('/');
-                    let url = parts[0] + '//' + parts[2];
-                    var apiClient = new apiClientFactory(url, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
+                    const apiClient = new apiClientFactory(server, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
 
                     apiClient.enableAutomaticNetworking = false;
                     apiClient.manualAddressOnly = true;

@@ -46,6 +46,15 @@ export function getMultiServer() {
     });
 }
 
+export function getServers() {
+    return getConfig().then(config => {
+        return config.servers;
+    }).catch(error => {
+        console.log('cannot get web config:', error);
+        return [];
+    });
+}
+
 export function getThemes() {
     return getConfig().then(config => {
         return config.themes;

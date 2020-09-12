@@ -12,7 +12,7 @@ export async function serverAddress() {
         return Promise.resolve(apiClient.serverAddress());
     }
 
-    let current = await window.connectionManager.getAvailableServers().then(servers => {
+    const current = await window.connectionManager.getAvailableServers().then(servers => {
         if (servers.length !== 0) {
             return Promise.resolve(servers[0].ManualAddress);
         }
@@ -20,19 +20,20 @@ export async function serverAddress() {
 
     if (current) return Promise.resolve(current);
 
-    let urls = [];
-    urls.push(`${window.location.origin}/System/Info/Public`);
-    urls.push(`${window.location.protocol}//${window.location.hostname}:8096/System/Info/Public`);
+    const urls = [];
+    urls.push(window.location.origin);
+    urls.push(`${window.location.protocol}//${window.location.hostname}:8096`);
+    urls.push(await webSettings.getServers());
 
-    let promises = urls.map(url => {
-        return fetch(url).catch(error => {
+    const promises = urls.map(url => {
+        return fetch(`${url}/System/Info/Public`).catch(error => {
             return Promise.resolve();
         });
     });
 
     return Promise.all(promises).then(responses => {
         return responses.find(response => response && response.ok);
-    }).then(response => response.url).catch(error => {
+    }).then(response => response.url.replace('/System/Info/Public', '')).catch(error => {
         console.log(error);
         return Promise.resolve();
     });

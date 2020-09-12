@@ -1,5 +1,6 @@
 {
     "multiserver": false,
+    "servers": [],
     "themes": [
         {
             "name": "Apple TV",
