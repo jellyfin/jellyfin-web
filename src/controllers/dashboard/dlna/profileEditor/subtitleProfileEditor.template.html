@@ -1,0 +1,34 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${HeaderSubtitleProfile}
+    </h3>
+</div>
+
+<div class="formDialogContent smoothScrollY" style="padding-top:2em;">
+    <form class="popupEditPersonForm dialogContentInner dialog-content-centered">
+        <div class="inputContainer">
+            <input is="emby-input" type="text" id="txtSubtitleProfileFormat" label="${LabelFormat}" />
+            <div class="fieldDescription">${LabelSubtitleFormatHelp}</div>
+        </div>
+        <div class="selectContainer">
+            <select id="selectSubtitleProfileMethod" name="selectSubtitleProfileMethod" is="emby-select" label="${LabelMethod}">
+                <option value="Embed">${OptionEmbedSubtitles}</option>
+                <option value="External">${OptionExternallyDownloaded}</option>
+                <option value="Hls">${OptionHlsSegmentedSubtitles}</option>
+            </select>
+        </div>
+        <div class="selectContainer">
+            <select id="selectSubtitleProfileDidlMode" name="selectSubtitleProfileDidlMode" is="emby-select" label="${LabelDidlMode}">
+                <option value="">${OptionResElement}</option>
+                <option value="CaptionInfoEx">${OptionCaptionInfoExSamsung}</option>
+            </select>
+        </div>
+
+        <div class="formDialogFooter">
+            <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
+                <span>${Save}</span>
+            </button>
+        </div>
+    </form>
+</div>

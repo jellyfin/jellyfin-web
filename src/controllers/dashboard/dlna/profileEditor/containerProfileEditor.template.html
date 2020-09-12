@@ -1,0 +1,31 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${HeaderContainerProfile}
+    </h3>
+</div>
+
+<div class="formDialogContent smoothScrollY" style="padding-top:2em;">
+    <form class="popupEditContainerProfileForm dialogContentInner dialog-content-centered">
+        <div class="tabContainerBasics">
+            <div class="selectContainer">
+                <select id="selectContainerProfileType" name="selectContainerProfileType" is="emby-select" label="${LabelType}">
+                    <option value="Audio">${Audio}</option>
+                    <option value="Photo">${Photo}</option>
+                    <option value="Video">${Video}</option>
+                </select>
+            </div>
+            <div class="inputContainer">
+                <input is="emby-input" type="text" id="txtContainerProfileContainer" label="${LabelProfileContainer}" />
+                <div class="fieldDescription">${LabelProfileContainersHelp}</div>
+            </div>
+        </div>
+        <div class="tabContainerConditions" style="display: none;"></div>
+
+        <div class="formDialogFooter">
+            <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
+                <span>${Save}</span>
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,82 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${HeaderTranscodingProfile}
+    </h3>
+</div>
+
+<div class="formDialogContent smoothScrollY" style="padding-top:2em;">
+    <form class="popupEditTranscodingProfileForm dialogContentInner dialog-content-centered">
+        <div class="inputContainer" style="text-align:right;">
+            <label style="width:auto;">
+                <input is="emby-toggle" type="checkbox" class="chkAdvanced noautofocus" />
+                <span>${ShowAdvancedSettings}</span>
+            </label>
+        </div>
+
+        <div class="tabTranscodingBasics">
+            <div class="selectContainer">
+                <select id="selectTranscodingProfileType" name="selectTranscodingProfileType" is="emby-select" label="${LabelType}">
+                    <option value="Audio">${Audio}</option>
+                    <option value="Photo">${Photo}</option>
+                    <option value="Video">${Video}</option>
+                </select>
+            </div>
+            <div id="fldTranscodingProtocol" style="margin: 1em 0;">
+                <div class="selectContainer">
+                    <select id="selectTranscodingProtocol" name="selectTranscodingProtocol" is="emby-select" label="${LabelProtocol}">
+                        <option value="Http">${OptionProtocolHttp}</option>
+                        <option value="Hls">${OptionProtocolHls}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="inputContainer">
+                <input is="emby-input" type="text" id="txtTranscodingContainer" label="${LabelProfileContainer}"; required="required" />
+            </div>
+            <div id="fldTranscodingVideoCodec" style="margin: 1em 0;">
+                <div class="inputContainer">
+                    <input is="emby-input" type="text" id="txtTranscodingVideoCodec" label="${LabelVideoCodec}" />
+                </div>
+            </div>
+            <div id="fldTranscodingAudioCodec" style="margin: 1em 0;">
+                <div class="inputContainer">
+                    <input is="emby-input" type="text" id="txtTranscodingAudioCodec" label="${LabelAudioCodec}" />
+                </div>
+            </div>
+        </div>
+        <div class="tabTranscodingAdvanced hide">
+            <div id="fldEnableMpegtsM2TsMode" style="margin: 1em 0;">
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkEnableMpegtsM2TsMode" />
+                        <span>${OptionEnableM2tsMode}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${OptionEnableM2tsModeHelp}</div>
+                </div>
+            </div>
+            <div id="fldEstimateContentLength" style="margin: 1em 0;">
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkEstimateContentLength" />
+                        <span>${OptionEstimateContentLength}</span>
+                    </label>
+                </div>
+            </div>
+            <div id="fldReportByteRangeRequests" style="margin: 1em 0;">
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkReportByteRangeRequests" />
+                        <span>${OptionReportByteRangeSeekingWhenTranscoding}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${OptionReportByteRangeSeekingWhenTranscodingHelp}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="formDialogFooter">
+            <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
+                <span>${Save}</span>
+            </button>
+        </div>
+    </form>
+</div>

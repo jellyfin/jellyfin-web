@@ -1,0 +1,29 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${HeaderCodecProfile}
+    </h3>
+</div>
+
+<div class="formDialogContent smoothScrollY" style="padding-top:2em;">
+    <form class="popupEditCodecProfileForm dialogContentInner dialog-content-centered">
+        <div class="selectContainer">
+            <select is="emby-select" id="selectCodecProfileType" name="selectCodecProfileType"  label="${LabelType}">
+                <option value="Video">${Video}</option>
+                <option value="VideoAudio">${VideoAudio}</option>
+                <option value="Audio">${Audio}</option>
+            </select>
+        </div>
+
+        <div class="inputContainer">
+            <input is="emby-input" type="text" id="txtCodecProfileCodec" label="${LabelProfileCodecs}" />
+            <div class="fieldDescription">${LabelProfileCodecsHelp}</div>
+        </div>
+
+        <div class="formDialogFooter">
+            <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
+                <span>${Save}</span>
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,40 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${HeaderDirectPlayProfile}
+    </h3>
+</div>
+
+<div class="formDialogContent smoothScrollY" style="padding-top:2em;">
+    <form class="popupEditDirectPlayProfileForm dialogContentInner dialog-content-centered">
+        <div class="selectContainer">
+            <select id="selectDirectPlayProfileType" name="selectDirectPlayProfileType" is="emby-select" label="${LabelType}">
+                <option value="Audio">${Audio}</option>
+                <option value="Photo">${Photo}</option>
+                <option value="Video">${Video}</option>
+            </select>
+        </div>
+        <div class="inputContainer">
+            <input is="emby-input" type="text" id="txtDirectPlayContainer" label="${LabelProfileContainer}" />
+            <div class="fieldDescription">${LabelProfileContainersHelp}</div>
+        </div>
+        <div id="fldDirectPlayVideoCodec" style="margin: 1em 0;">
+            <div class="inputContainer">
+                <input is="emby-input" type="text" id="txtDirectPlayVideoCodec" label="${LabelProfileVideoCodecs}" />
+                <div class="fieldDescription">${LabelProfileCodecsHelp}</div>
+            </div>
+        </div>
+        <div id="fldDirectPlayAudioCodec" style="margin: 1em 0 2em;">
+            <div class="inputContainer">
+                <input is="emby-input" type="text" id="txtDirectPlayAudioCodec" label="${LabelProfileAudioCodecs}" />
+                <div class="fieldDescription">${LabelProfileCodecsHelp}</div>
+            </div>
+        </div>
+
+        <div class="formDialogFooter">
+            <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
+                <span>${Save}</span>
+            </button>
+        </div>
+    </form>
+</div>

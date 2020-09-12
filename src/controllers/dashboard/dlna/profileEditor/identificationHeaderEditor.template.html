@@ -1,0 +1,30 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${HeaderIdentificationHeader}
+    </h3>
+</div>
+
+<div class="formDialogContent smoothScrollY" style="padding-top:2em;">
+    <form class="popupEditidentificationHeaderForm dialogContentInner dialog-content-centered">
+        <div class="inputContainer">
+            <input is="emby-input" type="text" id="txtIdentificationHeaderName" label="${LabelName}" />
+        </div>
+        <div class="inputContainer">
+            <input is="emby-input" type="text" id="txtIdentificationHeaderValue" label="${LabelValue}" />
+        </div>
+        <div class="selectContainer">
+            <select id="selectMatchType" name="selectMatchType" is="emby-select" label="${LabelMatchType}">
+                <option value="Equals">${OptionEquals}</option>
+                <option value="Regex">${OptionRegex}</option>
+                <option value="Substring">${OptionSubstring}</option>
+            </select>
+        </div>
+
+        <div class="formDialogFooter">
+            <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
+                <span>${Save}</span>
+            </button>
+        </div>
+    </form>
+</div>
