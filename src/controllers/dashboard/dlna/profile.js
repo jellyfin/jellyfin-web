@@ -290,7 +290,7 @@ function renderTranscodingProfiles(page, profiles) {
     const elem = page.querySelector('#transcodingProfiles');
 
     for (let i = 0, length = profiles.length; i < length; i++) {
-        let profile = profiles[i];
+        const profile = profiles[i];
 
         if (profile.Type !== currentType) {
             html += '<li data-role="list-divider">' + profile.Type + '</li>';
@@ -339,7 +339,7 @@ function renderContainerProfiles(page, profiles) {
     const elem = page.querySelector('#containerProfiles');
 
     for (let i = 0, length = profiles.length; i < length; i++) {
-        let profile = profiles[i];
+        const profile = profiles[i];
 
         if (profile.Type !== currentType) {
             html += '<li data-role="list-divider">' + profile.Type + '</li>';
@@ -386,7 +386,7 @@ function renderCodecProfiles(page, profiles) {
     const elem = page.querySelector('#codecProfiles');
 
     for (let i = 0, length = profiles.length; i < length; i++) {
-        let profile = profiles[i];
+        const profile = profiles[i];
         const type = profile.Type.replace('VideoAudio', 'Video Audio');
 
         if (type !== currentType) {
@@ -434,7 +434,7 @@ function renderResponseProfiles(page, profiles) {
     const elem = page.querySelector('#mediaProfiles');
 
     for (let i = 0, length = profiles.length; i < length; i++) {
-        let profile = profiles[i];
+        const profile = profiles[i];
 
         if (profile.Type !== currentType) {
             html += '<li data-role="list-divider">' + profile.Type + '</li>';
@@ -576,7 +576,7 @@ export default function (view, params) {
     }
 
     function openTabs(el) {
-        let btnTarget = el.currentTarget;
+        const btnTarget = el.currentTarget;
 
         for (const viewTab of view.querySelectorAll('.viewTab')) {
             viewTab.classList.add('hide');
