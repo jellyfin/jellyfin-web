@@ -1390,5 +1390,7 @@
     "MediaInfoColorTransfer": "Transfert couleur",
     "MediaInfoColorSpace": "Espace couleur",
     "LabelKnownProxies": "Proxies connus :",
-    "KnownProxiesHelp": "Liste séparée par des virgules d'adresses IP des proxies connus utilisés pour se connecter à l'instance Jellyfin. Ceci est nécessaire afin de pouvoir utiliser correctement les entêtes X-Forwarded-For. Nécessite un redémarrage après sauvegarde."
+    "KnownProxiesHelp": "Liste séparée par des virgules d'adresses IP des proxies connus utilisés pour se connecter à l'instance Jellyfin. Ceci est nécessaire afin de pouvoir utiliser correctement les entêtes X-Forwarded-For. Nécessite un redémarrage après sauvegarde.",
+    "LabelTonemappingThreshold": "Seuil de mappage tonal :",
+    "LabelTonemappingDesatHelp": "Désature les couleurs qui dépassent ce niveau de luminosité. Plus ce paramètre est élevé, plus les informations de couleur seront préservées. Ce paramètre permet d'éviter les couleurs anormalement éclatantes pour les couleurs super-lumineuses en les transformant (de manière lisse) en blanc. Ceci rend l'image plus naturelle au prix d'une réduction d'information dans les couleurs hors-gamme. Les valeurs recommandées et par défaut sont 0 et 0.5."
 }
