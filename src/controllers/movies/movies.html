@@ -1,6 +1,6 @@
 <div id="moviesPage" data-role="page" data-dom-cache="true" class="page libraryPage backdropPage collectionEditorPage pageWithAbsoluteTabs withTabs" data-backdroptype="movie">
 
-    <div class="pageTabContent" data-index="0">
+    <div class="pageTabContent" id="moviesTab" data-index="0">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom">
             <div class="paging"></div>
             <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy"></span></button>
@@ -17,7 +17,7 @@
             <div class="paging"></div>
         </div>
     </div>
-    <div class="pageTabContent" data-index="1">
+    <div class="pageTabContent" id="suggestionsTab" data-index="1">
         <div id="resumableSection" class="verticalSection hide">
             <div class="sectionTitleContainer sectionTitleContainer-cards">
                 <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderContinueWatching}</h2>
@@ -43,7 +43,7 @@
             <p>${MessageNoMovieSuggestionsAvailable}</p>
         </div>
     </div>
-    <div class="pageTabContent" data-index="2">
+    <div class="pageTabContent" id="trailersTab" data-index="2">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom">
             <div class="paging"></div>
             <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha"></span></button>
@@ -59,7 +59,7 @@
             <div class="paging"></div>
         </div>
     </div>
-    <div class="pageTabContent" data-index="3">
+    <div class="pageTabContent" id="favoritesTab" data-index="3">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom">
             <div class="paging"></div>
             <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy"></span></button>
@@ -71,7 +71,7 @@
             <div class="paging"></div>
         </div>
     </div>
-    <div class="pageTabContent" data-index="4">
+    <div class="pageTabContent" id="collectionsTab" data-index="4">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom">
             <div class="paging"></div>
             <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy"></span></button>
@@ -85,7 +85,7 @@
             <div class="paging"></div>
         </div>
     </div>
-    <div class="pageTabContent" data-index="5">
+    <div class="pageTabContent" id="genresTab" data-index="5">
         <div id="items"></div>
     </div>
     <div class="pageTabContent" data-index="6">

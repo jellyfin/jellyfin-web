@@ -36,11 +36,17 @@ import 'emby-button';
             case 'suggestions':
                 return 1;
 
-            case 'favorites':
-                return 1;
+            case 'upcoming':
+                return 2;
 
             case 'genres':
                 return 3;
+
+            case 'networks':
+                return 4;
+
+            case 'episodes':
+                return 5;
 
             default:
                 return 0;
