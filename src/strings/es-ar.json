@@ -1373,5 +1373,22 @@
     "Other": "Otro",
     "Bwdif": "BWDIF",
     "UseDoubleRateDeinterlacingHelp": "Esta configuración utiliza la velocidad de campo al desentrelazar, a menudo denominado desentrelazado bob, que duplica la velocidad de fotogramas del video para proporcionar un movimiento completo como lo que vería al ver un video entrelazado en un televisor.",
-    "UseDoubleRateDeinterlacing": "Duplique la velocidad de fotogramas al desentrelazar"
+    "UseDoubleRateDeinterlacing": "Duplique la velocidad de fotogramas al desentrelazar",
+    "LabelTonemappingParam": "Parámetro de mapeo de tonos:",
+    "LabelTonemappingPeak": "Pico de mapeo de tonos:",
+    "LabelTonemappingThreshold": "Umbral de mapeo de tonos:",
+    "LabelTonemappingRange": "Rango de mapeo de tonos:",
+    "LabelTonemappingAlgorithm": "Seleccione el algoritmo de mapeo de tonos para usar:",
+    "EnableTonemapping": "Habilitar mapeo de tonos",
+    "LabelOpenclDeviceHelp": "Este es el dispositivo OpenCL que se utiliza para el mapeo de tonos. El lado izquierdo del punto es el número de plataforma y el lado derecho es el número de dispositivo en la plataforma. El valor predeterminado es 0.0. Se requiere el archivo de aplicación ffmpeg que contiene el método de aceleración por hardware OpenCL.",
+    "LabelOpenclDevice": "Dispositivo OpenCL:",
+    "LabelColorPrimaries": "Primarias de color:",
+    "LabelColorTransfer": "Transferencia de color:",
+    "LabelColorSpace": "Espacio de color:",
+    "LabelVideoRange": "Rango de video:",
+    "MediaInfoColorPrimaries": "Primarias de color",
+    "MediaInfoColorTransfer": "Transferencia de color",
+    "MediaInfoColorSpace": "Espacio de color",
+    "MediaInfoVideoRange": "Rango de video",
+    "LabelKnownProxies": "Proxies conocidos:"
 }
