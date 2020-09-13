@@ -177,9 +177,9 @@ import 'flexStyles';
 
     function getTabs() {
         return [{
-            name: globalize.translate('Suggestions')
-        }, {
             name: globalize.translate('Albums')
+        }, {
+            name: globalize.translate('Suggestions')
         }, {
             name: globalize.translate('HeaderAlbumArtists')
         }, {
@@ -195,7 +195,7 @@ import 'flexStyles';
 
     function getDefaultTabIndex(folderId) {
         switch (userSettings.get('landing-' + folderId)) {
-            case 'albums':
+            case 'suggestions':
                 return 1;
 
             case 'albumartists':
@@ -221,7 +221,7 @@ import 'flexStyles';
     export default function (view, params) {
         function reload() {
             loading.show();
-            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, tabContent, params.topParentId);
         }
 
@@ -268,11 +268,11 @@ import 'flexStyles';
 
             switch (index) {
                 case 0:
-                    depends = 'controllers/music/musicrecommended';
+                    depends = 'controllers/music/musicalbums';
                     break;
 
                 case 1:
-                    depends = 'controllers/music/musicalbums';
+                    depends = 'controllers/music/musicrecommended';
                     break;
 
                 case 2:
@@ -296,7 +296,7 @@ import 'flexStyles';
             import(depends).then(({default: controllerFactory}) => {
                 let tabContent;
 
-                if (index == 0) {
+                if (index == 1) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     this.tabContent = tabContent;
                 }
@@ -306,7 +306,7 @@ import 'flexStyles';
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
 
-                    if (index === 0) {
+                    if (index === 1) {
                         controller = this;
                     } else if (index === 7) {
                         controller = new controllerFactory(view, tabContent, {
@@ -360,9 +360,10 @@ import 'flexStyles';
         }
 
         let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        const suggestionsTabIndex = 1;
 
         this.initTab = function () {
-            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             const containers = tabContent.querySelectorAll('.itemsContainer');
 
             for (let i = 0, length = containers.length; i < length; i++) {

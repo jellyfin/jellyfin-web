@@ -66,16 +66,16 @@ import 'emby-button';
     }
 
     function initSuggestedTab(page, tabContent) {
-        var containers = tabContent.querySelectorAll('.itemsContainer');
+        const containers = tabContent.querySelectorAll('.itemsContainer');
 
-        for (var i = 0, length = containers.length; i < length; i++) {
+        for (let i = 0, length = containers.length; i < length; i++) {
             setScrollClasses(containers[i], enableScrollX());
         }
     }
 
     function loadSuggestionsTab(view, params, tabContent) {
-        var parentId = params.topParentId;
-        var userId = ApiClient.getCurrentUserId();
+        const parentId = params.topParentId;
+        const userId = ApiClient.getCurrentUserId();
         console.debug('loadSuggestionsTab');
         loadResume(tabContent, userId, parentId);
         loadLatest(tabContent, userId, parentId);
@@ -83,8 +83,8 @@ import 'emby-button';
     }
 
     function loadResume(view, userId, parentId) {
-        var screenWidth = dom.getWindowSize().innerWidth;
-        var options = {
+        const screenWidth = dom.getWindowSize().innerWidth;
+        const options = {
             SortBy: 'DatePlayed',
             SortOrder: 'Descending',
             IncludeItemTypes: 'Episode',
@@ -105,8 +105,8 @@ import 'emby-button';
                 view.querySelector('#resumableSection').classList.add('hide');
             }
 
-            var allowBottomPadding = !enableScrollX();
-            var container = view.querySelector('#resumableItems');
+            const allowBottomPadding = !enableScrollX();
+            const container = view.querySelector('#resumableItems');
             cardBuilder.buildCards(result.Items, {
                 itemsContainer: container,
                 preferThumb: true,
@@ -128,7 +128,7 @@ import 'emby-button';
     }
 
     function loadLatest(view, userId, parentId) {
-        var options = {
+        const options = {
             userId: userId,
             IncludeItemTypes: 'Episode',
             Limit: 30,
@@ -138,9 +138,9 @@ import 'emby-button';
             EnableImageTypes: 'Primary,Backdrop,Thumb'
         };
         ApiClient.getLatestItems(options).then(function (items) {
-            var section = view.querySelector('#latestItemsSection');
-            var allowBottomPadding = !enableScrollX();
-            var container = section.querySelector('#latestEpisodesItems');
+            const section = view.querySelector('#latestItemsSection');
+            const allowBottomPadding = !enableScrollX();
+            const container = section.querySelector('#latestEpisodesItems');
             cardBuilder.buildCards(items, {
                 parentContainer: section,
                 itemsContainer: container,
@@ -169,7 +169,7 @@ import 'emby-button';
     }
 
     function loadNextUp(view, userId, parentId) {
-        var query = {
+        const query = {
             userId: userId,
             Limit: 24,
             Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo',
@@ -186,8 +186,8 @@ import 'emby-button';
                 view.querySelector('.noNextUpItems').classList.remove('hide');
             }
 
-            var section = view.querySelector('#nextUpItemsSection');
-            var container = section.querySelector('#nextUpItems');
+            const section = view.querySelector('#nextUpItemsSection');
+            const container = section.querySelector('#nextUpItems');
             cardBuilder.buildCards(result.Items, {
                 parentContainer: section,
                 itemsContainer: container,
@@ -345,12 +345,12 @@ import 'emby-button';
         const suggestionsTabIndex = 1;
 
         self.initTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             initSuggestedTab(view, tabContent);
         };
 
         self.renderTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, params, tabContent);
         };
 

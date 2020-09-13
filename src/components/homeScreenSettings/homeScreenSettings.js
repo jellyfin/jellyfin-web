@@ -88,13 +88,13 @@ import 'emby-checkbox';
             });
         } else if (type === 'music') {
             list.push({
-                name: globalize.translate('Suggestions'),
-                value: 'suggestions',
+                name: globalize.translate('Albums'),
+                value: 'albums',
                 isDefault: true
             });
             list.push({
-                name: globalize.translate('Albums'),
-                value: 'albums'
+                name: globalize.translate('Suggestions'),
+                value: 'suggestions'
             });
             list.push({
                 name: globalize.translate('HeaderAlbumArtists'),
