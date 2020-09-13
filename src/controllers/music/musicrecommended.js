@@ -308,11 +308,6 @@ import 'flexStyles';
 
                     if (index === 1) {
                         controller = this;
-                    } else if (index === 7) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: 'music',
-                            parentId: params.topParentId
-                        });
                     } else {
                         controller = new controllerFactory(view, params, tabContent);
                     }

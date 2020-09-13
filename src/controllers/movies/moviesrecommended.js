@@ -320,11 +320,6 @@ import 'emby-button';
 
                     if (index === suggestionsTabIndex) {
                         controller = this;
-                    } else if (index === 6) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: 'movies',
-                            parentId: params.topParentId
-                        });
                     } else if (index == 0 || index == 3) {
                         controller = new controllerFactory(view, params, tabContent, {
                             mode: index ? 'favorites' : 'movies'

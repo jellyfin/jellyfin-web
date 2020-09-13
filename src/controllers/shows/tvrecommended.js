@@ -285,11 +285,6 @@ import 'emby-button';
 
                     if (index === 1) {
                         controller = self;
-                    } else if (index === 6) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: 'tvshows',
-                            parentId: params.topParentId
-                        });
                     } else {
                         controller = new controllerFactory(view, params, tabContent);
                     }
