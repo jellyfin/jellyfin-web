@@ -568,7 +568,7 @@
     "LabelModelName": "Nome Modello",
     "LabelModelNumber": "Numero Modello",
     "LabelModelUrl": "Modello URL",
-    "LabelMonitorUsers": "Monitora l'attività da:",
+    "LabelMonitorUsers": "Monitora l'attività di:",
     "LabelMovieCategories": "Categorie film:",
     "LabelMoviePrefix": "Prefisso film:",
     "LabelMoviePrefixHelp": "Se un prefisso viene applicato ai titoli di film, inseriscilo qui in modo che il server possa gestirlo correttamente.",
