@@ -1392,5 +1392,10 @@
     "LabelKnownProxies": "Proxies connus :",
     "KnownProxiesHelp": "Liste séparée par des virgules d'adresses IP des proxies connus utilisés pour se connecter à l'instance Jellyfin. Ceci est nécessaire afin de pouvoir utiliser correctement les entêtes X-Forwarded-For. Nécessite un redémarrage après sauvegarde.",
     "LabelTonemappingThreshold": "Seuil de mappage tonal :",
-    "LabelTonemappingDesatHelp": "Désature les couleurs qui dépassent ce niveau de luminosité. Plus ce paramètre est élevé, plus les informations de couleur seront préservées. Ce paramètre permet d'éviter les couleurs anormalement éclatantes pour les couleurs super-lumineuses en les transformant (de manière lisse) en blanc. Ceci rend l'image plus naturelle au prix d'une réduction d'information dans les couleurs hors-gamme. Les valeurs recommandées et par défaut sont 0 et 0.5."
+    "LabelTonemappingDesatHelp": "Désature les couleurs qui dépassent ce niveau de luminosité. Plus ce paramètre est élevé, plus les informations de couleur seront préservées. Ce paramètre permet d'éviter les couleurs anormalement éclatantes pour les couleurs super-lumineuses en les transformant (de manière lisse) en blanc. Ceci rend l'image plus naturelle au prix d'une réduction d'information dans les couleurs hors-gamme. Les valeurs recommandées et par défaut sont 0 et 0.5.",
+    "LabelTonemappingParamHelp": "Affine l'algorithme de mappage tonal. Les valeurs recommandées et par défaut sont indéfinies. Laissez en général ces valeurs vides.",
+    "LabelTonemappingPeak": "Pic de mappage tonal :",
+    "LabelTonemappingThresholdHelp": "Les paramètres de l'algorithme de mappage tonal sont affinés pour chaque scène. Un seuil est utilisé pour détecter lorsque la scène change. Si la distance entre la moyenne actuelle de la luminosité du cadre et la moyenne mobile actuelle dépasse la valeur du seuil, la moyenne et le pic de la luminosité du cadre sont recalculés. Les valeurs recommandées et par défaut sont 0.8 et 0.2.",
+    "LabelVideoRange": "Plage vidéo :",
+    "MediaInfoVideoRange": "Plage vidéo"
 }
