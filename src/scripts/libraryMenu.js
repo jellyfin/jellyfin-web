@@ -407,7 +407,7 @@ import 'flexStyles';
         links.push({
             name: globalize.translate('QuickConnect'),
             href: 'quickConnect.html',
-            pageIds: ['quickConnectPage', 'quickConnectPage'],
+            pageIds: ['quickConnectPage'],
             icon: 'tap_and_play'
         });
         links.push({
