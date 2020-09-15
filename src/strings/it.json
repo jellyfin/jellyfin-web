@@ -1373,10 +1373,12 @@
     "UseDoubleRateDeinterlacing": "Raddoppia il frame rate durante il deinterlacciamento",
     "KnownProxiesHelp": "Lista degli IP separati da virgola dei proxy utilizzati per connettersi a Jellyfin. Ciò consente di gestire al meglio gli header X-Forwarded-For. Richiede il reboot.",
     "LabelKnownProxies": "Proxy conosciuti:",
-    "LabelColorSpace": "Spazio colore:",
-    "LabelVideoRange": "Range video:",
+    "LabelColorSpace": "Spazio colori:",
+    "LabelVideoRange": "Intervallo video:",
     "MediaInfoColorSpace": "Spazio colore",
     "ThumbCard": "Miniatura",
     "PosterCard": "Locandina",
-    "LabelOpenclDevice": "Dispositivo OpenCL:"
+    "LabelOpenclDevice": "Dispositivo OpenCL:",
+    "MediaInfoVideoRange": "Intervallo video",
+    "UseDoubleRateDeinterlacingHelp": "Questa opzione usa il campo frequenza durante il deinterlacciamento, detto anche \"bob deinterlacing\", il quale raddoppia il frame rate del video per fornire \"full motion\" come se guardassi un video interlacciato su una TV."
 }
