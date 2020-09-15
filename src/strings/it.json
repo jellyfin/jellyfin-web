@@ -1380,5 +1380,21 @@
     "PosterCard": "Locandina",
     "LabelOpenclDevice": "Dispositivo OpenCL:",
     "MediaInfoVideoRange": "Intervallo video",
-    "UseDoubleRateDeinterlacingHelp": "Questa opzione usa il campo frequenza durante il deinterlacciamento, detto anche \"bob deinterlacing\", il quale raddoppia il frame rate del video per fornire \"full motion\" come se guardassi un video interlacciato su una TV."
+    "UseDoubleRateDeinterlacingHelp": "Questa opzione usa il campo frequenza durante il deinterlacciamento, detto anche \"bob deinterlacing\", il quale raddoppia il frame rate del video per fornire \"full motion\" come se guardassi un video interlacciato su una TV.",
+    "QuickConnectAuthorizeFail": "Codice Quick Connect sconosciuto",
+    "QuickConnectAuthorizeCode": "Inserisci {0} per completare il login",
+    "EnableQuickConnect": "Attiva Quick Connect su questo server",
+    "ButtonUseQuickConnect": "Usa Quick Connect",
+    "QuickConnectNotActive": "Quick connect non è attivo in questo server",
+    "QuickConnectNotAvailable": "Chiedi all'amministratore del server di abilitare Quick Connect",
+    "QuickConnectInvalidCode": "Codice Quick Connect non valido",
+    "QuickConnectDescription": "Per registrarsi usando Quick Connect, seleziona il pulsante Quick Connect nel dispositivo che stai usando per accedere e inserisci il codice scritto sottostante.",
+    "QuickConnectDeactivated": "Quick Connect è stato disattivato prima che il login venisse approvato",
+    "QuickConnectAuthorizeSuccess": "Richiesta autorizzata",
+    "QuickConnectActivationSuccessful": "Attivato con successo",
+    "QuickConnect": "Quick Connect",
+    "LabelQuickConnectCode": "Codice Quick Connect:",
+    "LabelCurrentStatus": "Stato attuale:",
+    "ButtonActivate": "Attiva",
+    "Authorize": "Autorizza"
 }
