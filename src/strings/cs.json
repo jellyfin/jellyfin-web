@@ -1401,5 +1401,21 @@
     "LabelMaxMuxingQueueSizeHelp": "Maximální počet paketů, které je možné napřed načíst při čekání na spuštění všech proudů. Pokud se stále zobrazuje chyba \"Příliš mnoho paketů načtených napřed ve výstupním proudu\" v protokolech ffmpeg, zkuste hodnotu zvýšit. Doporučená hodnota je 2048.",
     "LabelMaxMuxingQueueSize": "Maximální velikost muxovací fronty:",
     "LabelKnownProxies": "Známé proxy servery:",
-    "KnownProxiesHelp": "Čárkami oddělený seznam IP adres známých proxy serverů pro připojení k instanci Jellyfin. Vyžadováno pro správné využití HTTP hlavičky X-Forwarded-For. Vyžaduje restart."
+    "KnownProxiesHelp": "Čárkami oddělený seznam IP adres známých proxy serverů pro připojení k instanci Jellyfin. Vyžadováno pro správné využití HTTP hlavičky X-Forwarded-For. Vyžaduje restart.",
+    "QuickConnectNotActive": "Rychlé připojení k tomuto serveru není povoleno",
+    "QuickConnectNotAvailable": "Požádejte správce serveru, aby rychlé připojení povolil",
+    "QuickConnectInvalidCode": "Neplatný kód pro rychlé připojení",
+    "QuickConnectDescription": "Chcete-li se připojit snadněji, na přihlašovaném zařízení stiskněte tlačítko Rychlé připojení a zadejte níže uvedený kód.",
+    "QuickConnectDeactivated": "Rychlé připojení bylo vypnuto dříve, než mohl být požadavek schválen",
+    "QuickConnectAuthorizeFail": "Neznámý kód pro rychlé připojení",
+    "QuickConnectAuthorizeSuccess": "Požadavek autorizován",
+    "QuickConnectAuthorizeCode": "Pro přihlášení zadejte kód {0}",
+    "QuickConnectActivationSuccessful": "Úspěšně aktivováno",
+    "QuickConnect": "Rychlé připojení",
+    "LabelQuickConnectCode": "Kód pro rychlé připojení:",
+    "LabelCurrentStatus": "Aktuální stav:",
+    "EnableQuickConnect": "Povolit rychlé připojení k tomuto serveru",
+    "ButtonUseQuickConnect": "Použít rychlé připojení",
+    "ButtonActivate": "Aktivovat",
+    "Authorize": "Autorizovat"
 }
