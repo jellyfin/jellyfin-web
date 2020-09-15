@@ -98,6 +98,13 @@ import 'detailtablecss';
     });
 
     defineRoute({
+        alias: '/mypreferencesquickconnect.html',
+        path: '/controllers/user/quickConnect/index.html',
+        autoFocus: false,
+        transition: 'fade',
+        controller: 'user/quickConnect/index'
+    });
+    defineRoute({
         alias: '/mypreferencesplayback.html',
         path: '/controllers/user/playback/index.html',
         autoFocus: false,
@@ -149,6 +156,13 @@ import 'detailtablecss';
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/devices/device'
+    });
+
+    defineRoute({
+        path: '/quickconnect.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/quickconnect'
     });
 
     defineRoute({

@@ -405,6 +405,12 @@ import 'flexStyles';
             icon: 'devices'
         });
         links.push({
+            name: globalize.translate('QuickConnect'),
+            href: 'quickConnect.html',
+            pageIds: ['quickConnectPage'],
+            icon: 'tap_and_play'
+        });
+        links.push({
             name: globalize.translate('HeaderActivity'),
             href: 'serveractivity.html',
             pageIds: ['serverActivityPage'],
