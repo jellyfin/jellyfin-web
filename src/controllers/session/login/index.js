@@ -41,7 +41,7 @@ import 'emby-checkbox';
     }
 
     function authenticateQuickConnect(apiClient) {
-        let url = apiClient.getUrl('/QuickConnect/Initiate');
+        const url = apiClient.getUrl('/QuickConnect/Initiate');
         apiClient.getJSON(url).then(function (json) {
             if (!json.Secret || !json.Code) {
                 console.error('Malformed quick connect response', json);
@@ -53,9 +53,9 @@ import 'emby-checkbox';
                 title: globalize.translate('QuickConnect')
             });
 
-            let connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
+            const connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
 
-            let interval = setInterval(function() {
+            const interval = setInterval(function() {
                 apiClient.getJSON(connectUrl).then(async function(data) {
                     if (!data.Authenticated) {
                         return;
@@ -63,7 +63,7 @@ import 'emby-checkbox';
 
                     clearInterval(interval);
 
-                    let result = await apiClient.quickConnect(data.Authentication);
+                    const result = await apiClient.quickConnect(data.Authentication);
                     onLoginSuccessful(result.User.Id, result.AccessToken, apiClient);
                 }, function (e) {
                     clearInterval(interval);

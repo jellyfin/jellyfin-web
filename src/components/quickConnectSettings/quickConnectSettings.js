@@ -5,7 +5,7 @@ export class QuickConnectSettings {
     constructor() { }
 
     authorize(code) {
-        let url = ApiClient.getUrl('/QuickConnect/Authorize?Code=' + code);
+        const url = ApiClient.getUrl('/QuickConnect/Authorize?Code=' + code);
         ApiClient.ajax({
             type: 'POST',
             url: url
@@ -20,7 +20,7 @@ export class QuickConnectSettings {
     }
 
     activate() {
-        let url = ApiClient.getUrl('/QuickConnect/Activate');
+        const url = ApiClient.getUrl('/QuickConnect/Activate');
         return ApiClient.ajax({
             type: 'POST',
             url: url
