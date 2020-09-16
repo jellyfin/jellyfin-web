@@ -1374,5 +1374,9 @@
     "LabelAlbumArtMaxResHelp": "Rezoluția maximă a imaginii albumului expus prin proprietatea upnp:albumArtURI.",
     "Image": "Imagine",
     "Other": "Altele",
-    "Data": "Data"
+    "Data": "Data",
+    "EnableQuickConnect": "Activează conectarea rapidă pe acest server",
+    "ButtonUseQuickConnect": "Folosește conectarea rapidă",
+    "ButtonActivate": "Activează",
+    "Authorize": "Autorizează"
 }
