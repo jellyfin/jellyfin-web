@@ -1397,5 +1397,21 @@
     "LabelTonemappingPeak": "Pic de mappage tonal :",
     "LabelTonemappingThresholdHelp": "Les paramètres de l'algorithme de mappage tonal sont affinés pour chaque scène. Un seuil est utilisé pour détecter lorsque la scène change. Si la distance entre la moyenne actuelle de la luminosité du cadre et la moyenne mobile actuelle dépasse la valeur du seuil, la moyenne et le pic de la luminosité du cadre sont recalculés. Les valeurs recommandées et par défaut sont 0.8 et 0.2.",
     "LabelVideoRange": "Plage vidéo :",
-    "MediaInfoVideoRange": "Plage vidéo"
+    "MediaInfoVideoRange": "Plage vidéo",
+    "QuickConnectNotActive": "La connexion rapide n'est pas activée sur ce serveur",
+    "QuickConnectNotAvailable": "Demandez à votre administrateur système d'activer la connexion rapide",
+    "QuickConnectInvalidCode": "Code de connexion rapide invalide",
+    "QuickConnectDescription": "Pour se connecter avec la connexion rapide, utilisez le bouton Connexion Rapide sur l'appareil utilisé pour se connecter et entrez le code affiché ci-dessous.",
+    "QuickConnectDeactivated": "La connexion rapide a été désactivée avant que la requête puisse être approuvée",
+    "QuickConnectAuthorizeFail": "Code de connexion rapide inconnu",
+    "QuickConnectAuthorizeSuccess": "Requête autorisée",
+    "QuickConnectAuthorizeCode": "Saisir le code {0} pour se connecter",
+    "QuickConnectActivationSuccessful": "Activé avec succès",
+    "QuickConnect": "Connexion Rapide",
+    "LabelQuickConnectCode": "Code de connexion rapide :",
+    "LabelCurrentStatus": "Statut actuel :",
+    "EnableQuickConnect": "Activer la connexion rapide sur ce serveur",
+    "ButtonUseQuickConnect": "Utiliser la Connexion Rapide",
+    "ButtonActivate": "Activer",
+    "Authorize": "Autoriser"
 }
