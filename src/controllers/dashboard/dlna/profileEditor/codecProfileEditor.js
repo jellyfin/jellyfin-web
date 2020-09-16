@@ -39,7 +39,7 @@ export function show(codecProfile) {
             dlg.innerHTML = html;
 
             dlg.querySelector('#selectCodecProfileType', dlg).value = codecProfile.Type || 'Video';
-            dlg.querySelector('#txtCodecProfileCodec', dlg).value = codecProfile.Code || '';
+            dlg.querySelector('#txtCodecProfileCodec', dlg).value = codecProfile.Codec || '';
 
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, true);
@@ -67,7 +67,7 @@ export function show(codecProfile) {
                 submitted = true;
 
                 codecProfile.Type = dlg.querySelector('#selectCodecProfileType', dlg).value;
-                codecProfile.Code = dlg.querySelector('#txtCodecProfileCodec', dlg).value || null;
+                codecProfile.Codec = dlg.querySelector('#txtCodecProfileCodec', dlg).value;
 
                 dialogHelper.close(dlg);
 
