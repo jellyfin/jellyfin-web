@@ -17,7 +17,7 @@ export default function(view) {
 }
 
 function loadPage(status) {
-    let check = status === available || status === active;
+    const check = status === available || status === active;
 
     page.querySelector('#quickConnectStatus').textContent = status.toLocaleLowerCase();
     page.querySelector('#chkQuickConnectAvailable').checked = check;
@@ -28,9 +28,9 @@ function loadPage(status) {
 function onSubmit() {
     loading.show();
 
-    let newStatus = page.querySelector('#chkQuickConnectAvailable').checked ? available : unavailable;
+    const newStatus = page.querySelector('#chkQuickConnectAvailable').checked ? available : unavailable;
 
-    let url = ApiClient.getUrl('/QuickConnect/Available?Status=' + newStatus);
+    const url = ApiClient.getUrl('/QuickConnect/Available?Status=' + newStatus);
 
     ApiClient.ajax({
         type: 'POST',
