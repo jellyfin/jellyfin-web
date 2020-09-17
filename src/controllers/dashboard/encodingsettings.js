@@ -167,7 +167,7 @@ import libraryMenu from 'libraryMenu';
                 page.querySelector('#txtVaapiDevice').removeAttribute('required');
             }
 
-            if (this.value == 'nvenc') {
+            if (this.value == 'nvenc' || this.value == 'amf') {
                 page.querySelector('.fldOpenclDevice').classList.remove('hide');
                 page.querySelector('#txtOpenclDevice').setAttribute('required', 'required');
                 page.querySelector('.tonemappingOptions').classList.remove('hide');

@@ -1398,7 +1398,7 @@
     "LabelOpenclDevice": "OpenCL Device:",
     "LabelOpenclDeviceHelp": "This is the OpenCL device that is used for tonemapping. The left side of the dot is the platform number, and the right side is the device number on the platform. The default value is 0.0. The ffmpeg application file containing the OpenCL hardware acceleration method is required.",
     "EnableTonemapping": "Enable Tone mapping",
-    "AllowTonemappingHelp": "Tone mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colors, which are very important information for representing the original scene. Currently works only when using NVENC HEVC decoder and transcoding HDR10 or HLG videos.",
+    "AllowTonemappingHelp": "Tone mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colors, which are very important information for representing the original scene. Currently works only when transcoding videos with embedded HDR10 or HLG metadata. If the playback is not smooth or fails, please consider turning off the corresponding hardware decoder.",
     "LabelTonemappingAlgorithm": "Select the Tone mapping algorithm to use:",
     "TonemappingAlgorithmHelp": "Tone mapping can be fine-tuned. If you are not familiar with these options, just keep the default.<br>The recommended value is Reinhard.",
     "LabelTonemappingRange": "Tonemapping range:",
