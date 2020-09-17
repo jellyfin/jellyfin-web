@@ -1187,7 +1187,7 @@
     "DeleteImage": "Eliminar imagen",
     "DeleteDeviceConfirmation": "¿Estás seguro de querer eliminar este dispositivo? Volverá a aparecer la siguiente vez que un usuario inicie sesión con él.",
     "Delete": "Eliminar",
-    "DeinterlaceMethodHelp": "Seleccione el método de desentrelazado que se usará al transcodificar contenido entrelazado.",
+    "DeinterlaceMethodHelp": "Seleccione el método de desentrelazado que se utilizará cuando el software transcodifique contenido entrelazado. Cuando la aceleración de hardware que admite el desentrelazado de hardware está habilitada, se utilizará el desentrelazador de hardware en lugar de esta configuración.",
     "DefaultSubtitlesHelp": "Los subtítulos se cargan basados en los indicadores «por defecto» y «forzado» incluidos en los metadatos. Las preferencias de idioma son consideradas cuando hay múltiples opciones disponibles.",
     "DefaultMetadataLangaugeDescription": "Estos son sus valores por defecto y pueden ser personalizados en cada biblioteca.",
     "ErrorDefault": "Ha ocurrido un error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.",
@@ -1356,5 +1356,11 @@
     "Data": "Datos",
     "ButtonUseQuickConnect": "Usar conexión rápida",
     "ButtonActivate": "Activar",
-    "Authorize": "Autorizar"
+    "Authorize": "Autorizar",
+    "LabelCurrentStatus": "Estado actual:",
+    "LabelAlbumArtMaxResHelp": "Resolución maxima expuesta por medio de la función upnp:albumArtURI.",
+    "KnownProxiesHelp": "Lista separada por comas de direcciones IP de proxies conocidos a ser utilizados para conectarse a esta instancia de Jellyfin. Esto es requerido para hacer uso correcto de la cabecera X-Forwarded-For. Requiere un reinicio después de guardar.",
+    "Image": "Imágen",
+    "Other": "Otros",
+    "EnableQuickConnect": "Habilitar conexión rápida en este servidor"
 }
