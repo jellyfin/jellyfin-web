@@ -1352,5 +1352,9 @@
     "PreviousTrack": "Saltar al anterior",
     "MessageGetInstalledPluginsError": "Ocurrió un error buscando la lista de complementos instalados.",
     "MessagePluginInstallError": "Ocurrió un error instalando el complemento.",
-    "PlaybackRate": "Tasa de reproducción"
+    "PlaybackRate": "Tasa de reproducción",
+    "Data": "Datos",
+    "ButtonUseQuickConnect": "Usar conexión rápida",
+    "ButtonActivate": "Activar",
+    "Authorize": "Autorizar"
 }
