@@ -1400,7 +1400,7 @@
     "EnableTonemapping": "Enable Tone mapping",
     "AllowTonemappingHelp": "Tone mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colors, which are very important information for representing the original scene. Currently works only when using NVENC HEVC decoder and transcoding HDR10 or HLG videos.",
     "LabelTonemappingAlgorithm": "Select the Tone mapping algorithm to use:",
-    "TonemappingAlgorithmHelp": "Tone mapping can be fine-tuned. If you are not familiar with these options, just keep the default.<br>The recommended value is Reinhard.",
+    "TonemappingAlgorithmHelp": "Tone mapping can be fine-tuned. If you are not familiar with these options, just keep the default. The recommended value is Reinhard.",
     "LabelTonemappingRange": "Tonemapping range:",
     "TonemappingRangeHelp": "Select the output color range. Auto is the same as the input range.",
     "LabelTonemappingDesat": "Tonemapping desat:",
