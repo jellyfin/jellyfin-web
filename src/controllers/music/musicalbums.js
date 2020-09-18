@@ -155,20 +155,21 @@ import 'emby-itemscontainer';
                         overlayPlayButton: true
                     });
                 }
+
                 let elems = tabContent.querySelectorAll('.paging');
 
-                for (let i = 0, length = elems.length; i < length; i++) {
-                    elems[i].innerHTML = pagingHtml;
+                for (const elem of elems) {
+                    elem.innerHTML = pagingHtml;
                 }
 
                 elems = tabContent.querySelectorAll('.btnNextPage');
-                for (let i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onNextPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll('.btnPreviousPage');
-                for (let i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onPreviousPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onPreviousPageClick);
                 }
 
                 const itemsContainer = tabContent.querySelector('.itemsContainer');
@@ -186,7 +187,16 @@ import 'emby-itemscontainer';
 
         const updateFilterControls = (tabContent) => {
             const query = getQuery();
-            this.alphaPicker.value(query.NameStartsWith);
+
+            if (this.alphaPicker) {
+                this.alphaPicker.value(query.NameStartsWith);
+
+                if (query.SortBy.indexOf('SortName') === 0) {
+                    this.alphaPicker.visible(true);
+                } else {
+                    this.alphaPicker.visible(false);
+                }
+            }
         };
 
         let savedQueryKey;
@@ -200,10 +210,12 @@ import 'emby-itemscontainer';
                     mode: 'albums',
                     serverId: ApiClient.serverId()
                 });
+
                 events.on(filterDialog, 'filterchange', function () {
                     getQuery().StartIndex = 0;
                     reloadItems(tabContent);
                 });
+
                 filterDialog.show();
             });
         };
@@ -223,6 +235,7 @@ import 'emby-itemscontainer';
                 query.StartIndex = 0;
                 reloadItems(tabContent);
             });
+
             this.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
                 valueChangeEvent: 'click'
@@ -235,6 +248,7 @@ import 'emby-itemscontainer';
             tabContent.querySelector('.btnFilter').addEventListener('click', () => {
                 this.showFilterMenu();
             });
+
             tabContent.querySelector('.btnSort').addEventListener('click', (e) => {
                 libraryBrowser.showSortMenu({
                     items: [{
@@ -267,10 +281,12 @@ import 'emby-itemscontainer';
                     button: e.target
                 });
             });
+
             const btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', (e) => {
                 libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
+
             btnSelectView.addEventListener('layoutchange', function (e) {
                 const viewStyle = e.detail.viewStyle;
                 getPageData().view = viewStyle;
@@ -279,6 +295,7 @@ import 'emby-itemscontainer';
                 onViewStyleChange();
                 reloadItems(tabContent);
             });
+
             tabContent.querySelector('.btnPlayAll').addEventListener('click', playAll);
             tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
         };
