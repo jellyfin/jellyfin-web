@@ -198,7 +198,6 @@
     "Identify": "Identificar",
     "Images": "Imagens",
     "ImportFavoriteChannelsHelp": "Se ativado, apenas canais que estão marcados como favoritos no sintonizador serão importados.",
-    "ImportMissingEpisodesHelp": "Se ativado, a informação acerca dos episódios em falta será importada para a base de dados do Servidor Jellyfin e mostrada dentro das temporadas e séries. Isto pode aumentar significativamente a duração da análise da biblioteca.",
     "InstantMix": "Mix instântaneo",
     "ItemCount": "{0} itens",
     "Label3DFormat": "Formato 3D:",

@@ -226,7 +226,6 @@
     "HeaderXmlSettings": "إعدادات xml",
     "HeaderYears": "السنوات",
     "ImportFavoriteChannelsHelp": "فقط القنوات التي علّمت في المفضلة على جهاز المولف ستورد.",
-    "ImportMissingEpisodesHelp": "المعلومات الناقصة للحلقات ستورّد إلى قاعدة بياناتك وستعرض داخل المواسم والمسلسلات. قد تتسبب هذه بأوقات أطول بكثير عند تمشيط المكتبات.",
     "LabelAbortedByServerShutdown": "(تم إهماله بسبب عملية إغلاق الخادم)",
     "LabelAccessDay": "يوم الأسبوع:",
     "LabelAccessEnd": "وقت النهاية:",

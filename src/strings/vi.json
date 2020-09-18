@@ -520,7 +520,6 @@
     "ItemCount": "{0} mục",
     "InstantMix": "Trộn Lẫn Nhanh",
     "InstallingPackage": "Đang cài đặt {0} (phiên bản {1})",
-    "ImportMissingEpisodesHelp": "Nếu bật tuỳ chọn này, thông tin bị thiếu trong các tập phim sẽ được nhập vào cơ sở dữ liệu của máy chủ Jellyfin và hiển thị trong các phần và series. Điều này có thể làm việc quét thư viện lâu hơn rất nhiều.",
     "ImportFavoriteChannelsHelp": "Nếu bật tuỳ chọn này, chỉ những kênh yêu thích trong thiết bị bắt sóng sẽ được nhập vào.",
     "Images": "Hình Ảnh",
     "Identify": "Nhận Dạng",

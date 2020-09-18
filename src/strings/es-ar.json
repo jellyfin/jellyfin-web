@@ -598,7 +598,6 @@
     "LabelAppNameExample": "Ejemplo: Sickbeard, Sonarr",
     "LabelAlbumArtMaxWidth": "Ancho máximo de la carátula del álbum:",
     "LabelAlbumArtMaxHeight": "Altura máxima de la carátula del álbum:",
-    "ImportMissingEpisodesHelp": "Si está habilitado, la información sobre capítulos faltantes se importará a su base de datos Jellyfin y se mostrará dentro de temporadas y series. Esto puede causar escaneos de bibliotecas significativamente más largos.",
     "HeaderSyncPlayEnabled": "SyncPlay habilitado",
     "HeaderSyncPlaySelectGroup": "Unirse a un grupo",
     "HeaderResponseProfileHelp": "Los perfiles de respuesta proporcionan una forma de personalizar la información enviada al dispositivo cuando se reproducen ciertos tipos de medios.",

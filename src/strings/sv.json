@@ -371,7 +371,6 @@
     "Identify": "Identifiera",
     "Images": "Bilder",
     "ImportFavoriteChannelsHelp": "Endast kanaler som är märkta som favoriter på den här TV-mottagaren kommer att importeras.",
-    "ImportMissingEpisodesHelp": "Information om saknade episoder kommer att importeras till din Jellyfin-databas och visas i seriesäsongerna. Detta kan innebära att biblioteksskanningar tar en avsevärt längre tid.",
     "InstallingPackage": "Installerar {0} (version {1})",
     "InstantMix": "Omedelbar mix",
     "ItemCount": "{0} objekt",

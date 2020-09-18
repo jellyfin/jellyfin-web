@@ -665,7 +665,6 @@
     "Hide": "Elrejtés",
     "Horizontal": "Vízszintes",
     "HttpsRequiresCert": "A biztonságos kapcsolatok engedélyezéséhez megbízható SSL-tanúsítványt kell használni, mint például a Let's Encrypt. Kérlek add meg a tanúsítványt, vagy tiltsd le a biztonságos kapcsolatokat.",
-    "ImportMissingEpisodesHelp": "A hiányzó epizódokra vonatkozó információk a Jellyfin adatbázisába kerülnek importálásra és megjelenítésre kerülnek az évadokban és sorozatokban. Ez jelentősen hosszabb könyvtárvizsgálatot okozhat.",
     "InstantMix": "Azonnali keverés",
     "ItemCount": "{0} elem",
     "Items": "Elemek",

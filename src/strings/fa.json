@@ -926,7 +926,6 @@
     "Identify": "Identify",
     "Images": "Images",
     "ImportFavoriteChannelsHelp": "If enabled, only channels that are marked as favorite on the tuner device will be imported.",
-    "ImportMissingEpisodesHelp": "If enabled, information about missing episodes will be imported into your Jellyfin database and displayed within seasons and series. This may cause significantly longer library scans.",
     "InstallingPackage": "Installing {0} (version {1})",
     "InstantMix": "Instant mix",
     "ItemCount": "{0} items",
