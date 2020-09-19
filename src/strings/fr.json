@@ -1377,7 +1377,7 @@
     "LabelTonemappingDesat": "Désaturation tonale :",
     "TonemappingRangeHelp": "Sélectionnez la gamme de couleur de sortie. Auto représente la même gamme qu'en entrée.",
     "LabelTonemappingRange": "Gamme de mappage tonal :",
-    "TonemappingAlgorithmHelp": "Le mappage tonal peut être affiné. Si vous n'êtes pas familier avec ces options, gardez les valeurs par défaut.<br>La valeur recommandée est Reinhard.",
+    "TonemappingAlgorithmHelp": "Le mappage tonal peut être affiné. Si vous n'êtes pas familier avec ces options, gardez les valeurs par défaut. La valeur recommandée est Reinhard.",
     "LabelTonemappingAlgorithm": "Sélectionnez l'algorithme de mappage tonal à utiliser :",
     "AllowTonemappingHelp": "Le mappage tonal peut transformer la gamme dynamique d'une vidéo de HDR à SDR tout en maintenant les détails et les couleurs d'image qui sont des informations importantes pour la représentation de la scène originale. Actuellement, ne fonctionne uniquement lorsque le décodeur NVENC HEVC est utilisé et que des vidéos HDR10 ou HLG sont transcodées.",
     "EnableTonemapping": "Activer le mappage tonal",
