@@ -1413,5 +1413,6 @@
     "EnableQuickConnect": "Activer la connexion rapide sur ce serveur",
     "ButtonUseQuickConnect": "Utiliser la Connexion Rapide",
     "ButtonActivate": "Activer",
-    "Authorize": "Autoriser"
+    "Authorize": "Autoriser",
+    "LabelTonemappingParam": "Paramètre de mappage tonal :"
 }
