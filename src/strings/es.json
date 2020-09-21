@@ -1075,7 +1075,7 @@
     "Descending": "Descendiente",
     "DirectStreamHelp1": "El tipo de archivo (H.264, AC3, etc.) y la resolución son compatibles con el dispositivo, pero no el contenedor (mkv, avi, wmv, etc.). El vídeo será re-empaquetado al vuelo antes de transmitirlo al dispositivo.",
     "DirectStreamHelp2": "La transmisión directa del archivo usa muy poco procesamiento sin mínima pérdida de calidad en el vídeo.",
-    "Director": "Dirección de",
+    "Director": "Dirección",
     "Directors": "Directores",
     "Display": "Visualización",
     "DisplayInMyMedia": "Mostrar en la pantalla de inicio",
@@ -1404,5 +1404,9 @@
     "LabelVideoRange": "Rango de video:",
     "MediaInfoColorTransfer": "Transferencia de color",
     "MediaInfoColorSpace": "Espacio de color",
-    "MediaInfoVideoRange": "Rango de video"
+    "MediaInfoVideoRange": "Rango de video",
+    "LabelMaxMuxingQueueSize": "Tamaño máximo de la cola de entremezclado:",
+    "LabelTonemappingParamHelp": "Ajuste el algoritmo de mapeo de Tono. El valor recomendado y predeterminados es NaN. Generalmente déjelo en blanco.",
+    "LabelTonemappingParam": "Parámetros del mapeo de Tono:",
+    "LabelTonemappingPeak": "Pico del mapeo de Tono:"
 }
