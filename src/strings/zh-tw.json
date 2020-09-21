@@ -1364,5 +1364,9 @@
     "Photo": "相片",
     "LabelIconMaxResHelp": "透過 upnp:icon 屬性使用的圖示最高解析度。",
     "LabelAlbumArtMaxResHelp": "透過 upnp:albumArtURI 屬性使用的專輯封面最高解析度。",
-    "Other": "其它"
+    "Other": "其它",
+    "EnableQuickConnect": "在此服務器上啟用快速連接",
+    "ButtonUseQuickConnect": "使用快速連接",
+    "ButtonActivate": "啟用",
+    "Authorize": "授權"
 }
