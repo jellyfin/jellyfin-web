@@ -1389,5 +1389,20 @@
     "EnableQuickConnect": "Activar \"Conexión Rápida\" en este servidor",
     "ButtonUseQuickConnect": "Conexión Rápida",
     "ButtonActivate": "Activar",
-    "Authorize": "Autorizar"
+    "Authorize": "Autorizar",
+    "LabelTonemappingThreshold": "Límite del mapeo de Tono:",
+    "LabelColorPrimaries": "Primarias de color:",
+    "MediaInfoColorPrimaries": "Primarias de color",
+    "TonemappingRangeHelp": "Seleccione la gama de colores de salida. Auto selecciona el mismo valor que la gama de entrada.",
+    "LabelTonemappingRange": "Rango de mapeo de Tono:",
+    "TonemappingAlgorithmHelp": "El mapeo de tonos se puede ajustar con precisión. Si no está familiarizado con estas opciones, mantenga la opción predeterminada. El valor recomendado es Reinhard.",
+    "LabelTonemappingAlgorithm": "Seleccione el algoritmo de mapeo de Tonos:",
+    "EnableTonemapping": "Habilitar mapeo de Tono",
+    "LabelOpenclDevice": "Dispositivo OpenCL:",
+    "LabelColorTransfer": "Transferencia de color:",
+    "LabelColorSpace": "Espacio de color:",
+    "LabelVideoRange": "Rango de video:",
+    "MediaInfoColorTransfer": "Transferencia de color",
+    "MediaInfoColorSpace": "Espacio de color",
+    "MediaInfoVideoRange": "Rango de video"
 }
