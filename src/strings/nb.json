@@ -1369,5 +1369,13 @@
     "Other": "Annet",
     "VideoAudio": "Film lyd",
     "Photo": "Bilde",
-    "LabelAlbumArtMaxResHelp": "Høyeste tillatte oppløsning for album cover som er tilgjengelig via upnp:albumArtURI."
+    "LabelAlbumArtMaxResHelp": "Høyeste tillatte oppløsning for album cover som er tilgjengelig via upnp:albumArtURI.",
+    "LabelKnownProxies": "Kjente proxyer:",
+    "LabelIconMaxResHelp": "Maks oppløsning av minibilder som vises via egenskapvalget upnp:icon.",
+    "LabelCurrentStatus": "Nåværende status:",
+    "KnownProxiesHelp": "Kommaseparert liste med IP-adresser av kjente proxyer brukt til å tilkoble din Jellyfin-instans. Dette er påkrevd for å tilkoble korrekt, ved å bruke X-Forwardet-For headers. Omstart er påkrevd etter lagring.",
+    "EnableQuickConnect": "Bruk rask tilkobling på denne tjeneren",
+    "ButtonUseQuickConnect": "Bruk rask tilkobling",
+    "ButtonActivate": "Aktiver",
+    "Authorize": "Autoriser"
 }
