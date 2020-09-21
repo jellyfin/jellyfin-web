@@ -1319,5 +1319,6 @@
     "Data": "데이터",
     "ButtonUseQuickConnect": "퀵커넥트 사용",
     "ButtonActivate": "활성화",
-    "Authorize": "승인"
+    "Authorize": "승인",
+    "QuickConnectNotActive": "이 서버에서 퀵커넥트가 활성화되지 않았습니다"
 }
