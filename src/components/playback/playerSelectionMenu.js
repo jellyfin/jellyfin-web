@@ -220,17 +220,15 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
         html += '</label>';
     }
 
-    html += '</div><div>';
+    html += '</div>';
 
     if (autocast.supported()) {
-        html += '<label class="checkboxContainer">';
+        html += '<div><label class="checkboxContainer">';
         var checkedHtmlAC = autocast.isEnabled() ? ' checked' : '';
         html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
         html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
-        html += '</label>';
+        html += '</label></div>';
     }
-
-    html += '</div>';
 
     html += '<div style="margin-top:1em;display:flex;justify-content: flex-end;">';
 

@@ -11,7 +11,7 @@ export function enable(enabled) {
     if (enabled) {
         const currentPlayerInfo = playbackManager.getPlayerInfo();
 
-        if (currentPlayerInfo && currentPlayerInfo.id && currentPlayerInfo.id) {
+        if (currentPlayerInfo && currentPlayerInfo.id) {
             localStorage.setItem('autocastPlayerId', currentPlayerInfo.id);
         }
     } else {
@@ -29,8 +29,6 @@ export function isEnabled() {
 }
 
 function onOpen() {
-    if (!supported()) return;
-
     const playerId = localStorage.getItem('autocastPlayerId');
 
     playbackManager.getTargets().then(function (targets) {
@@ -44,6 +42,6 @@ function onOpen() {
 }
 
 const apiClient = window.connectionManager.currentApiClient();
-if (apiClient) {
+if (apiClient && supported()) {
     events.on(apiClient, 'websocketopen', onOpen);
 }
