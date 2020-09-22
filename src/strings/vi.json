@@ -112,7 +112,7 @@
     "BurnSubtitlesHelp": "Xác định xem máy chủ có nên ghi phụ đề khi chuyển đổi video hay không. Tránh thực hiện việc này sẽ cải thiện hiệu suất máy chủ đáng kể. Chọn Tự động để ghi các phụ đề có định dạng dựa trên hình ảnh (VOBSUB, PGS, SUB, IDX, ...) và một vài phụ đề ASS/SSA nhất định.",
     "Browse": "Duyệt",
     "BoxRear": "Hộp (mặt sau)",
-    "Books": "Các Quyển Sách",
+    "Books": "Sách",
     "BookLibraryHelp": "Âm thanh và sách văn bản được hỗ trợ. Xem lại {0} hướng dẫn đặt tên sách {1}.",
     "Blacklist": "Danh sách đen",
     "BirthPlaceValue": "Nơi sinh: {0}",
