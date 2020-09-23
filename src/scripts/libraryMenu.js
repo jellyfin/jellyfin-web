@@ -52,6 +52,7 @@ import 'flexStyles';
 
         lazyLoadViewMenuBarImages();
         bindMenuEvents();
+        updateCastIcon();
     }
 
     function getCurrentApiClient() {
@@ -1002,6 +1003,7 @@ import 'flexStyles';
     };
 
     window.LibraryMenu = LibraryMenu;
+    renderHeader();
 
 export default LibraryMenu;
 

@@ -332,6 +332,7 @@
           "src/plugins/youtubePlayer/plugin.js",
           "src/scripts/alphanumericshortcuts.js",
           "src/scripts/autoBackdrops.js",
+          "src/scripts/autocast.js",
           "src/scripts/browser.js",
           "src/scripts/clientUtils.js",
           "src/scripts/datetime.js",

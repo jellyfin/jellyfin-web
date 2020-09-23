@@ -581,6 +581,7 @@ function initClient() {
         define('webSettings', [scriptsPath + '/settings/webSettings'], returnFirstDependency);
         define('appSettings', [scriptsPath + '/settings/appSettings'], returnFirstDependency);
         define('userSettings', [scriptsPath + '/settings/userSettings'], returnFirstDependency);
+        define('autocast', [scriptsPath + '/autocast'], returnFirstDependency);
 
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
         define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
