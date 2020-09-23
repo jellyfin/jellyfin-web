@@ -1417,5 +1417,6 @@
     "EnableQuickConnect": "Povolit rychlé připojení k tomuto serveru",
     "ButtonUseQuickConnect": "Použít rychlé připojení",
     "ButtonActivate": "Aktivovat",
-    "Authorize": "Autorizovat"
+    "Authorize": "Autorizovat",
+    "EnableAutoCast": "Nastavit jako výchozí"
 }
