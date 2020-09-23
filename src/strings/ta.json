@@ -1432,5 +1432,6 @@
     "EnableQuickConnect": "இந்த சேவையகத்தில் விரைவான இணைப்பை இயக்கவும்",
     "ButtonUseQuickConnect": "விரைவு இணைப்பைப் பயன்படுத்தவும்",
     "ButtonActivate": "செயல்படுத்து",
-    "Authorize": "அதிகாரமளி"
+    "Authorize": "அதிகாரமளி",
+    "EnableAutoCast": "இயல்புநிலைக்கு அமை"
 }
