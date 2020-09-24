@@ -1367,5 +1367,10 @@
     "MusicVideos": "Zenei videóklippek",
     "Image": "Kép",
     "Other": "További",
-    "Data": "Adat"
+    "Data": "Adat",
+    "EnableQuickConnect": "Gyors kapcsolódás engedélyezése a szerveren",
+    "EnableAutoCast": "Beállítás alapértelmezettként",
+    "ButtonUseQuickConnect": "Gyors kapcsolódás használata",
+    "ButtonActivate": "Aktiválás",
+    "Authorize": "Felhatalmaz"
 }
