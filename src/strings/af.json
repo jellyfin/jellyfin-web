@@ -56,7 +56,7 @@
     "LastSeen": "Laas gekyk {0}",
     "PersonRole": "soos {0}",
     "ListPaging": "{0}-{1} van {2}",
-    "WriteAccessRequired": "Jellyfin Bediener benodig skryf toegang tot die leêr. Maak asseblief seker dat dit skryf toegang het en probeer weer.",
+    "WriteAccessRequired": "Jellyfin benodig skryf toegang tot die leêr. Maak asseblief seker dat dit skryf toegang het en probeer weer.",
     "PathNotFound": "Die pad kon nie gevind word nie. Maak asseblief seker dat die pad geldig is en probeer weer.",
     "Yesterday": "Gister",
     "Yes": "Ja",
@@ -67,7 +67,7 @@
     "XmlTvKidsCategoriesHelp": "Programme met die kategorieë sal vertoon word as programme vir kinders. Verdeel met veelvuldige '|'.",
     "XmlDocumentAttributeListHelp": "Hierdie kenmerke word toegepas tot die wortel element van elke XML reaksie.",
     "Writer": "Skrywer",
-    "WizardCompleted": "Dit is al wat ons benodig vir nou. Jellyfin het begin om inligting van jou media biblioteek te versamel. Kyk na van ons apps, en dan klik  <b>Finaliseer</b> om die <b>Paneelbord</b>.",
+    "WizardCompleted": "Dit is al wat ons benodig vir nou. Jellyfin het begin om inligting van jou media biblioteek te versamel. Kyk na van ons toeps, en klik dan <b>Finaliseer</b> om die <b>Paneelbord</b> te verkry.",
     "Whitelist": "Witlys",
     "WelcomeToProject": "Welkom tot Jellyfin!",
     "Wednesday": "Woensdag",
@@ -207,5 +207,8 @@
     "Artist": "Kunstenaar",
     "AllowFfmpegThrottlingHelp": "Wanneer 'n transkodering of remux ver genoeg voor die huidige terugspeel posisie is, vertraag die proses sodat dit minder hulpbronne verbruik. Hierdie is meer gebruiklik wanneer daar nie gereeld gesoek word tydens die kyk van video nie. Skakel hierdie af as u terugspeel probleme ervaar.",
     "AllowFfmpegThrottling": "Smoorklep Transkoderings",
-    "Album": "Album"
+    "Album": "Album",
+    "HeaderAlbumArtists": "Album Kunstenaars",
+    "Genres": "Genres",
+    "Favorites": "Gunstellinge"
 }
