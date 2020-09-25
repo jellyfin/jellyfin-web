@@ -329,5 +329,6 @@
     "HeaderContinueWatching": "Kyk Verder",
     "Extras": "Ekstras",
     "ExtractChapterImagesHelp": "Die onttrekking van hoofstuk-beelde sal kliënte toelaat om grafiese hoofstuk-keuse spyskaart-opsies te hê. Die proses kan stadig wees, baie hulpron intensief wees en etlike gigagreupe se spasie benodig. Dit hardloop wanner die videos ontdek word asook as 'n nagtelike geskeduleerde taak. Die skedule kan verstel word in die geskeduleerde take area. Dit word nie aanbeveel om die taak tydens piek-verbruik ure te hardloop nie.",
-    "Folders": "Lêergidse"
+    "Folders": "Lêergidse",
+    "FFmpegSavePathNotFound": "Ons kry nie FFmpeg op die bergingsplek wat u ingesleutel het nie. FFprobe word ook bendoig en moet in die selfde gidslêer bestaan. Hierdie komponente is normaalweg saam gebondel ten tye van aflaai. Maak asseblief seker dat die bergingsplek korrek is en probeer weer."
 }
