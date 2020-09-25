@@ -346,5 +346,6 @@
     "Genre": "Genre",
     "General": "Algemeen",
     "Other": "Ander",
-    "GroupBySeries": "Groepeer volgens reeks"
+    "GroupBySeries": "Groepeer volgens reeks",
+    "GroupVersions": "Groepeer weergawes"
 }
