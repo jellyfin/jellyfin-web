@@ -340,5 +340,7 @@
     "FileReadCancelled": "Die lees van die lêer is gekanselleer.",
     "FileReadError": "A fout het voorgekom tydens die lees van die lêer.",
     "Filters": "Filters",
-    "FormatValue": "Formaat: {0}"
+    "FormatValue": "Formaat: {0}",
+    "Fullscreen": "Volskerm",
+    "Friday": "Vrydag"
 }
