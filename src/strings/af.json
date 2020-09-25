@@ -332,5 +332,6 @@
     "Folders": "Lêergidse",
     "FFmpegSavePathNotFound": "Ons kry nie FFmpeg op die bergingsplek wat u ingesleutel het nie. FFprobe word ook bendoig en moet in die selfde gidslêer bestaan. Hierdie komponente is normaalweg saam gebondel ten tye van aflaai. Maak asseblief seker dat die bergingsplek korrek is en probeer weer.",
     "Favorite": "Gunstelling",
-    "FastForward": "Vinnig-vorentoe"
+    "FastForward": "Vinnig-vorentoe",
+    "Features": "Funksies"
 }
