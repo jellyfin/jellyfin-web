@@ -214,7 +214,7 @@
           "src/components/castSenderApi.js",
           "src/controllers/session/addServer/index.js",
           "src/controllers/session/forgotPassword/index.js",
-          "src/controllers/session/redeemPassword/index.js",
+          "src/controllers/session/resetPassword/index.js",
           "src/controllers/session/login/index.js",
           "src/controllers/session/selectServer/index.js",
           "src/controllers/dashboard/apikeys.js",
