@@ -337,5 +337,6 @@
     "FetchingData": "Soek addisionele data",
     "File": "Lêer",
     "FileNotFound": "Lêer nie gevind.",
-    "FileReadCancelled": "Die lees van die lêer is gekanselleer."
+    "FileReadCancelled": "Die lees van die lêer is gekanselleer.",
+    "FileReadError": "A fout het voorgekom tydens die lees van die lêer."
 }
