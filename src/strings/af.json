@@ -336,5 +336,6 @@
     "Features": "Funksies",
     "FetchingData": "Soek addisionele data",
     "File": "Lêer",
-    "FileNotFound": "Lêer nie gevind."
+    "FileNotFound": "Lêer nie gevind.",
+    "FileReadCancelled": "Die lees van die lêer is gekanselleer."
 }
