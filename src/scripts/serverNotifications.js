@@ -1,5 +1,5 @@
 import { playbackManager } from '../components/playback/playbackmanager';
-import syncPlayManager from '../components/syncPlay/syncPlayManager';
+import SyncPlay from 'SyncPlay';
 import { Events } from 'jellyfin-apiclient';
 import inputManager from '../scripts/inputManager';
 import focusManager from '../components/focusManager';
@@ -194,9 +194,9 @@ function onMessageReceived(e, msg) {
             }
         }
     } else if (msg.MessageType === 'SyncPlayCommand') {
-        syncPlayManager.processCommand(msg.Data, apiClient);
+        SyncPlay.Manager.processCommand(msg.Data, apiClient);
     } else if (msg.MessageType === 'SyncPlayGroupUpdate') {
-        syncPlayManager.processGroupUpdate(msg.Data, apiClient);
+        SyncPlay.Manager.processGroupUpdate(msg.Data, apiClient);
     } else {
         Events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
     }

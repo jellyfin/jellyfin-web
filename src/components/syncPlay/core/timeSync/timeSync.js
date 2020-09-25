@@ -1,13 +1,12 @@
 /**
- * Module that manages time syncing with server.
- * @module components/syncPlay/timeSyncManager
+ * Module that manages time syncing with another device.
+ * @module components/syncPlay/core/timeSync/timeSync
  */
 
 import { Events } from 'jellyfin-apiclient';
-import ServerConnections from '../ServerConnections';
 
 /**
- * Time estimation
+ * Time estimation.
  */
 const NumberOfTrackedMeasurements = 8;
 const PollingIntervalGreedy = 1000; // milliseconds
@@ -21,8 +20,8 @@ class Measurement {
     /**
      * Creates a new measurement.
      * @param {Date} requestSent Client's timestamp of the request transmission
-     * @param {Date} requestReceived Server's timestamp of the request reception
-     * @param {Date} responseSent Server's timestamp of the response transmission
+     * @param {Date} requestReceived Remote's timestamp of the request reception
+     * @param {Date} responseSent Remote's timestamp of the response transmission
      * @param {Date} responseReceived Client's timestamp of the response reception
      */
     constructor(requestSent, requestReceived, responseSent, responseReceived) {
@@ -33,32 +32,33 @@ class Measurement {
     }
 
     /**
-     * Time offset from server.
+     * Time offset from remote entity, in milliseconds.
      */
-    getOffset () {
+    getOffset() {
         return ((this.requestReceived - this.requestSent) + (this.responseSent - this.responseReceived)) / 2;
     }
 
     /**
-     * Get round-trip delay.
+     * Get round-trip delay, in milliseconds.
      */
-    getDelay () {
+    getDelay() {
         return (this.responseReceived - this.requestSent) - (this.responseSent - this.requestReceived);
     }
 
     /**
-     * Get ping time.
+     * Get ping time, in milliseconds.
      */
-    getPing () {
+    getPing() {
         return this.getDelay() / 2;
     }
 }
 
 /**
- * Class that manages time syncing with server.
+ * Class that manages time syncing with remote entity.
  */
-class TimeSyncManager {
-    constructor() {
+class TimeSync {
+    constructor(syncPlayManager) {
+        this.manager = syncPlayManager;
         this.pingStop = true;
         this.pollingInterval = PollingIntervalGreedy;
         this.poller = null;
@@ -76,23 +76,23 @@ class TimeSyncManager {
     }
 
     /**
-     * Gets time offset with server.
+     * Gets time offset with remote entity, in milliseconds.
      * @returns {number} The time offset.
      */
-    getTimeOffset () {
+    getTimeOffset() {
         return this.measurement ? this.measurement.getOffset() : 0;
     }
 
     /**
-     * Gets ping time to server.
+     * Gets ping time to remote entity, in milliseconds.
      * @returns {number} The ping time.
      */
-    getPing () {
+    getPing() {
         return this.measurement ? this.measurement.getPing() : 0;
     }
 
     /**
-     * Updates time offset between server and client.
+     * Updates time offset between remote entity and local entity.
      * @param {Measurement} measurement The new measurement.
      */
     updateTimeOffset(measurement) {
@@ -101,53 +101,68 @@ class TimeSyncManager {
             this.measurements.shift();
         }
 
-        // Pick measurement with minimum delay
+        // Pick measurement with minimum delay.
         const sortedMeasurements = this.measurements.slice(0);
         sortedMeasurements.sort((a, b) => a.getDelay() - b.getDelay());
         this.measurement = sortedMeasurements[0];
     }
 
     /**
-     * Schedules a ping request to the server. Triggers time offset update.
+     * Schedules a ping request to the remote entity. Triggers time offset update.
+     * @returns {Promise} Resolves on request success.
      */
     requestPing() {
-        if (!this.poller) {
+        console.warn('SyncPlay TimeSync requestPing: override this method!');
+        return Promise.reject('Not implemented.');
+    }
+
+    /**
+     * Poller for ping requests.
+     */
+    internalRequestPing() {
+        if (!this.poller && !this.pingStop) {
             this.poller = setTimeout(() => {
                 this.poller = null;
-                const apiClient = ServerConnections.currentApiClient();
-                const requestSent = new Date();
-                apiClient.getServerTime().then((response) => {
-                    const responseReceived = new Date();
-                    response.json().then((data) => {
-                        const requestReceived = new Date(data.RequestReceptionTime);
-                        const responseSent = new Date(data.ResponseTransmissionTime);
-
-                        const measurement = new Measurement(requestSent, requestReceived, responseSent, responseReceived);
-                        this.updateTimeOffset(measurement);
-
-                        // Avoid overloading server
-                        if (this.pings >= GreedyPingCount) {
-                            this.pollingInterval = PollingIntervalLowProfile;
-                        } else {
-                            this.pings++;
-                        }
-
-                        Events.trigger(this, 'update', [null, this.getTimeOffset(), this.getPing()]);
-                    });
-                }).catch((error) => {
-                    console.error(error);
-                    Events.trigger(this, 'update', [error, null, null]);
-                }).finally(() => {
-                    this.requestPing();
-                });
+                this.requestPing()
+                    .then((result) => this.onPingResponseCallback(result))
+                    .catch((error) => this.onPingRequestErrorCallback(error))
+                    .finally(() => this.internalRequestPing());
             }, this.pollingInterval);
         }
     }
 
     /**
+     * Handles a successful ping request.
+     * @param {Object} result The ping result.
+     */
+    onPingResponseCallback(result) {
+        const { requestSent, requestReceived, responseSent, responseReceived } = result;
+        const measurement = new Measurement(requestSent, requestReceived, responseSent, responseReceived);
+        this.updateTimeOffset(measurement);
+
+        // Avoid overloading network.
+        if (this.pings >= GreedyPingCount) {
+            this.pollingInterval = PollingIntervalLowProfile;
+        } else {
+            this.pings++;
+        }
+
+        Events.trigger(this, 'update', [null, this.getTimeOffset(), this.getPing()]);
+    }
+
+    /**
+     * Handles a failed ping request.
+     * @param {Object} error The error.
+     */
+    onPingRequestErrorCallback(error) {
+        console.error(error);
+        Events.trigger(this, 'update', [error, null, null]);
+    }
+
+    /**
      * Drops accumulated measurements.
      */
-    resetMeasurements () {
+    resetMeasurements() {
         this.measurement = null;
         this.measurements = [];
     }
@@ -156,13 +171,15 @@ class TimeSyncManager {
      * Starts the time poller.
      */
     startPing() {
-        this.requestPing();
+        this.pingStop = false;
+        this.internalRequestPing();
     }
 
     /**
      * Stops the time poller.
      */
     stopPing() {
+        this.pingStop = true;
         if (this.poller) {
             clearTimeout(this.poller);
             this.poller = null;
@@ -180,25 +197,24 @@ class TimeSyncManager {
     }
 
     /**
-     * Converts server time to local time.
-     * @param {Date} server The time to convert.
+     * Converts remote time to local time.
+     * @param {Date} remote The time to convert.
      * @returns {Date} Local time.
      */
-    serverDateToLocal(server) {
-        // server - local = offset
-        return new Date(server.getTime() - this.getTimeOffset());
+    remoteDateToLocal(remote) {
+        // remote - local = offset
+        return new Date(remote.getTime() - this.getTimeOffset());
     }
 
     /**
-     * Converts local time to server time.
+     * Converts local time to remote time.
      * @param {Date} local The time to convert.
-     * @returns {Date} Server time.
+     * @returns {Date} Remote time.
      */
-    localDateToServer(local) {
-        // server - local = offset
+    localDateToRemote(local) {
+        // remote - local = offset
         return new Date(local.getTime() + this.getTimeOffset());
     }
 }
 
-/** TimeSyncManager singleton. */
-export default new TimeSyncManager();
+export default TimeSync;

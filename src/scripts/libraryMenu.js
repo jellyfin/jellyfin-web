@@ -6,8 +6,8 @@ import viewManager from '../components/viewManager/viewManager';
 import { appRouter } from '../components/appRouter';
 import { appHost } from '../components/apphost';
 import { playbackManager } from '../components/playback/playbackmanager';
-import syncPlayManager from '../components/syncPlay/syncPlayManager';
-import { show as groupSelectionMenuShow } from '../components/syncPlay/groupSelectionMenu';
+import SyncPlay from 'SyncPlay';
+import groupSelectionMenu from '../components/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
@@ -230,7 +230,7 @@ import Headroom from 'headroom.js';
 
     function onSyncButtonClicked() {
         const btn = this;
-        groupSelectionMenuShow(btn);
+        groupSelectionMenu.show(btn);
     }
 
     function onSyncPlayEnabled(event, enabled) {
@@ -1000,8 +1000,8 @@ import Headroom from 'headroom.js';
 
     Events.on(playbackManager, 'playerchange', updateCastIcon);
 
-    Events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
-    Events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
+    Events.on(SyncPlay.Manager, 'enabled', onSyncPlayEnabled);
+    Events.on(SyncPlay.Manager, 'syncing', onSyncPlaySyncing);
 
     loadNavDrawer();
 

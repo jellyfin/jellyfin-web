@@ -30,6 +30,12 @@ import { navigate, pageClassOn, serverAddress } from './clientUtils';
 import '../libraries/screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
+import SyncPlay from 'SyncPlay';
+import { playbackManager } from '../components/playback/playbackmanager';
+import SyncPlayToasts from '../components/syncPlay/ui/syncPlayToasts';
+import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/noActivePlayer';
+import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/htmlVideoPlayer';
+import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/htmlAudioPlayer';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
@@ -117,6 +123,7 @@ function onGlobalizeInit() {
     import('../assets/css/librarybrowser.css');
 
     loadPlugins().then(function () {
+        initSyncPlay();
         onAppReady();
     });
 }
@@ -152,6 +159,23 @@ function loadPlugins() {
             })
         ;
     });
+}
+
+function initSyncPlay() {
+    // Register player wrappers.
+    SyncPlay.PlayerFactory.setDefaultWrapper(SyncPlayNoActivePlayer);
+    SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlVideoPlayer);
+    SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlAudioPlayer);
+
+    // Listen for player changes.
+    Events.on(playbackManager, 'playerchange', (event, newPlayer, newTarget, oldPlayer) => {
+        SyncPlay.Manager.onPlayerChange(newPlayer, newTarget, oldPlayer);
+    });
+
+    // Start SyncPlay.
+    const apiClient = ServerConnections.currentApiClient();
+    SyncPlay.Manager.init(apiClient);
+    SyncPlayToasts.init();
 }
 
 function onAppReady() {
