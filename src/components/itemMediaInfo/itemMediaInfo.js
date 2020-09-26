@@ -120,6 +120,18 @@ import 'flexStyles';
             if (stream.BitDepth) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoBitDepth'), `${stream.BitDepth} bit`));
             }
+            if (stream.VideoRange) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoVideoRange'), stream.VideoRange));
+            }
+            if (stream.ColorSpace) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoColorSpace'), stream.ColorSpace));
+            }
+            if (stream.ColorTransfer) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoColorTransfer'), stream.ColorTransfer));
+            }
+            if (stream.ColorPrimaries) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoColorPrimaries'), stream.ColorPrimaries));
+            }
             if (stream.PixelFormat) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoPixelFormat'), stream.PixelFormat));
             }

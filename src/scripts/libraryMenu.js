@@ -52,6 +52,7 @@ import 'flexStyles';
 
         lazyLoadViewMenuBarImages();
         bindMenuEvents();
+        updateCastIcon();
     }
 
     function getCurrentApiClient() {
@@ -403,6 +404,12 @@ import 'flexStyles';
             href: 'devices.html',
             pageIds: ['devicesPage', 'devicePage'],
             icon: 'devices'
+        });
+        links.push({
+            name: globalize.translate('QuickConnect'),
+            href: 'quickConnect.html',
+            pageIds: ['quickConnectPage'],
+            icon: 'tap_and_play'
         });
         links.push({
             name: globalize.translate('HeaderActivity'),
@@ -996,6 +1003,7 @@ import 'flexStyles';
     };
 
     window.LibraryMenu = LibraryMenu;
+    renderHeader();
 
 export default LibraryMenu;
 

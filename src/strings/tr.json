@@ -33,11 +33,6 @@
     "FileNotFound": "Dosya Bulunamadı.",
     "FileReadCancelled": "Dosya Okuma İptal Edildi.",
     "FileReadError": "Dosya okunurken bir hata oluştu.",
-    "FolderTypeBooks": "Kitaplar",
-    "FolderTypeMovies": "Filmler",
-    "FolderTypeMusic": "Müzik",
-    "FolderTypeMusicVideos": "Müzik Videoları",
-    "FolderTypeTvShows": "TV",
     "Friday": "Cuma",
     "HeaderActiveRecordings": "Aktif Kayıtlar",
     "HeaderCodecProfile": "Codec Profili",
@@ -126,9 +121,6 @@
     "OptionImdbRating": "İMDb Reyting",
     "OptionLikes": "Beğenilenler",
     "OptionPlayCount": "Oynatma sayacı",
-    "OptionProfilePhoto": "Fotoğraf",
-    "OptionProfileVideo": "Vidyo",
-    "OptionProfileVideoAudio": "Video Sesi",
     "OptionReleaseDate": "Yayınlanma Tarihi",
     "OptionResumable": "Başlatılabilir",
     "OptionSpecialEpisode": "Özel",
@@ -403,7 +395,6 @@
     "General": "Genel",
     "Fullscreen": "Tam ekran",
     "FormatValue": "Biçim: {0}",
-    "FolderTypeUnset": "Karışık içerik",
     "Filters": "Filtreler",
     "File": "Dosya",
     "FetchingData": "Ek veri alınıyor",
@@ -623,5 +614,6 @@
     "LabelSize": "Boyut:",
     "LabelSimultaneousConnectionLimit": "Eşzamanlı yayın limiti:",
     "LabelServerName": "Sunucu adı:",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "Settings": "Ayarlar"
 }

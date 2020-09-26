@@ -14,7 +14,7 @@ import 'css!components/viewManager/viewContainer';
             }
 
             controllerUrl = Dashboard.getPluginUrl(controllerUrl);
-            let apiUrl = ApiClient.getUrl('/web/' + controllerUrl);
+            const apiUrl = ApiClient.getUrl('/web/' + controllerUrl);
             return import(apiUrl).then((ControllerFactory) => {
                 options.controllerFactory = ControllerFactory;
             });

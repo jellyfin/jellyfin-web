@@ -218,29 +218,29 @@ import 'emby-itemrefreshindicator';
             name: '',
             value: ''
         }, {
-            name: globalize.translate('FolderTypeMovies'),
+            name: globalize.translate('Movies'),
             value: 'movies',
             message: getLink('MovieLibraryHelp', 'https://docs.jellyfin.org/general/server/media/movies.html')
         }, {
-            name: globalize.translate('FolderTypeMusic'),
+            name: globalize.translate('TabMusic'),
             value: 'music',
             message: getLink('MusicLibraryHelp', 'https://docs.jellyfin.org/general/server/media/music.html')
         }, {
-            name: globalize.translate('FolderTypeTvShows'),
+            name: globalize.translate('Shows'),
             value: 'tvshows',
             message: getLink('TvLibraryHelp', 'https://docs.jellyfin.org/general/server/media/shows.html')
         }, {
-            name: globalize.translate('FolderTypeBooks'),
+            name: globalize.translate('Books'),
             value: 'books',
             message: getLink('BookLibraryHelp', 'https://docs.jellyfin.org/general/server/media/books.html')
         }, {
             name: globalize.translate('Photos'),
             value: 'homevideos'
         }, {
-            name: globalize.translate('FolderTypeMusicVideos'),
+            name: globalize.translate('MusicVideos'),
             value: 'musicvideos'
         }, {
-            name: globalize.translate('FolderTypeUnset'),
+            name: globalize.translate('Other'),
             value: 'mixed',
             message: globalize.translate('MessageUnsetContentHelp')
         }];
@@ -326,7 +326,7 @@ import 'emby-itemrefreshindicator';
         let typeName = getCollectionTypeOptions().filter(function (t) {
             return t.value == virtualFolder.CollectionType;
         })[0];
-        typeName = typeName ? typeName.name : globalize.translate('FolderTypeUnset');
+        typeName = typeName ? typeName.name : globalize.translate('Other');
         html += "<div class='cardText cardText-secondary'>";
 
         if (virtualFolder.showType === false) {

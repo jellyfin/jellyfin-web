@@ -581,6 +581,7 @@ function initClient() {
         define('webSettings', [scriptsPath + '/settings/webSettings'], returnFirstDependency);
         define('appSettings', [scriptsPath + '/settings/appSettings'], returnFirstDependency);
         define('userSettings', [scriptsPath + '/settings/userSettings'], returnFirstDependency);
+        define('autocast', [scriptsPath + '/autocast'], returnFirstDependency);
 
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
         define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
@@ -625,6 +626,7 @@ function initClient() {
         define('displaySettings', [componentsPath + '/displaySettings/displaySettings'], returnFirstDependency);
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
+        define('quickConnectSettings', [componentsPath + '/quickConnectSettings/quickConnectSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
         define('timeSyncManager', [componentsPath + '/syncPlay/timeSyncManager'], returnDefault);
         define('groupSelectionMenu', [componentsPath + '/syncPlay/groupSelectionMenu'], returnFirstDependency);
