@@ -490,8 +490,6 @@ export default function (options) {
         inputManager.off(window, onInputCommand);
         /* eslint-disable-next-line compat/compat */
         document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
-        // Shows page scrollbar
-        document.body.classList.remove('hide-scroll');
     }
 
     /**
@@ -655,8 +653,6 @@ export default function (options) {
      */
     self.show = function () {
         createElements(options);
-        // Hides page scrollbar
-        document.body.classList.add('hide-scroll');
     };
 
     /**
