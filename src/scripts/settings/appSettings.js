@@ -15,7 +15,7 @@ class AppSettings {
             this.set('enableAutoLogin', val.toString());
         }
 
-        return this.get('enableAutoLogin') !== 'false';
+        return this.get('enableAutoLogin') === 'true';
     }
 
     enableSystemExternalPlayers(val) {
