@@ -1,5 +1,4 @@
 import { appHost } from './apphost';
-import appSettings from '../scripts/settings/appSettings';
 import backdrop from './backdrop/backdrop';
 import browser from '../scripts/browser';
 import { Events } from 'jellyfin-apiclient';
@@ -98,9 +97,7 @@ class AppRouter {
     beginConnectionWizard() {
         backdrop.clearBackdrop();
         loading.show();
-        ServerConnections.connect({
-            enableAutoLogin: appSettings.enableAutoLogin()
-        }).then((result) => {
+        ServerConnections.connect().then((result) => {
             this.handleConnectionResult(result);
         });
     }
@@ -162,9 +159,7 @@ class AppRouter {
         Events.on(appHost, 'beforeexit', this.onBeforeExit);
         Events.on(appHost, 'resume', this.onAppResume);
 
-        ServerConnections.connect({
-            enableAutoLogin: appSettings.enableAutoLogin()
-        }).then((result) => {
+        ServerConnections.connect().then((result) => {
             this.firstConnectionResult = result;
             options = options || {};
             page({

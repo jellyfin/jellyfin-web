@@ -1,4 +1,3 @@
-import appSettings from '../../../scripts/settings/appSettings';
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-button/emby-button';
@@ -38,9 +37,7 @@ import ServerConnections from '../../../components/ServerConnections';
     function submitServer(page) {
         loading.show();
         const host = page.querySelector('#txtServerHost').value;
-        ServerConnections.connectToAddress(host, {
-            enableAutoLogin: appSettings.enableAutoLogin()
-        }).then(function(result) {
+        ServerConnections.connectToAddress(host).then(function(result) {
             handleConnectionResult(page, result);
         }, function() {
             handleConnectionResult(page, {

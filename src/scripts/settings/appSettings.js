@@ -10,14 +10,6 @@ class AppSettings {
         return name;
     }
 
-    enableAutoLogin(val) {
-        if (val !== undefined) {
-            this.set('enableAutoLogin', val.toString());
-        }
-
-        return this.get('enableAutoLogin') !== 'false';
-    }
-
     enableSystemExternalPlayers(val) {
         if (val !== undefined) {
             this.set('enableSystemExternalPlayers', val.toString());
