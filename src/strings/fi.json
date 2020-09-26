@@ -332,7 +332,7 @@
     "LabelCustomRating": "Mukautettu luokitus:",
     "LabelCustomCss": "Mukautettu CSS:",
     "LabelCertificatePassword": "Varmenteen salasana:",
-    "LabelArtistsHelp": "Erota useita käyttämällä ;",
+    "LabelArtistsHelp": "Erota useita käyttämällä puolipistettä (;).",
     "LabelAppNameExample": "Esimerkiksi: Sickbeard, Sonarr",
     "LabelAppName": "Sovelluksen nimi",
     "LabelAllowedRemoteAddressesMode": "Etä-IP-osoitesuodattimen tila:",
@@ -1165,5 +1165,9 @@
     "LabelModelName": "Mallinimi",
     "LabelModelDescription": "Mallikuvaus",
     "LabelModelNumber": "Mallinumero",
-    "LabelInNetworkSignInWithEasyPassword": "Salli sisäverkkokirjautuminen helpolla PIN-koodilla"
+    "LabelInNetworkSignInWithEasyPassword": "Salli sisäverkkokirjautuminen helpolla PIN-koodilla",
+    "HeaderCodecProfileHelp": "Dekooderiprofiilit määrittävät laitteen rajoitukset, kun se toistaa erityyppisiä koodauksia. Jos rajoitus on voimassa, sisältö koodataan uudelleen, vaikka koodaustyypiksi on asetettu suora toisto.",
+    "Authorize": "Valtuuta",
+    "EnableAutoCast": "Aseta oletukseksi",
+    "ButtonActivate": "Aktivoi"
 }
