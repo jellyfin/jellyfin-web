@@ -15,6 +15,10 @@ function zoomIn(elem, iterations) {
     return elem.animate(keyframes, timing);
 }
 
+function hideScroll() {
+    document.body.classList.add('hide-scroll');
+}
+
 function createMediaElement(instance, options) {
     return new Promise(function (resolve, reject) {
         const dlg = document.querySelector('.youtubePlayerContainer');
@@ -37,8 +41,9 @@ function createMediaElement(instance, options) {
                 document.body.insertBefore(dlg, document.body.firstChild);
                 instance.videoDialog = dlg;
 
-                // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
-                document.body.classList.add('hide-scroll');
+                if (options.fullscreen) {
+                    hideScroll();
+                }
 
                 if (options.fullscreen && dlg.animate && !browser.slow) {
                     zoomIn(dlg, 1).onfinish = function () {
@@ -49,6 +54,10 @@ function createMediaElement(instance, options) {
                 }
             });
         } else {
+            if (options.fullscreen) {
+                hideScroll();
+            }
+
             resolve(dlg.querySelector('#player'));
         }
     });
