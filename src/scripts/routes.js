@@ -62,11 +62,11 @@ import 'detailtablecss';
 
     defineRoute({
         alias: '/forgotpasswordpin.html',
-        path: '/controllers/session/redeemPassword/index.html',
+        path: '/controllers/session/resetPassword/index.html',
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: 'session/redeemPassword/index'
+        controller: 'session/resetPassword/index'
     });
 
     defineRoute({
