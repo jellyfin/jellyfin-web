@@ -1169,5 +1169,15 @@
     "HeaderCodecProfileHelp": "Dekooderiprofiilit määrittävät laitteen rajoitukset, kun se toistaa erityyppisiä koodauksia. Jos rajoitus on voimassa, sisältö koodataan uudelleen, vaikka koodaustyypiksi on asetettu suora toisto.",
     "Authorize": "Valtuuta",
     "EnableAutoCast": "Aseta oletukseksi",
-    "ButtonActivate": "Aktivoi"
+    "ButtonActivate": "Aktivoi",
+    "HeaderSelectTranscodingPathHelp": "Selaa tai kirjoita polku, jota käytetään transkooditiedostoihin. Kansioon on oltava kirjoitusoikeus.",
+    "HeaderSelectServerCachePathHelp": "Selaa tai kirjoita palvelinten välimuistitiedostojen polku. Kansioon on oltava kirjoitusoikeus.",
+    "HeaderSelectMetadataPathHelp": "Selaa tai kirjoita metatiedoissa käytettävä tiedostopolku. Kansioon on oltava kirjoitusoikeus.",
+    "HeaderResponseProfileHelp": "Vasteprofiilit tarjoavat laitteeseen lähetettyjen tietojen mukauttamista tiettyjä medioita toistettaessa.",
+    "HeaderKodiMetadataHelp": "Ota NFO-metatiedot käyttöön tai poista se käytöstä muokkaamalla kirjastoa ja etsimällä metatietojen tallennusvaihtoehdot.",
+    "HeaderEnabledFieldsHelp": "Lukitse kenttä ja estä tietojen muuttuminen poistamalla valinta kentästä.",
+    "HeaderDirectPlayProfileHelp": "Lisää suoratoistoprofiileja osoittaaksesi, missä muodossa laite tukee suoratoistoa.",
+    "HeaderContainerProfileHelp": "Sisältöprofiilit ilmaisevat laitteen rajoitukset tiettyjä formaatteja toistettaessa. Jos rajoitusta sovelletaan, media koodataan uudelleen, vaikka muoto on määritetty suoratoistoa varten.",
+    "EnableQuickConnect": "Salli nopea yhteyden muodostaminen tälle palvelimelle",
+    "ButtonUseQuickConnect": "Käytä nopeaa yhdistämistä"
 }
