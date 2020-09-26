@@ -1377,5 +1377,6 @@
     "EnableQuickConnect": "Bruk rask tilkobling på denne tjeneren",
     "ButtonUseQuickConnect": "Bruk rask tilkobling",
     "ButtonActivate": "Aktiver",
-    "Authorize": "Autoriser"
+    "Authorize": "Autoriser",
+    "EnableAutoCast": "Sett som standard"
 }
