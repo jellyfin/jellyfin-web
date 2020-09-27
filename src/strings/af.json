@@ -492,5 +492,6 @@
     "HDPrograms": "HD programme",
     "EncoderPresetHelp": "Kies 'n vinniger waarde om optrede te verbeter, of 'n stadiger waarde om gehalte te verbeter.",
     "H264CrfHelp": "Die Konstante Tempo Faktor (KTF) is die standaard kwaliteit verstelling vir die x264 enkodeerder. Jy kan die waardes stel tussen 0 en 51, waar laer waardes beter gehalte lewer (ten koste van hoër lêer-groottes). Sinvolle waardes is tussen 18 en 28. Die standaard vir x264 is 23, gebruik dit dus as 'n beginpunt.",
-    "GuideProviderSelectListings": "Kies Gids"
+    "GuideProviderSelectListings": "Kies Gids",
+    "HeaderSelectMetadataPathHelp": "Soek of sleutel lêerpad in wat u vir metadata wil gebruik. Die gidslêer moet skryfbaar wees."
 }
