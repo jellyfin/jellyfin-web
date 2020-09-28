@@ -1417,5 +1417,6 @@
     "EnableQuickConnect": "在此服务器上启用 Quick Connect",
     "ButtonUseQuickConnect": "使用 Quick Connect",
     "ButtonActivate": "启用",
-    "Authorize": "授权"
+    "Authorize": "授权",
+    "EnableAutoCast": "设置为默认"
 }
