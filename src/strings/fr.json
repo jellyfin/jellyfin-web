@@ -1416,5 +1416,7 @@
     "Authorize": "Autoriser",
     "LabelTonemappingParam": "Paramètre de mappage tonal :",
     "LabelTonemappingPeakHelp": "Redéfini le signal/nominal/crête de référence. Utile lorsque l'information de crête intégrée dans les métadonnées d'affichage n'est pas fiable ou lorsque le mappage tonal d'une gamme inférieure à une gamme supérieure. La valeur recommandée et la valeur par défaut sont 0.",
-    "EnableAutoCast": "Définir comme Défaut"
+    "EnableAutoCast": "Définir comme Défaut",
+    "LabelMaxMuxingQueueSizeHelp": "Nombre maximum de paquets qui peuvent être mis en mémoire tampon en attendant que tous les flux soient initialisés. Essayez de l'augmenter si vous rencontrez des erreurs \"Trop de paquets en mémoire tampon pour le flux de sortie\" dans les journaux ffmpeg. La valeur recommandée est 2048.",
+    "LabelMaxMuxingQueueSize": "Taille maximale de la queue de multiplexage :"
 }
