@@ -203,7 +203,7 @@ function initClient() {
             createConnectionManager().then(function () {
                 console.debug('initAfterDependencies promises resolved');
 
-                require(['globalize', 'browser'], function (globalize, browser) {
+                require(['globalize', 'browser'], function (globalize, {default: browser}) {
                     window.Globalize = globalize;
                     loadCoreDictionary(globalize).then(function () {
                         onGlobalizeInit(browser, globalize);
