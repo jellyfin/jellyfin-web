@@ -1414,5 +1414,7 @@
     "ButtonUseQuickConnect": "Utiliser la Connexion Rapide",
     "ButtonActivate": "Activer",
     "Authorize": "Autoriser",
-    "LabelTonemappingParam": "Paramètre de mappage tonal :"
+    "LabelTonemappingParam": "Paramètre de mappage tonal :",
+    "LabelTonemappingPeakHelp": "Redéfini le signal/nominal/crête de référence. Utile lorsque l'information de crête intégrée dans les métadonnées d'affichage n'est pas fiable ou lorsque le mappage tonal d'une gamme inférieure à une gamme supérieure. La valeur recommandée et la valeur par défaut sont 0.",
+    "EnableAutoCast": "Définir comme Défaut"
 }
