@@ -1411,5 +1411,6 @@
     "LabelTonemappingPeak": "Pico del mapeo de Tono:",
     "LabelTonemappingDesat": "Mapeo de tonos desaturado:",
     "UseDoubleRateDeinterlacingHelp": "Esta configuración utiliza la velocidad de campo al desentrelazar, a menudo denominado desentrelazado bob, que duplica los fotogramas del video para proporcionar un movimiento contínuo, como lo vería al ver un video entrelazado en un televisor.",
-    "PosterCard": "Tarjeta de presentación"
+    "PosterCard": "Tarjeta de presentación",
+    "EnableAutoCast": "Marcar como predeterminado"
 }
