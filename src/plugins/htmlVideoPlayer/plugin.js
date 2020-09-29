@@ -114,7 +114,6 @@ function tryRemoveElement(elem) {
         return new Promise(resolve => {
             const duration = 240;
             elem.style.animation = `htmlvideoplayer-zoomin ${duration}ms ease-in normal`;
-            hidePrePlaybackPage();
             dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
                 once: true
             });
@@ -1328,17 +1327,24 @@ function tryRemoveElement(elem) {
                         this.#videoDialog = dlg;
                         this.#mediaElement = videoElement;
 
+                        if (options.fullscreen) {
+                            hidePrePlaybackPage();
+                        }
+
                         // don't animate on smart tv's, too slow
                         if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
                             return zoomIn(dlg).then(function () {
                                 return videoElement;
                             });
                         } else {
-                            hidePrePlaybackPage();
                             return videoElement;
                         }
                     });
                 } else {
+                    if (options.fullscreen) {
+                        hidePrePlaybackPage();
+                    }
+
                     return Promise.resolve(dlg.querySelector('video'));
                 }
         }
