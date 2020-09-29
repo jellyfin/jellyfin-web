@@ -1179,5 +1179,8 @@
     "HeaderDirectPlayProfileHelp": "Lisää suoratoistoprofiileja osoittaaksesi, missä muodossa laite tukee suoratoistoa.",
     "HeaderContainerProfileHelp": "Sisältöprofiilit ilmaisevat laitteen rajoitukset tiettyjä formaatteja toistettaessa. Jos rajoitusta sovelletaan, media koodataan uudelleen, vaikka muoto on määritetty suoratoistoa varten.",
     "EnableQuickConnect": "Salli nopea yhteyden muodostaminen tälle palvelimelle",
-    "ButtonUseQuickConnect": "Käytä nopeaa yhdistämistä"
+    "ButtonUseQuickConnect": "Käytä nopeaa yhdistämistä",
+    "ImportMissingEpisodesHelp": "Tiedot kadonneista jaksoista tuodaan tietokantaan ja näytetään kausina ja sarjoina. Tämä voi aiheuttaa huomattavasti pidempiä kirjastojen tarkistusajoja.",
+    "ImportFavoriteChannelsHelp": "Ainoastaan kanavat, jotka on merkitty suosikkiksi viritinlaitteessa, tuodaan.",
+    "HeaderTranscodingProfileHelp": "Lisää transkoodausprofiileja osoittamaan, mitä muotoja tulisi käyttää, kun transkoodaus on tarpeen."
 }
