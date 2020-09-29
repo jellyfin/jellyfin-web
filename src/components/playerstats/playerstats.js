@@ -1,7 +1,6 @@
 import events from 'events';
 import globalize from 'globalize';
 import playbackManager from 'playbackManager';
-import connectionManager from 'connectionManager';
 import syncPlayManager from 'syncPlayManager';
 import playMethodHelper from 'playMethodHelper';
 import layoutManager from 'layoutManager';
@@ -95,7 +94,7 @@ import 'css!./playerstats';
             return Promise.resolve(instance.lastSession);
         }
 
-        const apiClient = connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+        const apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
 
         return apiClient.getSessions({
             deviceId: apiClient.deviceId()
@@ -264,6 +263,34 @@ import 'css!./playerstats';
             });
         }
 
+        if (videoStream.VideoRange) {
+            sessionStats.push({
+                label: globalize.translate('LabelVideoRange'),
+                value: videoStream.VideoRange
+            });
+        }
+
+        if (videoStream.ColorSpace) {
+            sessionStats.push({
+                label: globalize.translate('LabelColorSpace'),
+                value: videoStream.ColorSpace
+            });
+        }
+
+        if (videoStream.ColorTransfer) {
+            sessionStats.push({
+                label: globalize.translate('LabelColorTransfer'),
+                value: videoStream.ColorTransfer
+            });
+        }
+
+        if (videoStream.ColorPrimaries) {
+            sessionStats.push({
+                label: globalize.translate('LabelColorPrimaries'),
+                value: videoStream.ColorPrimaries
+            });
+        }
+
         const audioInfos = [];
 
         if (audioCodec) {
@@ -386,7 +413,7 @@ import 'css!./playerstats';
                 name: 'Original Media Info'
             });
 
-            var apiClient = connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+            var apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
             if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),

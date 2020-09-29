@@ -70,6 +70,10 @@
     contain: strict;
 }
 
+.programContainer.emby-scroller {
+    margin: 0;
+}
+
 .channelPrograms {
     height: 4.42em;
     contain: strict;

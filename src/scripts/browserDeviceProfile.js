@@ -70,12 +70,24 @@ define(['browser'], function (browser) {
             return true;
         }
 
+        // iPhones 5c and older and old model iPads do not support AC-3/E-AC-3
+        // These models can only run iOS 10.x or lower
+        if (browser.iOS && browser.iOSVersion < 11) {
+            return false;
+        }
+
         return videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '');
     }
 
     function supportsEac3(videoTestElement) {
         if (browser.tizen || browser.web0s) {
             return true;
+        }
+
+        // iPhones 5c and older and old model iPads do not support AC-3/E-AC-3
+        // These models can only run iOS 10.x or lower
+        if (browser.iOS && browser.iOSVersion < 11) {
+            return false;
         }
 
         return videoTestElement.canPlayType('audio/mp4; codecs="ec-3"').replace(/no/, '');
@@ -315,10 +327,12 @@ define(['browser'], function (browser) {
         // Not sure how to test for this
         var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
 
+        /* eslint-disable compat/compat */
         var maxVideoWidth = browser.xboxOne ?
-            (self.screen ? self.screen.width : null) :
+            (window.screen ? window.screen.width : null) :
             null;
 
+        /* eslint-enable compat/compat */
         if (options.maxVideoWidth) {
             maxVideoWidth = options.maxVideoWidth;
         }

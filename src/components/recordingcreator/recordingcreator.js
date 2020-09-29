@@ -2,7 +2,6 @@ import dialogHelper from 'dialogHelper';
 import globalize from 'globalize';
 import layoutManager from 'layoutManager';
 import mediaInfo from 'mediaInfo';
-import connectionManager from 'connectionManager';
 import require from 'require';
 import loading from 'loading';
 import scrollHelper from 'scrollHelper';
@@ -103,7 +102,7 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
 function reload(context, programId, serverId, refreshRecordingStateOnly) {
     loading.show();
 
-    const apiClient = connectionManager.getApiClient(serverId);
+    const apiClient = window.connectionManager.getApiClient(serverId);
 
     const promise1 = apiClient.getNewLiveTvTimerDefaults({ programId: programId });
     const promise2 = apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId());
@@ -119,7 +118,7 @@ function reload(context, programId, serverId, refreshRecordingStateOnly) {
 function executeCloseAction(action, programId, serverId) {
     if (action === 'play') {
         import('playbackManager').then(({ default: playbackManager }) => {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
 
             apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
                 playbackManager.play({

@@ -1,7 +1,6 @@
 import inputManager from 'inputManager';
 import browser from 'browser';
 import globalize from 'globalize';
-import connectionManager from 'connectionManager';
 import scrollHelper from 'scrollHelper';
 import serverNotifications from 'serverNotifications';
 import loading from 'loading';
@@ -213,7 +212,7 @@ function Guide(options) {
     }
 
     function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-        const apiClient = connectionManager.getApiClient(options.serverId);
+        const apiClient = window.connectionManager.getApiClient(options.serverId);
 
         const channelQuery = {
 
@@ -873,7 +872,7 @@ function Guide(options) {
     function reloadPage(page) {
         showLoading();
 
-        const apiClient = connectionManager.getApiClient(options.serverId);
+        const apiClient = window.connectionManager.getApiClient(options.serverId);
 
         apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
             setDateRange(page, guideInfo);

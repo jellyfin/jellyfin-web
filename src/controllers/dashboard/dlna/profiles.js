@@ -81,7 +81,7 @@ import 'emby-button';
     function getTabs() {
         return [{
             href: 'dlnasettings.html',
-            name: globalize.translate('TabSettings')
+            name: globalize.translate('Settings')
         }, {
             href: 'dlnaprofiles.html',
             name: globalize.translate('TabProfiles')

@@ -4,7 +4,6 @@ import appSettings from 'appSettings';
 import focusManager from 'focusManager';
 import layoutManager from 'layoutManager';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import subtitleAppearanceHelper from 'subtitleAppearanceHelper';
 import settingsHelper from 'settingsHelper';
 import dom from 'dom';
@@ -232,7 +231,7 @@ export class SubtitleSettings {
         loading.show();
 
         const userId = self.options.userId;
-        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
         apiClient.getUser(userId).then(function (user) {
@@ -256,7 +255,7 @@ export class SubtitleSettings {
 
     onSubmit(e) {
         const self = this;
-        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 

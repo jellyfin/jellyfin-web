@@ -7,7 +7,6 @@
 
 import datetime from 'datetime';
 import imageLoader from 'imageLoader';
-import connectionManager from 'connectionManager';
 import itemHelper from 'itemHelper';
 import focusManager from 'focusManager';
 import indicators from 'indicators';
@@ -371,7 +370,7 @@ import 'programStyles';
 
                 if (serverId !== lastServerId) {
                     lastServerId = serverId;
-                    apiClient = connectionManager.getApiClient(lastServerId);
+                    apiClient = window.connectionManager.getApiClient(lastServerId);
                 }
 
                 if (options.indexBy) {
@@ -986,6 +985,10 @@ import 'programStyles';
                 lines = [];
             }
 
+            if (overlayText && showTitle) {
+                lines = [item.Name];
+            }
+
             const addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
 
             html += getCardTextLines(lines, cssClass, !options.overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
@@ -1212,8 +1215,8 @@ import 'programStyles';
             if (coveredImage) {
                 cardImageContainerClass += ' coveredImage';
 
-                if (item.MediaType === 'Photo' || item.Type === 'PhotoAlbum' || item.Type === 'Folder' || item.ProgramInfo || item.Type === 'Program' || item.Type === 'Recording') {
-                    cardImageContainerClass += ' coveredImage-noScale';
+                if (item.Type === 'TvChannel') {
+                    cardImageContainerClass += ' coveredImage-contain';
                 }
             }
 

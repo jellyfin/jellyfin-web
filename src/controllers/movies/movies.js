@@ -25,7 +25,12 @@ import 'emby-itemscontainer';
 
         const updateFilterControls = () => {
             if (this.alphaPicker) {
-                this.alphaPicker.value(query.NameStartsWithOrGreater);
+                this.alphaPicker.value(query.NameStartsWith);
+                if (query.SortBy.indexOf('SortName') === 0) {
+                    this.alphaPicker.visible(true);
+                } else {
+                    this.alphaPicker.visible(false);
+                }
             }
         };
 
@@ -163,12 +168,12 @@ import 'emby-itemscontainer';
             itemsContainer.fetchData = fetchData;
             itemsContainer.getItemsHtml = getItemsHtml;
             itemsContainer.afterRefresh = afterRefresh;
-            let alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
 
             if (alphaPickerElement) {
                 alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                    let newValue = e.detail.value;
-                    query.NameStartsWithOrGreater = newValue;
+                    const newValue = e.detail.value;
+                    query.NameStartsWith = newValue;
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });
@@ -195,7 +200,7 @@ import 'emby-itemscontainer';
                 btnSort.addEventListener('click', function (e) {
                     libraryBrowser.showSortMenu({
                         items: [{
-                            name: globalize.translate('OptionNameSort'),
+                            name: globalize.translate('Name'),
                             id: 'SortName,ProductionYear'
                         }, {
                             name: globalize.translate('OptionImdbRating'),
@@ -219,7 +224,7 @@ import 'emby-itemscontainer';
                             name: globalize.translate('OptionReleaseDate'),
                             id: 'PremiereDate,SortName,ProductionYear'
                         }, {
-                            name: globalize.translate('OptionRuntime'),
+                            name: globalize.translate('Runtime'),
                             id: 'Runtime,SortName,ProductionYear'
                         }],
                         callback: function () {
@@ -237,7 +242,7 @@ import 'emby-itemscontainer';
                 libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle, 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
-                let viewStyle = e.detail.viewStyle;
+                const viewStyle = e.detail.viewStyle;
                 userSettings.set(savedViewKey, viewStyle);
                 query.StartIndex = 0;
                 onViewStyleChange();
@@ -274,7 +279,7 @@ import 'emby-itemscontainer';
 
         this.showFilterMenu = function () {
             import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
-                let filterDialog = new filterDialogFactory({
+                const filterDialog = new filterDialogFactory({
                     query: query,
                     mode: 'movies',
                     serverId: ApiClient.serverId()

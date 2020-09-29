@@ -1,7 +1,6 @@
 import dom from 'dom';
 import layoutManager from 'layoutManager';
 import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
 import events from 'events';
 import viewManager from 'viewManager';
 import appRouter from 'appRouter';
@@ -53,14 +52,15 @@ import 'flexStyles';
 
         lazyLoadViewMenuBarImages();
         bindMenuEvents();
+        updateCastIcon();
     }
 
     function getCurrentApiClient() {
         if (currentUser && currentUser.localUser) {
-            return connectionManager.getApiClient(currentUser.localUser.ServerId);
+            return window.connectionManager.getApiClient(currentUser.localUser.ServerId);
         }
 
-        return connectionManager.currentApiClient();
+        return window.connectionManager.currentApiClient();
     }
 
     function lazyLoadViewMenuBarImages() {
@@ -74,6 +74,8 @@ import 'flexStyles';
     }
 
     function updateUserInHeader(user) {
+        renderHeader();
+
         let hasImage;
 
         if (user && user.name) {
@@ -293,10 +295,10 @@ import 'flexStyles';
             html += '</h3>';
 
             if (appHost.supports('multiserver')) {
-                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSelectServer') + '</span></a>';
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
             }
 
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSettings') + '</span></a>';
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('Settings') + '</span></a>';
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSignOut') + '</span></a>';
             html += '</div>';
         }
@@ -404,6 +406,12 @@ import 'flexStyles';
             icon: 'devices'
         });
         links.push({
+            name: globalize.translate('QuickConnect'),
+            href: 'quickConnect.html',
+            pageIds: ['quickConnectPage'],
+            icon: 'tap_and_play'
+        });
+        links.push({
             name: globalize.translate('HeaderActivity'),
             href: 'serveractivity.html',
             pageIds: ['serverActivityPage'],
@@ -483,8 +491,8 @@ import 'flexStyles';
                 links.push({
                     name: pluginItem.DisplayName,
                     icon: pluginItem.MenuIcon || 'folder',
-                    href: Dashboard.getConfigurationPageUrl(pluginItem.Name),
-                    pageUrls: [Dashboard.getConfigurationPageUrl(pluginItem.Name)]
+                    href: Dashboard.getPluginUrl(pluginItem.Name),
+                    pageUrls: [Dashboard.getPluginUrl(pluginItem.Name)]
                 });
             }
         }
@@ -749,7 +757,7 @@ import 'flexStyles';
         }
 
         if (requiresUserRefresh) {
-            connectionManager.user(getCurrentApiClient()).then(updateUserInHeader);
+            window.connectionManager.user(getCurrentApiClient()).then(updateUserInHeader);
         }
     }
 
@@ -791,7 +799,7 @@ import 'flexStyles';
         if (user) {
             Promise.resolve(user);
         } else {
-            connectionManager.user(getCurrentApiClient()).then(function (user) {
+            window.connectionManager.user(getCurrentApiClient()).then(function (user) {
                 refreshLibraryInfoInDrawer(user);
                 updateLibraryMenu(user.localUser);
             });
@@ -799,7 +807,7 @@ import 'flexStyles';
     }
 
     function getNavDrawerOptions() {
-        let drawerWidth = screen.availWidth - 50;
+        let drawerWidth = window.screen.availWidth - 50;
         drawerWidth = Math.max(drawerWidth, 240);
         drawerWidth = Math.min(drawerWidth, 320);
         return {
@@ -955,10 +963,8 @@ import 'flexStyles';
         updateLibraryNavLinks(page);
     });
 
-    renderHeader();
-
-    events.on(connectionManager, 'localusersignedin', function (e, user) {
-        const currentApiClient = connectionManager.getApiClient(user.ServerId);
+    events.on(window.connectionManager, 'localusersignedin', function (e, user) {
+        const currentApiClient = window.connectionManager.getApiClient(user.ServerId);
 
         currentDrawerType = null;
         currentUser = {
@@ -967,13 +973,13 @@ import 'flexStyles';
 
         loadNavDrawer();
 
-        connectionManager.user(currentApiClient).then(function (user) {
+        window.connectionManager.user(currentApiClient).then(function (user) {
             currentUser = user;
             updateUserInHeader(user);
         });
     });
 
-    events.on(connectionManager, 'localusersignedout', function () {
+    events.on(window.connectionManager, 'localusersignedout', function () {
         currentUser = {};
         updateUserInHeader();
     });
@@ -997,6 +1003,7 @@ import 'flexStyles';
     };
 
     window.LibraryMenu = LibraryMenu;
+    renderHeader();
 
 export default LibraryMenu;
 

@@ -256,7 +256,11 @@ var scrollerFactory = function (frame, options) {
         ensureSizeInfo();
         var pos = self._pos;
 
-        newPos = within(newPos, pos.start, pos.end);
+        if (layoutManager.tv) {
+            newPos = within(newPos, pos.start);
+        } else {
+            newPos = within(newPos, pos.start, pos.end);
+        }
 
         if (!transform) {
             nativeScrollTo(nativeScrollElement, newPos, immediate);
