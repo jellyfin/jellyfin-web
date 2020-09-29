@@ -1182,5 +1182,7 @@
     "ButtonUseQuickConnect": "Käytä nopeaa yhdistämistä",
     "ImportMissingEpisodesHelp": "Tiedot kadonneista jaksoista tuodaan tietokantaan ja näytetään kausina ja sarjoina. Tämä voi aiheuttaa huomattavasti pidempiä kirjastojen tarkistusajoja.",
     "ImportFavoriteChannelsHelp": "Ainoastaan kanavat, jotka on merkitty suosikkiksi viritinlaitteessa, tuodaan.",
-    "HeaderTranscodingProfileHelp": "Lisää transkoodausprofiileja osoittamaan, mitä muotoja tulisi käyttää, kun transkoodaus on tarpeen."
+    "HeaderTranscodingProfileHelp": "Lisää transkoodausprofiileja osoittamaan, mitä muotoja tulisi käyttää, kun transkoodaus on tarpeen.",
+    "LabelAlbumArtMaxResHelp": "Upnp: albumArtURI -ominaisuuden kautta näytetyn albumikuvan enimmäistarkkuus.",
+    "KnownProxiesHelp": "Pilkuilla erotettu luettelo tunnettujen välityspalvelinten IP-osoitteista, joita käytetään muodostettaessa yhteyttä Jellyfin-palvelusi. Tämä vaaditaan X-Forwarded-For-otsikkojen oikeaan käyttöön. Uudelleenkäynnistys vaaditaan tallennuksen jälkeen."
 }
