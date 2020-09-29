@@ -1352,5 +1352,7 @@
     "MessagePluginInstallError": "Pri inštalácií zásuvného modulu došlo k chybe.",
     "NextTrack": "Ďalšia",
     "LabelUnstable": "Nestabilný",
-    "PlaybackRate": "Rýchlosť prehrávania"
+    "PlaybackRate": "Rýchlosť prehrávania",
+    "ButtonActivate": "Aktivovať",
+    "Authorize": "Autorizovať"
 }
