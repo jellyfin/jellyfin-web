@@ -880,7 +880,7 @@
     "EnableDecodingColorDepth10Vp9": "Bật giải mã phần cứng 10 bit cho VP9",
     "EnableDecodingColorDepth10Hevc": "Bật giải mã phần cứng 10-bit cho HEVC",
     "Data": "Dữ liệu",
-    "ButtonUseQuickConnect": "Dùng Kết Nhanh",
+    "ButtonUseQuickConnect": "Dùng kết nối nhanh",
     "ButtonActivate": "Kích hoạt",
     "Authorize": "Ủy quyền",
     "MessagePlayAccessRestricted": "Việc phát lại nội dung này hiện bị hạn chế. Vui lòng liên hệ với quản trị viên máy chủ của bạn để biết thêm thông tin.",
