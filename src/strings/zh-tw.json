@@ -1398,5 +1398,6 @@
     "PlaybackRate": "播放速度",
     "LabelQuickConnectCode": "Quick Connect 代號：",
     "LabelKnownProxies": "已知 Proxy：",
-    "LabelCurrentStatus": "目前狀態："
+    "LabelCurrentStatus": "目前狀態：",
+    "EnableAutoCast": "設為預設"
 }
