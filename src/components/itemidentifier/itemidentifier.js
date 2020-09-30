@@ -7,7 +7,6 @@
 
 import dialogHelper from 'dialogHelper';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import scrollHelper from 'scrollHelper';
 import layoutManager from 'layoutManager';
@@ -31,7 +30,7 @@ import 'cardStyle';
     let currentSearchResult;
 
     function getApiClient() {
-        return connectionManager.getApiClient(currentServerId);
+        return window.connectionManager.getApiClient(currentServerId);
     }
 
     function searchForIdentificationResults(page) {

@@ -12,7 +12,8 @@ function save(page) {
         apiClient.ajax({
             type: 'POST',
             data: JSON.stringify(config),
-            url: apiClient.getUrl('Startup/Configuration')
+            url: apiClient.getUrl('Startup/Configuration'),
+            contentType: 'application/json'
         }).then(function () {
             loading.hide();
             navigateToNextPage();

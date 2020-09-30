@@ -5,7 +5,6 @@ import focusManager from 'focusManager';
 import qualityoptions from 'qualityoptions';
 import globalize from 'globalize';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import events from 'events';
 import 'emby-select';
 import 'emby-checkbox';
@@ -258,7 +257,7 @@ import 'emby-checkbox';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -305,7 +304,7 @@ import 'emby-checkbox';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = connectionManager.getApiClient(self.options.serverId);
+            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             apiClient.getUser(userId).then(user => {

@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import playbackManager from 'playbackManager';
 import syncPlayManager from 'syncPlayManager';
 import events from 'events';
@@ -208,8 +207,8 @@ function bindEvents(apiClient) {
     events.on(apiClient, 'message', onMessageReceived);
 }
 
-connectionManager.getApiClients().forEach(bindEvents);
-events.on(connectionManager, 'apiclientcreated', function (e, newApiClient) {
+window.connectionManager.getApiClients().forEach(bindEvents);
+events.on(window.connectionManager, 'apiclientcreated', function (e, newApiClient) {
     bindEvents(newApiClient);
 });
 

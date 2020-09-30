@@ -7,7 +7,6 @@ import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
 import focusManager from 'focusManager';
 import events from 'events';
-import connectionManager from 'connectionManager';
 import browser from 'browser';
 import globalize from 'globalize';
 import appHost from 'apphost';
@@ -74,7 +73,7 @@ import 'css!assets/css/videoosd';
 
         function getDisplayItem(item) {
             if (item.Type === 'TvChannel') {
-                const apiClient = connectionManager.getApiClient(item.ServerId);
+                const apiClient = window.connectionManager.getApiClient(item.ServerId);
                 return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
                     return {
                         originalItem: refreshedItem,
@@ -98,7 +97,7 @@ import 'css!assets/css/videoosd';
                 return void view.querySelector('.btnRecord').classList.add('hide');
             }
 
-            connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+            window.connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
                     import('recordingButton').then(({default: RecordingButton}) => {
                         if (recordingButtonManager) {
@@ -1516,7 +1515,7 @@ import 'css!assets/css/videoosd';
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
-                const html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+                const html = getChapterBubbleHtml(window.connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
                 if (html) {
                     return html;

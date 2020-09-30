@@ -1,6 +1,5 @@
 import appHost from 'apphost';
 import globalize from 'globalize';
-import connectionManager from 'connectionManager';
 import itemHelper from 'itemHelper';
 import appRouter from 'appRouter';
 import playbackManager from 'playbackManager';
@@ -330,7 +329,7 @@ import actionsheet from 'actionsheet';
     function executeCommand(item, id, options) {
         const itemId = item.Id;
         const serverId = item.ServerId;
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         return new Promise(function (resolve, reject) {
             switch (id) {

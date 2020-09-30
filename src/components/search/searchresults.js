@@ -1,6 +1,5 @@
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
-import connectionManager from 'connectionManager';
 import cardBuilder from 'cardBuilder';
 import appRouter from 'appRouter';
 import 'emby-scroller';
@@ -606,7 +605,7 @@ class SearchResults {
         embed(options.element, this, options);
     }
     search(value) {
-        const apiClient = connectionManager.getApiClient(this.options.serverId);
+        const apiClient = window.connectionManager.getApiClient(this.options.serverId);
 
         search(this, apiClient, this.options.element, value);
     }

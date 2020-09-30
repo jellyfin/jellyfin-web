@@ -1,5 +1,4 @@
 import globalize from 'globalize';
-import connectionManager from 'connectionManager';
 import serverNotifications from 'serverNotifications';
 import loading from 'loading';
 import dom from 'dom';
@@ -46,7 +45,7 @@ function loadData(parent, program, apiClient) {
 
 function fetchData(instance) {
     const options = instance.options;
-    const apiClient = connectionManager.getApiClient(options.serverId);
+    const apiClient = window.connectionManager.getApiClient(options.serverId);
 
     options.parent.querySelector('.recordingFields').classList.remove('hide');
     return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then(function (program) {
@@ -197,7 +196,7 @@ function onRecordChange(e) {
 
     const self = this;
     const options = this.options;
-    const apiClient = connectionManager.getApiClient(options.serverId);
+    const apiClient = window.connectionManager.getApiClient(options.serverId);
 
     const button = dom.parentWithTag(e.target, 'BUTTON');
     const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
@@ -236,7 +235,7 @@ function onRecordSeriesChange(e) {
 
     const self = this;
     const options = this.options;
-    const apiClient = connectionManager.getApiClient(options.serverId);
+    const apiClient = window.connectionManager.getApiClient(options.serverId);
 
     const button = dom.parentWithTag(e.target, 'BUTTON');
     const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');

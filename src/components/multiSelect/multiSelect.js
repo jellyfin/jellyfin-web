@@ -1,7 +1,6 @@
 import browser from 'browser';
 import appHost from 'apphost';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import dom from 'dom';
 import 'css!./multiSelect';
@@ -170,7 +169,7 @@ import 'css!./multiSelect';
     }
 
     function showMenuForSelectedItems(e) {
-        const apiClient = connectionManager.currentApiClient();
+        const apiClient = window.connectionManager.currentApiClient();
 
         apiClient.getCurrentUser().then(user => {
             const menuItems = [];

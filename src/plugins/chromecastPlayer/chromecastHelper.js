@@ -221,8 +221,8 @@ function getCachedValue(key) {
     return null;
 }
 
-events.on(ConnectionManager, 'localusersignedin', clearCache);
-events.on(ConnectionManager, 'localusersignedout', clearCache);
+events.on(window.connectionManager, 'localusersignedin', clearCache);
+events.on(window.connectionManager, 'localusersignedout', clearCache);
 
 export default {
     getServerAddress: getServerAddress

@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import serverNotifications from 'serverNotifications';
 import events from 'events';
 import globalize from 'globalize';
@@ -28,7 +27,7 @@ import EmbyButtonPrototype from 'emby-button';
         const button = this;
         const id = button.getAttribute('data-id');
         const serverId = button.getAttribute('data-serverid');
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         let likes = this.getAttribute('data-likes');
         const isFavorite = this.getAttribute('data-isfavorite') === 'true';

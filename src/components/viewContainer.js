@@ -13,8 +13,9 @@ import 'css!components/viewManager/viewContainer';
                 controllerUrl = controllerUrl.substring('__plugin/'.length);
             }
 
-            controllerUrl = Dashboard.getConfigurationResourceUrl(controllerUrl);
-            return import(controllerUrl).then((ControllerFactory) => {
+            controllerUrl = Dashboard.getPluginUrl(controllerUrl);
+            const apiUrl = ApiClient.getUrl('/web/' + controllerUrl);
+            return import(apiUrl).then((ControllerFactory) => {
                 options.controllerFactory = ControllerFactory;
             });
         }
@@ -32,7 +33,7 @@ import 'css!components/viewManager/viewContainer';
                 pageIndex = 0;
             }
 
-            const isPluginpage = options.url.toLowerCase().indexOf('/configurationpage') !== -1;
+            const isPluginpage = options.url.includes('configurationpage');
             const newViewInfo = normalizeNewView(options, isPluginpage);
             const newView = newViewInfo.elem;
 
@@ -243,4 +244,3 @@ export default {
     reset: reset,
     setOnBeforeChange: setOnBeforeChange
 };
-

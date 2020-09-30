@@ -1,7 +1,6 @@
 import appHost from 'apphost';
 import appSettings from 'appSettings';
 import dom from 'dom';
-import connectionManager from 'connectionManager';
 import loading from 'loading';
 import layoutManager from 'layoutManager';
 import libraryMenu from 'libraryMenu';
@@ -20,8 +19,7 @@ import 'emby-checkbox';
             var user = result.User;
             loading.hide();
 
-            Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
-            Dashboard.navigate('home.html');
+            onLoginSuccessful(user.Id, result.AccessToken, apiClient);
         }, function (response) {
             page.querySelector('#txtManualName').value = '';
             page.querySelector('#txtManualPassword').value = '';
@@ -40,6 +38,60 @@ import 'emby-checkbox';
                 });
             }
         });
+    }
+
+    function authenticateQuickConnect(apiClient) {
+        const url = apiClient.getUrl('/QuickConnect/Initiate');
+        apiClient.getJSON(url).then(function (json) {
+            if (!json.Secret || !json.Code) {
+                console.error('Malformed quick connect response', json);
+                return false;
+            }
+
+            Dashboard.alert({
+                message: globalize.translate('QuickConnectAuthorizeCode', json.Code),
+                title: globalize.translate('QuickConnect')
+            });
+
+            const connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
+
+            const interval = setInterval(function() {
+                apiClient.getJSON(connectUrl).then(async function(data) {
+                    if (!data.Authenticated) {
+                        return;
+                    }
+
+                    clearInterval(interval);
+
+                    const result = await apiClient.quickConnect(data.Authentication);
+                    onLoginSuccessful(result.User.Id, result.AccessToken, apiClient);
+                }, function (e) {
+                    clearInterval(interval);
+
+                    Dashboard.alert({
+                        message: globalize.translate('QuickConnectDeactivated'),
+                        title: globalize.translate('HeaderError')
+                    });
+
+                    console.error('Unable to login with quick connect', e);
+                });
+            }, 5000, connectUrl);
+
+            return true;
+        }, function(e) {
+            Dashboard.alert({
+                message: globalize.translate('QuickConnectNotActive'),
+                title: globalize.translate('HeaderError')
+            });
+
+            console.error('Quick connect error: ', e);
+            return false;
+        });
+    }
+
+    function onLoginSuccessful(id, accessToken, apiClient) {
+        Dashboard.onServerChanged(id, accessToken, apiClient);
+        Dashboard.navigate('home.html');
     }
 
     function showManualForm(context, showCancel, focusPassword) {
@@ -139,7 +191,7 @@ import 'emby-checkbox';
             const serverId = params.serverid;
 
             if (serverId) {
-                return connectionManager.getOrCreateApiClient(serverId);
+                return window.connectionManager.getOrCreateApiClient(serverId);
             }
 
             return ApiClient;
@@ -188,6 +240,11 @@ import 'emby-checkbox';
             Dashboard.navigate('forgotpassword.html');
         });
         view.querySelector('.btnCancel').addEventListener('click', showVisualForm);
+        view.querySelector('.btnQuick').addEventListener('click', function () {
+            const apiClient = getApiClient();
+            authenticateQuickConnect(apiClient);
+            return false;
+        });
         view.querySelector('.btnManual').addEventListener('click', function () {
             view.querySelector('#txtManualName').value = '';
             showManualForm(view, true);
@@ -195,6 +252,7 @@ import 'emby-checkbox';
         view.querySelector('.btnSelectServer').addEventListener('click', function () {
             Dashboard.selectServer();
         });
+
         view.addEventListener('viewshow', function (e) {
             loading.show();
             libraryMenu.setTransparentMenu(true);

@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import cardBuilder from 'cardBuilder';
 import dom from 'dom';
 import layoutManager from 'layoutManager';
@@ -212,7 +211,7 @@ import 'css!./homesections';
 
     function getFetchLatestItemsFn(serverId, parentId, collectionType) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             let limit = 16;
 
             if (enableScrollX()) {
@@ -368,7 +367,7 @@ import 'css!./homesections';
 
     function getContinueWatchingFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
 
             let limit;
@@ -441,7 +440,7 @@ import 'css!./homesections';
 
     function getContinueListeningFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
 
             let limit;
@@ -514,7 +513,7 @@ import 'css!./homesections';
 
     function getOnNowFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             return apiClient.getLiveTvRecommendedPrograms({
                 userId: apiClient.getCurrentUserId(),
                 IsAiring: true,
@@ -657,7 +656,7 @@ import 'css!./homesections';
 
     function getNextUpFetchFn(serverId) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
                 Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo,Path',
@@ -728,7 +727,7 @@ import 'css!./homesections';
 
     function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
         return function () {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             return apiClient.getLiveTvRecordings({
                 userId: apiClient.getCurrentUserId(),
                 Limit: enableScrollX() ? 12 : 5,
