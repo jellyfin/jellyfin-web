@@ -1412,5 +1412,8 @@
     "LabelTonemappingDesat": "Mapeo de tonos desaturado:",
     "UseDoubleRateDeinterlacingHelp": "Esta configuración utiliza la velocidad de campo al desentrelazar, a menudo denominado desentrelazado bob, que duplica los fotogramas del video para proporcionar un movimiento contínuo, como lo vería al ver un video entrelazado en un televisor.",
     "PosterCard": "Tarjeta de presentación",
-    "EnableAutoCast": "Marcar como predeterminado"
+    "EnableAutoCast": "Marcar como predeterminado",
+    "LabelTonemappingDesatHelp": "Aplicar desaturación a realces que excedan este nivel de brillo. Mientras más alto el parámetro, se preservará más información de color. Este ajuste ayuda a prevenir la aparición de colores innecesariamente apagados en realces altos, cambiándolos gradualmente a blanco. Esto hace que las imágenes se vean más naturales, a cambio de reducir información relativa a los colores que estén fuera del rango. Se recomiendan los valores predeterminados 0 y 0.5.",
+    "AllowTonemappingHelp": "El mapeo de tonos puede transformar el rango dinámico de un video HDR a SDR mientras se mantienen los detalles y colores en la imagen, por lo tanto es importante para representar la escena original. Actualmente solo funciona cuando se transcodifican videos con metadatos HDR10 o HLG incrustados. Si la reproducción no es fluida o falla, considere desactivar el decodificador por hardware correspondiente.",
+    "LabelOpenclDeviceHelp": "Este es el dispositivo OpenCL que se usará para el mapeo de tonos. La parte izquierda del punto es el número de plataforma, la derecha es el número de dispositivo en la plataforma. El valor predeterminado es 0.0. Se requiere especificar el archivo ejecutable ffmpeg con el método de aceleración por Hardware para OpenCL."
 }
