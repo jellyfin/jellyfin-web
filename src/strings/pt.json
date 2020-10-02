@@ -808,7 +808,7 @@
     "ConfirmDeleteItems": "Apagar estes itens resultará na sua remoção da biblioteca e do sistema de ficheiros. Tem a certeza que deseja continuar?",
     "ConfirmDeleteItem": "Apagar este item resultará na sua remoção da biblioteca e do sistema de ficheiros. Tem a certeza que deseja continuar?",
     "ConfirmDeleteImage": "Apagar a imagem?",
-    "ConfigureDateAdded": "Configure a forma como é atribuída a data de adição, no painel de controlo do Servidor Jellyfin, em definições da Biblioteca",
+    "ConfigureDateAdded": "Configure a forma como é atribuída a data de adição, no painel de controle, em definições da Biblioteca",
     "Composer": "Compositor",
     "CommunityRating": "Avaliação da comunidade",
     "ColorTransfer": "Transferência de cores",
@@ -1200,5 +1200,9 @@
     "HeaderDVR": "DVR",
     "ApiKeysCaption": "Lista das chaves de API ativadas no momento",
     "ButtonTogglePlaylist": "Lista de leitura",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "Data": "Dados",
+    "ButtonUseQuickConnect": "Usar conexão rápida",
+    "ButtonActivate": "Ativar",
+    "Authorize": "Autorizar"
 }
