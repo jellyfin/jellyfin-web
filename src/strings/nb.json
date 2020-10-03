@@ -1403,5 +1403,20 @@
     "MediaInfoVideoRange": "Videoutvalg",
     "Bwdif": "BWDIF",
     "UseDoubleRateDeinterlacingHelp": "Denne innstillingen bruker feltfrekvensen når du fjerner linjefletting, ofte referert til som bob deinterlacing, som dobler bildefrekvensen til videoen for å gi full bevegelse som det du ville se når du ser linjeflettet video på en TV.",
-    "UseDoubleRateDeinterlacing": "Doble bildefrekvensen ved fjerning av linjefletting"
+    "UseDoubleRateDeinterlacing": "Doble bildefrekvensen ved fjerning av linjefletting",
+    "LabelMaxMuxingQueueSizeHelp": "Maksimalt antall pakker som kan buffres mens de venter på at alle strømmer skal initialiseres. Prøv å øke den hvis du fremdeles støter på \"For mange pakker bufret for utdatestrøm\" -feil i ffmpeg-logger. Den anbefalte verdien er 2048.",
+    "LabelMaxMuxingQueueSize": "Maks køstørrelse for muxing:",
+    "LabelTonemappingParamHelp": "Still inn algoritmen for tonekartlegging. De anbefalte og standardverdiene er NaN. La det vanligvis være tomt.",
+    "LabelTonemappingParam": "Tonemapping parameter:",
+    "LabelTonemappingPeakHelp": "Overstyr signal / nominell / referansetopp med denne verdien. Nyttig når den innebygde toppinformasjonen i metadata på skjermen ikke er pålitelig eller når tonekartlegging fra et lavere område til et høyere område. De anbefalte og standardverdiene er 0.",
+    "LabelTonemappingPeak": "Tonemapping topp:",
+    "LabelTonemappingThresholdHelp": "Tonekartingsalgoritmeparametrene finjusteres for hver scene. Og en terskel brukes til å oppdage om scenen har endret seg eller ikke. Hvis avstanden mellom gjeldende rammens gjennomsnittlige lysstyrke og det nåværende løpende gjennomsnittet overstiger en terskelverdi, vil vi beregne scenegjennomsnittet og topplysstyrken på nytt. De anbefalte og standardverdiene er 0,8 og 0,2.",
+    "LabelTonemappingThreshold": "Tonemapping terskel:",
+    "LabelTonemappingDesatHelp": "Påfør desaturering for høydepunkter som overstiger dette lysstyrken. Jo høyere parameteren er, jo mer fargeinformasjon blir bevart. Denne innstillingen hjelper til med å forhindre unaturlig utblåste farger for superhøydepunkter ved å (jevnt) bli til hvitt i stedet. Dette får bilder til å føles mer naturlige, på bekostning av å redusere informasjon om farger utenfor fartsområdet. De anbefalte og standardverdiene er 0 og 0,5.",
+    "LabelTonemappingDesat": "Tonemapping avvalgt:",
+    "TonemappingRangeHelp": "Velg utskriftsfargeområdet. Auto er det samme som inngangsområdet.",
+    "LabelTonemappingRange": "Tonemapping-område:",
+    "TonemappingAlgorithmHelp": "Tonekartlegging kan finjusteres. Hvis du ikke er kjent med disse alternativene, er det bare å beholde standardinnstillingen. Den anbefalte verdien er Reinhard.",
+    "LabelTonemappingAlgorithm": "Velg algoritmen for tonekartlegging som skal brukes:",
+    "AllowTonemappingHelp": "Tonekartlegging kan forvandle det dynamiske området til en video fra HDR til SDR samtidig som bildedetaljer og farger opprettholdes, noe som er veldig viktig informasjon for å representere den originale scenen. Fungerer for øyeblikket bare når du omkoder videoer med innebygd HDR10- eller HLG-metadata. Hvis avspillingen ikke er jevn eller mislykkes, bør du vurdere å slå av den tilsvarende maskinvaredekoderen."
 }
