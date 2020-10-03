@@ -1389,5 +1389,19 @@
     "QuickConnectAuthorizeCode": "Skriv inn kode {0} for å logge inn",
     "QuickConnectActivationSuccessful": "Aktivert",
     "QuickConnect": "Hurtig tilkobling",
-    "LabelQuickConnectCode": "Hurtig tilkoblingskode:"
+    "LabelQuickConnectCode": "Hurtig tilkoblingskode:",
+    "EnableTonemapping": "Aktiver tonekartlegging",
+    "LabelOpenclDeviceHelp": "Dette er OpenCL-enheten som brukes til tonemapping. Venstre side av prikken er plattformnummeret, og høyre side er enhetsnummeret på plattformen. Standardverdien er 0.0. Ffmpeg-applikasjonsfilen som inneholder OpenCL-maskinvareakselerasjonsmetoden kreves.",
+    "LabelOpenclDevice": "OpenCL-enhet:",
+    "MediaInfoColorPrimaries": "Primærfarger",
+    "LabelColorPrimaries": "Primærfarger:",
+    "LabelColorTransfer": "Fargeoverføring:",
+    "LabelColorSpace": "Fargeområde:",
+    "LabelVideoRange": "Videoområde:",
+    "MediaInfoColorTransfer": "Fargeoverføring",
+    "MediaInfoColorSpace": "Fargeområde",
+    "MediaInfoVideoRange": "Videoutvalg",
+    "Bwdif": "BWDIF",
+    "UseDoubleRateDeinterlacingHelp": "Denne innstillingen bruker feltfrekvensen når du fjerner linjefletting, ofte referert til som bob deinterlacing, som dobler bildefrekvensen til videoen for å gi full bevegelse som det du ville se når du ser linjeflettet video på en TV.",
+    "UseDoubleRateDeinterlacing": "Doble bildefrekvensen ved fjerning av linjefletting"
 }
