@@ -1395,7 +1395,7 @@
     "LabelOpenclDeviceHelp": "Dispositivo OpenCL usado para a mapeação de tons. Os números ao lado esquedo do ponto (.) são referentes ao número da plataforma, os números a direita representam o número do dispositivo dentro da plataforma. O valor padrão é 0.0. O arquivo da aplicaçao ffmpeg contendo o método de aceleraçao de hardware OpenCL é obrigatório.",
     "LabelOpenclDevice": "Dispositivo OpenCL:",
     "LabelColorPrimaries": "Cores primárias:",
-    "UseDoubleRateDeinterlacing": "Dobrar a taxa de quadros quando estiver desinterlaçando",
+    "UseDoubleRateDeinterlacing": "Dobra a taxa de quadros quando estiver desinterlaçando",
     "LabelQuickConnectCode": "Código de conexão rápida:",
     "LabelKnownProxies": "Proxies conhecidos:",
     "KnownProxiesHelp": "Lista de endereços IPs, separados por vírgula, de proxies conhecidos usados para conectar na sua instância do Jellyfin. Isso é necessário para usar de forma adequada os cabeçalhos X-Forwarded-for. Essa alteração necessita que o sistema seja reiniciado após salvar.",
