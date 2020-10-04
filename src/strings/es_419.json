@@ -830,7 +830,7 @@
     "LabelBitrate": "Velocidad de bits:",
     "LabelBirthYear": "Año de nacimiento:",
     "LabelBirthDate": "Fecha de nacimiento:",
-    "LabelBindToLocalNetworkAddressHelp": "Sobrescribe la dirección IP local del servidor HTTP. Si se deja vacío, el servidor se vinculará a todas las direcciones disponibles. Cambiar este valor requiere un reinicio.",
+    "LabelBindToLocalNetworkAddressHelp": "Sobrescribe la dirección IP local del servidor HTTP. Si se deja vacío, el servidor recibirá conexiones desde todas las direcciones disponibles. Cambiar este valor requiere un reinicio.",
     "LabelBindToLocalNetworkAddress": "Vincular a la dirección de red local:",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Actualizar automáticamente los metadatos desde Internet:",
     "LabelAuthProvider": "Proveedor de autenticación:",
@@ -1417,5 +1417,6 @@
     "MusicVideos": "Videos Musicales",
     "LabelQuickConnectCode": "Código conexión rápida:",
     "LabelKnownProxies": "Proxies conocidos:",
-    "LabelIconMaxResHelp": "Resolución maxima de los iconos por medio de la función upnp:icon."
+    "LabelIconMaxResHelp": "Resolución maxima de los iconos por medio de la función upnp:icon.",
+    "EnableAutoCast": "Establecer como Predeterminado"
 }
