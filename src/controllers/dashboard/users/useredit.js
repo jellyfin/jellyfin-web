@@ -102,7 +102,7 @@ import globalize from 'globalize';
         $('#chkEnableSharing', page).prop('checked', user.Policy.EnablePublicSharing);
         $('#txtRemoteClientBitrateLimit', page).val(user.Policy.RemoteClientBitrateLimit / 1e6 || '');
         $('#txtLoginAttemptsBeforeLockout', page).val(user.Policy.LoginAttemptsBeforeLockout || '0');
-        $('#txtMaxActiveSessions', page).val(user.Policy.MaxActiveSessions || '-1');
+        $('#txtMaxActiveSessions', page).val(user.Policy.MaxActiveSessions || '0');
         if (ApiClient.isMinServerVersion('10.6.0')) {
             $('#selectSyncPlayAccess').val(user.Policy.SyncPlayAccess);
         }
@@ -139,7 +139,7 @@ import globalize from 'globalize';
         user.Policy.EnableRemoteAccess = $('#chkRemoteAccess', page).is(':checked');
         user.Policy.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($('#txtRemoteClientBitrateLimit', page).val() || '0'));
         user.Policy.LoginAttemptsBeforeLockout = parseInt($('#txtLoginAttemptsBeforeLockout', page).val() || '0');
-        user.Policy.MaxActiveSessions = parseInt($('#txtMaxActiveSessions', page).val() || '-1');
+        user.Policy.MaxActiveSessions = parseInt($('#txtMaxActiveSessions', page).val() || '0');
         user.Policy.AuthenticationProviderId = page.querySelector('.selectLoginProvider').value;
         user.Policy.PasswordResetProviderId = page.querySelector('.selectPasswordResetProvider').value;
         user.Policy.EnableContentDeletion = $('#chkEnableDeleteAllFolders', page).is(':checked');
