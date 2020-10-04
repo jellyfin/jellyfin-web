@@ -1068,7 +1068,7 @@
     "OptionLoginAttemptsBeforeLockout": "Determines how many incorrect login attempts can be made before lockout occurs.",
     "OptionLoginAttemptsBeforeLockoutHelp": "A value of zero means inheriting the default of three attempts for normal users and five for administrators. Setting this to -1 will disable the feature.",
     "OptionMaxActiveSessions": "Sets the maximum number of simultaneous user sessions.",
-    "OptionMaxActiveSessionsHelp": "A value of 0 will disable user access. A value of -1 will disable the feature.",
+    "OptionMaxActiveSessionsHelp": "A value of 0 will disable the feature.",
     "OptionMax": "Max",
     "OptionMissingEpisode": "Missing Episodes",
     "OptionNew": "New…",
