@@ -1418,5 +1418,8 @@
     "ButtonUseQuickConnect": "Použít rychlé připojení",
     "ButtonActivate": "Aktivovat",
     "Authorize": "Autorizovat",
-    "EnableAutoCast": "Nastavit jako výchozí"
+    "EnableAutoCast": "Nastavit jako výchozí",
+    "OptionMaxActiveSessionsHelp": "Hodnota 0 tuto funkci vypne.",
+    "OptionMaxActiveSessions": "Nastavuje, kolik uživatelských relací může najednou existovat.",
+    "LabelUserMaxActiveSessions": "Maximální počet uživatelských relací najednou:"
 }
