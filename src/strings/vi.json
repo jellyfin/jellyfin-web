@@ -1418,5 +1418,8 @@
     "OptionCaptionInfoExSamsung": "Thông tin chú thích ví dụ (Samsung)",
     "MessageSyncPlayGroupWait": "<b>{0}</b> đang tải …",
     "MediaInfoAnamorphic": "Phim điện ảnh màn ảnh rộng",
-    "LabelXDlnaCap": "Phần đầu X-DLNA:"
+    "LabelXDlnaCap": "Phần đầu X-DLNA:",
+    "OptionMaxActiveSessionsHelp": "Giá trị 0 sẽ vô hiệu hóa tính năng.",
+    "OptionMaxActiveSessions": "Đặt số lượng phiên người dùng đồng thời tối đa.",
+    "LabelUserMaxActiveSessions": "Số lượng phiên người dùng cùng lúc tối đa:"
 }
