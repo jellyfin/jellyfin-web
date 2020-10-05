@@ -1433,5 +1433,8 @@
     "ButtonUseQuickConnect": "விரைவு இணைப்பைப் பயன்படுத்தவும்",
     "ButtonActivate": "செயல்படுத்து",
     "Authorize": "அதிகாரமளி",
-    "EnableAutoCast": "இயல்புநிலைக்கு அமை"
+    "EnableAutoCast": "இயல்புநிலைக்கு அமை",
+    "OptionMaxActiveSessionsHelp": "0 இன் மதிப்பு அம்சத்தை முடக்கும்.",
+    "OptionMaxActiveSessions": "ஒரே நேரத்தில் பயனர் அமர்வுகளின் அதிகபட்ச எண்ணிக்கையை அமைக்கிறது.",
+    "LabelUserMaxActiveSessions": "ஒரே நேரத்தில் பயனர் அமர்வுகளின் அதிகபட்ச எண்ணிக்கை:"
 }
