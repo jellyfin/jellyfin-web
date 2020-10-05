@@ -1174,7 +1174,7 @@
     "MessageImageFileTypeAllowed": "只支持JPEG和PNG格式的文件。",
     "MessageImageTypeNotSelected": "请在下拉菜单中选择图片类型。",
     "MessageNoCollectionsAvailable": "分组能够让您享受个性化的视频、剧集和专辑组。点击+按钮开始创建分组。",
-    "MessagePlayAccessRestricted": "当前内容无法回放。请联系服务器管理员获取更多信息。",
+    "MessagePlayAccessRestricted": "当前内容无法播放。请联系服务器管理员获取更多信息。",
     "Off": "关闭",
     "Option3D": "三维",
     "OptionLoginAttemptsBeforeLockout": "确定在锁定之前可以进行多少次不正确的登录尝试。",
@@ -1206,7 +1206,7 @@
     "MusicAlbum": "音乐专辑",
     "MusicArtist": "音乐艺术家",
     "MusicVideo": "音乐视频",
-    "PlaybackData": "回放数据",
+    "PlaybackData": "播放数据",
     "SmallCaps": "小型大写字母",
     "SubtitleOffset": "字幕偏移",
     "MessageNoServersAvailable": "未能自动发现服务器。",
@@ -1418,5 +1418,8 @@
     "ButtonUseQuickConnect": "使用 Quick Connect",
     "ButtonActivate": "启用",
     "Authorize": "授权",
-    "EnableAutoCast": "设置为默认"
+    "EnableAutoCast": "设置为默认",
+    "OptionMaxActiveSessionsHelp": "如果值为0则没有限制。",
+    "OptionMaxActiveSessions": "设置用户同时进行会话的最大数量。",
+    "LabelUserMaxActiveSessions": "用户同时进行会话的最大数量："
 }
