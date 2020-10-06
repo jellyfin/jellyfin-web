@@ -1193,7 +1193,7 @@
     "DashboardArchitecture": "Architecture : {0}",
     "MessageNoCollectionsAvailable": "Les collections vous permettent de profiter de groupes personnalisés de Films, Séries et d'Albums. Cliquer sur le bouton + pour commencer à créer des collections.",
     "MessageNoServersAvailable": "Aucun serveur n'a été trouvé en utilisant la recherche automatique de serveur.",
-    "OptionLoginAttemptsBeforeLockout": "Définis le nombre de tentatives de connexion échouées avant blocage du compte.",
+    "OptionLoginAttemptsBeforeLockout": "Défini le nombre de tentatives de connexion échouées avant blocage du compte.",
     "LabelAuthProvider": "Fournisseur d'authentification :",
     "LabelPasswordResetProvider": "Fournisseur de réinitialisation du mot de passe :",
     "LabelTranscodePath": "Emplacement du transcodeur :",
@@ -1418,5 +1418,8 @@
     "LabelTonemappingPeakHelp": "Redéfini le signal/nominal/crête de référence. Utile lorsque l'information de crête intégrée dans les métadonnées d'affichage n'est pas fiable ou lorsque le mappage tonal d'une gamme inférieure à une gamme supérieure. La valeur recommandée et la valeur par défaut sont 0.",
     "EnableAutoCast": "Définir comme Défaut",
     "LabelMaxMuxingQueueSizeHelp": "Nombre maximum de paquets qui peuvent être mis en mémoire tampon en attendant que tous les flux soient initialisés. Essayez de l'augmenter si vous rencontrez des erreurs \"Trop de paquets en mémoire tampon pour le flux de sortie\" dans les journaux ffmpeg. La valeur recommandée est 2048.",
-    "LabelMaxMuxingQueueSize": "Taille maximale de la queue de multiplexage :"
+    "LabelMaxMuxingQueueSize": "Taille maximale de la queue de multiplexage :",
+    "OptionMaxActiveSessionsHelp": "Une valeur à 0 désactive la fonctionnalité.",
+    "OptionMaxActiveSessions": "Défini le nombre maximal de sessions utilisateurs simultanées.",
+    "LabelUserMaxActiveSessions": "Nombre maximal de sessions utilisateurs simultanées :"
 }
