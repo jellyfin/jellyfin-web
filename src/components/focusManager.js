@@ -344,8 +344,8 @@ import scrollManager from 'scrollManager';
             const midX = elementRect.left + (elementRect.width / 2);
             const midY = elementRect.top + (elementRect.height / 2);
 
-            var distX;
-            var distY;
+            let distX;
+            let distY;
 
             switch (direction) {
                 case 0:

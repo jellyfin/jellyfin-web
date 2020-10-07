@@ -15,8 +15,7 @@
         return getApiClient(serverId).then(function (apiClient) {
             switch (action) {
                 case 'cancel-install':
-                    var id = data.id;
-                    return apiClient.cancelPackageInstallation(id);
+                    return apiClient.cancelPackageInstallation(data.id);
                 case 'restart':
                     return apiClient.restartServer();
                 default:

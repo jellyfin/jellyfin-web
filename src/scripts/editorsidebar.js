@@ -254,7 +254,7 @@ import 'material-icons';
     function loadNodesToLoad(page, node) {
         const children = node.children;
         for (let i = 0, length = children.length; i < length; i++) {
-            var child = children[i];
+            const child = children[i];
             if (nodesToLoad.indexOf(child) != -1) {
                 nodesToLoad = nodesToLoad.filter(function (n) {
                     return n != child;
@@ -297,7 +297,7 @@ import 'material-icons';
         const url = window.location.hash || window.location.href;
         return getParameterByName('id', url);
     }
-    var nodesToLoad = [];
+    let nodesToLoad = [];
     let selectedNodeId;
     $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
         updateEditorNode(this, item);

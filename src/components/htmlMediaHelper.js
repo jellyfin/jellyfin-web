@@ -149,7 +149,7 @@ import events from 'events';
             } else {
                 // update video player position when media is ready to be sought
                 const events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
-                var onMediaChange = function(e) {
+                const onMediaChange = function(e) {
                     if (element.currentTime === 0 && element.duration >= seconds) {
                         // seek only when video position is exactly zero,
                         // as this is true only if video hasn't started yet or
@@ -322,9 +322,8 @@ import events from 'events';
                         break;
                     case Hls.ErrorTypes.MEDIA_ERROR:
                         console.debug('fatal media error encountered, try to recover');
-                        var currentReject = reject;
+                        handleHlsJsMediaError(instance, reject);
                         reject = null;
-                        handleHlsJsMediaError(instance, currentReject);
                         break;
                     default:
 

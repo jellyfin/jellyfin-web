@@ -2,6 +2,7 @@
  * and will be replaced soon by a Vue component.
  */
 
+/* eslint-disable no-var */
 import browser from 'browser';
 import dom from 'dom';
 import 'css!./navdrawer';
@@ -355,3 +356,4 @@ export default function (options) {
 
     return new TouchMenuLA();
 }
+/* eslint-enable no-var */
