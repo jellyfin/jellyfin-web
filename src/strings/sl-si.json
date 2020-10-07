@@ -1332,11 +1332,20 @@
     "Image": "Slika",
     "HeaderRecordingPostProcessing": "Obdelava snemanja",
     "Other": "Drugo",
-    "EnableQuickConnect": "Omogoči Quick Connect za ta server",
+    "EnableQuickConnect": "Omogoči Quick Connect za ta strežnik",
     "EnableAutoCast": "Nastavi kot privzeto",
     "Data": "Podatki",
     "ButtonUseQuickConnect": "Uporabi Quick Connect",
     "ButtonActivate": "Aktiviraj",
     "Authorize": "Pooblasti",
-    "HeaderBranding": "Promocija"
+    "HeaderBranding": "Promocija",
+    "UseDoubleRateDeinterlacing": "Podvoji hitrost sličic pri razpletanju",
+    "SystemDlnaProfilesHelp": "Sistemski profili so samo za branje. Spremembe sistemskega profila bodo shranjene kot nov profil po meri.",
+    "LabelColorSpace": "Barvni prostor:",
+    "MediaInfoColorSpace": "Barvni prostor",
+    "ButtonPlayer": "Predvajalnik",
+    "Whitelist": "Seznam želja",
+    "SubtitleVerticalPositionHelp": "Številka vrstice kjer se pojavi besedilo. Pozitivne številke predstavljajo od zgoraj navzdol. Negativne številke predstavljajo od spodaj navzgor.",
+    "TonemappingRangeHelp": "Izberite barvni razpon izhoda. Auto je isto kot razpon vhoda.",
+    "LabelOpenclDevice": "OpenCL naprava:"
 }
