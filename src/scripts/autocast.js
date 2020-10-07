@@ -32,7 +32,7 @@ function onOpen() {
     const playerId = localStorage.getItem('autocastPlayerId');
 
     playbackManager.getTargets().then(function (targets) {
-        for (var i = 0; i < targets.length; i++) {
+        for (let i = 0; i < targets.length; i++) {
             if (targets[i].id == playerId) {
                 playbackManager.trySetActivePlayer(targets[i].playerName, targets[i]);
                 break;

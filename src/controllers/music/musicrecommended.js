@@ -56,7 +56,7 @@ import 'flexStyles';
             EnableTotalRecordCount: false
         };
         ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-            var elem = page.querySelector('#recentlyAddedSongs');
+            const elem = page.querySelector('#recentlyAddedSongs');
             elem.innerHTML = cardBuilder.getCardsHtml({
                 items: items,
                 showUnplayedIndicator: false,
@@ -103,7 +103,7 @@ import 'flexStyles';
                 elem.classList.add('hide');
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
+            const itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -145,7 +145,7 @@ import 'flexStyles';
                 elem.classList.add('hide');
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
+            const itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,

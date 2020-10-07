@@ -54,7 +54,7 @@ import 'emby-input';
 
         // Snap to step
         if (range.step !== 'any') {
-            var step = range.step || 1;
+            const step = range.step || 1;
             value = Math.round(value / step) * step;
         }
 

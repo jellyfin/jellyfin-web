@@ -8,7 +8,7 @@ import pluginManager from 'pluginManager';
 
         init() {
             console.groupCollapsed('loading packages');
-            var manifestUrls = JSON.parse(appSettings.get(this.#settingsKey) || '[]');
+            const manifestUrls = JSON.parse(appSettings.get(this.#settingsKey) || '[]');
 
             return Promise.all(manifestUrls.map((url) => {
                 return this.loadPackage(url);
@@ -30,7 +30,7 @@ import pluginManager from 'pluginManager';
 
         install(url) {
             return this.loadPackage(url, true).then((pkg) => {
-                var manifestUrls = JSON.parse(appSettings.get(this.#settingsKey) || '[]');
+                const manifestUrls = JSON.parse(appSettings.get(this.#settingsKey) || '[]');
 
                 if (!manifestUrls.includes(url)) {
                     manifestUrls.push(url);
@@ -42,7 +42,7 @@ import pluginManager from 'pluginManager';
         }
 
         uninstall(name) {
-            var pkg = this.#packagesList.filter((p) => {
+            const pkg = this.#packagesList.filter((p) => {
                 return p.name === name;
             })[0];
 
@@ -58,12 +58,12 @@ import pluginManager from 'pluginManager';
         }
 
         mapPath(pkg, pluginUrl) {
-            var urlLower = pluginUrl.toLowerCase();
+            const urlLower = pluginUrl.toLowerCase();
             if (urlLower.startsWith('http:') || urlLower.startsWith('https:') || urlLower.startsWith('file:')) {
                 return pluginUrl;
             }
 
-            var packageUrl = pkg.url;
+            let packageUrl = pkg.url;
             packageUrl = packageUrl.substring(0, packageUrl.lastIndexOf('/'));
 
             packageUrl += '/';
@@ -81,7 +81,7 @@ import pluginManager from 'pluginManager';
         }
 
         removeUrl(url) {
-            var manifestUrls = JSON.parse(appSettings.get(this.#settingsKey) || '[]');
+            let manifestUrls = JSON.parse(appSettings.get(this.#settingsKey) || '[]');
 
             manifestUrls = manifestUrls.filter((i) => {
                 return i !== url;
@@ -92,14 +92,14 @@ import pluginManager from 'pluginManager';
 
         loadPackage(url, throwError = false) {
             return new Promise((resolve, reject) => {
-                var xhr = new XMLHttpRequest();
-                var originalUrl = url;
+                const xhr = new XMLHttpRequest();
+                const originalUrl = url;
                 url += url.indexOf('?') === -1 ? '?' : '&';
                 url += 't=' + new Date().getTime();
 
                 xhr.open('GET', url, true);
 
-                var onError = () => {
+                const onError = () => {
                     if (throwError === true) {
                         reject();
                     } else {
@@ -110,16 +110,16 @@ import pluginManager from 'pluginManager';
 
                 xhr.onload = () => {
                     if (this.status < 400) {
-                        var pkg = JSON.parse(this.response);
+                        const pkg = JSON.parse(this.response);
                         pkg.url = originalUrl;
 
                         this.addPackage(pkg);
 
-                        var plugins = pkg.plugins || [];
+                        const plugins = pkg.plugins || [];
                         if (pkg.plugin) {
                             plugins.push(pkg.plugin);
                         }
-                        var promises = plugins.map((pluginUrl) => {
+                        const promises = plugins.map((pluginUrl) => {
                             return pluginManager.loadPlugin(this.mapPath(pkg, pluginUrl));
                         });
                         Promise.all(promises).then(resolve, resolve);

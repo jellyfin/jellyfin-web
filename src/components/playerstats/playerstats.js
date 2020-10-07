@@ -413,7 +413,7 @@ import 'css!./playerstats';
                 name: 'Original Media Info'
             });
 
-            var apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+            const apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
             if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),

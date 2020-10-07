@@ -4,11 +4,11 @@ import playbackManager from 'playbackManager';
 import globalize from 'globalize';
 
 export function show(options) {
-    var item = options.item;
+    const item = options.item;
 
-    var resumePositionTicks = item.UserData ? item.UserData.PlaybackPositionTicks : null;
+    const resumePositionTicks = item.UserData ? item.UserData.PlaybackPositionTicks : null;
 
-    var playableItemId = item.Type === 'Program' ? item.ChannelId : item.Id;
+    const playableItemId = item.Type === 'Program' ? item.ChannelId : item.Id;
 
     if (!resumePositionTicks || item.IsFolder) {
         playbackManager.play({
@@ -18,7 +18,7 @@ export function show(options) {
         return;
     }
 
-    var menuItems = [];
+    const menuItems = [];
 
     menuItems.push({
         name: globalize.translate('ResumeAt', datetime.getDisplayRunningTime(resumePositionTicks)),

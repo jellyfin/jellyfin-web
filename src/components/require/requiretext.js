@@ -2,7 +2,7 @@ define(function () {
     'use strict';
 
     // hack to work around the server's auto-redirection feature
-    var addRedirectPrevention = window.dashboardVersion != null && window.Dashboard && !window.AppInfo.isNativeApp;
+    const addRedirectPrevention = window.dashboardVersion != null && window.Dashboard && !window.AppInfo.isNativeApp;
 
     return {
 
@@ -25,7 +25,7 @@ define(function () {
                 url += 'r=0';
             }
 
-            var xhr = new XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
 
             xhr.onload = function (e) {

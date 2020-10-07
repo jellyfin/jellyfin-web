@@ -5,15 +5,15 @@ import browser from 'browser';
 import 'css!./iconosd';
 import 'material-icons';
 
-var currentPlayer;
-var osdElement;
-var iconElement;
-var progressElement;
+let currentPlayer;
+let osdElement;
+let iconElement;
+let progressElement;
 
-var enableAnimation;
+let enableAnimation;
 
 function getOsdElementHtml() {
-    var html = '';
+    let html = '';
 
     html += '<span class="material-icons iconOsdIcon brightness_high"></span>';
 
@@ -23,7 +23,7 @@ function getOsdElementHtml() {
 }
 
 function ensureOsdElement() {
-    var elem = osdElement;
+    let elem = osdElement;
     if (!elem) {
         enableAnimation = browser.supportsCssAnimation();
 
@@ -46,11 +46,11 @@ function onHideComplete() {
     this.classList.add('hide');
 }
 
-var hideTimeout;
+let hideTimeout;
 function showOsd() {
     clearHideTimeout();
 
-    var elem = osdElement;
+    const elem = osdElement;
 
     dom.removeEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
         once: true
@@ -78,7 +78,7 @@ function clearHideTimeout() {
 function hideOsd() {
     clearHideTimeout();
 
-    var elem = osdElement;
+    const elem = osdElement;
     if (elem) {
         if (enableAnimation) {
             // trigger reflow
@@ -118,7 +118,7 @@ function updateElementsFromPlayer(brightness) {
 }
 
 function releaseCurrentPlayer() {
-    var player = currentPlayer;
+    const player = currentPlayer;
 
     if (player) {
         events.off(player, 'brightnesschange', onBrightnessChanged);
@@ -128,7 +128,7 @@ function releaseCurrentPlayer() {
 }
 
 function onBrightnessChanged(e) {
-    var player = this;
+    const player = this;
 
     ensureOsdElement();
 

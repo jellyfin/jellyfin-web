@@ -17,7 +17,7 @@ import 'detailtablecss';
     console.groupCollapsed('defining core routes');
 
     function defineRoute(newRoute) {
-        var path = newRoute.alias ? newRoute.alias : newRoute.path;
+        const path = newRoute.alias ? newRoute.alias : newRoute.path;
         console.debug('defining route: ' + path);
         newRoute.dictionary = 'core';
         Emby.Page.addRoute(path, newRoute);
