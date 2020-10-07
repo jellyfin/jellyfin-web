@@ -9,7 +9,7 @@ import appHost from 'apphost';
 import * as autocast from 'autocast';
 
 function mirrorItem(info, player) {
-    var item = info.item;
+    const item = info.item;
 
     playbackManager.displayContent({
 
@@ -22,7 +22,7 @@ function mirrorItem(info, player) {
 
 function mirrorIfEnabled(info) {
     if (info && playbackManager.enableDisplayMirroring()) {
-        var getPlayerInfo = playbackManager.getPlayerInfo();
+        const getPlayerInfo = playbackManager.getPlayerInfo();
 
         if (getPlayerInfo) {
             if (!getPlayerInfo.isLocalPlayer && getPlayerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
@@ -45,7 +45,7 @@ function getTargetSecondaryText(target) {
 }
 
 function getIcon(target) {
-    var deviceType = target.deviceType;
+    let deviceType = target.deviceType;
 
     if (!deviceType && target.isLocalPlayer) {
         if (browser.tv) {
@@ -78,7 +78,7 @@ function getIcon(target) {
 }
 
 export function show(button) {
-    var currentPlayerInfo = playbackManager.getPlayerInfo();
+    const currentPlayerInfo = playbackManager.getPlayerInfo();
 
     if (currentPlayerInfo) {
         if (!currentPlayerInfo.isLocalPlayer) {
@@ -87,13 +87,13 @@ export function show(button) {
         }
     }
 
-    var currentPlayerId = currentPlayerInfo ? currentPlayerInfo.id : null;
+    const currentPlayerId = currentPlayerInfo ? currentPlayerInfo.id : null;
 
     loading.show();
 
     playbackManager.getTargets().then(function (targets) {
-        var menuItems = targets.map(function (t) {
-            var name = t.name;
+        const menuItems = targets.map(function (t) {
+            let name = t.name;
 
             if (t.appName && t.appName !== t.name) {
                 name += ' - ' + t.appName;
@@ -111,7 +111,7 @@ export function show(button) {
         import('actionsheet').then(({default: actionsheet}) => {
             loading.hide();
 
-            var menuOptions = {
+            const menuOptions = {
                 title: globalize.translate('HeaderPlayOn'),
                 items: menuItems,
                 positionTo: button,
@@ -127,7 +127,7 @@ export function show(button) {
             }
 
             actionsheet.show(menuOptions).then(function (id) {
-                var target = targets.filter(function (t) {
+                const target = targets.filter(function (t) {
                     return t.id === id;
                 })[0];
 
@@ -153,7 +153,7 @@ function showActivePlayerMenu(playerInfo) {
 function disconnectFromPlayer(currentDeviceName) {
     if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
         import('dialog').then(({default: dialog}) => {
-            var menuItems = [];
+            const menuItems = [];
 
             menuItems.push({
                 name: globalize.translate('Yes'),
@@ -188,9 +188,9 @@ function disconnectFromPlayer(currentDeviceName) {
 }
 
 function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
-    var html = '';
+    let html = '';
 
-    var dialogOptions = {
+    const dialogOptions = {
         removeOnClose: true
     };
 
@@ -199,11 +199,11 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
     dialogOptions.exitAnimationDuration = 160;
     dialogOptions.autoFocus = false;
 
-    var dlg = dialogHelper.createDialog(dialogOptions);
+    const dlg = dialogHelper.createDialog(dialogOptions);
 
     dlg.classList.add('promptDialog');
 
-    var currentDeviceName = (playerInfo.deviceName || playerInfo.name);
+    const currentDeviceName = (playerInfo.deviceName || playerInfo.name);
 
     html += '<div class="promptDialogContent" style="padding:1.5em;">';
     html += '<h2 style="margin-top:.5em;">';
@@ -214,7 +214,7 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
 
     if (playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
         html += '<label class="checkboxContainer">';
-        var checkedHtml = playbackManager.enableDisplayMirroring() ? ' checked' : '';
+        const checkedHtml = playbackManager.enableDisplayMirroring() ? ' checked' : '';
         html += '<input type="checkbox" is="emby-checkbox" class="chkMirror"' + checkedHtml + '/>';
         html += '<span>' + globalize.translate('EnableDisplayMirroring') + '</span>';
         html += '</label>';
@@ -224,7 +224,7 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
 
     if (autocast.supported()) {
         html += '<div><label class="checkboxContainer">';
-        var checkedHtmlAC = autocast.isEnabled() ? ' checked' : '';
+        const checkedHtmlAC = autocast.isEnabled() ? ' checked' : '';
         html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
         html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
         html += '</label></div>';
@@ -240,21 +240,21 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
     html += '</div>';
     dlg.innerHTML = html;
 
-    var chkMirror = dlg.querySelector('.chkMirror');
+    const chkMirror = dlg.querySelector('.chkMirror');
 
     if (chkMirror) {
         chkMirror.addEventListener('change', onMirrorChange);
     }
 
-    var chkAutoCast = dlg.querySelector('.chkAutoCast');
+    const chkAutoCast = dlg.querySelector('.chkAutoCast');
 
     if (chkAutoCast) {
         chkAutoCast.addEventListener('change', onAutoCastChange);
     }
 
-    var destination = '';
+    let destination = '';
 
-    var btnRemoteControl = dlg.querySelector('.btnRemoteControl');
+    const btnRemoteControl = dlg.querySelector('.btnRemoteControl');
     if (btnRemoteControl) {
         btnRemoteControl.addEventListener('click', function () {
             destination = 'nowplaying';
@@ -289,8 +289,8 @@ function onAutoCastChange() {
 }
 
 document.addEventListener('viewshow', function (e) {
-    var state = e.detail.state || {};
-    var item = state.item;
+    const state = e.detail.state || {};
+    const item = state.item;
 
     if (item && item.ServerId) {
         mirrorIfEnabled({

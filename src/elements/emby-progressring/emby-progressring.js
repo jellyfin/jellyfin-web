@@ -14,14 +14,14 @@ import 'webcomponents';
 
             if (window.MutationObserver) {
                 // create an observer instance
-                var observer = new MutationObserver(function (mutations) {
+                const observer = new MutationObserver(function (mutations) {
                     mutations.forEach(function (mutation) {
                         instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
                     });
                 });
 
                 // configuration of the observer:
-                var config = { attributes: true, childList: false, characterData: false };
+                const config = { attributes: true, childList: false, characterData: false };
 
                 // pass in the target node, as well as the observer options
                 observer.observe(instance, config);

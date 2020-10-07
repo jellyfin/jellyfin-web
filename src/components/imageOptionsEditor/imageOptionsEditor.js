@@ -93,7 +93,7 @@ import 'emby-input';
         const response = await fetch('components/imageOptionsEditor/imageOptionsEditor.template.html');
         const template = await response.text();
 
-        var dlg = dialogHelper.createDialog({
+        const dlg = dialogHelper.createDialog({
             size: 'small',
             removeOnClose: true,
             scrollY: false

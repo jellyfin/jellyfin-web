@@ -42,10 +42,10 @@ function saveList(page) {
 }
 
 function populateList(options) {
-    var html = '';
+    let html = '';
 
     html += '<div class="paperList">';
-    for (var i = 0; i < options.repositories.length; i++) {
+    for (let i = 0; i < options.repositories.length; i++) {
         html += getRepositoryHtml(options.repositories[i]);
     }
 
@@ -59,7 +59,7 @@ function populateList(options) {
 }
 
 function getRepositoryHtml(repository) {
-    var html = '';
+    let html = '';
 
     html += '<div class="listItem listItem-border">';
     html += `<a is="emby-linkbutton" style="margin:0;padding:0" class="clearLink listItemIconContainer" href="${repository.Url}">`;
@@ -93,9 +93,9 @@ export default function(view, params) {
         libraryMenu.setTabs('plugins', 2, getTabs);
         reloadList(this);
 
-        var save = this;
+        const save = this;
         $('#repositories', view).on('click', '.btnDelete', function() {
-            var button = this;
+            const button = this;
             repositories = repositories.filter(function (r) {
                 return r.Url !== button.id;
             });

@@ -239,7 +239,7 @@ import 'flexStyles';
     }
 
     function afterDeleted(context, item) {
-        var parentId = item.ParentId || item.SeasonId || item.SeriesId;
+        const parentId = item.ParentId || item.SeasonId || item.SeriesId;
 
         if (parentId) {
             reload(context, parentId, item.ServerId);
@@ -252,7 +252,7 @@ import 'flexStyles';
 
     function showMoreMenu(context, button, user) {
         import('itemContextMenu').then(({default: itemContextMenu}) => {
-            var item = currentItem;
+            const item = currentItem;
 
             itemContextMenu.show({
                 item: item,

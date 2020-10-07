@@ -1,7 +1,7 @@
 define(function () {
     'use strict';
 
-    var requireCss = {};
+    const requireCss = {};
 
     requireCss.normalize = function (name, normalize) {
         if (name.substr(name.length - 4, 4) === '.css') {
@@ -11,7 +11,7 @@ define(function () {
         return normalize(name);
     };
 
-    var importedCss = [];
+    let importedCss = [];
 
     function isLoaded(url) {
         return importedCss.indexOf(url) !== -1;
@@ -27,14 +27,14 @@ define(function () {
 
     requireCss.load = function (cssId, req, load, config) {
         // Somehow if the url starts with /css, require will get all screwed up since this extension is also called css
-        var srch = 'components/require/requirecss';
-        var index = cssId.indexOf(srch);
+        const srch = 'components/require/requirecss';
+        const index = cssId.indexOf(srch);
 
         if (index !== -1) {
             cssId = 'css' + cssId.substring(index + srch.length);
         }
 
-        var url = cssId + '.css';
+        let url = cssId + '.css';
 
         if (url.indexOf('://') === -1) {
             url = config.baseUrl + url;
@@ -43,13 +43,13 @@ define(function () {
         if (!isLoaded(url)) {
             importedCss.push(url);
 
-            var link = document.createElement('link');
+            const link = document.createElement('link');
 
             link.setAttribute('rel', 'stylesheet');
             link.setAttribute('type', 'text/css');
             link.onload = load;
 
-            var linkUrl = url;
+            let linkUrl = url;
 
             if (config.urlArgs) {
                 linkUrl += config.urlArgs(cssId, url);

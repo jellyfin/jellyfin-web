@@ -1,9 +1,9 @@
 import globalize from 'globalize';
 
 export function getVideoQualityOptions(options) {
-    var maxStreamingBitrate = options.currentMaxBitrate;
-    var videoWidth = options.videoWidth;
-    var videoHeight = options.videoHeight;
+    const maxStreamingBitrate = options.currentMaxBitrate;
+    let videoWidth = options.videoWidth;
+    const videoHeight = options.videoHeight;
 
     // If the aspect ratio is less than 16/9 (1.77), set the width as if it were pillarboxed.
     // 4:3 1440x1080 -> 1920x1080
@@ -11,9 +11,9 @@ export function getVideoQualityOptions(options) {
         videoWidth = videoHeight * (16 / 9);
     }
 
-    var maxAllowedWidth = videoWidth || 4096;
+    const maxAllowedWidth = videoWidth || 4096;
 
-    var qualityOptions = [];
+    const qualityOptions = [];
 
     if (maxAllowedWidth >= 3800) {
         qualityOptions.push({ name: '4K - 120 Mbps', maxHeight: 2160, bitrate: 120000000 });
@@ -65,7 +65,7 @@ export function getVideoQualityOptions(options) {
     qualityOptions.push({ name: '240p', maxHeight: 240, bitrate: 320000 });
     qualityOptions.push({ name: '144p', maxHeight: 144, bitrate: 192000 });
 
-    var autoQualityOption = {
+    const autoQualityOption = {
         name: globalize.translate('Auto'),
         bitrate: 0,
         selected: options.isAutomaticBitrateEnabled
@@ -76,9 +76,9 @@ export function getVideoQualityOptions(options) {
     }
 
     if (maxStreamingBitrate) {
-        var selectedIndex = -1;
-        for (var i = 0, length = qualityOptions.length; i < length; i++) {
-            var option = qualityOptions[i];
+        let selectedIndex = -1;
+        for (let i = 0, length = qualityOptions.length; i < length; i++) {
+            const option = qualityOptions[i];
 
             if (selectedIndex === -1 && option.bitrate <= maxStreamingBitrate) {
                 selectedIndex = i;
@@ -89,7 +89,7 @@ export function getVideoQualityOptions(options) {
             selectedIndex = qualityOptions.length - 1;
         }
 
-        var currentQualityOption = qualityOptions[selectedIndex];
+        const currentQualityOption = qualityOptions[selectedIndex];
 
         if (!options.isAutomaticBitrateEnabled) {
             currentQualityOption.selected = true;
@@ -102,9 +102,9 @@ export function getVideoQualityOptions(options) {
 }
 
 export function getAudioQualityOptions(options) {
-    var maxStreamingBitrate = options.currentMaxBitrate;
+    const maxStreamingBitrate = options.currentMaxBitrate;
 
-    var qualityOptions = [];
+    const qualityOptions = [];
 
     qualityOptions.push({ name: '2 Mbps', bitrate: 2000000 });
     qualityOptions.push({ name: '1.5 Mbps', bitrate: 1500000 });
@@ -116,7 +116,7 @@ export function getAudioQualityOptions(options) {
     qualityOptions.push({ name: '96 kbps', bitrate: 96000 });
     qualityOptions.push({ name: '64 kbps', bitrate: 64000 });
 
-    var autoQualityOption = {
+    const autoQualityOption = {
         name: globalize.translate('Auto'),
         bitrate: 0,
         selected: options.isAutomaticBitrateEnabled
@@ -127,9 +127,9 @@ export function getAudioQualityOptions(options) {
     }
 
     if (maxStreamingBitrate) {
-        var selectedIndex = -1;
-        for (var i = 0, length = qualityOptions.length; i < length; i++) {
-            var option = qualityOptions[i];
+        let selectedIndex = -1;
+        for (let i = 0, length = qualityOptions.length; i < length; i++) {
+            const option = qualityOptions[i];
 
             if (selectedIndex === -1 && option.bitrate <= maxStreamingBitrate) {
                 selectedIndex = i;
@@ -140,7 +140,7 @@ export function getAudioQualityOptions(options) {
             selectedIndex = qualityOptions.length - 1;
         }
 
-        var currentQualityOption = qualityOptions[selectedIndex];
+        const currentQualityOption = qualityOptions[selectedIndex];
 
         if (!options.isAutomaticBitrateEnabled) {
             currentQualityOption.selected = true;

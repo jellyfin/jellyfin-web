@@ -3,7 +3,7 @@ import globalize from 'globalize';
 /* eslint-disable indent */
 
     // TODO: replace with each plugin version
-    var cacheParam = new Date().getTime();
+    const cacheParam = new Date().getTime();
 
     class PluginManager {
         pluginsList = [];
@@ -13,7 +13,7 @@ import globalize from 'globalize';
         }
 
         #loadStrings(plugin) {
-            var strings = plugin.getTranslations ? plugin.getTranslations() : [];
+            const strings = plugin.getTranslations ? plugin.getTranslations() : [];
             return globalize.loadStrings({
                 name: plugin.id || plugin.packageName,
                 strings: strings
@@ -56,10 +56,10 @@ import globalize from 'globalize';
 
                 return new Promise((resolve, reject) => {
                     require([pluginSpec], (pluginFactory) => {
-                        var plugin = pluginFactory.default ? new pluginFactory.default() : new pluginFactory();
+                        const plugin = pluginFactory.default ? new pluginFactory.default() : new pluginFactory();
 
                         // See if it's already installed
-                        var existing = this.pluginsList.filter(function (p) {
+                        const existing = this.pluginsList.filter(function (p) {
                             return p.id === plugin.id;
                         })[0];
 
@@ -69,10 +69,10 @@ import globalize from 'globalize';
 
                         plugin.installUrl = pluginSpec;
 
-                        var separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
+                        const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
                         plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
 
-                        var paths = {};
+                        const paths = {};
                         paths[plugin.id] = plugin.baseUrl;
 
                         requirejs.config({
@@ -135,7 +135,7 @@ import globalize from 'globalize';
                 })[0];
             }
 
-            var url = plugin.baseUrl + '/' + path;
+            let url = plugin.baseUrl + '/' + path;
 
             if (addCacheParam) {
                 url += url.includes('?') ? '&' : '?';

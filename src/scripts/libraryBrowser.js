@@ -6,7 +6,7 @@ export function getSavedQueryKey(modifier) {
 }
 
 export function loadSavedQueryValues(key, query) {
-    var values = userSettings.get(key);
+    let values = userSettings.get(key);
 
     if (values) {
         values = JSON.parse(values);
@@ -17,7 +17,7 @@ export function loadSavedQueryValues(key, query) {
 }
 
 export function saveQueryValues(key, query) {
-    var values = {};
+    const values = {};
 
     if (query.SortBy) {
         values.SortBy = query.SortBy;
@@ -39,7 +39,7 @@ export function getSavedView (key) {
 }
 
 export function showLayoutMenu (button, currentLayout, views) {
-    var dispatchEvent = true;
+    let dispatchEvent = true;
 
     if (!views) {
         dispatchEvent = false;
@@ -47,7 +47,7 @@ export function showLayoutMenu (button, currentLayout, views) {
         views = views ? views.split(',') : ['List', 'Poster', 'PosterCard', 'Thumb', 'ThumbCard'];
     }
 
-    var menuItems = views.map(function (v) {
+    const menuItems = views.map(function (v) {
         return {
             name: globalize.translate(v),
             id: v,
@@ -79,12 +79,12 @@ export function showLayoutMenu (button, currentLayout, views) {
 }
 
 export function getQueryPagingHtml (options) {
-    var startIndex = options.startIndex;
-    var limit = options.limit;
-    var totalRecordCount = options.totalRecordCount;
-    var html = '';
-    var recordsEnd = Math.min(startIndex + limit, totalRecordCount);
-    var showControls = limit < totalRecordCount;
+    const startIndex = options.startIndex;
+    const limit = options.limit;
+    const totalRecordCount = options.totalRecordCount;
+    let html = '';
+    const recordsEnd = Math.min(startIndex + limit, totalRecordCount);
+    const showControls = limit < totalRecordCount;
 
     if (html += '<div class="listPaging">', showControls) {
         html += '<span style="vertical-align:middle;">';
@@ -124,10 +124,10 @@ export function showSortMenu (options) {
         import('emby-radio')
     ]).then(([{default: dialogHelper}]) => {
         function onSortByChange() {
-            var newValue = this.value;
+            const newValue = this.value;
 
             if (this.checked) {
-                var changed = options.query.SortBy != newValue;
+                const changed = options.query.SortBy != newValue;
                 options.query.SortBy = newValue.replace('_', ',');
                 options.query.StartIndex = 0;
 
@@ -138,10 +138,10 @@ export function showSortMenu (options) {
         }
 
         function onSortOrderChange() {
-            var newValue = this.value;
+            const newValue = this.value;
 
             if (this.checked) {
-                var changed = options.query.SortOrder != newValue;
+                const changed = options.query.SortOrder != newValue;
                 options.query.SortOrder = newValue;
                 options.query.StartIndex = 0;
 
@@ -151,7 +151,7 @@ export function showSortMenu (options) {
             }
         }
 
-        var dlg = dialogHelper.createDialog({
+        const dlg = dialogHelper.createDialog({
             removeOnClose: true,
             modal: false,
             entryAnimationDuration: 160,
@@ -160,18 +160,18 @@ export function showSortMenu (options) {
         dlg.classList.add('ui-body-a');
         dlg.classList.add('background-theme-a');
         dlg.classList.add('formDialog');
-        var html = '';
+        let html = '';
         html += '<div style="margin:0;padding:1.25em 1.5em 1.5em;">';
         html += '<h2 style="margin:0 0 .5em;">';
         html += globalize.translate('HeaderSortBy');
         html += '</h2>';
-        var i;
-        var length;
-        var isChecked;
+        let i;
+        let length;
+        let isChecked;
         html += '<div>';
         for (i = 0, length = options.items.length; i < length; i++) {
-            var option = options.items[i];
-            var radioValue = option.id.replace(',', '_');
+            const option = options.items[i];
+            const radioValue = option.id.replace(',', '_');
             isChecked = (options.query.SortBy || '').replace(',', '_') == radioValue ? ' checked' : '';
             html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortBy" data-id="' + option.id + '" value="' + radioValue + '" class="menuSortBy" ' + isChecked + ' /><span>' + option.name + '</span></label>';
         }
@@ -189,13 +189,13 @@ export function showSortMenu (options) {
         html += '</div>';
         dlg.innerHTML = html;
         dialogHelper.open(dlg);
-        var sortBys = dlg.querySelectorAll('.menuSortBy');
+        const sortBys = dlg.querySelectorAll('.menuSortBy');
 
         for (i = 0, length = sortBys.length; i < length; i++) {
             sortBys[i].addEventListener('change', onSortByChange);
         }
 
-        var sortOrders = dlg.querySelectorAll('.menuSortOrder');
+        const sortOrders = dlg.querySelectorAll('.menuSortOrder');
 
         for (i = 0, length = sortOrders.length; i < length; i++) {
             sortOrders[i].addEventListener('change', onSortOrderChange);
