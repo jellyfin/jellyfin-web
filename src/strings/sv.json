@@ -227,7 +227,7 @@
     "HeaderConfirmPluginInstallation": "Bekräfta installation av tillägg",
     "HeaderConfirmProfileDeletion": "Bekräfta radering av profil",
     "HeaderConfirmRevokeApiKey": "Återkalla API-nyckel",
-    "HeaderConnectToServer": "Anslut till Server",
+    "HeaderConnectToServer": "Anslut till server",
     "HeaderConnectionFailure": "Misslyckad anslutning",
     "HeaderContainerProfile": "Behållareprofil",
     "HeaderContainerProfileHelp": "Behållareprofiler bestämmer begränsningarna hos en enhet när den spelar upp olika filformat. Om en begränsning är aktuell kommer innehållet att kodas om, även om formatet i sig är inställt för direkt avspelning.",
@@ -1351,5 +1351,9 @@
     "LabelUnstable": "Ostabil",
     "LabelIconMaxResHelp": "Högsta tillåtna upplösning för ikoner som visas via egenskapen upnp:icon.",
     "LabelAlbumArtMaxResHelp": "Högsta tillåtna upplösning för albumomslag som visas via egenskapen upnp:albumArtURI.",
-    "Image": "Bild"
+    "Image": "Bild",
+    "Data": "Data",
+    "ButtonUseQuickConnect": "Använd Quick Connect",
+    "ButtonActivate": "Aktivera",
+    "Authorize": "Auktorisera"
 }
