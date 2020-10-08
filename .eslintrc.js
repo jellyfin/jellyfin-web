@@ -49,6 +49,7 @@ module.exports = {
         'prefer-const': ['error', {'destructuring': 'all'}],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         '@babel/semi': ['error'],
+        'no-var': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error'

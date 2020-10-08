@@ -248,7 +248,7 @@ let inputLoopTimer;
 function runInputLoop() {
     // Get the latest gamepad state.
     const gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
-    for (var i = 0, len = gamepads.length; i < len; i++) {
+    for (let i = 0, len = gamepads.length; i < len; i++) {
         const gamepad = gamepads[i];
         if (!gamepad) {
             continue;
@@ -273,7 +273,7 @@ function runInputLoop() {
         }
         // Iterate through the buttons to see if Left thumbstick, DPad, A and B are pressed.
         const buttons = gamepad.buttons;
-        for (var j = 0, len = buttons.length; j < len; j++) {
+        for (let j = 0, len = buttons.length; j < len; j++) {
             if (ProcessedButtons.indexOf(j) !== -1) {
                 if (buttons[j].pressed) {
                     switch (j) {
