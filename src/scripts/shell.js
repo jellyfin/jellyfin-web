@@ -1,20 +1,43 @@
 // TODO: This seems like a good candidate for deprecation
 export default {
-    openUrl: function (url, target) {
+    enableFullscreen: function() {
+        window.NativeShell?.enableFullscreen();
+    },
+    disableFullscreen: function() {
+        window.NativeShell?.disableFullscreen();
+    },
+    openUrl: function(url, target) {
         if (window.NativeShell) {
             window.NativeShell.openUrl(url, target);
         } else {
             window.open(url, target || '_blank');
         }
     },
-    enableFullscreen: function () {
-        if (window.NativeShell) {
-            window.NativeShell.enableFullscreen();
-        }
+    updateMediaSession(mediaInfo) {
+        window.NativeShell?.updateMediaSession(mediaInfo);
     },
-    disableFullscreen: function () {
+    hideMediaSession() {
+        window.NativeShell?.hideMediaSession();
+    },
+    /**
+     * Notify the NativeShell about volume level changes.
+     * Useful for e.g. remote playback.
+     */
+    updateVolumeLevel(volume) {
+        window.NativeShell?.updateVolumeLevel(volume);
+    },
+    /**
+     * Download specified files with NativeShell if possible
+     *
+     * @returns true on success
+     */
+    downloadFiles(items) {
         if (window.NativeShell) {
-            window.NativeShell.disableFullscreen();
+            items.map(function(item) {
+                window.NativeShell.downloadFile(item);
+            });
+            return true;
         }
+        return false;
     }
 };
