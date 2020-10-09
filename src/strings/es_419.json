@@ -1418,5 +1418,8 @@
     "LabelQuickConnectCode": "Código conexión rápida:",
     "LabelKnownProxies": "Proxies conocidos:",
     "LabelIconMaxResHelp": "Resolución maxima de los iconos por medio de la función upnp:icon.",
-    "EnableAutoCast": "Establecer como Predeterminado"
+    "EnableAutoCast": "Establecer como Predeterminado",
+    "OptionMaxActiveSessionsHelp": "fijar esto en 0 desactivará esta característica.",
+    "OptionMaxActiveSessions": "Determina el número máximo de sesiones que puede tener cada usuario de forma simultnea.",
+    "LabelUserMaxActiveSessions": "Límite de sesiones simultaneas:"
 }
