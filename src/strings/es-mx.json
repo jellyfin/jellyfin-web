@@ -1418,5 +1418,8 @@
     "LabelUnstable": "Inestable",
     "LabelKnownProxies": "Proxies conocidos:",
     "LabelIconMaxResHelp": "Resolución máxima de los íconos expuestos por medio de la propiedad upnp:icon.",
-    "LabelCurrentStatus": "Estatus actual:"
+    "LabelCurrentStatus": "Estatus actual:",
+    "OptionMaxActiveSessionsHelp": "Fijar este valor en 0 desactivará esta característica.",
+    "OptionMaxActiveSessions": "Determina la cantidad máxima de sesiones simultaneas que puede tener cada usuario.",
+    "LabelUserMaxActiveSessions": "Límite de sesiones simultaneas:"
 }
