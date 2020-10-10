@@ -1,0 +1,18 @@
+<div data-role="page" class="page standalonePage">
+    <div class="padded-left padded-right padded-bottom-page">
+        <form class="addServerForm" style="margin: 0 auto;" novalidate>
+            <h1>${HeaderConnectToServer}</h1>
+            <div class="inputContainer">
+                <input is="emby-input" type="url" id="txtServerHost" required="required" label="${LabelServerHost}"/>
+                <div class="fieldDescription">${LabelServerHostHelp}</div>
+            </div>
+            <br />
+            <button is="emby-button" type="submit" class="raised button-submit block">
+                <span>${Connect}</span>
+            </button>
+            <button is="emby-button" type="button" class="raised button-cancel block btnCancel">
+                <span>${ButtonCancel}</span>
+            </button>
+        </form>
+    </div>
+</div>

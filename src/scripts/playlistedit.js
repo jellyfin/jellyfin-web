@@ -3,7 +3,7 @@ define(['listView'], function (listView) {
 
     function getFetchPlaylistItemsFn(itemId) {
         return function () {
-            var query = {
+            const query = {
                 Fields: 'PrimaryImageAspectRatio,UserData',
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                 UserId: ApiClient.getCurrentUserId()
@@ -28,7 +28,7 @@ define(['listView'], function (listView) {
     }
 
     function init(page, item) {
-        var elem = page.querySelector('#childrenContent .itemsContainer');
+        const elem = page.querySelector('#childrenContent .itemsContainer');
         elem.classList.add('vertical-list');
         elem.classList.remove('vertical-wrap');
         elem.enableDragReordering(true);

@@ -1,9 +1,12 @@
-define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime, $, globalize) {
-    'use strict';
+import $ from 'jQuery';
+import globalize from 'globalize';
+import 'material-icons';
+
+/* eslint-disable indent */
 
     function getNode(item, folderState, selected) {
-        var htmlName = getNodeInnerHtml(item);
-        var node = {
+        const htmlName = getNodeInnerHtml(item);
+        const node = {
             id: item.Id,
             text: htmlName,
             state: {
@@ -34,14 +37,14 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     }
 
     function getNodeInnerHtml(item) {
-        var name = item.Name;
+        let name = item.Name;
         if (item.Number) {
             name = item.Number + ' - ' + name;
         }
         if (item.IndexNumber != null && item.Type != 'Season') {
             name = item.IndexNumber + ' - ' + name;
         }
-        var htmlName = "<div class='editorNode'>";
+        let htmlName = "<div class='editorNode'>";
         if (item.IsFolder) {
             htmlName += '<span class="material-icons metadataSidebarIcon folder"></span>';
         } else if (item.MediaType === 'Video') {
@@ -67,7 +70,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
         ApiClient.getLiveTvChannels({
             limit: 0
         }).then(function (result) {
-            var nodes = [];
+            const nodes = [];
             nodes.push({
                 id: 'MediaFolders',
                 text: globalize.translate('HeaderMediaFolders'),
@@ -83,7 +86,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
             if (result.TotalRecordCount) {
                 nodes.push({
                     id: 'livetv',
-                    text: globalize.translate('HeaderLiveTV'),
+                    text: globalize.translate('LiveTV'),
                     state: {
                         opened: false
                     },
@@ -107,8 +110,8 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
             ServiceName: service,
             AddCurrentProgram: false
         }).then(function (result) {
-            var nodes = result.Items.map(function (i) {
-                var state = openItems.indexOf(i.Id) == -1 ? 'closed' : 'open';
+            const nodes = result.Items.map(function (i) {
+                const state = openItems.indexOf(i.Id) == -1 ? 'closed' : 'open';
                 return getNode(i, state, false);
             });
             callback(nodes);
@@ -117,12 +120,12 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
 
     function loadMediaFolders(page, scope, openItems, callback) {
         ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then(function (result) {
-            var nodes = result.Items.map(function (n) {
-                var state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
+            const nodes = result.Items.map(function (n) {
+                const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
                 return getNode(n, state, false);
             });
             callback.call(scope, nodes);
-            for (var i = 0, length = nodes.length; i < length; i++) {
+            for (let i = 0, length = nodes.length; i < length; i++) {
                 if (nodes[i].state.opened) {
                     nodesToLoad.push(nodes[i].id);
                 }
@@ -131,7 +134,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     }
 
     function loadNode(page, scope, node, openItems, selectedId, currentUser, callback) {
-        var id = node.id;
+        const id = node.id;
         if (id == '#') {
             loadChildrenOfRootNode(page, scope, callback);
             return;
@@ -144,7 +147,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
             loadMediaFolders(page, scope, openItems, callback);
             return;
         }
-        var query = {
+        const query = {
             ParentId: id,
             Fields: 'Settings',
             IsVirtualUnaired: false,
@@ -153,17 +156,17 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
             EnableImages: false,
             EnableUserData: false
         };
-        var itemtype = node.li_attr.itemtype;
+        const itemtype = node.li_attr.itemtype;
         if (itemtype != 'Season' && itemtype != 'Series') {
             query.SortBy = 'SortName';
         }
         ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
-            var nodes = result.Items.map(function (n) {
-                var state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
+            const nodes = result.Items.map(function (n) {
+                const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
                 return getNode(n, state, n.Id == selectedId);
             });
             callback.call(scope, nodes);
-            for (var i = 0, length = nodes.length; i < length; i++) {
+            for (let i = 0, length = nodes.length; i < length; i++) {
                 if (nodes[i].state.opened) {
                     nodesToLoad.push(nodes[i].id);
                 }
@@ -172,21 +175,21 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     }
 
     function scrollToNode(id) {
-        var elem = $('#' + id)[0];
+        const elem = $('#' + id)[0];
         if (elem) {
             elem.scrollIntoView();
         }
     }
 
     function initializeTree(page, currentUser, openItems, selectedId) {
-        require(['jstree'], function () {
+        import('jstree').then(() => {
             initializeTreeInternal(page, currentUser, openItems, selectedId);
         });
     }
 
     function onNodeSelect(event, data) {
-        var node = data.node;
-        var eventData = {
+        const node = data.node;
+        const eventData = {
             id: node.id,
             itemType: node.li_attr.itemtype,
             serverItemType: node.li_attr.serveritemtype,
@@ -207,8 +210,8 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     }
 
     function onNodeOpen(event, data) {
-        var page = $(this).parents('.page')[0];
-        var node = data.node;
+        const page = $(this).parents('.page')[0];
+        const node = data.node;
         if (node.children) {
             loadNodesToLoad(page, node);
         }
@@ -219,8 +222,8 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     }
 
     function onNodeLoad(event, data) {
-        var page = $(this).parents('.page')[0];
-        var node = data.node;
+        const page = $(this).parents('.page')[0];
+        const node = data.node;
         if (node.children) {
             loadNodesToLoad(page, node);
         }
@@ -249,9 +252,9 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     }
 
     function loadNodesToLoad(page, node) {
-        var children = node.children;
-        for (var i = 0, length = children.length; i < length; i++) {
-            var child = children[i];
+        const children = node.children;
+        for (let i = 0, length = children.length; i < length; i++) {
+            const child = children[i];
             if (nodesToLoad.indexOf(child) != -1) {
                 nodesToLoad = nodesToLoad.filter(function (n) {
                     return n != child;
@@ -270,15 +273,15 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     }
 
     function updateEditorNode(page, item) {
-        var elem = $('#' + item.Id + '>a', page)[0];
+        const elem = $('#' + item.Id + '>a', page)[0];
         if (elem == null) {
             return;
         }
         $('.editorNode', elem).remove();
         $(elem).append(getNodeInnerHtml(item));
         if (item.IsFolder) {
-            var tree = jQuery.jstree._reference('.libraryTree');
-            var currentNode = tree._get_node(null, false);
+            const tree = jQuery.jstree._reference('.libraryTree');
+            const currentNode = tree._get_node(null, false);
             tree.refresh(currentNode);
         }
     }
@@ -291,22 +294,23 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
         if (itemId) {
             return itemId;
         }
-        var url = window.location.hash || window.location.href;
+        const url = window.location.hash || window.location.href;
         return getParameterByName('id', url);
     }
-    var nodesToLoad = [];
-    var selectedNodeId;
+    let nodesToLoad = [];
+    let selectedNodeId;
     $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
         updateEditorNode(this, item);
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
-        require(['css!assets/css/metadataeditor.css']);
+        /* eslint-disable-next-line  @babel/no-unused-expressions */
+        import('css!assets/css/metadataeditor.css');
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
-        var page = this;
+        const page = this;
         Dashboard.getCurrentUser().then(function (user) {
-            var id = getCurrentItemId();
+            const id = getCurrentItemId();
             if (id) {
                 ApiClient.getAncestorItems(id, user.Id).then(function (ancestors) {
-                    var ids = ancestors.map(function (i) {
+                    const ids = ancestors.map(function (i) {
                         return i.Id;
                     });
                     initializeTree(page, user, ids, id);
@@ -316,13 +320,13 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
             }
         });
     }).on('pagebeforehide', '.metadataEditorPage', function () {
-        var page = this;
+        const page = this;
         $('.libraryTree', page).off('select_node.jstree', onNodeSelect).off('open_node.jstree', onNodeOpen).off('load_node.jstree', onNodeLoad);
     });
-    var itemId;
+    let itemId;
     window.MetadataEditor = {
         getItemPromise: function () {
-            var currentItemId = getCurrentItemId();
+            const currentItemId = getCurrentItemId();
             if (currentItemId) {
                 return ApiClient.getItem(Dashboard.getCurrentUserId(), currentItemId);
             }
@@ -331,4 +335,5 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
         getCurrentItemId: getCurrentItemId,
         setCurrentItemId: setCurrentItemId
     };
-});
+
+/* eslint-enable indent */

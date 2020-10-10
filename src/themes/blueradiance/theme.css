@@ -21,24 +21,26 @@ html {
 
 .skinHeader-withBackground {
     background: #303030;
-    background: -webkit-gradient(linear, left top, right top, from(#291a31), color-stop(#033664), color-stop(#011432), color-stop(#141a3a), to(#291a31));
-    background: -webkit-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
-    background: -o-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
     background: linear-gradient(to right, #291a31, #033664, #011432, #141a3a, #291a31);
 }
 
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-    background: -o-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+.layout-tv .skinHeader.semiTransparent {
+    background: none;
+}
+
 .pageTitleWithDefaultLogo {
     background-image: url(../../assets/img/banner-light.png);
+}
+
+.layout-tv .pageTitleWithDefaultLogo {
+    background-image: url(../../assets/img/icon-transparent.png);
 }
 
 .dialog,
@@ -64,7 +66,14 @@ html {
     }
 }
 
-.paper-icon-button-light:hover:not(:disabled) {
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        color: #00a4dc;
+        background-color: rgba(0, 164, 220, 0.2);
+    }
+}
+
+.paper-icon-button-light:active:not(:disabled) {
     color: #00a4dc;
     background-color: rgba(0, 164, 220, 0.2);
 }
@@ -229,6 +238,10 @@ html {
     background: -webkit-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
     background: -o-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
     background: linear-gradient(to right, #291a31, #033664, #011432, #141a3a, #291a31);
+}
+
+.layout-tv .detailRibbon {
+    background: none;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {

@@ -1,7 +1,7 @@
 %global         debug_package %{nil}
 
 Name:           jellyfin-web
-Version:        10.6.0
+Version:        10.7.0
 Release:        1%{?dist}
 Summary:        The Free Software Media System web client
 License:        GPLv3
@@ -14,6 +14,9 @@ BuildRequires:  yarn
 %else
 BuildRequires:  nodejs-yarn
 %endif
+# sadly the yarn RPM at https://dl.yarnpkg.com/rpm/ uses git but doesn't Requires: it
+# ditto for Fedora's yarn RPM
+BuildRequires: git
 BuildArch:		noarch
 
 # Disable Automatic Dependency Processing
@@ -39,5 +42,7 @@ mv dist %{buildroot}%{_datadir}/jellyfin-web
 %{_datadir}/licenses/jellyfin/LICENSE
 
 %changelog
+* Mon Jul 27 2020 Jellyfin Packaging Team <packaging@jellyfin.org>
+- Forthcoming stable release
 * Mon Mar 23 2020 Jellyfin Packaging Team <packaging@jellyfin.org>
 - Forthcoming stable release

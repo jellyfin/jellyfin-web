@@ -6,10 +6,10 @@ import playbackManager from 'playbackManager';
 import appRouter from 'appRouter';
 import globalize from 'globalize';
 import appHost from 'apphost';
+import * as autocast from 'autocast';
 
 function mirrorItem(info, player) {
-
-    var item = info.item;
+    const item = info.item;
 
     playbackManager.displayContent({
 
@@ -21,10 +21,8 @@ function mirrorItem(info, player) {
 }
 
 function mirrorIfEnabled(info) {
-
     if (info && playbackManager.enableDisplayMirroring()) {
-
-        var getPlayerInfo = playbackManager.getPlayerInfo();
+        const getPlayerInfo = playbackManager.getPlayerInfo();
 
         if (getPlayerInfo) {
             if (!getPlayerInfo.isLocalPlayer && getPlayerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
@@ -39,9 +37,7 @@ function emptyCallback() {
 }
 
 function getTargetSecondaryText(target) {
-
     if (target.user) {
-
         return target.user.Name;
     }
 
@@ -49,8 +45,7 @@ function getTargetSecondaryText(target) {
 }
 
 function getIcon(target) {
-
-    var deviceType = target.deviceType;
+    let deviceType = target.deviceType;
 
     if (!deviceType && target.isLocalPlayer) {
         if (browser.tv) {
@@ -67,7 +62,6 @@ function getIcon(target) {
     }
 
     switch (deviceType) {
-
         case 'smartphone':
             return 'smartphone';
         case 'tablet':
@@ -84,8 +78,7 @@ function getIcon(target) {
 }
 
 export function show(button) {
-
-    var currentPlayerInfo = playbackManager.getPlayerInfo();
+    const currentPlayerInfo = playbackManager.getPlayerInfo();
 
     if (currentPlayerInfo) {
         if (!currentPlayerInfo.isLocalPlayer) {
@@ -94,15 +87,13 @@ export function show(button) {
         }
     }
 
-    var currentPlayerId = currentPlayerInfo ? currentPlayerInfo.id : null;
+    const currentPlayerId = currentPlayerInfo ? currentPlayerInfo.id : null;
 
     loading.show();
 
     playbackManager.getTargets().then(function (targets) {
-
-        var menuItems = targets.map(function (t) {
-
-            var name = t.name;
+        const menuItems = targets.map(function (t) {
+            let name = t.name;
 
             if (t.appName && t.appName !== t.name) {
                 name += ' - ' + t.appName;
@@ -115,14 +106,12 @@ export function show(button) {
                 secondaryText: getTargetSecondaryText(t),
                 icon: getIcon(t)
             };
-
         });
 
-        require(['actionsheet'], function (actionsheet) {
-
+        import('actionsheet').then(({default: actionsheet}) => {
             loading.hide();
 
-            var menuOptions = {
+            const menuOptions = {
                 title: globalize.translate('HeaderPlayOn'),
                 items: menuItems,
                 positionTo: button,
@@ -133,39 +122,38 @@ export function show(button) {
 
             // Unfortunately we can't allow the url to change or chromecast will throw a security error
             // Might be able to solve this in the future by moving the dialogs to hashbangs
-            if (!(!browser.chrome || appHost.supports('castmenuhashchange'))) {
+            if (!(!browser.chrome && !browser.edgeChromium || appHost.supports('castmenuhashchange'))) {
                 menuOptions.enableHistory = false;
             }
 
             actionsheet.show(menuOptions).then(function (id) {
-
-                var target = targets.filter(function (t) {
+                const target = targets.filter(function (t) {
                     return t.id === id;
                 })[0];
 
                 playbackManager.trySetActivePlayer(target.playerName, target);
 
                 mirrorIfEnabled();
-
             }, emptyCallback);
         });
     });
 }
 
 function showActivePlayerMenu(playerInfo) {
-
-    require(['dialogHelper', 'dialog', 'emby-checkbox', 'emby-button'], function (dialogHelper) {
+    Promise.all([
+        import('dialogHelper'),
+        import('dialog'),
+        import('emby-checkbox'),
+        import('emby-button')
+    ]).then(([dialogHelper]) => {
         showActivePlayerMenuInternal(dialogHelper, playerInfo);
     });
 }
 
 function disconnectFromPlayer(currentDeviceName) {
-
     if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
-
-        require(['dialog'], function (dialog) {
-
-            var menuItems = [];
+        import('dialog').then(({default: dialog}) => {
+            const menuItems = [];
 
             menuItems.push({
                 name: globalize.translate('Yes'),
@@ -178,12 +166,10 @@ function disconnectFromPlayer(currentDeviceName) {
 
             dialog({
                 buttons: menuItems,
-                //positionTo: positionTo,
                 text: globalize.translate('ConfirmEndPlayerSession', currentDeviceName)
 
             }).then(function (id) {
                 switch (id) {
-
                     case 'yes':
                         playbackManager.getCurrentPlayer().endSession();
                         playbackManager.setDefaultPlayerActive();
@@ -195,20 +181,16 @@ function disconnectFromPlayer(currentDeviceName) {
                         break;
                 }
             });
-
         });
-
     } else {
-
         playbackManager.setDefaultPlayerActive();
     }
 }
 
 function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
+    let html = '';
 
-    var html = '';
-
-    var dialogOptions = {
+    const dialogOptions = {
         removeOnClose: true
     };
 
@@ -217,11 +199,11 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
     dialogOptions.exitAnimationDuration = 160;
     dialogOptions.autoFocus = false;
 
-    var dlg = dialogHelper.createDialog(dialogOptions);
+    const dlg = dialogHelper.createDialog(dialogOptions);
 
     dlg.classList.add('promptDialog');
 
-    var currentDeviceName = (playerInfo.deviceName || playerInfo.name);
+    const currentDeviceName = (playerInfo.deviceName || playerInfo.name);
 
     html += '<div class="promptDialogContent" style="padding:1.5em;">';
     html += '<h2 style="margin-top:.5em;">';
@@ -231,15 +213,22 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
     html += '<div>';
 
     if (playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
-
         html += '<label class="checkboxContainer">';
-        var checkedHtml = playbackManager.enableDisplayMirroring() ? ' checked' : '';
+        const checkedHtml = playbackManager.enableDisplayMirroring() ? ' checked' : '';
         html += '<input type="checkbox" is="emby-checkbox" class="chkMirror"' + checkedHtml + '/>';
         html += '<span>' + globalize.translate('EnableDisplayMirroring') + '</span>';
         html += '</label>';
     }
 
     html += '</div>';
+
+    if (autocast.supported()) {
+        html += '<div><label class="checkboxContainer">';
+        const checkedHtmlAC = autocast.isEnabled() ? ' checked' : '';
+        html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
+        html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
+        html += '</label></div>';
+    }
 
     html += '<div style="margin-top:1em;display:flex;justify-content: flex-end;">';
 
@@ -251,15 +240,21 @@ function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
     html += '</div>';
     dlg.innerHTML = html;
 
-    var chkMirror = dlg.querySelector('.chkMirror');
+    const chkMirror = dlg.querySelector('.chkMirror');
 
     if (chkMirror) {
         chkMirror.addEventListener('change', onMirrorChange);
     }
 
-    var destination = '';
+    const chkAutoCast = dlg.querySelector('.chkAutoCast');
 
-    var btnRemoteControl = dlg.querySelector('.btnRemoteControl');
+    if (chkAutoCast) {
+        chkAutoCast.addEventListener('change', onAutoCastChange);
+    }
+
+    let destination = '';
+
+    const btnRemoteControl = dlg.querySelector('.btnRemoteControl');
     if (btnRemoteControl) {
         btnRemoteControl.addEventListener('click', function () {
             destination = 'nowplaying';
@@ -289,10 +284,13 @@ function onMirrorChange() {
     playbackManager.enableDisplayMirroring(this.checked);
 }
 
-document.addEventListener('viewshow', function (e) {
+function onAutoCastChange() {
+    autocast.enable(this.checked);
+}
 
-    var state = e.detail.state || {};
-    var item = state.item;
+document.addEventListener('viewshow', function (e) {
+    const state = e.detail.state || {};
+    const item = state.item;
 
     if (item && item.ServerId) {
         mirrorIfEnabled({

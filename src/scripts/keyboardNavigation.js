@@ -90,53 +90,53 @@ export function enable() {
 
         switch (key) {
             case 'ArrowLeft':
-                inputManager.handle('left');
+                inputManager.handleCommand('left');
                 break;
             case 'ArrowUp':
-                inputManager.handle('up');
+                inputManager.handleCommand('up');
                 break;
             case 'ArrowRight':
-                inputManager.handle('right');
+                inputManager.handleCommand('right');
                 break;
             case 'ArrowDown':
-                inputManager.handle('down');
+                inputManager.handleCommand('down');
                 break;
 
             case 'Back':
-                inputManager.handle('back');
+                inputManager.handleCommand('back');
                 break;
 
             case 'Escape':
                 if (layoutManager.tv) {
-                    inputManager.handle('back');
+                    inputManager.handleCommand('back');
                 } else {
                     capture = false;
                 }
                 break;
 
             case 'MediaPlay':
-                inputManager.handle('play');
+                inputManager.handleCommand('play');
                 break;
             case 'Pause':
-                inputManager.handle('pause');
+                inputManager.handleCommand('pause');
                 break;
             case 'MediaPlayPause':
-                inputManager.handle('playpause');
+                inputManager.handleCommand('playpause');
                 break;
             case 'MediaRewind':
-                inputManager.handle('rewind');
+                inputManager.handleCommand('rewind');
                 break;
             case 'MediaFastForward':
-                inputManager.handle('fastforward');
+                inputManager.handleCommand('fastforward');
                 break;
             case 'MediaStop':
-                inputManager.handle('stop');
+                inputManager.handleCommand('stop');
                 break;
             case 'MediaTrackPrevious':
-                inputManager.handle('previoustrack');
+                inputManager.handleCommand('previoustrack');
                 break;
             case 'MediaTrackNext':
-                inputManager.handle('nexttrack');
+                inputManager.handleCommand('nexttrack');
                 break;
 
             default:
@@ -155,7 +155,8 @@ export function enable() {
 function attachGamepadScript(e) {
     console.log('Gamepad connected! Attaching gamepadtokey.js script');
     window.removeEventListener('gamepadconnected', attachGamepadScript);
-    require(['scripts/gamepadtokey']);
+    /* eslint-disable-next-line  @babel/no-unused-expressions */
+    import('scripts/gamepadtokey');
 }
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that

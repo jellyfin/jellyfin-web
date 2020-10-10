@@ -1,8 +1,7 @@
 export function getNowPlayingNames(nowPlayingItem, includeNonNameInfo) {
-
-    var topItem = nowPlayingItem;
-    var bottomItem = null;
-    var topText = nowPlayingItem.Name;
+    let topItem = nowPlayingItem;
+    let bottomItem = null;
+    let topText = nowPlayingItem.Name;
 
     if (nowPlayingItem.AlbumId && nowPlayingItem.MediaType === 'Audio') {
         topItem = {
@@ -22,10 +21,9 @@ export function getNowPlayingNames(nowPlayingItem, includeNonNameInfo) {
         }
     }
 
-    var bottomText = '';
+    let bottomText = '';
 
     if (nowPlayingItem.ArtistItems && nowPlayingItem.ArtistItems.length) {
-
         bottomItem = {
             Id: nowPlayingItem.ArtistItems[0].Id,
             Name: nowPlayingItem.ArtistItems[0].Name,
@@ -36,9 +34,7 @@ export function getNowPlayingNames(nowPlayingItem, includeNonNameInfo) {
         bottomText = nowPlayingItem.ArtistItems.map(function (a) {
             return a.Name;
         }).join(', ');
-
     } else if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
-
         bottomText = nowPlayingItem.Artists.join(', ');
     } else if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
         bottomText = topText;
@@ -60,7 +56,7 @@ export function getNowPlayingNames(nowPlayingItem, includeNonNameInfo) {
         bottomText = nowPlayingItem.ProductionYear;
     }
 
-    var list = [];
+    const list = [];
 
     list.push({
         text: topText,

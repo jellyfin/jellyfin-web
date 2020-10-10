@@ -1,9 +1,15 @@
-define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'appRouter', 'emby-scroller', 'emby-itemscontainer', 'emby-button'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder, appRouter) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import globalize from 'globalize';
+import cardBuilder from 'cardBuilder';
+import appRouter from 'appRouter';
+import 'emby-scroller';
+import 'emby-itemscontainer';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function loadSuggestions(instance, context, apiClient) {
-
-        var options = {
+        const options = {
 
             SortBy: 'IsFavoriteOrLiked,Random',
             IncludeItemTypes: 'Movie,Series,MusicArtist',
@@ -16,23 +22,20 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         };
 
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-
             if (instance.mode !== 'suggestions') {
                 result.Items = [];
             }
 
-            var html = result.Items.map(function (i) {
+            const html = result.Items.map(function (i) {
+                const href = appRouter.getRouteUrl(i);
 
-                var href = appRouter.getRouteUrl(i);
-
-                var itemHtml = '<div><a is="emby-linkbutton" class="button-link" style="display:inline-block;padding:.5em 1em;" href="' + href + '">';
+                let itemHtml = '<div><a is="emby-linkbutton" class="button-link" style="display:inline-block;padding:.5em 1em;" href="' + href + '">';
                 itemHtml += i.Name;
                 itemHtml += '</a></div>';
                 return itemHtml;
-
             }).join('');
 
-            var searchSuggestions = context.querySelector('.searchSuggestions');
+            const searchSuggestions = context.querySelector('.searchSuggestions');
             searchSuggestions.querySelector('.searchSuggestionsList').innerHTML = html;
 
             if (result.Items.length) {
@@ -42,16 +45,15 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
     }
 
     function getSearchHints(instance, apiClient, query) {
-
         if (!query.searchTerm) {
             return Promise.resolve({
                 SearchHints: []
             });
         }
 
-        var allowSearch = true;
+        let allowSearch = true;
 
-        var queryIncludeItemTypes = query.IncludeItemTypes;
+        const queryIncludeItemTypes = query.IncludeItemTypes;
 
         if (instance.options.collectionType === 'tvshows') {
             if (query.IncludeArtists) {
@@ -121,18 +123,16 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
 
         // Convert the search hint query to a regular item query
         if (apiClient.isMinServerVersion('3.4.1.31')) {
-
             query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount';
             query.Recursive = true;
             query.EnableTotalRecordCount = false;
             query.ImageTypeLimit = 1;
 
-            var methodName = 'getItems';
+            let methodName = 'getItems';
 
             if (!query.IncludeMedia) {
                 if (query.IncludePeople) {
                     methodName = 'getPeople';
-
                 } else if (query.IncludeArtists) {
                     methodName = 'getArtists';
                 }
@@ -147,7 +147,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
     }
 
     function search(instance, apiClient, context, value) {
-
         if (value || layoutManager.tv) {
             instance.mode = 'search';
             context.querySelector('.searchSuggestions').classList.add('hide');
@@ -157,7 +156,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         }
 
         if (instance.options.collectionType === 'livetv') {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -186,7 +184,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 showChannelName: true
             });
         } else {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -223,7 +220,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
 
         if (instance.options.collectionType === 'livetv') {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -252,9 +248,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 showAirDateTime: true,
                 showChannelName: true
             });
-
         } else {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -464,7 +458,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             showTitle: true,
             overlayText: false,
             centerText: true,
-            action: 'play'
+            overlayPlayButton: true
 
         });
 
@@ -552,23 +546,20 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
     }
 
     function searchType(instance, apiClient, query, context, section, cardOptions) {
-
         query.Limit = enableScrollX() ? 24 : 16;
         query.ParentId = instance.options.parentId;
 
         getSearchHints(instance, apiClient, query).then(function (result) {
-
             populateResults(result, context, section, cardOptions);
         });
     }
 
     function populateResults(result, context, section, cardOptions) {
-
         section = context.querySelector(section);
 
-        var items = result.Items || result.SearchHints;
+        const items = result.Items || result.SearchHints;
 
-        var itemsContainer = section.querySelector('.itemsContainer');
+        const itemsContainer = section.querySelector('.itemsContainer');
 
         cardBuilder.buildCards(items, Object.assign({
 
@@ -588,20 +579,18 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
     }
 
     function replaceAll(originalString, strReplace, strWith) {
-        var reg = new RegExp(strReplace, 'ig');
+        const reg = new RegExp(strReplace, 'ig');
         return originalString.replace(reg, strWith);
     }
 
     function embed(elem, instance, options) {
-
-        require(['text!./searchresults.template.html'], function (template) {
-
+        import('text!./searchresults.template.html').then(({default: template}) => {
             if (!enableScrollX()) {
                 template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');
                 template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
             }
 
-            var html = globalize.translateDocument(template, 'core');
+            const html = globalize.translateHtml(template, 'core');
 
             elem.innerHTML = html;
 
@@ -610,28 +599,25 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
     }
 
-    function SearchResults(options) {
-
+class SearchResults {
+    constructor(options) {
         this.options = options;
         embed(options.element, this, options);
     }
-
-    SearchResults.prototype.search = function (value) {
-
-        var apiClient = connectionManager.getApiClient(this.options.serverId);
+    search(value) {
+        const apiClient = window.connectionManager.getApiClient(this.options.serverId);
 
         search(this, apiClient, this.options.element, value);
-    };
-
-    SearchResults.prototype.destroy = function () {
-
-        var options = this.options;
+    }
+    destroy() {
+        const options = this.options;
         if (options) {
             options.element.classList.remove('searchFields');
         }
         this.options = null;
+    }
+}
 
-    };
+export default SearchResults;
 
-    return SearchResults;
-});
+/* eslint-enable indent */

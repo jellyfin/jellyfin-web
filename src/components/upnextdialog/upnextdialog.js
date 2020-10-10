@@ -1,97 +1,21 @@
-define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'layoutManager', 'focusManager', 'globalize', 'itemHelper', 'css!./upnextdialog', 'emby-button', 'flexStyles'], function (dom, playbackManager, connectionManager, events, mediaInfo, layoutManager, focusManager, globalize, itemHelper) {
-    'use strict';
+import dom from 'dom';
+import playbackManager from 'playbackManager';
+import events from 'events';
+import mediaInfo from 'mediaInfo';
+import layoutManager from 'layoutManager';
+import focusManager from 'focusManager';
+import globalize from 'globalize';
+import itemHelper from 'itemHelper';
+import 'css!./upnextdialog';
+import 'emby-button';
+import 'flexStyles';
 
-    var transitionEndEventName = dom.whichTransitionEvent();
+/* eslint-disable indent */
 
-    function seriesImageUrl(item, options) {
-
-        if (item.Type !== 'Episode') {
-            return null;
-        }
-
-        options = options || {};
-        options.type = options.type || 'Primary';
-
-        if (options.type === 'Primary') {
-
-            if (item.SeriesPrimaryImageTag) {
-
-                options.tag = item.SeriesPrimaryImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-        }
-
-        if (options.type === 'Thumb') {
-
-            if (item.SeriesThumbImageTag) {
-
-                options.tag = item.SeriesThumbImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-            if (item.ParentThumbImageTag) {
-
-                options.tag = item.ParentThumbImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
-            }
-        }
-
-        return null;
-    }
-
-    function imageUrl(item, options) {
-
-        options = options || {};
-        options.type = options.type || 'Primary';
-
-        if (item.ImageTags && item.ImageTags[options.type]) {
-
-            options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
-        }
-
-        if (options.type === 'Primary') {
-            if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
-                options.tag = item.AlbumPrimaryImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
-            }
-        }
-
-        return null;
-    }
-
-    function setPoster(osdPoster, item, secondaryItem) {
-
-        if (item) {
-
-            var imgUrl = seriesImageUrl(item, { type: 'Primary' }) ||
-                seriesImageUrl(item, { type: 'Thumb' }) ||
-                imageUrl(item, { type: 'Primary' });
-
-            if (!imgUrl && secondaryItem) {
-                imgUrl = seriesImageUrl(secondaryItem, { type: 'Primary' }) ||
-                    seriesImageUrl(secondaryItem, { type: 'Thumb' }) ||
-                    imageUrl(secondaryItem, { type: 'Primary' });
-            }
-
-            if (imgUrl) {
-                osdPoster.innerHTML = '<img class="upNextDialog-poster-img" src="' + imgUrl + '" />';
-                return;
-            }
-        }
-
-        osdPoster.innerHTML = '';
-    }
+    const transitionEndEventName = dom.whichTransitionEvent();
 
     function getHtml() {
-
-        var html = '';
-
-        html += '<div class="upNextDialog-poster">';
-        html += '</div>';
+        let html = '';
 
         html += '<div class="flex flex-direction-column flex-grow">';
 
@@ -101,8 +25,6 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
 
         html += '<div class="flex flex-direction-row upNextDialog-mediainfo">';
         html += '</div>';
-
-        html += '<div class="upNextDialog-overview" style="margin-top:1em;"></div>';
 
         html += '<div class="flex flex-direction-row upNextDialog-buttons" style="margin-top:1em;">';
 
@@ -124,18 +46,17 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function setNextVideoText() {
+        const instance = this;
 
-        var instance = this;
+        const elem = instance.options.parent;
 
-        var elem = instance.options.parent;
-
-        var secondsRemaining = Math.max(Math.round(getTimeRemainingMs(instance) / 1000), 0);
+        const secondsRemaining = Math.max(Math.round(getTimeRemainingMs(instance) / 1000), 0);
 
         console.debug('up next seconds remaining: ' + secondsRemaining);
 
-        var timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
+        const timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
 
-        var nextVideoText = instance.itemType === 'Episode' ?
+        const nextVideoText = instance.itemType === 'Episode' ?
             globalize.translate('HeaderNextEpisodePlayingInValue', timeText) :
             globalize.translate('HeaderNextVideoPlayingInValue', timeText);
 
@@ -143,19 +64,18 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function fillItem(item) {
+        const instance = this;
 
-        var instance = this;
-
-        var elem = instance.options.parent;
-
-        setPoster(elem.querySelector('.upNextDialog-poster'), item);
-
-        elem.querySelector('.upNextDialog-overview').innerHTML = item.Overview || '';
+        const elem = instance.options.parent;
 
         elem.querySelector('.upNextDialog-mediainfo').innerHTML = mediaInfo.getPrimaryMediaInfoHtml(item, {
+            criticRating: false,
+            originalAirDate: false,
+            starRating: false,
+            subtitles: false
         });
 
-        var title = itemHelper.getDisplayName(item);
+        let title = itemHelper.getDisplayName(item);
         if (item.SeriesName) {
             title = item.SeriesName + ' - ' + title;
         }
@@ -175,12 +95,10 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function onStartNowClick() {
-
-        var options = this.options;
+        const options = this.options;
 
         if (options) {
-
-            var player = options.player;
+            const player = options.player;
 
             this.hide();
 
@@ -189,7 +107,6 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function init(instance, options) {
-
         options.parent.innerHTML = getHtml();
 
         options.parent.classList.add('hide');
@@ -203,8 +120,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function clearHideAnimationEventListeners(instance, elem) {
-
-        var fn = instance._onHideAnimationComplete;
+        const fn = instance._onHideAnimationComplete;
 
         if (fn) {
             dom.removeEventListener(elem, transitionEndEventName, fn, {
@@ -214,9 +130,8 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function onHideAnimationComplete(e) {
-
-        var instance = this;
-        var elem = e.target;
+        const instance = this;
+        const elem = e.target;
 
         elem.classList.add('hide');
 
@@ -225,15 +140,14 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function hideComingUpNext() {
-
-        var instance = this;
+        const instance = this;
         clearCountdownTextTimeout(this);
 
         if (!instance.options) {
             return;
         }
 
-        var elem = instance.options.parent;
+        const elem = instance.options.parent;
 
         if (!elem) {
             return;
@@ -250,7 +164,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
 
         elem.classList.add('upNextDialog-hidden');
 
-        var fn = onHideAnimationComplete.bind(instance);
+        const fn = onHideAnimationComplete.bind(instance);
         instance._onHideAnimationComplete = fn;
 
         dom.addEventListener(elem, transitionEndEventName, fn, {
@@ -259,14 +173,12 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function getTimeRemainingMs(instance) {
-
-        var options = instance.options;
+        const options = instance.options;
         if (options) {
-
-            var runtimeTicks = playbackManager.duration(options.player);
+            const runtimeTicks = playbackManager.duration(options.player);
 
             if (runtimeTicks) {
-                var timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player);
+                const timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player) * 10000;
 
                 return Math.round(timeRemainingTicks / 10000);
             }
@@ -276,8 +188,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     }
 
     function startComingUpNextHideTimer(instance) {
-
-        var timeRemainingMs = getTimeRemainingMs(instance);
+        const timeRemainingMs = getTimeRemainingMs(instance);
 
         if (timeRemainingMs <= 0) {
             return;
@@ -289,16 +200,14 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         instance._countdownTextTimeout = setInterval(setNextVideoText.bind(instance), 400);
     }
 
-    function UpNextDialog(options) {
-
+class UpNextDialog {
+    constructor(options) {
         this.options = options;
 
         init(this, options);
     }
-
-    UpNextDialog.prototype.show = function () {
-
-        var elem = this.options.parent;
+    show() {
+        const elem = this.options.parent;
 
         clearHideAnimationEventListeners(this, elem);
 
@@ -316,20 +225,18 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         }
 
         startComingUpNextHideTimer(this);
-    };
-
-    UpNextDialog.prototype.hide = function () {
-
+    }
+    hide() {
         hideComingUpNext.call(this);
-    };
-
-    UpNextDialog.prototype.destroy = function () {
-
+    }
+    destroy() {
         hideComingUpNext.call(this);
 
         this.options = null;
         this.itemType = null;
-    };
+    }
+}
 
-    return UpNextDialog;
-});
+export default UpNextDialog;
+
+/* eslint-enable indent */

@@ -1,65 +1,66 @@
-define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'userSettings', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (require, dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize, userSettings) {
-    'use strict';
+import dialogHelper from 'dialogHelper';
+import layoutManager from 'layoutManager';
+import globalize from 'globalize';
+import * as userSettings from 'userSettings';
+import 'emby-checkbox';
+import 'emby-input';
+import 'paper-icon-button-light';
+import 'emby-select';
+import 'material-icons';
+import 'css!./../formdialog';
+import 'emby-button';
+import 'flexStyles';
 
-    function onSubmit(e) {
+function onSubmit(e) {
+    e.preventDefault();
+    return false;
+}
 
-        e.preventDefault();
-        return false;
+function initEditor(context, settings) {
+    context.querySelector('form').addEventListener('submit', onSubmit);
+
+    const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
+
+    for (const elem of elems) {
+        elem.querySelector('input').checked = settings[elem.getAttribute('data-settingname')] || false;
     }
 
-    function initEditor(context, settings) {
+    context.querySelector('.selectImageType').value = settings.imageType || 'primary';
+}
 
-        context.querySelector('form').addEventListener('submit', onSubmit);
-
-        var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
-
-        for (var i = 0, length = elems.length; i < length; i++) {
-
-            elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
-        }
-
-        context.querySelector('.selectImageType').value = settings.imageType || 'primary';
+function saveValues(context, settings, settingsKey) {
+    const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
+    for (const elem of elems) {
+        userSettings.set(settingsKey + '-' + elem.getAttribute('data-settingname'), elem.querySelector('input').checked);
     }
 
-    function saveValues(context, settings, settingsKey) {
+    userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
+}
 
-        var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
-        for (var i = 0, length = elems.length; i < length; i++) {
-            userSettings.set(settingsKey + '-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input').checked);
-        }
+function centerFocus(elem, horiz, on) {
+    import('scrollHelper').then(({default: scrollHelper}) => {
+        const fn = on ? 'on' : 'off';
+        scrollHelper.centerFocus[fn](elem, horiz);
+    });
+}
 
-        userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
+function showIfAllowed(context, selector, visible) {
+    const elem = context.querySelector(selector);
+
+    if (visible && !elem.classList.contains('hiddenFromViewSettings')) {
+        elem.classList.remove('hide');
+    } else {
+        elem.classList.add('hide');
     }
+}
 
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
+class ViewSettings {
+    constructor() {
     }
-
-    function showIfAllowed(context, selector, visible) {
-
-        var elem = context.querySelector(selector);
-
-        if (visible && !elem.classList.contains('hiddenFromViewSettings')) {
-            elem.classList.remove('hide');
-        } else {
-            elem.classList.add('hide');
-        }
-    }
-
-    function ViewSettings() {
-
-    }
-
-    ViewSettings.prototype.show = function (options) {
-
+    show(options) {
         return new Promise(function (resolve, reject) {
-
-            require(['text!./viewSettings.template.html'], function (template) {
-
-                var dialogOptions = {
+            import('text!./viewSettings.template.html').then(({default: template}) => {
+                const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -70,11 +71,11 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
                     dialogOptions.size = 'small';
                 }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+                const dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
 
-                var html = '';
+                let html = '';
 
                 html += '<div class="formDialogHeader">';
                 html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
@@ -84,29 +85,27 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
 
                 html += template;
 
-                dlg.innerHTML = globalize.translateDocument(html, 'core');
+                dlg.innerHTML = globalize.translateHtml(html, 'core');
 
-                var settingElements = dlg.querySelectorAll('.viewSetting');
-                for (var i = 0, length = settingElements.length; i < length; i++) {
-                    if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
-                        settingElements[i].classList.add('hide');
-                        settingElements[i].classList.add('hiddenFromViewSettings');
+                const settingElements = dlg.querySelectorAll('.viewSetting');
+                for (const settingElement of settingElements) {
+                    if (options.visibleSettings.indexOf(settingElement.getAttribute('data-settingname')) === -1) {
+                        settingElement.classList.add('hide');
+                        settingElement.classList.add('hiddenFromViewSettings');
                     } else {
-                        settingElements[i].classList.remove('hide');
-                        settingElements[i].classList.remove('hiddenFromViewSettings');
+                        settingElement.classList.remove('hide');
+                        settingElement.classList.remove('hiddenFromViewSettings');
                     }
                 }
 
                 initEditor(dlg, options.settings);
 
                 dlg.querySelector('.selectImageType').addEventListener('change', function () {
-
                     showIfAllowed(dlg, '.chkTitleContainer', this.value !== 'list');
                     showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list');
                 });
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                     dialogHelper.close(dlg);
                 });
 
@@ -114,18 +113,15 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
                     centerFocus(dlg.querySelector('.formDialogContent'), false, true);
                 }
 
-                var submitted;
+                let submitted;
 
                 dlg.querySelector('.selectImageType').dispatchEvent(new CustomEvent('change', {}));
 
                 dlg.querySelector('form').addEventListener('change', function () {
-
                     submitted = true;
-
                 }, true);
 
                 dialogHelper.open(dlg).then(function () {
-
                     if (layoutManager.tv) {
                         centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                     }
@@ -140,7 +136,7 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
                 });
             });
         });
-    };
+    }
+}
 
-    return ViewSettings;
-});
+export default ViewSettings;

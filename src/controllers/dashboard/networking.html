@@ -105,13 +105,6 @@
                             </label>
                             <div class="fieldDescription checkboxFieldDescription">${LabelEnableAutomaticPortMapHelp}</div>
                         </div>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkCreateHttpPortMap" />
-                                <span>${LabelCreateHttpPortMap}</span>
-                            </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelCreateHttpPortMapHelp}</div>
-                        </div>
                         <div class="inputContainer fldPublicPort hide">
                             <input is="emby-input" type="number" label="${LabelPublicHttpPort}" id="txtPublicPort" pattern="[0-9]*" required="required" min="1" max="65535" />
                             <div class="fieldDescription">${LabelPublicHttpPortHelp}</div>
@@ -119,75 +112,6 @@
                         <div class="inputContainer fldPublicHttpsPort hide">
                             <input is="emby-input" type="number" id="txtPublicHttpsPort" pattern="[0-9]*" required="required" min="1" max="65535" label="${LabelPublicHttpsPort}" />
                             <div class="fieldDescription">${LabelPublicHttpsPortHelp}</div>
-                        </div>
-                    </fieldset>
-
-                    <fieldset class='verticalSection verticalSection-extrabottompadding'>
-                        <legend><h3>${HeaderNetworking}</h3></legend>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkEnableIP4" />
-                                <span>${LabelEnableIP4}</span>
-                            </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelEnableIP4Help}</div>
-                        </div>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkEnableIP6" />
-                                <span>${LabelEnableIP6}</span>
-                            </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelEnableIP6Help}</div>
-                        </div>
-                    </fieldset>
-
-
-                    <fieldset class='verticalSection verticalSection-extrabottompadding'>
-                        <legend><h3>${HeaderAutoDiscovery}</h3></legend>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkEnableAutoDiscovery" />
-                                <span>${LabelAutomaticDiscovery}</span>
-                            </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelAutomaticDiscoveryHelp}</div>
-                        </div>
-                    </fieldset>
-
-                    <fieldset class='verticalSection verticalSection-extrabottompadding'>
-                        <legend><h3>${HeaderPortRanges}</h3></legend>
-
-                        <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtPublishedServer" label="${LabelPublishedServerUri}" />
-                            <div class="fieldDescription">${LabelPublishedServerUriHelp}</div>
-                        </div>
-                        <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtUDPPortRange" pattern="[0-9\-]*" label="${LabelUDPPortRange}"  />
-                            <div class="fieldDescription">${LabelUDPPortRangeHelp}</div>
-                        </div>
-                        <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtHDHomerunPortRange" pattern="[0-9\-]*" label="${LabelHDHomerunPortRange}" />
-                            <div class="fieldDescription">${LabelHDHomerunPortRangeHelp}</div>
-                        </div>
-                    </fieldset>
-
-                    <fieldset class='verticalSection verticalSection-extrabottompadding'>
-                        <legend><h3>${HeaderDebugging}</h3></legend>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkEnableSSDPTracing" />
-                                <span>${LabelEnableSSDPTracing}</span>
-                            </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelEnableSSDPTracingHelp}</div>
-                        </div>
-                        <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtSSDPTracingFilter" pattern="[0-9\.]*" label="${LabelSSDPTracingFilter}" />
-                            <div class="fieldDescription">${LabelSSDPTracingFilterHelp}</div>
-                        </div>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkCreateHttpPortMap" />
-                                <span>${LabelAutoDiscoveryTracing}</span>
-                            </label>
-                            <div class="fieldDescription checkboxFieldDescription">${LabelAutoDiscoveryTracingHelp}</div>
                         </div>
                     </fieldset>
                 </div>

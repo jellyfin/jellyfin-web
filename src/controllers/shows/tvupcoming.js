@@ -1,9 +1,17 @@
-define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'globalize', 'scrollStyles', 'emby-itemscontainer'], function (layoutManager, loading, datetime, libraryBrowser, cardBuilder, appHost, imageLoader, globalize) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import loading from 'loading';
+import datetime from 'datetime';
+import cardBuilder from 'cardBuilder';
+import imageLoader from 'imageLoader';
+import globalize from 'globalize';
+import 'scrollStyles';
+import 'emby-itemscontainer';
+
+/* eslint-disable indent */
 
     function getUpcomingPromise(context, params) {
         loading.show();
-        var query = {
+        const query = {
             Limit: 48,
             Fields: 'AirTime,UserData',
             UserId: ApiClient.getCurrentUserId(),
@@ -17,7 +25,7 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
 
     function loadUpcoming(context, params, promise) {
         promise.then(function (result) {
-            var items = result.Items;
+            const items = result.Items;
 
             if (items.length) {
                 context.querySelector('.noItemsMessage').style.display = 'none';
@@ -39,19 +47,17 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
     }
 
     function renderUpcoming(elem, items) {
-        var i;
-        var length;
-        var groups = [];
-        var currentGroupName = '';
-        var currentGroup = [];
+        const groups = [];
+        let currentGroupName = '';
+        let currentGroup = [];
 
-        for (i = 0, length = items.length; i < length; i++) {
-            var item = items[i];
-            var dateText = '';
+        for (let i = 0, length = items.length; i < length; i++) {
+            const item = items[i];
+            let dateText = '';
 
             if (item.PremiereDate) {
                 try {
-                    var premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
+                    const premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
                     dateText = datetime.isRelativeDay(premiereDate, -1) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
                         weekday: 'long',
                         month: 'short',
@@ -77,17 +83,17 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
             }
         }
 
-        var html = '';
+        let html = '';
 
-        for (i = 0, length = groups.length; i < length; i++) {
-            var group = groups[i];
+        for (let i = 0, length = groups.length; i < length; i++) {
+            const group = groups[i];
             html += '<div class="verticalSection">';
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + '</h2>';
-            var allowBottomPadding = true;
+            let allowBottomPadding = true;
 
             if (enableScrollX()) {
                 allowBottomPadding = false;
-                var scrollXClass = 'scrollX hiddenScrollX';
+                let scrollXClass = 'scrollX hiddenScrollX';
 
                 if (layoutManager.tv) {
                     scrollXClass += ' smoothScrollX';
@@ -98,8 +104,6 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
                 html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
             }
 
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
             html += cardBuilder.getCardsHtml({
                 items: group.items,
                 showLocationTypeIndicator: false,
@@ -108,11 +112,11 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
                 preferThumb: true,
                 lazy: true,
                 showDetailsMenu: true,
-                centerText: !supportsImageAnalysis,
+                centerText: true,
                 showParentTitle: true,
                 overlayText: false,
                 allowBottomPadding: allowBottomPadding,
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 overlayMoreButton: true,
                 missingIndicator: false
             });
@@ -124,9 +128,9 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
         imageLoader.lazyChildren(elem);
     }
 
-    return function (view, params, tabContent) {
-        var upcomingPromise;
-        var self = this;
+    export default function (view, params, tabContent) {
+        let upcomingPromise;
+        const self = this;
 
         self.preRender = function () {
             upcomingPromise = getUpcomingPromise(view, params);
@@ -135,5 +139,6 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
         self.renderTab = function () {
             loadUpcoming(tabContent, params, upcomingPromise);
         };
-    };
-});
+    }
+
+/* eslint-enable indent */

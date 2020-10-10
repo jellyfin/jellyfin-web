@@ -1,19 +1,24 @@
-define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-button-light', 'emby-input', 'emby-select', 'css!./../formdialog'], function (dialogHelper, layoutManager, globalize, require) {
-    'use strict';
+import dialogHelper from 'dialogHelper';
+import layoutManager from 'layoutManager';
+import globalize from 'globalize';
+import 'paper-icon-button-light';
+import 'emby-input';
+import 'emby-select';
+import 'css!./../formdialog';
+
+/* eslint-disable indent */
 
     function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
+        import('scrollHelper').then(({default: scrollHelper}) => {
+            const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
     function show(person) {
         return new Promise(function (resolve, reject) {
-
-            require(['text!./personEditor.template.html'], function (template) {
-
-                var dialogOptions = {
+            import('text!./personEditor.template.html').then(({default: template}) => {
+                const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -24,14 +29,14 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
                     dialogOptions.size = 'small';
                 }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+                const dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
 
-                var html = '';
-                var submitted = false;
+                let html = '';
+                let submitted = false;
 
-                html += globalize.translateDocument(template, 'core');
+                html += globalize.translateHtml(template, 'core');
 
                 dlg.innerHTML = html;
 
@@ -46,7 +51,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
                 dialogHelper.open(dlg);
 
                 dlg.addEventListener('close', function () {
-
                     if (layoutManager.tv) {
                         centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                     }
@@ -59,7 +63,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
                 });
 
                 dlg.querySelector('.selectPersonType').addEventListener('change', function (e) {
-
                     if (this.value === 'Actor') {
                         dlg.querySelector('.fldRole').classList.remove('hide');
                     } else {
@@ -68,12 +71,10 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
                 });
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
-
                     dialogHelper.close(dlg);
                 });
 
                 dlg.querySelector('form').addEventListener('submit', function (e) {
-
                     submitted = true;
 
                     person.Name = dlg.querySelector('.txtPersonName', dlg).value;
@@ -93,7 +94,8 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
         });
     }
 
-    return {
-        show: show
-    };
-});
+export default {
+    show: show
+};
+
+/* eslint-enable indent */

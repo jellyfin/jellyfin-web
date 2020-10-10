@@ -1,39 +1,45 @@
-define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', 'globalize', 'loading', 'connectionManager', 'dom', 'events', 'emby-select', 'emby-checkbox'], function (require, browser, appSettings, appHost, focusManager, qualityoptions, globalize, loading, connectionManager, dom, events) {
-    'use strict';
+import browser from 'browser';
+import appSettings from 'appSettings';
+import appHost from 'apphost';
+import focusManager from 'focusManager';
+import qualityoptions from 'qualityoptions';
+import globalize from 'globalize';
+import loading from 'loading';
+import events from 'events';
+import 'emby-select';
+import 'emby-checkbox';
+
+/* eslint-disable indent */
 
     function fillSkipLengths(select) {
+        const options = [5, 10, 15, 20, 25, 30];
 
-        var options = [5, 10, 15, 20, 25, 30];
-
-        select.innerHTML = options.map(function (option) {
+        select.innerHTML = options.map(option => {
             return {
                 name: globalize.translate('ValueSeconds', option),
                 value: option * 1000
             };
-        }).map(function (o) {
-            return '<option value="' + o.value + '">' + o.name + '</option>';
+        }).map(o => {
+            return `<option value="${o.value}">${o.name}</option>`;
         }).join('');
     }
 
     function populateLanguages(select, languages) {
+        let html = '';
 
-        var html = '';
+        html += `<option value=''>${globalize.translate('AnyLanguage')}</option>`;
 
-        html += "<option value=''>" + globalize.translate('AnyLanguage') + '</option>';
+        for (let i = 0, length = languages.length; i < length; i++) {
+            const culture = languages[i];
 
-        for (var i = 0, length = languages.length; i < length; i++) {
-
-            var culture = languages[i];
-
-            html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
+            html += `<option value='${culture.ThreeLetterISOLanguageName}'>${culture.DisplayName}</option>`;
         }
 
         select.innerHTML = html;
     }
 
     function setMaxBitrateIntoField(select, isInNetwork, mediatype) {
-
-        var options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
+        const options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
 
             currentMaxBitrate: appSettings.maxStreamingBitrate(isInNetwork, mediatype),
             isAutomaticBitrateEnabled: appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype),
@@ -47,10 +53,9 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         });
 
-        select.innerHTML = options.map(function (i) {
-
+        select.innerHTML = options.map(i => {
             // render empty string instead of 0 for the auto option
-            return '<option value="' + (i.bitrate || '') + '">' + i.name + '</option>';
+            return `<option value="${i.bitrate || ''}">${i.name}</option>`;
         }).join('');
 
         if (appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype)) {
@@ -61,25 +66,22 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
     }
 
     function fillChromecastQuality(select) {
-
-        var options = qualityoptions.getVideoQualityOptions({
+        const options = qualityoptions.getVideoQualityOptions({
 
             currentMaxBitrate: appSettings.maxChromecastBitrate(),
             isAutomaticBitrateEnabled: !appSettings.maxChromecastBitrate(),
             enableAuto: true
         });
 
-        select.innerHTML = options.map(function (i) {
-
+        select.innerHTML = options.map(i => {
             // render empty string instead of 0 for the auto option
-            return '<option value="' + (i.bitrate || '') + '">' + i.name + '</option>';
+            return `<option value="${i.bitrate || ''}">${i.name}</option>`;
         }).join('');
 
         select.value = appSettings.maxChromecastBitrate() || '';
     }
 
-    function setMaxBitrateFromField(select, isInNetwork, mediatype, value) {
-
+    function setMaxBitrateFromField(select, isInNetwork, mediatype) {
         if (select.value) {
             appSettings.maxStreamingBitrate(isInNetwork, mediatype, select.value);
             appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype, false);
@@ -89,7 +91,6 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
     }
 
     function showHideQualityFields(context, user, apiClient) {
-
         if (user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.videoQualitySection').classList.remove('hide');
         } else {
@@ -97,7 +98,6 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         }
 
         if (appHost.supports('multiserver')) {
-
             context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
             context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
 
@@ -110,16 +110,13 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
             return;
         }
 
-        apiClient.getEndpointInfo().then(function (endpointInfo) {
-
+        apiClient.getEndpointInfo().then(endpointInfo => {
             if (endpointInfo.IsInNetwork) {
-
                 context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
 
                 context.querySelector('.fldVideoInternetQuality').classList.add('hide');
                 context.querySelector('.musicQualitySection').classList.add('hide');
             } else {
-
                 context.querySelector('.fldVideoInNetworkQuality').classList.add('hide');
 
                 context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
@@ -133,8 +130,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         });
     }
 
-    function showOrHideEpisodesField(context, user, apiClient) {
-
+    function showOrHideEpisodesField(context) {
         if (browser.tizen || browser.web0s) {
             context.querySelector('.fldEpisodeAutoPlay').classList.add('hide');
             return;
@@ -144,14 +140,12 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
     }
 
     function loadForm(context, user, userSettings, apiClient) {
-
-        var loggedInUserId = apiClient.getCurrentUserId();
-        var userId = user.Id;
+        const loggedInUserId = apiClient.getCurrentUserId();
+        const userId = user.Id;
 
         showHideQualityFields(context, user, apiClient);
 
-        apiClient.getCultures().then(function (allCultures) {
-
+        apiClient.getCultures().then(allCultures => {
             populateLanguages(context.querySelector('#selectAudioLanguage'), allCultures);
 
             context.querySelector('#selectAudioLanguage', context).value = user.Configuration.AudioLanguagePreference || '';
@@ -159,8 +153,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         });
 
         // hide cinema mode options if disabled at server level
-        apiClient.getNamedConfiguration('cinemamode').then(function (cinemaConfig) {
-
+        apiClient.getNamedConfiguration('cinemamode').then(cinemaConfig => {
             if (cinemaConfig.EnableIntrosForMovies || cinemaConfig.EnableIntrosForEpisodes) {
                 context.querySelector('.cinemaModeOptions').classList.remove('hide');
             } else {
@@ -204,24 +197,23 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         fillChromecastQuality(context.querySelector('.selectChromecastVideoQuality'));
 
-        var selectChromecastVersion = context.querySelector('.selectChromecastVersion');
+        const selectChromecastVersion = context.querySelector('.selectChromecastVersion');
         selectChromecastVersion.value = userSettings.chromecastVersion();
 
-        var selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
+        const selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
         fillSkipLengths(selectSkipForwardLength);
         selectSkipForwardLength.value = userSettings.skipForwardLength();
 
-        var selectSkipBackLength = context.querySelector('.selectSkipBackLength');
+        const selectSkipBackLength = context.querySelector('.selectSkipBackLength');
         fillSkipLengths(selectSkipBackLength);
         selectSkipBackLength.value = userSettings.skipBackLength();
 
-        showOrHideEpisodesField(context, user, apiClient);
+        showOrHideEpisodesField(context);
 
         loading.hide();
     }
 
     function saveUser(context, user, userSettingsInstance, apiClient) {
-
         appSettings.enableSystemExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
 
         appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
@@ -245,38 +237,32 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
     }
 
     function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
-
         loading.show();
 
-        apiClient.getUser(userId).then(function (user) {
-
-            saveUser(context, user, userSettings, apiClient).then(function () {
-
+        apiClient.getUser(userId).then(user => {
+            saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    require(['toast'], function (toast) {
+                    import('toast').then(({default: toast}) => {
                         toast(globalize.translate('SettingsSaved'));
                     });
                 }
 
                 events.trigger(instance, 'saved');
-
-            }, function () {
+            }, () => {
                 loading.hide();
             });
         });
     }
 
     function onSubmit(e) {
+        const self = this;
+        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const userId = self.options.userId;
+        const userSettings = self.options.userSettings;
 
-        var self = this;
-        var apiClient = connectionManager.getApiClient(self.options.serverId);
-        var userId = self.options.userId;
-        var userSettings = self.options.userSettings;
-
-        userSettings.setUserInfo(userId, apiClient).then(function () {
-
-            var enableSaveConfirmation = self.options.enableSaveConfirmation;
+        userSettings.setUserInfo(userId, apiClient).then(() => {
+            const enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
 
@@ -288,10 +274,8 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
     }
 
     function embed(options, self) {
-
-        require(['text!./playbackSettings.template.html'], function (template) {
-
-            options.element.innerHTML = globalize.translateDocument(template, 'core');
+        return import('text!./playbackSettings.template.html').then(({default: template}) => {
+            options.element.innerHTML = globalize.translateHtml(template, 'core');
 
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
 
@@ -307,43 +291,39 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         });
     }
 
-    function PlaybackSettings(options) {
+    class PlaybackSettings {
+        constructor(options) {
+            this.options = options;
+            embed(options, this);
+        }
 
-        this.options = options;
+        loadData() {
+            const self = this;
+            const context = self.options.element;
 
-        embed(options, this);
+            loading.show();
+
+            const userId = self.options.userId;
+            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+            const userSettings = self.options.userSettings;
+
+            apiClient.getUser(userId).then(user => {
+                userSettings.setUserInfo(userId, apiClient).then(() => {
+                    self.dataLoaded = true;
+
+                    loadForm(context, user, userSettings, apiClient);
+                });
+            });
+        }
+
+        submit() {
+            onSubmit.call(this);
+        }
+
+        destroy() {
+            this.options = null;
+        }
     }
 
-    PlaybackSettings.prototype.loadData = function () {
-
-        var self = this;
-        var context = self.options.element;
-
-        loading.show();
-
-        var userId = self.options.userId;
-        var apiClient = connectionManager.getApiClient(self.options.serverId);
-        var userSettings = self.options.userSettings;
-
-        apiClient.getUser(userId).then(function (user) {
-
-            userSettings.setUserInfo(userId, apiClient).then(function () {
-
-                self.dataLoaded = true;
-
-                loadForm(context, user, userSettings, apiClient);
-            });
-        });
-    };
-
-    PlaybackSettings.prototype.submit = function () {
-        onSubmit.call(this);
-    };
-
-    PlaybackSettings.prototype.destroy = function () {
-
-        this.options = null;
-    };
-
-    return PlaybackSettings;
-});
+/* eslint-enable indent */
+export default PlaybackSettings;

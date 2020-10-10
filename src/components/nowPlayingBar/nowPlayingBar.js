@@ -1,31 +1,42 @@
-define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'itemContextMenu', 'paper-icon-button-light', 'emby-ratingbutton'], function (require, datetime, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager, itemContextMenu) {
-    'use strict';
+import datetime from 'datetime';
+import events from 'events';
+import browser from 'browser';
+import imageLoader from 'imageLoader';
+import layoutManager from 'layoutManager';
+import playbackManager from 'playbackManager';
+import nowPlayingHelper from 'nowPlayingHelper';
+import appHost from 'apphost';
+import dom from 'dom';
+import itemContextMenu from 'itemContextMenu';
+import 'paper-icon-button-light';
+import 'emby-ratingbutton';
 
-    var currentPlayer;
-    var currentPlayerSupportedCommands = [];
+/* eslint-disable indent */
 
-    var currentTimeElement;
-    var nowPlayingImageElement;
-    var nowPlayingTextElement;
-    var nowPlayingUserData;
-    var muteButton;
-    var volumeSlider;
-    var volumeSliderContainer;
-    var playPauseButtons;
-    var positionSlider;
-    var toggleRepeatButton;
-    var toggleRepeatButtonIcon;
+    let currentPlayer;
+    let currentPlayerSupportedCommands = [];
 
-    var lastUpdateTime = 0;
-    var lastPlayerState = {};
-    var isEnabled;
-    var currentRuntimeTicks = 0;
+    let currentTimeElement;
+    let nowPlayingImageElement;
+    let nowPlayingTextElement;
+    let nowPlayingUserData;
+    let muteButton;
+    let volumeSlider;
+    let volumeSliderContainer;
+    let playPauseButtons;
+    let positionSlider;
+    let toggleRepeatButton;
+    let toggleRepeatButtonIcon;
 
-    var isVisibilityAllowed = true;
+    let lastUpdateTime = 0;
+    let lastPlayerState = {};
+    let isEnabled;
+    let currentRuntimeTicks = 0;
+
+    let isVisibilityAllowed = true;
 
     function getNowPlayingBarHtml() {
-
-        var html = '';
+        let html = '';
 
         html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
 
@@ -84,12 +95,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function onSlideDownComplete() {
-
         this.classList.add('hide');
     }
 
     function slideDown(elem) {
-
         // trigger reflow
         void elem.offsetWidth;
 
@@ -101,7 +110,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function slideUp(elem) {
-
         dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
             once: true
         });
@@ -119,7 +127,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function bindEvents(elem) {
-
         currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime');
         nowPlayingImageElement = elem.querySelector('.nowPlayingImage');
         nowPlayingTextElement = elem.querySelector('.nowPlayingBarText');
@@ -132,15 +139,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
 
         muteButton.addEventListener('click', function () {
-
             if (currentPlayer) {
                 playbackManager.toggleMute(currentPlayer);
             }
-
         });
 
         elem.querySelector('.stopButton').addEventListener('click', function () {
-
             if (currentPlayer) {
                 playbackManager.stop(currentPlayer);
             }
@@ -151,7 +155,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         });
 
         elem.querySelector('.nextTrackButton').addEventListener('click', function () {
-
             if (currentPlayer) {
                 playbackManager.nextTrack(currentPlayer);
             }
@@ -204,36 +207,28 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         volumeSliderContainer.classList.toggle('hide', appHost.supports('physicalvolumecontrol'));
 
-        function setVolume() {
+        volumeSlider.addEventListener('input', (e) => {
             if (currentPlayer) {
-                currentPlayer.setVolume(this.value);
+                currentPlayer.setVolume(e.target.value);
             }
-        }
-
-        volumeSlider.addEventListener('change', setVolume);
-        volumeSlider.addEventListener('mousemove', setVolume);
-        volumeSlider.addEventListener('touchmove', setVolume);
+        });
 
         positionSlider.addEventListener('change', function () {
-
             if (currentPlayer) {
-
-                var newPercent = parseFloat(this.value);
+                const newPercent = parseFloat(this.value);
 
                 playbackManager.seekPercent(newPercent, currentPlayer);
             }
-
         });
 
         positionSlider.getBubbleText = function (value) {
-
-            var state = lastPlayerState;
+            const state = lastPlayerState;
 
             if (!state || !state.NowPlayingItem || !currentRuntimeTicks) {
                 return '--:--';
             }
 
-            var ticks = currentRuntimeTicks;
+            let ticks = currentRuntimeTicks;
             ticks /= 100;
             ticks *= value;
 
@@ -241,7 +236,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         };
 
         elem.addEventListener('click', function (e) {
-
             if (!dom.parentWithTag(e.target, ['BUTTON', 'INPUT'])) {
                 showRemoteControl();
             }
@@ -249,24 +243,26 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function showRemoteControl() {
-
-        require(['appRouter'], function (appRouter) {
+        import('appRouter').then(({default: appRouter}) => {
             appRouter.showNowPlaying();
         });
     }
 
-    var nowPlayingBarElement;
+    let nowPlayingBarElement;
     function getNowPlayingBar() {
-
         if (nowPlayingBarElement) {
             return Promise.resolve(nowPlayingBarElement);
         }
 
         return new Promise(function (resolve, reject) {
-
-            require(['appFooter-shared', 'itemShortcuts', 'css!./nowPlayingBar.css', 'emby-slider'], function (appfooter, itemShortcuts) {
-
-                var parentContainer = appfooter.element;
+            Promise.all([
+                import('appFooter-shared'),
+                import('itemShortcuts'),
+                import('css!./nowPlayingBar.css'),
+                import('emby-slider')
+            ])
+            .then(([appfooter, itemShortcuts]) => {
+                const parentContainer = appfooter.element;
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
                 if (nowPlayingBarElement) {
@@ -314,18 +310,17 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updatePlayerStateInternal(event, state, player) {
-
         showNowPlayingBar();
 
         lastPlayerState = state;
 
-        var playerInfo = playbackManager.getPlayerInfo();
+        const playerInfo = playbackManager.getPlayerInfo();
 
-        var playState = state.PlayState || {};
+        const playState = state.PlayState || {};
 
         updatePlayPauseState(playState.IsPaused);
 
-        var supportedCommands = playerInfo.supportedCommands;
+        const supportedCommands = playerInfo.supportedCommands;
         currentPlayerSupportedCommands = supportedCommands;
 
         if (supportedCommands.indexOf('SetRepeatMode') === -1) {
@@ -343,11 +338,11 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             positionSlider.disabled = !playState.CanSeek;
 
             // determines if both forward and backward buffer progress will be visible
-            var isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
+            const isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
             positionSlider.setIsClear(isProgressClear);
         }
 
-        var nowPlayingItem = state.NowPlayingItem || {};
+        const nowPlayingItem = state.NowPlayingItem || {};
         updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
 
         updateNowPlayingInfo(state);
@@ -378,7 +373,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // See bindEvents for why this is necessary
         if (positionSlider && !positionSlider.dragging) {
             if (runtimeTicks) {
-                var pct = positionTicks / runtimeTicks;
+                let pct = positionTicks / runtimeTicks;
                 pct *= 100;
 
                 positionSlider.value = pct;
@@ -392,7 +387,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         if (currentTimeElement) {
-            var timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+            let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
             if (runtimeTicks) {
                 timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
             }
@@ -402,11 +397,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updatePlayerVolumeState(isMuted, volumeLevel) {
+        const supportedCommands = currentPlayerSupportedCommands;
 
-        var supportedCommands = currentPlayerSupportedCommands;
-
-        var showMuteButton = true;
-        var showVolumeSlider = true;
+        let showMuteButton = true;
+        let showVolumeSlider = true;
 
         if (supportedCommands.indexOf('ToggleMute') === -1) {
             showMuteButton = false;
@@ -433,7 +427,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         // See bindEvents for why this is necessary
         if (volumeSlider) {
-
             volumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
 
             if (!volumeSlider.dragging) {
@@ -443,7 +436,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function seriesImageUrl(item, options) {
-
         if (!item) {
             throw new Error('item cannot be null!');
         }
@@ -456,28 +448,23 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
-
             if (item.SeriesPrimaryImageTag) {
-
                 options.tag = item.SeriesPrimaryImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
         }
 
         if (options.type === 'Thumb') {
-
             if (item.SeriesThumbImageTag) {
-
                 options.tag = item.SeriesThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
-
                 options.tag = item.ParentThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -485,7 +472,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function imageUrl(item, options) {
-
         if (!item) {
             throw new Error('item cannot be null!');
         }
@@ -494,42 +480,39 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
-
             options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
             options.tag = item.AlbumPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;
     }
 
-    var currentImgUrl;
+    let currentImgUrl;
     function updateNowPlayingInfo(state) {
+        const nowPlayingItem = state.NowPlayingItem;
 
-        var nowPlayingItem = state.NowPlayingItem;
-
-        var textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
+        const textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
         nowPlayingTextElement.innerHTML = '';
         if (textLines) {
-            let itemText = document.createElement('div');
-            let secondaryText = document.createElement('div');
+            const itemText = document.createElement('div');
+            const secondaryText = document.createElement('div');
             secondaryText.classList.add('nowPlayingBarSecondaryText');
             if (textLines.length > 1) {
                 textLines[1].secondary = true;
                 if (textLines[1].text) {
-                    let text = document.createElement('a');
+                    const text = document.createElement('a');
                     text.innerHTML = textLines[1].text;
                     secondaryText.appendChild(text);
                 }
             }
 
             if (textLines[0].text) {
-                let text = document.createElement('a');
+                const text = document.createElement('a');
                 text.innerHTML = textLines[0].text;
                 itemText.appendChild(text);
             }
@@ -537,15 +520,15 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             nowPlayingTextElement.appendChild(secondaryText);
         }
 
-        var imgHeight = 70;
+        const imgHeight = 70;
 
-        var url = nowPlayingItem ? (seriesImageUrl(nowPlayingItem, {
+        const url = nowPlayingItem ? (seriesImageUrl(nowPlayingItem, {
             height: imgHeight
         }) || imageUrl(nowPlayingItem, {
             height: imgHeight
         })) : null;
 
-        var isRefreshing = false;
+        let isRefreshing = false;
 
         if (url !== currentImgUrl) {
             currentImgUrl = url;
@@ -564,18 +547,17 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         if (nowPlayingItem.Id) {
             if (isRefreshing) {
-
-                var apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
+                const apiClient = window.connectionManager.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-                    var userData = item.UserData || {};
-                    var likes = userData.Likes == null ? '' : userData.Likes;
+                    const userData = item.UserData || {};
+                    const likes = userData.Likes == null ? '' : userData.Likes;
                     if (!layoutManager.mobile) {
                         let contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
                         // We remove the previous event listener by replacing the item in each update event
-                        let contextButtonClone = contextButton.cloneNode(true);
+                        const contextButtonClone = contextButton.cloneNode(true);
                         contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
                         contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
-                        let options = {
+                        const options = {
                             play: false,
                             queue: false,
                             clearQueue: true,
@@ -600,7 +582,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onPlaybackStart(e, state) {
         console.debug('nowplaying event: ' + e.type);
-        var player = this;
+        const player = this;
         onStateChanged.call(player, e, state);
     }
 
@@ -617,10 +599,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             return;
         }
 
-        let shuffleMode = playbackManager.getQueueShuffleMode();
-        let context = nowPlayingBarElement;
+        const shuffleMode = playbackManager.getQueueShuffleMode();
+        const context = nowPlayingBarElement;
         const cssClass = 'buttonActive';
-        let toggleShuffleButton = context.querySelector('.btnShuffleQueue');
+        const toggleShuffleButton = context.querySelector('.btnShuffleQueue');
         switch (shuffleMode) {
             case 'Shuffle':
                 toggleShuffleButton.classList.add(cssClass);
@@ -642,24 +624,21 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function hideNowPlayingBar() {
-
         isEnabled = false;
 
         // Use a timeout to prevent the bar from hiding and showing quickly
         // in the event of a stop->play command
 
         // Don't call getNowPlayingBar here because we don't want to end up creating it just to hide it
-        var elem = document.getElementsByClassName('nowPlayingBar')[0];
+        const elem = document.getElementsByClassName('nowPlayingBar')[0];
         if (elem) {
-
             slideDown(elem);
         }
     }
 
     function onPlaybackStopped(e, state) {
-
         console.debug('nowplaying event: ' + e.type);
-        var player = this;
+        const player = this;
 
         if (player.isLocalPlayer) {
             if (state.NextMediaType !== 'Audio') {
@@ -673,19 +652,17 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function onPlayPauseStateChanged(e) {
-
         if (!isEnabled) {
             return;
         }
 
-        var player = this;
+        const player = this;
         updatePlayPauseState(player.paused());
     }
 
     function onStateChanged(event, state) {
-
         console.debug('nowplaying event: ' + event.type);
-        var player = this;
+        const player = this;
 
         if (!state.NowPlayingItem || layoutManager.tv) {
             hideNowPlayingBar();
@@ -710,27 +687,24 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function onTimeUpdate(e) {
-
         if (!isEnabled) {
             return;
         }
 
         // Try to avoid hammering the document with changes
-        var now = new Date().getTime();
+        const now = new Date().getTime();
         if ((now - lastUpdateTime) < 700) {
-
             return;
         }
         lastUpdateTime = now;
 
-        var player = this;
+        const player = this;
         currentRuntimeTicks = playbackManager.duration(player);
-        updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks, playbackManager.getBufferedRanges(player));
+        updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks, playbackManager.getBufferedRanges(player));
     }
 
     function releaseCurrentPlayer() {
-
-        var player = currentPlayer;
+        const player = currentPlayer;
 
         if (player) {
             events.off(player, 'playbackstart', onPlaybackStart);
@@ -749,25 +723,22 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function onVolumeChanged(e) {
-
         if (!isEnabled) {
             return;
         }
 
-        var player = this;
+        const player = this;
 
         updatePlayerVolumeState(player.isMuted(), player.getVolume());
     }
 
     function refreshFromPlayer(player) {
-
-        var state = playbackManager.getPlayerState(player);
+        const state = playbackManager.getPlayerState(player);
 
         onStateChanged.call(player, { type: 'init' }, state);
     }
 
     function bindToPlayer(player) {
-
         if (player === currentPlayer) {
             return;
         }
@@ -800,16 +771,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     bindToPlayer(playbackManager.getCurrentPlayer());
 
     document.addEventListener('viewbeforeshow', function (e) {
-
         if (!e.detail.options.enableMediaControl) {
-
             if (isVisibilityAllowed) {
                 isVisibilityAllowed = false;
                 hideNowPlayingBar();
             }
-
         } else if (!isVisibilityAllowed) {
-
             isVisibilityAllowed = true;
             if (currentPlayer) {
                 refreshFromPlayer(currentPlayer);
@@ -818,4 +785,5 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         }
     });
-});
+
+/* eslint-enable indent */
