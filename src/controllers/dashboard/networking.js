@@ -59,7 +59,6 @@ import 'emby-select';
                     config.EnableRemoteAccess = form.querySelector('#chkRemoteAccess').checked;
                     config.CertificatePath = form.querySelector('#txtCertificatePath').value || null;
                     config.CertificatePassword = form.querySelector('#txtCertPassword').value || null;
-                    
                     config.UPnPCreateHttpPortMap = form.querySelector('#chkCreateHttpPortMap').checked;
                     config.AutoDiscovery = form.querySelector('#chkAutodiscovery').checked;
                     config.AutoDiscoveryTracing = form.querySelector('#chkAutodiscoveryTracing').checked;
