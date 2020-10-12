@@ -8,6 +8,7 @@ import 'whatwg-fetch';
 import 'resize-observer-polyfill';
 import 'jellyfin-noto';
 import '../assets/css/site.css';
+import AppInfo from '../components/AppInfo';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
@@ -60,7 +61,11 @@ window.pageIdOn = function(eventName, id, fn) {
     });
 };
 
-const AppInfo = {};
+if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
+    AppInfo.isNativeApp = true;
+}
+
+Object.freeze(AppInfo);
 
 function initClient() {
     function bindConnectionManagerEvents(connectionManager, events, userSettings) {
@@ -95,7 +100,7 @@ function initClient() {
             import('../components/apphost'),
             import('./settings/userSettings')
         ])
-            .then(([{ ConnectionManager, Credentials, Events }, { appHost} , userSettings]) => {
+            .then(([{ ConnectionManager, Credentials, Events }, { appHost }, userSettings]) => {
                 var credentialProviderInstance = new Credentials();
                 var promises = [appHost.init()];
 
@@ -202,7 +207,7 @@ function initClient() {
             import('../assets/css/fonts.css');
         }
 
-        import('../assets/css/librarybrowser.css')
+        import('../assets/css/librarybrowser.css');
         import('../components/apphost')
             .then(({ appHost }) => {
                 loadPlugins(appHost, browser).then(function () {
@@ -364,10 +369,6 @@ function initClient() {
     }
 
     let localApiClient;
-
-    if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
-        AppInfo.isNativeApp = true;
-    }
 
     init();
 }

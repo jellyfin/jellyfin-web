@@ -81,7 +81,6 @@ module.exports = {
                 'requirejs': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'writable',
-                'AppInfo': 'writable',
                 'chrome': 'writable',
                 'DlnaProfilePage': 'writable',
                 'Dashboard': 'writable',

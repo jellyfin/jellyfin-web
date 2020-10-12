@@ -1,3 +1,5 @@
+import AppInfo from '../components/AppInfo';
+
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
 }

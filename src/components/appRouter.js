@@ -8,6 +8,7 @@ import itemHelper from './itemHelper';
 import loading from './loading/loading';
 import page from 'page';
 import viewManager from './viewManager/viewManager';
+import AppInfo from './AppInfo';
 
 class AppRouter {
     allRoutes = [];
