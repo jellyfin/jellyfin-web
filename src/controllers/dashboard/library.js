@@ -7,6 +7,7 @@ import dom from '../../scripts/dom';
 import imageHelper from '../../scripts/imagehelper';
 import '../../components/cardbuilder/card.css';
 import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
+import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

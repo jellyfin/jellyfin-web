@@ -27,6 +27,7 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-select/emby-select';
 import itemShortcuts from '../../components/shortcuts';
+import Dashboard from '../../scripts/clientUtils';
 
 function getPromise(apiClient, params) {
     const id = params.id;

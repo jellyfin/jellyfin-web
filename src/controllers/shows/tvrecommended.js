@@ -13,6 +13,7 @@ import globalize from '../../scripts/globalize';
 import '../../assets/css/scrollstyles.css';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-button/emby-button';
+import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

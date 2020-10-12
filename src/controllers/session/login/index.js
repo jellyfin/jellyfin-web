@@ -1,7 +1,6 @@
 import { appHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../scripts/dom';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import loading from '../../../components/loading/loading';
 import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
@@ -9,6 +8,7 @@ import browser from '../../../scripts/browser';
 import globalize from '../../../scripts/globalize';
 import '../../../components/cardbuilder/card.css';
 import '../../../elements/emby-checkbox/emby-checkbox';
+import Dashboard from '../../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

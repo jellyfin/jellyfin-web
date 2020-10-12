@@ -2,6 +2,7 @@ import 'jquery';
 import loading from '../components/loading/loading';
 import globalize from '../scripts/globalize';
 import '../elements/emby-button/emby-button';
+import Dashboard from '../scripts/clientUtils';
 
 function loadPage(page, config) {
     $('.liveTvSettingsForm', page).show();

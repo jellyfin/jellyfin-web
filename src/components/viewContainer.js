@@ -1,4 +1,6 @@
 import './viewManager/viewContainer.css';
+import Dashboard from '../scripts/clientUtils';
+
 /* eslint-disable indent */
 
     function setControllerClass(view, options) {

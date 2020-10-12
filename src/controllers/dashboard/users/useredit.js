@@ -2,6 +2,7 @@ import 'jquery';
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import globalize from '../../../scripts/globalize';
+import Dashboard from '../../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

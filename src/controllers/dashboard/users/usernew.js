@@ -2,6 +2,7 @@ import 'jquery';
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-checkbox/emby-checkbox';
+import Dashboard from '../../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

@@ -8,6 +8,7 @@ import '../../../components/cardbuilder/card.css';
 import '../../../elements/emby-button/emby-button';
 import '../../../components/indicators/indicators.css';
 import '../../../assets/css/flexstyles.css';
+import Dashboard from '../../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

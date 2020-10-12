@@ -15,6 +15,7 @@ import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.css';
 import '../assets/css/flexstyles.css';
+import Dashboard from './clientUtils';
 
 /* eslint-disable indent */
 

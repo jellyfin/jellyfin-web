@@ -10,6 +10,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-button/emby-button';
 import './homesections.css';
+import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

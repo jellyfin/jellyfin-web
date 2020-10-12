@@ -5,6 +5,7 @@ import '../elements/emby-input/emby-input';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-checkbox/emby-checkbox';
 import '../elements/emby-select/emby-select';
+import Dashboard from '../scripts/clientUtils';
 
 function isM3uVariant(type) {
     return ['nextpvr'].indexOf(type || '') !== -1;

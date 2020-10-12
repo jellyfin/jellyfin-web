@@ -4,6 +4,7 @@ import dom from '../../../../scripts/dom';
 import globalize from '../../../../scripts/globalize';
 import '../../../../components/cardbuilder/card.css';
 import '../../../../elements/emby-button/emby-button';
+import Dashboard from '../../../../scripts/clientUtils';
 
 function deletePlugin(page, uniqueid, name) {
     const msg = globalize.translate('UninstallPluginConfirmation', name);

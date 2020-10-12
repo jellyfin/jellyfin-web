@@ -3,6 +3,7 @@ import globalize from '../../../scripts/globalize';
 import '../../../assets/css/dashboard.css';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
+import Dashboard from '../../../scripts/clientUtils';
 
 function getApiClient() {
     return ApiClient;

@@ -1,6 +1,7 @@
 import 'jquery';
 import globalize from './globalize';
 import 'material-design-icons-iconfont';
+import Dashboard from './clientUtils';
 
 /* eslint-disable indent */
 

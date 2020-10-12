@@ -8,6 +8,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.css';
+import Dashboard from '../../scripts/clientUtils';
 
 export default function (page, providerId, options) {
     function reload() {

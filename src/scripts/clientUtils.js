@@ -182,9 +182,7 @@ export function confirm(message, title, callback) {
     });
 }
 
-// This is used in plugins and templates, so keep it defined for now.
-// TODO: Remove once plugins don't need it
-window.Dashboard = {
+const Dashboard = {
     alert,
     capabilities,
     confirm,
@@ -203,21 +201,8 @@ window.Dashboard = {
     showLoadingMsg
 };
 
-export default {
-    alert,
-    capabilities,
-    confirm,
-    getPluginUrl,
-    getCurrentUser,
-    getCurrentUserId,
-    hideLoadingMsg,
-    logout,
-    navigate,
-    onServerChanged,
-    processErrorResponse,
-    processPluginConfigurationUpdateResult,
-    processServerConfigurationUpdateResult,
-    selectServer,
-    serverAddress,
-    showLoadingMsg
-};
+// This is used in plugins and templates, so keep it defined for now.
+// TODO: Remove once plugins don't need it
+window.Dashboard = Dashboard;
+
+export default Dashboard;

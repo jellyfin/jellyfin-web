@@ -11,6 +11,7 @@ import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../components/cardbuilder/card.css';
 import 'material-design-icons-iconfont';
 import '../elements/emby-button/emby-button';
+import Dashboard from '../scripts/clientUtils';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 

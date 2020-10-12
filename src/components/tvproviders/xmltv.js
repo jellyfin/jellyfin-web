@@ -5,6 +5,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../listview/listview.css';
 import '../../elements/emby-button/paper-icon-button-light';
+import Dashboard from '../../scripts/clientUtils';
 
 export default function (page, providerId, options) {
     function getListingProvider(config, id) {

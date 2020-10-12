@@ -2,6 +2,7 @@ import loading from '../../../components/loading/loading';
 import dom from '../../../scripts/dom';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
+import Dashboard from '../../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

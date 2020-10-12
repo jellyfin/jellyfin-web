@@ -18,6 +18,7 @@ import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.css';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import taskButton from '../../scripts/taskbutton';
+import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

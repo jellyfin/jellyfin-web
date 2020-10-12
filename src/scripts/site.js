@@ -9,6 +9,7 @@ import 'resize-observer-polyfill';
 import 'jellyfin-noto';
 import '../assets/css/site.css';
 import AppInfo from '../components/AppInfo';
+import Dashboard from './clientUtils';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
@@ -115,10 +116,9 @@ function initClient() {
                         console.debug('loading ApiClient singleton');
 
                         return Promise.all([
-                            import('jellyfin-apiclient'),
-                            import('./clientUtils')
+                            import('jellyfin-apiclient')
                         ])
-                            .then(([{ ApiClient }, clientUtils]) => {
+                            .then(([{ ApiClient }]) => {
                                 console.debug('creating ApiClient singleton');
 
                                 var apiClient = new ApiClient(Dashboard.serverAddress(), appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());

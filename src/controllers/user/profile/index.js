@@ -4,6 +4,7 @@ import libraryMenu from '../../../scripts/libraryMenu';
 import { appHost } from '../../../components/apphost';
 import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-button/emby-button';
+import Dashboard from '../../../scripts/clientUtils';
 
 function reloadUser(page) {
     const userId = getParameterByName('userId');

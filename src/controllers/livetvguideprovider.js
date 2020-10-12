@@ -1,6 +1,7 @@
 import { Events } from 'jellyfin-apiclient';
 import loading from '../components/loading/loading';
 import globalize from '../scripts/globalize';
+import Dashboard from '../scripts/clientUtils';
 
 function onListingsSubmitted() {
     Dashboard.navigate('livetvstatus.html');

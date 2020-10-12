@@ -3,6 +3,7 @@ import loading from '../../components/loading/loading';
 import libraryMenu from '../../scripts/libraryMenu';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
+import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

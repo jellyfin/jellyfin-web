@@ -4,6 +4,7 @@ import imageLoader from '../../components/images/imageLoader';
 import '../../scripts/livetvcomponents';
 import '../../components/listview/listview.css';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import Dashboard from '../../scripts/clientUtils';
 
 function renderRecordings(elem, recordings, cardOptions, scrollX) {
     if (!elem) {

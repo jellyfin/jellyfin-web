@@ -83,7 +83,6 @@ module.exports = {
                 'ApiClient': 'writable',
                 'chrome': 'writable',
                 'DlnaProfilePage': 'writable',
-                'Dashboard': 'writable',
                 'DashboardPage': 'writable',
                 'Emby': 'readonly',
                 'Events': 'writable',

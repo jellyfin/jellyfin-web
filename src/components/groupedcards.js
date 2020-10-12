@@ -3,6 +3,7 @@
 import dom from '../scripts/dom';
 import { appRouter } from './appRouter';
 import { ConnectionManager } from 'jellyfin-apiclient';
+import Dashboard from '../scripts/clientUtils';
 
     function onGroupedCardClick(e, card) {
         const itemId = card.getAttribute('data-id');
