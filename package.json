@@ -51,7 +51,7 @@
     "stylelint-no-browser-hacks": "^1.2.1",
     "stylelint-order": "^4.1.0",
     "webpack": "^4.44.2",
-    "webpack-merge": "^4.2.2",
+    "webpack-merge": "^5.2.0",
     "webpack-stream": "^6.1.0",
     "worker-plugin": "^5.0.0"
   },
