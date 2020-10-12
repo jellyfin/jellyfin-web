@@ -74,7 +74,7 @@ import 'webcomponents.js/webcomponents-lite';
 
         const self = this;
         import('../../components/multiSelect/multiSelect').then((MultiSelect) => {
-            self.multiSelect = new MultiSelect({
+            self.multiSelect = new MultiSelect.default({
                 container: self,
                 bindOnClick: false
             });
