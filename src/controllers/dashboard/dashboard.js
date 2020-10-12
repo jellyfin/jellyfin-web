@@ -550,13 +550,13 @@ import 'emby-itemscontainer';
                 row.classList.remove('playingSession');
             }
 
-            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== window.connectionManager.deviceId()) {
+            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1) {
                 row.querySelector('.btnSessionSendMessage').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionSendMessage').classList.add('hide');
             }
 
-            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons.length) {
+            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo) {
                 row.querySelector('.btnSessionInfo').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionInfo').classList.add('hide');
@@ -564,7 +564,7 @@ import 'emby-itemscontainer';
 
             const btnSessionPlayPause = row.querySelector('.btnSessionPlayPause');
 
-            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== window.connectionManager.deviceId()) {
+            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl) {
                 btnSessionPlayPause.classList.remove('hide');
                 row.querySelector('.btnSessionStop').classList.remove('hide');
             } else {
