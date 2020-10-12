@@ -3,6 +3,7 @@ import events from 'events';
 import itemHelper from 'itemHelper';
 import serverNotifications from 'serverNotifications';
 import dom from 'dom';
+import taskButton from 'scripts/taskbutton';
 import globalize from 'globalize';
 import * as datefns from 'date-fns';
 import dfnshelper from 'dfnshelper';
@@ -827,9 +828,17 @@ import 'emby-itemscontainer';
                 refreshActiveRecordings(view, apiClient);
                 loading.hide();
             }
+
+            taskButton({
+                mode: 'on',
+                taskKey: 'RefreshLibrary',
+                button: page.querySelector('.btnRefresh')
+            });
         });
         view.addEventListener('viewbeforehide', function () {
             const apiClient = ApiClient;
+            const page = this;
+
             events.off(serverNotifications, 'RestartRequired', onRestartRequired);
             events.off(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
             events.off(serverNotifications, 'ServerRestarting', onServerRestarting);
@@ -841,6 +850,12 @@ import 'emby-itemscontainer';
             if (apiClient) {
                 DashboardPage.stopInterval(apiClient);
             }
+
+            taskButton({
+                mode: 'off',
+                taskKey: 'RefreshLibrary',
+                button: page.querySelector('.btnRefresh')
+            });
         });
         view.addEventListener('viewdestroy', function () {
             const page = this;
