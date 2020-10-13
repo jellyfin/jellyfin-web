@@ -227,7 +227,7 @@
     "HeaderConfirmPluginInstallation": "Bekräfta installation av tillägg",
     "HeaderConfirmProfileDeletion": "Bekräfta radering av profil",
     "HeaderConfirmRevokeApiKey": "Återkalla API-nyckel",
-    "HeaderConnectToServer": "Anslut till Server",
+    "HeaderConnectToServer": "Anslut till server",
     "HeaderConnectionFailure": "Misslyckad anslutning",
     "HeaderContainerProfile": "Behållareprofil",
     "HeaderContainerProfileHelp": "Behållareprofiler bestämmer begränsningarna hos en enhet när den spelar upp olika filformat. Om en begränsning är aktuell kommer innehållet att kodas om, även om formatet i sig är inställt för direkt avspelning.",
@@ -1275,7 +1275,7 @@
     "UnsupportedPlayback": "Jellyfin kan inte dekryptera inehåll skyddat av DRM men allt inehåll kommer ändå försökas, även skyddade titlar. Vissa filer kan se helt svarta ut på grund av kryptering eller andra funktioner som inte stöds, till exempel interaktiva titlar.",
     "LabelLibraryPageSizeHelp": "Sätter en begränsad sidstorlek i bibliotek. Sätt 0 för att avaktivera begränsad sidstorlek.",
     "ApiKeysCaption": "Lista av aktiva API-nycklar",
-    "DeinterlaceMethodHelp": "Välj metod för borttagning av inflätning vid konvertering av inflätat inehåll.",
+    "DeinterlaceMethodHelp": "Välj metod för avflätning vid mjukvarukonvertering av inflätat innehåll. När hårdvaruacceleration med stöd för hårdvarustödd avflätning används så kommer hårdvarustödd avflätning användas istället.",
     "SaveChanges": "Spara ändringar",
     "LabelRequireHttps": "Kräv HTTPS",
     "LabelChromecastVersion": "Chromecast-version",
@@ -1350,5 +1350,10 @@
     "LabelUnstable": "Ostabil",
     "LabelIconMaxResHelp": "Högsta tillåtna upplösning för ikoner som visas via egenskapen upnp:icon.",
     "LabelAlbumArtMaxResHelp": "Högsta tillåtna upplösning för albumomslag som visas via egenskapen upnp:albumArtURI.",
-    "Image": "Bild"
+    "Image": "Bild",
+    "Data": "Data",
+    "ButtonUseQuickConnect": "Använd Quick Connect",
+    "ButtonActivate": "Aktivera",
+    "Authorize": "Auktorisera",
+    "EnableAutoCast": "Markera som standard"
 }

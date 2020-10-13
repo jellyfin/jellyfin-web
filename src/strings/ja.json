@@ -1096,5 +1096,7 @@
     "LabelPlayerDimensions": "プレーヤーサイズ:",
     "LabelUnstable": "不安定",
     "LabelMaxParentalRating": "最大許容ペアレントレイティング:",
-    "LabelKodiMetadataEnablePathSubstitutionHelp": "サーバーのパス補完を使った画像パスの補完を有効にする。"
+    "LabelKodiMetadataEnablePathSubstitutionHelp": "サーバーのパス補完を使った画像パスの補完を有効にする。",
+    "ButtonActivate": "アクティベート",
+    "Authorize": "承認"
 }

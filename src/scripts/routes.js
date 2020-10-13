@@ -17,7 +17,7 @@ import 'detailtablecss';
     console.groupCollapsed('defining core routes');
 
     function defineRoute(newRoute) {
-        var path = newRoute.alias ? newRoute.alias : newRoute.path;
+        const path = newRoute.alias ? newRoute.alias : newRoute.path;
         console.debug('defining route: ' + path);
         newRoute.dictionary = 'core';
         Emby.Page.addRoute(path, newRoute);
@@ -62,11 +62,11 @@ import 'detailtablecss';
 
     defineRoute({
         alias: '/forgotpasswordpin.html',
-        path: '/controllers/session/redeemPassword/index.html',
+        path: '/controllers/session/resetPassword/index.html',
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: 'session/redeemPassword/index'
+        controller: 'session/resetPassword/index'
     });
 
     defineRoute({
@@ -97,6 +97,13 @@ import 'detailtablecss';
         controller: 'user/home/index'
     });
 
+    defineRoute({
+        alias: '/mypreferencesquickconnect.html',
+        path: '/controllers/user/quickConnect/index.html',
+        autoFocus: false,
+        transition: 'fade',
+        controller: 'user/quickConnect/index'
+    });
     defineRoute({
         alias: '/mypreferencesplayback.html',
         path: '/controllers/user/playback/index.html',
@@ -149,6 +156,13 @@ import 'detailtablecss';
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/devices/device'
+    });
+
+    defineRoute({
+        path: '/quickconnect.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/quickconnect'
     });
 
     defineRoute({

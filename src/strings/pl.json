@@ -1252,7 +1252,7 @@
     "LabelLibraryPageSize": "Rozmiar strony biblioteki:",
     "LabelDeinterlaceMethod": "Metoda usuwania przeplotu:",
     "Episode": "Odcinek",
-    "DeinterlaceMethodHelp": "Wybierz metodę usuwania przeplotu używaną podczas transkodowania.",
+    "DeinterlaceMethodHelp": "Wybierz metodę usuwania przeplotu używaną podczas transkodowania. Gdy przyśpieszenie sprzętowe wspierające usuwanie przeplotu jest włączone sprzętowe usuwanie przeplotu zostanie użyte zamiast tego ustawienia.",
     "ClientSettings": "Ustawienia klienta",
     "ButtonTogglePlaylist": "Playlista",
     "ButtonSyncPlay": "SyncPlay",
@@ -1364,5 +1364,16 @@
     "Profile": "Profil",
     "PosterCard": "Widokówka",
     "Poster": "Plakat",
-    "MusicVideos": "Teledyski"
+    "MusicVideos": "Teledyski",
+    "VideoAudio": "Dźwięk Wideo",
+    "Bwdif": "BWDIF",
+    "UseDoubleRateDeinterlacing": "Podwój częstotliwość wyświetlania klatek podczas usuwania przeplotu",
+    "Photo": "Zdjęcie",
+    "LabelIconMaxResHelp": "Maksymalna rozdzielczość ikon udostępnianych przez upnp:icon.",
+    "LabelAlbumArtMaxResHelp": "Maksymalna rozdzielczość okładki albumu udostępnianej przez upnp:albumArtURI.",
+    "Other": "Inne",
+    "QuickConnectActivationSuccessful": "Aktywowano pomyślnie",
+    "LabelCurrentStatus": "Bieżący status:",
+    "EnableAutoCast": "Ustaw jako Domyślny",
+    "ButtonActivate": "Aktywuj"
 }

@@ -7,18 +7,20 @@
     background: #fff;
 }
 
-.topRightActionButtons {
-    right: 0.5vh;
+.topButtons {
     top: 0.5vh;
     z-index: 1002;
-    position: absolute;
+    position: sticky;
 }
 
-.topLeftActionButtons {
-    left: 0.5vh;
-    top: 0.5vh;
-    z-index: 1002;
-    position: absolute;
+#btnBookplayerToc {
+    float: left;
+    margin-left: 2vw;
+}
+
+#btnBookplayerExit {
+    float: right;
+    margin-right: 2vw;
 }
 
 .bookplayerButtonIcon {
@@ -36,4 +38,32 @@
 
 .bookplayerErrorMsg {
     text-align: center;
+}
+
+#viewer {
+    align-items: flex-start;
+}
+
+#btnBookplayerPrev {
+    margin: 0.5vh 0.5vh;
+    color: black;
+}
+
+#btnBookplayerNext {
+    margin: 0.5vh 0.5vh;
+    color: black;
+}
+
+.button-wrapper {
+    text-align: center;
+    position: relative;
+    height: 0;
+}
+
+.top-button {
+    margin: 0.5vh 2em;
+}
+
+.bottom-button {
+    margin: 2em 0.5vh;
 }

@@ -827,5 +827,7 @@
     "Data": "נתונים",
     "ColorPrimaries": "צבעים ראשיים",
     "ClientSettings": "הגדרות לקוח",
-    "BoxSet": "מארז"
+    "BoxSet": "מארז",
+    "ButtonActivate": "הפעל",
+    "Authorize": "הרשה"
 }

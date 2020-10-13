@@ -256,8 +256,8 @@ import 'emby-playstatebutton';
             }
 
             if (options.image !== false) {
-                var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
+                const imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
+                let imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {
                     imageClass += ' listItemImage-large-tv';

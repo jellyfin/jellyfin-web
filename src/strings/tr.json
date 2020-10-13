@@ -614,5 +614,6 @@
     "LabelSize": "Boyut:",
     "LabelSimultaneousConnectionLimit": "Eşzamanlı yayın limiti:",
     "LabelServerName": "Sunucu adı:",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "Settings": "Ayarlar"
 }
