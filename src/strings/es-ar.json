@@ -1417,5 +1417,8 @@
     "EnableAutoCast": "Establecer por defecto",
     "ButtonUseQuickConnect": "Utilizar conexión rápida",
     "ButtonActivate": "Activar",
-    "Authorize": "Autorizar"
+    "Authorize": "Autorizar",
+    "OptionMaxActiveSessionsHelp": "Un valor de 0 deshabilita la función.",
+    "OptionMaxActiveSessions": "Establece el número máximo de sesiones de usuario simultáneas.",
+    "LabelUserMaxActiveSessions": "Número máximo de sesiones de usuario simultáneas:"
 }
