@@ -374,7 +374,6 @@
     "Identify": "识别",
     "Images": "图片",
     "ImportFavoriteChannelsHelp": "只有在协调器设备中被标记为我的最爱的频道才会被导入。",
-    "ImportMissingEpisodesHelp": "缺少的剧集信息将被导入到你的数据库并分季分剧显示。可能会大大延长媒体库扫描时间。",
     "InstallingPackage": "正在安装 {0}（版本 {1}）",
     "InstantMix": "即时混音",
     "ItemCount": "{0} 项",

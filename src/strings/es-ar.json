@@ -598,7 +598,6 @@
     "LabelAppNameExample": "Ejemplo: Sickbeard, Sonarr",
     "LabelAlbumArtMaxWidth": "Ancho máximo de la carátula del álbum:",
     "LabelAlbumArtMaxHeight": "Altura máxima de la carátula del álbum:",
-    "ImportMissingEpisodesHelp": "La información sobre episodios perdidos se importará a su base de datos y se mostrará dentro de las temporadas y series. Esto puede provocar exploraciones de bibliotecas significativamente más largas.",
     "HeaderSyncPlayEnabled": "SyncPlay habilitado",
     "HeaderSyncPlaySelectGroup": "Unirse a un grupo",
     "HeaderResponseProfileHelp": "Los perfiles de respuesta proporcionan una forma de personalizar la información enviada al dispositivo cuando se reproducen ciertos tipos de medios.",

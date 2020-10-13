@@ -385,7 +385,6 @@
     "Identify": "Identifica",
     "Images": "Immagini",
     "ImportFavoriteChannelsHelp": "Solo i canali che sono contrassegnati come preferiti sul dispositivo di sintonizzazione verranno importati.",
-    "ImportMissingEpisodesHelp": "Le informazioni relative agli episodi mancanti saranno importate nel database e mostrate all'interno di Serie e Stagioni. Questo può causare scansioni della libreria più lente.",
     "InstallingPackage": "Installazione di {0} (versione {1})",
     "InstantMix": "Mix istantaneo",
     "ItemCount": "{0} elementi",

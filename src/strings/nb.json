@@ -313,7 +313,6 @@
     "Identify": "Identifiser",
     "Images": "Bilder",
     "ImportFavoriteChannelsHelp": "Kun kanaler som er markert som favoritt på tuneren bli importert.",
-    "ImportMissingEpisodesHelp": "Informasjon om manglende episoder vil bli importet til databasen og bli vist under sesonger og serier. Dette kan føre til at skanning av biblioteket tar betydelig lengre tid.",
     "InstallingPackage": "Installerer {0} (versjon {1})",
     "InstantMix": "Direktemiks",
     "ItemCount": "{0} elementer",

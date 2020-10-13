@@ -192,7 +192,6 @@
     "Help": "도움말",
     "Images": "이미지",
     "ImportFavoriteChannelsHelp": "튜너 장치에서 즐겨찾기로 표시된 채널만 가져옵니다.",
-    "ImportMissingEpisodesHelp": "누락 된 에피소드에 대한 정보는 데이터베이스로 가져 와서 시즌 및 시리즈 내에 표시됩니다. 이로 인해 라이브러리 스캔이 상당히 길어질 수 있습니다.",
     "InstallingPackage": "{0} 설치 중 ( {1} 버전)",
     "InstantMix": "인스턴트 믹스",
     "ItemCount": "{0} 항목",

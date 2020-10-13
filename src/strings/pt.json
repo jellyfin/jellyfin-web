@@ -420,7 +420,6 @@
     "ItemCount": "{0} itens",
     "InstantMix": "Mistura instântanea",
     "InstallingPackage": "A instalar {0}",
-    "ImportMissingEpisodesHelp": "Quando activado, a informação acerca dos episódios em falta será importada para a base de dados do Servidor Jellyfin e mostrada dentro das temporadas e séries. Isto pode aumentar significativamente a duração da análise da biblioteca.",
     "ImportFavoriteChannelsHelp": "Quando activado, apenas serão importados canais que estão marcados no sintonizador como favoritos.",
     "Images": "Imagens",
     "Identify": "Identificar",

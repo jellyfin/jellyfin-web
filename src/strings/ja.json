@@ -917,7 +917,6 @@
     "ValueTimeLimitSingleHour": "タイムリミット: 1 時間",
     "Wednesday": "水曜日",
     "LabelPreferredDisplayLanguage": "優先する表示言語:",
-    "ImportMissingEpisodesHelp": "所有してないエピソードの情報がデータベースにインポートされ、シーズンとシリーズ内に表示されます。ライブラリの読み込み時間が非常に長くなる可能性があります。",
     "LabelBindToLocalNetworkAddress": "ローカルネットワークアドレスにバインド:",
     "LabelDownMixAudioScale": "ダウンミキシング時の音声ブースト:",
     "HeaderNavigation": "ナビゲーション",

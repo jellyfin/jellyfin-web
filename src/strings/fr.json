@@ -398,7 +398,6 @@
     "HttpsRequiresCert": "Pour activer les connexions sécurisées, vous devrez fournir un certificat SSL vérifié, comme ceux fournis par Let's Encrypt. Veuillez fournir un certificat ou désactiver les connexions sécurisées.",
     "Identify": "Identifier",
     "ImportFavoriteChannelsHelp": "Seules les chaînes ajoutées aux favoris sur le tuner seront importées.",
-    "ImportMissingEpisodesHelp": "Les informations à propos des épisodes manquants seront importées dans votre base de données et affichées dans les saisons et séries. Cela peut accroître significativement la durée d'actualisation de la médiathèque.",
     "InstallingPackage": "Installation de {0} (version {1})",
     "InstantMix": "Mix instantané",
     "ItemCount": "{0} éléments",

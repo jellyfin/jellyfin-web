@@ -871,7 +871,6 @@
     "LabelEnableDlnaClientDiscoveryIntervalHelp": "Determines the duration in seconds between SSDP searches.",
     "LabelEnableAutomaticPortMapHelp": "Automatically forward public ports on your router to local ports on your server via UPnP. This may not work with some router models or network configurations. Changes will not apply until after a server restart.",
     "InstallingPackage": "Installing {0} (version {1})",
-    "ImportMissingEpisodesHelp": "Information about missing episodes will be imported into your database and displayed within seasons and series. This may cause significantly longer library scans.",
     "HeaderSubtitleAppearance": "Subtitle Appearance",
     "LabelProtocol": "Protocol:",
     "LabelProfileVideoCodecs": "Video codecs:",
