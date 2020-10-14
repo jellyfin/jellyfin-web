@@ -5,6 +5,7 @@
 
 import { Events } from 'jellyfin-apiclient';
 import * as Helper from './Helper';
+import Settings from './Settings';
 
 /**
  * Class that manages the playback of SyncPlay.
@@ -25,6 +26,8 @@ class PlaybackCore {
         this.lastCommand = null; // Last scheduled playback command, might not be the latest one.
         this.scheduledCommandTimeout = null;
         this.syncTimeout = null;
+
+        this.loadPreferences();
     }
 
     /**
@@ -35,26 +38,35 @@ class PlaybackCore {
         this.manager = syncPlayManager;
         this.timeSyncCore = syncPlayManager.getTimeSyncCore();
 
+        Events.on(Settings, 'update', (event) => {
+            this.loadPreferences();
+        });
+    }
+
+    /**
+     * Loads preferences from saved settings.
+     */
+    loadPreferences() {
         // Minimum required delay for SpeedToSync to kick in, in milliseconds.
-        this.minDelaySpeedToSync = 60.0;
+        this.minDelaySpeedToSync = Settings.getFloat('minDelaySpeedToSync', 60.0);
 
         // Maximum delay after which SkipToSync is used instead of SpeedToSync, in milliseconds.
-        this.maxDelaySpeedToSync = 3000.0;
+        this.maxDelaySpeedToSync = Settings.getFloat('maxDelaySpeedToSync', 3000.0);
 
         // Time during which the playback is sped up, in milliseconds.
-        this.speedToSyncDuration = 1000.0;
+        this.speedToSyncDuration = Settings.getFloat('speedToSyncDuration', 1000.0);
 
         // Minimum required delay for SkipToSync to kick in, in milliseconds.
-        this.minDelaySkipToSync = 400.0;
+        this.minDelaySkipToSync = Settings.getFloat('minDelaySkipToSync', 400.0);
 
         // Whether SpeedToSync should be used.
-        this.useSpeedToSync = true;
+        this.useSpeedToSync = Settings.getBool('useSpeedToSync', true);
 
         // Whether SkipToSync should be used.
-        this.useSkipToSync = true;
+        this.useSkipToSync = Settings.getBool('useSkipToSync', true);
 
         // Whether sync correction during playback is active.
-        this.enableSyncCorrection = true;
+        this.enableSyncCorrection = Settings.getBool('enableSyncCorrection', true);
     }
 
     /**
@@ -526,7 +538,12 @@ class PlaybackCore {
         // Diff might be caused by the player internally starting the playback.
         const diffMillis = (serverPositionTicks - currentPositionTicks) / Helper.TicksPerMillisecond;
 
+        // Adapt playback diff to selected device for time syncing.
+        const targetPlaybackDiff = diffMillis - this.timeSyncCore.getPlaybackDiff();
+
+        // Notify update for playback sync.
         this.playbackDiffMillis = diffMillis;
+        Events.trigger(this.manager, 'playback-diff', [this.playbackDiffMillis]);
 
         // Avoid overloading the browser.
         const elapsed = currentTime - this.lastSyncTime;
@@ -536,22 +553,22 @@ class PlaybackCore {
         const playerWrapper = this.manager.getPlayerWrapper();
 
         if (this.syncEnabled && this.enableSyncCorrection) {
-            const absDiffMillis = Math.abs(diffMillis);
+            const absDiffMillis = Math.abs(targetPlaybackDiff);
             // TODO: SpeedToSync sounds bad on songs.
             // TODO: SpeedToSync is failing on Safari (Mojave); even if playbackRate is supported, some delay seems to exist.
             // TODO: both SpeedToSync and SpeedToSync seem to have a hard time keeping up on Android Chrome as well.
             if (playerWrapper.hasPlaybackRate() && this.useSpeedToSync && absDiffMillis >= this.minDelaySpeedToSync && absDiffMillis < this.maxDelaySpeedToSync) {
                 // Fix negative speed when client is ahead of time more than speedToSyncTime.
                 const MinSpeed = 0.2;
-                if (diffMillis <= -speedToSyncTime * MinSpeed) {
-                    speedToSyncTime = Math.abs(diffMillis) / (1.0 - MinSpeed);
+                if (targetPlaybackDiff <= -speedToSyncTime * MinSpeed) {
+                    speedToSyncTime = Math.abs(targetPlaybackDiff) / (1.0 - MinSpeed);
                 }
 
                 // SpeedToSync strategy.
-                const speed = 1 + diffMillis / speedToSyncTime;
+                const speed = 1 + targetPlaybackDiff / speedToSyncTime;
 
                 if (speed <= 0) {
-                    console.error('SyncPlay error: speed should not be negative!', speed, diffMillis, speedToSyncTime);
+                    console.error('SyncPlay error: speed should not be negative!', speed, targetPlaybackDiff, speedToSyncTime);
                 }
 
                 playerWrapper.setPlaybackRate(speed);

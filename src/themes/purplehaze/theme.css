@@ -105,11 +105,13 @@ progress::-webkit-progress-value {
     background: #ff77f1;
 }
 
+div[data-role=controlgroup] .controlGroupButton.ui-btn-active,
 div[data-role=controlgroup] a.ui-btn-active {
     background: #55828b !important;
     color: #e1e5f2 !important;
 }
 
+.controlGroupButton,
 a[data-role=button] {
     background: rgba(2, 43, 58, 0.521) !important;
 }
@@ -391,11 +393,21 @@ a[data-role=button] {
     color: #fff !important;
 }
 
+.emby-checkbox:focus + .checkboxOutline {
+    border-color: #ff77f1;
+}
+
+.emby-checkbox:checked + .checkboxOutline {
+    background-color: #030322;
+    border: 0.14em solid rgb(72, 195, 200);
+}
+
 .emby-checkbox:checked + span + .checkboxOutline {
     background-color: #030322;
     border: 0.14em solid rgb(72, 195, 200);
 }
 
+.emby-checkbox:checked + .checkboxOutline > .minimalCheckboxIcon-checked,
 .emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
     color: rgb(12, 232, 214);
 }
@@ -404,6 +416,7 @@ a[data-role=button] {
     border-color: #ff77f1;
 }
 
+.emby-checkbox:focus:not(:checked) + .checkboxOutline,
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
     border: 0.14em solid #ff77f1;
 }
