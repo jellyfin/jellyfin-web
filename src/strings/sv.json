@@ -1367,5 +1367,14 @@
     "LabelKnownProxies": "Kända proxies:",
     "LabelCurrentStatus": "Nuvarande status:",
     "KnownProxiesHelp": "Kommatecken-separerad lista av IP-adresser till kända proxies som används för att ansluta till din Jellyfin-instans. Detta krävs för att använda \"X-Forwarded-For\"-headers korrekt. Kräver omstart.",
-    "EnableQuickConnect": "Aktivera snabbanslutning på denna server"
+    "EnableQuickConnect": "Aktivera snabbanslutning på denna server",
+    "QuickConnectDeactivated": "Snabbanslutning inaktiverades innan inloggningsförsöket kunde godkännas",
+    "QuickConnectAuthorizeFail": "Okänd snabbanslutningskod",
+    "QuickConnectAuthorizeSuccess": "Anrop auktoriserat",
+    "QuickConnectAuthorizeCode": "Ange kod {0} för att logga in",
+    "QuickConnectActivationSuccessful": "Aktivering lyckades",
+    "QuickConnect": "Snabbanslutning",
+    "Profile": "Profil",
+    "PreviousTrack": "Hoppa över till föregående",
+    "MessageGetInstalledPluginsError": "Ett fel inträffade när listan över installerade tillägg skulle hämtas."
 }
