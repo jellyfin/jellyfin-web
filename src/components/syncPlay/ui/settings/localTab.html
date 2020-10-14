@@ -1,0 +1,29 @@
+<form style="margin: auto;">
+    <h2 class="sectionTitle">${HeaderSyncPlayTimeSyncSettings}</h2>
+    <div class="selectContainer">
+        <select id="selectTimeSync" is="emby-select" label="${LabelSyncPlaySettingsTimeSync}"></select>
+        <div class="fieldDescription">${LabelSyncPlaySettingsTimeSyncHelp}</div>
+    </div>
+    <h2 class="sectionTitle">${HeaderSyncPlayPlaybackSettings}</h2>
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkSyncCorrection" />
+            <span>${LabelSyncPlaySettingsSyncCorrection}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsSyncCorrectionHelp}</div>
+    </div>
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkSpeedToSync" />
+            <span>${LabelSyncPlaySettingsSpeedToSync}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsSpeedToSyncHelp}</div>
+    </div>
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkSkipToSync" />
+            <span>${LabelSyncPlaySettingsSkipToSync}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsSkipToSyncHelp}</div>
+    </div>
+</form>

@@ -1,0 +1,21 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1">
+        <span class="material-icons arrow_back"></span>
+    </button>
+    <h3 class="formDialogHeaderTitle">${HeaderSyncPlaySettings}</h3>
+</div>
+<div class="formDialogContent smoothScrollY">
+    <div class="dialogContentInner dialog-content-centered">
+        <div data-role="controlgroup" data-type="horizontal" class="localnav" data-mini="true">
+            <button id="show-localTab" class="controlGroupButton" is="emby-button"
+                data-showTab="localTab">${HeaderSyncPlayLocalSettings}</button>
+            <button id="show-advancedTab" class="controlGroupButton" is="emby-button"
+                data-showTab="advancedTab">${HeaderSyncPlayAdvancedSettings}</button>
+        </div>
+        <div class="formDialogFooter" id="footer">
+            <button is="emby-button" type="submit" class="raised button-submit block btnSave formDialogFooterItem">
+                <span id="saveButtonText">${Save}</span>
+            </button>
+        </div>
+    </div>
+</div>

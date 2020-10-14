@@ -5,6 +5,7 @@
 
 import { Events } from 'jellyfin-apiclient';
 import * as Helper from './Helper';
+import Settings from './Settings';
 import TimeSyncCore from './timeSync/TimeSyncCore';
 import PlaybackCore from './PlaybackCore';
 import QueueCore from './QueueCore';
