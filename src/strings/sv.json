@@ -934,7 +934,7 @@
     "RecordingScheduled": "Inspelning schemalagd.",
     "Recordings": "Inspelningar",
     "Refresh": "Uppdatera",
-    "RefreshDialogHelp": "Metadata uppdateras baserat på inställningar och internettjänster som har aktiverats under Jellyfin servers kontrollpanel.",
+    "RefreshDialogHelp": "Metadata uppdateras baserat på inställningar och internettjänster som har aktiverats i kontrollpanelen.",
     "RefreshMetadata": "Uppdatera metadata",
     "RefreshQueued": "Uppdatering köad.",
     "ReleaseDate": "Releasedatum",
