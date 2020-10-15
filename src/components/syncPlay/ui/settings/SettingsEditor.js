@@ -155,6 +155,8 @@ class SettingsEditor {
     async initEditor() {
         const { context } = this;
 
+        context.querySelector('#chkWebRTC').checked = SyncPlay.Settings.getBool('enableWebRTC', true);
+        context.querySelector('#txtWebRTCDisplayName').value = SyncPlay.Settings.get('webRTCDisplayName');
         context.querySelector('#txtExtraTimeOffset').value = SyncPlay.Settings.getFloat('extraTimeOffset', 0.0);
         context.querySelector('#chkSyncCorrection').checked = SyncPlay.Settings.getBool('enableSyncCorrection', true);
         context.querySelector('#txtMinDelaySpeedToSync').value = SyncPlay.Settings.getFloat('minDelaySpeedToSync', 60.0);
@@ -218,6 +220,8 @@ class SettingsEditor {
     async saveToAppSettings() {
         const { context } = this;
 
+        const enableWebRTC = context.querySelector('#chkWebRTC').checked;
+        const webRTCDisplayName = context.querySelector('#txtWebRTCDisplayName').value;
         const timeSyncDevice = context.querySelector('#selectTimeSync').value;
         const extraTimeOffset = context.querySelector('#txtExtraTimeOffset').value;
         const syncCorrection = context.querySelector('#chkSyncCorrection').checked;
@@ -228,6 +232,8 @@ class SettingsEditor {
         const useSpeedToSync = context.querySelector('#chkSpeedToSync').checked;
         const useSkipToSync = context.querySelector('#chkSkipToSync').checked;
 
+        SyncPlay.Settings.set('enableWebRTC', enableWebRTC);
+        SyncPlay.Settings.set('webRTCDisplayName', webRTCDisplayName);
         SyncPlay.Settings.set('timeSyncDevice', timeSyncDevice);
         SyncPlay.Settings.set('extraTimeOffset', extraTimeOffset);
         SyncPlay.Settings.set('enableSyncCorrection', syncCorrection);

@@ -1,4 +1,16 @@
 <form style="margin: auto;">
+    <h2 class="sectionTitle">${HeaderSyncPlayWebRTCSettings}</h2>
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkWebRTC" />
+            <span>${LabelSyncPlaySettingsEnableWebRTC}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsEnableWebRTCHelp}</div>
+    </div>
+    <div class="inputContainer inputContainer-withDescription">
+        <input is="emby-input" type="text" id="txtWebRTCDisplayName" label="${LabelSyncPlaySettingsWebRTCDisplayName}" />
+        <div class="fieldDescription">${LabelSyncPlaySettingsWebRTCDisplayNameHelp}</div>
+    </div>
     <h2 class="sectionTitle">${HeaderSyncPlayTimeSyncSettings}</h2>
     <div class="inputContainer inputContainer-withDescription">
         <input type="number" is="emby-input" id="txtExtraTimeOffset" pattern="[0-9]*"

@@ -7,6 +7,7 @@ import { Events } from 'jellyfin-apiclient';
 import * as Helper from './Helper';
 import Settings from './Settings';
 import TimeSyncCore from './timeSync/TimeSyncCore';
+import WebRTCCore from './webRTC/WebRTCCore';
 import PlaybackCore from './PlaybackCore';
 import QueueCore from './QueueCore';
 import Controller from './Controller';
@@ -23,6 +24,7 @@ class Manager {
         this.playerFactory = playerFactory;
         this.apiClient = null;
 
+        this.webRTCCore = new WebRTCCore();
         this.timeSyncCore = new TimeSyncCore();
         this.playbackCore = new PlaybackCore();
         this.queueCore = new QueueCore();
@@ -57,6 +59,7 @@ class Manager {
         this.playerWrapper = this.playerFactory.getDefaultWrapper(this);
 
         // Initialize components.
+        this.webRTCCore.init(this);
         this.timeSyncCore.init(this);
         this.playbackCore.init(this);
         this.queueCore.init(this);
@@ -70,6 +73,14 @@ class Manager {
                 });
             }
         });
+    }
+
+    /**
+     * Gets the WebRTC core.
+     * @returns {SyncPlayWebRTCCore} The WebRTC core.
+     */
+    getWebRTCCore() {
+        return this.webRTCCore;
     }
 
     /**
@@ -219,6 +230,9 @@ class Manager {
                 break;
             case 'LibraryAccessDenied':
                 Helper.showMessage(this, 'MessageSyncPlayLibraryAccessDenied');
+                break;
+            case 'WebRTC':
+                this.webRTCCore.handleSignalingMessage(apiClient, cmd.Data);
                 break;
             default:
                 console.error(`SyncPlay processGroupUpdate: command ${cmd.Type} not recognised.`);
@@ -373,6 +387,11 @@ class Manager {
 
         this.timeSyncCore.forceUpdate();
 
+        const enableWebRTC = Settings.getBool('enableWebRTC', true);
+        if (enableWebRTC) {
+            this.webRTCCore.enable();
+        }
+
         if (showMessage) {
             Helper.showMessage(this, 'MessageSyncPlayEnabled');
         }
@@ -391,6 +410,8 @@ class Manager {
         this.playbackCore.syncEnabled = false;
         Events.trigger(this, 'enabled', [false]);
         this.playerWrapper.unbindFromPlayer();
+
+        this.webRTCCore.disable();
 
         if (showMessage) {
             Helper.showMessage(this, 'MessageSyncPlayDisabled');

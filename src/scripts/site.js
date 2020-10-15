@@ -167,6 +167,13 @@ function initSyncPlay() {
         SyncPlay.Manager.onPlayerChange(newPlayer, newTarget, oldPlayer);
     });
 
+    // Set default value for some settings.
+    const webRTCDisplayName = SyncPlay.Settings.get('webRTCDisplayName');
+    if (!webRTCDisplayName) {
+        const deviceName = appHost.deviceName();
+        SyncPlay.Settings.set('webRTCDisplayName', deviceName);
+    }
+
     // Start SyncPlay.
     const apiClient = ServerConnections.currentApiClient();
     SyncPlay.Manager.init(apiClient);
