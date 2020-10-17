@@ -5,6 +5,7 @@ import { Events } from 'jellyfin-apiclient';
 import * as htmlMediaHelper from '../components/htmlMediaHelper';
 import * as webSettings from '../scripts/settings/webSettings';
 import globalize from '../scripts/globalize';
+import profileBuilder from '../scripts/browserDeviceProfile';
 
 function getBaseProfileOptions(item) {
     const disableHlsVideoAudioCodecs = [];
@@ -27,19 +28,17 @@ function getBaseProfileOptions(item) {
 
 function getDeviceProfile(item, options = {}) {
     return new Promise(function (resolve) {
-        import('../scripts/browserDeviceProfile').then((profileBuilder) => {
-            let profile;
+        let profile;
 
-            if (window.NativeShell) {
-                profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
-            } else {
-                const builderOpts = getBaseProfileOptions(item);
-                builderOpts.enableSsaRender = (item && !options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats');
-                profile = profileBuilder(builderOpts);
-            }
+        if (window.NativeShell) {
+            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
+        } else {
+            const builderOpts = getBaseProfileOptions(item);
+            builderOpts.enableSsaRender = (item && !options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats');
+            profile = profileBuilder(builderOpts);
+        }
 
-            resolve(profile);
-        });
+        resolve(profile);
     });
 }
 

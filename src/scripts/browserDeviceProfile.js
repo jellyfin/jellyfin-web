@@ -858,5 +858,5 @@ import browser from './browser';
         });
 
         return profile;
-    };
+    }
 /* eslint-enable indent */

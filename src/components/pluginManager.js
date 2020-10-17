@@ -81,8 +81,7 @@ import globalize from '../scripts/globalize';
                 });
             } else if (pluginSpec.then) {
                 return pluginSpec.then(({ default: pluginBuilder }) => {
-                    return pluginBuilder();
-                }).then((plugin) => {
+                    const plugin = new pluginBuilder;
                     console.debug(`Plugin loaded: ${plugin.id}`);
                     return this.#registerPlugin(plugin);
                 });
