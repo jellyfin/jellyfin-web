@@ -19,12 +19,17 @@ module.exports = merge(common, {
             {
                 test: /\.js$/,
                 exclude: /node_modules[\\/](?!date-fns|epubjs|query-string|split-on-first)/,
-                use: {
+                use: [{
                     loader: 'babel-loader',
                     options: {
                         presets: packageConfig.babel.presets
                     }
-                }
+                }]
+            },
+            {
+                test: /\.js$/,
+                enforce: 'pre',
+                use: ['source-map-loader']
             },
             {
                 test: /\.css$/i,
