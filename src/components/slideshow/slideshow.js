@@ -4,7 +4,6 @@
  */
 import dialogHelper from '../dialogHelper/dialogHelper';
 import inputManager from '../../scripts/inputManager';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
@@ -13,6 +12,7 @@ import dom from '../../scripts/dom';
 import './style.css';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
+import ServerConnections from '../ServerConnections';
 
 /**
  * Name of transition event.
@@ -85,7 +85,7 @@ function getBackdropImageUrl(item, options, apiClient) {
  * @returns {string} URL of the item's image.
  */
 function getImgUrl(item, user) {
-    const apiClient = ConnectionManager.getApiClient(item.ServerId);
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
     const imageOptions = {};
 
     if (item.BackdropImageTags && item.BackdropImageTags.length) {

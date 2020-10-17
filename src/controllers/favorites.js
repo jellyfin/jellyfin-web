@@ -2,12 +2,12 @@ import { appRouter } from '../components/appRouter';
 import cardBuilder from '../components/cardbuilder/cardBuilder';
 import dom from '../scripts/dom';
 import globalize from '../scripts/globalize';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import { appHost } from '../components/apphost';
 import layoutManager from '../components/layoutManager';
 import focusManager from '../components/focusManager';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
+import ServerConnections from '../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -270,7 +270,7 @@ class FavoritesTab {
     constructor(view, params) {
         this.view = view;
         this.params = params;
-        this.apiClient = window.ConnectionManager.currentApiClient();
+        this.apiClient = ServerConnections.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
         createSections(this, this.sectionsContainer, this.apiClient);
     }

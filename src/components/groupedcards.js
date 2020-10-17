@@ -2,13 +2,13 @@
 
 import dom from '../scripts/dom';
 import { appRouter } from './appRouter';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import Dashboard from '../scripts/clientUtils';
+import ServerConnections from './ServerConnections';
 
     function onGroupedCardClick(e, card) {
         const itemId = card.getAttribute('data-id');
         const serverId = card.getAttribute('data-serverid');
-        const apiClient = window.ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
         const userId = apiClient.getCurrentUserId();
         const playedIndicator = card.querySelector('.playedIndicator');
         const playedIndicatorHtml = playedIndicator ? playedIndicator.innerHTML : null;

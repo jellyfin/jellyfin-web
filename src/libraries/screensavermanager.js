@@ -1,8 +1,9 @@
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from '../components/playback/playbackmanager';
 import { pluginManager } from '../components/pluginManager';
 import inputManager from '../scripts/inputManager';
 import * as userSettings from '../scripts/settings/userSettings';
+import ServerConnections from '../components/ServerConnections';
 
 function getMinIdleTime() {
     // Returns the minimum amount of idle time required before the screen saver can be displayed
@@ -84,7 +85,7 @@ function ScreenSaverManager() {
 
     this.show = function () {
         let isLoggedIn;
-        const apiClient = window.ConnectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
 
         if (apiClient && apiClient.isLoggedIn()) {
             isLoggedIn = true;

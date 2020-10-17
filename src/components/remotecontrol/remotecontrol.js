@@ -4,7 +4,7 @@ import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
 import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import { appHost } from '../apphost';
 import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
@@ -15,6 +15,7 @@ import '../cardbuilder/card.css';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import './remotecontrol.css';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import ServerConnections from '../ServerConnections';
 
 /*eslint prefer-const: "error"*/
 
@@ -95,18 +96,18 @@ function seriesImageUrl(item, options) {
     options.type = options.type || 'Primary';
     if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
         options.tag = item.SeriesPrimaryImageTag;
-        return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
     }
 
     if (options.type === 'Thumb') {
         if (item.SeriesThumbImageTag) {
             options.tag = item.SeriesThumbImageTag;
-            return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
         if (item.ParentThumbImageTag) {
             options.tag = item.ParentThumbImageTag;
-            return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
         }
     }
 
@@ -119,12 +120,12 @@ function imageUrl(item, options) {
 
     if (item.ImageTags && item.ImageTags[options.type]) {
         options.tag = item.ImageTags[options.type];
-        return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
     }
 
     if (item.AlbumId && item.AlbumPrimaryImageTag) {
         options.tag = item.AlbumPrimaryImageTag;
-        return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
     }
 
     return null;
@@ -215,7 +216,7 @@ function updateNowPlayingInfo(context, state, serverId) {
             openAlbum: false,
             positionTo: contextButton
         };
-        const apiClient = ConnectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
             apiClient.getCurrentUser().then(function (user) {
                 contextButton.addEventListener('click', function () {

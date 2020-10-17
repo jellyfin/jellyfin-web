@@ -1,4 +1,5 @@
 import AppInfo from '../components/AppInfo';
+import ServerConnections from '../components/ServerConnections';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -44,12 +45,11 @@ export function getCurrentUserId() {
 }
 
 export function onServerChanged(userId, accessToken, apiClient) {
-    apiClient = apiClient || window.ApiClient;
-    window.ApiClient = apiClient;
+    ServerConnections.setLocalApiClient(apiClient);
 }
 
 export function logout() {
-    window.connectionManager.logout().then(function () {
+    ServerConnections.logout().then(function () {
         let loginPage;
 
         if (AppInfo.isNativeApp) {

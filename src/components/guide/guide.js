@@ -1,7 +1,7 @@
 import inputManager from '../../scripts/inputManager';
 import browser from '../../scripts/browser';
 import globalize from '../../scripts/globalize';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import scrollHelper from '../../scripts/scrollHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
@@ -24,6 +24,7 @@ import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../assets/css/flexstyles.css';
 import 'webcomponents.js/webcomponents-lite';
+import ServerConnections from '../ServerConnections';
 
 function showViewSettings(instance) {
     import('./guide-settings').then((guideSettingsDialog) => {
@@ -212,7 +213,7 @@ function Guide(options) {
     }
 
     function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-        const apiClient = ConnectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
 
         const channelQuery = {
 
@@ -872,7 +873,7 @@ function Guide(options) {
     function reloadPage(page) {
         showLoading();
 
-        const apiClient = ConnectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
 
         apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
             setDateRange(page, guideInfo);

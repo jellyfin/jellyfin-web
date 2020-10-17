@@ -1,12 +1,13 @@
 
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import serverNotifications from '../scripts/serverNotifications';
 import globalize from '../scripts/globalize';
 import '../elements/emby-button/emby-button';
+import ServerConnections from '../components/ServerConnections';
 
 export default function (options) {
     function pollTasks() {
-        ConnectionManager.getApiClient(serverId).getScheduledTasks({
+        ServerConnections.getApiClient(serverId).getScheduledTasks({
             IsEnabled: true
         }).then(updateTasks);
     }
@@ -63,7 +64,7 @@ export default function (options) {
     }
 
     function onScheduledTaskMessageConfirmed(id) {
-        ConnectionManager.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
+        ServerConnections.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
     }
 
     function onButtonClick() {
@@ -81,13 +82,13 @@ export default function (options) {
     const serverId = ApiClient.serverId();
 
     function onPollIntervalFired() {
-        if (!ConnectionManager.getApiClient(serverId).isMessageChannelOpen()) {
+        if (!ServerConnections.getApiClient(serverId).isMessageChannelOpen()) {
             pollTasks();
         }
     }
 
     function startInterval() {
-        const apiClient = ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         if (pollInterval) {
             clearInterval(pollInterval);
@@ -97,7 +98,7 @@ export default function (options) {
     }
 
     function stopInterval() {
-        ConnectionManager.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
+        ServerConnections.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
 
         if (pollInterval) {
             clearInterval(pollInterval);

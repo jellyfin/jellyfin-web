@@ -3,12 +3,13 @@ import loading from '../components/loading/loading';
 import focusManager from '../components/focusManager';
 import homeSections from '../components/homesections/homesections';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
+import ServerConnections from '../components/ServerConnections';
 
 class HomeTab {
     constructor(view, params) {
         this.view = view;
         this.params = params;
-        this.apiClient = window.ConnectionManager.currentApiClient();
+        this.apiClient = ServerConnections.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
         view.querySelector('.sections').addEventListener('settingschange', onHomeScreenSettingsChanged.bind(this));
     }

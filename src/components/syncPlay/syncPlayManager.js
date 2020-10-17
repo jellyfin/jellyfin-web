@@ -3,11 +3,12 @@
  * @module components/syncPlay/syncPlayManager
  */
 
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from '../playback/playbackmanager';
 import timeSyncManager from './timeSyncManager';
 import toast from '../toast/toast';
 import globalize from '../../scripts//globalize';
+import ServerConnections from '../ServerConnections';
 
 /**
  * Waits for an event to be triggered on an object. An optional timeout can specified after which the promise is rejected.
@@ -127,7 +128,7 @@ class SyncPlayManager {
 
             // Report ping
             if (this.syncEnabled) {
-                const apiClient = window.ConnectionManager.currentApiClient();
+                const apiClient = ServerConnections.currentApiClient();
                 const sessionId = getActivePlayerId();
 
                 if (!sessionId) {
@@ -659,7 +660,7 @@ class SyncPlayManager {
      * Overrides PlaybackManager's unpause method.
      */
     playRequest (player) {
-        const apiClient = ConnectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
         apiClient.requestSyncPlayStart();
     }
 
@@ -667,7 +668,7 @@ class SyncPlayManager {
      * Overrides PlaybackManager's pause method.
      */
     pauseRequest (player) {
-        const apiClient = ConnectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
         apiClient.requestSyncPlayPause();
         // Pause locally as well, to give the user some little control
         playbackManager._localUnpause(player);
@@ -677,7 +678,7 @@ class SyncPlayManager {
      * Overrides PlaybackManager's seek method.
      */
     seekRequest (PositionTicks, player) {
-        const apiClient = ConnectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
         apiClient.requestSyncPlaySeek({
             PositionTicks: PositionTicks
         });

@@ -2,7 +2,6 @@ import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
@@ -11,6 +10,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
+import ServerConnections from '../ServerConnections';
 
 /*eslint prefer-const: "error"*/
 
@@ -66,7 +66,7 @@ function onSubmit(e) {
     const dlg = dom.parentWithClass(e.target, 'dialog');
     const options = instance.options;
 
-    const apiClient = ConnectionManager.getApiClient(options.serverId);
+    const apiClient = ServerConnections.getApiClient(options.serverId);
 
     const replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
 

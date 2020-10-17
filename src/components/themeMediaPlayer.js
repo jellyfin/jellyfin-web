@@ -1,6 +1,7 @@
 import { playbackManager } from './playback/playbackmanager';
 import * as userSettings from '../scripts/settings/userSettings';
-import { ConnectionManager } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
+import ServerConnections from './ServerConnections';
 
 let currentOwnerId;
 let currentThemeIds = [];
@@ -62,7 +63,7 @@ function loadThemeMedia(item) {
         return;
     }
 
-    const apiClient = ConnectionManager.getApiClient(item.ServerId);
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
     apiClient.getThemeMedia(apiClient.getCurrentUserId(), item.Id, true).then(function (themeMediaResult) {
         const ownerId = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.OwnerId : themeMediaResult.ThemeSongsResult.OwnerId;
 

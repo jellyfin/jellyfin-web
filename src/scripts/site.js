@@ -9,7 +9,8 @@ import 'resize-observer-polyfill';
 import 'jellyfin-noto';
 import '../assets/css/site.css';
 import AppInfo from '../components/AppInfo';
-import Dashboard from './clientUtils';
+import { Events } from 'jellyfin-apiclient';
+import ServerConnections from '../components/ServerConnections';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
@@ -69,109 +70,35 @@ if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode ===
 Object.freeze(AppInfo);
 
 function initClient() {
-    function bindConnectionManagerEvents(connectionManager, events, userSettings) {
-        window.Events = events;
+    function init() {
+        ServerConnections.initApiClient();
 
-        window.connectionManager.currentApiClient = function () {
-            if (!localApiClient) {
-                const server = window.connectionManager.getLastUsedServer();
+        console.debug('initAfterDependencies promises resolved');
 
-                if (server) {
-                    localApiClient = window.connectionManager.getApiClient(server.Id);
-                }
-            }
-
-            return localApiClient;
-        };
-
-        window.connectionManager.onLocalUserSignedIn = function (user) {
-            localApiClient = window.connectionManager.getApiClient(user.ServerId);
-            window.ApiClient = localApiClient;
-            return userSettings.setUserInfo(user.Id, localApiClient);
-        };
-
-        events.on(connectionManager, 'localusersignedout', function () {
-            userSettings.setUserInfo(null, null);
-        });
-    }
-
-    function createConnectionManager() {
-        return Promise.all([
-            import('jellyfin-apiclient'),
-            import('../components/apphost'),
-            import('./settings/userSettings')
+        Promise.all([
+            import('./globalize'),
+            import('./browser')
         ])
-            .then(([{ ConnectionManager, Credentials, Events }, { appHost }, userSettings]) => {
-                var credentialProviderInstance = new Credentials();
-                var promises = [appHost.init()];
-
-                return Promise.all(promises).then(function (responses) {
-                    const capabilities = Dashboard.capabilities(appHost);
-
-                    window.ConnectionManager = new ConnectionManager(credentialProviderInstance, appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId(), capabilities);
-
-                    bindConnectionManagerEvents(window.ConnectionManager, Events, userSettings);
-
-                    if (!AppInfo.isNativeApp) {
-                        console.debug('loading ApiClient singleton');
-
-                        return Promise.all([
-                            import('jellyfin-apiclient')
-                        ])
-                            .then(([{ ApiClient }]) => {
-                                console.debug('creating ApiClient singleton');
-
-                                var apiClient = new ApiClient(Dashboard.serverAddress(), appHost.appName(), appHost.appVersion(), appHost.deviceName(), appHost.deviceId());
-
-                                apiClient.enableAutomaticNetworking = false;
-                                apiClient.manualAddressOnly = true;
-
-                                window.ConnectionManager.addApiClient(apiClient);
-
-                                window.ApiClient = apiClient;
-                                localApiClient = apiClient;
-
-                                console.debug('loaded ApiClient singleton');
-                            });
-                    }
-
-                    return Promise.resolve();
+            .then(([globalize, browser]) => {
+                window.Globalize = globalize;
+                loadCoreDictionary(globalize).then(function () {
+                    onGlobalizeInit(browser, globalize);
                 });
             });
-    }
-
-    function init() {
-        import('./clientUtils')
-            .then(function () {
-                createConnectionManager().then(function () {
-                    console.debug('initAfterDependencies promises resolved');
-
-                    Promise.all([
-                        import('./globalize'),
-                        import('./browser')
-                    ])
-                        .then(([globalize, {default: browser}]) => {
-                            window.Globalize = globalize;
-                            loadCoreDictionary(globalize).then(function () {
-                                onGlobalizeInit(browser, globalize);
-                            });
-                        });
-                    import('./keyboardNavigation')
-                        .then((keyboardnavigation) => {
-                            keyboardnavigation.enable();
-                        });
-                    import('./mouseManager');
-                    import('../components/autoFocuser').then((autoFocuser) => {
-                        autoFocuser.enable();
-                    });
-                    Promise.all([
-                        import('./globalize'),
-                        import('jellyfin-apiclient')
-                    ])
-                        .then(([ globalize, { ConnectionManager, events } ]) => {
-                            Events.on(ConnectionManager, 'localusersignedin', globalize.updateCurrentCulture);
-                        });
-                });
+        import('./keyboardNavigation')
+            .then((keyboardnavigation) => {
+                keyboardnavigation.enable();
+            });
+        import('./mouseManager');
+        import('../components/autoFocuser').then((autoFocuser) => {
+            autoFocuser.enable();
+        });
+        Promise.all([
+            import('./globalize'),
+            import('jellyfin-apiclient')
+        ])
+            .then(([ globalize, { ConnectionManager } ]) => {
+                Events.on(ConnectionManager, 'localusersignedin', globalize.updateCurrentCulture);
             });
     }
 
@@ -326,7 +253,7 @@ function initClient() {
 
                         import('../components/playback/playerSelectionMenu');
 
-                        const apiClient = window.ConnectionManager && window.ConnectionManager.currentApiClient();
+                        const apiClient = ServerConnections.currentApiClient();
                         if (apiClient) {
                             fetch(apiClient.getUrl('Branding/Css'))
                                 .then(function(response) {
@@ -368,7 +295,7 @@ function initClient() {
         /* eslint-enable compat/compat */
     }
 
-    let localApiClient;
+    //var localApiClient;
 
     init();
 }

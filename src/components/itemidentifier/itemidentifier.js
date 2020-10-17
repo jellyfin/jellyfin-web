@@ -7,7 +7,6 @@
 
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
@@ -19,6 +18,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.css';
 import 'material-design-icons-iconfont';
 import '../cardbuilder/card.css';
+import ServerConnections from '../ServerConnections';
 
     const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -31,7 +31,7 @@ import '../cardbuilder/card.css';
     let currentSearchResult;
 
     function getApiClient() {
-        return ConnectionManager.getApiClient(currentServerId);
+        return ServerConnections.getApiClient(currentServerId);
     }
 
     function searchForIdentificationResults(page) {

@@ -2,8 +2,9 @@ import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../scripts/globalize';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import castSenderApiLoader from '../../components/castSenderApi';
+import ServerConnections from '../../components/ServerConnections';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 
@@ -324,11 +325,11 @@ class CastPlayer {
 
         let apiClient;
         if (message.options && message.options.ServerId) {
-            apiClient = ConnectionManager.getApiClient(message.options.ServerId);
+            apiClient = ServerConnections.getApiClient(message.options.ServerId);
         } else if (message.options && message.options.items && message.options.items.length) {
-            apiClient = ConnectionManager.getApiClient(message.options.items[0].ServerId);
+            apiClient = ServerConnections.getApiClient(message.options.items[0].ServerId);
         } else {
-            apiClient = window.ConnectionManager.currentApiClient();
+            apiClient = ServerConnections.currentApiClient();
         }
 
         message = Object.assign(message, {
@@ -672,7 +673,7 @@ class ChromecastPlayer {
 
     playWithCommand(options, command) {
         if (!options.items) {
-            const apiClient = ConnectionManager.getApiClient(options.serverId);
+            const apiClient = ServerConnections.getApiClient(options.serverId);
             const instance = this;
 
             return apiClient.getItem(apiClient.getCurrentUserId(), options.ids[0]).then(function (item) {
@@ -984,7 +985,7 @@ class ChromecastPlayer {
     }
 
     shuffle(item) {
-        const apiClient = ConnectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         const userId = apiClient.getCurrentUserId();
 
         const instance = this;
@@ -997,7 +998,7 @@ class ChromecastPlayer {
     }
 
     instantMix(item) {
-        const apiClient = ConnectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         const userId = apiClient.getCurrentUserId();
 
         const instance = this;
@@ -1035,7 +1036,7 @@ class ChromecastPlayer {
             }
 
             const instance = this;
-            const apiClient = ConnectionManager.getApiClient(options.serverId);
+            const apiClient = ServerConnections.getApiClient(options.serverId);
 
             return getItemsForPlayback(apiClient, {
                 Ids: options.ids.join(',')

@@ -9,6 +9,7 @@ import globalize from '../../../scripts/globalize';
 import '../../../components/cardbuilder/card.css';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../scripts/clientUtils';
+import ServerConnections from '../../../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -192,7 +193,7 @@ import Dashboard from '../../../scripts/clientUtils';
             const serverId = params.serverid;
 
             if (serverId) {
-                return ConnectionManager.getOrCreateApiClient(serverId);
+                return ServerConnections.getOrCreateApiClient(serverId);
             }
 
             return ApiClient;

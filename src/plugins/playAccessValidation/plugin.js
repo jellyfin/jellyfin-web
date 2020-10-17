@@ -1,5 +1,5 @@
-import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
+import ServerConnections from '../../components/ServerConnections';
 
 function showErrorMessage() {
     return import('../../components/alert').then(({default: alert}) => {
@@ -25,7 +25,7 @@ class PlayAccessValidation {
             return Promise.resolve();
         }
 
-        return ConnectionManager.getApiClient(serverId).getCurrentUser().then(function (user) {
+        return ServerConnections.getApiClient(serverId).getCurrentUser().then(function (user) {
             if (user.Policy.EnableMediaPlayback) {
                 return Promise.resolve();
             }

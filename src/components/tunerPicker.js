@@ -1,7 +1,6 @@
 import dialogHelper from './dialogHelper/dialogHelper';
 import dom from '../scripts/dom';
 import layoutManager from './layoutManager';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
 import loading from './loading/loading';
 import browser from '../scripts/browser';
@@ -12,6 +11,7 @@ import './formdialog.css';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import './cardbuilder/card.css';
+import ServerConnections from './ServerConnections';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -163,7 +163,7 @@ function tunerPicker() {
             scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
         }
 
-        const apiClient = ConnectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
         discoverDevices(dlg, apiClient);
 
         if (layoutManager.tv) {

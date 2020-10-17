@@ -4,7 +4,6 @@ import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
 import appSettings from '../../../scripts/settings/appSettings';
 import focusManager from '../../../components/focusManager';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../../scripts/globalize';
 import actionSheet from '../../../components/actionSheet/actionSheet';
 import dom from '../../../scripts/dom';
@@ -16,6 +15,7 @@ import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.css';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../scripts/clientUtils';
+import ServerConnections from '../../../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -114,7 +114,7 @@ import Dashboard from '../../../scripts/clientUtils';
     export default function (view, params) {
         function connectToServer(server) {
             loading.show();
-            ConnectionManager.connectToServer(server, {
+            ServerConnections.connectToServer(server, {
                 enableAutoLogin: appSettings.enableAutoLogin()
             }).then(function (result) {
                 loading.hide();
@@ -146,7 +146,7 @@ import Dashboard from '../../../scripts/clientUtils';
 
         function deleteServer(server) {
             loading.show();
-            ConnectionManager.deleteServer(server.Id).then(function () {
+            ServerConnections.deleteServer(server.Id).then(function () {
                 loading.hide();
                 loadServers();
             });
@@ -188,7 +188,7 @@ import Dashboard from '../../../scripts/clientUtils';
 
         function loadServers() {
             loading.show();
-            ConnectionManager.getAvailableServers().then(onServersRetrieved);
+            ServerConnections.getAvailableServers().then(onServersRetrieved);
         }
 
         let servers;

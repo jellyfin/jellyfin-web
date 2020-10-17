@@ -1,5 +1,5 @@
 import datetime from '../../scripts/datetime';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import itemHelper from '../../components/itemHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import dom from '../../scripts/dom';
@@ -19,6 +19,7 @@ import '../../assets/css/flexstyles.css';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import taskButton from '../../scripts/taskbutton';
 import Dashboard from '../../scripts/clientUtils';
+import ServerConnections from '../../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -61,7 +62,7 @@ import Dashboard from '../../scripts/clientUtils';
                 confirmText: globalize.translate('ButtonSend')
             }).then(function (text) {
                 if (text) {
-                    ConnectionManager.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
+                    ServerConnections.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
                         Text: text,
                         TimeoutMs: 5e3
                     });
@@ -74,7 +75,7 @@ import Dashboard from '../../scripts/clientUtils';
         import('../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
             const menuItems = [];
 
-            if (session.ServerId && session.DeviceId !== ConnectionManager.deviceId()) {
+            if (session.ServerId && session.DeviceId !== ServerConnections.deviceId()) {
                 menuItems.push({
                     name: globalize.translate('SendMessage'),
                     id: 'sendmessage'
@@ -124,9 +125,9 @@ import Dashboard from '../../scripts/clientUtils';
                     } else if (btn.classList.contains('btnSessionSendMessage')) {
                         showSendMessageForm(btn, session);
                     } else if (btn.classList.contains('btnSessionStop')) {
-                        ConnectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'Stop');
+                        ServerConnections.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'Stop');
                     } else if (btn.classList.contains('btnSessionPlayPause') && session.PlayState) {
-                        ConnectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'PlayPause');
+                        ServerConnections.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'PlayPause');
                     }
                 }
             }
@@ -314,7 +315,7 @@ import Dashboard from '../../scripts/clientUtils';
                 btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('ViewPlaybackInfo') + '"><span class="material-icons info"></span></button>';
 
-                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== ConnectionManager.deviceId() ? '' : ' hide';
+                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== ServerConnections.deviceId() ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('SendMessage') + '"><span class="material-icons message"></span></button>';
                 html += '</div>';
 

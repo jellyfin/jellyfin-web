@@ -1,4 +1,3 @@
-import { ConnectionManager } from 'jellyfin-apiclient';
 import browser from '../scripts/browser';
 import globalize from '../scripts/globalize';
 import actionsheet from './actionSheet/actionSheet';
@@ -6,6 +5,7 @@ import { appHost } from './apphost';
 import { appRouter } from './appRouter';
 import itemHelper from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
+import ServerConnections from './ServerConnections';
 
 /* eslint-disable indent */
     export function getCommands(options) {
@@ -330,7 +330,7 @@ import { playbackManager } from './playback/playbackmanager';
     function executeCommand(item, id, options) {
         const itemId = item.Id;
         const serverId = item.ServerId;
-        const apiClient = ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise(function (resolve, reject) {
             switch (id) {

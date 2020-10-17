@@ -4,6 +4,7 @@ import { Events } from 'jellyfin-apiclient';
 import inputManager from '../scripts/inputManager';
 import focusManager from '../components/focusManager';
 import { appRouter } from '../components/appRouter';
+import ServerConnections from '../components/ServerConnections';
 
 const serverNotifications = {};
 
@@ -207,8 +208,8 @@ function bindEvents(apiClient) {
     Events.on(apiClient, 'message', onMessageReceived);
 }
 
-window.ConnectionManager.getApiClients().forEach(bindEvents);
-Events.on(window.ConnectionManager, 'apiclientcreated', function (e, newApiClient) {
+ServerConnections.getApiClients().forEach(bindEvents);
+Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
     bindEvents(newApiClient);
 });
 

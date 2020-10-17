@@ -2,7 +2,6 @@ import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
@@ -13,6 +12,7 @@ import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
 import '../../assets/css/flexstyles.css';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -25,7 +25,7 @@ import '../../assets/css/flexstyles.css';
 
         const collectionId = panel.querySelector('#selectCollectionToAddTo').value;
 
-        const apiClient = ConnectionManager.getApiClient(currentServerId);
+        const apiClient = ServerConnections.getApiClient(currentServerId);
 
         if (collectionId) {
             addToCollection(apiClient, panel, collectionId);
@@ -106,7 +106,7 @@ import '../../assets/css/flexstyles.css';
             EnableTotalRecordCount: false
         };
 
-        const apiClient = ConnectionManager.getApiClient(currentServerId);
+        const apiClient = ServerConnections.getApiClient(currentServerId);
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
             let html = '';
 

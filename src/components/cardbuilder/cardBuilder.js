@@ -20,6 +20,7 @@ import imageHelper from '../../scripts/imagehelper';
 import './card.css';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../guide/programs.css';
+import ServerConnections from '../ServerConnections';
 
         const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -370,7 +371,7 @@ import '../guide/programs.css';
 
                 if (serverId !== lastServerId) {
                     lastServerId = serverId;
-                    apiClient = window.ConnectionManager.getApiClient(lastServerId);
+                    apiClient = ServerConnections.getApiClient(lastServerId);
                 }
 
                 if (options.indexBy) {

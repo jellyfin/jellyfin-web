@@ -7,7 +7,7 @@ import scrollHelper from '../../scripts/scrollHelper';
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
 import recordingFields from './recordingfields';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -16,6 +16,7 @@ import '../../elements/emby-input/emby-input';
 import '../formdialog.css';
 import './recordingcreator.css';
 import 'material-design-icons-iconfont';
+import ServerConnections from '../ServerConnections';
 
 let currentDialog;
 let closeAction;
@@ -101,7 +102,7 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
 function reload(context, programId, serverId, refreshRecordingStateOnly) {
     loading.show();
 
-    const apiClient = ConnectionManager.getApiClient(serverId);
+    const apiClient = ServerConnections.getApiClient(serverId);
 
     const promise1 = apiClient.getNewLiveTvTimerDefaults({ programId: programId });
     const promise2 = apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId());
@@ -117,7 +118,7 @@ function reload(context, programId, serverId, refreshRecordingStateOnly) {
 function executeCloseAction(action, programId, serverId) {
     if (action === 'play') {
         import('../playback/playbackmanager').then((playbackManager) => {
-            const apiClient = ConnectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
 
             apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
                 playbackManager.play({

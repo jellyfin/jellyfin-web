@@ -1,6 +1,6 @@
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import { ConnectionManager } from 'jellyfin-apiclient';
+import ServerConnections from '../ServerConnections';
 
 /*eslint prefer-const: "error"*/
 
@@ -40,7 +40,7 @@ function cancelTimerWithConfirmation(timerId, serverId) {
             }).then(function () {
                 loading.show();
 
-                const apiClient = ConnectionManager.getApiClient(serverId);
+                const apiClient = ServerConnections.getApiClient(serverId);
                 cancelTimer(apiClient, timerId, true).then(resolve, reject);
             }, reject);
         });
@@ -60,7 +60,7 @@ function cancelSeriesTimerWithConfirmation(timerId, serverId) {
             }).then(function () {
                 loading.show();
 
-                const apiClient = ConnectionManager.getApiClient(serverId);
+                const apiClient = ServerConnections.getApiClient(serverId);
                 apiClient.cancelLiveTvSeriesTimer(timerId).then(function () {
                     import('../toast/toast').then((toast) => {
                         toast(globalize.translate('SeriesCancelled'));
@@ -141,7 +141,7 @@ function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, 
                 buttons: items
 
             }).then(function (result) {
-                const apiClient = ConnectionManager.getApiClient(serverId);
+                const apiClient = ServerConnections.getApiClient(serverId);
 
                 if (result === 'canceltimer') {
                     loading.show();
@@ -167,7 +167,7 @@ function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, 
 }
 
 function toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId) {
-    const apiClient = ConnectionManager.getApiClient(serverId);
+    const apiClient = ServerConnections.getApiClient(serverId);
     const hasTimer = timerId && timerStatus !== 'Cancelled';
     if (seriesTimerId && hasTimer) {
         // cancel

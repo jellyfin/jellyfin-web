@@ -3,6 +3,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import dom from '../../scripts/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
 import './backdrop.css';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -176,7 +177,7 @@ import './backdrop.css';
     function getItemImageUrls(item, imageOptions) {
         imageOptions = imageOptions || {};
 
-        const apiClient = window.ConnectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         if (item.BackdropImageTags && item.BackdropImageTags.length > 0) {
             return item.BackdropImageTags.map((imgTag, index) => {
                 return apiClient.getScaledImageUrl(item.BackdropItemId || item.Id, Object.assign(imageOptions, {

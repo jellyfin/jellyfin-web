@@ -1,5 +1,5 @@
 import browser from '../../scripts/browser';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
@@ -26,6 +26,7 @@ import {
 import itemHelper from '../../components/itemHelper';
 import Screenfull from 'screenfull';
 import globalize from '../../scripts/globalize';
+import ServerConnections from '../../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -323,7 +324,7 @@ function tryRemoveElement(elem) {
 
                 console.debug(`prefetching hls playlist: ${hlsPlaylistUrl}`);
 
-                return ConnectionManager.getApiClient(item.ServerId).ajax({
+                return ServerConnections.getApiClient(item.ServerId).ajax({
 
                     type: 'GET',
                     url: hlsPlaylistUrl
@@ -1031,7 +1032,7 @@ function tryRemoveElement(elem) {
          */
         renderSsaAss(videoElement, track, item) {
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
-            const apiClient = ConnectionManager.getApiClient(item);
+            const apiClient = ServerConnections.getApiClient(item);
             const htmlVideoPlayer = this;
             const options = {
                 video: videoElement,

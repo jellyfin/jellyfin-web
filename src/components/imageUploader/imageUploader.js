@@ -6,7 +6,6 @@
  */
 
 import dialogHelper from '../dialogHelper/dialogHelper';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import dom from '../../scripts/dom';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
@@ -16,6 +15,7 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
 import '../formdialog.css';
 import './style.css';
+import ServerConnections from '../ServerConnections';
 
     let currentItemId;
     let currentServerId;
@@ -108,7 +108,7 @@ import './style.css';
             return false;
         }
 
-        ConnectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
+        ServerConnections.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
             dlg.querySelector('#uploadImage').value = '';
 
             loading.hide();

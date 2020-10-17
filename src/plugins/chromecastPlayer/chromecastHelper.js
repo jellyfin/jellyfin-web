@@ -1,4 +1,5 @@
-import { Events, ConnectionManager } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
+import ServerConnections from '../../components/ServerConnections';
 
 // LinkParser
 //
@@ -221,8 +222,8 @@ function getCachedValue(key) {
     return null;
 }
 
-Events.on(ConnectionManager, 'localusersignedin', clearCache);
-Events.on(ConnectionManager, 'localusersignedout', clearCache);
+Events.on(ServerConnections, 'localusersignedin', clearCache);
+Events.on(ServerConnections, 'localusersignedout', clearCache);
 
 export default {
     getServerAddress: getServerAddress

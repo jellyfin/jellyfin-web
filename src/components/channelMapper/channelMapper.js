@@ -1,7 +1,6 @@
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import actionsheet from '../actionSheet/actionSheet';
 import '../../elements/emby-input/emby-input';
@@ -10,13 +9,14 @@ import '../../elements/emby-button/emby-button';
 import '../listview/listview.css';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
+import ServerConnections from '../ServerConnections';
 
 export default class channelMapper {
     constructor(options) {
         function mapChannel(button, channelId, providerChannelId) {
             loading.show();
             const providerId = options.providerId;
-            ConnectionManager.getApiClient(options.serverId).ajax({
+            ServerConnections.getApiClient(options.serverId).ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ChannelMappings'),
                 data: JSON.stringify({
@@ -59,7 +59,7 @@ export default class channelMapper {
         }
 
         function getChannelMappingOptions(serverId, providerId) {
-            const apiClient = ConnectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getJSON(apiClient.getUrl('LiveTv/ChannelMappingOptions', {
                 providerId: providerId
             }));

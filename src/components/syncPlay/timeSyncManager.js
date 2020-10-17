@@ -3,7 +3,8 @@
  * @module components/syncPlay/timeSyncManager
  */
 
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
+import ServerConnections from '../ServerConnections';
 
 /**
  * Time estimation
@@ -113,7 +114,7 @@ class TimeSyncManager {
         if (!this.poller) {
             this.poller = setTimeout(() => {
                 this.poller = null;
-                const apiClient = window.ConnectionManager.currentApiClient();
+                const apiClient = ServerConnections.currentApiClient();
                 const requestSent = new Date();
                 apiClient.getServerTime().then((response) => {
                     const responseReceived = new Date();

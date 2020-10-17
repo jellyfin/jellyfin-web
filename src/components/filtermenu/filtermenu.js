@@ -3,7 +3,6 @@ import focusManager from '../focusManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import inputManager from '../../scripts/inputManager';
 import layoutManager from '../layoutManager';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -14,6 +13,7 @@ import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
 import '../../assets/css/flexstyles.css';
+import ServerConnections from '../ServerConnections';
 
 function onSubmit(e) {
     e.preventDefault();
@@ -194,7 +194,7 @@ function initEditor(context, settings) {
     }
 }
 function loadDynamicFilters(context, options) {
-    var apiClient = ConnectionManager.getApiClient(options.serverId);
+    var apiClient = ServerConnections.getApiClient(options.serverId);
 
     const filterMenuOptions = Object.assign(options.filterMenuOptions, {
 

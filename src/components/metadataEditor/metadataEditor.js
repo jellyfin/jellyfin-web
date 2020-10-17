@@ -4,7 +4,6 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import datetime from '../../scripts/datetime';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import globalize from '../../scripts/globalize';
 import shell from '../../scripts/shell';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -17,6 +16,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.css';
 import '../../assets/css/clearbutton.css';
 import '../../assets/css/flexstyles.css';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -290,7 +290,7 @@ import '../../assets/css/flexstyles.css';
     }
 
     function getApiClient() {
-        return ConnectionManager.getApiClient(currentItem.ServerId);
+        return ServerConnections.getApiClient(currentItem.ServerId);
     }
 
     function bindAll(elems, eventName, fn) {
@@ -370,7 +370,7 @@ import '../../assets/css/flexstyles.css';
     }
 
     function getItem(itemId, serverId) {
-        const apiClient = ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         if (itemId) {
             return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
@@ -380,7 +380,7 @@ import '../../assets/css/flexstyles.css';
     }
 
     function getEditorConfig(itemId, serverId) {
-        const apiClient = ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         if (itemId) {
             return apiClient.getJSON(apiClient.getUrl('Items/' + itemId + '/MetadataEditor'));
@@ -1068,7 +1068,7 @@ import '../../assets/css/flexstyles.css';
 
             currentContext = dlg;
 
-            init(dlg, ConnectionManager.getApiClient(serverId));
+            init(dlg, ServerConnections.getApiClient(serverId));
 
             reload(dlg, itemId, serverId);
         });
@@ -1095,7 +1095,7 @@ import '../../assets/css/flexstyles.css';
 
                     currentContext = elem;
 
-                    init(elem, ConnectionManager.getApiClient(serverId));
+                    init(elem, ServerConnections.getApiClient(serverId));
                     reload(elem, itemId, serverId);
 
                     focusManager.autoFocus(elem);

@@ -1,4 +1,4 @@
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
 import itemHelper from '../itemHelper';
@@ -9,6 +9,7 @@ import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
 import * as Screenfull from 'screenfull';
+import ServerConnections from '../ServerConnections';
 
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
@@ -68,7 +69,7 @@ function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, 
         addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
     }
 
-    const apiClient = ConnectionManager.getApiClient(serverId);
+    const apiClient = ServerConnections.getApiClient(serverId);
     const reportPlaybackPromise = apiClient[method](info);
     // Notify that report has been sent
     reportPlaybackPromise.then(() => {
@@ -105,7 +106,7 @@ function normalizeName(t) {
 }
 
 function getItemsForPlayback(serverId, query) {
-    const apiClient = ConnectionManager.getApiClient(serverId);
+    const apiClient = ServerConnections.getApiClient(serverId);
 
     if (query.Ids && query.Ids.split(',').length === 1) {
         const itemId = query.Ids.split(',');
@@ -869,7 +870,7 @@ class PlaybackManager {
             const promises = players.filter(displayPlayerIndividually).map(getPlayerTargets);
 
             return Promise.all(promises).then(function (responses) {
-                return window.ConnectionManager.currentApiClient().getCurrentUser().then(function (user) {
+                return ServerConnections.currentApiClient().getCurrentUser().then(function (user) {
                     const targets = [];
 
                     targets.push({
@@ -1367,7 +1368,7 @@ class PlaybackManager {
         function getSavedMaxStreamingBitrate(apiClient, mediaType) {
             if (!apiClient) {
                 // This should hopefully never happen
-                apiClient = window.ConnectionManager.currentApiClient();
+                apiClient = ServerConnections.currentApiClient();
             }
 
             const endpointInfo = apiClient.getSavedEndpointInfo() || {};
@@ -1390,7 +1391,7 @@ class PlaybackManager {
             const mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
             const currentItem = self.currentItem(player);
 
-            const apiClient = currentItem ? ConnectionManager.getApiClient(currentItem.ServerId) : window.ConnectionManager.currentApiClient();
+            const apiClient = currentItem ? ServerConnections.getApiClient(currentItem.ServerId) : ServerConnections.currentApiClient();
             return getSavedMaxStreamingBitrate(apiClient, mediaType);
         };
 
@@ -1404,7 +1405,7 @@ class PlaybackManager {
             const mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
             const currentItem = self.currentItem(player);
 
-            const apiClient = currentItem ? ConnectionManager.getApiClient(currentItem.ServerId) : window.ConnectionManager.currentApiClient();
+            const apiClient = currentItem ? ServerConnections.getApiClient(currentItem.ServerId) : ServerConnections.currentApiClient();
             const endpointInfo = apiClient.getSavedEndpointInfo() || {};
 
             return appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType);
@@ -1416,7 +1417,7 @@ class PlaybackManager {
                 return player.setMaxStreamingBitrate(options);
             }
 
-            const apiClient = ConnectionManager.getApiClient(self.currentItem(player).ServerId);
+            const apiClient = ServerConnections.getApiClient(self.currentItem(player).ServerId);
 
             apiClient.getEndpointInfo().then(function (endpointInfo) {
                 const playerData = getPlayerData(player);
@@ -1678,7 +1679,7 @@ class PlaybackManager {
                 const subtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
 
                 let currentMediaSource = self.currentMediaSource(player);
-                const apiClient = ConnectionManager.getApiClient(currentItem.ServerId);
+                const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
                 if (ticks) {
                     ticks = parseInt(ticks);
@@ -1834,7 +1835,7 @@ class PlaybackManager {
                 }, queryOptions));
             } else if (firstItem.Type === 'Episode' && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
                 promise = new Promise(function (resolve, reject) {
-                    const apiClient = ConnectionManager.getApiClient(firstItem.ServerId);
+                    const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
                     apiClient.getCurrentUser().then(function (user) {
                         if (!user.Configuration.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
@@ -2065,7 +2066,7 @@ class PlaybackManager {
                 return playOther(items, options, user);
             }
 
-            const apiClient = ConnectionManager.getApiClient(firstItem.ServerId);
+            const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
             return getIntros(firstItem, apiClient, options).then(function (introsResult) {
                 const introItems = introsResult.Items;
@@ -2128,14 +2129,14 @@ class PlaybackManager {
                 const mediaType = item.MediaType;
 
                 const onBitrateDetectionFailure = function () {
-                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(ConnectionManager.getApiClient(item.ServerId), mediaType), item, playOptions, onPlaybackStartedFn);
+                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType), item, playOptions, onPlaybackStartedFn);
                 };
 
                 if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
                     return onBitrateDetectionFailure();
                 }
 
-                const apiClient = ConnectionManager.getApiClient(item.ServerId);
+                const apiClient = ServerConnections.getApiClient(item.ServerId);
                 apiClient.getEndpointInfo().then(function (endpointInfo) {
                     if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
                         return apiClient.detectBitrate().then(function (bitrate) {
@@ -2254,7 +2255,7 @@ class PlaybackManager {
             return Promise.all([promise, player.getDeviceProfile(item)]).then(function (responses) {
                 const deviceProfile = responses[1];
 
-                const apiClient = ConnectionManager.getApiClient(item.ServerId);
+                const apiClient = ServerConnections.getApiClient(item.ServerId);
 
                 const mediaSourceId = playOptions.mediaSourceId;
                 const audioStreamIndex = playOptions.audioStreamIndex;
@@ -2299,11 +2300,11 @@ class PlaybackManager {
             const startPosition = options.startPositionTicks || 0;
             const mediaType = options.mediaType || item.MediaType;
             const player = getPlayer(item, options);
-            const apiClient = ConnectionManager.getApiClient(item.ServerId);
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
 
             // Call this just to ensure the value is recorded, it is needed with getSavedMaxStreamingBitrate
             return apiClient.getEndpointInfo().then(function () {
-                const maxBitrate = getSavedMaxStreamingBitrate(ConnectionManager.getApiClient(item.ServerId), mediaType);
+                const maxBitrate = getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType);
 
                 return player.getDeviceProfile(item).then(function (deviceProfile) {
                     return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, options.mediaSourceId, options.audioStreamIndex, options.subtitleStreamIndex).then(function (mediaSource) {
@@ -2319,11 +2320,11 @@ class PlaybackManager {
             const mediaType = options.mediaType || item.MediaType;
             // TODO: Remove the true forceLocalPlayer hack
             const player = getPlayer(item, options, true);
-            const apiClient = ConnectionManager.getApiClient(item.ServerId);
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
 
             // Call this just to ensure the value is recorded, it is needed with getSavedMaxStreamingBitrate
             return apiClient.getEndpointInfo().then(function () {
-                const maxBitrate = getSavedMaxStreamingBitrate(ConnectionManager.getApiClient(item.ServerId), mediaType);
+                const maxBitrate = getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType);
 
                 return player.getDeviceProfile(item).then(function (deviceProfile) {
                     return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, false, null, null, null, null).then(function (playbackInfoResult) {
@@ -2707,7 +2708,7 @@ class PlaybackManager {
             const queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
 
             if (queueDirectToPlayer) {
-                const apiClient = ConnectionManager.getApiClient(items[0].ServerId);
+                const apiClient = ServerConnections.getApiClient(items[0].ServerId);
 
                 player.getDeviceProfile(items[0]).then(function (profile) {
                     setStreamUrls(items, profile, self.getMaxStreamingBitrate(player), apiClient, 0).then(function () {
@@ -3157,13 +3158,13 @@ class PlaybackManager {
 
             streamInfo.lastMediaInfoQuery = new Date().getTime();
 
-            const apiClient = ConnectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
 
             if (!apiClient.isMinServerVersion('3.2.70.7')) {
                 return;
             }
 
-            ConnectionManager.getApiClient(serverId).getLiveStreamMediaInfo(liveStreamId).then(function (info) {
+            ServerConnections.getApiClient(serverId).getLiveStreamMediaInfo(liveStreamId).then(function (info) {
                 mediaSource.MediaStreams = info.MediaStreams;
                 Events.trigger(player, 'mediastreamschange');
             }, function () {
@@ -3220,7 +3221,7 @@ class PlaybackManager {
             return Promise.reject();
         }
 
-        const apiClient = ConnectionManager.getApiClient(nextItem.item.ServerId);
+        const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
         return apiClient.getItem(apiClient.getCurrentUserId(), nextItem.item.Id);
     }
 
@@ -3361,7 +3362,7 @@ class PlaybackManager {
             return player.playTrailers(item);
         }
 
-        const apiClient = ConnectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
 
         const instance = this;
 
@@ -3393,7 +3394,7 @@ class PlaybackManager {
     }
 
     getSubtitleUrl(textStream, serverId) {
-        const apiClient = ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         return !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
     }
@@ -3473,7 +3474,7 @@ class PlaybackManager {
             return player.instantMix(item);
         }
 
-        const apiClient = ConnectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
 
         const options = {};
         options.UserId = apiClient.getCurrentUserId();

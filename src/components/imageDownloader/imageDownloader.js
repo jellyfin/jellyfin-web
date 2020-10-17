@@ -2,7 +2,6 @@ import dom from '../../scripts/dom';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
@@ -13,6 +12,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import '../cardbuilder/card.css';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -317,7 +317,7 @@ import '../cardbuilder/card.css';
         loading.show();
 
         import('./imageDownloader.template.html').then(({default: template}) => {
-            const apiClient = ConnectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
 
             currentItemId = itemId;
             currentItemType = itemType;

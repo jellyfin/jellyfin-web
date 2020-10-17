@@ -2,11 +2,11 @@ import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import './style.css';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
-
+import ServerConnections from '../../components/ServerConnections';
 import TableOfContents from './tableOfContents';
 
 export class BookPlayer {
@@ -259,7 +259,7 @@ export class BookPlayer {
         };
 
         const serverId = item.ServerId;
-        const apiClient = ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             import('epubjs').then(({default: epubjs}) => {

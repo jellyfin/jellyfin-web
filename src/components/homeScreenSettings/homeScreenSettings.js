@@ -3,12 +3,13 @@ import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import homeSections from '../homesections/homesections';
 import dom from '../../scripts/dom';
 import '../listview/listview.css';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -384,7 +385,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = ConnectionManager.getApiClient(self.options.serverId);
+        const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -456,7 +457,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = ConnectionManager.getApiClient(self.options.serverId);
+            const apiClient = ServerConnections.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             apiClient.getUser(userId).then(user => {

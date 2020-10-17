@@ -7,10 +7,11 @@ import datetime from '../../scripts/datetime';
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -181,7 +182,7 @@ import '../../elements/emby-button/emby-button';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = ConnectionManager.getApiClient(self.options.serverId);
+        const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -220,7 +221,7 @@ import '../../elements/emby-button/emby-button';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = ConnectionManager.getApiClient(self.options.serverId);
+            const apiClient = ServerConnections.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             return apiClient.getUser(userId).then(user => {

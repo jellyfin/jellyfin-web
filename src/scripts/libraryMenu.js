@@ -16,6 +16,7 @@ import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.css';
 import '../assets/css/flexstyles.css';
 import Dashboard from './clientUtils';
+import ServerConnections from '../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -61,10 +62,10 @@ import Dashboard from './clientUtils';
 
     function getCurrentApiClient() {
         if (currentUser && currentUser.localUser) {
-            return window.ConnectionManager.getApiClient(currentUser.localUser.ServerId);
+            return ServerConnections.getApiClient(currentUser.localUser.ServerId);
         }
 
-        return window.ConnectionManager.currentApiClient();
+        return ServerConnections.currentApiClient();
     }
 
     function lazyLoadViewMenuBarImages() {
@@ -775,7 +776,7 @@ import Dashboard from './clientUtils';
         }
 
         if (requiresUserRefresh) {
-            window.ConnectionManager.user(getCurrentApiClient()).then(updateUserInHeader);
+            ServerConnections.user(getCurrentApiClient()).then(updateUserInHeader);
         }
     }
 
@@ -813,7 +814,7 @@ import Dashboard from './clientUtils';
         if (user) {
             Promise.resolve(user);
         } else {
-            window.ConnectionManager.user(getCurrentApiClient()).then(function (user) {
+            ServerConnections.user(getCurrentApiClient()).then(function (user) {
                 refreshLibraryInfoInDrawer(user);
                 updateLibraryMenu(user.localUser);
             });
@@ -979,8 +980,8 @@ import Dashboard from './clientUtils';
 
     renderHeader();
 
-    Events.on(window.ConnectionManager, 'localusersignedin', function (e, user) {
-        const currentApiClient = window.ConnectionManager.getApiClient(user.ServerId);
+    Events.on(ServerConnections, 'localusersignedin', function (e, user) {
+        const currentApiClient = ServerConnections.getApiClient(user.ServerId);
 
         currentDrawerType = null;
         currentUser = {
@@ -989,13 +990,13 @@ import Dashboard from './clientUtils';
 
         loadNavDrawer();
 
-        window.ConnectionManager.user(currentApiClient).then(function (user) {
+        ServerConnections.user(currentApiClient).then(function (user) {
             currentUser = user;
             updateUserInHeader(user);
         });
     });
 
-    Events.on(window.ConnectionManager, 'localusersignedout', function () {
+    Events.on(ServerConnections, 'localusersignedout', function () {
         currentUser = {};
         updateUserInHeader();
     });

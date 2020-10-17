@@ -5,18 +5,18 @@ import * as userSettings from '../scripts/settings/userSettings';
 import focusManager from '../components/focusManager';
 import cardBuilder from '../components/cardbuilder/cardBuilder';
 import loading from '../components/loading/loading';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import AlphaNumericShortcuts from '../scripts/alphanumericshortcuts';
 import { playbackManager } from '../components/playback/playbackmanager';
 import AlphaPicker from '../components/alphaPicker/alphaPicker';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
+import ServerConnections from '../components/ServerConnections';
 
 /* eslint-disable indent */
 
     function getInitialLiveTvQuery(instance, params) {
         const query = {
-            UserId: ConnectionManager.getApiClient(params.serverId).getCurrentUserId(),
+            UserId: ServerConnections.getApiClient(params.serverId).getCurrentUserId(),
             StartIndex: 0,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
             Limit: 300
@@ -232,7 +232,7 @@ import '../elements/emby-scroller/emby-scroller';
     }
 
     function getItems(instance, params, item, sortBy, startIndex, limit) {
-        const apiClient = ConnectionManager.getApiClient(params.serverId);
+        const apiClient = ServerConnections.getApiClient(params.serverId);
 
         instance.queryRecursive = false;
         if (params.type === 'Recordings') {
@@ -333,7 +333,7 @@ import '../elements/emby-scroller/emby-scroller';
             return Promise.resolve(null);
         }
 
-        const apiClient = ConnectionManager.getApiClient(params.serverId);
+        const apiClient = ServerConnections.getApiClient(params.serverId);
         const itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
 
         if (itemId) {

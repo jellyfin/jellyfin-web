@@ -6,7 +6,7 @@ import datetime from '../../../scripts/datetime';
 import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import browser from '../../../scripts/browser';
 import globalize from '../../../scripts/globalize';
 import { appHost } from '../../../components/apphost';
@@ -17,6 +17,7 @@ import '../../../assets/css/scrollstyles.css';
 import '../../../elements/emby-slider/emby-slider';
 import '../../../elements/emby-button/paper-icon-button-light';
 import '../../../assets/css/videoosd.css';
+import ServerConnections from '../../../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -73,7 +74,7 @@ import '../../../assets/css/videoosd.css';
 
         function getDisplayItem(item) {
             if (item.Type === 'TvChannel') {
-                const apiClient = ConnectionManager.getApiClient(item.ServerId);
+                const apiClient = ServerConnections.getApiClient(item.ServerId);
                 return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
                     return {
                         originalItem: refreshedItem,
@@ -97,7 +98,7 @@ import '../../../assets/css/videoosd.css';
                 return void view.querySelector('.btnRecord').classList.add('hide');
             }
 
-            ConnectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+            ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
                     import('../../../components/recordingcreator/recordingbutton').then((RecordingButton) => {
                         if (recordingButtonManager) {
@@ -1515,7 +1516,7 @@ import '../../../assets/css/videoosd.css';
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
-                const html = getChapterBubbleHtml(ConnectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+                const html = getChapterBubbleHtml(ServerConnections.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
                 if (html) {
                     return html;

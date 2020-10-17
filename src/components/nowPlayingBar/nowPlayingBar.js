@@ -1,5 +1,5 @@
 import datetime from '../../scripts/datetime';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import imageLoader from '../../scripts/imagehelper';
 import layoutManager from '../layoutManager';
@@ -10,6 +10,7 @@ import dom from '../../scripts/dom';
 import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -451,7 +452,7 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
             if (item.SeriesPrimaryImageTag) {
                 options.tag = item.SeriesPrimaryImageTag;
 
-                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
         }
 
@@ -459,12 +460,12 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
-                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
-                return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -481,12 +482,12 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
-            return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
-            return ConnectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;
@@ -547,7 +548,7 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 
         if (nowPlayingItem.Id) {
             if (isRefreshing) {
-                const apiClient = ConnectionManager.getApiClient(nowPlayingItem.ServerId);
+                const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
                     const userData = item.UserData || {};
                     const likes = userData.Likes == null ? '' : userData.Likes;

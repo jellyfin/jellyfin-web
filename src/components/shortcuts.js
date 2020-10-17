@@ -7,11 +7,11 @@
 
 import { playbackManager } from './playback/playbackmanager';
 import inputManager from '../scripts/inputManager';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import { appRouter } from './appRouter';
 import globalize from '../scripts/globalize';
 import dom from '../scripts/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
+import ServerConnections from './ServerConnections';
 
     function playAllFromHere(card, serverId, queue) {
         const parent = card.parentNode;
@@ -82,7 +82,7 @@ import recordingHelper from './recordingcreator/recordinghelper';
         const id = button.getAttribute('data-id');
         const type = button.getAttribute('data-type');
 
-        const apiClient = ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         if (type === 'Timer') {
             return apiClient.getLiveTvTimer(id);
@@ -112,7 +112,7 @@ import recordingHelper from './recordingcreator/recordinghelper';
             }
 
             import('./itemContextMenu').then((itemContextMenu) => {
-                ConnectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
+                ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(user => {
                     itemContextMenu.show(Object.assign({
                         item: item,
                         play: true,
@@ -281,7 +281,7 @@ import recordingHelper from './recordingcreator/recordinghelper';
     }
 
     function playTrailer(item) {
-        const apiClient = ConnectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
 
         apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(trailers => {
             playbackManager.play({ items: trailers });
@@ -289,7 +289,7 @@ import recordingHelper from './recordingcreator/recordinghelper';
     }
 
     function editItem(item, serverId) {
-        const apiClient = ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             const serverId = apiClient.serverInfo().Id;

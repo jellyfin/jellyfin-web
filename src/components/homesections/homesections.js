@@ -11,6 +11,7 @@ import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-button/emby-button';
 import './homesections.css';
 import Dashboard from '../../scripts/clientUtils';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -212,7 +213,7 @@ import Dashboard from '../../scripts/clientUtils';
 
     function getFetchLatestItemsFn(serverId, parentId, collectionType) {
         return function () {
-            const apiClient = window.ConnectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             let limit = 16;
 
             if (enableScrollX()) {
@@ -368,7 +369,7 @@ import Dashboard from '../../scripts/clientUtils';
 
     function getContinueWatchingFetchFn(serverId) {
         return function () {
-            const apiClient = window.ConnectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
 
             let limit;
@@ -441,7 +442,7 @@ import Dashboard from '../../scripts/clientUtils';
 
     function getContinueListeningFetchFn(serverId) {
         return function () {
-            const apiClient = window.ConnectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
 
             let limit;
@@ -514,7 +515,7 @@ import Dashboard from '../../scripts/clientUtils';
 
     function getOnNowFetchFn(serverId) {
         return function () {
-            const apiClient = window.ConnectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getLiveTvRecommendedPrograms({
                 userId: apiClient.getCurrentUserId(),
                 IsAiring: true,
@@ -657,7 +658,7 @@ import Dashboard from '../../scripts/clientUtils';
 
     function getNextUpFetchFn(serverId) {
         return function () {
-            const apiClient = window.ConnectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
                 Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo,Path',
@@ -728,7 +729,7 @@ import Dashboard from '../../scripts/clientUtils';
 
     function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
         return function () {
-            const apiClient = window.ConnectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getLiveTvRecordings({
                 userId: apiClient.getCurrentUserId(),
                 Limit: enableScrollX() ? 12 : 5,

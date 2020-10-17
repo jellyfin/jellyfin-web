@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { ConnectionManager } from 'jellyfin-apiclient';
+import ServerConnections from '../../components/ServerConnections';
 
 class BackdropScreensaver {
     constructor() {
@@ -21,7 +21,7 @@ class BackdropScreensaver {
                 Limit: 200
             };
 
-            const apiClient = window.ConnectionManager.currentApiClient();
+            const apiClient = ServerConnections.currentApiClient();
             apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
                 if (result.Items.length) {
                     import('../../components/slideshow/slideshow').then(({default: Slideshow}) => {

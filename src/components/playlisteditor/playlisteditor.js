@@ -3,7 +3,6 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
@@ -13,6 +12,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -22,7 +22,7 @@ import '../formdialog.css';
         const panel = dom.parentWithClass(this, 'dialog');
 
         const playlistId = panel.querySelector('#selectPlaylistToAddTo').value;
-        const apiClient = ConnectionManager.getApiClient(currentServerId);
+        const apiClient = ServerConnections.getApiClient(currentServerId);
 
         if (playlistId) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
@@ -113,7 +113,7 @@ import '../formdialog.css';
             EnableTotalRecordCount: false
         };
 
-        const apiClient = ConnectionManager.getApiClient(currentServerId);
+        const apiClient = ServerConnections.getApiClient(currentServerId);
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
             let html = '';
 

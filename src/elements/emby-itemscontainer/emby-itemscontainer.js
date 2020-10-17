@@ -9,8 +9,9 @@ import dom from '../../scripts/dom';
 import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import serverNotifications from '../../scripts/serverNotifications';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import 'webcomponents.js/webcomponents-lite';
+import ServerConnections from '../../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -103,7 +104,7 @@ import 'webcomponents.js/webcomponents-lite';
         }
 
         const serverId = el.getAttribute('data-serverid');
-        const apiClient = ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         loading.show();
 

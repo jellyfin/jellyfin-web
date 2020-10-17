@@ -1,10 +1,10 @@
-import { ConnectionManager } from 'jellyfin-apiclient';
 import listView from '../components/listview/listview';
 import cardBuilder from '../components/cardbuilder/cardBuilder';
 import imageLoader from '../components/images/imageLoader';
 import globalize from './globalize';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-button/emby-button';
+import ServerConnections from '../components/ServerConnections';
 
 function renderItems(page, item) {
     const sections = [];
@@ -358,7 +358,7 @@ function getItemsFunction(options, item) {
             query.Fields += ',' + fields;
         }
 
-        const apiClient = ConnectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
 
         if (query.IncludeItemTypes === 'MusicArtist') {
             query.IncludeItemTypes = null;

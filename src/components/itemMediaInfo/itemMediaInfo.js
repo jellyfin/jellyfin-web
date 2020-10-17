@@ -8,7 +8,6 @@
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.css';
@@ -17,6 +16,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.css';
 import 'material-design-icons-iconfont';
 import '../../assets/css/flexstyles.css';
+import ServerConnections from '../ServerConnections';
 
     function setMediaInfo(user, page, item) {
         let html = item.MediaSources.map(version => {
@@ -163,7 +163,7 @@ import '../../assets/css/flexstyles.css';
     }
 
     function loadMediaInfo(itemId, serverId, template) {
-        const apiClient = ConnectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
             const dialogOptions = {
                 size: 'small',

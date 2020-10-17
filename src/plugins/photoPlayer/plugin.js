@@ -1,4 +1,4 @@
-import { ConnectionManager } from 'jellyfin-apiclient';
+import ServerConnections from '../../components/ServerConnections';
 
 export default class PhotoPlayer {
     constructor() {
@@ -13,7 +13,7 @@ export default class PhotoPlayer {
             import('../../components/slideshow/slideshow').then(({default: Slideshow}) => {
                 var index = options.startIndex || 0;
 
-                var apiClient = window.ConnectionManager.currentApiClient();
+                var apiClient = ServerConnections.currentApiClient();
                 apiClient.getCurrentUser().then(function(result) {
                     var newSlideShow = new Slideshow({
                         showTitle: false,

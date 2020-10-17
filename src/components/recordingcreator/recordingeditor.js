@@ -2,7 +2,6 @@
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
-import { ConnectionManager } from 'jellyfin-apiclient';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
 import '../../assets/css/scrollstyles.css';
@@ -14,6 +13,7 @@ import '../formdialog.css';
 import './recordingcreator.css';
 import 'material-design-icons-iconfont';
 import '../../assets/css/flexstyles.css';
+import ServerConnections from '../ServerConnections';
 
 let currentDialog;
 let recordingDeleted = false;
@@ -42,7 +42,7 @@ function closeDialog(isDeleted) {
 function onSubmit(e) {
     const form = this;
 
-    const apiClient = ConnectionManager.getApiClient(currentServerId);
+    const apiClient = ServerConnections.getApiClient(currentServerId);
 
     apiClient.getLiveTvTimer(currentItemId).then(function (item) {
         item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
@@ -62,7 +62,7 @@ function init(context) {
     });
 
     context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-        const apiClient = ConnectionManager.getApiClient(currentServerId);
+        const apiClient = ServerConnections.getApiClient(currentServerId);
 
         deleteTimer(apiClient, currentItemId).then(function () {
             closeDialog(true);
@@ -76,7 +76,7 @@ function reload(context, id) {
     loading.show();
     currentItemId = id;
 
-    const apiClient = ConnectionManager.getApiClient(currentServerId);
+    const apiClient = ServerConnections.getApiClient(currentServerId);
     apiClient.getLiveTvTimer(id).then(function (result) {
         renderTimer(context, result, apiClient);
         loading.hide();

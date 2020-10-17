@@ -58,24 +58,22 @@ function generateDeviceId() {
 
     if (keys.push(navigator.userAgent), keys.push(new Date().getTime()), window.btoa) {
         const result = replaceAll(btoa(keys.join('|')), '=', '1');
-        return Promise.resolve(result);
+        return result;
     }
 
-    return Promise.resolve(new Date().getTime());
+    return new Date().getTime();
 }
 
 function getDeviceId() {
     const key = '_deviceId2';
-    const deviceId = appSettings.get(key);
+    let deviceId = appSettings.get(key);
 
-    if (deviceId) {
-        return Promise.resolve(deviceId);
+    if (!deviceId) {
+        deviceId = generateDeviceId();
+        appSettings.set(key, deviceId);
     }
 
-    return generateDeviceId().then(function (deviceId) {
-        appSettings.set(key, deviceId);
-        return deviceId;
-    });
+    return deviceId;
 }
 
 function getDeviceName() {
@@ -314,8 +312,8 @@ function askForExit() {
     });
 }
 
-let deviceId;
-let deviceName;
+let deviceId = getDeviceId();
+const deviceName = getDeviceName();
 const appName = 'Jellyfin Web';
 const appVersion = '10.7.0';
 
@@ -354,10 +352,10 @@ export const appHost = {
             return window.NativeShell.AppHost.init();
         }
 
-        deviceName = getDeviceName();
-        getDeviceId().then(function (id) {
-            deviceId = id;
-        });
+        return {
+            deviceId,
+            deviceName
+        };
     },
     deviceName: function () {
         return window.NativeShell ? window.NativeShell.AppHost.deviceName() : deviceName;
@@ -407,3 +405,6 @@ if (window.addEventListener) {
     window.addEventListener('focus', onAppVisible);
     window.addEventListener('blur', onAppHidden);
 }
+
+// load app host on module load
+appHost.init();

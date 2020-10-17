@@ -1,6 +1,7 @@
 import { playbackManager } from '../../components/playback/playbackmanager';
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
+import ServerConnections from '../../components/ServerConnections';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();
@@ -53,10 +54,10 @@ function getCurrentApiClient(instance) {
     const currentServerId = instance.currentServerId;
 
     if (currentServerId) {
-        return ConnectionManager.getApiClient(currentServerId);
+        return ServerConnections.getApiClient(currentServerId);
     }
 
-    return window.ConnectionManager.currentApiClient();
+    return ServerConnections.currentApiClient();
 }
 
 function sendCommandByName(instance, name, options) {

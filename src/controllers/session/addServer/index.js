@@ -3,6 +3,7 @@ import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../scripts/clientUtils';
+import ServerConnections from '../../../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -37,7 +38,7 @@ import Dashboard from '../../../scripts/clientUtils';
     function submitServer(page) {
         loading.show();
         const host = page.querySelector('#txtServerHost').value;
-        window.connectionManager.connectToAddress(host, {
+        ServerConnections.connectToAddress(host, {
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function(result) {
             handleConnectionResult(page, result);

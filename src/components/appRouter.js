@@ -10,6 +10,7 @@ import page from 'page';
 import viewManager from './viewManager/viewManager';
 import AppInfo from './AppInfo';
 import Dashboard from '../scripts/clientUtils';
+import ServerConnections from './ServerConnections';
 
 class AppRouter {
     allRoutes = [];
@@ -96,7 +97,7 @@ class AppRouter {
     beginConnectionWizard() {
         backdrop.clearBackdrop();
         loading.show();
-        window.ConnectionManager.connect({
+        ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.handleConnectionResult(result);
@@ -155,7 +156,7 @@ class AppRouter {
         Events.on(appHost, 'beforeexit', this.onBeforeExit);
         Events.on(appHost, 'resume', this.onAppResume);
 
-        window.ConnectionManager.connect({
+        ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.firstConnectionResult = result;
@@ -211,7 +212,7 @@ class AppRouter {
     showItem(item, serverId, options) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof (item) === 'string') {
-            const apiClient = serverId ? window.ConnectionManager.getApiClient(serverId) : window.ConnectionManager.currentApiClient();
+            const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
             apiClient.getItem(apiClient.getCurrentUserId(), item).then((itemObject) => {
                 this.showItem(itemObject, options);
             });
@@ -495,15 +496,15 @@ class AppRouter {
     }
 
     initApiClients() {
-        window.ConnectionManager.getApiClients().forEach((apiClient) => {
+        ServerConnections.getApiClients().forEach((apiClient) => {
             this.initApiClient(apiClient, this);
         });
 
-        Events.on(window.ConnectionManager, 'apiclientcreated', this.onApiClientCreated);
+        Events.on(ServerConnections, 'apiclientcreated', this.onApiClientCreated);
     }
 
     onAppResume() {
-        const apiClient = window.ConnectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
 
         if (apiClient) {
             apiClient.ensureWebSocket();
@@ -521,7 +522,7 @@ class AppRouter {
             }
         }
 
-        const apiClient = window.ConnectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
         const pathname = ctx.pathname.toLowerCase();
 
         console.debug('appRouter - processing path request ' + pathname);

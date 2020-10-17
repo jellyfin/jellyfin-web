@@ -1,4 +1,4 @@
-import { ConnectionManager, Events } from 'jellyfin-apiclient';
+import { Events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
 import dom from '../scripts/dom';
 import * as datefns from 'date-fns';
@@ -6,6 +6,7 @@ import dfnshelper from '../scripts/dfnshelper';
 import serverNotifications from '../scripts/serverNotifications';
 import '../elements/emby-button/emby-button';
 import './listview/listview.css';
+import ServerConnections from './ServerConnections';
 
 /* eslint-disable indent */
 
@@ -140,7 +141,7 @@ class ActivityLog {
         const element = options.element;
         element.classList.add('activityLogListWidget');
         element.addEventListener('click', onListClick.bind(this));
-        const apiClient = ConnectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
         reloadData(this, element, apiClient);
         const onUpdate = onActivityLogUpdate.bind(this);
         this.updateFn = onUpdate;
@@ -152,7 +153,7 @@ class ActivityLog {
 
         if (options) {
             options.element.classList.remove('activityLogListWidget');
-            ConnectionManager.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
+            ServerConnections.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
         }
 
         const onUpdate = this.updateFn;
