@@ -785,7 +785,11 @@ function renderImage(page, item) {
 }
 
 function refreshDetailImageUserData(elem, item) {
-    elem.querySelector('.detailImageProgressContainer').innerHTML = indicators.getProgressBarHtml(item);
+    const container = elem.querySelector('.detailImageProgressContainer');
+
+    if (container) {
+        container.innerHTML = indicators.getProgressBarHtml(item);
+    }
 }
 
 function refreshImage(page, item) {

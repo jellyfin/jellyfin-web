@@ -2,11 +2,10 @@ import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
+import profileBuilder from '../../scripts/browserDeviceProfile';
 
 function getDefaultProfile() {
-    return import('../../scripts/browserDeviceProfile').then(({ default: profileBuilder }) => {
-        return profileBuilder({});
-    });
+    return profileBuilder({});
 }
 
 let fadeTimeout;

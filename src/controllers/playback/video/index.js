@@ -18,6 +18,8 @@ import '../../../elements/emby-slider/emby-slider';
 import '../../../elements/emby-button/paper-icon-button-light';
 import '../../../assets/css/videoosd.css';
 import ServerConnections from '../../../components/ServerConnections';
+import shell from '../../../scripts/shell';
+import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 
 /* eslint-disable indent */
 
@@ -998,14 +1000,12 @@ import ServerConnections from '../../../components/ServerConnections';
         }
 
         function toggleSubtitleSync(action) {
-            import('../../../components/subtitlesync/subtitlesync').then((SubtitleSync) => {
-                const player = currentPlayer;
-                if (subtitleSyncOverlay) {
-                    subtitleSyncOverlay.toggle(action);
-                } else if (player) {
-                    subtitleSyncOverlay = new SubtitleSync(player);
-                }
-            });
+            const player = currentPlayer;
+            if (subtitleSyncOverlay) {
+                subtitleSyncOverlay.toggle(action);
+            } else if (player) {
+                subtitleSyncOverlay = new SubtitleSync(player);
+            }
         }
 
         function destroySubtitleSync() {
@@ -1229,9 +1229,7 @@ import ServerConnections from '../../../components/ServerConnections';
         let playPauseClickTimeout;
         function onViewHideStopPlayback() {
             if (playbackManager.isPlayingVideo()) {
-                import('../../../scripts/shell').then((shell) => {
-                    shell.disableFullscreen();
-                });
+                shell.disableFullscreen();
 
                 clearTimeout(playPauseClickTimeout);
                 const player = currentPlayer;
@@ -1249,9 +1247,7 @@ import ServerConnections from '../../../components/ServerConnections';
             }
         }
 
-        import('../../../scripts/shell').then(({default: shell}) => {
-            shell.enableFullscreen();
-        });
+        shell.enableFullscreen();
 
         let currentPlayer;
         let comingUpNextDisplayed;

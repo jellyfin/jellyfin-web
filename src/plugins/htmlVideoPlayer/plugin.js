@@ -27,6 +27,7 @@ import itemHelper from '../../components/itemHelper';
 import Screenfull from 'screenfull';
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../../components/ServerConnections';
+import profileBuilder from '../../scripts/browserDeviceProfile';
 
 /* eslint-disable indent */
 
@@ -140,9 +141,7 @@ function tryRemoveElement(elem) {
     }
 
     function getDefaultProfile() {
-        return import('../../scripts/browserDeviceProfile').then(({default: profileBuilder}) => {
-            return profileBuilder({});
-        });
+        return profileBuilder({});
     }
 
     export class HtmlVideoPlayer {
