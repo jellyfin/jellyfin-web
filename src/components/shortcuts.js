@@ -12,6 +12,7 @@ import globalize from '../scripts/globalize';
 import dom from '../scripts/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
 import ServerConnections from './ServerConnections';
+import toast from './toast/toast';
 
     function playAllFromHere(card, serverId, queue) {
         const parent = card.parentNode;
@@ -165,9 +166,7 @@ import ServerConnections from './ServerConnections';
     }
 
     function sendToast(text) {
-        import('./toast/toast').then((toast) => {
-            toast(text);
-        });
+        toast(text);
     }
 
     function executeAction(card, target, action) {

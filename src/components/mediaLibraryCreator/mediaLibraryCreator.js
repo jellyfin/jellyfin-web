@@ -19,6 +19,7 @@ import '../../elements/emby-toggle/emby-toggle';
 import '../listview/listview.css';
 import '../formdialog.css';
 import '../../assets/css/flexstyles.css';
+import toast from '../toast/toast';
 
     function onAddLibrary() {
         if (isCreating) {
@@ -54,9 +55,7 @@ import '../../assets/css/flexstyles.css';
             loading.hide();
             dialogHelper.close(dlg);
         }, () => {
-            import('../toast/toast').then((toast) => {
-                toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-            });
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
 
             isCreating = false;
             loading.hide();

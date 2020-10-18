@@ -13,6 +13,7 @@ import 'material-design-icons-iconfont';
 import '../formdialog.css';
 import '../../assets/css/flexstyles.css';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /* eslint-disable indent */
 
@@ -81,9 +82,7 @@ import ServerConnections from '../ServerConnections';
             dlg.submitted = true;
             dialogHelper.close(dlg);
 
-            import('../toast/toast').then((toast) => {
-                toast(globalize.translate('MessageItemsAdded'));
-            });
+            toast(globalize.translate('MessageItemsAdded'));
         });
     }
 

@@ -12,6 +12,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /* eslint-disable indent */
 
@@ -169,9 +170,7 @@ import ServerConnections from '../ServerConnections';
             saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    import('../toast/toast').then((toast) => {
-                        toast(globalize.translate('SettingsSaved'));
-                    });
+                    toast(globalize.translate('SettingsSaved'));
                 }
                 Events.trigger(instance, 'saved');
             }, () => {

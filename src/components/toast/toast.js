@@ -1,4 +1,4 @@
-import './toast';
+import './toast.css';
 
 function remove(elem) {
     setTimeout(function () {

@@ -19,6 +19,7 @@ import '../formdialog.css';
 import 'material-design-icons-iconfont';
 import '../cardbuilder/card.css';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
     const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -68,9 +69,7 @@ import ServerConnections from '../ServerConnections';
         }
 
         if (!hasId && !lookupInfo.Name) {
-            import('../toast/toast').then((toast) => {
-                toast(globalize.translate('PleaseEnterNameOrId'));
-            });
+            toast(globalize.translate('PleaseEnterNameOrId'));
             return;
         }
 

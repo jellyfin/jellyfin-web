@@ -11,18 +11,18 @@ import { AppStorage, Events } from 'jellyfin-apiclient';
 
     export function enableAutoLogin(val) {
         if (val !== undefined) {
-            this.set('enableAutoLogin', val.toString());
+            set('enableAutoLogin', val.toString());
         }
 
-        return this.get('enableAutoLogin') !== 'false';
+        return get('enableAutoLogin') !== 'false';
     }
 
     export function enableSystemExternalPlayers(val) {
         if (val !== undefined) {
-            this.set('enableSystemExternalPlayers', val.toString());
+            set('enableSystemExternalPlayers', val.toString());
         }
 
-        return this.get('enableSystemExternalPlayers') === 'true';
+        return get('enableSystemExternalPlayers') === 'true';
     }
 
     export function enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
@@ -32,13 +32,13 @@ import { AppStorage, Events } from 'jellyfin-apiclient';
                 val = true;
             }
 
-            this.set(key, val.toString());
+            set(key, val.toString());
         }
 
         if (isInNetwork && mediaType === 'Audio') {
             return true;
         } else {
-            return this.get(key) !== 'false';
+            return get(key) !== 'false';
         }
     }
 
@@ -48,7 +48,7 @@ import { AppStorage, Events } from 'jellyfin-apiclient';
             if (isInNetwork && mediaType === 'Audio') {
                 //  nothing to do, this is always a max value
             } else {
-                this.set(key, val);
+                set(key, val);
             }
         }
 
@@ -56,30 +56,30 @@ import { AppStorage, Events } from 'jellyfin-apiclient';
             // return a huge number so that it always direct plays
             return 150000000;
         } else {
-            return parseInt(this.get(key) || '0') || 1500000;
+            return parseInt(get(key) || '0') || 1500000;
         }
     }
 
     export function maxStaticMusicBitrate(val) {
         if (val !== undefined) {
-            this.set('maxStaticMusicBitrate', val);
+            set('maxStaticMusicBitrate', val);
         }
 
         const defaultValue = 320000;
-        return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
+        return parseInt(get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
     }
 
     export function maxChromecastBitrate(val) {
         if (val !== undefined) {
-            this.set('chromecastBitrate1', val);
+            set('chromecastBitrate1', val);
         }
 
-        val = this.get('chromecastBitrate1');
+        val = get('chromecastBitrate1');
         return val ? parseInt(val) : null;
     }
 
     export function set(name, value, userId) {
-        const currentValue = this.get(name, userId);
+        const currentValue = get(name, userId);
         AppStorage.setItem(getKey(name, userId), value);
 
         if (currentValue !== value) {

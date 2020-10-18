@@ -17,6 +17,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.css';
 import '../../elements/emby-toggle/emby-toggle';
 import '../../assets/css/flexstyles.css';
+import toast from '../toast/toast';
 
     function onEditLibrary() {
         if (isCreating) {
@@ -47,9 +48,7 @@ import '../../assets/css/flexstyles.css';
             hasChanges = true;
             refreshLibraryFromServer(page);
         }, () => {
-            import('../toast/toast').then((toast) => {
-                toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-            });
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
         });
     }
 
@@ -62,9 +61,7 @@ import '../../assets/css/flexstyles.css';
             hasChanges = true;
             refreshLibraryFromServer(page);
         }, () => {
-            import('../toast/toast').then((toast) => {
-                toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-            });
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
         });
     }
 
@@ -84,9 +81,7 @@ import '../../assets/css/flexstyles.css';
                     hasChanges = true;
                     refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
                 }, () => {
-                    import('../toast/toast').then((toast) => {
-                        toast(globalize.translate('ErrorDefault'));
-                    });
+                    toast(globalize.translate('ErrorDefault'));
                 });
             });
         });

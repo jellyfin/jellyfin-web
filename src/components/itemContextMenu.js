@@ -6,6 +6,7 @@ import { appRouter } from './appRouter';
 import itemHelper from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
+import toast from './toast/toast';
 
 /* eslint-disable indent */
     export function getCommands(options) {
@@ -373,9 +374,7 @@ import ServerConnections from './ServerConnections';
                         textArea.select();
 
                         if (document.execCommand('copy')) {
-                            import('./toast/toast').then((toast) => {
-                                toast(globalize.translate('CopyStreamURLSuccess'));
-                            });
+                            toast(globalize.translate('CopyStreamURLSuccess'));
                         } else {
                             prompt(globalize.translate('CopyStreamURL'), downloadHref);
                         }
@@ -388,9 +387,7 @@ import ServerConnections from './ServerConnections';
                     } else {
                         /* eslint-disable-next-line compat/compat */
                         navigator.clipboard.writeText(downloadHref).then(function () {
-                            import('./toast/toast').then((toast) => {
-                                toast(globalize.translate('CopyStreamURLSuccess'));
-                            });
+                            toast(globalize.translate('CopyStreamURLSuccess'));
                         }).catch(function () {
                             textAreaCopy();
                         });

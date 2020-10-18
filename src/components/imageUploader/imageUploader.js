@@ -16,6 +16,7 @@ import '../../elements/emby-select/emby-select';
 import '../formdialog.css';
 import './style.css';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
     let currentItemId;
     let currentServerId;
@@ -27,16 +28,12 @@ import ServerConnections from '../ServerConnections';
 
         switch (evt.target.error.code) {
             case evt.target.error.NOT_FOUND_ERR:
-                import('../toast/toast').then((toast) => {
-                    toast(globalize.translate('MessageFileReadError'));
-                });
+                toast(globalize.translate('MessageFileReadError'));
                 break;
             case evt.target.error.ABORT_ERR:
                 break; // noop
             default:
-                import('../toast/toast').then((toast) => {
-                    toast(globalize.translate('MessageFileReadError'));
-                });
+                toast(globalize.translate('MessageFileReadError'));
                 break;
         }
     }
@@ -88,9 +85,7 @@ import ServerConnections from '../ServerConnections';
         }
 
         if (!file.type.startsWith('image/')) {
-            import('../toast/toast').then((toast) => {
-                toast(globalize.translate('MessageImageFileTypeAllowed'));
-            });
+            toast(globalize.translate('MessageImageFileTypeAllowed'));
             e.preventDefault();
             return false;
         }
@@ -101,9 +96,7 @@ import ServerConnections from '../ServerConnections';
 
         const imageType = dlg.querySelector('#selectImageType').value;
         if (imageType === 'None') {
-            import('../toast/toast').then((toast) => {
-                toast(globalize.translate('MessageImageTypeNotSelected'));
-            });
+            toast(globalize.translate('MessageImageTypeNotSelected'));
             e.preventDefault();
             return false;
         }
