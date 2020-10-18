@@ -1,5 +1,5 @@
-import globalize from 'globalize';
-import toast from 'toast';
+import globalize from '../../scripts/globalize';
+import toast from '../toast/toast';
 
 export class QuickConnectSettings {
     constructor() { }
