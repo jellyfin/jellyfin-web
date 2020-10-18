@@ -55,7 +55,6 @@
     "stylelint-order": "^4.1.0",
     "webpack": "^5.3.2",
     "webpack-cli": "^4.0.0",
-    "webpack-concat-plugin": "^3.0.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
     "webpack-stream": "^6.1.0",
