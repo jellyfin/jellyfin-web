@@ -18,7 +18,7 @@ import 'cardStyle';
     }
 
     function deleteAllDevices(page) {
-        let msg = globalize.translate('DeleteDevicesConfirmation');
+        const msg = globalize.translate('DeleteDevicesConfirmation');
 
         require(['confirm'], async function (confirm) {
             await confirm({
