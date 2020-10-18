@@ -16,6 +16,10 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {
+                    from: 'config*.json',
+                    to: ''
+                },
+                {
                     from: 'themes/',
                     to: 'themes/'
                 }

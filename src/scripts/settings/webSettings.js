@@ -43,9 +43,16 @@ async function fetchLocal(url, options) {
 async function getConfig() {
     if (data) return Promise.resolve(data);
     try {
-        data = (await import('../../config.json')).default;
+        const response = await fetchLocal('config.json', {
+            cache: 'no-cache'
+        });
 
-        console.dir(data);
+        if (!response.ok) {
+            throw new Error('network response was not ok');
+        }
+
+        data = await response.json();
+
         return data;
     } catch (error) {
         console.warn('failed to fetch the web config file:', error);
@@ -55,9 +62,15 @@ async function getConfig() {
 
 async function getDefaultConfig() {
     try {
-        data = (await import('../../config.template.json')).default;
+        const response = await fetchLocal('config.template.json', {
+            cache: 'no-cache'
+        });
 
-        console.dir(data);
+        if (!response.ok) {
+            throw new Error('network response was not ok');
+        }
+
+        data = await response.json();
         return data;
     } catch (error) {
         console.error('failed to fetch the default web config file:', error);
