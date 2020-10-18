@@ -20,37 +20,37 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import taskButton from '../../scripts/taskbutton';
 import Dashboard from '../../scripts/clientUtils';
 import ServerConnections from '../../components/ServerConnections';
+import alert from '../../components/alert';
+import confirm from '../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
     function showPlaybackInfo(btn, session) {
-        import('../../components/alert').then(({default: alert}) => {
-            let title;
-            const text = [];
-            const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+        let title;
+        const text = [];
+        const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
-            if (displayPlayMethod === 'DirectStream') {
-                title = globalize.translate('DirectStreaming');
-                text.push(globalize.translate('DirectStreamHelp1'));
+        if (displayPlayMethod === 'DirectStream') {
+            title = globalize.translate('DirectStreaming');
+            text.push(globalize.translate('DirectStreamHelp1'));
+            text.push('<br/>');
+            text.push(globalize.translate('DirectStreamHelp2'));
+        } else if (displayPlayMethod === 'Transcode') {
+            title = globalize.translate('Transcoding');
+            text.push(globalize.translate('MediaIsBeingConverted'));
+
+            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
                 text.push('<br/>');
-                text.push(globalize.translate('DirectStreamHelp2'));
-            } else if (displayPlayMethod === 'Transcode') {
-                title = globalize.translate('Transcoding');
-                text.push(globalize.translate('MediaIsBeingConverted'));
-
-                if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
-                    text.push('<br/>');
-                    text.push(globalize.translate('LabelReasonForTranscoding'));
-                    session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
-                        text.push(globalize.translate(transcodeReason));
-                    });
-                }
+                text.push(globalize.translate('LabelReasonForTranscoding'));
+                session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
+                    text.push(globalize.translate(transcodeReason));
+                });
             }
+        }
 
-            alert({
-                text: text.join('<br/>'),
-                title: title
-            });
+        alert({
+            text: text.join('<br/>'),
+            title: title
         });
     }
 
@@ -722,33 +722,29 @@ import ServerConnections from '../../components/ServerConnections';
             });
         },
         restart: function (btn) {
-            import('../../components/confirm/confirm').then(({default: confirm}) => {
-                confirm({
-                    title: globalize.translate('Restart'),
-                    text: globalize.translate('MessageConfirmRestart'),
-                    confirmText: globalize.translate('Restart'),
-                    primary: 'delete'
-                }).then(function () {
-                    const page = dom.parentWithClass(btn, 'page');
-                    page.querySelector('#btnRestartServer').disabled = true;
-                    page.querySelector('#btnShutdown').disabled = true;
-                    ApiClient.restartServer();
-                });
+            confirm({
+                title: globalize.translate('Restart'),
+                text: globalize.translate('MessageConfirmRestart'),
+                confirmText: globalize.translate('Restart'),
+                primary: 'delete'
+            }).then(function () {
+                const page = dom.parentWithClass(btn, 'page');
+                page.querySelector('#btnRestartServer').disabled = true;
+                page.querySelector('#btnShutdown').disabled = true;
+                ApiClient.restartServer();
             });
         },
         shutdown: function (btn) {
-            import('../../components/confirm/confirm').then(({default: confirm}) => {
-                confirm({
-                    title: globalize.translate('ButtonShutdown'),
-                    text: globalize.translate('MessageConfirmShutdown'),
-                    confirmText: globalize.translate('ButtonShutdown'),
-                    primary: 'delete'
-                }).then(function () {
-                    const page = dom.parentWithClass(btn, 'page');
-                    page.querySelector('#btnRestartServer').disabled = true;
-                    page.querySelector('#btnShutdown').disabled = true;
-                    ApiClient.shutdownServer();
-                });
+            confirm({
+                title: globalize.translate('ButtonShutdown'),
+                text: globalize.translate('MessageConfirmShutdown'),
+                confirmText: globalize.translate('ButtonShutdown'),
+                primary: 'delete'
+            }).then(function () {
+                const page = dom.parentWithClass(btn, 'page');
+                page.querySelector('#btnRestartServer').disabled = true;
+                page.querySelector('#btnShutdown').disabled = true;
+                ApiClient.shutdownServer();
             });
         }
     };

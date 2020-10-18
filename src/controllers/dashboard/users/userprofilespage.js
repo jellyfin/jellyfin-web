@@ -9,23 +9,22 @@ import '../../../elements/emby-button/emby-button';
 import '../../../components/indicators/indicators.css';
 import '../../../assets/css/flexstyles.css';
 import Dashboard from '../../../scripts/clientUtils';
+import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
     function deleteUser(page, id) {
         const msg = globalize.translate('DeleteUserConfirmation');
 
-        import('../../../components/confirm/confirm').then(({default: confirm}) => {
-            confirm({
-                title: globalize.translate('DeleteUser'),
-                text: msg,
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-            }).then(function () {
-                loading.show();
-                ApiClient.deleteUser(id).then(function () {
-                    loadData(page);
-                });
+        confirm({
+            title: globalize.translate('DeleteUser'),
+            text: msg,
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        }).then(function () {
+            loading.show();
+            ApiClient.deleteUser(id).then(function () {
+                loadData(page);
             });
         });
     }

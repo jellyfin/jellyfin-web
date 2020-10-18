@@ -3,13 +3,10 @@ import confirm from '../components/confirm/confirm';
 import { appRouter } from '../components/appRouter';
 import globalize from './globalize';
 import ServerConnections from '../components/ServerConnections';
+import alert from '../components/alert';
 
 function alertText(options) {
-    return new Promise(function (resolve, reject) {
-        import('../components/alert').then((alert) => {
-            alert(options).then(resolve, resolve);
-        });
-    });
+    return alert(options);
 }
 
 export function deleteItem(options) {

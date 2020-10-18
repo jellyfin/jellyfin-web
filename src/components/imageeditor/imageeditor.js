@@ -14,6 +14,8 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import './imageeditor.css';
 import ServerConnections from '../ServerConnections';
+import alert from '../alert';
+import confirm from '../confirm/confirm';
 
 /* eslint-disable indent */
 
@@ -200,15 +202,11 @@ import ServerConnections from '../ServerConnections';
             return;
         }
 
-        import('../confirm/confirm').then(({default: confirm}) => {
-            confirm({
-
-                text: globalize.translate('ConfirmDeleteImage'),
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-
-            }).then(afterConfirm);
-        });
+        confirm({
+            text: globalize.translate('ConfirmDeleteImage'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        }).then(afterConfirm);
     }
 
     function moveImage(context, apiClient, itemId, type, index, newIndex, focusContext) {
@@ -216,9 +214,7 @@ import ServerConnections from '../ServerConnections';
             hasChanges = true;
             reload(context, null, focusContext);
         }, function () {
-            import('../alert').then((alert) => {
-                alert(globalize.translate('ErrorDefault'));
-            });
+            alert(globalize.translate('ErrorDefault'));
         });
     }
 

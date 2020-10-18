@@ -20,6 +20,7 @@ import '../listview/listview.css';
 import '../formdialog.css';
 import '../../assets/css/flexstyles.css';
 import toast from '../toast/toast';
+import alert from '../alert';
 
     function onAddLibrary() {
         if (isCreating) {
@@ -27,11 +28,9 @@ import toast from '../toast/toast';
         }
 
         if (pathInfos.length == 0) {
-            import('../alert').then((alert) => {
-                alert({
-                    text: globalize.translate('PleaseAddAtLeastOneFolder'),
-                    type: 'error'
-                });
+            alert({
+                text: globalize.translate('PleaseAddAtLeastOneFolder'),
+                type: 'error'
             });
 
             return false;

@@ -16,6 +16,7 @@ import '../../../components/cardbuilder/card.css';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../scripts/clientUtils';
 import ServerConnections from '../../../components/ServerConnections';
+import alert from '../../../components/alert';
 
 /* eslint-disable indent */
 
@@ -102,9 +103,7 @@ import ServerConnections from '../../../components/ServerConnections';
     }
 
     function alertTextWithOptions(options) {
-        import('../../../components/alert').then(({default: alert}) => {
-            alert(options);
-        });
+        alert(options);
     }
 
     function showServerConnectionFailure() {

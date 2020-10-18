@@ -10,6 +10,7 @@ import '../../../components/cardbuilder/card.css';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../scripts/clientUtils';
 import ServerConnections from '../../../components/ServerConnections';
+import toast from '../../../components/toast/toast';
 
 /* eslint-disable indent */
 
@@ -29,10 +30,8 @@ import ServerConnections from '../../../components/ServerConnections';
 
             const UnauthorizedOrForbidden = [401, 403];
             if (UnauthorizedOrForbidden.includes(response.status)) {
-                import('../../../components/toast/toast').then((toast) => {
-                    const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
-                    toast(globalize.translate(messageKey));
-                });
+                const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
+                toast(globalize.translate(messageKey));
             } else {
                 Dashboard.alert({
                     message: globalize.translate('MessageUnableToConnectToServer'),

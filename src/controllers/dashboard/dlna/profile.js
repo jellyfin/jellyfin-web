@@ -7,6 +7,7 @@ import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import '../../../components/listview/listview.css';
 import Dashboard from '../../../scripts/clientUtils';
+import toast from '../../../components/toast/toast';
 
 /* eslint-disable indent */
 
@@ -634,9 +635,7 @@ import Dashboard from '../../../scripts/clientUtils';
                 data: JSON.stringify(profile),
                 contentType: 'application/json'
             }).then(function () {
-                import('../../../components/toast/toast').then((toast) => {
-                    toast('Settings saved.');
-                });
+                toast('Settings saved.');
             }, Dashboard.processErrorResponse);
         } else {
             ApiClient.ajax({

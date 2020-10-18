@@ -5,6 +5,7 @@ import globalize from '../../scripts/globalize';
 import { Events } from 'jellyfin-apiclient';
 import castSenderApiLoader from '../../components/castSenderApi';
 import ServerConnections from '../../components/ServerConnections';
+import alert from '../../components/alert';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 
@@ -440,11 +441,9 @@ class CastPlayer {
 }
 
 function alertText(text, title) {
-    import('../../components/alert').then(({default: alert}) => {
-        alert({
-            text: text,
-            title: title
-        });
+    alert({
+        text,
+        title
     });
 }
 

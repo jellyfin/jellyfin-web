@@ -3,6 +3,7 @@ import loading from '../../components/loading/loading';
 import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import Dashboard from '../../scripts/clientUtils';
+import alert from '../../components/alert';
 
 /* eslint-disable indent */
 
@@ -39,11 +40,8 @@ import Dashboard from '../../scripts/clientUtils';
     function showConfirmMessage(config) {
         const msg = [];
         msg.push(globalize.translate('MetadataSettingChangeHelp'));
-
-        import('../../components/alert').then(({default: alert}) => {
-            alert({
-                text: msg.join('<br/><br/>')
-            });
+        alert({
+            text: msg.join('<br/><br/>')
         });
     }
 

@@ -8,6 +8,7 @@ import imageHelper from '../../scripts/imagehelper';
 import '../../components/cardbuilder/card.css';
 import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 import Dashboard from '../../scripts/clientUtils';
+import confirm from '../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
@@ -47,17 +48,15 @@ import Dashboard from '../../scripts/clientUtils';
             msg += virtualFolder.Locations.join('<br/>');
         }
 
-        import('../../components/confirm/confirm').then((confirm) => {
-            confirm({
-                text: msg,
-                title: globalize.translate('HeaderRemoveMediaFolder'),
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-            }).then(function () {
-                const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
-                ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange).then(function () {
-                    reloadLibrary(page);
-                });
+        confirm({
+            text: msg,
+            title: globalize.translate('HeaderRemoveMediaFolder'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        }).then(function () {
+            const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
+            ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange).then(function () {
+                reloadLibrary(page);
             });
         });
     }

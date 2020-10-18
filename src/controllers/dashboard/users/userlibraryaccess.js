@@ -3,6 +3,7 @@ import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import globalize from '../../../scripts/globalize';
 import Dashboard from '../../../scripts/clientUtils';
+import toast from '../../../components/toast/toast';
 
 /* eslint-disable indent */
 
@@ -92,10 +93,7 @@ import Dashboard from '../../../scripts/clientUtils';
 
     function onSaveComplete(page) {
         loading.hide();
-
-        import('../../../components/toast/toast').then((toast) => {
-            toast(globalize.translate('SettingsSaved'));
-        });
+        toast(globalize.translate('SettingsSaved'));
     }
 
     function saveUser(user, page) {

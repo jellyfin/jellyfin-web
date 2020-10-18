@@ -29,6 +29,7 @@ import '../../elements/emby-select/emby-select';
 import itemShortcuts from '../../components/shortcuts';
 import Dashboard from '../../scripts/clientUtils';
 import ServerConnections from '../../components/ServerConnections';
+import confirm from '../../components/confirm/confirm';
 
 function getPromise(apiClient, params) {
     const id = params.id;
@@ -1869,16 +1870,14 @@ export default function (view, params) {
     }
 
     function splitVersions(instance, page, apiClient, params) {
-        import('../../components/confirm/confirm').then(({ default: confirm }) => {
-            confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
-                loading.show();
-                apiClient.ajax({
-                    type: 'DELETE',
-                    url: apiClient.getUrl('Videos/' + params.id + '/AlternateSources')
-                }).then(function () {
-                    loading.hide();
-                    reload(instance, page, params);
-                });
+        confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
+            loading.show();
+            apiClient.ajax({
+                type: 'DELETE',
+                url: apiClient.getUrl('Videos/' + params.id + '/AlternateSources')
+            }).then(function () {
+                loading.hide();
+                reload(instance, page, params);
             });
         });
     }

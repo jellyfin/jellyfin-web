@@ -16,6 +16,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import './remotecontrol.css';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /*eslint prefer-const: "error"*/
 
@@ -864,9 +865,7 @@ export default function () {
         }, currentPlayer);
         form.querySelector('input').value = '';
 
-        import('../toast/toast').then((toast) => {
-            toast('Message sent.');
-        });
+        toast('Message sent.');
 
         e.preventDefault();
         e.stopPropagation();
@@ -883,9 +882,7 @@ export default function () {
         }, currentPlayer);
         form.querySelector('input').value = '';
 
-        import('../toast/toast').then((toast) => {
-            toast('Text sent.');
-        });
+        toast('Text sent.');
 
         e.preventDefault();
         e.stopPropagation();

@@ -10,6 +10,7 @@ import loading from '../loading/loading';
 import { appHost } from '../apphost';
 import * as Screenfull from 'screenfull';
 import ServerConnections from '../ServerConnections';
+import alert from '../alert';
 
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
@@ -648,11 +649,9 @@ function validatePlaybackInfoResult(instance, result) {
 }
 
 function showPlaybackInfoErrorMessage(instance, errorCode) {
-    import('../alert').then(({ default: alert }) => {
-        alert({
-            text: globalize.translate(errorCode),
-            title: globalize.translate('HeaderPlaybackError')
-        });
+    alert({
+        text: globalize.translate(errorCode),
+        title: globalize.translate('HeaderPlaybackError')
     });
 }
 

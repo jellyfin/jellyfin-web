@@ -12,6 +12,7 @@ import '../components/cardbuilder/card.css';
 import 'material-design-icons-iconfont';
 import '../elements/emby-button/emby-button';
 import Dashboard from '../scripts/clientUtils';
+import confirm from '../components/confirm/confirm';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -57,17 +58,15 @@ function renderDevices(page, devices) {
 function deleteDevice(page, id) {
     const message = globalize.translate('MessageConfirmDeleteTunerDevice');
 
-    import('../components/confirm/confirm').then(({default: confirm}) => {
-        confirm(message, globalize.translate('HeaderDeleteDevice')).then(function () {
-            loading.show();
-            ApiClient.ajax({
-                type: 'DELETE',
-                url: ApiClient.getUrl('LiveTv/TunerHosts', {
-                    Id: id
-                })
-            }).then(function () {
-                reload(page);
-            });
+    confirm(message, globalize.translate('HeaderDeleteDevice')).then(function () {
+        loading.show();
+        ApiClient.ajax({
+            type: 'DELETE',
+            url: ApiClient.getUrl('LiveTv/TunerHosts', {
+                Id: id
+            })
+        }).then(function () {
+            reload(page);
         });
     });
 }
@@ -175,19 +174,17 @@ function mapChannels(page, providerId) {
 function deleteProvider(page, id) {
     const message = globalize.translate('MessageConfirmDeleteGuideProvider');
 
-    import('../components/confirm/confirm').then(({default: confirm}) => {
-        confirm(message, globalize.translate('HeaderDeleteProvider')).then(function () {
-            loading.show();
-            ApiClient.ajax({
-                type: 'DELETE',
-                url: ApiClient.getUrl('LiveTv/ListingProviders', {
-                    Id: id
-                })
-            }).then(function () {
-                reload(page);
-            }, function () {
-                reload(page);
-            });
+    confirm(message, globalize.translate('HeaderDeleteProvider')).then(function () {
+        loading.show();
+        ApiClient.ajax({
+            type: 'DELETE',
+            url: ApiClient.getUrl('LiveTv/ListingProviders', {
+                Id: id
+            })
+        }).then(function () {
+            reload(page);
+        }, function () {
+            reload(page);
         });
     });
 }

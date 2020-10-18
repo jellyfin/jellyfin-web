@@ -8,6 +8,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import './directorybrowser.css';
 import '../formdialog.css';
 import '../../elements/emby-button/emby-button';
+import alert from '../alert';
 
 /* eslint-disable indent */
 
@@ -157,9 +158,7 @@ import '../../elements/emby-button/emby-button';
     }
 
     function alertTextWithOptions(options) {
-        import('../alert').then((alert) => {
-            alert(options);
-        });
+        alert(options);
     }
 
     function validatePath(path, validateWriteable, apiClient) {

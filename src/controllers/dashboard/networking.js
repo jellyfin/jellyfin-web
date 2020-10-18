@@ -3,6 +3,7 @@ import globalize from '../../scripts/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import Dashboard from '../../scripts/clientUtils';
+import alert from '../../components/alert';
 
 /* eslint-disable indent */
 
@@ -90,9 +91,7 @@ import Dashboard from '../../scripts/clientUtils';
 
     function showAlertText(options) {
         return new Promise(function (resolve, reject) {
-            import('../../components/alert').then(({default: alert}) => {
-                alert(options).then(resolve, reject);
-            });
+            alert(options).then(resolve, reject);
         });
     }
 

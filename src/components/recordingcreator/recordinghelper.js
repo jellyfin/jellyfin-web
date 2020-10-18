@@ -1,6 +1,8 @@
 import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import confirm from '../confirm/confirm';
 
 /*eslint prefer-const: "error"*/
 
@@ -29,48 +31,42 @@ function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCanc
 
 function cancelTimerWithConfirmation(timerId, serverId) {
     return new Promise(function (resolve, reject) {
-        import('../confirm/confirm').then((confirm) => {
-            confirm.default({
+        confirm.default({
 
-                text: globalize.translate('MessageConfirmRecordingCancellation'),
-                primary: 'delete',
-                confirmText: globalize.translate('HeaderCancelRecording'),
-                cancelText: globalize.translate('HeaderKeepRecording')
+            text: globalize.translate('MessageConfirmRecordingCancellation'),
+            primary: 'delete',
+            confirmText: globalize.translate('HeaderCancelRecording'),
+            cancelText: globalize.translate('HeaderKeepRecording')
 
-            }).then(function () {
-                loading.show();
+        }).then(function () {
+            loading.show();
 
-                const apiClient = ServerConnections.getApiClient(serverId);
-                cancelTimer(apiClient, timerId, true).then(resolve, reject);
-            }, reject);
-        });
+            const apiClient = ServerConnections.getApiClient(serverId);
+            cancelTimer(apiClient, timerId, true).then(resolve, reject);
+        }, reject);
     });
 }
 
 function cancelSeriesTimerWithConfirmation(timerId, serverId) {
     return new Promise(function (resolve, reject) {
-        import('../confirm/confirm').then((confirm) => {
-            confirm.default({
+        confirm.default({
 
-                text: globalize.translate('MessageConfirmRecordingCancellation'),
-                primary: 'delete',
-                confirmText: globalize.translate('HeaderCancelSeries'),
-                cancelText: globalize.translate('HeaderKeepSeries')
+            text: globalize.translate('MessageConfirmRecordingCancellation'),
+            primary: 'delete',
+            confirmText: globalize.translate('HeaderCancelSeries'),
+            cancelText: globalize.translate('HeaderKeepSeries')
 
-            }).then(function () {
-                loading.show();
+        }).then(function () {
+            loading.show();
 
-                const apiClient = ServerConnections.getApiClient(serverId);
-                apiClient.cancelLiveTvSeriesTimer(timerId).then(function () {
-                    import('../toast/toast').then((toast) => {
-                        toast(globalize.translate('SeriesCancelled'));
-                    });
+            const apiClient = ServerConnections.getApiClient(serverId);
+            apiClient.cancelLiveTvSeriesTimer(timerId).then(function () {
+                toast(globalize.translate('SeriesCancelled'));
 
-                    loading.hide();
-                    resolve();
-                }, reject);
+                loading.hide();
+                resolve();
             }, reject);
-        });
+        }, reject);
     });
 }
 
@@ -99,9 +95,7 @@ function createRecording(apiClient, programId, isSeries) {
 }
 
 function sendToast(msg) {
-    import('../toast/toast').then((toast) => {
-        toast(msg);
-    });
+    toast(msg);
 }
 
 function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId) {
@@ -151,10 +145,7 @@ function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, 
                     loading.show();
 
                     apiClient.cancelLiveTvSeriesTimer(seriesTimerId).then(function () {
-                        import('../toast/toast').then((toast) => {
-                            toast(globalize.translate('SeriesCancelled'));
-                        });
-
+                        toast(globalize.translate('SeriesCancelled'));
                         loading.hide();
                         resolve();
                     }, reject);

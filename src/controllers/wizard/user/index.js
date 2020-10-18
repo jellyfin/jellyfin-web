@@ -4,6 +4,7 @@ import '../../../assets/css/dashboard.css';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../scripts/clientUtils';
+import toast from '../../../components/toast/toast';
 
 function getApiClient() {
     return ApiClient;
@@ -37,9 +38,7 @@ function onSubmit(e) {
     const form = this;
 
     if (form.querySelector('#txtManualPassword').value != form.querySelector('#txtPasswordConfirm').value) {
-        import('../../../components/toast/toast').then((toast) => {
-            toast(globalize.translate('PasswordMatchError'));
-        });
+        toast(globalize.translate('PasswordMatchError'));
     } else {
         submit(form);
     }

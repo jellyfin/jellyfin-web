@@ -5,21 +5,20 @@ import globalize from '../../../../scripts/globalize';
 import '../../../../components/cardbuilder/card.css';
 import '../../../../elements/emby-button/emby-button';
 import Dashboard from '../../../../scripts/clientUtils';
+import confirm from '../../../../components/confirm/confirm';
 
 function deletePlugin(page, uniqueid, name) {
     const msg = globalize.translate('UninstallPluginConfirmation', name);
 
-    import('../../../../components/confirm/confirm').then((confirm) => {
-        confirm.default({
-            title: globalize.translate('HeaderUninstallPlugin'),
-            text: msg,
-            primary: 'delete',
-            confirmText: globalize.translate('HeaderUninstallPlugin')
-        }).then(function () {
-            loading.show();
-            ApiClient.uninstallPlugin(uniqueid).then(function () {
-                reloadList(page);
-            });
+    confirm.default({
+        title: globalize.translate('HeaderUninstallPlugin'),
+        text: msg,
+        primary: 'delete',
+        confirmText: globalize.translate('HeaderUninstallPlugin')
+    }).then(function () {
+        loading.show();
+        ApiClient.uninstallPlugin(uniqueid).then(function () {
+            reloadList(page);
         });
     });
 }

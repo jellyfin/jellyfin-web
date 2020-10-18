@@ -3,6 +3,7 @@ import loading from '../components/loading/loading';
 import globalize from '../scripts/globalize';
 import '../elements/emby-button/emby-button';
 import Dashboard from '../scripts/clientUtils';
+import alert from '../components/alert';
 
 function loadPage(page, config) {
     $('.liveTvSettingsForm', page).show();
@@ -51,9 +52,7 @@ function showSaveMessage(recordingPathChanged) {
     }
 
     if (msg) {
-        import('../components/alert').then(({default: alert}) => {
-            alert(msg);
-        });
+        alert(msg);
     }
 }
 

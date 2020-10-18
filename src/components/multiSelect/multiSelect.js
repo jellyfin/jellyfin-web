@@ -5,6 +5,9 @@ import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import './multiSelect.css';
 import ServerConnections from '../ServerConnections';
+import alert from '../alert';
+import playlistEditor from '../playlisteditor/playlisteditor';
+import confirm from '../confirm/confirm';
 
 /* eslint-disable indent */
 
@@ -138,10 +141,8 @@ import ServerConnections from '../ServerConnections';
     }
 
     function alertText(options) {
-        return new Promise((resolve, reject) => {
-            import('../alert').then((alert) => {
-                alert(options).then(resolve, resolve);
-            });
+        return new Promise((resolve) => {
+            alert(options).then(resolve, resolve);
         });
     }
 
@@ -155,17 +156,15 @@ import ServerConnections from '../ServerConnections';
                 title = globalize.translate('HeaderDeleteItems');
             }
 
-            import('../confirm/confirm').then((confirm) => {
-                confirm(msg, title).then(() => {
-                    const promises = itemIds.map(itemId => {
-                        apiClient.deleteItem(itemId);
-                    });
+            confirm(msg, title).then(() => {
+                const promises = itemIds.map(itemId => {
+                    apiClient.deleteItem(itemId);
+                });
 
-                    Promise.all(promises).then(resolve, () => {
-                        alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);
-                    });
-                }, reject);
-            });
+                Promise.all(promises).then(resolve, () => {
+                    alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);
+                });
+            }, reject);
         });
     }
 
@@ -318,11 +317,8 @@ import ServerConnections from '../ServerConnections';
 
     function combineVersions(apiClient, selection) {
         if (selection.length < 2) {
-            import('../alert').then((alert) => {
-                alert({
-
-                    text: globalize.translate('PleaseSelectTwoItems')
-                });
+            alert({
+                text: globalize.translate('PleaseSelectTwoItems')
             });
             return;
         }

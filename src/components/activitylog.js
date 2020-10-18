@@ -7,6 +7,7 @@ import serverNotifications from '../scripts/serverNotifications';
 import '../elements/emby-button/emby-button';
 import './listview/listview.css';
 import ServerConnections from './ServerConnections';
+import alert from './alert';
 
 /* eslint-disable indent */
 
@@ -128,10 +129,8 @@ import ServerConnections from './ServerConnections';
     }
 
     function showItemOverview(item) {
-        import('./alert').then((alert) => {
-            alert({
-                text: item.Overview
-            });
+        alert({
+            text: item.Overview
         });
     }
 

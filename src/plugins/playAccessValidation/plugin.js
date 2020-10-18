@@ -1,10 +1,9 @@
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../../components/ServerConnections';
+import alert from '../../components/alert';
 
 function showErrorMessage() {
-    return import('../../components/alert').then(({default: alert}) => {
-        return alert(globalize.translate('MessagePlayAccessRestricted'));
-    });
+    return alert(globalize.translate('MessagePlayAccessRestricted'));
 }
 
 class PlayAccessValidation {

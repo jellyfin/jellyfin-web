@@ -9,6 +9,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import './recordingfields.css';
 import '../../assets/css/flexstyles.css';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /*eslint prefer-const: "error"*/
 
@@ -226,9 +227,7 @@ function onRecordChange(e) {
 }
 
 function sendToast(msg) {
-    import('../toast/toast').then((toast) => {
-        toast(msg);
-    });
+    toast(msg);
 }
 
 function onRecordSeriesChange(e) {

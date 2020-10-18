@@ -5,6 +5,7 @@ import libraryMenu from '../../../scripts/libraryMenu';
 import globalize from '../../../scripts/globalize';
 import '../../../components/listview/listview.css';
 import '../../../elements/emby-button/paper-icon-button-light';
+import toast from '../../../components/toast/toast';
 
 /* eslint-disable indent */
 
@@ -162,10 +163,7 @@ import '../../../elements/emby-button/paper-icon-button-light';
 
     function onSaveComplete(page) {
         loading.hide();
-
-        import('../../../components/toast/toast').then((toast) => {
-            toast(globalize.translate('SettingsSaved'));
-        });
+        toast(globalize.translate('SettingsSaved'));
     }
 
     function saveUser(user, page) {

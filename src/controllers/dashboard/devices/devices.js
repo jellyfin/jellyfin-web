@@ -8,6 +8,7 @@ import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.css';
 import Dashboard from '../../../scripts/clientUtils';
+import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
@@ -40,17 +41,15 @@ import Dashboard from '../../../scripts/clientUtils';
     function deleteDevice(page, id) {
         const msg = globalize.translate('DeleteDeviceConfirmation');
 
-        import('../../../components/confirm/confirm').then(({default: confirm}) => {
-            confirm({
-                text: msg,
-                title: globalize.translate('HeaderDeleteDevice'),
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-            }).then(async () => {
-                loading.show();
-                await ApiClient.deleteDevice(id);
-                loadData(page);
-            });
+        confirm({
+            text: msg,
+            title: globalize.translate('HeaderDeleteDevice'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        }).then(async () => {
+            loading.show();
+            await ApiClient.deleteDevice(id);
+            loadData(page);
         });
     }
 

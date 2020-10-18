@@ -4,6 +4,7 @@ import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import '../../../components/listview/listview.css';
 import '../../../elements/emby-button/emby-button';
+import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
@@ -64,16 +65,14 @@ import '../../../elements/emby-button/emby-button';
     }
 
     function deleteProfile(page, id) {
-        import('../../../components/confirm/confirm').then(({default: confirm}) => {
-            confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
-                loading.show();
-                ApiClient.ajax({
-                    type: 'DELETE',
-                    url: ApiClient.getUrl('Dlna/Profiles/' + id)
-                }).then(function () {
-                    loading.hide();
-                    loadProfiles(page);
-                });
+        confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
+            loading.show();
+            ApiClient.ajax({
+                type: 'DELETE',
+                url: ApiClient.getUrl('Dlna/Profiles/' + id)
+            }).then(function () {
+                loading.hide();
+                loadProfiles(page);
             });
         });
     }

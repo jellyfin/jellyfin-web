@@ -8,6 +8,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
 import AppInfo from '../../components/AppInfo';
 import Dashboard from '../../scripts/clientUtils';
+import alert from '../../components/alert';
 
 /* eslint-disable indent */
 
@@ -53,10 +54,7 @@ import Dashboard from '../../scripts/clientUtils';
                     });
                 });
             }, function () {
-                import('../../components/alert').then(({default: alert}) => {
-                    alert(globalize.translate('ErrorDefault'));
-                });
-
+                alert(globalize.translate('ErrorDefault'));
                 Dashboard.processServerConfigurationUpdateResult();
             });
         });

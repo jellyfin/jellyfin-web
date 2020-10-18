@@ -18,6 +18,7 @@ import '../formdialog.css';
 import '../../elements/emby-toggle/emby-toggle';
 import '../../assets/css/flexstyles.css';
 import toast from '../toast/toast';
+import confirm from '../confirm/confirm';
 
     function onEditLibrary() {
         if (isCreating) {
@@ -69,20 +70,18 @@ import toast from '../toast/toast';
         const button = btnRemovePath;
         const virtualFolder = currentOptions.library;
 
-        import('../confirm/confirm').then(({default: confirm}) => {
-            confirm({
-                title: globalize.translate('HeaderRemoveMediaLocation'),
-                text: globalize.translate('MessageConfirmRemoveMediaLocation'),
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-            }).then(() => {
-                const refreshAfterChange = currentOptions.refresh;
-                ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
-                    hasChanges = true;
-                    refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
-                }, () => {
-                    toast(globalize.translate('ErrorDefault'));
-                });
+        confirm({
+            title: globalize.translate('HeaderRemoveMediaLocation'),
+            text: globalize.translate('MessageConfirmRemoveMediaLocation'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        }).then(() => {
+            const refreshAfterChange = currentOptions.refresh;
+            ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
+                hasChanges = true;
+                refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
+            }, () => {
+                toast(globalize.translate('ErrorDefault'));
             });
         });
     }

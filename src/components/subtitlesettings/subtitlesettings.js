@@ -16,6 +16,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../assets/css/flexstyles.css';
 import './subtitlesettings.css';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /**
  * Subtitle settings.
@@ -88,9 +89,7 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
         saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
             loading.hide();
             if (enableSaveConfirmation) {
-                import('../toast/toast').then((toast) => {
-                    toast(globalize.translate('SettingsSaved'));
-                });
+                toast(globalize.translate('SettingsSaved'));
             }
 
             Events.trigger(instance, 'saved');

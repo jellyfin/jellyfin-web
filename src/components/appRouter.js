@@ -11,6 +11,7 @@ import viewManager from './viewManager/viewManager';
 import AppInfo from './AppInfo';
 import Dashboard from '../scripts/clientUtils';
 import ServerConnections from './ServerConnections';
+import alert from './alert';
 
 class AppRouter {
     allRoutes = [];
@@ -289,13 +290,11 @@ class AppRouter {
                 this.showWelcome();
                 break;
             case 'ServerUpdateNeeded':
-                import('./alert').then((alert) =>{
-                    alert({
-                        text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
-                        html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
-                    }).then(() => {
-                        this.showSelectServer();
-                    });
+                alert({
+                    text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
+                    html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                }).then(() => {
+                    this.showSelectServer();
                 });
                 break;
             default:
@@ -410,9 +409,7 @@ class AppRouter {
         this.forcedLogoutMsg = null;
 
         if (msg) {
-            import('./alert').then((alert) => {
-                alert(msg);
-            });
+            alert(msg);
         }
     }
 

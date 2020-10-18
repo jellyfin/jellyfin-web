@@ -15,6 +15,8 @@ import './subtitleeditor.css';
 import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.css';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import confirm from '../confirm/confirm';
 
 let currentItem;
 let hasChanges;
@@ -31,9 +33,7 @@ function downloadRemoteSubtitles(context, id) {
     }).then(function () {
         hasChanges = true;
 
-        import('../toast/toast').then((toast) => {
-            toast(globalize.translate('MessageDownloadQueued'));
-        });
+        toast(globalize.translate('MessageDownloadQueued'));
 
         focusManager.autoFocus(context);
     });
@@ -42,31 +42,29 @@ function downloadRemoteSubtitles(context, id) {
 function deleteLocalSubtitle(context, index) {
     const msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
-    import('../confirm/confirm').then((confirm) => {
-        confirm({
+    confirm({
 
-            title: globalize.translate('ConfirmDeletion'),
-            text: msg,
-            confirmText: globalize.translate('Delete'),
-            primary: 'delete'
+        title: globalize.translate('ConfirmDeletion'),
+        text: msg,
+        confirmText: globalize.translate('Delete'),
+        primary: 'delete'
+
+    }).then(function () {
+        loading.show();
+
+        const itemId = currentItem.Id;
+        const url = 'Videos/' + itemId + '/Subtitles/' + index;
+
+        const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+
+        apiClient.ajax({
+
+            type: 'DELETE',
+            url: apiClient.getUrl(url)
 
         }).then(function () {
-            loading.show();
-
-            const itemId = currentItem.Id;
-            const url = 'Videos/' + itemId + '/Subtitles/' + index;
-
-            const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-
-            apiClient.ajax({
-
-                type: 'DELETE',
-                url: apiClient.getUrl(url)
-
-            }).then(function () {
-                hasChanges = true;
-                reload(context, apiClient, itemId);
-            });
+            hasChanges = true;
+            reload(context, apiClient, itemId);
         });
     });
 }

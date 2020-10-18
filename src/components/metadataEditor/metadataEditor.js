@@ -17,6 +17,7 @@ import '../formdialog.css';
 import '../../assets/css/clearbutton.css';
 import '../../assets/css/flexstyles.css';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /* eslint-disable indent */
 
@@ -36,9 +37,7 @@ import ServerConnections from '../ServerConnections';
 
     function submitUpdatedItem(form, item) {
         function afterContentTypeUpdated() {
-            import('../toast/toast').then(({default: toast}) => {
-                toast(globalize.translate('MessageItemSaved'));
-            });
+            toast(globalize.translate('MessageItemSaved'));
 
             loading.hide();
             closeDialog(true);

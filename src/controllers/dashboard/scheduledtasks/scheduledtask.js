@@ -6,6 +6,7 @@ import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';
+import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
@@ -135,10 +136,8 @@ import '../../../elements/emby-select/emby-select';
             $('#popupAddTrigger', view).removeClass('hide');
         },
         confirmDeleteTrigger: function (view, index) {
-            import('../../../components/confirm/confirm').then(({default: confirm}) => {
-                confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
-                    ScheduledTaskPage.deleteTrigger(view, index);
-                });
+            confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
+                ScheduledTaskPage.deleteTrigger(view, index);
             });
         },
         deleteTrigger: function (view, index) {

@@ -5,6 +5,8 @@ import inputManager from '../scripts/inputManager';
 import focusManager from '../components/focusManager';
 import { appRouter } from '../components/appRouter';
 import ServerConnections from '../components/ServerConnections';
+import toast from '../components/toast/toast';
+import alert from '../components/alert';
 
 const serverNotifications = {};
 
@@ -15,13 +17,9 @@ function notifyApp() {
 function displayMessage(cmd) {
     const args = cmd.Arguments;
     if (args.TimeoutMs) {
-        import('../components/toast/toast').then((toast) => {
-            toast({ title: args.Header, text: args.Text });
-        });
+        toast({ title: args.Header, text: args.Text });
     } else {
-        import('../components/alert').then(({default: alert}) => {
-            alert({ title: args.Header, text: args.Text });
-        });
+        alert({ title: args.Header, text: args.Text });
     }
 }
 

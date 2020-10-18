@@ -3,19 +3,18 @@ import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
+import confirm from '../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
     function revoke(page, key) {
-        import('../../components/confirm/confirm').then(({default: confirm}) => {
-            confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
-                loading.show();
-                ApiClient.ajax({
-                    type: 'DELETE',
-                    url: ApiClient.getUrl('Auth/Keys/' + key)
-                }).then(function () {
-                    loadData(page);
-                });
+        confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
+            loading.show();
+            ApiClient.ajax({
+                type: 'DELETE',
+                url: ApiClient.getUrl('Auth/Keys/' + key)
+            }).then(function () {
+                loadData(page);
             });
         });
     }

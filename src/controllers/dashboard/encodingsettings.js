@@ -4,6 +4,7 @@ import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import libraryMenu from '../../scripts/libraryMenu';
 import Dashboard from '../../scripts/clientUtils';
+import alert from '../../components/alert';
 
 /* eslint-disable indent */
 
@@ -43,12 +44,7 @@ import Dashboard from '../../scripts/clientUtils';
 
     function onSaveEncodingPathFailure(response) {
         loading.hide();
-        let msg = '';
-        msg = globalize.translate('FFmpegSavePathNotFound');
-
-        import('../../components/alert').then(({default: alert}) => {
-            alert(msg);
-        });
+        alert(globalize.translate('FFmpegSavePathNotFound'));
     }
 
     function updateEncoder(form) {
@@ -102,22 +98,17 @@ import Dashboard from '../../scripts/clientUtils';
                 ApiClient.updateNamedConfiguration('encoding', config).then(function () {
                     updateEncoder(form);
                 }, function () {
-                    import('../../components/alert').then(({default: alert}) => {
-                        alert(globalize.translate('ErrorDefault'));
-                    });
-
+                    alert(globalize.translate('ErrorDefault'));
                     Dashboard.processServerConfigurationUpdateResult();
                 });
             });
         };
 
         if ($('#selectVideoDecoder', form).val()) {
-            import('../../components/alert').then(({default: alert}) => {
-                alert({
-                    title: globalize.translate('TitleHardwareAcceleration'),
-                    text: globalize.translate('HardwareAccelerationWarning')
-                }).then(onDecoderConfirmed);
-            });
+            alert({
+                title: globalize.translate('TitleHardwareAcceleration'),
+                text: globalize.translate('HardwareAccelerationWarning')
+            }).then(onDecoderConfirmed);
         } else {
             onDecoderConfirmed();
         }

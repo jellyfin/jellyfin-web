@@ -11,6 +11,7 @@ import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
 import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /*eslint prefer-const: "error"*/
 
@@ -86,9 +87,7 @@ function onSubmit(e) {
 
     dialogHelper.close(dlg);
 
-    import('../toast/toast').then((toast) => {
-        toast(globalize.translate('RefreshQueued'));
-    });
+    toast(globalize.translate('RefreshQueued'));
 
     loading.hide();
 
