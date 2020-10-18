@@ -11,6 +11,7 @@ import AlphaPicker from '../components/alphaPicker/alphaPicker';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
 import ServerConnections from '../components/ServerConnections';
+import { appRouter } from '../components/appRouter';
 
 /* eslint-disable indent */
 
@@ -573,7 +574,7 @@ class ItemsView {
         }
 
         function setTitle(item) {
-            Emby.Page.setTitle(getTitle(item) || '');
+            appRouter.setTitle(getTitle(item) || '');
 
             if (item && item.CollectionType === 'playlists') {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), false);

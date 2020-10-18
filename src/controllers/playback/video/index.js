@@ -20,6 +20,7 @@ import '../../../assets/css/videoosd.css';
 import ServerConnections from '../../../components/ServerConnections';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
+import { appRouter } from '../../../components/appRouter';
 
 /* eslint-disable indent */
 
@@ -193,7 +194,7 @@ import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
             currentItem = item;
             if (!item) {
                 updateRecordingButton(null);
-                Emby.Page.setTitle('');
+                appRouter.setTitle('');
                 nowPlayingVolumeSlider.disabled = true;
                 nowPlayingPositionSlider.disabled = true;
                 btnFastForward.disabled = true;
@@ -241,7 +242,7 @@ import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
                 itemName = parentName || '';
             }
 
-            Emby.Page.setTitle(itemName);
+            appRouter.setTitle(itemName);
 
             const documentTitle = parentName || (item ? item.Name : null);
 
@@ -513,7 +514,7 @@ import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 
             if (state.NextMediaType !== 'Video') {
                 view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
-                Emby.Page.back();
+                appRouter.back();
             }
         }
 
@@ -1292,7 +1293,7 @@ import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 
         view.addEventListener('viewbeforeshow', function (e) {
             headerElement.classList.add('osdHeader');
-            Emby.Page.setTransparency('full');
+            appRouter.setTransparency('full');
         });
         view.addEventListener('viewshow', function (e) {
             try {

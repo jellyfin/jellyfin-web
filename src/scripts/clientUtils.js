@@ -5,6 +5,7 @@ import loading from '../components/loading/loading';
 import { appRouter } from '../components/appRouter';
 import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
+import globalize from '../scripts/globalize';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -88,12 +89,12 @@ export function navigate(url, preserveQueryString) {
 
 export function processPluginConfigurationUpdateResult() {
     loading.hide();
-    toast(Globalize.translate('MessageSettingsSaved'));
+    toast(globalize.translate('MessageSettingsSaved'));
 }
 
 export function processServerConfigurationUpdateResult(result) {
     loading.hide();
-    toast.default(Globalize.translate('MessageSettingsSaved'));
+    toast.default(globalize.translate('MessageSettingsSaved'));
 }
 
 export function processErrorResponse(response) {
@@ -118,7 +119,7 @@ export function alert(options) {
         });
     } else {
         baseAlert.default({
-            title: options.title || Globalize.translate('HeaderAlert'),
+            title: options.title || globalize.translate('HeaderAlert'),
             text: options.message
         }).then(options.callback || function () {});
     }

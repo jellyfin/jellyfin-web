@@ -1,5 +1,6 @@
 import { Events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
+
 /* eslint-disable indent */
 
     // TODO: replace with each plugin version

@@ -272,7 +272,7 @@ class AppRouter {
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
-                Emby.Page.goHome();
+                this.goHome();
                 break;
             case 'ServerSignIn':
                 result.ApiClient.getPublicUsers().then((users) => {
@@ -535,7 +535,7 @@ class AppRouter {
 
             if (route.isDefaultRoute) {
                 console.debug('appRouter - loading skin home page');
-                Emby.Page.goHome();
+                this.goHome();
                 return;
             } else if (route.roles) {
                 this.validateRoles(apiClient, route.roles).then(() => {
@@ -836,3 +836,7 @@ class AppRouter {
 }
 
 export const appRouter = new AppRouter();
+
+window.Emby = window.Emby || {};
+
+window.Emby.Page = appRouter;

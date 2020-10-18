@@ -11,6 +11,7 @@ import '../assets/css/livetv.css';
 import '../components/listview/listview.css';
 import '../assets/css/dashboard.css';
 import '../assets/css/detailtable.css';
+import { appRouter } from '../components/appRouter';
 
 /* eslint-disable indent */
 
@@ -20,7 +21,7 @@ import '../assets/css/detailtable.css';
         const path = newRoute.alias ? newRoute.alias : newRoute.path;
         console.debug('defining route: ' + path);
         newRoute.dictionary = 'core';
-        Emby.Page.addRoute(path, newRoute);
+        appRouter.addRoute(path, newRoute);
     }
 
     defineRoute({
