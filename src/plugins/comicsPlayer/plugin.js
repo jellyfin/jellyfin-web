@@ -1,8 +1,9 @@
-import loading from 'loading';
-import dialogHelper from 'dialogHelper';
-import keyboardnavigation from 'keyboardnavigation';
-import appRouter from 'appRouter';
-import * as libarchive from 'libarchive';
+import { Archive } from 'libarchive.js/main.js';
+import loading from '../../components/loading/loading';
+import dialogHelper from '../../components/dialogHelper/dialogHelper';
+import keyboardnavigation from '../../scripts/keyboardNavigation';
+import { appRouter } from '../../components/appRouter';
+import ServerConnections from '../../components/ServerConnections';
 
 export class ComicsPlayer {
     constructor() {
@@ -93,9 +94,9 @@ export class ComicsPlayer {
         loading.show();
 
         const serverId = item.ServerId;
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
-        libarchive.Archive.init({
+        Archive.init({
             workerUrl: appRouter.baseUrl() + '/libraries/worker-bundle.js'
         });
 
@@ -175,7 +176,7 @@ class ArchiveSource {
         }
 
         const blob = await res.blob();
-        this.archive = await libarchive.Archive.open(blob);
+        this.archive = await Archive.open(blob);
         this.raw = await this.archive.getFilesArray();
         this.numberOfFiles = this.raw.length;
         await this.archive.extractFiles();

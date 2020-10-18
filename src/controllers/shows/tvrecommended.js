@@ -14,6 +14,7 @@ import '../../assets/css/scrollstyles.css';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-button/emby-button';
 import Dashboard from '../../scripts/clientUtils';
+import autoFocuser from '../../components/autoFocuser';
 
 /* eslint-disable indent */
 
@@ -129,9 +130,7 @@ import Dashboard from '../../scripts/clientUtils';
             });
             loading.hide();
 
-            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
-                autoFocuser.autoFocus(view);
-            });
+            autoFocuser.autoFocus(view);
         });
     }
 
@@ -170,9 +169,7 @@ import Dashboard from '../../scripts/clientUtils';
             });
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
-                autoFocuser.autoFocus(view);
-            });
+            autoFocuser.autoFocus(view);
         });
     }
 
@@ -211,9 +208,7 @@ import Dashboard from '../../scripts/clientUtils';
             });
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
-                autoFocuser.autoFocus(view);
-            });
+            autoFocuser.autoFocus(view);
         });
     }
 

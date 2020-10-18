@@ -310,17 +310,6 @@ class AppRouter {
             url = route.contentPath || route.path;
         }
 
-        if (url.includes('configurationpage')) {
-            url = ApiClient.getUrl('/web' + url);
-        } else if (url.indexOf('://') === -1) {
-            // Put a slash at the beginning but make sure to avoid a double slash
-            if (url.indexOf('/') !== 0) {
-                url = '/' + url;
-            }
-
-            url = this.baseUrl() + url;
-        }
-
         if (ctx.querystring && route.enableContentQueryString) {
             url += '?' + ctx.querystring;
         }

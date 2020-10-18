@@ -1,7 +1,7 @@
 
 import { appHost } from './apphost';
 import browser from '../scripts/browser';
-import { set, get } from '../scripts/settings/appSettings';
+import appSettings from '../scripts/settings/appSettings';
 import { Events } from 'jellyfin-apiclient';
 
 function setLayout(instance, layout, selectedLayout) {
@@ -20,7 +20,7 @@ class LayoutManager {
             this.autoLayout();
 
             if (save !== false) {
-                set('layout', '');
+                appSettings.set('layout', '');
             }
         } else {
             setLayout(this, 'mobile', layout);
@@ -28,7 +28,7 @@ class LayoutManager {
             setLayout(this, 'desktop', layout);
 
             if (save !== false) {
-                set('layout', layout);
+                appSettings.set('layout', layout);
             }
         }
 
@@ -36,7 +36,7 @@ class LayoutManager {
     }
 
     getSavedLayout() {
-        return get('layout');
+        return appSettings.get('layout');
     }
 
     autoLayout() {
