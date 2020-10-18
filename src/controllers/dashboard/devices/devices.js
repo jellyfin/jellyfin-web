@@ -17,15 +17,6 @@ import 'cardStyle';
         return deviceId !== ApiClient.deviceId();
     }
 
-    function deleteViaApi(id) {
-        return ApiClient.ajax({
-            type: 'DELETE',
-            url: ApiClient.getUrl('Devices', {
-                Id: id
-            })
-        });
-    }
-
     function deleteAllDevices(page) {
         let msg = globalize.translate('DeleteDevicesConfirmation');
 
@@ -39,7 +30,7 @@ import 'cardStyle';
 
             loading.show();
             await Promise.all(
-                deviceIds.filter(canDelete).map((id) => deleteViaApi(id))
+                deviceIds.filter(canDelete).map((id) => ApiClient.deleteDevice(id))
             );
             loadData(page);
         });
@@ -56,7 +47,7 @@ import 'cardStyle';
                 primary: 'delete'
             }).then(async () => {
                 loading.show();
-                await deleteViaApi(id);
+                await ApiClient.deleteDevice(id);
                 loadData(page);
             });
         });
