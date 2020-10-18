@@ -1375,5 +1375,8 @@
     "QuickConnectActivationSuccessful": "Aktywowano pomyślnie",
     "LabelCurrentStatus": "Bieżący status:",
     "EnableAutoCast": "Ustaw jako Domyślny",
-    "ButtonActivate": "Aktywuj"
+    "ButtonActivate": "Aktywuj",
+    "EnableQuickConnect": "Aktywuj szybkie połączenie na tym serwerze",
+    "ButtonUseQuickConnect": "Użyj szybkiego połączenia",
+    "Authorize": "Autoryzuj"
 }
