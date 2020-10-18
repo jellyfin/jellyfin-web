@@ -30,18 +30,19 @@ export function getVideoQualityOptions(options) {
         qualityOptions.push({ name: '4K - 120 Mbps', maxHeight: 2160, bitrate: 120000000 });
         qualityOptions.push({ name: '4K - 80 Mbps', maxHeight: 2160, bitrate: 80000000 });
     }
-    if (maxAllowedWidth >= 1900) { // Some 1080- videos are reported as 1912?
+    // Some 1080- videos are reported as 1912?
+    if (maxAllowedWidth >= 1900) {
         qualityOptions.push({ name: '1080p - 60 Mbps', maxHeight: 1080, bitrate: 60000000 });
         qualityOptions.push({ name: '1080p - 40 Mbps', maxHeight: 1080, bitrate: 40000000 });
         qualityOptions.push({ name: '1080p - 20 Mbps', maxHeight: 1080, bitrate: 20000000 });
         qualityOptions.push({ name: '1080p - 15 Mbps', maxHeight: 1080, bitrate: 15000000 });
         qualityOptions.push({ name: '1080p - 10 Mbps', maxHeight: 1080, bitrate: 10000000 });
-    } 
+    }
     if (maxAllowedWidth >= 1260) {
         qualityOptions.push({ name: '720p - 8 Mbps', maxHeight: 720, bitrate: 8000000 });
         qualityOptions.push({ name: '720p - 6 Mbps', maxHeight: 720, bitrate: 6000000 });
         qualityOptions.push({ name: '720p - 3 Mbps', maxHeight: 720, bitrate: 3000000 });
-    } 
+    }
     if (maxAllowedWidth >= 620) {
         qualityOptions.push({ name: '480p - 1.5 Mbps', maxHeight: 480, bitrate: 1500000 });
         qualityOptions.push({ name: '480p - 720 kbps', maxHeight: 480, bitrate: 720000 });
