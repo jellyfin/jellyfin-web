@@ -18,7 +18,7 @@
     "browser-sync": "^2.26.12",
     "confusing-browser-globals": "^1.0.9",
     "copy-webpack-plugin": "^5.1.1",
-    "css-loader": "^4.3.0",
+    "css-loader": "^5.0.0",
     "cssnano": "^4.1.10",
     "del": "^6.0.0",
     "eslint": "^7.11.0",
