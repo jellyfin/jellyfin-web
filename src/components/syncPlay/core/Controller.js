@@ -36,6 +36,11 @@ class Controller {
      * Unpauses playback in SyncPlay group.
      */
     unpause() {
+        if (!this.manager.hasPlaybackAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaybackAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlayUnpause();
     }
@@ -44,6 +49,11 @@ class Controller {
      * Pauses playback in SyncPlay group.
      */
     pause() {
+        if (!this.manager.hasPlaybackAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaybackAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlayPause();
 
@@ -57,6 +67,11 @@ class Controller {
      * @param {number} positionTicks The position.
      */
     seek(positionTicks) {
+        if (!this.manager.hasPlaybackAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaybackAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlaySeek({
             PositionTicks: positionTicks
@@ -68,6 +83,11 @@ class Controller {
      * @param {Object} options The play data.
      */
     play(options) {
+        if (!this.manager.hasPlaylistAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaylistAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         const sendPlayRequest = (items) => {
             const queue = items.map(item => item.Id);
@@ -94,6 +114,11 @@ class Controller {
      * @param {string} playlistItemId The item playlist identifier.
      */
     setCurrentPlaylistItem(playlistItemId) {
+        if (!this.manager.hasPlaybackAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaybackAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlaySetPlaylistItem({
             PlaylistItemId: playlistItemId
@@ -105,6 +130,11 @@ class Controller {
      * @param {Array} playlistItemIds The items to remove.
      */
     removeFromPlaylist(playlistItemIds) {
+        if (!this.manager.hasPlaylistAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaylistAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlayRemoveFromPlaylist({
             PlaylistItemIds: playlistItemIds
@@ -117,6 +147,11 @@ class Controller {
      * @param {number} newIndex The new position.
      */
     movePlaylistItem(playlistItemId, newIndex) {
+        if (!this.manager.hasPlaylistAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaylistAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlayMovePlaylistItem({
             PlaylistItemId: playlistItemId,
@@ -130,6 +165,11 @@ class Controller {
      * @param {string} mode The queue mode, optional.
      */
     queue(options, mode = 'Queue') {
+        if (!this.manager.hasPlaylistAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaylistAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         if (options.items) {
             Helper.translateItemsForPlayback(apiClient, options.items, options).then((items) => {
@@ -166,6 +206,11 @@ class Controller {
      * Plays next item from playlist in SyncPlay group.
      */
     nextItem() {
+        if (!this.manager.hasPlaybackAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaybackAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlayNextItem({
             PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId()
@@ -176,6 +221,11 @@ class Controller {
      * Plays previous item from playlist in SyncPlay group.
      */
     previousItem() {
+        if (!this.manager.hasPlaybackAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaybackAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlayPreviousItem({
             PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId()
@@ -187,6 +237,11 @@ class Controller {
      * @param {string} mode The repeat mode.
      */
     setRepeatMode(mode) {
+        if (!this.manager.hasPlaylistAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaylistAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlaySetRepeatMode({
             Mode: mode
@@ -198,6 +253,11 @@ class Controller {
      * @param {string} mode The shuffle mode.
      */
     setShuffleMode(mode) {
+        if (!this.manager.hasPlaylistAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaylistAccess');
+            return;
+        }
+
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlaySetShuffleMode({
             Mode: mode
@@ -208,6 +268,11 @@ class Controller {
      * Toggles the shuffle mode in SyncPlay group.
      */
     toggleShuffleMode() {
+        if (!this.manager.hasPlaylistAccess()) {
+            Helper.showMessage(this.manager, 'MessageSyncPlayMissingPlaylistAccess');
+            return;
+        }
+
         let mode = this.manager.getQueueCore().getShuffleMode();
         mode = mode === 'Sorted' ? 'Shuffle' : 'Sorted';
 

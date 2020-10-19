@@ -1,0 +1,25 @@
+.invitesListUsername {
+    flex-grow: 1;
+}
+
+.invitesListUsernameHeader {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.invitesListLabel {
+    width: auto;
+}
+
+.invitesListCheckboxContainer {
+    width: 80px;
+    min-width: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.invitesListCheckbox {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}

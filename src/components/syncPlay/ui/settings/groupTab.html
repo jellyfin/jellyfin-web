@@ -1,0 +1,70 @@
+<form style="margin: auto;">
+    <h2 class="sectionTitle">${HeaderSyncPlayGroupSettings}</h2>
+    <div class="inputContainer inputContainer-withDescription">
+        <input is="emby-input" type="text" id="txtGroupName" required="required" label="${LabelSyncPlaySettingsGroupName}" />
+        <div class="fieldDescription">${LabelSyncPlaySettingsGroupNameHelp}</div>
+    </div>
+    <div class="selectContainer">
+        <select id="selectGroupVisibility" is="emby-select" label="${LabelSyncPlaySettingsGroupVisibility}">
+            <option value="Public">${LabelSyncPlaySettingsGroupVisibilityPublic}</option>
+            <option value="InviteOnly">${LabelSyncPlaySettingsGroupVisibilityInviteOnly}</option>
+            <option value="Private">${LabelSyncPlaySettingsGroupVisibilityPrivate}</option>
+        </select>
+        <div class="fieldDescription">${LabelSyncPlaySettingsGroupVisibilityHelp}</div>
+    </div>
+    <div id="openAccessContainer">
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+                <input type="checkbox" is="emby-checkbox" id="chkOpenPlaybackAccess" />
+                <span>${LabelSyncPlaySettingsOpenPlaybackAccess}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsOpenPlaybackAccessHelp}</div>
+        </div>
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+                <input type="checkbox" is="emby-checkbox" id="chkOpenPlaylistAccess" />
+                <span>${LabelSyncPlaySettingsOpenPlaylistAccess}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsOpenPlaylistAccessHelp}</div>
+        </div>
+    </div>
+    <div id="invitesListContainer">
+        <h2 class="sectionTitle">${HeaderSyncPlayGroupInvitedUsers}</h2>
+        <div id="invitesListHeader" class="listItem invitesListItem">
+            <div class="listItemBody invitesListUsername invitesListUsernameHeader">
+                <div>User</div>
+            </div>
+            <div class="invitesListCheckboxContainer">
+                <div class="invitesListCheckbox">
+                    <label class="invitesListLabel">
+                        Invited
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="paperList" id="invitesList"></div>
+        <p id="invitesListIsEmpty">${LabelSyncPlaySettingsEmptyInvitesList}</p>
+    </div>
+    <div id="accessListContainer">
+        <h2 class="sectionTitle">${HeaderSyncPlayGroupAccessList}</h2>
+        <div id="accessListHeader" class="listItem accessListItem">
+            <div class="listItemBody accessListUsername accessListUsernameHeader">
+                <div>User</div>
+            </div>
+            <div class="accessListCheckboxContainer">
+                <div class="accessListCheckbox">
+                    <label class="accessListLabel">
+                        Playback
+                    </label>
+                </div>
+                <div class="accessListCheckbox">
+                    <label class="accessListLabel">
+                        Playlist
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="paperList" id="accessList"></div>
+        <p id="accessListIsEmpty">${LabelSyncPlaySettingsEmptyAccessList}</p>
+    </div>
+</form>

@@ -1,0 +1,39 @@
+.accessListUsername {
+    flex-grow: 1;
+}
+
+.accessListUsernameHeader {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.accessListLabel {
+    width: auto;
+}
+
+.accessListCheckboxContainer {
+    width: 160px;
+    min-width: 160px;
+    display: flex;
+    justify-content: center;
+}
+
+.accessListCheckbox {
+    width: 50%;
+    justify-content: center;
+    display: flex;
+}
+
+@media only screen and (max-width: 300px) {
+    .accessListItem {
+        display: block;
+    }
+
+    .accessListUsername {
+        padding-bottom: 0;
+    }
+
+    .accessListCheckboxContainer {
+        margin-left: auto;
+    }
+}

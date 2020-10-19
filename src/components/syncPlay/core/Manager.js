@@ -174,6 +174,78 @@ class Manager {
     }
 
     /**
+     * Whether the given user is an administrator for this group.
+     * @param {string} userId The id of the user.
+     * @returns {boolean} _true_ if the user is an administrator, _false_ otherwise.
+     */
+    isUserAdministrator(userId) {
+        if (this.groupInfo) {
+            return this.groupInfo.Administrators.indexOf(userId) !== -1;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Whether the current user is an administrator for this group.
+     * @returns {boolean} _true_ if the user is an administrator, _false_ otherwise.
+     */
+    isAdministrator() {
+        const apiClient = this.getApiClient();
+        const userId = Helper.stringToGuid(apiClient.getCurrentUserId());
+
+        return this.isUserAdministrator(userId);
+    }
+
+    /**
+     * Whether the given user has playback access for this group.
+     * @param {string} userId The id of the user.
+     * @returns {boolean} _true_ if the user has playback access, _false_ otherwise.
+     */
+    hasUserPlaybackAccess(userId) {
+        if (this.groupInfo && this.groupInfo.AccessList && this.groupInfo.AccessList[userId]) {
+            return this.groupInfo.AccessList[userId].PlaybackAccess;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Whether the current user has playback access for this group.
+     * @returns {boolean} _true_ if the user has playback access, _false_ otherwise.
+     */
+    hasPlaybackAccess() {
+        const apiClient = this.getApiClient();
+        const userId = Helper.stringToGuid(apiClient.getCurrentUserId());
+
+        return this.hasUserPlaybackAccess(userId);
+    }
+
+    /**
+     * Whether the given user has playlist access for this group.
+     * @param {string} userId The id of the user.
+     * @returns {boolean} _true_ if the user has playlist access, _false_ otherwise.
+     */
+    hasUserPlaylistAccess(userId) {
+        if (this.groupInfo && this.groupInfo.AccessList && this.groupInfo.AccessList[userId]) {
+            return this.groupInfo.AccessList[userId].PlaylistAccess;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Whether the current user has playlist access for this group.
+     * @returns {boolean} _true_ if the user has playlist access, _false_ otherwise.
+     */
+    hasPlaylistAccess() {
+        const apiClient = this.getApiClient();
+        const userId = Helper.stringToGuid(apiClient.getCurrentUserId());
+
+        return this.hasUserPlaylistAccess(userId);
+    }
+
+    /**
      * Handles a group update from the server.
      * @param {Object} cmd The group update.
      * @param {Object} apiClient The ApiClient.
