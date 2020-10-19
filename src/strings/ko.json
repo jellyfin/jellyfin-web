@@ -1418,5 +1418,7 @@
     "RepeatOne": "반복",
     "RefreshDialogHelp": "메타 데이터는 대시 보드에서 활성화 된 설정 및 인터넷 서비스를 기반으로 새로 고쳐집니다.",
     "LabelUserMaxActiveSessions": "최대 동시 접속 사용자 세션 수:",
-    "EnableAutoCast": "기본값으로 설정"
+    "EnableAutoCast": "기본값으로 설정",
+    "OptionMaxActiveSessionsHelp": "값이 0이면 이 기능이 비활성화됩니다.",
+    "OptionMaxActiveSessions": "동시 사용자 세션의 최대 수를 설정하세요."
 }
