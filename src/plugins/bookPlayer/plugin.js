@@ -1,13 +1,14 @@
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import '../../scripts/dom';
 import { Events } from 'jellyfin-apiclient';
 import './style.css';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 import ServerConnections from '../../components/ServerConnections';
 import TableOfContents from './tableOfContents';
+import browser from '../../scripts/browser';
 
 export class BookPlayer {
     constructor() {

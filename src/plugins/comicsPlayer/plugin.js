@@ -1,4 +1,5 @@
-import { Archive } from 'libarchive.js/main.js';
+// eslint-disable-next-line import/named, import/namespace
+import { Archive } from 'libarchive.js';
 import loading from '../../components/loading/loading';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import keyboardnavigation from '../../scripts/keyboardNavigation';

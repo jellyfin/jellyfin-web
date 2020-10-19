@@ -99,6 +99,7 @@ function dispatchViewEvent(view, eventInfo, eventName, isCancellable) {
 
 function getViewEventDetail(view, {state, url, options = {}}, isRestored) {
     const index = url.indexOf('?');
+    // eslint-disable-next-line compat/compat
     const searchParams = new URLSearchParams(url.substring(index + 1));
     const params = {};
 

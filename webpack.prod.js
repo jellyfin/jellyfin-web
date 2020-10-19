@@ -3,5 +3,5 @@ const merge = require('webpack-merge');
 
 module.exports = merge(common, {
     mode: 'production',
-    entry: './scripts/site.js',
+    entry: './scripts/site.js'
 });

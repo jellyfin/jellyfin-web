@@ -1,5 +1,6 @@
 import globalize from '../../scripts/globalize';
 import toast from '../toast/toast';
+import Dashboard from '../../scripts/clientUtils';
 
 export class QuickConnectSettings {
     constructor() { }

@@ -9,6 +9,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.css';
 import Dashboard from '../../scripts/clientUtils';
+import { Events } from 'jellyfin-apiclient';
 
 export default function (page, providerId, options) {
     function reload() {

@@ -17,7 +17,7 @@ function getThemes() {
 
 function getThemeStylesheetInfo(id) {
     return getThemes().then(themes => {
-        const theme = themes.find(theme => {
+        let theme = themes.find(theme => {
             return id ? theme.id === id : theme.default;
         });
 

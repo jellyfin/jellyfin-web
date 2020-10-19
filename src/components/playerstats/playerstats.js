@@ -414,7 +414,7 @@ import ServerConnections from '../ServerConnections';
                 name: 'Original Media Info'
             });
 
-            var apiClient = ServerConnections.getApiClient(playbackManager.currentItem(player).ServerId);
+            const apiClient = ServerConnections.getApiClient(playbackManager.currentItem(player).ServerId);
             if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),

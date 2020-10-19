@@ -18,7 +18,7 @@ class ServerConnections extends ConnectionManager {
         if (!AppInfo.isNativeApp) {
             console.debug('creating ApiClient singleton');
 
-            var apiClient = new ApiClient(
+            const apiClient = new ApiClient(
                 Dashboard.serverAddress(),
                 appHost.appName(),
                 appHost.appVersion(),

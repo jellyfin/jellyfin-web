@@ -194,7 +194,7 @@ function initEditor(context, settings) {
     }
 }
 function loadDynamicFilters(context, options) {
-    var apiClient = ServerConnections.getApiClient(options.serverId);
+    const apiClient = ServerConnections.getApiClient(options.serverId);
 
     const filterMenuOptions = Object.assign(options.filterMenuOptions, {
 

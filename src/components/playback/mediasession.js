@@ -2,6 +2,8 @@ import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';
 import { Events } from 'jellyfin-apiclient';
 import ServerConnections from '../ServerConnections';
+import shell from '../../scripts/shell';
+
 /* eslint-disable indent */
 
     // Reports media playback to the device for lock screen control

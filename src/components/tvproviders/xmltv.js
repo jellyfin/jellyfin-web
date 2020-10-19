@@ -6,6 +6,7 @@ import '../../elements/emby-input/emby-input';
 import '../listview/listview.css';
 import '../../elements/emby-button/paper-icon-button-light';
 import Dashboard from '../../scripts/clientUtils';
+import { Events } from 'jellyfin-apiclient';
 
 export default function (page, providerId, options) {
     function getListingProvider(config, id) {

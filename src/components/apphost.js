@@ -311,7 +311,7 @@ function askForExit() {
     });
 }
 
-let deviceId = getDeviceId();
+const deviceId = getDeviceId();
 const deviceName = getDeviceName();
 const appName = 'Jellyfin Web';
 const appVersion = '10.7.0';

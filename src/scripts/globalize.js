@@ -163,7 +163,7 @@ import { Events } from 'jellyfin-apiclient';
                 return;
             }
 
-            let url = filtered[0].path;
+            const url = filtered[0].path;
 
             import(`../strings/${url}`).then((fileContent) => {
                 resolve(fileContent);

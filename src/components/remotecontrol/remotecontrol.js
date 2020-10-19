@@ -17,7 +17,7 @@ import './remotecontrol.css';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
-import { appRouter } from "../appRouter";
+import { appRouter } from '../appRouter';
 
 /*eslint prefer-const: "error"*/
 

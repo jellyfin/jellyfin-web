@@ -251,7 +251,7 @@ export function show(options) {
         return showWithUser(options, player, null);
     }
 
-    var apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+    const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
     return apiClient.getCurrentUser().then(function (user) {
         return showWithUser(options, player, user);
     });
