@@ -702,7 +702,7 @@
     "LabelNewsCategories": "Chuyên mục tin tức:",
     "LabelStable": "Ổn Định",
     "LabelTonemappingAlgorithm": "Chọn thuật toán ánh xạ tông màu để sử dụng:",
-    "TonemappingAlgorithmHelp": "Ánh xạ tông màu có thể được tinh chỉnh. Nếu bạn không quen với tùy chọn này, hãy giữ mặc định. Giá trị mặc định: Reinhard.",
+    "TonemappingAlgorithmHelp": "Có thể điều chỉnh bố trí sắc thái. Nếu bạn không hiểu tùy chọn này, hãy giữ mặc định. Giá trị mặc định: Reinhard.",
     "TonemappingRangeHelp": "Chọn dải màu đầu ra. Tự động nghĩa là giống như dải màu đầu vào.",
     "StopPlayback": "Dừng Phát",
     "Preview": "Xem Trước",
