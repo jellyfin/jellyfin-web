@@ -245,7 +245,7 @@
           "src/controllers/dashboard/plugins/installed/index.js",
           "src/controllers/dashboard/plugins/available/index.js",
           "src/controllers/dashboard/plugins/repositories/index.js",
-          "src/controllers/dashboard/quickconnect.js",
+          "src/controllers/dashboard/quickConnect.js",
           "src/controllers/dashboard/scheduledtasks/scheduledtask.js",
           "src/controllers/dashboard/scheduledtasks/scheduledtasks.js",
           "src/controllers/dashboard/serveractivity.js",
