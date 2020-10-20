@@ -16,12 +16,22 @@ import libraryMenu from 'libraryMenu';
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
         $('#selectThreadCount', page).val(config.EncodingThreadCount);
         $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
+        page.querySelector('#txtMaxMuxingQueueSize').value = config.MaxMuxingQueueSize || '';
         page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
         $('#txtTranscodingTempPath', page).val(systemInfo.TranscodingTempPath || '');
         $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
+        page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
+        page.querySelector('#txtOpenclDevice').value = config.OpenclDevice || '';
+        page.querySelector('#selectTonemappingAlgorithm').value = config.TonemappingAlgorithm;
+        page.querySelector('#selectTonemappingRange').value = config.TonemappingRange;
+        page.querySelector('#txtTonemappingDesat').value = config.TonemappingDesat;
+        page.querySelector('#txtTonemappingThreshold').value = config.TonemappingThreshold;
+        page.querySelector('#txtTonemappingPeak').value = config.TonemappingPeak;
+        page.querySelector('#txtTonemappingParam').value = config.TonemappingParam || '';
         page.querySelector('#selectEncoderPreset').value = config.EncoderPreset || '';
         page.querySelector('#txtH264Crf').value = config.H264Crf || '';
         page.querySelector('#selectDeinterlaceMethod').value = config.DeinterlaceMethod || '';
+        page.querySelector('#chkDoubleRateDeinterlacing').checked = config.DeinterlaceDoubleRate;
         page.querySelector('#chkEnableSubtitleExtraction').checked = config.EnableSubtitleExtraction || false;
         page.querySelector('#chkEnableThrottling').checked = config.EnableThrottling || false;
         page.querySelector('#selectVideoDecoder').dispatchEvent(new CustomEvent('change', {
@@ -61,13 +71,23 @@ import libraryMenu from 'libraryMenu';
             loading.show();
             ApiClient.getNamedConfiguration('encoding').then(function (config) {
                 config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
+                config.MaxMuxingQueueSize = form.querySelector('#txtMaxMuxingQueueSize').value;
                 config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();
                 config.EncodingThreadCount = $('#selectThreadCount', form).val();
                 config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
                 config.VaapiDevice = $('#txtVaapiDevice', form).val();
+                config.OpenclDevice = form.querySelector('#txtOpenclDevice').value;
+                config.EnableTonemapping = form.querySelector('#chkTonemapping').checked;
+                config.TonemappingAlgorithm = form.querySelector('#selectTonemappingAlgorithm').value;
+                config.TonemappingRange = form.querySelector('#selectTonemappingRange').value;
+                config.TonemappingDesat = form.querySelector('#txtTonemappingDesat').value;
+                config.TonemappingThreshold = form.querySelector('#txtTonemappingThreshold').value;
+                config.TonemappingPeak = form.querySelector('#txtTonemappingPeak').value;
+                config.TonemappingParam = form.querySelector('#txtTonemappingParam').value || '0';
                 config.EncoderPreset = form.querySelector('#selectEncoderPreset').value;
                 config.H264Crf = parseInt(form.querySelector('#txtH264Crf').value || '0');
                 config.DeinterlaceMethod = form.querySelector('#selectDeinterlaceMethod').value;
+                config.DeinterlaceDoubleRate = form.querySelector('#chkDoubleRateDeinterlacing').checked;
                 config.EnableSubtitleExtraction = form.querySelector('#chkEnableSubtitleExtraction').checked;
                 config.EnableThrottling = form.querySelector('#chkEnableThrottling').checked;
                 config.HardwareDecodingCodecs = Array.prototype.map.call(Array.prototype.filter.call(form.querySelectorAll('.chkDecodeCodec'), function (c) {
@@ -145,6 +165,16 @@ import libraryMenu from 'libraryMenu';
             } else {
                 page.querySelector('.fldVaapiDevice').classList.add('hide');
                 page.querySelector('#txtVaapiDevice').removeAttribute('required');
+            }
+
+            if (this.value == 'nvenc' || this.value == 'amf') {
+                page.querySelector('.fldOpenclDevice').classList.remove('hide');
+                page.querySelector('#txtOpenclDevice').setAttribute('required', 'required');
+                page.querySelector('.tonemappingOptions').classList.remove('hide');
+            } else {
+                page.querySelector('.fldOpenclDevice').classList.add('hide');
+                page.querySelector('#txtOpenclDevice').removeAttribute('required');
+                page.querySelector('.tonemappingOptions').classList.add('hide');
             }
 
             if (this.value) {

@@ -8,7 +8,6 @@
 import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
 import indicators from 'indicators';
-import connectionManager from 'connectionManager';
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
 import datetime from 'datetime';
@@ -77,7 +76,7 @@ import 'emby-playstatebutton';
     }
 
     function getImageUrl(item, width) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
         let itemId;
 
         const options = {
@@ -106,7 +105,7 @@ import 'emby-playstatebutton';
     }
 
     function getChannelImageUrl(item, width) {
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
         const options = {
             maxWidth: width,
             type: 'Primary'
@@ -257,8 +256,8 @@ import 'emby-playstatebutton';
             }
 
             if (options.image !== false) {
-                var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
+                const imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
+                let imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {
                     imageClass += ' listItemImage-large-tv';

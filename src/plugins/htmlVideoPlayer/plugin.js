@@ -5,7 +5,6 @@ import loading from 'loading';
 import dom from 'dom';
 import playbackManager from 'playbackManager';
 import appRouter from 'appRouter';
-import connectionManager from 'connectionManager';
 import {
     bindEventsToHlsPlayer,
     destroyHlsPlayer,
@@ -115,7 +114,6 @@ function tryRemoveElement(elem) {
         return new Promise(resolve => {
             const duration = 240;
             elem.style.animation = `htmlvideoplayer-zoomin ${duration}ms ease-in normal`;
-            hidePrePlaybackPage();
             dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
                 once: true
             });
@@ -325,7 +323,7 @@ function tryRemoveElement(elem) {
 
                 console.debug(`prefetching hls playlist: ${hlsPlaylistUrl}`);
 
-                return connectionManager.getApiClient(item.ServerId).ajax({
+                return window.connectionManager.getApiClient(item.ServerId).ajax({
 
                     type: 'GET',
                     url: hlsPlaylistUrl
@@ -1033,7 +1031,7 @@ function tryRemoveElement(elem) {
          */
         renderSsaAss(videoElement, track, item) {
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
-            const apiClient = connectionManager.getApiClient(item);
+            const apiClient = window.connectionManager.getApiClient(item);
             const htmlVideoPlayer = this;
             const options = {
                 video: videoElement,
@@ -1329,17 +1327,24 @@ function tryRemoveElement(elem) {
                         this.#videoDialog = dlg;
                         this.#mediaElement = videoElement;
 
+                        if (options.fullscreen) {
+                            hidePrePlaybackPage();
+                        }
+
                         // don't animate on smart tv's, too slow
                         if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
                             return zoomIn(dlg).then(function () {
                                 return videoElement;
                             });
                         } else {
-                            hidePrePlaybackPage();
                             return videoElement;
                         }
                     });
                 } else {
+                    if (options.fullscreen) {
+                        hidePrePlaybackPage();
+                    }
+
                     return Promise.resolve(dlg.querySelector('video'));
                 }
         }
@@ -1390,7 +1395,12 @@ function tryRemoveElement(elem) {
         const list = [];
 
         const video = document.createElement('video');
-        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' || document.pictureInPictureEnabled) {
+        if (
+            // Check non-standard Safari PiP support
+            typeof video.webkitSupportsPresentationMode === 'function' && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === 'function'
+            // Check standard PiP support
+            || document.pictureInPictureEnabled
+        ) {
             list.push('PictureInPicture');
         } else if (window.Windows) {
             if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {

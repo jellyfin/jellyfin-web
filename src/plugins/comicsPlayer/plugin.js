@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import loading from 'loading';
 import dialogHelper from 'dialogHelper';
 import keyboardnavigation from 'keyboardnavigation';
@@ -20,14 +19,14 @@ export class ComicsPlayer {
     play(options) {
         this.progress = 0;
 
-        let elem = this.createMediaElement();
+        const elem = this.createMediaElement();
         return this.setCurrentSrc(elem, options);
     }
 
     stop() {
         this.unbindEvents();
 
-        let elem = this.mediaElement;
+        const elem = this.mediaElement;
         if (elem) {
             dialogHelper.close(elem);
             this.mediaElement = null;
@@ -41,7 +40,7 @@ export class ComicsPlayer {
     }
 
     onWindowKeyUp(e) {
-        let key = keyboardnavigation.getKeyName(e);
+        const key = keyboardnavigation.getKeyName(e);
         switch (key) {
             case 'Escape':
                 this.stop();
@@ -88,23 +87,23 @@ export class ComicsPlayer {
     }
 
     setCurrentSrc(elem, options) {
-        let item = options.items[0];
+        const item = options.items[0];
         this.currentItem = item;
 
         loading.show();
 
-        let serverId = item.ServerId;
-        let apiClient = connectionManager.getApiClient(serverId);
+        const serverId = item.ServerId;
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         libarchive.Archive.init({
             workerUrl: appRouter.baseUrl() + '/libraries/worker-bundle.js'
         });
 
         return new Promise((resolve, reject) => {
-            let downloadUrl = apiClient.getItemDownloadUrl(item.Id);
+            const downloadUrl = apiClient.getItemDownloadUrl(item.Id);
             const archiveSource = new ArchiveSource(downloadUrl);
 
-            var instance = this;
+            const instance = this;
             import('swiper').then(({default: Swiper}) => {
                 archiveSource.load().then(() => {
                     loading.hide();
@@ -170,18 +169,18 @@ class ArchiveSource {
     }
 
     async load() {
-        let res = await fetch(this.url);
+        const res = await fetch(this.url);
         if (!res.ok) {
             return;
         }
 
-        let blob = await res.blob();
+        const blob = await res.blob();
         this.archive = await libarchive.Archive.open(blob);
         this.raw = await this.archive.getFilesArray();
         this.numberOfFiles = this.raw.length;
         await this.archive.extractFiles();
 
-        let files = await this.archive.getFilesArray();
+        const files = await this.archive.getFilesArray();
         files.sort((a, b) => {
             if (a.file.name < b.file.name) {
                 return -1;
@@ -190,9 +189,9 @@ class ArchiveSource {
             }
         });
 
-        for (let file of files) {
+        for (const file of files) {
             /* eslint-disable-next-line compat/compat */
-            let url = URL.createObjectURL(file.file);
+            const url = URL.createObjectURL(file.file);
             this.urls.push(url);
         }
     }

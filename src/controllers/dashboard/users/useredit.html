@@ -11,7 +11,7 @@
             </div>
 
             <div data-role="controlgroup" data-type="horizontal" class="localnav" id="userProfileNavigation" data-mini="true">
-                <a href="#" is="emby-linkbutton" data-role="button" class="ui-btn-active">${TabProfile}</a>
+                <a href="#" is="emby-linkbutton" data-role="button" class="ui-btn-active">${Profile}</a>
                 <a href="#" is="emby-linkbutton" data-role="button" onclick="Dashboard.navigate('userlibraryaccess.html', true);">${TabAccess}</a>
                 <a href="#" is="emby-linkbutton" data-role="button" onclick="Dashboard.navigate('userparentalcontrol.html', true);">${TabParentalControl}</a>
                 <a href="#" is="emby-linkbutton" data-role="button" onclick="Dashboard.navigate('userpassword.html', true);">${HeaderPassword}</a>
@@ -187,6 +187,14 @@
                         <input is="emby-input" type="number" id="txtLoginAttemptsBeforeLockout" min="-1" step="1" label="${LabelUserLoginAttemptsBeforeLockout}"/>
                         <div class="fieldDescription">${OptionLoginAttemptsBeforeLockout}</div>
                         <div class="fieldDescription">${OptionLoginAttemptsBeforeLockoutHelp}</div>
+                    </div>
+                </div>
+                <br />
+                <div class=verticalSection>
+                    <div class="inputContainer" id="fldMaxActiveSessions">
+                        <input is="emby-input" type="number" id="txtMaxActiveSessions" min="0" step="1" label="${LabelUserMaxActiveSessions}"/>
+                        <div class="fieldDescription">${OptionMaxActiveSessions}</div>
+                        <div class="fieldDescription">${OptionMaxActiveSessionsHelp}</div>
                     </div>
                 </div>
                 <br />

@@ -2,7 +2,6 @@ import dialogHelper from 'dialogHelper';
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
 import * as userSettings from 'userSettings';
-import connectionManager from 'connectionManager';
 import loading from 'loading';
 import focusManager from 'focusManager';
 import dom from 'dom';
@@ -19,9 +18,9 @@ let currentItem;
 let hasChanges;
 
 function downloadRemoteSubtitles(context, id) {
-    let url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
+    const url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
 
-    let apiClient = connectionManager.getApiClient(currentItem.ServerId);
+    const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
     apiClient.ajax({
 
         type: 'POST',
@@ -39,7 +38,7 @@ function downloadRemoteSubtitles(context, id) {
 }
 
 function deleteLocalSubtitle(context, index) {
-    let msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
+    const msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
     import('confirm').then(({default: confirm}) => {
         confirm({
@@ -52,10 +51,10 @@ function deleteLocalSubtitle(context, index) {
         }).then(function () {
             loading.show();
 
-            let itemId = currentItem.Id;
-            let url = 'Videos/' + itemId + '/Subtitles/' + index;
+            const itemId = currentItem.Id;
+            const url = 'Videos/' + itemId + '/Subtitles/' + index;
 
-            let apiClient = connectionManager.getApiClient(currentItem.ServerId);
+            const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
 
             apiClient.ajax({
 
@@ -71,9 +70,9 @@ function deleteLocalSubtitle(context, index) {
 }
 
 function fillSubtitleList(context, item) {
-    let streams = item.MediaStreams || [];
+    const streams = item.MediaStreams || [];
 
-    let subs = streams.filter(function (s) {
+    const subs = streams.filter(function (s) {
         return s.Type === 'Subtitle';
     });
 
@@ -87,7 +86,7 @@ function fillSubtitleList(context, item) {
         html += subs.map(function (s) {
             let itemHtml = '';
 
-            let tagName = layoutManager.tv ? 'button' : 'div';
+            const tagName = layoutManager.tv ? 'button' : 'div';
             let className = layoutManager.tv && s.Path ? 'listItem listItem-border btnDelete' : 'listItem listItem-border';
 
             if (layoutManager.tv) {
@@ -127,7 +126,7 @@ function fillSubtitleList(context, item) {
         html += '</div>';
     }
 
-    let elem = context.querySelector('.subtitleList');
+    const elem = context.querySelector('.subtitleList');
 
     if (subs.length) {
         elem.classList.remove('hide');
@@ -138,18 +137,18 @@ function fillSubtitleList(context, item) {
 }
 
 function fillLanguages(context, apiClient, languages) {
-    let selectLanguage = context.querySelector('#selectLanguage');
+    const selectLanguage = context.querySelector('#selectLanguage');
 
     selectLanguage.innerHTML = languages.map(function (l) {
         return '<option value="' + l.ThreeLetterISOLanguageName + '">' + l.DisplayName + '</option>';
     });
 
-    let lastLanguage = userSettings.get('subtitleeditor-language');
+    const lastLanguage = userSettings.get('subtitleeditor-language');
     if (lastLanguage) {
         selectLanguage.value = lastLanguage;
     } else {
         apiClient.getCurrentUser().then(function (user) {
-            let lang = user.Configuration.SubtitleLanguagePreference;
+            const lang = user.Configuration.SubtitleLanguagePreference;
 
             if (lang) {
                 selectLanguage.value = lang;
@@ -172,9 +171,9 @@ function renderSearchResults(context, results) {
     context.querySelector('.noSearchResults').classList.add('hide');
 
     for (let i = 0, length = results.length; i < length; i++) {
-        let result = results[i];
+        const result = results[i];
 
-        let provider = result.ProviderName;
+        const provider = result.ProviderName;
 
         if (provider !== lastProvider) {
             if (i > 0) {
@@ -185,7 +184,7 @@ function renderSearchResults(context, results) {
             lastProvider = provider;
         }
 
-        let tagName = layoutManager.tv ? 'button' : 'div';
+        const tagName = layoutManager.tv ? 'button' : 'div';
         let className = layoutManager.tv ? 'listItem listItem-border btnOptions' : 'listItem listItem-border';
         if (layoutManager.tv) {
             className += ' listItem-focusscale listItem-button';
@@ -195,7 +194,7 @@ function renderSearchResults(context, results) {
 
         html += '<span class="listItemIcon material-icons closed_caption"></span>';
 
-        let bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
+        const bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
 
         html += '<div class="listItemBody ' + bodyClass + '">';
 
@@ -232,7 +231,7 @@ function renderSearchResults(context, results) {
         html += '</div>';
     }
 
-    let elem = context.querySelector('.subtitleResults');
+    const elem = context.querySelector('.subtitleResults');
     elem.innerHTML = html;
 
     loading.hide();
@@ -243,8 +242,8 @@ function searchForSubtitles(context, language) {
 
     loading.show();
 
-    let apiClient = connectionManager.getApiClient(currentItem.ServerId);
-    let url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
+    const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+    const url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
 
     apiClient.getJSON(url).then(function (results) {
         renderSearchResults(context, results);
@@ -259,7 +258,7 @@ function reload(context, apiClient, itemId) {
 
         fillSubtitleList(context, item);
         let file = item.Path || '';
-        let index = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
+        const index = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
         if (index > -1) {
             file = file.substring(index + 1);
         }
@@ -283,9 +282,9 @@ function reload(context, apiClient, itemId) {
 }
 
 function onSearchSubmit(e) {
-    let form = this;
+    const form = this;
 
-    let lang = form.querySelector('#selectLanguage', form).value;
+    const lang = form.querySelector('#selectLanguage', form).value;
 
     searchForSubtitles(dom.parentWithClass(form, 'formDialogContent'), lang);
 
@@ -294,10 +293,10 @@ function onSearchSubmit(e) {
 }
 
 function onSubtitleListClick(e) {
-    let btnDelete = dom.parentWithClass(e.target, 'btnDelete');
+    const btnDelete = dom.parentWithClass(e.target, 'btnDelete');
     if (btnDelete) {
-        let index = btnDelete.getAttribute('data-index');
-        let context = dom.parentWithClass(btnDelete, 'subtitleEditorDialog');
+        const index = btnDelete.getAttribute('data-index');
+        const context = dom.parentWithClass(btnDelete, 'subtitleEditorDialog');
         deleteLocalSubtitle(context, index);
     }
 }
@@ -306,14 +305,14 @@ function onSubtitleResultsClick(e) {
     let subtitleId;
     let context;
 
-    let btnOptions = dom.parentWithClass(e.target, 'btnOptions');
+    const btnOptions = dom.parentWithClass(e.target, 'btnOptions');
     if (btnOptions) {
         subtitleId = btnOptions.getAttribute('data-subid');
         context = dom.parentWithClass(btnOptions, 'subtitleEditorDialog');
         showDownloadOptions(btnOptions, context, subtitleId);
     }
 
-    let btnDownload = dom.parentWithClass(e.target, 'btnDownload');
+    const btnDownload = dom.parentWithClass(e.target, 'btnDownload');
     if (btnDownload) {
         subtitleId = btnDownload.getAttribute('data-subid');
         context = dom.parentWithClass(btnDownload, 'subtitleEditorDialog');
@@ -322,7 +321,7 @@ function onSubtitleResultsClick(e) {
 }
 
 function showDownloadOptions(button, context, subtitleId) {
-    let items = [];
+    const items = [];
 
     items.push({
         name: globalize.translate('Download'),
@@ -348,7 +347,7 @@ function showDownloadOptions(button, context, subtitleId) {
 
 function centerFocus(elem, horiz, on) {
     import('scrollHelper').then(({default: scrollHelper}) => {
-        let fn = on ? 'on' : 'off';
+        const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
 }
@@ -356,9 +355,9 @@ function centerFocus(elem, horiz, on) {
 function showEditorInternal(itemId, serverId, template) {
     hasChanges = false;
 
-    let apiClient = connectionManager.getApiClient(serverId);
+    const apiClient = window.connectionManager.getApiClient(serverId);
     return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-        let dialogOptions = {
+        const dialogOptions = {
             removeOnClose: true,
             scrollY: false
         };
@@ -369,7 +368,7 @@ function showEditorInternal(itemId, serverId, template) {
             dialogOptions.size = 'small';
         }
 
-        let dlg = dialogHelper.createDialog(dialogOptions);
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
         dlg.classList.add('formDialog');
         dlg.classList.add('subtitleEditorDialog');
@@ -380,7 +379,7 @@ function showEditorInternal(itemId, serverId, template) {
 
         dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
 
-        let btnSubmit = dlg.querySelector('.btnSubmit');
+        const btnSubmit = dlg.querySelector('.btnSubmit');
 
         if (layoutManager.tv) {
             centerFocus(dlg.querySelector('.formDialogContent'), false, true);
@@ -389,7 +388,7 @@ function showEditorInternal(itemId, serverId, template) {
             btnSubmit.classList.add('hide');
         }
 
-        let editorContent = dlg.querySelector('.formDialogContent');
+        const editorContent = dlg.querySelector('.formDialogContent');
 
         dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
         dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);

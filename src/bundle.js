@@ -182,7 +182,7 @@ _define('appStorage', function () {
 });
 
 // libarchive.js
-var libarchive = require('libarchive.js');
+const libarchive = require('libarchive.js');
 _define('libarchive', function () {
     return libarchive;
 });

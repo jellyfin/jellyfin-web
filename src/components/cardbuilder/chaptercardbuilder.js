@@ -7,7 +7,6 @@
 
 import datetime from 'datetime';
 import imageLoader from 'imageLoader';
-import connectionManager from 'connectionManager';
 import layoutManager from 'layoutManager';
 import browser from 'browser';
 
@@ -48,7 +47,7 @@ import browser from 'browser';
         let html = '';
         let itemsInRow = 0;
 
-        const apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = window.connectionManager.getApiClient(item.ServerId);
 
         for (let i = 0, length = chapters.length; i < length; i++) {
             if (options.rows && itemsInRow === 0) {

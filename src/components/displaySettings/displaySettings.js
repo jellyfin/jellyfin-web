@@ -6,7 +6,6 @@ import focusManager from 'focusManager';
 import datetime from 'datetime';
 import globalize from 'globalize';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import skinManager from 'skinManager';
 import events from 'events';
 import 'emby-select';
@@ -24,7 +23,7 @@ import 'emby-button';
             }).join('');
 
             // get default theme
-            var defaultTheme = themes.find(theme => {
+            const defaultTheme = themes.find(theme => {
                 return theme.default;
             });
 
@@ -182,7 +181,7 @@ import 'emby-button';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -221,7 +220,7 @@ import 'emby-button';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = connectionManager.getApiClient(self.options.serverId);
+            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             return apiClient.getUser(userId).then(user => {

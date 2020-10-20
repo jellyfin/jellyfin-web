@@ -5,7 +5,6 @@ import * as userSettings from 'userSettings';
 import focusManager from 'focusManager';
 import cardBuilder from 'cardBuilder';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import AlphaNumericShortcuts from 'alphaNumericShortcuts';
 import playbackManager from 'playbackManager';
 import AlphaPicker from 'alphaPicker';
@@ -16,7 +15,7 @@ import 'emby-scroller';
 
     function getInitialLiveTvQuery(instance, params) {
         const query = {
-            UserId: connectionManager.getApiClient(params.serverId).getCurrentUserId(),
+            UserId: window.connectionManager.getApiClient(params.serverId).getCurrentUserId(),
             StartIndex: 0,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
             Limit: 300
@@ -164,7 +163,7 @@ import 'emby-scroller';
         instance.setFilterStatus(hasFilters);
 
         if (instance.alphaPicker) {
-            query.NameStartsWithOrGreater = instance.alphaPicker.value();
+            query.NameStartsWith = instance.alphaPicker.value();
         }
 
         return query;
@@ -232,7 +231,7 @@ import 'emby-scroller';
     }
 
     function getItems(instance, params, item, sortBy, startIndex, limit) {
-        const apiClient = connectionManager.getApiClient(params.serverId);
+        const apiClient = window.connectionManager.getApiClient(params.serverId);
 
         instance.queryRecursive = false;
         if (params.type === 'Recordings') {
@@ -333,7 +332,7 @@ import 'emby-scroller';
             return Promise.resolve(null);
         }
 
-        const apiClient = connectionManager.getApiClient(params.serverId);
+        const apiClient = window.connectionManager.getApiClient(params.serverId);
         const itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
 
         if (itemId) {

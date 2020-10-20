@@ -58,7 +58,7 @@ import 'emby-button';
     }
 
     function loadResume(page, userId, parentId) {
-        let screenWidth = dom.getWindowSize().innerWidth;
+        const screenWidth = dom.getWindowSize().innerWidth;
         const options = {
             SortBy: 'DatePlayed',
             SortOrder: 'Descending',
@@ -154,8 +154,8 @@ import 'emby-button';
     }
 
     function loadSuggestions(page, userId, parentId) {
-        let screenWidth = dom.getWindowSize().innerWidth;
-        let url = ApiClient.getUrl('Movies/Recommendations', {
+        const screenWidth = dom.getWindowSize().innerWidth;
+        const url = ApiClient.getUrl('Movies/Recommendations', {
             userId: userId,
             categoryLimit: 6,
             ItemLimit: screenWidth >= 1920 ? 8 : screenWidth >= 1600 ? 8 : screenWidth >= 1200 ? 6 : 5,
@@ -172,7 +172,7 @@ import 'emby-button';
 
             const html = recommendations.map(getRecommendationHtml).join('');
             page.querySelector('.noItemsMessage').classList.add('hide');
-            let recs = page.querySelector('.recommendations');
+            const recs = page.querySelector('.recommendations');
             recs.innerHTML = html;
             imageLoader.lazyChildren(recs);
 
@@ -320,11 +320,6 @@ import 'emby-button';
 
                     if (index === suggestionsTabIndex) {
                         controller = this;
-                    } else if (index === 6) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: 'movies',
-                            parentId: params.topParentId
-                        });
                     } else if (index == 0 || index == 3) {
                         controller = new controllerFactory(view, params, tabContent, {
                             mode: index ? 'favorites' : 'movies'
@@ -381,21 +376,21 @@ import 'emby-button';
         const suggestionsTabIndex = 1;
 
         this.initTab = function () {
-            let tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             initSuggestedTab(view, tabContent);
         };
 
         this.renderTab = function () {
-            let tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, params, tabContent);
         };
 
-        let tabControllers = [];
+        const tabControllers = [];
         let renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
             initTabs();
             if (!view.getAttribute('data-title')) {
-                var parentId = params.topParentId;
+                const parentId = params.topParentId;
 
                 if (parentId) {
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {

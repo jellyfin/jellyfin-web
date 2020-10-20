@@ -1,6 +1,5 @@
 import playbackManager from 'playbackManager';
 import * as userSettings from 'userSettings';
-import connectionManager from 'connectionManager';
 
 let currentOwnerId;
 let currentThemeIds = [];
@@ -62,7 +61,7 @@ function loadThemeMedia(item) {
         return;
     }
 
-    const apiClient = connectionManager.getApiClient(item.ServerId);
+    const apiClient = window.connectionManager.getApiClient(item.ServerId);
     apiClient.getThemeMedia(apiClient.getCurrentUserId(), item.Id, true).then(function (themeMediaResult) {
         const ownerId = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.OwnerId : themeMediaResult.ThemeSongsResult.OwnerId;
 

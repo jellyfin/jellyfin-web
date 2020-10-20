@@ -40,25 +40,25 @@ import 'paper-icon-button-light';
 
     function loadUnratedItems(page, user) {
         const items = [{
-            name: globalize.translate('OptionBlockBooks'),
+            name: globalize.translate('Books'),
             value: 'Book'
         }, {
-            name: globalize.translate('OptionBlockChannelContent'),
+            name: globalize.translate('Channels'),
             value: 'ChannelContent'
         }, {
-            name: globalize.translate('OptionBlockLiveTvChannels'),
+            name: globalize.translate('LiveTV'),
             value: 'LiveTvChannel'
         }, {
-            name: globalize.translate('OptionBlockMovies'),
+            name: globalize.translate('Movies'),
             value: 'Movie'
         }, {
-            name: globalize.translate('OptionBlockMusic'),
+            name: globalize.translate('Music'),
             value: 'Music'
         }, {
-            name: globalize.translate('OptionBlockTrailers'),
+            name: globalize.translate('Trailers'),
             value: 'Trailer'
         }, {
-            name: globalize.translate('OptionBlockTvShows'),
+            name: globalize.translate('Shows'),
             value: 'Series'
         }];
         let html = '';

@@ -2,7 +2,6 @@ import appHost from 'apphost';
 import appSettings from 'appSettings';
 import backdrop from 'backdrop';
 import browser from 'browser';
-import connectionManager from 'connectionManager';
 import events from 'events';
 import globalize from 'globalize';
 import itemHelper from 'itemHelper';
@@ -95,7 +94,7 @@ class AppRouter {
     beginConnectionWizard() {
         backdrop.clearBackdrop();
         loading.show();
-        connectionManager.connect({
+        window.connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.handleConnectionResult(result);
@@ -154,7 +153,7 @@ class AppRouter {
         events.on(appHost, 'beforeexit', this.onBeforeExit);
         events.on(appHost, 'resume', this.onAppResume);
 
-        connectionManager.connect({
+        window.connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.firstConnectionResult = result;
@@ -210,7 +209,7 @@ class AppRouter {
     showItem(item, serverId, options) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof (item) === 'string') {
-            const apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
+            const apiClient = serverId ? window.connectionManager.getApiClient(serverId) : window.connectionManager.currentApiClient();
             apiClient.getItem(apiClient.getCurrentUserId(), item).then((itemObject) => {
                 this.showItem(itemObject, options);
             });
@@ -309,7 +308,9 @@ class AppRouter {
             url = route.contentPath || route.path;
         }
 
-        if (url.indexOf('://') === -1) {
+        if (url.includes('configurationpage')) {
+            url = ApiClient.getUrl('/web' + url);
+        } else if (url.indexOf('://') === -1) {
             // Put a slash at the beginning but make sure to avoid a double slash
             if (url.indexOf('/') !== 0) {
                 url = '/' + url;
@@ -492,15 +493,15 @@ class AppRouter {
     }
 
     initApiClients() {
-        connectionManager.getApiClients().forEach((apiClient) => {
+        window.connectionManager.getApiClients().forEach((apiClient) => {
             this.initApiClient(apiClient, this);
         });
 
-        events.on(connectionManager, 'apiclientcreated', this.onApiClientCreated);
+        events.on(window.connectionManager, 'apiclientcreated', this.onApiClientCreated);
     }
 
     onAppResume() {
-        const apiClient = connectionManager.currentApiClient();
+        const apiClient = window.connectionManager.currentApiClient();
 
         if (apiClient) {
             apiClient.ensureWebSocket();
@@ -518,7 +519,7 @@ class AppRouter {
             }
         }
 
-        const apiClient = connectionManager.currentApiClient();
+        const apiClient = window.connectionManager.currentApiClient();
         const pathname = ctx.pathname.toLowerCase();
 
         console.debug('appRouter - processing path request ' + pathname);

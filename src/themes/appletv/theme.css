@@ -66,7 +66,14 @@ html {
     background: #f0f0f0;
 }
 
-.paper-icon-button-light:hover:not(:disabled) {
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        color: #00a4dc;
+        background-color: rgba(0, 164, 220, 0.2);
+    }
+}
+
+.paper-icon-button-light:active:not(:disabled) {
     color: #00a4dc;
     background-color: rgba(0, 164, 220, 0.2);
 }

@@ -1,4 +1,4 @@
-import connectionManager from 'connectionManager';
+import browser from 'browser';
 import loading from 'loading';
 import keyboardnavigation from 'keyboardnavigation';
 import dialogHelper from 'dialogHelper';
@@ -19,6 +19,8 @@ export class BookPlayer {
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.openTableOfContents = this.openTableOfContents.bind(this);
+        this.prevChapter = this.prevChapter.bind(this);
+        this.nextChapter = this.nextChapter.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
         this.onTouchStart = this.onTouchStart.bind(this);
     }
@@ -123,21 +125,6 @@ export class BookPlayer {
         }
     }
 
-    onTouchStart(e) {
-        const rendition = this.rendition;
-        const book = rendition.book;
-
-        // epubjs stores pages off the screen or something for preloading
-        // get the modulus of the touch event to account for the increased width
-        if (!this.loaded || !e.touches || e.touches.length === 0) return;
-        const touch = e.touches[0].clientX % dom.getWindowSize().innerWidth;
-        if (touch < dom.getWindowSize().innerWidth / 2) {
-            book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev();
-        } else {
-            book.package.metadata.direction === 'rtl' ? rendition.prev() : rendition.next();
-        }
-    }
-
     onDialogClosed() {
         this.stop();
     }
@@ -146,27 +133,33 @@ export class BookPlayer {
         const elem = this.mediaElement;
 
         elem.addEventListener('close', this.onDialogClosed, {once: true});
-        elem.querySelector('.btnBookplayerExit').addEventListener('click', this.onDialogClosed, {once: true});
-        elem.querySelector('.btnBookplayerToc').addEventListener('click', this.openTableOfContents);
+        elem.querySelector('#btnBookplayerExit').addEventListener('click', this.onDialogClosed, {once: true});
+        elem.querySelector('#btnBookplayerToc').addEventListener('click', this.openTableOfContents);
+        if (browser.mobile) {
+            elem.querySelector('#btnBookplayerPrev').addEventListener('click', this.prevChapter);
+            elem.querySelector('#btnBookplayerNext').addEventListener('click', this.nextChapter);
+        }
     }
 
     bindEvents() {
         this.bindMediaElementEvents();
 
         document.addEventListener('keyup', this.onWindowKeyUp);
-        document.addEventListener('touchstart', this.onTouchStart);
 
-        // FIXME: document keyup event is not triggered when epub is in focus
+        // FIXME: I don't really get why document keyup event is not triggered when epub is in focus
         this.rendition.on('keyup', this.onWindowKeyUp);
-        this.rendition.on('touchstart', this.onTouchStart);
     }
 
     unbindMediaElementEvents() {
         const elem = this.mediaElement;
 
         elem.removeEventListener('close', this.onDialogClosed);
-        elem.querySelector('.btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
-        elem.querySelector('.btnBookplayerToc').removeEventListener('click', this.openTableOfContents);
+        elem.querySelector('#btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
+        elem.querySelector('#btnBookplayerToc').removeEventListener('click', this.openTableOfContents);
+        if (browser.mobile) {
+            elem.querySelector('#btnBookplayerPrev').removeEventListener('click', this.prevChapter);
+            elem.querySelector('#btnBookplayerNext').removeEventListener('click', this.nextChapter);
+        }
     }
 
     unbindEvents() {
@@ -175,11 +168,9 @@ export class BookPlayer {
         }
 
         document.removeEventListener('keyup', this.onWindowKeyUp);
-        document.removeEventListener('touchstart', this.onTouchStart);
 
         if (this.rendition) {
             this.rendition.off('keyup', this.onWindowKeyUp);
-            this.rendition.off('touchstart', this.onTouchStart);
         }
     }
 
@@ -187,6 +178,16 @@ export class BookPlayer {
         if (this.loaded) {
             this.tocElement = new TableOfContents(this);
         }
+    }
+
+    prevChapter(e) {
+        this._rendition.prev();
+        e.preventDefault();
+    }
+
+    nextChapter(e) {
+        this._rendition.next();
+        e.preventDefault();
     }
 
     createMediaElement() {
@@ -207,12 +208,21 @@ export class BookPlayer {
             });
 
             let html = '';
-            html += '<div class="topRightActionButtons">';
-            html += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerExit hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon close"></i></button>';
+
+            if (browser.mobile) {
+                html += '<div class="button-wrapper top-button"><button id="btnBookplayerPrev" is="paper-icon-button-light" class="autoSize bookplayerButton hide-mouse-idle-tv"><i class="material-icons bookplayerButtonIcon navigate_before"></i> Prev</button></div>';
+            }
+
+            html += '<div id="viewer">';
+            html += '<div class="topButtons">';
+            html += '<button is="paper-icon-button-light" id="btnBookplayerToc" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon toc"></i></button>';
+            html += '<button is="paper-icon-button-light" id="btnBookplayerExit" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon close"></i></button>';
             html += '</div>';
-            html += '<div class="topLeftActionButtons">';
-            html += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerToc hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon toc"></i></button>';
             html += '</div>';
+
+            if (browser.mobile) {
+                html += '<div class="button-wrapper bottom-button"><button id="btnBookplayerNext" is="paper-icon-button-light" class="autoSize bookplayerButton hide-mouse-idle-tv">Next <i class="material-icons bookplayerButtonIcon navigate_next"></i></button></div>';
+            }
 
             elem.id = 'bookPlayer';
             elem.innerHTML = html;
@@ -222,6 +232,21 @@ export class BookPlayer {
 
         this.mediaElement = elem;
         return elem;
+    }
+
+    render(elem, book) {
+        if (browser.mobile) {
+            return book.renderTo(elem, {
+                width: '100%',
+                height: '100%',
+                flow: 'scrolled-doc'
+            });
+        } else {
+            return book.renderTo(elem, {
+                width: '100%',
+                height: '100%'
+            });
+        }
     }
 
     setCurrentSrc(elem, options) {
@@ -236,13 +261,13 @@ export class BookPlayer {
         };
 
         const serverId = item.ServerId;
-        const apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             import('epubjs').then(({default: epubjs}) => {
                 const downloadHref = apiClient.getItemDownloadUrl(item.Id);
                 const book = epubjs(downloadHref, {openAs: 'epub'});
-                const rendition = book.renderTo(elem, {width: '100%', height: '96%'});
+                const rendition = this.render('viewer', book);
 
                 this.currentSrc = downloadHref;
                 this.rendition = rendition;
