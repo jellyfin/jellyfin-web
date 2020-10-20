@@ -126,7 +126,6 @@
     "prepare": "webpack --config webpack.prod.js",
     "build:development": "webpack --config webpack.dev.js",
     "build:production": "webpack --config webpack.prod.js",
-    "build:standalone": "webpack --config webpack.standalone.js",
     "lint": "eslint \".\"",
     "stylelint": "stylelint \"src/**/*.css\""
   }
