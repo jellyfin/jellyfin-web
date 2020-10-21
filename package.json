@@ -62,7 +62,7 @@
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "epubjs": "^0.3.85",
-    "pdfjs-dist": "^2.4.456",
+    "pdfjs-dist": "2.4.456",
     "fast-text-encoding": "^1.0.3",
     "flv.js": "^1.5.0",
     "headroom.js": "^0.11.0",

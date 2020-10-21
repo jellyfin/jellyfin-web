@@ -22,7 +22,6 @@ export class BookPlayer {
         this.prevChapter = this.prevChapter.bind(this);
         this.nextChapter = this.nextChapter.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
     }
 
     play(options) {

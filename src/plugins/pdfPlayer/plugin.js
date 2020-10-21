@@ -1,4 +1,3 @@
-import connectionManager from 'connectionManager';
 import loading from 'loading';
 import keyboardnavigation from 'keyboardnavigation';
 import dialogHelper from 'dialogHelper';
@@ -187,7 +186,7 @@ export class PdfPlayer {
         };
 
         let serverId = item.ServerId;
-        let apiClient = connectionManager.getApiClient(serverId);
+        let apiClient = window.connectionManager.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             import('pdfjs').then(({default: pdfjs}) => {
