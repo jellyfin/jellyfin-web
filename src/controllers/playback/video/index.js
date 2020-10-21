@@ -1335,9 +1335,7 @@ import { appRouter } from '../../../components/appRouter';
                     passive: true
                 });
             } catch (e) {
-                import('../../../components/appRouter').then(({default: appRouter}) => {
-                    appRouter.goHome();
-                });
+                appRouter.goHome();
             }
         });
         view.addEventListener('viewbeforehide', function () {

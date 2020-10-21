@@ -112,7 +112,7 @@ function init() {
 function onGlobalizeInit() {
     if (window.appMode === 'android') {
         if (window.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1) {
-            return onAppReady(browser);
+            return onAppReady();
         }
     }
 
@@ -128,12 +128,12 @@ function onGlobalizeInit() {
 
     import('../assets/css/librarybrowser.css');
 
-    loadPlugins(appHost, browser).then(function () {
-        onAppReady(browser);
+    loadPlugins().then(function () {
+        onAppReady();
     });
 }
 
-function loadPlugins(appHost, browser, shell) {
+function loadPlugins() {
     console.groupCollapsed('loading installed plugins');
     console.dir(pluginManager);
     return getPlugins().then(function (list) {
@@ -167,7 +167,7 @@ function loadPlugins(appHost, browser, shell) {
     });
 }
 
-function onAppReady(browser) {
+function onAppReady() {
     console.debug('begin onAppReady');
 
     console.debug('onAppReady: loading dependencies');

@@ -159,7 +159,7 @@ Events.on(syncPlayManager, 'enabled', function (e, enabled) {
  * Shows a menu to handle SyncPlay groups.
  * @param {HTMLElement} button - Element where to place the menu.
  */
-export default function show (button) {
+export function show (button) {
     loading.show();
 
     // TODO: should feature be disabled if playback permission is missing?

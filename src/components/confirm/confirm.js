@@ -60,6 +60,6 @@ function customConfirm(text, title) {
     });
 }
 
-const baseConfirm = browser.tv && window.confirm ? nativeConfirm : customConfirm;
+const confirm = browser.tv && window.confirm ? nativeConfirm : customConfirm;
 
-export default baseConfirm;
+export default confirm;

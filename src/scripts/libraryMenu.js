@@ -7,7 +7,7 @@ import { appRouter } from '../components/appRouter';
 import { appHost } from '../components/apphost';
 import { playbackManager } from '../components/playback/playbackmanager';
 import syncPlayManager from '../components/syncPlay/syncPlayManager';
-import groupSelectionMenu from '../components/syncPlay/groupSelectionMenu';
+import { show as groupSelectionMenuShow } from '../components/syncPlay/groupSelectionMenu';
 import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
@@ -229,7 +229,7 @@ import ServerConnections from '../components/ServerConnections';
 
     function onSyncButtonClicked() {
         const btn = this;
-        groupSelectionMenu.show(btn);
+        groupSelectionMenuShow(btn);
     }
 
     function onSyncPlayEnabled(event, enabled) {
@@ -814,9 +814,9 @@ import ServerConnections from '../components/ServerConnections';
         if (user) {
             Promise.resolve(user);
         } else {
-            ServerConnections.user(getCurrentApiClient()).then(function (user) {
-                refreshLibraryInfoInDrawer(user);
-                updateLibraryMenu(user.localUser);
+            ServerConnections.user(getCurrentApiClient()).then(function (userResult) {
+                refreshLibraryInfoInDrawer(userResult);
+                updateLibraryMenu(userResult.localUser);
             });
         }
     }
@@ -990,9 +990,9 @@ import ServerConnections from '../components/ServerConnections';
 
         loadNavDrawer();
 
-        ServerConnections.user(currentApiClient).then(function (user) {
-            currentUser = user;
-            updateUserInHeader(user);
+        ServerConnections.user(currentApiClient).then(function (userResult) {
+            currentUser = userResult;
+            updateUserInHeader(userResult);
         });
     });
 
