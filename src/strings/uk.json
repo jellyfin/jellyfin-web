@@ -252,5 +252,14 @@
     "DirectPlaying": "Пряме відтворення",
     "DisplayInMyMedia": "Відображення на головному екрані",
     "Descending": "За спаданням",
-    "DeleteUserConfirmation": "Ви впевнені, що хочете видалити цього користувача?"
+    "DeleteUserConfirmation": "Ви впевнені, що хочете видалити цього користувача?",
+    "HeaderAddToCollection": "Додати до колекції",
+    "HeaderActivity": "Активність",
+    "Other": "Інше",
+    "Genre": "Жанр",
+    "Friday": "П'ятниця",
+    "FormatValue": "Формат: {0}",
+    "Filters": "Фільтри",
+    "FileNotFound": "Файл не знайдено.",
+    "File": "Файл"
 }
