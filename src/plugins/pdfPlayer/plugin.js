@@ -28,14 +28,14 @@ export class PdfPlayer {
 
         loading.show();
 
-        let elem = this.createMediaElement();
+        const elem = this.createMediaElement();
         return this.setCurrentSrc(elem, options);
     }
 
     stop() {
         this.unbindEvents();
 
-        let elem = this.mediaElement;
+        const elem = this.mediaElement;
         if (elem) {
             dialogHelper.close(elem);
             this.mediaElement = null;
@@ -77,7 +77,7 @@ export class PdfPlayer {
     }
 
     onWindowKeyUp(e) {
-        let key = keyboardnavigation.getKeyName(e);
+        const key = keyboardnavigation.getKeyName(e);
 
         if (!this.loaded) return;
         switch (key) {
@@ -111,7 +111,7 @@ export class PdfPlayer {
     }
 
     bindMediaElementEvents() {
-        let elem = this.mediaElement;
+        const elem = this.mediaElement;
 
         elem.addEventListener('close', this.onDialogClosed, {once: true});
         elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, {once: true});
@@ -125,7 +125,7 @@ export class PdfPlayer {
     }
 
     unbindMediaElementEvents() {
-        let elem = this.mediaElement;
+        const elem = this.mediaElement;
 
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
@@ -174,7 +174,7 @@ export class PdfPlayer {
     }
 
     setCurrentSrc(elem, options) {
-        let item = options.items[0];
+        const item = options.items[0];
 
         this.item = item;
         this.streamInfo = {
@@ -185,17 +185,17 @@ export class PdfPlayer {
             }
         };
 
-        let serverId = item.ServerId;
-        let apiClient = window.connectionManager.getApiClient(serverId);
+        const serverId = item.ServerId;
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             import('pdfjs').then(({default: pdfjs}) => {
-                let downloadHref = apiClient.getItemDownloadUrl(item.Id);
+                const downloadHref = apiClient.getItemDownloadUrl(item.Id);
 
                 this.bindEvents();
                 pdfjs.GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
 
-                let downloadTask = pdfjs.getDocument(downloadHref);
+                const downloadTask = pdfjs.getDocument(downloadHref);
                 downloadTask.promise.then(book => {
                     if (this.cancellationToken) return;
                     this.book = book;
@@ -239,14 +239,14 @@ export class PdfPlayer {
         const pad = 2;
 
         // generate list of cached pages by padding the requested page on both sides
-        let pages = [prefix + number];
+        const pages = [prefix + number];
         for (let i = 1; i <= pad; i++) {
             if (number - i > 0) pages.push(prefix + (number - i));
             if (number + i < this.duration()) pages.push(prefix + (number + i));
         }
 
         // load any missing pages in the cache
-        for (let page of pages) {
+        for (const page of pages) {
             if (!this.pages[page]) {
                 this.pages[page] = document.createElement('canvas');
                 this.renderPage(this.pages[page], parseInt(page.substr(4)));
@@ -257,7 +257,7 @@ export class PdfPlayer {
         this.replaceCanvas(this.pages[prefix + number], number);
 
         // delete all pages outside the cache area
-        for (let page in this.pages) {
+        for (const page in this.pages) {
             if (!pages.includes(page)) {
                 delete this.pages[page];
             }
@@ -278,12 +278,12 @@ export class PdfPlayer {
 
             canvas.width = viewport.width;
             canvas.height = viewport.height;
-            var renderContext = {
+            const renderContext = {
                 canvasContext: context,
                 viewport: viewport
             };
 
-            let renderTask = page.render(renderContext);
+            const renderTask = page.render(renderContext);
             renderTask.promise.then(() => {
                 loading.hide();
             });
