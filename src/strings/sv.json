@@ -1376,5 +1376,7 @@
     "QuickConnect": "Snabbanslutning",
     "Profile": "Profil",
     "PreviousTrack": "Hoppa över till föregående",
-    "MessageGetInstalledPluginsError": "Ett fel inträffade när listan över installerade tillägg skulle hämtas."
+    "MessageGetInstalledPluginsError": "Ett fel inträffade när listan över installerade tillägg skulle hämtas.",
+    "QuickConnectInvalidCode": "Ogiltig Snabbanslutningskod",
+    "QuickConnectDescription": "För att logga in med snabbanslutning, klicka på Snabbanslutning-knappen på den enhet du loggar in från, och ange koden som visas nedan."
 }
