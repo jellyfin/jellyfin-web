@@ -1106,5 +1106,10 @@
     "EnableQuickConnect": "このサーバへのクイックコネクトを有効化",
     "EnableAutoCast": "デフォルトとして設定",
     "Data": "データ",
-    "ButtonUseQuickConnect": "クイックコネクトを使用"
+    "ButtonUseQuickConnect": "クイックコネクトを使用",
+    "LabelRecordingPathHelp": "デフォルトの録画保存先を指定します。空白にした場合、サーバーのプログラムデータフォルダを使用します。",
+    "LabelQuickConnectCode": "クイックコネクトコード:",
+    "LabelKnownProxies": "既知のプロキシ:",
+    "LabelIconMaxResHelp": "upnp:iconプロパティで使用されるアイコンの最大解像度。",
+    "LabelCurrentStatus": "現在の状態:"
 }
