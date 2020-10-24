@@ -948,7 +948,7 @@
     "AlbumArtist": "アルバム アーティスト",
     "Album": "アルバム",
     "ButtonSyncPlay": "SyncPlay",
-    "DeinterlaceMethodHelp": "インターレースコンテンツをトランスコードする際に使用するデインターレース方式を選びます。",
+    "DeinterlaceMethodHelp": "インターレースコンテンツをソフトウェアでトランスコードする際に使用するデインターレース方式を選びます。 ハードウェアデインタレースをサポートしているハードウェアアクセラレーションが有効な場合はこの設定でなくハードウェアデインタレースを使用します。",
     "ButtonTogglePlaylist": "プレイリスト",
     "BoxSet": "ボックスセット",
     "AllowFfmpegThrottlingHelp": "トランスコードや remux が現在の再生位置から十分に先に進んだ場合、処理を一時停止してリソースの消費を抑えます。これは、あまり早送り・早戻しをしないで視聴する場合に便利です。再生に問題が発生した場合は、この機能をオフにしてください。",
@@ -1098,5 +1098,13 @@
     "LabelMaxParentalRating": "最大許容ペアレントレイティング:",
     "LabelKodiMetadataEnablePathSubstitutionHelp": "サーバーのパス補完を使った画像パスの補完を有効にする。",
     "ButtonActivate": "アクティベート",
-    "Authorize": "承認"
+    "Authorize": "承認",
+    "LabelAlbumArtMaxResHelp": "upnp:albumArtURIプロパティで使用されるアルバムアートの最大解像度。",
+    "KnownProxiesHelp": "Jellyfinインスタンスへ接続するとき使用されるコンマで区切られた既知のプロキシのIPアドレスリスト。X-Forwarded-Forヘッダを適切に使用するため必要となります。保存後に再起動が必要です。",
+    "Image": "画像",
+    "Other": "その他",
+    "EnableQuickConnect": "このサーバへのクイックコネクトを有効化",
+    "EnableAutoCast": "デフォルトとして設定",
+    "Data": "データ",
+    "ButtonUseQuickConnect": "クイックコネクトを使用"
 }
