@@ -1528,23 +1528,44 @@ import 'css!assets/css/videoosd';
         view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
             playbackManager.previousTrack(currentPlayer);
         });
+        view.querySelector('.btnPreviousTrack').addEventListener('dblclick', function (event) {
+            event.stopPropagation();
+        });
         view.querySelector('.btnPause').addEventListener('click', function () {
             // Ignore 'click' if another element was originally clicked (Firefox/Edge issue)
             if (this.contains(clickedElement)) {
                 playbackManager.playPause(currentPlayer);
             }
         });
+        view.querySelector('.btnPause').addEventListener('dblclick', function (event) {
+            event.stopPropagation();
+        });
         view.querySelector('.btnNextTrack').addEventListener('click', function () {
             playbackManager.nextTrack(currentPlayer);
+        });
+        view.querySelector('.btnNextTrack').addEventListener('dblclick', function (event) {
+            event.stopPropagation();
         });
         btnRewind.addEventListener('click', function () {
             playbackManager.rewind(currentPlayer);
         });
+        btnRewind.addEventListener('dblclick', function (event) {
+            event.stopPropagation();
+        });
         btnFastForward.addEventListener('click', function () {
             playbackManager.fastForward(currentPlayer);
         });
+        btnFastForward.addEventListener('dblclick', function (event) {
+            event.stopPropagation();
+        });
         view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
+        view.querySelector('.btnAudio').addEventListener('dblclick', function (event) {
+            event.stopPropagation();
+        });
         view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
+        view.querySelector('.btnSubtitles').addEventListener('dblclick', function (event) {
+            event.stopPropagation();
+        });
 
         if (browser.touch) {
             (function () {
