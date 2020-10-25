@@ -1152,5 +1152,7 @@
     "LabelRepositoryUrlHelp": "あなたが含めたいリポジトリマニフェストの場所。",
     "LabelRepositoryUrl": "リポジトリのURL",
     "HeaderNewRepository": "新しいリポジトリ",
-    "MessageNoRepositories": "リポジトリはありません。"
+    "MessageNoRepositories": "リポジトリはありません。",
+    "MessageNoGenresAvailable": "一部のメタデータプロバイダでインターネットからのジャンル取得を有効化します。",
+    "MessageNoCollectionsAvailable": "コレクションによりムービー、シリーズ、アルバムを個人的にグループ化して楽しむことができます。 + ボタンをクリックするとコレクションの作成を始めます。"
 }
