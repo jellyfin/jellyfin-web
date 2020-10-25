@@ -1145,5 +1145,12 @@
     "MessageEnablingOptionLongerScans": "このオプションを有効にするとライブラリのスキャンが大幅に長くなる可能性があります。",
     "MessageDirectoryPickerLinuxInstruction": "LinuxのArch Linux、CentOS、Debian、Fedora、openSUSE、Ubuntuではサービスユーザーにストレージの場所への読み取り権限が最低限必要となります。",
     "MessageDirectoryPickerBSDInstruction": "BSDでは、メディアへアクセスできるようにするためFreeNAS Jail にストレージを設定する必要があるかもしれません。",
-    "MessageCreateAccountAt": "アカウントを作成 {0}"
+    "MessageCreateAccountAt": "アカウントを作成 {0}",
+    "MessageAddRepository": "リポジトリを追加したい場合、ヘッダーの横にあるボタンをクリックして要求された情報を入力してください。",
+    "LabelRepositoryNameHelp": "サーバーに追加された他のリポジトリと区別するための名前。",
+    "LabelRepositoryName": "リポジトリの名前",
+    "LabelRepositoryUrlHelp": "あなたが含めたいリポジトリマニフェストの場所。",
+    "LabelRepositoryUrl": "リポジトリのURL",
+    "HeaderNewRepository": "新しいリポジトリ",
+    "MessageNoRepositories": "リポジトリはありません。"
 }
