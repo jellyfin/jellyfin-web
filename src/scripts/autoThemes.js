@@ -13,7 +13,7 @@ events.on(window.connectionManager, 'localusersignedin', function (e, user) {
 
 webSettings.getFonts().then(fonts => {
     for (const font of fonts) {
-        let link = document.createElement('link');
+        const link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
         link.href = font;
 
