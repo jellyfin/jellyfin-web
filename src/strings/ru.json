@@ -1410,5 +1410,7 @@
     "ButtonUseQuickConnect": "Использовать Quick Connect",
     "ButtonActivate": "Активация",
     "Authorize": "Авторизация",
-    "LabelUserMaxActiveSessions": "Максимальное количество одновременных пользовательских сессий:"
+    "LabelUserMaxActiveSessions": "Максимальное количество одновременных пользовательских сессий:",
+    "OptionMaxActiveSessionsHelp": "Значение 0 отключит эту функцию.",
+    "OptionMaxActiveSessions": "Устанавливает максимальное количество одновременных пользовательских сеансов."
 }
