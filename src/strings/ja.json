@@ -1224,5 +1224,11 @@
     "OptionAllowSyncTranscoding": "トランスコーディングが必要なメディアのダウンロードと同期を許可",
     "OptionAllowRemoteSharedDevicesHelp": "DLNAデバイスはユーザーが制御するまで共有されていると見なされます。",
     "OptionAllowMediaPlaybackTranscodingHelp": "トランスコーディングへのアクセスを制限するとクライアントがサポートしていないメディアフォーマットの再生に失敗する可能性があります。",
-    "OptionAllowMediaPlayback": "メディア再生を許可"
+    "OptionAllowMediaPlayback": "メディア再生を許可",
+    "OptionExternallyDownloaded": "外部からダウンロード",
+    "OptionHlsSegmentedSubtitles": "HLS分割字幕",
+    "OptionEmbedSubtitles": "コンテナに埋め込む",
+    "OptionDownloadImagesInAdvanceHelp": "デフォルトでは、大多数の画像はクライアントから要求された時にのみダウンロードされます。このオプションを有効にすると新しいメディアをインポートした時にすべての画像を事前にダウンロードします。これによりライブラリのスキャンが大幅に長くなる可能性があります。",
+    "OptionDownloadImagesInAdvance": "画像を事前にダウンロード",
+    "OptionDisplayFolderViewHelp": "その他のメディアライブラリと一緒にフォルダを表示します。プレーンフォルダビューにしたい時に便利です。"
 }
