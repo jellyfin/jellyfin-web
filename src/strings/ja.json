@@ -1181,5 +1181,12 @@
     "MessagePasswordResetForUsers": "以下のユーザーのパスワードをリセットしました。リセットに使用したPINコードでサインインすることができるようになっています。",
     "MessageNoTrailersFound": "トレーラーチャンネルをインストールするとインターネットのトレーラーがライブラリに追加されて映画体験が向上します。",
     "MessageNoServersAvailable": "サーバーの自動探索ではサーバーが発見できませんでした。",
-    "MessageNoMovieSuggestionsAvailable": "おすすめの映画は現在ありません。視聴を始めてムービーを評価し、戻ってくるとあなたの推薦が表示されます。"
+    "MessageNoMovieSuggestionsAvailable": "おすすめの映画は現在ありません。視聴を始めてムービーを評価し、戻ってくるとあなたの推薦が表示されます。",
+    "Never": "しない",
+    "MySubtitles": "マイ字幕",
+    "MusicVideos": "ミュージックビデオ",
+    "MusicLibraryHelp": "{0}ミュージックの命名規則ガイド{1}を閲覧。",
+    "Movie": "ムービー",
+    "MovieLibraryHelp": "{0}ムービーの命名規則ガイド{1}を閲覧。",
+    "MoreUsersCanBeAddedLater": "ダッシュボードで後からユーザーの追加が可能です。"
 }
