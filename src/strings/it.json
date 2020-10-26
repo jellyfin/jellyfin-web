@@ -1402,7 +1402,7 @@
     "OptionMaxActiveSessions": "Imposta il numero massimo di connessioni utente simultanee.",
     "LabelUserMaxActiveSessions": "Numero massimo di sessioni utente contemporanee:",
     "EnableAutoCast": "Imposta come Default",
-    "LabelTonemappingDesat": "Desaturazione appatura dei toni:",
+    "LabelTonemappingDesat": "Desaturazione mappatura dei toni:",
     "TonemappingRangeHelp": "Seleziona l'intervallo di colore in uscita. Auto imposta lo stesso del valore di entrata.",
     "LabelTonemappingRange": "Intervallo mappatura dei toni:",
     "TonemappingAlgorithmHelp": "La mappatura dei toni può essere messa a punto. Se non sei abbastanza familiare con queste opzioni, lascia quelle predefinite. Il valore raccomandato è Reinhard.",
