@@ -1365,5 +1365,6 @@
     "SystemDlnaProfilesHelp": "システムプロファイルは読み取り専用です。システムプロファイルの変更は、新しいカスタムプロファイルに保存されます。",
     "SyncPlayAccessHelp": "このユーザーはアクセスできるSyncPlayの機能のレベルを 選択します。SyncPlay は他のデバイスとの同期再生を可能にします。",
     "Subtitle": "字幕",
-    "SubtitleDownloadersHelp": "あなたの好みに応じて有効化とランク付けで字幕ダウンローダーを優先度順にしてください。"
+    "SubtitleDownloadersHelp": "あなたの好みに応じて有効化とランク付けで字幕ダウンローダーを優先度順にしてください。",
+    "XmlDocumentAttributeListHelp": "これらの属性はすべてのXMLレスポンスのルートエレメントにも適用されます。"
 }
