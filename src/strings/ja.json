@@ -1284,5 +1284,12 @@
     "PleaseConfirmPluginInstallation": "プラグインのインストールを進めるには上記を確認し OK をクリックしてください。",
     "PleaseAddAtLeastOneFolder": "追加ボタンをクリックして少なくとも一つのフォルダーをこのライブラリに追加してください。",
     "PlaybackErrorNoCompatibleStream": "このクライアントはメディアと互換性がなく、サーバーも互換性のあるメディアフォーマットで送信しません。",
-    "PlayNextEpisodeAutomatically": "次のエピソードを自動で再生"
+    "PlayNextEpisodeAutomatically": "次のエピソードを自動で再生",
+    "Profile": "プロフィール",
+    "ProductionLocations": "制作拠点",
+    "Primary": "主画像",
+    "Previous": "前",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "ファイル名より埋め込まれたエピソード情報を優先",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "埋め込まれたメタデータにエピソードの情報があった場合にそれを使用します。",
+    "PreferEmbeddedTitlesOverFileNamesHelp": "これはインターネットメタデータやローカルメタデータが利用できない時にデフォルトで表示するタイトルを決定します。"
 }
