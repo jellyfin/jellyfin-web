@@ -593,7 +593,7 @@
     "PasswordResetComplete": "パスワードは再設定されました。",
     "PinCodeResetComplete": "PINコードが再設定されました。",
     "PinCodeResetConfirmation": "本当にPINコードを再設定しますか？",
-    "PleaseRestartServerName": "Jellyfinサーバーを再起動してください - {0}。",
+    "PleaseRestartServerName": "{0} のJellyfinを再起動してください。",
     "OptionEveryday": "毎日",
     "Premieres": "初日",
     "Producer": "プロデューサー",
@@ -1272,5 +1272,17 @@
     "OptionPlayCount": "再生回数",
     "OptionPlainVideoItemsHelp": "すべての動画を\"object.item.videoItem.movie\"のような特定のタイプに代わって\"object.item.videoItem\"のようにDIDLで表現します。",
     "OptionPlainVideoItems": "すべての動画をプレーン動画アイテムとして表示",
-    "OptionPlainStorageFoldersHelp": "すべてのフォルダーで\"object.container.person.musicArtist\"のような特定のタイプに代わって\"object.container.storageFolder\"のようにDIDLで表現します。"
+    "OptionPlainStorageFoldersHelp": "すべてのフォルダーで\"object.container.person.musicArtist\"のような特定のタイプに代わって\"object.container.storageFolder\"のようにDIDLで表現します。",
+    "PreferEmbeddedTitlesOverFileNames": "ファイル名より埋め込みタイトルを優先",
+    "MessageGetInstalledPluginsError": "インストール済みプラグインの一覧を取得する際にエラーが発生しました。",
+    "MessagePluginInstallError": "プラグインをインストールする際にエラーが発生しました。",
+    "MessagePluginInstalled": "プラグインは正常にインストールされました。変更を有効にするためにサーバーを再起動する必要があります。",
+    "PosterCard": "ポスターカード",
+    "Poster": "ポスター",
+    "PleaseSelectTwoItems": "少なくとも2つの項目を選択してください。",
+    "PleaseEnterNameOrId": "名前か外部IDを入力してください。",
+    "PleaseConfirmPluginInstallation": "プラグインのインストールを進めるには上記を確認し OK をクリックしてください。",
+    "PleaseAddAtLeastOneFolder": "追加ボタンをクリックして少なくとも一つのフォルダーをこのライブラリに追加してください。",
+    "PlaybackErrorNoCompatibleStream": "このクライアントはメディアと互換性がなく、サーバーも互換性のあるメディアフォーマットで送信しません。",
+    "PlayNextEpisodeAutomatically": "次のエピソードを自動で再生"
 }
