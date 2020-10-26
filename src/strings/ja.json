@@ -1230,5 +1230,8 @@
     "OptionEmbedSubtitles": "コンテナに埋め込む",
     "OptionDownloadImagesInAdvanceHelp": "デフォルトでは、大多数の画像はクライアントから要求された時にのみダウンロードされます。このオプションを有効にすると新しいメディアをインポートした時にすべての画像を事前にダウンロードします。これによりライブラリのスキャンが大幅に長くなる可能性があります。",
     "OptionDownloadImagesInAdvance": "画像を事前にダウンロード",
-    "OptionDisplayFolderViewHelp": "その他のメディアライブラリと一緒にフォルダを表示します。プレーンフォルダビューにしたい時に便利です。"
+    "OptionDisplayFolderViewHelp": "その他のメディアライブラリと一緒にフォルダを表示します。プレーンフォルダビューにしたい時に便利です。",
+    "OptionEnableForAllTuners": "すべてのチューナーデバイスを有効化",
+    "OptionEnableExternalContentInSuggestionsHelp": "インターネットのトレーラーやテレビ放送の番組をおすすめの欄のコンテンツに含めることを許可します。",
+    "OptionEnableAccessFromAllDevices": "すべてのデバイスからのアクセスを有効化"
 }
