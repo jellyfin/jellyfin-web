@@ -1233,5 +1233,6 @@
     "OptionDisplayFolderViewHelp": "その他のメディアライブラリと一緒にフォルダを表示します。プレーンフォルダビューにしたい時に便利です。",
     "OptionEnableForAllTuners": "すべてのチューナーデバイスを有効化",
     "OptionEnableExternalContentInSuggestionsHelp": "インターネットのトレーラーやテレビ放送の番組をおすすめの欄のコンテンツに含めることを許可します。",
-    "OptionEnableAccessFromAllDevices": "すべてのデバイスからのアクセスを有効化"
+    "OptionEnableAccessFromAllDevices": "すべてのデバイスからのアクセスを有効化",
+    "OptionEnableM2tsModeHelp": "mpegtsをエンコードする際にm2tsモードを有効化。"
 }
