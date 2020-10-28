@@ -1420,5 +1420,7 @@
     "XmlTvPathHelp": "XMLTV ファイルのパス。Jellyfin はこのファイルを読み込んで定期的に更新を確認します。ファイルの作成と更新はあなたが責任を持って行ってください。",
     "XmlTvNewsCategoriesHelp": "これらのカテゴリの番組はニュース番組として表示されます。複数の場合は '|' で区切ってください。",
     "XmlTvMovieCategoriesHelp": "これらのカテゴリの番組は映画として表示されます。複数の場合は '|' で区切ってください。",
-    "XmlTvKidsCategoriesHelp": "これらのカテゴリの番組は子供向けとして表示されます。複数の場合は '|' で区切ってください。"
+    "XmlTvKidsCategoriesHelp": "これらのカテゴリの番組は子供向けとして表示されます。複数の場合は '|' で区切ってください。",
+    "OptionAllowContentDownloadHelp": "ユーザーのデバイスにメディアのダウンロードと保存ができます。これは同期機能とは異なります。ブックライブラリが正しく機能するには有効化が必要です。",
+    "OptionAllowContentDownload": "メディアのダウンロードを許可"
 }
