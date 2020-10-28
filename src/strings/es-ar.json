@@ -782,7 +782,7 @@
     "OptionAllowLinkSharing": "Permitir compartir en redes sociales",
     "OptionAllowContentDownloading": "Permitir la descarga y sincronización de medios",
     "OptionAllowBrowsingLiveTv": "Permitir el acceso a TV en vivo",
-    "OptionForceRemoteSourceTranscoding": "Forzar la transcodificación de fuentes de medios remotos (como LiveTV)",
+    "OptionForceRemoteSourceTranscoding": "Forzar la transcodificación de fuentes de medios remotas como Live TV",
     "OptionAllowAudioPlaybackTranscoding": "Permitir reproducción de audio que requiere transcodificación",
     "OptionAllUsers": "Todos los usuarios",
     "OptionAdminUsers": "Administradores",
@@ -1420,5 +1420,7 @@
     "Authorize": "Autorizar",
     "OptionMaxActiveSessionsHelp": "Un valor de 0 deshabilita la función.",
     "OptionMaxActiveSessions": "Establece el número máximo de sesiones de usuario simultáneas.",
-    "LabelUserMaxActiveSessions": "Número máximo de sesiones de usuario simultáneas:"
+    "LabelUserMaxActiveSessions": "Número máximo de sesiones de usuario simultáneas:",
+    "OptionAllowContentDownloadHelp": "Los usuarios pueden descargar medios y almacenarlos en sus dispositivos. No es lo mismo que una función de sincronización. Las bibliotecas de libros requieren que esta habilitado funcione correctamente.",
+    "OptionAllowContentDownload": "Permitir descargas de medios"
 }
