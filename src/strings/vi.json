@@ -1420,5 +1420,7 @@
     "LabelXDlnaCap": "Phần đầu X-DLNA:",
     "OptionMaxActiveSessionsHelp": "Giá trị 0 sẽ vô hiệu hóa tính năng.",
     "OptionMaxActiveSessions": "Đặt số lượng phiên người dùng đồng thời tối đa.",
-    "LabelUserMaxActiveSessions": "Số lượng phiên người dùng cùng lúc tối đa:"
+    "LabelUserMaxActiveSessions": "Số lượng phiên người dùng cùng lúc tối đa:",
+    "OptionAllowContentDownloadHelp": "Người dùng có thể tải xuống phương tiện và lưu trữ trên thiết bị của họ. Điều này không giống như một tính năng đồng bộ hóa. Thư viện sách yêu cầu kích hoạt này để hoạt động bình thường.",
+    "OptionAllowContentDownload": "Cho phép tải xuống phương tiện"
 }
