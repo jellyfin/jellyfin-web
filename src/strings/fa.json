@@ -832,7 +832,7 @@
     "OptionAdminUsers": "Administrators",
     "OptionAllUsers": "All users",
     "OptionAllowAudioPlaybackTranscoding": "Allow audio playback that requires transcoding",
-    "OptionForceRemoteSourceTranscoding": "Force transcoding of remote media sources (like LiveTV)",
+    "OptionForceRemoteSourceTranscoding": "Force transcoding of remote media sources such as Live TV",
     "OptionAllowBrowsingLiveTv": "Allow Live TV access",
     "OptionAllowContentDownloading": "Allow media downloading and syncing",
     "OptionAllowLinkSharing": "Allow social media sharing",
