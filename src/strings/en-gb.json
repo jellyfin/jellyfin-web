@@ -1235,7 +1235,7 @@
     "SelectAdminUsername": "Please select a username for the admin account.",
     "ButtonSplit": "Split",
     "HeaderNavigation": "Navigation",
-    "OptionForceRemoteSourceTranscoding": "Force transcoding of remote media sources (like LiveTV)",
+    "OptionForceRemoteSourceTranscoding": "Force transcoding of remote media sources such as Live TV",
     "MessageConfirmAppExit": "Do you want to exit?",
     "LabelVideoResolution": "Video resolution:",
     "LabelStreamType": "Stream type:",
