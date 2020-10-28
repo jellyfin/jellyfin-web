@@ -1420,5 +1420,7 @@
     "Authorize": "Autorisieren",
     "OptionMaxActiveSessionsHelp": "Ein Wert von 0 deaktiviert die Funktion.",
     "OptionMaxActiveSessions": "Legt die maximale Anzahl gleichzeitiger Benutzer-Sessions fest.",
-    "LabelUserMaxActiveSessions": "Maximale Anzahl von gleichzeitigen Benutzer-Sessions:"
+    "LabelUserMaxActiveSessions": "Maximale Anzahl von gleichzeitigen Benutzer-Sessions:",
+    "OptionAllowContentDownloadHelp": "Benutzer können Medien herunterladen und auf ihren Geräten speichern. Dies ist nicht dasselbe wie eine Synchronisierungsfunktion. Buchbibliotheken benötigen diese Funktion, um ordnungsgemäß zu funktionieren.",
+    "OptionAllowContentDownload": "Mediendownloads zulassen"
 }
