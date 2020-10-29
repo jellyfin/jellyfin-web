@@ -1421,5 +1421,9 @@
     "SubtitleVerticalPositionHelp": "Line number where text appears. Positive numbers indicate top down. Negative numbers indicate bottom up.",
     "Preview": "Preview",
     "LabelMaxMuxingQueueSize": "Max muxing queue size:",
-    "LabelMaxMuxingQueueSizeHelp": "Maximum number of packets that can be buffered while waiting for all streams to initialize. Try to increase it if you still encounter \"Too many packets buffered for output stream\" error in ffmpeg logs. The recommended value is 2048."
+    "LabelMaxMuxingQueueSizeHelp": "Maximum number of packets that can be buffered while waiting for all streams to initialize. Try to increase it if you still encounter \"Too many packets buffered for output stream\" error in ffmpeg logs. The recommended value is 2048.",
+    "YoutubeBadRequest": "Bad request.",
+    "YoutubePlaybackError": "Requested video cannot be played.",
+    "YoutubeNotFound": "Video not found.",
+    "YoutubeDenied": "Requested video is not allowed to be played in embedded players."
 }

@@ -2244,10 +2244,10 @@ class PlaybackManager {
                         loading.hide();
                         onPlaybackStartedFn();
                         onPlaybackStarted(player, playOptions, streamInfo);
-                    }).catch(() => {
-                        // TODO: show error message
+                    }).catch((errorCode) => {
                         self.stop(player);
                         loading.hide();
+                        showPlaybackInfoErrorMessage(self, errorCode || '');
                     });
                 });
             }
