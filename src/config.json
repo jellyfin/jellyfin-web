@@ -23,10 +23,10 @@
     }
   ],
   "fonts": [
-    "https://repo.jellyfin.org/releases/other/fonts/noto-sans.css",
-    "https://repo.jellyfin.org/releases/other/fonts/noto-sans-kr.css",
-    "https://repo.jellyfin.org/releases/other/fonts/noto-sans-jp.css",
-    "https://repo.jellyfin.org/releases/other/fonts/noto-sans-sc.css"
+    "https://repo.jellyfin.org/releases/other/jellyfin-noto/font-faces.css",
+    "https://repo.jellyfin.org/releases/other/jellyfin-noto/css/KR.css",
+    "https://repo.jellyfin.org/releases/other/jellyfin-noto/css/JP.css",
+    "https://repo.jellyfin.org/releases/other/jellyfin-noto/css/SC.css"
   ],
   "plugins": [
     "plugins/playAccessValidation/plugin",
