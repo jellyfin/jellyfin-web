@@ -2240,16 +2240,13 @@ class PlaybackManager {
                     const streamInfo = createStreamInfoFromUrlItem(item);
                     streamInfo.fullscreen = playOptions.fullscreen;
                     getPlayerData(player).isChangingStream = false;
-                    return player.play(streamInfo).then(function () {
+                    return player.play(streamInfo).then(() => {
                         loading.hide();
                         onPlaybackStartedFn();
                         onPlaybackStarted(player, playOptions, streamInfo);
-                    }, function () {
+                    }).catch(() => {
                         // TODO: show error message
                         self.stop(player);
-                        loading.hide();
-                    }).catch(() => {
-                        player.destroy();
                         loading.hide();
                     });
                 });
