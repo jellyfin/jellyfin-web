@@ -582,7 +582,7 @@ import 'emby-ratingbutton';
 
     function onPlaybackStart(e, state) {
         console.debug('nowplaying event: ' + e.type);
-        var player = this;
+        const player = this;
         onStateChanged.call(player, e, state);
     }
 

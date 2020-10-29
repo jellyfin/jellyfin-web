@@ -1,10 +1,10 @@
 window.getWindowLocationSearch = function(win) {
     'use strict';
 
-    var search = (win || window).location.search;
+    let search = (win || window).location.search;
 
     if (!search) {
-        var index = window.location.href.indexOf('?');
+        const index = window.location.href.indexOf('?');
 
         if (index != -1) {
             search = window.location.href.substring(index);
@@ -18,9 +18,9 @@ window.getParameterByName = function(name, url) {
     'use strict';
 
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regexS = '[\\?&]' + name + '=([^&#]*)';
-    var regex = new RegExp(regexS, 'i');
-    var results = regex.exec(url || getWindowLocationSearch());
+    const regexS = '[\\?&]' + name + '=([^&#]*)';
+    const regex = new RegExp(regexS, 'i');
+    const results = regex.exec(url || getWindowLocationSearch());
 
     if (results == null) {
         return '';
@@ -33,7 +33,7 @@ window.pageClassOn = function(eventName, className, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
-        var target = event.target;
+        const target = event.target;
 
         if (target.classList.contains(className)) {
             fn.call(target, event);
@@ -45,7 +45,7 @@ window.pageIdOn = function(eventName, id, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
-        var target = event.target;
+        const target = event.target;
 
         if (target.id === id) {
             fn.call(target, event);
@@ -53,7 +53,7 @@ window.pageIdOn = function(eventName, id, fn) {
     });
 };
 
-var AppInfo = {};
+const AppInfo = {};
 
 function initClient() {
     function bindConnectionManagerEvents(connectionManager, events, userSettings) {
@@ -61,7 +61,7 @@ function initClient() {
 
         window.connectionManager.currentApiClient = function () {
             if (!localApiClient) {
-                var server = window.connectionManager.getLastUsedServer();
+                const server = window.connectionManager.getLastUsedServer();
 
                 if (server && server.Id) {
                     localApiClient = window.connectionManager.getApiClient(server.Id);
@@ -190,7 +190,7 @@ function initClient() {
 
         require(['clientUtils']);
 
-        var promises = [];
+        const promises = [];
         if (!window.fetch) {
             promises.push(require(['fetch']));
         }
@@ -199,7 +199,7 @@ function initClient() {
             createConnectionManager().then(function () {
                 console.debug('initAfterDependencies promises resolved');
 
-                require(['globalize', 'browser'], function (globalize, browser) {
+                require(['globalize', 'browser'], function (globalize, {default: browser}) {
                     window.Globalize = globalize;
                     loadCoreDictionary(globalize).then(function () {
                         onGlobalizeInit(browser, globalize);
@@ -222,8 +222,8 @@ function initClient() {
     }
 
     function loadCoreDictionary(globalize) {
-        var languages = ['ar', 'be-by', 'bg-bg', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'es', 'es-ar', 'es-mx', 'fa', 'fi', 'fr', 'fr-ca', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'kk', 'ko', 'lt-lt', 'ms', 'nb', 'nl', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sv', 'tr', 'uk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
-        var translations = languages.map(function (language) {
+        const languages = ['ar', 'be-by', 'bg-bg', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'es', 'es-ar', 'es-mx', 'fa', 'fi', 'fr', 'fr-ca', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'kk', 'ko', 'lt-lt', 'ms', 'nb', 'nl', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sv', 'tr', 'uk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
+        const translations = languages.map(function (language) {
             return {
                 lang: language,
                 path: 'strings/' + language + '.json'
@@ -363,7 +363,7 @@ function initClient() {
 
                 require(['playerSelectionMenu']);
 
-                var apiClient = window.connectionManager && window.connectionManager.currentApiClient();
+                const apiClient = window.connectionManager && window.connectionManager.currentApiClient();
                 if (apiClient) {
                     fetch(apiClient.getUrl('Branding/Css'))
                         .then(function(response) {
@@ -406,8 +406,8 @@ function initClient() {
     }
 
     function onWebComponentsReady() {
-        var componentsPath = getComponentsPath();
-        var scriptsPath = getScriptsPath();
+        const componentsPath = getComponentsPath();
+        const scriptsPath = getScriptsPath();
 
         define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
 
@@ -433,18 +433,18 @@ function initClient() {
         init();
     }
 
-    var promise;
-    var localApiClient;
+    let promise;
+    let localApiClient;
 
     function initRequireJs() {
-        var urlArgs = 'v=' + (window.dashboardVersion || new Date().getDate());
+        const urlArgs = 'v=' + (window.dashboardVersion || new Date().getDate());
 
-        var bowerPath = getBowerPath();
-        var componentsPath = getComponentsPath();
-        var elementsPath = getElementsPath();
-        var scriptsPath = getScriptsPath();
+        const bowerPath = getBowerPath();
+        const componentsPath = getComponentsPath();
+        const elementsPath = getElementsPath();
+        const scriptsPath = getScriptsPath();
 
-        var paths = {
+        const paths = {
             browserdeviceprofile: 'scripts/browserDeviceProfile',
             browser: 'scripts/browser',
             libraryBrowser: 'scripts/libraryBrowser',
@@ -573,6 +573,7 @@ function initClient() {
         define('webSettings', [scriptsPath + '/settings/webSettings'], returnFirstDependency);
         define('appSettings', [scriptsPath + '/settings/appSettings'], returnFirstDependency);
         define('userSettings', [scriptsPath + '/settings/userSettings'], returnFirstDependency);
+        define('autocast', [scriptsPath + '/autocast'], returnFirstDependency);
 
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
         define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
@@ -617,6 +618,7 @@ function initClient() {
         define('displaySettings', [componentsPath + '/displaySettings/displaySettings'], returnFirstDependency);
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
+        define('quickConnectSettings', [componentsPath + '/quickConnectSettings/quickConnectSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
         define('timeSyncManager', [componentsPath + '/syncPlay/timeSyncManager'], returnDefault);
         define('groupSelectionMenu', [componentsPath + '/syncPlay/groupSelectionMenu'], returnFirstDependency);

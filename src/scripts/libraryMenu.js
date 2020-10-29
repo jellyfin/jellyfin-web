@@ -29,10 +29,10 @@ import 'flexStyles';
         html += '</div>';
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
-        html += `<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonSyncPlay')}"><span class="material-icons sync_disabled"></span></button>`;
-        html += `<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonPlayer')}"><span class="material-icons music_note"></span></button>`;
-        html += `<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide" title="${globalize.translate('ButtonCast')}"><span class="material-icons cast"></span></button>`;
-        html += `<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide" title="${globalize.translate('Search')}"><span class="material-icons search"></span></button>`;
+        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons sync_disabled"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search"></span></button>';
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person"></span></button>';
         html += '</div>';
         html += '</div>';
@@ -43,15 +43,19 @@ import 'flexStyles';
         skinHeader.classList.add('skinHeader-blurred');
         skinHeader.innerHTML = html;
 
+        headerBackButton = skinHeader.querySelector('.headerBackButton');
         headerHomeButton = skinHeader.querySelector('.headerHomeButton');
+        mainDrawerButton = skinHeader.querySelector('.mainDrawerButton');
         headerUserButton = skinHeader.querySelector('.headerUserButton');
         headerCastButton = skinHeader.querySelector('.headerCastButton');
         headerAudioPlayerButton = skinHeader.querySelector('.headerAudioPlayerButton');
         headerSearchButton = skinHeader.querySelector('.headerSearchButton');
         headerSyncButton = skinHeader.querySelector('.headerSyncButton');
 
+        retranslateUi();
         lazyLoadViewMenuBarImages();
         bindMenuEvents();
+        updateCastIcon();
     }
 
     function getCurrentApiClient() {
@@ -72,8 +76,26 @@ import 'flexStyles';
         appRouter.back();
     }
 
+    function retranslateUi() {
+        if (headerSyncButton) {
+            headerSyncButton.title = globalize.translate('ButtonSyncPlay');
+        }
+
+        if (headerAudioPlayerButton) {
+            headerAudioPlayerButton.title = globalize.translate('ButtonPlayer');
+        }
+
+        if (headerCastButton) {
+            headerCastButton.title = globalize.translate('ButtonCast');
+        }
+
+        if (headerSearchButton) {
+            headerSearchButton.title = globalize.translate('Search');
+        }
+    }
+
     function updateUserInHeader(user) {
-        renderHeader();
+        retranslateUi();
 
         let hasImage;
 
@@ -152,13 +174,9 @@ import 'flexStyles';
     }
 
     function bindMenuEvents() {
-        mainDrawerButton = document.querySelector('.mainDrawerButton');
-
         if (mainDrawerButton) {
             mainDrawerButton.addEventListener('click', toggleMainDrawer);
         }
-
-        const headerBackButton = skinHeader.querySelector('.headerBackButton');
 
         if (headerBackButton) {
             headerBackButton.addEventListener('click', onBackClick);
@@ -403,6 +421,12 @@ import 'flexStyles';
             href: 'devices.html',
             pageIds: ['devicesPage', 'devicePage'],
             icon: 'devices'
+        });
+        links.push({
+            name: globalize.translate('QuickConnect'),
+            href: 'quickConnect.html',
+            pageIds: ['quickConnectPage'],
+            icon: 'tap_and_play'
         });
         links.push({
             name: globalize.translate('HeaderActivity'),
@@ -765,10 +789,6 @@ import 'flexStyles';
     }
 
     function updateBackButton(page) {
-        if (!headerBackButton) {
-            headerBackButton = document.querySelector('.headerBackButton');
-        }
-
         if (headerBackButton) {
             if (page.getAttribute('data-backbutton') !== 'false' && appRouter.canGoBack()) {
                 headerBackButton.classList.remove('hide');
@@ -996,6 +1016,7 @@ import 'flexStyles';
     };
 
     window.LibraryMenu = LibraryMenu;
+    renderHeader();
 
 export default LibraryMenu;
 

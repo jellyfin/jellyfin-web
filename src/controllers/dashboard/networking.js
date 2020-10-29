@@ -30,6 +30,11 @@ import 'emby-select';
                     }).filter(function (s) {
                         return s.length > 0;
                     });
+                    config.KnownProxies = form.querySelector('#txtKnownProxies').value.split(',').map(function (s) {
+                        return s.trim();
+                    }).filter(function (s) {
+                        return s.length > 0;
+                    });
                     config.IsRemoteIPFilterBlacklist = form.querySelector('#selectExternalAddressFilterMode').value === 'blacklist';
                     config.PublicPort = form.querySelector('#txtPublicPort').value;
                     config.PublicHttpsPort = form.querySelector('#txtPublicHttpsPort').value;
@@ -108,6 +113,7 @@ import 'emby-select';
             page.querySelector('#txtPublicHttpsPort').value = config.PublicHttpsPort;
             page.querySelector('#txtLocalAddress').value = config.LocalNetworkAddresses[0] || '';
             page.querySelector('#txtLanNetworks').value = (config.LocalNetworkSubnets || []).join(', ');
+            page.querySelector('#txtKnownProxies').value = (config.KnownProxies || []).join(', ');
             page.querySelector('#txtExternalAddressFilter').value = (config.RemoteIPFilter || []).join(', ');
             page.querySelector('#selectExternalAddressFilterMode').value = config.IsRemoteIPFilterBlacklist ? 'blacklist' : 'whitelist';
             page.querySelector('#chkRemoteAccess').checked = config.EnableRemoteAccess == null || config.EnableRemoteAccess;

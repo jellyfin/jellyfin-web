@@ -17,7 +17,11 @@
     order: -1;
 }
 
-video::-webkit-media-controls {
+/* Controls are enabled for devices that don't support autoplay. They will be hidden when playback starts.
+   In Tizen 2.3 (and probably other old web engines), subtitles are located under '-webkit-media-controls' tree.
+   Therefore, we hide controls only if they are enabled.
+ */
+video[controls]::-webkit-media-controls {
     display: none !important;
 }
 

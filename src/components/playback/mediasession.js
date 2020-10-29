@@ -1,5 +1,6 @@
 import playbackManager from 'playbackManager';
 import nowPlayingHelper from 'nowPlayingHelper';
+import shell from 'shell';
 import events from 'events';
 /* eslint-disable indent */
 
@@ -127,8 +128,7 @@ import events from 'events';
             });
         } else {
             const itemImageUrl = seriesImageUrl(item, { maxHeight: 3000 }) || imageUrl(item, { maxHeight: 3000 });
-
-            window.NativeShell.updateMediaSession({
+            shell.updateMediaSession({
                 action: eventName,
                 isLocalPlayer: isLocalPlayer,
                 itemId: itemId,
@@ -182,7 +182,7 @@ import events from 'events';
              /* eslint-disable-next-line compat/compat */
             navigator.mediaSession.metadata = null;
         } else {
-            window.NativeShell.hideMediaSession();
+            shell.hideMediaSession();
         }
     }
 

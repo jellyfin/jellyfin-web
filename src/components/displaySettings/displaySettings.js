@@ -23,7 +23,7 @@ import 'emby-button';
             }).join('');
 
             // get default theme
-            var defaultTheme = themes.find(theme => {
+            const defaultTheme = themes.find(theme => {
                 return theme.default;
             });
 

@@ -3,6 +3,7 @@ import events from 'events';
 import itemHelper from 'itemHelper';
 import serverNotifications from 'serverNotifications';
 import dom from 'dom';
+import taskButton from 'scripts/taskbutton';
 import globalize from 'globalize';
 import * as datefns from 'date-fns';
 import dfnshelper from 'dfnshelper';
@@ -550,13 +551,13 @@ import 'emby-itemscontainer';
                 row.classList.remove('playingSession');
             }
 
-            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== window.connectionManager.deviceId()) {
+            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1) {
                 row.querySelector('.btnSessionSendMessage').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionSendMessage').classList.add('hide');
             }
 
-            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons.length) {
+            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo) {
                 row.querySelector('.btnSessionInfo').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionInfo').classList.add('hide');
@@ -564,7 +565,7 @@ import 'emby-itemscontainer';
 
             const btnSessionPlayPause = row.querySelector('.btnSessionPlayPause');
 
-            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== window.connectionManager.deviceId()) {
+            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl) {
                 btnSessionPlayPause.classList.remove('hide');
                 row.querySelector('.btnSessionStop').classList.remove('hide');
             } else {
@@ -827,9 +828,17 @@ import 'emby-itemscontainer';
                 refreshActiveRecordings(view, apiClient);
                 loading.hide();
             }
+
+            taskButton({
+                mode: 'on',
+                taskKey: 'RefreshLibrary',
+                button: page.querySelector('.btnRefresh')
+            });
         });
         view.addEventListener('viewbeforehide', function () {
             const apiClient = ApiClient;
+            const page = this;
+
             events.off(serverNotifications, 'RestartRequired', onRestartRequired);
             events.off(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
             events.off(serverNotifications, 'ServerRestarting', onServerRestarting);
@@ -841,6 +850,12 @@ import 'emby-itemscontainer';
             if (apiClient) {
                 DashboardPage.stopInterval(apiClient);
             }
+
+            taskButton({
+                mode: 'off',
+                taskKey: 'RefreshLibrary',
+                button: page.querySelector('.btnRefresh')
+            });
         });
         view.addEventListener('viewdestroy', function () {
             const page = this;

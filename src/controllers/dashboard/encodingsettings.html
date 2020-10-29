@@ -31,6 +31,11 @@
                     <div class="fieldDescription">${LabelVaapiDeviceHelp}</div>
                 </div>
 
+                <div class="inputContainer hide fldOpenclDevice">
+                    <input is="emby-input" type="text" id="txtOpenclDevice" label="${LabelOpenclDevice}" />
+                    <div class="fieldDescription">${LabelOpenclDeviceHelp}</div>
+                </div>
+
                 <div class="hardwareAccelerationOptions hide">
                     <div class="checkboxListContainer decodingCodecsList">
                         <h3 class="checkboxListLabel">${LabelEnableHardwareDecodingFor}</h3>
@@ -89,6 +94,54 @@
                     </div>
                 </div>
 
+                <div class="tonemappingOptions hide">
+                    <div class="checkboxListContainer checkboxContainer-withDescription">
+                        <label>
+                            <input type="checkbox" is="emby-checkbox" id="chkTonemapping" />
+                            <span>${EnableTonemapping}</span>
+                        </label>
+                        <div class="fieldDescription checkboxFieldDescription">${AllowTonemappingHelp}</div>
+                    </div>
+                    <div class="selectContainer">
+                        <select is="emby-select" id="selectTonemappingAlgorithm" label="${LabelTonemappingAlgorithm}">
+                            <option value="none">None</option>
+                            <option value="clip">Clip</option>
+                            <option value="linear">Linear</option>
+                            <option value="gamma">Gamma</option>
+                            <option value="reinhard">Reinhard</option>
+                            <option value="hable">Hable</option>
+                            <option value="mobius">Mobius</option>
+                        </select>
+                        <div class="fieldDescription">
+                            <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="http://ffmpeg.org/ffmpeg-all.html#tonemap_005fopencl" target="_blank">${TonemappingAlgorithmHelp}</a>
+                        </div>
+                    </div>
+                    <div class="selectContainer">
+                        <select is="emby-select" id="selectTonemappingRange" label="${LabelTonemappingRange}">
+                            <option value="auto">${Auto}</option>
+                            <option value="tv">TV</option>
+                            <option value="pc">PC</option>
+                        </select>
+                        <div class="fieldDescription">${TonemappingRangeHelp}</div>
+                    </div>
+                    <div class="inputContainer">
+                        <input is="emby-input" type="number" id="txtTonemappingDesat" pattern="[0-9]*" min="0" max="1.79769e+308" step=".00001" label="${LabelTonemappingDesat}" />
+                        <div class="fieldDescription">${LabelTonemappingDesatHelp}</div>
+                    </div>
+                    <div class="inputContainer">
+                        <input is="emby-input" type="number" id="txtTonemappingThreshold" pattern="[0-9]*" min="0" max="1.79769e+308" step=".00001" label="${LabelTonemappingThreshold}" />
+                        <div class="fieldDescription">${LabelTonemappingThresholdHelp}</div>
+                    </div>
+                    <div class="inputContainer">
+                        <input is="emby-input" type="number" id="txtTonemappingPeak" pattern="[0-9]*" min="0" max="1.79769e+308" step=".00001" label="${LabelTonemappingPeak}" />
+                        <div class="fieldDescription">${LabelTonemappingPeakHelp}</div>
+                    </div>
+                    <div class="inputContainer">
+                        <input is="emby-input" type="number" id="txtTonemappingParam" pattern="[0-9]*" min="2.22507e-308" max="1.79769e+308" step=".00001" label="${LabelTonemappingParam}" />
+                        <div class="fieldDescription">${LabelTonemappingParamHelp}</div>
+                    </div>
+                </div>
+
                 <div class="selectContainer">
                     <select is="emby-select" id="selectThreadCount" label="${LabelTranscodingThreadCount}">
                         <option value="-1">${Auto}</option>
@@ -128,6 +181,10 @@
                 <div class="inputContainer">
                     <input is="emby-input" type="number" id="txtDownMixAudioBoost" pattern="[0-9]*" required="required" min=".5" max="3" step=".1" label="${LabelDownMixAudioScale}" />
                     <div class="fieldDescription">${LabelDownMixAudioScaleHelp}</div>
+                </div>
+                <div class="inputContainer">
+                    <input is="emby-input" type="number" id="txtMaxMuxingQueueSize" pattern="[0-9]*" required="required" min="128" max="2147483647" step="1" label="${LabelMaxMuxingQueueSize}" />
+                    <div class="fieldDescription">${LabelMaxMuxingQueueSizeHelp}</div>
                 </div>
 
                 <div class="selectContainer">

@@ -58,8 +58,8 @@ import 'css!./imageeditor';
         currentItem = item;
 
         apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
-            var btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
-            for (var i = 0, length = btnBrowseAllImages.length; i < length; i++) {
+            const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
+            for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
                 if (providers.length) {
                     btnBrowseAllImages[i].classList.remove('hide');
                 } else {
