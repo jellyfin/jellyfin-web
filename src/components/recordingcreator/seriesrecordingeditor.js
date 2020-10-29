@@ -1,7 +1,6 @@
 import dialogHelper from 'dialogHelper';
 import globalize from 'globalize';
 import layoutManager from 'layoutManager';
-import connectionManager from 'connectionManager';
 import loading from 'loading';
 import scrollHelper from 'scrollHelper';
 import datetime from 'datetime';
@@ -64,7 +63,7 @@ function closeDialog(isDeleted) {
 function onSubmit(e) {
     const form = this;
 
-    const apiClient = connectionManager.getApiClient(currentServerId);
+    const apiClient = window.connectionManager.getApiClient(currentServerId);
 
     apiClient.getLiveTvSeriesTimer(currentItemId).then(function (item) {
         item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
@@ -92,7 +91,7 @@ function init(context) {
     });
 
     context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-        const apiClient = connectionManager.getApiClient(currentServerId);
+        const apiClient = window.connectionManager.getApiClient(currentServerId);
         deleteTimer(apiClient, currentItemId).then(function () {
             closeDialog(true);
         });
@@ -102,7 +101,7 @@ function init(context) {
 }
 
 function reload(context, id) {
-    const apiClient = connectionManager.getApiClient(currentServerId);
+    const apiClient = window.connectionManager.getApiClient(currentServerId);
 
     loading.show();
     if (typeof id === 'string') {

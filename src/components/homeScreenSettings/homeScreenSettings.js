@@ -2,7 +2,6 @@ import layoutManager from 'layoutManager';
 import focusManager from 'focusManager';
 import globalize from 'globalize';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import homeSections from 'homeSections';
 import dom from 'dom';
 import events from 'events';
@@ -76,26 +75,30 @@ import 'emby-checkbox';
                 value: 'suggestions'
             });
             list.push({
-                name: globalize.translate('Latest'),
-                value: 'latest'
+                name: globalize.translate('Upcoming'),
+                value: 'upcoming'
             });
             list.push({
                 name: globalize.translate('Genres'),
                 value: 'genres'
             });
             list.push({
-                name: globalize.translate('Favorites'),
-                value: 'favorites'
+                name: globalize.translate('Networks'),
+                value: 'networks'
+            });
+            list.push({
+                name: globalize.translate('Episodes'),
+                value: 'episodes'
             });
         } else if (type === 'music') {
             list.push({
-                name: globalize.translate('Suggestions'),
-                value: 'suggestions',
+                name: globalize.translate('Albums'),
+                value: 'albums',
                 isDefault: true
             });
             list.push({
-                name: globalize.translate('Albums'),
-                value: 'albums'
+                name: globalize.translate('Suggestions'),
+                value: 'suggestions'
             });
             list.push({
                 name: globalize.translate('HeaderAlbumArtists'),
@@ -380,7 +383,7 @@ import 'emby-checkbox';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = connectionManager.getApiClient(self.options.serverId);
+        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -452,7 +455,7 @@ import 'emby-checkbox';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = connectionManager.getApiClient(self.options.serverId);
+            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             apiClient.getUser(userId).then(user => {

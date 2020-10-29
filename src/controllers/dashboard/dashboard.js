@@ -3,11 +3,11 @@ import events from 'events';
 import itemHelper from 'itemHelper';
 import serverNotifications from 'serverNotifications';
 import dom from 'dom';
+import taskButton from 'scripts/taskbutton';
 import globalize from 'globalize';
 import * as datefns from 'date-fns';
 import dfnshelper from 'dfnshelper';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import playMethodHelper from 'playMethodHelper';
 import cardBuilder from 'cardBuilder';
 import imageLoader from 'imageLoader';
@@ -60,7 +60,7 @@ import 'emby-itemscontainer';
                 confirmText: globalize.translate('ButtonSend')
             }).then(function (text) {
                 if (text) {
-                    connectionManager.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
+                    window.connectionManager.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
                         Text: text,
                         TimeoutMs: 5e3
                     });
@@ -73,7 +73,7 @@ import 'emby-itemscontainer';
         import('actionsheet').then(({default: actionsheet}) => {
             const menuItems = [];
 
-            if (session.ServerId && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && session.DeviceId !== window.connectionManager.deviceId()) {
                 menuItems.push({
                     name: globalize.translate('SendMessage'),
                     id: 'sendmessage'
@@ -123,9 +123,9 @@ import 'emby-itemscontainer';
                     } else if (btn.classList.contains('btnSessionSendMessage')) {
                         showSendMessageForm(btn, session);
                     } else if (btn.classList.contains('btnSessionStop')) {
-                        connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'Stop');
+                        window.connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'Stop');
                     } else if (btn.classList.contains('btnSessionPlayPause') && session.PlayState) {
-                        connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'PlayPause');
+                        window.connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'PlayPause');
                     }
                 }
             }
@@ -313,7 +313,7 @@ import 'emby-itemscontainer';
                 btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('ViewPlaybackInfo') + '"><span class="material-icons info"></span></button>';
 
-                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== connectionManager.deviceId() ? '' : ' hide';
+                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== window.connectionManager.deviceId() ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('SendMessage') + '"><span class="material-icons message"></span></button>';
                 html += '</div>';
 
@@ -551,13 +551,13 @@ import 'emby-itemscontainer';
                 row.classList.remove('playingSession');
             }
 
-            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1) {
                 row.querySelector('.btnSessionSendMessage').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionSendMessage').classList.add('hide');
             }
 
-            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons.length) {
+            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo) {
                 row.querySelector('.btnSessionInfo').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionInfo').classList.add('hide');
@@ -565,7 +565,7 @@ import 'emby-itemscontainer';
 
             const btnSessionPlayPause = row.querySelector('.btnSessionPlayPause');
 
-            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl) {
                 btnSessionPlayPause.classList.remove('hide');
                 row.querySelector('.btnSessionStop').classList.remove('hide');
             } else {
@@ -722,9 +722,9 @@ import 'emby-itemscontainer';
         restart: function (btn) {
             import('confirm').then(({default: confirm}) => {
                 confirm({
-                    title: globalize.translate('HeaderRestart'),
+                    title: globalize.translate('Restart'),
                     text: globalize.translate('MessageConfirmRestart'),
-                    confirmText: globalize.translate('ButtonRestart'),
+                    confirmText: globalize.translate('Restart'),
                     primary: 'delete'
                 }).then(function () {
                     const page = dom.parentWithClass(btn, 'page');
@@ -828,9 +828,17 @@ import 'emby-itemscontainer';
                 refreshActiveRecordings(view, apiClient);
                 loading.hide();
             }
+
+            taskButton({
+                mode: 'on',
+                taskKey: 'RefreshLibrary',
+                button: page.querySelector('.btnRefresh')
+            });
         });
         view.addEventListener('viewbeforehide', function () {
             const apiClient = ApiClient;
+            const page = this;
+
             events.off(serverNotifications, 'RestartRequired', onRestartRequired);
             events.off(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
             events.off(serverNotifications, 'ServerRestarting', onServerRestarting);
@@ -842,6 +850,12 @@ import 'emby-itemscontainer';
             if (apiClient) {
                 DashboardPage.stopInterval(apiClient);
             }
+
+            taskButton({
+                mode: 'off',
+                taskKey: 'RefreshLibrary',
+                button: page.querySelector('.btnRefresh')
+            });
         });
         view.addEventListener('viewdestroy', function () {
             const page = this;

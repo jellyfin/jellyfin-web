@@ -56,14 +56,14 @@ function within(number, min, max) {
 }
 
 // Other global values
-var dragMouseEvents = ['mousemove', 'mouseup'];
-var dragTouchEvents = ['touchmove', 'touchend'];
-var wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
-var interactiveElements = ['INPUT', 'SELECT', 'TEXTAREA'];
+const dragMouseEvents = ['mousemove', 'mouseup'];
+const dragTouchEvents = ['touchmove', 'touchend'];
+const wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
+const interactiveElements = ['INPUT', 'SELECT', 'TEXTAREA'];
 
-var scrollerFactory = function (frame, options) {
+const scrollerFactory = function (frame, options) {
     // Extend options
-    var o = Object.assign({}, {
+    const o = Object.assign({}, {
         slidee: null, // Selector, DOM element, or jQuery object with DOM element representing SLIDEE.
         horizontal: false, // Switch to horizontal mode.
 
@@ -83,7 +83,7 @@ var scrollerFactory = function (frame, options) {
 
     }, options);
 
-    var isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
+    const isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
 
     // native scroll is a must with touch input
     // also use native scroll when scrolling vertically in desktop mode - excluding horizontal because the mouse wheel support is choppy at the moment
@@ -106,11 +106,11 @@ var scrollerFactory = function (frame, options) {
     }
 
     // Private variables
-    var self = this;
+    const self = this;
     self.options = o;
 
     // Frame
-    var slideeElement = o.slidee ? o.slidee : sibling(frame.firstChild)[0];
+    const slideeElement = o.slidee ? o.slidee : sibling(frame.firstChild)[0];
     self._pos = {
         start: 0,
         center: 0,
@@ -119,15 +119,15 @@ var scrollerFactory = function (frame, options) {
         dest: 0
     };
 
-    var transform = !options.enableNativeScroll;
+    const transform = !options.enableNativeScroll;
 
     // Miscellaneous
-    var scrollSource = frame;
-    var dragSourceElement = o.dragSource ? o.dragSource : frame;
-    var dragging = {
+    const scrollSource = frame;
+    const dragSourceElement = o.dragSource ? o.dragSource : frame;
+    const dragging = {
         released: 1
     };
-    var scrolling = {
+    const scrolling = {
         last: 0,
         delta: 0,
         resetTime: 200
@@ -139,10 +139,10 @@ var scrollerFactory = function (frame, options) {
     self.options = o;
     self.dragging = dragging;
 
-    var nativeScrollElement = frame;
+    const nativeScrollElement = frame;
 
     function sibling(n, elem) {
-        var matched = [];
+        const matched = [];
 
         for (; n; n = n.nextSibling) {
             if (n.nodeType === 1 && n !== elem) {
@@ -152,10 +152,10 @@ var scrollerFactory = function (frame, options) {
         return matched;
     }
 
-    var requiresReflow = true;
+    let requiresReflow = true;
 
-    var frameSize = 0;
-    var slideeSize = 0;
+    let frameSize = 0;
+    let slideeSize = 0;
     function ensureSizeInfo() {
         if (requiresReflow) {
             requiresReflow = false;
@@ -185,13 +185,13 @@ var scrollerFactory = function (frame, options) {
             ensureSizeInfo();
 
             // Fix possible overflowing
-            var pos = self._pos;
+            const pos = self._pos;
             self.slideTo(within(pos.dest, pos.start, pos.end));
         }
     }
 
     function initFrameResizeObserver() {
-        var observerOptions = {};
+        const observerOptions = {};
 
         self.frameResizeObserver = new ResizeObserver(onResize, observerOptions);
 
@@ -242,7 +242,7 @@ var scrollerFactory = function (frame, options) {
         }
     }
 
-    var lastAnimate;
+    let lastAnimate;
 
     /**
          * Animate to a position.
@@ -254,9 +254,13 @@ var scrollerFactory = function (frame, options) {
          */
     self.slideTo = function (newPos, immediate, fullItemPos) {
         ensureSizeInfo();
-        var pos = self._pos;
+        const pos = self._pos;
 
-        newPos = within(newPos, pos.start, pos.end);
+        if (layoutManager.tv) {
+            newPos = within(newPos, pos.start);
+        } else {
+            newPos = within(newPos, pos.start, pos.end);
+        }
 
         if (!transform) {
             nativeScrollTo(nativeScrollElement, newPos, immediate);
@@ -264,10 +268,10 @@ var scrollerFactory = function (frame, options) {
         }
 
         // Update the animation object
-        var from = pos.cur;
+        const from = pos.cur;
         immediate = immediate || dragging.init || !o.speed;
 
-        var now = new Date().getTime();
+        const now = new Date().getTime();
 
         if (o.autoImmediate) {
             if (!immediate && (now - (lastAnimate || 0)) <= 50) {
@@ -287,7 +291,7 @@ var scrollerFactory = function (frame, options) {
     };
 
     function setStyleProperty(elem, name, value, speed, resetTransition) {
-        var style = elem.style;
+        const style = elem.style;
 
         if (resetTransition || browser.edge) {
             style.transition = 'none';
@@ -308,7 +312,7 @@ var scrollerFactory = function (frame, options) {
     }
 
     function renderAnimateWithTransform(fromPosition, toPosition, immediate) {
-        var speed = o.speed;
+        let speed = o.speed;
 
         if (immediate) {
             speed = o.immediateSpeed || 50;
@@ -342,18 +346,18 @@ var scrollerFactory = function (frame, options) {
      * @return {Object}
      */
     self.getPos = function (item) {
-        var scrollElement = transform ? slideeElement : nativeScrollElement;
-        var slideeOffset = getBoundingClientRect(scrollElement);
-        var itemOffset = getBoundingClientRect(item);
+        const scrollElement = transform ? slideeElement : nativeScrollElement;
+        const slideeOffset = getBoundingClientRect(scrollElement);
+        const itemOffset = getBoundingClientRect(item);
 
-        var offset = o.horizontal ? itemOffset.left - slideeOffset.left : itemOffset.top - slideeOffset.top;
+        let offset = o.horizontal ? itemOffset.left - slideeOffset.left : itemOffset.top - slideeOffset.top;
 
-        var size = o.horizontal ? itemOffset.width : itemOffset.height;
+        let size = o.horizontal ? itemOffset.width : itemOffset.height;
         if (!size && size !== 0) {
             size = item[o.horizontal ? 'offsetWidth' : 'offsetHeight'];
         }
 
-        var centerOffset = o.centerOffset || 0;
+        let centerOffset = o.centerOffset || 0;
 
         if (!transform) {
             centerOffset = 0;
@@ -366,11 +370,11 @@ var scrollerFactory = function (frame, options) {
 
         ensureSizeInfo();
 
-        var currentStart = self._pos.cur;
-        var currentEnd = currentStart + frameSize;
+        const currentStart = self._pos.cur;
+        const currentEnd = currentStart + frameSize;
 
         console.debug('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
-        var isVisible = offset >= currentStart && (offset + size) <= currentEnd;
+        const isVisible = offset >= currentStart && (offset + size) <= currentEnd;
 
         return {
             start: offset,
@@ -384,12 +388,12 @@ var scrollerFactory = function (frame, options) {
     self.getCenterPosition = function (item) {
         ensureSizeInfo();
 
-        var pos = self.getPos(item);
+        const pos = self.getPos(item);
         return within(pos.center, pos.start, pos.end);
     };
 
     function dragInitSlidee(event) {
-        var isTouch = event.type === 'touchstart';
+        const isTouch = event.type === 'touchstart';
 
         // Ignore when already in progress, or interactive element in non-touch navivagion
         if (dragging.init || !isTouch && isInteractive(event.target)) {
@@ -413,7 +417,7 @@ var scrollerFactory = function (frame, options) {
         dragging.init = 0;
         dragging.source = event.target;
         dragging.touch = isTouch;
-        var pointer = isTouch ? event.touches[0] : event;
+        const pointer = isTouch ? event.touches[0] : event;
         dragging.initX = pointer.pageX;
         dragging.initY = pointer.pageY;
         dragging.initPos = self._pos.cur;
@@ -451,7 +455,7 @@ var scrollerFactory = function (frame, options) {
      */
     function dragHandler(event) {
         dragging.released = event.type === 'mouseup' || event.type === 'touchend';
-        var pointer = dragging.touch ? event[dragging.released ? 'changedTouches' : 'touches'][0] : event;
+        const pointer = dragging.touch ? event[dragging.released ? 'changedTouches' : 'touches'][0] : event;
         dragging.pathX = pointer.pageX - dragging.initX;
         dragging.pathY = pointer.pageY - dragging.initY;
         dragging.path = Math.sqrt(Math.pow(dragging.pathX, 2) + Math.pow(dragging.pathY, 2));
@@ -566,12 +570,12 @@ var scrollerFactory = function (frame, options) {
      */
     function scrollHandler(event) {
         ensureSizeInfo();
-        var pos = self._pos;
+        const pos = self._pos;
         // Ignore if there is no scrolling to be done
         if (!o.scrollBy || pos.start === pos.end) {
             return;
         }
-        var delta = normalizeWheelDelta(event);
+        let delta = normalizeWheelDelta(event);
 
         if (transform) {
             // Trap scrolling only when necessary and/or requested
@@ -631,13 +635,13 @@ var scrollerFactory = function (frame, options) {
         return self;
     };
 
-    var contentRect = {};
+    let contentRect = {};
 
     function onResize(entries) {
-        var entry = entries[0];
+        const entry = entries[0];
 
         if (entry) {
-            var newRect = entry.contentRect;
+            const newRect = entry.contentRect;
 
             // handle element being hidden
             if (newRect.width === 0 || newRect.height === 0) {
@@ -662,7 +666,7 @@ var scrollerFactory = function (frame, options) {
 
     function onFrameClick(e) {
         if (e.which === 1) {
-            var focusableParent = focusManager.focusableParent(e.target);
+            const focusableParent = focusManager.focusableParent(e.target);
             if (focusableParent && focusableParent !== document.activeElement) {
                 focusableParent.focus();
             }
@@ -834,7 +838,7 @@ scrollerFactory.prototype.to = function (location, item, immediate) {
     if (item === undefined) {
         this.slideTo(this._pos[location], immediate);
     } else {
-        var itemPos = this.getPos(item);
+        const itemPos = this.getPos(item);
 
         if (itemPos) {
             this.slideTo(itemPos[location], immediate, itemPos);
@@ -879,7 +883,7 @@ scrollerFactory.prototype.toCenter = function (item, immediate) {
 };
 
 scrollerFactory.create = function (frame, options) {
-    var instance = new scrollerFactory(frame, options);
+    const instance = new scrollerFactory(frame, options);
     return Promise.resolve(instance);
 };
 

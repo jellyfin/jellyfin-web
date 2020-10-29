@@ -2,7 +2,6 @@ import dom from 'dom';
 import dialogHelper from 'dialogHelper';
 import loading from 'loading';
 import layoutManager from 'layoutManager';
-import connectionManager from 'connectionManager';
 import appRouter from 'appRouter';
 import globalize from 'globalize';
 import 'emby-checkbox';
@@ -25,7 +24,7 @@ import 'flexStyles';
 
         const collectionId = panel.querySelector('#selectCollectionToAddTo').value;
 
-        const apiClient = connectionManager.getApiClient(currentServerId);
+        const apiClient = window.connectionManager.getApiClient(currentServerId);
 
         if (collectionId) {
             addToCollection(apiClient, panel, collectionId);
@@ -106,7 +105,7 @@ import 'flexStyles';
             EnableTotalRecordCount: false
         };
 
-        const apiClient = connectionManager.getApiClient(currentServerId);
+        const apiClient = window.connectionManager.getApiClient(currentServerId);
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
             let html = '';
 

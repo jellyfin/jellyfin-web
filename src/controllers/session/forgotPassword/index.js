@@ -41,6 +41,7 @@ import globalize from 'globalize';
                 type: 'POST',
                 url: ApiClient.getUrl('Users/ForgotPassword'),
                 dataType: 'json',
+                contentType: 'application/json',
                 data: JSON.stringify({
                     EnteredUsername: view.querySelector('#txtName').value
                 })

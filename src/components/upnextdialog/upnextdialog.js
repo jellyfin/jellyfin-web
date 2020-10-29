@@ -1,6 +1,5 @@
 import dom from 'dom';
 import playbackManager from 'playbackManager';
-import connectionManager from 'connectionManager';
 import events from 'events';
 import mediaInfo from 'mediaInfo';
 import layoutManager from 'layoutManager';
@@ -15,83 +14,8 @@ import 'flexStyles';
 
     const transitionEndEventName = dom.whichTransitionEvent();
 
-    function seriesImageUrl(item, options) {
-        if (item.Type !== 'Episode') {
-            return null;
-        }
-
-        options = options || {};
-        options.type = options.type || 'Primary';
-
-        if (options.type === 'Primary') {
-            if (item.SeriesPrimaryImageTag) {
-                options.tag = item.SeriesPrimaryImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-        }
-
-        if (options.type === 'Thumb') {
-            if (item.SeriesThumbImageTag) {
-                options.tag = item.SeriesThumbImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-            if (item.ParentThumbImageTag) {
-                options.tag = item.ParentThumbImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
-            }
-        }
-
-        return null;
-    }
-
-    function imageUrl(item, options) {
-        options = options || {};
-        options.type = options.type || 'Primary';
-
-        if (item.ImageTags && item.ImageTags[options.type]) {
-            options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
-        }
-
-        if (options.type === 'Primary') {
-            if (item.AlbumId && item.AlbumPrimaryImageTag) {
-                options.tag = item.AlbumPrimaryImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
-            }
-        }
-
-        return null;
-    }
-
-    function setPoster(osdPoster, item, secondaryItem) {
-        if (item) {
-            let imgUrl = seriesImageUrl(item, { type: 'Primary' }) ||
-                seriesImageUrl(item, { type: 'Thumb' }) ||
-                imageUrl(item, { type: 'Primary' });
-
-            if (!imgUrl && secondaryItem) {
-                imgUrl = seriesImageUrl(secondaryItem, { type: 'Primary' }) ||
-                    seriesImageUrl(secondaryItem, { type: 'Thumb' }) ||
-                    imageUrl(secondaryItem, { type: 'Primary' });
-            }
-
-            if (imgUrl) {
-                osdPoster.innerHTML = '<img class="upNextDialog-poster-img" src="' + imgUrl + '" />';
-                return;
-            }
-        }
-
-        osdPoster.innerHTML = '';
-    }
-
     function getHtml() {
         let html = '';
-
-        html += '<div class="upNextDialog-poster">';
-        html += '</div>';
 
         html += '<div class="flex flex-direction-column flex-grow">';
 
@@ -101,8 +25,6 @@ import 'flexStyles';
 
         html += '<div class="flex flex-direction-row upNextDialog-mediainfo">';
         html += '</div>';
-
-        html += '<div class="upNextDialog-overview" style="margin-top:1em;"></div>';
 
         html += '<div class="flex flex-direction-row upNextDialog-buttons" style="margin-top:1em;">';
 
@@ -146,11 +68,11 @@ import 'flexStyles';
 
         const elem = instance.options.parent;
 
-        setPoster(elem.querySelector('.upNextDialog-poster'), item);
-
-        elem.querySelector('.upNextDialog-overview').innerHTML = item.Overview || '';
-
         elem.querySelector('.upNextDialog-mediainfo').innerHTML = mediaInfo.getPrimaryMediaInfoHtml(item, {
+            criticRating: false,
+            originalAirDate: false,
+            starRating: false,
+            subtitles: false
         });
 
         let title = itemHelper.getDisplayName(item);
@@ -256,7 +178,7 @@ import 'flexStyles';
             const runtimeTicks = playbackManager.duration(options.player);
 
             if (runtimeTicks) {
-                const timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player);
+                const timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player) * 10000;
 
                 return Math.round(timeRemainingTicks / 10000);
             }

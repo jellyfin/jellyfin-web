@@ -7,7 +7,6 @@ import itemHelper from 'itemHelper';
 import mediaInfo from 'mediaInfo';
 import focusManager from 'focusManager';
 import events from 'events';
-import connectionManager from 'connectionManager';
 import browser from 'browser';
 import globalize from 'globalize';
 import appHost from 'apphost';
@@ -20,50 +19,6 @@ import 'paper-icon-button-light';
 import 'css!assets/css/videoosd';
 
 /* eslint-disable indent */
-
-    function seriesImageUrl(item, options) {
-        if (item.Type !== 'Episode') {
-            return null;
-        }
-
-        options = options || {};
-        options.type = options.type || 'Primary';
-        if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
-            options.tag = item.SeriesPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-        }
-
-        if (options.type === 'Thumb') {
-            if (item.SeriesThumbImageTag) {
-                options.tag = item.SeriesThumbImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-
-            if (item.ParentThumbImageTag) {
-                options.tag = item.ParentThumbImageTag;
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
-            }
-        }
-
-        return null;
-    }
-
-    function imageUrl(item, options) {
-        options = options || {};
-        options.type = options.type || 'Primary';
-
-        if (item.ImageTags && item.ImageTags[options.type]) {
-            options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
-        }
-
-        if (options.type === 'Primary' && item.AlbumId && item.AlbumPrimaryImageTag) {
-            options.tag = item.AlbumPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
-        }
-
-        return null;
-    }
 
     function getOpenedDialog() {
         return document.querySelector('.dialogContainer .dialog.opened');
@@ -118,7 +73,7 @@ import 'css!assets/css/videoosd';
 
         function getDisplayItem(item) {
             if (item.Type === 'TvChannel') {
-                const apiClient = connectionManager.getApiClient(item.ServerId);
+                const apiClient = window.connectionManager.getApiClient(item.ServerId);
                 return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
                     return {
                         originalItem: refreshedItem,
@@ -142,7 +97,7 @@ import 'css!assets/css/videoosd';
                 return void view.querySelector('.btnRecord').classList.add('hide');
             }
 
-            connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+            window.connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
                     import('recordingButton').then(({default: RecordingButton}) => {
                         if (recordingButtonManager) {
@@ -164,7 +119,6 @@ import 'css!assets/css/videoosd';
             currentItem = item;
             const displayItem = itemInfo.displayItem || item;
             updateRecordingButton(displayItem);
-            setPoster(displayItem, item);
             let parentName = displayItem.SeriesName || displayItem.Album;
 
             if (displayItem.EpisodeTitle || displayItem.IsSeries) {
@@ -172,42 +126,6 @@ import 'css!assets/css/videoosd';
             }
 
             setTitle(displayItem, parentName);
-            const titleElement = view.querySelector('.osdTitle');
-            let displayName = itemHelper.getDisplayName(displayItem, {
-                includeParentInfo: displayItem.Type !== 'Program',
-                includeIndexNumber: displayItem.Type !== 'Program'
-            });
-
-            if (!displayName) {
-                displayName = displayItem.Type;
-            }
-
-            titleElement.innerHTML = displayName;
-
-            if (displayName) {
-                titleElement.classList.remove('hide');
-            } else {
-                titleElement.classList.add('hide');
-            }
-
-            const mediaInfoHtml = mediaInfo.getPrimaryMediaInfoHtml(displayItem, {
-                runtime: false,
-                subtitles: false,
-                tomatoes: false,
-                endsAt: false,
-                episodeTitle: false,
-                originalAirDate: displayItem.Type !== 'Program',
-                episodeTitleIndexNumber: displayItem.Type !== 'Program',
-                programIndicator: false
-            });
-            const osdMediaInfo = view.querySelector('.osdMediaInfo');
-            osdMediaInfo.innerHTML = mediaInfoHtml;
-
-            if (mediaInfoHtml) {
-                osdMediaInfo.classList.remove('hide');
-            } else {
-                osdMediaInfo.classList.add('hide');
-            }
 
             const secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
             const secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(displayItem, {
@@ -220,12 +138,6 @@ import 'css!assets/css/videoosd';
                 secondaryMediaInfo.classList.remove('hide');
             } else {
                 secondaryMediaInfo.classList.add('hide');
-            }
-
-            if (displayName) {
-                view.querySelector('.osdMainTextContainer').classList.remove('hide');
-            } else {
-                view.querySelector('.osdMainTextContainer').classList.add('hide');
             }
 
             if (enableProgressByTimeOfDay) {
@@ -277,7 +189,6 @@ import 'css!assets/css/videoosd';
 
             currentItem = item;
             if (!item) {
-                setPoster(null);
                 updateRecordingButton(null);
                 Emby.Page.setTitle('');
                 nowPlayingVolumeSlider.disabled = true;
@@ -314,45 +225,26 @@ import 'css!assets/css/videoosd';
         }
 
         function setTitle(item, parentName) {
-            Emby.Page.setTitle(parentName || '');
+            let itemName = itemHelper.getDisplayName(item, {
+                includeParentInfo: item.Type !== 'Program',
+                includeIndexNumber: item.Type !== 'Program'
+            });
+
+            if (itemName && parentName) {
+                itemName = `${parentName} - ${itemName}`;
+            }
+
+            if (!itemName) {
+                itemName = parentName || '';
+            }
+
+            Emby.Page.setTitle(itemName);
 
             const documentTitle = parentName || (item ? item.Name : null);
 
             if (documentTitle) {
                 document.title = documentTitle;
             }
-        }
-
-        function setPoster(item, secondaryItem) {
-            const osdPoster = view.querySelector('.osdPoster');
-
-            if (item) {
-                let imgUrl = seriesImageUrl(item, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Primary'
-                }) || seriesImageUrl(item, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Thumb'
-                }) || imageUrl(item, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Primary'
-                });
-
-                if (!imgUrl && secondaryItem && (imgUrl = seriesImageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Primary'
-                }) || seriesImageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Thumb'
-                }) || imageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Primary'
-                })), imgUrl) {
-                    return void (osdPoster.innerHTML = '<img src="' + imgUrl + '" />');
-                }
-            }
-
-            osdPoster.innerHTML = '';
         }
 
         let mouseIsDown = false;
@@ -693,7 +585,7 @@ import 'css!assets/css/videoosd';
                     lastUpdateTime = now;
                     const player = this;
                     currentRuntimeTicks = playbackManager.duration(player);
-                    const currentTime = playbackManager.currentTime(player);
+                    const currentTime = playbackManager.currentTime(player) * 10000;
                     updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getBufferedRanges(player));
                     const item = currentItem;
                     refreshProgramInfoIfNeeded(player, item);
@@ -1623,7 +1515,7 @@ import 'css!assets/css/videoosd';
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
-                const html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+                const html = getChapterBubbleHtml(window.connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
                 if (html) {
                     return html;

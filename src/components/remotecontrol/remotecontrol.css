@@ -222,15 +222,7 @@
     margin: 0;
 }
 
-.layout-mobile .nowPlayingSecondaryButtons .btnShuffleQueue {
-    display: none;
-}
-
 .layout-mobile .nowPlayingSecondaryButtons .volumecontrol {
-    display: none;
-}
-
-.layout-mobile .nowPlayingSecondaryButtons .btnRepeat {
     display: none;
 }
 
@@ -362,7 +354,8 @@
         border-radius: 0;
     }
 
-    .nowPlayingInfoButtons .btnRepeat {
+    .nowPlayingInfoButtons .btnRepeat,
+    .nowPlayingInfoButtons .btnRewind {
         position: absolute;
         left: 0;
         margin-left: 0;
@@ -370,7 +363,8 @@
         font-size: smaller;
     }
 
-    .nowPlayingInfoButtons .btnShuffleQueue {
+    .nowPlayingInfoButtons .btnShuffleQueue,
+    .nowPlayingInfoButtons .btnFastForward {
         position: absolute;
         right: 0;
         margin-right: 0;
@@ -468,7 +462,6 @@
 }
 
 @media all and (max-width: 63em) {
-    .nowPlayingSecondaryButtons .repeatToggleButton,
     .nowPlayingInfoButtons .playlist .listItemMediaInfo,
     .nowPlayingInfoButtons .btnStop {
         display: none !important;

@@ -1,18 +1,17 @@
-// TODO: Move to external library (https://github.com/calvellido/focus-options-polyfill)
 // Polyfill to add support for preventScroll by focus function
 
 if (HTMLElement.prototype.nativeFocus === undefined) {
     (function () {
-        var supportsPreventScrollOption = false;
+        let supportsPreventScrollOption = false;
         try {
-            var focusElem = document.createElement('div');
+            const focusElem = document.createElement('div');
 
             focusElem.addEventListener('focus', function(event) {
                 event.preventDefault();
                 event.stopPropagation();
             }, true);
 
-            var opts = Object.defineProperty({}, 'preventScroll', {
+            const opts = Object.defineProperty({}, 'preventScroll', {
                 // eslint-disable-next-line getter-return
                 get: function () {
                     supportsPreventScrollOption = true;
@@ -28,8 +27,8 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
             HTMLElement.prototype.nativeFocus = HTMLElement.prototype.focus;
 
             HTMLElement.prototype.focus = function(options) {
-                var scrollX = window.scrollX;
-                var scrollY = window.scrollY;
+                const scrollX = window.scrollX;
+                const scrollY = window.scrollY;
 
                 this.nativeFocus();
 

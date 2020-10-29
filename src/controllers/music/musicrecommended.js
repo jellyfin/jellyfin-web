@@ -56,7 +56,7 @@ import 'flexStyles';
             EnableTotalRecordCount: false
         };
         ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-            var elem = page.querySelector('#recentlyAddedSongs');
+            const elem = page.querySelector('#recentlyAddedSongs');
             elem.innerHTML = cardBuilder.getCardsHtml({
                 items: items,
                 showUnplayedIndicator: false,
@@ -103,7 +103,7 @@ import 'flexStyles';
                 elem.classList.add('hide');
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
+            const itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -145,7 +145,7 @@ import 'flexStyles';
                 elem.classList.add('hide');
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
+            const itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -177,9 +177,9 @@ import 'flexStyles';
 
     function getTabs() {
         return [{
-            name: globalize.translate('Suggestions')
-        }, {
             name: globalize.translate('Albums')
+        }, {
+            name: globalize.translate('Suggestions')
         }, {
             name: globalize.translate('HeaderAlbumArtists')
         }, {
@@ -195,7 +195,7 @@ import 'flexStyles';
 
     function getDefaultTabIndex(folderId) {
         switch (userSettings.get('landing-' + folderId)) {
-            case 'albums':
+            case 'suggestions':
                 return 1;
 
             case 'albumartists':
@@ -221,7 +221,7 @@ import 'flexStyles';
     export default function (view, params) {
         function reload() {
             loading.show();
-            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, tabContent, params.topParentId);
         }
 
@@ -263,16 +263,16 @@ import 'flexStyles';
             mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
         }
 
-        function getTabController(page, index, callback) {
+        const getTabController = (page, index, callback) => {
             let depends;
 
             switch (index) {
                 case 0:
-                    depends = 'controllers/music/musicrecommended';
+                    depends = 'controllers/music/musicalbums';
                     break;
 
                 case 1:
-                    depends = 'controllers/music/musicalbums';
+                    depends = 'controllers/music/musicrecommended';
                     break;
 
                 case 2:
@@ -296,9 +296,9 @@ import 'flexStyles';
             import(depends).then(({default: controllerFactory}) => {
                 let tabContent;
 
-                if (index == 0) {
+                if (index == 1) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                    self.tabContent = tabContent;
+                    this.tabContent = tabContent;
                 }
 
                 let controller = tabControllers[index];
@@ -306,13 +306,8 @@ import 'flexStyles';
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
 
-                    if (index === 0) {
-                        controller = self;
-                    } else if (index === 7) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: 'music',
-                            parentId: params.topParentId
-                        });
+                    if (index === 1) {
+                        controller = this;
                     } else {
                         controller = new controllerFactory(view, params, tabContent);
                     }
@@ -331,7 +326,7 @@ import 'flexStyles';
 
                 callback(controller);
             });
-        }
+        };
 
         function preLoadTab(page, index) {
             getTabController(page, index, function (controller) {
@@ -359,11 +354,11 @@ import 'flexStyles';
             }
         }
 
-        var self = this;
-        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        const suggestionsTabIndex = 1;
 
-        self.initTab = function () {
-            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
+        this.initTab = function () {
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             const containers = tabContent.querySelectorAll('.itemsContainer');
 
             for (let i = 0, length = containers.length; i < length; i++) {
@@ -371,7 +366,7 @@ import 'flexStyles';
             }
         };
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reload();
         };
 

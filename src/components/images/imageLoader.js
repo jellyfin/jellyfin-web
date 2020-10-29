@@ -56,7 +56,7 @@ import 'css!./style';
             throw new Error('entry cannot be null');
         }
         const target = entry.target;
-        var source = undefined;
+        let source = undefined;
 
         if (target) {
             source = target.getAttribute('data-src');
@@ -87,6 +87,9 @@ import 'css!./style';
             requestAnimationFrame(() => {
                 if (elem.tagName !== 'IMG') {
                     elem.style.backgroundImage = "url('" + url + "')";
+                    if (elem.classList.contains('blurhashed')) {
+                        elem.style.backgroundColor = '#fff';
+                    }
                 } else {
                     elem.setAttribute('src', url);
                 }
@@ -103,11 +106,12 @@ import 'css!./style';
     }
 
     function emptyImageElement(elem) {
-        var url;
+        let url;
 
         if (elem.tagName !== 'IMG') {
             url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, '');
             elem.style.backgroundImage = 'none';
+            elem.style.backgroundColor = null;
         } else {
             url = elem.getAttribute('src');
             elem.setAttribute('src', '');
@@ -133,10 +137,10 @@ import 'css!./style';
     }
 
     export function getPrimaryImageAspectRatio(items) {
-        var values = [];
+        const values = [];
 
-        for (var i = 0, length = items.length; i < length; i++) {
-            var ratio = items[i].PrimaryImageAspectRatio || 0;
+        for (let i = 0, length = items.length; i < length; i++) {
+            const ratio = items[i].PrimaryImageAspectRatio || 0;
 
             if (!ratio) {
                 continue;
@@ -154,9 +158,9 @@ import 'css!./style';
             return a - b;
         });
 
-        var half = Math.floor(values.length / 2);
+        const half = Math.floor(values.length / 2);
 
-        var result;
+        let result;
 
         if (values.length % 2) {
             result = values[half];
@@ -165,13 +169,13 @@ import 'css!./style';
         }
 
         // If really close to 2:3 (poster image), just return 2:3
-        var aspect2x3 = 2 / 3;
+        const aspect2x3 = 2 / 3;
         if (Math.abs(aspect2x3 - result) <= 0.15) {
             return aspect2x3;
         }
 
         // If really close to 16:9 (episode image), just return 16:9
-        var aspect16x9 = 16 / 9;
+        const aspect16x9 = 16 / 9;
         if (Math.abs(aspect16x9 - result) <= 0.2) {
             return aspect16x9;
         }
@@ -182,7 +186,7 @@ import 'css!./style';
         }
 
         // If really close to 4:3 (poster image), just return 2:3
-        var aspect4x3 = 4 / 3;
+        const aspect4x3 = 4 / 3;
         if (Math.abs(aspect4x3 - result) <= 0.15) {
             return aspect4x3;
         }
@@ -191,8 +195,8 @@ import 'css!./style';
     }
 
     export function fillImages(elems) {
-        for (var i = 0, length = elems.length; i < length; i++) {
-            var elem = elems[0];
+        for (let i = 0, length = elems.length; i < length; i++) {
+            const elem = elems[0];
             fillImage(elem);
         }
     }

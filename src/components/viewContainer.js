@@ -13,8 +13,9 @@ import 'css!components/viewManager/viewContainer';
                 controllerUrl = controllerUrl.substring('__plugin/'.length);
             }
 
-            controllerUrl = Dashboard.getConfigurationResourceUrl(controllerUrl);
-            return import(controllerUrl).then((ControllerFactory) => {
+            controllerUrl = Dashboard.getPluginUrl(controllerUrl);
+            const apiUrl = ApiClient.getUrl('/web/' + controllerUrl);
+            return import(apiUrl).then((ControllerFactory) => {
                 options.controllerFactory = ControllerFactory;
             });
         }
@@ -32,57 +33,60 @@ import 'css!components/viewManager/viewContainer';
                 pageIndex = 0;
             }
 
-            const isPluginpage = options.url.toLowerCase().indexOf('/configurationpage') !== -1;
+            const isPluginpage = options.url.includes('configurationpage');
             const newViewInfo = normalizeNewView(options, isPluginpage);
             const newView = newViewInfo.elem;
 
-            return new Promise((resolve) => {
-                const currentPage = allPages[pageIndex];
+            const currentPage = allPages[pageIndex];
 
-                if (currentPage) {
-                    triggerDestroy(currentPage);
-                }
+            if (currentPage) {
+                triggerDestroy(currentPage);
+            }
 
-                let view = newView;
+            let view = newView;
 
-                if (typeof view == 'string') {
-                    view = document.createElement('div');
-                    view.innerHTML = newView;
-                }
+            if (typeof view == 'string') {
+                view = document.createElement('div');
+                view.innerHTML = newView;
+            }
 
-                view.classList.add('mainAnimatedPage');
+            view.classList.add('mainAnimatedPage');
 
-                if (currentPage) {
-                    if (newViewInfo.hasScript && window.$) {
-                        mainAnimatedPages.removeChild(currentPage);
-                        view = $(view).appendTo(mainAnimatedPages)[0];
-                    } else {
-                        mainAnimatedPages.replaceChild(view, currentPage);
-                    }
+            if (currentPage) {
+                if (newViewInfo.hasScript && window.$) {
+                    mainAnimatedPages.removeChild(currentPage);
+                    view = $(view).appendTo(mainAnimatedPages)[0];
                 } else {
-                    if (newViewInfo.hasScript && window.$) {
-                        view = $(view).appendTo(mainAnimatedPages)[0];
-                    } else {
-                        mainAnimatedPages.appendChild(view);
-                    }
+                    mainAnimatedPages.replaceChild(view, currentPage);
                 }
-
-                if (options.type) {
-                    view.setAttribute('data-type', options.type);
+            } else {
+                if (newViewInfo.hasScript && window.$) {
+                    view = $(view).appendTo(mainAnimatedPages)[0];
+                } else {
+                    mainAnimatedPages.appendChild(view);
                 }
+            }
 
-                const properties = [];
+            if (options.type) {
+                view.setAttribute('data-type', options.type);
+            }
 
-                if (options.fullscreen) {
-                    properties.push('fullscreen');
-                }
+            const properties = [];
 
-                if (properties.length) {
-                    view.setAttribute('data-properties', properties.join(','));
-                }
+            if (options.fullscreen) {
+                properties.push('fullscreen');
+            }
 
-                allPages[pageIndex] = view;
-                setControllerClass(view, options).then(() => {
+            if (properties.length) {
+                view.setAttribute('data-properties', properties.join(','));
+            }
+
+            allPages[pageIndex] = view;
+
+            return setControllerClass(view, options)
+                // Timeout for polyfilled CustomElements (webOS 1.2)
+                .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
+                .then(() => {
                     if (onBeforeChange) {
                         onBeforeChange(view, false, options);
                     }
@@ -100,9 +104,8 @@ import 'css!components/viewManager/viewContainer';
                         $.mobile.activePage = view;
                     }
 
-                    resolve(view);
+                    return view;
                 });
-            });
         }
     }
 
@@ -243,4 +246,3 @@ export default {
     reset: reset,
     setOnBeforeChange: setOnBeforeChange
 };
-

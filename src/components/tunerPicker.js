@@ -1,7 +1,6 @@
 import dialogHelper from 'dialogHelper';
 import dom from 'dom';
 import layoutManager from 'layoutManager';
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import loading from 'loading';
 import browser from 'browser';
@@ -163,7 +162,7 @@ function tunerPicker() {
             scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
         }
 
-        const apiClient = connectionManager.getApiClient(options.serverId);
+        const apiClient = window.connectionManager.getApiClient(options.serverId);
         discoverDevices(dlg, apiClient);
 
         if (layoutManager.tv) {

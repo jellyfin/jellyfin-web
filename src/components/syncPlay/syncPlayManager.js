@@ -4,7 +4,6 @@
  */
 
 import events from 'events';
-import connectionManager from 'connectionManager';
 import playbackManager from 'playbackManager';
 import timeSyncManager from 'timeSyncManager';
 import toast from 'toast';
@@ -41,7 +40,7 @@ function waitForEventOnce(emitter, eventType, timeout) {
  * @returns {string} The player's id.
  */
 function getActivePlayerId() {
-    var info = playbackManager.getPlayerInfo();
+    const info = playbackManager.getPlayerInfo();
     return info ? info.id : null;
 }
 
@@ -128,7 +127,7 @@ class SyncPlayManager {
 
             // Report ping
             if (this.syncEnabled) {
-                const apiClient = connectionManager.currentApiClient();
+                const apiClient = window.connectionManager.currentApiClient();
                 const sessionId = getActivePlayerId();
 
                 if (!sessionId) {
@@ -277,7 +276,7 @@ class SyncPlayManager {
      * Removes the bindings to the current player's events.
      */
     releaseCurrentPlayer () {
-        var player = this.currentPlayer;
+        const player = this.currentPlayer;
         if (player) {
             events.off(player, 'unpause', this._onPlayerUnpause);
             events.off(player, 'pause', this._onPlayerPause);
@@ -427,7 +426,7 @@ class SyncPlayManager {
             serverId: serverId
         }).then(() => {
             waitForEventOnce(this, 'playbackstart', WaitForEventDefaultTimeout).then(() => {
-                var sessionId = getActivePlayerId();
+                const sessionId = getActivePlayerId();
                 if (!sessionId) {
                     console.error('Missing sessionId!');
                     toast({
@@ -660,7 +659,7 @@ class SyncPlayManager {
      * Overrides PlaybackManager's unpause method.
      */
     playRequest (player) {
-        var apiClient = connectionManager.currentApiClient();
+        const apiClient = window.connectionManager.currentApiClient();
         apiClient.requestSyncPlayStart();
     }
 
@@ -668,7 +667,7 @@ class SyncPlayManager {
      * Overrides PlaybackManager's pause method.
      */
     pauseRequest (player) {
-        var apiClient = connectionManager.currentApiClient();
+        const apiClient = window.connectionManager.currentApiClient();
         apiClient.requestSyncPlayPause();
         // Pause locally as well, to give the user some little control
         playbackManager._localUnpause(player);
@@ -678,7 +677,7 @@ class SyncPlayManager {
      * Overrides PlaybackManager's seek method.
      */
     seekRequest (PositionTicks, player) {
-        var apiClient = connectionManager.currentApiClient();
+        const apiClient = window.connectionManager.currentApiClient();
         apiClient.requestSyncPlaySeek({
             PositionTicks: PositionTicks
         });
@@ -741,7 +740,7 @@ class SyncPlayManager {
 
         const playAtTime = this.lastCommand.When;
 
-        const currentPositionTicks = playbackManager.currentTime();
+        const currentPositionTicks = playbackManager.currentTime() * 10000;
         // Estimate PositionTicks on server
         const serverPositionTicks = this.lastCommand.PositionTicks + ((currentTime - playAtTime) + this.timeOffsetWithServer) * 10000;
         // Measure delay that needs to be recovered

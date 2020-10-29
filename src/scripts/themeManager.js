@@ -1,13 +1,12 @@
 import * as webSettings from 'webSettings';
 
-var themeStyleElement;
-var currentThemeId;
+let themeStyleElement = document.querySelector('#cssTheme');
+let currentThemeId;
 
 function unloadTheme() {
-    var elem = themeStyleElement;
+    const elem = themeStyleElement;
     if (elem) {
-        elem.parentNode.removeChild(elem);
-        themeStyleElement = null;
+        elem.removeAttribute('href');
         currentThemeId = null;
     }
 }
@@ -18,7 +17,7 @@ function getThemes() {
 
 function getThemeStylesheetInfo(id) {
     return getThemes().then(themes => {
-        var theme = themes.find(theme => {
+        const theme = themes.find(theme => {
             return id ? theme.id === id : theme.default;
         });
 
@@ -42,18 +41,29 @@ function setTheme(id) {
                 return;
             }
 
-            var linkUrl = info.stylesheetPath;
+            const linkUrl = info.stylesheetPath;
             unloadTheme();
 
-            var link = document.createElement('link');
-            link.setAttribute('rel', 'stylesheet');
-            link.setAttribute('type', 'text/css');
-            link.onload = function () {
+            let link = themeStyleElement;
+
+            if (!link) {
+                // Inject the theme css as a dom element in body so it will take
+                // precedence over other stylesheets
+                link = document.createElement('link');
+                link.id = 'cssTheme';
+                link.setAttribute('rel', 'stylesheet');
+                link.setAttribute('type', 'text/css');
+                document.body.appendChild(link);
+            }
+
+            const onLoad = function (e) {
+                e.target.removeEventListener('load', onLoad);
                 resolve();
             };
 
+            link.addEventListener('load', onLoad);
+
             link.setAttribute('href', linkUrl);
-            document.head.appendChild(link);
             themeStyleElement = link;
             currentThemeId = info.themeId;
         });

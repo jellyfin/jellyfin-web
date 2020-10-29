@@ -1,7 +1,6 @@
 import dom from 'dom';
 import dialogHelper from 'dialogHelper';
 import loading from 'loading';
-import connectionManager from 'connectionManager';
 import globalize from 'globalize';
 import actionsheet from 'actionsheet';
 import 'emby-input';
@@ -16,7 +15,7 @@ export default class channelMapper {
         function mapChannel(button, channelId, providerChannelId) {
             loading.show();
             const providerId = options.providerId;
-            connectionManager.getApiClient(options.serverId).ajax({
+            window.connectionManager.getApiClient(options.serverId).ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ChannelMappings'),
                 data: JSON.stringify({
@@ -24,6 +23,7 @@ export default class channelMapper {
                     tunerChannelId: channelId,
                     providerChannelId: providerChannelId
                 }),
+                contentType: 'application/json',
                 dataType: 'json'
             }).then(mapping => {
                 const listItem = dom.parentWithClass(button, 'listItem');
@@ -58,7 +58,7 @@ export default class channelMapper {
         }
 
         function getChannelMappingOptions(serverId, providerId) {
-            const apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = window.connectionManager.getApiClient(serverId);
             return apiClient.getJSON(apiClient.getUrl('LiveTv/ChannelMappingOptions', {
                 providerId: providerId
             }));

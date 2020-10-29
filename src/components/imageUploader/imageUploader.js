@@ -6,7 +6,6 @@
  */
 
 import dialogHelper from 'dialogHelper';
-import connectionManager from 'connectionManager';
 import dom from 'dom';
 import loading from 'loading';
 import scrollHelper from 'scrollHelper';
@@ -108,7 +107,7 @@ import 'css!./style';
             return false;
         }
 
-        connectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
+        window.connectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
             dlg.querySelector('#uploadImage').value = '';
 
             loading.hide();

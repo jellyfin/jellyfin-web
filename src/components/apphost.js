@@ -55,7 +55,7 @@ function replaceAll(originalString, strReplace, strWith) {
 function generateDeviceId() {
     const keys = [];
 
-    if (keys.push(navigator.userAgent), keys.push(new Date().getTime()), self.btoa) {
+    if (keys.push(navigator.userAgent), keys.push(new Date().getTime()), window.btoa) {
         const result = replaceAll(btoa(keys.join('|')), '=', '1');
         return Promise.resolve(result);
     }
@@ -78,7 +78,7 @@ function getDeviceId() {
 }
 
 function getDeviceName() {
-    var deviceName;
+    let deviceName;
     if (browser.tizen) {
         deviceName = 'Samsung Smart TV';
     } else if (browser.web0s) {
@@ -404,9 +404,9 @@ document.addEventListener(visibilityChange, function () {
     }
 }, false);
 
-if (self.addEventListener) {
-    self.addEventListener('focus', onAppVisible);
-    self.addEventListener('blur', onAppHidden);
+if (window.addEventListener) {
+    window.addEventListener('focus', onAppVisible);
+    window.addEventListener('blur', onAppHidden);
 }
 
 export default appHost;

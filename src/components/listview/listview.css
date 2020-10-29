@@ -185,6 +185,17 @@
     .listItemBody {
         padding-right: 0.5em;
     }
+
+    .listItemMediaInfo {
+        display: none;
+    }
+}
+
+@media all and (max-width: 40em) {
+    [data-type='Movie'] .listItemImage,
+    [data-type='Series'] .listItemImage {
+        display: none;
+    }
 }
 
 .listItemImage-large-tv {

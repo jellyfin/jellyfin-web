@@ -2,7 +2,6 @@ import events from 'events';
 import playbackManager from 'playbackManager';
 import pluginManager from 'pluginManager';
 import inputManager from 'inputManager';
-import connectionManager from 'connectionManager';
 import * as userSettings from 'userSettings';
 
 function getMinIdleTime() {
@@ -85,7 +84,7 @@ function ScreenSaverManager() {
 
     this.show = function () {
         let isLoggedIn;
-        const apiClient = connectionManager.currentApiClient();
+        const apiClient = window.connectionManager.currentApiClient();
 
         if (apiClient && apiClient.isLoggedIn()) {
             isLoggedIn = true;

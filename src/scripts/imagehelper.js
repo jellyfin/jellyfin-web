@@ -2,7 +2,7 @@
 /* eslint-disable indent */
 
     export function getDeviceIcon(device) {
-        var baseUrl = 'assets/img/devices/';
+        const baseUrl = 'assets/img/devices/';
         switch (device.AppName || device.Client) {
             case 'Samsung Smart TV':
                 return baseUrl + 'samsung.svg';
