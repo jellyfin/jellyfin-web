@@ -2939,7 +2939,7 @@ class PlaybackManager {
 
             state.NextMediaType = nextMediaType;
 
-            if (isServerItem(streamInfo.item)) {
+            if (streamInfo && isServerItem(streamInfo.item)) {
                 if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
                     state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
                 }
