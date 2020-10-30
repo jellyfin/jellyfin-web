@@ -1421,6 +1421,9 @@
     "UseDoubleRateDeinterlacingHelp": "Essa configuração utiliza a \"field rate\" ao fazer o processo de \"deinterlacing\", frequentemente chamado de \"bob deinterlacing\", que dobra a taxa de quadros do vídeo para proporcionar um movimento completo similar àquele visto ao ver um vídeo \"interlaçado\" em uma TV.",
     "OptionMaxActiveSessions": "Estabelece o número máximo de sessões de usuários simultâneas.",
     "LabelUserMaxActiveSessions": "Número máximo de sessões de usuários simultâneas:",
-    "OptionAllowContentDownloadHelp": "Os usuários podem baixar mídia e armazená-la em seus dispositivos. Isso não é o mesmo que um recurso de sincronização. Isso exige que a biblioteca de mídia esteja habilitada para funcionar corretamente.",
-    "OptionAllowContentDownload": "Permitir download de mídia"
+    "OptionAllowContentDownloadHelp": "Os usuários podem baixar mídias e armazená-las em seus dispositivos. Isso não é o mesmo que um recurso de sincronização. Para funcionar corretamente isso exige que a biblioteca de mídia esteja habilitada.",
+    "OptionAllowContentDownload": "Permitir download de mídia",
+    "HeaderDeleteDevices": "Excluir todos os dispositivos",
+    "DeleteDevicesConfirmation": "Tem certeza de que deseja excluir todos os dispositivos? Todas as outras sessões serão desconectadas. Os dispositivos reaparecerão na próxima vez que um usuário fizer login.",
+    "DeleteAll": "Excluir tudo"
 }
