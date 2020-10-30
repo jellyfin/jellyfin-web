@@ -23,7 +23,7 @@ export async function serverAddress() {
     const urls = [];
     urls.push(window.location.origin);
     urls.push(`${window.location.protocol}//${window.location.hostname}:8096`);
-    urls.push(await webSettings.getServers());
+    urls.push(...await webSettings.getServers());
 
     const promises = urls.map(url => {
         return fetch(`${url}/System/Info/Public`).catch(error => {
