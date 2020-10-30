@@ -1229,7 +1229,7 @@
     "ButtonAddImage": "Adicionar Imagem",
     "OptionRandom": "Aleatório",
     "SelectAdminUsername": "Por favor selecione um nome de usuário para a conta de administrador.",
-    "OptionForceRemoteSourceTranscoding": "Forçar transcodificação em fontes de mídia remotas (como LiveTV)",
+    "OptionForceRemoteSourceTranscoding": "Forçar a transcodificação de fontes de mídia remotas (como LiveTV)",
     "NoCreatedLibraries": "Parece que você ainda não criou nenhuma biblioteca. {0}Gostaria de criar uma agora?{1}",
     "MessageConfirmAppExit": "Você quer sair?",
     "LabelVideoResolution": "Resolução de vídeo:",
