@@ -495,6 +495,7 @@ function initClient() {
                     'flvjs',
                     'jstree',
                     'epubjs',
+                    'pdfjs',
                     'jQuery',
                     'hlsjs',
                     'howler',
