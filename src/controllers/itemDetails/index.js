@@ -167,7 +167,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
         return;
     }
 
-    const mediaSources = item.MediaSources;
+    let mediaSources = item.MediaSources;
 
     const resolutionNames = [];
     const sourceNames = [];
