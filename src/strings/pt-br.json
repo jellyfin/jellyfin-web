@@ -150,7 +150,7 @@
     "DoNotRecord": "Não gravar",
     "Down": "Baixo",
     "DrmChannelsNotImported": "Canais com DRM não serão importados.",
-    "DropShadow": "Sombra",
+    "DropShadow": "Sombra projetada",
     "EasyPasswordHelp": "Seu código pin fácil é usado para acesso off-line em clientes suportados e pode ser usado para acesso fácil dentro da rede.",
     "Edit": "Editar",
     "EditImages": "Editar imagens",
@@ -1420,5 +1420,7 @@
     "Bwdif": "BWDIF",
     "UseDoubleRateDeinterlacingHelp": "Essa configuração utiliza a \"field rate\" ao fazer o processo de \"deinterlacing\", frequentemente chamado de \"bob deinterlacing\", que dobra a taxa de quadros do vídeo para proporcionar um movimento completo similar àquele visto ao ver um vídeo \"interlaçado\" em uma TV.",
     "OptionMaxActiveSessions": "Estabelece o número máximo de sessões de usuários simultâneas.",
-    "LabelUserMaxActiveSessions": "Número máximo de sessões de usuários simultâneas:"
+    "LabelUserMaxActiveSessions": "Número máximo de sessões de usuários simultâneas:",
+    "OptionAllowContentDownloadHelp": "Os usuários podem baixar mídia e armazená-la em seus dispositivos. Isso não é o mesmo que um recurso de sincronização. Isso exige que a biblioteca de mídia esteja habilitada para funcionar corretamente.",
+    "OptionAllowContentDownload": "Permitir download de mídia"
 }
