@@ -167,18 +167,18 @@ function renderTrackSelections(page, instance, item, forceReload) {
         return;
     }
 
-    var mediaSources = item.MediaSources;
+    const mediaSources = item.MediaSources;
 
-    var resolutionNames = [];
-    var sourceNames = [];
+    const resolutionNames = [];
+    const sourceNames = [];
     mediaSources.forEach(function (v) {
         ((v.Name.endsWith('p') || v.Name.endsWith('i'))) && !Number.isNaN(parseInt(v.Name, 10) ? resolutionNames.push(v) : sourceNames.push(v);
     });
 
     resolutionNames.sort((a, b) => parseInt(b.Name, 10) - parseInt(a.Name, 10));
     sourceNames.sort(function(a, b) {
-        var nameA = a.Name.toUpperCase();
-        var nameB = b.Name.toUpperCase();
+        const nameA = a.Name.toUpperCase();
+        const nameB = b.Name.toUpperCase();
         if (nameA < nameB) {
             return -1;
         } else if (nameA > nameB) {
