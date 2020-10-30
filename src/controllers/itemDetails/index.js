@@ -172,7 +172,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
     const resolutionNames = [];
     const sourceNames = [];
     mediaSources.forEach(function (v) {
-        ((v.Name.endsWith('p') || v.Name.endsWith('i'))) && !Number.isNaN(parseInt(v.Name, 10) ? resolutionNames.push(v) : sourceNames.push(v);
+        (v.Name.endsWith('p') || v.Name.endsWith('i')) && !Number.isNaN(parseInt(v.Name, 10)) ? resolutionNames.push(v) : sourceNames.push(v);
     });
 
     resolutionNames.sort((a, b) => parseInt(b.Name, 10) - parseInt(a.Name, 10));
