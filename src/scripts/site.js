@@ -505,7 +505,6 @@ function initClient() {
                     'sortable',
                     'webcomponents',
                     'material-icons',
-                    'jellyfin-noto',
                     'date-fns',
                     'page',
                     'polyfill',
@@ -528,7 +527,7 @@ function initClient() {
         });
 
         promise = require(['fetch'])
-            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
+            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site'], (jQuery) => {
                 // Expose jQuery globally
                 window.$ = jQuery;
                 window.jQuery = jQuery;

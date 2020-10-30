@@ -22,6 +22,12 @@
       "id": "wmc"
     }
   ],
+  "fonts": [
+    "https://repo.jellyfin.org/releases/other/jellyfin-noto/font-faces.css",
+    "https://repo.jellyfin.org/releases/other/jellyfin-noto/css/KR.css",
+    "https://repo.jellyfin.org/releases/other/jellyfin-noto/css/JP.css",
+    "https://repo.jellyfin.org/releases/other/jellyfin-noto/css/SC.css"
+  ],
   "plugins": [
     "plugins/playAccessValidation/plugin",
     "plugins/experimentalWarnings/plugin",
