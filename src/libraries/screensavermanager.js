@@ -3,6 +3,7 @@ import playbackManager from 'playbackManager';
 import pluginManager from 'pluginManager';
 import inputManager from 'inputManager';
 import * as userSettings from 'userSettings';
+import 'css!./screensavermanager.css';
 
 function getMinIdleTime() {
     // Returns the minimum amount of idle time required before the screen saver can be displayed
@@ -52,6 +53,8 @@ function ScreenSaverManager() {
 
         console.debug('Showing screensaver ' + screensaver.name);
 
+        document.body.classList.add('screensaver-noScroll');
+
         screensaver.show();
         activeScreenSaver = screensaver;
 
@@ -69,7 +72,9 @@ function ScreenSaverManager() {
     function hide() {
         if (activeScreenSaver) {
             console.debug('Hiding screensaver');
-            activeScreenSaver.hide();
+            activeScreenSaver.hide().then(() => {
+                document.body.classList.remove('screensaver-noScroll');
+            });
             activeScreenSaver = null;
         }
 

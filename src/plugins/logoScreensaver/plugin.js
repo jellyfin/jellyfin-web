@@ -150,16 +150,21 @@ export default function () {
         const elem = document.querySelector('.logoScreenSaver');
 
         if (elem) {
-            const onAnimationFinish = function () {
-                elem.parentNode.removeChild(elem);
-            };
+            return new Promise((resolve) => {
+                const onAnimationFinish = function () {
+                    elem.parentNode.removeChild(elem);
+                    resolve();
+                };
 
-            if (elem.animate) {
-                const animation = fadeOut(elem, 1);
-                animation.onfinish = onAnimationFinish;
-            } else {
-                onAnimationFinish();
-            }
+                if (elem.animate) {
+                    const animation = fadeOut(elem, 1);
+                    animation.onfinish = onAnimationFinish;
+                } else {
+                    onAnimationFinish();
+                }
+            });
         }
+
+        return Promise.resolve();
     };
 }
