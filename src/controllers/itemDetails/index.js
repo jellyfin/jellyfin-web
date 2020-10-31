@@ -649,7 +649,10 @@ function reloadFromItem(instance, page, params, item, user) {
     const itemBirthLocation = page.querySelector('#itemBirthLocation');
 
     if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
-        const gmap = '<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=' + item.ProductionLocations[0] + '">' + item.ProductionLocations[0] + '</a>';
+        let gmap = item.ProductionLocations[0];
+        if (!layoutManager.tv) {
+            gmap = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=${gmap}">${gmap}</a>`;
+        }
         itemBirthLocation.classList.remove('hide');
         itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', gmap);
     } else {
