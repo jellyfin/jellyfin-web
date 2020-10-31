@@ -12,7 +12,6 @@
 .alphaPicker-fixed {
     position: fixed;
     bottom: 5.5em;
-    z-index: 999999;
 }
 
 .alphaPickerRow {
