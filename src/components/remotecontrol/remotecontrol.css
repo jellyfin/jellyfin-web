@@ -372,8 +372,7 @@
         font-size: smaller;
     }
 
-    .paper-icon-button-light:hover {
-        color: #fff !important;
+    .paper-icon-button-light {
         background-color: transparent !important;
     }
 
@@ -381,10 +380,6 @@
         padding: 0;
         margin: 0;
         font-size: 1.7em;
-    }
-
-    .btnPlayPause:hover {
-        background-color: transparent !important;
     }
 
     .nowPlayingPageImage {
