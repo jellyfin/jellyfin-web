@@ -75,26 +75,30 @@ import 'emby-checkbox';
                 value: 'suggestions'
             });
             list.push({
-                name: globalize.translate('Latest'),
-                value: 'latest'
+                name: globalize.translate('Upcoming'),
+                value: 'upcoming'
             });
             list.push({
                 name: globalize.translate('Genres'),
                 value: 'genres'
             });
             list.push({
-                name: globalize.translate('Favorites'),
-                value: 'favorites'
+                name: globalize.translate('Networks'),
+                value: 'networks'
+            });
+            list.push({
+                name: globalize.translate('Episodes'),
+                value: 'episodes'
             });
         } else if (type === 'music') {
             list.push({
-                name: globalize.translate('Suggestions'),
-                value: 'suggestions',
+                name: globalize.translate('Albums'),
+                value: 'albums',
                 isDefault: true
             });
             list.push({
-                name: globalize.translate('Albums'),
-                value: 'albums'
+                name: globalize.translate('Suggestions'),
+                value: 'suggestions'
             });
             list.push({
                 name: globalize.translate('HeaderAlbumArtists'),

@@ -100,11 +100,10 @@ import 'emby-button';
         return html;
     }
 
-    export function getMediaInfoHtml(item, options) {
+    export function getMediaInfoHtml(item, options = {}) {
         let html = '';
 
         const miscInfo = [];
-        options = options || {};
         let text;
         let date;
         let minutes;
@@ -289,7 +288,9 @@ import 'emby-button';
             return getMediaInfoItem(m);
         }).join('');
 
-        html += getStarIconsHtml(item);
+        if (options.starRating !== false) {
+            html += getStarIconsHtml(item);
+        }
 
         if (item.HasSubtitles && options.subtitles !== false) {
             html += '<div class="mediaInfoItem mediaInfoText closedCaptionMediaInfoText">CC</div>';
@@ -418,9 +419,8 @@ import 'emby-button';
         return false;
     }
 
-    export function getPrimaryMediaInfoHtml(item, options) {
-        options = options || {};
-        if (options.interactive == null) {
+    export function getPrimaryMediaInfoHtml(item, options = {}) {
+        if (options.interactive === undefined) {
             options.interactive = false;
         }
 

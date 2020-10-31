@@ -78,7 +78,7 @@ function getDeviceId() {
 }
 
 function getDeviceName() {
-    var deviceName;
+    let deviceName;
     if (browser.tizen) {
         deviceName = 'Samsung Smart TV';
     } else if (browser.web0s) {
@@ -172,7 +172,6 @@ function supportsCue() {
 function onAppVisible() {
     if (isHidden) {
         isHidden = false;
-        console.debug('triggering app resume event');
         events.trigger(appHost, 'resume');
     }
 }
@@ -180,7 +179,6 @@ function onAppVisible() {
 function onAppHidden() {
     if (!isHidden) {
         isHidden = true;
-        console.debug('app is hidden');
     }
 }
 

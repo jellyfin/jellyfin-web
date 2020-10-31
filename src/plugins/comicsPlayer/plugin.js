@@ -103,7 +103,7 @@ export class ComicsPlayer {
             const downloadUrl = apiClient.getItemDownloadUrl(item.Id);
             const archiveSource = new ArchiveSource(downloadUrl);
 
-            var instance = this;
+            const instance = this;
             import('swiper').then(({default: Swiper}) => {
                 archiveSource.load().then(() => {
                     loading.hide();

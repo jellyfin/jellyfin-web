@@ -1,10 +1,10 @@
 import * as webSettings from 'webSettings';
 
-var themeStyleElement = document.querySelector('#cssTheme');
-var currentThemeId;
+let themeStyleElement = document.querySelector('#cssTheme');
+let currentThemeId;
 
 function unloadTheme() {
-    var elem = themeStyleElement;
+    const elem = themeStyleElement;
     if (elem) {
         elem.removeAttribute('href');
         currentThemeId = null;
@@ -17,7 +17,7 @@ function getThemes() {
 
 function getThemeStylesheetInfo(id) {
     return getThemes().then(themes => {
-        var theme = themes.find(theme => {
+        const theme = themes.find(theme => {
             return id ? theme.id === id : theme.default;
         });
 
@@ -41,7 +41,7 @@ function setTheme(id) {
                 return;
             }
 
-            var linkUrl = info.stylesheetPath;
+            const linkUrl = info.stylesheetPath;
             unloadTheme();
 
             let link = themeStyleElement;

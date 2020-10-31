@@ -349,7 +349,6 @@
     "Identify": "Identificar",
     "Images": "Imágenes",
     "ImportFavoriteChannelsHelp": "Sólo los canales guardados como favoritos en el sintonizador se importarán.",
-    "ImportMissingEpisodesHelp": "La información sobre los episodios que faltan se importará en su base de datos y se mostrará en temporadas y series. Esto puede causar exploraciones de bibliotecas significativamente más largas.",
     "InstallingPackage": "Instalando {0} (versión {1})",
     "InstantMix": "Mix instantáneo",
     "ItemCount": "Elementos {0}",
@@ -1411,5 +1410,15 @@
     "LabelTonemappingPeak": "Pico del mapeo de Tono:",
     "LabelTonemappingDesat": "Mapeo de tonos desaturado:",
     "UseDoubleRateDeinterlacingHelp": "Esta configuración utiliza la velocidad de campo al desentrelazar, a menudo denominado desentrelazado bob, que duplica los fotogramas del video para proporcionar un movimiento contínuo, como lo vería al ver un video entrelazado en un televisor.",
-    "PosterCard": "Tarjeta de presentación"
+    "PosterCard": "Tarjeta de presentación",
+    "EnableAutoCast": "Marcar como predeterminado",
+    "LabelTonemappingDesatHelp": "Aplicar desaturación a realces que excedan este nivel de brillo. Mientras más alto el parámetro, se preservará más información de color. Este ajuste ayuda a prevenir la aparición de colores innecesariamente apagados en realces altos, cambiándolos gradualmente a blanco. Esto hace que las imágenes se vean más naturales, a cambio de reducir información relativa a los colores que estén fuera del rango. Se recomiendan los valores predeterminados 0 y 0.5.",
+    "AllowTonemappingHelp": "El mapeo de tonos puede transformar el rango dinámico de un video HDR a SDR mientras se mantienen los detalles y colores en la imagen, por lo tanto es importante para representar la escena original. Actualmente solo funciona cuando se transcodifican videos con metadatos HDR10 o HLG incrustados. Si la reproducción no es fluida o falla, considere desactivar el decodificador por hardware correspondiente.",
+    "LabelOpenclDeviceHelp": "Este es el dispositivo OpenCL que se usará para el mapeo de tonos. La parte izquierda del punto es el número de plataforma, la derecha es el número de dispositivo en la plataforma. El valor predeterminado es 0.0. Se requiere especificar el archivo ejecutable ffmpeg con el método de aceleración por Hardware para OpenCL.",
+    "LabelMaxMuxingQueueSizeHelp": "El número máximo de paquetes que se pueden almacenar en buffer mientras se espera a que se inicialicen todos los flujos. Intente aumentar este valor si aún encuentra el mensaje de error \"Demasiados paquetes en buffer para transmitir\" en las bitácoras de ffmpeg. El valor recomendado es 2048.",
+    "LabelTonemappingPeakHelp": "Se omitirán los picos de referencia con este valor. Util cuando la información de pico incrustada en los metadatos de imagen no es confiable o cuando se hace un mapeo de tonos de un rango bajo a uno más alto. Se recomienda el valor predeterminado 0.",
+    "LabelTonemappingThresholdHelp": "Los parámetros del algoritmo de mapeo de tonos se ajustan en cada escena. Se usa un umbral para detectar si la escena ha cambiado o no. Si el brillo promedio se sale del umbral entre el fotograma actual y el próximo, se volveran a calcular los valores de brillo promedio y de pico. Se recomiendan los valores predeterminados 0.8 y 0.2.",
+    "OptionMaxActiveSessionsHelp": "Un valor de 0 desactivará esta característica.",
+    "OptionMaxActiveSessions": "Fija el número máximo de sesiones que puede tener cada usuario.",
+    "LabelUserMaxActiveSessions": "Número máximo de sesiones simultaneas por usuario:"
 }

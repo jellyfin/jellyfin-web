@@ -871,7 +871,6 @@
     "LabelEnableDlnaClientDiscoveryIntervalHelp": "Determines the duration in seconds between SSDP searches.",
     "LabelEnableAutomaticPortMapHelp": "Automatically forward public ports on your router to local ports on your server via UPnP. This may not work with some router models or network configurations. Changes will not apply until after a server restart.",
     "InstallingPackage": "Installing {0} (version {1})",
-    "ImportMissingEpisodesHelp": "Information about missing episodes will be imported into your database and displayed within seasons and series. This may cause significantly longer library scans.",
     "HeaderSubtitleAppearance": "Subtitle Appearance",
     "LabelProtocol": "Protocol:",
     "LabelProfileVideoCodecs": "Video codecs:",
@@ -1236,7 +1235,7 @@
     "SelectAdminUsername": "Please select a username for the admin account.",
     "ButtonSplit": "Split",
     "HeaderNavigation": "Navigation",
-    "OptionForceRemoteSourceTranscoding": "Force transcoding of remote media sources (like LiveTV)",
+    "OptionForceRemoteSourceTranscoding": "Force transcoding of remote media sources such as Live TV",
     "MessageConfirmAppExit": "Do you want to exit?",
     "LabelVideoResolution": "Video resolution:",
     "LabelStreamType": "Stream type:",
@@ -1381,9 +1380,9 @@
     "LabelTonemappingDesat": "Tonemapping desat:",
     "TonemappingRangeHelp": "Select the output colour range. Auto is the same as the input range.",
     "LabelTonemappingRange": "Tonemapping range:",
-    "TonemappingAlgorithmHelp": "Tone mapping can be fine-tuned. If you are not familiar with these options, just keep the default.<br>The recommended value is Reinhard.",
+    "TonemappingAlgorithmHelp": "Tone mapping can be fine-tuned. If you are not familiar with these options, just keep the default. The recommended value is Reinhard.",
     "LabelTonemappingAlgorithm": "Select the Tone mapping algorithm to use:",
-    "AllowTonemappingHelp": "Tone mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colours, which are very important information for representing the original scene. Currently works only when using NVENC HEVC decoder and transcoding HDR10 or HLG videos.",
+    "AllowTonemappingHelp": "Tone mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colors, which are very important information for representing the original scene. Currently works only when transcoding videos with embedded HDR10 or HLG metadata. If the playback is not smooth or fails, please consider turning off the corresponding hardware decoder.",
     "EnableTonemapping": "Enable Tone mapping",
     "LabelOpenclDeviceHelp": "This is the OpenCL device that is used for tonemapping. The left side of the dot is the platform number, and the right side is the device number on the platform. The default value is 0.0. The ffmpeg application file containing the OpenCL hardware acceleration method is required.",
     "LabelOpenclDevice": "OpenCL Device:",
@@ -1417,5 +1416,6 @@
     "EnableQuickConnect": "Enable quick connect on this server",
     "ButtonUseQuickConnect": "Use Quick Connect",
     "ButtonActivate": "Activate",
-    "Authorize": "Authorise"
+    "Authorize": "Authorise",
+    "EnableAutoCast": "Set as Default"
 }

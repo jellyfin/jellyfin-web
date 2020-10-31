@@ -830,7 +830,7 @@
     "LabelBitrate": "Velocidad de bits:",
     "LabelBirthYear": "Año de nacimiento:",
     "LabelBirthDate": "Fecha de nacimiento:",
-    "LabelBindToLocalNetworkAddressHelp": "Sobrescribe la dirección IP local del servidor HTTP. Si se deja vacío, el servidor se vinculará a todas las direcciones disponibles. Cambiar este valor requiere un reinicio.",
+    "LabelBindToLocalNetworkAddressHelp": "Sobrescribe la dirección IP local del servidor HTTP. Si se deja vacío, el servidor recibirá conexiones desde todas las direcciones disponibles. Cambiar este valor requiere un reinicio.",
     "LabelBindToLocalNetworkAddress": "Vincular a la dirección de red local:",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Actualizar automáticamente los metadatos desde Internet:",
     "LabelAuthProvider": "Proveedor de autenticación:",
@@ -868,7 +868,6 @@
     "ItemCount": "{0} elementos",
     "InstantMix": "Mix instantáneo",
     "InstallingPackage": "Instalando {0} (versión {1})",
-    "ImportMissingEpisodesHelp": "La información sobre los episodios faltantes se importará a la base de datos y se mostrarán dentro de las temporadas y series. Esto puede causar escaneos de biblioteca significativamente más largos.",
     "ImportFavoriteChannelsHelp": "Solo los canales marcados como favoritos en el dispositivo sintonizador serán importados.",
     "Images": "Imágenes",
     "Identify": "Identificar",
@@ -1417,5 +1416,9 @@
     "MusicVideos": "Videos Musicales",
     "LabelQuickConnectCode": "Código conexión rápida:",
     "LabelKnownProxies": "Proxies conocidos:",
-    "LabelIconMaxResHelp": "Resolución maxima de los iconos por medio de la función upnp:icon."
+    "LabelIconMaxResHelp": "Resolución maxima de los iconos por medio de la función upnp:icon.",
+    "EnableAutoCast": "Establecer como Predeterminado",
+    "OptionMaxActiveSessionsHelp": "fijar esto en 0 desactivará esta característica.",
+    "OptionMaxActiveSessions": "Determina el número máximo de sesiones que puede tener cada usuario de forma simultnea.",
+    "LabelUserMaxActiveSessions": "Límite de sesiones simultaneas:"
 }

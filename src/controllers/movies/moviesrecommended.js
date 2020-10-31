@@ -320,11 +320,6 @@ import 'emby-button';
 
                     if (index === suggestionsTabIndex) {
                         controller = this;
-                    } else if (index === 6) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: 'movies',
-                            parentId: params.topParentId
-                        });
                     } else if (index == 0 || index == 3) {
                         controller = new controllerFactory(view, params, tabContent, {
                             mode: index ? 'favorites' : 'movies'
@@ -395,7 +390,7 @@ import 'emby-button';
         view.addEventListener('viewshow', function (e) {
             initTabs();
             if (!view.getAttribute('data-title')) {
-                var parentId = params.topParentId;
+                const parentId = params.topParentId;
 
                 if (parentId) {
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {

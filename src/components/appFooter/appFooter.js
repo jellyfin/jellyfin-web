@@ -27,7 +27,7 @@ class appFooter {
         };
     }
     destroy() {
-        var self = this;
+        const self = this;
 
         self.element = null;
     }

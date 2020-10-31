@@ -90,15 +90,14 @@ _define('material-icons', function() {
     return materialIcons;
 });
 
-// noto font
-const noto = require('jellyfin-noto');
-_define('jellyfin-noto', function () {
-    return noto;
-});
-
 const epubjs = require('epubjs');
 _define('epubjs', function () {
     return epubjs;
+});
+
+const pdfjs = require('pdfjs-dist/build/pdf');
+_define('pdfjs', function () {
+    return pdfjs;
 });
 
 // page.js
@@ -177,7 +176,7 @@ _define('appStorage', function () {
 });
 
 // libarchive.js
-var libarchive = require('libarchive.js');
+const libarchive = require('libarchive.js');
 _define('libarchive', function () {
     return libarchive;
 });

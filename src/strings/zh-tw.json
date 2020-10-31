@@ -559,7 +559,6 @@
     "Identify": "識別",
     "Images": "圖片",
     "ImportFavoriteChannelsHelp": "若啟用，僅於調諧器設備中被標記為我的最愛的頻道才會被導入。",
-    "ImportMissingEpisodesHelp": "缺失劇集的資料將導入您的媒體庫，並在季度與系列中顯示。 可能導致媒體庫掃描延長。",
     "InstallingPackage": "正在安裝 {0}（版本 {1}）",
     "InstantMix": "即時混音",
     "Items": "項目",
@@ -1398,5 +1397,6 @@
     "PlaybackRate": "播放速度",
     "LabelQuickConnectCode": "Quick Connect 代號：",
     "LabelKnownProxies": "已知 Proxy：",
-    "LabelCurrentStatus": "目前狀態："
+    "LabelCurrentStatus": "目前狀態：",
+    "EnableAutoCast": "設為預設"
 }

@@ -2,6 +2,7 @@
  * and will be replaced soon by a Vue component.
  */
 
+/* eslint-disable no-var */
 import browser from 'browser';
 import dom from 'dom';
 import 'css!./navdrawer';
@@ -14,26 +15,26 @@ export default function (options) {
 
     function onMenuTouchStart(e) {
         options.target.classList.remove('transition');
-        var touches = getTouches(e);
-        var touch = touches[0] || {};
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
         menuTouchStartX = touch.clientX;
         menuTouchStartY = touch.clientY;
         menuTouchStartTime = new Date().getTime();
     }
 
     function setVelocity(deltaX) {
-        var time = new Date().getTime() - (menuTouchStartTime || 0);
+        const time = new Date().getTime() - (menuTouchStartTime || 0);
         velocity = Math.abs(deltaX) / time;
     }
 
     function onMenuTouchMove(e) {
-        var isOpen = self.visible;
-        var touches = getTouches(e);
-        var touch = touches[0] || {};
-        var endX = touch.clientX || 0;
-        var endY = touch.clientY || 0;
-        var deltaX = endX - (menuTouchStartX || 0);
-        var deltaY = endY - (menuTouchStartY || 0);
+        const isOpen = self.visible;
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
+        const endX = touch.clientX || 0;
+        const endY = touch.clientY || 0;
+        const deltaX = endX - (menuTouchStartX || 0);
+        const deltaY = endY - (menuTouchStartY || 0);
         setVelocity(deltaX);
 
         if (isOpen && dragMode !== 1 && deltaX > 0) {
@@ -58,12 +59,12 @@ export default function (options) {
         options.target.classList.add('transition');
         scrollContainer.removeEventListener('scroll', disableEvent);
         dragMode = 0;
-        var touches = getTouches(e);
-        var touch = touches[0] || {};
-        var endX = touch.clientX || 0;
-        var endY = touch.clientY || 0;
-        var deltaX = endX - (menuTouchStartX || 0);
-        var deltaY = endY - (menuTouchStartY || 0);
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
+        const endX = touch.clientX || 0;
+        const endY = touch.clientY || 0;
+        const deltaX = endX - (menuTouchStartX || 0);
+        const deltaY = endY - (menuTouchStartY || 0);
         currentPos = deltaX;
         self.checkMenuState(deltaX, deltaY);
     }
@@ -105,20 +106,20 @@ export default function (options) {
     }
 
     function onBackgroundTouchStart(e) {
-        var touches = getTouches(e);
-        var touch = touches[0] || {};
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
         backgroundTouchStartX = touch.clientX;
         backgroundTouchStartTime = new Date().getTime();
     }
 
     function onBackgroundTouchMove(e) {
-        var touches = getTouches(e);
-        var touch = touches[0] || {};
-        var endX = touch.clientX || 0;
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
+        const endX = touch.clientX || 0;
 
         if (endX <= options.width && self.isVisible) {
             countStart++;
-            var deltaX = endX - (backgroundTouchStartX || 0);
+            const deltaX = endX - (backgroundTouchStartX || 0);
 
             if (countStart == 1) {
                 startPoint = deltaX;
@@ -127,7 +128,7 @@ export default function (options) {
                 dragMode = 1;
                 newPos = deltaX - startPoint + options.width;
                 self.changeMenuPos();
-                var time = new Date().getTime() - (backgroundTouchStartTime || 0);
+                const time = new Date().getTime() - (backgroundTouchStartTime || 0);
                 velocity = Math.abs(deltaX) / time;
             }
         }
@@ -137,25 +138,25 @@ export default function (options) {
     }
 
     function onBackgroundTouchEnd(e) {
-        var touches = getTouches(e);
-        var touch = touches[0] || {};
-        var endX = touch.clientX || 0;
-        var deltaX = endX - (backgroundTouchStartX || 0);
+        const touches = getTouches(e);
+        const touch = touches[0] || {};
+        const endX = touch.clientX || 0;
+        const deltaX = endX - (backgroundTouchStartX || 0);
         self.checkMenuState(deltaX);
         countStart = 0;
     }
 
     function onMaskTransitionEnd() {
-        var classList = mask.classList;
+        const classList = mask.classList;
 
         if (!classList.contains('backdrop')) {
             classList.add('hide');
         }
     }
 
-    var self;
-    var defaults;
-    var mask;
+    let self;
+    let defaults;
+    let mask;
     var newPos = 0;
     var currentPos = 0;
     var startPoint = 0;
@@ -166,7 +167,7 @@ export default function (options) {
     var scrollContainer = options.target.querySelector('.mainDrawer-scrollContainer');
     scrollContainer.classList.add('scrollY');
 
-    var TouchMenuLA = function () {
+    const TouchMenuLA = function () {
         self = this;
         defaults = {
             width: 260,
@@ -193,9 +194,9 @@ export default function (options) {
         }
     };
 
-    var menuTouchStartX;
-    var menuTouchStartY;
-    var menuTouchStartTime;
+    let menuTouchStartX;
+    let menuTouchStartY;
+    let menuTouchStartTime;
     var edgeContainer = document.querySelector('.mainDrawerHandle');
     var isPeeking = false;
 
@@ -261,8 +262,8 @@ export default function (options) {
         }
     };
 
-    var backgroundTouchStartX;
-    var backgroundTouchStartTime;
+    let backgroundTouchStartX;
+    let backgroundTouchStartTime;
 
     TouchMenuLA.prototype.showMask = function () {
         mask.classList.remove('hide');
@@ -280,7 +281,7 @@ export default function (options) {
         }
     };
 
-    var _edgeSwipeEnabled;
+    let _edgeSwipeEnabled;
 
     TouchMenuLA.prototype.setEdgeSwipeEnabled = function (enabled) {
         if (!options.disableEdgeSwipe) {
@@ -355,3 +356,4 @@ export default function (options) {
 
     return new TouchMenuLA();
 }
+/* eslint-enable no-var */
