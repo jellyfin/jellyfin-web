@@ -1342,6 +1342,7 @@ function tryRemoveElement(elem) {
                         }
                     });
                 } else {
+                    // we need to hide scrollbar when starting playback from page with animated background
                     if (options.fullscreen) {
                         hidePrePlaybackPage();
                     }
