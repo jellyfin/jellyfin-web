@@ -1422,5 +1422,8 @@
     "OptionMaxActiveSessions": "Đặt số lượng phiên người dùng đồng thời tối đa.",
     "LabelUserMaxActiveSessions": "Số lượng phiên người dùng cùng lúc tối đa:",
     "OptionAllowContentDownloadHelp": "Người dùng có thể tải xuống phương tiện và lưu trữ trên thiết bị của họ. Điều này không giống như một tính năng đồng bộ hóa. Thư viện sách yêu cầu kích hoạt này để hoạt động bình thường.",
-    "OptionAllowContentDownload": "Cho phép tải xuống phương tiện"
+    "OptionAllowContentDownload": "Cho phép tải xuống phương tiện",
+    "HeaderDeleteDevices": "Xóa Tất Cả Thiết Bị",
+    "DeleteDevicesConfirmation": "Bạn có chắc muốn xóa hết các thiết bị không? Tất cả các phiên khác sẽ được đăng xuất. Thiết bị sẽ xuất hiện lại vào lần tiếp theo khi người dùng đăng nhập.",
+    "DeleteAll": "Xóa Hết"
 }
