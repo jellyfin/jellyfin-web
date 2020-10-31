@@ -650,7 +650,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
         let gmap = item.ProductionLocations[0];
-        if (!layoutManager.tv) {
+        if (!layoutManager.tv && appHost.supports('externallinks')) {
             gmap = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=${gmap}">${gmap}</a>`;
         }
         itemBirthLocation.classList.remove('hide');
@@ -1069,7 +1069,7 @@ function renderDetails(page, item, apiClient, context, isStatic) {
     reloadUserDataButtons(page, item);
 
     // Don't allow redirection to other websites from the TV layout
-    if (!layoutManager.tv) {
+    if (!layoutManager.tv && appHost.supports('externallinks')) {
         renderLinks(page, item);
     }
 
