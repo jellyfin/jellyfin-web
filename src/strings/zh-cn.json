@@ -1422,5 +1422,8 @@
     "OptionMaxActiveSessions": "设置用户同时进行会话的最大数量。",
     "LabelUserMaxActiveSessions": "用户同时进行会话的最大数量：",
     "OptionAllowContentDownloadHelp": "用户可以下载媒体并将其存储在他们的设备上。 这与同步功能不同。 图书库要求启用此功能才能正常运行。",
-    "OptionAllowContentDownload": "允许媒体下载"
+    "OptionAllowContentDownload": "允许媒体下载",
+    "HeaderDeleteDevices": "删除所有设备",
+    "DeleteDevicesConfirmation": "您确定要删除所有设备吗？所有其他会话将被注销。用户下次登录时，设备会重新出现。",
+    "DeleteAll": "删除全部"
 }
