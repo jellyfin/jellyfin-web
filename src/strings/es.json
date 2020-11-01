@@ -1237,7 +1237,7 @@
     "EnableFasterAnimations": "Animaciones más rápidas",
     "AllowFfmpegThrottlingHelp": "Las conversiones se pausarán cuando se adelanten lo suficiente desde la posición en la que se encuentre el reproductor. Puede reducir la carga en el servidor y es útil cuando se reproduce de forma continua, sin saltar entre intervalos de tiempo, pero puede que tengas que desactivarlo si experimentas problemas en la reproducción o cambias de posición frecuentemente mientras reproduces contenido.",
     "PlaybackErrorNoCompatibleStream": "Este contenido no es compatible con este dispositivo y no se puede reproducir: No se puede obtener del servidor en un formato compatible.",
-    "OptionForceRemoteSourceTranscoding": "Forzar la conversión para fuentes externas (como la televisión en directo)",
+    "OptionForceRemoteSourceTranscoding": "Forzar la conversión para fuentes externas como la televisión en directo",
     "NoCreatedLibraries": "Parece que aún no se han creado librearías. {0}¿Quiere crear una ahora?{1}",
     "LabelVideoResolution": "Resolución de video:",
     "LabelStreamType": "Tipo de stream:",
@@ -1420,5 +1420,10 @@
     "LabelTonemappingThresholdHelp": "Los parámetros del algoritmo de mapeo de tonos se ajustan en cada escena. Se usa un umbral para detectar si la escena ha cambiado o no. Si el brillo promedio se sale del umbral entre el fotograma actual y el próximo, se volveran a calcular los valores de brillo promedio y de pico. Se recomiendan los valores predeterminados 0.8 y 0.2.",
     "OptionMaxActiveSessionsHelp": "Un valor de 0 desactivará esta característica.",
     "OptionMaxActiveSessions": "Fija el número máximo de sesiones que puede tener cada usuario.",
-    "LabelUserMaxActiveSessions": "Número máximo de sesiones simultaneas por usuario:"
+    "LabelUserMaxActiveSessions": "Número máximo de sesiones simultaneas por usuario:",
+    "OptionAllowContentDownloadHelp": "Los usuarios pueden descargar los medios y guardarlos en sus dispositivos. Esto no es una función de sincronización. Las bibliotecas de libros requieren que esto esté activado para funcionar correctamente.",
+    "OptionAllowContentDownload": "Permitir descargas de medios",
+    "HeaderDeleteDevices": "Borrar todos los dispositivos",
+    "DeleteDevicesConfirmation": "¿Estás seguro de que quieres borrar todos los dispositivos? Todas las otras sesiones se cerrarán. Los dispositivos reaparecerán la proxima vez que un usuario inicie sesión.",
+    "DeleteAll": "Borrar todo"
 }
