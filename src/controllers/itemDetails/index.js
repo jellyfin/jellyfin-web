@@ -1727,7 +1727,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
     html += '</div>';
     const collectionItems = page.querySelector('.collectionItems');
     collectionItems.insertAdjacentHTML('beforeend', html);
-    imageLoader.lazyChildren(collectionItems);
+    imageLoader.lazyChildren(collectionItems.lastChild);
 }
 
 function renderMusicVideos(page, item, user) {
