@@ -1,15 +1,19 @@
-define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], function (loading, libraryMenu, globalize) {
-    'use strict';
+import loading from 'loading';
+import globalize from 'globalize';
+import 'emby-checkbox';
+import 'emby-select';
+
+/* eslint-disable indent */
 
     function onSubmit(e) {
-        var form = this;
-        var localAddress = form.querySelector('#txtLocalAddress').value;
-        var enableUpnp = form.querySelector('#chkEnableUpnp').checked;
+        const form = this;
+        const localAddress = form.querySelector('#txtLocalAddress').value;
+        const enableUpnp = form.querySelector('#chkEnableUpnp').checked;
         confirmSelections(localAddress, enableUpnp, function () {
-            var validationResult = getValidationAlert(form);
+            const validationResult = getValidationAlert(form);
 
             if (validationResult) {
-                alertText(validationResult);
+                showAlertText(validationResult);
                 return;
             }
 
@@ -26,38 +30,18 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
                     }).filter(function (s) {
                         return s.length > 0;
                     });
-                    config.IsRemoteIPFilterBlacklist = 'blacklist' === form.querySelector('#selectExternalAddressFilterMode').value;
+                    config.KnownProxies = form.querySelector('#txtKnownProxies').value.split(',').map(function (s) {
+                        return s.trim();
+                    }).filter(function (s) {
+                        return s.length > 0;
+                    });
+                    config.IsRemoteIPFilterBlacklist = form.querySelector('#selectExternalAddressFilterMode').value === 'blacklist';
                     config.PublicPort = form.querySelector('#txtPublicPort').value;
                     config.PublicHttpsPort = form.querySelector('#txtPublicHttpsPort').value;
-                    var httpsMode = form.querySelector('#selectHttpsMode').value;
-
-                    switch (httpsMode) {
-                        case 'proxy':
-                            config.EnableHttps = true;
-                            config.RequireHttps = false;
-                            config.IsBehindProxy = true;
-                            break;
-
-                        case 'required':
-                            config.EnableHttps = true;
-                            config.RequireHttps = true;
-                            config.IsBehindProxy = false;
-                            break;
-
-                        case 'enabled':
-                            config.EnableHttps = true;
-                            config.RequireHttps = false;
-                            config.IsBehindProxy = false;
-                            break;
-
-                        default:
-                            config.EnableHttps = false;
-                            config.RequireHttps = false;
-                            config.IsBehindProxy = false;
-                    }
-
-                    config.HttpsPortNumber = form.querySelector('#txtHttpsPort').value;
                     config.HttpServerPortNumber = form.querySelector('#txtPortNumber').value;
+                    config.HttpsPortNumber = form.querySelector('#txtHttpsPort').value;
+                    config.EnableHttps = form.querySelector('#chkEnableHttps').checked;
+                    config.RequireHttps = form.querySelector('#chkRequireHttps').checked;
                     config.EnableUPnP = enableUpnp;
                     config.BaseUrl = form.querySelector('#txtBaseUrl').value;
                     config.EnableRemoteAccess = form.querySelector('#chkRemoteAccess').checked;
@@ -72,7 +56,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
     }
 
     function triggerChange(select) {
-        var evt = document.createEvent('HTMLEvents');
+        const evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
     }
@@ -90,25 +74,22 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
     }
 
     function validateHttps(form) {
-        var remoteAccess = form.querySelector('#chkRemoteAccess').checked;
-        var certPath = form.querySelector('#txtCertificatePath').value || null;
-        var httpsMode = form.querySelector('#selectHttpsMode').value;
+        const certPath = form.querySelector('#txtCertificatePath').value || null;
+        const httpsEnabled = form.querySelector('#chkEnableHttps').checked;
 
-        if (!remoteAccess || ('enabled' !== httpsMode && 'required' !== httpsMode || certPath)) {
-            return Promise.resolve();
-        }
-
-        return new Promise(function (resolve, reject) {
-            return alertText({
+        if (httpsEnabled && !certPath) {
+            return showAlertText({
                 title: globalize.translate('TitleHostingSettings'),
                 text: globalize.translate('HttpsRequiresCert')
-            }).then(reject, reject);
-        });
+            }).then(Promise.reject);
+        }
+
+        return Promise.resolve();
     }
 
-    function alertText(options) {
+    function showAlertText(options) {
         return new Promise(function (resolve, reject) {
-            require(['alert'], function (alert) {
+            import('alert').then(({default: alert}) => {
                 alert(options).then(resolve, reject);
             });
         });
@@ -116,7 +97,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
 
     function confirmSelections(localAddress, enableUpnp, callback) {
         if (localAddress || !enableUpnp) {
-            alertText({
+            showAlertText({
                 title: globalize.translate('TitleHostingSettings'),
                 text: globalize.translate('SettingsWarning')
             }).then(callback);
@@ -125,31 +106,22 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
         }
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function loadPage(page, config) {
             page.querySelector('#txtPortNumber').value = config.HttpServerPortNumber;
             page.querySelector('#txtPublicPort').value = config.PublicPort;
             page.querySelector('#txtPublicHttpsPort').value = config.PublicHttpsPort;
             page.querySelector('#txtLocalAddress').value = config.LocalNetworkAddresses[0] || '';
             page.querySelector('#txtLanNetworks').value = (config.LocalNetworkSubnets || []).join(', ');
+            page.querySelector('#txtKnownProxies').value = (config.KnownProxies || []).join(', ');
             page.querySelector('#txtExternalAddressFilter').value = (config.RemoteIPFilter || []).join(', ');
             page.querySelector('#selectExternalAddressFilterMode').value = config.IsRemoteIPFilterBlacklist ? 'blacklist' : 'whitelist';
-            page.querySelector('#chkRemoteAccess').checked = null == config.EnableRemoteAccess || config.EnableRemoteAccess;
-            var selectHttpsMode = page.querySelector('#selectHttpsMode');
-
-            if (config.IsBehindProxy) {
-                selectHttpsMode.value = 'proxy';
-            } else if (config.RequireHttps) {
-                selectHttpsMode.value = 'required';
-            } else if (config.EnableHttps) {
-                selectHttpsMode.value = 'enabled';
-            } else {
-                selectHttpsMode.value = 'disabled';
-            }
-
+            page.querySelector('#chkRemoteAccess').checked = config.EnableRemoteAccess == null || config.EnableRemoteAccess;
             page.querySelector('#txtHttpsPort').value = config.HttpsPortNumber;
+            page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
+            page.querySelector('#chkRequireHttps').checked = config.RequireHttps;
             page.querySelector('#txtBaseUrl').value = config.BaseUrl || '';
-            var txtCertificatePath = page.querySelector('#txtCertificatePath');
+            const txtCertificatePath = page.querySelector('#txtCertificatePath');
             txtCertificatePath.value = config.CertificatePath || '';
             page.querySelector('#txtCertPassword').value = config.CertificatePassword || '';
             page.querySelector('#chkEnableUpnp').checked = config.EnableUPnP;
@@ -163,24 +135,18 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
                 view.querySelector('.fldExternalAddressFilterMode').classList.remove('hide');
                 view.querySelector('.fldPublicPort').classList.remove('hide');
                 view.querySelector('.fldPublicHttpsPort').classList.remove('hide');
-                view.querySelector('.fldCertificatePath').classList.remove('hide');
-                view.querySelector('.fldCertPassword').classList.remove('hide');
-                view.querySelector('.fldHttpsMode').classList.remove('hide');
                 view.querySelector('.fldEnableUpnp').classList.remove('hide');
             } else {
                 view.querySelector('.fldExternalAddressFilter').classList.add('hide');
                 view.querySelector('.fldExternalAddressFilterMode').classList.add('hide');
                 view.querySelector('.fldPublicPort').classList.add('hide');
                 view.querySelector('.fldPublicHttpsPort').classList.add('hide');
-                view.querySelector('.fldCertificatePath').classList.add('hide');
-                view.querySelector('.fldCertPassword').classList.add('hide');
-                view.querySelector('.fldHttpsMode').classList.add('hide');
                 view.querySelector('.fldEnableUpnp').classList.add('hide');
             }
         });
         view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
-            require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+            import('directorybrowser').then(({default: directoryBrowser}) => {
+                const picker = new directoryBrowser();
                 picker.show({
                     includeFiles: true,
                     includeDirectories: true,
@@ -202,5 +168,6 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
                 loadPage(view, config);
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

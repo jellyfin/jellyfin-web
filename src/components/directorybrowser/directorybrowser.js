@@ -1,9 +1,19 @@
-define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-input', 'paper-icon-button-light', 'css!./directorybrowser', 'formDialogStyle', 'emby-button'], function(loading, dialogHelper, dom, globalize) {
-    'use strict';
+import loading from 'loading';
+import dialogHelper from 'dialogHelper';
+import dom from 'dom';
+import globalize from 'globalize';
+import 'listViewStyle';
+import 'emby-input';
+import 'paper-icon-button-light';
+import 'css!./directorybrowser';
+import 'formDialogStyle';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function getSystemInfo() {
         return systemInfo ? Promise.resolve(systemInfo) : ApiClient.getPublicSystemInfo().then(
-            function(info) {
+            info => {
                 systemInfo = info;
                 return info;
             }
@@ -21,9 +31,9 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
 
         loading.show();
 
-        var promises = [];
+        const promises = [];
 
-        if ('Network' === path) {
+        if (path === 'Network') {
             promises.push(ApiClient.getNetworkDevices());
         } else {
             if (path) {
@@ -35,10 +45,10 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
         }
 
         Promise.all(promises).then(
-            function(responses) {
-                var folders = responses[0];
-                var parentPath = responses[1] || '';
-                var html = '';
+            responses => {
+                const folders = responses[0];
+                const parentPath = responses[1] || '';
+                let html = '';
 
                 page.querySelector('.results').scrollTop = 0;
                 page.querySelector('#txtDirectoryPickerPath').value = path || '';
@@ -46,9 +56,9 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
                 if (path) {
                     html += getItem('lnkPath lnkDirectory', '', parentPath, '...');
                 }
-                for (var i = 0, length = folders.length; i < length; i++) {
-                    var folder = folders[i];
-                    var cssClass = 'File' === folder.Type ? 'lnkPath lnkFile' : 'lnkPath lnkDirectory';
+                for (let i = 0, length = folders.length; i < length; i++) {
+                    const folder = folders[i];
+                    const cssClass = folder.Type === 'File' ? 'lnkPath lnkFile' : 'lnkPath lnkDirectory';
                     html += getItem(cssClass, folder.Type, folder.Path, folder.Name);
                 }
 
@@ -58,7 +68,7 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
 
                 page.querySelector('.results').innerHTML = html;
                 loading.hide();
-            }, function() {
+            }, () => {
                 if (updatePathOnError) {
                     page.querySelector('#txtDirectoryPickerPath').value = '';
                     page.querySelector('.results').innerHTML = '';
@@ -69,8 +79,8 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
     }
 
     function getItem(cssClass, type, path, name) {
-        var html = '';
-        html += '<div class="listItem listItem-border ' + cssClass + '" data-type="' + type + '" data-path="' + path + '">';
+        let html = '';
+        html += `<div class="listItem listItem-border ${cssClass}" data-type="${type}" data-path="${path}">`;
         html += '<div class="listItemBody" style="padding-left:0;padding-top:.5em;padding-bottom:.5em;">';
         html += '<div class="listItemBodyText">';
         html += name;
@@ -82,20 +92,19 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
     }
 
     function getEditorHtml(options, systemInfo) {
-        var html = '';
+        let html = '';
         html += '<div class="formDialogContent scrollY">';
         html += '<div class="dialogContentInner dialog-content-centered" style="padding-top:2em;">';
         if (!options.pathReadOnly) {
-            var instruction = options.instruction ? options.instruction + '<br/><br/>' : '';
+            const instruction = options.instruction ? `${options.instruction}<br/><br/>` : '';
             html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
             html += instruction;
-            html += globalize.translate('MessageDirectoryPickerInstruction', '<b>\\\\server</b>', '<b>\\\\192.168.1.101</b>');
-            if ('bsd' === systemInfo.OperatingSystem.toLowerCase()) {
+            if (systemInfo.OperatingSystem.toLowerCase() === 'bsd') {
                 html += '<br/>';
                 html += '<br/>';
                 html += globalize.translate('MessageDirectoryPickerBSDInstruction');
                 html += '<br/>';
-            } else if ('linux' === systemInfo.OperatingSystem.toLowerCase()) {
+            } else if (systemInfo.OperatingSystem.toLowerCase() === 'linux') {
                 html += '<br/>';
                 html += '<br/>';
                 html += globalize.translate('MessageDirectoryPickerLinuxInstruction');
@@ -106,17 +115,17 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
         html += '<form style="margin:auto;">';
         html += '<div class="inputContainer" style="display: flex; align-items: center;">';
         html += '<div style="flex-grow:1;">';
-        var labelKey;
+        let labelKey;
         if (options.includeFiles !== true) {
             labelKey = 'LabelFolder';
         } else {
             labelKey = 'LabelPath';
         }
-        var readOnlyAttribute = options.pathReadOnly ? ' readonly' : '';
-        html += '<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ' + readOnlyAttribute + ' label="' + globalize.translate(labelKey) + '"/>';
+        const readOnlyAttribute = options.pathReadOnly ? ' readonly' : '';
+        html += `<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ${readOnlyAttribute} label="${globalize.translate(labelKey)}"/>`;
         html += '</div>';
         if (!readOnlyAttribute) {
-            html += '<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="' + globalize.translate('ButtonRefresh') + '"><span class="material-icons search"></span></button>';
+            html += `<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="${globalize.translate('Refresh')}"><span class="material-icons search"></span></button>`;
         }
         html += '</div>';
         if (!readOnlyAttribute) {
@@ -124,14 +133,14 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
         }
         if (options.enableNetworkSharePath) {
             html += '<div class="inputContainer" style="margin-top:2em;">';
-            html += '<input is="emby-input" id="txtNetworkPath" type="text" label="' + globalize.translate('LabelOptionalNetworkPath') + '"/>';
+            html += `<input is="emby-input" id="txtNetworkPath" type="text" label="${globalize.translate('LabelOptionalNetworkPath')}"/>`;
             html += '<div class="fieldDescription">';
-            html += globalize.translate('LabelOptionalNetworkPathHelp');
+            html += globalize.translate('LabelOptionalNetworkPathHelp', '<b>\\\\server</b>', '<b>\\\\192.168.1.101</b>');
             html += '</div>';
             html += '</div>';
         }
         html += '<div class="formDialogFooter">';
-        html += '<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">' + globalize.translate('ButtonOk') + '</button>';
+        html += `<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">${globalize.translate('ButtonOk')}</button>`;
         html += '</div>';
         html += '</form>';
         html += '</div>';
@@ -148,7 +157,7 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
     }
 
     function alertTextWithOptions(options) {
-        require(['alert'], function(alert) {
+        import('alert').then(({default: alert}) => {
             alert(options);
         });
     }
@@ -157,11 +166,12 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
         return apiClient.ajax({
             type: 'POST',
             url: apiClient.getUrl('Environment/ValidatePath'),
-            data: {
+            data: JSON.stringify({
                 ValidateWriteable: validateWriteable,
                 Path: path
-            }
-        }).catch(function(response) {
+            }),
+            contentType: 'application/json'
+        }).catch(response => {
             if (response) {
                 if (response.status === 404) {
                     alertText(globalize.translate('PathNotFound'));
@@ -181,10 +191,10 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
     }
 
     function initEditor(content, options, fileOptions) {
-        content.addEventListener('click', function(e) {
-            var lnkPath = dom.parentWithClass(e.target, 'lnkPath');
+        content.addEventListener('click', e => {
+            const lnkPath = dom.parentWithClass(e.target, 'lnkPath');
             if (lnkPath) {
-                var path = lnkPath.getAttribute('data-path');
+                const path = lnkPath.getAttribute('data-path');
                 if (lnkPath.classList.contains('lnkFile')) {
                     content.querySelector('#txtDirectoryPickerPath').value = path;
                 } else {
@@ -193,25 +203,25 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
             }
         });
 
-        content.addEventListener('click', function(e) {
+        content.addEventListener('click', e => {
             if (dom.parentWithClass(e.target, 'btnRefreshDirectories')) {
-                var path = content.querySelector('#txtDirectoryPickerPath').value;
+                const path = content.querySelector('#txtDirectoryPickerPath').value;
                 refreshDirectoryBrowser(content, path, fileOptions);
             }
         });
 
-        content.addEventListener('change', function(e) {
-            var txtDirectoryPickerPath = dom.parentWithTag(e.target, 'INPUT');
-            if (txtDirectoryPickerPath && 'txtDirectoryPickerPath' === txtDirectoryPickerPath.id) {
+        content.addEventListener('change', e => {
+            const txtDirectoryPickerPath = dom.parentWithTag(e.target, 'INPUT');
+            if (txtDirectoryPickerPath && txtDirectoryPickerPath.id === 'txtDirectoryPickerPath') {
                 refreshDirectoryBrowser(content, txtDirectoryPickerPath.value, fileOptions);
             }
         });
 
         content.querySelector('form').addEventListener('submit', function(e) {
             if (options.callback) {
-                var networkSharePath = this.querySelector('#txtNetworkPath');
+                let networkSharePath = this.querySelector('#txtNetworkPath');
                 networkSharePath = networkSharePath ? networkSharePath.value : null;
-                var path = this.querySelector('#txtDirectoryPickerPath').value;
+                const path = this.querySelector('#txtDirectoryPickerPath').value;
                 validatePath(path, options.validateWriteable, ApiClient).then(options.callback(path, networkSharePath));
             }
             e.preventDefault();
@@ -225,77 +235,79 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
             return Promise.resolve(options.path);
         } else {
             return ApiClient.getJSON(ApiClient.getUrl('Environment/DefaultDirectoryBrowser')).then(
-                function(result) {
+                result => {
                     return result.Path || '';
-                }, function() {
+                }, () => {
                     return '';
                 }
             );
         }
     }
 
-    function directoryBrowser() {
-        var currentDialog;
-        var self = this;
-        self.show = function(options) {
-            options = options || {};
-            var fileOptions = {
-                includeDirectories: true
-            };
-            if (options.includeDirectories != null) {
-                fileOptions.includeDirectories = options.includeDirectories;
-            }
-            if (options.includeFiles != null) {
-                fileOptions.includeFiles = options.includeFiles;
-            }
-            Promise.all([getSystemInfo(), getDefaultPath(options)]).then(
-                function(responses) {
-                    var systemInfo = responses[0];
-                    var initialPath = responses[1];
-                    var dlg = dialogHelper.createDialog({
-                        size: 'medium-tall',
-                        removeOnClose: true,
-                        scrollY: false
-                    });
-                    dlg.classList.add('ui-body-a');
-                    dlg.classList.add('background-theme-a');
-                    dlg.classList.add('directoryPicker');
-                    dlg.classList.add('formDialog');
-
-                    var html = '';
-                    html += '<div class="formDialogHeader">';
-                    html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
-                    html += '<h3 class="formDialogHeaderTitle">';
-                    html += options.header || globalize.translate('HeaderSelectPath');
-                    html += '</h3>';
-                    html += '</div>';
-                    html += getEditorHtml(options, systemInfo);
-                    dlg.innerHTML = html;
-                    initEditor(dlg, options, fileOptions);
-                    dlg.addEventListener('close', onDialogClosed);
-                    dialogHelper.open(dlg);
-                    dlg.querySelector('.btnCloseDialog').addEventListener('click', function() {
-                        dialogHelper.close(dlg);
-                    });
-                    currentDialog = dlg;
-                    dlg.querySelector('#txtDirectoryPickerPath').value = initialPath;
-                    var txtNetworkPath = dlg.querySelector('#txtNetworkPath');
-                    if (txtNetworkPath) {
-                        txtNetworkPath.value = options.networkSharePath || '';
-                    }
-                    if (!options.pathReadOnly) {
-                        refreshDirectoryBrowser(dlg, initialPath, fileOptions, true);
-                    }
+    class directoryBrowser {
+        constructor() {
+            let currentDialog;
+            this.show = options => {
+                options = options || {};
+                const fileOptions = {
+                    includeDirectories: true
+                };
+                if (options.includeDirectories != null) {
+                    fileOptions.includeDirectories = options.includeDirectories;
                 }
-            );
-        };
-        self.close = function() {
-            if (currentDialog) {
-                dialogHelper.close(currentDialog);
-            }
-        };
+                if (options.includeFiles != null) {
+                    fileOptions.includeFiles = options.includeFiles;
+                }
+                Promise.all([getSystemInfo(), getDefaultPath(options)]).then(
+                    responses => {
+                        const systemInfo = responses[0];
+                        const initialPath = responses[1];
+                        const dlg = dialogHelper.createDialog({
+                            size: 'small',
+                            removeOnClose: true,
+                            scrollY: false
+                        });
+                        dlg.classList.add('ui-body-a');
+                        dlg.classList.add('background-theme-a');
+                        dlg.classList.add('directoryPicker');
+                        dlg.classList.add('formDialog');
+
+                        let html = '';
+                        html += '<div class="formDialogHeader">';
+                        html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+                        html += '<h3 class="formDialogHeaderTitle">';
+                        html += options.header || globalize.translate('HeaderSelectPath');
+                        html += '</h3>';
+                        html += '</div>';
+                        html += getEditorHtml(options, systemInfo);
+                        dlg.innerHTML = html;
+                        initEditor(dlg, options, fileOptions);
+                        dlg.addEventListener('close', onDialogClosed);
+                        dialogHelper.open(dlg);
+                        dlg.querySelector('.btnCloseDialog').addEventListener('click', () => {
+                            dialogHelper.close(dlg);
+                        });
+                        currentDialog = dlg;
+                        dlg.querySelector('#txtDirectoryPickerPath').value = initialPath;
+                        const txtNetworkPath = dlg.querySelector('#txtNetworkPath');
+                        if (txtNetworkPath) {
+                            txtNetworkPath.value = options.networkSharePath || '';
+                        }
+                        if (!options.pathReadOnly) {
+                            refreshDirectoryBrowser(dlg, initialPath, fileOptions, true);
+                        }
+                    }
+                );
+            };
+            this.close = () => {
+                if (currentDialog) {
+                    dialogHelper.close(currentDialog);
+                }
+            };
+        }
     }
 
-    var systemInfo;
-    return directoryBrowser;
-});
+    let systemInfo;
+
+/* eslint-enable indent */
+export default directoryBrowser;

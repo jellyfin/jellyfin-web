@@ -1,13 +1,42 @@
-.cardImageContainer.lazy {
+.lazy-image-fadein {
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.lazy-image-fadein-fast {
+    opacity: 1;
+    transition: opacity 0.1s;
+}
+
+.lazy-hidden {
     opacity: 0;
 }
 
-.cardImageContainer.lazy.lazy-image-fadein {
-    opacity: 1;
-    transition: opacity 0.7s;
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-.cardImageContainer.lazy.lazy-image-fadein-fast {
-    opacity: 1;
-    transition: opacity 0.2s;
+.lazy-blurhash-fadein-fast {
+    animation: fadein 0.1s;
+}
+
+.lazy-blurhash-fadein {
+    animation: fadein 0.4s;
+}
+
+.blurhash-canvas {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }

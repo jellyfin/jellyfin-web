@@ -6,31 +6,43 @@
     -ms-user-select: none;
 }
 
-.osdPoster img,
-.pageContainer,
 .videoOsdBottom {
     bottom: 0;
     left: 0;
     right: 0;
+    position: fixed;
+    background: linear-gradient(0deg, rgba(16, 16, 16, 0.75) 0%, rgba(16, 16, 16, 0) 100%);
+    padding-top: 7.5em;
+    padding-bottom: 1.75em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    will-change: opacity;
+    transition: opacity 0.3s ease-out;
+    color: #fff;
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
-.osdHeader {
-    -webkit-transition: opacity 0.3s ease-out;
-    -o-transition: opacity 0.3s ease-out;
+.skinHeader-withBackground.osdHeader {
     transition: opacity 0.3s ease-out;
     position: relative;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.7) !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    color: #eee !important;
+    background: linear-gradient(180deg, rgba(16, 16, 16, 0.75) 0%, rgba(16, 16, 16, 0) 100%);
+    backdrop-filter: none;
+    color: #eee;
+    height: 7.5em;
 }
 
 .osdHeader-hidden {
     opacity: 0;
 }
 
-.osdHeader .headerButton:not(.headerBackButton):not(.headerCastButton) {
+.osdHeader .headerTop {
+    max-height: 3.5em;
+}
+
+.osdHeader .headerButton:not(.headerBackButton):not(.headerCastButton):not(.headerSyncButton) {
     display: none;
 }
 
@@ -87,34 +99,17 @@
     opacity: 0.6;
 }
 
-.videoOsdBottom {
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 1%;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    flex-direction: row;
-    will-change: opacity;
-    -webkit-transition: opacity 0.3s ease-out;
-    -o-transition: opacity 0.3s ease-out;
-    transition: opacity 0.3s ease-out;
-    color: #fff;
-    user-select: none;
-    -webkit-touch-callout: none;
-}
-
 .videoOsdBottom-hidden {
     opacity: 0;
 }
 
 .osdControls {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
+    padding: 0 0.8em;
+}
+
+.layout-desktop .osdControls {
+    max-width: calc(100vh * 1.77 - 2vh);
 }
 
 .videoOsdBottom .buttons {
@@ -146,7 +141,7 @@
 }
 
 .volumeButtons {
-    margin: 0 0.5em 0 auto;
+    margin: 0 1em 0 0.29em;
     display: flex;
     -webkit-align-items: center;
     align-items: center;
@@ -154,31 +149,11 @@
 
 .osdTimeText {
     margin-left: 1em;
+    margin-right: auto;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-.osdPoster {
-    width: 10%;
-    position: relative;
-    margin-right: 0.5em;
-}
-
-.osdPoster img {
-    position: absolute;
-    height: auto;
-    width: 100%;
-    -webkit-box-shadow: 0 0 1.9vh #000;
-    box-shadow: 0 0 1.9vh #000;
-    border: 0.08em solid #222;
-    user-drag: none;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-drag: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
 }
 
 .osdTitle,
@@ -248,14 +223,7 @@
     animation: spin 4s linear infinite;
 }
 
-.pageContainer {
-    top: 0;
-    position: fixed;
-}
-
 @media all and (max-width: 30em) {
-    .btnFastForward,
-    .btnRewind,
     .osdMediaInfo,
     .osdPoster {
         display: none !important;

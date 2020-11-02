@@ -1,0 +1,16 @@
+<div id="userProfilesPage" data-role="page" class="page type-interior userProfilesPage fullWidthContent">
+    <div>
+        <div class="content-primary">
+            <div class="verticalSection verticalSection-extrabottompadding">
+                <div class="sectionTitleContainer sectionTitleContainer-cards">
+                    <h2 class="sectionTitle sectionTitle-cards">${HeaderUsers}</h2>
+                    <button is="emby-button" type="button" class="fab btnAddUser submit sectionTitleButton" style="margin-left:1em;" title="${ButtonAddUser}">
+                        <span class="material-icons add"></span>
+                    </button>
+                    <a is="emby-linkbutton" rel="noopener noreferrer" style="margin-left:2em!important;" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/users/adding-managing-users.html">${Help}</a>
+                </div>
+                <div class="localUsers itemsContainer vertical-wrap"></div>
+            </div>
+        </div>
+    </div>
+</div>

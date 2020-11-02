@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    var connectionManager;
+    let connectionManager;
 
     function getApiClient(serverId) {
         if (connectionManager) {
@@ -15,8 +15,7 @@
         return getApiClient(serverId).then(function (apiClient) {
             switch (action) {
                 case 'cancel-install':
-                    var id = data.id;
-                    return apiClient.cancelPackageInstallation(id);
+                    return apiClient.cancelPackageInstallation(data.id);
                 case 'restart':
                     return apiClient.restartServer();
                 default:
@@ -26,13 +25,14 @@
         });
     }
 
+    /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
     self.addEventListener('notificationclick', function (event) {
-        var notification = event.notification;
+        const notification = event.notification;
         notification.close();
 
-        var data = notification.data;
-        var serverId = data.serverId;
-        var action = event.action;
+        const data = notification.data;
+        const serverId = data.serverId;
+        const action = event.action;
 
         if (!action) {
             clients.openWindow('/');

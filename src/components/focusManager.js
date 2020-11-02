@@ -1,21 +1,21 @@
-define(['dom', 'scrollManager'], function (dom, scrollManager) {
-    'use strict';
+/* eslint-disable indent */
 
-    var scopes = [];
+import dom from 'dom';
+import scrollManager from 'scrollManager';
+
+    const scopes = [];
     function pushScope(elem) {
         scopes.push(elem);
     }
 
     function popScope(elem) {
-
         if (scopes.length) {
             scopes.length -= 1;
         }
     }
 
     function autoFocus(view, defaultToFirst, findAutoFocusElement) {
-
-        var element;
+        let element;
         if (findAutoFocusElement !== false) {
             element = view.querySelector('*[autofocus]');
             if (element) {
@@ -37,7 +37,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function focus(element) {
-
         try {
             element.focus({
                 preventScroll: scrollManager.isEnabled()
@@ -47,19 +46,16 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         }
     }
 
-    var focusableTagNames = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
-    var focusableContainerTagNames = ['BODY', 'DIALOG'];
-    var focusableQuery = focusableTagNames.map(function (t) {
-
+    const focusableTagNames = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
+    const focusableContainerTagNames = ['BODY', 'DIALOG'];
+    const focusableQuery = focusableTagNames.map(function (t) {
         if (t === 'INPUT') {
             t += ':not([type="range"]):not([type="file"])';
         }
         return t + ':not([tabindex="-1"]):not(:disabled)';
-
     }).join(',') + ',.focusable';
 
     function isFocusable(elem) {
-
         if (focusableTagNames.indexOf(elem.tagName) !== -1) {
             return true;
         }
@@ -73,7 +69,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
     function normalizeFocusable(elem, originalElement) {
         if (elem) {
-            var tagName = elem.tagName;
+            const tagName = elem.tagName;
             if (!tagName || tagName === 'HTML' || tagName === 'BODY') {
                 elem = originalElement;
             }
@@ -83,11 +79,10 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function focusableParent(elem) {
-
-        var originalElement = elem;
+        const originalElement = elem;
 
         while (!isFocusable(elem)) {
-            var parent = elem.parentNode;
+            const parent = elem.parentNode;
 
             if (!parent) {
                 return normalizeFocusable(elem, originalElement);
@@ -101,7 +96,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
     // Determines if a focusable element can be focused at a given point in time
     function isCurrentlyFocusableInternal(elem) {
-
         // http://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
         if (elem.offsetParent === null) {
             return false;
@@ -112,7 +106,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
     // Determines if a focusable element can be focused at a given point in time
     function isCurrentlyFocusable(elem) {
-
         if (elem.disabled) {
             return false;
         }
@@ -122,7 +115,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         }
 
         if (elem.tagName === 'INPUT') {
-            var type = elem.type;
+            const type = elem.type;
             if (type === 'range') {
                 return false;
             }
@@ -139,12 +132,11 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function getFocusableElements(parent, limit, excludeClass) {
-        var elems = (parent || getDefaultScope()).querySelectorAll(focusableQuery);
-        var focusableElements = [];
+        const elems = (parent || getDefaultScope()).querySelectorAll(focusableQuery);
+        const focusableElements = [];
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-
-            var elem = elems[i];
+        for (let i = 0, length = elems.length; i < length; i++) {
+            const elem = elems[i];
 
             if (excludeClass && elem.classList.contains(excludeClass)) {
                 continue;
@@ -163,12 +155,11 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function isFocusContainer(elem, direction) {
-
         if (focusableContainerTagNames.indexOf(elem.tagName) !== -1) {
             return true;
         }
 
-        var classList = elem.classList;
+        const classList = elem.classList;
 
         if (classList.contains('focuscontainer')) {
             return true;
@@ -217,8 +208,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function getOffset(elem) {
-
-        var box;
+        let box;
 
         // Support: BlackBerry 5, iOS 3 (original iPhone)
         // If we don't have gBCR, just use 0,0 rather than error
@@ -234,9 +224,8 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         }
 
         if (box.right === null) {
-
             // Create a new object because some browsers will throw an error when trying to set data onto the Rect object
-            var newBox = {
+            const newBox = {
                 top: box.top,
                 left: box.left,
                 width: box.width,
@@ -253,7 +242,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function nav(activeElement, direction, container, focusableElements) {
-
         activeElement = activeElement || document.activeElement;
 
         if (activeElement) {
@@ -267,31 +255,27 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
             return;
         }
 
-        var focusableContainer = dom.parentWithClass(activeElement, 'focusable');
+        const focusableContainer = dom.parentWithClass(activeElement, 'focusable');
 
-        var rect = getOffset(activeElement);
+        const rect = getOffset(activeElement);
 
         // Get elements and work out x/y points
-        var cache = [];
-        var point1x = parseFloat(rect.left) || 0;
-        var point1y = parseFloat(rect.top) || 0;
-        var point2x = parseFloat(point1x + rect.width - 1) || point1x;
-        var point2y = parseFloat(point1y + rect.height - 1) || point1y;
-        // Shortcuts to help with compression
-        var min = Math.min;
-        var max = Math.max;
+        const point1x = parseFloat(rect.left) || 0;
+        const point1y = parseFloat(rect.top) || 0;
+        const point2x = parseFloat(point1x + rect.width - 1) || point1x;
+        const point2y = parseFloat(point1y + rect.height - 1) || point1y;
 
-        var sourceMidX = rect.left + (rect.width / 2);
-        var sourceMidY = rect.top + (rect.height / 2);
+        const sourceMidX = rect.left + (rect.width / 2);
+        const sourceMidY = rect.top + (rect.height / 2);
 
-        var focusable = focusableElements || container.querySelectorAll(focusableQuery);
+        const focusable = focusableElements || container.querySelectorAll(focusableQuery);
 
-        var maxDistance = Infinity;
-        var minDistance = maxDistance;
-        var nearestElement;
+        const maxDistance = Infinity;
+        let minDistance = maxDistance;
+        let nearestElement;
 
-        for (var i = 0, length = focusable.length; i < length; i++) {
-            var curr = focusable[i];
+        for (let i = 0, length = focusable.length; i < length; i++) {
+            const curr = focusable[i];
 
             if (curr === activeElement) {
                 continue;
@@ -301,11 +285,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
                 continue;
             }
 
-            //if (!isCurrentlyFocusableInternal(curr)) {
-            //    continue;
-            //}
-
-            var elementRect = getOffset(curr);
+            const elementRect = getOffset(curr);
 
             // not currently visible
             if (!elementRect.width && !elementRect.height) {
@@ -313,7 +293,6 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
             }
 
             switch (direction) {
-
                 case 0:
                     // left
                     if (elementRect.left >= rect.left) {
@@ -354,22 +333,21 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
                     break;
             }
 
-            var x = elementRect.left;
-            var y = elementRect.top;
-            var x2 = x + elementRect.width - 1;
-            var y2 = y + elementRect.height - 1;
+            const x = elementRect.left;
+            const y = elementRect.top;
+            const x2 = x + elementRect.width - 1;
+            const y2 = y + elementRect.height - 1;
 
-            var intersectX = intersects(point1x, point2x, x, x2);
-            var intersectY = intersects(point1y, point2y, y, y2);
+            const intersectX = intersects(point1x, point2x, x, x2);
+            const intersectY = intersects(point1y, point2y, y, y2);
 
-            var midX = elementRect.left + (elementRect.width / 2);
-            var midY = elementRect.top + (elementRect.height / 2);
+            const midX = elementRect.left + (elementRect.width / 2);
+            const midY = elementRect.top + (elementRect.height / 2);
 
-            var distX;
-            var distY;
+            let distX;
+            let distY;
 
             switch (direction) {
-
                 case 0:
                     // left
                     distX = Math.abs(point1x - Math.min(point1x, x2));
@@ -394,7 +372,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
                     break;
             }
 
-            var dist = Math.sqrt(distX * distX + distY * distY);
+            const dist = Math.sqrt(distX * distX + distY * distY);
 
             if (dist < minDistance) {
                 nearestElement = curr;
@@ -403,10 +381,9 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
         }
 
         if (nearestElement) {
-
             // See if there's a focusable container, and if so, send the focus command to that
             if (activeElement) {
-                var nearestElementFocusableParent = dom.parentWithClass(nearestElement, 'focusable');
+                const nearestElementFocusableParent = dom.parentWithClass(nearestElement, 'focusable');
                 if (nearestElementFocusableParent && nearestElementFocusableParent !== nearestElement) {
                     if (focusableContainer !== nearestElementFocusableParent) {
                         nearestElement = nearestElementFocusableParent;
@@ -418,28 +395,24 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function intersectsInternal(a1, a2, b1, b2) {
-
         return (b1 >= a1 && b1 <= a2) || (b2 >= a1 && b2 <= a2);
     }
 
     function intersects(a1, a2, b1, b2) {
-
         return intersectsInternal(a1, a2, b1, b2) || intersectsInternal(b1, b2, a1, a2);
     }
 
     function sendText(text) {
-        var elem = document.activeElement;
+        const elem = document.activeElement;
 
         elem.value = text;
     }
 
     function focusFirst(container, focusableSelector) {
+        const elems = container.querySelectorAll(focusableSelector);
 
-        var elems = container.querySelectorAll(focusableSelector);
-
-        for (var i = 0, length = elems.length; i < length; i++) {
-
-            var elem = elems[i];
+        for (let i = 0, length = elems.length; i < length; i++) {
+            const elem = elems[i];
 
             if (isCurrentlyFocusableInternal(elem)) {
                 focus(elem);
@@ -449,12 +422,10 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function focusLast(container, focusableSelector) {
+        const elems = [].slice.call(container.querySelectorAll(focusableSelector), 0).reverse();
 
-        var elems = [].slice.call(container.querySelectorAll(focusableSelector), 0).reverse();
-
-        for (var i = 0, length = elems.length; i < length; i++) {
-
-            var elem = elems[i];
+        for (let i = 0, length = elems.length; i < length; i++) {
+            const elem = elems[i];
 
             if (isCurrentlyFocusableInternal(elem)) {
                 focus(elem);
@@ -464,15 +435,13 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
     }
 
     function moveFocus(sourceElement, container, focusableSelector, offset) {
-
-        var elems = container.querySelectorAll(focusableSelector);
-        var list = [];
-        var i;
-        var length;
-        var elem;
+        const elems = container.querySelectorAll(focusableSelector);
+        const list = [];
+        let i;
+        let length;
+        let elem;
 
         for (i = 0, length = elems.length; i < length; i++) {
-
             elem = elems[i];
 
             if (isCurrentlyFocusableInternal(elem)) {
@@ -480,10 +449,9 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
             }
         }
 
-        var currentIndex = -1;
+        let currentIndex = -1;
 
         for (i = 0, length = list.length; i < length; i++) {
-
             elem = list[i];
 
             if (sourceElement === elem || elem.contains(sourceElement)) {
@@ -496,47 +464,48 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
             return;
         }
 
-        var newIndex = currentIndex + offset;
+        let newIndex = currentIndex + offset;
         newIndex = Math.max(0, newIndex);
         newIndex = Math.min(newIndex, list.length - 1);
 
-        var newElem = list[newIndex];
+        const newElem = list[newIndex];
         if (newElem) {
             focus(newElem);
         }
     }
 
-    return {
-        autoFocus: autoFocus,
-        focus: focus,
-        focusableParent: focusableParent,
-        getFocusableElements: getFocusableElements,
-        moveLeft: function (sourceElement, options) {
-            var container = options ? options.container : null;
-            var focusableElements = options ? options.focusableElements : null;
-            nav(sourceElement, 0, container, focusableElements);
-        },
-        moveRight: function (sourceElement, options) {
-            var container = options ? options.container : null;
-            var focusableElements = options ? options.focusableElements : null;
-            nav(sourceElement, 1, container, focusableElements);
-        },
-        moveUp: function (sourceElement, options) {
-            var container = options ? options.container : null;
-            var focusableElements = options ? options.focusableElements : null;
-            nav(sourceElement, 2, container, focusableElements);
-        },
-        moveDown: function (sourceElement, options) {
-            var container = options ? options.container : null;
-            var focusableElements = options ? options.focusableElements : null;
-            nav(sourceElement, 3, container, focusableElements);
-        },
-        sendText: sendText,
-        isCurrentlyFocusable: isCurrentlyFocusable,
-        pushScope: pushScope,
-        popScope: popScope,
-        focusFirst: focusFirst,
-        focusLast: focusLast,
-        moveFocus: moveFocus
-    };
-});
+/* eslint-enable indent */
+
+export default {
+    autoFocus: autoFocus,
+    focus: focus,
+    focusableParent: focusableParent,
+    getFocusableElements: getFocusableElements,
+    moveLeft: function (sourceElement, options) {
+        const container = options ? options.container : null;
+        const focusableElements = options ? options.focusableElements : null;
+        nav(sourceElement, 0, container, focusableElements);
+    },
+    moveRight: function (sourceElement, options) {
+        const container = options ? options.container : null;
+        const focusableElements = options ? options.focusableElements : null;
+        nav(sourceElement, 1, container, focusableElements);
+    },
+    moveUp: function (sourceElement, options) {
+        const container = options ? options.container : null;
+        const focusableElements = options ? options.focusableElements : null;
+        nav(sourceElement, 2, container, focusableElements);
+    },
+    moveDown: function (sourceElement, options) {
+        const container = options ? options.container : null;
+        const focusableElements = options ? options.focusableElements : null;
+        nav(sourceElement, 3, container, focusableElements);
+    },
+    sendText: sendText,
+    isCurrentlyFocusable: isCurrentlyFocusable,
+    pushScope: pushScope,
+    popScope: popScope,
+    focusFirst: focusFirst,
+    focusLast: focusLast,
+    moveFocus: moveFocus
+};

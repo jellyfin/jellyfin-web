@@ -28,7 +28,7 @@ import events from 'events';
     }
 
     export function enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
-        var key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
+        const key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
         if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
                 val = true;
@@ -45,7 +45,7 @@ import events from 'events';
     }
 
     export function maxStreamingBitrate(isInNetwork, mediaType, val) {
-        var key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
+        const key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
         if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
                 //  nothing to do, this is always a max value
@@ -67,7 +67,7 @@ import events from 'events';
             this.set('maxStaticMusicBitrate', val);
         }
 
-        var defaultValue = 320000;
+        const defaultValue = 320000;
         return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
     }
 
@@ -80,45 +80,8 @@ import events from 'events';
         return val ? parseInt(val) : null;
     }
 
-    export function syncOnlyOnWifi(val) {
-        if (val !== undefined) {
-            this.set('syncOnlyOnWifi', val.toString());
-        }
-
-        return this.get('syncOnlyOnWifi') !== 'false';
-    }
-
-    export function syncPath(val) {
-        if (val !== undefined) {
-            this.set('syncPath', val);
-        }
-
-        return this.get('syncPath');
-    }
-
-    export function cameraUploadServers(val) {
-        if (val !== undefined) {
-            this.set('cameraUploadServers', val.join(','));
-        }
-
-        val = this.get('cameraUploadServers');
-        if (val) {
-            return val.split(',');
-        }
-
-        return [];
-    }
-
-    export function runAtStartup(val) {
-        if (val !== undefined) {
-            this.set('runatstartup', val.toString());
-        }
-
-        return this.get('runatstartup') === 'true';
-    }
-
     export function set(name, value, userId) {
-        var currentValue = this.get(name, userId);
+        const currentValue = this.get(name, userId);
         appStorage.setItem(getKey(name, userId), value);
 
         if (currentValue !== value) {
@@ -139,10 +102,6 @@ export default {
     maxStreamingBitrate: maxStreamingBitrate,
     maxStaticMusicBitrate: maxStaticMusicBitrate,
     maxChromecastBitrate: maxChromecastBitrate,
-    syncOnlyOnWifi: syncOnlyOnWifi,
-    syncPath: syncPath,
-    cameraUploadServers: cameraUploadServers,
-    runAtStartup: runAtStartup,
     set: set,
     get: get
 };

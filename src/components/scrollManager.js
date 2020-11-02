@@ -92,7 +92,7 @@ import layoutManager from 'layoutManager';
      * @return {number} Eased value in range [0, 1].
      */
     function ease(t) {
-        return t*(2 - t); // easeOutQuad === ease-out
+        return t * (2 - t); // easeOutQuad === ease-out
     }
 
     /**
@@ -251,7 +251,7 @@ import layoutManager from 'layoutManager';
      * @return {ScrollerData} Scroller data.
      */
     function getScrollerData(scroller, vertical) {
-        let data = {};
+        const data = {};
 
         if (!vertical) {
             data.scrollPos = scroller.scrollLeft;
@@ -376,7 +376,6 @@ import layoutManager from 'layoutManager';
      * @param {number} scrollY - Vertical coordinate.
      */
     function animateScroll(xScroller, scrollX, yScroller, scrollY) {
-
         const ox = xScroller.scrollLeft;
         const oy = yScroller.scrollTop;
         const dx = scrollX - ox;
@@ -389,7 +388,6 @@ import layoutManager from 'layoutManager';
         let start;
 
         function scrollAnim(currentTimestamp) {
-
             start = start || currentTimestamp;
 
             let k = Math.min(1, (currentTimestamp - start) / ScrollTime);
@@ -402,8 +400,8 @@ import layoutManager from 'layoutManager';
 
             k = ease(k);
 
-            const x = ox + dx*k;
-            const y = oy + dy*k;
+            const x = ox + dx * k;
+            const y = oy + dy * k;
 
             builtinScroll(xScroller, x, yScroller, y, false);
 
@@ -423,7 +421,6 @@ import layoutManager from 'layoutManager';
      * @param {boolean} smooth - Smooth scrolling.
      */
     function doScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
-
         resetScrollTimer();
 
         if (smooth && useAnimatedScroll()) {
@@ -437,7 +434,6 @@ import layoutManager from 'layoutManager';
      * Returns true if smooth scroll must be used.
      */
     function useSmoothScroll() {
-
         if (browser.tizen) {
             return true;
         }
@@ -469,7 +465,6 @@ import layoutManager from 'layoutManager';
      * @param {boolean} [smooth=false] - Smooth scrolling.
      */
     export function scrollTo(scrollX, scrollY, smooth) {
-
         smooth = !!smooth;
 
         // Scroller is document itself by default
@@ -491,7 +486,6 @@ import layoutManager from 'layoutManager';
      * @param {boolean} [smooth=false] - Smooth scrolling.
      */
     export function scrollToElement(element, smooth) {
-
         smooth = !!smooth;
 
         let scrollCenterX = true;

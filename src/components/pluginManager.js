@@ -1,149 +1,151 @@
-define(['events'], function (events) {
-    'use strict';
+import events from 'events';
+import globalize from 'globalize';
+/* eslint-disable indent */
 
     // TODO: replace with each plugin version
-    var cacheParam = new Date().getTime();
+    const cacheParam = new Date().getTime();
 
-    function loadStrings(plugin, globalize) {
-        var strings = plugin.getTranslations ? plugin.getTranslations() : [];
-        return globalize.loadStrings({
-            name: plugin.id || plugin.packageName,
-            strings: strings
-        });
-    }
+    class PluginManager {
+        pluginsList = [];
 
-    function definePluginRoute(pluginManager, route, plugin) {
+        get plugins() {
+            return this.pluginsList;
+        }
 
-        route.contentPath = pluginManager.mapPath(plugin, route.path);
-        route.path = pluginManager.mapRoute(plugin, route);
-
-        Emby.App.defineRoute(route, plugin.id);
-    }
-
-    function PluginManager() {
-
-        this.pluginsList = [];
-    }
-
-    PluginManager.prototype.loadPlugin = function (url) {
-
-        console.debug('Loading plugin: ' + url);
-        var instance = this;
-
-        return new Promise(function (resolve, reject) {
-
-            require([url, 'globalize', 'appRouter'], function (pluginFactory, globalize, appRouter) {
-
-                var plugin = new pluginFactory();
-
-                // See if it's already installed
-                var existing = instance.pluginsList.filter(function (p) {
-                    return p.id === plugin.id;
-                })[0];
-
-                if (existing) {
-                    resolve(url);
-                    return;
-                }
-
-                plugin.installUrl = url;
-
-                var urlLower = url.toLowerCase();
-                if (urlLower.indexOf('http:') === -1 && urlLower.indexOf('https:') === -1 && urlLower.indexOf('file:') === -1) {
-                    if (url.indexOf(appRouter.baseUrl()) !== 0) {
-
-                        url = appRouter.baseUrl() + '/' + url;
-                    }
-                }
-
-                var separatorIndex = Math.max(url.lastIndexOf('/'), url.lastIndexOf('\\'));
-                plugin.baseUrl = url.substring(0, separatorIndex);
-
-                var paths = {};
-                paths[plugin.id] = plugin.baseUrl;
-
-                requirejs.config({
-                    waitSeconds: 0,
-                    paths: paths
-                });
-
-                instance.register(plugin);
-
-                if (plugin.getRoutes) {
-                    plugin.getRoutes().forEach(function (route) {
-                        definePluginRoute(instance, route, plugin);
-                    });
-                }
-
-                if (plugin.type === 'skin') {
-
-                    // translations won't be loaded for skins until needed
-                    resolve(plugin);
-                } else {
-
-                    loadStrings(plugin, globalize).then(function () {
-                        resolve(plugin);
-                    }, reject);
-                }
+        #loadStrings(plugin) {
+            const strings = plugin.getTranslations ? plugin.getTranslations() : [];
+            return globalize.loadStrings({
+                name: plugin.id || plugin.packageName,
+                strings: strings
             });
-        });
-    };
-
-    // In lieu of automatic discovery, plugins will register dynamic objects
-    // Each object will have the following properties:
-    // name
-    // type (skin, screensaver, etc)
-    PluginManager.prototype.register = function (obj) {
-
-        this.pluginsList.push(obj);
-        events.trigger(this, 'registered', [obj]);
-    };
-
-    PluginManager.prototype.ofType = function (type) {
-
-        return this.pluginsList.filter(function (o) {
-            return o.type === type;
-        });
-    };
-
-    PluginManager.prototype.plugins = function () {
-        return this.pluginsList;
-    };
-
-    PluginManager.prototype.mapRoute = function (plugin, route) {
-
-        if (typeof plugin === 'string') {
-            plugin = this.pluginsList.filter(function (p) {
-                return (p.id || p.packageName) === plugin;
-            })[0];
         }
 
-        route = route.path || route;
+        #definePluginRoute(route, plugin) {
+            route.contentPath = this.mapPath(plugin, route.path);
+            route.path = this.#mapRoute(plugin, route);
 
-        if (route.toLowerCase().indexOf('http') === 0) {
-            return route;
+            Emby.App.defineRoute(route, plugin.id);
         }
 
-        return '/plugins/' + plugin.id + '/' + route;
-    };
+        #registerPlugin(plugin) {
+            this.#register(plugin);
 
-    PluginManager.prototype.mapPath = function (plugin, path, addCacheParam) {
+            if (plugin.getRoutes) {
+                plugin.getRoutes().forEach((route) => {
+                    this.#definePluginRoute(route, plugin);
+                });
+            }
 
-        if (typeof plugin === 'string') {
-            plugin = this.pluginsList.filter(function (p) {
-                return (p.id || p.packageName) === plugin;
-            })[0];
+            if (plugin.type === 'skin') {
+                // translations won't be loaded for skins until needed
+                return Promise.resolve(plugin);
+            } else {
+                return new Promise((resolve, reject) => {
+                    this.#loadStrings(plugin)
+                        .then(function () {
+                            resolve(plugin);
+                        })
+                        .catch(reject);
+                });
+            }
         }
 
-        var url = plugin.baseUrl + '/' + path;
+        loadPlugin(pluginSpec) {
+            if (typeof pluginSpec === 'string') {
+                console.debug('Loading plugin (via deprecated requirejs method): ' + pluginSpec);
 
-        if (addCacheParam) {
-            url += url.indexOf('?') === -1 ? '?' : '&';
-            url += 'v=' + cacheParam;
+                return new Promise((resolve, reject) => {
+                    require([pluginSpec], (pluginFactory) => {
+                        const plugin = pluginFactory.default ? new pluginFactory.default() : new pluginFactory();
+
+                        // See if it's already installed
+                        const existing = this.pluginsList.filter(function (p) {
+                            return p.id === plugin.id;
+                        })[0];
+
+                        if (existing) {
+                            resolve(pluginSpec);
+                        }
+
+                        plugin.installUrl = pluginSpec;
+
+                        const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
+                        plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
+
+                        const paths = {};
+                        paths[plugin.id] = plugin.baseUrl;
+
+                        requirejs.config({
+                            waitSeconds: 0,
+                            paths: paths
+                        });
+
+                        this.#registerPlugin(plugin).then(resolve).catch(reject);
+                    });
+                });
+            } else if (pluginSpec.then) {
+                return pluginSpec.then(pluginBuilder => {
+                    return pluginBuilder();
+                }).then((plugin) => {
+                    console.debug(`Plugin loaded: ${plugin.id}`);
+                    return this.#registerPlugin(plugin);
+                });
+            } else {
+                const err = new TypeError('Plugins have to be a Promise that resolves to a plugin builder function or a RequireJS url (deprecated)');
+                console.error(err);
+                return Promise.reject(err);
+            }
         }
 
-        return url;
-    };
+        // In lieu of automatic discovery, plugins will register dynamic objects
+        // Each object will have the following properties:
+        // name
+        // type (skin, screensaver, etc)
+        #register(obj) {
+            this.pluginsList.push(obj);
+            events.trigger(this, 'registered', [obj]);
+        }
 
-    return new PluginManager();
-});
+        ofType(type) {
+            return this.pluginsList.filter((o) => {
+                return o.type === type;
+            });
+        }
+
+        #mapRoute(plugin, route) {
+            if (typeof plugin === 'string') {
+                plugin = this.pluginsList.filter((p) => {
+                    return (p.id || p.packageName) === plugin;
+                })[0];
+            }
+
+            route = route.path || route;
+
+            if (route.toLowerCase().startsWith('http')) {
+                return route;
+            }
+
+            return '/plugins/' + plugin.id + '/' + route;
+        }
+
+        mapPath(plugin, path, addCacheParam) {
+            if (typeof plugin === 'string') {
+                plugin = this.pluginsList.filter((p) => {
+                    return (p.id || p.packageName) === plugin;
+                })[0];
+            }
+
+            let url = plugin.baseUrl + '/' + path;
+
+            if (addCacheParam) {
+                url += url.includes('?') ? '&' : '?';
+                url += 'v=' + cacheParam;
+            }
+
+            return url;
+        }
+    }
+
+/* eslint-enable indent */
+
+export default new PluginManager();
