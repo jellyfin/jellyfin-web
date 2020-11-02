@@ -27,6 +27,7 @@ function playThemeMedia(items, ownerId) {
         }).then(function () {
             currentOwnerId = ownerId;
         });
+        document.getElementsByClassName("nowPlayingBarTop")[0].style.display = "none";
     } else {
         stopIfPlaying();
     }
