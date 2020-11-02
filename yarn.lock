@@ -6412,10 +6412,6 @@ jellyfin-apiclient@^1.4.2:
   resolved "https://registry.yarnpkg.com/jellyfin-apiclient/-/jellyfin-apiclient-1.4.2.tgz#0a7ab7b371380cfb1bc9789204439b8dfdcdbafd"
   integrity sha512-xUvt1G0cDlam6hJgC5Jr6EE5botzdEMGxeer3Vm0+zhM7nb8iFnRmQRmTpVbXtYS8NLiHsiUmK1RLlelgtWDYg==
 
-"jellyfin-noto@https://github.com/jellyfin/jellyfin-noto":
-  version "1.0.3"
-  resolved "https://github.com/jellyfin/jellyfin-noto#b784602db063734c721a46563ae5d6577ec2b35d"
-
 jest-worker@^26.6.1:
   version "26.6.1"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-26.6.1.tgz#c2ae8cde6802cc14056043f997469ec170d9c32a"
@@ -11126,10 +11122,10 @@ svgo@^1.0.0, svgo@^1.3.2:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swiper@^6.3.4:
-  version "6.3.4"
-  resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.3.4.tgz#94bebb39437825d303afd19d9f28927fa943e5f2"
-  integrity sha512-6XWBJCAjOTQd3yVVZO9y47B007QPeiCcn/pm9OkueVLpYNWZBAXpoX0P8JaGch/bzcaH3oXteWCj5KC8R3AloA==
+swiper@^6.3.5:
+  version "6.3.5"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.3.5.tgz#7444b680d0fdafe84859825ac3559b5b01bd1916"
+  integrity sha512-MZkkVJ+sXukp6G3Z3BlKayhBjRIQuO1TZaTlH7ooI/0qbH0kkmItFMjFo19nOOsJaDXglA32xqyc9KCtmbJv0w==
   dependencies:
     dom7 "^3.0.0-alpha.7"
     ssr-window "^3.0.0-alpha.4"
