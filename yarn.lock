@@ -5349,10 +5349,10 @@ gulp-sourcemaps@^2.6.5:
     strip-bom-string "1.X"
     through2 "2.X"
 
-gulp-terser@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/gulp-terser/-/gulp-terser-1.4.0.tgz#0ac4dfdbed4ab46906007c5b358810c1642b9764"
-  integrity sha512-7df9leJna3WOmj76tYHxjpn7BSU+vmKVjVSd6bz3uLEyrzCfZI97KPhRcIabrSNzs0UY/UXTt+JwkxPw3sF85w==
+gulp-terser@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/gulp-terser/-/gulp-terser-1.4.1.tgz#06b30023889b149bdbbdd49fada31b233fe737df"
+  integrity sha512-VUoKrk24G0ojr7fXqlZ7vA8qDFHRloYAM6doNRyKdJ/LFkj+X3P04f+7LlOp7j05WtdOCEg65oG6nGjSf//78A==
   dependencies:
     is-promise "^4.0.0"
     plugin-error "^1.0.1"
@@ -6411,10 +6411,6 @@ jellyfin-apiclient@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/jellyfin-apiclient/-/jellyfin-apiclient-1.4.2.tgz#0a7ab7b371380cfb1bc9789204439b8dfdcdbafd"
   integrity sha512-xUvt1G0cDlam6hJgC5Jr6EE5botzdEMGxeer3Vm0+zhM7nb8iFnRmQRmTpVbXtYS8NLiHsiUmK1RLlelgtWDYg==
-
-"jellyfin-noto@https://github.com/jellyfin/jellyfin-noto":
-  version "1.0.3"
-  resolved "https://github.com/jellyfin/jellyfin-noto#b784602db063734c721a46563ae5d6577ec2b35d"
 
 jest-worker@^26.6.1:
   version "26.6.1"
@@ -11241,16 +11237,7 @@ terser-webpack-plugin@^5.0.0:
     source-map "^0.6.1"
     terser "^5.3.8"
 
-terser@>=4, terser@^4.1.2, terser@^4.6.3:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-4.8.0.tgz#63056343d7c70bb29f3af665865a46fe03a0df17"
-  integrity sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==
-  dependencies:
-    commander "^2.20.0"
-    source-map "~0.6.1"
-    source-map-support "~0.5.12"
-
-terser@^5.3.8:
+terser@>=4, terser@^5.3.8:
   version "5.3.8"
   resolved "https://registry.yarnpkg.com/terser/-/terser-5.3.8.tgz#991ae8ba21a3d990579b54aa9af11586197a75dd"
   integrity sha512-zVotuHoIfnYjtlurOouTazciEfL7V38QMAOhGqpXDEg6yT13cF4+fEP9b0rrCEQTn+tT46uxgFsTZzhygk+CzQ==
@@ -11258,6 +11245,15 @@ terser@^5.3.8:
     commander "^2.20.0"
     source-map "~0.7.2"
     source-map-support "~0.5.19"
+
+terser@^4.1.2, terser@^4.6.3:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-4.8.0.tgz#63056343d7c70bb29f3af665865a46fe03a0df17"
+  integrity sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==
+  dependencies:
+    commander "^2.20.0"
+    source-map "~0.6.1"
+    source-map-support "~0.5.12"
 
 text-table@^0.2.0:
   version "0.2.0"
