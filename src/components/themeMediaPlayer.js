@@ -26,8 +26,7 @@ function playThemeMedia(items, ownerId) {
             enableRemotePlayers: false
         }).then(function () {
             currentOwnerId = ownerId;
-        })
-       
+        });
     } else {
         stopIfPlaying();
     }
