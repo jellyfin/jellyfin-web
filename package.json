@@ -42,7 +42,7 @@
     "gulp-terser": "^1.4.1",
     "html-webpack-plugin": "^4.5.0",
     "lazypipe": "^1.0.2",
-    "node-sass": "^4.13.1",
+    "node-sass": "^5.0.0",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "style-loader": "^2.0.0",
