@@ -248,7 +248,7 @@ import 'emby-itemscontainer';
             tabContent.querySelector('.btnNewCollection').addEventListener('click', () => {
                 import('collectionEditor').then(({default: collectionEditor}) => {
                     const serverId = ApiClient.serverInfo().Id;
-                    new collectionEditor.showEditor({
+                    new collectionEditor({
                         items: [],
                         serverId: serverId
                     });
