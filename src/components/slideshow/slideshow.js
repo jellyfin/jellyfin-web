@@ -16,6 +16,7 @@ import ServerConnections from '../ServerConnections';
 // eslint-disable-next-line import/named, import/namespace
 import { Swiper } from 'swiper/swiper-bundle.esm';
 import 'swiper/swiper-bundle.css';
+import screenfull from 'screenfull';
 
 /**
  * Name of transition event.
@@ -177,6 +178,10 @@ export default function (options) {
                 if (appHost.supports('sharing')) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
+                if (screenfull.isEnabled) {
+                    html += getIcon('fullscreen', 'btnFullscreen', true);
+                    html += getIcon('fullscreen_exit', 'btnFullscreenExit hide', true);
+                }
             }
             html += getIcon('close', 'slideshowButton btnSlideshowExit hide-mouse-idle-tv', false);
             html += '</div>';
@@ -190,6 +195,10 @@ export default function (options) {
                 }
                 if (appHost.supports('sharing')) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
+                }
+                if (screenfull.isEnabled) {
+                    html += getIcon('fullscreen', 'btnFullscreen', true);
+                    html += getIcon('fullscreen_exit', 'btnFullscreenExit hide', true);
                 }
 
                 html += '</div>';
@@ -218,6 +227,22 @@ export default function (options) {
             const btnShare = dialog.querySelector('.btnShare');
             if (btnShare) {
                 btnShare.addEventListener('click', share);
+            }
+
+            const btnFullscreen = dialog.querySelector('.btnFullscreen');
+            if (btnFullscreen) {
+                btnFullscreen.addEventListener('click', fullscreen);
+            }
+
+            const btnFullscreenExit = dialog.querySelector('.btnFullscreenExit');
+            if (btnFullscreenExit) {
+                btnFullscreenExit.addEventListener('click', fullscreenExit);
+            }
+
+            if (screenfull.isEnabled) {
+                screenfull.on('change', function () {
+                    toggleFullscreenButtons(screenfull.isFullscreen);
+                });
             }
         }
 
@@ -450,6 +475,35 @@ export default function (options) {
     }
 
     /**
+     * Goes to fullscreen using screenfull plugin
+     */
+    function fullscreen() {
+        if (!screenfull.isFullscreen) screenfull.request();
+        toggleFullscreenButtons(true);
+    }
+
+    /**
+     * Exits fullscreen using screenfull plugin
+     */
+    function fullscreenExit() {
+        if (screenfull.isFullscreen) screenfull.exit();
+        toggleFullscreenButtons(false);
+    }
+
+    /**
+     * Updates the display of fullscreen buttons
+     * @param {boolean} isFullscreen - Whether the wanted state of buttons is fullscreen or not
+     */
+    function toggleFullscreenButtons(isFullscreen) {
+        const btnFullscreen = dialog.querySelector('.btnFullscreen');
+        const btnFullscreenExit = dialog.querySelector('.btnFullscreenExit');
+        if (btnFullscreen)
+            btnFullscreen.classList.toggle('hide', isFullscreen);
+        if (btnFullscreenExit)
+            btnFullscreenExit.classList.toggle('hide', !isFullscreen);
+    }
+
+    /**
      * Starts the autoplay feature of the Swiper instance.
      */
     function play() {
@@ -483,6 +537,9 @@ export default function (options) {
      * Closes the dialog and destroys the Swiper instance.
      */
     function onDialogClosed() {
+        // Exits fullscreen
+        fullscreenExit();
+
         const swiper = swiperInstance;
         if (swiper) {
             swiper.destroy(true, true);
