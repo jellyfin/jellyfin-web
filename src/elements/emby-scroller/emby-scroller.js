@@ -17,7 +17,7 @@ import 'css!./emby-scroller';
 
     function initCenterFocus(elem, scrollerInstance) {
         dom.addEventListener(elem, 'focus', function (e) {
-            if (e.explicitOriginalTarget.parentNode === e.target.parentNode) {
+            if (e.relatedTarget.parentNode === e.target.parentNode) {
                 const focused = focusManager.focusableParent(e.target);
                 if (focused) {
                     scrollerInstance.scrollUntilVisible(e.explicitOriginalTarget, focused);
