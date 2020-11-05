@@ -399,12 +399,10 @@ import 'emby-input';
         }
 
         if (contentType === 'tvshows') {
-            parent.querySelector('.chkImportMissingEpisodesContainer').classList.remove('hide');
             parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.remove('hide');
             parent.querySelector('.fldSeasonZeroDisplayName').classList.remove('hide');
             parent.querySelector('#txtSeasonZeroName').setAttribute('required', 'required');
         } else {
-            parent.querySelector('.chkImportMissingEpisodesContainer').classList.add('hide');
             parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.add('hide');
             parent.querySelector('.fldSeasonZeroDisplayName').classList.add('hide');
             parent.querySelector('#txtSeasonZeroName').removeAttribute('required');
@@ -511,7 +509,6 @@ import 'emby-input';
             EnableChapterImageExtraction: parent.querySelector('.chkExtractChapterImages').checked,
             DownloadImagesInAdvance: parent.querySelector('#chkDownloadImagesInAdvance').checked,
             EnableInternetProviders: true,
-            ImportMissingEpisodes: parent.querySelector('#chkImportMissingEpisodes').checked,
             SaveLocalMetadata: parent.querySelector('#chkSaveLocal').checked,
             EnableAutomaticSeriesGrouping: parent.querySelector('.chkAutomaticallyGroupSeries').checked,
             PreferredMetadataLanguage: parent.querySelector('#selectLanguage').value,
@@ -569,7 +566,6 @@ import 'emby-input';
         parent.querySelector('.chkExtractChapterImages').checked = options.EnableChapterImageExtraction;
         parent.querySelector('#chkDownloadImagesInAdvance').checked = options.DownloadImagesInAdvance;
         parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
-        parent.querySelector('#chkImportMissingEpisodes').checked = options.ImportMissingEpisodes;
         parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
         parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked = options.EnableEmbeddedEpisodeInfos;

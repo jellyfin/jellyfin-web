@@ -209,7 +209,7 @@ export class UserSettings {
         }
 
         val = this.get('enableBackdrops', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     /**

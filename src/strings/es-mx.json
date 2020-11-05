@@ -399,7 +399,6 @@
     "Identify": "Identificar",
     "Images": "Imágenes",
     "ImportFavoriteChannelsHelp": "Solo los canales marcados como favoritos en el dispositivo sintonizador serán importados.",
-    "ImportMissingEpisodesHelp": "La información sobre los episodios faltantes se importará a la base de datos y se mostrarán dentro de las temporadas y series. Esto puede causar escaneos de biblioteca significativamente más largos.",
     "InstallingPackage": "Instalando {0} (versión {1})",
     "InstantMix": "Mix instantáneo",
     "ItemCount": "{0} elementos",

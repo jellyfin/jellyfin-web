@@ -226,7 +226,7 @@ function initClient() {
     }
 
     function loadCoreDictionary(globalize) {
-        const languages = ['ar', 'be-by', 'bg-bg', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'es', 'es-ar', 'es-mx', 'fa', 'fi', 'fr', 'fr-ca', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'kk', 'ko', 'lt-lt', 'ms', 'nb', 'nl', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sv', 'tr', 'uk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
+        const languages = ['ar', 'be-by', 'bg-bg', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'es', 'es-ar', 'es-mx', 'fa', 'fi', 'fr', 'fr-ca', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'ms', 'nb', 'nl', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sv', 'tr', 'uk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
         const translations = languages.map(function (language) {
             return {
                 lang: language,
@@ -495,6 +495,7 @@ function initClient() {
                     'flvjs',
                     'jstree',
                     'epubjs',
+                    'pdfjs',
                     'jQuery',
                     'hlsjs',
                     'howler',
@@ -505,7 +506,6 @@ function initClient() {
                     'sortable',
                     'webcomponents',
                     'material-icons',
-                    'jellyfin-noto',
                     'date-fns',
                     'page',
                     'polyfill',
@@ -528,7 +528,7 @@ function initClient() {
         });
 
         promise = require(['fetch'])
-            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site', 'jellyfin-noto'], (jQuery) => {
+            .then(() => require(['jQuery', 'polyfill', 'fast-text-encoding', 'intersection-observer', 'classlist-polyfill', 'css!assets/css/site'], (jQuery) => {
                 // Expose jQuery globally
                 window.$ = jQuery;
                 window.jQuery = jQuery;

@@ -598,7 +598,6 @@
     "LabelAppNameExample": "Ejemplo: Sickbeard, Sonarr",
     "LabelAlbumArtMaxWidth": "Ancho máximo de la carátula del álbum:",
     "LabelAlbumArtMaxHeight": "Altura máxima de la carátula del álbum:",
-    "ImportMissingEpisodesHelp": "La información sobre episodios perdidos se importará a su base de datos y se mostrará dentro de las temporadas y series. Esto puede provocar exploraciones de bibliotecas significativamente más largas.",
     "HeaderSyncPlayEnabled": "SyncPlay habilitado",
     "HeaderSyncPlaySelectGroup": "Unirse a un grupo",
     "HeaderResponseProfileHelp": "Los perfiles de respuesta proporcionan una forma de personalizar la información enviada al dispositivo cuando se reproducen ciertos tipos de medios.",
@@ -783,7 +782,7 @@
     "OptionAllowLinkSharing": "Permitir compartir en redes sociales",
     "OptionAllowContentDownloading": "Permitir la descarga y sincronización de medios",
     "OptionAllowBrowsingLiveTv": "Permitir el acceso a TV en vivo",
-    "OptionForceRemoteSourceTranscoding": "Forzar la transcodificación de fuentes de medios remotos (como LiveTV)",
+    "OptionForceRemoteSourceTranscoding": "Forzar la transcodificación de fuentes de medios remotas como Live TV",
     "OptionAllowAudioPlaybackTranscoding": "Permitir reproducción de audio que requiere transcodificación",
     "OptionAllUsers": "Todos los usuarios",
     "OptionAdminUsers": "Administradores",
@@ -1418,5 +1417,13 @@
     "EnableAutoCast": "Establecer por defecto",
     "ButtonUseQuickConnect": "Utilizar conexión rápida",
     "ButtonActivate": "Activar",
-    "Authorize": "Autorizar"
+    "Authorize": "Autorizar",
+    "OptionMaxActiveSessionsHelp": "Un valor de 0 deshabilita la función.",
+    "OptionMaxActiveSessions": "Establece el número máximo de sesiones de usuario simultáneas.",
+    "LabelUserMaxActiveSessions": "Número máximo de sesiones de usuario simultáneas:",
+    "OptionAllowContentDownloadHelp": "Los usuarios pueden descargar medios y almacenarlos en sus dispositivos. No es lo mismo que una función de sincronización. Las bibliotecas de libros requieren que esta habilitado funcione correctamente.",
+    "OptionAllowContentDownload": "Permitir descargas de medios",
+    "HeaderDeleteDevices": "Eliminar todos los dispositivos",
+    "DeleteDevicesConfirmation": "¿Está seguro de que desea eliminar todos los dispositivos? Todas las demás sesiones se cerrarán. Los dispositivos volverán a aparecer la próxima vez que un usuario inicie sesión.",
+    "DeleteAll": "Eliminar todos"
 }

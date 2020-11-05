@@ -374,7 +374,6 @@
     "Identify": "识别",
     "Images": "图片",
     "ImportFavoriteChannelsHelp": "只有在协调器设备中被标记为我的最爱的频道才会被导入。",
-    "ImportMissingEpisodesHelp": "缺少的剧集信息将被导入到你的数据库并分季分剧显示。可能会大大延长媒体库扫描时间。",
     "InstallingPackage": "正在安装 {0}（版本 {1}）",
     "InstantMix": "即时混音",
     "ItemCount": "{0} 项",
@@ -1238,7 +1237,7 @@
     "SelectAdminUsername": "请为管理员账户选择一个用户名。",
     "HeaderNavigation": "导航",
     "MessageConfirmAppExit": "你要退出吗？",
-    "OptionForceRemoteSourceTranscoding": "强制远程转码（像电视直播一样）",
+    "OptionForceRemoteSourceTranscoding": "强制对直播电视等远程媒体源进行转码",
     "NoCreatedLibraries": "看上去您还未创建任何资料库。{0} 您想现在创建一个吗？ {1}",
     "AskAdminToCreateLibrary": "请联系管理员以创建一个新的资料库。",
     "PlaybackErrorNoCompatibleStream": "该客户端与媒体不兼容，服务器未发送兼容的媒体格式。",
@@ -1350,7 +1349,7 @@
     "LabelOpenclDevice": "OpenCL 设备：",
     "LabelOpenclDeviceHelp": "此 OpenCL 设备用来色调映射。点的左侧为平台号，右侧为此平台上的设备号。默认值为 0.0。需要包含 OpenCL 硬件加速方式的 FFmpeg 应用程序。",
     "EnableTonemapping": "启用色调映射",
-    "AllowTonemappingHelp": "色调映射可以将视频的动态范围从 HDR 变换成 SDR，同时保持图像细节与颜色等对于表现原始场景非常重要的信息。目前仅在转码内嵌 HDR10 或 HLG 元数据的视频时工作。如果播放不顺畅或失败，请考虑关闭对应的硬件解码器。",
+    "AllowTonemappingHelp": "色调映射可以将视频的动态范围从 HDR 变换成 SDR，同时保持图像细节与颜色等对于表现原始场景非常重要的信息。目前仅在转码内嵌 HDR10 或 HLG 元数据的视频时生效。如果播放不顺畅或失败，请考虑关闭对应的硬件解码器。",
     "LabelTonemappingAlgorithm": "选择要使用的色调映射算法：",
     "TonemappingAlgorithmHelp": "色调映射可以微调。如果你不是很熟悉这些选项，保持默认即可。建议值为 Reinhard。",
     "LabelTonemappingRange": "色调映射 Range：",
@@ -1421,5 +1420,10 @@
     "EnableAutoCast": "设置为默认",
     "OptionMaxActiveSessionsHelp": "如果值为0则没有限制。",
     "OptionMaxActiveSessions": "设置用户同时进行会话的最大数量。",
-    "LabelUserMaxActiveSessions": "用户同时进行会话的最大数量："
+    "LabelUserMaxActiveSessions": "用户同时进行会话的最大数量：",
+    "OptionAllowContentDownloadHelp": "用户可以下载媒体并将其存储在他们的设备上。 这与同步功能不同。 图书库要求启用此功能才能正常运行。",
+    "OptionAllowContentDownload": "允许媒体下载",
+    "HeaderDeleteDevices": "删除所有设备",
+    "DeleteDevicesConfirmation": "您确定要删除所有设备吗？所有其他会话将被注销。用户下次登录时，设备会重新出现。",
+    "DeleteAll": "删除全部"
 }

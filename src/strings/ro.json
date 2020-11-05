@@ -38,7 +38,6 @@
     "HeaderTaskTriggers": "Declanșatori Sarcini",
     "HeaderUsers": "Utilizatori",
     "Help": "Ajutor",
-    "ImportMissingEpisodesHelp": "Informația despre episoadele lipsă va fi importată în baza de date și va fi afișată în cadrul serialelor. Aceasta poate cauza un timp semnificativ mai îndelungat la scanarea bibliotecilor.",
     "LabelArtists": "Artisti:",
     "LabelArtistsHelp": "Separară înșiruirea artiștilor utilizând ;",
     "LabelAudioLanguagePreference": "Preferințe de limbă pentru audio:",
@@ -1238,7 +1237,7 @@
     "LabelPlayerDimensions": "Dimensiunile soft redare:",
     "LabelDroppedFrames": "Cadre abandonate:",
     "LabelCorruptedFrames": "Cadre corupte:",
-    "OptionForceRemoteSourceTranscoding": "Forțați transcodarea surselor media distante (cum ar fi LiveTV)",
+    "OptionForceRemoteSourceTranscoding": "Forțați transcodarea surselor media distante cum ar fi Live TV",
     "NoCreatedLibraries": "Se pare că nu ați creat încă biblioteci. {0} Doriți să creați una acum? {1}",
     "AskAdminToCreateLibrary": "Cereți unui administrator să creeze o bibliotecă.",
     "PlaybackErrorNoCompatibleStream": "Clientul nu este compatibil cu formatul media, iar serverul nu trimite un format media compatibil.",
@@ -1419,5 +1418,13 @@
     "LabelKnownProxies": "Proxyuri cunoscute:",
     "LabelCurrentStatus": "Stare curentă:",
     "KnownProxiesHelp": "Lista separată prin virgulă a adreselor IP ale proxy-urilor cunoscute utilizate la conectarea la instanța dvs. Jellyfin. Acest lucru este necesar pentru a utiliza în mod corespunzător antetele X-Forwarded-For. Necesită o repornire după salvare.",
-    "EnableAutoCast": "Setați ca implicit"
+    "EnableAutoCast": "Setați ca implicit",
+    "OptionMaxActiveSessionsHelp": "O valoare 0 va dezactiva opțiunea.",
+    "OptionMaxActiveSessions": "Setează numărul maxim de sesiuni simultane per utilizator.",
+    "OptionAllowContentDownloadHelp": "Utilizatorii pot descărca fișiere media și le pot stoca pe dispozitivele lor. Nu este același lucru cu o caracteristică de sincronizare. Bibliotecile de cărți necesită ca aceasta să fie activată pentru a funcționa corect.",
+    "OptionAllowContentDownload": "Permiteți descărcările media",
+    "LabelUserMaxActiveSessions": "Numărul maxim de sesiuni simultane per utilizator:",
+    "HeaderDeleteDevices": "Șterge Toate Dispozitivele",
+    "DeleteDevicesConfirmation": "Sigur doriți să ștergeți toate dispozitivele? Toate celelalte sesiuni vor fi deconectate. Dispozitivele vor reapărea data viitoare când un utilizator se conectează.",
+    "DeleteAll": "Șterge tot"
 }

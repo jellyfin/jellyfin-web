@@ -51,7 +51,9 @@ import globalize from 'globalize';
             $('.channelAccessContainer', page).hide();
         }
 
-        $('#chkEnableAllChannels', page).prop('checked', user.Policy.EnableAllChannels);
+        const chkEnableAllChannels = page.querySelector('#chkEnableAllChannels');
+        chkEnableAllChannels.checked = user.Policy.EnableAllChannels;
+        triggerChange(chkEnableAllChannels);
     }
 
     function loadDevices(page, user, devices) {
@@ -67,7 +69,9 @@ import globalize from 'globalize';
 
         html += '</div>';
         $('.deviceAccess', page).show().html(html);
-        $('#chkEnableAllDevices', page).prop('checked', user.Policy.EnableAllDevices);
+        const chkEnableAllDevices = page.querySelector('#chkEnableAllDevices');
+        chkEnableAllDevices.checked = user.Policy.EnableAllDevices;
+        triggerChange(chkEnableAllDevices);
 
         if (user.Policy.IsAdministrator) {
             page.querySelector('.deviceAccessContainer').classList.add('hide');

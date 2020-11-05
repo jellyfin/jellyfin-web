@@ -159,10 +159,11 @@ import 'detailtablecss';
     });
 
     defineRoute({
-        path: '/quickconnect.html',
+        alias: '/quickConnect.html',
+        path: '/controllers/dashboard/quickConnect.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/quickconnect'
+        controller: 'dashboard/quickConnect'
     });
 
     defineRoute({

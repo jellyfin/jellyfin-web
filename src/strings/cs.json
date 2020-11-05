@@ -340,7 +340,6 @@
     "Identify": "Identifikovat",
     "Images": "Obrázky",
     "ImportFavoriteChannelsHelp": "Jen kanály označené jako oblíbené na zařízení tuneru budou importovány.",
-    "ImportMissingEpisodesHelp": "Informace o chybějících epizodách budou importovány do databáze a zobrazí se u sezón a seriálů. Skenování knihovny se tím může značně prodloužit.",
     "InstallingPackage": "Instalace {0} (Verze {1})",
     "InstantMix": "Okamžité míchání",
     "ItemCount": "{0} položek",
@@ -1239,7 +1238,7 @@
     "LabelPlayerDimensions": "Zobrazené rozlišení:",
     "LabelDroppedFrames": "Vynechané snímky:",
     "LabelCorruptedFrames": "Poškozené snímky:",
-    "OptionForceRemoteSourceTranscoding": "Vynutit překódování vzdálených zdrojů médií (např.: televizního vysílání)",
+    "OptionForceRemoteSourceTranscoding": "Vynutit překódování vzdálených zdrojů médií (např. televizního vysílání)",
     "NoCreatedLibraries": "Zdá se, že jste dosud nevytvořili žádnou knihovnu. {0}Chtěli byste nějakou vytvořit nyní?{1}",
     "AskAdminToCreateLibrary": "Požádejte administrátora o vytvoření knihovny.",
     "AllowFfmpegThrottlingHelp": "Pozastaví proces překódování či remuxování, pokud je dostatečně napřed, aby se spotřebovalo méně zdrojů. Nejvhodnější, pokud příliš nepřeskakujete. Pokud máte problémy s přehráváním, tuto funkci vypněte.",
@@ -1421,5 +1420,10 @@
     "EnableAutoCast": "Nastavit jako výchozí",
     "OptionMaxActiveSessionsHelp": "Hodnota 0 tuto funkci vypne.",
     "OptionMaxActiveSessions": "Nastavuje, kolik uživatelských relací může najednou existovat.",
-    "LabelUserMaxActiveSessions": "Maximální počet uživatelských relací najednou:"
+    "LabelUserMaxActiveSessions": "Maximální počet uživatelských relací najednou:",
+    "OptionAllowContentDownloadHelp": "Uživatelé si mohou média stáhnout a uložit na svá zařízení. Tato funkce není stejná jako synchronizace. Knihovny s knihami tuto funkci vyžadují ke správnému fungování.",
+    "OptionAllowContentDownload": "Povolit stahování médií",
+    "HeaderDeleteDevices": "Odstranit všechna zařízení",
+    "DeleteDevicesConfirmation": "Opravdu chcete odstranit všechna zařízení? Souvisejicí relace budou odhlášeny. Zařízení se znovu objeví při dalším přihlášení.",
+    "DeleteAll": "Odstranit vše"
 }

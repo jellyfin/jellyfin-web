@@ -313,7 +313,6 @@
     "Identify": "Identifiser",
     "Images": "Bilder",
     "ImportFavoriteChannelsHelp": "Kun kanaler som er markert som favoritt på tuneren bli importert.",
-    "ImportMissingEpisodesHelp": "Informasjon om manglende episoder vil bli importet til databasen og bli vist under sesonger og serier. Dette kan føre til at skanning av biblioteket tar betydelig lengre tid.",
     "InstallingPackage": "Installerer {0} (versjon {1})",
     "InstantMix": "Direktemiks",
     "ItemCount": "{0} elementer",
@@ -1418,5 +1417,8 @@
     "LabelTonemappingRange": "Tonemapping-område:",
     "TonemappingAlgorithmHelp": "Tonekartlegging kan finjusteres. Hvis du ikke er kjent med disse alternativene, er det bare å beholde standardinnstillingen. Den anbefalte verdien er Reinhard.",
     "LabelTonemappingAlgorithm": "Velg algoritmen for tonekartlegging som skal brukes:",
-    "AllowTonemappingHelp": "Tonekartlegging kan forvandle det dynamiske området til en video fra HDR til SDR samtidig som bildedetaljer og farger opprettholdes, noe som er veldig viktig informasjon for å representere den originale scenen. Fungerer for øyeblikket bare når du omkoder videoer med innebygd HDR10- eller HLG-metadata. Hvis avspillingen ikke er jevn eller mislykkes, bør du vurdere å slå av den tilsvarende maskinvaredekoderen."
+    "AllowTonemappingHelp": "Tonekartlegging kan forvandle det dynamiske området til en video fra HDR til SDR samtidig som bildedetaljer og farger opprettholdes, noe som er veldig viktig informasjon for å representere den originale scenen. Fungerer for øyeblikket bare når du omkoder videoer med innebygd HDR10- eller HLG-metadata. Hvis avspillingen ikke er jevn eller mislykkes, bør du vurdere å slå av den tilsvarende maskinvaredekoderen.",
+    "OptionMaxActiveSessionsHelp": "En verdi på 0 skrur av denne funksjonen.",
+    "OptionMaxActiveSessions": "Setter maksimalt antall tilgjengelige brukerøkter.",
+    "LabelUserMaxActiveSessions": "Maksimalt antall samtidige brukerøkter:"
 }

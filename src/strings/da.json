@@ -305,7 +305,6 @@
     "Identify": "Identificer",
     "Images": "Billeder",
     "ImportFavoriteChannelsHelp": "Hvis aktiveret, importeres der udelukkende kanaler der er markeret som favoritter på tuner-enheden.",
-    "ImportMissingEpisodesHelp": "hvis aktiveret, vil information omkring manglende episoder bliver importeret ind i din Jellyfin-database og blive vist i sæsoner og serier. Dette medfører muligvis længere biblioteksscanninger.",
     "InstallingPackage": "Installerer {0} (version {1})",
     "InstantMix": "Instant Mix",
     "ItemCount": "{0} elementer",
