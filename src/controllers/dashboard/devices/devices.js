@@ -118,8 +118,7 @@ import confirm from '../../../components/confirm/confirm';
                 deviceHtml += '</div>';
             }
 
-            deviceHtml += "<div class='c" +
-                "ardText'>";
+            deviceHtml += "<div class='cardText'>";
             deviceHtml += device.Name;
             deviceHtml += '</div>';
             deviceHtml += "<div class='cardText cardText-secondary'>";
