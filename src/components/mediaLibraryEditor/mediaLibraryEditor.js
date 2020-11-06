@@ -16,7 +16,7 @@ import '../listview/listview.css';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.css';
 import '../../elements/emby-toggle/emby-toggle';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 

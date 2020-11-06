@@ -8,7 +8,7 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../formdialog.css';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 
 /* eslint-disable indent */
 

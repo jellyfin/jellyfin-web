@@ -13,7 +13,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-slider/emby-slider';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-checkbox/emby-checkbox';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 import './subtitlesettings.css';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';

@@ -22,7 +22,7 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-scroller/emby-scroller';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 import 'webcomponents.js/webcomponents-lite';
 import ServerConnections from '../ServerConnections';
 

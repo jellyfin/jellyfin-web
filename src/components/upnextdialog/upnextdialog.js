@@ -8,7 +8,7 @@ import globalize from '../../scripts/globalize';
 import itemHelper from '../itemHelper';
 import './upnextdialog.css';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 
 /* eslint-disable indent */
 

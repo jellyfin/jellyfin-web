@@ -7,10 +7,10 @@ import '../elements/emby-collapse/emby-collapse';
 import '../elements/emby-select/emby-select';
 import '../elements/emby-checkbox/emby-checkbox';
 import '../elements/emby-slider/emby-slider';
-import '../assets/css/livetv.css';
+import '../assets/css/livetv.scss';
 import '../components/listview/listview.css';
 import '../assets/css/dashboard.css';
-import '../assets/css/detailtable.css';
+import '../assets/css/detailtable.scss';
 import { appRouter } from '../components/appRouter';
 
 /* eslint-disable indent */

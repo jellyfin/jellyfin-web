@@ -7,7 +7,7 @@ import '../../../elements/emby-button/paper-icon-button-light';
 import '../../../components/cardbuilder/card.css';
 import '../../../elements/emby-button/emby-button';
 import '../../../components/indicators/indicators.css';
-import '../../../assets/css/flexstyles.css';
+import '../../../assets/css/flexstyles.scss';
 import Dashboard from '../../../scripts/clientUtils';
 import confirm from '../../../components/confirm/confirm';
 

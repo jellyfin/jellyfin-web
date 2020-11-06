@@ -6,8 +6,7 @@ import 'intersection-observer';
 import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
-import 'jellyfin-noto';
-import '../assets/css/site.css';
+import '../assets/css/site.scss';
 import AppInfo from '../components/AppInfo';
 import { Events } from 'jellyfin-apiclient';
 import ServerConnections from '../components/ServerConnections';
@@ -120,10 +119,10 @@ function onGlobalizeInit() {
 
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
-        import('../assets/css/fonts.sized.css');
+        import('../assets/css/fonts.sized.scss');
     } else {
         console.debug('using default fonts');
-        import('../assets/css/fonts.css');
+        import('../assets/css/fonts.scss');
     }
 
     import('../assets/css/librarybrowser.css');
@@ -173,7 +172,7 @@ function onAppReady() {
     console.debug('onAppReady: loading dependencies');
 
     if (browser.iOS) {
-        import('../assets/css/ios.css');
+        import('../assets/css/ios.scss');
     }
 
     Promise.all([

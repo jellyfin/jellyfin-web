@@ -15,7 +15,7 @@ import imageHelper from '../../scripts/imagehelper';
 import indicators from '../../components/indicators/indicators';
 import '../../components/listview/listview.css';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import taskButton from '../../scripts/taskbutton';
 import Dashboard from '../../scripts/clientUtils';

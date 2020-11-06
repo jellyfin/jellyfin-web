@@ -7,7 +7,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 
 function onSubmit(e) {
     e.preventDefault();

@@ -22,14 +22,12 @@ import confirm from '../../../components/confirm/confirm';
     function deleteAllDevices(page) {
         const msg = globalize.translate('DeleteDevicesConfirmation');
 
-        require(['confirm'], async function (confirm) {
-            await confirm({
-                text: msg,
-                title: globalize.translate('HeaderDeleteDevices'),
-                confirmText: globalize.translate('ButtonDelete'),
-                primary: 'delete'
-            });
-
+        confirm({
+            text: msg,
+            title: globalize.translate('HeaderDeleteDevices'),
+            confirmText: globalize.translate('ButtonDelete'),
+            primary: 'delete'
+        }).then(async () => {
             loading.show();
             await Promise.all(
                 deviceIds.filter(canDelete).map((id) => ApiClient.deleteDevice(id))

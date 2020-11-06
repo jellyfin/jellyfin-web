@@ -14,7 +14,7 @@ import imageHelper from './imagehelper';
 import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.css';
-import '../assets/css/flexstyles.css';
+import '../assets/css/flexstyles.scss';
 import Dashboard from './clientUtils';
 import ServerConnections from '../components/ServerConnections';
 

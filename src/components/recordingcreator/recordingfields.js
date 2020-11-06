@@ -7,7 +7,7 @@ import recordingHelper from './recordinghelper';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import './recordingfields.css';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 

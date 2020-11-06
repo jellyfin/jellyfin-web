@@ -14,8 +14,8 @@ import '../../elements/emby-textarea/emby-textarea';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.css';
-import '../../assets/css/clearbutton.css';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/clearbutton.scss';
+import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 

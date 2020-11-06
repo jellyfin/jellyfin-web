@@ -18,7 +18,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-toggle/emby-toggle';
 import '../listview/listview.css';
 import '../formdialog.css';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 import toast from '../toast/toast';
 import alert from '../alert';
 

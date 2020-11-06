@@ -9,7 +9,7 @@ import actionSheet from '../../../components/actionSheet/actionSheet';
 import dom from '../../../scripts/dom';
 import browser from '../../../scripts/browser';
 import 'material-design-icons-iconfont';
-import '../../../assets/css/flexstyles.css';
+import '../../../assets/css/flexstyles.scss';
 import '../../../elements/emby-scroller/emby-scroller';
 import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.css';

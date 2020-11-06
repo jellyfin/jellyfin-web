@@ -4,7 +4,7 @@ import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import AlphaPicker from '../alphaPicker/alphaPicker';
 import '../../elements/emby-input/emby-input';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 import 'material-design-icons-iconfont';
 import './searchfields.css';
 

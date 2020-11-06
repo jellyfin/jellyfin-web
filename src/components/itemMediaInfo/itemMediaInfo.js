@@ -15,7 +15,7 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.css';
 import 'material-design-icons-iconfont';
-import '../../assets/css/flexstyles.css';
+import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 
     function setMediaInfo(user, page, item) {
