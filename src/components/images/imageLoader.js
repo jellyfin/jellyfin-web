@@ -125,7 +125,7 @@ import './style.css';
     export function lazyChildren(elem) {
         if (userSettings.enableBlurhash()) {
             const lazyElems = Array.from(elem.querySelectorAll('.lazy'));
-            console.warn(lazyElems);
+
             lazyElems.forEach((lazyElem) => {
                 const blurhashstr = lazyElem.getAttribute('data-blurhash');
                 if (!lazyElem.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
@@ -135,7 +135,7 @@ import './style.css';
                 }
             });
         }
-        console.warn(elem);
+
         lazyLoader.lazyChildren(elem, fillImage);
     }
 
