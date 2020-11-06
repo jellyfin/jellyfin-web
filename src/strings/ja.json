@@ -1422,5 +1422,8 @@
     "XmlTvMovieCategoriesHelp": "これらのカテゴリの番組は映画として表示されます。複数の場合は '|' で区切ってください。",
     "XmlTvKidsCategoriesHelp": "これらのカテゴリの番組は子供向けとして表示されます。複数の場合は '|' で区切ってください。",
     "OptionAllowContentDownloadHelp": "ユーザーのデバイスにメディアのダウンロードと保存ができます。これは同期機能とは異なります。ブックライブラリが正しく機能するには有効化が必要です。",
-    "OptionAllowContentDownload": "メディアのダウンロードを許可"
+    "OptionAllowContentDownload": "メディアのダウンロードを許可",
+    "HeaderDeleteDevices": "すべてのデバイスの削除",
+    "DeleteDevicesConfirmation": "すべてのデバイスを削除しますか？他のセッションはすべてログアウトされます。デバイスは次回ログインした際に再度表示されるようになります。",
+    "DeleteAll": "すべて削除"
 }
