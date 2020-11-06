@@ -3126,7 +3126,7 @@ class PlaybackManager {
             }
         });
 
-        pluginManager.ofType('mediaplayer').map(initMediaPlayer);
+        pluginManager.ofType('mediaplayer').forEach(initMediaPlayer);
 
         function sendProgressUpdate(player, progressEventName, reportPlaylist) {
             if (!player) {

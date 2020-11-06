@@ -33,18 +33,18 @@ function showQualityMenu(player, btn) {
         return opt;
     });
 
-    let selectedId = options.filter(function (o) {
+    const selectedId = options.filter(function (o) {
         return o.selected;
     });
 
-    selectedId = selectedId.length ? selectedId[0].bitrate : null;
+    const selectedBitrate = selectedId.length ? selectedId[0].bitrate : null;
 
     return actionsheet.show({
         items: menuItems,
         positionTo: btn
     }).then(function (id) {
         const bitrate = parseInt(id);
-        if (bitrate !== selectedId) {
+        if (bitrate !== selectedBitrate) {
             playbackManager.setMaxStreamingBitrate({
                 enableAutomaticBitrateDetection: bitrate ? false : true,
                 maxBitrate: bitrate

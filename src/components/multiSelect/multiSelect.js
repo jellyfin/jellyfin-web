@@ -249,11 +249,9 @@ import confirm from '../confirm/confirm';
                                 dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
-                                import('../playlisteditor/playlisteditor').then((playlistEditor) => {
-                                    new playlistEditor({
-                                        items: items,
-                                        serverId: serverId
-                                    });
+                                new playlistEditor({
+                                    items: items,
+                                    serverId: serverId
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
