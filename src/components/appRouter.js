@@ -506,7 +506,7 @@ class AppRouter {
         const firstResult = this.firstConnectionResult;
 
         this.firstConnectionResult = null;
-        if (firstResult && firstResult.State === 'ServerSignIn' && !route.anonymous) {
+        if (firstResult && firstResult.State === 'ServerSignIn') {
             const url = ApiClient.serverAddress() + '/System/Info/Public';
             fetch(url).then(response => {
                 if (!response.ok) return Promise.reject('fetch failed');
@@ -520,6 +520,8 @@ class AppRouter {
             }).catch(error => {
                 console.error(error);
             });
+
+            return;
         }
 
         const apiClient = window.connectionManager.currentApiClient();
