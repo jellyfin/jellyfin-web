@@ -94,7 +94,7 @@ export function processPluginConfigurationUpdateResult() {
 
 export function processServerConfigurationUpdateResult(result) {
     loading.hide();
-    toast.default(globalize.translate('MessageSettingsSaved'));
+    toast(globalize.translate('SettingsSaved'));
 }
 
 export function processErrorResponse(response) {
