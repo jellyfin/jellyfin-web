@@ -84,9 +84,6 @@ export default function (page, providerId, options) {
     }
 
     function sha256(str) {
-        if (!self.TextEncoder) {
-            return Promise.resolve('');
-        }
 
         const buffer = new TextEncoder('utf-8').encode(str);
         return crypto.subtle.digest('SHA-256', buffer).then(function (hash) {
