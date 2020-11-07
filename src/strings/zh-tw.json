@@ -1398,5 +1398,8 @@
     "LabelQuickConnectCode": "Quick Connect 代號：",
     "LabelKnownProxies": "已知 Proxy：",
     "LabelCurrentStatus": "目前狀態：",
-    "EnableAutoCast": "設為預設"
+    "EnableAutoCast": "設為預設",
+    "HeaderDeleteDevices": "刪除所有裝置",
+    "DeleteDevicesConfirmation": "確定要刪除所有裝置？其他所有工作階段都會被登出。裝置會在使用者下次登入時再次出現。",
+    "DeleteAll": "刪除全部"
 }
