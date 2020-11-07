@@ -2,8 +2,8 @@ import dialogHelper from 'dialogHelper';
 
 export default class TableOfContents {
     constructor(bookPlayer) {
-        this._bookPlayer = bookPlayer;
-        this._rendition = bookPlayer._rendition;
+        this.bookPlayer = bookPlayer;
+        this.rendition = bookPlayer.rendition;
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
 
@@ -11,24 +11,24 @@ export default class TableOfContents {
     }
 
     destroy() {
-        const elem = this._elem;
+        const elem = this.elem;
         if (elem) {
             this.unbindEvents();
             dialogHelper.close(elem);
         }
 
-        this._bookPlayer._tocElement = null;
+        this.bookPlayer.tocElement = null;
     }
 
     bindEvents() {
-        const elem = this._elem;
+        const elem = this.elem;
 
         elem.addEventListener('close', this.onDialogClosed, {once: true});
         elem.querySelector('.btnBookplayerTocClose').addEventListener('click', this.onDialogClosed, {once: true});
     }
 
     unbindEvents() {
-        const elem = this._elem;
+        const elem = this.elem;
 
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('.btnBookplayerTocClose').removeEventListener('click', this.onDialogClosed);
@@ -52,7 +52,7 @@ export default class TableOfContents {
     }
 
     createMediaElement() {
-        const rendition = this._rendition;
+        const rendition = this.rendition;
 
         const elem = dialogHelper.createDialog({
             size: 'small',
@@ -68,7 +68,8 @@ export default class TableOfContents {
         tocHtml += '<ul class="toc">';
         rendition.book.navigation.forEach((chapter) => {
             tocHtml += '<li>';
-            // Remove '../' from href
+
+            // remove parent directory reference from href to fix certain books
             const link = chapter.href.startsWith('../') ? chapter.href.substr(3) : chapter.href;
             tocHtml += `<a href="${rendition.book.path.directory + link}">${chapter.label}</a>`;
             tocHtml += '</li>';
@@ -83,7 +84,7 @@ export default class TableOfContents {
             this.destroy();
         });
 
-        this._elem = elem;
+        this.elem = elem;
 
         this.bindEvents();
         dialogHelper.open(elem);

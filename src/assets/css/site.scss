@@ -1,14 +1,19 @@
-body,
-html {
+@mixin fullpage {
     margin: 0;
     padding: 0;
     height: 100%;
 }
 
-.layout-mobile,
-.layout-tv {
-    -webkit-touch-callout: none;
-    user-select: none;
+html {
+    @include fullpage;
+    line-height: 1.35;
+}
+
+body {
+    @include fullpage;
+    overflow-x: hidden;
+    background-color: transparent !important;
+    -webkit-font-smoothing: antialiased;
 }
 
 .clipForScreenReader {
@@ -36,14 +41,10 @@ html {
     contain: strict;
 }
 
-html {
-    line-height: 1.35;
-}
-
-body {
-    overflow-x: hidden;
-    background-color: transparent !important;
-    -webkit-font-smoothing: antialiased;
+.layout-mobile,
+.layout-tv {
+    -webkit-touch-callout: none;
+    user-select: none;
 }
 
 .mainAnimatedPage {
@@ -58,7 +59,7 @@ body {
     overflow-y: hidden !important;
 }
 
-div[data-role=page] {
+div[data-role="page"] {
     outline: 0;
 }
 
@@ -71,10 +72,10 @@ div[data-role=page] {
     padding-left: 0.15em;
     font-weight: 400;
     white-space: normal !important;
-}
 
-.fieldDescription + .fieldDescription {
-    margin-top: 0.3em;
+    + .fieldDescription {
+        margin-top: 0.3em;
+    }
 }
 
 .content-primary,
@@ -85,9 +86,14 @@ div[data-role=page] {
     padding-bottom: 5em !important;
 }
 
-@media all and (min-width: 50em) {
-    .readOnlyContent,
-    form {
+.readOnlyContent {
+    @media all and (min-width: 50em) {
+        max-width: 54em;
+    }
+}
+
+form {
+    @media all and (min-width: 50em) {
         max-width: 54em;
     }
 }
@@ -107,14 +113,14 @@ div[data-role=page] {
 .headroom {
     will-change: transform;
     transition: transform 200ms linear;
-}
 
-.headroom--pinned {
-    transform: translateY(0%);
-}
+    &--pinned {
+        transform: translateY(0%);
+    }
 
-.headroom--unpinned {
-    transform: translateY(-100%);
+    &--unpinned {
+        transform: translateY(-100%);
+    }
 }
 
 .drawerContent {

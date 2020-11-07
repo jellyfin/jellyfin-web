@@ -1,3 +1,4 @@
+import appHost from 'apphost';
 import dialogHelper from 'dialogHelper';
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
@@ -386,6 +387,11 @@ function showEditorInternal(itemId, serverId, template) {
             dlg.querySelector('.btnSearchSubtitles').classList.add('hide');
         } else {
             btnSubmit.classList.add('hide');
+        }
+
+        // Don't allow redirection to other websites from the TV layout
+        if (layoutManager.tv || !appHost.supports('externallinks')) {
+            dlg.querySelector('.btnHelp').remove();
         }
 
         const editorContent = dlg.querySelector('.formDialogContent');

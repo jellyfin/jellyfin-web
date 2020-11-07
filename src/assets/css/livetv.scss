@@ -2,8 +2,8 @@
     padding-bottom: 15em;
 }
 
-@media all and (min-width: 62.5em) {
-    #guideTab {
+#guideTab {
+    @media all and (min-width: 62.5em) {
         padding-left: 0.5em;
     }
 }

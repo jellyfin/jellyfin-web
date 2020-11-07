@@ -164,12 +164,12 @@
     "EnableStreamLoopingHelp": "Aktivieren, wenn Live Streams nur ein paar Sekunden Daten enthalten und ständig angefragt werden müssen. Kann zu Problemen führen wenn aktiviert, obwohl nicht nötig.",
     "EnableThemeSongsHelp": "Titelmusik wird während des Blätterns durch die Bibliothek im Hintergrund abgespielt.",
     "EnableThemeVideosHelp": "Titelvideos werden während des Blätterns durch die Bibliothek im Hintergrund abgespielt.",
-    "Ended": "Beendent",
+    "Ended": "Beendet",
     "EndsAtValue": "Endet um {0}",
     "Episodes": "Episoden",
     "ErrorAddingListingsToSchedulesDirect": "Ein Fehler trat beim Hinzufügen Ihrer Zusammenstellung zu Ihrem Schedules Direct Konto auf. Schedules Direct erlaubt nur eine begrenzte Anzahl von Zusammenstellungen je Account.  Sie sollten sich auf der Website in Ihrem Schedules-Direct Konto einloggen und ein paar Zusammenstellungen von Ihrem Konto löschen bevor Sie fortfahren.",
     "ErrorAddingMediaPathToVirtualFolder": "Ein Fehler trat beim Hinzufügen eines Medienverzeichnisses auf. Bitte stellen Sie sicher, dass der Pfad gültig ist und Jellyfin die notwendigen Zugriffsrechte besitzt.",
-    "ErrorAddingTunerDevice": "Es trat ein Fehler beim hinzufügen eines Tuners auf. Bitte stellen Sie sicher das dieser erreichbar ist und versuchen Sie es erneut.",
+    "ErrorAddingTunerDevice": "Es trat ein Fehler beim Hinzufügen eines Tuners auf. Bitte stellen Sie sicher, dass dieser erreichbar ist und versuchen Sie es erneut.",
     "ErrorAddingXmlTvFile": "Fehler beim Zugriff auf die XMLTV Datei. Stelle bitte sicher, dass die Datei existiert und versuche es nochmal.",
     "ErrorDeletingItem": "Fehler beim Löschen des Mediums vom Server. Bitte stelle sicher, dass Jellyfin Schreibzugriff auf den Dateiordner hat und versuche es erneut.",
     "ErrorGettingTvLineups": "Ein Fehler trat beim Herunterladen des Fernsehprogramms auf. Bitte stellen Sie sicher, dass Ihre Informationen korrekt sind und versuchen Sie es erneut.",
@@ -1356,7 +1356,7 @@
     "Subtitle": "Untertitel",
     "SelectServer": "Server auswählen",
     "Restart": "Neustarten",
-    "ResetPassword": "Passwort zurücksetzten",
+    "ResetPassword": "Passwort zurücksetzen",
     "Profile": "Profil",
     "MusicVideos": "Musikvideos",
     "Image": "Bild",
@@ -1422,5 +1422,8 @@
     "OptionMaxActiveSessions": "Legt die maximale Anzahl gleichzeitiger Benutzer-Sessions fest.",
     "LabelUserMaxActiveSessions": "Maximale Anzahl von gleichzeitigen Benutzer-Sessions:",
     "OptionAllowContentDownloadHelp": "Benutzer können Medien herunterladen und auf ihren Geräten speichern. Dies ist nicht dasselbe wie eine Synchronisierungsfunktion. Buchbibliotheken benötigen diese Funktion, um ordnungsgemäß zu funktionieren.",
-    "OptionAllowContentDownload": "Mediendownloads zulassen"
+    "OptionAllowContentDownload": "Mediendownloads zulassen",
+    "HeaderDeleteDevices": "Alle Geräte löschen",
+    "DeleteDevicesConfirmation": "Sind Sie sicher, dass Sie alle Geräte löschen möchten? Alle anderen Sitzungen werden abgemeldet. Die Geräte erscheinen wieder, wenn sich ein Benutzer das nächste Mal anmeldet.",
+    "DeleteAll": "Alle löschen"
 }

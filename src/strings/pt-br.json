@@ -150,7 +150,7 @@
     "DoNotRecord": "Não gravar",
     "Down": "Baixo",
     "DrmChannelsNotImported": "Canais com DRM não serão importados.",
-    "DropShadow": "Sombra",
+    "DropShadow": "Sombra projetada",
     "EasyPasswordHelp": "Seu código pin fácil é usado para acesso off-line em clientes suportados e pode ser usado para acesso fácil dentro da rede.",
     "Edit": "Editar",
     "EditImages": "Editar imagens",
@@ -1229,7 +1229,7 @@
     "ButtonAddImage": "Adicionar Imagem",
     "OptionRandom": "Aleatório",
     "SelectAdminUsername": "Por favor selecione um nome de usuário para a conta de administrador.",
-    "OptionForceRemoteSourceTranscoding": "Forçar transcodificação em fontes de mídia remotas (como LiveTV)",
+    "OptionForceRemoteSourceTranscoding": "Forçar a transcodificação de fontes de mídia remotas (como LiveTV)",
     "NoCreatedLibraries": "Parece que você ainda não criou nenhuma biblioteca. {0}Gostaria de criar uma agora?{1}",
     "MessageConfirmAppExit": "Você quer sair?",
     "LabelVideoResolution": "Resolução de vídeo:",
@@ -1420,5 +1420,10 @@
     "Bwdif": "BWDIF",
     "UseDoubleRateDeinterlacingHelp": "Essa configuração utiliza a \"field rate\" ao fazer o processo de \"deinterlacing\", frequentemente chamado de \"bob deinterlacing\", que dobra a taxa de quadros do vídeo para proporcionar um movimento completo similar àquele visto ao ver um vídeo \"interlaçado\" em uma TV.",
     "OptionMaxActiveSessions": "Estabelece o número máximo de sessões de usuários simultâneas.",
-    "LabelUserMaxActiveSessions": "Número máximo de sessões de usuários simultâneas:"
+    "LabelUserMaxActiveSessions": "Número máximo de sessões de usuários simultâneas:",
+    "OptionAllowContentDownloadHelp": "Os usuários podem baixar mídias e armazená-las em seus dispositivos. Isso não é o mesmo que um recurso de sincronização. Para funcionar corretamente isso exige que a biblioteca de mídia esteja habilitada.",
+    "OptionAllowContentDownload": "Permitir download de mídia",
+    "HeaderDeleteDevices": "Excluir todos os dispositivos",
+    "DeleteDevicesConfirmation": "Tem certeza de que deseja excluir todos os dispositivos? Todas as outras sessões serão desconectadas. Os dispositivos reaparecerão na próxima vez que um usuário fizer login.",
+    "DeleteAll": "Excluir tudo"
 }

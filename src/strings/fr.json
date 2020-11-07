@@ -1231,7 +1231,7 @@
     "ButtonSplit": "Séparer",
     "SelectAdminUsername": "Veuillez choisir un nom d'utilisateur pour le compte administrateur.",
     "HeaderNavigation": "Navigation",
-    "OptionForceRemoteSourceTranscoding": "Transcodage forcé pour sources de media à distance (ex: TV en direct)",
+    "OptionForceRemoteSourceTranscoding": "Forcer le transcodage pour les sources de media distance comme par exemple la TV en direct",
     "MessageConfirmAppExit": "Voulez-vous quitter ?",
     "LabelVideoResolution": "Résolution vidéo :",
     "LabelStreamType": "Type de flux :",
@@ -1420,5 +1420,10 @@
     "LabelMaxMuxingQueueSize": "Taille maximale de la queue de multiplexage :",
     "OptionMaxActiveSessionsHelp": "Une valeur à 0 désactive la fonctionnalité.",
     "OptionMaxActiveSessions": "Défini le nombre maximal de sessions utilisateurs simultanées.",
-    "LabelUserMaxActiveSessions": "Nombre maximal de sessions utilisateurs simultanées :"
+    "LabelUserMaxActiveSessions": "Nombre maximal de sessions utilisateurs simultanées :",
+    "OptionAllowContentDownloadHelp": "Les utilisateurs peuvent télécharger des médias et les stocker sur leurs appareils. Ce n'est pas la même chose qu'une fonction de synchronisation. Les bibliothèques de livres nécessitent cette activation pour fonctionner correctement.",
+    "OptionAllowContentDownload": "Autoriser les téléchargements de médias",
+    "HeaderDeleteDevices": "Supprimer tous les appareils",
+    "DeleteDevicesConfirmation": "Voulez-vous vraiment supprimer tous les appareils ? Toutes les autres sessions seront déconnectées. Les appareils réapparaîtront la prochaine fois qu'un utilisateur se connectera.",
+    "DeleteAll": "Tout supprimer"
 }

@@ -1237,7 +1237,7 @@
     "SelectAdminUsername": "请为管理员账户选择一个用户名。",
     "HeaderNavigation": "导航",
     "MessageConfirmAppExit": "你要退出吗？",
-    "OptionForceRemoteSourceTranscoding": "强制远程转码（像电视直播一样）",
+    "OptionForceRemoteSourceTranscoding": "强制对直播电视等远程媒体源进行转码",
     "NoCreatedLibraries": "看上去您还未创建任何资料库。{0} 您想现在创建一个吗？ {1}",
     "AskAdminToCreateLibrary": "请联系管理员以创建一个新的资料库。",
     "PlaybackErrorNoCompatibleStream": "该客户端与媒体不兼容，服务器未发送兼容的媒体格式。",
@@ -1420,5 +1420,10 @@
     "EnableAutoCast": "设置为默认",
     "OptionMaxActiveSessionsHelp": "如果值为0则没有限制。",
     "OptionMaxActiveSessions": "设置用户同时进行会话的最大数量。",
-    "LabelUserMaxActiveSessions": "用户同时进行会话的最大数量："
+    "LabelUserMaxActiveSessions": "用户同时进行会话的最大数量：",
+    "OptionAllowContentDownloadHelp": "用户可以下载媒体并将其存储在他们的设备上。 这与同步功能不同。 图书库要求启用此功能才能正常运行。",
+    "OptionAllowContentDownload": "允许媒体下载",
+    "HeaderDeleteDevices": "删除所有设备",
+    "DeleteDevicesConfirmation": "您确定要删除所有设备吗？所有其他会话将被注销。用户下次登录时，设备会重新出现。",
+    "DeleteAll": "删除全部"
 }

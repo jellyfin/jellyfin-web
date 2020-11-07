@@ -649,7 +649,10 @@ function reloadFromItem(instance, page, params, item, user) {
     const itemBirthLocation = page.querySelector('#itemBirthLocation');
 
     if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
-        const gmap = '<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=' + item.ProductionLocations[0] + '">' + item.ProductionLocations[0] + '</a>';
+        let gmap = item.ProductionLocations[0];
+        if (!layoutManager.tv && appHost.supports('externallinks')) {
+            gmap = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=${gmap}">${gmap}</a>`;
+        }
         itemBirthLocation.classList.remove('hide');
         itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', gmap);
     } else {
@@ -1066,7 +1069,7 @@ function renderDetails(page, item, apiClient, context, isStatic) {
     reloadUserDataButtons(page, item);
 
     // Don't allow redirection to other websites from the TV layout
-    if (!layoutManager.tv) {
+    if (!layoutManager.tv && appHost.supports('externallinks')) {
         renderLinks(page, item);
     }
 
@@ -1724,7 +1727,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
     html += '</div>';
     const collectionItems = page.querySelector('.collectionItems');
     collectionItems.insertAdjacentHTML('beforeend', html);
-    imageLoader.lazyChildren(collectionItems);
+    imageLoader.lazyChildren(collectionItems.lastChild);
 }
 
 function renderMusicVideos(page, item, user) {
