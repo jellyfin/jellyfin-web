@@ -87,11 +87,16 @@ function tryRemoveElement(elem) {
         return true;
     }
 
-    function requireHlsPlayer(callback) {
-        import('hls.js').then(({default: hls}) => {
-            window.Hls = hls;
-            callback();
-        });
+    async function requireHlsPlayer(callback) {
+        const { default: hls } = await import('hls.js');
+        const p2pmlCore = await import('p2p-media-loader-core');
+        const p2pmlHlsjs = await import('p2p-media-loader-hlsjs');
+
+        window.Hls = hls;
+        window.p2pmlCore = p2pmlCore;
+        window.p2pmlHlsjs = p2pmlHlsjs;
+
+        callback();
     }
 
     function getMediaStreamAudioTracks(mediaSource) {
@@ -398,14 +403,51 @@ function tryRemoveElement(elem) {
 
                     const includeCorsCredentials = await getIncludeCorsCredentials();
 
-                    const hls = new Hls({
-                        manifestLoadingTimeOut: 20000,
-                        maxBufferLength: maxBufferLength,
-                        maxMaxBufferLength: maxMaxBufferLength,
-                        xhrSetup(xhr) {
-                            xhr.withCredentials = includeCorsCredentials;
-                        }
-                    });
+                    let hls;
+
+                    if (options.enableP2P && window.p2pmlHlsjs.Engine.isSupported()) {
+                        const trackers = options.trackers || [];
+                        const config = {
+                            loader: {
+                                trackerAnnounce: trackers,
+                                rtcConfig: {
+                                    iceServers: [
+                                        // Local peers only.
+                                    ]
+                                }
+                            }
+                        };
+
+                        const engine = new window.p2pmlHlsjs.Engine(config);
+                        // TODO: show some stats somewhere.
+                        engine.on('peer_connect', peer => console.debug('P2PML Hls.js peer_connect', peer.id, peer.remoteAddress));
+                        engine.on('peer_close', peerId => console.debug('P2PML Hls.js peer_close', peerId));
+                        engine.on('segment_loaded', (segment, peerId) => console.debug('P2PML Hls.js segment_loaded from', peerId ? `peer ${peerId}` : 'HTTP', segment.url));
+
+                        hls = new Hls({
+                            manifestLoadingTimeOut: 20000,
+                            liveSyncDurationCount: 7, // To have at least 7 segments in queue.
+                            loader: engine.createLoaderClass(),
+                            maxBufferLength: maxBufferLength,
+                            maxMaxBufferLength: maxMaxBufferLength,
+                            xhrSetup(xhr) {
+                                xhr.withCredentials = includeCorsCredentials;
+                            }
+                        });
+
+                        window.p2pmlHlsjs.initHlsJsPlayer(hls);
+                        console.log('HtmlVideoPlayer: P2P Media Loader is enabled!');
+                    } else {
+                        hls = new Hls({
+                            manifestLoadingTimeOut: 20000,
+                            maxBufferLength: maxBufferLength,
+                            maxMaxBufferLength: maxMaxBufferLength,
+                            xhrSetup(xhr) {
+                                xhr.withCredentials = includeCorsCredentials;
+                            }
+                        });
+                    }
+
                     hls.loadSource(url);
                     hls.attachMedia(elem);
 

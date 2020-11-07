@@ -1,4 +1,9 @@
 <form style="margin: auto;">
+    <h2 class="sectionTitle">${HeaderSyncPlayWebRTCSettings}</h2>
+    <div class="inputContainer inputContainer-withDescription">
+        <input is="emby-input" type="text" id="txtP2PTracker" label="${LabelSyncPlaySettingsP2PTracker}" />
+        <div class="fieldDescription">${LabelSyncPlaySettingsP2PTrackerHelp}</div>
+    </div>
     <h2 class="sectionTitle">${HeaderSyncPlayTimeSyncSettings}</h2>
     <div class="inputContainer inputContainer-withDescription">
         <input type="number" is="emby-input" id="txtExtraTimeOffset" pattern="[0-9]*"

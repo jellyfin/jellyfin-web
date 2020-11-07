@@ -323,6 +323,13 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
      * Calls original PlaybackManager's play method.
      */
     localPlay(options) {
+        // Enable P2P media sharing.
+        const p2pTracker = SyncPlay.Settings.get('p2pTracker') || '';
+        if (p2pTracker && p2pTracker !== '') {
+            options.enableP2P = true;
+            options.trackers = [p2pTracker];
+        }
+
         if (playbackManager.syncPlayEnabled) {
             return playbackManager._localPlay(options);
         } else {

@@ -665,7 +665,9 @@ function truncatePlayOptions(playOptions) {
         mediaSourceId: playOptions.mediaSourceId,
         audioStreamIndex: playOptions.audioStreamIndex,
         subtitleStreamIndex: playOptions.subtitleStreamIndex,
-        startPositionTicks: playOptions.startPositionTicks
+        startPositionTicks: playOptions.startPositionTicks,
+        enableP2P: playOptions.enableP2P,
+        trackers: playOptions.trackers
     };
 }
 
@@ -1694,6 +1696,8 @@ class PlaybackManager {
 
                         const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks);
                         streamInfo.fullscreen = currentPlayOptions.fullscreen;
+                        streamInfo.enableP2P = currentPlayOptions.enableP2P;
+                        streamInfo.trackers = currentPlayOptions.trackers;
                         streamInfo.lastMediaInfoQuery = lastMediaInfoQuery;
 
                         if (!streamInfo.url) {
@@ -2242,6 +2246,8 @@ class PlaybackManager {
                 return promise.then(function () {
                     const streamInfo = createStreamInfoFromUrlItem(item);
                     streamInfo.fullscreen = playOptions.fullscreen;
+                    streamInfo.enableP2P = playOptions.enableP2P;
+                    streamInfo.trackers = playOptions.trackers;
                     getPlayerData(player).isChangingStream = false;
                     return player.play(streamInfo).then(() => {
                         loading.hide();
@@ -2275,6 +2281,8 @@ class PlaybackManager {
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition);
 
                     streamInfo.fullscreen = playOptions.fullscreen;
+                    streamInfo.enableP2P = playOptions.enableP2P;
+                    streamInfo.trackers = playOptions.trackers;
 
                     getPlayerData(player).isChangingStream = false;
                     getPlayerData(player).maxStreamingBitrate = maxBitrate;

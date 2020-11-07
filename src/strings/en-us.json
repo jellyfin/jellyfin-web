@@ -859,6 +859,8 @@
     "LabelSyncPlaySettingsDescription": "Change SyncPlay preferences",
     "LabelSyncPlaySettingsGroupName": "Group name:",
     "LabelSyncPlaySettingsGroupNameHelp": "Change the group's name.",
+    "LabelSyncPlaySettingsP2PTracker": "Tracker:",
+    "LabelSyncPlaySettingsP2PTrackerHelp": "Set tracker to enable P2P sharing of playing media. Needs playback restart.",
     "LabelSyncPlaySettingsTimeSync": "Device:",
     "LabelSyncPlaySettingsTimeSyncHelp": "Pick the device to time sync with. Picking a local peer ensures less noticeable delay between devices on the same network.",
     "LabelSyncPlaySettingsExtraTimeOffset": "Extra time offset:",

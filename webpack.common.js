@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
@@ -74,6 +75,10 @@ module.exports = {
         new WorkboxPlugin.InjectManifest({
             swSrc: path.resolve(__dirname, 'src/serviceworker.js'),
             swDest: 'serviceworker.js'
+        }),
+        new webpack.ProvidePlugin({
+            Buffer: ['buffer', 'Buffer'],
+            process: 'process/browser'
         })
     ],
     output: {
