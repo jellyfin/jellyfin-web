@@ -83,10 +83,9 @@ export default function (page, providerId, options) {
         loading.hide();
     }
 
-    function sha256(str) {
-
+    function sha1(str) {
         const buffer = new TextEncoder('utf-8').encode(str);
-        return crypto.subtle.digest('SHA-256', buffer).then(function (hash) {
+        return crypto.subtle.digest('SHA-1', buffer).then(function (hash) {
             return hex(hash);
         });
     }
@@ -107,13 +106,12 @@ export default function (page, providerId, options) {
 
     function submitLoginForm() {
         loading.show();
-        sha256(page.querySelector('.txtPass').value).then(function (passwordHash) {
+        sha1(page.querySelector('.txtPass').value).then(function (passwordHash) {
             const info = {
                 Type: 'SchedulesDirect',
                 Username: page.querySelector('.txtUser').value,
                 EnableAllTuners: true,
-                Password: passwordHash,
-                Pw: page.querySelector('.txtPass').value
+                Password: passwordHash
             };
             const id = providerId;
 
