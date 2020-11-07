@@ -1406,5 +1406,16 @@
     "OptionMaxActiveSessions": "設定最多同時工作階段數",
     "OptionAllowContentDownloadHelp": "使用者可以下載多媒體，並儲存於自己的裝置。這與同步功能不同。圖書庫需要開啟這項功能才能正常運作。",
     "OptionAllowContentDownload": "允許下載多媒體",
-    "LabelUserMaxActiveSessions": "最多同時工作階段數："
+    "LabelUserMaxActiveSessions": "最多同時工作階段數：",
+    "LabelTonemappingDesat": "色調映射降低飽和度：",
+    "TonemappingRangeHelp": "選擇輸出顏色範圍。選自動則與輸入範圍相同。",
+    "LabelTonemappingRange": "色調映射範圍：",
+    "TonemappingAlgorithmHelp": "色調映射可以微調。如果你不是很熟悉這些選項，保持預設即可。建議值為 Reinhard。",
+    "LabelTonemappingAlgorithm": "選擇要使用的色調映射算法：",
+    "AllowTonemappingHelp": "色調映射可以將影片的動態範圍從 HDR 變換成 SDR，同時保持圖像細節與顏色等對於表現原始場景非常重要的資訊。目前僅在轉碼內嵌 HDR10 或 HLG 元數據的影片時生效。如果播放不順暢或失敗，請考慮關閉對應的硬體解碼器。",
+    "EnableTonemapping": "啟用色調映射",
+    "LabelOpenclDeviceHelp": "此 OpenCL 設備用來色調映射。點的左側為平台號碼，右側為此平台上的設備號碼。默認值為 0.0。需要有 OpenCL 硬體加速功能的 FFmpeg 應用程式。",
+    "LabelColorPrimaries": "三原色：",
+    "MediaInfoColorPrimaries": "三原色",
+    "UseDoubleRateDeinterlacingHelp": "此設定使用去交錯時的刷新頻率，通常稱為 Bob 去交錯。它將影片的幀率加倍，以提供完整的運動效果，就類似在電視上觀看隔行掃描的影片看到的那樣。"
 }
