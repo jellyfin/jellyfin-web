@@ -1417,5 +1417,13 @@
     "LabelOpenclDeviceHelp": "此 OpenCL 設備用來色調映射。點的左側為平台號碼，右側為此平台上的設備號碼。默認值為 0.0。需要有 OpenCL 硬體加速功能的 FFmpeg 應用程式。",
     "LabelColorPrimaries": "三原色：",
     "MediaInfoColorPrimaries": "三原色",
-    "UseDoubleRateDeinterlacingHelp": "此設定使用去交錯時的刷新頻率，通常稱為 Bob 去交錯。它將影片的幀率加倍，以提供完整的運動效果，就類似在電視上觀看隔行掃描的影片看到的那樣。"
+    "UseDoubleRateDeinterlacingHelp": "此設定使用去交錯時的刷新頻率，通常稱為 Bob 去交錯。它將影片的幀率加倍，以提供完整的運動效果，就類似在電視上觀看隔行掃描的影片看到的那樣。",
+    "LabelMaxMuxingQueueSizeHelp": "等待所有流初始化時可緩衝的最大封包數。如果在 ffmpeg 日誌中仍然遇到 \"Too many packets buffered for output stream\" 錯誤，請嘗試增加該值。建議值為 2048。",
+    "LabelTonemappingParamHelp": "調整色調映射算法。建議值和預設值均為 NaN。通常將其留空。",
+    "LabelTonemappingParam": "色調映射參數：",
+    "LabelTonemappingPeakHelp": "用該值覆蓋信號/標稱/參考峰值。當顯示元數據中嵌入的峰值資訊不可靠時，或從較低範圍到較高範圍的色調映射時，此選項很有用。建議值和預設值均為 0。",
+    "LabelTonemappingPeak": "色調映射峰值：",
+    "LabelTonemappingThresholdHelp": "此參數對每個場景的色調映射算法進行微調。此閾值用於檢測場景是否已更改。如果當前幀平均亮度和當前運行平均值之間的距離超過閾值，我們將重新計算場景平均和峰值亮度。建議值和預設值分別為 0.8 和 0.2。",
+    "LabelTonemappingThreshold": "色調映射閾值：",
+    "LabelTonemappingDesatHelp": "降低超過此亮度級別的亮部飽和度。此值越大，將保留更多的顏色資訊。此設置可以平滑地變成白色，從而有助於防止超高亮顯示出不自然的顏色。這使圖像感覺更自然，但以減少超出範圍的顏色的相關資訊為代價。建議值和預設值分別為 0 和 0.5。"
 }
