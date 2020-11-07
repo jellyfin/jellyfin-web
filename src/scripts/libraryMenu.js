@@ -978,8 +978,6 @@ import ServerConnections from '../components/ServerConnections';
         updateLibraryNavLinks(page);
     });
 
-    renderHeader();
-
     Events.on(ServerConnections, 'localusersignedin', function (e, user) {
         const currentApiClient = ServerConnections.getApiClient(user.ServerId);
 

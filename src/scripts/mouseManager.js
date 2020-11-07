@@ -1,4 +1,3 @@
-
 import inputManager from './inputManager';
 import focusManager from '../components/focusManager';
 import browser from '../scripts/browser';

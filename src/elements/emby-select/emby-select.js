@@ -1,4 +1,3 @@
-
 import layoutManager from '../../components/layoutManager';
 import browser from '../../scripts/browser';
 import actionsheet from '../../components/actionSheet/actionSheet';

@@ -20,7 +20,7 @@ function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCss
         buttonCssClass = buttonCssClass ? (buttonCssClass + ' mini') : 'mini';
     }
 
-    const is = style === 'fab' ? '../../elements/emby-button/emby-button' : '../../elements/emby-button/paper-icon-button-light';
+    const is = style === 'fab' ? 'emby-button' : 'paper-icon-button-light';
     let className = style === 'fab' ? 'autoSize fab' : 'autoSize';
 
     if (buttonCssClass) {
@@ -33,7 +33,7 @@ function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCss
         iconCssClass = '';
     }
 
-    iconCssClass += 'material-design-icons-iconfont';
+    iconCssClass += 'material-icons';
 
     return '<button title="' + tooltip + '" data-itemid="' + itemId + '" data-serverid="' + serverId + '" is="' + is + '" data-method="' + method + '" class="' + className + '"><span class="' + iconCssClass + ' ' + icon + '"></span></button>';
 }

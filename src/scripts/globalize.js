@@ -143,7 +143,6 @@ import { Events } from 'jellyfin-apiclient';
         return Promise.all(promises);
     }
 
-    const cacheParam = new Date().getTime();
     function loadTranslation(translations, lang) {
         lang = normalizeLocaleName(lang);
         let filtered = translations.filter(function (t) {
@@ -156,7 +155,6 @@ import { Events } from 'jellyfin-apiclient';
             });
         }
 
-        //import('../strings/')
         return new Promise(function (resolve, reject) {
             if (!filtered.length) {
                 resolve();

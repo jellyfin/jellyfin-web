@@ -80,8 +80,7 @@ import '../../assets/css/flexstyles.scss';
                 buttonClass += ' formDialogFooterItem-vertical formDialogFooterItem-nomarginbottom';
             }
 
-            html += `<button is="
-            " type="button" class="${buttonClass}" data-id="${item.id}"${autoFocus}>${item.name}</button>`;
+            html += `<button is="emby-button" type="button" class="${buttonClass}" data-id="${item.id}"${autoFocus}>${item.name}</button>`;
 
             if (item.description) {
                 html += `<div class="formDialogFooterItem formDialogFooterItem-autosize fieldDescription" style="margin-top:.25em!important;margin-bottom:1.25em!important;">${item.description}</div>`;

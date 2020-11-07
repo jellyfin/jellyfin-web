@@ -152,9 +152,9 @@ export function showLoadingMsg() {
 
 export function confirm(message, title, callback) {
     baseConfirm(message, title).then(function() {
-        callback(!0);
+        callback(true);
     }).catch(function() {
-        callback(!1);
+        callback(false);
     });
 }
 

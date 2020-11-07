@@ -71,8 +71,7 @@ import toast from './toast/toast';
     }
 
     function showProgramDialog(item) {
-        import('./recordingcreator/recordingcreator' +
-        '').then(({default:recordingCreator}) => {
+        import('./recordingcreator/recordingcreator').then(({default:recordingCreator}) => {
             recordingCreator.show(item.Id, item.ServerId);
         });
     }

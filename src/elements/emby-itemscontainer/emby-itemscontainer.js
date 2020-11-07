@@ -1,4 +1,3 @@
-
 import itemShortcuts from '../../components/shortcuts';
 import inputManager from '../../scripts/inputManager';
 import { playbackManager } from '../../components/playback/playbackmanager';
@@ -74,8 +73,8 @@ import ServerConnections from '../../components/ServerConnections';
         }
 
         const self = this;
-        import('../../components/multiSelect/multiSelect').then((MultiSelect) => {
-            self.multiSelect = new MultiSelect.default({
+        import('../../components/multiSelect/multiSelect').then(({default: MultiSelect}) => {
+            self.multiSelect = new MultiSelect({
                 container: self,
                 bindOnClick: false
             });
