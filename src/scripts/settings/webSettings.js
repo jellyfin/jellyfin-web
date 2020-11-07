@@ -1,4 +1,3 @@
-
 let data;
 
 const urlResolver = document.createElement('a');
@@ -86,12 +85,32 @@ export function getMultiServer() {
     });
 }
 
+const defaultTheme = {
+    'name': 'Dark',
+    'id': 'dark',
+    'default': true
+};
+
+const checkDefaultTheme = (themes) => {
+    if (themes) {
+        const defaultTheme = themes.find((theme) => theme.default);
+
+        if (!defaultTheme) {
+            themes.push(defaultTheme);
+        }
+
+        return themes;
+    }
+
+    return [defaultTheme];
+};
+
 export function getThemes() {
     return getConfig().then(config => {
-        return config.themes;
+        return checkDefaultTheme(Array.isArray(config.themes) ? config.themes : []);
     }).catch(error => {
         console.log('cannot get web config:', error);
-        return [];
+        return checkDefaultTheme();
     });
 }
 

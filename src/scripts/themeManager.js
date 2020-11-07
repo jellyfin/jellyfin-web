@@ -17,17 +17,9 @@ function getThemes() {
 
 function getThemeStylesheetInfo(id) {
     return getThemes().then(themes => {
-        let theme = themes.find(theme => {
+        const theme = themes.find(theme => {
             return id ? theme.id === id : theme.default;
         });
-
-        if (!theme) {
-            theme = {
-                'name': 'Dark',
-                'id': 'dark',
-                'default': true
-            };
-        }
 
         return {
             stylesheetPath: 'themes/' + theme.id + '/theme.css',
