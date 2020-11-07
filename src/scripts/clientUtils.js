@@ -18,11 +18,13 @@ export async function serverAddress() {
         }
     });
 
-    if (current) return Promise.resolve(current);
+    // TODO this makes things faster but it also blocks the wizard in some scenarios
+    // if (current) return Promise.resolve(current);
 
     const urls = [];
     urls.push(window.location.origin);
-    urls.push(`${window.location.protocol}//${window.location.hostname}:8096`);
+    urls.push(`https://${window.location.hostname}:8920`);
+    urls.push(`http://${window.location.hostname}:8096`);
     urls.push(...await webSettings.getServers());
 
     const promises = urls.map(url => {
@@ -32,8 +34,13 @@ export async function serverAddress() {
     });
 
     return Promise.all(promises).then(responses => {
-        return responses.find(response => response && response.ok);
-    }).then(response => response.url.replace('/System/Info/Public', '')).catch(error => {
+        responses = responses.filter(response => response && response.ok);
+        return Promise.all(responses.map(response => response.json()));
+    }).then(configs => {
+        const selection = configs.find(config => !config.StartupWizardCompleted)
+        if (!selection) selection = configs[0];
+        return Promise.resolve(selection.LocalAddress);
+    }).catch(error => {
         console.log(error);
         return Promise.resolve();
     });
