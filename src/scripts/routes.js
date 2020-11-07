@@ -100,7 +100,7 @@ import { appRouter } from '../components/appRouter';
 
     defineRoute({
         alias: '/mypreferencesquickconnect.html',
-        path: '/controllers/user/quickConnect/index.html',
+        path: 'user/quickConnect/index.html',
         autoFocus: false,
         transition: 'fade',
         controller: 'user/quickConnect/index'
@@ -161,7 +161,7 @@ import { appRouter } from '../components/appRouter';
 
     defineRoute({
         alias: '/quickConnect.html',
-        path: '/controllers/dashboard/quickConnect.html',
+        path: 'dashboard/quickConnect.html',
         autoFocus: false,
         roles: 'admin',
         controller: 'dashboard/quickConnect'
