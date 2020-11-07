@@ -89,7 +89,7 @@ export function navigate(url, preserveQueryString) {
 
 export function processPluginConfigurationUpdateResult() {
     loading.hide();
-    toast(globalize.translate('MessageSettingsSaved'));
+    toast(globalize.translate('SettingsSaved'));
 }
 
 export function processServerConfigurationUpdateResult(result) {
