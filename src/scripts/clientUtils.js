@@ -37,7 +37,7 @@ export async function serverAddress() {
         responses = responses.filter(response => response && response.ok);
         return Promise.all(responses.map(response => response.json()));
     }).then(configs => {
-        const selection = configs.find(config => !config.StartupWizardCompleted)
+        let selection = configs.find(config => !config.StartupWizardCompleted);
         if (!selection) selection = configs[0];
         return Promise.resolve(selection.LocalAddress);
     }).catch(error => {
