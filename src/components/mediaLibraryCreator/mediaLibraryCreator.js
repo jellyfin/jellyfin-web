@@ -107,7 +107,7 @@ import alert from '../alert';
     function onAddButtonClick() {
         const page = dom.parentWithClass(this, 'dlg-librarycreator');
 
-        import('../directorybrowser/directorybrowser').then((directoryBrowser) => {
+        import('../directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
             const picker = new directoryBrowser();
             picker.show({
                 enableNetworkSharePath: true,
