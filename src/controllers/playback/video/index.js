@@ -1544,7 +1544,7 @@ import { appRouter } from '../../../components/appRouter';
 
         if (browser.touch) {
             (function () {
-                import('../../../scripts/touchHelper').then((TouchHelper) => {
+                import('../../../scripts/touchHelper').then(({default: TouchHelper}) => {
                     self.touchHelper = new TouchHelper(view, {
                         swipeYThreshold: 30,
                         triggerOnMove: true,
