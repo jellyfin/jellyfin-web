@@ -267,6 +267,8 @@ import '../../elements/emby-slider/emby-slider';
         }
 
         parentContainer.insertAdjacentHTML('afterbegin', getNowPlayingBarHtml());
+        window.CustomElements.upgradeSubtree(parentContainer);
+
         nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
         if (layoutManager.mobile) {
