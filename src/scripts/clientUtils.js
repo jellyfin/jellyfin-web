@@ -114,7 +114,7 @@ export function processErrorResponse(response) {
 
 export function alert(options) {
     if (typeof options == 'string') {
-        toast.default({
+        toast({
             text: options
         });
     } else {
