@@ -893,7 +893,7 @@ import { appRouter } from '../../../components/appRouter';
         }
 
         function toggleStats() {
-            import('../../../components/playerstats/playerstats').then((PlayerStats) => {
+            import('../../../components/playerstats/playerstats').then(({default: PlayerStats}) => {
                 const player = currentPlayer;
 
                 if (player) {
