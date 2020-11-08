@@ -64,51 +64,55 @@ function generateDeviceId() {
 }
 
 function getDeviceId() {
-    const key = '_deviceId2';
-    let deviceId = appSettings.get(key);
-
     if (!deviceId) {
-        deviceId = generateDeviceId();
-        appSettings.set(key, deviceId);
+        const key = '_deviceId2';
+
+        deviceId = appSettings.get(key);
+
+        if (!deviceId) {
+            deviceId = generateDeviceId();
+            appSettings.set(key, deviceId);
+        }
     }
 
     return deviceId;
 }
 
 function getDeviceName() {
-    let deviceName;
-    if (browser.tizen) {
-        deviceName = 'Samsung Smart TV';
-    } else if (browser.web0s) {
-        deviceName = 'LG Smart TV';
-    } else if (browser.operaTv) {
-        deviceName = 'Opera TV';
-    } else if (browser.xboxOne) {
-        deviceName = 'Xbox One';
-    } else if (browser.ps4) {
-        deviceName = 'Sony PS4';
-    } else if (browser.chrome) {
-        deviceName = 'Chrome';
-    } else if (browser.edgeChromium) {
-        deviceName = 'Edge Chromium';
-    } else if (browser.edge) {
-        deviceName = 'Edge';
-    } else if (browser.firefox) {
-        deviceName = 'Firefox';
-    } else if (browser.opera) {
-        deviceName = 'Opera';
-    } else if (browser.safari) {
-        deviceName = 'Safari';
-    } else {
-        deviceName = 'Web Browser';
-    }
+    if (!deviceName) {
+        if (browser.tizen) {
+            deviceName = 'Samsung Smart TV';
+        } else if (browser.web0s) {
+            deviceName = 'LG Smart TV';
+        } else if (browser.operaTv) {
+            deviceName = 'Opera TV';
+        } else if (browser.xboxOne) {
+            deviceName = 'Xbox One';
+        } else if (browser.ps4) {
+            deviceName = 'Sony PS4';
+        } else if (browser.chrome) {
+            deviceName = 'Chrome';
+        } else if (browser.edgeChromium) {
+            deviceName = 'Edge Chromium';
+        } else if (browser.edge) {
+            deviceName = 'Edge';
+        } else if (browser.firefox) {
+            deviceName = 'Firefox';
+        } else if (browser.opera) {
+            deviceName = 'Opera';
+        } else if (browser.safari) {
+            deviceName = 'Safari';
+        } else {
+            deviceName = 'Web Browser';
+        }
 
-    if (browser.ipad) {
-        deviceName += ' iPad';
-    } else if (browser.iphone) {
-        deviceName += ' iPhone';
-    } else if (browser.android) {
-        deviceName += ' Android';
+        if (browser.ipad) {
+            deviceName += ' iPad';
+        } else if (browser.iphone) {
+            deviceName += ' iPhone';
+        } else if (browser.android) {
+            deviceName += ' Android';
+        }
     }
 
     return deviceName;
@@ -311,8 +315,8 @@ function askForExit() {
     });
 }
 
-const deviceId = getDeviceId();
-const deviceName = getDeviceName();
+let deviceId;
+let deviceName;
 const appName = 'Jellyfin Web';
 const appVersion = '10.7.0';
 
@@ -352,15 +356,15 @@ export const appHost = {
         }
 
         return {
-            deviceId,
-            deviceName
+            deviceId: getDeviceId(),
+            deviceName: getDeviceName()
         };
     },
     deviceName: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.deviceName() : deviceName;
+        return window.NativeShell ? window.NativeShell.AppHost.deviceName() : getDeviceName();
     },
     deviceId: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.deviceId() : deviceId;
+        return window.NativeShell ? window.NativeShell.AppHost.deviceId() : getDeviceId();
     },
     appName: function () {
         return window.NativeShell ? window.NativeShell.AppHost.appName() : appName;
