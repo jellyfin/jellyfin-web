@@ -381,7 +381,7 @@ import { appRouter } from '../components/appRouter';
     function showSortMenu() {
         const instance = this;
 
-        import('../components/sortmenu/sortmenu').then((SortMenu) => {
+        import('../components/sortmenu/sortmenu').then(({default: SortMenu}) => {
             new SortMenu().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getSortValues(),
