@@ -83,20 +83,6 @@ export default function (page, providerId, options) {
         loading.hide();
     }
 
-    function hex(buffer) {
-        const hexCodes = [];
-        const view = new DataView(buffer);
-
-        for (let i = 0; i < view.byteLength; i += 4) {
-            const value = view.getUint32(i);
-            const stringValue = value.toString(16);
-            const paddedValue = ('00000000' + stringValue).slice(-'00000000'.length);
-            hexCodes.push(paddedValue);
-        }
-
-        return hexCodes.join('');
-    }
-
     function submitLoginForm() {
         loading.show();
         const info = {
