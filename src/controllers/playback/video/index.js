@@ -617,7 +617,7 @@ import { appRouter } from '../../../components/appRouter';
         }
 
         function showComingUpNext(player) {
-            import('../../../components/upnextdialog/upnextdialog').then((UpNextDialog) => {
+            import('../../../components/upnextdialog/upnextdialog').then(({default: UpNextDialog}) => {
                 if (!(currentVisibleMenu || currentUpNextDialog)) {
                     currentVisibleMenu = 'upnext';
                     comingUpNextDisplayed = true;
