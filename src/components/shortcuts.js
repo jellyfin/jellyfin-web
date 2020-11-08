@@ -269,7 +269,7 @@ import toast from './toast/toast';
     }
 
     function addToPlaylist(item) {
-        import('./playlisteditor/playlisteditor').then((playlistEditor) => {
+        import('./playlisteditor/playlisteditor').then(({default: playlistEditor}) => {
             new playlistEditor().show({
                 items: [item.Id],
                 serverId: item.ServerId
@@ -294,16 +294,16 @@ import toast from './toast/toast';
 
             if (item.Type === 'Timer') {
                 if (item.ProgramId) {
-                    import('./recordingcreator/recordingcreator').then((recordingCreator) => {
+                    import('./recordingcreator/recordingcreator').then(({default: recordingCreator}) => {
                         recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
                     });
                 } else {
-                    import('./recordingcreator/recordingeditor').then((recordingEditor) => {
+                    import('./recordingcreator/recordingeditor').then(({default: recordingEditor}) => {
                         recordingEditor.show(item.Id, serverId).then(resolve, reject);
                     });
                 }
             } else {
-                import('./metadataEditor/metadataEditor').then((metadataEditor) => {
+                import('./metadataEditor/metadataEditor').then(({default: metadataEditor}) => {
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             }
@@ -397,4 +397,3 @@ export default {
     onClick: onClick,
     getShortcutAttributesHtml: getShortcutAttributesHtml
 };
-

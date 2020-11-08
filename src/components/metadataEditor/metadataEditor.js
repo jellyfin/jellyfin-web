@@ -225,7 +225,7 @@ import toast from '../toast/toast';
     }
 
     function editPerson(context, person, index) {
-        import('./personEditor').then((personEditor) => {
+        import('./personEditor').then(({default: personEditor}) => {
             personEditor.show(person).then(function (updatedPerson) {
                 const isNew = index === -1;
 

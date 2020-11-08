@@ -182,7 +182,7 @@ function onManageSeriesRecordingClick(e) {
 
     const self = this;
 
-    import('./seriesrecordingeditor').then((seriesRecordingEditor) => {
+    import('./seriesrecordingeditor').then(({default: seriesRecordingEditor}) => {
         seriesRecordingEditor.show(self.SeriesTimerId, options.serverId, {
 
             enableCancel: false

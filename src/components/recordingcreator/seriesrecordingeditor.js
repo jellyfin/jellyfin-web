@@ -26,7 +26,7 @@ let currentServerId;
 
 function deleteTimer(apiClient, timerId) {
     return new Promise(function (resolve, reject) {
-        import('./recordinghelper').then((recordingHelper) => {
+        import('./recordinghelper').then(({ default: recordingHelper }) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(timerId, apiClient.serverId()).then(resolve, reject);
         });
     });

@@ -161,7 +161,7 @@ import confirm from '../confirm/confirm';
     }
 
     function showDirectoryBrowser(context, originalPath, networkPath) {
-        import('../directorybrowser/directorybrowser').then((directoryBrowser) => {
+        import('../directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
             const picker = new directoryBrowser();
             picker.show({
                 enableNetworkSharePath: true,
@@ -209,7 +209,7 @@ export class showEditor {
         currentOptions = options;
         currentDeferred = deferred;
         hasChanges = false;
-        import('./mediaLibraryEditor.template.html').then((template) => {
+        import('./mediaLibraryEditor.template.html').then(({default: template}) => {
             const dlg = dialogHelper.createDialog({
                 size: 'small',
                 modal: false,

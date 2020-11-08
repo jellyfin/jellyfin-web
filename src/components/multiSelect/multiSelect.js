@@ -239,7 +239,7 @@ import confirm from '../confirm/confirm';
 
                         switch (id) {
                             case 'addtocollection':
-                                import('../collectionEditor/collectionEditor').then((collectionEditor) => {
+                                import('../collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
                                     new collectionEditor({
                                         items: items,
                                         serverId: serverId
@@ -279,7 +279,7 @@ import confirm from '../confirm/confirm';
                                 dispatchNeedsRefresh();
                                 break;
                             case 'refresh':
-                                import('../refreshdialog/refreshdialog').then((refreshDialog) => {
+                                import('../refreshdialog/refreshdialog').then(({default: refreshDialog}) => {
                                     new refreshDialog({
                                         itemIds: items,
                                         serverId: serverId

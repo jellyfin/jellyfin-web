@@ -27,7 +27,7 @@ import 'webcomponents.js/webcomponents-lite';
 import ServerConnections from '../ServerConnections';
 
 function showViewSettings(instance) {
-    import('./guide-settings').then((guideSettingsDialog) => {
+    import('./guide-settings').then(({default: guideSettingsDialog}) => {
         guideSettingsDialog.show(instance.categoryOptions).then(function () {
             instance.refresh();
         });

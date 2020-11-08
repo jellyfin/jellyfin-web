@@ -13,7 +13,7 @@ import confirm from '../../components/confirm/confirm';
 /* eslint-disable indent */
 
     function addVirtualFolder(page) {
-        import('../../components/mediaLibraryCreator/mediaLibraryCreator').then((medialibrarycreator) => {
+        import('../../components/mediaLibraryCreator/mediaLibraryCreator').then(({default: medialibrarycreator}) => {
             new medialibrarycreator({
                 collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                     return !f.hidden;
@@ -28,7 +28,7 @@ import confirm from '../../components/confirm/confirm';
     }
 
     function editVirtualFolder(page, virtualFolder) {
-        import('../../components/mediaLibraryEditor/mediaLibraryEditor').then((medialibraryeditor) => {
+        import('../../components/mediaLibraryEditor/mediaLibraryEditor').then(({default: medialibraryeditor}) => {
             new medialibraryeditor({
                 refresh: shouldRefreshLibraryAfterChanges(page),
                 library: virtualFolder
@@ -62,7 +62,7 @@ import confirm from '../../components/confirm/confirm';
     }
 
     function refreshVirtualFolder(page, virtualFolder) {
-        import('../../components/refreshdialog/refreshdialog').then((refreshDialog) => {
+        import('../../components/refreshdialog/refreshdialog').then(({default: refreshDialog}) => {
             new refreshDialog({
                 itemIds: [virtualFolder.ItemId],
                 serverId: ApiClient.serverId(),

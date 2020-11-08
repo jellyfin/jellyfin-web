@@ -336,7 +336,7 @@ import toast from './toast/toast';
         return new Promise(function (resolve, reject) {
             switch (id) {
                 case 'addtocollection':
-                    import('./collectionEditor/collectionEditor').then((collectionEditor) => {
+                    import('./collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
                         new collectionEditor({
                             items: [itemId],
                             serverId: serverId
@@ -344,7 +344,7 @@ import toast from './toast/toast';
                     });
                     break;
                 case 'addtoplaylist':
-                    import('./playlisteditor/playlisteditor').then((playlistEditor) => {
+                    import('./playlisteditor/playlisteditor').then(({default: playlistEditor}) => {
                         new playlistEditor({
                             items: [itemId],
                             serverId: serverId
@@ -396,7 +396,7 @@ import toast from './toast/toast';
                     break;
                 }
                 case 'editsubtitles':
-                    import('./subtitleeditor/subtitleeditor').then((subtitleEditor) => {
+                    import('./subtitleeditor/subtitleeditor').then(({default: subtitleEditor}) => {
                         subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
@@ -452,7 +452,7 @@ import toast from './toast/toast';
                     playbackManager.clearQueue();
                     break;
                 case 'record':
-                    import('./recordingcreator/recordingcreator').then((recordingCreator) => {
+                    import('./recordingcreator/recordingcreator').then(({default: recordingCreator}) => {
                         recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
@@ -523,7 +523,7 @@ import toast from './toast/toast';
     }
 
     function deleteTimer(apiClient, item, resolve, command) {
-        import('./recordingcreator/recordinghelper').then((recordingHelper) => {
+        import('./recordingcreator/recordinghelper').then(({default: recordingHelper}) => {
             const timerId = item.TimerId || item.Id;
             recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
                 getResolveFunction(resolve, command, true)();
@@ -532,7 +532,7 @@ import toast from './toast/toast';
     }
 
     function deleteSeriesTimer(apiClient, item, resolve, command) {
-        import('./recordingcreator/recordinghelper').then((recordingHelper) => {
+        import('./recordingcreator/recordinghelper').then(({default: recordingHelper}) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
                 getResolveFunction(resolve, command, true)();
             });
@@ -566,7 +566,7 @@ import toast from './toast/toast';
             const serverId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
-                import('./recordingcreator/recordingeditor').then((recordingEditor) => {
+                import('./recordingcreator/recordingeditor').then(({default: recordingEditor}) => {
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             } else if (item.Type === 'SeriesTimer') {
@@ -574,7 +574,7 @@ import toast from './toast/toast';
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             } else {
-                import('./metadataEditor/metadataEditor').then((metadataEditor) => {
+                import('./metadataEditor/metadataEditor').then(({default: metadataEditor}) => {
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             }
