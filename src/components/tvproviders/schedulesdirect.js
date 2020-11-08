@@ -83,13 +83,6 @@ export default function (page, providerId, options) {
         loading.hide();
     }
 
-    function sha1(str) {
-        const buffer = new TextEncoder('utf-8').encode(str);
-        return crypto.subtle.digest('SHA-1', buffer).then(function (hash) {
-            return hex(hash);
-        });
-    }
-
     function hex(buffer) {
         const hexCodes = [];
         const view = new DataView(buffer);
@@ -106,35 +99,33 @@ export default function (page, providerId, options) {
 
     function submitLoginForm() {
         loading.show();
-        sha1(page.querySelector('.txtPass').value).then(function (passwordHash) {
-            const info = {
-                Type: 'SchedulesDirect',
-                Username: page.querySelector('.txtUser').value,
-                EnableAllTuners: true,
-                Password: passwordHash
-            };
-            const id = providerId;
+        const info = {
+            Type: 'SchedulesDirect',
+            Username: page.querySelector('.txtUser').value,
+            EnableAllTuners: true,
+            Password: page.querySelector('.txtPass').value
+        };
+        const id = providerId;
 
-            if (id) {
-                info.Id = id;
-            }
+        if (id) {
+            info.Id = id;
+        }
 
-            ApiClient.ajax({
-                type: 'POST',
-                url: ApiClient.getUrl('LiveTv/ListingProviders', {
-                    ValidateLogin: true
-                }),
-                data: JSON.stringify(info),
-                contentType: 'application/json',
-                dataType: 'json'
-            }).then(function (result) {
-                Dashboard.processServerConfigurationUpdateResult();
-                providerId = result.Id;
-                reload();
-            }, function () {
-                Dashboard.alert({ // ApiClient.ajax() error handler
-                    message: globalize.translate('ErrorSavingTvProvider')
-                });
+        ApiClient.ajax({
+            type: 'POST',
+            url: ApiClient.getUrl('LiveTv/ListingProviders', {
+                ValidateLogin: true
+            }),
+            data: JSON.stringify(info),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).then(function (result) {
+            Dashboard.processServerConfigurationUpdateResult();
+            providerId = result.Id;
+            reload();
+        }, function () {
+            Dashboard.alert({ // ApiClient.ajax() error handler
+                message: globalize.translate('ErrorSavingTvProvider')
             });
         });
     }
