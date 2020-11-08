@@ -65,7 +65,7 @@ import '../elements/emby-button/emby-button';
             }
         };
 
-        import('../scripts/touchHelper').then((TouchHelper) => {
+        import('../scripts/touchHelper').then(({default: TouchHelper}) => {
             const touchHelper = new TouchHelper(view.parentNode.parentNode);
 
             Events.on(touchHelper, 'swipeleft', onSwipeLeft);
