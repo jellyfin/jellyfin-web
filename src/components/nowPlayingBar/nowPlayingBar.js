@@ -11,6 +11,10 @@ import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import ServerConnections from '../ServerConnections';
+import appFooter from '../appFooter/appFooter';
+import itemShortcuts from '../shortcuts';
+import './nowPlayingBar.css';
+import '../../elements/emby-slider/emby-slider';
 
 /* eslint-disable indent */
 
@@ -252,44 +256,34 @@ import ServerConnections from '../ServerConnections';
     let nowPlayingBarElement;
     function getNowPlayingBar() {
         if (nowPlayingBarElement) {
-            return Promise.resolve(nowPlayingBarElement);
+            return nowPlayingBarElement;
         }
 
-        return new Promise(function (resolve, reject) {
-            Promise.all([
-                import('../appFooter/appFooter'),
-                import('../shortcuts'),
-                import('./nowPlayingBar.css'),
-                import('../../elements/emby-slider/emby-slider')
-            ])
-            .then(([appfooter, itemShortcuts]) => {
-                const parentContainer = appfooter.element;
-                nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
+            const parentContainer = appFooter.element;
+            nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
-                if (nowPlayingBarElement) {
-                    resolve(nowPlayingBarElement);
-                    return;
-                }
+        if (nowPlayingBarElement) {
+            return nowPlayingBarElement;
+        }
 
-                parentContainer.insertAdjacentHTML('afterbegin', getNowPlayingBarHtml());
-                nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
+        parentContainer.insertAdjacentHTML('afterbegin', getNowPlayingBarHtml());
+        nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
-                if (layoutManager.mobile) {
-                    hideButton(nowPlayingBarElement.querySelector('.btnShuffleQueue'));
-                    hideButton(nowPlayingBarElement.querySelector('.nowPlayingBarCenter'));
-                }
+        if (layoutManager.mobile) {
+            hideButton(nowPlayingBarElement.querySelector('.btnShuffleQueue'));
+            hideButton(nowPlayingBarElement.querySelector('.nowPlayingBarCenter'));
+        }
 
-                if (browser.safari && browser.slow) {
-                    // Not handled well here. The wrong elements receive events, bar doesn't update quickly enough, etc.
-                    nowPlayingBarElement.classList.add('noMediaProgress');
-                }
+        if (browser.safari && browser.slow) {
+            // Not handled well here. The wrong elements receive events, bar doesn't update quickly enough, etc.
+            nowPlayingBarElement.classList.add('noMediaProgress');
+        }
 
-                itemShortcuts.on(nowPlayingBarElement);
+        itemShortcuts.on(nowPlayingBarElement);
 
-                bindEvents(nowPlayingBarElement);
-                resolve(nowPlayingBarElement);
-            });
-        });
+        bindEvents(nowPlayingBarElement);
+
+        return nowPlayingBarElement;
     }
 
     function showButton(button) {
@@ -621,7 +615,7 @@ import ServerConnections from '../ServerConnections';
             return;
         }
 
-        getNowPlayingBar().then(slideUp);
+        slideUp(getNowPlayingBar());
     }
 
     function hideNowPlayingBar() {
@@ -682,9 +676,8 @@ import ServerConnections from '../ServerConnections';
             return;
         }
 
-        getNowPlayingBar().then(function () {
-            updatePlayerStateInternal(event, state, player);
-        });
+        getNowPlayingBar();
+        updatePlayerStateInternal(event, state, player);
     }
 
     function onTimeUpdate(e) {

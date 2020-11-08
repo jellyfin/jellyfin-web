@@ -114,9 +114,7 @@ function onPlaying(instance, playOptions, resolve) {
             instance.videoDialog.classList.remove('onTop');
         }
 
-        import('../../components/loading/loading').then(({default: loading}) => {
-            loading.hide();
-        });
+        loading.hide();
     }
 }
 
@@ -130,7 +128,7 @@ function setCurrentSrc(instance, elem, options) {
             instance.currentYoutubePlayer = new YT.Player('player', {
                 height: instance.videoDialog.offsetHeight,
                 width: instance.videoDialog.offsetWidth,
-                videoId: params.v,
+                videoId: params.get('v'),
                 events: {
                     'onReady': onPlayerReady,
                     'onStateChange': function (event) {
