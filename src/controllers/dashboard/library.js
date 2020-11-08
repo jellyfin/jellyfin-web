@@ -28,7 +28,7 @@ import confirm from '../../components/confirm/confirm';
     }
 
     function editVirtualFolder(page, virtualFolder) {
-        import('../../components/mediaLibraryEditor/mediaLibraryEditor').then((medialibraryeditor) => {
+        import('../../components/mediaLibraryEditor/mediaLibraryEditor').then(({default: medialibraryeditor}) => {
             new medialibraryeditor({
                 refresh: shouldRefreshLibraryAfterChanges(page),
                 library: virtualFolder
