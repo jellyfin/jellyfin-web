@@ -118,7 +118,7 @@ export function alert(options) {
             text: options
         });
     } else {
-        baseAlert.default({
+        baseAlert({
             title: options.title || globalize.translate('HeaderAlert'),
             text: options.message
         }).then(options.callback || function () {});
