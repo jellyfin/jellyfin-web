@@ -13,7 +13,7 @@ import confirm from '../../components/confirm/confirm';
 /* eslint-disable indent */
 
     function addVirtualFolder(page) {
-        import('../../components/mediaLibraryCreator/mediaLibraryCreator').then((medialibrarycreator) => {
+        import('../../components/mediaLibraryCreator/mediaLibraryCreator').then(({default: medialibrarycreator}) => {
             new medialibrarycreator({
                 collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                     return !f.hidden;
