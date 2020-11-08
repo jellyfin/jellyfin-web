@@ -347,7 +347,7 @@ import { appRouter } from '../components/appRouter';
     function showViewSettingsMenu() {
         const instance = this;
 
-        import('../components/viewSettings/viewSettings').then((ViewSettings) => {
+        import('../components/viewSettings/viewSettings').then(({default: ViewSettings}) => {
             new ViewSettings().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getViewSettings(),
