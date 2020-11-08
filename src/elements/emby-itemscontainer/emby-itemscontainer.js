@@ -11,6 +11,7 @@ import serverNotifications from '../../scripts/serverNotifications';
 import { Events } from 'jellyfin-apiclient';
 import 'webcomponents.js/webcomponents-lite';
 import ServerConnections from '../../components/ServerConnections';
+import Sortable from 'sortablejs';
 
 /* eslint-disable indent */
 
@@ -133,16 +134,14 @@ import ServerConnections from '../../components/ServerConnections';
         }
 
         const self = this;
-        import('sortablejs').then((Sortable) => {
-            self.sortable = new Sortable(self, {
-                draggable: '.listItem',
-                handle: '.listViewDragHandle',
+        self.sortable = new Sortable(self, {
+            draggable: '.listItem',
+            handle: '.listViewDragHandle',
 
-                // dragging ended
-                onEnd: function (evt) {
-                    return onDrop(evt, self);
-                }
-            });
+            // dragging ended
+            onEnd: function (evt) {
+                return onDrop(evt, self);
+            }
         });
     };
 

@@ -124,16 +124,14 @@ import './style.css';
 
     export function lazyChildren(elem) {
         if (userSettings.enableBlurhash()) {
-            const lazyElems = Array.from(elem.querySelectorAll('.lazy'));
-
-            lazyElems.forEach((lazyElem) => {
+            for (const lazyElem of elem.querySelectorAll('.lazy')) {
                 const blurhashstr = lazyElem.getAttribute('data-blurhash');
                 if (!lazyElem.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
                     itemBlurhashing(lazyElem, blurhashstr);
                 } else if (!blurhashstr && !lazyElem.classList.contains('blurhashed')) {
                     lazyElem.classList.add('non-blurhashable');
                 }
-            });
+            }
         }
 
         lazyLoader.lazyChildren(elem, fillImage);

@@ -13,6 +13,9 @@ import './style.css';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 import ServerConnections from '../ServerConnections';
+// eslint-disable-next-line import/named, import/namespace
+import { Swiper } from 'swiper/swiper-bundle.esm';
+import 'swiper/swiper-bundle.css';
 
 /**
  * Name of transition event.
@@ -301,45 +304,43 @@ export default function (options) {
             slides = currentOptions.items;
         }
 
-        import('swiper').then(({default: Swiper}) => {
-            swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
-                direction: 'horizontal',
-                // Loop is disabled due to the virtual slides option not supporting it.
-                loop: false,
-                zoom: {
-                    minRatio: 1,
-                    toggle: true
-                },
-                autoplay: !options.interactive,
-                keyboard: {
-                    enabled: true
-                },
-                preloadImages: true,
-                slidesPerView: 1,
-                slidesPerColumn: 1,
-                initialSlide: options.startIndex || 0,
-                speed: 240,
-                navigation: {
-                    nextEl: '.btnSlideshowNext',
-                    prevEl: '.btnSlideshowPrevious'
-                },
-                // Virtual slides reduce memory consumption for large libraries while allowing preloading of images;
-                virtual: {
-                    slides: slides,
-                    cache: true,
-                    renderSlide: getSwiperSlideHtml,
-                    addSlidesBefore: 1,
-                    addSlidesAfter: 1
-                }
-            });
-
-            swiperInstance.on('autoplayStart', onAutoplayStart);
-            swiperInstance.on('autoplayStop', onAutoplayStop);
-
-            if (useFakeZoomImage) {
-                swiperInstance.on('zoomChange', onZoomChange);
+        swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
+            direction: 'horizontal',
+            // Loop is disabled due to the virtual slides option not supporting it.
+            loop: false,
+            zoom: {
+                minRatio: 1,
+                toggle: true
+            },
+            autoplay: !options.interactive,
+            keyboard: {
+                enabled: true
+            },
+            preloadImages: true,
+            slidesPerView: 1,
+            slidesPerColumn: 1,
+            initialSlide: options.startIndex || 0,
+            speed: 240,
+            navigation: {
+                nextEl: '.btnSlideshowNext',
+                prevEl: '.btnSlideshowPrevious'
+            },
+            // Virtual slides reduce memory consumption for large libraries while allowing preloading of images;
+            virtual: {
+                slides: slides,
+                cache: true,
+                renderSlide: getSwiperSlideHtml,
+                addSlidesBefore: 1,
+                addSlidesAfter: 1
             }
         });
+
+        swiperInstance.on('autoplayStart', onAutoplayStart);
+        swiperInstance.on('autoplayStop', onAutoplayStop);
+
+        if (useFakeZoomImage) {
+            swiperInstance.on('zoomChange', onZoomChange);
+        }
     }
 
     /**

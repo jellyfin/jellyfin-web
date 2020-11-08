@@ -183,7 +183,10 @@ import Dashboard from './clientUtils';
     }
 
     function initializeTree(page, currentUser, openItems, selectedId) {
-        import('jstree').then(() => {
+        Promise.all([
+            import('jstree'),
+            import('jstree/dist/themes/default/style.css')
+        ]).then(() => {
             initializeTreeInternal(page, currentUser, openItems, selectedId);
         });
     }

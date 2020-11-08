@@ -17,6 +17,7 @@ import '../formdialog.css';
 import './recordingcreator.css';
 import 'material-design-icons-iconfont';
 import ServerConnections from '../ServerConnections';
+import { playbackManager } from '../playback/playbackmanager';
 
 let currentDialog;
 let closeAction;
@@ -117,14 +118,12 @@ function reload(context, programId, serverId, refreshRecordingStateOnly) {
 
 function executeCloseAction(action, programId, serverId) {
     if (action === 'play') {
-        import('../playback/playbackmanager').then((playbackManager) => {
-            const apiClient = ServerConnections.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
-            apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
-                playbackManager.play({
-                    ids: [item.ChannelId],
-                    serverId: serverId
-                });
+        apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
+            playbackManager.play({
+                ids: [item.ChannelId],
+                serverId: serverId
             });
         });
         return;

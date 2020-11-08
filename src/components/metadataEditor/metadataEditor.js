@@ -18,6 +18,7 @@ import '../../assets/css/clearbutton.scss';
 import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
+import { appRouter } from '../appRouter';
 
 /* eslint-disable indent */
 
@@ -244,9 +245,7 @@ import toast from '../toast/toast';
         if (parentId) {
             reload(context, parentId, item.ServerId);
         } else {
-            import('../appRouter').then((appRouter) => {
-                appRouter.goHome();
-            });
+            appRouter.goHome();
         }
     }
 
