@@ -15,6 +15,7 @@ import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.css';
 import '../../elements/emby-slider/emby-slider';
+import { appRouter } from '../appRouter';
 
 /* eslint-disable indent */
 
@@ -248,9 +249,7 @@ import '../../elements/emby-slider/emby-slider';
     }
 
     function showRemoteControl() {
-        import('../appRouter').then(({default: appRouter}) => {
-            appRouter.showNowPlaying();
-        });
+        appRouter.showNowPlaying();
     }
 
     let nowPlayingBarElement;

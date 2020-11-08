@@ -3,6 +3,7 @@ import loading from '../loading/loading';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
+import dialog from '../dialog/dialog';
 
 /*eslint prefer-const: "error"*/
 
@@ -100,60 +101,56 @@ function sendToast(msg) {
 
 function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId) {
     return new Promise(function (resolve, reject) {
-        import('../dialog/dialog').then((dialog) => {
-            const items = [];
+        const items = [];
 
+        items.push({
+            name: globalize.translate('HeaderKeepRecording'),
+            id: 'cancel',
+            type: 'submit'
+        });
+
+        if (timerStatus === 'InProgress') {
             items.push({
-                name: globalize.translate('HeaderKeepRecording'),
-                id: 'cancel',
-                type: 'submit'
-            });
-
-            if (timerStatus === 'InProgress') {
-                items.push({
-                    name: globalize.translate('HeaderStopRecording'),
-                    id: 'canceltimer',
-                    type: 'cancel'
-                });
-            } else {
-                items.push({
-                    name: globalize.translate('HeaderCancelRecording'),
-                    id: 'canceltimer',
-                    type: 'cancel'
-                });
-            }
-
-            items.push({
-                name: globalize.translate('HeaderCancelSeries'),
-                id: 'cancelseriestimer',
+                name: globalize.translate('HeaderStopRecording'),
+                id: 'canceltimer',
                 type: 'cancel'
             });
+        } else {
+            items.push({
+                name: globalize.translate('HeaderCancelRecording'),
+                id: 'canceltimer',
+                type: 'cancel'
+            });
+        }
 
-            dialog({
-
-                text: globalize.translate('MessageConfirmRecordingCancellation'),
-                buttons: items
-
-            }).then(function (result) {
-                const apiClient = ServerConnections.getApiClient(serverId);
-
-                if (result === 'canceltimer') {
-                    loading.show();
-
-                    cancelTimer(apiClient, timerId, true).then(resolve, reject);
-                } else if (result === 'cancelseriestimer') {
-                    loading.show();
-
-                    apiClient.cancelLiveTvSeriesTimer(seriesTimerId).then(function () {
-                        toast(globalize.translate('SeriesCancelled'));
-                        loading.hide();
-                        resolve();
-                    }, reject);
-                } else {
-                    resolve();
-                }
-            }, reject);
+        items.push({
+            name: globalize.translate('HeaderCancelSeries'),
+            id: 'cancelseriestimer',
+            type: 'cancel'
         });
+
+        dialog.show({
+            text: globalize.translate('MessageConfirmRecordingCancellation'),
+            buttons: items
+        }).then(function (result) {
+            const apiClient = ServerConnections.getApiClient(serverId);
+
+            if (result === 'canceltimer') {
+                loading.show();
+
+                cancelTimer(apiClient, timerId, true).then(resolve, reject);
+            } else if (result === 'cancelseriestimer') {
+                loading.show();
+
+                apiClient.cancelLiveTvSeriesTimer(seriesTimerId).then(function () {
+                    toast(globalize.translate('SeriesCancelled'));
+                    loading.hide();
+                    resolve();
+                }, reject);
+            } else {
+                resolve();
+            }
+        }, reject);
     });
 }
 

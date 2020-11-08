@@ -42,7 +42,7 @@ import globalize from '../scripts/globalize';
                 return Promise.resolve(plugin);
             } else {
                 return new Promise((resolve, reject) => {
-                    PluginManager.loadStrings(plugin)
+                    this.#loadStrings(plugin)
                         .then(function () {
                             resolve(plugin);
                         })

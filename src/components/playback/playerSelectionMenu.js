@@ -7,6 +7,10 @@ import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
 import { appHost } from '../apphost';
 import { enable, isEnabled, supported } from '../../scripts/autocast';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-button/emby-button';
+import dialog from '../dialog/dialog';
+import dialogHelper from '../dialogHelper/dialogHelper';
 
 function mirrorItem(info, player) {
     const item = info.item;
@@ -140,47 +144,38 @@ export function show(button) {
 }
 
 function showActivePlayerMenu(playerInfo) {
-    Promise.all([
-        import('../dialogHelper/dialogHelper'),
-        import('../dialog/dialog'),
-        import('../../elements/emby-checkbox/emby-checkbox'),
-        import('../../elements/emby-button/emby-button')
-    ]).then(([dialogHelper]) => {
-        showActivePlayerMenuInternal(dialogHelper, playerInfo);
-    });
+    showActivePlayerMenuInternal(dialogHelper, playerInfo);
 }
 
 function disconnectFromPlayer(currentDeviceName) {
     if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
-        import('../dialog/dialog').then(({default: dialog}) => {
-            const menuItems = [];
+        const menuItems = [];
 
-            menuItems.push({
-                name: globalize.translate('Yes'),
-                id: 'yes'
-            });
-            menuItems.push({
-                name: globalize.translate('No'),
-                id: 'no'
-            });
+        menuItems.push({
+            name: globalize.translate('Yes'),
+            id: 'yes'
+        });
+        menuItems.push({
+            name: globalize.translate('No'),
+            id: 'no'
+        });
 
-            dialog({
-                buttons: menuItems,
-                text: globalize.translate('ConfirmEndPlayerSession', currentDeviceName)
+        dialog.show({
+            buttons: menuItems,
+            text: globalize.translate('ConfirmEndPlayerSession', currentDeviceName)
 
-            }).then(function (id) {
-                switch (id) {
-                    case 'yes':
-                        playbackManager.getCurrentPlayer().endSession();
-                        playbackManager.setDefaultPlayerActive();
-                        break;
-                    case 'no':
-                        playbackManager.setDefaultPlayerActive();
-                        break;
-                    default:
-                        break;
-                }
-            });
+        }).then(function (id) {
+            switch (id) {
+                case 'yes':
+                    playbackManager.getCurrentPlayer().endSession();
+                    playbackManager.setDefaultPlayerActive();
+                    break;
+                case 'no':
+                    playbackManager.setDefaultPlayerActive();
+                    break;
+                default:
+                    break;
+            }
         });
     } else {
         playbackManager.setDefaultPlayerActive();
