@@ -22,7 +22,7 @@ let currentServerId;
 let currentResolve;
 
 function deleteTimer(apiClient, timerId) {
-    return import('./recordinghelper').then((recordingHelper) => {
+    return import('./recordinghelper').then(({ default: recordingHelper }) => {
         recordingHelper.cancelTimerWithConfirmation(timerId, apiClient.serverId());
     });
 }
