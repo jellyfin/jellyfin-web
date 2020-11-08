@@ -3190,7 +3190,7 @@ class PlaybackManager {
         };
 
         if (appHost.supports('remotecontrol')) {
-            import('../../scripts/serverNotifications').then((serverNotifications) => {
+            import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
                 Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
             });

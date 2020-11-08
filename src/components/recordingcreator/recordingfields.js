@@ -164,7 +164,7 @@ function onManageRecordingClick(e) {
     }
 
     const self = this;
-    import('./recordingeditor').then((recordingEditor) => {
+    import('./recordingeditor').then(({default: recordingEditor}) => {
         recordingEditor.show(self.TimerId, options.serverId, {
             enableCancel: false
         }).then(function () {

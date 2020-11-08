@@ -7,7 +7,7 @@ import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from '../playback/playbackmanager';
 import timeSyncManager from './timeSyncManager';
 import toast from '../toast/toast';
-import globalize from '../../scripts//globalize';
+import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
 
 /**

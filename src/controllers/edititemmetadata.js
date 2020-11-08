@@ -5,7 +5,7 @@ function reload(context, itemId) {
     loading.show();
 
     if (itemId) {
-        import('../components/metadataEditor/metadataEditor').then((metadataEditor) => {
+        import('../components/metadataEditor/metadataEditor').then(({ default: metadataEditor }) => {
             metadataEditor.embed(context.querySelector('.editPageInnerContent'), itemId, ApiClient.serverInfo().Id);
         });
     } else {

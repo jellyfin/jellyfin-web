@@ -72,7 +72,7 @@ import confirm from '../../components/confirm/confirm';
     }
 
     function renameVirtualFolder(page, virtualFolder) {
-        import('../../components/prompt/prompt').then((prompt) => {
+        import('../../components/prompt/prompt').then(({default: prompt}) => {
             prompt({
                 label: globalize.translate('LabelNewName'),
                 confirmText: globalize.translate('ButtonRename')

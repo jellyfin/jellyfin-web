@@ -570,7 +570,7 @@ import toast from './toast/toast';
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             } else if (item.Type === 'SeriesTimer') {
-                import('./recordingcreator/seriesrecordingeditor').then((recordingEditor) => {
+                import('./recordingcreator/seriesrecordingeditor').then(({default: recordingEditor}) => {
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             } else {
