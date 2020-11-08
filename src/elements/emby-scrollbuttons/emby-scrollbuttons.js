@@ -1,4 +1,4 @@
-import './emby-scrollbuttons';
+import './emby-scrollbuttons.css';
 import 'webcomponents.js/webcomponents-lite';
 import '../../elements/emby-button/paper-icon-button-light';
 
