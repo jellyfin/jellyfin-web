@@ -1995,6 +1995,7 @@ export default function (view, params) {
 
     function onWebSocketMessage(e, data) {
         const msg = data;
+        const apiClient = getApiClient();
 
         if (msg.MessageType === 'UserDataChanged' && currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
             const key = currentItem.UserData.Key;
@@ -2012,63 +2013,68 @@ export default function (view, params) {
 
     let currentItem;
     const self = this;
-    const apiClient = getApiClient();
 
-    const btnResume = view.querySelector('.mainDetailButtons .btnResume');
-    const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');
-    if (layoutManager.tv && !btnResume.classList.contains('hide')) {
-        btnResume.classList.add('fab');
-        btnResume.classList.add('detailFloatingButton');
-    } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
-        btnPlay.classList.add('fab');
-        btnPlay.classList.add('detailFloatingButton');
-    }
+    function init() {
+        const apiClient = getApiClient();
 
-    view.querySelectorAll('.btnPlay');
-    bindAll(view, '.btnPlay', 'click', onPlayClick);
-    bindAll(view, '.btnResume', 'click', onPlayClick);
-    bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
-    bindAll(view, '.btnShuffle', 'click', onShuffleClick);
-    bindAll(view, '.btnPlayTrailer', 'click', onPlayTrailerClick);
-    bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
-    bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
-    bindAll(view, '.btnDownload', 'click', onDownloadClick);
-    view.querySelector('.detailImageContainer').addEventListener('click', onPosterClick);
-    view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
-    view.querySelector('.btnSplitVersions').addEventListener('click', function () {
-        splitVersions(self, view, apiClient, params);
-    });
-    bindAll(view, '.btnMoreCommands', 'click', onMoreCommandsClick);
-    view.querySelector('.selectSource').addEventListener('change', function () {
-        renderVideoSelections(view, self._currentPlaybackMediaSources);
-        renderAudioSelections(view, self._currentPlaybackMediaSources);
-        renderSubtitleSelections(view, self._currentPlaybackMediaSources);
-    });
-    view.addEventListener('viewshow', function (e) {
-        const page = this;
-
-        libraryMenu.setTransparentMenu(true);
-
-        if (e.detail.isRestored) {
-            if (currentItem) {
-                appRouter.setTitle('');
-                renderTrackSelections(page, self, currentItem, true);
-            }
-        } else {
-            reload(self, page, params);
+        const btnResume = view.querySelector('.mainDetailButtons .btnResume');
+        const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');
+        if (layoutManager.tv && !btnResume.classList.contains('hide')) {
+            btnResume.classList.add('fab');
+            btnResume.classList.add('detailFloatingButton');
+        } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
+            btnPlay.classList.add('fab');
+            btnPlay.classList.add('detailFloatingButton');
         }
 
-        Events.on(apiClient, 'message', onWebSocketMessage);
-        Events.on(playbackManager, 'playerchange', onPlayerChange);
-    });
-    view.addEventListener('viewbeforehide', function () {
-        Events.off(apiClient, 'message', onWebSocketMessage);
-        Events.off(playbackManager, 'playerchange', onPlayerChange);
-        libraryMenu.setTransparentMenu(false);
-    });
-    view.addEventListener('viewdestroy', function () {
-        currentItem = null;
-        self._currentPlaybackMediaSources = null;
-        self.currentRecordingFields = null;
-    });
+        view.querySelectorAll('.btnPlay');
+        bindAll(view, '.btnPlay', 'click', onPlayClick);
+        bindAll(view, '.btnResume', 'click', onPlayClick);
+        bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
+        bindAll(view, '.btnShuffle', 'click', onShuffleClick);
+        bindAll(view, '.btnPlayTrailer', 'click', onPlayTrailerClick);
+        bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
+        bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
+        bindAll(view, '.btnDownload', 'click', onDownloadClick);
+        view.querySelector('.detailImageContainer').addEventListener('click', onPosterClick);
+        view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
+        view.querySelector('.btnSplitVersions').addEventListener('click', function () {
+            splitVersions(self, view, apiClient, params);
+        });
+        bindAll(view, '.btnMoreCommands', 'click', onMoreCommandsClick);
+        view.querySelector('.selectSource').addEventListener('change', function () {
+            renderVideoSelections(view, self._currentPlaybackMediaSources);
+            renderAudioSelections(view, self._currentPlaybackMediaSources);
+            renderSubtitleSelections(view, self._currentPlaybackMediaSources);
+        });
+        view.addEventListener('viewshow', function (e) {
+            const page = this;
+
+            libraryMenu.setTransparentMenu(true);
+
+            if (e.detail.isRestored) {
+                if (currentItem) {
+                    appRouter.setTitle('');
+                    renderTrackSelections(page, self, currentItem, true);
+                }
+            } else {
+                reload(self, page, params);
+            }
+
+            Events.on(apiClient, 'message', onWebSocketMessage);
+            Events.on(playbackManager, 'playerchange', onPlayerChange);
+        });
+        view.addEventListener('viewbeforehide', function () {
+            Events.off(apiClient, 'message', onWebSocketMessage);
+            Events.off(playbackManager, 'playerchange', onPlayerChange);
+            libraryMenu.setTransparentMenu(false);
+        });
+        view.addEventListener('viewdestroy', function () {
+            currentItem = null;
+            self._currentPlaybackMediaSources = null;
+            self.currentRecordingFields = null;
+        });
+    }
+
+    init();
 }

@@ -144,7 +144,7 @@ export function show(button) {
 }
 
 function showActivePlayerMenu(playerInfo) {
-    showActivePlayerMenuInternal(dialogHelper, playerInfo);
+    showActivePlayerMenuInternal(playerInfo);
 }
 
 function disconnectFromPlayer(currentDeviceName) {
@@ -182,7 +182,7 @@ function disconnectFromPlayer(currentDeviceName) {
     }
 }
 
-function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
+function showActivePlayerMenuInternal(playerInfo) {
     let html = '';
 
     const dialogOptions = {

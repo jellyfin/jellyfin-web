@@ -20,8 +20,8 @@ function getThemeStylesheetInfo(id) {
         let theme;
 
         if (id) {
-            theme = themes.find(theme => {
-                return theme.id === id;
+            theme = themes.find(currentTheme => {
+                return currentTheme.id === id;
             });
         }
 
