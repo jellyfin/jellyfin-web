@@ -338,26 +338,31 @@ define(['browser'], function (browser) {
         }
 
         const canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
+        const canPlayAc3VideoAudio = supportsAc3(videoTestElement);
+        const canPlayEac3VideoAudio = supportsEac3(videoTestElement);
+        const canPlayAc3VideoAudioInHls = supportsAc3InHls(videoTestElement);
 
-        // Only put mp3 first if mkv support is there
-        // Otherwise with HLS and mp3 audio we're seeing some browsers
-        // safari is lying
-        if (supportsAc3(videoTestElement)) {
+        if (canPlayAc3VideoAudio) {
             videoAudioCodecs.push('ac3');
-
-            const eAc3 = supportsEac3(videoTestElement);
-            if (eAc3) {
+            if (canPlayEac3VideoAudio) {
                 videoAudioCodecs.push('eac3');
             }
 
             // This works in edge desktop, but not mobile
             // TODO: Retest this on mobile
-            if (supportsAc3InHls(videoTestElement)) {
+            // Transcoding codec is the first in hlsVideoAudioCodecs
+            // Put ac3/eac3 first only when the audio channels > 2 and need transcoding
+            if (canPlayAc3VideoAudioInHls && physicalAudioChannels > 2) {
                 hlsVideoAudioCodecs.push('ac3');
-                if (eAc3) {
+                if (canPlayEac3VideoAudio) {
                     hlsVideoAudioCodecs.push('eac3');
                 }
             }
+        }
+
+        if (canPlayAacVideoAudio) {
+            videoAudioCodecs.push('aac');
+            hlsVideoAudioCodecs.push('aac');
         }
 
         if (supportsMp3VideoAudio) {
@@ -365,27 +370,16 @@ define(['browser'], function (browser) {
 
             // PS4 fails to load HLS with mp3 audio
             if (!browser.ps4) {
-                // mp3 encoder only supports 2 channels, so only make that preferred if we're only requesting 2 channels
-                // Also apply it for chromecast because it no longer supports AAC 5.1
-                if (physicalAudioChannels <= 2) {
-                    hlsVideoAudioCodecs.push('mp3');
-                }
+                hlsVideoAudioCodecs.push('mp3');
             }
         }
 
-        if (canPlayAacVideoAudio) {
-            if (videoAudioCodecs.indexOf('aac') === -1) {
-                videoAudioCodecs.push('aac');
-            }
-
-            hlsVideoAudioCodecs.push('aac');
-        }
-
-        if (supportsMp3VideoAudio) {
-            // PS4 fails to load HLS with mp3 audio
-            if (!browser.ps4) {
-                if (hlsVideoAudioCodecs.indexOf('mp3') === -1) {
-                    hlsVideoAudioCodecs.push('mp3');
+        // For ac3/eac3 directstream
+        if (canPlayAc3VideoAudio) {
+            if (canPlayAc3VideoAudioInHls && hlsVideoAudioCodecs.indexOf('ac3') === -1) {
+                hlsVideoAudioCodecs.push('ac3');
+                if (canPlayEac3VideoAudio && hlsVideoAudioCodecs.indexOf('eac3') === -1) {
+                    hlsVideoAudioCodecs.push('eac3');
                 }
             }
         }
@@ -524,21 +518,14 @@ define(['browser'], function (browser) {
         });
 
         ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
-            if (audioFormat === 'mp2') {
+            profile.DirectPlayProfiles.push({
+                Container: audioFormat,
+                Type: 'Audio'
+            });
+
+            if (audioFormat === 'webma') {
                 profile.DirectPlayProfiles.push({
-                    Container: 'mp2,mp3',
-                    Type: 'Audio',
-                    AudioCodec: audioFormat
-                });
-            } else if (audioFormat === 'mp3') {
-                profile.DirectPlayProfiles.push({
-                    Container: audioFormat,
-                    Type: 'Audio',
-                    AudioCodec: audioFormat
-                });
-            } else {
-                profile.DirectPlayProfiles.push({
-                    Container: audioFormat === 'webma' ? 'webma,webm' : audioFormat,
+                    Container: 'webm',
                     Type: 'Audio'
                 });
             }
@@ -547,7 +534,6 @@ define(['browser'], function (browser) {
             if (audioFormat === 'aac' || audioFormat === 'alac') {
                 profile.DirectPlayProfiles.push({
                     Container: 'm4a,m4b',
-                    AudioCodec: audioFormat,
                     Type: 'Audio'
                 });
             }
