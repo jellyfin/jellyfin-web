@@ -30,6 +30,7 @@ import itemShortcuts from '../../components/shortcuts';
 import Dashboard from '../../scripts/clientUtils';
 import ServerConnections from '../../components/ServerConnections';
 import confirm from '../../components/confirm/confirm';
+import { download } from '../../scripts/fileDownloader';
 
 function getPromise(apiClient, params) {
     const id = params.id;
@@ -1958,14 +1959,12 @@ export default function (view, params) {
     }
 
     function onDownloadClick() {
-        import('../../scripts/fileDownloader').then(({ default: fileDownloader }) => {
-            const downloadHref = getApiClient().getItemDownloadUrl(currentItem.Id);
-            fileDownloader.download([{
-                url: downloadHref,
-                itemId: currentItem.Id,
-                serverId: currentItem.serverId
-            }]);
-        });
+        const downloadHref = getApiClient().getItemDownloadUrl(currentItem.Id);
+        download([{
+            url: downloadHref,
+            itemId: currentItem.Id,
+            serverId: currentItem.serverId
+        }]);
     }
 
     function onMoreCommandsClick() {
