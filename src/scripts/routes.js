@@ -545,7 +545,7 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
-        path: 'configurationpage',
+        path: '/configurationpage',
         autoFocus: false,
         enableCache: false,
         enableContentQueryString: true,
