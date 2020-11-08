@@ -62,7 +62,7 @@ import confirm from '../../components/confirm/confirm';
     }
 
     function refreshVirtualFolder(page, virtualFolder) {
-        import('../../components/refreshdialog/refreshdialog').then((refreshDialog) => {
+        import('../../components/refreshdialog/refreshdialog').then(({default: refreshDialog}) => {
             new refreshDialog({
                 itemIds: [virtualFolder.ItemId],
                 serverId: ApiClient.serverId(),
