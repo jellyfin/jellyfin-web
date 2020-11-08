@@ -696,7 +696,7 @@ export default function () {
     }
 
     function savePlaylist() {
-        import('../playlisteditor/playlisteditor').then((playlistEditor) => {
+        import('../playlisteditor/playlisteditor').then(({ default: playlistEditor }) => {
             getSaveablePlaylistItems().then(function (items) {
                 const serverId = items.length ? items[0].ServerId : ApiClient.serverId();
                 new playlistEditor({
