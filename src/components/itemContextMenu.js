@@ -595,7 +595,7 @@ import toast from './toast/toast';
     }
 
     function refresh(apiClient, item) {
-        import('./refreshdialog/refreshdialog').then((refreshDialog) => {
+        import('./refreshdialog/refreshdialog').then(({default: refreshDialog}) => {
             new refreshDialog({
                 itemIds: [item.Id],
                 serverId: apiClient.serverInfo().Id,
