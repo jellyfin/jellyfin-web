@@ -103,7 +103,7 @@ import { appRouter } from '../../../components/appRouter';
 
             ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
-                    import('../../../components/recordingcreator/recordingbutton').then((RecordingButton) => {
+                    import('../../../components/recordingcreator/recordingbutton').then(({default: RecordingButton}) => {
                         if (recordingButtonManager) {
                             return void recordingButtonManager.refreshItem(item);
                         }
