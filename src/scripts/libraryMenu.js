@@ -17,6 +17,7 @@ import '../assets/css/scrollstyles.css';
 import '../assets/css/flexstyles.scss';
 import Dashboard from './clientUtils';
 import ServerConnections from '../components/ServerConnections';
+import Headroom from 'headroom.js';
 
 /* eslint-disable indent */
 
@@ -801,10 +802,8 @@ import ServerConnections from '../components/ServerConnections';
     }
 
     function initHeadRoom(elem) {
-        import('headroom.js').then((Headroom) => {
-            const headroom = new Headroom(elem);
-            headroom.init();
-        });
+        const headroom = new Headroom(elem);
+        headroom.init();
     }
 
     function refreshLibraryDrawer(user) {
