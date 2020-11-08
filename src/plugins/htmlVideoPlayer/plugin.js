@@ -1030,15 +1030,21 @@ function tryRemoveElement(elem) {
          * @private
          */
         renderSsaAss(videoElement, track, item) {
+            const avaliableFonts = [];
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
+            attachments.map(function (i) {
+                // embedded font url
+                return avaliableFonts.push(i.DeliveryUrl);
+            });
             const apiClient = window.connectionManager.getApiClient(item);
+            const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
+                api_key: apiClient.accessToken()
+            });
             const htmlVideoPlayer = this;
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                fonts: attachments.map(function (i) {
-                    return apiClient.getUrl(i.DeliveryUrl);
-                }),
+                fonts: avaliableFonts,
                 workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
                 legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
                 onError() {
@@ -1059,7 +1065,21 @@ function tryRemoveElement(elem) {
                 renderAhead: 90
             };
             import('JavascriptSubtitlesOctopus').then(({default: SubtitlesOctopus}) => {
-                this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                apiClient.getNamedConfiguration('encoding').then((config) => {
+                    if (config.EnableFallbackFont) {
+                        apiClient.getJSON(fallbackFontList).then((fontFiles) => {
+                            (fontFiles || []).map(function (font) {
+                                const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
+                                    api_key: apiClient.accessToken()
+                                });
+                                return avaliableFonts.push(fontUrl);
+                            });
+                            this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                        });
+                    } else {
+                        this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                    }
+                });
             });
         }
 

@@ -19,6 +19,8 @@ import libraryMenu from 'libraryMenu';
         page.querySelector('#txtMaxMuxingQueueSize').value = config.MaxMuxingQueueSize || '';
         page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
         $('#txtTranscodingTempPath', page).val(systemInfo.TranscodingTempPath || '');
+        page.querySelector('#txtFallbackFontPath').value = config.FallbackFontPath || '';
+        page.querySelector('#chkEnableFallbackFont').checked = config.EnableFallbackFont;
         $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
         page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
         page.querySelector('#txtOpenclDevice').value = config.OpenclDevice || '';
@@ -73,6 +75,8 @@ import libraryMenu from 'libraryMenu';
                 config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
                 config.MaxMuxingQueueSize = form.querySelector('#txtMaxMuxingQueueSize').value;
                 config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();
+                config.FallbackFontPath = form.querySelector('#txtFallbackFontPath').value;
+                config.EnableFallbackFont = form.querySelector('#txtFallbackFontPath').value ? form.querySelector('#chkEnableFallbackFont').checked : false;
                 config.EncodingThreadCount = $('#selectThreadCount', form).val();
                 config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
                 config.VaapiDevice = $('#txtVaapiDevice', form).val();
@@ -214,6 +218,23 @@ import libraryMenu from 'libraryMenu';
                     validateWriteable: true,
                     header: globalize.translate('HeaderSelectTranscodingPath'),
                     instruction: globalize.translate('HeaderSelectTranscodingPathHelp')
+                });
+            });
+        });
+        $('#btnSelectFallbackFontPath', page).on('click.selectDirectory', function () {
+            import('directorybrowser').then(({default: directoryBrowser}) => {
+                const picker = new directoryBrowser();
+                picker.show({
+                    includeDirectories: true,
+                    callback: function (path) {
+                        if (path) {
+                            page.querySelector('#txtFallbackFontPath').value = path;
+                        }
+
+                        picker.close();
+                    },
+                    header: globalize.translate('HeaderSelectFallbackFontPath'),
+                    instruction: globalize.translate('HeaderSelectFallbackFontPathHelp')
                 });
             });
         });
