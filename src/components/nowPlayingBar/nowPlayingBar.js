@@ -1,7 +1,7 @@
 import datetime from '../../scripts/datetime';
 import { Events } from 'jellyfin-apiclient';
 import browser from '../../scripts/browser';
-import imageLoader from '../../scripts/imagehelper';
+import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import nowPlayingHelper from '../playback/nowplayinghelper';

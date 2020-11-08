@@ -1958,7 +1958,7 @@ export default function (view, params) {
     }
 
     function onDownloadClick() {
-        import('../../scripts/fileDownloader').then(({ default: fileDownloader }) => {
+        import('../../scripts/fileDownloader').then((fileDownloader) => {
             const downloadHref = getApiClient().getItemDownloadUrl(currentItem.Id);
             fileDownloader.download([{
                 url: downloadHref,
