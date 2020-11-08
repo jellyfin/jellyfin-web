@@ -549,7 +549,8 @@ import { appRouter } from '../components/appRouter';
         autoFocus: false,
         enableCache: false,
         enableContentQueryString: true,
-        roles: 'admin'
+        roles: 'admin',
+        serverRequest: true
     });
 
     defineRoute({

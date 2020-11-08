@@ -314,9 +314,17 @@ class AppRouter {
             url += '?' + ctx.querystring;
         }
 
-        import(/* webpackChunkName: "[request]" */ `../controllers/${url}`).then((html) => {
-            this.loadContent(ctx, route, html, request);
-        });
+        if (route.serverRequest) {
+            const apiClient = ServerConnections.currentApiClient();
+
+            url = apiClient.getUrl(`/web${url}`);
+
+            apiClient.get(url).then(html => this.loadContent(ctx, route, html, request));
+        } else {
+            import(/* webpackChunkName: "[request]" */ `../controllers/${url}`).then((html) => {
+                this.loadContent(ctx, route, html, request);
+            });
+        }
     }
 
     handleRoute(ctx, next, route) {
