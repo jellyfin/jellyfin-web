@@ -70,14 +70,6 @@ import globalize from '../scripts/globalize';
                     const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
                     plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
 
-                    const paths = {};
-                    paths[plugin.id] = plugin.baseUrl;
-
-                    requirejs.config({
-                        waitSeconds: 0,
-                        paths: paths
-                    });
-
                     this.#registerPlugin(plugin).then(Promise.resolve).catch(Promise.reject);
                 });
             } else if (pluginSpec.then) {
@@ -87,7 +79,7 @@ import globalize from '../scripts/globalize';
                     return this.#registerPlugin(plugin);
                 });
             } else {
-                const err = new TypeError('Plugins have to be a Promise that resolves to a plugin builder function or a RequireJS url (deprecated)');
+                const err = new TypeError('Plugins have to be a Promise that resolves to a plugin builder function');
                 console.error(err);
                 return Promise.reject(err);
             }

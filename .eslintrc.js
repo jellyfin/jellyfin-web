@@ -78,7 +78,6 @@ module.exports = {
                 // Dependency globals
                 '$': 'readonly',
                 'jQuery': 'readonly',
-                'requirejs': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'writable',
                 'chrome': 'writable',
