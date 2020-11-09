@@ -57,6 +57,8 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
     "webpack-stream": "^6.1.0",
+    "workbox-core": "^5.1.4",
+    "workbox-webpack-plugin": "^5.1.4",
     "worker-plugin": "^5.0.0"
   },
   "dependencies": {

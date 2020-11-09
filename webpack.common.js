@@ -2,6 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const packageConfig = require('./package.json');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
@@ -32,6 +33,10 @@ module.exports = {
                     }
                 }
             ]
+        }),
+        new WorkboxPlugin.InjectManifest({
+            swSrc: path.resolve(__dirname, 'src/serviceworker.js'),
+            swDest: 'serviceworker.js'
         })
     ],
     output: {
