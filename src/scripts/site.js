@@ -20,6 +20,16 @@ import { getPlugins } from './settings/webSettings';
 import { pluginManager } from '../components/pluginManager';
 import packageManager from '../components/packageManager';
 import { appRouter } from '../components/appRouter';
+import '../elements/emby-button/emby-button';
+import './autoThemes';
+import './libraryMenu';
+import './routes';
+import '../components/themeMediaPlayer';
+import './autoBackdrops';
+import { pageClassOn } from './clientUtils';
+import '../libraries/screensavermanager';
+import './serverNotifications';
+import '../components/playback/playerSelectionMenu';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
@@ -48,28 +58,6 @@ window.getParameterByName = function(name, url) {
     }
 
     return decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
-
-// TODO: Move this elsewhere
-window.pageClassOn = function(eventName, className, fn) {
-    document.addEventListener(eventName, function (event) {
-        const target = event.target;
-
-        if (target.classList.contains(className)) {
-            fn.call(target, event);
-        }
-    });
-};
-
-// TODO: Move this elsewhere
-window.pageIdOn = function(eventName, id, fn) {
-    document.addEventListener(eventName, function (event) {
-        const target = event.target;
-
-        if (target.id === id) {
-            fn.call(target, event);
-        }
-    });
 };
 
 if (window.appMode === 'cordova' || window.appMode === 'android' || window.appMode === 'standalone') {
@@ -153,7 +141,7 @@ function loadPlugins() {
         Promise.all(list.map((plugin) => {
             return pluginManager.loadPlugin(import(/* webpackChunkName: "[request]" */ `../plugins/${plugin}`));
         }))
-            .then(function (pluginPromises) {
+            .then(function () {
                 console.debug('finished loading plugins');
             })
             .catch(() => console.debug('failed loading plugins')
@@ -175,79 +163,62 @@ function onAppReady() {
         import('../assets/css/ios.scss');
     }
 
-    Promise.all([
-        import('../elements/emby-button/emby-button'),
-        import('./autoThemes'),
-        import('./libraryMenu'),
-        import('./routes')
-    ])
-        .then(() => {
-            appRouter.start({
-                click: false,
-                hashbang: true
-            });
+    appRouter.start({
+        click: false,
+        hashbang: true
+    });
 
-            import('../components/themeMediaPlayer');
-            import('./autoBackdrops');
+    if (!browser.tv && !browser.xboxOne && !browser.ps4) {
+        import('../components/nowPlayingBar/nowPlayingBar');
+    }
 
-            if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-                import('../components/nowPlayingBar/nowPlayingBar');
-            }
+    if (appHost.supports('remotecontrol')) {
+        import('../components/playback/playerSelectionMenu');
+        import('../components/playback/remotecontrolautoplay');
+    }
 
-            if (appHost.supports('remotecontrol')) {
-                import('../components/playback/playerSelectionMenu');
-                import('../components/playback/remotecontrolautoplay');
-            }
+    if (!appHost.supports('physicalvolumecontrol') || browser.touch) {
+        import('../components/playback/volumeosd');
+    }
 
-            import('../libraries/screensavermanager');
+    /* eslint-disable-next-line compat/compat */
+    if (navigator.mediaSession || window.NativeShell) {
+        import('../components/playback/mediasession');
+    }
 
-            if (!appHost.supports('physicalvolumecontrol') || browser.touch) {
-                import('../components/playback/volumeosd');
-            }
+    if (!browser.tv && !browser.xboxOne) {
+        import('../components/playback/playbackorientation');
+        registerServiceWorker();
 
-            /* eslint-disable-next-line compat/compat */
-            if (navigator.mediaSession || window.NativeShell) {
-                import('../components/playback/mediasession');
-            }
+        if (window.Notification) {
+            import('../components/notifications/notifications');
+        }
+    }
 
-            import('./serverNotifications');
-
-            if (!browser.tv && !browser.xboxOne) {
-                import('../components/playback/playbackorientation');
-                registerServiceWorker();
-
-                if (window.Notification) {
-                    import('../components/notifications/notifications');
+    const apiClient = ServerConnections.currentApiClient();
+    if (apiClient) {
+        fetch(apiClient.getUrl('Branding/Css'))
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error(response.status + ' ' + response.statusText);
                 }
-            }
-
-            import('../components/playback/playerSelectionMenu');
-
-            const apiClient = ServerConnections.currentApiClient();
-            if (apiClient) {
-                fetch(apiClient.getUrl('Branding/Css'))
-                    .then(function(response) {
-                        if (!response.ok) {
-                            throw new Error(response.status + ' ' + response.statusText);
-                        }
-                        return response.text();
-                    })
-                    .then(function(css) {
-                        let style = document.querySelector('#cssBranding');
-                        if (!style) {
-                            // Inject the branding css as a dom element in body so it will take
-                            // precedence over other stylesheets
-                            style = document.createElement('style');
-                            style.id = 'cssBranding';
-                            document.body.appendChild(style);
-                        }
-                        style.textContent = css;
-                    })
-                    .catch(function(err) {
-                        console.warn('Error applying custom css', err);
-                    });
-            }
-        });
+                return response.text();
+            })
+            .then(function(css) {
+                let style = document.querySelector('#cssBranding');
+                if (!style) {
+                    // Inject the branding css as a dom element in body so it will take
+                    // precedence over other stylesheets
+                    style = document.createElement('style');
+                    style.id = 'cssBranding';
+                    document.body.appendChild(style);
+                }
+                style.textContent = css;
+            })
+            .catch(function(err) {
+                console.warn('Error applying custom css', err);
+            });
+    }
 }
 
 function registerServiceWorker() {

@@ -7,7 +7,7 @@ import dom from '../../scripts/dom';
 import imageHelper from '../../scripts/imagehelper';
 import '../../components/cardbuilder/card.css';
 import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
-import Dashboard from '../../scripts/clientUtils';
+import Dashboard, { pageClassOn, pageIdOn } from '../../scripts/clientUtils';
 import confirm from '../../components/confirm/confirm';
 
 /* eslint-disable indent */

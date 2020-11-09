@@ -158,6 +158,26 @@ export function confirm(message, title, callback) {
     });
 }
 
+export const pageClassOn = function(eventName, className, fn) {
+    document.addEventListener(eventName, function (event) {
+        const target = event.target;
+
+        if (target.classList.contains(className)) {
+            fn.call(target, event);
+        }
+    });
+};
+
+export const pageIdOn = function(eventName, id, fn) {
+    document.addEventListener(eventName, function (event) {
+        const target = event.target;
+
+        if (target.id === id) {
+            fn.call(target, event);
+        }
+    });
+};
+
 const Dashboard = {
     alert,
     capabilities,
