@@ -1425,5 +1425,11 @@
     "OptionAllowContentDownload": "Cho phép tải xuống phương tiện",
     "HeaderDeleteDevices": "Xóa Tất Cả Thiết Bị",
     "DeleteDevicesConfirmation": "Bạn có chắc muốn xóa hết các thiết bị không? Tất cả các phiên khác sẽ được đăng xuất. Thiết bị sẽ xuất hiện lại vào lần tiếp theo khi người dùng đăng nhập.",
-    "DeleteAll": "Xóa Hết"
+    "DeleteAll": "Xóa Hết",
+    "EnableFallbackFontHelp": "Bật phông chữ thay thế tùy chỉnh. Điều này có thể tránh sự cố hiển thị phụ đề không chính xác.",
+    "EnableFallbackFont": "Bật phông chữ dự phòng",
+    "LabelFallbackFontPathHelp": "Chỉ định đường dẫn chứa phông chữ dự phòng để hiển thị phụ đề ASS / SSA. Tổng kích thước phông chữ tối đa được phép là 20 MB. Các định dạng phông chữ nhẹ và thân thiện với web như woff2 được khuyến khích.",
+    "LabelFallbackFontPath": "Đường dẫn thư mục phông chữ dự phòng:",
+    "HeaderSelectFallbackFontPathHelp": "Duyệt qua hoặc nhập đường dẫn của thư mục phông chữ dự phòng để sử dụng cho việc hiển thị phụ đề ASS / SSA.",
+    "HeaderSelectFallbackFontPath": "Chọn Đường dẫn Thư mục Phông chữ Dự phòng"
 }
