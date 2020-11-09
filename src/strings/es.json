@@ -1074,7 +1074,7 @@
     "Descending": "Descendiente",
     "DirectStreamHelp1": "El tipo de archivo (H.264, AC3, etc.) y la resolución son compatibles con el dispositivo, pero no el contenedor (mkv, avi, wmv, etc.). El vídeo será re-empaquetado al vuelo antes de transmitirlo al dispositivo.",
     "DirectStreamHelp2": "La transmisión directa del archivo usa muy poco procesamiento sin mínima pérdida de calidad en el vídeo.",
-    "Director": "Dirección",
+    "Director": "Director",
     "Directors": "Directores",
     "Display": "Visualización",
     "DisplayInMyMedia": "Mostrar en la pantalla de inicio",
@@ -1425,5 +1425,11 @@
     "OptionAllowContentDownload": "Permitir descargas de medios",
     "HeaderDeleteDevices": "Borrar todos los dispositivos",
     "DeleteDevicesConfirmation": "¿Estás seguro de que quieres borrar todos los dispositivos? Todas las otras sesiones se cerrarán. Los dispositivos reaparecerán la proxima vez que un usuario inicie sesión.",
-    "DeleteAll": "Borrar todo"
+    "DeleteAll": "Borrar todo",
+    "EnableFallbackFontHelp": "Activar fuentes alternativas personalizadas. Esto puede evitar el problema de renderizar subtítulos incorrectamente.",
+    "EnableFallbackFont": "Activar fuentes alternativas",
+    "LabelFallbackFontPathHelp": "Especifica el camino conteniendo las fuentes alternativas para el renderizado de subtítulos ASS/SSA. El tamaño total máximo de la fuente es de 20 MB. Formatos de fuente ligeras y compatibles web como woff2 son recomendadas.",
+    "LabelFallbackFontPath": "Dirección de la carpeta alternativa de fuentes:",
+    "HeaderSelectFallbackFontPathHelp": "Busca o escribe la dirección de la carpeta alternativa de fuentes usada para la renderización de los subtitulos ASS/SSA.",
+    "HeaderSelectFallbackFontPath": "Seleccionar carpeta de fuentes alternativa"
 }
