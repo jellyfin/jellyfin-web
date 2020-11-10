@@ -1417,5 +1417,19 @@
     "LabelQuickConnectCode": "Quickconnect code:",
     "EnableAutoCast": "Stel in als standaard",
     "ButtonActivate": "Activeer",
-    "Authorize": "Geef toestemming"
+    "Authorize": "Geef toestemming",
+    "EnableFallbackFontHelp": "Aangepaste alternatieve lettertypen inschakelen. Dit kan foutief renderen van ondertiteling voorkomen.",
+    "LabelFallbackFontPathHelp": "Geef een pad op waar de fallback lettertypen staan voor het renderen van ASS/SSA ondertitels. De maximum toegestane lettertype omvang is 20MB. Lichtgewicht en web-vriendelijke lettertypen zoals woff2 zijn aanbevolen.",
+    "EnableFallbackFont": "Fallback lettertypen inschakelen",
+    "LabelFallbackFontPath": "Fallback map pad:",
+    "HeaderSelectFallbackFontPathHelp": "Blader of typ het pad naar de fallback lettertype map die gebruikt moet worden om ASS/SSA ondertitels te renderen.",
+    "HeaderSelectFallbackFontPath": "Kies fallback lettertype pad",
+    "OptionMaxActiveSessions": "Stel het maximum aantal gelijktijdige gebruikers sessies in.",
+    "OptionAllowContentDownloadHelp": "Gebruikers kunnen media downloaden en op hun apparaat opslaan. Dit verschilt van de sync feature. De boeken bibliotheek vereist dit om goed te kunnen functioneren.",
+    "LabelUserMaxActiveSessions": "Maximum aantal gelijktijdige gebruikers sessies:",
+    "OptionMaxActiveSessionsHelp": "Een waarde van 0 schakelt deze functie uit.",
+    "OptionAllowContentDownload": "Media downloads toestaan",
+    "HeaderDeleteDevices": "Verwijder alle apparaten",
+    "DeleteDevicesConfirmation": "Weet u het zeker dat u alle apparaten wilt verwijderen? Alle andere sessies zullen uitgelogd worden. Apparaten zullen hier opnieuw verschijnen als een gebruiker zich de volgende keer aanmeld.",
+    "DeleteAll": "Alle verwijderen"
 }
