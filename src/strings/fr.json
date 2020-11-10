@@ -1426,5 +1426,6 @@
     "HeaderDeleteDevices": "Supprimer tous les appareils",
     "DeleteDevicesConfirmation": "Voulez-vous vraiment supprimer tous les appareils ? Toutes les autres sessions seront déconnectées. Les appareils réapparaîtront la prochaine fois qu'un utilisateur se connectera.",
     "DeleteAll": "Tout supprimer",
-    "EnableFallbackFont": "Activer les polices de repli"
+    "EnableFallbackFont": "Activer les polices de repli",
+    "EnableFallbackFontHelp": "Activer des polices alternatives personnalisées. Ceci peut éviter les problèmes de rendu incorrect des sous-titres."
 }
