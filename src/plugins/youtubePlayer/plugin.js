@@ -1,0 +1,353 @@
+import events from 'events';
+import browser from 'browser';
+import appRouter from 'appRouter';
+import loading from 'loading';
+
+/* globals YT */
+
+function zoomIn(elem, iterations) {
+    const keyframes = [
+        { transform: 'scale3d(.2, .2, .2)  ', opacity: '.6', offset: 0 },
+        { transform: 'none', opacity: '1', offset: 1 }
+    ];
+
+    const timing = { duration: 240, iterations: iterations };
+    return elem.animate(keyframes, timing);
+}
+
+function createMediaElement(instance, options) {
+    return new Promise(function (resolve, reject) {
+        const dlg = document.querySelector('.youtubePlayerContainer');
+
+        if (!dlg) {
+            import('css!./style').then(() => {
+                loading.show();
+
+                const dlg = document.createElement('div');
+
+                dlg.classList.add('youtubePlayerContainer');
+
+                if (options.fullscreen) {
+                    dlg.classList.add('onTop');
+                }
+
+                dlg.innerHTML = '<div id="player"></div>';
+                const videoElement = dlg.querySelector('#player');
+
+                document.body.insertBefore(dlg, document.body.firstChild);
+                instance.videoDialog = dlg;
+
+                if (options.fullscreen && dlg.animate && !browser.slow) {
+                    zoomIn(dlg, 1).onfinish = function () {
+                        resolve(videoElement);
+                    };
+                } else {
+                    resolve(videoElement);
+                }
+            });
+        } else {
+            resolve(dlg.querySelector('#player'));
+        }
+    });
+}
+
+function onVideoResize() {
+    const instance = this;
+    const player = instance.currentYoutubePlayer;
+    const dlg = instance.videoDialog;
+    if (player && dlg) {
+        player.setSize(dlg.offsetWidth, dlg.offsetHeight);
+    }
+}
+
+function clearTimeUpdateInterval(instance) {
+    if (instance.timeUpdateInterval) {
+        clearInterval(instance.timeUpdateInterval);
+    }
+    instance.timeUpdateInterval = null;
+}
+
+function onEndedInternal(instance) {
+    clearTimeUpdateInterval(instance);
+    const resizeListener = instance.resizeListener;
+    if (resizeListener) {
+        window.removeEventListener('resize', resizeListener);
+        window.removeEventListener('orientationChange', resizeListener);
+        instance.resizeListener = null;
+    }
+
+    const stopInfo = {
+        src: instance._currentSrc
+    };
+
+    events.trigger(instance, 'stopped', [stopInfo]);
+
+    instance._currentSrc = null;
+    if (instance.currentYoutubePlayer) {
+        instance.currentYoutubePlayer.destroy();
+    }
+    instance.currentYoutubePlayer = null;
+}
+
+// 4. The API will call this function when the video player is ready.
+function onPlayerReady(event) {
+    event.target.playVideo();
+}
+
+function onTimeUpdate(e) {
+    events.trigger(this, 'timeupdate');
+}
+
+function onPlaying(instance, playOptions, resolve) {
+    if (!instance.started) {
+        instance.started = true;
+        resolve();
+        clearTimeUpdateInterval(instance);
+        instance.timeUpdateInterval = setInterval(onTimeUpdate.bind(instance), 500);
+
+        if (playOptions.fullscreen) {
+            appRouter.showVideoOsd().then(function () {
+                instance.videoDialog.classList.remove('onTop');
+            });
+        } else {
+            appRouter.setTransparency('backdrop');
+            instance.videoDialog.classList.remove('onTop');
+        }
+
+        import('loading').then(({default: loading}) => {
+            loading.hide();
+        });
+    }
+}
+
+function setCurrentSrc(instance, elem, options) {
+    return new Promise(function (resolve, reject) {
+        import('queryString').then(({default: queryString}) => {
+            instance._currentSrc = options.url;
+            const params = queryString.parse(options.url.split('?')[1]);
+            // 3. This function creates an <iframe> (and YouTube player)
+            //    after the API code downloads.
+            window.onYouTubeIframeAPIReady = function () {
+                instance.currentYoutubePlayer = new YT.Player('player', {
+                    height: instance.videoDialog.offsetHeight,
+                    width: instance.videoDialog.offsetWidth,
+                    videoId: params.v,
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': function (event) {
+                            if (event.data === YT.PlayerState.PLAYING) {
+                                onPlaying(instance, options, resolve);
+                            } else if (event.data === YT.PlayerState.ENDED) {
+                                onEndedInternal(instance);
+                            } else if (event.data === YT.PlayerState.PAUSED) {
+                                events.trigger(instance, 'pause');
+                            }
+                        }
+                    },
+                    playerVars: {
+                        controls: 0,
+                        enablejsapi: 1,
+                        modestbranding: 1,
+                        rel: 0,
+                        showinfo: 0,
+                        fs: 0,
+                        playsinline: 1
+                    }
+                });
+
+                let resizeListener = instance.resizeListener;
+                if (resizeListener) {
+                    window.removeEventListener('resize', resizeListener);
+                    window.addEventListener('resize', resizeListener);
+                } else {
+                    resizeListener = instance.resizeListener = onVideoResize.bind(instance);
+                    window.addEventListener('resize', resizeListener);
+                }
+                window.removeEventListener('orientationChange', resizeListener);
+                window.addEventListener('orientationChange', resizeListener);
+            };
+
+            if (!window.YT) {
+                const tag = document.createElement('script');
+                tag.src = 'https://www.youtube.com/iframe_api';
+                const firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            } else {
+                window.onYouTubeIframeAPIReady();
+            }
+        });
+    });
+}
+
+class YoutubePlayer {
+    constructor() {
+        this.name = 'Youtube Player';
+        this.type = 'mediaplayer';
+        this.id = 'youtubeplayer';
+
+        // Let any players created by plugins take priority
+        this.priority = 1;
+    }
+    play(options) {
+        this.started = false;
+        const instance = this;
+
+        return createMediaElement(this, options).then(function (elem) {
+            return setCurrentSrc(instance, elem, options);
+        });
+    }
+    stop(destroyPlayer) {
+        const src = this._currentSrc;
+
+        if (src) {
+            if (this.currentYoutubePlayer) {
+                this.currentYoutubePlayer.stopVideo();
+            }
+            onEndedInternal(this);
+
+            if (destroyPlayer) {
+                this.destroy();
+            }
+        }
+
+        return Promise.resolve();
+    }
+    destroy() {
+        appRouter.setTransparency('none');
+
+        const dlg = this.videoDialog;
+        if (dlg) {
+            this.videoDialog = null;
+
+            dlg.parentNode.removeChild(dlg);
+        }
+    }
+    canPlayMediaType(mediaType) {
+        mediaType = (mediaType || '').toLowerCase();
+
+        return mediaType === 'audio' || mediaType === 'video';
+    }
+    canPlayItem(item) {
+        // Does not play server items
+        return false;
+    }
+    canPlayUrl(url) {
+        return url.toLowerCase().indexOf('youtube.com') !== -1;
+    }
+    getDeviceProfile() {
+        return Promise.resolve({});
+    }
+    currentSrc() {
+        return this._currentSrc;
+    }
+    setSubtitleStreamIndex(index) {
+    }
+    canSetAudioStreamIndex() {
+        return false;
+    }
+    setAudioStreamIndex(index) {
+    }
+    // Save this for when playback stops, because querying the time at that point might return 0
+    currentTime(val) {
+        const currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            if (val != null) {
+                currentYoutubePlayer.seekTo(val / 1000, true);
+                return;
+            }
+
+            return currentYoutubePlayer.getCurrentTime() * 1000;
+        }
+    }
+    duration(val) {
+        const currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            return currentYoutubePlayer.getDuration() * 1000;
+        }
+        return null;
+    }
+    pause() {
+        const currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            currentYoutubePlayer.pauseVideo();
+
+            const instance = this;
+
+            // This needs a delay before the youtube player will report the correct player state
+            setTimeout(function () {
+                events.trigger(instance, 'pause');
+            }, 200);
+        }
+    }
+    unpause() {
+        const currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            currentYoutubePlayer.playVideo();
+
+            const instance = this;
+
+            // This needs a delay before the youtube player will report the correct player state
+            setTimeout(function () {
+                events.trigger(instance, 'unpause');
+            }, 200);
+        }
+    }
+    paused() {
+        const currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            return currentYoutubePlayer.getPlayerState() === 2;
+        }
+
+        return false;
+    }
+    volume(val) {
+        if (val != null) {
+            return this.setVolume(val);
+        }
+
+        return this.getVolume();
+    }
+    setVolume(val) {
+        const currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            if (val != null) {
+                currentYoutubePlayer.setVolume(val);
+            }
+        }
+    }
+    getVolume() {
+        const currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            return currentYoutubePlayer.getVolume();
+        }
+    }
+    setMute(mute) {
+        const currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (mute) {
+            if (currentYoutubePlayer) {
+                currentYoutubePlayer.mute();
+            }
+        } else {
+            if (currentYoutubePlayer) {
+                currentYoutubePlayer.unMute();
+            }
+        }
+    }
+    isMuted() {
+        const currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            return currentYoutubePlayer.isMuted();
+        }
+    }
+}
+
+export default YoutubePlayer;

@@ -1,15 +1,23 @@
-define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader', 'apphost', 'globalize', 'appRouter', 'dom', 'emby-button'], function (layoutManager, loading, libraryBrowser, cardBuilder, lazyLoader, appHost, globalize, appRouter, dom) {
-    'use strict';
+import layoutManager from 'layoutManager';
+import loading from 'loading';
+import libraryBrowser from 'libraryBrowser';
+import cardBuilder from 'cardBuilder';
+import lazyLoader from 'lazyLoader';
+import globalize from 'globalize';
+import appRouter from 'appRouter';
+import 'emby-button';
 
-    return function (view, params, tabContent) {
+/* eslint-disable indent */
+
+    export default function (view, params, tabContent) {
         function getPageData() {
-            var key = getSavedQueryKey();
-            var pageData = data[key];
+            const key = getSavedQueryKey();
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
                     query: {
-                        SortBy: 'SortName',
+                        SortBy: 'Random',
                         SortOrder: 'Ascending',
                         IncludeItemTypes: 'Movie',
                         Recursive: true,
@@ -34,7 +42,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
 
         function getPromise() {
             loading.show();
-            var query = getQuery();
+            const query = getQuery();
             return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
         }
 
@@ -50,18 +58,18 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
             return enableScrollX() ? 'overflowPortrait' : 'portrait';
         }
 
-        function fillItemsContainer(entry) {
-            var elem = entry.target;
-            var id = elem.getAttribute('data-id');
-            var viewStyle = self.getCurrentViewStyle();
-            var limit = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 5 : 9;
+        const fillItemsContainer = (entry) => {
+            const elem = entry.target;
+            const id = elem.getAttribute('data-id');
+            const viewStyle = this.getCurrentViewStyle();
+            let limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;
 
             if (enableScrollX()) {
                 limit = 10;
             }
 
-            var enableImageTypes = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 'Primary,Backdrop,Thumb' : 'Primary';
-            var query = {
+            const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
+            const query = {
                 SortBy: 'SortName',
                 SortOrder: 'Ascending',
                 IncludeItemTypes: 'Movie',
@@ -75,8 +83,6 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
                 ParentId: params.topParentId
             };
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-                var supportsImageAnalysis = appHost.supports('imageanalysis');
-
                 if (viewStyle == 'Thumb') {
                     cardBuilder.buildCards(result.Items, {
                         itemsContainer: elem,
@@ -125,17 +131,17 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
                     tabContent.querySelector('.btnMoreFromGenre' + id + ' .material-icons').classList.remove('hide');
                 }
             });
-        }
+        };
 
         function reloadItems(context, promise) {
-            var query = getQuery();
+            const query = getQuery();
             promise.then(function (result) {
-                var elem = context.querySelector('#items');
-                var html = '';
-                var items = result.Items;
+                const elem = context.querySelector('#items');
+                let html = '';
+                const items = result.Items;
 
-                for (var i = 0, length = items.length; i < length; i++) {
-                    var item = items[i];
+                for (let i = 0, length = items.length; i < length; i++) {
+                    const item = items[i];
 
                     html += '<div class="verticalSection">';
                     html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
@@ -150,7 +156,7 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
                     html += '</a>';
                     html += '</div>';
                     if (enableScrollX()) {
-                        var scrollXClass = 'scrollX hiddenScrollX';
+                        let scrollXClass = 'scrollX hiddenScrollX';
 
                         if (layoutManager.tv) {
                             scrollXClass += 'smoothScrollX padded-top-focusscale padded-bottom-focusscale';
@@ -165,6 +171,15 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
                     html += '</div>';
                 }
 
+                if (!result.Items.length) {
+                    html = '';
+
+                    html += '<div class="noItemsMessage centerMessage">';
+                    html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
+                    html += '<p>' + globalize.translate('MessageNoGenresAvailable') + '</p>';
+                    html += '</div>';
+                }
+
                 elem.innerHTML = html;
                 lazyLoader.lazyChildren(elem, fillItemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
@@ -172,37 +187,37 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
             });
         }
 
-        function fullyReload() {
-            self.preRender();
-            self.renderTab();
-        }
+        const fullyReload = () => {
+            this.preRender();
+            this.renderTab();
+        };
 
-        var self = this;
-        var data = {};
+        const data = {};
 
-        self.getViewStyles = function () {
+        this.getViewStyles = function () {
             return 'Poster,PosterCard,Thumb,ThumbCard'.split(',');
         };
 
-        self.getCurrentViewStyle = function () {
+        this.getCurrentViewStyle = function () {
             return getPageData().view;
         };
 
-        self.setCurrentViewStyle = function (viewStyle) {
+        this.setCurrentViewStyle = function (viewStyle) {
             getPageData().view = viewStyle;
             libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
             fullyReload();
         };
 
-        self.enableViewSelection = true;
-        var promise;
+        this.enableViewSelection = true;
+        let promise;
 
-        self.preRender = function () {
+        this.preRender = function () {
             promise = getPromise();
         };
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reloadItems(tabContent, promise);
         };
-    };
-});
+    }
+
+/* eslint-enable indent */

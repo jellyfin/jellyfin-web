@@ -1,28 +1,30 @@
-define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, connectionManager) {
-    'use strict';
+/* eslint-disable indent */
+
+import dom from 'dom';
+import appRouter from 'appRouter';
 
     function onGroupedCardClick(e, card) {
-        var itemId = card.getAttribute('data-id');
-        var serverId = card.getAttribute('data-serverid');
-        var apiClient = connectionManager.getApiClient(serverId);
-        var userId = apiClient.getCurrentUserId();
-        var playedIndicator = card.querySelector('.playedIndicator');
-        var playedIndicatorHtml = playedIndicator ? playedIndicator.innerHTML : null;
-        var options = {
+        const itemId = card.getAttribute('data-id');
+        const serverId = card.getAttribute('data-serverid');
+        const apiClient = window.connectionManager.getApiClient(serverId);
+        const userId = apiClient.getCurrentUserId();
+        const playedIndicator = card.querySelector('.playedIndicator');
+        const playedIndicatorHtml = playedIndicator ? playedIndicator.innerHTML : null;
+        const options = {
             Limit: parseInt(playedIndicatorHtml || '10'),
             Fields: 'PrimaryImageAspectRatio,DateCreated',
             ParentId: itemId,
             GroupItems: false
         };
-        var actionableParent = dom.parentWithTag(e.target, ['A', 'BUTTON', 'INPUT']);
+        const actionableParent = dom.parentWithTag(e.target, ['A', 'BUTTON', 'INPUT']);
 
         if (!actionableParent || actionableParent.classList.contains('cardContent')) {
             apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-                if (1 === items.length) {
+                if (items.length === 1) {
                     return void appRouter.showItem(items[0]);
                 }
 
-                var url = 'itemdetails.html?id=' + itemId + '&serverId=' + serverId;
+                const url = 'details?id=' + itemId + '&serverId=' + serverId;
                 Dashboard.navigate(url);
             });
             e.stopPropagation();
@@ -31,15 +33,12 @@ define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, conn
         }
     }
 
-    function onItemsContainerClick(e) {
-        var groupedCard = dom.parentWithClass(e.target, 'groupedCard');
+    export default function onItemsContainerClick(e) {
+        const groupedCard = dom.parentWithClass(e.target, 'groupedCard');
 
         if (groupedCard) {
             onGroupedCardClick(e, groupedCard);
         }
     }
 
-    return {
-        onItemsContainerClick: onItemsContainerClick
-    };
-});
+/* eslint-enable indent */

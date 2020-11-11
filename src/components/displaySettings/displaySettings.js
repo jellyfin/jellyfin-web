@@ -1,22 +1,40 @@
-define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'datetime', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-button'], function (require, browser, layoutManager, appSettings, pluginManager, appHost, focusManager, datetime, globalize, loading, connectionManager, skinManager, dom, events) {
-    'use strict';
+import browser from 'browser';
+import layoutManager from 'layoutManager';
+import pluginManager from 'pluginManager';
+import appHost from 'apphost';
+import focusManager from 'focusManager';
+import datetime from 'datetime';
+import globalize from 'globalize';
+import loading from 'loading';
+import skinManager from 'skinManager';
+import events from 'events';
+import 'emby-select';
+import 'emby-checkbox';
+import 'emby-button';
 
-    function fillThemes(select, isDashboard) {
-        select.innerHTML = skinManager.getThemes().map(function (t) {
-            var value = t.id;
-            if (t.isDefault && !isDashboard) {
-                value = '';
-            } else if (t.isDefaultServerDashboard && isDashboard) {
-                value = '';
-            }
+/* eslint-disable indent */
 
-            return '<option value="' + value + '">' + t.name + '</option>';
-        }).join('');
+    function fillThemes(context, userSettings) {
+        const select = context.querySelector('#selectTheme');
+
+        skinManager.getThemes().then(themes => {
+            select.innerHTML = themes.map(t => {
+                return `<option value="${t.id}">${t.name}</option>`;
+            }).join('');
+
+            // get default theme
+            const defaultTheme = themes.find(theme => {
+                return theme.default;
+            });
+
+            // set the current theme
+            select.value = userSettings.theme() || defaultTheme.id;
+        });
     }
 
     function loadScreensavers(context, userSettings) {
-        var selectScreensaver = context.querySelector('.selectScreensaver');
-        var options = pluginManager.ofType('screensaver').map(function (plugin) {
+        const selectScreensaver = context.querySelector('.selectScreensaver');
+        const options = pluginManager.ofType('screensaver').map(plugin => {
             return {
                 name: plugin.name,
                 value: plugin.id
@@ -28,9 +46,10 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             value: 'none'
         });
 
-        selectScreensaver.innerHTML = options.map(function (o) {
-            return '<option value="' + o.value + '">' + o.name + '</option>';
+        selectScreensaver.innerHTML = options.map(o => {
+            return `<option value="${o.value}">${o.name}</option>`;
         }).join('');
+
         selectScreensaver.value = userSettings.screensaver();
 
         if (!selectScreensaver.value) {
@@ -39,61 +58,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         }
     }
 
-    function loadSoundEffects(context, userSettings) {
-
-        var selectSoundEffects = context.querySelector('.selectSoundEffects');
-        var options = pluginManager.ofType('soundeffects').map(function (plugin) {
-            return {
-                name: plugin.name,
-                value: plugin.id
-            };
-        });
-
-        options.unshift({
-            name: globalize.translate('None'),
-            value: 'none'
-        });
-
-        selectSoundEffects.innerHTML = options.map(function (o) {
-            return '<option value="' + o.value + '">' + o.name + '</option>';
-        }).join('');
-        selectSoundEffects.value = userSettings.soundEffects();
-
-        if (!selectSoundEffects.value) {
-            // TODO: set the default instead of none
-            selectSoundEffects.value = 'none';
-        }
-    }
-
-    function loadSkins(context, userSettings) {
-
-        var selectSkin = context.querySelector('.selectSkin');
-
-        var options = pluginManager.ofType('skin').map(function (plugin) {
-            return {
-                name: plugin.name,
-                value: plugin.id
-            };
-        });
-
-        selectSkin.innerHTML = options.map(function (o) {
-            return '<option value="' + o.value + '">' + o.name + '</option>';
-        }).join('');
-        selectSkin.value = userSettings.skin();
-
-        if (!selectSkin.value && options.length) {
-            selectSkin.value = options[0].value;
-        }
-
-        if (options.length > 1 && appHost.supports('skins')) {
-            context.querySelector('.selectSkinContainer').classList.remove('hide');
-        } else {
-            context.querySelector('.selectSkinContainer').classList.add('hide');
-        }
-    }
-
-    function showOrHideMissingEpisodesField(context, user, apiClient) {
-
+    function showOrHideMissingEpisodesField(context) {
         if (browser.tizen || browser.web0s) {
             context.querySelector('.fldDisplayMissingEpisodes').classList.add('hide');
             return;
@@ -102,17 +67,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hide');
     }
 
-    function loadForm(context, user, userSettings, apiClient) {
-
-        var loggedInUserId = apiClient.getCurrentUserId();
-        var userId = user.Id;
-
-        if (user.Policy.IsAdministrator) {
-            context.querySelector('.selectDashboardThemeContainer').classList.remove('hide');
-        } else {
-            context.querySelector('.selectDashboardThemeContainer').classList.add('hide');
-        }
-
+    function loadForm(context, user, userSettings) {
         if (appHost.supports('displaylanguage')) {
             context.querySelector('.languageSection').classList.remove('hide');
         } else {
@@ -129,18 +84,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             context.querySelector('.learnHowToContributeContainer').classList.remove('hide');
         } else {
             context.querySelector('.learnHowToContributeContainer').classList.add('hide');
-        }
-
-        if (appHost.supports('runatstartup')) {
-            context.querySelector('.fldAutorun').classList.remove('hide');
-        } else {
-            context.querySelector('.fldAutorun').classList.add('hide');
-        }
-
-        if (appHost.supports('soundeffects')) {
-            context.querySelector('.fldSoundEffects').classList.remove('hide');
-        } else {
-            context.querySelector('.fldSoundEffects').classList.add('hide');
         }
 
         if (appHost.supports('screensaver')) {
@@ -165,43 +108,31 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             context.querySelector('.fldThemeVideo').classList.add('hide');
         }
 
-        context.querySelector('.chkRunAtStartup').checked = appSettings.runAtStartup();
-
-        var selectTheme = context.querySelector('#selectTheme');
-        var selectDashboardTheme = context.querySelector('#selectDashboardTheme');
-
-        fillThemes(selectTheme);
-        fillThemes(selectDashboardTheme, true);
+        fillThemes(context, userSettings);
         loadScreensavers(context, userSettings);
-        loadSoundEffects(context, userSettings);
-        loadSkins(context, userSettings);
 
         context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
         context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
         context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
         context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
+        context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
+        context.querySelector('#chkDetailsBanner').checked = userSettings.detailsBanner();
 
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
 
         context.querySelector('#txtLibraryPageSize').value = userSettings.libraryPageSize();
 
-        selectDashboardTheme.value = userSettings.dashboardTheme() || '';
-        selectTheme.value = userSettings.theme() || '';
-
         context.querySelector('.selectLayout').value = layoutManager.getSavedLayout() || '';
 
-        showOrHideMissingEpisodesField(context, user, apiClient);
+        showOrHideMissingEpisodesField(context);
 
         loading.hide();
     }
 
     function saveUser(context, user, userSettingsInstance, apiClient) {
-
-        appSettings.runAtStartup(context.querySelector('.chkRunAtStartup').checked);
-
         user.Configuration.DisplayMissingEpisodes = context.querySelector('.chkDisplayMissingEpisodes').checked;
 
         if (appHost.supports('displaylanguage')) {
@@ -212,17 +143,15 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
         userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
         userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
-        userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
         userSettingsInstance.theme(context.querySelector('#selectTheme').value);
-        userSettingsInstance.soundEffects(context.querySelector('.selectSoundEffects').value);
         userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
 
         userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
 
-        userSettingsInstance.skin(context.querySelector('.selectSkin').value);
-
         userSettingsInstance.enableFastFadein(context.querySelector('#chkFadein').checked);
+        userSettingsInstance.enableBlurhash(context.querySelector('#chkBlurhash').checked);
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
+        userSettingsInstance.detailsBanner(context.querySelector('#chkDetailsBanner').checked);
 
         if (user.Id === apiClient.getCurrentUserId()) {
             skinManager.setTheme(userSettingsInstance.theme());
@@ -235,29 +164,29 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
         loading.show();
 
-        apiClient.getUser(userId).then(function (user) {
-            saveUser(context, user, userSettings, apiClient).then(function () {
+        apiClient.getUser(userId).then(user => {
+            saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    require(['toast'], function (toast) {
+                    import('toast').then(({default: toast}) => {
                         toast(globalize.translate('SettingsSaved'));
                     });
                 }
                 events.trigger(instance, 'saved');
-            }, function () {
+            }, () => {
                 loading.hide();
             });
         });
     }
 
     function onSubmit(e) {
-        var self = this;
-        var apiClient = connectionManager.getApiClient(self.options.serverId);
-        var userId = self.options.userId;
-        var userSettings = self.options.userSettings;
+        const self = this;
+        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const userId = self.options.userId;
+        const userSettings = self.options.userSettings;
 
-        userSettings.setUserInfo(userId, apiClient).then(function () {
-            var enableSaveConfirmation = self.options.enableSaveConfirmation;
+        userSettings.setUserInfo(userId, apiClient).then(() => {
+            const enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
 
@@ -268,50 +197,51 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         return false;
     }
 
-    function embed(options, self) {
-        require(['text!./displaySettings.template.html'], function (template) {
-            options.element.innerHTML = globalize.translateDocument(template, 'core');
-            options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
-            if (options.enableSaveButton) {
-                options.element.querySelector('.btnSave').classList.remove('hide');
-            }
-            self.loadData(options.autoFocus);
-        });
+    async function embed(options, self) {
+        const { default: template } = await import('text!./displaySettings.template.html');
+        options.element.innerHTML = globalize.translateHtml(template, 'core');
+        options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
+        if (options.enableSaveButton) {
+            options.element.querySelector('.btnSave').classList.remove('hide');
+        }
+        self.loadData(options.autoFocus);
     }
 
-    function DisplaySettings(options) {
-        this.options = options;
-        embed(options, this);
-    }
+    class DisplaySettings {
+        constructor(options) {
+            this.options = options;
+            embed(options, this);
+        }
 
-    DisplaySettings.prototype.loadData = function (autoFocus) {
-        var self = this;
-        var context = self.options.element;
+        loadData(autoFocus) {
+            const self = this;
+            const context = self.options.element;
 
-        loading.show();
+            loading.show();
 
-        var userId = self.options.userId;
-        var apiClient = connectionManager.getApiClient(self.options.serverId);
-        var userSettings = self.options.userSettings;
+            const userId = self.options.userId;
+            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+            const userSettings = self.options.userSettings;
 
-        return apiClient.getUser(userId).then(function (user) {
-            return userSettings.setUserInfo(userId, apiClient).then(function () {
-                self.dataLoaded = true;
-                loadForm(context, user, userSettings, apiClient);
-                if (autoFocus) {
-                    focusManager.autoFocus(context);
-                }
+            return apiClient.getUser(userId).then(user => {
+                return userSettings.setUserInfo(userId, apiClient).then(() => {
+                    self.dataLoaded = true;
+                    loadForm(context, user, userSettings);
+                    if (autoFocus) {
+                        focusManager.autoFocus(context);
+                    }
+                });
             });
-        });
-    };
+        }
 
-    DisplaySettings.prototype.submit = function () {
-        onSubmit.call(this);
-    };
+        submit() {
+            onSubmit.call(this);
+        }
 
-    DisplaySettings.prototype.destroy = function () {
-        this.options = null;
-    };
+        destroy() {
+            this.options = null;
+        }
+    }
 
-    return DisplaySettings;
-});
+/* eslint-enable indent */
+export default DisplaySettings;

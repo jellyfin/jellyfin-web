@@ -1,12 +1,16 @@
-define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], function (loading, libraryMenu, globalize) {
-    'use strict';
+import loading from 'loading';
+import globalize from 'globalize';
+import 'emby-checkbox';
+import 'emby-select';
+
+/* eslint-disable indent */
 
     function onSubmit(e) {
-        var form = this;
-        var localAddress = form.querySelector('#txtLocalAddress').value;
-        var enableUpnp = form.querySelector('#chkEnableUpnp').checked;
+        const form = this;
+        const localAddress = form.querySelector('#txtLocalAddress').value;
+        const enableUpnp = form.querySelector('#chkEnableUpnp').checked;
         confirmSelections(localAddress, enableUpnp, function () {
-            var validationResult = getValidationAlert(form);
+            const validationResult = getValidationAlert(form);
 
             if (validationResult) {
                 showAlertText(validationResult);
@@ -26,7 +30,12 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
                     }).filter(function (s) {
                         return s.length > 0;
                     });
-                    config.IsRemoteIPFilterBlacklist = 'blacklist' === form.querySelector('#selectExternalAddressFilterMode').value;
+                    config.KnownProxies = form.querySelector('#txtKnownProxies').value.split(',').map(function (s) {
+                        return s.trim();
+                    }).filter(function (s) {
+                        return s.length > 0;
+                    });
+                    config.IsRemoteIPFilterBlacklist = form.querySelector('#selectExternalAddressFilterMode').value === 'blacklist';
                     config.PublicPort = form.querySelector('#txtPublicPort').value;
                     config.PublicHttpsPort = form.querySelector('#txtPublicHttpsPort').value;
                     config.HttpServerPortNumber = form.querySelector('#txtPortNumber').value;
@@ -47,7 +56,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
     }
 
     function triggerChange(select) {
-        var evt = document.createEvent('HTMLEvents');
+        const evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
     }
@@ -65,8 +74,8 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
     }
 
     function validateHttps(form) {
-        var certPath = form.querySelector('#txtCertificatePath').value || null;
-        var httpsEnabled = form.querySelector('#chkEnableHttps').checked;
+        const certPath = form.querySelector('#txtCertificatePath').value || null;
+        const httpsEnabled = form.querySelector('#chkEnableHttps').checked;
 
         if (httpsEnabled && !certPath) {
             return showAlertText({
@@ -80,7 +89,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
 
     function showAlertText(options) {
         return new Promise(function (resolve, reject) {
-            require(['alert'], function (alert) {
+            import('alert').then(({default: alert}) => {
                 alert(options).then(resolve, reject);
             });
         });
@@ -97,21 +106,22 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
         }
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function loadPage(page, config) {
             page.querySelector('#txtPortNumber').value = config.HttpServerPortNumber;
             page.querySelector('#txtPublicPort').value = config.PublicPort;
             page.querySelector('#txtPublicHttpsPort').value = config.PublicHttpsPort;
             page.querySelector('#txtLocalAddress').value = config.LocalNetworkAddresses[0] || '';
             page.querySelector('#txtLanNetworks').value = (config.LocalNetworkSubnets || []).join(', ');
+            page.querySelector('#txtKnownProxies').value = (config.KnownProxies || []).join(', ');
             page.querySelector('#txtExternalAddressFilter').value = (config.RemoteIPFilter || []).join(', ');
             page.querySelector('#selectExternalAddressFilterMode').value = config.IsRemoteIPFilterBlacklist ? 'blacklist' : 'whitelist';
-            page.querySelector('#chkRemoteAccess').checked = null == config.EnableRemoteAccess || config.EnableRemoteAccess;
+            page.querySelector('#chkRemoteAccess').checked = config.EnableRemoteAccess == null || config.EnableRemoteAccess;
             page.querySelector('#txtHttpsPort').value = config.HttpsPortNumber;
             page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
             page.querySelector('#chkRequireHttps').checked = config.RequireHttps;
             page.querySelector('#txtBaseUrl').value = config.BaseUrl || '';
-            var txtCertificatePath = page.querySelector('#txtCertificatePath');
+            const txtCertificatePath = page.querySelector('#txtCertificatePath');
             txtCertificatePath.value = config.CertificatePath || '';
             page.querySelector('#txtCertPassword').value = config.CertificatePassword || '';
             page.querySelector('#chkEnableUpnp').checked = config.EnableUPnP;
@@ -135,8 +145,8 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
             }
         });
         view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
-            require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+            import('directorybrowser').then(({default: directoryBrowser}) => {
+                const picker = new directoryBrowser();
                 picker.show({
                     includeFiles: true,
                     includeDirectories: true,
@@ -158,5 +168,6 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
                 loadPage(view, config);
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

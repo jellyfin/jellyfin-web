@@ -82,7 +82,7 @@ export function enablePlayedIndicator(item) {
 
 export function getPlayedIndicatorHtml(item) {
     if (enablePlayedIndicator(item)) {
-        let userData = item.UserData || {};
+        const userData = item.UserData || {};
         if (userData.UnplayedItemCount) {
             return '<div class="countIndicator indicator">' + userData.UnplayedItemCount + '</div>';
         }

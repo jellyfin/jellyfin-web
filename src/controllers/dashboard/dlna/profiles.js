@@ -1,5 +1,11 @@
-define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-button'], function ($, globalize, loading, libraryMenu) {
-    'use strict';
+import $ from 'jQuery';
+import globalize from 'globalize';
+import loading from 'loading';
+import libraryMenu from 'libraryMenu';
+import 'listViewStyle';
+import 'emby-button';
+
+/* eslint-disable indent */
 
     function loadProfiles(page) {
         loading.show();
@@ -12,25 +18,25 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
 
     function renderUserProfiles(page, profiles) {
         renderProfiles(page, page.querySelector('.customProfiles'), profiles.filter(function (p) {
-            return 'User' == p.Type;
+            return p.Type == 'User';
         }));
     }
 
     function renderSystemProfiles(page, profiles) {
         renderProfiles(page, page.querySelector('.systemProfiles'), profiles.filter(function (p) {
-            return 'System' == p.Type;
+            return p.Type == 'System';
         }));
     }
 
     function renderProfiles(page, element, profiles) {
-        var html = '';
+        let html = '';
 
         if (profiles.length) {
             html += '<div class="paperList">';
         }
 
-        for (var i = 0, length = profiles.length; i < length; i++) {
-            var profile = profiles[i];
+        for (let i = 0, length = profiles.length; i < length; i++) {
+            const profile = profiles[i];
             html += '<div class="listItem listItem-border">';
             html += '<span class="listItemIcon material-icons live_tv"></span>';
             html += '<div class="listItemBody two-line">';
@@ -39,8 +45,8 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
             html += '</a>';
             html += '</div>';
 
-            if ('User' == profile.Type) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('ButtonDelete') + '"><span class="material-icons delete"></span></button>';
+            if (profile.Type == 'User') {
+                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('Delete') + '"><span class="material-icons delete"></span></button>';
             }
 
             html += '</div>';
@@ -52,13 +58,13 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
 
         element.innerHTML = html;
         $('.btnDeleteProfile', element).on('click', function () {
-            var id = this.getAttribute('data-profileid');
+            const id = this.getAttribute('data-profileid');
             deleteProfile(page, id);
         });
     }
 
     function deleteProfile(page, id) {
-        require(['confirm'], function (confirm) {
+        import('confirm').then(({default: confirm}) => {
             confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
                 loading.show();
                 ApiClient.ajax({
@@ -75,7 +81,7 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
     function getTabs() {
         return [{
             href: 'dlnasettings.html',
-            name: globalize.translate('TabSettings')
+            name: globalize.translate('Settings')
         }, {
             href: 'dlnaprofiles.html',
             name: globalize.translate('TabProfiles')
@@ -86,4 +92,5 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
         libraryMenu.setTabs('dlna', 1, getTabs);
         loadProfiles(this);
     });
-});
+
+/* eslint-enable indent */

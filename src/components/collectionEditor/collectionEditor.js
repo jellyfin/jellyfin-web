@@ -1,16 +1,30 @@
-define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (dom, dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize) {
-    'use strict';
+import dom from 'dom';
+import dialogHelper from 'dialogHelper';
+import loading from 'loading';
+import layoutManager from 'layoutManager';
+import appRouter from 'appRouter';
+import globalize from 'globalize';
+import 'emby-checkbox';
+import 'emby-input';
+import 'paper-icon-button-light';
+import 'emby-select';
+import 'material-icons';
+import 'css!./../formdialog';
+import 'emby-button';
+import 'flexStyles';
 
-    var currentServerId;
+/* eslint-disable indent */
+
+    let currentServerId;
 
     function onSubmit(e) {
         loading.show();
 
-        var panel = dom.parentWithClass(this, 'dialog');
+        const panel = dom.parentWithClass(this, 'dialog');
 
-        var collectionId = panel.querySelector('#selectCollectionToAddTo').value;
+        const collectionId = panel.querySelector('#selectCollectionToAddTo').value;
 
-        var apiClient = connectionManager.getApiClient(currentServerId);
+        const apiClient = window.connectionManager.getApiClient(currentServerId);
 
         if (collectionId) {
             addToCollection(apiClient, panel, collectionId);
@@ -23,8 +37,7 @@ define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectio
     }
 
     function createCollection(apiClient, dlg) {
-
-        var url = apiClient.getUrl('Collections', {
+        const url = apiClient.getUrl('Collections', {
 
             Name: dlg.querySelector('#txtNewCollectionName').value,
             IsLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
@@ -36,27 +49,23 @@ define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectio
             url: url,
             dataType: 'json'
 
-        }).then(function (result) {
-
+        }).then(result => {
             loading.hide();
 
-            var id = result.Id;
+            const id = result.Id;
 
             dlg.submitted = true;
             dialogHelper.close(dlg);
             redirectToCollection(apiClient, id);
-
         });
     }
 
     function redirectToCollection(apiClient, id) {
-
         appRouter.showItem(id, apiClient.serverId());
     }
 
     function addToCollection(apiClient, dlg, id) {
-
-        var url = apiClient.getUrl('Collections/' + id + '/Items', {
+        const url = apiClient.getUrl(`Collections/${id}/Items`, {
 
             Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
         });
@@ -65,14 +74,13 @@ define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectio
             type: 'POST',
             url: url
 
-        }).then(function () {
-
+        }).then(() => {
             loading.hide();
 
             dlg.submitted = true;
             dialogHelper.close(dlg);
 
-            require(['toast'], function (toast) {
+            import('toast').then(({default: toast}) => {
                 toast(globalize.translate('MessageItemsAdded'));
             });
         });
@@ -83,14 +91,13 @@ define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectio
     }
 
     function populateCollections(panel) {
-
         loading.show();
 
-        var select = panel.querySelector('#selectCollectionToAddTo');
+        const select = panel.querySelector('#selectCollectionToAddTo');
 
         panel.querySelector('.newCollectionInfo').classList.add('hide');
 
-        var options = {
+        const options = {
 
             Recursive: true,
             IncludeItemTypes: 'BoxSet',
@@ -98,16 +105,14 @@ define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectio
             EnableTotalRecordCount: false
         };
 
-        var apiClient = connectionManager.getApiClient(currentServerId);
-        apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
+        const apiClient = window.connectionManager.getApiClient(currentServerId);
+        apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+            let html = '';
 
-            var html = '';
+            html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
-            html += '<option value="">' + globalize.translate('OptionNew') + '</option>';
-
-            html += result.Items.map(function (i) {
-
-                return '<option value="' + i.Id + '">' + i.Name + '</option>';
+            html += result.Items.map(i => {
+                return `<option value="${i.Id}">${i.Name}</option>`;
             });
 
             select.innerHTML = html;
@@ -119,8 +124,7 @@ define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectio
     }
 
     function getEditorHtml() {
-
-        var html = '';
+        let html = '';
 
         html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
         html += '<div class="dialogContentInner dialog-content-centered">';
@@ -134,27 +138,27 @@ define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectio
         html += '<br/>';
         html += '<br/>';
         html += '<div class="selectContainer">';
-        html += '<select is="emby-select" label="' + globalize.translate('LabelCollection') + '" id="selectCollectionToAddTo" autofocus></select>';
+        html += `<select is="emby-select" label="${globalize.translate('LabelCollection')}" id="selectCollectionToAddTo" autofocus></select>`;
         html += '</div>';
         html += '</div>';
 
         html += '<div class="newCollectionInfo">';
 
         html += '<div class="inputContainer">';
-        html += '<input is="emby-input" type="text" id="txtNewCollectionName" required="required" label="' + globalize.translate('LabelName') + '" />';
-        html += '<div class="fieldDescription">' + globalize.translate('NewCollectionNameExample') + '</div>';
+        html += `<input is="emby-input" type="text" id="txtNewCollectionName" required="required" label="${globalize.translate('LabelName')}" />`;
+        html += `<div class="fieldDescription">${globalize.translate('NewCollectionNameExample')}</div>`;
         html += '</div>';
 
         html += '<label class="checkboxContainer">';
         html += '<input is="emby-checkbox" type="checkbox" id="chkEnableInternetMetadata" />';
-        html += '<span>' + globalize.translate('SearchForCollectionInternetMetadata') + '</span>';
+        html += `<span>${globalize.translate('SearchForCollectionInternetMetadata')}</span>`;
         html += '</label>';
 
         // newCollectionInfo
         html += '</div>';
 
         html += '<div class="formDialogFooter">';
-        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('ButtonOk') + '</button>';
+        html += `<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">${globalize.translate('ButtonOk')}</button>`;
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';
@@ -167,7 +171,6 @@ define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectio
     }
 
     function initEditor(content, items) {
-
         content.querySelector('#selectCollectionToAddTo').addEventListener('change', function () {
             if (this.value) {
                 content.querySelector('.newCollectionInfo').classList.add('hide');
@@ -188,7 +191,7 @@ define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectio
         } else {
             content.querySelector('.fldSelectCollection').classList.add('hide');
 
-            var selectCollectionToAddTo = content.querySelector('#selectCollectionToAddTo');
+            const selectCollectionToAddTo = content.querySelector('#selectCollectionToAddTo');
             selectCollectionToAddTo.innerHTML = '';
             selectCollectionToAddTo.value = '';
             triggerChange(selectCollectionToAddTo);
@@ -196,79 +199,70 @@ define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectio
     }
 
     function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
+        import('scrollHelper').then((scrollHelper) => {
+            const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function CollectionEditor() {
+    export class showEditor {
+        constructor(options) {
+            const items = options.items || {};
+            currentServerId = options.serverId;
 
-    }
-
-    CollectionEditor.prototype.show = function (options) {
-
-        var items = options.items || {};
-        currentServerId = options.serverId;
-
-        var dialogOptions = {
-            removeOnClose: true,
-            scrollY: false
-        };
-
-        if (layoutManager.tv) {
-            dialogOptions.size = 'fullscreen';
-        } else {
-            dialogOptions.size = 'small';
-        }
-
-        var dlg = dialogHelper.createDialog(dialogOptions);
-
-        dlg.classList.add('formDialog');
-
-        var html = '';
-        var title = items.length ? globalize.translate('HeaderAddToCollection') : globalize.translate('NewCollection');
-
-        html += '<div class="formDialogHeader">';
-        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
-        html += '<h3 class="formDialogHeaderTitle">';
-        html += title;
-        html += '</h3>';
-
-        if (appHost.supports('externallinks')) {
-            html += '<a is="emby-linkbutton" class="button-link btnHelp flex align-items-center" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;padding:.25em;" title="' + globalize.translate('Help') + '"><span class="material-icons info"></span><span style="margin-left:.25em;">' + globalize.translate('Help') + '</span></a>';
-        }
-
-        html += '</div>';
-
-        html += getEditorHtml();
-
-        dlg.innerHTML = html;
-
-        initEditor(dlg, items);
-
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
-            dialogHelper.close(dlg);
-        });
-
-        if (layoutManager.tv) {
-            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-        }
-
-        return dialogHelper.open(dlg).then(function () {
+            const dialogOptions = {
+                removeOnClose: true,
+                scrollY: false
+            };
 
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'small';
             }
 
-            if (dlg.submitted) {
-                return Promise.resolve();
+            const dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('formDialog');
+
+            let html = '';
+            const title = items.length ? globalize.translate('HeaderAddToCollection') : globalize.translate('NewCollection');
+
+            html += '<div class="formDialogHeader">';
+            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<h3 class="formDialogHeaderTitle">';
+            html += title;
+            html += '</h3>';
+
+            html += '</div>';
+
+            html += getEditorHtml();
+
+            dlg.innerHTML = html;
+
+            initEditor(dlg, items);
+
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                dialogHelper.close(dlg);
+            });
+
+            if (layoutManager.tv) {
+                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
             }
 
-            return Promise.reject();
-        });
-    };
+            return dialogHelper.open(dlg).then(() => {
+                if (layoutManager.tv) {
+                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                }
 
-    return CollectionEditor;
-});
+                if (dlg.submitted) {
+                    return Promise.resolve();
+                }
+
+                return Promise.reject();
+            });
+        }
+    }
+
+/* eslint-enable indent */
+export default showEditor;

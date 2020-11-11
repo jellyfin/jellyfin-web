@@ -1,14 +1,14 @@
-# config
-config.json
-
 # npm
 dist
 web
 node_modules
 
+# config
+config.json
+
 # ide
 .idea
 .vscode
 
-#log
+# log
 yarn-error.log

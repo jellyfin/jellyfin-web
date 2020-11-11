@@ -34,8 +34,13 @@
  - [Ryan Hartzell](https://github.com/ryan-hartzell)
  - [Thibault Nocchi](https://github.com/ThibaultNocchi)
  - [MrTimscampi](https://github.com/MrTimscampi)
+ - [ConfusedPolarBear](https://github.com/ConfusedPolarBear)
  - [Sarab Singh](https://github.com/sarab97)
+ - [GuilhermeHideki](https://github.com/GuilhermeHideki)
  - [Andrei Oanca](https://github.com/OancaAndrei)
+ - [Cromefire_](https://github.com/cromefire)
+ - [Orry Verducci](https://github.com/orryverducci)
+ - [Camc314](https://github.com/camc314)
 
 # Emby Contributors
 

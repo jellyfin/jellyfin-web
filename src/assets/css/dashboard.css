@@ -235,6 +235,15 @@ div[data-role=controlgroup] a.ui-btn-active {
     width: 50%;
 }
 
+.localUsers .cardText-secondary {
+    white-space: pre-wrap;
+    height: 3em;
+}
+
+.customCssContainer textarea {
+    resize: none;
+}
+
 @media all and (min-width: 70em) {
     .dashboardSections {
         -webkit-flex-wrap: wrap;
