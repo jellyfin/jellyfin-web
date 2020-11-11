@@ -144,8 +144,7 @@ function loadPlugins() {
             .then(function () {
                 console.debug('finished loading plugins');
             })
-            .catch(() => console.debug('failed loading plugins')
-            )
+            .catch(() => console.debug('failed loading plugins'))
             .finally(() => {
                 console.groupEnd('loading installed plugins');
                 packageManager.init();
