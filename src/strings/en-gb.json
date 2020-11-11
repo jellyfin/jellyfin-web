@@ -1417,5 +1417,19 @@
     "ButtonUseQuickConnect": "Use Quick Connect",
     "ButtonActivate": "Activate",
     "Authorize": "Authorise",
-    "EnableAutoCast": "Set as Default"
+    "EnableAutoCast": "Set as Default",
+    "EnableFallbackFontHelp": "Enable custom alternative fonts. This can avoid the problem of incorrect subtitle rendering.",
+    "EnableFallbackFont": "Enable fallback fonts",
+    "LabelFallbackFontPathHelp": "Specify a path containing fallback fonts for rendering ASS/SSA subtitles. The maximum allowed total font size is 20 MB. Lightweight and web-friendly font formats such as woff2 are recommended.",
+    "LabelFallbackFontPath": "Fallback font folder path:",
+    "HeaderSelectFallbackFontPathHelp": "Browse or enter the path of the fallback font folder to use for rendering ASS/SSA subtitles.",
+    "HeaderSelectFallbackFontPath": "Select Fallback Font Folder Path",
+    "OptionMaxActiveSessionsHelp": "A value of 0 will disable the feature.",
+    "OptionMaxActiveSessions": "Sets the maximum number of simultaneous user sessions.",
+    "OptionAllowContentDownloadHelp": "Users can download media and store it on their devices. This is not the same as a sync feature. Book libraries require this enabled to function properly.",
+    "OptionAllowContentDownload": "Allow media downloads",
+    "LabelUserMaxActiveSessions": "Maximum number of simultaneous user sessions:",
+    "HeaderDeleteDevices": "Delete All Devices",
+    "DeleteDevicesConfirmation": "Are you sure you wish to delete all devices? All other sessions will be logged out. Devices will reappear the next time a user signs in.",
+    "DeleteAll": "Delete All"
 }
