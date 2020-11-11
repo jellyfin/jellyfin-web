@@ -189,20 +189,12 @@ import 'flexStyles';
         });
     }
 
-    function onToggleAdvancedChange() {
-        const dlg = dom.parentWithClass(this, 'dlg-libraryeditor');
-        libraryoptionseditor.setAdvancedVisible(dlg.querySelector('.libraryOptions'), this.checked);
-    }
-
     function initEditor(dlg, options) {
         renderLibrary(dlg, options);
         dlg.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
         dlg.querySelector('.folderList').addEventListener('click', onListItemClick);
-        dlg.querySelector('.chkAdvanced').addEventListener('change', onToggleAdvancedChange);
         dlg.querySelector('.btnSubmit').addEventListener('click', onEditLibrary);
-        libraryoptionseditor.embed(dlg.querySelector('.libraryOptions'), options.library.CollectionType, options.library.LibraryOptions).then(() => {
-            onToggleAdvancedChange.call(dlg.querySelector('.chkAdvanced'));
-        });
+        libraryoptionseditor.embed(dlg.querySelector('.libraryOptions'), options.library.CollectionType, options.library.LibraryOptions);
     }
 
     function onDialogClosed() {

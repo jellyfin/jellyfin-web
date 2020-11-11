@@ -378,13 +378,6 @@ import 'emby-input';
         });
     }
 
-    export function setAdvancedVisible(parent, visible) {
-        const elems = parent.querySelectorAll('.advanced');
-        for (let i = 0; i < elems.length; i++) {
-            visible ? elems[i].classList.remove('advancedHide') : elems[i].classList.add('advancedHide');
-        }
-    }
-
     export function setContentType(parent, contentType) {
         if (contentType === 'homevideos' || contentType === 'photos') {
             parent.querySelector('.chkEnablePhotosContainer').classList.remove('hide');
@@ -593,6 +586,5 @@ export default {
     embed: embed,
     setContentType: setContentType,
     getLibraryOptions: getLibraryOptions,
-    setLibraryOptions: setLibraryOptions,
-    setAdvancedVisible: setAdvancedVisible
+    setLibraryOptions: setLibraryOptions
 };
