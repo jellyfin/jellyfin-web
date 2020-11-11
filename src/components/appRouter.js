@@ -314,17 +314,18 @@ class AppRouter {
             url += '?' + ctx.querystring;
         }
 
+        let promise;
         if (route.serverRequest) {
             const apiClient = ServerConnections.currentApiClient();
-
             url = apiClient.getUrl(`/web${url}`);
-
-            apiClient.get(url).then(html => this.loadContent(ctx, route, html, request));
+            promise = apiClient.get(url);
         } else {
-            import(/* webpackChunkName: "[request]" */ `../controllers/${url}`).then((html) => {
-                this.loadContent(ctx, route, html, request);
-            });
+            promise = import(/* webpackChunkName: "[request]" */ `../controllers/${url}`);
         }
+
+        promise.then((html) => {
+            this.loadContent(ctx, route, html, request);
+        });
     }
 
     handleRoute(ctx, next, route) {
