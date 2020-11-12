@@ -1425,5 +1425,12 @@
     "OptionAllowContentDownload": "允许媒体下载",
     "HeaderDeleteDevices": "删除所有设备",
     "DeleteDevicesConfirmation": "您确定要删除所有设备吗？所有其他会话将被注销。用户下次登录时，设备会重新出现。",
-    "DeleteAll": "删除全部"
+    "DeleteAll": "删除全部",
+    "PreferFmp4HlsContainer": "优先使用 fMP4-HLS 媒体容器",
+    "PreferFmp4HlsContainerHelp": "优先使用 fMP4 作为 HLS 播放的默认容器，从而可以在支持的设备上直接串流 HEVC 格式的内容。",
+    "AllowHevcEncoding": "允许以 HEVC 格式编码",
+    "LabelAllowedAudioChannels": "允许的最大声道数量",
+    "LabelSelectAudioChannels": "声道",
+    "LabelSelectMono": "单声道",
+    "LabelSelectStereo": "立体声"
 }

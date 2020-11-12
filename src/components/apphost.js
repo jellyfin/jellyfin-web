@@ -33,7 +33,6 @@ function getDeviceProfile(item, options = {}) {
                 profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
             } else {
                 const builderOpts = getBaseProfileOptions(item);
-                builderOpts.enableSsaRender = (item && !options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats');
                 profile = profileBuilder(builderOpts);
             }
 

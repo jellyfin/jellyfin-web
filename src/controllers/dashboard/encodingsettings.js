@@ -13,6 +13,7 @@ import libraryMenu from 'libraryMenu';
         page.querySelector('#chkDecodingColorDepth10Hevc').checked = config.EnableDecodingColorDepth10Hevc;
         page.querySelector('#chkDecodingColorDepth10Vp9').checked = config.EnableDecodingColorDepth10Vp9;
         page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
+        page.querySelector('#chkAllowHevcEncoding').checked = config.AllowHevcEncoding;
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
         $('#selectThreadCount', page).val(config.EncodingThreadCount);
         $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
@@ -98,6 +99,7 @@ import libraryMenu from 'libraryMenu';
                 config.EnableDecodingColorDepth10Hevc = form.querySelector('#chkDecodingColorDepth10Hevc').checked;
                 config.EnableDecodingColorDepth10Vp9 = form.querySelector('#chkDecodingColorDepth10Vp9').checked;
                 config.EnableHardwareEncoding = form.querySelector('#chkHardwareEncoding').checked;
+                config.AllowHevcEncoding = form.querySelector('#chkAllowHevcEncoding').checked;
                 ApiClient.updateNamedConfiguration('encoding', config).then(function () {
                     updateEncoder(form);
                 }, function () {

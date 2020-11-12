@@ -145,6 +145,8 @@ import 'emby-checkbox';
 
         showHideQualityFields(context, user, apiClient);
 
+        context.querySelector('#selectAllowedAudioChannels').value = userSettings.allowedAudioChannels();
+
         apiClient.getCultures().then(allCultures => {
             populateLanguages(context.querySelector('#selectAudioLanguage'), allCultures);
 
@@ -187,6 +189,7 @@ import 'emby-checkbox';
         }
 
         context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
+        context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
         context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
         context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
         context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
@@ -222,10 +225,11 @@ import 'emby-checkbox';
         setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
         setMaxBitrateFromField(context.querySelector('.selectMusicInternetQuality'), false, 'Audio');
 
+        userSettingsInstance.allowedAudioChannels(context.querySelector('#selectAllowedAudioChannels').value);
         user.Configuration.AudioLanguagePreference = context.querySelector('#selectAudioLanguage').value;
         user.Configuration.PlayDefaultAudioTrack = context.querySelector('.chkPlayDefaultAudioTrack').checked;
         user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
-
+        userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
         userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
 
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
