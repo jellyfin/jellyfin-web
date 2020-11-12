@@ -791,7 +791,7 @@ define(['browser', 'userSettings', 'appSettings'], function (browser, userSettin
 
         // hevc main10 level 6.1
         if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L183"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L183"').replace(/no/, '')) {
+            videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L183"').replace(/no/, '')) {
             maxHevcLevel = 183;
             hevcProfiles = 'main|main 10';
         }
