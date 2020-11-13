@@ -92,14 +92,14 @@
                             </label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="checkboxListContainer">
-                        <div class="checkboxList">
-                            <label>
-                                <input type="checkbox" is="emby-checkbox" id="chkAllowHevcEncoding" />
-                                <span>${AllowHevcEncoding}</span>
-                            </label>
-                        </div>
+                <div class="checkboxListContainer">
+                    <div class="checkboxList">
+                        <label>
+                            <input type="checkbox" is="emby-checkbox" id="chkAllowHevcEncoding" />
+                            <span>${AllowHevcEncoding}</span>
+                        </label>
                     </div>
                 </div>
 
@@ -212,10 +212,12 @@
                     <div class="fieldDescription">${EncoderPresetHelp}</div>
                 </div>
                 <div class="inputContainer">
+                    <input is="emby-input" type="number" id="txtH265Crf" pattern="[0-9]*" min="0" max="51" step="1" label="${LabelH265Crf}" />
+                </div>
+                <div class="inputContainer">
                     <input is="emby-input" type="number" id="txtH264Crf" pattern="[0-9]*" min="0" max="51" step="1" label="${LabelH264Crf}" />
                     <div class="fieldDescription">${H264CrfHelp}</div>
                 </div>
-
                 <div class="selectContainer">
                     <select is="emby-select" id="selectDeinterlaceMethod" label="${LabelDeinterlaceMethod}">
                         <option value="yadif">${Yadif}</option>
