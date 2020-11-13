@@ -261,7 +261,13 @@ import 'emby-button';
 
                 minutes = minutes || 1;
 
-                miscInfo.push(`${Math.round(minutes)} mins`);
+                if (item.UserData?.PlaybackPositionTicks) {
+                    let remainingMinutes = (item.RunTimeTicks - item.UserData.PlaybackPositionTicks) / 600000000;
+                    remainingMinutes = remainingMinutes || 1;
+                    miscInfo.push(`${Math.round(minutes)} mins (${Math.round(remainingMinutes)} remaining)`);
+                } else {
+                    miscInfo.push(`${Math.round(minutes)} mins`);
+                }
             }
         }
 
@@ -319,7 +325,7 @@ import 'emby-button';
     export function getEndsAt(item) {
         if (item.MediaType === 'Video' && item.RunTimeTicks) {
             if (!item.StartDate) {
-                let endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
+                let endDate = new Date().getTime() + ((item.RunTimeTicks - (item.UserData?.PlaybackPositionTicks || 0)) / 10000);
                 endDate = new Date(endDate);
 
                 const displayTime = datetime.getDisplayTime(endDate);

@@ -41,6 +41,7 @@
  - [Cromefire_](https://github.com/cromefire)
  - [Orry Verducci](https://github.com/orryverducci)
  - [Camc314](https://github.com/camc314)
+ - [DanielHLewis](https://github.com/danielhlewis)
 
 # Emby Contributors
 
