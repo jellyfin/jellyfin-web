@@ -1431,5 +1431,5 @@
     "LabelFallbackFontPathHelp": "Spécifiez un chemin contenant les polices de remplacement pour le rendu des sous-titres ASS / SSA. La taille de police totale maximale autorisée est de 20 Mo. Les formats de police légers et conviviaux pour le Web tels que woff2 sont recommandés.",
     "LabelFallbackFontPath": "Chemin du dossier des polices de secours :",
     "HeaderSelectFallbackFontPathHelp": "Parcourez ou entrez le chemin du dossier de polices de secours à utiliser pour le rendu des sous-titres ASS/SSA.",
-    "HeaderSelectFallbackFontPath": "Sélectionnez le chemin du dossier des polices de secours"
+    "HeaderSelectFallbackFontPath": "Sélectionnez le dossier des polices de secours"
 }
