@@ -1083,5 +1083,11 @@
     "DeleteDevicesConfirmation": "Jeste li sigurni da želite izbrisati sve uređaje? Sve ostale sesije bit će odjavljene. Uređaji će se pojaviti sljedeći put kada se korisnik prijavi.",
     "DeleteAll": "Izbrisati sve",
     "DeinterlaceMethodHelp": "Odaberite deinterlacing metodu koju ćete koristiti prilikom softverskog prekodiranja isprepletenog sadržaja. Kad je omogućeno hardversko ubrzanje koje podržava hardverski deinterlacing, umjesto ove postavke upotrijebit će se hardverski deinterlacer.",
-    "DefaultSubtitlesHelp": "Titlovi se učitavaju na temelju zadanih i prisilnih zastavica u ugrađenim metapodacima. Jezične postavke uzimaju se u obzir kada je dostupno više opcija."
+    "DefaultSubtitlesHelp": "Titlovi se učitavaju na temelju zadanih i prisilnih zastavica u ugrađenim metapodacima. Jezične postavke uzimaju se u obzir kada je dostupno više opcija.",
+    "HeaderDetectMyDevices": "Otkrij moje uređaje",
+    "HeaderDeleteDevices": "Izbriši sve uređaje",
+    "HeaderDefaultRecordingSettings": "Zadane postavke snimanja",
+    "HeaderChapterImages": "Slike Poglavlja",
+    "FormatValue": "Format: {0}",
+    "FastForward": "Premotavanje unaprijed"
 }
