@@ -1426,5 +1426,6 @@
     "LabelUserMaxActiveSessions": "Numărul maxim de sesiuni simultane per utilizator:",
     "HeaderDeleteDevices": "Șterge Toate Dispozitivele",
     "DeleteDevicesConfirmation": "Sigur doriți să ștergeți toate dispozitivele? Toate celelalte sesiuni vor fi deconectate. Dispozitivele vor reapărea data viitoare când un utilizator se conectează.",
-    "DeleteAll": "Șterge tot"
+    "DeleteAll": "Șterge tot",
+    "HeaderSelectFallbackFontPath": "Selectați calea către dosarul fontului de rezervă"
 }
