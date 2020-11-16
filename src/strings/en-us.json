@@ -1040,8 +1040,6 @@
     "OptionDislikes": "Dislikes",
     "OptionDisplayFolderView": "Display a folder view to show plain media folders",
     "OptionDisplayFolderViewHelp": "Display folders alongside your other media libraries. This can be useful if you'd like to have a plain folder view.",
-    "OptionDownloadImagesInAdvance": "Download images in advance",
-    "OptionDownloadImagesInAdvanceHelp": "By default, most images are only downloaded when requested by a client. Enable this option to download all images in advance, as new media is imported. This may cause significantly longer library scans.",
     "OptionDvd": "DVD",
     "OptionEmbedSubtitles": "Embed within container",
     "OptionEnableAccessFromAllDevices": "Enable access from all devices",
