@@ -259,6 +259,13 @@ export default function (options) {
         dialog.addEventListener('close', onDialogClosed);
 
         loadSwiper(dialog, options);
+
+        const btnSlideshowExit = dialog.querySelector('.btnSlideshowExit');
+        if (btnSlideshowExit) btnSlideshowExit.classList.add('hide');
+        const btnSlideshowPrevious = dialog.querySelector('.btnSlideshowPrevious');
+        if (btnSlideshowPrevious) btnSlideshowPrevious.classList.add('hide');
+        const btnSlideshowNext = dialog.querySelector('.btnSlideshowNext');
+        if (btnSlideshowNext) btnSlideshowNext.classList.add('hide');
     }
 
     /**
@@ -269,12 +276,6 @@ export default function (options) {
         if (btnSlideshowPause) {
             btnSlideshowPause.classList.replace('play_arrow', 'pause');
         }
-
-        const left = dialog.querySelector('.btnSlideshowPrevious');
-        if (left) slideToHide(left, 'left');
-
-        const right = dialog.querySelector('.btnSlideshowNext');
-        if (right) slideToHide(right, 'right');
     }
 
     /**
@@ -285,12 +286,6 @@ export default function (options) {
         if (btnSlideshowPause) {
             btnSlideshowPause.classList.replace('pause', 'play_arrow');
         }
-
-        const left = dialog.querySelector('.btnSlideshowPrevious');
-        if (left) slideToShow(left, 'left');
-
-        const right = dialog.querySelector('.btnSlideshowNext');
-        if (right) slideToShow(right, 'right');
     }
 
     /**
@@ -657,8 +652,8 @@ export default function (options) {
         element.classList.remove('hide');
 
         const onFinish = function () {
-            const pause = element.querySelector('.btnSlideshowPause');
-            if (pause) focusManager.focus(pause);
+            const btnSlideshowPause = element.querySelector('.btnSlideshowPause');
+            if (btnSlideshowPause) focusManager.focus(btnSlideshowPause);
         };
 
         if (!element.animate) {
