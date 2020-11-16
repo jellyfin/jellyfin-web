@@ -52,7 +52,7 @@
     "stylelint-order": "^4.1.0",
     "webpack": "^5.4.0",
     "webpack-merge": "^4.2.2",
-    "webpack-stream": "^6.1.0",
+    "webpack-stream": "^6.1.1",
     "worker-plugin": "^5.0.0"
   },
   "dependencies": {
