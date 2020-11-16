@@ -1380,5 +1380,6 @@
     "ButtonUseQuickConnect": "Użyj szybkiego połączenia",
     "Authorize": "Autoryzuj",
     "HeaderDeleteDevices": "Usuń wszystkie urządzenia",
-    "DeleteAll": "Usuń wszystkie"
+    "DeleteAll": "Usuń wszystkie",
+    "LabelKnownProxies": "Znane serwery proxy:"
 }
