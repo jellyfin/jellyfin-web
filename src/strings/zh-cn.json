@@ -1431,5 +1431,7 @@
     "OptionAllowContentDownload": "允许媒体下载",
     "HeaderDeleteDevices": "删除所有设备",
     "DeleteDevicesConfirmation": "您确定要删除所有设备吗？所有其他会话将被注销。用户下次登录时，设备会重新出现。",
-    "DeleteAll": "删除全部"
+    "DeleteAll": "删除全部",
+    "AspectRatioCover": "覆盖",
+    "AspectRatioFill": "填充"
 }
