@@ -535,7 +535,7 @@
     "LabelKeepUpTo": "Garder jusqu'à :",
     "LabelKidsCategories": "Catégories jeunesse :",
     "LabelKodiMetadataDateFormat": "Format de la date de sortie :",
-    "LabelKodiMetadataDateFormatHelp": "Toutes les dates des fichiers NFO seront anlysés en utilisant ce format.",
+    "LabelKodiMetadataDateFormatHelp": "Toutes les dates des fichiers NFO seront analysées en utilisant ce format.",
     "LabelKodiMetadataEnableExtraThumbs": "Copier les extrafanart dans les champs extrathumbs",
     "LabelKodiMetadataEnableExtraThumbsHelp": "Pendant le téléchargement, les images peuvent être enregistrées en tant qu'extrafanart et extrathumbs pour améliorer la compatibilité avec le skin Kodi.",
     "LabelKodiMetadataEnablePathSubstitution": "Activer la substitution des chemins",
