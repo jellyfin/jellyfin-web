@@ -371,6 +371,17 @@ import 'css!./playerstats';
             const session = responses[1];
 
             const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+            let localizedDisplayMethod = displayPlayMethod;
+
+            if (displayPlayMethod === 'DirectPlay') {
+                localizedDisplayMethod = globalize.translate('DirectPlaying');
+            } else if (displayPlayMethod === 'Remux') {
+                localizedDisplayMethod = globalize.translate('Remuxing');
+            } else if (displayPlayMethod === 'DirectStream') {
+                localizedDisplayMethod = globalize.translate('DirectStreaming');
+            } else if (displayPlayMethod === 'Transcode') {
+                localizedDisplayMethod = globalize.translate('Transcoding');
+            }
 
             const baseCategory = {
                 stats: [],
@@ -399,6 +410,13 @@ import 'css!./playerstats';
                     category.name = 'Video Info';
                 }
                 categories.push(category);
+            }
+
+            let localizedTranscodingInfo = globalize.translate('LabelTranscodingInfo');
+            if (displayPlayMethod === 'Remux') {
+                localizedTranscodingInfo = globalize.translate('LabelRemuxingInfo');
+            } else if (displayPlayMethod === 'DirectStream') {
+                localizedTranscodingInfo = globalize.translate('LabelDirectStreamingInfo');
             }
 
             if (session.TranscodingInfo) {
