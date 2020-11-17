@@ -385,12 +385,12 @@ import 'css!./playerstats';
 
             const baseCategory = {
                 stats: [],
-                name: 'Playback Info'
+                name: globalize.translate('LabelPlaybackInfo')
             };
 
             baseCategory.stats.unshift({
                 label: globalize.translate('LabelPlayMethod'),
-                value: displayPlayMethod
+                value: localizedDisplayMethod
             });
 
             baseCategory.stats.unshift({
@@ -405,9 +405,9 @@ import 'css!./playerstats';
             for (let i = 0, length = playerStats.length; i < length; i++) {
                 const category = playerStats[i];
                 if (category.type === 'audio') {
-                    category.name = 'Audio Info';
+                    category.name = globalize.translate('LabelAudioInfo');
                 } else if (category.type === 'video') {
-                    category.name = 'Video Info';
+                    category.name = globalize.translate('LabelVideoInfo');
                 }
                 categories.push(category);
             }
@@ -422,20 +422,20 @@ import 'css!./playerstats';
             if (session.TranscodingInfo) {
                 categories.push({
                     stats: getTranscodingStats(session, player, displayPlayMethod),
-                    name: displayPlayMethod === 'Transcode' ? 'Transcoding Info' : 'Direct Stream Info'
+                    name: localizedTranscodingInfo
                 });
             }
 
             categories.push({
                 stats: getMediaSourceStats(session, player),
-                name: 'Original Media Info'
+                name: globalize.translate('LabelOriginalMediaInfo')
             });
 
             const apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
             if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),
-                    name: 'SyncPlay Info'
+                    name: globalize.translate('LabelSyncPlayInfo')
                 });
             }
 

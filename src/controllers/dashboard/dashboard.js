@@ -414,8 +414,6 @@ import 'emby-itemscontainer';
                 }
 
                 showTranscodingInfo = true;
-            } else if (displayPlayMethod === 'DirectPlay') {
-                html += globalize.translate('DirectPlaying');
             }
 
             if (showTranscodingInfo) {
