@@ -395,7 +395,7 @@
   "scripts": {
     "start": "yarn serve",
     "serve": "gulp serve --development",
-    "prepare": "gulp --production",
+    "prepare": "./scripts/prepare.sh",
     "build:development": "gulp --development",
     "build:production": "gulp --production",
     "build:standalone": "gulp standalone --development",
