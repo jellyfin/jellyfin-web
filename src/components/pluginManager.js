@@ -1,5 +1,8 @@
 import { Events } from 'jellyfin-apiclient';
 import globalize from '../scripts/globalize';
+import loading from './loading/loading';
+import appSettings from '../scripts/settings/appSettings';
+import { playbackManager } from './playback/playbackmanager';
 
 /* eslint-disable indent */
 
@@ -28,7 +31,7 @@ import globalize from '../scripts/globalize';
             Emby.App.defineRoute(route, plugin.id);
         }
 
-        #registerPlugin(plugin) {
+        async #registerPlugin(plugin) {
             this.#register(plugin);
 
             if (plugin.getRoutes) {
@@ -39,50 +42,62 @@ import globalize from '../scripts/globalize';
 
             if (plugin.type === 'skin') {
                 // translations won't be loaded for skins until needed
-                return Promise.resolve(plugin);
+                return plugin;
             } else {
-                return new Promise((resolve, reject) => {
-                    this.#loadStrings(plugin)
-                        .then(function () {
-                            resolve(plugin);
-                        })
-                        .catch(reject);
-                });
+                return await this.#loadStrings(plugin);
             }
         }
 
-        loadPlugin(pluginSpec) {
+        async #preparePlugin(pluginSpec, plugin) {
             if (typeof pluginSpec === 'string') {
-                console.debug('Loading plugin (via dynamic import): ' + pluginSpec);
+                // See if it's already installed
+                const existing = this.plugins.filter(function (p) {
+                    return p.id === plugin.id;
+                })[0];
 
-                import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`).then((plugin) => {
-                    // See if it's already installed
-                    const existing = this.plugins.filter(function (p) {
-                        return p.id === plugin.id;
-                    })[0];
+                if (existing) {
+                    return pluginSpec;
+                }
 
-                    if (existing) {
-                        return Promise.resolve(pluginSpec);
-                    }
+                plugin.installUrl = pluginSpec;
 
-                    plugin.installUrl = pluginSpec;
+                const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
+                plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
+            }
 
-                    const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
-                    plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
+            return this.#registerPlugin(plugin);
+        }
 
-                    this.#registerPlugin(plugin).then(Promise.resolve).catch(Promise.reject);
-                });
+        async loadPlugin(pluginSpec) {
+            let plugin;
+
+            if (typeof pluginSpec === 'string') {
+                if (pluginSpec in window) {
+                    console.log(`Loading plugin (via window): ${pluginSpec}`);
+
+                    // init plugin and pass basic dependencies
+                    plugin = new window[pluginSpec]({
+                        events: Events,
+                        loading,
+                        appSettings,
+                        playbackManager
+                    });
+                } else {
+                    console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
+                    plugin = await import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`);
+                }
             } else if (pluginSpec.then) {
-                return pluginSpec.then(({ default: pluginBuilder }) => {
-                    const plugin = new pluginBuilder;
-                    console.debug(`Plugin loaded: ${plugin.id}`);
-                    return this.#registerPlugin(plugin);
-                });
+                console.debug('Loading plugin (via promise/async function)');
+
+                const pluginResult = await pluginSpec;
+                plugin = new pluginResult.default;
             } else {
                 const err = new TypeError('Plugins have to be a Promise that resolves to a plugin builder function');
                 console.error(err);
-                return Promise.reject(err);
+                throw err;
             }
+
+            return this.#preparePlugin(pluginSpec, plugin);
         }
 
         // In lieu of automatic discovery, plugins will register dynamic objects
