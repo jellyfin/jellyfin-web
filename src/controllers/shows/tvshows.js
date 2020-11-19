@@ -1,10 +1,20 @@
-define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'alphaPicker', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, listView, cardBuilder, alphaPicker, userSettings, globalize) {
-    'use strict';
+import loading from 'loading';
+import events from 'events';
+import libraryBrowser from 'libraryBrowser';
+import imageLoader from 'imageLoader';
+import listView from 'listView';
+import cardBuilder from 'cardBuilder';
+import AlphaPicker from 'alphaPicker';
+import * as userSettings from 'userSettings';
+import globalize from 'globalize';
+import 'emby-itemscontainer';
 
-    return function (view, params, tabContent) {
+/* eslint-disable indent */
+
+    export default function (view, params, tabContent) {
         function getPageData(context) {
-            var key = getSavedQueryKey(context);
-            var pageData = data[key];
+            const key = getSavedQueryKey(context);
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -44,11 +54,11 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             return context.savedQueryKey;
         }
 
-        function onViewStyleChange() {
-            var viewStyle = self.getCurrentViewStyle();
-            var itemsContainer = tabContent.querySelector('.itemsContainer');
+        const onViewStyleChange = () => {
+            const viewStyle = this.getCurrentViewStyle();
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ('List' == viewStyle) {
+            if (viewStyle == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {
@@ -57,13 +67,13 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             }
 
             itemsContainer.innerHTML = '';
-        }
+        };
 
-        function reloadItems(page) {
+        const reloadItems = (page) => {
             loading.show();
             isLoading = true;
-            var query = getQuery(page);
-            ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
+            const query = getQuery(page);
+            ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
                 function onNextPageClick() {
                     if (isLoading) {
                         return;
@@ -88,8 +98,8 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
 
                 window.scrollTo(0, 0);
                 updateFilterControls(page);
-                var html;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                let html;
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -99,7 +109,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                     sortButton: false,
                     filterButton: false
                 });
-                var viewStyle = self.getCurrentViewStyle();
+                const viewStyle = this.getCurrentViewStyle();
                 if (viewStyle == 'Thumb') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
@@ -156,49 +166,56 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                         showYear: true
                     });
                 }
-                var i;
-                var length;
-                var elems = tabContent.querySelectorAll('.paging');
 
-                for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].innerHTML = pagingHtml;
+                let elems = tabContent.querySelectorAll('.paging');
+
+                for (const elem of elems) {
+                    elem.innerHTML = pagingHtml;
                 }
 
                 elems = tabContent.querySelectorAll('.btnNextPage');
-                for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onNextPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll('.btnPreviousPage');
-                for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onPreviousPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onPreviousPageClick);
                 }
 
-                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                const itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
                 loading.hide();
                 isLoading = false;
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(page);
                 });
             });
-        }
+        };
 
-        function updateFilterControls(tabContent) {
-            var query = getQuery(tabContent);
-            self.alphaPicker.value(query.NameStartsWithOrGreater);
-        }
+        const updateFilterControls = (tabContent) => {
+            const query = getQuery(tabContent);
 
-        var self = this;
-        var data = {};
-        var isLoading = false;
+            if (this.alphaPicker) {
+                this.alphaPicker.value(query.NameStartsWith);
 
-        self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
-                var filterDialog = new filterDialogFactory({
+                if (query.SortBy.indexOf('SortName') === 0) {
+                    this.alphaPicker.visible(true);
+                } else {
+                    this.alphaPicker.visible(false);
+                }
+            }
+        };
+
+        const data = {};
+        let isLoading = false;
+
+        this.showFilterMenu = function () {
+            import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+                const filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'series',
                     serverId: ApiClient.serverId()
@@ -211,22 +228,22 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             });
         };
 
-        self.getCurrentViewStyle = function () {
+        this.getCurrentViewStyle = function () {
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
-            var alphaPickerElement = tabContent.querySelector('.alphaPicker');
-            var itemsContainer = tabContent.querySelector('.itemsContainer');
+        const initPage = (tabContent) => {
+            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
 
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                var newValue = e.detail.value;
-                var query = getQuery(tabContent);
-                query.NameStartsWithOrGreater = newValue;
+                const newValue = e.detail.value;
+                const query = getQuery(tabContent);
+                query.NameStartsWith = newValue;
                 query.StartIndex = 0;
                 reloadItems(tabContent);
             });
-            self.alphaPicker = new alphaPicker({
+            this.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
                 valueChangeEvent: 'click'
             });
@@ -235,13 +252,13 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             alphaPickerElement.classList.add('alphaPicker-fixed-right');
             itemsContainer.classList.add('padded-right-withalphapicker');
 
-            tabContent.querySelector('.btnFilter').addEventListener('click', function () {
-                self.showFilterMenu();
+            tabContent.querySelector('.btnFilter').addEventListener('click', () => {
+                this.showFilterMenu();
             });
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: globalize.translate('OptionNameSort'),
+                        name: globalize.translate('Name'),
                         id: 'SortName'
                     }, {
                         name: globalize.translate('OptionImdbRating'),
@@ -267,28 +284,29 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                     button: e.target
                 });
             });
-            var btnSelectView = tabContent.querySelector('.btnSelectView');
-            btnSelectView.addEventListener('click', function (e) {
-                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
+            const btnSelectView = tabContent.querySelector('.btnSelectView');
+            btnSelectView.addEventListener('click', (e) => {
+                libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
-                var viewStyle = e.detail.viewStyle;
+                const viewStyle = e.detail.viewStyle;
                 getPageData(tabContent).view = viewStyle;
                 libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
                 getQuery(tabContent).StartIndex = 0;
                 onViewStyleChange();
                 reloadItems(tabContent);
             });
-        }
+        };
 
         initPage(tabContent);
         onViewStyleChange();
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reloadItems(tabContent);
             updateFilterControls(tabContent);
         };
 
-        self.destroy = function () {};
-    };
-});
+        this.destroy = function () {};
+    }
+
+/* eslint-enable indent */

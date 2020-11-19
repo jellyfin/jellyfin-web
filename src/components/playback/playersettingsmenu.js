@@ -1,18 +1,16 @@
-import connectionManager from 'connectionManager';
 import actionsheet from 'actionsheet';
 import playbackManager from 'playbackManager';
 import globalize from 'globalize';
 import qualityoptions from 'qualityoptions';
 
 function showQualityMenu(player, btn) {
-
-    var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
+    const videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
         return stream.Type === 'Video';
     })[0];
-    var videoWidth = videoStream ? videoStream.Width : null;
-    var videoHeight = videoStream ? videoStream.Height : null;
+    const videoWidth = videoStream ? videoStream.Width : null;
+    const videoHeight = videoStream ? videoStream.Height : null;
 
-    var options = qualityoptions.getVideoQualityOptions({
+    const options = qualityoptions.getVideoQualityOptions({
         currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
         isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
         videoWidth: videoWidth,
@@ -20,8 +18,8 @@ function showQualityMenu(player, btn) {
         enableAuto: true
     });
 
-    var menuItems = options.map(function (o) {
-        var opt = {
+    const menuItems = options.map(function (o) {
+        const opt = {
             name: o.name,
             id: o.bitrate,
             asideText: o.secondaryText
@@ -34,7 +32,7 @@ function showQualityMenu(player, btn) {
         return opt;
     });
 
-    var selectedId = options.filter(function (o) {
+    let selectedId = options.filter(function (o) {
         return o.selected;
     });
 
@@ -44,7 +42,7 @@ function showQualityMenu(player, btn) {
         items: menuItems,
         positionTo: btn
     }).then(function (id) {
-        var bitrate = parseInt(id);
+        const bitrate = parseInt(id);
         if (bitrate !== selectedId) {
             playbackManager.setMaxStreamingBitrate({
                 enableAutomaticBitrateDetection: bitrate ? false : true,
@@ -55,8 +53,8 @@ function showQualityMenu(player, btn) {
 }
 
 function showRepeatModeMenu(player, btn) {
-    var menuItems = [];
-    var currentValue = playbackManager.getRepeatMode(player);
+    const menuItems = [];
+    const currentValue = playbackManager.getRepeatMode(player);
 
     menuItems.push({
         name: globalize.translate('RepeatAll'),
@@ -87,18 +85,16 @@ function showRepeatModeMenu(player, btn) {
 }
 
 function getQualitySecondaryText(player) {
-    var state = playbackManager.getPlayerState(player);
-    var isAutoEnabled = playbackManager.enableAutomaticBitrateDetection(player);
-    var currentMaxBitrate = playbackManager.getMaxStreamingBitrate(player);
+    const state = playbackManager.getPlayerState(player);
 
-    var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
+    const videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
         return stream.Type === 'Video';
     })[0];
 
-    var videoWidth = videoStream ? videoStream.Width : null;
-    var videoHeight = videoStream ? videoStream.Height : null;
+    const videoWidth = videoStream ? videoStream.Width : null;
+    const videoHeight = videoStream ? videoStream.Height : null;
 
-    var options = qualityoptions.getVideoQualityOptions({
+    const options = qualityoptions.getVideoQualityOptions({
         currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
         isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
         videoWidth: videoWidth,
@@ -106,21 +102,7 @@ function getQualitySecondaryText(player) {
         enableAuto: true
     });
 
-    var menuItems = options.map(function (o) {
-        var opt = {
-            name: o.name,
-            id: o.bitrate,
-            asideText: o.secondaryText
-        };
-
-        if (o.selected) {
-            opt.selected = true;
-        }
-
-        return opt;
-    });
-
-    var selectedOption = options.filter(function (o) {
+    let selectedOption = options.filter(function (o) {
         return o.selected;
     });
 
@@ -129,7 +111,7 @@ function getQualitySecondaryText(player) {
     }
 
     selectedOption = selectedOption[0];
-    var text = selectedOption.name;
+    let text = selectedOption.name;
 
     if (selectedOption.autoText) {
         if (state.PlayState && state.PlayState.PlayMethod !== 'Transcode') {
@@ -144,8 +126,8 @@ function getQualitySecondaryText(player) {
 
 function showAspectRatioMenu(player, btn) {
     // each has a name and id
-    var currentId = playbackManager.getAspectRatio(player);
-    var menuItems = playbackManager.getSupportedAspectRatios(player).map(function (i) {
+    const currentId = playbackManager.getAspectRatio(player);
+    const menuItems = playbackManager.getSupportedAspectRatios(player).map(function (i) {
         return {
             id: i.id,
             name: i.name,
@@ -166,14 +148,35 @@ function showAspectRatioMenu(player, btn) {
     });
 }
 
-function showWithUser(options, player, user) {
-    var supportedCommands = playbackManager.getSupportedCommands(player);
-    var mediaType = options.mediaType;
+function showPlaybackRateMenu(player, btn) {
+    // each has a name and id
+    const currentId = playbackManager.getPlaybackRate(player);
+    const menuItems = playbackManager.getSupportedPlaybackRates(player).map(i => ({
+        id: i.id,
+        name: i.name,
+        selected: i.id === currentId
+    }));
 
-    var menuItems = [];
+    return actionsheet.show({
+        items: menuItems,
+        positionTo: btn
+    }).then(function (id) {
+        if (id) {
+            playbackManager.setPlaybackRate(id, player);
+            return Promise.resolve();
+        }
+
+        return Promise.reject();
+    });
+}
+
+function showWithUser(options, player, user) {
+    const supportedCommands = playbackManager.getSupportedCommands(player);
+
+    const menuItems = [];
     if (supportedCommands.indexOf('SetAspectRatio') !== -1) {
-        var currentAspectRatioId = playbackManager.getAspectRatio(player);
-        var currentAspectRatio = playbackManager.getSupportedAspectRatios(player).filter(function (i) {
+        const currentAspectRatioId = playbackManager.getAspectRatio(player);
+        const currentAspectRatio = playbackManager.getSupportedAspectRatios(player).filter(function (i) {
             return i.id === currentAspectRatioId;
         })[0];
 
@@ -184,8 +187,19 @@ function showWithUser(options, player, user) {
         });
     }
 
+    if (supportedCommands.indexOf('PlaybackRate') !== -1) {
+        const currentPlaybackRateId = playbackManager.getPlaybackRate(player);
+        const currentPlaybackRate = playbackManager.getSupportedPlaybackRates(player).filter(i => i.id === currentPlaybackRateId)[0];
+
+        menuItems.push({
+            name: globalize.translate('PlaybackRate'),
+            id: 'playbackrate',
+            asideText: currentPlaybackRate ? currentPlaybackRate.name : null
+        });
+    }
+
     if (user && user.Policy.EnableVideoPlaybackTranscoding) {
-        var secondaryQualityText = getQualitySecondaryText(player);
+        const secondaryQualityText = getQualitySecondaryText(player);
 
         menuItems.push({
             name: globalize.translate('Quality'),
@@ -194,7 +208,7 @@ function showWithUser(options, player, user) {
         });
     }
 
-    var repeatMode = playbackManager.getRepeatMode(player);
+    const repeatMode = playbackManager.getRepeatMode(player);
 
     if (supportedCommands.indexOf('SetRepeatMode') !== -1 && playbackManager.currentMediaSource(player).RunTimeTicks) {
         menuItems.push({
@@ -229,14 +243,14 @@ function showWithUser(options, player, user) {
 }
 
 export function show(options) {
-    var player = options.player;
-    var currentItem = playbackManager.currentItem(player);
+    const player = options.player;
+    const currentItem = playbackManager.currentItem(player);
 
     if (!currentItem || !currentItem.ServerId) {
         return showWithUser(options, player, null);
     }
 
-    var apiClient = connectionManager.getApiClient(currentItem.ServerId);
+    const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
     return apiClient.getCurrentUser().then(function (user) {
         return showWithUser(options, player, user);
     });
@@ -248,6 +262,8 @@ function handleSelectedOption(id, options, player) {
             return showQualityMenu(player, options.positionTo);
         case 'aspectratio':
             return showAspectRatioMenu(player, options.positionTo);
+        case 'playbackrate':
+            return showPlaybackRateMenu(player, options.positionTo);
         case 'repeatmode':
             return showRepeatModeMenu(player, options.positionTo);
         case 'stats':

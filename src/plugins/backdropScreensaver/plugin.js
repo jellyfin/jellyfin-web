@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-import connectionManager from 'connectionManager';
 
 class BackdropScreensaver {
     constructor() {
@@ -21,11 +20,9 @@ class BackdropScreensaver {
                 Limit: 200
             };
 
-            const apiClient = connectionManager.currentApiClient();
+            const apiClient = window.connectionManager.currentApiClient();
             apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
-
                 if (result.Items.length) {
-
                     import('slideshow').then(({default: Slideshow}) => {
                         const newSlideShow = new Slideshow({
                             showTitle: true,

@@ -1,26 +1,41 @@
-define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loading', 'focusManager', 'connectionManager', 'globalize', 'require', 'shell', 'emby-checkbox', 'emby-input', 'emby-select', 'listViewStyle', 'emby-textarea', 'emby-button', 'paper-icon-button-light', 'css!./../formdialog', 'clearButtonStyle', 'flexStyles'], function (itemHelper, dom, layoutManager, dialogHelper, datetime, loading, focusManager, connectionManager, globalize, require, shell) {
-    'use strict';
+import dom from 'dom';
+import layoutManager from 'layoutManager';
+import dialogHelper from 'dialogHelper';
+import datetime from 'datetime';
+import loading from 'loading';
+import focusManager from 'focusManager';
+import globalize from 'globalize';
+import shell from 'shell';
+import 'emby-checkbox';
+import 'emby-input';
+import 'emby-select';
+import 'listViewStyle';
+import 'emby-textarea';
+import 'emby-button';
+import 'paper-icon-button-light';
+import 'css!./../formdialog';
+import 'clearButtonStyle';
+import 'flexStyles';
 
-    var currentContext;
-    var metadataEditorInfo;
-    var currentItem;
+/* eslint-disable indent */
+
+    let currentContext;
+    let metadataEditorInfo;
+    let currentItem;
 
     function isDialog() {
         return currentContext.classList.contains('dialog');
     }
 
     function closeDialog(isSubmitted) {
-
         if (isDialog()) {
             dialogHelper.close(currentContext);
         }
     }
 
     function submitUpdatedItem(form, item) {
-
         function afterContentTypeUpdated() {
-
-            require(['toast'], function (toast) {
+            import('toast').then(({default: toast}) => {
                 toast(globalize.translate('MessageItemSaved'));
             });
 
@@ -28,14 +43,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             closeDialog(true);
         }
 
-        var apiClient = getApiClient();
+        const apiClient = getApiClient();
 
         apiClient.updateItem(item).then(function () {
-
-            var newContentType = form.querySelector('#selectContentType').value || '';
+            const newContentType = form.querySelector('#selectContentType').value || '';
 
             if ((metadataEditorInfo.ContentType || '') !== newContentType) {
-
                 apiClient.ajax({
 
                     url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
@@ -47,29 +60,23 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
                 }).then(function () {
                     afterContentTypeUpdated();
                 });
-
             } else {
                 afterContentTypeUpdated();
             }
-
         });
     }
 
     function getSelectedAirDays(form) {
-        var checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
+        const checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
         return Array.prototype.map.call(checkedItems, function (c) {
             return c.getAttribute('data-day');
         });
     }
 
     function getAlbumArtists(form) {
-
         return form.querySelector('#txtAlbumArtist').value.trim().split(';').filter(function (s) {
-
             return s.length > 0;
-
         }).map(function (a) {
-
             return {
                 Name: a
             };
@@ -77,13 +84,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function getArtists(form) {
-
         return form.querySelector('#txtArtist').value.trim().split(';').filter(function (s) {
-
             return s.length > 0;
-
         }).map(function (a) {
-
             return {
                 Name: a
             };
@@ -91,23 +94,20 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function getDateValue(form, element, property) {
-
-        var val = form.querySelector(element).value;
+        let val = form.querySelector(element).value;
 
         if (!val) {
             return null;
         }
 
         if (currentItem[property]) {
+            const date = datetime.parseISO8601Date(currentItem[property], true);
 
-            var date = datetime.parseISO8601Date(currentItem[property], true);
-
-            var parts = date.toISOString().split('T');
+            const parts = date.toISOString().split('T');
 
             // If the date is the same, preserve the time
             if (parts[0].indexOf(val) === 0) {
-
-                var iso = parts[1];
+                const iso = parts[1];
 
                 val += 'T' + iso;
             }
@@ -117,12 +117,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function onSubmit(e) {
-
         loading.show();
 
-        var form = this;
+        const form = this;
 
-        var item = {
+        const item = {
             Id: currentItem.Id,
             Name: form.querySelector('#txtName').value,
             OriginalTitle: form.querySelector('#txtOriginalName').value,
@@ -168,9 +167,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         item.ProviderIds = Object.assign({}, currentItem.ProviderIds);
 
-        var idElements = form.querySelectorAll('.txtExternalId');
+        const idElements = form.querySelectorAll('.txtExternalId');
         Array.prototype.map.call(idElements, function (idElem) {
-            var providerKey = idElem.getAttribute('data-providerkey');
+            const providerKey = idElem.getAttribute('data-providerkey');
             item.ProviderIds[providerKey] = idElem.value;
         });
 
@@ -178,20 +177,18 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         item.PreferredMetadataCountryCode = form.querySelector('#selectCountry').value;
 
         if (currentItem.Type === 'Person') {
-
-            var placeOfBirth = form.querySelector('#txtPlaceOfBirth').value;
+            const placeOfBirth = form.querySelector('#txtPlaceOfBirth').value;
 
             item.ProductionLocations = placeOfBirth ? [placeOfBirth] : [];
         }
 
         if (currentItem.Type === 'Series') {
-
             // 600000000
-            var seriesRuntime = form.querySelector('#txtSeriesRuntime').value;
+            const seriesRuntime = form.querySelector('#txtSeriesRuntime').value;
             item.RunTimeTicks = seriesRuntime ? (seriesRuntime * 600000000) : null;
         }
 
-        var tagline = form.querySelector('#txtTagline').value;
+        const tagline = form.querySelector('#txtTagline').value;
         item.Taglines = tagline ? [tagline] : [];
 
         submitUpdatedItem(form, item);
@@ -210,13 +207,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function addElementToList(source, sortCallback) {
-        require(['prompt'], function (prompt) {
-
+        import('prompt').then(({default: prompt}) => {
             prompt({
                 label: 'Value:'
             }).then(function (text) {
-                var list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
-                var items = getListValues(list);
+                const list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
+                const items = getListValues(list);
                 items.push(text);
                 populateListView(list, items, sortCallback);
             });
@@ -224,17 +220,14 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function removeElementFromList(source) {
-        var el = dom.parentWithClass(source, 'listItem');
+        const el = dom.parentWithClass(source, 'listItem');
         el.parentNode.removeChild(el);
     }
 
     function editPerson(context, person, index) {
-
-        require(['personEditor'], function (personEditor) {
-
+        import('personEditor').then(({default: personEditor}) => {
             personEditor.show(person).then(function (updatedPerson) {
-
-                var isNew = index === -1;
+                const isNew = index === -1;
 
                 if (isNew) {
                     currentItem.People.push(updatedPerson);
@@ -245,38 +238,73 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function onEditorClick(e) {
+    function afterDeleted(context, item) {
+        const parentId = item.ParentId || item.SeasonId || item.SeriesId;
 
-        var btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
+        if (parentId) {
+            reload(context, parentId, item.ServerId);
+        } else {
+            import('appRouter').then(({default: appRouter}) => {
+                appRouter.goHome();
+            });
+        }
+    }
+
+    function showMoreMenu(context, button, user) {
+        import('itemContextMenu').then(({default: itemContextMenu}) => {
+            const item = currentItem;
+
+            itemContextMenu.show({
+                item: item,
+                positionTo: button,
+                edit: false,
+                editImages: true,
+                editSubtitles: true,
+                sync: false,
+                share: false,
+                play: false,
+                queue: false,
+                user: user
+            }).then(function (result) {
+                if (result.deleted) {
+                    afterDeleted(context, item);
+                } else if (result.updated) {
+                    reload(context, item.Id, item.ServerId);
+                }
+            });
+        });
+    }
+
+    function onEditorClick(e) {
+        const btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
         if (btnRemoveFromEditorList) {
             removeElementFromList(btnRemoveFromEditorList);
             return;
         }
 
-        var btnAddTextItem = dom.parentWithClass(e.target, 'btnAddTextItem');
+        const btnAddTextItem = dom.parentWithClass(e.target, 'btnAddTextItem');
         if (btnAddTextItem) {
             addElementToList(btnAddTextItem);
         }
     }
 
     function getApiClient() {
-        return connectionManager.getApiClient(currentItem.ServerId);
+        return window.connectionManager.getApiClient(currentItem.ServerId);
     }
 
     function bindAll(elems, eventName, fn) {
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (let i = 0, length = elems.length; i < length; i++) {
             elems[i].addEventListener(eventName, fn);
         }
     }
 
     function init(context, apiClient) {
-
         context.querySelector('.externalIds').addEventListener('click', function (e) {
-            var btnOpenExternalId = dom.parentWithClass(e.target, 'btnOpenExternalId');
+            const btnOpenExternalId = dom.parentWithClass(e.target, 'btnOpenExternalId');
             if (btnOpenExternalId) {
-                var field = context.querySelector('#' + btnOpenExternalId.getAttribute('data-fieldid'));
+                const field = context.querySelector('#' + btnOpenExternalId.getAttribute('data-fieldid'));
 
-                var formatString = field.getAttribute('data-formatstring');
+                const formatString = field.getAttribute('data-formatstring');
 
                 if (field.value) {
                     shell.openUrl(formatString.replace('{0}', field.value));
@@ -294,13 +322,17 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             closeDialog(false);
         });
 
-        context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
+        context.querySelector('.btnMore').addEventListener('click', function (e) {
+            getApiClient().getCurrentUser().then(function (user) {
+                showMoreMenu(context, e.target, user);
+            });
+        });
 
+        context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
             context.querySelector('.btnSave').click();
         });
 
         context.querySelector('#chkLockData').addEventListener('click', function (e) {
-
             if (!e.target.checked) {
                 showElement('.providerSettingsContainer');
             } else {
@@ -311,26 +343,24 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         context.removeEventListener('click', onEditorClick);
         context.addEventListener('click', onEditorClick);
 
-        var form = context.querySelector('form');
+        const form = context.querySelector('form');
         form.removeEventListener('submit', onSubmit);
         form.addEventListener('submit', onSubmit);
 
         context.querySelector('#btnAddPerson').addEventListener('click', function (event, data) {
-
             editPerson(context, {}, -1);
         });
 
         context.querySelector('#peopleList').addEventListener('click', function (e) {
-
-            var index;
-            var btnDeletePerson = dom.parentWithClass(e.target, 'btnDeletePerson');
+            let index;
+            const btnDeletePerson = dom.parentWithClass(e.target, 'btnDeletePerson');
             if (btnDeletePerson) {
                 index = parseInt(btnDeletePerson.getAttribute('data-index'));
                 currentItem.People.splice(index, 1);
                 populatePeople(context, currentItem.People);
             }
 
-            var btnEditPerson = dom.parentWithClass(e.target, 'btnEditPerson');
+            const btnEditPerson = dom.parentWithClass(e.target, 'btnEditPerson');
             if (btnEditPerson) {
                 index = parseInt(btnEditPerson.getAttribute('data-index'));
                 editPerson(context, currentItem.People[index], index);
@@ -339,8 +369,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function getItem(itemId, serverId) {
-
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         if (itemId) {
             return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
@@ -350,8 +379,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function getEditorConfig(itemId, serverId) {
-
-        var apiClient = connectionManager.getApiClient(serverId);
+        const apiClient = window.connectionManager.getApiClient(serverId);
 
         if (itemId) {
             return apiClient.getJSON(apiClient.getUrl('Items/' + itemId + '/MetadataEditor'));
@@ -361,14 +389,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function populateCountries(select, allCountries) {
-
-        var html = '';
+        let html = '';
 
         html += "<option value=''></option>";
 
-        for (var i = 0, length = allCountries.length; i < length; i++) {
-
-            var culture = allCountries[i];
+        for (let i = 0, length = allCountries.length; i < length; i++) {
+            const culture = allCountries[i];
 
             html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
         }
@@ -377,14 +403,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function populateLanguages(select, languages) {
-
-        var html = '';
+        let html = '';
 
         html += "<option value=''></option>";
 
-        for (var i = 0, length = languages.length; i < length; i++) {
-
-            var culture = languages[i];
+        for (let i = 0, length = languages.length; i < length; i++) {
+            const culture = languages[i];
 
             html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
         }
@@ -393,48 +417,43 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function renderContentTypeOptions(context, metadataInfo) {
-
         if (!metadataInfo.ContentTypeOptions.length) {
             hideElement('#fldContentType', context);
         } else {
             showElement('#fldContentType', context);
         }
 
-        var html = metadataInfo.ContentTypeOptions.map(function (i) {
-
+        const html = metadataInfo.ContentTypeOptions.map(function (i) {
             return '<option value="' + i.Value + '">' + i.Name + '</option>';
-
         }).join('');
 
-        var selectEl = context.querySelector('#selectContentType');
+        const selectEl = context.querySelector('#selectContentType');
         selectEl.innerHTML = html;
         selectEl.value = metadataInfo.ContentType || '';
     }
 
     function loadExternalIds(context, item, externalIds) {
+        let html = '';
 
-        var html = '';
+        const providerIds = item.ProviderIds || {};
 
-        var providerIds = item.ProviderIds || {};
+        for (let i = 0, length = externalIds.length; i < length; i++) {
+            const idInfo = externalIds[i];
 
-        for (var i = 0, length = externalIds.length; i < length; i++) {
+            const id = 'txt1' + idInfo.Key;
+            const formatString = idInfo.UrlFormatString || '';
 
-            var idInfo = externalIds[i];
-
-            var id = 'txt1' + idInfo.Key;
-            var formatString = idInfo.UrlFormatString || '';
-
-            var fullName = idInfo.Name;
+            let fullName = idInfo.Name;
             if (idInfo.Type) {
                 fullName = idInfo.Name + ' ' + globalize.translate(idInfo.Type);
             }
 
-            var labelText = globalize.translate('LabelDynamicExternalId', fullName);
+            const labelText = globalize.translate('LabelDynamicExternalId', fullName);
 
             html += '<div class="inputContainer">';
             html += '<div class="flex align-items-center">';
 
-            var value = providerIds[idInfo.Key] || '';
+            const value = providerIds[idInfo.Key] || '';
 
             html += '<div class="flex-grow">';
             html += '<input is="emby-input" class="txtExternalId" value="' + value + '" data-providerkey="' + idInfo.Key + '" data-formatstring="' + formatString + '" id="' + id + '" label="' + labelText + '"/>';
@@ -448,7 +467,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             html += '</div>';
         }
 
-        var elem = context.querySelector('.externalIds', context);
+        const elem = context.querySelector('.externalIds', context);
         elem.innerHTML = html;
 
         if (externalIds.length) {
@@ -464,8 +483,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     function hideElement(selector, context, multiple) {
         context = context || document;
         if (typeof selector === 'string') {
-
-            var elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
+            const elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
 
             Array.prototype.forEach.call(elements, function (el) {
                 if (el) {
@@ -483,8 +501,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     function showElement(selector, context, multiple) {
         context = context || document;
         if (typeof selector === 'string') {
-
-            var elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
+            const elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
 
             Array.prototype.forEach.call(elements, function (el) {
                 if (el) {
@@ -685,8 +702,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function fillItemInfo(context, item, parentalRatingOptions) {
-
-        var select = context.querySelector('#selectOfficialRating');
+        let select = context.querySelector('#selectOfficialRating');
 
         populateRatings(parentalRatingOptions, select, item.OfficialRating);
 
@@ -698,7 +714,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         select.value = item.CustomRating || '';
 
-        var selectStatus = context.querySelector('#selectStatus');
+        const selectStatus = context.querySelector('#selectStatus');
         populateStatus(selectStatus);
         selectStatus.value = item.Status || '';
 
@@ -717,8 +733,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         populateListView(context.querySelector('#listTags'), item.Tags);
 
-        var lockData = (item.LockData || false);
-        var chkLockData = context.querySelector('#chkLockData');
+        const lockData = (item.LockData || false);
+        const chkLockData = context.querySelector('#chkLockData');
         chkLockData.checked = lockData;
         if (chkLockData.checked) {
             hideElement('.providerSettingsContainer', context);
@@ -756,7 +772,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             return a.Name;
         }).join(';');
 
-        var date;
+        let date;
 
         if (item.DateCreated) {
             try {
@@ -798,7 +814,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         context.querySelector('#txtAirTime').value = item.AirTime || '';
 
-        var placeofBirth = item.ProductionLocations && item.ProductionLocations.length ? item.ProductionLocations[0] : '';
+        const placeofBirth = item.ProductionLocations && item.ProductionLocations.length ? item.ProductionLocations[0] : '';
         context.querySelector('#txtPlaceOfBirth').value = placeofBirth;
 
         context.querySelector('#txtOriginalAspectRatio').value = item.AspectRatio || '';
@@ -807,8 +823,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         context.querySelector('#selectCountry').value = item.PreferredMetadataCountryCode || '';
 
         if (item.RunTimeTicks) {
-
-            var minutes = item.RunTimeTicks / 600000000;
+            const minutes = item.RunTimeTicks / 600000000;
 
             context.querySelector('#txtSeriesRuntime').value = Math.round(minutes);
         } else {
@@ -817,20 +832,16 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function populateRatings(allParentalRatings, select, currentValue) {
-
-        var html = '';
+        let html = '';
 
         html += "<option value=''></option>";
 
-        var ratings = [];
-        var i;
-        var length;
-        var rating;
+        const ratings = [];
+        let rating;
 
-        var currentValueFound = false;
+        let currentValueFound = false;
 
-        for (i = 0, length = allParentalRatings.length; i < length; i++) {
-
+        for (let i = 0, length = allParentalRatings.length; i < length; i++) {
             rating = allParentalRatings[i];
 
             ratings.push({ Name: rating.Name, Value: rating.Name });
@@ -844,8 +855,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             ratings.push({ Name: currentValue, Value: currentValue });
         }
 
-        for (i = 0, length = ratings.length; i < length; i++) {
-
+        for (let i = 0, length = ratings.length; i < length; i++) {
             rating = ratings[i];
 
             html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
@@ -855,7 +865,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function populateStatus(select) {
-        var html = '';
+        let html = '';
 
         html += "<option value=''></option>";
         html += "<option value='Continuing'>" + globalize.translate('Continuing') + '</option>';
@@ -864,7 +874,6 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function populateListView(list, items, sortCallback) {
-
         items = items || [];
         if (typeof (sortCallback) === 'undefined') {
             items.sort(function (a, b) {
@@ -873,8 +882,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         } else {
             items = sortCallback(items);
         }
-        var html = '';
-        for (var i = 0; i < items.length; i++) {
+        let html = '';
+        for (let i = 0; i < items.length; i++) {
             html += '<div class="listItem">';
 
             html += '<span class="material-icons listItemIcon live_tv" style="background-color:#333;"></span>';
@@ -896,15 +905,13 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function populatePeople(context, people) {
+        const lastType = '';
+        let html = '';
 
-        var lastType = '';
-        var html = '';
+        const elem = context.querySelector('#peopleList');
 
-        var elem = context.querySelector('#peopleList');
-
-        for (var i = 0, length = people.length; i < length; i++) {
-
-            var person = people[i];
+        for (let i = 0, length = people.length; i < length; i++) {
+            const person = people[i];
 
             html += '<div class="listItem">';
 
@@ -933,14 +940,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function getLockedFieldsHtml(fields, currentFields) {
-
-        var html = '';
-        for (var i = 0; i < fields.length; i++) {
-
-            var field = fields[i];
-            var name = field.name;
-            var value = field.value || field.name;
-            var checkedHtml = currentFields.indexOf(value) === -1 ? ' checked' : '';
+        let html = '';
+        for (let i = 0; i < fields.length; i++) {
+            const field = fields[i];
+            const name = field.name;
+            const value = field.value || field.name;
+            const checkedHtml = currentFields.indexOf(value) === -1 ? ' checked' : '';
             html += '<label>';
             html += '<input type="checkbox" is="emby-checkbox" class="selectLockedField" data-value="' + value + '"' + checkedHtml + '/>';
             html += '<span>' + name + '</span>';
@@ -950,10 +955,10 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function fillMetadataSettings(context, item, lockedFields) {
-        var container = context.querySelector('.providerSettingsContainer');
+        const container = context.querySelector('.providerSettingsContainer');
         lockedFields = lockedFields || [];
 
-        var lockedFieldsList = [
+        const lockedFieldsList = [
             { name: globalize.translate('Name'), value: 'Name' },
             { name: globalize.translate('Overview'), value: 'Overview' },
             { name: globalize.translate('Genres'), value: 'Genres' },
@@ -974,7 +979,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         lockedFieldsList.push({ name: globalize.translate('Studios'), value: 'Studios' });
         lockedFieldsList.push({ name: globalize.translate('Tags'), value: 'Tags' });
 
-        var html = '';
+        let html = '';
 
         html += '<h2>' + globalize.translate('HeaderEnabledFields') + '</h2>';
         html += '<p>' + globalize.translate('HeaderEnabledFieldsHelp') + '</p>';
@@ -983,18 +988,16 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function reload(context, itemId, serverId) {
-
         loading.show();
 
         Promise.all([getItem(itemId, serverId), getEditorConfig(itemId, serverId)]).then(function (responses) {
-
-            var item = responses[0];
+            const item = responses[0];
             metadataEditorInfo = responses[1];
 
             currentItem = item;
 
-            var languages = metadataEditorInfo.Cultures;
-            var countries = metadataEditorInfo.Countries;
+            const languages = metadataEditorInfo.Cultures;
+            const countries = metadataEditorInfo.Countries;
 
             renderContentTypeOptions(context, metadataEditorInfo);
 
@@ -1017,8 +1020,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
+        import('scrollHelper').then(({default: scrollHelper}) => {
+            const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
@@ -1026,9 +1029,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     function show(itemId, serverId, resolve, reject) {
         loading.show();
 
-        require(['text!./metadataEditor.template.html'], function (template) {
-
-            var dialogOptions = {
+        import('text!./metadataEditor.template.html').then(({default: template}) => {
+            const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
             };
@@ -1039,13 +1041,13 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
                 dialogOptions.size = 'small';
             }
 
-            var dlg = dialogHelper.createDialog(dialogOptions);
+            const dlg = dialogHelper.createDialog(dialogOptions);
 
             dlg.classList.add('formDialog');
 
-            var html = '';
+            let html = '';
 
-            html += globalize.translateDocument(template, 'core');
+            html += globalize.translateHtml(template, 'core');
 
             dlg.innerHTML = html;
 
@@ -1065,13 +1067,13 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             currentContext = dlg;
 
-            init(dlg, connectionManager.getApiClient(serverId));
+            init(dlg, window.connectionManager.getApiClient(serverId));
 
             reload(dlg, itemId, serverId);
         });
     }
 
-    return {
+    export default {
         show: function (itemId, serverId) {
             return new Promise(function (resolve, reject) {
                 return show(itemId, serverId, resolve, reject);
@@ -1080,20 +1082,19 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         embed: function (elem, itemId, serverId) {
             return new Promise(function (resolve, reject) {
-
                 loading.show();
 
-                require(['text!./metadataEditor.template.html'], function (template) {
-
-                    elem.innerHTML = globalize.translateDocument(template, 'core');
+                import('text!./metadataEditor.template.html').then(({default: template}) => {
+                    elem.innerHTML = globalize.translateHtml(template, 'core');
 
                     elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
+                    elem.querySelector('.btnClose').classList.add('hide');
                     elem.querySelector('.btnHeaderSave').classList.remove('hide');
                     elem.querySelector('.btnCancel').classList.add('hide');
 
                     currentContext = elem;
 
-                    init(elem, connectionManager.getApiClient(serverId));
+                    init(elem, window.connectionManager.getApiClient(serverId));
                     reload(elem, itemId, serverId);
 
                     focusManager.autoFocus(elem);
@@ -1101,4 +1102,5 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             });
         }
     };
-});
+
+/* eslint-enable indent */

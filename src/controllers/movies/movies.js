@@ -1,9 +1,18 @@
-define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 'alphaPicker', 'listView', 'cardBuilder', 'globalize', 'emby-itemscontainer'], function (loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder, globalize) {
-    'use strict';
+import loading from 'loading';
+import * as userSettings from 'userSettings';
+import events from 'events';
+import libraryBrowser from 'libraryBrowser';
+import AlphaPicker from 'alphaPicker';
+import listView from 'listView';
+import cardBuilder from 'cardBuilder';
+import globalize from 'globalize';
+import 'emby-itemscontainer';
 
-    return function (view, params, tabContent, options) {
-        function onViewStyleChange() {
-            if (self.getCurrentViewStyle() == 'List') {
+/* eslint-disable indent */
+
+    export default function (view, params, tabContent, options) {
+        const onViewStyleChange = () => {
+            if (this.getCurrentViewStyle() == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {
@@ -12,13 +21,18 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             }
 
             itemsContainer.innerHTML = '';
-        }
+        };
 
-        function updateFilterControls() {
-            if (self.alphaPicker) {
-                self.alphaPicker.value(query.NameStartsWithOrGreater);
+        const updateFilterControls = () => {
+            if (this.alphaPicker) {
+                this.alphaPicker.value(query.NameStartsWith);
+                if (query.SortBy.indexOf('SortName') === 0) {
+                    this.alphaPicker.visible(true);
+                } else {
+                    this.alphaPicker.visible(false);
+                }
             }
-        }
+        };
 
         function fetchData() {
             isLoading = true;
@@ -51,7 +65,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
 
             window.scrollTo(0, 0);
             updateFilterControls();
-            var pagingHtml = libraryBrowser.getQueryPagingHtml({
+            const pagingHtml = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,
                 limit: query.Limit,
                 totalRecordCount: result.TotalRecordCount,
@@ -61,35 +75,30 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                 sortButton: false,
                 filterButton: false
             });
-            var i;
-            var length;
-            var elems = tabContent.querySelectorAll('.paging');
 
-            for (i = 0, length = elems.length; i < length; i++) {
-                elems[i].innerHTML = pagingHtml;
+            for (const elem of tabContent.querySelectorAll('.paging')) {
+                elem.innerHTML = pagingHtml;
             }
 
-            elems = tabContent.querySelectorAll('.btnNextPage');
-            for (i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener('click', onNextPageClick);
+            for (const elem of tabContent.querySelectorAll('.btnNextPage')) {
+                elem.addEventListener('click', onNextPageClick);
             }
 
-            elems = tabContent.querySelectorAll('.btnPreviousPage');
-            for (i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener('click', onPreviousPageClick);
+            for (const elem of tabContent.querySelectorAll('.btnPreviousPage')) {
+                elem.addEventListener('click', onPreviousPageClick);
             }
 
             isLoading = false;
             loading.hide();
 
-            require(['autoFocuser'], function (autoFocuser) {
+            import('autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(tabContent);
             });
         }
 
-        function getItemsHtml(items) {
-            var html;
-            var viewStyle = self.getCurrentViewStyle();
+        const getItemsHtml = (items) => {
+            let html;
+            const viewStyle = this.getCurrentViewStyle();
 
             if (viewStyle == 'Thumb') {
                 html = cardBuilder.getCardsHtml({
@@ -153,22 +162,22 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             }
 
             return html;
-        }
+        };
 
-        function initPage(tabContent) {
+        const initPage = (tabContent) => {
             itemsContainer.fetchData = fetchData;
             itemsContainer.getItemsHtml = getItemsHtml;
             itemsContainer.afterRefresh = afterRefresh;
-            var alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
 
             if (alphaPickerElement) {
                 alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                    var newValue = e.detail.value;
-                    query.NameStartsWithOrGreater = newValue;
+                    const newValue = e.detail.value;
+                    query.NameStartsWith = newValue;
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });
-                self.alphaPicker = new alphaPicker({
+                this.alphaPicker = new AlphaPicker({
                     element: alphaPickerElement,
                     valueChangeEvent: 'click'
                 });
@@ -178,20 +187,20 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                 itemsContainer.classList.add('padded-right-withalphapicker');
             }
 
-            var btnFilter = tabContent.querySelector('.btnFilter');
+            const btnFilter = tabContent.querySelector('.btnFilter');
 
             if (btnFilter) {
-                btnFilter.addEventListener('click', function () {
-                    self.showFilterMenu();
+                btnFilter.addEventListener('click', () => {
+                    this.showFilterMenu();
                 });
             }
-            var btnSort = tabContent.querySelector('.btnSort');
+            const btnSort = tabContent.querySelector('.btnSort');
 
             if (btnSort) {
                 btnSort.addEventListener('click', function (e) {
                     libraryBrowser.showSortMenu({
                         items: [{
-                            name: globalize.translate('OptionNameSort'),
+                            name: globalize.translate('Name'),
                             id: 'SortName,ProductionYear'
                         }, {
                             name: globalize.translate('OptionImdbRating'),
@@ -215,7 +224,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                             name: globalize.translate('OptionReleaseDate'),
                             id: 'PremiereDate,SortName,ProductionYear'
                         }, {
-                            name: globalize.translate('OptionRuntime'),
+                            name: globalize.translate('Runtime'),
                             id: 'Runtime,SortName,ProductionYear'
                         }],
                         callback: function () {
@@ -228,24 +237,23 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                     });
                 });
             }
-            var btnSelectView = tabContent.querySelector('.btnSelectView');
+            const btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', function (e) {
-                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
+                libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle, 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
-                var viewStyle = e.detail.viewStyle;
+                const viewStyle = e.detail.viewStyle;
                 userSettings.set(savedViewKey, viewStyle);
                 query.StartIndex = 0;
                 onViewStyleChange();
                 itemsContainer.refreshItems();
             });
-        }
+        };
 
-        var self = this;
-        var itemsContainer = tabContent.querySelector('.itemsContainer');
-        var savedQueryKey = params.topParentId + '-' + options.mode;
-        var savedViewKey = savedQueryKey + '-view';
-        var query = {
+        let itemsContainer = tabContent.querySelector('.itemsContainer');
+        const savedQueryKey = params.topParentId + '-' + options.mode;
+        const savedViewKey = savedQueryKey + '-view';
+        let query = {
             SortBy: 'SortName,ProductionYear',
             SortOrder: 'Ascending',
             IncludeItemTypes: 'Movie',
@@ -261,7 +269,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             query['Limit'] = userSettings.libraryPageSize();
         }
 
-        var isLoading = false;
+        let isLoading = false;
 
         if (options.mode === 'favorites') {
             query.IsFavorite = true;
@@ -269,14 +277,14 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
 
         query = userSettings.loadQuerySettings(savedQueryKey, query);
 
-        self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
-                var filterDialog = new filterDialogFactory({
+        this.showFilterMenu = function () {
+            import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+                const filterDialog = new filterDialogFactory({
                     query: query,
                     mode: 'movies',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, 'filterchange', function () {
+                events.on(filterDialog, 'filterchange', () => {
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });
@@ -284,22 +292,23 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             });
         };
 
-        self.getCurrentViewStyle = function () {
+        this.getCurrentViewStyle = function () {
             return userSettings.get(savedViewKey) || 'Poster';
         };
 
-        self.initTab = function () {
+        this.initTab = function () {
             initPage(tabContent);
             onViewStyleChange();
         };
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             itemsContainer.refreshItems();
             updateFilterControls();
         };
 
-        self.destroy = function () {
+        this.destroy = function () {
             itemsContainer = null;
         };
-    };
-});
+    }
+
+/* eslint-enable indent */

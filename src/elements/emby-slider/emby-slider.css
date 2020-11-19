@@ -230,3 +230,18 @@
     margin: 0;
     padding: 0.5em 0.75em;
 }
+
+/* FIXME: 'sliderContainer' is used to wrap slider's pieces */
+.sliderContainer-settings {
+    margin-bottom: 1.8em;
+    position: relative;
+}
+
+.sliderContainer-settings .mdl-slider-container {
+    height: 2.83em; /* similar to emby-input with its 110% font-size */
+}
+
+.sliderLabel {
+    display: block;
+    margin-bottom: 0.25em;
+}

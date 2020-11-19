@@ -1,7 +1,7 @@
 import playbackManager from 'playbackManager';
 import nowPlayingHelper from 'nowPlayingHelper';
+import shell from 'shell';
 import events from 'events';
-import connectionManager from 'connectionManager';
 /* eslint-disable indent */
 
     // Reports media playback to the device for lock screen control
@@ -16,16 +16,16 @@ import connectionManager from 'connectionManager';
         } else if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
 
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         } else if (options.type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             } else if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -38,11 +38,11 @@ import connectionManager from 'connectionManager';
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
 
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
         } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
 
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;
@@ -127,9 +127,8 @@ import connectionManager from 'connectionManager';
                 artwork: getImageUrls(item)
             });
         } else {
-            let itemImageUrl = seriesImageUrl(item, { maxHeight: 3000 }) || imageUrl(item, { maxHeight: 3000 });
-
-            window.NativeShell.updateMediaSession({
+            const itemImageUrl = seriesImageUrl(item, { maxHeight: 3000 }) || imageUrl(item, { maxHeight: 3000 });
+            shell.updateMediaSession({
                 action: eventName,
                 isLocalPlayer: isLocalPlayer,
                 itemId: itemId,
@@ -183,7 +182,7 @@ import connectionManager from 'connectionManager';
              /* eslint-disable-next-line compat/compat */
             navigator.mediaSession.metadata = null;
         } else {
-            window.NativeShell.hideMediaSession();
+            shell.hideMediaSession();
         }
     }
 
@@ -244,10 +243,10 @@ import connectionManager from 'connectionManager';
 
         /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('seekto', function (object) {
-            let item = playbackManager.getPlayerState(currentPlayer).NowPlayingItem;
+            const item = playbackManager.getPlayerState(currentPlayer).NowPlayingItem;
             // Convert to ms
-            let duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
-            let wantedTime = object.seekTime * 1000;
+            const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
+            const wantedTime = object.seekTime * 1000;
             playbackManager.seekPercent(wantedTime / duration * 100, currentPlayer);
         });
     }
