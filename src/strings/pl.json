@@ -1378,5 +1378,8 @@
     "ButtonActivate": "Aktywuj",
     "EnableQuickConnect": "Aktywuj szybkie połączenie na tym serwerze",
     "ButtonUseQuickConnect": "Użyj szybkiego połączenia",
-    "Authorize": "Autoryzuj"
+    "Authorize": "Autoryzuj",
+    "HeaderDeleteDevices": "Usuń wszystkie urządzenia",
+    "DeleteAll": "Usuń wszystkie",
+    "LabelKnownProxies": "Znane serwery proxy:"
 }

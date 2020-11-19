@@ -1425,5 +1425,6 @@
     "OptionAllowContentDownload": "Permitir download de mídia",
     "HeaderDeleteDevices": "Excluir todos os dispositivos",
     "DeleteDevicesConfirmation": "Tem certeza de que deseja excluir todos os dispositivos? Todas as outras sessões serão desconectadas. Os dispositivos reaparecerão na próxima vez que um usuário fizer login.",
-    "DeleteAll": "Excluir tudo"
+    "DeleteAll": "Excluir tudo",
+    "HeaderSelectFallbackFontPath": "Selecione a pasta de fontes reserva"
 }

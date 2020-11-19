@@ -1410,5 +1410,8 @@
     "OptionMaxActiveSessions": "Beállítja az egyidejű felhasználói munkamenetek maximális számát.",
     "LabelUserMaxActiveSessions": "Az egyidejű felhasználói munkamenetek maximális száma:",
     "LabelIconMaxResHelp": "Az upnp:icon tulajdonságon keresztül közzétett ikonok maximális felbontása.",
-    "LabelAlbumArtMaxResHelp": "Az albumkép maximális felbontása az upnp: albumArtURI tulajdonságon keresztül."
+    "LabelAlbumArtMaxResHelp": "Az albumkép maximális felbontása az upnp: albumArtURI tulajdonságon keresztül.",
+    "HeaderDeleteDevices": "Összes eszköz törlése",
+    "DeleteDevicesConfirmation": "Biztos törlöd az összes eszközt? Az összes munkamenet ki lesz jelentkeztetve. Az eszközök újra megjelennek a listán, amikor a felhasználók újra bejelentkeznek.",
+    "DeleteAll": "Összes törlése"
 }

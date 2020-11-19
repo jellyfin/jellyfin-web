@@ -1426,5 +1426,11 @@
     "LabelUserMaxActiveSessions": "Numărul maxim de sesiuni simultane per utilizator:",
     "HeaderDeleteDevices": "Șterge Toate Dispozitivele",
     "DeleteDevicesConfirmation": "Sigur doriți să ștergeți toate dispozitivele? Toate celelalte sesiuni vor fi deconectate. Dispozitivele vor reapărea data viitoare când un utilizator se conectează.",
-    "DeleteAll": "Șterge tot"
+    "DeleteAll": "Șterge tot",
+    "HeaderSelectFallbackFontPath": "Selectați calea către dosarul fontului de rezervă",
+    "EnableFallbackFontHelp": "Activați fonturile alternative personalizate. Acest lucru poate evita problema redării incorecte a subtitrării.",
+    "EnableFallbackFont": "Activați fonturile alternative",
+    "LabelFallbackFontPathHelp": "Specificați o cale care conține fonturi de rezervă pentru redarea subtitrărilor ASS/SSA. Dimensiunea totală maximă admisă a fontului este de 20 MB. Sunt recomandate formate de font ușoare și prietenoase pentru web, cum ar fi woff2.",
+    "LabelFallbackFontPath": "Calea dosarului fontului alternativ:",
+    "HeaderSelectFallbackFontPathHelp": "Răsfoiți sau introduceți calea dosarului fontului alternativ pe care să îl utilizați pentru redarea subtitrărilor ASS/SSA."
 }
