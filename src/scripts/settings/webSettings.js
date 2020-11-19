@@ -102,12 +102,3 @@ export function getPlugins() {
         return [];
     });
 }
-
-export function getFonts() {
-    return getConfig().then(config => {
-        return config.fonts;
-    }).catch(error => {
-        console.log('cannot get web config:', error);
-        return [];
-    });
-}
