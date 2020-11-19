@@ -1,7 +1,9 @@
 /* eslint-env serviceworker */
 
-/* eslint-disable-next-line import/namespace,import/named */
+/* eslint-disable import/namespace,import/named */
 import { skipWaiting, clientsClaim } from 'workbox-core';
+import { precacheAndRoute } from 'workbox-precaching';
+/* eslint-enable import/namespace,import/named */
 
 skipWaiting();
 clientsClaim();
@@ -43,6 +45,5 @@ self.addEventListener('notificationclick', function (event) {
 }, false);
 
 // this is needed by the webpack Workbox plugin
-// this plugin is not fully supported in webpack v5. pecaching is disabled until version 6 of this plugin is released
 /* eslint-disable-next-line no-restricted-globals,no-undef */
-//workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+precacheAndRoute(self.__WB_MANIFEST);

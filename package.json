@@ -57,7 +57,6 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
     "webpack-stream": "^6.1.1",
-    "workbox-core": "^5.1.4",
     "workbox-webpack-plugin": "^5.1.4",
     "worker-plugin": "^5.0.0"
   },
@@ -91,7 +90,9 @@
     "sortablejs": "^1.12.0",
     "swiper": "^6.3.5",
     "webcomponents.js": "^0.7.24",
-    "whatwg-fetch": "^3.5.0"
+    "whatwg-fetch": "^3.5.0",
+    "workbox-core": "^5.1.4",
+    "workbox-precaching": "^5.1.4"
   },
   "babel": {
     "presets": [
