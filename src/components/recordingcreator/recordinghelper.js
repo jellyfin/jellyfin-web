@@ -32,7 +32,7 @@ function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCanc
 
 function cancelTimerWithConfirmation(timerId, serverId) {
     return new Promise(function (resolve, reject) {
-        confirm.default({
+        confirm({
 
             text: globalize.translate('MessageConfirmRecordingCancellation'),
             primary: 'delete',
@@ -50,7 +50,7 @@ function cancelTimerWithConfirmation(timerId, serverId) {
 
 function cancelSeriesTimerWithConfirmation(timerId, serverId) {
     return new Promise(function (resolve, reject) {
-        confirm.default({
+        confirm({
 
             text: globalize.translate('MessageConfirmRecordingCancellation'),
             primary: 'delete',

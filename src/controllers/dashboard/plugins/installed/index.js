@@ -10,7 +10,7 @@ import confirm from '../../../../components/confirm/confirm';
 function deletePlugin(page, uniqueid, name) {
     const msg = globalize.translate('UninstallPluginConfirmation', name);
 
-    confirm.default({
+    confirm({
         title: globalize.translate('HeaderUninstallPlugin'),
         text: msg,
         primary: 'delete',
