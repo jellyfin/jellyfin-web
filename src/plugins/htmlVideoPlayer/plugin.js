@@ -1068,11 +1068,11 @@ function tryRemoveElement(elem) {
                 apiClient.getNamedConfiguration('encoding').then(config => {
                     if (config.EnableFallbackFont) {
                         apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
-                            fontFiles.map(font => {
+                            fontFiles.forEach(font => {
                                 const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
                                     api_key: apiClient.accessToken()
                                 });
-                                return avaliableFonts.push(fontUrl);
+                                avaliableFonts.push(fontUrl);
                             });
                             this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
                         });
