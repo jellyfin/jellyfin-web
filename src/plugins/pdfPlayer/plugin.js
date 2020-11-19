@@ -1,4 +1,4 @@
-import ServerConnections from '../../components/ServerConnections'
+import ServerConnections from '../../components/ServerConnections';
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
