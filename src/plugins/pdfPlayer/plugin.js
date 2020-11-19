@@ -1,3 +1,4 @@
+import ServerConnections from '../../components/ServerConnections'
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
@@ -185,7 +186,7 @@ export class PdfPlayer {
         };
 
         const serverId = item.ServerId;
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             import('pdfjs-dist').then(({default: pdfjs}) => {

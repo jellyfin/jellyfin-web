@@ -214,7 +214,7 @@ import alert from '../../components/alert';
             });
         });
         $('#btnSelectFallbackFontPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     includeDirectories: true,
