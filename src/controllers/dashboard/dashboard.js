@@ -431,15 +431,15 @@ import confirm from '../../components/confirm/confirm';
                     }
 
                     if (session.TranscodingInfo.Container) {
-                        line.push(session.TranscodingInfo.Container);
+                        line.push(session.TranscodingInfo.Container.toUpperCase());
                     }
 
                     if (session.TranscodingInfo.VideoCodec) {
-                        line.push(session.TranscodingInfo.VideoCodec);
+                        line.push(session.TranscodingInfo.VideoCodec.toUpperCase());
                     }
 
                     if (session.TranscodingInfo.AudioCodec && session.TranscodingInfo.AudioCodec != session.TranscodingInfo.Container) {
-                        line.push(session.TranscodingInfo.AudioCodec);
+                        line.push(session.TranscodingInfo.AudioCodec.toUpperCase());
                     }
                 }
 
