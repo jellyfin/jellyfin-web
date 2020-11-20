@@ -3,7 +3,8 @@
  * @module components/syncPlay/timeSyncManager
  */
 
-import events from 'events';
+import { Events } from 'jellyfin-apiclient';
+import ServerConnections from '../ServerConnections';
 
 /**
  * Time estimation
@@ -113,7 +114,7 @@ class TimeSyncManager {
         if (!this.poller) {
             this.poller = setTimeout(() => {
                 this.poller = null;
-                const apiClient = window.connectionManager.currentApiClient();
+                const apiClient = ServerConnections.currentApiClient();
                 const requestSent = new Date();
                 apiClient.getServerTime().then((response) => {
                     const responseReceived = new Date();
@@ -131,11 +132,11 @@ class TimeSyncManager {
                             this.pings++;
                         }
 
-                        events.trigger(this, 'update', [null, this.getTimeOffset(), this.getPing()]);
+                        Events.trigger(this, 'update', [null, this.getTimeOffset(), this.getPing()]);
                     });
                 }).catch((error) => {
                     console.error(error);
-                    events.trigger(this, 'update', [error, null, null]);
+                    Events.trigger(this, 'update', [error, null, null]);
                 }).finally(() => {
                     this.requestPing();
                 });

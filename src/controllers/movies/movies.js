@@ -1,12 +1,12 @@
-import loading from 'loading';
-import * as userSettings from 'userSettings';
-import events from 'events';
-import libraryBrowser from 'libraryBrowser';
-import AlphaPicker from 'alphaPicker';
-import listView from 'listView';
-import cardBuilder from 'cardBuilder';
-import globalize from 'globalize';
-import 'emby-itemscontainer';
+import loading from '../../components/loading/loading';
+import * as userSettings from '../../scripts/settings/userSettings';
+import { Events } from 'jellyfin-apiclient';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
+import listView from '../../components/listview/listview';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
@@ -91,7 +91,7 @@ import 'emby-itemscontainer';
             isLoading = false;
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(tabContent);
             });
         }
@@ -278,13 +278,13 @@ import 'emby-itemscontainer';
         query = userSettings.loadQuerySettings(savedQueryKey, query);
 
         this.showFilterMenu = function () {
-            import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+            import('../../components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
                 const filterDialog = new filterDialogFactory({
                     query: query,
                     mode: 'movies',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, 'filterchange', () => {
+                Events.on(filterDialog, 'filterchange', () => {
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });

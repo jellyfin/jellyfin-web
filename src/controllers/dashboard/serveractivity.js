@@ -1,5 +1,5 @@
-import ActivityLog from 'components/activitylog';
-import globalize from 'globalize';
+import ActivityLog from '../../components/activitylog';
+import globalize from '../../scripts/globalize';
 
 /* eslint-disable indent */
 

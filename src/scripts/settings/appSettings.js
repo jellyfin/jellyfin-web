@@ -1,9 +1,8 @@
 /* eslint-disable indent */
+import { AppStorage, Events } from 'jellyfin-apiclient';
 
-import appStorage from 'appStorage';
-import events from 'events';
-
-    function getKey(name, userId) {
+class AppSettings {
+    #getKey(name, userId) {
         if (userId) {
             name = userId + '-' + name;
         }
@@ -11,7 +10,7 @@ import events from 'events';
         return name;
     }
 
-    export function enableAutoLogin(val) {
+    enableAutoLogin(val) {
         if (val !== undefined) {
             this.set('enableAutoLogin', val.toString());
         }
@@ -19,7 +18,7 @@ import events from 'events';
         return this.get('enableAutoLogin') !== 'false';
     }
 
-    export function enableSystemExternalPlayers(val) {
+    enableSystemExternalPlayers(val) {
         if (val !== undefined) {
             this.set('enableSystemExternalPlayers', val.toString());
         }
@@ -27,7 +26,7 @@ import events from 'events';
         return this.get('enableSystemExternalPlayers') === 'true';
     }
 
-    export function enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
+    enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
         const key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
         if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
@@ -44,7 +43,7 @@ import events from 'events';
         }
     }
 
-    export function maxStreamingBitrate(isInNetwork, mediaType, val) {
+    maxStreamingBitrate(isInNetwork, mediaType, val) {
         const key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
         if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
@@ -62,7 +61,7 @@ import events from 'events';
         }
     }
 
-    export function maxStaticMusicBitrate(val) {
+    maxStaticMusicBitrate(val) {
         if (val !== undefined) {
             this.set('maxStaticMusicBitrate', val);
         }
@@ -71,7 +70,7 @@ import events from 'events';
         return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
     }
 
-    export function maxChromecastBitrate(val) {
+    maxChromecastBitrate(val) {
         if (val !== undefined) {
             this.set('chromecastBitrate1', val);
         }
@@ -80,28 +79,20 @@ import events from 'events';
         return val ? parseInt(val) : null;
     }
 
-    export function set(name, value, userId) {
+    set(name, value, userId) {
         const currentValue = this.get(name, userId);
-        appStorage.setItem(getKey(name, userId), value);
+        AppStorage.setItem(this.#getKey(name, userId), value);
 
         if (currentValue !== value) {
-            events.trigger(this, 'change', [name]);
+            Events.trigger(this, 'change', [name]);
         }
     }
 
-    export function get(name, userId) {
-        return appStorage.getItem(getKey(name, userId));
+    get(name, userId) {
+        return AppStorage.getItem(this.#getKey(name, userId));
     }
+}
 
 /* eslint-enable indent */
 
-export default {
-    enableAutoLogin: enableAutoLogin,
-    enableSystemExternalPlayers: enableSystemExternalPlayers,
-    enableAutomaticBitrateDetection: enableAutomaticBitrateDetection,
-    maxStreamingBitrate: maxStreamingBitrate,
-    maxStaticMusicBitrate: maxStaticMusicBitrate,
-    maxChromecastBitrate: maxChromecastBitrate,
-    set: set,
-    get: get
-};
+export default new AppSettings();

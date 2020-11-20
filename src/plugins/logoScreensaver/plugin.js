@@ -1,5 +1,3 @@
-import pluginManager from 'pluginManager';
-
 export default function () {
     const self = this;
 
@@ -128,7 +126,7 @@ export default function () {
     }
 
     self.show = function () {
-        import('css!' + pluginManager.mapPath(self, 'style.css')).then(() => {
+        import('./style.css').then(() => {
             let elem = document.querySelector('.logoScreenSaver');
 
             if (!elem) {

@@ -1,4 +1,5 @@
-import globalize from 'globalize';
+import globalize from '../../../scripts/globalize';
+import Dashboard from '../../../scripts/clientUtils';
 
 /* eslint-disable indent */
 

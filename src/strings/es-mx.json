@@ -1420,5 +1420,10 @@
     "LabelCurrentStatus": "Estatus actual:",
     "OptionMaxActiveSessionsHelp": "Fijar este valor en 0 desactivará esta característica.",
     "OptionMaxActiveSessions": "Determina la cantidad máxima de sesiones simultaneas que puede tener cada usuario.",
-    "LabelUserMaxActiveSessions": "Límite de sesiones simultaneas:"
+    "LabelUserMaxActiveSessions": "Límite de sesiones simultaneas:",
+    "OptionAllowContentDownloadHelp": "Los usuarios pueden descargar los contenidos y almacenarlos en sus dispositivos. Ésta no es una sincronización. Las bibliotecas deberán tener esta función habilitada.",
+    "OptionAllowContentDownload": "Permitir descarga de contenido",
+    "HeaderDeleteDevices": "Borrar todos los dispositivos",
+    "DeleteDevicesConfirmation": "¿Seguro que deseas borrar todos los dispositivos? Todas las sesiones se terminaran. Los dispositivos reaparecerán la próxima vez que el usuario acceda.",
+    "DeleteAll": "Borrar todo"
 }

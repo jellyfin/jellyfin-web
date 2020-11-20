@@ -1,32 +1,33 @@
-import inputManager from 'inputManager';
-import browser from 'browser';
-import globalize from 'globalize';
-import scrollHelper from 'scrollHelper';
-import serverNotifications from 'serverNotifications';
-import loading from 'loading';
-import datetime from 'datetime';
-import focusManager from 'focusManager';
-import playbackManager from 'playbackManager';
-import * as userSettings from 'userSettings';
-import imageLoader from 'imageLoader';
-import events from 'events';
-import layoutManager from 'layoutManager';
-import itemShortcuts from 'itemShortcuts';
-import dom from 'dom';
-import 'css!./guide.css';
-import 'programStyles';
-import 'material-icons';
-import 'scrollStyles';
-import 'emby-programcell';
-import 'emby-button';
-import 'paper-icon-button-light';
-import 'emby-tabs';
-import 'emby-scroller';
-import 'flexStyles';
-import 'webcomponents';
+import inputManager from '../../scripts/inputManager';
+import browser from '../../scripts/browser';
+import globalize from '../../scripts/globalize';
+import { Events } from 'jellyfin-apiclient';
+import scrollHelper from '../../scripts/scrollHelper';
+import serverNotifications from '../../scripts/serverNotifications';
+import loading from '../loading/loading';
+import datetime from '../../scripts/datetime';
+import focusManager from '../focusManager';
+import { playbackManager } from '../playback/playbackmanager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import imageLoader from '../images/imageLoader';
+import layoutManager from '../layoutManager';
+import itemShortcuts from '../shortcuts';
+import dom from '../../scripts/dom';
+import './guide.css';
+import './programs.css';
+import 'material-design-icons-iconfont';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-programcell/emby-programcell';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../assets/css/flexstyles.scss';
+import 'webcomponents.js/webcomponents-lite';
+import ServerConnections from '../ServerConnections';
 
 function showViewSettings(instance) {
-    import('guide-settings-dialog').then(({default: guideSettingsDialog}) => {
+    import('./guide-settings').then(({default: guideSettingsDialog}) => {
         guideSettingsDialog.show(instance.categoryOptions).then(function () {
             instance.refresh();
         });
@@ -164,10 +165,10 @@ function Guide(options) {
     self.destroy = function () {
         stopAutoRefresh();
 
-        events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-        events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
+        Events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
+        Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
+        Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
 
         setScrollEvents(options.element, false);
         itemShortcuts.off(options.element);
@@ -212,7 +213,7 @@ function Guide(options) {
     }
 
     function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-        const apiClient = window.connectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
 
         const channelQuery = {
 
@@ -872,7 +873,7 @@ function Guide(options) {
     function reloadPage(page) {
         showLoading();
 
-        const apiClient = window.connectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
 
         apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
             setDateRange(page, guideInfo);
@@ -1001,7 +1002,7 @@ function Guide(options) {
             const item = items[id];
 
             if (item) {
-                events.trigger(self, 'focus', [
+                Events.trigger(self, 'focus', [
                     {
                         item: item
                     }]);
@@ -1091,7 +1092,7 @@ function Guide(options) {
         }
     }
 
-    import('text!./tvguide.template.html').then(({default: template}) => {
+    import('./tvguide.template.html').then(({default: template}) => {
         const context = options.element;
 
         context.classList.add('tvguide');
@@ -1183,12 +1184,12 @@ function Guide(options) {
         setScrollEvents(context, true);
         itemShortcuts.on(context);
 
-        events.trigger(self, 'load');
+        Events.trigger(self, 'load');
 
-        events.on(serverNotifications, 'TimerCreated', onTimerCreated);
-        events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
+        Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
+        Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
+        Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
 
         self.refresh();
     });

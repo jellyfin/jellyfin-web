@@ -1,6 +1,6 @@
-import 'css!./emby-scrollbuttons';
-import 'webcomponents';
-import 'paper-icon-button-light';
+import './emby-scrollbuttons.css';
+import 'webcomponents.js/webcomponents-lite';
+import '../emby-button/paper-icon-button-light';
 
 /* eslint-disable indent */
 

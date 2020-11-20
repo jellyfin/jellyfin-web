@@ -1,7 +1,7 @@
-define(['browser', 'userSettings', 'appSettings'], function (browser, userSettings, appSettings) {
-    'use strict';
-
-    browser = browser.default || browser;
+import appSettings from './settings/appSettings';
+import * as userSettings from './settings/userSettings';
+import browser from './browser';
+/* eslint-disable indent */
 
     function canPlayH264(videoTestElement) {
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
@@ -294,7 +294,7 @@ define(['browser', 'userSettings', 'appSettings'], function (browser, userSettin
                     (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
-    return function (options) {
+    export default function (options) {
         options = options || {};
 
         const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox;
@@ -981,5 +981,5 @@ define(['browser', 'userSettings', 'appSettings'], function (browser, userSettin
         });
 
         return profile;
-    };
-});
+    }
+/* eslint-enable indent */

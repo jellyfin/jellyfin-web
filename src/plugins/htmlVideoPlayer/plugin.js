@@ -1,10 +1,10 @@
-import browser from 'browser';
-import events from 'events';
-import appHost from 'apphost';
-import loading from 'loading';
-import dom from 'dom';
-import playbackManager from 'playbackManager';
-import appRouter from 'appRouter';
+import browser from '../../scripts/browser';
+import { Events } from 'jellyfin-apiclient';
+import { appHost } from '../../components/apphost';
+import loading from '../../components/loading/loading';
+import dom from '../../scripts/dom';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import { appRouter } from '../../components/appRouter';
 import {
     bindEventsToHlsPlayer,
     destroyHlsPlayer,
@@ -22,10 +22,12 @@ import {
     getSavedVolume,
     isValidDuration,
     getBufferedRanges
-} from 'htmlMediaHelper';
-import itemHelper from 'itemHelper';
-import screenfull from 'screenfull';
-import globalize from 'globalize';
+} from '../../components/htmlMediaHelper';
+import itemHelper from '../../components/itemHelper';
+import Screenfull from 'screenfull';
+import globalize from '../../scripts/globalize';
+import ServerConnections from '../../components/ServerConnections';
+import profileBuilder from '../../scripts/browserDeviceProfile';
 
 /* eslint-disable indent */
 
@@ -85,7 +87,7 @@ function tryRemoveElement(elem) {
     }
 
     function requireHlsPlayer(callback) {
-        import('hlsjs').then(({default: hls}) => {
+        import('hls.js').then(({default: hls}) => {
             window.Hls = hls;
             callback();
         });
@@ -139,9 +141,7 @@ function tryRemoveElement(elem) {
     }
 
     function getDefaultProfile() {
-        return import('browserdeviceprofile').then(({default: profileBuilder}) => {
-            return profileBuilder({});
-        });
+        return profileBuilder({});
     }
 
     export class HtmlVideoPlayer {
@@ -286,7 +286,7 @@ function tryRemoveElement(elem) {
         incrementFetchQueue() {
             if (this.#fetchQueue <= 0) {
                 this.isFetching = true;
-                events.trigger(this, 'beginFetch');
+                Events.trigger(this, 'beginFetch');
             }
 
             this.#fetchQueue++;
@@ -300,7 +300,7 @@ function tryRemoveElement(elem) {
 
             if (this.#fetchQueue <= 0) {
                 this.isFetching = false;
-                events.trigger(this, 'endFetch');
+                Events.trigger(this, 'endFetch');
             }
         }
 
@@ -323,7 +323,7 @@ function tryRemoveElement(elem) {
 
                 console.debug(`prefetching hls playlist: ${hlsPlaylistUrl}`);
 
-                return window.connectionManager.getApiClient(item.ServerId).ajax({
+                return ServerConnections.getApiClient(item.ServerId).ajax({
 
                     type: 'GET',
                     url: hlsPlaylistUrl
@@ -362,7 +362,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setSrcWithFlvJs(elem, options, url) {
-            return import('flvjs').then(({default: flvjs}) => {
+            return import('flv.js').then(({default: flvjs}) => {
                 const flvPlayer = flvjs.createPlayer({
                         type: 'flv',
                         url: url
@@ -704,8 +704,8 @@ function tryRemoveElement(elem) {
                 dlg.parentNode.removeChild(dlg);
             }
 
-            if (screenfull.isEnabled) {
-                screenfull.exit();
+            if (Screenfull.isEnabled) {
+                Screenfull.exit();
             } else {
                 // iOS Safari
                 if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
@@ -754,7 +754,7 @@ function tryRemoveElement(elem) {
                 this.updateSubtitleText(timeMs);
             }
 
-            events.trigger(this, 'timeupdate');
+            Events.trigger(this, 'timeupdate');
         };
 
         /**
@@ -767,7 +767,7 @@ function tryRemoveElement(elem) {
              */
             const elem = e.target;
             saveVolume(elem.volume);
-            events.trigger(this, 'volumechange');
+            Events.trigger(this, 'volumechange');
         };
 
         /**
@@ -826,14 +826,14 @@ function tryRemoveElement(elem) {
                     this.onStartedAndNavigatedToOsd();
                 }
             }
-            events.trigger(this, 'playing');
+            Events.trigger(this, 'playing');
         };
 
         /**
          * @private
          */
         onPlay = () => {
-            events.trigger(this, 'unpause');
+            Events.trigger(this, 'unpause');
         };
 
         /**
@@ -859,25 +859,25 @@ function tryRemoveElement(elem) {
          * @private
          */
         onClick = () => {
-            events.trigger(this, 'click');
+            Events.trigger(this, 'click');
         };
 
         /**
          * @private
          */
         onDblClick = () => {
-            events.trigger(this, 'dblclick');
+            Events.trigger(this, 'dblclick');
         };
 
         /**
          * @private
          */
         onPause = () => {
-            events.trigger(this, 'pause');
+            Events.trigger(this, 'pause');
         };
 
         onWaiting() {
-            events.trigger(this, 'waiting');
+            Events.trigger(this, 'waiting');
         }
 
         /**
@@ -1030,15 +1030,21 @@ function tryRemoveElement(elem) {
          * @private
          */
         renderSsaAss(videoElement, track, item) {
+            const avaliableFonts = [];
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
-            const apiClient = window.connectionManager.getApiClient(item);
+            attachments.map(function (i) {
+                // embedded font url
+                return avaliableFonts.push(i.DeliveryUrl);
+            });
+            const apiClient = ServerConnections.getApiClient(item);
+            const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
+                api_key: apiClient.accessToken()
+            });
             const htmlVideoPlayer = this;
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                fonts: attachments.map(function (i) {
-                    return apiClient.getUrl(i.DeliveryUrl);
-                }),
+                fonts: avaliableFonts,
                 workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
                 legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
                 onError() {
@@ -1058,8 +1064,22 @@ function tryRemoveElement(elem) {
                 resizeVariation: 0.2,
                 renderAhead: 90
             };
-            import('JavascriptSubtitlesOctopus').then(({default: SubtitlesOctopus}) => {
-                this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+            import('libass-wasm').then(({default: SubtitlesOctopus}) => {
+                apiClient.getNamedConfiguration('encoding').then(config => {
+                    if (config.EnableFallbackFont) {
+                        apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
+                            fontFiles.forEach(font => {
+                                const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
+                                    api_key: apiClient.accessToken()
+                                });
+                                avaliableFonts.push(fontUrl);
+                            });
+                            this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                        });
+                    } else {
+                        this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                    }
+                });
             });
         }
 
@@ -1114,7 +1134,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setSubtitleAppearance(elem, innerElem) {
-            Promise.all([import('userSettings'), import('subtitleAppearanceHelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
+            Promise.all([import('../../scripts/settings/userSettings'), import('../../components/subtitlesettings/subtitleappearancehelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
                 subtitleAppearanceHelper.applyStyles({
                     text: innerElem,
                     window: elem
@@ -1135,7 +1155,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setCueAppearance() {
-            Promise.all([import('userSettings'), import('subtitleAppearanceHelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
+            Promise.all([import('../../scripts/settings/userSettings'), import('../../components/subtitlesettings/subtitleappearancehelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
                 const elementId = `${this.id}-cuestyle`;
 
                 let styleElem = document.querySelector(`#${elementId}`);
@@ -1190,7 +1210,7 @@ function tryRemoveElement(elem) {
 
             // download the track json
             this.fetchSubtitles(track, item).then(function (data) {
-                import('userSettings').then((userSettings) => {
+                import('../../scripts/settings/userSettings').then((userSettings) => {
                     // show in ui
                     console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
@@ -1282,7 +1302,7 @@ function tryRemoveElement(elem) {
             const dlg = document.querySelector('.videoPlayerContainer');
 
                 if (!dlg) {
-                    return import('css!./style').then(() => {
+                    return import('./style.css').then(() => {
                         loading.show();
 
                         const dlg = document.createElement('div');
@@ -1561,7 +1581,7 @@ function tryRemoveElement(elem) {
             elem.style['-webkit-filter'] = `brightness(${cssValue})`;
             elem.style.filter = `brightness(${cssValue})`;
             elem.brightnessValue = val;
-            events.trigger(this, 'brightnesschange');
+            Events.trigger(this, 'brightnesschange');
         }
     }
 

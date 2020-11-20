@@ -1,5 +1,5 @@
-import * as userSettings from 'userSettings';
-import events from 'events';
+import * as userSettings from './settings/userSettings';
+import { Events } from 'jellyfin-apiclient';
 
 /* eslint-disable indent */
 
@@ -143,7 +143,6 @@ import events from 'events';
         return Promise.all(promises);
     }
 
-    const cacheParam = new Date().getTime();
     function loadTranslation(translations, lang) {
         lang = normalizeLocaleName(lang);
         let filtered = translations.filter(function (t) {
@@ -162,26 +161,13 @@ import events from 'events';
                 return;
             }
 
-            let url = filtered[0].path;
+            const url = filtered[0].path;
 
-            url += url.indexOf('?') === -1 ? '?' : '&';
-            url += 'v=' + cacheParam;
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-
-            xhr.onload = function (e) {
-                if (this.status < 400) {
-                    resolve(JSON.parse(this.response));
-                } else {
-                    resolve({});
-                }
-            };
-
-            xhr.onerror = function () {
+            import(`../strings/${url}`).then((fileContent) => {
+                resolve(fileContent);
+            }).catch(() => {
                 resolve({});
-            };
-            xhr.send();
+            });
         });
     }
 
@@ -221,6 +207,8 @@ import events from 'events';
     }
 
     export function translateHtml(html, module) {
+        html = html.default || html;
+
         if (!module) {
             module = defaultModule();
         }
@@ -256,7 +244,7 @@ import events from 'events';
 
     updateCurrentCulture();
 
-    events.on(userSettings, 'change', function (e, name) {
+    Events.on(userSettings, 'change', function (e, name) {
         if (name === 'language' || name === 'datetimelocale') {
             updateCurrentCulture();
         }

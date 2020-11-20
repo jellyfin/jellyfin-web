@@ -2,16 +2,20 @@
  * Image viewer component
  * @module components/slideshow/slideshow
  */
-import dialogHelper from 'dialogHelper';
-import inputManager from 'inputManager';
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import browser from 'browser';
-import appHost from 'apphost';
-import dom from 'dom';
-import 'css!./style';
-import 'material-icons';
-import 'paper-icon-button-light';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import inputManager from '../../scripts/inputManager';
+import layoutManager from '../layoutManager';
+import focusManager from '../focusManager';
+import browser from '../../scripts/browser';
+import { appHost } from '../apphost';
+import dom from '../../scripts/dom';
+import './style.css';
+import 'material-design-icons-iconfont';
+import '../../elements/emby-button/paper-icon-button-light';
+import ServerConnections from '../ServerConnections';
+// eslint-disable-next-line import/named, import/namespace
+import { Swiper } from 'swiper/swiper-bundle.esm';
+import 'swiper/swiper-bundle.css';
 
 /**
  * Name of transition event.
@@ -84,7 +88,7 @@ function getBackdropImageUrl(item, options, apiClient) {
  * @returns {string} URL of the item's image.
  */
 function getImgUrl(item, user) {
-    const apiClient = window.connectionManager.getApiClient(item.ServerId);
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
     const imageOptions = {};
 
     if (item.BackdropImageTags && item.BackdropImageTags.length) {
@@ -300,45 +304,43 @@ export default function (options) {
             slides = currentOptions.items;
         }
 
-        import('swiper').then(({default: Swiper}) => {
-            swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
-                direction: 'horizontal',
-                // Loop is disabled due to the virtual slides option not supporting it.
-                loop: false,
-                zoom: {
-                    minRatio: 1,
-                    toggle: true
-                },
-                autoplay: !options.interactive,
-                keyboard: {
-                    enabled: true
-                },
-                preloadImages: true,
-                slidesPerView: 1,
-                slidesPerColumn: 1,
-                initialSlide: options.startIndex || 0,
-                speed: 240,
-                navigation: {
-                    nextEl: '.btnSlideshowNext',
-                    prevEl: '.btnSlideshowPrevious'
-                },
-                // Virtual slides reduce memory consumption for large libraries while allowing preloading of images;
-                virtual: {
-                    slides: slides,
-                    cache: true,
-                    renderSlide: getSwiperSlideHtml,
-                    addSlidesBefore: 1,
-                    addSlidesAfter: 1
-                }
-            });
-
-            swiperInstance.on('autoplayStart', onAutoplayStart);
-            swiperInstance.on('autoplayStop', onAutoplayStop);
-
-            if (useFakeZoomImage) {
-                swiperInstance.on('zoomChange', onZoomChange);
+        swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
+            direction: 'horizontal',
+            // Loop is disabled due to the virtual slides option not supporting it.
+            loop: false,
+            zoom: {
+                minRatio: 1,
+                toggle: true
+            },
+            autoplay: !options.interactive,
+            keyboard: {
+                enabled: true
+            },
+            preloadImages: true,
+            slidesPerView: 1,
+            slidesPerColumn: 1,
+            initialSlide: options.startIndex || 0,
+            speed: 240,
+            navigation: {
+                nextEl: '.btnSlideshowNext',
+                prevEl: '.btnSlideshowPrevious'
+            },
+            // Virtual slides reduce memory consumption for large libraries while allowing preloading of images;
+            virtual: {
+                slides: slides,
+                cache: true,
+                renderSlide: getSwiperSlideHtml,
+                addSlidesBefore: 1,
+                addSlidesAfter: 1
             }
         });
+
+        swiperInstance.on('autoplayStart', onAutoplayStart);
+        swiperInstance.on('autoplayStop', onAutoplayStop);
+
+        if (useFakeZoomImage) {
+            swiperInstance.on('zoomChange', onZoomChange);
+        }
     }
 
     /**
@@ -431,7 +433,7 @@ export default function (options) {
     function download() {
         const imageInfo = getCurrentImageInfo();
 
-        import('fileDownloader').then(({default: fileDownloader}) => {
+        import('../../scripts/fileDownloader').then((fileDownloader) => {
             fileDownloader.download([imageInfo]);
         });
     }

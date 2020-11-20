@@ -1,7 +1,7 @@
-import actionsheet from 'actionsheet';
-import datetime from 'datetime';
-import playbackManager from 'playbackManager';
-import globalize from 'globalize';
+import actionsheet from './actionSheet/actionSheet';
+import datetime from '../scripts/datetime';
+import { playbackManager } from './playback/playbackmanager';
+import globalize from '../scripts/globalize';
 
 export function show(options) {
     const item = options.item;

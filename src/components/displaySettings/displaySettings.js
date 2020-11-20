@@ -1,16 +1,18 @@
-import browser from 'browser';
-import layoutManager from 'layoutManager';
-import pluginManager from 'pluginManager';
-import appHost from 'apphost';
-import focusManager from 'focusManager';
-import datetime from 'datetime';
-import globalize from 'globalize';
-import loading from 'loading';
-import skinManager from 'skinManager';
-import events from 'events';
-import 'emby-select';
-import 'emby-checkbox';
-import 'emby-button';
+import browser from '../../scripts/browser';
+import layoutManager from '../layoutManager';
+import { pluginManager } from '../pluginManager';
+import { appHost } from '../apphost';
+import focusManager from '../focusManager';
+import datetime from '../../scripts/datetime';
+import globalize from '../../scripts/globalize';
+import loading from '../loading/loading';
+import skinManager from '../../scripts/themeManager';
+import { Events } from 'jellyfin-apiclient';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-button/emby-button';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /* eslint-disable indent */
 
@@ -168,11 +170,9 @@ import 'emby-button';
             saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('SettingsSaved'));
-                    });
+                    toast(globalize.translate('SettingsSaved'));
                 }
-                events.trigger(instance, 'saved');
+                Events.trigger(instance, 'saved');
             }, () => {
                 loading.hide();
             });
@@ -181,7 +181,7 @@ import 'emby-button';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -198,7 +198,7 @@ import 'emby-button';
     }
 
     async function embed(options, self) {
-        const { default: template } = await import('text!./displaySettings.template.html');
+        const { default: template } = await import('./displaySettings.template.html');
         options.element.innerHTML = globalize.translateHtml(template, 'core');
         options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
         if (options.enableSaveButton) {
@@ -220,7 +220,7 @@ import 'emby-button';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+            const apiClient = ServerConnections.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             return apiClient.getUser(userId).then(user => {

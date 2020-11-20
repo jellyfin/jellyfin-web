@@ -1,6 +1,7 @@
-import browser from 'browser';
-import dialog from 'dialog';
-import globalize from 'globalize';
+
+import browser from '../scripts/browser';
+import dialog from './dialog/dialog';
+import globalize from '../scripts/globalize';
 
 /* eslint-disable indent */
 

@@ -1,10 +1,11 @@
-import dom from 'dom';
-import dialogHelper from 'dialogHelper';
-import globalize from 'globalize';
-import events from 'events';
-import 'emby-checkbox';
-import 'emby-collapse';
-import 'css!./style.css';
+import dom from '../../scripts/dom';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import globalize from '../../scripts/globalize';
+import { Events } from 'jellyfin-apiclient';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-collapse/emby-collapse';
+import './style.css';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
     function renderOptions(context, selector, cssClass, items, isCheckedFn) {
@@ -108,7 +109,7 @@ import 'css!./style.css';
      * @param instance {FilterDialog} An instance of FilterDialog
      */
     function triggerChange(instance) {
-        events.trigger(instance, 'filterchange');
+        Events.trigger(instance, 'filterchange');
     }
 
     function setVisibility(context, options) {
@@ -401,7 +402,7 @@ import 'css!./style.css';
         }
 
         show() {
-            return import('text!./filterdialog.template.html').then(({default: template}) => {
+            return import('./filterdialog.template.html').then(({default: template}) => {
                 return new Promise((resolve) => {
                     const dlg = dialogHelper.createDialog({
                         removeOnClose: true,
@@ -419,7 +420,7 @@ import 'css!./style.css';
                     this.bindEvents(dlg);
                     if (enableDynamicFilters(this.options.mode)) {
                         dlg.classList.add('dynamicFilterDialog');
-                        const apiClient = window.connectionManager.getApiClient(this.options.serverId);
+                        const apiClient = ServerConnections.getApiClient(this.options.serverId);
                         loadDynamicFilters(dlg, apiClient, apiClient.getCurrentUserId(), this.options.query);
                     }
                 });

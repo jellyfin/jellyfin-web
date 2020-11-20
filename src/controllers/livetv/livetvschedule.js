@@ -1,10 +1,11 @@
-import layoutManager from 'layoutManager';
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
-import loading from 'loading';
-import 'scripts/livetvcomponents';
-import 'emby-button';
-import 'emby-itemscontainer';
+import layoutManager from '../../components/layoutManager';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import loading from '../../components/loading/loading';
+import '../../scripts/livetvcomponents';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import Dashboard from '../../scripts/clientUtils';
 
 function enableScrollX() {
     return !layoutManager.desktop;
