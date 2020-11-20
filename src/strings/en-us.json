@@ -1431,7 +1431,7 @@
     "LabelMaxMuxingQueueSize": "Max muxing queue size:",
     "LabelMaxMuxingQueueSizeHelp": "Maximum number of packets that can be buffered while waiting for all streams to initialize. Try to increase it if you still encounter \"Too many packets buffered for output stream\" error in ffmpeg logs. The recommended value is 2048.",
     "PreferFmp4HlsContainer": "Prefer fMP4-HLS Media Container",
-    "PreferFmp4HlsContainerHelp": "Prefer to use fMP4 as the default container for HLS, making it possible to direct streaming HEVC content on supported devices.",
+    "PreferFmp4HlsContainerHelp": "Prefer to use fMP4 as the default container for HLS, making it possible to direct stream HEVC content on supported devices.",
     "AllowHevcEncoding": "Allow encoding in HEVC format",
     "LabelAllowedAudioChannels": "Maximum Allowed Audio Channels",
     "LabelSelectAudioChannels": "Channels",
