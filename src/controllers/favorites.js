@@ -1,12 +1,13 @@
-import appRouter from 'appRouter';
-import cardBuilder from 'cardBuilder';
-import dom from 'dom';
-import globalize from 'globalize';
-import appHost from 'apphost';
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import 'emby-itemscontainer';
-import 'emby-scroller';
+import { appRouter } from '../components/appRouter';
+import cardBuilder from '../components/cardbuilder/cardBuilder';
+import dom from '../scripts/dom';
+import globalize from '../scripts/globalize';
+import { appHost } from '../components/apphost';
+import layoutManager from '../components/layoutManager';
+import focusManager from '../components/focusManager';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../elements/emby-scroller/emby-scroller';
+import ServerConnections from '../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -269,7 +270,7 @@ class FavoritesTab {
     constructor(view, params) {
         this.view = view;
         this.params = params;
-        this.apiClient = window.connectionManager.currentApiClient();
+        this.apiClient = ServerConnections.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
         createSections(this, this.sectionsContainer, this.apiClient);
     }

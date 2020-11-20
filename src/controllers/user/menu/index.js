@@ -1,7 +1,8 @@
-import appHost from 'apphost';
-import layoutManager from 'layoutManager';
-import 'listViewStyle';
-import 'emby-button';
+import { appHost } from '../../../components/apphost';
+import '../../../components/listview/listview.css';
+import '../../../elements/emby-button/emby-button';
+import layoutManager from '../../../components/layoutManager';
+import Dashboard from '../../../scripts/clientUtils';
 
 export default function (view, params) {
     view.querySelector('.btnLogout').addEventListener('click', function () {
@@ -53,7 +54,7 @@ export default function (view, params) {
             page.querySelector('.adminSection').classList.add('hide');
         }
 
-        import('autoFocuser').then(({default: autoFocuser}) => {
+        import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(view);
         });
     });

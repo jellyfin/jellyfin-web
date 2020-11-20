@@ -1,6 +1,6 @@
-import 'css!./emby-textarea';
-import 'webcomponents';
-import 'emby-input';
+import './emby-textarea.css';
+import 'webcomponents.js/webcomponents-lite';
+import '../emby-input/emby-input';
 
 /* eslint-disable indent */
 

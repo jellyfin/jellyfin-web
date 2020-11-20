@@ -1,8 +1,8 @@
-import datetime from 'datetime';
-import loading from 'loading';
-import 'emby-button';
-import 'listViewStyle';
-import 'flexStyles';
+import datetime from '../../scripts/datetime';
+import loading from '../../components/loading/loading';
+import '../../elements/emby-button/emby-button';
+import '../../components/listview/listview.css';
+import '../../assets/css/flexstyles.scss';
 
 /* eslint-disable indent */
 

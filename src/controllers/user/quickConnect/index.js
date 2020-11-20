@@ -1,6 +1,6 @@
-import QuickConnectSettings from 'quickConnectSettings';
-import globalize from 'globalize';
-import toast from 'toast';
+import QuickConnectSettings from '../../../components/quickConnectSettings/quickConnectSettings';
+import globalize from '../../../scripts/globalize';
+import toast from '../../../components/toast/toast';
 
 export default function (view) {
     let quickConnectSettingsInstance = null;

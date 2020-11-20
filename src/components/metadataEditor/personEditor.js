@@ -1,15 +1,16 @@
-import dialogHelper from 'dialogHelper';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import 'paper-icon-button-light';
-import 'emby-input';
-import 'emby-select';
-import 'css!./../formdialog';
+
+import dialogHelper from '../dialogHelper/dialogHelper';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-select/emby-select';
+import '../formdialog.css';
 
 /* eslint-disable indent */
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then(({default: scrollHelper}) => {
+        import('../../scripts/scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
@@ -17,7 +18,7 @@ import 'css!./../formdialog';
 
     function show(person) {
         return new Promise(function (resolve, reject) {
-            import('text!./personEditor.template.html').then(({default: template}) => {
+            import('./personEditor.template.html').then(({default: template}) => {
                 const dialogOptions = {
                     removeOnClose: true,
                     scrollY: false

@@ -1,5 +1,5 @@
-import 'css!./emby-progressring';
-import 'webcomponents';
+import './emby-progressring.css';
+import 'webcomponents.js/webcomponents-lite';
 
 /* eslint-disable indent */
 
@@ -9,7 +9,7 @@ import 'webcomponents';
         this.classList.add('progressring');
         const instance = this;
 
-        import('text!./emby-progressring.template.html').then(({default: template}) => {
+        import('./emby-progressring.template.html').then(({default: template}) => {
             instance.innerHTML = template;
 
             if (window.MutationObserver) {

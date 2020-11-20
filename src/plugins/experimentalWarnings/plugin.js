@@ -1,6 +1,7 @@
-import globalize from 'globalize';
-import * as userSettings from 'userSettings';
-import appHost from 'apphost';
+import globalize from '../../scripts/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
+import { appHost } from '../../components/apphost';
+import alert from '../../components/alert';
 
 // TODO: Replace with date-fns
 // https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
@@ -26,13 +27,8 @@ function showMessage(text, userSettingsKey, appHostFeature) {
         return Promise.resolve();
     }
 
-    return new Promise(function (resolve, reject) {
-        userSettings.set(userSettingsKey, '1', false);
-
-        import('alert').then(({default: alert}) => {
-            return alert(text).then(resolve, resolve);
-        });
-    });
+    userSettings.set(userSettingsKey, '1', false);
+    return alert(text).catch(() => { /* ignore exceptions */ });
 }
 
 function showBlurayMessage() {

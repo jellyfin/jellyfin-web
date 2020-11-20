@@ -1,21 +1,21 @@
-import datetime from 'datetime';
-import loading from 'loading';
-import dom from 'dom';
-import globalize from 'globalize';
-import 'emby-button';
+import datetime from '../../scripts/datetime';
+import loading from '../../components/loading/loading';
+import dom from '../../scripts/dom';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-button/emby-button';
+import confirm from '../../components/confirm/confirm';
+import { pageIdOn } from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 
     function revoke(page, key) {
-        import('confirm').then(({default: confirm}) => {
-            confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
-                loading.show();
-                ApiClient.ajax({
-                    type: 'DELETE',
-                    url: ApiClient.getUrl('Auth/Keys/' + key)
-                }).then(function () {
-                    loadData(page);
-                });
+        confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
+            loading.show();
+            ApiClient.ajax({
+                type: 'DELETE',
+                url: ApiClient.getUrl('Auth/Keys/' + key)
+            }).then(function () {
+                loadData(page);
             });
         });
     }
@@ -51,7 +51,7 @@ import 'emby-button';
     }
 
     function showNewKeyPrompt(page) {
-        import('prompt').then(({default: prompt}) => {
+        import('../../components/prompt/prompt').then(({default: prompt}) => {
             prompt({
                 title: globalize.translate('HeaderNewApiKey'),
                 label: globalize.translate('LabelAppName'),

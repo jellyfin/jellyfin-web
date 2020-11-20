@@ -1,21 +1,22 @@
-import dom from 'dom';
-import dialogHelper from 'dialogHelper';
-import loading from 'loading';
-import globalize from 'globalize';
-import actionsheet from 'actionsheet';
-import 'emby-input';
-import 'paper-icon-button-light';
-import 'emby-button';
-import 'listViewStyle';
-import 'material-icons';
-import 'formDialogStyle';
+import dom from '../../scripts/dom';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import loading from '../loading/loading';
+import globalize from '../../scripts/globalize';
+import actionsheet from '../actionSheet/actionSheet';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
+import '../listview/listview.css';
+import 'material-design-icons-iconfont';
+import '../formdialog.css';
+import ServerConnections from '../ServerConnections';
 
 export default class channelMapper {
     constructor(options) {
         function mapChannel(button, channelId, providerChannelId) {
             loading.show();
             const providerId = options.providerId;
-            window.connectionManager.getApiClient(options.serverId).ajax({
+            ServerConnections.getApiClient(options.serverId).ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ChannelMappings'),
                 data: JSON.stringify({
@@ -58,7 +59,7 @@ export default class channelMapper {
         }
 
         function getChannelMappingOptions(serverId, providerId) {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getJSON(apiClient.getUrl('LiveTv/ChannelMappingOptions', {
                 providerId: providerId
             }));

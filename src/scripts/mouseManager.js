@@ -1,9 +1,9 @@
-import inputManager from 'inputManager';
-import focusManager from 'focusManager';
-import browser from 'browser';
-import layoutManager from 'layoutManager';
-import events from 'events';
-import dom from 'dom';
+import inputManager from './inputManager';
+import focusManager from '../components/focusManager';
+import browser from '../scripts/browser';
+import layoutManager from '../components/layoutManager';
+import { Events } from 'jellyfin-apiclient';
+import dom from '../scripts/dom';
 /* eslint-disable indent */
 
     const self = {};
@@ -40,7 +40,7 @@ import dom from 'dom';
         if (isMouseIdle) {
             isMouseIdle = false;
             removeIdleClasses();
-            events.trigger(self, 'mouseactive');
+            Events.trigger(self, 'mouseactive');
         }
     }
 
@@ -48,7 +48,7 @@ import dom from 'dom';
         if (!isMouseIdle) {
             isMouseIdle = true;
             addIdleClasses();
-            events.trigger(self, 'mouseidle');
+            Events.trigger(self, 'mouseidle');
         }
     }
 
@@ -170,7 +170,7 @@ import dom from 'dom';
 
     initMouse();
 
-    events.on(layoutManager, 'modechange', initMouse);
+    Events.on(layoutManager, 'modechange', initMouse);
 
 /* eslint-enable indent */
 

@@ -8,8 +8,6 @@ jobs:
         BuildConfiguration: development
       Production:
         BuildConfiguration: production
-      Standalone:
-        BuildConfiguration: standalone
 
   pool:
     vmImage: 'ubuntu-latest'
@@ -38,10 +36,6 @@ jobs:
   - script: 'yarn build:production'
     displayName: 'Build Production'
     condition: eq(variables['BuildConfiguration'], 'production')
-
-  - script: 'yarn build:standalone'
-    displayName: 'Build Standalone'
-    condition: eq(variables['BuildConfiguration'], 'standalone')
 
   - script: 'test -d dist'
     displayName: 'Check Build'
