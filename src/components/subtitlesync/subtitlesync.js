@@ -1,7 +1,8 @@
-import playbackManager from 'playbackManager';
-import layoutManager from 'layoutManager';
-import template from 'text!./subtitlesync.template.html';
-import 'css!./subtitlesync';
+
+import { playbackManager } from '../playback/playbackmanager';
+import layoutManager from '../layoutManager';
+import template from './subtitlesync.template.html';
+import './subtitlesync.css';
 
 let player;
 let subtitleSyncSlider;

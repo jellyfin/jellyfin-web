@@ -1,7 +1,8 @@
-import actionsheet from 'actionsheet';
-import playbackManager from 'playbackManager';
-import globalize from 'globalize';
-import qualityoptions from 'qualityoptions';
+import actionsheet from '../actionSheet/actionSheet';
+import { playbackManager } from '../playback/playbackmanager';
+import globalize from '../../scripts/globalize';
+import qualityoptions from '../qualityOptions';
+import ServerConnections from '../ServerConnections';
 
 function showQualityMenu(player, btn) {
     const videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
@@ -32,18 +33,18 @@ function showQualityMenu(player, btn) {
         return opt;
     });
 
-    let selectedId = options.filter(function (o) {
+    const selectedId = options.filter(function (o) {
         return o.selected;
     });
 
-    selectedId = selectedId.length ? selectedId[0].bitrate : null;
+    const selectedBitrate = selectedId.length ? selectedId[0].bitrate : null;
 
     return actionsheet.show({
         items: menuItems,
         positionTo: btn
     }).then(function (id) {
         const bitrate = parseInt(id);
-        if (bitrate !== selectedId) {
+        if (bitrate !== selectedBitrate) {
             playbackManager.setMaxStreamingBitrate({
                 enableAutomaticBitrateDetection: bitrate ? false : true,
                 maxBitrate: bitrate
@@ -250,7 +251,7 @@ export function show(options) {
         return showWithUser(options, player, null);
     }
 
-    const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+    const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
     return apiClient.getCurrentUser().then(function (user) {
         return showWithUser(options, player, user);
     });

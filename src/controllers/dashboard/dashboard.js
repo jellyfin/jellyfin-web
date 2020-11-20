@@ -1,71 +1,73 @@
-import datetime from 'datetime';
-import events from 'events';
-import itemHelper from 'itemHelper';
-import serverNotifications from 'serverNotifications';
-import dom from 'dom';
-import taskButton from 'scripts/taskbutton';
-import globalize from 'globalize';
-import * as datefns from 'date-fns';
-import dfnshelper from 'dfnshelper';
-import loading from 'loading';
-import playMethodHelper from 'playMethodHelper';
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
-import ActivityLog from 'components/activitylog';
-import imageHelper from 'scripts/imagehelper';
-import indicators from 'indicators';
-import 'listViewStyle';
-import 'emby-button';
-import 'flexStyles';
-import 'emby-itemscontainer';
+import datetime from '../../scripts/datetime';
+import { Events } from 'jellyfin-apiclient';
+import itemHelper from '../../components/itemHelper';
+import serverNotifications from '../../scripts/serverNotifications';
+import dom from '../../scripts/dom';
+import globalize from '../../scripts/globalize';
+import { formatDistanceToNow } from 'date-fns';
+import { localeWithSuffix } from '../../scripts/dfnshelper';
+import loading from '../../components/loading/loading';
+import playMethodHelper from '../../components/playback/playmethodhelper';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import ActivityLog from '../../components/activitylog';
+import imageHelper from '../../scripts/imagehelper';
+import indicators from '../../components/indicators/indicators';
+import '../../components/listview/listview.css';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.scss';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import taskButton from '../../scripts/taskbutton';
+import Dashboard from '../../scripts/clientUtils';
+import ServerConnections from '../../components/ServerConnections';
+import alert from '../../components/alert';
+import confirm from '../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
     function showPlaybackInfo(btn, session) {
-        import('alert').then(({default: alert}) => {
-            let title;
-            const text = [];
-            const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+        let title;
+        const text = [];
+        const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
-            if (displayPlayMethod === 'Remux') {
-                title = globalize.translate('Remuxing');
-                text.push(globalize.translate('RemuxHelp1'));
-                text.push('<br/>');
-                text.push(globalize.translate('RemuxHelp2'));
-            } else if (displayPlayMethod === 'DirectStream') {
-                title = globalize.translate('DirectStreaming');
-                text.push(globalize.translate('DirectStreamHelp1'));
-                text.push('<br/>');
-                text.push(globalize.translate('DirectStreamHelp2'));
-            } else if (displayPlayMethod === 'Transcode') {
-                title = globalize.translate('Transcoding');
-                text.push(globalize.translate('MediaIsBeingConverted'));
+        if (displayPlayMethod === 'Remux') {
+            title = globalize.translate('Remuxing');
+            text.push(globalize.translate('RemuxHelp1'));
+            text.push('<br/>');
+            text.push(globalize.translate('RemuxHelp2'));
+        } else if (displayPlayMethod === 'DirectStream') {
+            title = globalize.translate('DirectStreaming');
+            text.push(globalize.translate('DirectStreamHelp1'));
+            text.push('<br/>');
+            text.push(globalize.translate('DirectStreamHelp2'));
+        } else if (displayPlayMethod === 'Transcode') {
+            title = globalize.translate('Transcoding');
+            text.push(globalize.translate('MediaIsBeingConverted'));
 
-                if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
-                    text.push('<br/>');
-                    text.push(globalize.translate('LabelReasonForTranscoding'));
-                    session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
-                        text.push(globalize.translate(transcodeReason));
-                    });
-                }
+            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+                text.push('<br/>');
+                text.push(globalize.translate('LabelReasonForTranscoding'));
+                session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
+                    text.push(globalize.translate(transcodeReason));
+                });
             }
+        }
 
-            alert({
-                text: text.join('<br/>'),
-                title: title
-            });
+        alert({
+            text: text.join('<br/>'),
+            title: title
         });
     }
 
     function showSendMessageForm(btn, session) {
-        import('prompt').then(({default: prompt}) => {
+        import('../../components/prompt/prompt').then(({default: prompt}) => {
             prompt({
                 title: globalize.translate('HeaderSendMessage'),
                 label: globalize.translate('LabelMessageText'),
                 confirmText: globalize.translate('ButtonSend')
             }).then(function (text) {
                 if (text) {
-                    window.connectionManager.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
+                    ServerConnections.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
                         Text: text,
                         TimeoutMs: 5e3
                     });
@@ -75,10 +77,10 @@ import 'emby-itemscontainer';
     }
 
     function showOptionsMenu(btn, session) {
-        import('actionsheet').then(({default: actionsheet}) => {
+        import('../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
             const menuItems = [];
 
-            if (session.ServerId && session.DeviceId !== window.connectionManager.deviceId()) {
+            if (session.ServerId && session.DeviceId !== ServerConnections.deviceId()) {
                 menuItems.push({
                     name: globalize.translate('SendMessage'),
                     id: 'sendmessage'
@@ -128,9 +130,9 @@ import 'emby-itemscontainer';
                     } else if (btn.classList.contains('btnSessionSendMessage')) {
                         showSendMessageForm(btn, session);
                     } else if (btn.classList.contains('btnSessionStop')) {
-                        window.connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'Stop');
+                        ServerConnections.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'Stop');
                     } else if (btn.classList.contains('btnSessionPlayPause') && session.PlayState) {
-                        window.connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'PlayPause');
+                        ServerConnections.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'PlayPause');
                     }
                 }
             }
@@ -318,7 +320,7 @@ import 'emby-itemscontainer';
                 btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('ViewPlaybackInfo') + '"><span class="material-icons info"></span></button>';
 
-                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== window.connectionManager.deviceId() ? '' : ' hide';
+                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== ServerConnections.deviceId() ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('SendMessage') + '"><span class="material-icons message"></span></button>';
                 html += '</div>';
 
@@ -480,7 +482,7 @@ import 'emby-itemscontainer';
             // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
             if (!nowPlayingItem) {
                 return {
-                    html: globalize.translate('LastSeen', datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), dfnshelper.localeWithSuffix)),
+                    html: globalize.translate('LastSeen', formatDistanceToNow(Date.parse(session.LastActivityDate), localeWithSuffix)),
                     image: imgUrl
                 };
             }
@@ -727,33 +729,29 @@ import 'emby-itemscontainer';
             });
         },
         restart: function (btn) {
-            import('confirm').then(({default: confirm}) => {
-                confirm({
-                    title: globalize.translate('Restart'),
-                    text: globalize.translate('MessageConfirmRestart'),
-                    confirmText: globalize.translate('Restart'),
-                    primary: 'delete'
-                }).then(function () {
-                    const page = dom.parentWithClass(btn, 'page');
-                    page.querySelector('#btnRestartServer').disabled = true;
-                    page.querySelector('#btnShutdown').disabled = true;
-                    ApiClient.restartServer();
-                });
+            confirm({
+                title: globalize.translate('Restart'),
+                text: globalize.translate('MessageConfirmRestart'),
+                confirmText: globalize.translate('Restart'),
+                primary: 'delete'
+            }).then(function () {
+                const page = dom.parentWithClass(btn, 'page');
+                page.querySelector('#btnRestartServer').disabled = true;
+                page.querySelector('#btnShutdown').disabled = true;
+                ApiClient.restartServer();
             });
         },
         shutdown: function (btn) {
-            import('confirm').then(({default: confirm}) => {
-                confirm({
-                    title: globalize.translate('ButtonShutdown'),
-                    text: globalize.translate('MessageConfirmShutdown'),
-                    confirmText: globalize.translate('ButtonShutdown'),
-                    primary: 'delete'
-                }).then(function () {
-                    const page = dom.parentWithClass(btn, 'page');
-                    page.querySelector('#btnRestartServer').disabled = true;
-                    page.querySelector('#btnShutdown').disabled = true;
-                    ApiClient.shutdownServer();
-                });
+            confirm({
+                title: globalize.translate('ButtonShutdown'),
+                text: globalize.translate('MessageConfirmShutdown'),
+                confirmText: globalize.translate('ButtonShutdown'),
+                primary: 'delete'
+            }).then(function () {
+                const page = dom.parentWithClass(btn, 'page');
+                page.querySelector('#btnRestartServer').disabled = true;
+                page.querySelector('#btnShutdown').disabled = true;
+                ApiClient.shutdownServer();
             });
         }
     };
@@ -806,13 +804,13 @@ import 'emby-itemscontainer';
                 loading.show();
                 pollForInfo(page, apiClient);
                 DashboardPage.startInterval(apiClient);
-                events.on(serverNotifications, 'RestartRequired', onRestartRequired);
-                events.on(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
-                events.on(serverNotifications, 'ServerRestarting', onServerRestarting);
-                events.on(serverNotifications, 'PackageInstalling', onPackageInstalling);
-                events.on(serverNotifications, 'PackageInstallationCompleted', onPackageInstallationCompleted);
-                events.on(serverNotifications, 'Sessions', onSessionsUpdate);
-                events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+                Events.on(serverNotifications, 'RestartRequired', onRestartRequired);
+                Events.on(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
+                Events.on(serverNotifications, 'ServerRestarting', onServerRestarting);
+                Events.on(serverNotifications, 'PackageInstalling', onPackageInstalling);
+                Events.on(serverNotifications, 'PackageInstallationCompleted', onPackageInstallationCompleted);
+                Events.on(serverNotifications, 'Sessions', onSessionsUpdate);
+                Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
                 DashboardPage.lastAppUpdateCheck = null;
                 reloadSystemInfo(page, ApiClient);
 
@@ -846,13 +844,13 @@ import 'emby-itemscontainer';
             const apiClient = ApiClient;
             const page = this;
 
-            events.off(serverNotifications, 'RestartRequired', onRestartRequired);
-            events.off(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
-            events.off(serverNotifications, 'ServerRestarting', onServerRestarting);
-            events.off(serverNotifications, 'PackageInstalling', onPackageInstalling);
-            events.off(serverNotifications, 'PackageInstallationCompleted', onPackageInstallationCompleted);
-            events.off(serverNotifications, 'Sessions', onSessionsUpdate);
-            events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+            Events.off(serverNotifications, 'RestartRequired', onRestartRequired);
+            Events.off(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
+            Events.off(serverNotifications, 'ServerRestarting', onServerRestarting);
+            Events.off(serverNotifications, 'PackageInstalling', onPackageInstalling);
+            Events.off(serverNotifications, 'PackageInstallationCompleted', onPackageInstallationCompleted);
+            Events.off(serverNotifications, 'Sessions', onSessionsUpdate);
+            Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
 
             if (apiClient) {
                 DashboardPage.stopInterval(apiClient);

@@ -1,12 +1,12 @@
-import dialogHelper from 'dialogHelper';
-import globalize from 'globalize';
-import * as userSettings from 'userSettings';
-import layoutManager from 'layoutManager';
-import scrollHelper from 'scrollHelper';
-import 'emby-checkbox';
-import 'emby-radio';
-import 'css!./../formdialog';
-import 'material-icons';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import globalize from '../../scripts/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
+import layoutManager from '../layoutManager';
+import scrollHelper from '../../scripts/scrollHelper';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-radio/emby-radio';
+import '../formdialog.css';
+import 'material-design-icons-iconfont';
 
 function saveCategories(context, options) {
     const categories = [];
@@ -88,7 +88,7 @@ function showEditor(options) {
     return new Promise(function (resolve, reject) {
         let settingsChanged = false;
 
-        import('text!./guide-settings.template.html').then(({ default: template }) => {
+        import('./guide-settings.template.html').then(({ default: template }) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false

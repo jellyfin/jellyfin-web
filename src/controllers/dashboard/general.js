@@ -1,11 +1,14 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-checkbox';
-import 'emby-textarea';
-import 'emby-input';
-import 'emby-select';
-import 'emby-button';
+import 'jquery';
+import loading from '../../components/loading/loading';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-textarea/emby-textarea';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-button/emby-button';
+import AppInfo from '../../components/AppInfo';
+import Dashboard from '../../scripts/clientUtils';
+import alert from '../../components/alert';
 
 /* eslint-disable indent */
 
@@ -51,10 +54,7 @@ import 'emby-button';
                     });
                 });
             }, function () {
-                import('alert').then(({default: alert}) => {
-                    alert(globalize.translate('ErrorDefault'));
-                });
-
+                alert(globalize.translate('ErrorDefault'));
                 Dashboard.processServerConfigurationUpdateResult();
             });
         });
@@ -66,7 +66,7 @@ import 'emby-button';
     const brandingConfigKey = 'branding';
     export default function (view, params) {
         $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {
@@ -83,7 +83,7 @@ import 'emby-button';
             });
         });
         $('#btnSelectMetadataPath', view).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     path: $('#txtMetadataPath', view).val(),

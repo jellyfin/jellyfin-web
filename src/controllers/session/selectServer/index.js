@@ -1,19 +1,22 @@
-import loading from 'loading';
-import appRouter from 'appRouter';
-import layoutManager from 'layoutManager';
-import libraryMenu from 'libraryMenu';
-import appSettings from 'appSettings';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import actionSheet from 'actionsheet';
-import dom from 'dom';
-import browser from 'browser';
-import 'material-icons';
-import 'flexStyles';
-import 'emby-scroller';
-import 'emby-itemscontainer';
-import 'cardStyle';
-import 'emby-button';
+import loading from '../../../components/loading/loading';
+import { appRouter } from '../../../components/appRouter';
+import layoutManager from '../../../components/layoutManager';
+import libraryMenu from '../../../scripts/libraryMenu';
+import appSettings from '../../../scripts/settings/appSettings';
+import focusManager from '../../../components/focusManager';
+import globalize from '../../../scripts/globalize';
+import actionSheet from '../../../components/actionSheet/actionSheet';
+import dom from '../../../scripts/dom';
+import browser from '../../../scripts/browser';
+import 'material-design-icons-iconfont';
+import '../../../assets/css/flexstyles.scss';
+import '../../../elements/emby-scroller/emby-scroller';
+import '../../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../../components/cardbuilder/card.css';
+import '../../../elements/emby-button/emby-button';
+import Dashboard from '../../../scripts/clientUtils';
+import ServerConnections from '../../../components/ServerConnections';
+import alert from '../../../components/alert';
 
 /* eslint-disable indent */
 
@@ -100,9 +103,7 @@ import 'emby-button';
     }
 
     function alertTextWithOptions(options) {
-        import('alert').then(({default: alert}) => {
-            alert(options);
-        });
+        alert(options);
     }
 
     function showServerConnectionFailure() {
@@ -112,7 +113,7 @@ import 'emby-button';
     export default function (view, params) {
         function connectToServer(server) {
             loading.show();
-            window.connectionManager.connectToServer(server, {
+            ServerConnections.connectToServer(server, {
                 enableAutoLogin: appSettings.enableAutoLogin()
             }).then(function (result) {
                 loading.hide();
@@ -144,7 +145,7 @@ import 'emby-button';
 
         function deleteServer(server) {
             loading.show();
-            window.connectionManager.deleteServer(server.Id).then(function () {
+            ServerConnections.deleteServer(server.Id).then(function () {
                 loading.hide();
                 loadServers();
             });
@@ -186,7 +187,7 @@ import 'emby-button';
 
         function loadServers() {
             loading.show();
-            window.connectionManager.getAvailableServers().then(onServersRetrieved);
+            ServerConnections.getAvailableServers().then(onServersRetrieved);
         }
 
         let servers;

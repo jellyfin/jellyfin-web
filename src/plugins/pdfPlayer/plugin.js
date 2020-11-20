@@ -1,12 +1,12 @@
-import loading from 'loading';
-import keyboardnavigation from 'keyboardnavigation';
-import dialogHelper from 'dialogHelper';
-import dom from 'dom';
-import appRouter from 'appRouter';
-import events from 'events';
-import 'css!./style';
-import 'material-icons';
-import 'paper-icon-button-light';
+import ServerConnections from '../../components/ServerConnections';
+import loading from '../../components/loading/loading';
+import keyboardnavigation from '../../scripts/keyboardNavigation';
+import dialogHelper from '../../components/dialogHelper/dialogHelper';
+import dom from '../../scripts/dom';
+import { appRouter } from '../../components/appRouter';
+import './style.css';
+import '../../elements/emby-button/paper-icon-button-light';
+import { Events } from 'jellyfin-apiclient';
 
 export class PdfPlayer {
     constructor() {
@@ -186,10 +186,10 @@ export class PdfPlayer {
         };
 
         const serverId = item.ServerId;
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
-            import('pdfjs').then(({default: pdfjs}) => {
+            import('pdfjs-dist').then(({default: pdfjs}) => {
                 const downloadHref = apiClient.getItemDownloadUrl(item.Id);
 
                 this.bindEvents();
@@ -266,7 +266,7 @@ export class PdfPlayer {
 
     renderPage(canvas, number) {
         this.book.getPage(number).then(page => {
-            events.trigger(this, 'timeupdate');
+            Events.trigger(this, 'timeupdate');
 
             const original = page.getViewport({ scale: 1 });
             const context = canvas.getContext('2d');

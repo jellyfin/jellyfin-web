@@ -1,11 +1,11 @@
-import layoutManager from 'layoutManager';
-import loading from 'loading';
-import datetime from 'datetime';
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
-import globalize from 'globalize';
-import 'scrollStyles';
-import 'emby-itemscontainer';
+import layoutManager from '../../components/layoutManager';
+import loading from '../../components/loading/loading';
+import datetime from '../../scripts/datetime';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import globalize from '../../scripts/globalize';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 

@@ -1,20 +1,22 @@
-import globalize from 'globalize';
-import appHost from 'apphost';
-import appSettings from 'appSettings';
-import focusManager from 'focusManager';
-import layoutManager from 'layoutManager';
-import loading from 'loading';
-import subtitleAppearanceHelper from 'subtitleAppearanceHelper';
-import settingsHelper from 'settingsHelper';
-import dom from 'dom';
-import events from 'events';
-import 'listViewStyle';
-import 'emby-select';
-import 'emby-slider';
-import 'emby-input';
-import 'emby-checkbox';
-import 'flexStyles';
-import 'css!./subtitlesettings';
+import globalize from '../../scripts/globalize';
+import { appHost } from '../apphost';
+import appSettings from '../../scripts/settings/appSettings';
+import focusManager from '../focusManager';
+import layoutManager from '../layoutManager';
+import loading from '../loading/loading';
+import subtitleAppearanceHelper from './subtitleappearancehelper';
+import settingsHelper from '../settingshelper';
+import dom from '../../scripts/dom';
+import { Events } from 'jellyfin-apiclient';
+import '../listview/listview.css';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-slider/emby-slider';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../assets/css/flexstyles.scss';
+import './subtitlesettings.css';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /**
  * Subtitle settings.
@@ -87,12 +89,10 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
         saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
             loading.hide();
             if (enableSaveConfirmation) {
-                import('toast').then(({default: toast}) => {
-                    toast(globalize.translate('SettingsSaved'));
-                });
+                toast(globalize.translate('SettingsSaved'));
             }
 
-            events.trigger(instance, 'saved');
+            Events.trigger(instance, 'saved');
         }, function () {
             loading.hide();
         });
@@ -158,7 +158,7 @@ function hideSubtitlePreview(persistent) {
 }
 
 function embed(options, self) {
-    import('text!./subtitlesettings.template.html').then(({default: template}) => {
+    import('./subtitlesettings.template.html').then(({default: template}) => {
         options.element.classList.add('subtitlesettings');
         options.element.innerHTML = globalize.translateHtml(template, 'core');
 
@@ -231,7 +231,7 @@ export class SubtitleSettings {
         loading.show();
 
         const userId = self.options.userId;
-        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
         apiClient.getUser(userId).then(function (user) {
@@ -255,7 +255,7 @@ export class SubtitleSettings {
 
     onSubmit(e) {
         const self = this;
-        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 

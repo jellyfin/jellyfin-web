@@ -5,16 +5,17 @@
  * @module components/listview/listview
  */
 
-import itemHelper from 'itemHelper';
-import mediaInfo from 'mediaInfo';
-import indicators from 'indicators';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import datetime from 'datetime';
-import cardBuilder from 'cardBuilder';
-import 'css!./listview';
-import 'emby-ratingbutton';
-import 'emby-playstatebutton';
+import itemHelper from '../itemHelper';
+import mediaInfo from '../mediainfo/mediainfo';
+import indicators from '../indicators/indicators';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import datetime from '../../scripts/datetime';
+import cardBuilder from '../cardbuilder/cardBuilder';
+import './listview.css';
+import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import '../../elements/emby-playstatebutton/emby-playstatebutton';
+import ServerConnections from '../ServerConnections';
 
     function getIndex(item, options) {
         if (options.index === 'disc') {
@@ -76,7 +77,7 @@ import 'emby-playstatebutton';
     }
 
     function getImageUrl(item, width) {
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         let itemId;
 
         const options = {
@@ -105,7 +106,7 @@ import 'emby-playstatebutton';
     }
 
     function getChannelImageUrl(item, width) {
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         const options = {
             maxWidth: width,
             type: 'Primary'

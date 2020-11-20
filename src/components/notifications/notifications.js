@@ -1,7 +1,7 @@
-import serverNotifications from 'serverNotifications';
-import playbackManager from 'playbackManager';
-import events from 'events';
-import globalize from 'globalize';
+import serverNotifications from '../../scripts/serverNotifications';
+import { playbackManager } from '../playback/playbackmanager';
+import { Events } from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
 
 function onOneDocumentClick() {
     document.removeEventListener('click', onOneDocumentClick);
@@ -199,27 +199,27 @@ function showPackageInstallNotification(apiClient, installation, status) {
     });
 }
 
-events.on(serverNotifications, 'LibraryChanged', function (e, apiClient, data) {
+Events.on(serverNotifications, 'LibraryChanged', function (e, apiClient, data) {
     onLibraryChanged(data, apiClient);
 });
 
-events.on(serverNotifications, 'PackageInstallationCompleted', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationCompleted', function (e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'completed');
 });
 
-events.on(serverNotifications, 'PackageInstallationFailed', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationFailed', function (e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'failed');
 });
 
-events.on(serverNotifications, 'PackageInstallationCancelled', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationCancelled', function (e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'cancelled');
 });
 
-events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'progress');
 });
 
-events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
+Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,
@@ -228,7 +228,7 @@ events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, dat
     showNotification(notification, 0, apiClient);
 });
 
-events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
+Events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,
@@ -237,7 +237,7 @@ events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data)
     showNotification(notification, 0, apiClient);
 });
 
-events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
+Events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,

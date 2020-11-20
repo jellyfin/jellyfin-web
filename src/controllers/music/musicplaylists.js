@@ -1,7 +1,7 @@
-import libraryBrowser from 'libraryBrowser';
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
-import loading from 'loading';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import loading from '../../components/loading/loading';
 
 /* eslint-disable indent */
 
@@ -63,7 +63,7 @@ import loading from 'loading';
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
 
-                import('autoFocuser').then(({default: autoFocuser}) => {
+                import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(context);
                 });
             });

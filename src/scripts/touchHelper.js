@@ -1,5 +1,5 @@
-import dom from 'dom';
-import events from 'events';
+import dom from '../scripts/dom';
+import { Events } from 'jellyfin-apiclient';
 
 function getTouches(e) {
     return e.changedTouches || e.targetTouches || e.touches;
@@ -73,13 +73,13 @@ class TouchHelper {
                 lastDeltaY = deltaY;
 
                 if (deltaX > swipeXThreshold && Math.abs(deltaY) < swipeXMaxY) {
-                    events.trigger(self, 'swiperight', [touchTarget]);
+                    Events.trigger(self, 'swiperight', [touchTarget]);
                 } else if (deltaX < (0 - swipeXThreshold) && Math.abs(deltaY) < swipeXMaxY) {
-                    events.trigger(self, 'swipeleft', [touchTarget]);
+                    Events.trigger(self, 'swipeleft', [touchTarget]);
                 } else if ((deltaY < (0 - swipeYThreshold) || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
                     thresholdYMet = true;
 
-                    events.trigger(self, 'swipeup', [touchTarget, {
+                    Events.trigger(self, 'swipeup', [touchTarget, {
                         deltaY: deltaY,
                         deltaX: deltaX,
                         clientX: clientX,
@@ -90,7 +90,7 @@ class TouchHelper {
                 } else if ((deltaY > swipeYThreshold || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
                     thresholdYMet = true;
 
-                    events.trigger(self, 'swipedown', [touchTarget, {
+                    Events.trigger(self, 'swipedown', [touchTarget, {
                         deltaY: deltaY,
                         deltaX: deltaX,
                         clientX: clientX,

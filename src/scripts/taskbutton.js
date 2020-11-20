@@ -1,12 +1,13 @@
 
-import events from 'events';
-import serverNotifications from 'serverNotifications';
-import globalize from 'globalize';
-import 'emby-button';
+import { Events } from 'jellyfin-apiclient';
+import serverNotifications from '../scripts/serverNotifications';
+import globalize from '../scripts/globalize';
+import '../elements/emby-button/emby-button';
+import ServerConnections from '../components/ServerConnections';
 
 export default function (options) {
     function pollTasks() {
-        window.connectionManager.getApiClient(serverId).getScheduledTasks({
+        ServerConnections.getApiClient(serverId).getScheduledTasks({
             IsEnabled: true
         }).then(updateTasks);
     }
@@ -63,7 +64,7 @@ export default function (options) {
     }
 
     function onScheduledTaskMessageConfirmed(id) {
-        window.connectionManager.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
+        ServerConnections.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
     }
 
     function onButtonClick() {
@@ -81,13 +82,13 @@ export default function (options) {
     const serverId = ApiClient.serverId();
 
     function onPollIntervalFired() {
-        if (!window.connectionManager.getApiClient(serverId).isMessageChannelOpen()) {
+        if (!ServerConnections.getApiClient(serverId).isMessageChannelOpen()) {
             pollTasks();
         }
     }
 
     function startInterval() {
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         if (pollInterval) {
             clearInterval(pollInterval);
@@ -97,7 +98,7 @@ export default function (options) {
     }
 
     function stopInterval() {
-        window.connectionManager.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
+        ServerConnections.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
 
         if (pollInterval) {
             clearInterval(pollInterval);
@@ -110,12 +111,12 @@ export default function (options) {
 
     if (options.mode == 'off') {
         button.removeEventListener('click', onButtonClick);
-        events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+        Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
         stopInterval();
     } else {
         button.addEventListener('click', onButtonClick);
         pollTasks();
         startInterval();
-        events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+        Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
     }
 }
