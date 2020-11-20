@@ -180,12 +180,12 @@ export class BookPlayer {
     }
 
     prevChapter(e) {
-        this._rendition.prev();
+        this.rendition.prev();
         e.preventDefault();
     }
 
     nextChapter(e) {
-        this._rendition.next();
+        this.rendition.next();
         e.preventDefault();
     }
 
