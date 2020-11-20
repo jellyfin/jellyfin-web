@@ -1,9 +1,9 @@
-import globalize from 'globalize';
+import globalize from '../../scripts/globalize';
+import ServerConnections from '../../components/ServerConnections';
+import alert from '../../components/alert';
 
 function showErrorMessage() {
-    return import('alert').then(({default: alert}) => {
-        return alert(globalize.translate('MessagePlayAccessRestricted'));
-    });
+    return alert(globalize.translate('MessagePlayAccessRestricted'));
 }
 
 class PlayAccessValidation {
@@ -24,7 +24,7 @@ class PlayAccessValidation {
             return Promise.resolve();
         }
 
-        return window.connectionManager.getApiClient(serverId).getCurrentUser().then(function (user) {
+        return ServerConnections.getApiClient(serverId).getCurrentUser().then(function (user) {
             if (user.Policy.EnableMediaPlayback) {
                 return Promise.resolve();
             }

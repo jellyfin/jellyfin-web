@@ -1,11 +1,11 @@
-import appRouter from 'appRouter';
-import focusManager from 'focusManager';
-import browser from 'browser';
-import layoutManager from 'layoutManager';
-import inputManager from 'inputManager';
-import dom from 'dom';
-import 'css!./dialoghelper.css';
-import 'scrollStyles';
+import { appRouter } from '../appRouter';
+import focusManager from '../focusManager';
+import browser from '../../scripts/browser';
+import layoutManager from '../layoutManager';
+import inputManager from '../../scripts/inputManager';
+import dom from '../../scripts/dom';
+import './dialoghelper.css';
+import '../../assets/css/scrollstyles.css';
 
 /* eslint-disable indent */
 
@@ -354,7 +354,7 @@ import 'scrollStyles';
     }
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then((scrollHelper) => {
+        import('../../scripts/scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });

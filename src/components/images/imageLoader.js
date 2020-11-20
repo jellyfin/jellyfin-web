@@ -1,7 +1,7 @@
-import * as lazyLoader from 'lazyLoader';
-import * as userSettings from 'userSettings';
-import * as blurhash from 'blurhash';
-import 'css!./style';
+import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
+import * as userSettings from '../../scripts/settings/userSettings';
+import { decode, isBlurhashValid } from 'blurhash';
+import './style.css';
 /* eslint-disable indent */
 
     export function lazyImage(elem, source = elem.getAttribute('data-src')) {
@@ -13,7 +13,7 @@ import 'css!./style';
     }
 
     function itemBlurhashing(target, blurhashstr) {
-        if (blurhash.isBlurhashValid(blurhashstr)) {
+        if (isBlurhashValid(blurhashstr)) {
             // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
             // improving the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
@@ -21,7 +21,7 @@ import 'css!./style';
             const height = 18;
             let pixels;
             try {
-                pixels = blurhash.decode(blurhashstr, width, height);
+                pixels = decode(blurhashstr, width, height);
             } catch (err) {
                 console.error('Blurhash decode error: ', err);
                 target.classList.add('non-blurhashable');
@@ -133,6 +133,7 @@ import 'css!./style';
                 }
             }
         }
+
         lazyLoader.lazyChildren(elem, fillImage);
     }
 

@@ -1,8 +1,9 @@
-import TabbedView from 'tabbedView';
-import globalize from 'globalize';
-import 'emby-tabs';
-import 'emby-button';
-import 'emby-scroller';
+import TabbedView from '../components/tabbedview/tabbedview';
+import globalize from '../scripts/globalize';
+import '../elements/emby-tabs/emby-tabs';
+import '../elements/emby-button/emby-button';
+import '../elements/emby-scroller/emby-scroller';
+import { appRouter } from '../components/appRouter';
 
 class HomeView extends TabbedView {
     constructor(view, params) {
@@ -10,7 +11,7 @@ class HomeView extends TabbedView {
     }
 
     setTitle() {
-        Emby.Page.setTitle(null);
+        appRouter.setTitle(null);
     }
 
     onPause() {
@@ -44,15 +45,15 @@ class HomeView extends TabbedView {
 
         switch (index) {
             case 0:
-                depends = 'controllers/hometab';
+                depends = 'hometab';
                 break;
 
             case 1:
-                depends = 'controllers/favorites';
+                depends = 'favorites';
         }
 
         const instance = this;
-        return import(depends).then(({ default: controllerFactory }) => {
+        return import(/* webpackChunkName: "[request]" */ `../controllers/${depends}`).then(({ default: controllerFactory }) => {
             let controller = instance.tabControllers[index];
 
             if (!controller) {

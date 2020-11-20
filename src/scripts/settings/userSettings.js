@@ -1,5 +1,5 @@
-import appSettings from 'appSettings';
-import events from 'events';
+import appSettings from './appSettings';
+import { Events } from 'jellyfin-apiclient';
 
 function onSaveTimeout() {
     const self = this;
@@ -77,7 +77,7 @@ export class UserSettings {
         }
 
         if (currentValue !== value) {
-            events.trigger(this, 'change', [name]);
+            Events.trigger(this, 'change', [name]);
         }
 
         return result;

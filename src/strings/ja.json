@@ -1422,5 +1422,14 @@
     "XmlTvMovieCategoriesHelp": "これらのカテゴリの番組は映画として表示されます。複数の場合は '|' で区切ってください。",
     "XmlTvKidsCategoriesHelp": "これらのカテゴリの番組は子供向けとして表示されます。複数の場合は '|' で区切ってください。",
     "OptionAllowContentDownloadHelp": "ユーザーのデバイスにメディアのダウンロードと保存ができます。これは同期機能とは異なります。ブックライブラリが正しく機能するには有効化が必要です。",
-    "OptionAllowContentDownload": "メディアのダウンロードを許可"
+    "OptionAllowContentDownload": "メディアのダウンロードを許可",
+    "HeaderDeleteDevices": "すべてのデバイスの削除",
+    "DeleteDevicesConfirmation": "すべてのデバイスを削除しますか？他のセッションはすべてログアウトされます。デバイスは次回ログインした際に再度表示されるようになります。",
+    "DeleteAll": "すべて削除",
+    "EnableFallbackFontHelp": "カスタム代替フォントの有効にする。これにより間違った字幕レンダリングの問題を回避することができます。",
+    "EnableFallbackFont": "代替フォントを有効化",
+    "LabelFallbackFontPathHelp": "ASS/SSA字幕レンダリングのための代替フォントを含むパスを指定してください。フォントファイルサイズは最大20MBです。woff2のような軽量でweb向けのフォントフォーマットが推奨です。",
+    "LabelFallbackFontPath": "代替フォントフォルダパス:",
+    "HeaderSelectFallbackFontPathHelp": "ASS/SSA字幕レンダリングに使用する代替フォントフォルダパスを参照/入力。",
+    "HeaderSelectFallbackFontPath": "代替フォントフォルダパスを選択"
 }

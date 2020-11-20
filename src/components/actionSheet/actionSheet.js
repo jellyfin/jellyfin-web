@@ -1,12 +1,12 @@
-import dialogHelper from 'dialogHelper';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import dom from 'dom';
-import 'emby-button';
-import 'css!./actionSheet';
-import 'material-icons';
-import 'scrollStyles';
-import 'listViewStyle';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import '../../elements/emby-button/emby-button';
+import './actionSheet.css';
+import 'material-design-icons-iconfont';
+import '../../assets/css/scrollstyles.css';
+import '../../components/listview/listview.css';
 
 function getOffsets(elems) {
     const results = [];
@@ -71,7 +71,7 @@ function getPosition(options, dlg) {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('scrollHelper').then(({default: scrollHelper}) => {
+    import('../../scripts/scrollHelper').then((scrollHelper) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });

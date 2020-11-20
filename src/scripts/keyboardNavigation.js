@@ -3,8 +3,8 @@
  * @module components/input/keyboardnavigation
  */
 
-import inputManager from 'inputManager';
-import layoutManager from 'layoutManager';
+import inputManager from './inputManager';
+import layoutManager from '../components/layoutManager';
 
 /**
  * Key name mapping.
@@ -156,7 +156,7 @@ function attachGamepadScript(e) {
     console.log('Gamepad connected! Attaching gamepadtokey.js script');
     window.removeEventListener('gamepadconnected', attachGamepadScript);
     /* eslint-disable-next-line  @babel/no-unused-expressions */
-    import('scripts/gamepadtokey');
+    import('./gamepadtokey');
 }
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that

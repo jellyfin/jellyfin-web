@@ -1,6 +1,6 @@
-import layoutManager from 'layoutManager';
-import datetime from 'datetime';
-import cardBuilder from 'cardBuilder';
+import layoutManager from '../components/layoutManager';
+import datetime from './datetime';
+import cardBuilder from '../components/cardbuilder/cardBuilder';
 
 function enableScrollX() {
     return !layoutManager.desktop;

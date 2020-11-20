@@ -1,6 +1,7 @@
-import playbackManager from 'playbackManager';
-import layoutManager from 'layoutManager';
-import events from 'events';
+
+import { playbackManager } from './playbackmanager';
+import layoutManager from '../layoutManager';
+import { Events } from 'jellyfin-apiclient';
 
 let orientationLocked;
 
@@ -13,7 +14,7 @@ function onOrientationChangeError(err) {
     console.error('error locking orientation: ' + err);
 }
 
-events.on(playbackManager, 'playbackstart', function (e, player, state) {
+Events.on(playbackManager, 'playbackstart', function (e, player, state) {
     const isLocalVideo = player.isLocalPlayer && !player.isExternalPlayer && playbackManager.isPlayingVideo(player);
 
     if (isLocalVideo && layoutManager.mobile) {
@@ -36,7 +37,7 @@ events.on(playbackManager, 'playbackstart', function (e, player, state) {
     }
 });
 
-events.on(playbackManager, 'playbackstop', function (e, playbackStopInfo) {
+Events.on(playbackManager, 'playbackstop', function (e, playbackStopInfo) {
     if (orientationLocked && !playbackStopInfo.nextMediaType) {
         /* eslint-disable-next-line compat/compat */
         const unlockOrientation = window.screen.unlockOrientation || window.screen.mozUnlockOrientation || window.screen.msUnlockOrientation || (window.screen.orientation && window.screen.orientation.unlock);
