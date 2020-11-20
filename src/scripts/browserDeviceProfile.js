@@ -467,7 +467,7 @@ import browser from './browser';
         const hlsInTsVideoCodecs = [];
         const hlsInFmp4VideoCodecs = [];
 
-        if (browser.safari || browser.tizen || browser.web0s && canPlayHevc(videoTestElement, options)) {
+        if ((browser.safari || browser.tizen || browser.web0s) && canPlayHevc(videoTestElement, options)) {
             hlsInFmp4VideoCodecs.push('hevc');
         }
 
