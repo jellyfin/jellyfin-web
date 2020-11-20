@@ -1422,5 +1422,14 @@
     "OptionMaxActiveSessions": "Nastavuje, kolik uživatelských relací může najednou existovat.",
     "LabelUserMaxActiveSessions": "Maximální počet uživatelských relací najednou:",
     "OptionAllowContentDownloadHelp": "Uživatelé si mohou média stáhnout a uložit na svá zařízení. Tato funkce není stejná jako synchronizace. Knihovny s knihami tuto funkci vyžadují ke správnému fungování.",
-    "OptionAllowContentDownload": "Povolit stahování médií"
+    "OptionAllowContentDownload": "Povolit stahování médií",
+    "HeaderDeleteDevices": "Odstranit všechna zařízení",
+    "DeleteDevicesConfirmation": "Opravdu chcete odstranit všechna zařízení? Souvisejicí relace budou odhlášeny. Zařízení se znovu objeví při dalším přihlášení.",
+    "DeleteAll": "Odstranit vše",
+    "EnableFallbackFontHelp": "Povolit vlastní alternativní písma. Může vyřešit problémy s nesprávným vykreslením titulků.",
+    "EnableFallbackFont": "Povolit záložní písma",
+    "LabelFallbackFontPathHelp": "Zadejte cestu k náhradním písmům pro vykreslení titulků ve formátu ASS/SSA. Maximální celková velikost písma je 20 MB. Doporučujeme používat malé webové písma jako například formát woff2.",
+    "LabelFallbackFontPath": "Cesta k náhradním písmům:",
+    "HeaderSelectFallbackFontPathHelp": "Vyberte či zadejte cestu k záložním písmům pro vykreslení titulků ve formátu ASS/SSA.",
+    "HeaderSelectFallbackFontPath": "Vybrat cestu k záložním fontům"
 }

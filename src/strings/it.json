@@ -1411,5 +1411,11 @@
     "LabelColorPrimaries": "Primari colore:",
     "LabelColorTransfer": "Trasferimento colore:",
     "MediaInfoColorPrimaries": "Colori primari",
-    "MediaInfoColorTransfer": "Trasferimento colore"
+    "MediaInfoColorTransfer": "Trasferimento colore",
+    "LabelTonemappingThreshold": "Soglia di mappatura dei toni:",
+    "OptionAllowContentDownload": "Consenti il download dei media",
+    "HeaderDeleteDevices": "Elimina tutti i dispositivi",
+    "DeleteDevicesConfirmation": "Sei sicuro di voler eliminare tutti i dispositivi? Tutte le altre sessioni verrano disconnesse. I dispositivi riappariranno appena un utente vi effettuerà il login.",
+    "DeleteAll": "Elimina tutto",
+    "OptionAllowContentDownloadHelp": "Gli utenti possono scaricare contenuti e salvarli nei loro dispositivi. Non è uguale alla sincronizzazione. I libri richiedono che questa proprietà sia attivata per lavorare correttamente."
 }

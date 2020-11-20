@@ -1,11 +1,12 @@
-import events from 'events';
-import playbackManager from 'playbackManager';
-import syncPlayManager from 'syncPlayManager';
-import loading from 'loading';
-import toast from 'toast';
-import actionsheet from 'actionsheet';
-import globalize from 'globalize';
-import playbackPermissionManager from 'playbackPermissionManager';
+import { Events } from 'jellyfin-apiclient';
+import { playbackManager } from '../playback/playbackmanager';
+import syncPlayManager from './syncPlayManager';
+import loading from '../loading/loading';
+import toast from '../toast/toast';
+import actionsheet from '../actionSheet/actionSheet';
+import globalize from '../../scripts/globalize';
+import playbackPermissionManager from './playbackPermissionManager';
+import ServerConnections from '../ServerConnections';
 
 /**
  * Gets active player id.
@@ -150,7 +151,7 @@ function showLeaveGroupSelection (button, user, apiClient) {
 
 // Register to SyncPlay events
 let syncPlayEnabled = false;
-events.on(syncPlayManager, 'enabled', function (e, enabled) {
+Events.on(syncPlayManager, 'enabled', function (e, enabled) {
     syncPlayEnabled = enabled;
 });
 
@@ -171,8 +172,8 @@ export function show (button) {
         });
     });
 
-    const apiClient = window.connectionManager.currentApiClient();
-    window.connectionManager.user(apiClient).then((user) => {
+    const apiClient = ServerConnections.currentApiClient();
+    ServerConnections.user(apiClient).then((user) => {
         if (syncPlayEnabled) {
             showLeaveGroupSelection(button, user, apiClient);
         } else {

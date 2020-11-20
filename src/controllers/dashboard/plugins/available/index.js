@@ -1,10 +1,10 @@
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
-import 'cardStyle';
-import 'emby-button';
-import 'emby-checkbox';
-import 'emby-select';
+import loading from '../../../../components/loading/loading';
+import libraryMenu from '../../../../scripts/libraryMenu';
+import globalize from '../../../../scripts/globalize';
+import '../../../../components/cardbuilder/card.css';
+import '../../../../elements/emby-button/emby-button';
+import '../../../../elements/emby-checkbox/emby-checkbox';
+import '../../../../elements/emby-select/emby-select';
 
 function reloadList(page) {
     loading.show();

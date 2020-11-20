@@ -1,14 +1,14 @@
-import dom from 'dom';
-import playbackManager from 'playbackManager';
-import events from 'events';
-import mediaInfo from 'mediaInfo';
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import itemHelper from 'itemHelper';
-import 'css!./upnextdialog';
-import 'emby-button';
-import 'flexStyles';
+import dom from '../../scripts/dom';
+import { playbackManager } from '../playback/playbackmanager';
+import { Events } from 'jellyfin-apiclient';
+import mediaInfo from '../mediainfo/mediainfo';
+import layoutManager from '../layoutManager';
+import focusManager from '../focusManager';
+import globalize from '../../scripts/globalize';
+import itemHelper from '../itemHelper';
+import './upnextdialog.css';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.scss';
 
 /* eslint-disable indent */
 
@@ -136,7 +136,7 @@ import 'flexStyles';
         elem.classList.add('hide');
 
         clearHideAnimationEventListeners(instance, elem);
-        events.trigger(instance, 'hide');
+        Events.trigger(instance, 'hide');
     }
 
     function hideComingUpNext() {

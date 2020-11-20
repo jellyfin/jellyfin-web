@@ -1,4 +1,4 @@
-import browser from 'browser';
+import browser from '../scripts/browser';
 
 function fallback(urls) {
     let i = 0;

@@ -1,13 +1,17 @@
-import appHost from 'apphost';
-import appSettings from 'appSettings';
-import backdrop from 'backdrop';
-import browser from 'browser';
-import events from 'events';
-import globalize from 'globalize';
-import itemHelper from 'itemHelper';
-import loading from 'loading';
+import { appHost } from './apphost';
+import appSettings from '../scripts/settings/appSettings';
+import backdrop from './backdrop/backdrop';
+import browser from '../scripts/browser';
+import { Events } from 'jellyfin-apiclient';
+import globalize from '../scripts/globalize';
+import itemHelper from './itemHelper';
+import loading from './loading/loading';
 import page from 'page';
-import viewManager from 'viewManager';
+import viewManager from './viewManager/viewManager';
+import AppInfo from './AppInfo';
+import Dashboard from '../scripts/clientUtils';
+import ServerConnections from './ServerConnections';
+import alert from './alert';
 
 class AppRouter {
     allRoutes = [];
@@ -94,7 +98,7 @@ class AppRouter {
     beginConnectionWizard() {
         backdrop.clearBackdrop();
         loading.show();
-        window.connectionManager.connect({
+        ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.handleConnectionResult(result);
@@ -150,10 +154,10 @@ class AppRouter {
         loading.show();
         this.initApiClients();
 
-        events.on(appHost, 'beforeexit', this.onBeforeExit);
-        events.on(appHost, 'resume', this.onAppResume);
+        Events.on(appHost, 'beforeexit', this.onBeforeExit);
+        Events.on(appHost, 'resume', this.onAppResume);
 
-        window.connectionManager.connect({
+        ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.firstConnectionResult = result;
@@ -209,7 +213,7 @@ class AppRouter {
     showItem(item, serverId, options) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof (item) === 'string') {
-            const apiClient = serverId ? window.connectionManager.getApiClient(serverId) : window.connectionManager.currentApiClient();
+            const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
             apiClient.getItem(apiClient.getCurrentUserId(), item).then((itemObject) => {
                 this.showItem(itemObject, options);
             });
@@ -268,7 +272,7 @@ class AppRouter {
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
-                Emby.Page.goHome();
+                this.goHome();
                 break;
             case 'ServerSignIn':
                 result.ApiClient.getPublicUsers().then((users) => {
@@ -286,13 +290,11 @@ class AppRouter {
                 this.showWelcome();
                 break;
             case 'ServerUpdateNeeded':
-                import('alert').then(({default: alert}) =>{
-                    alert({
-                        text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
-                        html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
-                    }).then(() => {
-                        this.showSelectServer();
-                    });
+                alert({
+                    text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
+                    html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                }).then(() => {
+                    this.showSelectServer();
                 });
                 break;
             default:
@@ -308,22 +310,20 @@ class AppRouter {
             url = route.contentPath || route.path;
         }
 
-        if (url.includes('configurationpage')) {
-            url = ApiClient.getUrl('/web' + url);
-        } else if (url.indexOf('://') === -1) {
-            // Put a slash at the beginning but make sure to avoid a double slash
-            if (url.indexOf('/') !== 0) {
-                url = '/' + url;
-            }
-
-            url = this.baseUrl() + url;
-        }
-
         if (ctx.querystring && route.enableContentQueryString) {
             url += '?' + ctx.querystring;
         }
 
-        import('text!' + url).then(({default: html}) => {
+        let promise;
+        if (route.serverRequest) {
+            const apiClient = ServerConnections.currentApiClient();
+            url = apiClient.getUrl(`/web${url}`);
+            promise = apiClient.get(url);
+        } else {
+            promise = import(/* webpackChunkName: "[request]" */ `../controllers/${url}`);
+        }
+
+        promise.then((html) => {
             this.loadContent(ctx, route, html, request);
         });
     }
@@ -340,7 +340,7 @@ class AppRouter {
         };
 
         if (route.controller) {
-            import('controllers/' + route.controller).then(onInitComplete);
+            import('../controllers/' + route.controller).then(onInitComplete);
         } else {
             onInitComplete();
         }
@@ -407,9 +407,7 @@ class AppRouter {
         this.forcedLogoutMsg = null;
 
         if (msg) {
-            import('alert').then((alert) => {
-                alert(msg);
-            });
+            alert(msg);
         }
     }
 
@@ -484,8 +482,8 @@ class AppRouter {
             newApiClient.getMaxBandwidth = this.getMaxBandwidth;
         }
 
-        events.off(newApiClient, 'requestfail', this.onRequestFail);
-        events.on(newApiClient, 'requestfail', this.onRequestFail);
+        Events.off(newApiClient, 'requestfail', this.onRequestFail);
+        Events.on(newApiClient, 'requestfail', this.onRequestFail);
     }
 
     initApiClient(apiClient, instance) {
@@ -493,15 +491,15 @@ class AppRouter {
     }
 
     initApiClients() {
-        window.connectionManager.getApiClients().forEach((apiClient) => {
+        ServerConnections.getApiClients().forEach((apiClient) => {
             this.initApiClient(apiClient, this);
         });
 
-        events.on(window.connectionManager, 'apiclientcreated', this.onApiClientCreated);
+        Events.on(ServerConnections, 'apiclientcreated', this.onApiClientCreated);
     }
 
     onAppResume() {
-        const apiClient = window.connectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
 
         if (apiClient) {
             apiClient.ensureWebSocket();
@@ -519,7 +517,7 @@ class AppRouter {
             }
         }
 
-        const apiClient = window.connectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
         const pathname = ctx.pathname.toLowerCase();
 
         console.debug('appRouter - processing path request ' + pathname);
@@ -546,7 +544,7 @@ class AppRouter {
 
             if (route.isDefaultRoute) {
                 console.debug('appRouter - loading skin home page');
-                Emby.Page.goHome();
+                this.goHome();
                 return;
             } else if (route.roles) {
                 this.validateRoles(apiClient, route.roles).then(() => {
@@ -846,4 +844,8 @@ class AppRouter {
     }
 }
 
-export default new AppRouter();
+export const appRouter = new AppRouter();
+
+window.Emby = window.Emby || {};
+
+window.Emby.Page = appRouter;

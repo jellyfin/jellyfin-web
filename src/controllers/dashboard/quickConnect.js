@@ -1,6 +1,6 @@
-import loading from 'loading';
-import toast from 'toast';
-import globalize from 'globalize';
+import loading from '../../components/loading/loading';
+import toast from '../../components/toast/toast';
+import globalize from '../../scripts/globalize';
 
 const unavailable = 'Unavailable';
 const available = 'Available';

@@ -1,11 +1,11 @@
-import scroller from 'scroller';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import inputManager from 'inputManager';
-import focusManager from 'focusManager';
-import browser from 'browser';
-import 'webcomponents';
-import 'css!./emby-scroller';
+import scroller from '../../libraries/scroller';
+import dom from '../../scripts/dom';
+import layoutManager from '../../components/layoutManager';
+import inputManager from '../../scripts/inputManager';
+import focusManager from '../../components/focusManager';
+import browser from '../../scripts/browser';
+import 'webcomponents.js/webcomponents-lite';
+import './emby-scroller.css';
 
 /* eslint-disable indent */
 
@@ -156,7 +156,7 @@ import 'css!./emby-scroller';
     };
 
     function loadScrollButtons(scroller) {
-        import('emby-scrollbuttons').then(() => {
+        import('../emby-scrollbuttons/emby-scrollbuttons').then(() => {
             scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
         });
     }

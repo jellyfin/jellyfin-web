@@ -1,7 +1,9 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
+import 'jquery';
+import loading from '../../../components/loading/loading';
+import libraryMenu from '../../../scripts/libraryMenu';
+import globalize from '../../../scripts/globalize';
+import Dashboard from '../../../scripts/clientUtils';
+import toast from '../../../components/toast/toast';
 
 /* eslint-disable indent */
 
@@ -109,10 +111,7 @@ import globalize from 'globalize';
     function onSaveComplete(page, user) {
         Dashboard.navigate('userprofiles.html');
         loading.hide();
-
-        import('toast').then(({default: toast}) => {
-            toast(globalize.translate('SettingsSaved'));
-        });
+        toast(globalize.translate('SettingsSaved'));
     }
 
     function saveUser(user, page) {

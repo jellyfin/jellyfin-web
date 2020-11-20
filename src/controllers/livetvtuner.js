@@ -1,10 +1,11 @@
-import globalize from 'globalize';
-import loading from 'loading';
-import dom from 'dom';
-import 'emby-input';
-import 'emby-button';
-import 'emby-checkbox';
-import 'emby-select';
+import globalize from '../scripts/globalize';
+import loading from '../components/loading/loading';
+import dom from '../scripts/dom';
+import '../elements/emby-input/emby-input';
+import '../elements/emby-button/emby-button';
+import '../elements/emby-checkbox/emby-checkbox';
+import '../elements/emby-select/emby-select';
+import Dashboard from '../scripts/clientUtils';
 
 function isM3uVariant(type) {
     return ['nextpvr'].indexOf(type || '') !== -1;
@@ -102,7 +103,7 @@ function submitForm(page) {
 }
 
 function getDetectedDevice() {
-    return import('tunerPicker').then(({default: tunerPicker}) => {
+    return import('../components/tunerPicker').then(({default: tunerPicker}) => {
         return new tunerPicker().show({
             serverId: ApiClient.serverId()
         });
@@ -211,7 +212,7 @@ export default function (view, params) {
         });
     });
     view.querySelector('.btnSelectPath').addEventListener('click', function () {
-        import('directorybrowser').then(({default: directorybrowser}) => {
+        import('../components/directorybrowser/directorybrowser').then(({default: directorybrowser}) => {
             const picker = new directorybrowser();
             picker.show({
                 includeFiles: true,

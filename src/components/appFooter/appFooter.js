@@ -1,4 +1,4 @@
-import 'css!./appFooter';
+import './appFooter.css';
 
 function render(options) {
     const elem = document.createElement('div');
@@ -33,4 +33,4 @@ class appFooter {
     }
 }
 
-export default appFooter;
+export default new appFooter({});
