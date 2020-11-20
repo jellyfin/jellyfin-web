@@ -442,9 +442,7 @@ import 'emby-input';
             position = (position / runtime) * 100;
         }
 
-        for (let i = 0, length = ranges.length; i < length; i++) {
-            const range = ranges[i];
-
+        for (const range of ranges) {
             if (position != null) {
                 if (position >= range.end) {
                     continue;
