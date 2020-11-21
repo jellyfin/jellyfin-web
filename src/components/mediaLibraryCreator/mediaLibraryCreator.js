@@ -96,12 +96,6 @@ import alert from '../alert';
         page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
         page.querySelector('.btnSubmit').addEventListener('click', onAddLibrary);
         page.querySelector('.folderList').addEventListener('click', onRemoveClick);
-        page.querySelector('.chkAdvanced').addEventListener('change', onToggleAdvancedChange);
-    }
-
-    function onToggleAdvancedChange() {
-        const dlg = dom.parentWithClass(this, 'dlg-librarycreator');
-        libraryoptionseditor.setAdvancedVisible(dlg.querySelector('.libraryOptions'), this.checked);
     }
 
     function onAddButtonClick() {
@@ -188,7 +182,6 @@ import alert from '../alert';
     function initLibraryOptions(dlg) {
         libraryoptionseditor.embed(dlg.querySelector('.libraryOptions')).then(() => {
             $('#selectCollectionType', dlg).trigger('change');
-            onToggleAdvancedChange.call(dlg.querySelector('.chkAdvanced'));
         });
     }
 
