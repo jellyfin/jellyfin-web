@@ -25,7 +25,7 @@ import './libraryMenu';
 import './routes';
 import '../components/themeMediaPlayer';
 import './autoBackdrops';
-import { pageClassOn, serverAddress } from './clientUtils';
+import { navigate, pageClassOn, serverAddress } from './clientUtils';
 import '../libraries/screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
@@ -77,7 +77,7 @@ function loadCoreDictionary() {
 function init() {
     serverAddress().then(server => {
         if (!server) {
-            Dashboard.navigate('selectserver.html');
+            navigate('selectserver.html');
             return;
         }
 
