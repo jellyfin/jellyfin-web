@@ -3,6 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const packageConfig = require('./package.json');
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
@@ -14,6 +15,10 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'index.html'
+        }),
         new CopyPlugin({
             patterns: [
                 {
