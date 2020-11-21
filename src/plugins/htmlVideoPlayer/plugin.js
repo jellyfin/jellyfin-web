@@ -105,11 +105,6 @@ function tryRemoveElement(elem) {
         });
     }
 
-    function hideScroll() {
-        // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
-        document.body.classList.add('hide-scroll');
-    }
-
     function zoomIn(elem) {
         return new Promise(resolve => {
             const duration = 240;
@@ -1347,7 +1342,8 @@ function tryRemoveElement(elem) {
                         this.#mediaElement = videoElement;
 
                         if (options.fullscreen) {
-                            hideScroll();
+                            // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
+                            document.body.classList.add('hide-scroll');
                         }
 
                         // don't animate on smart tv's, too slow
@@ -1362,7 +1358,7 @@ function tryRemoveElement(elem) {
                 } else {
                     // we need to hide scrollbar when starting playback from page with animated background
                     if (options.fullscreen) {
-                        hideScroll();
+                        document.body.classList.add('hide-scroll');
                     }
 
                     return Promise.resolve(dlg.querySelector('video'));
