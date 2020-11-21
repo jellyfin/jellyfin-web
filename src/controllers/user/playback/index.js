@@ -1,7 +1,8 @@
-import PlaybackSettings from 'playbackSettings';
-import * as userSettings from 'userSettings';
-import autoFocuser from 'autoFocuser';
-import 'listViewStyle';
+
+import PlaybackSettings from '../../../components/playbackSettings/playbackSettings';
+import * as userSettings from '../../../scripts/settings/userSettings';
+import autoFocuser from '../../../components/autoFocuser';
+import '../../../components/listview/listview.css';
 
 /* eslint-disable indent */
 

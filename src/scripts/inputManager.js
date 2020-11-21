@@ -1,8 +1,8 @@
-import playbackManager from 'playbackManager';
-import focusManager from 'focusManager';
-import appRouter from 'appRouter';
-import dom from 'dom';
-import appHost from 'apphost';
+import { playbackManager } from '../components/playback/playbackmanager';
+import focusManager from '../components/focusManager';
+import { appRouter } from '../components/appRouter';
+import dom from './dom';
+import { appHost } from '../components/apphost';
 
 /* eslint-disable indent */
 

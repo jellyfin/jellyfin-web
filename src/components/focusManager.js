@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 
-import dom from 'dom';
-import scrollManager from 'scrollManager';
+import dom from '../scripts/dom';
+import scrollManager from './scrollManager';
 
     const scopes = [];
     function pushScope(elem) {

@@ -1,8 +1,8 @@
-import datetime from 'datetime';
-import itemHelper from 'itemHelper';
-import 'emby-progressbar';
-import 'css!./indicators.css';
-import 'material-icons';
+import datetime from '../../scripts/datetime';
+import itemHelper from '../itemHelper';
+import '../../elements/emby-progressbar/emby-progressbar';
+import './indicators.css';
+import 'material-design-icons-iconfont';
 
 export function enableProgressIndicator(item) {
     if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {

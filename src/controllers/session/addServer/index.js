@@ -1,7 +1,9 @@
-import appSettings from 'appSettings';
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-button';
+import appSettings from '../../../scripts/settings/appSettings';
+import loading from '../../../components/loading/loading';
+import globalize from '../../../scripts/globalize';
+import '../../../elements/emby-button/emby-button';
+import Dashboard from '../../../scripts/clientUtils';
+import ServerConnections from '../../../components/ServerConnections';
 
 /* eslint-disable indent */
 
@@ -36,7 +38,7 @@ import 'emby-button';
     function submitServer(page) {
         loading.show();
         const host = page.querySelector('#txtServerHost').value;
-        window.connectionManager.connectToAddress(host, {
+        ServerConnections.connectToAddress(host, {
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function(result) {
             handleConnectionResult(page, result);
@@ -51,7 +53,7 @@ import 'emby-button';
         view.querySelector('.addServerForm').addEventListener('submit', onServerSubmit);
         view.querySelector('.btnCancel').addEventListener('click', goBack);
 
-        import('autoFocuser').then(({default: autoFocuser}) => {
+        import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(view);
         });
 
@@ -62,7 +64,7 @@ import 'emby-button';
         }
 
         function goBack() {
-            import('appRouter').then(({default: appRouter}) => {
+            import('../../../components/appRouter').then(({default: appRouter}) => {
                 appRouter.back();
             });
         }

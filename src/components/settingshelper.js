@@ -1,4 +1,4 @@
-import globalize from 'globalize';
+import globalize from '../scripts/globalize';
 
 /**
  * Helper for handling settings.
