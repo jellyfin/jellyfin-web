@@ -30,7 +30,12 @@ import confirm from '../../components/confirm/confirm';
         const text = [];
         const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
-        if (displayPlayMethod === 'DirectStream') {
+        if (displayPlayMethod === 'Remux') {
+            title = globalize.translate('Remuxing');
+            text.push(globalize.translate('RemuxHelp1'));
+            text.push('<br/>');
+            text.push(globalize.translate('RemuxHelp2'));
+        } else if (displayPlayMethod === 'DirectStream') {
             title = globalize.translate('DirectStreaming');
             text.push(globalize.translate('DirectStreamHelp1'));
             text.push('<br/>');
@@ -397,7 +402,11 @@ import confirm from '../../components/confirm/confirm';
             let showTranscodingInfo = false;
             const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
-            if (displayPlayMethod === 'DirectStream') {
+            if (displayPlayMethod === 'DirectPlay') {
+                html += globalize.translate('DirectPlaying');
+            } else if (displayPlayMethod === 'Remux') {
+                html += globalize.translate('Remuxing');
+            } else if (displayPlayMethod === 'DirectStream') {
                 html += globalize.translate('DirectStreaming');
             } else if (displayPlayMethod === 'Transcode') {
                 html += globalize.translate('Transcoding');
@@ -407,8 +416,6 @@ import confirm from '../../components/confirm/confirm';
                 }
 
                 showTranscodingInfo = true;
-            } else if (displayPlayMethod === 'DirectPlay') {
-                html += globalize.translate('DirectPlaying');
             }
 
             if (showTranscodingInfo) {
@@ -424,20 +431,20 @@ import confirm from '../../components/confirm/confirm';
                     }
 
                     if (session.TranscodingInfo.Container) {
-                        line.push(session.TranscodingInfo.Container);
+                        line.push(session.TranscodingInfo.Container.toUpperCase());
                     }
 
                     if (session.TranscodingInfo.VideoCodec) {
-                        line.push(session.TranscodingInfo.VideoCodec);
+                        line.push(session.TranscodingInfo.VideoCodec.toUpperCase());
                     }
 
                     if (session.TranscodingInfo.AudioCodec && session.TranscodingInfo.AudioCodec != session.TranscodingInfo.Container) {
-                        line.push(session.TranscodingInfo.AudioCodec);
+                        line.push(session.TranscodingInfo.AudioCodec.toUpperCase());
                     }
                 }
 
                 if (line.length) {
-                    html += ' - ' + line.join(' ');
+                    html += '<br/><br/>' + line.join(' ');
                 }
             }
 
