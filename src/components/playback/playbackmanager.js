@@ -2247,7 +2247,7 @@ class PlaybackManager {
                     }).catch((errorCode) => {
                         self.stop(player);
                         loading.hide();
-                        showPlaybackInfoErrorMessage(self, errorCode || '');
+                        showPlaybackInfoErrorMessage(self, errorCode || 'ErrorDefault');
                     });
                 });
             }

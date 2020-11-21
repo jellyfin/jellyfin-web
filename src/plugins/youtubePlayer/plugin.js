@@ -148,7 +148,7 @@ function setCurrentSrc(instance, elem, options) {
                             Events.trigger(instance, 'pause');
                         }
                     },
-                    'onError': (e) => reject(errorCodes[e.data] || '') // FIXME: default error code/text?
+                    'onError': (e) => reject(errorCodes[e.data] || 'ErrorDefault')
                 },
                 playerVars: {
                     controls: 0,
