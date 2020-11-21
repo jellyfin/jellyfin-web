@@ -76,7 +76,7 @@ class AppRouter {
     }
 
     showVideoOsd() {
-        Dashboard.navigate('video');
+        return Dashboard.navigate('video');
     }
 
     showSelectServer() {
