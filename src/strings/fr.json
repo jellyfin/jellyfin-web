@@ -211,7 +211,7 @@
     "GroupVersions": "Grouper les versions",
     "GuideProviderLogin": "Connexion",
     "GuideProviderSelectListings": "Sélectionner les listings",
-    "H264CrfHelp": "Le facteur de débit constant (CRF) est le paramètre de qualité par défaut pour l'encodeur x264. Vous pouvez régler les valeurs entre 0 et 51, où des valeurs plus faibles se traduiraient par une meilleure qualité (en augmentant le taille des fichiers). De bonne valeurs se situent entre 18 et 28. La valeur par défaut pour le x264 est 23, vous pouvez l'utiliser comme point de départ.",
+    "H264CrfHelp": "Le facteur de débit constant (CRF) est le paramètre de qualité par défaut pour les encodeurs x264 et x265. Vous pouvez définir les valeurs entre 0 et 51, où des valeurs inférieures entraîneraient une meilleure qualité (au détriment de tailles de fichier plus élevées). Les valeurs saines sont comprises entre 18 et 28. La valeur par défaut pour x264 est 23 et pour x265 est 28, vous pouvez donc l'utiliser comme point de départ.",
     "EncoderPresetHelp": "Choisissez une valeur plus rapide pour améliorer la performance, ou plus lente pour améliorer la qualité.",
     "HDPrograms": "Programmes HD",
     "HardwareAccelerationWarning": "L'activation de l'accélération matérielle peut provoquer une instabilité dans certains environnements. Assurez-vous que votre système d'exploitation et vos pilotes vidéo sont complètement à jour. Si vous avez des difficultés pour lire des vidéos après l'activation, vous devrez remettre ce paramètre sur Aucun.",
