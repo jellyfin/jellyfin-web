@@ -260,8 +260,11 @@ export default function (options) {
 
         loadSwiper(dialog, options);
 
-        const btnSlideshowExit = dialog.querySelector('.btnSlideshowExit');
-        if (btnSlideshowExit) btnSlideshowExit.classList.add('hide');
+        if (layoutManager.desktop) {
+            const topActionButtons = dialog.querySelector('.topActionButtons');
+            if (topActionButtons) topActionButtons.classList.add('hide');
+        }
+
         const btnSlideshowPrevious = dialog.querySelector('.btnSlideshowPrevious');
         if (btnSlideshowPrevious) btnSlideshowPrevious.classList.add('hide');
         const btnSlideshowNext = dialog.querySelector('.btnSlideshowNext');
@@ -570,8 +573,8 @@ export default function (options) {
             slideToShow(bottom, 'down');
         }
 
-        const exit = dialog.querySelector('.btnSlideshowExit');
-        if (exit) slideToShow(exit, 'up');
+        const topActionButtons = dialog.querySelector('.topActionButtons');
+        if (topActionButtons) slideToShow(topActionButtons, 'up');
 
         const left = dialog.querySelector('.btnSlideshowPrevious');
         if (left) slideToShow(left, 'left');
@@ -591,8 +594,8 @@ export default function (options) {
             slideToHide(bottom, 'down');
         }
 
-        const exit = dialog.querySelector('.btnSlideshowExit');
-        if (exit) slideToHide(exit, 'up');
+        const topActionButtons = dialog.querySelector('.topActionButtons');
+        if (topActionButtons) slideToHide(topActionButtons, 'up');
 
         const left = dialog.querySelector('.btnSlideshowPrevious');
         if (left) slideToHide(left, 'left');
