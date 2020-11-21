@@ -1,14 +1,19 @@
+import { Events } from 'jellyfin-apiclient';
+import 'material-design-icons-iconfont';
+
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import '../../scripts/dom';
-import { Events } from 'jellyfin-apiclient';
-import './style.css';
-import 'material-design-icons-iconfont';
-import '../../elements/emby-button/paper-icon-button-light';
 import ServerConnections from '../../components/ServerConnections';
 import TableOfContents from './tableOfContents';
 import browser from '../../scripts/browser';
+import { translateHtml } from '../../scripts/globalize';
+
+import '../../scripts/dom';
+import '../../elements/emby-button/paper-icon-button-light';
+
+import html from './template.html';
+import './style.scss';
 
 export class BookPlayer {
     constructor() {
@@ -16,6 +21,13 @@ export class BookPlayer {
         this.type = 'mediaplayer';
         this.id = 'bookplayer';
         this.priority = 1;
+
+        this.epubOptions = {
+            width: '100%',
+            height: '100%',
+            // TODO: Add option for scrolled-doc
+            flow: 'auto'
+        };
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.openTableOfContents = this.openTableOfContents.bind(this);
@@ -134,10 +146,8 @@ export class BookPlayer {
         elem.addEventListener('close', this.onDialogClosed, {once: true});
         elem.querySelector('#btnBookplayerExit').addEventListener('click', this.onDialogClosed, {once: true});
         elem.querySelector('#btnBookplayerToc').addEventListener('click', this.openTableOfContents);
-        if (browser.mobile) {
-            elem.querySelector('#btnBookplayerPrev').addEventListener('click', this.prevChapter);
-            elem.querySelector('#btnBookplayerNext').addEventListener('click', this.nextChapter);
-        }
+        elem.querySelector('#btnBookplayerPrev').addEventListener('click', this.prevChapter);
+        elem.querySelector('#btnBookplayerNext').addEventListener('click', this.nextChapter);
     }
 
     bindEvents() {
@@ -155,10 +165,8 @@ export class BookPlayer {
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('#btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
         elem.querySelector('#btnBookplayerToc').removeEventListener('click', this.openTableOfContents);
-        if (browser.mobile) {
-            elem.querySelector('#btnBookplayerPrev').removeEventListener('click', this.prevChapter);
-            elem.querySelector('#btnBookplayerNext').removeEventListener('click', this.nextChapter);
-        }
+        elem.querySelector('#btnBookplayerPrev').removeEventListener('click', this.prevChapter);
+        elem.querySelector('#btnBookplayerNext').removeEventListener('click', this.nextChapter);
     }
 
     unbindEvents() {
@@ -206,46 +214,14 @@ export class BookPlayer {
                 removeOnClose: true
             });
 
-            let html = '';
-
-            if (browser.mobile) {
-                html += '<div class="button-wrapper top-button"><button id="btnBookplayerPrev" is="paper-icon-button-light" class="autoSize bookplayerButton hide-mouse-idle-tv"><i class="material-icons bookplayerButtonIcon navigate_before"></i> Prev</button></div>';
-            }
-
-            html += '<div id="viewer">';
-            html += '<div class="topButtons">';
-            html += '<button is="paper-icon-button-light" id="btnBookplayerToc" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon toc"></i></button>';
-            html += '<button is="paper-icon-button-light" id="btnBookplayerExit" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon close"></i></button>';
-            html += '</div>';
-            html += '</div>';
-
-            if (browser.mobile) {
-                html += '<div class="button-wrapper bottom-button"><button id="btnBookplayerNext" is="paper-icon-button-light" class="autoSize bookplayerButton hide-mouse-idle-tv">Next <i class="material-icons bookplayerButtonIcon navigate_next"></i></button></div>';
-            }
-
             elem.id = 'bookPlayer';
-            elem.innerHTML = html;
+            elem.innerHTML = translateHtml(html);
 
             dialogHelper.open(elem);
         }
 
         this.mediaElement = elem;
         return elem;
-    }
-
-    render(elem, book) {
-        if (browser.mobile) {
-            return book.renderTo(elem, {
-                width: '100%',
-                height: '100%',
-                flow: 'scrolled-doc'
-            });
-        } else {
-            return book.renderTo(elem, {
-                width: '100%',
-                height: '100%'
-            });
-        }
     }
 
     setCurrentSrc(elem, options) {
@@ -266,7 +242,7 @@ export class BookPlayer {
             import('epubjs').then(({default: epubjs}) => {
                 const downloadHref = apiClient.getItemDownloadUrl(item.Id);
                 const book = epubjs(downloadHref, {openAs: 'epub'});
-                const rendition = this.render('viewer', book);
+                const rendition = book.renderTo('bookPlayerContainer', this.epubOptions);
 
                 this.currentSrc = downloadHref;
                 this.rendition = rendition;
