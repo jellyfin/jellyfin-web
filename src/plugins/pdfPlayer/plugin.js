@@ -7,6 +7,7 @@ import { appRouter } from '../../components/appRouter';
 import './style.css';
 import '../../elements/emby-button/paper-icon-button-light';
 import { Events } from 'jellyfin-apiclient';
+import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 
 export class PdfPlayer {
     constructor() {
@@ -189,28 +190,26 @@ export class PdfPlayer {
         const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
-            import('pdfjs-dist').then(({default: pdfjs}) => {
-                const downloadHref = apiClient.getItemDownloadUrl(item.Id);
+            const downloadHref = apiClient.getItemDownloadUrl(item.Id);
 
-                this.bindEvents();
-                pdfjs.GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
+            this.bindEvents();
+            GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
 
-                const downloadTask = pdfjs.getDocument(downloadHref);
-                downloadTask.promise.then(book => {
-                    if (this.cancellationToken) return;
-                    this.book = book;
-                    this.loaded = true;
+            const downloadTask = getDocument(downloadHref);
+            downloadTask.promise.then(book => {
+                if (this.cancellationToken) return;
+                this.book = book;
+                this.loaded = true;
 
-                    const percentageTicks = options.startPositionTicks / 10000;
-                    if (percentageTicks !== 0) {
-                        this.loadPage(percentageTicks);
-                        this.progress = percentageTicks;
-                    } else {
-                        this.loadPage(1);
-                    }
+                const percentageTicks = options.startPositionTicks / 10000;
+                if (percentageTicks !== 0) {
+                    this.loadPage(percentageTicks);
+                    this.progress = percentageTicks;
+                } else {
+                    this.loadPage(1);
+                }
 
-                    return resolve();
-                });
+                return resolve();
             });
         });
     }

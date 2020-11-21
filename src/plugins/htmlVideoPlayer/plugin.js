@@ -1539,7 +1539,7 @@ function tryRemoveElement(elem) {
         return false;
     }
 
-    static isAirPlayEnabled() {
+    isAirPlayEnabled() {
         if (document.AirPlayEnabled) {
             return !!document.AirplayElement;
         }
@@ -1741,13 +1741,13 @@ function tryRemoveElement(elem) {
 
     getSupportedAspectRatios() {
         return [{
-            name: 'Auto',
+            name: globalize.translate('Auto'),
             id: 'auto'
         }, {
-            name: 'Cover',
+            name: globalize.translate('AspectRatioCover'),
             id: 'cover'
         }, {
-            name: 'Fill',
+            name: globalize.translate('AspectRatioFill'),
             id: 'fill'
         }];
     }

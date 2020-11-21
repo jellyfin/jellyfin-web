@@ -416,7 +416,7 @@
     "Items": "Pozycje",
     "Kids": "Dla dzieci",
     "Label3DFormat": "Format 3D:",
-    "LabelAbortedByServerShutdown": "(Przerwano w skuter wyłączenia serwera)",
+    "LabelAbortedByServerShutdown": "(Przerwano w skutek wyłączenia serwera)",
     "LabelAccessDay": "Dzień tygodnia:",
     "LabelAccessEnd": "Czas zakończenia:",
     "LabelAccessStart": "Czas startu:",
@@ -1381,5 +1381,9 @@
     "Authorize": "Autoryzuj",
     "HeaderDeleteDevices": "Usuń wszystkie urządzenia",
     "DeleteAll": "Usuń wszystkie",
-    "LabelKnownProxies": "Znane serwery proxy:"
+    "LabelKnownProxies": "Znane serwery proxy:",
+    "MediaInfoColorSpace": "Przestrzeń kolorów",
+    "LabelColorSpace": "Przestrzeń kolorów:",
+    "KnownProxiesHelp": "Podzielona przecinkami lista znanych serwerów proxy, używana do łączenia z twoją instancją Jellyfin. Wymagana do poprawnego użycia nagłówka X-Forwarded-For. Wymaga restartu po zapisaniu.",
+    "DeleteDevicesConfirmation": "Na pewno usunąć wszystkie urządzenia? Wszystkie pozostałe sesje zostaną wylogowane. Urządzenia pojawią się ponownie po następnym zalogowaniu użytkownika."
 }
