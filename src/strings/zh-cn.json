@@ -1443,7 +1443,7 @@
     "LabelDirectStreamingInfo": "直接串流信息",
     "LabelRemuxingInfo": "转封装信息",
     "LabelOriginalMediaInfo": "媒体源信息",
-    "LabelSyncPlayInfo": "同步播放信息"
+    "LabelSyncPlayInfo": "同步播放信息",
     "PreferFmp4HlsContainer": "优先使用 fMP4-HLS 媒体容器",
     "PreferFmp4HlsContainerHelp": "优先使用 fMP4 作为 HLS 播放的默认容器，从而可以在支持的设备上直接串流 HEVC 格式的内容。",
     "AllowHevcEncoding": "允许以 HEVC 格式编码",
