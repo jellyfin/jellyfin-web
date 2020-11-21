@@ -105,13 +105,6 @@ function tryRemoveElement(elem) {
         });
     }
 
-    function hidePrePlaybackPage() {
-        const animatedPage = document.querySelector('.page:not(.hide)');
-        animatedPage.classList.add('hide');
-        // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
-        document.body.classList.remove('force-scroll');
-    }
-
     function zoomIn(elem) {
         return new Promise(resolve => {
             const duration = 240;
@@ -678,6 +671,7 @@ function tryRemoveElement(elem) {
             destroyFlvPlayer(this);
 
             appRouter.setTransparency('none');
+            document.body.classList.remove('hide-scroll');
 
             const videoElement = this.#mediaElement;
 
@@ -1348,7 +1342,8 @@ function tryRemoveElement(elem) {
                         this.#mediaElement = videoElement;
 
                         if (options.fullscreen) {
-                            hidePrePlaybackPage();
+                            // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
+                            document.body.classList.add('hide-scroll');
                         }
 
                         // don't animate on smart tv's, too slow
@@ -1361,8 +1356,9 @@ function tryRemoveElement(elem) {
                         }
                     });
                 } else {
+                    // we need to hide scrollbar when starting playback from page with animated background
                     if (options.fullscreen) {
-                        hidePrePlaybackPage();
+                        document.body.classList.add('hide-scroll');
                     }
 
                     return Promise.resolve(dlg.querySelector('video'));

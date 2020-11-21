@@ -310,16 +310,16 @@ import '../../assets/css/scrollstyles.css';
     const supportsOverscrollBehavior = 'overscroll-behavior-y' in document.body.style;
 
     function shouldLockDocumentScroll(options) {
-        if (supportsOverscrollBehavior && (options.size || !browser.touch)) {
-            return false;
-        }
-
         if (options.lockScroll != null) {
             return options.lockScroll;
         }
 
         if (options.size === 'fullscreen') {
             return true;
+        }
+
+        if (supportsOverscrollBehavior && (options.size || !browser.touch)) {
+            return false;
         }
 
         if (options.size) {

@@ -45,6 +45,10 @@ function createMediaElement(instance, options) {
                 document.body.insertBefore(dlg, document.body.firstChild);
                 instance.videoDialog = dlg;
 
+                if (options.fullscreen) {
+                    document.body.classList.add('hide-scroll');
+                }
+
                 if (options.fullscreen && dlg.animate && !browser.slow) {
                     zoomIn(dlg, 1).onfinish = function () {
                         resolve(videoElement);
@@ -54,6 +58,11 @@ function createMediaElement(instance, options) {
                 }
             });
         } else {
+            // we need to hide scrollbar when starting playback from page with animated background
+            if (options.fullscreen) {
+                document.body.classList.add('hide-scroll');
+            }
+
             resolve(dlg.querySelector('#player'));
         }
     });
@@ -219,6 +228,7 @@ class YoutubePlayer {
     }
     destroy() {
         appRouter.setTransparency('none');
+        document.body.classList.remove('hide-scroll');
 
         const dlg = this.videoDialog;
         if (dlg) {

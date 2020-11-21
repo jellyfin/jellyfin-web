@@ -43,6 +43,7 @@ class BackdropScreensaver {
                 this.currentSlideshow.hide();
                 this.currentSlideshow = null;
             }
+            return Promise.resolve();
         }
     }
 /* eslint-enable indent */
