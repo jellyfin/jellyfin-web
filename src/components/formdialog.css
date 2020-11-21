@@ -19,6 +19,10 @@
     margin-bottom: 0;
 }
 
+.formDialogHeaderTitle:first-child {
+    margin-left: 1em;
+}
+
 .formDialogContent:not(.no-grow) {
     flex-grow: 1;
 }
@@ -46,10 +50,16 @@
     right: 0;
     display: flex;
     position: absolute;
-    padding: 1.25em 1em;
+    padding: 1em 1em;
 
     /* Without this emby-checkbox is able to appear on top */
     z-index: 1;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.layout-tv .formDialogFooter {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
@@ -69,8 +79,12 @@
 
 .formDialogFooterItem {
     margin: 0.5em !important;
-    flex-grow: 1;
     text-align: center;
+    flex-basis: 12em;
+}
+
+.layout-tv .formDialogFooterItem {
+    flex-grow: 1;
     flex-basis: 0;
 }
 

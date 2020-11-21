@@ -1,8 +1,8 @@
-import datetime from 'datetime';
-import itemHelper from 'itemHelper';
-import 'emby-progressbar';
-import 'css!./indicators.css';
-import 'material-icons';
+import datetime from '../../scripts/datetime';
+import itemHelper from '../itemHelper';
+import '../../elements/emby-progressbar/emby-progressbar';
+import './indicators.css';
+import 'material-design-icons-iconfont';
 
 export function enableProgressIndicator(item) {
     if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
@@ -82,7 +82,7 @@ export function enablePlayedIndicator(item) {
 
 export function getPlayedIndicatorHtml(item) {
     if (enablePlayedIndicator(item)) {
-        let userData = item.UserData || {};
+        const userData = item.UserData || {};
         if (userData.UnplayedItemCount) {
             return '<div class="countIndicator indicator">' + userData.UnplayedItemCount + '</div>';
         }
@@ -148,7 +148,7 @@ export function getTypeIndicator(item) {
     };
 
     const icon = iconT[item.Type];
-    return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon '+ icon +'"></span></div>' : '';
+    return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon ' + icon + '"></span></div>' : '';
 }
 
 export function getMissingIndicator(item) {

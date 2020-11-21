@@ -1,13 +1,23 @@
-define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 'serverNotifications', 'connectionManager', 'emby-button', 'listViewStyle'], function (events, globalize, dom, datefns, dfnshelper, userSettings, serverNotifications, connectionManager) {
-    'use strict';
+import { Events } from 'jellyfin-apiclient';
+import globalize from '../scripts/globalize';
+import dom from '../scripts/dom';
+import * as datefns from 'date-fns';
+import dfnshelper from '../scripts/dfnshelper';
+import serverNotifications from '../scripts/serverNotifications';
+import '../elements/emby-button/emby-button';
+import './listview/listview.css';
+import ServerConnections from './ServerConnections';
+import alert from './alert';
+
+/* eslint-disable indent */
 
     function getEntryHtml(entry, apiClient) {
-        var html = '';
+        let html = '';
         html += '<div class="listItem listItem-border">';
-        var color = '#00a4dc';
-        var icon = 'notifications';
+        let color = '#00a4dc';
+        let icon = 'notifications';
 
-        if ('Error' == entry.Severity || 'Fatal' == entry.Severity || 'Warn' == entry.Severity) {
+        if (entry.Severity == 'Error' || entry.Severity == 'Fatal' || entry.Severity == 'Warn') {
             color = '#cc0000';
             icon = 'notification_important';
         }
@@ -34,10 +44,14 @@ define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 
         html += '</div>';
 
         if (entry.Overview) {
-            html += '<button type="button" is="paper-icon-button-light" class="btnEntryInfo" data-id="' + entry.Id + '" title="' + globalize.translate('Info') + '"><span class="material-icons info"></span></button>';
+            html += `<button type="button" is="paper-icon-button-light" class="btnEntryInfo" data-id="${entry.Id}" title="${globalize.translate('Info')}">
+                       <span class="material-icons info"></span>
+                    </button>`;
         }
 
-        return html += '</div>';
+        html += '</div>';
+
+        return html;
     }
 
     function renderList(elem, apiClient, result, startIndex, limit) {
@@ -47,14 +61,15 @@ define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 
     }
 
     function reloadData(instance, elem, apiClient, startIndex, limit) {
-        if (null == startIndex) {
+        if (startIndex == null) {
             startIndex = parseInt(elem.getAttribute('data-activitystartindex') || '0');
         }
 
         limit = limit || parseInt(elem.getAttribute('data-activitylimit') || '7');
-        var minDate = new Date();
-        var hasUserId = 'false' !== elem.getAttribute('data-useractivity');
+        const minDate = new Date();
+        const hasUserId = elem.getAttribute('data-useractivity') !== 'false';
 
+        // TODO: Use date-fns
         if (hasUserId) {
             minDate.setTime(minDate.getTime() - 24 * 60 * 60 * 1000); // one day back
         } else {
@@ -70,7 +85,7 @@ define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 
             elem.setAttribute('data-activitystartindex', startIndex);
             elem.setAttribute('data-activitylimit', limit);
             if (!startIndex) {
-                var activityContainer = dom.parentWithClass(elem, 'activityContainer');
+                const activityContainer = dom.parentWithClass(elem, 'activityContainer');
 
                 if (activityContainer) {
                     if (result.Items.length) {
@@ -87,7 +102,7 @@ define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 
     }
 
     function onActivityLogUpdate(e, apiClient, data) {
-        var options = this.options;
+        const options = this.options;
 
         if (options && options.serverId === apiClient.serverId()) {
             reloadData(this, options.element, apiClient);
@@ -95,14 +110,14 @@ define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 
     }
 
     function onListClick(e) {
-        var btnEntryInfo = dom.parentWithClass(e.target, 'btnEntryInfo');
+        const btnEntryInfo = dom.parentWithClass(e.target, 'btnEntryInfo');
 
         if (btnEntryInfo) {
-            var id = btnEntryInfo.getAttribute('data-id');
-            var items = this.items;
+            const id = btnEntryInfo.getAttribute('data-id');
+            const items = this.items;
 
             if (items) {
-                var item = items.filter(function (i) {
+                const item = items.filter(function (i) {
                     return i.Id.toString() === id;
                 })[0];
 
@@ -114,43 +129,43 @@ define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 
     }
 
     function showItemOverview(item) {
-        require(['alert'], function (alert) {
-            alert({
-                text: item.Overview
-            });
+        alert({
+            text: item.Overview
         });
     }
 
-    function ActivityLog(options) {
+class ActivityLog {
+    constructor(options) {
         this.options = options;
-        var element = options.element;
+        const element = options.element;
         element.classList.add('activityLogListWidget');
         element.addEventListener('click', onListClick.bind(this));
-        var apiClient = connectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
         reloadData(this, element, apiClient);
-        var onUpdate = onActivityLogUpdate.bind(this);
+        const onUpdate = onActivityLogUpdate.bind(this);
         this.updateFn = onUpdate;
-        events.on(serverNotifications, 'ActivityLogEntry', onUpdate);
+        Events.on(serverNotifications, 'ActivityLogEntry', onUpdate);
         apiClient.sendMessage('ActivityLogEntryStart', '0,1500');
     }
-
-    ActivityLog.prototype.destroy = function () {
-        var options = this.options;
+    destroy() {
+        const options = this.options;
 
         if (options) {
             options.element.classList.remove('activityLogListWidget');
-            connectionManager.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
+            ServerConnections.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
         }
 
-        var onUpdate = this.updateFn;
+        const onUpdate = this.updateFn;
 
         if (onUpdate) {
-            events.off(serverNotifications, 'ActivityLogEntry', onUpdate);
+            Events.off(serverNotifications, 'ActivityLogEntry', onUpdate);
         }
 
         this.items = null;
         this.options = null;
-    };
+    }
+}
 
-    return ActivityLog;
-});
+export default ActivityLog;
+
+/* eslint-enable indent */

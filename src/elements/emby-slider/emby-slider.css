@@ -157,7 +157,7 @@
 }
 
 .mdl-slider-background-flex {
-    background: #333;
+    background: rgba(255, 255, 255, 0.3);
     height: 0.2em;
     margin-top: -0.1em;
     width: 100%;
@@ -229,4 +229,19 @@
 .sliderBubbleText {
     margin: 0;
     padding: 0.5em 0.75em;
+}
+
+/* FIXME: 'sliderContainer' is used to wrap slider's pieces */
+.sliderContainer-settings {
+    margin-bottom: 1.8em;
+    position: relative;
+}
+
+.sliderContainer-settings .mdl-slider-container {
+    height: 2.83em; /* similar to emby-input with its 110% font-size */
+}
+
+.sliderLabel {
+    display: block;
+    margin-bottom: 0.25em;
 }

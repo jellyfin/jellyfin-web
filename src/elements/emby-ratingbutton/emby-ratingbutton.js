@@ -1,36 +1,37 @@
-define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby-button'], function (connectionManager, serverNotifications, events, globalize, EmbyButtonPrototype) {
-    'use strict';
+import serverNotifications from '../../scripts/serverNotifications';
+import { Events } from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
+import EmbyButtonPrototype from '../emby-button/emby-button';
+import ServerConnections from '../../components/ServerConnections';
+
+/* eslint-disable indent */
 
     function addNotificationEvent(instance, name, handler) {
-
-        var localHandler = handler.bind(instance);
-        events.on(serverNotifications, name, localHandler);
+        const localHandler = handler.bind(instance);
+        Events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
     function removeNotificationEvent(instance, name) {
-
-        var handler = instance[name];
+        const handler = instance[name];
         if (handler) {
-            events.off(serverNotifications, name, handler);
+            Events.off(serverNotifications, name, handler);
             instance[name] = null;
         }
     }
 
     function showPicker(button, apiClient, itemId, likes, isFavorite) {
-
         return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
     }
 
     function onClick(e) {
+        const button = this;
+        const id = button.getAttribute('data-id');
+        const serverId = button.getAttribute('data-serverid');
+        const apiClient = ServerConnections.getApiClient(serverId);
 
-        var button = this;
-        var id = button.getAttribute('data-id');
-        var serverId = button.getAttribute('data-serverid');
-        var apiClient = connectionManager.getApiClient(serverId);
-
-        var likes = this.getAttribute('data-likes');
-        var isFavorite = this.getAttribute('data-isfavorite') === 'true';
+        let likes = this.getAttribute('data-likes');
+        const isFavorite = this.getAttribute('data-isfavorite') === 'true';
         if (likes === 'true') {
             likes = true;
         } else if (likes === 'false') {
@@ -40,58 +41,44 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
 
         showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
-
             setState(button, userData.Likes, userData.IsFavorite);
         });
     }
 
     function onUserDataChanged(e, apiClient, userData) {
-
-        var button = this;
+        const button = this;
 
         if (userData.ItemId === button.getAttribute('data-id')) {
-
             setState(button, userData.Likes, userData.IsFavorite);
         }
     }
 
     function setState(button, likes, isFavorite, updateAttribute) {
-
-        var icon = button.querySelector('.material-icons');
+        const icon = button.querySelector('.material-icons');
 
         if (isFavorite) {
-
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.add('ratingbutton-icon-withrating');
             }
 
             button.classList.add('ratingbutton-withrating');
-
         } else if (likes) {
-
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = 'thumb_up';
             }
             button.classList.remove('ratingbutton-withrating');
-
         } else if (likes === false) {
-
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = 'thumb_down';
             }
             button.classList.remove('ratingbutton-withrating');
-
         } else {
-
             if (icon) {
                 icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = 'thumbs_up_down';
             }
             button.classList.remove('ratingbutton-withrating');
         }
@@ -106,30 +93,27 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     function setTitle(button) {
         button.title = globalize.translate('Favorite');
 
-        var text = button.querySelector('.button-text');
+        const text = button.querySelector('.button-text');
         if (text) {
             text.innerHTML = button.title;
         }
     }
 
     function clearEvents(button) {
-
         button.removeEventListener('click', onClick);
         removeNotificationEvent(button, 'UserDataChanged');
     }
 
     function bindEvents(button) {
-
         clearEvents(button);
 
         button.addEventListener('click', onClick);
         addNotificationEvent(button, 'UserDataChanged', onUserDataChanged);
     }
 
-    var EmbyRatingButtonPrototype = Object.create(EmbyButtonPrototype);
+    const EmbyRatingButtonPrototype = Object.create(EmbyButtonPrototype);
 
     EmbyRatingButtonPrototype.createdCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.createdCallback) {
             EmbyButtonPrototype.createdCallback.call(this);
@@ -137,18 +121,16 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     };
 
     EmbyRatingButtonPrototype.attachedCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.attachedCallback) {
             EmbyButtonPrototype.attachedCallback.call(this);
         }
 
-        var itemId = this.getAttribute('data-id');
-        var serverId = this.getAttribute('data-serverid');
+        const itemId = this.getAttribute('data-id');
+        const serverId = this.getAttribute('data-serverid');
         if (itemId && serverId) {
-
-            var likes = this.getAttribute('data-likes');
-            var isFavorite = this.getAttribute('data-isfavorite') === 'true';
+            let likes = this.getAttribute('data-likes');
+            const isFavorite = this.getAttribute('data-isfavorite') === 'true';
             if (likes === 'true') {
                 likes = true;
             } else if (likes === 'false') {
@@ -165,7 +147,6 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     };
 
     EmbyRatingButtonPrototype.detachedCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.detachedCallback) {
             EmbyButtonPrototype.detachedCallback.call(this);
@@ -175,18 +156,14 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     };
 
     EmbyRatingButtonPrototype.setItem = function (item) {
-
         if (item) {
-
             this.setAttribute('data-id', item.Id);
             this.setAttribute('data-serverid', item.ServerId);
 
-            var userData = item.UserData || {};
+            const userData = item.UserData || {};
             setState(this, userData.Likes, userData.IsFavorite);
             bindEvents(this);
-
         } else {
-
             this.removeAttribute('data-id');
             this.removeAttribute('data-serverid');
             this.removeAttribute('data-likes');
@@ -199,4 +176,5 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         prototype: EmbyRatingButtonPrototype,
         extends: 'button'
     });
-});
+
+/* eslint-enable indent */

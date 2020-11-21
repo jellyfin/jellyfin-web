@@ -1,9 +1,12 @@
-define(['loading', 'libraryBrowser', 'cardBuilder', 'apphost'], function (loading, libraryBrowser, cardBuilder, appHost) {
-    'use strict';
+import loading from '../../components/loading/loading';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+
+/* eslint-disable indent */
 
     function getQuery(params) {
-        var key = getSavedQueryKey();
-        var pageData = data[key];
+        const key = getSavedQueryKey();
+        let pageData = data[key];
 
         if (!pageData) {
             pageData = data[key] = {
@@ -27,14 +30,14 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'apphost'], function (loadin
     }
 
     function getPromise(context, params) {
-        var query = getQuery(params);
+        const query = getQuery(params);
         loading.show();
         return ApiClient.getStudios(ApiClient.getCurrentUserId(), query);
     }
 
     function reloadItems(context, params, promise) {
         promise.then(function (result) {
-            var elem = context.querySelector('#items');
+            const elem = context.querySelector('#items');
             cardBuilder.buildCards(result.Items, {
                 itemsContainer: elem,
                 shape: 'backdrop',
@@ -47,16 +50,17 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'apphost'], function (loadin
             });
             loading.hide();
 
-            require(['autoFocuser'], function (autoFocuser) {
+            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(context);
             });
         });
     }
 
-    var data = {};
-    return function (view, params, tabContent) {
-        var promise;
-        var self = this;
+    const data = {};
+
+    export default function (view, params, tabContent) {
+        let promise;
+        const self = this;
 
         self.preRender = function () {
             promise = getPromise(view, params);
@@ -65,5 +69,6 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'apphost'], function (loadin
         self.renderTab = function () {
             reloadItems(tabContent, params, promise);
         };
-    };
-});
+    }
+
+/* eslint-enable indent */

@@ -1,8 +1,13 @@
-define(['cardBuilder'], function (cardBuilder) {
-    'use strict';
+/* eslint-disable indent */
 
-    function buildPeopleCards(items, options) {
+/**
+ * Module for building cards from item data.
+ * @module components/cardBuilder/peoplecardbuilder
+ */
 
+import cardBuilder from './cardBuilder';
+
+    export function buildPeopleCards(items, options) {
         options = Object.assign(options || {}, {
             cardLayout: false,
             centerText: true,
@@ -15,8 +20,8 @@ define(['cardBuilder'], function (cardBuilder) {
         cardBuilder.buildCards(items, options);
     }
 
-    return {
-        buildPeopleCards: buildPeopleCards
-    };
+ /* eslint-enable indent */
 
-});
+export default {
+    buildPeopleCards: buildPeopleCards
+};

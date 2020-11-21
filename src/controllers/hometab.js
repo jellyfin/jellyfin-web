@@ -1,27 +1,21 @@
-define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManager', 'focusManager', 'homeSections', 'emby-itemscontainer'], function (userSettings, loading, connectionManager, appHost, layoutManager, focusManager, homeSections) {
-    'use strict';
+import * as userSettings from '../scripts/settings/userSettings';
+import loading from '../components/loading/loading';
+import focusManager from '../components/focusManager';
+import homeSections from '../components/homesections/homesections';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
+import ServerConnections from '../components/ServerConnections';
 
-    function HomeTab(view, params) {
+class HomeTab {
+    constructor(view, params) {
         this.view = view;
         this.params = params;
-        this.apiClient = connectionManager.currentApiClient();
+        this.apiClient = ServerConnections.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
         view.querySelector('.sections').addEventListener('settingschange', onHomeScreenSettingsChanged.bind(this));
     }
-
-    function onHomeScreenSettingsChanged() {
-        this.sectionsRendered = false;
-
-        if (!this.paused) {
-            this.onResume({
-                refresh: true
-            });
-        }
-    }
-
-    HomeTab.prototype.onResume = function (options) {
+    onResume(options) {
         if (this.sectionsRendered) {
-            var sectionsContainer = this.sectionsContainer;
+            const sectionsContainer = this.sectionsContainer;
 
             if (sectionsContainer) {
                 return homeSections.resume(sectionsContainer, options);
@@ -31,8 +25,8 @@ define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManage
         }
 
         loading.show();
-        var view = this.view;
-        var apiClient = this.apiClient;
+        const view = this.view;
+        const apiClient = this.apiClient;
         this.destroyHomeSections();
         this.sectionsRendered = true;
         return apiClient.getCurrentUser().then(function (user) {
@@ -44,31 +38,38 @@ define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManage
                 loading.hide();
             });
         });
-    };
-
-    HomeTab.prototype.onPause = function () {
-        var sectionsContainer = this.sectionsContainer;
+    }
+    onPause() {
+        const sectionsContainer = this.sectionsContainer;
 
         if (sectionsContainer) {
             homeSections.pause(sectionsContainer);
         }
-    };
-
-    HomeTab.prototype.destroy = function () {
+    }
+    destroy() {
         this.view = null;
         this.params = null;
         this.apiClient = null;
         this.destroyHomeSections();
         this.sectionsContainer = null;
-    };
-
-    HomeTab.prototype.destroyHomeSections = function () {
-        var sectionsContainer = this.sectionsContainer;
+    }
+    destroyHomeSections() {
+        const sectionsContainer = this.sectionsContainer;
 
         if (sectionsContainer) {
             homeSections.destroySections(sectionsContainer);
         }
-    };
+    }
+}
 
-    return HomeTab;
-});
+function onHomeScreenSettingsChanged() {
+    this.sectionsRendered = false;
+
+    if (!this.paused) {
+        this.onResume({
+            refresh: true
+        });
+    }
+}
+
+export default HomeTab;

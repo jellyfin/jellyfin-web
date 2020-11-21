@@ -1,15 +1,14 @@
-import actionsheet from 'actionsheet';
-import datetime from 'datetime';
-import playbackManager from 'playbackManager';
-import globalize from 'globalize';
+import actionsheet from './actionSheet/actionSheet';
+import datetime from '../scripts/datetime';
+import { playbackManager } from './playback/playbackmanager';
+import globalize from '../scripts/globalize';
 
 export function show(options) {
+    const item = options.item;
 
-    var item = options.item;
+    const resumePositionTicks = item.UserData ? item.UserData.PlaybackPositionTicks : null;
 
-    var resumePositionTicks = item.UserData ? item.UserData.PlaybackPositionTicks : null;
-
-    var playableItemId = item.Type === 'Program' ? item.ChannelId : item.Id;
+    const playableItemId = item.Type === 'Program' ? item.ChannelId : item.Id;
 
     if (!resumePositionTicks || item.IsFolder) {
         playbackManager.play({
@@ -19,7 +18,7 @@ export function show(options) {
         return;
     }
 
-    var menuItems = [];
+    const menuItems = [];
 
     menuItems.push({
         name: globalize.translate('ResumeAt', datetime.getDisplayRunningTime(resumePositionTicks)),
@@ -38,7 +37,6 @@ export function show(options) {
 
     }).then(function (id) {
         switch (id) {
-
             case 'play':
                 playbackManager.play({
                     ids: [playableItemId],

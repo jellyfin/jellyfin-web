@@ -1,10 +1,14 @@
-define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], function (libraryBrowser, cardBuilder, appHost, imageLoader, loading) {
-    'use strict';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import loading from '../../components/loading/loading';
 
-    return function (view, params, tabContent) {
+/* eslint-disable indent */
+
+    export default function (view, params, tabContent) {
         function getPageData() {
-            var key = getSavedQueryKey();
-            var pageData = data[key];
+            const key = getSavedQueryKey();
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -34,15 +38,15 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
 
         function getPromise() {
             loading.show();
-            var query = getQuery();
+            const query = getQuery();
             return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
         }
 
-        function reloadItems(context, promise) {
-            var query = getQuery();
-            promise.then(function (result) {
-                var html = '';
-                var viewStyle = self.getCurrentViewStyle();
+        const reloadItems = (context, promise) => {
+            const query = getQuery();
+            promise.then((result) => {
+                let html = '';
+                const viewStyle = this.getCurrentViewStyle();
 
                 if (viewStyle == 'Thumb') {
                     html = cardBuilder.getCardsHtml({
@@ -82,49 +86,49 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
                     });
                 }
 
-                var elem = context.querySelector('#items');
+                const elem = context.querySelector('#items');
                 elem.innerHTML = html;
                 imageLoader.lazyChildren(elem);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(context);
                 });
             });
-        }
+        };
 
         function fullyReload() {
-            self.preRender();
-            self.renderTab();
+            this.preRender();
+            this.renderTab();
         }
 
-        var self = this;
-        var data = {};
+        const data = {};
 
-        self.getViewStyles = function () {
+        this.getViewStyles = function () {
             return 'Poster,PosterCard,Thumb,ThumbCard'.split(',');
         };
 
-        self.getCurrentViewStyle = function () {
+        this.getCurrentViewStyle = function () {
             return getPageData().view;
         };
 
-        self.setCurrentViewStyle = function (viewStyle) {
+        this.setCurrentViewStyle = function (viewStyle) {
             getPageData().view = viewStyle;
             libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
             fullyReload();
         };
 
-        self.enableViewSelection = true;
-        var promise;
+        this.enableViewSelection = true;
+        let promise;
 
-        self.preRender = function () {
+        this.preRender = function () {
             promise = getPromise();
         };
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reloadItems(tabContent, promise);
         };
-    };
-});
+    }
+
+/* eslint-enable indent */

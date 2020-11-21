@@ -1,23 +1,29 @@
-define(['datetime', 'loading', 'apphost', 'listViewStyle', 'emby-button', 'flexStyles'], function(datetime, loading, appHost) {
-    'use strict';
-    return function(view, params) {
+import datetime from '../../scripts/datetime';
+import loading from '../../components/loading/loading';
+import '../../elements/emby-button/emby-button';
+import '../../components/listview/listview.css';
+import '../../assets/css/flexstyles.scss';
+
+/* eslint-disable indent */
+
+    export default function(view, params) {
         view.addEventListener('viewbeforeshow', function() {
             loading.show();
-            var apiClient = ApiClient;
+            const apiClient = ApiClient;
             apiClient.getJSON(apiClient.getUrl('System/Logs')).then(function(logs) {
-                var html = '';
+                let html = '';
                 html += '<div class="paperList">';
                 html += logs.map(function(log) {
-                    var logUrl = apiClient.getUrl('System/Logs/Log', {
+                    let logUrl = apiClient.getUrl('System/Logs/Log', {
                         name: log.Name
                     });
                     logUrl += '&api_key=' + apiClient.accessToken();
-                    var logHtml = '';
+                    let logHtml = '';
                     logHtml += '<a is="emby-linkbutton" href="' + logUrl + '" target="_blank" class="listItem listItem-border" style="color:inherit;">';
                     logHtml += '<div class="listItemBody two-line">';
                     logHtml += "<h3 class='listItemBodyText'>" + log.Name + '</h3>';
-                    var date = datetime.parseISO8601Date(log.DateModified, true);
-                    var text = datetime.toLocaleDateString(date);
+                    const date = datetime.parseISO8601Date(log.DateModified, true);
+                    let text = datetime.toLocaleDateString(date);
                     text += ' ' + datetime.getDisplayTime(date);
                     logHtml += '<div class="listItemBodyText secondary">' + text + '</div>';
                     logHtml += '</div>';
@@ -29,5 +35,6 @@ define(['datetime', 'loading', 'apphost', 'listViewStyle', 'emby-button', 'flexS
                 loading.hide();
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

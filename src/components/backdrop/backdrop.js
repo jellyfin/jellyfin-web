@@ -1,5 +1,11 @@
-define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings', 'css!./backdrop'], function (browser, connectionManager, playbackManager, dom, userSettings) {
-    'use strict';
+import browser from '../../scripts/browser';
+import { playbackManager } from '../playback/playbackmanager';
+import dom from '../../scripts/dom';
+import * as userSettings from '../../scripts/settings/userSettings';
+import './backdrop.css';
+import ServerConnections from '../ServerConnections';
+
+/* eslint-disable indent */
 
     function enableAnimation(elem) {
         if (browser.slow) {
@@ -22,71 +28,70 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
         return true;
     }
 
-    function Backdrop() {
-    }
+    class Backdrop {
+        load(url, parent, existingBackdropImage) {
+            const img = new Image();
+            const self = this;
 
-    Backdrop.prototype.load = function (url, parent, existingBackdropImage) {
-        var img = new Image();
-        var self = this;
-
-        img.onload = function () {
-            if (self.isDestroyed) {
-                return;
-            }
-
-            var backdropImage = document.createElement('div');
-            backdropImage.classList.add('backdropImage');
-            backdropImage.classList.add('displayingBackdropImage');
-            backdropImage.style.backgroundImage = "url('" + url + "')";
-            backdropImage.setAttribute('data-url', url);
-
-            backdropImage.classList.add('backdropImageFadeIn');
-            parent.appendChild(backdropImage);
-
-            if (!enableAnimation(backdropImage)) {
-                if (existingBackdropImage && existingBackdropImage.parentNode) {
-                    existingBackdropImage.parentNode.removeChild(existingBackdropImage);
+            img.onload = () => {
+                if (self.isDestroyed) {
+                    return;
                 }
-                internalBackdrop(true);
-                return;
-            }
 
-            var onAnimationComplete = function () {
-                dom.removeEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
+                const backdropImage = document.createElement('div');
+                backdropImage.classList.add('backdropImage');
+                backdropImage.classList.add('displayingBackdropImage');
+                backdropImage.style.backgroundImage = `url('${url}')`;
+                backdropImage.setAttribute('data-url', url);
+
+                backdropImage.classList.add('backdropImageFadeIn');
+                parent.appendChild(backdropImage);
+
+                if (!enableAnimation(backdropImage)) {
+                    if (existingBackdropImage && existingBackdropImage.parentNode) {
+                        existingBackdropImage.parentNode.removeChild(existingBackdropImage);
+                    }
+                    internalBackdrop(true);
+                    return;
+                }
+
+                const onAnimationComplete = () => {
+                    dom.removeEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
+                        once: true
+                    });
+                    if (backdropImage === self.currentAnimatingElement) {
+                        self.currentAnimatingElement = null;
+                    }
+                    if (existingBackdropImage && existingBackdropImage.parentNode) {
+                        existingBackdropImage.parentNode.removeChild(existingBackdropImage);
+                    }
+                };
+
+                dom.addEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
                     once: true
                 });
-                if (backdropImage === self.currentAnimatingElement) {
-                    self.currentAnimatingElement = null;
-                }
-                if (existingBackdropImage && existingBackdropImage.parentNode) {
-                    existingBackdropImage.parentNode.removeChild(existingBackdropImage);
-                }
+
+                internalBackdrop(true);
             };
 
-            dom.addEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
-                once: true
-            });
-
-            internalBackdrop(true);
-        };
-
-        img.src = url;
-    };
-
-    Backdrop.prototype.cancelAnimation = function () {
-        var elem = this.currentAnimatingElement;
-        if (elem) {
-            elem.classList.remove('backdropImageFadeIn');
-            this.currentAnimatingElement = null;
+            img.src = url;
         }
-    };
 
-    Backdrop.prototype.destroy = function () {
-        this.isDestroyed = true;
-        this.cancelAnimation();
-    };
+        cancelAnimation() {
+            const elem = this.currentAnimatingElement;
+            if (elem) {
+                elem.classList.remove('backdropImageFadeIn');
+                this.currentAnimatingElement = null;
+            }
+        }
 
-    var backdropContainer;
+        destroy() {
+            this.isDestroyed = true;
+            this.cancelAnimation();
+        }
+    }
+
+    let backdropContainer;
     function getBackdropContainer() {
         if (!backdropContainer) {
             backdropContainer = document.querySelector('.backdropContainer');
@@ -101,7 +106,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
         return backdropContainer;
     }
 
-    function clearBackdrop(clearAll) {
+    export function clearBackdrop(clearAll) {
         clearRotation();
 
         if (currentLoadingBackdrop) {
@@ -109,7 +114,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
             currentLoadingBackdrop = null;
         }
 
-        var elem = getBackdropContainer();
+        const elem = getBackdropContainer();
         elem.innerHTML = '';
 
         if (clearAll) {
@@ -119,7 +124,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
         internalBackdrop(false);
     }
 
-    var backgroundContainer;
+    let backgroundContainer;
     function getBackgroundContainer() {
         if (!backgroundContainer) {
             backgroundContainer = document.querySelector('.backgroundContainer');
@@ -135,31 +140,27 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
         }
     }
 
-    var hasInternalBackdrop;
+    let hasInternalBackdrop;
     function internalBackdrop(enabled) {
         hasInternalBackdrop = enabled;
         setBackgroundContainerBackgroundEnabled();
     }
 
-    var hasExternalBackdrop;
-    function externalBackdrop(enabled) {
+    let hasExternalBackdrop;
+    export function externalBackdrop(enabled) {
         hasExternalBackdrop = enabled;
         setBackgroundContainerBackgroundEnabled();
     }
 
-    function getRandom(min, max) {
-        return Math.floor(Math.random() * (max - min) + min);
-    }
-
-    var currentLoadingBackdrop;
+    let currentLoadingBackdrop;
     function setBackdropImage(url) {
         if (currentLoadingBackdrop) {
             currentLoadingBackdrop.destroy();
             currentLoadingBackdrop = null;
         }
 
-        var elem = getBackdropContainer();
-        var existingBackdropImage = elem.querySelector('.displayingBackdropImage');
+        const elem = getBackdropContainer();
+        const existingBackdropImage = elem.querySelector('.displayingBackdropImage');
 
         if (existingBackdropImage && existingBackdropImage.getAttribute('data-url') === url) {
             if (existingBackdropImage.getAttribute('data-url') === url) {
@@ -168,7 +169,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
             existingBackdropImage.classList.remove('displayingBackdropImage');
         }
 
-        var instance = new Backdrop();
+        const instance = new Backdrop();
         instance.load(url, elem, existingBackdropImage);
         currentLoadingBackdrop = instance;
     }
@@ -176,9 +177,9 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
     function getItemImageUrls(item, imageOptions) {
         imageOptions = imageOptions || {};
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         if (item.BackdropImageTags && item.BackdropImageTags.length > 0) {
-            return item.BackdropImageTags.map(function (imgTag, index) {
+            return item.BackdropImageTags.map((imgTag, index) => {
                 return apiClient.getScaledImageUrl(item.BackdropItemId || item.Id, Object.assign(imageOptions, {
                     type: 'Backdrop',
                     tag: imgTag,
@@ -189,7 +190,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
         }
 
         if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
-            return item.ParentBackdropImageTags.map(function (imgTag, index) {
+            return item.ParentBackdropImageTags.map((imgTag, index) => {
                 return apiClient.getScaledImageUrl(item.ParentBackdropItemId, Object.assign(imageOptions, {
                     type: 'Backdrop',
                     tag: imgTag,
@@ -203,13 +204,13 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
     }
 
     function getImageUrls(items, imageOptions) {
-        var list = [];
-        var onImg = function (img) {
+        const list = [];
+        const onImg = img => {
             list.push(img);
         };
 
-        for (var i = 0, length = items.length; i < length; i++) {
-            var itemImages = getItemImageUrls(items[i], imageOptions);
+        for (let i = 0, length = items.length; i < length; i++) {
+            const itemImages = getItemImageUrls(items[i], imageOptions);
             itemImages.forEach(onImg);
         }
 
@@ -229,7 +230,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
 
         // If you don't care about the order of the elements inside
         // the array, you should sort both arrays here.
-        for (var i = 0; i < a.length; ++i) {
+        for (let i = 0; i < a.length; ++i) {
             if (a[i] !== b[i]) {
                 return false;
             }
@@ -242,12 +243,12 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
         return userSettings.enableBackdrops();
     }
 
-    var rotationInterval;
-    var currentRotatingImages = [];
-    var currentRotationIndex = -1;
-    function setBackdrops(items, imageOptions, enableImageRotation) {
+    let rotationInterval;
+    let currentRotatingImages = [];
+    let currentRotationIndex = -1;
+    export function setBackdrops(items, imageOptions, enableImageRotation) {
         if (enabled()) {
-            var images = getImageUrls(items, imageOptions);
+            const images = getImageUrls(items, imageOptions);
 
             if (images.length) {
                 startRotation(images, enableImageRotation);
@@ -279,7 +280,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
             return;
         }
 
-        var newIndex = currentRotationIndex + 1;
+        let newIndex = currentRotationIndex + 1;
         if (newIndex >= currentRotatingImages.length) {
             newIndex = 0;
         }
@@ -289,7 +290,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
     }
 
     function clearRotation() {
-        var interval = rotationInterval;
+        const interval = rotationInterval;
         if (interval) {
             clearInterval(interval);
         }
@@ -299,7 +300,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
         currentRotationIndex = -1;
     }
 
-    function setBackdrop(url, imageOptions) {
+    export function setBackdrop(url, imageOptions) {
         if (url && typeof url !== 'string') {
             url = getImageUrls([url], imageOptions)[0];
         }
@@ -312,10 +313,11 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'userSettings'
         }
     }
 
-    return {
-        setBackdrops: setBackdrops,
-        setBackdrop: setBackdrop,
-        clear: clearBackdrop,
-        externalBackdrop: externalBackdrop
-    };
-});
+/* eslint-enable indent */
+
+export default {
+    setBackdrops: setBackdrops,
+    setBackdrop: setBackdrop,
+    clearBackdrop: clearBackdrop,
+    externalBackdrop: externalBackdrop
+};

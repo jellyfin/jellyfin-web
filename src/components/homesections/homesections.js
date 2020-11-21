@@ -1,7 +1,21 @@
-define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'scripts/imagehelper', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-button', 'css!./homesections'], function (connectionManager, cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter, imageHelper) {
-    'use strict';
+import cardBuilder from '../cardbuilder/cardBuilder';
+import dom from '../../scripts/dom';
+import layoutManager from '../layoutManager';
+import imageLoader from '../images/imageLoader';
+import globalize from '../../scripts/globalize';
+import { appRouter } from '../appRouter';
+import imageHelper from '../../scripts/imagehelper';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-button/emby-button';
+import './homesections.css';
+import Dashboard from '../../scripts/clientUtils';
+import ServerConnections from '../ServerConnections';
 
-    function getDefaultSection(index) {
+/* eslint-disable indent */
+
+    export function getDefaultSection(index) {
         switch (index) {
             case 0:
                 return 'smalllibrarytiles';
@@ -23,9 +37,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getAllSectionsToShow(userSettings, sectionCount) {
-        var sections = [];
-        for (var i = 0, length = sectionCount; i < length; i++) {
-            var section = userSettings.get('homesection' + i) || getDefaultSection(i);
+        const sections = [];
+        for (let i = 0, length = sectionCount; i < length; i++) {
+            let section = userSettings.get('homesection' + i) || getDefaultSection(i);
             if (section === 'folders') {
                 section = getDefaultSection(0);
             }
@@ -36,22 +50,22 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         return sections;
     }
 
-    function loadSections(elem, apiClient, user, userSettings) {
+    export function loadSections(elem, apiClient, user, userSettings) {
         return getUserViews(apiClient, user.Id).then(function (userViews) {
-            var html = '';
+            let html = '';
 
             if (userViews.length) {
-                var sectionCount = 7;
-                for (var i = 0; i < sectionCount; i++) {
+                const sectionCount = 7;
+                for (let i = 0; i < sectionCount; i++) {
                     html += '<div class="verticalSection section' + i + '"></div>';
                 }
 
                 elem.innerHTML = html;
                 elem.classList.add('homeSectionsContainer');
 
-                var promises = [];
-                var sections = getAllSectionsToShow(userSettings, sectionCount);
-                for (var i = 0; i < sections.length; i++) {
+                const promises = [];
+                const sections = getAllSectionsToShow(userSettings, sectionCount);
+                for (let i = 0; i < sections.length; i++) {
                     promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
                 }
 
@@ -62,7 +76,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     });
                 });
             } else {
-                var noLibDescription;
+                let noLibDescription;
                 if (user['Policy'] && user['Policy']['IsAdministrator']) {
                     noLibDescription = globalize.translate('NoCreatedLibraries', '<br><a id="button-createLibrary" class="button-link">', '</a>');
                 } else {
@@ -75,7 +89,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 html += '</div>';
                 elem.innerHTML = html;
 
-                var createNowLink = elem.querySelector('#button-createLibrary');
+                const createNowLink = elem.querySelector('#button-createLibrary');
                 if (createNowLink) {
                     createNowLink.addEventListener('click', function () {
                         Dashboard.navigate('library.html');
@@ -85,9 +99,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         });
     }
 
-    function destroySections(elem) {
-        var elems = elem.querySelectorAll('.itemsContainer');
-        for (var i = 0; i < elems.length; i++) {
+    export function destroySections(elem) {
+        const elems = elem.querySelectorAll('.itemsContainer');
+        for (let i = 0; i < elems.length; i++) {
             elems[i].fetchData = null;
             elems[i].parentContainer = null;
             elems[i].getItemsHtml = null;
@@ -96,35 +110,32 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         elem.innerHTML = '';
     }
 
-    function pause(elem) {
-        var elems = elem.querySelectorAll('.itemsContainer');
-        for (var i = 0; i < elems.length; i++) {
+    export function pause(elem) {
+        const elems = elem.querySelectorAll('.itemsContainer');
+        for (let i = 0; i < elems.length; i++) {
             elems[i].pause();
         }
     }
 
-    function resume(elem, options) {
-        var elems = elem.querySelectorAll('.itemsContainer');
-        var i;
-        var length;
-        var promises = [];
+    export function resume(elem, options) {
+        const elems = elem.querySelectorAll('.itemsContainer');
+        const promises = [];
 
-        for (i = 0, length = elems.length; i < length; i++) {
+        for (let i = 0, length = elems.length; i < length; i++) {
             promises.push(elems[i].resume(options));
         }
 
-        var promise = Promise.all(promises);
+        const promise = Promise.all(promises);
         if (!options || options.returnPromise !== false) {
             return promise;
         }
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
+        const section = allSections[index];
+        const userId = user.Id;
 
-        var section = allSections[index];
-        var userId = user.Id;
-
-        var elem = page.querySelector('.section' + index);
+        const elem = page.querySelector('.section' + index);
 
         if (section === 'latestmedia') {
             loadRecentlyAdded(elem, apiClient, user, userViews);
@@ -168,11 +179,11 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getPortraitShape() {
-        return enableScrollX() ? 'autooverflow' : 'auto';
+        return enableScrollX() ? 'overflowPortrait' : 'portrait';
     }
 
     function getLibraryButtonsHtml(items) {
-        var html = '';
+        let html = '';
 
         html += '<div class="verticalSection verticalSection-extrabottompadding">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
@@ -180,9 +191,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-multiselect="false">';
 
         // library card background images
-        for (var i = 0, length = items.length; i < length; i++) {
-            var item = items[i];
-            var icon = imageHelper.getLibraryIcon(item.CollectionType);
+        for (let i = 0, length = items.length; i < length; i++) {
+            const item = items[i];
+            const icon = imageHelper.getLibraryIcon(item.CollectionType);
             html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '"></span><span class="homeLibraryText">' + item.Name + '</span></a>';
         }
 
@@ -194,24 +205,16 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function loadlibraryButtons(elem, apiClient, user, userSettings, userViews) {
         elem.classList.remove('verticalSection');
-        var html = getLibraryButtonsHtml(userViews);
+        const html = getLibraryButtonsHtml(userViews);
 
         elem.innerHTML = html;
         imageLoader.lazyChildren(elem);
     }
 
-    /**
-     * Returns a random integer between min (inclusive) and max (inclusive)
-     * Using Math.round() will give you a non-uniform distribution!
-     */
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
     function getFetchLatestItemsFn(serverId, parentId, collectionType) {
         return function () {
-            var apiClient = connectionManager.getApiClient(serverId);
-            var limit = 16;
+            const apiClient = ServerConnections.getApiClient(serverId);
+            let limit = 16;
 
             if (enableScrollX()) {
                 if (collectionType === 'music') {
@@ -227,9 +230,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 }
             }
 
-            var options = {
+            const options = {
                 Limit: limit,
-                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo,Path',
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Thumb',
                 ParentId: parentId
@@ -241,8 +244,8 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getLatestItemsHtmlFn(itemType, viewType) {
         return function (items) {
-            var cardLayout = false;
-            var shape;
+            const cardLayout = false;
+            let shape;
             if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books' || viewType === 'tvshows') {
                 shape = getPortraitShape();
             } else if (viewType === 'music' || viewType === 'homevideos') {
@@ -254,7 +257,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             return cardBuilder.getCardsHtml({
                 items: items,
                 shape: shape,
-                preferThumb: viewType !== 'movies' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
+                preferThumb: viewType !== 'movies' && viewType !== 'tvshows' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
                 showUnplayedIndicator: false,
                 showChildCountIndicator: true,
                 context: 'home',
@@ -272,7 +275,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function renderLatestSection(elem, apiClient, user, parent) {
-        var html = '';
+        let html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
         if (!layoutManager.tv) {
@@ -303,7 +306,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
         elem.innerHTML = html;
 
-        var itemsContainer = elem.querySelector('.itemsContainer');
+        const itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType);
         itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.Type, parent.CollectionType);
         itemsContainer.parentContainer = elem;
@@ -311,10 +314,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function loadRecentlyAdded(elem, apiClient, user, userViews) {
         elem.classList.remove('verticalSection');
-        var excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
+        const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
 
-        for (var i = 0, length = userViews.length; i < length; i++) {
-            var item = userViews[i];
+        for (let i = 0, length = userViews.length; i < length; i++) {
+            const item = userViews[i];
             if (user.Configuration.LatestItemsExcludes.indexOf(item.Id) !== -1) {
                 continue;
             }
@@ -323,7 +326,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 continue;
             }
 
-            var frag = document.createElement('div');
+            const frag = document.createElement('div');
             frag.classList.add('verticalSection');
             frag.classList.add('hide');
             elem.appendChild(frag);
@@ -332,14 +335,8 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
     }
 
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-            require(deps, resolve);
-        });
-    }
-
-    function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
-        var html = '';
+    export function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
+        let html = '';
         if (userViews.length) {
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
             if (enableScrollX()) {
@@ -372,10 +369,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getContinueWatchingFetchFn(serverId) {
         return function () {
-            var apiClient = connectionManager.getApiClient(serverId);
-            var screenWidth = dom.getWindowSize().innerWidth;
+            const apiClient = ServerConnections.getApiClient(serverId);
+            const screenWidth = dom.getWindowSize().innerWidth;
 
-            var limit;
+            let limit;
             if (enableScrollX()) {
                 limit = 12;
             } else {
@@ -383,7 +380,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 limit = Math.min(limit, 5);
             }
 
-            var options = {
+            const options = {
                 Limit: limit,
                 Recursive: true,
                 Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
@@ -398,7 +395,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getContinueWatchingItemsHtml(items) {
-        var cardLayout = false;
+        const cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
             preferThumb: true,
@@ -419,7 +416,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function loadResumeVideo(elem, apiClient, userId) {
-        var html = '';
+        let html = '';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
         if (enableScrollX()) {
@@ -437,7 +434,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         elem.classList.add('hide');
         elem.innerHTML = html;
 
-        var itemsContainer = elem.querySelector('.itemsContainer');
+        const itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getContinueWatchingFetchFn(apiClient.serverId());
         itemsContainer.getItemsHtml = getContinueWatchingItemsHtml;
         itemsContainer.parentContainer = elem;
@@ -445,10 +442,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getContinueListeningFetchFn(serverId) {
         return function () {
-            var apiClient = connectionManager.getApiClient(serverId);
-            var screenWidth = dom.getWindowSize().innerWidth;
+            const apiClient = ServerConnections.getApiClient(serverId);
+            const screenWidth = dom.getWindowSize().innerWidth;
 
-            var limit;
+            let limit;
             if (enableScrollX()) {
                 limit = 12;
             } else {
@@ -456,7 +453,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 limit = Math.min(limit, 5);
             }
 
-            var options = {
+            const options = {
                 Limit: limit,
                 Recursive: true,
                 Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
@@ -471,7 +468,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getContinueListeningItemsHtml(items) {
-        var cardLayout = false;
+        const cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
             preferThumb: true,
@@ -492,7 +489,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function loadResumeAudio(elem, apiClient, userId) {
-        var html = '';
+        let html = '';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
         if (enableScrollX()) {
@@ -510,7 +507,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         elem.classList.add('hide');
         elem.innerHTML = html;
 
-        var itemsContainer = elem.querySelector('.itemsContainer');
+        const itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getContinueListeningFetchFn(apiClient.serverId());
         itemsContainer.getItemsHtml = getContinueListeningItemsHtml;
         itemsContainer.parentContainer = elem;
@@ -518,7 +515,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getOnNowFetchFn(serverId) {
         return function () {
-            var apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getLiveTvRecommendedPrograms({
                 userId: apiClient.getCurrentUserId(),
                 IsAiring: true,
@@ -532,7 +529,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getOnNowItemsHtml(items) {
-        var cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
             preferThumb: 'auto',
@@ -559,7 +555,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             return Promise.resolve();
         }
 
-        var userId = user.Id;
         return apiClient.getLiveTvRecommendedPrograms({
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
@@ -569,7 +564,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             EnableTotalRecordCount: false,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio'
         }).then(function (result) {
-            var html = '';
+            let html = '';
             if (result.Items.length) {
                 elem.classList.remove('padded-left');
                 elem.classList.remove('padded-right');
@@ -632,7 +627,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     html += '</h2>';
                     html += '<span class="material-icons chevron_right"></span>';
                     html += '</a>';
-
                 } else {
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderOnNow') + '</h2>';
                 }
@@ -654,7 +648,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
                 elem.innerHTML = html;
 
-                var itemsContainer = elem.querySelector('.itemsContainer');
+                const itemsContainer = elem.querySelector('.itemsContainer');
                 itemsContainer.parentContainer = elem;
                 itemsContainer.fetchData = getOnNowFetchFn(apiClient.serverId());
                 itemsContainer.getItemsHtml = getOnNowItemsHtml;
@@ -664,10 +658,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getNextUpFetchFn(serverId) {
         return function () {
-            var apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
-                Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo',
+                Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo,Path',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
@@ -677,7 +671,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getNextUpItemsHtml(items) {
-        var cardLayout = false;
+        const cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
             preferThumb: true,
@@ -695,7 +689,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function loadNextUp(elem, apiClient, userId) {
-        var html = '';
+        let html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
         if (!layoutManager.tv) {
@@ -703,12 +697,12 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 serverId: apiClient.serverId()
             }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += globalize.translate('HeaderNextUp');
+            html += globalize.translate('NextUp');
             html += '</h2>';
             html += '<span class="material-icons chevron_right"></span>';
             html += '</a>';
         } else {
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderNextUp') + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('NextUp') + '</h2>';
         }
         html += '</div>';
 
@@ -727,7 +721,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         elem.classList.add('hide');
         elem.innerHTML = html;
 
-        var itemsContainer = elem.querySelector('.itemsContainer');
+        const itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId());
         itemsContainer.getItemsHtml = getNextUpItemsHtml;
         itemsContainer.parentContainer = elem;
@@ -735,7 +729,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
         return function () {
-            var apiClient = connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getLiveTvRecordings({
                 userId: apiClient.getCurrentUserId(),
                 Limit: enableScrollX() ? 12 : 5,
@@ -749,7 +743,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getLatestRecordingItemsHtml(activeRecordingsOnly) {
         return function (items) {
-            var cardLayout = false;
             return cardBuilder.getCardsHtml({
                 items: items,
                 shape: enableScrollX() ? 'autooverflow' : 'auto',
@@ -774,11 +767,11 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function loadLatestLiveTvRecordings(elem, activeRecordingsOnly, apiClient, userId) {
-        var title = activeRecordingsOnly ?
+        const title = activeRecordingsOnly ?
             globalize.translate('HeaderActiveRecordings') :
             globalize.translate('HeaderLatestRecordings');
 
-        var html = '';
+        let html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + '</h2>';
@@ -799,18 +792,19 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         elem.classList.add('hide');
         elem.innerHTML = html;
 
-        var itemsContainer = elem.querySelector('.itemsContainer');
+        const itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getLatestRecordingsFetchFn(apiClient.serverId(), activeRecordingsOnly);
         itemsContainer.getItemsHtml = getLatestRecordingItemsHtml(activeRecordingsOnly);
         itemsContainer.parentContainer = elem;
     }
 
-    return {
-        loadLibraryTiles: loadLibraryTiles,
-        getDefaultSection: getDefaultSection,
-        loadSections: loadSections,
-        destroySections: destroySections,
-        pause: pause,
-        resume: resume
-    };
-});
+export default {
+    loadLibraryTiles: loadLibraryTiles,
+    getDefaultSection: getDefaultSection,
+    loadSections: loadSections,
+    destroySections: destroySections,
+    pause: pause,
+    resume: resume
+};
+
+/* eslint-enable indent */

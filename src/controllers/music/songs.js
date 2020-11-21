@@ -1,10 +1,20 @@
-define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userSettings', 'globalize', 'emby-itemscontainer'], function (events, libraryBrowser, imageLoader, listView, loading, userSettings, globalize) {
-    'use strict';
 
-    return function (view, params, tabContent) {
+import { Events } from 'jellyfin-apiclient';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import imageLoader from '../../components/images/imageLoader';
+import listView from '../../components/listview/listview';
+import loading from '../../components/loading/loading';
+import * as userSettings from '../../scripts/settings/userSettings';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import Dashboard from '../../scripts/clientUtils';
+
+/* eslint-disable indent */
+
+    export default function (view, params, tabContent) {
         function getPageData(context) {
-            var key = getSavedQueryKey(context);
-            var pageData = data[key];
+            const key = getSavedQueryKey(context);
+            let pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
@@ -46,7 +56,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
         function reloadItems(page) {
             loading.show();
             isLoading = true;
-            var query = getQuery(page);
+            const query = getQuery(page);
             ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
                 function onNextPageClick() {
                     if (isLoading) {
@@ -71,9 +81,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                 }
 
                 window.scrollTo(0, 0);
-                var i;
-                var length;
-                var pagingHtml = libraryBrowser.getQueryPagingHtml({
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -83,54 +91,54 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                     sortButton: false,
                     filterButton: false
                 });
-                var html = listView.getListViewHtml({
+                const html = listView.getListViewHtml({
                     items: result.Items,
                     action: 'playallfromhere',
                     smallIcon: true,
                     artist: true,
                     addToListButton: true
                 });
-                var elems = tabContent.querySelectorAll('.paging');
+                let elems = tabContent.querySelectorAll('.paging');
 
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
                 }
 
                 elems = tabContent.querySelectorAll('.btnNextPage');
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener('click', onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll('.btnPreviousPage');
-                for (i = 0, length = elems.length; i < length; i++) {
+                for (let i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener('click', onPreviousPageClick);
                 }
 
-                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                const itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
                 loading.hide();
                 isLoading = false;
 
-                require(['autoFocuser'], function (autoFocuser) {
+                import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(page);
                 });
             });
         }
 
-        var self = this;
-        var data = {};
-        var isLoading = false;
+        const self = this;
+        const data = {};
+        let isLoading = false;
 
         self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function (filterDialogFactory) {
-                var filterDialog = new filterDialogFactory({
+            import('../../components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+                const filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'songs',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, 'filterchange', function () {
+                Events.on(filterDialog, 'filterchange', function () {
                     getQuery(tabContent).StartIndex = 0;
                     reloadItems(tabContent);
                 });
@@ -152,13 +160,13 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                         name: globalize.translate('OptionTrackName'),
                         id: 'Name'
                     }, {
-                        name: globalize.translate('OptionAlbum'),
+                        name: globalize.translate('Album'),
                         id: 'Album,SortName'
                     }, {
-                        name: globalize.translate('OptionAlbumArtist'),
+                        name: globalize.translate('AlbumArtist'),
                         id: 'AlbumArtist,Album,SortName'
                     }, {
-                        name: globalize.translate('OptionArtist'),
+                        name: globalize.translate('Artist'),
                         id: 'Artist,Album,SortName'
                     }, {
                         name: globalize.translate('OptionDateAdded'),
@@ -173,7 +181,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
                         name: globalize.translate('OptionReleaseDate'),
                         id: 'PremiereDate,AlbumArtist,Album,SortName'
                     }, {
-                        name: globalize.translate('OptionRuntime'),
+                        name: globalize.translate('Runtime'),
                         id: 'Runtime,AlbumArtist,Album,SortName'
                     }],
                     callback: function () {
@@ -193,5 +201,6 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
         };
 
         self.destroy = function () {};
-    };
-});
+    }
+
+/* eslint-enable indent */

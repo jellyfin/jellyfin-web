@@ -31,11 +31,6 @@
 
 .emby-tabs-slider {
     position: relative;
-    overflow: hidden;
-}
-
-.layout-mobile .emby-tabs-slider {
-    overflow: auto;
 }
 
 .tabContent:not(.is-active) {

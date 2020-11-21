@@ -1,149 +1,154 @@
-define(['events'], function (events) {
-    'use strict';
+import { Events } from 'jellyfin-apiclient';
+import globalize from '../scripts/globalize';
+import loading from './loading/loading';
+import appSettings from '../scripts/settings/appSettings';
+import { playbackManager } from './playback/playbackmanager';
+
+/* eslint-disable indent */
 
     // TODO: replace with each plugin version
-    var cacheParam = new Date().getTime();
+    const cacheParam = new Date().getTime();
 
-    function loadStrings(plugin, globalize) {
-        var strings = plugin.getTranslations ? plugin.getTranslations() : [];
-        return globalize.loadStrings({
-            name: plugin.id || plugin.packageName,
-            strings: strings
-        });
-    }
+    class PluginManager {
+        pluginsList = [];
 
-    function definePluginRoute(pluginManager, route, plugin) {
+        get plugins() {
+            return this.pluginsList;
+        }
 
-        route.contentPath = pluginManager.mapPath(plugin, route.path);
-        route.path = pluginManager.mapRoute(plugin, route);
+        #loadStrings(plugin) {
+            const strings = plugin.getTranslations ? plugin.getTranslations() : [];
+            return globalize.loadStrings({
+                name: plugin.id || plugin.packageName,
+                strings: strings
+            });
+        }
 
-        Emby.App.defineRoute(route, plugin.id);
-    }
+        #definePluginRoute(route, plugin) {
+            route.contentPath = this.mapPath(plugin, route.path);
+            route.path = this.#mapRoute(plugin, route);
 
-    function PluginManager() {
+            Emby.App.defineRoute(route, plugin.id);
+        }
 
-        this.pluginsList = [];
-    }
+        async #registerPlugin(plugin) {
+            this.#register(plugin);
 
-    PluginManager.prototype.loadPlugin = function (url) {
+            if (plugin.getRoutes) {
+                plugin.getRoutes().forEach((route) => {
+                    this.#definePluginRoute(route, plugin);
+                });
+            }
 
-        console.debug('Loading plugin: ' + url);
-        var instance = this;
+            if (plugin.type === 'skin') {
+                // translations won't be loaded for skins until needed
+                return plugin;
+            } else {
+                return await this.#loadStrings(plugin);
+            }
+        }
 
-        return new Promise(function (resolve, reject) {
-
-            require([url, 'globalize', 'appRouter'], function (pluginFactory, globalize, appRouter) {
-
-                var plugin = new pluginFactory();
-
+        async #preparePlugin(pluginSpec, plugin) {
+            if (typeof pluginSpec === 'string') {
                 // See if it's already installed
-                var existing = instance.pluginsList.filter(function (p) {
+                const existing = this.plugins.filter(function (p) {
                     return p.id === plugin.id;
                 })[0];
 
                 if (existing) {
-                    resolve(url);
-                    return;
+                    return pluginSpec;
                 }
 
-                plugin.installUrl = url;
+                plugin.installUrl = pluginSpec;
 
-                var urlLower = url.toLowerCase();
-                if (urlLower.indexOf('http:') === -1 && urlLower.indexOf('https:') === -1 && urlLower.indexOf('file:') === -1) {
-                    if (url.indexOf(appRouter.baseUrl()) !== 0) {
+                const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
+                plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
+            }
 
-                        url = appRouter.baseUrl() + '/' + url;
-                    }
-                }
+            return this.#registerPlugin(plugin);
+        }
 
-                var separatorIndex = Math.max(url.lastIndexOf('/'), url.lastIndexOf('\\'));
-                plugin.baseUrl = url.substring(0, separatorIndex);
+        async loadPlugin(pluginSpec) {
+            let plugin;
 
-                var paths = {};
-                paths[plugin.id] = plugin.baseUrl;
+            if (typeof pluginSpec === 'string') {
+                if (pluginSpec in window) {
+                    console.log(`Loading plugin (via window): ${pluginSpec}`);
 
-                requirejs.config({
-                    waitSeconds: 0,
-                    paths: paths
-                });
-
-                instance.register(plugin);
-
-                if (plugin.getRoutes) {
-                    plugin.getRoutes().forEach(function (route) {
-                        definePluginRoute(instance, route, plugin);
+                    // init plugin and pass basic dependencies
+                    plugin = new window[pluginSpec]({
+                        events: Events,
+                        loading,
+                        appSettings,
+                        playbackManager
                     });
-                }
-
-                if (plugin.type === 'skin') {
-
-                    // translations won't be loaded for skins until needed
-                    resolve(plugin);
                 } else {
-
-                    loadStrings(plugin, globalize).then(function () {
-                        resolve(plugin);
-                    }, reject);
+                    console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
+                    plugin = await import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`);
                 }
+            } else if (pluginSpec.then) {
+                console.debug('Loading plugin (via promise/async function)');
+
+                const pluginResult = await pluginSpec;
+                plugin = new pluginResult.default;
+            } else {
+                const err = new TypeError('Plugins have to be a Promise that resolves to a plugin builder function');
+                console.error(err);
+                throw err;
+            }
+
+            return this.#preparePlugin(pluginSpec, plugin);
+        }
+
+        // In lieu of automatic discovery, plugins will register dynamic objects
+        // Each object will have the following properties:
+        // name
+        // type (skin, screensaver, etc)
+        #register(obj) {
+            this.pluginsList.push(obj);
+            Events.trigger(this, 'registered', [obj]);
+        }
+
+        ofType(type) {
+            return this.pluginsList.filter((o) => {
+                return o.type === type;
             });
-        });
-    };
-
-    // In lieu of automatic discovery, plugins will register dynamic objects
-    // Each object will have the following properties:
-    // name
-    // type (skin, screensaver, etc)
-    PluginManager.prototype.register = function (obj) {
-
-        this.pluginsList.push(obj);
-        events.trigger(this, 'registered', [obj]);
-    };
-
-    PluginManager.prototype.ofType = function (type) {
-
-        return this.pluginsList.filter(function (o) {
-            return o.type === type;
-        });
-    };
-
-    PluginManager.prototype.plugins = function () {
-        return this.pluginsList;
-    };
-
-    PluginManager.prototype.mapRoute = function (plugin, route) {
-
-        if (typeof plugin === 'string') {
-            plugin = this.pluginsList.filter(function (p) {
-                return (p.id || p.packageName) === plugin;
-            })[0];
         }
 
-        route = route.path || route;
+        #mapRoute(plugin, route) {
+            if (typeof plugin === 'string') {
+                plugin = this.pluginsList.filter((p) => {
+                    return (p.id || p.packageName) === plugin;
+                })[0];
+            }
 
-        if (route.toLowerCase().indexOf('http') === 0) {
-            return route;
+            route = route.path || route;
+
+            if (route.toLowerCase().startsWith('http')) {
+                return route;
+            }
+
+            return '/plugins/' + plugin.id + '/' + route;
         }
 
-        return '/plugins/' + plugin.id + '/' + route;
-    };
+        mapPath(plugin, path, addCacheParam) {
+            if (typeof plugin === 'string') {
+                plugin = this.pluginsList.filter((p) => {
+                    return (p.id || p.packageName) === plugin;
+                })[0];
+            }
 
-    PluginManager.prototype.mapPath = function (plugin, path, addCacheParam) {
+            let url = plugin.baseUrl + '/' + path;
 
-        if (typeof plugin === 'string') {
-            plugin = this.pluginsList.filter(function (p) {
-                return (p.id || p.packageName) === plugin;
-            })[0];
+            if (addCacheParam) {
+                url += url.includes('?') ? '&' : '?';
+                url += 'v=' + cacheParam;
+            }
+
+            return url;
         }
+    }
 
-        var url = plugin.baseUrl + '/' + path;
+/* eslint-enable indent */
 
-        if (addCacheParam) {
-            url += url.indexOf('?') === -1 ? '?' : '&';
-            url += 'v=' + cacheParam;
-        }
-
-        return url;
-    };
-
-    return new PluginManager();
-});
+export const pluginManager = new PluginManager();

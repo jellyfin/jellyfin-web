@@ -1,7 +1,9 @@
-import playbackManager from 'playbackManager';
-import nowPlayingHelper from 'nowPlayingHelper';
-import events from 'events';
-import connectionManager from 'connectionManager';
+import { playbackManager } from '../playback/playbackmanager';
+import nowPlayingHelper from '../playback/nowplayinghelper';
+import { Events } from 'jellyfin-apiclient';
+import ServerConnections from '../ServerConnections';
+import shell from '../../scripts/shell';
+
 /* eslint-disable indent */
 
     // Reports media playback to the device for lock screen control
@@ -16,16 +18,16 @@ import connectionManager from 'connectionManager';
         } else if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
 
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         } else if (options.type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             } else if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -38,11 +40,11 @@ import connectionManager from 'connectionManager';
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
 
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
         } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
 
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;
@@ -119,6 +121,7 @@ import connectionManager from 'connectionManager';
         const canSeek = playState.CanSeek || false;
 
         if ('mediaSession' in navigator) {
+             /* eslint-disable-next-line compat/compat */
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: title,
                 artist: artist,
@@ -126,9 +129,8 @@ import connectionManager from 'connectionManager';
                 artwork: getImageUrls(item)
             });
         } else {
-            let itemImageUrl = seriesImageUrl(item, { maxHeight: 3000 }) || imageUrl(item, { maxHeight: 3000 });
-
-            window.NativeShell.updateMediaSession({
+            const itemImageUrl = seriesImageUrl(item, { maxHeight: 3000 }) || imageUrl(item, { maxHeight: 3000 });
+            shell.updateMediaSession({
                 action: eventName,
                 isLocalPlayer: isLocalPlayer,
                 itemId: itemId,
@@ -164,12 +166,12 @@ import connectionManager from 'connectionManager';
 
     function releaseCurrentPlayer() {
         if (currentPlayer) {
-            events.off(currentPlayer, 'playbackstart', onPlaybackStart);
-            events.off(currentPlayer, 'playbackstop', onPlaybackStopped);
-            events.off(currentPlayer, 'unpause', onGeneralEvent);
-            events.off(currentPlayer, 'pause', onGeneralEvent);
-            events.off(currentPlayer, 'statechange', onStateChanged);
-            events.off(currentPlayer, 'timeupdate', onGeneralEvent);
+            Events.off(currentPlayer, 'playbackstart', onPlaybackStart);
+            Events.off(currentPlayer, 'playbackstop', onPlaybackStopped);
+            Events.off(currentPlayer, 'unpause', onGeneralEvent);
+            Events.off(currentPlayer, 'pause', onGeneralEvent);
+            Events.off(currentPlayer, 'statechange', onStateChanged);
+            Events.off(currentPlayer, 'timeupdate', onGeneralEvent);
 
             currentPlayer = null;
 
@@ -179,9 +181,10 @@ import connectionManager from 'connectionManager';
 
     function hideMediaControls() {
         if ('mediaSession' in navigator) {
+             /* eslint-disable-next-line compat/compat */
             navigator.mediaSession.metadata = null;
         } else {
-            window.NativeShell.hideMediaSession();
+            shell.hideMediaSession();
         }
     }
 
@@ -197,12 +200,12 @@ import connectionManager from 'connectionManager';
         const state = playbackManager.getPlayerState(player);
         updatePlayerState(player, state, 'init');
 
-        events.on(currentPlayer, 'playbackstart', onPlaybackStart);
-        events.on(currentPlayer, 'playbackstop', onPlaybackStopped);
-        events.on(currentPlayer, 'unpause', onGeneralEvent);
-        events.on(currentPlayer, 'pause', onGeneralEvent);
-        events.on(currentPlayer, 'statechange', onStateChanged);
-        events.on(currentPlayer, 'timeupdate', onGeneralEvent);
+        Events.on(currentPlayer, 'playbackstart', onPlaybackStart);
+        Events.on(currentPlayer, 'playbackstop', onPlaybackStopped);
+        Events.on(currentPlayer, 'unpause', onGeneralEvent);
+        Events.on(currentPlayer, 'pause', onGeneralEvent);
+        Events.on(currentPlayer, 'statechange', onStateChanged);
+        Events.on(currentPlayer, 'timeupdate', onGeneralEvent);
     }
 
     function execute(name) {
@@ -210,32 +213,47 @@ import connectionManager from 'connectionManager';
     }
 
     if ('mediaSession' in navigator) {
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             execute('previousTrack');
         });
 
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('nexttrack', function () {
             execute('nextTrack');
         });
 
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('play', function () {
             execute('unpause');
         });
 
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('pause', function () {
             execute('pause');
         });
 
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('seekbackward', function () {
             execute('rewind');
         });
 
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('seekforward', function () {
             execute('fastForward');
         });
+
+        /* eslint-disable-next-line compat/compat */
+        navigator.mediaSession.setActionHandler('seekto', function (object) {
+            const item = playbackManager.getPlayerState(currentPlayer).NowPlayingItem;
+            // Convert to ms
+            const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
+            const wantedTime = object.seekTime * 1000;
+            playbackManager.seekPercent(wantedTime / duration * 100, currentPlayer);
+        });
     }
 
-    events.on(playbackManager, 'playerchange', function () {
+    Events.on(playbackManager, 'playerchange', function () {
         bindToPlayer(playbackManager.getCurrentPlayer());
     });
 

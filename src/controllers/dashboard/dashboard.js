@@ -1,46 +1,73 @@
-define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'loading', 'connectionManager', 'playMethodHelper', 'cardBuilder', 'imageLoader', 'components/activitylog', 'scripts/imagehelper', 'indicators', 'listViewStyle', 'emby-button', 'flexStyles', 'emby-button', 'emby-itemscontainer'], function (datetime, events, itemHelper, serverNotifications, dom, globalize, datefns, dfnshelper, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
-    'use strict';
+import datetime from '../../scripts/datetime';
+import { Events } from 'jellyfin-apiclient';
+import itemHelper from '../../components/itemHelper';
+import serverNotifications from '../../scripts/serverNotifications';
+import dom from '../../scripts/dom';
+import globalize from '../../scripts/globalize';
+import { formatDistanceToNow } from 'date-fns';
+import { localeWithSuffix } from '../../scripts/dfnshelper';
+import loading from '../../components/loading/loading';
+import playMethodHelper from '../../components/playback/playmethodhelper';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import ActivityLog from '../../components/activitylog';
+import imageHelper from '../../scripts/imagehelper';
+import indicators from '../../components/indicators/indicators';
+import '../../components/listview/listview.css';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.scss';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import taskButton from '../../scripts/taskbutton';
+import Dashboard from '../../scripts/clientUtils';
+import ServerConnections from '../../components/ServerConnections';
+import alert from '../../components/alert';
+import confirm from '../../components/confirm/confirm';
+
+/* eslint-disable indent */
 
     function showPlaybackInfo(btn, session) {
-        require(['alert'], function (alert) {
-            var title;
-            var text = [];
-            var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+        let title;
+        const text = [];
+        const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
-            if (displayPlayMethod === 'DirectStream') {
-                title = globalize.translate('DirectStreaming');
-                text.push(globalize.translate('DirectStreamHelp1'));
+        if (displayPlayMethod === 'Remux') {
+            title = globalize.translate('Remuxing');
+            text.push(globalize.translate('RemuxHelp1'));
+            text.push('<br/>');
+            text.push(globalize.translate('RemuxHelp2'));
+        } else if (displayPlayMethod === 'DirectStream') {
+            title = globalize.translate('DirectStreaming');
+            text.push(globalize.translate('DirectStreamHelp1'));
+            text.push('<br/>');
+            text.push(globalize.translate('DirectStreamHelp2'));
+        } else if (displayPlayMethod === 'Transcode') {
+            title = globalize.translate('Transcoding');
+            text.push(globalize.translate('MediaIsBeingConverted'));
+
+            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
                 text.push('<br/>');
-                text.push(globalize.translate('DirectStreamHelp2'));
-            } else if (displayPlayMethod === 'Transcode') {
-                title = globalize.translate('Transcoding');
-                text.push(globalize.translate('MediaIsBeingConverted'));
-
-                if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
-                    text.push('<br/>');
-                    text.push(globalize.translate('LabelReasonForTranscoding'));
-                    session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
-                        text.push(globalize.translate(transcodeReason));
-                    });
-                }
+                text.push(globalize.translate('LabelReasonForTranscoding'));
+                session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
+                    text.push(globalize.translate(transcodeReason));
+                });
             }
+        }
 
-            alert({
-                text: text.join('<br/>'),
-                title: title
-            });
+        alert({
+            text: text.join('<br/>'),
+            title: title
         });
     }
 
     function showSendMessageForm(btn, session) {
-        require(['prompt'], function (prompt) {
+        import('../../components/prompt/prompt').then(({default: prompt}) => {
             prompt({
                 title: globalize.translate('HeaderSendMessage'),
                 label: globalize.translate('LabelMessageText'),
                 confirmText: globalize.translate('ButtonSend')
             }).then(function (text) {
                 if (text) {
-                    connectionManager.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
+                    ServerConnections.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
                         Text: text,
                         TimeoutMs: 5e3
                     });
@@ -50,10 +77,10 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function showOptionsMenu(btn, session) {
-        require(['actionsheet'], function (actionsheet) {
-            var menuItems = [];
+        import('../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
+            const menuItems = [];
 
-            if (session.ServerId && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && session.DeviceId !== ServerConnections.deviceId()) {
                 menuItems.push({
                     name: globalize.translate('SendMessage'),
                     id: 'sendmessage'
@@ -84,14 +111,14 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function onActiveDevicesClick(evt) {
-        var btn = dom.parentWithClass(evt.target, 'sessionCardButton');
+        const btn = dom.parentWithClass(evt.target, 'sessionCardButton');
 
         if (btn) {
-            var card = dom.parentWithClass(btn, 'card');
+            const card = dom.parentWithClass(btn, 'card');
 
             if (card) {
-                var sessionId = card.id;
-                var session = (DashboardPage.sessionsList || []).filter(function (dashboardSession) {
+                const sessionId = card.id;
+                const session = (DashboardPage.sessionsList || []).filter(function (dashboardSession) {
                     return 'session' + dashboardSession.Id === sessionId;
                 })[0];
 
@@ -103,9 +130,9 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                     } else if (btn.classList.contains('btnSessionSendMessage')) {
                         showSendMessageForm(btn, session);
                     } else if (btn.classList.contains('btnSessionStop')) {
-                        connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'Stop');
+                        ServerConnections.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'Stop');
                     } else if (btn.classList.contains('btnSessionPlayPause') && session.PlayState) {
-                        connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'PlayPause');
+                        ServerConnections.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, 'PlayPause');
                     }
                 }
             }
@@ -113,11 +140,11 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function filterSessions(sessions) {
-        var list = [];
-        var minActiveDate = new Date().getTime() - 9e5;
+        const list = [];
+        const minActiveDate = new Date().getTime() - 9e5;
 
-        for (var i = 0, length = sessions.length; i < length; i++) {
-            var session = sessions[i];
+        for (let i = 0, length = sessions.length; i < length; i++) {
+            const session = sessions[i];
 
             if (!session.NowPlayingItem && !session.UserId) {
                 continue;
@@ -139,7 +166,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             EnableTotalRecordCount: false,
             EnableImageTypes: 'Primary,Thumb,Backdrop'
         }).then(function (result) {
-            var itemsContainer = view.querySelector('.activeRecordingItems');
+            const itemsContainer = view.querySelector('.activeRecordingItems');
 
             if (!result.Items.length) {
                 view.querySelector('.activeRecordingsSection').classList.add('hide');
@@ -169,21 +196,9 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     function reloadSystemInfo(view, apiClient) {
         apiClient.getSystemInfo().then(function (systemInfo) {
             view.querySelector('#serverName').innerHTML = globalize.translate('DashboardServerName', systemInfo.ServerName);
-            var localizedVersion = globalize.translate('DashboardVersionNumber', systemInfo.Version);
-
-            if (systemInfo.SystemUpdateLevel !== 'Release') {
-                localizedVersion += ' ' + systemInfo.SystemUpdateLevel;
-            }
-
-            view.querySelector('#versionNumber').innerHTML = localizedVersion;
+            view.querySelector('#versionNumber').innerHTML = globalize.translate('DashboardVersionNumber', systemInfo.Version);
             view.querySelector('#operatingSystem').innerHTML = globalize.translate('DashboardOperatingSystem', systemInfo.OperatingSystem);
             view.querySelector('#architecture').innerHTML = globalize.translate('DashboardArchitecture', systemInfo.SystemArchitecture);
-
-            if (systemInfo.CanSelfRestart) {
-                view.querySelector('#btnRestartServer').classList.remove('hide');
-            } else {
-                view.querySelector('#btnRestartServer').classList.add('hide');
-            }
 
             view.querySelector('#cachePath').innerHTML = systemInfo.CachePath;
             view.querySelector('#logPath').innerHTML = systemInfo.LogPath;
@@ -211,31 +226,31 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function renderActiveConnections(view, sessions) {
-        var html = '';
+        let html = '';
         DashboardPage.sessionsList = sessions;
-        var parentElement = view.querySelector('.activeDevices');
-        var cardElem = parentElement.querySelector('.card');
+        const parentElement = view.querySelector('.activeDevices');
+        const cardElem = parentElement.querySelector('.card');
 
         if (cardElem) {
             cardElem.classList.add('deadSession');
         }
 
-        for (var i = 0, length = sessions.length; i < length; i++) {
-            var session = sessions[i];
-            var rowId = 'session' + session.Id;
-            var elem = view.querySelector('#' + rowId);
+        for (let i = 0, length = sessions.length; i < length; i++) {
+            const session = sessions[i];
+            const rowId = 'session' + session.Id;
+            const elem = view.querySelector('#' + rowId);
 
             if (elem) {
                 DashboardPage.updateSession(elem, session);
             } else {
-                var nowPlayingItem = session.NowPlayingItem;
-                var className = 'scalableCard card activeSession backdropCard backdropCard-scalable';
+                const nowPlayingItem = session.NowPlayingItem;
+                const className = 'scalableCard card activeSession backdropCard backdropCard-scalable';
                 html += '<div class="' + className + '" id="' + rowId + '">';
                 html += '<div class="cardBox visualCardBox">';
                 html += '<div class="cardScalable visualCardBox-cardScalable">';
                 html += '<div class="cardPadder cardPadder-backdrop"></div>';
                 html += '<div class="cardContent">';
-                var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem);
+                const imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem);
 
                 if (imgUrl) {
                     html += '<div class="sessionNowPlayingContent sessionNowPlayingContent-withbackground"';
@@ -246,7 +261,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
 
                 html += '<div class="sessionNowPlayingInnerContent">';
                 html += '<div class="sessionAppInfo">';
-                var clientImage = DashboardPage.getClientImage(session);
+                const clientImage = DashboardPage.getClientImage(session);
 
                 if (clientImage) {
                     html += clientImage;
@@ -258,14 +273,8 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html += '</div>';
                 html += '</div>';
 
-                if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
-                    html += '<div class="sessionTranscodingFramerate">' + session.TranscodingInfo.Framerate + ' fps</div>';
-                } else {
-                    html += '<div class="sessionTranscodingFramerate"></div>';
-                }
-
                 html += '<div class="sessionNowPlayingDetails">';
-                var nowPlayingName = DashboardPage.getNowPlayingName(session);
+                const nowPlayingName = DashboardPage.getNowPlayingName(session);
                 html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">';
                 html += nowPlayingName.html;
                 html += '</div>';
@@ -273,7 +282,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html += '</div>';
 
                 if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
-                    var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
+                    const percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
                     html += indicators.getProgressHtml(percent, {
                         containerClass: 'playbackProgress'
                     });
@@ -285,7 +294,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 }
 
                 if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
-                    var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
+                    const percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
                     html += indicators.getProgressHtml(percent, {
                         containerClass: 'transcodingProgress'
                     });
@@ -302,7 +311,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html += '<div class="sessionCardFooter cardFooter">';
                 html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
 
-                var btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hide';
+                let btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hide';
                 const playIcon = session.PlayState.IsPaused ? 'pause' : 'play_arrow';
 
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><span class="material-icons ' + playIcon + '"></span></button>';
@@ -311,7 +320,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('ViewPlaybackInfo') + '"><span class="material-icons info"></span></button>';
 
-                btnCssClass = session.ServerId && -1 !== session.SupportedCommands.indexOf('DisplayMessage') && session.DeviceId !== connectionManager.deviceId() ? '' : ' hide';
+                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== ServerConnections.deviceId() ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('SendMessage') + '"><span class="material-icons message"></span></button>';
                 html += '</div>';
 
@@ -320,7 +329,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html += '</div>';
 
                 html += '<div class="flex align-items-center justify-content-center">';
-                var userImage = DashboardPage.getUserImage(session);
+                const userImage = DashboardPage.getUserImage(session);
                 html += userImage ? '<div class="activitylogUserPhoto" style="background-image:url(\'' + userImage + "');\"></div>" : '<div style="height:1.71em;"></div>';
                 html += '<div class="sessionUserName">';
                 html += DashboardPage.getUsersHtml(session);
@@ -334,7 +343,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         }
 
         parentElement.insertAdjacentHTML('beforeend', html);
-        var deadSessionElem = parentElement.querySelector('.deadSession');
+        const deadSessionElem = parentElement.querySelector('.deadSession');
 
         if (deadSessionElem) {
             deadSessionElem.parentNode.removeChild(deadSessionElem);
@@ -342,9 +351,9 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
     }
 
     function renderRunningTasks(view, tasks) {
-        var html = '';
+        let html = '';
         tasks = tasks.filter(function (task) {
-            if ('Idle' != task.State) {
+            if (task.State != 'Idle') {
                 return !task.IsHidden;
             }
 
@@ -357,13 +366,13 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             view.querySelector('.runningTasksContainer').classList.add('hide');
         }
 
-        for (var i = 0, length = tasks.length; i < length; i++) {
-            var task = tasks[i];
+        for (let i = 0, length = tasks.length; i < length; i++) {
+            const task = tasks[i];
             html += '<p>';
             html += task.Name + '<br/>';
 
             if (task.State === 'Running') {
-                var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
+                const progress = (task.CurrentProgressPercentage || 0).toFixed(1);
                 html += '<progress max="100" value="' + progress + '" title="' + progress + '%">';
                 html += progress + '%';
                 html += '</progress>';
@@ -389,11 +398,15 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             apiClient.sendMessage('ScheduledTasksInfoStop');
         },
         getSessionNowPlayingStreamInfo: function (session) {
-            var html = '';
-            var showTranscodingInfo = false;
-            var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+            let html = '';
+            let showTranscodingInfo = false;
+            const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
-            if (displayPlayMethod === 'DirectStream') {
+            if (displayPlayMethod === 'DirectPlay') {
+                html += globalize.translate('DirectPlaying');
+            } else if (displayPlayMethod === 'Remux') {
+                html += globalize.translate('Remuxing');
+            } else if (displayPlayMethod === 'DirectStream') {
                 html += globalize.translate('DirectStreaming');
             } else if (displayPlayMethod === 'Transcode') {
                 html += globalize.translate('Transcoding');
@@ -403,12 +416,10 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 }
 
                 showTranscodingInfo = true;
-            } else if (displayPlayMethod === 'DirectPlay') {
-                html += globalize.translate('DirectPlaying');
             }
 
             if (showTranscodingInfo) {
-                var line = [];
+                const line = [];
 
                 if (session.TranscodingInfo) {
                     if (session.TranscodingInfo.Bitrate) {
@@ -420,28 +431,28 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                     }
 
                     if (session.TranscodingInfo.Container) {
-                        line.push(session.TranscodingInfo.Container);
+                        line.push(session.TranscodingInfo.Container.toUpperCase());
                     }
 
                     if (session.TranscodingInfo.VideoCodec) {
-                        line.push(session.TranscodingInfo.VideoCodec);
+                        line.push(session.TranscodingInfo.VideoCodec.toUpperCase());
                     }
 
                     if (session.TranscodingInfo.AudioCodec && session.TranscodingInfo.AudioCodec != session.TranscodingInfo.Container) {
-                        line.push(session.TranscodingInfo.AudioCodec);
+                        line.push(session.TranscodingInfo.AudioCodec.toUpperCase());
                     }
                 }
 
                 if (line.length) {
-                    html += ' - ' + line.join(' ');
+                    html += '<br/><br/>' + line.join(' ');
                 }
             }
 
             return html;
         },
         getSessionNowPlayingTime: function (session) {
-            var nowPlayingItem = session.NowPlayingItem;
-            var html = '';
+            const nowPlayingItem = session.NowPlayingItem;
+            let html = '';
 
             if (nowPlayingItem) {
                 if (session.PlayState.PositionTicks) {
@@ -465,19 +476,19 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             return session.Client + ' ' + session.ApplicationVersion;
         },
         getNowPlayingName: function (session) {
-            var imgUrl = '';
-            var nowPlayingItem = session.NowPlayingItem;
+            let imgUrl = '';
+            const nowPlayingItem = session.NowPlayingItem;
             // FIXME: It seems that, sometimes, server sends date in the future, so date-fns displays messages like 'in less than a minute'. We should fix
             // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
             if (!nowPlayingItem) {
                 return {
-                    html: globalize.translate('LastSeen', datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), dfnshelper.localeWithSuffix)),
+                    html: globalize.translate('LastSeen', formatDistanceToNow(Date.parse(session.LastActivityDate), localeWithSuffix)),
                     image: imgUrl
                 };
             }
 
-            var topText = itemHelper.getDisplayName(nowPlayingItem);
-            var bottomText = '';
+            let topText = itemHelper.getDisplayName(nowPlayingItem);
+            let bottomText = '';
 
             if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
                 bottomText = topText;
@@ -517,13 +528,13 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             };
         },
         getUsersHtml: function (session) {
-            var html = [];
+            const html = [];
 
             if (session.UserId) {
                 html.push(session.UserName);
             }
 
-            for (var i = 0, length = session.AdditionalUsers.length; i < length; i++) {
+            for (let i = 0, length = session.AdditionalUsers.length; i < length; i++) {
                 html.push(session.AdditionalUsers[i].UserName);
             }
 
@@ -541,7 +552,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         },
         updateSession: function (row, session) {
             row.classList.remove('deadSession');
-            var nowPlayingItem = session.NowPlayingItem;
+            const nowPlayingItem = session.NowPlayingItem;
 
             if (nowPlayingItem) {
                 row.classList.add('playingSession');
@@ -549,21 +560,21 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 row.classList.remove('playingSession');
             }
 
-            if (session.ServerId && -1 !== session.SupportedCommands.indexOf('DisplayMessage') && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1) {
                 row.querySelector('.btnSessionSendMessage').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionSendMessage').classList.add('hide');
             }
 
-            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons.length) {
+            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo) {
                 row.querySelector('.btnSessionInfo').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionInfo').classList.add('hide');
             }
 
-            var btnSessionPlayPause = row.querySelector('.btnSessionPlayPause');
+            const btnSessionPlayPause = row.querySelector('.btnSessionPlayPause');
 
-            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl) {
                 btnSessionPlayPause.classList.remove('hide');
                 row.querySelector('.btnSessionStop').classList.remove('hide');
             } else {
@@ -579,19 +590,18 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             row.querySelector('.sessionNowPlayingTime').innerHTML = DashboardPage.getSessionNowPlayingTime(session);
             row.querySelector('.sessionUserName').innerHTML = DashboardPage.getUsersHtml(session);
             row.querySelector('.sessionAppSecondaryText').innerHTML = DashboardPage.getAppSecondaryText(session);
-            row.querySelector('.sessionTranscodingFramerate').innerHTML = session.TranscodingInfo && session.TranscodingInfo.Framerate ? session.TranscodingInfo.Framerate + ' fps' : '';
-            var nowPlayingName = DashboardPage.getNowPlayingName(session);
-            var nowPlayingInfoElem = row.querySelector('.sessionNowPlayingInfo');
+            const nowPlayingName = DashboardPage.getNowPlayingName(session);
+            const nowPlayingInfoElem = row.querySelector('.sessionNowPlayingInfo');
 
             if (!(nowPlayingName.image && nowPlayingName.image == nowPlayingInfoElem.getAttribute('data-imgsrc'))) {
                 nowPlayingInfoElem.innerHTML = nowPlayingName.html;
                 nowPlayingInfoElem.setAttribute('data-imgsrc', nowPlayingName.image || '');
             }
 
-            var playbackProgressElem = row.querySelector('.playbackProgress');
+            const playbackProgressElem = row.querySelector('.playbackProgress');
 
             if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
-                var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
+                const percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
                 playbackProgressElem.outerHTML = indicators.getProgressHtml(percent, {
                     containerClass: 'playbackProgress'
                 });
@@ -601,10 +611,10 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 });
             }
 
-            var transcodingProgress = row.querySelector('.transcodingProgress');
+            const transcodingProgress = row.querySelector('.transcodingProgress');
 
             if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
-                var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
+                const percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
                 transcodingProgress.outerHTML = indicators.getProgressHtml(percent, {
                     containerClass: 'transcodingProgress'
                 });
@@ -614,8 +624,8 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 });
             }
 
-            var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || '';
-            var imgElem = row.querySelector('.sessionNowPlayingContent');
+            const imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || '';
+            const imgElem = row.querySelector('.sessionNowPlayingContent');
 
             if (imgUrl != imgElem.getAttribute('data-src')) {
                 imgElem.style.backgroundImage = imgUrl ? "url('" + imgUrl + "')" : '';
@@ -629,7 +639,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             }
         },
         getClientImage: function (connection) {
-            var iconUrl = imageHelper.getDeviceIcon(connection);
+            const iconUrl = imageHelper.getDeviceIcon(connection);
             return "<img src='" + iconUrl + "' />";
         },
         getNowPlayingImageUrl: function (item) {
@@ -659,7 +669,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 });
             }
 
-            var imageTags = (item || {}).ImageTags || {};
+            const imageTags = (item || {}).ImageTags || {};
 
             if (item && imageTags.Thumb) {
                 return ApiClient.getScaledImageUrl(item.Id, {
@@ -713,43 +723,39 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         },
         systemUpdateTaskKey: 'SystemUpdateTask',
         stopTask: function (btn, id) {
-            var page = dom.parentWithClass(btn, 'page');
+            const page = dom.parentWithClass(btn, 'page');
             ApiClient.stopScheduledTask(id).then(function () {
                 pollForInfo(page, ApiClient);
             });
         },
         restart: function (btn) {
-            require(['confirm'], function (confirm) {
-                confirm({
-                    title: globalize.translate('HeaderRestart'),
-                    text: globalize.translate('MessageConfirmRestart'),
-                    confirmText: globalize.translate('ButtonRestart'),
-                    primary: 'delete'
-                }).then(function () {
-                    var page = dom.parentWithClass(btn, 'page');
-                    page.querySelector('#btnRestartServer').disabled = true;
-                    page.querySelector('#btnShutdown').disabled = true;
-                    ApiClient.restartServer();
-                });
+            confirm({
+                title: globalize.translate('Restart'),
+                text: globalize.translate('MessageConfirmRestart'),
+                confirmText: globalize.translate('Restart'),
+                primary: 'delete'
+            }).then(function () {
+                const page = dom.parentWithClass(btn, 'page');
+                page.querySelector('#btnRestartServer').disabled = true;
+                page.querySelector('#btnShutdown').disabled = true;
+                ApiClient.restartServer();
             });
         },
         shutdown: function (btn) {
-            require(['confirm'], function (confirm) {
-                confirm({
-                    title: globalize.translate('HeaderShutdown'),
-                    text: globalize.translate('MessageConfirmShutdown'),
-                    confirmText: globalize.translate('ButtonShutdown'),
-                    primary: 'delete'
-                }).then(function () {
-                    var page = dom.parentWithClass(btn, 'page');
-                    page.querySelector('#btnRestartServer').disabled = true;
-                    page.querySelector('#btnShutdown').disabled = true;
-                    ApiClient.shutdownServer();
-                });
+            confirm({
+                title: globalize.translate('ButtonShutdown'),
+                text: globalize.translate('MessageConfirmShutdown'),
+                confirmText: globalize.translate('ButtonShutdown'),
+                primary: 'delete'
+            }).then(function () {
+                const page = dom.parentWithClass(btn, 'page');
+                page.querySelector('#btnRestartServer').disabled = true;
+                page.querySelector('#btnShutdown').disabled = true;
+                ApiClient.shutdownServer();
             });
         }
     };
-    return function (view, params) {
+    export default function (view, params) {
         function onRestartRequired(evt, apiClient) {
             console.debug('onRestartRequired not implemented', evt, apiClient);
         }
@@ -788,23 +794,23 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             }
         }
 
-        var serverId = ApiClient.serverId();
+        const serverId = ApiClient.serverId();
         view.querySelector('.activeDevices').addEventListener('click', onActiveDevicesClick);
         view.addEventListener('viewshow', function () {
-            var page = this;
-            var apiClient = ApiClient;
+            const page = this;
+            const apiClient = ApiClient;
 
             if (apiClient) {
                 loading.show();
                 pollForInfo(page, apiClient);
                 DashboardPage.startInterval(apiClient);
-                events.on(serverNotifications, 'RestartRequired', onRestartRequired);
-                events.on(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
-                events.on(serverNotifications, 'ServerRestarting', onServerRestarting);
-                events.on(serverNotifications, 'PackageInstalling', onPackageInstalling);
-                events.on(serverNotifications, 'PackageInstallationCompleted', onPackageInstallationCompleted);
-                events.on(serverNotifications, 'Sessions', onSessionsUpdate);
-                events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+                Events.on(serverNotifications, 'RestartRequired', onRestartRequired);
+                Events.on(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
+                Events.on(serverNotifications, 'ServerRestarting', onServerRestarting);
+                Events.on(serverNotifications, 'PackageInstalling', onPackageInstalling);
+                Events.on(serverNotifications, 'PackageInstallationCompleted', onPackageInstallationCompleted);
+                Events.on(serverNotifications, 'Sessions', onSessionsUpdate);
+                Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
                 DashboardPage.lastAppUpdateCheck = null;
                 reloadSystemInfo(page, ApiClient);
 
@@ -827,34 +833,49 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 refreshActiveRecordings(view, apiClient);
                 loading.hide();
             }
+
+            taskButton({
+                mode: 'on',
+                taskKey: 'RefreshLibrary',
+                button: page.querySelector('.btnRefresh')
+            });
         });
         view.addEventListener('viewbeforehide', function () {
-            var apiClient = ApiClient;
-            events.off(serverNotifications, 'RestartRequired', onRestartRequired);
-            events.off(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
-            events.off(serverNotifications, 'ServerRestarting', onServerRestarting);
-            events.off(serverNotifications, 'PackageInstalling', onPackageInstalling);
-            events.off(serverNotifications, 'PackageInstallationCompleted', onPackageInstallationCompleted);
-            events.off(serverNotifications, 'Sessions', onSessionsUpdate);
-            events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+            const apiClient = ApiClient;
+            const page = this;
+
+            Events.off(serverNotifications, 'RestartRequired', onRestartRequired);
+            Events.off(serverNotifications, 'ServerShuttingDown', onServerShuttingDown);
+            Events.off(serverNotifications, 'ServerRestarting', onServerRestarting);
+            Events.off(serverNotifications, 'PackageInstalling', onPackageInstalling);
+            Events.off(serverNotifications, 'PackageInstallationCompleted', onPackageInstallationCompleted);
+            Events.off(serverNotifications, 'Sessions', onSessionsUpdate);
+            Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
 
             if (apiClient) {
                 DashboardPage.stopInterval(apiClient);
             }
+
+            taskButton({
+                mode: 'off',
+                taskKey: 'RefreshLibrary',
+                button: page.querySelector('.btnRefresh')
+            });
         });
         view.addEventListener('viewdestroy', function () {
-            var page = this;
-            var userActivityLog = page.userActivityLog;
+            const page = this;
+            const userActivityLog = page.userActivityLog;
 
             if (userActivityLog) {
                 userActivityLog.destroy();
             }
 
-            var serverActivityLog = page.serverActivityLog;
+            const serverActivityLog = page.serverActivityLog;
 
             if (serverActivityLog) {
                 serverActivityLog.destroy();
             }
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

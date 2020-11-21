@@ -1,16 +1,19 @@
-define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox', 'emby-textarea', 'emby-input', 'emby-select', 'emby-button'], function ($, loading, globalize) {
-    'use strict';
+import 'jquery';
+import loading from '../../components/loading/loading';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-textarea/emby-textarea';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-button/emby-button';
+import AppInfo from '../../components/AppInfo';
+import Dashboard from '../../scripts/clientUtils';
+import alert from '../../components/alert';
+
+/* eslint-disable indent */
 
     function loadPage(page, config, languageOptions, systemInfo) {
         page.querySelector('#txtServerName').value = systemInfo.ServerName;
-        $('#chkAutoRunWebApp', page).checked(config.AutoRunWebApp);
-
-        if (systemInfo.CanLaunchWebBrowser) {
-            page.querySelector('#fldAutoRunWebApp').classList.remove('hide');
-        } else {
-            page.querySelector('#fldAutoRunWebApp').classList.add('hide');
-        }
-
         page.querySelector('#txtCachePath').value = systemInfo.CachePath || '';
         $('#txtMetadataPath', page).val(systemInfo.InternalMetadataPath || '');
         $('#txtMetadataNetworkPath', page).val(systemInfo.MetadataNetworkPath || '');
@@ -18,18 +21,13 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox', 'emby-te
             return '<option value="' + language.Value + '">' + language.Name + '</option>';
         })).val(config.UICulture);
         currentLanguage = config.UICulture;
-        if (systemInfo.CanSelfRestart || systemInfo.CanSelfUpdate) {
-            $('.autoUpdatesContainer', page).removeClass('hide');
-        } else {
-            $('.autoUpdatesContainer', page).addClass('hide');
-        }
 
         loading.hide();
     }
 
     function onSubmit() {
         loading.show();
-        var form = this;
+        const form = this;
         $(form).parents('.page');
         ApiClient.getServerConfiguration().then(function (config) {
             config.ServerName = $('#txtServerName', form).val();
@@ -37,8 +35,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox', 'emby-te
             config.CachePath = form.querySelector('#txtCachePath').value;
             config.MetadataPath = $('#txtMetadataPath', form).val();
             config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
-            var requiresReload = config.UICulture !== currentLanguage;
-            config.AutoRunWebApp = $('#chkAutoRunWebApp', form).checked();
+            let requiresReload = config.UICulture !== currentLanguage;
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;
@@ -57,23 +54,20 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox', 'emby-te
                     });
                 });
             }, function () {
-                require(['alert'], function (alert) {
-                    alert(globalize.translate('DefaultErrorMessage'));
-                });
-
+                alert(globalize.translate('ErrorDefault'));
                 Dashboard.processServerConfigurationUpdateResult();
             });
         });
         return false;
     }
 
-    var currentBrandingOptions;
-    var currentLanguage;
-    var brandingConfigKey = 'branding';
-    return function (view, params) {
+    let currentBrandingOptions;
+    let currentLanguage;
+    const brandingConfigKey = 'branding';
+    export default function (view, params) {
         $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
-            require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
+                const picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -89,8 +83,8 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox', 'emby-te
             });
         });
         $('#btnSelectMetadataPath', view).on('click.selectDirectory', function () {
-            require(['directorybrowser'], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
+                const picker = new directoryBrowser();
                 picker.show({
                     path: $('#txtMetadataPath', view).val(),
                     networkSharePath: $('#txtMetadataNetworkPath', view).val(),
@@ -114,9 +108,9 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox', 'emby-te
         });
         $('.dashboardGeneralForm', view).off('submit', onSubmit).on('submit', onSubmit);
         view.addEventListener('viewshow', function () {
-            var promiseConfig = ApiClient.getServerConfiguration();
-            var promiseLanguageOptions = ApiClient.getJSON(ApiClient.getUrl('Localization/Options'));
-            var promiseSystemInfo = ApiClient.getSystemInfo();
+            const promiseConfig = ApiClient.getServerConfiguration();
+            const promiseLanguageOptions = ApiClient.getJSON(ApiClient.getUrl('Localization/Options'));
+            const promiseSystemInfo = ApiClient.getSystemInfo();
             Promise.all([promiseConfig, promiseLanguageOptions, promiseSystemInfo]).then(function (responses) {
                 loadPage(view, responses[0], responses[1], responses[2]);
             });
@@ -126,5 +120,6 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox', 'emby-te
                 view.querySelector('#txtCustomCss').value = config.CustomCss || '';
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

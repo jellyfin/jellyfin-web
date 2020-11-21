@@ -1,6 +1,9 @@
+const restrictedGlobals = require('confusing-browser-globals');
+
 module.exports = {
     root: true,
     plugins: [
+        '@babel',
         'promise',
         'import',
         'eslint-comments'
@@ -22,33 +25,40 @@ module.exports = {
         'eslint:recommended',
         // 'plugin:promise/recommended',
         'plugin:import/errors',
-        'plugin:import/warnings',
         'plugin:eslint-comments/recommended',
         'plugin:compat/recommended'
     ],
     rules: {
-        'block-spacing': ["error"],
-        'brace-style': ["error"],
-        'comma-dangle': ["error", "never"],
-        'comma-spacing': ["error"],
-        'eol-last': ["error"],
-        'indent': ["error", 4, { "SwitchCase": 1 }],
-        'keyword-spacing': ["error"],
-        'max-statements-per-line': ["error"],
-        'no-floating-decimal': ["error"],
-        'no-multi-spaces': ["error"],
-        'no-multiple-empty-lines': ["error", { "max": 1 }],
-        'no-trailing-spaces': ["error"],
-        'one-var': ["error", "never"],
-        'quotes': ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": false }],
-        'semi': ["error"],
-        'space-before-blocks': ["error"]
+        'block-spacing': ['error'],
+        'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
+        'comma-dangle': ['error', 'never'],
+        'comma-spacing': ['error'],
+        'eol-last': ['error'],
+        'indent': ['error', 4, { 'SwitchCase': 1 }],
+        'keyword-spacing': ['error'],
+        'max-statements-per-line': ['error'],
+        'no-floating-decimal': ['error'],
+        'no-multi-spaces': ['error'],
+        'no-multiple-empty-lines': ['error', { 'max': 1 }],
+        'no-restricted-globals': ['error'].concat(restrictedGlobals),
+        'no-trailing-spaces': ['error'],
+        '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+        'one-var': ['error', 'never'],
+        'padded-blocks': ['error', 'never'],
+        'prefer-const': ['error', {'destructuring': 'all'}],
+        'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
+        '@babel/semi': ['error'],
+        'no-var': ['error'],
+        'space-before-blocks': ['error'],
+        'space-infix-ops': 'error',
+        'yoda': 'error'
     },
     overrides: [
         {
             files: [
                 './src/**/*.js'
             ],
+            parser: '@babel/eslint-parser',
             env: {
                 node: false,
                 amd: true,
@@ -68,17 +78,12 @@ module.exports = {
                 // Dependency globals
                 '$': 'readonly',
                 'jQuery': 'readonly',
-                'requirejs': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'writable',
-                'AppInfo': 'writable',
                 'chrome': 'writable',
-                'ConnectionManager': 'writable',
                 'DlnaProfilePage': 'writable',
-                'Dashboard': 'writable',
                 'DashboardPage': 'writable',
                 'Emby': 'readonly',
-                'Events': 'writable',
                 'getParameterByName': 'writable',
                 'getWindowLocationSearch': 'writable',
                 'Globalize': 'writable',
@@ -88,19 +93,17 @@ module.exports = {
                 'LinkParser': 'writable',
                 'LiveTvHelpers': 'writable',
                 'MetadataEditor': 'writable',
-                'pageClassOn': 'writable',
-                'pageIdOn': 'writable',
                 'PlaylistViewer': 'writable',
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly'
             },
             rules: {
                 // TODO: Fix warnings and remove these rules
-                'no-redeclare': ["warn"],
-                'no-unused-vars': ["warn"],
-                'no-useless-escape': ["warn"],
+                'no-redeclare': ['off'],
+                'no-useless-escape': ['off'],
+                'no-unused-vars': ['off'],
                 // TODO: Remove after ES6 migration is complete
-                'import/no-unresolved': ["off"]
+                'import/no-unresolved': ['off']
             },
             settings: {
                 polyfills: [
@@ -130,6 +133,7 @@ module.exports = {
                     'Object.getOwnPropertyDescriptor',
                     'Object.getPrototypeOf',
                     'Object.keys',
+                    'Object.entries',
                     'Object.getOwnPropertyNames',
                     'Function.name',
                     'Function.hasInstance',
@@ -190,4 +194,4 @@ module.exports = {
             }
         }
     ]
-}
+};

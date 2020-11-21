@@ -1,8 +1,25 @@
-define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', 'cardBuilder', 'dom', 'apphost', 'imageLoader', 'libraryMenu', 'playbackManager', 'mainTabsManager', 'globalize', 'scrollStyles', 'emby-itemscontainer', 'emby-tabs', 'emby-button', 'flexStyles'], function (browser, layoutManager, userSettings, inputManager, loading, cardBuilder, dom, appHost, imageLoader, libraryMenu, playbackManager, mainTabsManager, globalize) {
-    'use strict';
+import browser from '../../scripts/browser';
+import layoutManager from '../../components/layoutManager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import inputManager from '../../scripts/inputManager';
+import loading from '../../components/loading/loading';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import dom from '../../scripts/dom';
+import imageLoader from '../../components/images/imageLoader';
+import libraryMenu from '../../scripts/libraryMenu';
+import * as mainTabsManager from '../../components/maintabsmanager';
+import globalize from '../../scripts/globalize';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.scss';
+import Dashboard from '../../scripts/clientUtils';
+
+/* eslint-disable indent */
 
     function itemsPerRow() {
-        var screenWidth = dom.getWindowSize().innerWidth;
+        const screenWidth = dom.getWindowSize().innerWidth;
 
         if (screenWidth >= 1920) {
             return 9;
@@ -29,8 +46,8 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
 
     function loadLatest(page, parentId) {
         loading.show();
-        var userId = ApiClient.getCurrentUserId();
-        var options = {
+        const userId = ApiClient.getCurrentUserId();
+        const options = {
             IncludeItemTypes: 'Audio',
             Limit: enableScrollX() ? 3 * itemsPerRow() : 2 * itemsPerRow(),
             Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
@@ -40,9 +57,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             EnableTotalRecordCount: false
         };
         ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-            var elem = page.querySelector('#recentlyAddedSongs');
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
+            const elem = page.querySelector('#recentlyAddedSongs');
             elem.innerHTML = cardBuilder.getCardsHtml({
                 items: items,
                 showUnplayedIndicator: false,
@@ -51,23 +66,23 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 showTitle: true,
                 showParentTitle: true,
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayPlayButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayPlayButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(elem);
             loading.hide();
 
-            require(['autoFocuser'], function (autoFocuser) {
+            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(page);
             });
         });
     }
 
     function loadRecentlyPlayed(page, parentId) {
-        var options = {
+        const options = {
             SortBy: 'DatePlayed',
             SortOrder: 'Descending',
             IncludeItemTypes: 'Audio',
@@ -81,7 +96,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             EnableTotalRecordCount: false
         };
         ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-            var elem = page.querySelector('#recentlyPlayed');
+            const elem = page.querySelector('#recentlyPlayed');
 
             if (result.Items.length) {
                 elem.classList.remove('hide');
@@ -89,9 +104,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 elem.classList.add('hide');
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
+            const itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -100,10 +113,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 showParentTitle: true,
                 action: 'instantmix',
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayMoreButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayMoreButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(itemsContainer);
@@ -111,7 +124,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
     }
 
     function loadFrequentlyPlayed(page, parentId) {
-        var options = {
+        const options = {
             SortBy: 'PlayCount',
             SortOrder: 'Descending',
             IncludeItemTypes: 'Audio',
@@ -125,7 +138,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             EnableTotalRecordCount: false
         };
         ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-            var elem = page.querySelector('#topPlayed');
+            const elem = page.querySelector('#topPlayed');
 
             if (result.Items.length) {
                 elem.classList.remove('hide');
@@ -133,9 +146,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 elem.classList.add('hide');
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
+            const itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -144,10 +155,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 showParentTitle: true,
                 action: 'instantmix',
                 lazy: true,
-                centerText: !supportsImageAnalysis,
-                overlayMoreButton: !supportsImageAnalysis,
+                centerText: true,
+                overlayMoreButton: true,
                 allowBottomPadding: !enableScrollX(),
-                cardLayout: supportsImageAnalysis,
+                cardLayout: false,
                 coverImage: true
             });
             imageLoader.lazyChildren(itemsContainer);
@@ -160,35 +171,32 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         loadRecentlyPlayed(tabContent, parentId);
         loadFrequentlyPlayed(tabContent, parentId);
 
-        require(['components/favoriteitems'], function (favoriteItems) {
+        import('../../components/favoriteitems').then(({default: favoriteItems}) => {
             favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']);
         });
     }
 
     function getTabs() {
         return [{
-            name: globalize.translate('TabSuggestions')
+            name: globalize.translate('Albums')
         }, {
-            name: globalize.translate('TabAlbums')
+            name: globalize.translate('Suggestions')
         }, {
-            name: globalize.translate('TabAlbumArtists')
+            name: globalize.translate('HeaderAlbumArtists')
         }, {
-            name: globalize.translate('TabArtists')
+            name: globalize.translate('Artists')
         }, {
-            name: globalize.translate('TabPlaylists')
+            name: globalize.translate('Playlists')
         }, {
-            name: globalize.translate('TabSongs')
+            name: globalize.translate('Songs')
         }, {
-            name: globalize.translate('TabGenres')
-        }, {
-            name: globalize.translate('ButtonSearch'),
-            cssClass: 'searchTabButton'
+            name: globalize.translate('Genres')
         }];
     }
 
     function getDefaultTabIndex(folderId) {
         switch (userSettings.get('landing-' + folderId)) {
-            case 'albums':
+            case 'suggestions':
                 return 1;
 
             case 'albumartists':
@@ -211,10 +219,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         }
     }
 
-    return function (view, params) {
+    export default function (view, params) {
         function reload() {
             loading.show();
-            var tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, tabContent, params.topParentId);
         }
 
@@ -256,58 +264,51 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
         }
 
-        function getTabController(page, index, callback) {
-            var depends = [];
+        const getTabController = (page, index, callback) => {
+            let depends;
 
             switch (index) {
                 case 0:
+                    depends = 'musicalbums';
                     break;
 
                 case 1:
-                    depends.push('controllers/music/musicalbums');
+                    depends = 'musicrecommended';
                     break;
 
                 case 2:
                 case 3:
-                    depends.push('controllers/music/musicartists');
+                    depends = 'musicartists';
                     break;
 
                 case 4:
-                    depends.push('controllers/music/musicplaylists');
+                    depends = 'musicplaylists';
                     break;
 
                 case 5:
-                    depends.push('controllers/music/songs');
+                    depends = 'songs';
                     break;
 
                 case 6:
-                    depends.push('controllers/music/musicgenres');
+                    depends = 'musicgenres';
                     break;
-
-                case 7:
-                    depends.push('scripts/searchtab');
             }
 
-            require(depends, function (controllerFactory) {
-                var tabContent;
+            import(`../music/${depends}`).then(({default: controllerFactory}) => {
+                let tabContent;
 
-                if (0 == index) {
+                if (index == 1) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                    self.tabContent = tabContent;
+                    this.tabContent = tabContent;
                 }
 
-                var controller = tabControllers[index];
+                let controller = tabControllers[index];
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
 
-                    if (index === 0) {
-                        controller = self;
-                    } else if (index === 7) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: 'music',
-                            parentId: params.topParentId
-                        });
+                    if (index === 1) {
+                        controller = this;
                     } else {
                         controller = new controllerFactory(view, params, tabContent);
                     }
@@ -326,7 +327,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
 
                 callback(controller);
             });
-        }
+        };
 
         function preLoadTab(page, index) {
             getTabController(page, index, function (controller) {
@@ -339,8 +340,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         function loadTab(page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
-                initialTabIndex = null;
-
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
@@ -356,31 +355,28 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             }
         }
 
-        var isViewRestored;
-        var self = this;
-        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
-        var initialTabIndex = currentTabIndex;
+        let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        const suggestionsTabIndex = 1;
 
-        self.initTab = function () {
-            var tabContent = view.querySelector(".pageTabContent[data-index='0']");
-            var containers = tabContent.querySelectorAll('.itemsContainer');
+        this.initTab = function () {
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            const containers = tabContent.querySelectorAll('.itemsContainer');
 
-            for (var i = 0, length = containers.length; i < length; i++) {
+            for (let i = 0, length = containers.length; i < length; i++) {
                 setScrollClasses(containers[i], enableScrollX());
             }
         };
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reload();
         };
 
-        var tabControllers = [];
-        var renderedTabs = [];
+        const tabControllers = [];
+        const renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
-            isViewRestored = e.detail.isRestored;
             initTabs();
             if (!view.getAttribute('data-title')) {
-                var parentId = params.topParentId;
+                const parentId = params.topParentId;
 
                 if (parentId) {
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
@@ -405,5 +401,6 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
                 }
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

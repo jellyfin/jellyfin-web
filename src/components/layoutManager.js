@@ -1,22 +1,21 @@
-define(['browser', 'appSettings', 'events'], function (browser, appSettings, events) {
-    'use strict';
 
-    function setLayout(instance, layout, selectedLayout) {
-        if (layout === selectedLayout) {
-            instance[layout] = true;
-            document.documentElement.classList.add('layout-' + layout);
-        } else {
-            instance[layout] = false;
-            document.documentElement.classList.remove('layout-' + layout);
-        }
+import { appHost } from './apphost';
+import browser from '../scripts/browser';
+import appSettings from '../scripts/settings/appSettings';
+import { Events } from 'jellyfin-apiclient';
+
+function setLayout(instance, layout, selectedLayout) {
+    if (layout === selectedLayout) {
+        instance[layout] = true;
+        document.documentElement.classList.add('layout-' + layout);
+    } else {
+        instance[layout] = false;
+        document.documentElement.classList.remove('layout-' + layout);
     }
+}
 
-    function LayoutManager() {
-
-    }
-
-    LayoutManager.prototype.setLayout = function (layout, save) {
-
+class LayoutManager {
+    setLayout(layout, save) {
         if (!layout || layout === 'auto') {
             this.autoLayout();
 
@@ -33,15 +32,14 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
             }
         }
 
-        events.trigger(this, 'modechange');
-    };
+        Events.trigger(this, 'modechange');
+    }
 
-    LayoutManager.prototype.getSavedLayout = function (layout) {
+    getSavedLayout() {
         return appSettings.get('layout');
-    };
+    }
 
-    LayoutManager.prototype.autoLayout = function () {
-
+    autoLayout() {
         // Take a guess at initial layout. The consuming app can override
         if (browser.mobile) {
             this.setLayout('mobile', false);
@@ -50,16 +48,24 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
         } else {
             this.setLayout(this.defaultLayout || 'tv', false);
         }
-    };
+    }
 
-    LayoutManager.prototype.init = function () {
-        var saved = this.getSavedLayout();
+    init() {
+        const saved = this.getSavedLayout();
         if (saved) {
             this.setLayout(saved, false);
         } else {
             this.autoLayout();
         }
-    };
+    }
+}
 
-    return new LayoutManager();
-});
+const layoutManager = new LayoutManager();
+
+if (appHost.getDefaultLayout) {
+    layoutManager.defaultLayout = appHost.getDefaultLayout();
+}
+
+layoutManager.init();
+
+export default layoutManager;

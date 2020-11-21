@@ -1,0 +1,40 @@
+{
+  "multiserver": false,
+  "themes": [
+    {
+      "name": "Apple TV",
+      "id": "appletv"
+    }, {
+      "name": "Blue Radiance",
+      "id": "blueradiance"
+    }, {
+      "name": "Dark",
+      "id": "dark",
+      "default": true
+    }, {
+      "name": "Light",
+      "id": "light"
+    }, {
+      "name": "Purple Haze",
+      "id": "purplehaze"
+    }, {
+      "name": "WMC",
+      "id": "wmc"
+    }
+  ],
+  "plugins": [
+    "playAccessValidation/plugin",
+    "experimentalWarnings/plugin",
+    "htmlAudioPlayer/plugin",
+    "htmlVideoPlayer/plugin",
+    "photoPlayer/plugin",
+    "comicsPlayer/plugin",
+    "bookPlayer/plugin",
+    "youtubePlayer/plugin",
+    "backdropScreensaver/plugin",
+    "pdfPlayer/plugin",
+    "logoScreensaver/plugin",
+    "sessionPlayer/plugin",
+    "chromecastPlayer/plugin"
+  ]
+}

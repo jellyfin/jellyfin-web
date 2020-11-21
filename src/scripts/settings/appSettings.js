@@ -1,9 +1,8 @@
 /* eslint-disable indent */
+import { AppStorage, Events } from 'jellyfin-apiclient';
 
-import appStorage from 'appStorage';
-import events from 'events';
-
-    function getKey(name, userId) {
+class AppSettings {
+    #getKey(name, userId) {
         if (userId) {
             name = userId + '-' + name;
         }
@@ -11,7 +10,7 @@ import events from 'events';
         return name;
     }
 
-    export function enableAutoLogin(val) {
+    enableAutoLogin(val) {
         if (val !== undefined) {
             this.set('enableAutoLogin', val.toString());
         }
@@ -19,7 +18,7 @@ import events from 'events';
         return this.get('enableAutoLogin') !== 'false';
     }
 
-    export function enableSystemExternalPlayers(val) {
+    enableSystemExternalPlayers(val) {
         if (val !== undefined) {
             this.set('enableSystemExternalPlayers', val.toString());
         }
@@ -27,8 +26,8 @@ import events from 'events';
         return this.get('enableSystemExternalPlayers') === 'true';
     }
 
-    export function enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
-        var key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
+    enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
+        const key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
         if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
                 val = true;
@@ -44,8 +43,8 @@ import events from 'events';
         }
     }
 
-    export function maxStreamingBitrate(isInNetwork, mediaType, val) {
-        var key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
+    maxStreamingBitrate(isInNetwork, mediaType, val) {
+        const key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
         if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
                 //  nothing to do, this is always a max value
@@ -62,16 +61,16 @@ import events from 'events';
         }
     }
 
-    export function maxStaticMusicBitrate(val) {
+    maxStaticMusicBitrate(val) {
         if (val !== undefined) {
             this.set('maxStaticMusicBitrate', val);
         }
 
-        var defaultValue = 320000;
+        const defaultValue = 320000;
         return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
     }
 
-    export function maxChromecastBitrate(val) {
+    maxChromecastBitrate(val) {
         if (val !== undefined) {
             this.set('chromecastBitrate1', val);
         }
@@ -80,69 +79,20 @@ import events from 'events';
         return val ? parseInt(val) : null;
     }
 
-    export function syncOnlyOnWifi(val) {
-        if (val !== undefined) {
-            this.set('syncOnlyOnWifi', val.toString());
-        }
-
-        return this.get('syncOnlyOnWifi') !== 'false';
-    }
-
-    export function syncPath(val) {
-        if (val !== undefined) {
-            this.set('syncPath', val);
-        }
-
-        return this.get('syncPath');
-    }
-
-    export function cameraUploadServers(val) {
-        if (val !== undefined) {
-            this.set('cameraUploadServers', val.join(','));
-        }
-
-        val = this.get('cameraUploadServers');
-        if (val) {
-            return val.split(',');
-        }
-
-        return [];
-    }
-
-    export function runAtStartup(val) {
-        if (val !== undefined) {
-            this.set('runatstartup', val.toString());
-        }
-
-        return this.get('runatstartup') === 'true';
-    }
-
-    export function set(name, value, userId) {
-        var currentValue = this.get(name, userId);
-        appStorage.setItem(getKey(name, userId), value);
+    set(name, value, userId) {
+        const currentValue = this.get(name, userId);
+        AppStorage.setItem(this.#getKey(name, userId), value);
 
         if (currentValue !== value) {
-            events.trigger(this, 'change', [name]);
+            Events.trigger(this, 'change', [name]);
         }
     }
 
-    export function get(name, userId) {
-        return appStorage.getItem(getKey(name, userId));
+    get(name, userId) {
+        return AppStorage.getItem(this.#getKey(name, userId));
     }
+}
 
 /* eslint-enable indent */
 
-export default {
-    enableAutoLogin: enableAutoLogin,
-    enableSystemExternalPlayers: enableSystemExternalPlayers,
-    enableAutomaticBitrateDetection: enableAutomaticBitrateDetection,
-    maxStreamingBitrate: maxStreamingBitrate,
-    maxStaticMusicBitrate: maxStaticMusicBitrate,
-    maxChromecastBitrate: maxChromecastBitrate,
-    syncOnlyOnWifi: syncOnlyOnWifi,
-    syncPath: syncPath,
-    cameraUploadServers: cameraUploadServers,
-    runAtStartup: runAtStartup,
-    set: set,
-    get: get
-};
+export default new AppSettings();

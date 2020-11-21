@@ -1,9 +1,8 @@
+
 /* eslint-disable indent */
 
-import browser from 'browser';
-
     export function getDeviceIcon(device) {
-        var baseUrl = 'assets/img/devices/';
+        const baseUrl = 'assets/img/devices/';
         switch (device.AppName || device.Client) {
             case 'Samsung Smart TV':
                 return baseUrl + 'samsung.svg';
@@ -32,6 +31,11 @@ import browser from 'browser';
                     case 'Safari iPad':
                     case 'Safari iPhone':
                         return baseUrl + 'safari.svg';
+                    case 'Edge Chromium':
+                    case 'Edge Chromium Android':
+                    case 'Edge Chromium iPad':
+                    case 'Edge Chromium iPhone':
+                        return baseUrl + 'edgechromium.svg';
                     case 'Edge':
                         return baseUrl + 'edge.svg';
                     case 'Internet Explorer':

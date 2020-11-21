@@ -1,20 +1,23 @@
-define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewContainer'], function (browser, dom, layoutManager) {
-    'use strict';
+import './viewManager/viewContainer.css';
+import Dashboard from '../scripts/clientUtils';
+
+/* eslint-disable indent */
 
     function setControllerClass(view, options) {
         if (options.controllerFactory) {
             return Promise.resolve();
         }
 
-        var controllerUrl = view.getAttribute('data-controller');
+        let controllerUrl = view.getAttribute('data-controller');
 
         if (controllerUrl) {
-            if (0 === controllerUrl.indexOf('__plugin/')) {
+            if (controllerUrl.indexOf('__plugin/') === 0) {
                 controllerUrl = controllerUrl.substring('__plugin/'.length);
             }
 
-            controllerUrl = Dashboard.getConfigurationResourceUrl(controllerUrl);
-            return getRequirePromise([controllerUrl]).then(function (ControllerFactory) {
+            controllerUrl = Dashboard.getPluginUrl(controllerUrl);
+            const apiUrl = ApiClient.getUrl('/web/' + controllerUrl);
+            return import(/* webpackIgnore: true */ apiUrl).then((ControllerFactory) => {
                 options.controllerFactory = ControllerFactory;
             });
         }
@@ -22,108 +25,89 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
         return Promise.resolve();
     }
 
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-            require(deps, resolve);
-        });
-    }
-
-    function loadView(options) {
+    export function loadView(options) {
         if (!options.cancel) {
-            var selected = selectedPageIndex;
-            var previousAnimatable = -1 === selected ? null : allPages[selected];
-            var pageIndex = selected + 1;
+            const selected = selectedPageIndex;
+            const previousAnimatable = selected === -1 ? null : allPages[selected];
+            let pageIndex = selected + 1;
 
             if (pageIndex >= pageContainerCount) {
                 pageIndex = 0;
             }
 
-            var isPluginpage = -1 !== options.url.toLowerCase().indexOf('/configurationpage');
-            var newViewInfo = normalizeNewView(options, isPluginpage);
-            var newView = newViewInfo.elem;
-            var modulesToLoad = [];
+            const isPluginpage = options.url.includes('configurationpage');
+            const newViewInfo = normalizeNewView(options, isPluginpage);
+            const newView = newViewInfo.elem;
 
-            if (isPluginpage) {
-                modulesToLoad.push('legacyDashboard');
+            const currentPage = allPages[pageIndex];
+
+            if (currentPage) {
+                triggerDestroy(currentPage);
             }
 
-            if (newViewInfo.hasjQuerySelect) {
-                modulesToLoad.push('legacySelectMenu');
+            let view = newView;
+
+            if (typeof view == 'string') {
+                view = document.createElement('div');
+                view.innerHTML = newView;
             }
 
-            if (newViewInfo.hasjQueryChecked) {
-                modulesToLoad.push('fnchecked');
+            view.classList.add('mainAnimatedPage');
+
+            if (currentPage) {
+                if (newViewInfo.hasScript && window.$) {
+                    mainAnimatedPages.removeChild(currentPage);
+                    view = $(view).appendTo(mainAnimatedPages)[0];
+                } else {
+                    mainAnimatedPages.replaceChild(view, currentPage);
+                }
+            } else {
+                if (newViewInfo.hasScript && window.$) {
+                    view = $(view).appendTo(mainAnimatedPages)[0];
+                } else {
+                    mainAnimatedPages.appendChild(view);
+                }
             }
 
-            return new Promise(function (resolve) {
-                require(modulesToLoad, function () {
-                    var currentPage = allPages[pageIndex];
+            if (options.type) {
+                view.setAttribute('data-type', options.type);
+            }
 
-                    if (currentPage) {
-                        triggerDestroy(currentPage);
+            const properties = [];
+
+            if (options.fullscreen) {
+                properties.push('fullscreen');
+            }
+
+            if (properties.length) {
+                view.setAttribute('data-properties', properties.join(','));
+            }
+
+            allPages[pageIndex] = view;
+
+            return setControllerClass(view, options)
+                // Timeout for polyfilled CustomElements (webOS 1.2)
+                .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
+                .then(() => {
+                    if (onBeforeChange) {
+                        onBeforeChange(view, false, options);
                     }
 
-                    var view = newView;
+                    beforeAnimate(allPages, pageIndex, selected);
+                    selectedPageIndex = pageIndex;
+                    currentUrls[pageIndex] = options.url;
 
-                    if ('string' == typeof view) {
-                        view = document.createElement('div');
-                        view.innerHTML = newView;
+                    if (!options.cancel && previousAnimatable) {
+                        afterAnimate(allPages, pageIndex);
                     }
 
-                    view.classList.add('mainAnimatedPage');
-
-                    if (currentPage) {
-                        if (newViewInfo.hasScript && window.$) {
-                            view = $(view).appendTo(mainAnimatedPages)[0];
-                            mainAnimatedPages.removeChild(currentPage);
-                        } else {
-                            mainAnimatedPages.replaceChild(view, currentPage);
-                        }
-                    } else {
-                        if (newViewInfo.hasScript && window.$) {
-                            view = $(view).appendTo(mainAnimatedPages)[0];
-                        } else {
-                            mainAnimatedPages.appendChild(view);
-                        }
+                    if (window.$) {
+                        $.mobile = $.mobile || {};
+                        $.mobile.activePage = view;
                     }
 
-                    if (options.type) {
-                        view.setAttribute('data-type', options.type);
-                    }
-
-                    var properties = [];
-
-                    if (options.fullscreen) {
-                        properties.push('fullscreen');
-                    }
-
-                    if (properties.length) {
-                        view.setAttribute('data-properties', properties.join(','));
-                    }
-
-                    allPages[pageIndex] = view;
-                    setControllerClass(view, options).then(function () {
-                        if (onBeforeChange) {
-                            onBeforeChange(view, false, options);
-                        }
-
-                        beforeAnimate(allPages, pageIndex, selected);
-                        selectedPageIndex = pageIndex;
-                        currentUrls[pageIndex] = options.url;
-
-                        if (!options.cancel && previousAnimatable) {
-                            afterAnimate(allPages, pageIndex);
-                        }
-
-                        if (window.$) {
-                            $.mobile = $.mobile || {};
-                            $.mobile.activePage = view;
-                        }
-
-                        resolve(view);
-                    });
+                    return view;
                 });
-            });
         }
     }
 
@@ -137,33 +121,33 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
             html = replaceAll(html, '<\/script>--\x3e', '<\/script>');
         }
 
-        var wrapper = document.createElement('div');
+        const wrapper = document.createElement('div');
         wrapper.innerHTML = html;
         return wrapper.querySelector('div[data-role="page"]');
     }
 
     function normalizeNewView(options, isPluginpage) {
-        var viewHtml = options.view;
+        const viewHtml = options.view;
 
-        if (-1 === viewHtml.indexOf('data-role="page"')) {
+        if (viewHtml.indexOf('data-role="page"') === -1) {
             return viewHtml;
         }
 
-        var hasScript = -1 !== viewHtml.indexOf('<script');
-        var elem = parseHtml(viewHtml, hasScript);
+        let hasScript = viewHtml.indexOf('<script') !== -1;
+        const elem = parseHtml(viewHtml, hasScript);
 
         if (hasScript) {
-            hasScript = null != elem.querySelector('script');
+            hasScript = elem.querySelector('script') != null;
         }
 
-        var hasjQuery = false;
-        var hasjQuerySelect = false;
-        var hasjQueryChecked = false;
+        let hasjQuery = false;
+        let hasjQuerySelect = false;
+        let hasjQueryChecked = false;
 
         if (isPluginpage) {
-            hasjQuery = -1 != viewHtml.indexOf('jQuery') || -1 != viewHtml.indexOf('$(') || -1 != viewHtml.indexOf('$.');
-            hasjQueryChecked = -1 != viewHtml.indexOf('.checked(');
-            hasjQuerySelect = -1 != viewHtml.indexOf('.selectmenu(');
+            hasjQuery = viewHtml.indexOf('jQuery') != -1 || viewHtml.indexOf('$(') != -1 || viewHtml.indexOf('$.') != -1;
+            hasjQueryChecked = viewHtml.indexOf('.checked(') != -1;
+            hasjQuerySelect = viewHtml.indexOf('.selectmenu(') != -1;
         }
 
         return {
@@ -176,7 +160,7 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     }
 
     function beforeAnimate(allPages, newPageIndex, oldPageIndex) {
-        for (var index = 0, length = allPages.length; index < length; index++) {
+        for (let index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index && oldPageIndex !== index) {
                 allPages[index].classList.add('hide');
             }
@@ -184,33 +168,33 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
     }
 
     function afterAnimate(allPages, newPageIndex) {
-        for (var index = 0, length = allPages.length; index < length; index++) {
+        for (let index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index) {
                 allPages[index].classList.add('hide');
             }
         }
     }
 
-    function setOnBeforeChange(fn) {
+    export function setOnBeforeChange(fn) {
         onBeforeChange = fn;
     }
 
-    function tryRestoreView(options) {
-        var url = options.url;
-        var index = currentUrls.indexOf(url);
+    export function tryRestoreView(options) {
+        const url = options.url;
+        const index = currentUrls.indexOf(url);
 
-        if (-1 !== index) {
-            var animatable = allPages[index];
-            var view = animatable;
+        if (index !== -1) {
+            const animatable = allPages[index];
+            const view = animatable;
 
             if (view) {
                 if (options.cancel) {
                     return;
                 }
 
-                var selected = selectedPageIndex;
-                var previousAnimatable = -1 === selected ? null : allPages[selected];
-                return setControllerClass(view, options).then(function () {
+                const selected = selectedPageIndex;
+                const previousAnimatable = selected === -1 ? null : allPages[selected];
+                return setControllerClass(view, options).then(() => {
                     if (onBeforeChange) {
                         onBeforeChange(view, true, options);
                     }
@@ -240,25 +224,27 @@ define(['browser', 'dom', 'layoutManager', 'css!components/viewManager/viewConta
         view.dispatchEvent(new CustomEvent('viewdestroy', {}));
     }
 
-    function reset() {
+    export function reset() {
         allPages = [];
         currentUrls = [];
         mainAnimatedPages.innerHTML = '';
         selectedPageIndex = -1;
     }
 
-    var onBeforeChange;
-    var mainAnimatedPages = document.querySelector('.mainAnimatedPages');
-    var allPages = [];
-    var currentUrls = [];
-    var pageContainerCount = 3;
-    var selectedPageIndex = -1;
+    let onBeforeChange;
+    const mainAnimatedPages = document.querySelector('.mainAnimatedPages');
+    let allPages = [];
+    let currentUrls = [];
+    const pageContainerCount = 3;
+    let selectedPageIndex = -1;
     reset();
     mainAnimatedPages.classList.remove('hide');
-    return {
-        loadView: loadView,
-        tryRestoreView: tryRestoreView,
-        reset: reset,
-        setOnBeforeChange: setOnBeforeChange
-    };
-});
+
+/* eslint-enable indent */
+
+export default {
+    loadView: loadView,
+    tryRestoreView: tryRestoreView,
+    reset: reset,
+    setOnBeforeChange: setOnBeforeChange
+};

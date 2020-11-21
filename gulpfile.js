@@ -45,7 +45,7 @@ const options = {
         query: ['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg']
     },
     copy: {
-        query: ['src/**/*.json', 'src/**/*.ico']
+        query: ['src/**/*.json', 'src/**/*.ico', 'src/**/*.mp3']
     },
     injectBundle: {
         query: 'src/index.html'
@@ -181,16 +181,15 @@ function copy(query) {
         .pipe(browserSync.stream());
 }
 
-function copyIndex() {
-    return src(options.injectBundle.query, { base: './src/' })
-        .pipe(dest('dist/'))
-        .pipe(browserSync.stream());
-}
-
 function injectBundle() {
     return src(options.injectBundle.query, { base: './src/' })
         .pipe(inject(
-            src(['src/scripts/apploader.js'], { read: false }, { base: './src/' }), { relative: true }
+            src(['src/scripts/apploader.js'], { read: false }, { base: './src/' }), {
+                relative: true,
+                transform: function (filepath) {
+                    return `<script src="${filepath}" defer></script>`;
+                }
+            }
         ))
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
@@ -200,6 +199,6 @@ function build(standalone) {
     return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy));
 }
 
-exports.default = series(build(false), copyIndex);
+exports.default = series(build(false), injectBundle);
 exports.standalone = series(build(true), injectBundle);
 exports.serve = series(exports.standalone, serve);
