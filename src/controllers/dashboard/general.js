@@ -6,7 +6,6 @@ import '../../elements/emby-textarea/emby-textarea';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
-import AppInfo from '../../components/AppInfo';
 import Dashboard from '../../scripts/clientUtils';
 import alert from '../../components/alert';
 

@@ -7,7 +7,6 @@ import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
 import '../assets/css/site.scss';
-import AppInfo from '../components/AppInfo';
 import { Events } from 'jellyfin-apiclient';
 import ServerConnections from '../components/ServerConnections';
 import globalize from './globalize';
@@ -59,8 +58,6 @@ window.getParameterByName = function(name, url) {
 
     return decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
-
-Object.freeze(AppInfo);
 
 function loadCoreDictionary() {
     const languages = ['ar', 'be-by', 'bg-bg', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'es', 'es-ar', 'es-mx', 'fa', 'fi', 'fr', 'fr-ca', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'ms', 'nb', 'nl', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sv', 'tr', 'uk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];

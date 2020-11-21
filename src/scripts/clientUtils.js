@@ -1,4 +1,3 @@
-import AppInfo from '../components/AppInfo';
 import ServerConnections from '../components/ServerConnections';
 import toast from '../components/toast/toast';
 import loading from '../components/loading/loading';
