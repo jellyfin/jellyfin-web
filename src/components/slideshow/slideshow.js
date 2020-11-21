@@ -16,6 +16,7 @@ import ServerConnections from '../ServerConnections';
 // eslint-disable-next-line import/named, import/namespace
 import { Swiper } from 'swiper/swiper-bundle.esm';
 import 'swiper/swiper-bundle.css';
+import screenfull from 'screenfull';
 
 /**
  * Name of transition event.
@@ -177,6 +178,10 @@ export default function (options) {
                 if (appHost.supports('sharing')) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
+                if (screenfull.isEnabled) {
+                    html += getIcon('fullscreen', 'btnFullscreen', true);
+                    html += getIcon('fullscreen_exit', 'btnFullscreenExit hide', true);
+                }
             }
             html += getIcon('close', 'slideshowButton btnSlideshowExit hide-mouse-idle-tv', false);
             html += '</div>';
@@ -190,6 +195,10 @@ export default function (options) {
                 }
                 if (appHost.supports('sharing')) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
+                }
+                if (screenfull.isEnabled) {
+                    html += getIcon('fullscreen', 'btnFullscreen', true);
+                    html += getIcon('fullscreen_exit', 'btnFullscreenExit hide', true);
                 }
 
                 html += '</div>';
@@ -219,6 +228,22 @@ export default function (options) {
             if (btnShare) {
                 btnShare.addEventListener('click', share);
             }
+
+            const btnFullscreen = dialog.querySelector('.btnFullscreen');
+            if (btnFullscreen) {
+                btnFullscreen.addEventListener('click', fullscreen);
+            }
+
+            const btnFullscreenExit = dialog.querySelector('.btnFullscreenExit');
+            if (btnFullscreenExit) {
+                btnFullscreenExit.addEventListener('click', fullscreenExit);
+            }
+
+            if (screenfull.isEnabled) {
+                screenfull.on('change', function () {
+                    toggleFullscreenButtons(screenfull.isFullscreen);
+                });
+            }
         }
 
         setUserScalable(true);
@@ -234,6 +259,16 @@ export default function (options) {
         dialog.addEventListener('close', onDialogClosed);
 
         loadSwiper(dialog, options);
+
+        if (layoutManager.desktop) {
+            const topActionButtons = dialog.querySelector('.topActionButtons');
+            if (topActionButtons) topActionButtons.classList.add('hide');
+        }
+
+        const btnSlideshowPrevious = dialog.querySelector('.btnSlideshowPrevious');
+        if (btnSlideshowPrevious) btnSlideshowPrevious.classList.add('hide');
+        const btnSlideshowNext = dialog.querySelector('.btnSlideshowNext');
+        if (btnSlideshowNext) btnSlideshowNext.classList.add('hide');
     }
 
     /**
@@ -450,6 +485,35 @@ export default function (options) {
     }
 
     /**
+     * Goes to fullscreen using screenfull plugin
+     */
+    function fullscreen() {
+        if (!screenfull.isFullscreen) screenfull.request();
+        toggleFullscreenButtons(true);
+    }
+
+    /**
+     * Exits fullscreen using screenfull plugin
+     */
+    function fullscreenExit() {
+        if (screenfull.isFullscreen) screenfull.exit();
+        toggleFullscreenButtons(false);
+    }
+
+    /**
+     * Updates the display of fullscreen buttons
+     * @param {boolean} isFullscreen - Whether the wanted state of buttons is fullscreen or not
+     */
+    function toggleFullscreenButtons(isFullscreen) {
+        const btnFullscreen = dialog.querySelector('.btnFullscreen');
+        const btnFullscreenExit = dialog.querySelector('.btnFullscreenExit');
+        if (btnFullscreen)
+            btnFullscreen.classList.toggle('hide', isFullscreen);
+        if (btnFullscreenExit)
+            btnFullscreenExit.classList.toggle('hide', !isFullscreen);
+    }
+
+    /**
      * Starts the autoplay feature of the Swiper instance.
      */
     function play() {
@@ -483,6 +547,9 @@ export default function (options) {
      * Closes the dialog and destroys the Swiper instance.
      */
     function onDialogClosed() {
+        // Exits fullscreen
+        fullscreenExit();
+
         const swiper = swiperInstance;
         if (swiper) {
             swiper.destroy(true, true);
@@ -503,9 +570,19 @@ export default function (options) {
     function showOsd() {
         const bottom = dialog.querySelector('.slideshowBottomBar');
         if (bottom) {
-            slideUpToShow(bottom);
-            startHideTimer();
+            slideToShow(bottom, 'down');
         }
+
+        const topActionButtons = dialog.querySelector('.topActionButtons');
+        if (topActionButtons) slideToShow(topActionButtons, 'up');
+
+        const left = dialog.querySelector('.btnSlideshowPrevious');
+        if (left) slideToShow(left, 'left');
+
+        const right = dialog.querySelector('.btnSlideshowNext');
+        if (right) slideToShow(right, 'right');
+
+        startHideTimer();
     }
 
     /**
@@ -514,8 +591,17 @@ export default function (options) {
     function hideOsd() {
         const bottom = dialog.querySelector('.slideshowBottomBar');
         if (bottom) {
-            slideDownToHide(bottom);
+            slideToHide(bottom, 'down');
         }
+
+        const topActionButtons = dialog.querySelector('.topActionButtons');
+        if (topActionButtons) slideToHide(topActionButtons, 'up');
+
+        const left = dialog.querySelector('.btnSlideshowPrevious');
+        if (left) slideToHide(left, 'left');
+
+        const right = dialog.querySelector('.btnSlideshowNext');
+        if (right) slideToHide(right, 'right');
     }
 
     /**
@@ -537,10 +623,31 @@ export default function (options) {
     }
 
     /**
-     * Shows the OSD by sliding it into view.
-     * @param {HTMLElement} element - Element containing the OSD.
+     *
+     * @param {string} hiddenPosition - Position of the hidden element compared to when it's visible ('down', 'up', 'left', 'right')
+     * @param {*} fadingOut - Whether it is fading out or in
+     * @param {HTMLElement} element - Element to fade.
+     * @returns {Array} Array of keyframes
      */
-    function slideUpToShow(element) {
+    function keyframesSlide(hiddenPosition, fadingOut, element) {
+        const visible = { transform: 'translate(0,0)', opacity: '1' };
+        const invisible = { opacity: '.3' };
+
+        if (hiddenPosition === 'up' || hiddenPosition === 'down') {
+            invisible['transform'] = 'translate3d(0,' + element.offsetHeight * (hiddenPosition === 'down' ? 1 : -1) + 'px,0)';
+        } else if (hiddenPosition === 'left' || hiddenPosition === 'right') {
+            invisible['transform'] = 'translate3d(' + element.offsetWidth * (hiddenPosition === 'right' ? 1 : -1) + 'px,0,0)';
+        }
+
+        return fadingOut ? [visible, invisible] : [invisible, visible];
+    }
+
+    /**
+     * Shows the element by sliding it into view.
+     * @param {HTMLElement} element - Element to show.
+     * @param {string} slideFrom - Direction to slide from ('down', 'up', 'left', 'right')
+     */
+    function slideToShow(element, slideFrom) {
         if (!element.classList.contains('hide')) {
             return;
         }
@@ -548,7 +655,8 @@ export default function (options) {
         element.classList.remove('hide');
 
         const onFinish = function () {
-            focusManager.focus(element.querySelector('.btnSlideshowPause'));
+            const btnSlideshowPause = element.querySelector('.btnSlideshowPause');
+            if (btnSlideshowPause) focusManager.focus(btnSlideshowPause);
         };
 
         if (!element.animate) {
@@ -557,20 +665,18 @@ export default function (options) {
         }
 
         requestAnimationFrame(function () {
-            const keyframes = [
-                { transform: 'translate3d(0,' + element.offsetHeight + 'px,0)', opacity: '.3', offset: 0 },
-                { transform: 'translate3d(0,0,0)', opacity: '1', offset: 1 }
-            ];
+            const keyframes = keyframesSlide(slideFrom, false, element);
             const timing = { duration: 300, iterations: 1, easing: 'ease-out' };
             element.animate(keyframes, timing).onfinish = onFinish;
         });
     }
 
     /**
-     * Hides the OSD by sliding it out of view.
-     * @param {HTMLElement} element - Element containing the OSD.
+     * Hides the element by sliding it out of view.
+     * @param {HTMLElement} element - Element to hide.
+     * @param {string} slideInto - Direction to slide into ('down', 'up', 'left', 'right')
      */
-    function slideDownToHide(element) {
+    function slideToHide(element, slideInto) {
         if (element.classList.contains('hide')) {
             return;
         }
@@ -585,10 +691,7 @@ export default function (options) {
         }
 
         requestAnimationFrame(function () {
-            const keyframes = [
-                { transform: 'translate3d(0,0,0)', opacity: '1', offset: 0 },
-                { transform: 'translate3d(0,' + element.offsetHeight + 'px,0)', opacity: '.3', offset: 1 }
-            ];
+            const keyframes = keyframesSlide(slideInto, true, element);
             const timing = { duration: 300, iterations: 1, easing: 'ease-out' };
             element.animate(keyframes, timing).onfinish = onFinish;
         });
