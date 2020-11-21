@@ -1431,5 +1431,12 @@
     "LabelFallbackFontPathHelp": "Especifica el camino conteniendo las fuentes alternativas para el renderizado de subtítulos ASS/SSA. El tamaño total máximo de la fuente es de 20 MB. Formatos de fuente ligeras y compatibles web como woff2 son recomendadas.",
     "LabelFallbackFontPath": "Dirección de la carpeta alternativa de fuentes:",
     "HeaderSelectFallbackFontPathHelp": "Busca o escribe la dirección de la carpeta alternativa de fuentes usada para la renderización de los subtitulos ASS/SSA.",
-    "HeaderSelectFallbackFontPath": "Seleccionar carpeta de fuentes alternativa"
+    "HeaderSelectFallbackFontPath": "Seleccionar carpeta de fuentes alternativa",
+    "LabelSelectMono": "Mono",
+    "LabelSelectAudioChannels": "Canales",
+    "LabelAllowedAudioChannels": "Canales de audio máximos permitidos",
+    "AllowHevcEncoding": "Permitir la codificación en formato HEVC",
+    "PreferFmp4HlsContainerHelp": "Preferir usar fMP4 como contenedor predeterminado para HLS, haciendo posible transmitir contenido HEVC directo en dispositivos compatibles.",
+    "PreferFmp4HlsContainer": "Preferir contenedor de medios fMP4-HLS",
+    "LabelH265Crf": "CRF de codificación H265:"
 }
