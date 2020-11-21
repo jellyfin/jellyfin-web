@@ -353,14 +353,7 @@ class CastPlayer {
             message.subtitleBurnIn = appSettings.get('subtitleburnin') || '';
         }
 
-        return new Promise(function (resolve, reject) {
-            import('./chromecastHelper').then(({ default: chromecastHelper }) => {
-                chromecastHelper.getServerAddress(apiClient).then(function (serverAddress) {
-                    message.serverAddress = serverAddress;
-                    player.sendMessageInternal(message).then(resolve, reject);
-                }, reject);
-            });
-        });
+        return player.sendMessageInternal(message);
     }
 
     sendMessageInternal(message) {
