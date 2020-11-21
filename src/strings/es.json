@@ -1072,8 +1072,8 @@
     "DateAdded": "Añadido el",
     "DatePlayed": "Reproducido el",
     "Descending": "Descendiente",
-    "DirectStreamHelp1": "El tipo de archivo (H.264, AC3, etc.) y la resolución son compatibles con el dispositivo, pero no el contenedor (mkv, avi, wmv, etc.). El vídeo será re-empaquetado al vuelo antes de transmitirlo al dispositivo.",
-    "DirectStreamHelp2": "La transmisión directa del archivo usa muy poco procesamiento sin mínima pérdida de calidad en el vídeo.",
+    "DirectStreamHelp1": "La transmisión de video es compatible con el dispositivo, pero tiene un formato de audio incompatible (DTS, TRUEHD, etc.) o un número de canales de audio. La transmisión de video se volverá a empaquetar sin pérdidas sobre la marcha antes de enviarse al dispositivo. Solo se transcodificará la transmisión de audio.",
+    "DirectStreamHelp2": "La energía consumida por la transmisión directa generalmente depende del perfil de audio. Solo la transmisión de video no tiene pérdidas.",
     "Director": "Director",
     "Directors": "Directores",
     "Display": "Visualización",
@@ -1439,5 +1439,16 @@
     "PreferFmp4HlsContainerHelp": "Preferir usar fMP4 como contenedor predeterminado para HLS, haciendo posible transmitir contenido HEVC directo en dispositivos compatibles.",
     "PreferFmp4HlsContainer": "Preferir contenedor de medios fMP4-HLS",
     "LabelH265Crf": "CRF de codificación H265:",
-    "LabelSelectStereo": "Estéreo"
+    "LabelSelectStereo": "Estéreo",
+    "LabelSyncPlayInfo": "Información de SyncPlay",
+    "LabelOriginalMediaInfo": "Información de medios originales",
+    "LabelRemuxingInfo": "Información de remuxing",
+    "LabelDirectStreamingInfo": "Información de transmisión directa",
+    "LabelTranscodingInfo": "Información de transcodificación",
+    "LabelVideoInfo": "Información de video",
+    "LabelAudioInfo": "Información de audio",
+    "LabelPlaybackInfo": "Información de reproducción",
+    "RemuxHelp2": "Remux utiliza muy poca potencia de procesamiento con una calidad multimedia sin pérdidas.",
+    "RemuxHelp1": "Los medios están en un contenedor de archivos incompatible (MKV, AVI, WMV, etc.) pero tanto la transmisión de video como la transmisión de audio son compatibles con el dispositivo. Los medios se volverán a empaquetar sin pérdidas sobre la marcha antes de enviarse al dispositivo.",
+    "Remuxing": "Remuxing"
 }
