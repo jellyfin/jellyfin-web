@@ -5,6 +5,14 @@ import loading from '../../components/loading/loading';
 
 /* globals YT */
 
+const errorCodes = {
+    2: 'YoutubeBadRequest',
+    5: 'YoutubePlaybackError',
+    100: 'YoutubeNotFound',
+    101: 'YoutubeDenied',
+    150: 'YoutubeDenied'
+};
+
 function zoomIn(elem, iterations) {
     const keyframes = [
         { transform: 'scale3d(.2, .2, .2)  ', opacity: '.6', offset: 0 },
@@ -139,7 +147,8 @@ function setCurrentSrc(instance, elem, options) {
                         } else if (event.data === YT.PlayerState.PAUSED) {
                             Events.trigger(instance, 'pause');
                         }
-                    }
+                    },
+                    'onError': (e) => reject(errorCodes[e.data] || 'ErrorDefault')
                 },
                 playerVars: {
                     controls: 0,

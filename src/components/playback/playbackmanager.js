@@ -2240,13 +2240,14 @@ class PlaybackManager {
                     const streamInfo = createStreamInfoFromUrlItem(item);
                     streamInfo.fullscreen = playOptions.fullscreen;
                     getPlayerData(player).isChangingStream = false;
-                    return player.play(streamInfo).then(function () {
+                    return player.play(streamInfo).then(() => {
                         loading.hide();
                         onPlaybackStartedFn();
                         onPlaybackStarted(player, playOptions, streamInfo);
-                    }, function () {
-                        // TODO: show error message
+                    }).catch((errorCode) => {
                         self.stop(player);
+                        loading.hide();
+                        showPlaybackInfoErrorMessage(self, errorCode || 'ErrorDefault');
                     });
                 });
             }
@@ -2935,7 +2936,7 @@ class PlaybackManager {
 
             state.NextMediaType = nextMediaType;
 
-            if (isServerItem(streamInfo.item)) {
+            if (streamInfo && isServerItem(streamInfo.item)) {
                 if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
                     state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
                 }

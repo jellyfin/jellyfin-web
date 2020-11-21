@@ -1449,5 +1449,9 @@
     "LabelAllowedAudioChannels": "Maximum Allowed Audio Channels",
     "LabelSelectAudioChannels": "Channels",
     "LabelSelectMono": "Mono",
-    "LabelSelectStereo": "Stereo"
+    "LabelSelectStereo": "Stereo",
+    "YoutubeBadRequest": "Bad request.",
+    "YoutubePlaybackError": "Requested video cannot be played.",
+    "YoutubeNotFound": "Video not found.",
+    "YoutubeDenied": "Requested video is not allowed to be played in embedded players."
 }
