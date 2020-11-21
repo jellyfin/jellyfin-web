@@ -24,7 +24,7 @@ function populateVersions(packageInfo, page, installedPlugin) {
 
     for (let i = 0; i < packageInfo.versions.length; i++) {
         const version = packageInfo.versions[i];
-        html += '<option value="' + version.version + '">' + version.version + '</option>';
+        html += '<option value="' + version.version + '">' + globalize.translate('PluginFromRepo', version.version, version.repositoryName) + '</option>';
     }
 
     const selectmenu = $('#selectVersion', page).html(html);

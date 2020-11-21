@@ -1158,6 +1158,7 @@
     "ProductionLocations": "Production locations",
     "Profile": "Profile",
     "Programs": "Programs",
+    "PluginFromRepo": "{0} from repository {1}",
     "Quality": "Quality",
     "QuickConnect": "Quick Connect",
     "QuickConnectActivationSuccessful": "Successfully activated",
