@@ -128,7 +128,7 @@
   "scripts": {
     "start": "yarn serve",
     "serve": "webpack serve --config webpack.dev.js",
-    "prepare": "webpack --config webpack.prod.js",
+    "prepare": "./scripts/prepare.sh",
     "build:development": "webpack --config webpack.dev.js",
     "build:production": "webpack --config webpack.prod.js",
     "lint": "eslint \".\"",
