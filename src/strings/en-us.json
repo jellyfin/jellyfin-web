@@ -1430,6 +1430,8 @@
     "Preview": "Preview",
     "LabelMaxMuxingQueueSize": "Max muxing queue size:",
     "LabelMaxMuxingQueueSizeHelp": "Maximum number of packets that can be buffered while waiting for all streams to initialize. Try to increase it if you still encounter \"Too many packets buffered for output stream\" error in ffmpeg logs. The recommended value is 2048.",
+    "AspectRatioCover": "Cover",
+    "AspectRatioFill": "Fill",
     "Remuxing": "Remuxing",
     "RemuxHelp1": "The media is in an incompatible file container (MKV, AVI, WMV, etc) but both the video stream and audio stream are compatible with the device. The media will be repackaged losslessly on the fly before being sent to the device.",
     "RemuxHelp2": "Remux uses very little processing power with a completely lossless media quality.",

@@ -157,7 +157,7 @@
 }
 
 .mdl-slider-background-flex {
-    background: #333;
+    background: rgba(255, 255, 255, 0.3);
     height: 0.2em;
     margin-top: -0.1em;
     width: 100%;

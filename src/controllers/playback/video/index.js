@@ -764,7 +764,7 @@ import { appRouter } from '../../../components/appRouter';
                     }
 
                     if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording') {
-                        endsAtText.innerHTML = '&nbsp;&nbsp;-&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
+                        endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
                     } else {
                         endsAtText.innerHTML = '';
                     }
@@ -774,8 +774,20 @@ import { appRouter } from '../../../components/appRouter';
                     nowPlayingPositionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
                 }
 
-                updateTimeText(nowPlayingPositionText, positionTicks);
-                updateTimeText(nowPlayingDurationText, runtimeTicks, true);
+                if (positionTicks >= 0) {
+                    updateTimeText(nowPlayingPositionText, positionTicks);
+                    nowPlayingPositionText.classList.remove('hide');
+                } else {
+                    nowPlayingPositionText.classList.add('hide');
+                }
+
+                const leftTicks = runtimeTicks - positionTicks;
+                if (leftTicks >= 0) {
+                    updateTimeText(nowPlayingDurationText, leftTicks);
+                    nowPlayingDurationText.classList.remove('hide');
+                } else {
+                    nowPlayingPositionText.classList.add('hide');
+                }
             }
         }
 
