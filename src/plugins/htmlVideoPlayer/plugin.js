@@ -1539,7 +1539,7 @@ function tryRemoveElement(elem) {
         return false;
     }
 
-    static isAirPlayEnabled() {
+    isAirPlayEnabled() {
         if (document.AirPlayEnabled) {
             return !!document.AirplayElement;
         }
