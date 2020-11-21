@@ -222,8 +222,8 @@
     "Directors": "Đạo Diễn",
     "Director": "Đạo Diễn",
     "DirectStreaming": "Phát trực tuyến",
-    "DirectStreamHelp2": "Phát trực tiếp sử dụng ít sức mạnh xử lý với chất lượng video bị giảm thiểu chút ít.",
-    "DirectStreamHelp1": "Nội dung này tương thích với thiết bị về độ phân giải và loại mã hoá (H.264, AC3, v.v.), nhưng lại không tương thích định dạng (mkv, avi, wmv, v.v.). Video sẽ được đóng gói nhanh chóng trước khi được gửi đến phát trên thiết bị.",
+    "DirectStreamHelp2": "Mức độ tổn hao khi phát trực tiếp thường phụ thuộc vào cấu hình âm thanh. Chỉ có luồng video là không mất dữ liệu.",
+    "DirectStreamHelp1": "Luồng video tương thích với thiết bị, nhưng có định dạng âm thanh (DTS, TRUEHD, v.v.) hoặc số kênh âm thanh không tương thích. Luồng video sẽ được đóng gói lại không mất mát dữ liệu trước khi gửi đến thiết bị. Chỉ luồng âm thanh được chuyển mã.",
     "DirectPlaying": "Phát trực tiếp",
     "DeviceAccessHelp": "Thiết lập này chỉ áp dụng cho những thiết bị có thể định danh và sẽ không chặn được truy cập từ trình duyệt. Chọn lọc thiết bị người dùng sẽ chặn người dùng này truy cập từ những thiết bị mới cho đến khi được duyệt.",
     "DetectingDevices": "Đang tìm kiếm thiết bị",
@@ -1439,5 +1439,16 @@
     "AllowHevcEncoding": "Cho phép mã hóa ở định dạng HEVC",
     "PreferFmp4HlsContainerHelp": "Thích sử dụng fMP4 làm vùng chứa mặc định cho HLS, giúp bạn có thể truyền trực tiếp nội dung HEVC trên các thiết bị được hỗ trợ.",
     "PreferFmp4HlsContainer": "Thích vùng chứa phương tiện fMP4-HLS",
-    "LabelH265Crf": "CRF mã hóa H265:"
+    "LabelH265Crf": "CRF mã hóa H265:",
+    "LabelSyncPlayInfo": "Thông Tin Phát Đồng Bộ",
+    "LabelOriginalMediaInfo": "Thông Tin Phương Tiện Gốc",
+    "LabelRemuxingInfo": "Thông Tin Pha Trộn",
+    "LabelDirectStreamingInfo": "Thông Tin Phát Trực Tiếp",
+    "LabelTranscodingInfo": "Thông Tin Chuyển Mã",
+    "LabelVideoInfo": "Thông Tin Video",
+    "LabelAudioInfo": "Thông Tin Âm Thanh",
+    "LabelPlaybackInfo": "Thông Tin Phát Lại",
+    "RemuxHelp2": "Pha trộn sử dụng rất ít sức mạnh xử lý với chất lượng phương tiện hoàn toàn không mất dữ liệu.",
+    "RemuxHelp1": "Phương tiện nằm trong vùng chứa tệp không tương thích (MKV, AVI, WMV, v.v.) nhưng cả luồng video và luồng âm thanh đều tương thích với thiết bị. Phương tiện sẽ được đóng gói lại giữ chất lượng tốt trước khi được gửi đến thiết bị.",
+    "Remuxing": "Pha Trộn"
 }
