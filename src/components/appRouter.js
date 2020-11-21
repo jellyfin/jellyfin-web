@@ -11,7 +11,6 @@ import viewManager from './viewManager/viewManager';
 import Dashboard from '../scripts/clientUtils';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
-import * as webSettings from '../scripts/settings/webSettings';
 
 class AppRouter {
     allRoutes = [];
