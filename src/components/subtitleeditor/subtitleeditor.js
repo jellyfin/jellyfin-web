@@ -270,36 +270,6 @@ function reload(context, apiClient, itemId) {
             context.querySelector('.pathValue').innerHTML = '';
             context.querySelector('.originalFile').classList.add('hide');
         }
-    }
-
-    function onOpenUploadMenu(e) {
-        var dialog = dom.parentWithClass(e.target, 'subtitleEditorDialog');
-        var selectLanguage = dialog.querySelector('#selectLanguage');
-        var apiClient = connectionManager.getApiClient(currentItem.ServerId);
-
-        require(['subtitleUploader'], function (subtitleUploader) {
-            subtitleUploader.show({
-                languages: {
-                    list: selectLanguage.innerHTML,
-                    value: selectLanguage.value
-                },
-                itemId: currentItem.Id,
-                serverId: currentItem.ServerId
-            }).then(function (hasChanged) {
-                if (hasChanged) {
-                    hasChanges = true;
-                    reload(dialog, apiClient, currentItem.Id);
-                }
-            });
-        });
-    }
-
-    function onSearchSubmit(e) {
-        var form = this;
-
-        var lang = form.querySelector('#selectLanguage', form).value;
-
-        searchForSubtitles(dom.parentWithClass(form, 'formDialogContent'), lang);
 
         loading.hide();
     }
@@ -382,6 +352,28 @@ function centerFocus(elem, horiz, on) {
     });
 }
 
+function onOpenUploadMenu(e) {
+    const dialog = dom.parentWithClass(e.target, 'subtitleEditorDialog');
+    const selectLanguage = dialog.querySelector('#selectLanguage');
+    const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+
+    import('../subtitleuploader/subtitleuploader').then(({default: subtitleUploader}) => {
+        subtitleUploader.show({
+            languages: {
+                list: selectLanguage.innerHTML,
+                value: selectLanguage.value
+            },
+            itemId: currentItem.Id,
+            serverId: currentItem.ServerId
+        }).then(function (hasChanged) {
+            if (hasChanged) {
+                hasChanges = true;
+                reload(dialog, apiClient, currentItem.Id);
+            }
+        });
+    });
+}
+
 function showEditorInternal(itemId, serverId, template) {
     hasChanges = false;
 
@@ -400,8 +392,6 @@ function showEditorInternal(itemId, serverId, template) {
 
         const dlg = dialogHelper.createDialog(dialogOptions);
 
-        dlg.querySelector('.btnOpenUploadMenu').addEventListener('click', onOpenUploadMenu);
-
         dlg.classList.add('formDialog');
         dlg.classList.add('subtitleEditorDialog');
 
@@ -410,6 +400,8 @@ function showEditorInternal(itemId, serverId, template) {
         dlg.querySelector('.originalSubtitleFileLabel').innerHTML = globalize.translate('File');
 
         dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
+
+        dlg.querySelector('.btnOpenUploadMenu').addEventListener('click', onOpenUploadMenu);
 
         const btnSubmit = dlg.querySelector('.btnSubmit');
 

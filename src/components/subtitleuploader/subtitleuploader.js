@@ -1,30 +1,28 @@
-import dialogHelper from 'dialogHelper';
-import connectionManager from 'connectionManager';
-import dom from 'dom';
-import loading from 'loading';
-import scrollHelper from 'scrollHelper';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import template from 'text!./subtitleuploader.template.html';
-import 'require';
-import 'emby-button';
-import 'emby-select';
-import 'formDialogStyle';
-import 'css!./style';
+import dialogHelper from '../../components/dialogHelper/dialogHelper';
+import ServerConnections from '../ServerConnections';
+import dom from '../../scripts/dom';
+import loading from '../../components/loading/loading';
+import scrollHelper from '../../libraries/scroller';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import template from './subtitleuploader.template.html';
+import toast from '../toast/toast';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-select/emby-select';
+import '../formdialog.css';
+import './style.css';
 
-var currentItemId;
-var currentServerId;
-var currentFile;
-var hasChanges = false;
+let currentItemId;
+let currentServerId;
+let currentFile;
+let hasChanges = false;
 
 function onFileReaderError(evt) {
     loading.hide();
 
     const error = evt.target.error;
     if (error.code !== error.ABORT_ERR) {
-        require(['toast'], function (toast) {
-            toast(globalize.translate('MessageFileReadError'));
-        });
+        toast(globalize.translate('MessageFileReadError'));
     }
 }
 
@@ -79,9 +77,7 @@ function onSubmit(e) {
     const file = currentFile;
 
     if (!isValidSubtitleFile(file)) {
-        require(['toast'], function (toast) {
-            toast(globalize.translate('MessageSubtitleFileTypeAllowed'));
-        });
+        toast(globalize.translate('MessageSubtitleFileTypeAllowed'));
         e.preventDefault();
         return;
     }
@@ -92,7 +88,7 @@ function onSubmit(e) {
     const language = dlg.querySelector('#selectLanguage').value;
     const isForced = dlg.querySelector('#chkIsForced').checked;
 
-    connectionManager.getApiClient(currentServerId).uploadItemSubtitle(currentItemId, language, isForced, file).then(function () {
+    ServerConnections.getApiClient(currentServerId).uploadItemSubtitle(currentItemId, language, isForced, file).then(function () {
         dlg.querySelector('#uploadSubtitle').value = '';
         loading.hide();
         hasChanges = true;
@@ -133,7 +129,7 @@ function showEditor(options, resolve, reject) {
     dlg.classList.add('formDialog');
     dlg.classList.add('subtitleUploaderDialog');
 
-    dlg.innerHTML = globalize.translateDocument(template, 'core');
+    dlg.innerHTML = globalize.translateHtml(template, 'core');
 
     if (layoutManager.tv) {
         scrollHelper.centerFocus.on(dlg, false);
