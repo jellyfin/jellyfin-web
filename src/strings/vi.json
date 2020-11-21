@@ -294,7 +294,7 @@
     "HeaderAccessSchedule": "Thời Gian Truy Cập",
     "HDPrograms": "Chương trình chất lượng cao (HD)",
     "EncoderPresetHelp": "Chọn một giá trị nhanh hơn để cải thiện hiệu suất máy chủ, hoặc một giá trị chậm hơn để tăng chất lượng video.",
-    "H264CrfHelp": "Hệ Số Tỉ Lệ Cố Định (Constant Rate Factor (CRF)) là thiết lập chất lượng mặc định dành cho bộ mã hoá x264. Bạn có thể điều chỉnh giá trị trong khoảng 0 đến 51, trong đó giá trị càng nhỏ thì chất lượng càng tốt (đồng nghĩa với việc dung lượng tập tin lớn hơn). Giá trị vừa phải nằm trong khoảng từ 18 đến 28. Giá trị mặc định dành cho x264 là 23, vì thế bạn có thể sử dụng nó để bắt đầu điều chỉnh cho phù hợp.",
+    "H264CrfHelp": "Hệ Số Tỉ Lệ Cố Định (CRF) là cài đặt chất lượng mặc định cho mã hóa x264 và x265. Bạn có thể chỉnh giá trị từ 0 đến 51, giá trị càng nhỏ thì chất lượng càng tốt (dung lượng tệp sẽ lớn hơn). Giá trị vừa phải từ 18 đến 28. Giá trị mặc định cho x264 là 23 và x265 là 28, vì vậy bạn có thể bắt đầu với những giá trị tham khảo này.",
     "GuideProviderSelectListings": "Chọn Danh Sách",
     "GuideProviderLogin": "Đăng nhập",
     "Guide": "Lịch phát sóng",
@@ -641,7 +641,7 @@
     "LabelHomeNetworkQuality": "Chất lượng mạng nhà:",
     "LabelHardwareAccelerationTypeHelp": "Hỗ trợ phần cần những thiết lập bổ sung.",
     "LabelHardwareAccelerationType": "Tăng tốc phần cứng:",
-    "LabelEncoderPreset": "Thiết lập cài sẵn của mã H264 và H265:",
+    "LabelEncoderPreset": "Mẫu cài đặt sẵn H264 và H265:",
     "LabelH264Crf": "CRF của mã H264:",
     "LabelGroupMoviesIntoCollectionsHelp": "Khi hiển thị danh sách phim, các bộ phim trong một bộ sưu tập sẽ hiển thị như một mục được nhóm lại.",
     "LabelGroupMoviesIntoCollections": "Gom nhóm các phim vào bộ sưu tập",
@@ -1431,5 +1431,13 @@
     "LabelFallbackFontPathHelp": "Chỉ định đường dẫn chứa phông chữ dự phòng để hiển thị phụ đề ASS / SSA. Tổng kích thước phông chữ tối đa được phép là 20 MB. Các định dạng phông chữ nhẹ và thân thiện với web như woff2 được khuyến khích.",
     "LabelFallbackFontPath": "Đường dẫn thư mục phông chữ dự phòng:",
     "HeaderSelectFallbackFontPathHelp": "Duyệt qua hoặc nhập đường dẫn của thư mục phông chữ dự phòng để sử dụng cho việc hiển thị phụ đề ASS / SSA.",
-    "HeaderSelectFallbackFontPath": "Chọn Đường dẫn Thư mục Phông chữ Dự phòng"
+    "HeaderSelectFallbackFontPath": "Chọn Đường dẫn Thư mục Phông chữ Dự phòng",
+    "LabelSelectStereo": "Âm Thanh Nổi",
+    "LabelSelectMono": "",
+    "LabelSelectAudioChannels": "Kênh",
+    "LabelAllowedAudioChannels": "Kênh Âm Thanh Cho Phép Tối Đa",
+    "AllowHevcEncoding": "Cho phép mã hóa ở định dạng HEVC",
+    "PreferFmp4HlsContainerHelp": "Thích sử dụng fMP4 làm vùng chứa mặc định cho HLS, giúp bạn có thể truyền trực tiếp nội dung HEVC trên các thiết bị được hỗ trợ.",
+    "PreferFmp4HlsContainer": "Thích vùng chứa phương tiện fMP4-HLS",
+    "LabelH265Crf": "CRF mã hóa H265:"
 }
