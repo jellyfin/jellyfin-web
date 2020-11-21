@@ -1,11 +1,12 @@
-import events from 'events';
-import globalize from 'globalize';
-import playbackManager from 'playbackManager';
-import syncPlayManager from 'syncPlayManager';
-import playMethodHelper from 'playMethodHelper';
-import layoutManager from 'layoutManager';
-import 'paper-icon-button-light';
-import 'css!./playerstats';
+import { Events } from 'jellyfin-apiclient';
+import '../../elements/emby-button/paper-icon-button-light';
+import globalize from '../../scripts/globalize';
+import layoutManager from '../layoutManager';
+import { playbackManager } from '../playback/playbackmanager';
+import playMethodHelper from '../playback/playmethodhelper';
+import syncPlayManager from '../syncPlay/syncPlayManager';
+import './playerstats.css';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -94,7 +95,7 @@ import 'css!./playerstats';
             return Promise.resolve(instance.lastSession);
         }
 
-        const apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+        const apiClient = ServerConnections.getApiClient(playbackManager.currentItem(player).ServerId);
 
         return apiClient.getSessions({
             deviceId: apiClient.deviceId()
@@ -413,7 +414,7 @@ import 'css!./playerstats';
                 name: 'Original Media Info'
             });
 
-            const apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+            const apiClient = ServerConnections.getApiClient(playbackManager.currentItem(player).ServerId);
             if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),
@@ -450,14 +451,14 @@ import 'css!./playerstats';
         };
 
         instance.onTimeUpdate = localOnTimeUpdate;
-        events.on(player, 'timeupdate', localOnTimeUpdate);
+        Events.on(player, 'timeupdate', localOnTimeUpdate);
     }
 
     function unbindEvents(instance, player) {
         const localOnTimeUpdate = instance.onTimeUpdate;
 
         if (localOnTimeUpdate) {
-            events.off(player, 'timeupdate', localOnTimeUpdate);
+            Events.off(player, 'timeupdate', localOnTimeUpdate);
         }
     }
 

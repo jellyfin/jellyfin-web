@@ -1,4 +1,4 @@
-import dialogHelper from 'dialogHelper';
+import dialogHelper from '../../components/dialogHelper/dialogHelper';
 
 export default class TableOfContents {
     constructor(bookPlayer) {

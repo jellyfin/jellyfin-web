@@ -252,7 +252,7 @@
     "Guide": "Guide",
     "GuideProviderLogin": "Login",
     "GuideProviderSelectListings": "Select Listings",
-    "H264CrfHelp": "The Constant Rate Factor (CRF) is the default quality setting for the x264 encoder. You can set the values between 0 and 51, where lower values would result in better quality (at the expense of higher file sizes). Sane values are between 18 and 28. The default for x264 is 23, so you can use this as a starting point.",
+    "H264CrfHelp": "The Constant Rate Factor (CRF) is the default quality setting for the x264 and x265 encoder. You can set the values between 0 and 51, where lower values would result in better quality (at the expense of higher file sizes). Sane values are between 18 and 28. The default for x264 is 23, and for x265 is 28, so you can use this as a starting point.",
     "EncoderPresetHelp": "Choose a faster value to improve performance, or a slower value to improve quality.",
     "HDPrograms": "HD programs",
     "HardwareAccelerationWarning": "Enabling hardware acceleration may cause instability in some environments. Ensure that your operating system and video drivers are fully up to date. If you have difficulty playing video after enabling this, you'll need to change the setting back to None.",
@@ -589,7 +589,8 @@
     "LabelGroupMoviesIntoCollections": "Group movies into collections",
     "LabelGroupMoviesIntoCollectionsHelp": "When displaying movie lists, movies in a collection will be displayed as one grouped item.",
     "LabelH264Crf": "H264 encoding CRF:",
-    "LabelEncoderPreset": "H264 and H265 encoding preset:",
+    "LabelH265Crf": "H265 encoding CRF:",
+    "LabelEncoderPreset": "Encoding preset:",
     "LabelHardwareAccelerationType": "Hardware acceleration:",
     "LabelHardwareAccelerationTypeHelp": "Hardware acceleration requires additional configuration.",
     "LabelHomeNetworkQuality": "Home network quality:",
@@ -1430,5 +1431,12 @@
     "LabelMaxMuxingQueueSize": "Max muxing queue size:",
     "LabelMaxMuxingQueueSizeHelp": "Maximum number of packets that can be buffered while waiting for all streams to initialize. Try to increase it if you still encounter \"Too many packets buffered for output stream\" error in ffmpeg logs. The recommended value is 2048.",
     "AspectRatioCover": "Cover",
-    "AspectRatioFill": "Fill"
+    "AspectRatioFill": "Fill",
+    "PreferFmp4HlsContainer": "Prefer fMP4-HLS Media Container",
+    "PreferFmp4HlsContainerHelp": "Prefer to use fMP4 as the default container for HLS, making it possible to direct stream HEVC content on supported devices.",
+    "AllowHevcEncoding": "Allow encoding in HEVC format",
+    "LabelAllowedAudioChannels": "Maximum Allowed Audio Channels",
+    "LabelSelectAudioChannels": "Channels",
+    "LabelSelectMono": "Mono",
+    "LabelSelectStereo": "Stereo"
 }

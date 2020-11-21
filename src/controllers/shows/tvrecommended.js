@@ -1,17 +1,20 @@
-import events from 'events';
-import inputManager from 'inputManager';
-import libraryMenu from 'libraryMenu';
-import layoutManager from 'layoutManager';
-import loading from 'loading';
-import dom from 'dom';
-import * as userSettings from 'userSettings';
-import cardBuilder from 'cardBuilder';
-import playbackManager from 'playbackManager';
-import * as mainTabsManager from 'mainTabsManager';
-import globalize from 'globalize';
-import 'scrollStyles';
-import 'emby-itemscontainer';
-import 'emby-button';
+
+import { Events } from 'jellyfin-apiclient';
+import inputManager from '../../scripts/inputManager';
+import libraryMenu from '../../scripts/libraryMenu';
+import layoutManager from '../../components/layoutManager';
+import loading from '../../components/loading/loading';
+import dom from '../../scripts/dom';
+import * as userSettings from '../../scripts/settings/userSettings';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import * as mainTabsManager from '../../components/maintabsmanager';
+import globalize from '../../scripts/globalize';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-button/emby-button';
+import Dashboard from '../../scripts/clientUtils';
+import autoFocuser from '../../components/autoFocuser';
 
 /* eslint-disable indent */
 
@@ -127,9 +130,7 @@ import 'emby-button';
             });
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
-                autoFocuser.autoFocus(view);
-            });
+            autoFocuser.autoFocus(view);
         });
     }
 
@@ -168,9 +169,7 @@ import 'emby-button';
             });
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
-                autoFocuser.autoFocus(view);
-            });
+            autoFocuser.autoFocus(view);
         });
     }
 
@@ -209,9 +208,7 @@ import 'emby-button';
             });
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
-                autoFocuser.autoFocus(view);
-            });
+            autoFocuser.autoFocus(view);
         });
     }
 
@@ -246,31 +243,31 @@ import 'emby-button';
 
             switch (index) {
                 case 0:
-                    depends = 'controllers/shows/tvshows';
+                    depends = 'tvshows';
                     break;
 
                 case 1:
-                    depends = 'controllers/shows/tvrecommended';
+                    depends = 'tvrecommended';
                     break;
 
                 case 2:
-                    depends = 'controllers/shows/tvupcoming';
+                    depends = 'tvupcoming';
                     break;
 
                 case 3:
-                    depends = 'controllers/shows/tvgenres';
+                    depends = 'tvgenres';
                     break;
 
                 case 4:
-                    depends = 'controllers/shows/tvstudios';
+                    depends = 'tvstudios';
                     break;
 
                 case 5:
-                    depends = 'controllers/shows/episodes';
+                    depends = 'episodes';
                     break;
             }
 
-            import(depends).then(({default: controllerFactory}) => {
+            import(`../shows/${depends}`).then(({default: controllerFactory}) => {
                 let tabContent;
 
                 if (index === 1) {
@@ -373,14 +370,14 @@ import 'emby-button';
                 }
             }
 
-            events.on(playbackManager, 'playbackstop', onPlaybackStop);
-            events.on(ApiClient, 'message', onWebSocketMessage);
+            Events.on(playbackManager, 'playbackstop', onPlaybackStop);
+            Events.on(ApiClient, 'message', onWebSocketMessage);
             inputManager.on(window, onInputCommand);
         });
         view.addEventListener('viewbeforehide', function (e) {
             inputManager.off(window, onInputCommand);
-            events.off(playbackManager, 'playbackstop', onPlaybackStop);
-            events.off(ApiClient, 'message', onWebSocketMessage);
+            Events.off(playbackManager, 'playbackstop', onPlaybackStop);
+            Events.off(ApiClient, 'message', onWebSocketMessage);
         });
         view.addEventListener('viewdestroy', function (e) {
             tabControllers.forEach(function (t) {

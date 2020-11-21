@@ -1,22 +1,23 @@
-import dialogHelper from 'dialogHelper';
-import globalize from 'globalize';
-import layoutManager from 'layoutManager';
-import mediaInfo from 'mediaInfo';
-import require from 'require';
-import loading from 'loading';
-import scrollHelper from 'scrollHelper';
-import datetime from 'datetime';
-import imageLoader from 'imageLoader';
-import recordingFields from 'recordingFields';
-import events from 'events';
-import 'emby-checkbox';
-import 'emby-button';
-import 'emby-collapse';
-import 'emby-input';
-import 'paper-icon-button-light';
-import 'css!./../formdialog';
-import 'css!./recordingcreator';
-import 'material-icons';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import globalize from '../../scripts/globalize';
+import layoutManager from '../layoutManager';
+import mediaInfo from '../mediainfo/mediainfo';
+import loading from '../loading/loading';
+import scrollHelper from '../../scripts/scrollHelper';
+import datetime from '../../scripts/datetime';
+import imageLoader from '../images/imageLoader';
+import recordingFields from './recordingfields';
+import { Events } from 'jellyfin-apiclient';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-collapse/emby-collapse';
+import '../../elements/emby-input/emby-input';
+import '../formdialog.css';
+import './recordingcreator.css';
+import 'material-design-icons-iconfont';
+import ServerConnections from '../ServerConnections';
+import { playbackManager } from '../playback/playbackmanager';
 
 let currentDialog;
 let closeAction;
@@ -68,7 +69,7 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
         const imageContainer = context.querySelector('.recordingDialog-imageContainer');
 
         if (imgUrl) {
-            imageContainer.innerHTML = '<img src="' + require.toUrl('.').split('?')[0] + '/empty.png" data-src="' + imgUrl + '" class="recordingDialog-img lazy" />';
+            imageContainer.innerHTML = '<img src="./empty.png" data-src="' + imgUrl + '" class="recordingDialog-img lazy" />';
             imageContainer.classList.remove('hide');
 
             imageLoader.lazyChildren(imageContainer);
@@ -102,7 +103,7 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
 function reload(context, programId, serverId, refreshRecordingStateOnly) {
     loading.show();
 
-    const apiClient = window.connectionManager.getApiClient(serverId);
+    const apiClient = ServerConnections.getApiClient(serverId);
 
     const promise1 = apiClient.getNewLiveTvTimerDefaults({ programId: programId });
     const promise2 = apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId());
@@ -117,14 +118,12 @@ function reload(context, programId, serverId, refreshRecordingStateOnly) {
 
 function executeCloseAction(action, programId, serverId) {
     if (action === 'play') {
-        import('playbackManager').then(({ default: playbackManager }) => {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
-            apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
-                playbackManager.play({
-                    ids: [item.ChannelId],
-                    serverId: serverId
-                });
+        apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
+            playbackManager.play({
+                ids: [item.ChannelId],
+                serverId: serverId
             });
         });
         return;
@@ -137,7 +136,7 @@ function showEditor(itemId, serverId) {
 
         loading.show();
 
-        import('text!./recordingcreator.template.html').then(({ default: template }) => {
+        import('./recordingcreator.template.html').then(({ default: template }) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -167,7 +166,7 @@ function showEditor(itemId, serverId) {
             }
 
             dlg.addEventListener('close', function () {
-                events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+                Events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
                 executeCloseAction(closeAction, itemId, serverId);
 
                 if (currentRecordingFields && currentRecordingFields.hasChanged()) {
@@ -191,7 +190,7 @@ function showEditor(itemId, serverId) {
                 serverId: serverId
             });
 
-            events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+            Events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
 
             dialogHelper.open(dlg);
         });

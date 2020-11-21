@@ -1,11 +1,12 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import datetime from 'datetime';
-import dom from 'dom';
-import globalize from 'globalize';
-import 'emby-input';
-import 'emby-button';
-import 'emby-select';
+import 'jquery';
+import loading from '../../../components/loading/loading';
+import datetime from '../../../scripts/datetime';
+import dom from '../../../scripts/dom';
+import globalize from '../../../scripts/globalize';
+import '../../../elements/emby-input/emby-input';
+import '../../../elements/emby-button/emby-button';
+import '../../../elements/emby-select/emby-select';
+import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
@@ -42,7 +43,7 @@ import 'emby-select';
             $('.taskName', view).html(task.Name);
             $('#pTaskDescription', view).html(task.Description);
 
-            import('listViewStyle').then(() => {
+            import('../../../components/listview/listview.css').then(() => {
                 ScheduledTaskPage.loadTaskTriggers(view, task);
             });
 
@@ -135,10 +136,8 @@ import 'emby-select';
             $('#popupAddTrigger', view).removeClass('hide');
         },
         confirmDeleteTrigger: function (view, index) {
-            import('confirm').then(({default: confirm}) => {
-                confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
-                    ScheduledTaskPage.deleteTrigger(view, index);
-                });
+            confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
+                ScheduledTaskPage.deleteTrigger(view, index);
             });
         },
         deleteTrigger: function (view, index) {

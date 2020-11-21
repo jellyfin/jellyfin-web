@@ -197,7 +197,7 @@
     "GuestStar": "特邀明星",
     "GuideProviderLogin": "登入",
     "GuideProviderSelectListings": "选择列表",
-    "H264CrfHelp": "The Constant Rate Factor (CRF) 是 x264 编码器的默认质量设置。您可以设置介于0和51之间的值, 其中较低的值将导致更好的质量 (以更高的文件大小为代价)。正常值介于18和28之间。x264 的默认值为 23, 因此可以将其用作起始点。",
+    "H264CrfHelp": "The Constant Rate Factor (CRF) 是 x264 编码器的默认质量设置。您可以设置介于0和51之间的值， 其中较低的值将导致更好的质量 (以更高的文件大小为代价)。正常值介于 18 和 28 之间。x264 的默认值为 23，x265 的默认值为 28，因此可以将其用作起始点。",
     "EncoderPresetHelp": "选择一个更快的值以提升性能，或者选择一个更慢的值以提升质量。",
     "HDPrograms": "高清节目",
     "HardwareAccelerationWarning": "启动硬件加速可能在某些环境下导致系统不稳定。请确认你的操作系统和显卡驱动程序是最新的。如果你在开启此项后播放视频时遇到困难，那么你需要将此选项设置回“没有”。",
@@ -493,7 +493,8 @@
     "LabelGroupMoviesIntoCollections": "批量添加电影到集合",
     "LabelGroupMoviesIntoCollectionsHelp": "显示电影列表时，同一集合的电影将显示为一个分组。",
     "LabelH264Crf": "H264 CRF 编码质量等级：",
-    "LabelEncoderPreset": "H264 和 H265 编码预设：",
+    "LabelH265Crf": "H265 CRF 编码质量等级：",
+    "LabelEncoderPreset": "编码预设：",
     "LabelHardwareAccelerationType": "硬件加速：",
     "LabelHardwareAccelerationTypeHelp": "硬件加速需要额外配置。",
     "LabelHomeNetworkQuality": "家庭网络质量：",
@@ -1433,5 +1434,12 @@
     "DeleteDevicesConfirmation": "您确定要删除所有设备吗？所有其他会话将被注销。用户下次登录时，设备会重新出现。",
     "DeleteAll": "删除全部",
     "AspectRatioCover": "覆盖",
-    "AspectRatioFill": "填充"
+    "AspectRatioFill": "填充",
+    "PreferFmp4HlsContainer": "优先使用 fMP4-HLS 媒体容器",
+    "PreferFmp4HlsContainerHelp": "优先使用 fMP4 作为 HLS 播放的默认容器，从而可以在支持的设备上直接串流 HEVC 格式的内容。",
+    "AllowHevcEncoding": "允许以 HEVC 格式编码",
+    "LabelAllowedAudioChannels": "允许的最大声道数量",
+    "LabelSelectAudioChannels": "声道",
+    "LabelSelectMono": "单声道",
+    "LabelSelectStereo": "立体声"
 }

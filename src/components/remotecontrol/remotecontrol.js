@@ -1,20 +1,23 @@
-import datetime from 'datetime';
-import backdrop from 'backdrop';
-import listView from 'listView';
-import imageLoader from 'imageLoader';
-import playbackManager from 'playbackManager';
-import nowPlayingHelper from 'nowPlayingHelper';
-import events from 'events';
-import appHost from 'apphost';
-import globalize from 'globalize';
-import layoutManager from 'layoutManager';
-import * as userSettings from 'userSettings';
-import cardBuilder from 'cardBuilder';
-import itemContextMenu from 'itemContextMenu';
-import 'cardStyle';
-import 'emby-itemscontainer';
-import 'css!./remotecontrol.css';
-import 'emby-ratingbutton';
+import datetime from '../../scripts/datetime';
+import backdrop from '../backdrop/backdrop';
+import listView from '../listview/listview';
+import imageLoader from '../images/imageLoader';
+import { playbackManager } from '../playback/playbackmanager';
+import nowPlayingHelper from '../playback/nowplayinghelper';
+import { Events } from 'jellyfin-apiclient';
+import { appHost } from '../apphost';
+import globalize from '../../scripts/globalize';
+import layoutManager from '../layoutManager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import cardBuilder from '../cardbuilder/cardBuilder';
+import itemContextMenu from '../itemContextMenu';
+import '../cardbuilder/card.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import './remotecontrol.css';
+import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import { appRouter } from '../appRouter';
 
 /*eslint prefer-const: "error"*/
 
@@ -37,7 +40,7 @@ function showAudioMenu(context, player, button, item) {
         return menuItem;
     });
 
-    import('actionsheet').then(({ default: actionsheet }) => {
+    import('../actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -69,7 +72,7 @@ function showSubtitleMenu(context, player, button, item) {
         selected: currentIndex == null
     });
 
-    import('actionsheet').then(({ default: actionsheet }) => {
+    import('../actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -95,18 +98,18 @@ function seriesImageUrl(item, options) {
     options.type = options.type || 'Primary';
     if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
         options.tag = item.SeriesPrimaryImageTag;
-        return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
     }
 
     if (options.type === 'Thumb') {
         if (item.SeriesThumbImageTag) {
             options.tag = item.SeriesThumbImageTag;
-            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
         if (item.ParentThumbImageTag) {
             options.tag = item.ParentThumbImageTag;
-            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
         }
     }
 
@@ -119,12 +122,12 @@ function imageUrl(item, options) {
 
     if (item.ImageTags && item.ImageTags[options.type]) {
         options.tag = item.ImageTags[options.type];
-        return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
     }
 
     if (item.AlbumId && item.AlbumPrimaryImageTag) {
         options.tag = item.AlbumPrimaryImageTag;
-        return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
     }
 
     return null;
@@ -215,7 +218,7 @@ function updateNowPlayingInfo(context, state, serverId) {
             openAlbum: false,
             positionTo: contextButton
         };
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
             apiClient.getCurrentUser().then(function (user) {
                 contextButton.addEventListener('click', function () {
@@ -597,7 +600,7 @@ export default function () {
 
         if (!state.NextMediaType) {
             updatePlayerState(player, dlg, {});
-            Emby.Page.back();
+            appRouter.back();
         }
     }
 
@@ -631,18 +634,18 @@ export default function () {
         const player = currentPlayer;
 
         if (player) {
-            events.off(player, 'playbackstart', onPlaybackStart);
-            events.off(player, 'statechange', onStateChanged);
-            events.off(player, 'repeatmodechange', onRepeatModeChange);
-            events.off(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
-            events.off(player, 'playlistitemremove', onPlaylistItemRemoved);
-            events.off(player, 'playlistitemmove', onPlaylistUpdate);
-            events.off(player, 'playlistitemadd', onPlaylistUpdate);
-            events.off(player, 'playbackstop', onPlaybackStopped);
-            events.off(player, 'volumechange', onVolumeChanged);
-            events.off(player, 'pause', onPlayPauseStateChanged);
-            events.off(player, 'unpause', onPlayPauseStateChanged);
-            events.off(player, 'timeupdate', onTimeUpdate);
+            Events.off(player, 'playbackstart', onPlaybackStart);
+            Events.off(player, 'statechange', onStateChanged);
+            Events.off(player, 'repeatmodechange', onRepeatModeChange);
+            Events.off(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
+            Events.off(player, 'playlistitemremove', onPlaylistItemRemoved);
+            Events.off(player, 'playlistitemmove', onPlaylistUpdate);
+            Events.off(player, 'playlistitemadd', onPlaylistUpdate);
+            Events.off(player, 'playbackstop', onPlaybackStopped);
+            Events.off(player, 'volumechange', onVolumeChanged);
+            Events.off(player, 'pause', onPlayPauseStateChanged);
+            Events.off(player, 'unpause', onPlayPauseStateChanged);
+            Events.off(player, 'timeupdate', onTimeUpdate);
             currentPlayer = null;
         }
     }
@@ -653,18 +656,18 @@ export default function () {
             onStateChanged.call(player, {
                 type: 'init'
             }, state);
-            events.on(player, 'playbackstart', onPlaybackStart);
-            events.on(player, 'statechange', onStateChanged);
-            events.on(player, 'repeatmodechange', onRepeatModeChange);
-            events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
-            events.on(player, 'playlistitemremove', onPlaylistItemRemoved);
-            events.on(player, 'playlistitemmove', onPlaylistUpdate);
-            events.on(player, 'playlistitemadd', onPlaylistUpdate);
-            events.on(player, 'playbackstop', onPlaybackStopped);
-            events.on(player, 'volumechange', onVolumeChanged);
-            events.on(player, 'pause', onPlayPauseStateChanged);
-            events.on(player, 'unpause', onPlayPauseStateChanged);
-            events.on(player, 'timeupdate', onTimeUpdate);
+            Events.on(player, 'playbackstart', onPlaybackStart);
+            Events.on(player, 'statechange', onStateChanged);
+            Events.on(player, 'repeatmodechange', onRepeatModeChange);
+            Events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
+            Events.on(player, 'playlistitemremove', onPlaylistItemRemoved);
+            Events.on(player, 'playlistitemmove', onPlaylistUpdate);
+            Events.on(player, 'playlistitemadd', onPlaylistUpdate);
+            Events.on(player, 'playbackstop', onPlaybackStopped);
+            Events.on(player, 'volumechange', onVolumeChanged);
+            Events.on(player, 'pause', onPlayPauseStateChanged);
+            Events.on(player, 'unpause', onPlayPauseStateChanged);
+            Events.on(player, 'timeupdate', onTimeUpdate);
             const playerInfo = playbackManager.getPlayerInfo();
             const supportedCommands = playerInfo.supportedCommands;
             currentPlayerSupportedCommands = supportedCommands;
@@ -693,7 +696,7 @@ export default function () {
     }
 
     function savePlaylist() {
-        import('playlistEditor').then(({ default: playlistEditor }) => {
+        import('../playlisteditor/playlisteditor').then(({ default: playlistEditor }) => {
             getSaveablePlaylistItems().then(function (items) {
                 const serverId = items.length ? items[0].ServerId : ApiClient.serverId();
                 new playlistEditor({
@@ -863,9 +866,7 @@ export default function () {
         }, currentPlayer);
         form.querySelector('input').value = '';
 
-        import('toast').then(({ default: toast }) => {
-            toast('Message sent.');
-        });
+        toast('Message sent.');
 
         e.preventDefault();
         e.stopPropagation();
@@ -882,9 +883,7 @@ export default function () {
         }, currentPlayer);
         form.querySelector('input').value = '';
 
-        import('toast').then(({ default: toast }) => {
-            toast('Text sent.');
-        });
+        toast('Text sent.');
 
         e.preventDefault();
         e.stopPropagation();
@@ -915,7 +914,7 @@ export default function () {
         bindEvents(context);
         context.querySelector('.sendMessageForm').addEventListener('submit', onMessageSubmit);
         context.querySelector('.typeTextForm').addEventListener('submit', onSendStringSubmit);
-        events.on(playbackManager, 'playerchange', onPlayerChange);
+        Events.on(playbackManager, 'playerchange', onPlayerChange);
 
         if (layoutManager.tv) {
             const positionSlider = context.querySelector('.nowPlayingPositionSlider');
@@ -926,7 +925,7 @@ export default function () {
 
     function onDialogClosed(e) {
         releaseCurrentPlayer();
-        events.off(playbackManager, 'playerchange', onPlayerChange);
+        Events.off(playbackManager, 'playerchange', onPlayerChange);
         lastPlayerState = null;
     }
 

@@ -1,7 +1,7 @@
-import browser from 'browser';
-import dom from 'dom';
-import 'css!./emby-input';
-import 'webcomponents';
+import browser from '../../scripts/browser';
+import dom from '../../scripts/dom';
+import './emby-input.css';
+import 'webcomponents.js/webcomponents-lite';
 
 /* eslint-disable indent */
 

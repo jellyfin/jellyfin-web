@@ -1,7 +1,7 @@
-import browser from 'browser';
-import dom from 'dom';
-import 'css!./emby-checkbox';
-import 'webcomponents';
+import browser from '../../scripts/browser';
+import dom from '../../scripts/dom';
+import './emby-checkbox.css';
+import 'webcomponents.js/webcomponents-lite';
 
 /* eslint-disable indent */
 
