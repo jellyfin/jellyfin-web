@@ -2,12 +2,12 @@
  * and will be replaced soon by a Vue component.
  */
 
-import browser from 'browser';
-import layoutManager from 'layoutManager';
-import dom from 'dom';
-import focusManager from 'focusManager';
-import ResizeObserver from 'ResizeObserver';
-import 'scrollStyles';
+import browser from '../scripts/browser';
+import layoutManager from '../components/layoutManager';
+import dom from '../scripts/dom';
+import focusManager from '../components/focusManager';
+import ResizeObserver from 'resize-observer-polyfill';
+import '../assets/css/scrollstyles.css';
 
 /**
 * Return type of the value.

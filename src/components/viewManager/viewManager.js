@@ -1,7 +1,6 @@
-import viewContainer from 'viewContainer';
-import focusManager from 'focusManager';
-import queryString from 'queryString';
-import layoutManager from 'layoutManager';
+import viewContainer from '../viewContainer';
+import focusManager from '../focusManager';
+import layoutManager from '../layoutManager';
 
 let currentView;
 let dispatchPageEvents;
@@ -98,21 +97,25 @@ function dispatchViewEvent(view, eventInfo, eventName, isCancellable) {
     return eventResult;
 }
 
-function getViewEventDetail(view, options, isRestore) {
-    const url = options.url;
+function getViewEventDetail(view, {state, url, options = {}}, isRestored) {
     const index = url.indexOf('?');
-    const params = index === -1 ? {} : queryString.parse(url.substring(index + 1));
+    // eslint-disable-next-line compat/compat
+    const searchParams = new URLSearchParams(url.substring(index + 1));
+    const params = {};
+
+    searchParams.forEach((value, key) =>
+        params[key] = value
+    );
 
     return {
         detail: {
             type: view.getAttribute('data-type'),
             properties: getProperties(view),
-            params: params,
-            isRestored: isRestore,
-            state: options.state,
-
+            params,
+            isRestored,
+            state,
             // The route options
-            options: options.options || {}
+            options
         },
         bubbles: true,
         cancelable: false
@@ -169,4 +172,7 @@ class ViewManager {
     }
 }
 
-export default new ViewManager();
+const viewManager = new ViewManager();
+viewManager.dispatchPageEvents(true);
+
+export default viewManager;

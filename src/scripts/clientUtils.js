@@ -1,4 +1,12 @@
-import * as webSettings from 'webSettings';
+import AppInfo from '../components/AppInfo';
+import ServerConnections from '../components/ServerConnections';
+import toast from '../components/toast/toast';
+import loading from '../components/loading/loading';
+import { appRouter } from '../components/appRouter';
+import baseAlert from '../components/alert';
+import baseConfirm from '../components/confirm/confirm';
+import globalize from '../scripts/globalize';
+import * as webSettings from './settings/webSettings';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -12,7 +20,7 @@ export async function serverAddress() {
         return Promise.resolve(apiClient.serverAddress());
     }
 
-    const current = await window.connectionManager.getAvailableServers().then(servers => {
+    const current = await ServerConnections.getAvailableServers().then(servers => {
         if (servers.length !== 0) {
             return Promise.resolve(servers[0].ManualAddress);
         }
@@ -57,12 +65,11 @@ export function getCurrentUserId() {
 }
 
 export function onServerChanged(userId, accessToken, apiClient) {
-    apiClient = apiClient || window.ApiClient;
-    window.ApiClient = apiClient;
+    ServerConnections.setLocalApiClient(apiClient);
 }
 
 export function logout() {
-    window.connectionManager.logout().then(function () {
+    ServerConnections.logout().then(function () {
         webSettings.getMultiServer().then(multi => {
             multi ? navigate('selectserver.html') : navigate('login.html');
         });
@@ -84,39 +91,21 @@ export function navigate(url, preserveQueryString) {
         url += queryString;
     }
 
-    return new Promise(function (resolve, reject) {
-        import('appRouter').then(({default: appRouter}) => {
-            return appRouter.show(url).then(resolve, reject);
-        });
-    });
+    return appRouter.show(url);
 }
 
 export function processPluginConfigurationUpdateResult() {
-    Promise.all([
-        import('loading'),
-        import('toast')
-    ])
-        .then(([{default: loading}, {default: toast}]) => {
-            loading.hide();
-            toast(Globalize.translate('SettingsSaved'));
-        });
+    loading.hide();
+    toast(globalize.translate('SettingsSaved'));
 }
 
 export function processServerConfigurationUpdateResult(result) {
-    Promise.all([
-        import('loading'),
-        import('toast')
-    ])
-        .then(([{default: loading}, {default: toast}]) => {
-            loading.hide();
-            toast(Globalize.translate('SettingsSaved'));
-        });
+    loading.hide();
+    toast(globalize.translate('SettingsSaved'));
 }
 
 export function processErrorResponse(response) {
-    import('loading').then(({default: loading}) => {
-        loading.hide();
-    });
+    loading.hide();
 
     let status = '' + response.status;
 
@@ -132,29 +121,24 @@ export function processErrorResponse(response) {
 
 export function alert(options) {
     if (typeof options == 'string') {
-        return void import('toast').then(({default: toast}) => {
-            toast({
-                text: options
-            });
+        toast({
+            text: options
         });
-    }
-
-    import('alert').then(({default: alert}) => {
-        alert({
-            title: options.title || Globalize.translate('HeaderAlert'),
+    } else {
+        baseAlert({
+            title: options.title || globalize.translate('HeaderAlert'),
             text: options.message
         }).then(options.callback || function () {});
-    });
+    }
 }
 
 export function capabilities(appHost) {
-    const capabilities = {
+    return Object.assign({
         PlayableMediaTypes: ['Audio', 'Video'],
         SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
         SupportsPersistentIdentifier: window.appMode === 'cordova' || window.appMode === 'android',
         SupportsMediaControl: true
-    };
-    return Object.assign(capabilities, appHost.getPushTokenInfo());
+    }, appHost.getPushTokenInfo());
 }
 
 export function selectServer() {
@@ -166,30 +150,42 @@ export function selectServer() {
 }
 
 export function hideLoadingMsg() {
-    import('loading').then(({default: loading}) => {
-        loading.hide();
-    });
+    loading.hide();
 }
 
 export function showLoadingMsg() {
-    import('loading').then(({default: loading}) => {
-        loading.show();
-    });
+    loading.show();
 }
 
 export function confirm(message, title, callback) {
-    import('confirm').then(({default: confirm}) => {
-        confirm(message, title).then(function() {
-            callback(!0);
-        }).catch(function() {
-            callback(!1);
-        });
+    baseConfirm(message, title).then(function() {
+        callback(true);
+    }).catch(function() {
+        callback(false);
     });
 }
 
-// This is used in plugins and templates, so keep it defined for now.
-// TODO: Remove once plugins don't need it
-window.Dashboard = {
+export const pageClassOn = function(eventName, className, fn) {
+    document.addEventListener(eventName, function (event) {
+        const target = event.target;
+
+        if (target.classList.contains(className)) {
+            fn.call(target, event);
+        }
+    });
+};
+
+export const pageIdOn = function(eventName, id, fn) {
+    document.addEventListener(eventName, function (event) {
+        const target = event.target;
+
+        if (target.id === id) {
+            fn.call(target, event);
+        }
+    });
+};
+
+const Dashboard = {
     alert,
     capabilities,
     confirm,
@@ -208,21 +204,8 @@ window.Dashboard = {
     showLoadingMsg
 };
 
-export default {
-    alert,
-    capabilities,
-    confirm,
-    getPluginUrl,
-    getCurrentUser,
-    getCurrentUserId,
-    hideLoadingMsg,
-    logout,
-    navigate,
-    onServerChanged,
-    processErrorResponse,
-    processPluginConfigurationUpdateResult,
-    processServerConfigurationUpdateResult,
-    selectServer,
-    serverAddress,
-    showLoadingMsg
-};
+// This is used in plugins and templates, so keep it defined for now.
+// TODO: Remove once plugins don't need it
+window.Dashboard = Dashboard;
+
+export default Dashboard;

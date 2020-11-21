@@ -1,4 +1,4 @@
-import tvguide from 'tvguide';
+import tvguide from '../../components/guide/guide';
 
 export default function (view, params, tabContent) {
     let guideInstance;

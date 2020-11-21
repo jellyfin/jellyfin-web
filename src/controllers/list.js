@@ -1,21 +1,23 @@
-import globalize from 'globalize';
-import listView from 'listView';
-import layoutManager from 'layoutManager';
-import * as userSettings from 'userSettings';
-import focusManager from 'focusManager';
-import cardBuilder from 'cardBuilder';
-import loading from 'loading';
-import AlphaNumericShortcuts from 'alphaNumericShortcuts';
-import playbackManager from 'playbackManager';
-import AlphaPicker from 'alphaPicker';
-import 'emby-itemscontainer';
-import 'emby-scroller';
+import globalize from '../scripts/globalize';
+import listView from '../components/listview/listview';
+import layoutManager from '../components/layoutManager';
+import * as userSettings from '../scripts/settings/userSettings';
+import focusManager from '../components/focusManager';
+import cardBuilder from '../components/cardbuilder/cardBuilder';
+import loading from '../components/loading/loading';
+import AlphaNumericShortcuts from '../scripts/alphanumericshortcuts';
+import { playbackManager } from '../components/playback/playbackmanager';
+import AlphaPicker from '../components/alphaPicker/alphaPicker';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../elements/emby-scroller/emby-scroller';
+import ServerConnections from '../components/ServerConnections';
+import { appRouter } from '../components/appRouter';
 
 /* eslint-disable indent */
 
     function getInitialLiveTvQuery(instance, params) {
         const query = {
-            UserId: window.connectionManager.getApiClient(params.serverId).getCurrentUserId(),
+            UserId: ServerConnections.getApiClient(params.serverId).getCurrentUserId(),
             StartIndex: 0,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
             Limit: 300
@@ -231,7 +233,7 @@ import 'emby-scroller';
     }
 
     function getItems(instance, params, item, sortBy, startIndex, limit) {
-        const apiClient = window.connectionManager.getApiClient(params.serverId);
+        const apiClient = ServerConnections.getApiClient(params.serverId);
 
         instance.queryRecursive = false;
         if (params.type === 'Recordings') {
@@ -332,7 +334,7 @@ import 'emby-scroller';
             return Promise.resolve(null);
         }
 
-        const apiClient = window.connectionManager.getApiClient(params.serverId);
+        const apiClient = ServerConnections.getApiClient(params.serverId);
         const itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
 
         if (itemId) {
@@ -345,7 +347,7 @@ import 'emby-scroller';
     function showViewSettingsMenu() {
         const instance = this;
 
-        import('viewSettings').then(({default: ViewSettings}) => {
+        import('../components/viewSettings/viewSettings').then(({default: ViewSettings}) => {
             new ViewSettings().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getViewSettings(),
@@ -360,7 +362,7 @@ import 'emby-scroller';
     function showFilterMenu() {
         const instance = this;
 
-        import('filterMenu').then(({default: FilterMenu}) => {
+        import('../components/filtermenu/filtermenu').then(({default: FilterMenu}) => {
             new FilterMenu().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getFilters(),
@@ -379,7 +381,7 @@ import 'emby-scroller';
     function showSortMenu() {
         const instance = this;
 
-        import('sortMenu').then(({default: SortMenu}) => {
+        import('../components/sortmenu/sortmenu').then(({default: SortMenu}) => {
             new SortMenu().show({
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getSortValues(),
@@ -397,7 +399,7 @@ import 'emby-scroller';
     function onNewItemClick() {
         const instance = this;
 
-        import('playlistEditor').then(({default: playlistEditor}) => {
+        import('../components/playlisteditor/playlisteditor').then(({default: playlistEditor}) => {
             new playlistEditor({
                 items: [],
                 serverId: instance.params.serverId
@@ -572,7 +574,7 @@ class ItemsView {
         }
 
         function setTitle(item) {
-            Emby.Page.setTitle(getTitle(item) || '');
+            appRouter.setTitle(getTitle(item) || '');
 
             if (item && item.CollectionType === 'playlists') {
                 hideOrShowAll(view.querySelectorAll('.btnNewItem'), false);

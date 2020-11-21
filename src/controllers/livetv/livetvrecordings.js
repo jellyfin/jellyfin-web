@@ -1,9 +1,10 @@
-import loading from 'loading';
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
-import 'scripts/livetvcomponents';
-import 'listViewStyle';
-import 'emby-itemscontainer';
+import loading from '../../components/loading/loading';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import '../../scripts/livetvcomponents';
+import '../../components/listview/listview.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import Dashboard from '../../scripts/clientUtils';
 
 function renderRecordings(elem, recordings, cardOptions, scrollX) {
     if (!elem) {

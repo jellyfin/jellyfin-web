@@ -5,6 +5,16 @@
         </h2>
 
         <div class="selectContainer">
+            <select is="emby-select" id="selectAllowedAudioChannels" label="${LabelAllowedAudioChannels}">
+                <option value="-1">${Auto}</option>
+                <option value="1">${LabelSelectMono}</option>
+                <option value="2">${LabelSelectStereo}</option>
+                <option value="6">5.1 ${LabelSelectAudioChannels}</option>
+                <option value="8">7.1 ${LabelSelectAudioChannels}</option>
+            </select>
+        </div>
+
+        <div class="selectContainer">
             <select is="emby-select" id="selectAudioLanguage" label="${LabelAudioLanguagePreference}"></select>
         </div>
 
@@ -48,6 +58,14 @@
         <h2 class="sectionTitle">
             ${TabAdvanced}
         </h2>
+
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkPreferFmp4HlsContainer" />
+                <span>${PreferFmp4HlsContainer}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${PreferFmp4HlsContainerHelp}</div>
+        </div>
 
         <div class="checkboxContainer checkboxContainer-withDescription cinemaModeOptions">
             <label>

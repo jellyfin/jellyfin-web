@@ -1,9 +1,10 @@
-import events from 'events';
-import playbackManager from 'playbackManager';
-import dom from 'dom';
-import browser from 'browser';
-import 'css!./iconosd';
-import 'material-icons';
+
+import { Events } from 'jellyfin-apiclient';
+import { playbackManager } from './playbackmanager';
+import dom from '../../scripts/dom';
+import browser from '../../scripts/browser';
+import './iconosd.css';
+import 'material-design-icons-iconfont';
 
 let currentPlayer;
 let osdElement;
@@ -111,8 +112,8 @@ function releaseCurrentPlayer() {
     const player = currentPlayer;
 
     if (player) {
-        events.off(player, 'volumechange', onVolumeChanged);
-        events.off(player, 'playbackstop', hideOsd);
+        Events.off(player, 'volumechange', onVolumeChanged);
+        Events.off(player, 'playbackstop', hideOsd);
         currentPlayer = null;
     }
 }
@@ -141,11 +142,11 @@ function bindToPlayer(player) {
     }
 
     hideOsd();
-    events.on(player, 'volumechange', onVolumeChanged);
-    events.on(player, 'playbackstop', hideOsd);
+    Events.on(player, 'volumechange', onVolumeChanged);
+    Events.on(player, 'playbackstop', hideOsd);
 }
 
-events.on(playbackManager, 'playerchange', function () {
+Events.on(playbackManager, 'playerchange', function () {
     bindToPlayer(playbackManager.getCurrentPlayer());
 });
 

@@ -1,21 +1,21 @@
-import EmbyProgressRing from 'emby-progressring';
-import dom from 'dom';
-import serverNotifications from 'serverNotifications';
-import events from 'events';
-import 'webcomponents';
+import EmbyProgressRing from '../emby-progressring/emby-progressring';
+import dom from '../../scripts/dom';
+import serverNotifications from '../../scripts/serverNotifications';
+import { Events } from 'jellyfin-apiclient';
+import 'webcomponents.js/webcomponents-lite';
 
 /* eslint-disable indent */
 
     function addNotificationEvent(instance, name, handler) {
         const localHandler = handler.bind(instance);
-        events.on(serverNotifications, name, localHandler);
+        Events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
     function removeNotificationEvent(instance, name) {
         const handler = instance[name];
         if (handler) {
-            events.off(serverNotifications, name, handler);
+            Events.off(serverNotifications, name, handler);
             instance[name] = null;
         }
     }

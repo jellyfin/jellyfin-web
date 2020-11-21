@@ -1,12 +1,12 @@
-import loading from 'loading';
-import cardBuilder from 'cardBuilder';
-import dom from 'dom';
-import appHost from 'apphost';
-import imageLoader from 'imageLoader';
-import globalize from 'globalize';
-import layoutManager from 'layoutManager';
-import 'scrollStyles';
-import 'emby-itemscontainer';
+import loading from './loading/loading';
+import cardBuilder from './cardbuilder/cardBuilder';
+import dom from '../scripts/dom';
+import { appHost } from './apphost';
+import imageLoader from './images/imageLoader';
+import globalize from '../scripts/globalize';
+import layoutManager from './layoutManager';
+import '../assets/css/scrollstyles.css';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 

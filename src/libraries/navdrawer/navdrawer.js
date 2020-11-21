@@ -3,12 +3,12 @@
  */
 
 /* eslint-disable no-var */
-import browser from 'browser';
-import dom from 'dom';
-import 'css!./navdrawer';
-import 'scrollStyles';
+import browser from '../../scripts/browser';
+import dom from '../../scripts/dom';
+import './navdrawer.css';
+import '../../assets/css/scrollstyles.css';
 
-export default function (options) {
+export function NavigationDrawer(options) {
     function getTouches(e) {
         return e.changedTouches || e.targetTouches || e.touches;
     }

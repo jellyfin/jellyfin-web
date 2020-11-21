@@ -5,11 +5,11 @@
  * @module components/libraryoptionseditor/libraryoptionseditor
  */
 
-import globalize from 'globalize';
-import dom from 'dom';
-import 'emby-checkbox';
-import 'emby-select';
-import 'emby-input';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-input/emby-input';
 
     function populateLanguages(parent) {
         return ApiClient.getCultures().then(languages => {
@@ -258,11 +258,9 @@ import 'emby-input';
         elem.innerHTML = html;
         if (html) {
             elem.classList.remove('hide');
-            page.querySelector('.chkDownloadImagesInAdvanceContainer').classList.remove('hide');
             page.querySelector('.chkSaveLocalContainer').classList.remove('hide');
         } else {
             elem.classList.add('hide');
-            page.querySelector('.chkDownloadImagesInAdvanceContainer').classList.add('hide');
             page.querySelector('.chkSaveLocalContainer').classList.add('hide');
         }
         return true;
@@ -306,7 +304,7 @@ import 'emby-input';
     }
 
     function showImageOptionsForType(type) {
-        import('imageoptionseditor').then(({default: ImageOptionsEditor}) => {
+        import('../imageOptionsEditor/imageOptionsEditor').then(({default: ImageOptionsEditor}) => {
             let typeOptions = getTypeOptions(currentLibraryOptions, type);
             if (!typeOptions) {
                 typeOptions = {
@@ -364,8 +362,9 @@ import 'emby-input';
         currentAvailableOptions = null;
         const isNewLibrary = libraryOptions === null;
         isNewLibrary && parent.classList.add('newlibrary');
-        const response = await fetch('components/libraryoptionseditor/libraryoptionseditor.template.html');
-        const template = await response.text();
+
+        const { default: template } = await import('./libraryoptionseditor.template.html');
+
         parent.innerHTML = globalize.translateHtml(template);
         populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
         const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
@@ -507,7 +506,6 @@ import 'emby-input';
             EnableRealtimeMonitor: parent.querySelector('.chkEnableRealtimeMonitor').checked,
             ExtractChapterImagesDuringLibraryScan: parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked,
             EnableChapterImageExtraction: parent.querySelector('.chkExtractChapterImages').checked,
-            DownloadImagesInAdvance: parent.querySelector('#chkDownloadImagesInAdvance').checked,
             EnableInternetProviders: true,
             SaveLocalMetadata: parent.querySelector('#chkSaveLocal').checked,
             EnableAutomaticSeriesGrouping: parent.querySelector('.chkAutomaticallyGroupSeries').checked,
@@ -564,7 +562,6 @@ import 'emby-input';
         parent.querySelector('.chkEnableRealtimeMonitor').checked = options.EnableRealtimeMonitor;
         parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked = options.ExtractChapterImagesDuringLibraryScan;
         parent.querySelector('.chkExtractChapterImages').checked = options.EnableChapterImageExtraction;
-        parent.querySelector('#chkDownloadImagesInAdvance').checked = options.DownloadImagesInAdvance;
         parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
         parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;

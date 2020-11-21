@@ -1,17 +1,19 @@
-import dom from 'dom';
-import dialogHelper from 'dialogHelper';
-import loading from 'loading';
-import layoutManager from 'layoutManager';
-import appRouter from 'appRouter';
-import globalize from 'globalize';
-import 'emby-checkbox';
-import 'emby-input';
-import 'paper-icon-button-light';
-import 'emby-select';
-import 'material-icons';
-import 'css!./../formdialog';
-import 'emby-button';
-import 'flexStyles';
+import dom from '../../scripts/dom';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import loading from '../loading/loading';
+import layoutManager from '../layoutManager';
+import { appRouter } from '../appRouter';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-select/emby-select';
+import 'material-design-icons-iconfont';
+import '../formdialog.css';
+import '../../assets/css/flexstyles.scss';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /* eslint-disable indent */
 
@@ -24,7 +26,7 @@ import 'flexStyles';
 
         const collectionId = panel.querySelector('#selectCollectionToAddTo').value;
 
-        const apiClient = window.connectionManager.getApiClient(currentServerId);
+        const apiClient = ServerConnections.getApiClient(currentServerId);
 
         if (collectionId) {
             addToCollection(apiClient, panel, collectionId);
@@ -80,9 +82,7 @@ import 'flexStyles';
             dlg.submitted = true;
             dialogHelper.close(dlg);
 
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('MessageItemsAdded'));
-            });
+            toast(globalize.translate('MessageItemsAdded'));
         });
     }
 
@@ -105,7 +105,7 @@ import 'flexStyles';
             EnableTotalRecordCount: false
         };
 
-        const apiClient = window.connectionManager.getApiClient(currentServerId);
+        const apiClient = ServerConnections.getApiClient(currentServerId);
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
             let html = '';
 
@@ -199,7 +199,7 @@ import 'flexStyles';
     }
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then((scrollHelper) => {
+        import('../../scripts/scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
