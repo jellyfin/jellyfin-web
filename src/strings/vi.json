@@ -1450,5 +1450,7 @@
     "LabelPlaybackInfo": "Thông Tin Phát Lại",
     "RemuxHelp2": "Pha trộn sử dụng rất ít sức mạnh xử lý với chất lượng phương tiện hoàn toàn không mất dữ liệu.",
     "RemuxHelp1": "Phương tiện nằm trong vùng chứa tệp không tương thích (MKV, AVI, WMV, v.v.) nhưng cả luồng video và luồng âm thanh đều tương thích với thiết bị. Phương tiện sẽ được đóng gói lại giữ chất lượng tốt trước khi được gửi đến thiết bị.",
-    "Remuxing": "Pha Trộn"
+    "Remuxing": "Pha Trộn",
+    "AspectRatioFill": "Lấp Đầy",
+    "AspectRatioCover": "Bao Phủ"
 }
