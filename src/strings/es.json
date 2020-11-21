@@ -1438,5 +1438,6 @@
     "AllowHevcEncoding": "Permitir la codificación en formato HEVC",
     "PreferFmp4HlsContainerHelp": "Preferir usar fMP4 como contenedor predeterminado para HLS, haciendo posible transmitir contenido HEVC directo en dispositivos compatibles.",
     "PreferFmp4HlsContainer": "Preferir contenedor de medios fMP4-HLS",
-    "LabelH265Crf": "CRF de codificación H265:"
+    "LabelH265Crf": "CRF de codificación H265:",
+    "LabelSelectStereo": "Estéreo"
 }
