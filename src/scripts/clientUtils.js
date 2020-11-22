@@ -29,9 +29,13 @@ export async function serverAddress() {
     // if (current) return Promise.resolve(current);
 
     const urls = [];
-    urls.push(window.location.origin);
-    urls.push(`https://${window.location.hostname}:8920`);
-    urls.push(`http://${window.location.hostname}:8096`);
+
+    const urlLower = window.location.href.toLowerCase();
+    const index = urlLower.lastIndexOf('/web');
+    if (index != -1) {
+        urls.push(urlLower.substring(0, index));
+    }
+
     urls.push(...await webSettings.getServers());
 
     const promises = urls.map(url => {
