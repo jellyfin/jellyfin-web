@@ -1478,5 +1478,13 @@
     "HeaderPortRanges": "Cài đặt Tường Lửa và Proxy",
     "HeaderNetworking": "Giao Thức IP",
     "HeaderDebugging": "Gỡ Lỗi và Theo Dõi",
-    "HeaderAutoDiscovery": "Phát Hiện Mạng"
+    "HeaderAutoDiscovery": "Phát Hiện Mạng",
+    "LabelUDPPortRangeHelp": "Hạn chế Jellyfin dùng dải cổng này khi tạo kết nối UDP. (Mặc định là 1024 - 645535). <br/> Lưu ý: Một số chức năng yêu cầu các cổng cố định có thể nằm ngoài dải này.",
+    "LabelUDPPortRange": "Phạm Vi Giao Tiếp UDP:",
+    "LabelSSDPTracingFilterHelp": "Địa chỉ IP tùy chọn để lọc lưu lượng SSDP đã ghi nhật ký.",
+    "LabelSSDPTracingFilter": "Bộ lọc SSDP:",
+    "LabelPublishedServerUriHelp": "Ghi đè URI được Jellyfin sử dụng, dựa trên giao diện hoặc địa chỉ IP của ứng dụng khách.",
+    "LabelPublishedServerUri": "URI Máy Chủ Đã Công Bố:",
+    "LabelHDHomerunPortRangeHelp": "Giới hạn phạm vi cổng HD Homerun UDP ở giá trị này. (Mặc định là 1024 - 645535).",
+    "LabelHDHomerunPortRange": "Phạm Vi Homerun HD:"
 }
