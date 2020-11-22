@@ -26,7 +26,7 @@ export class BookPlayer {
             width: '100%',
             height: '100%',
             // TODO: Add option for scrolled-doc
-            flow: 'auto'
+            flow: 'paginated'
         };
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
@@ -146,8 +146,8 @@ export class BookPlayer {
         elem.addEventListener('close', this.onDialogClosed, {once: true});
         elem.querySelector('#btnBookplayerExit').addEventListener('click', this.onDialogClosed, {once: true});
         elem.querySelector('#btnBookplayerToc').addEventListener('click', this.openTableOfContents);
-        elem.querySelector('#btnBookplayerPrev').addEventListener('click', this.prevChapter);
-        elem.querySelector('#btnBookplayerNext').addEventListener('click', this.nextChapter);
+        elem.querySelector('#btnBookplayerPrev')?.addEventListener('click', this.prevChapter);
+        elem.querySelector('#btnBookplayerNext')?.addEventListener('click', this.nextChapter);
     }
 
     bindEvents() {
@@ -165,8 +165,8 @@ export class BookPlayer {
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('#btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
         elem.querySelector('#btnBookplayerToc').removeEventListener('click', this.openTableOfContents);
-        elem.querySelector('#btnBookplayerPrev').removeEventListener('click', this.prevChapter);
-        elem.querySelector('#btnBookplayerNext').removeEventListener('click', this.nextChapter);
+        elem.querySelector('#btnBookplayerPrev')?.removeEventListener('click', this.prevChapter);
+        elem.querySelector('#btnBookplayerNext')?.removeEventListener('click', this.nextChapter);
     }
 
     unbindEvents() {
