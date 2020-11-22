@@ -1436,7 +1436,7 @@
     "LabelCreateHttpPortMapHelp": "Permit automatic port mapping to create a rule for http traffic in addition to https traffic.",
     "HeaderAutoDiscovery": "Network Discovery",
     "LabelAutomaticDiscovery": "Enable Auto Discovery:",
-    "LabelAutomaticDiscoveryHelp": "Enable applications to automatically detect Jellyfin by using udp port 7359.",
+    "LabelAutomaticDiscoveryHelp": "Allow applications to automatically detect Jellyfin by using UDP port 7359.",
     "LabelAutoDiscoveryTracing": "Enable Auto Discovery tracing.",
     "LabelAutoDiscoveryTracingHelp": "When enabled, packets received on the auto discovery port will be logged.",
     "HeaderPortRanges": "Firewall and Proxy Settings",

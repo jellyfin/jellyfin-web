@@ -524,7 +524,7 @@
     "LabelAutoDiscoveryTracingHelp": "When enabled, packets received on the auto discovery port will be logged.",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Automatically refresh metadata from the internet:",
     "LabelAutomaticDiscovery": "Enable Auto Discovery:",
-    "LabelAutomaticDiscoveryHelp": "Enable applications to automatically detect Jellyfin by using udp port 7359.",
+    "LabelAutomaticDiscoveryHelp": "Allow applications to automatically detect Jellyfin by using UDP port 7359.",
     "LabelBaseUrl": "Base URL:",
     "LabelBaseUrlHelp": "Add a custom subdirectory to the server URL. For example: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
     "LabelBindToLocalNetworkAddress": "Bind to local network address:",
