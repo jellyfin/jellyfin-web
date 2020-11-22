@@ -32,7 +32,7 @@ export async function serverAddress() {
     if (window.location.href.indexOf('/web/') !== -1) { // Do we polyfill String.prototype.includes?
         const split = window.location.href.split('/web/');
 
-        for (let i=split.length - 1; i ; i--) {
+        for (let i = split.length - 1; i ; i--) {
             urls.push(split.slice(0, i).join('/web/'));
         }
     }
@@ -45,13 +45,13 @@ export async function serverAddress() {
 
     urls.push(...await webSettings.getServers());
 
-    console.log("URL candidates:", urls);
+    console.log('URL candidates:', urls);
 
     const promises = urls.map(url => {
         return fetch(`${url}/System/Info/Public`).then(resp => {
             return {
                 url: url,
-                response: resp,
+                response: resp
             };
         }).catch(error => {
             return Promise.resolve();
@@ -63,8 +63,8 @@ export async function serverAddress() {
         return Promise.all(responses.map(obj => {
             return {
                 url: obj.url,
-                config: obj.response.json(),
-            }
+                config: obj.response.json()
+            };
         }));
     }).then(configs => {
         let selection = configs.find(obj => !obj.config.StartupWizardCompleted);
