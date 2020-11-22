@@ -1452,5 +1452,10 @@
     "RemuxHelp1": "Phương tiện nằm trong vùng chứa tệp không tương thích (MKV, AVI, WMV, v.v.) nhưng cả luồng video và luồng âm thanh đều tương thích với thiết bị. Phương tiện sẽ được đóng gói lại giữ chất lượng tốt trước khi được gửi đến thiết bị.",
     "Remuxing": "Pha Trộn",
     "AspectRatioFill": "Lấp Đầy",
-    "AspectRatioCover": "Bao Phủ"
+    "AspectRatioCover": "Bao Phủ",
+    "YoutubeDenied": "Video yêu cầu không được phép phát trong trình phát được nhúng.",
+    "YoutubeNotFound": "Không tìm thấy video.",
+    "YoutubePlaybackError": "Không thể phát video được yêu cầu.",
+    "YoutubeBadRequest": "Yêu cầu xấu.",
+    "PluginFromRepo": "{0} từ kho lưu trữ {1}"
 }
