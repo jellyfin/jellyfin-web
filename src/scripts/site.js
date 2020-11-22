@@ -70,21 +70,13 @@ var Dashboard = {
             return null;
         }
 
-        var urlLower = window.location.href.toLowerCase();
-        var index = urlLower.lastIndexOf('/web');
+        var index = window.location.href.toLowerCase().lastIndexOf('/web');
 
         if (-1 != index) {
-            return urlLower.substring(0, index);
+            return window.location.href.substring(0, index);
         }
 
-        var loc = window.location;
-        var address = loc.protocol + '//' + loc.hostname;
-
-        if (loc.port) {
-            address += ':' + loc.port;
-        }
-
-        return address;
+        return window.location.origin;
     },
     getCurrentUserId: function () {
         var apiClient = window.ApiClient;
