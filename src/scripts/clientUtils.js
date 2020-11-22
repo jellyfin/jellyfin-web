@@ -35,18 +35,14 @@ export async function serverAddress() {
     urls.push(...await webSettings.getServers());
 
     const promises = urls.map(url => {
-        return fetch(`${url}/System/Info/Public`).catch(error => {
+        return fetch(`${url}/System/Info/Public`).then(resp => url).catch(error => {
             return Promise.resolve();
         });
     });
 
     return Promise.all(promises).then(responses => {
-        responses = responses.filter(response => response && response.ok);
-        return Promise.all(responses.map(response => response.json()));
-    }).then(configs => {
-        let selection = configs.find(config => !config.StartupWizardCompleted);
-        if (!selection) selection = configs[0];
-        return Promise.resolve(selection.LocalAddress);
+        responses = responses.filter(response => response);
+        return responses[0];
     }).catch(error => {
         console.log(error);
         return Promise.resolve();
