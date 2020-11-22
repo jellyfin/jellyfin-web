@@ -6,6 +6,7 @@ import 'intersection-observer';
 import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
+import 'jellyfin-noto/font-faces.css';
 import '../assets/css/site.scss';
 import { Events } from 'jellyfin-apiclient';
 import ServerConnections from '../components/ServerConnections';
