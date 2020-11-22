@@ -1,7 +1,6 @@
 import { ConnectionManager, Credentials, ApiClient, Events } from 'jellyfin-apiclient';
 import { appHost } from './apphost';
 import Dashboard from '../scripts/clientUtils';
-import AppInfo from './AppInfo';
 import { setUserInfo } from '../scripts/settings/userSettings';
 
 class ServerConnections extends ConnectionManager {
@@ -14,27 +13,25 @@ class ServerConnections extends ConnectionManager {
         });
     }
 
-    initApiClient() {
-        if (!AppInfo.isNativeApp) {
-            console.debug('creating ApiClient singleton');
+    initApiClient(server) {
+        console.debug('creating ApiClient singleton');
 
-            const apiClient = new ApiClient(
-                Dashboard.serverAddress(),
-                appHost.appName(),
-                appHost.appVersion(),
-                appHost.deviceName(),
-                appHost.deviceId()
-            );
+        const apiClient = new ApiClient(
+            server,
+            appHost.appName(),
+            appHost.appVersion(),
+            appHost.deviceName(),
+            appHost.deviceId()
+        );
 
-            apiClient.enableAutomaticNetworking = false;
-            apiClient.manualAddressOnly = true;
+        apiClient.enableAutomaticNetworking = false;
+        apiClient.manualAddressOnly = true;
 
-            this.addApiClient(apiClient);
+        this.addApiClient(apiClient);
 
-            this.setLocalApiClient(apiClient);
+        this.setLocalApiClient(apiClient);
 
-            console.debug('loaded ApiClient singleton');
-        }
+        console.debug('loaded ApiClient singleton');
     }
 
     setLocalApiClient(apiClient) {

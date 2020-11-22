@@ -7,7 +7,6 @@ import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
 import '../assets/css/site.scss';
-import AppInfo from '../components/AppInfo';
 import { Events } from 'jellyfin-apiclient';
 import ServerConnections from '../components/ServerConnections';
 import globalize from './globalize';
@@ -26,7 +25,7 @@ import './libraryMenu';
 import './routes';
 import '../components/themeMediaPlayer';
 import './autoBackdrops';
-import { pageClassOn } from './clientUtils';
+import { navigate, pageClassOn, serverAddress } from './clientUtils';
 import '../libraries/screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
@@ -60,12 +59,6 @@ window.getParameterByName = function(name, url) {
     return decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
-if (window.appMode === 'cordova' || window.appMode === 'android' || window.appMode === 'standalone') {
-    AppInfo.isNativeApp = true;
-}
-
-Object.freeze(AppInfo);
-
 function loadCoreDictionary() {
     const languages = ['ar', 'be-by', 'bg-bg', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'es', 'es-ar', 'es-mx', 'fa', 'fi', 'fr', 'fr-ca', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'ms', 'nb', 'nl', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sv', 'tr', 'uk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
     const translations = languages.map(function (language) {
@@ -82,18 +75,25 @@ function loadCoreDictionary() {
 }
 
 function init() {
-    ServerConnections.initApiClient();
+    serverAddress().then(server => {
+        if (!server) {
+            navigate('selectserver.html');
+            return;
+        }
 
-    console.debug('initAfterDependencies promises resolved');
+        ServerConnections.initApiClient(server);
+    }).then(() => {
+        console.debug('initAfterDependencies promises resolved');
 
-    loadCoreDictionary().then(function () {
-        onGlobalizeInit();
+        loadCoreDictionary().then(function () {
+            onGlobalizeInit();
+        });
+
+        keyboardNavigation.enable();
+        autoFocuser.enable();
+
+        Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
     });
-
-    keyboardNavigation.enable();
-    autoFocuser.enable();
-
-    Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
 }
 
 function onGlobalizeInit() {
