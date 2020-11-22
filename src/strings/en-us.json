@@ -689,7 +689,7 @@
     "LabelMaxBackdropsPerItem": "Maximum number of backdrops per item:",
     "LabelMaxChromecastBitrate": "Chromecast streaming quality:",
     "LabelMaxMuxingQueueSize": "Max muxing queue size:",
-    "LabelMaxMuxingQueueSizeHelp": "Maximum number of packets that can be buffered while waiting for all streams to initialize. Try to increase it if you still encounter \"Too many packets buffered for output stream\" error in ffmpeg logs. The recommended value is 2048."
+    "LabelMaxMuxingQueueSizeHelp": "Maximum number of packets that can be buffered while waiting for all streams to initialize. Try to increase it if you still encounter \"Too many packets buffered for output stream\" error in ffmpeg logs. The recommended value is 2048.",
     "LabelMaxParentalRating": "Maximum allowed parental rating:",
     "LabelMaxResumePercentage": "Maximum resume percentage:",
     "LabelMaxResumePercentageHelp": "Titles are assumed fully played if stopped after this time.",
