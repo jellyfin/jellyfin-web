@@ -661,7 +661,7 @@ import ServerConnections from '../ServerConnections';
             const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
-                Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo,Path',
+                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
