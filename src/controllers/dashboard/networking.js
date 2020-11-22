@@ -21,7 +21,7 @@ import alert from '../../components/alert';
 
             validateHttps(form).then(function () {
                 loading.show();
-                ApiClient.getServerConfiguration().then(function (config) {
+                ApiClient.getNamedConfiguration('network').then(function (config) {
                     config.LocalNetworkSubnets = form.querySelector('#txtLanNetworks').value.split(',').map(function (s) {
                         return s.trim();
                     }).filter(function (s) {
@@ -37,6 +37,18 @@ import alert from '../../components/alert';
                     }).filter(function (s) {
                         return s.length > 0;
                     });
+                    config.LocalNetworkAddresses = form.querySelector('#txtLocalAddress').value.split(',').map(function (s) {
+                        return s.trim();
+                    }).filter(function (s) {
+                        return s.length > 0;
+                    });
+
+                    config.PublishedServerUriBySubnet = form.querySelector('#txtPublishedServer').value.split(',').map(function (s) {
+                        return s.trim();
+                    }).filter(function (s) {
+                        return s.length > 0;
+                    });
+
                     config.IsRemoteIPFilterBlacklist = form.querySelector('#selectExternalAddressFilterMode').value === 'blacklist';
                     config.PublicPort = form.querySelector('#txtPublicPort').value;
                     config.PublicHttpsPort = form.querySelector('#txtPublicHttpsPort').value;
@@ -49,8 +61,17 @@ import alert from '../../components/alert';
                     config.EnableRemoteAccess = form.querySelector('#chkRemoteAccess').checked;
                     config.CertificatePath = form.querySelector('#txtCertificatePath').value || null;
                     config.CertificatePassword = form.querySelector('#txtCertPassword').value || null;
-                    config.LocalNetworkAddresses = localAddress ? [localAddress] : [];
-                    ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult, Dashboard.processErrorResponse);
+                    config.UPnPCreateHttpPortMap = form.querySelector('#chkCreateHttpPortMap').checked;
+                    config.AutoDiscovery = form.querySelector('#chkAutodiscovery').checked;
+                    config.AutoDiscoveryTracing = form.querySelector('#chkAutodiscoveryTracing').checked;
+                    config.EnableIPV6 = form.querySelector('#chkEnableIP6').checked;
+                    config.EnableIPV4 = form.querySelector('#chkEnableIP4').checked;
+                    config.UPnPCreateHttpPortMap = form.querySelector('#chkCreateHttpPortMap').checked;
+                    config.UDPPortRange = form.querySelector('#txtUDPPortRange').value || null;
+                    config.HDHomerunPortRange = form.querySelector('#txtHDHomerunPortRange').checked || null;
+                    config.EnableSSDPTracing = form.querySelector('#chkEnableSSDPTracing').checked;
+                    config.SSDPTracingFilter = form.querySelector('#txtSSDPTracingFilter').value || null;
+                    ApiClient.updateNamedConfiguration('network', config).then(Dashboard.processServerConfigurationUpdateResult, Dashboard.processErrorResponse);
                 });
             });
         });
@@ -111,7 +132,7 @@ import alert from '../../components/alert';
             page.querySelector('#txtPortNumber').value = config.HttpServerPortNumber;
             page.querySelector('#txtPublicPort').value = config.PublicPort;
             page.querySelector('#txtPublicHttpsPort').value = config.PublicHttpsPort;
-            page.querySelector('#txtLocalAddress').value = config.LocalNetworkAddresses[0] || '';
+            page.querySelector('#txtLocalAddress').value = (config.LocalNetworkSubnets || []).join(', ');
             page.querySelector('#txtLanNetworks').value = (config.LocalNetworkSubnets || []).join(', ');
             page.querySelector('#txtKnownProxies').value = (config.KnownProxies || []).join(', ');
             page.querySelector('#txtExternalAddressFilter').value = (config.RemoteIPFilter || []).join(', ');
@@ -126,6 +147,17 @@ import alert from '../../components/alert';
             page.querySelector('#txtCertPassword').value = config.CertificatePassword || '';
             page.querySelector('#chkEnableUpnp').checked = config.EnableUPnP;
             triggerChange(page.querySelector('#chkRemoteAccess'));
+            page.querySelector('#chkCreateHttpPortMap').checked = config.UPnPCreateHttpPortMap;
+            page.querySelector('#chkAutodiscovery').checked = config.AutoDiscovery;
+            page.querySelector('#chkAutodiscoveryTracing').checked = config.AutoDiscoveryTracing;
+            page.querySelector('#chkEnableIP6').checked = config.EnableIPV6;
+            page.querySelector('#chkEnableIP4').checked = config.EnableIPV4;
+            page.querySelector('#chkCreateHttpPortMap').checked = config.UPnPCreateHttpPortMap;
+            page.querySelector('#txtUDPPortRange').value = config.UDPPortRange;
+            page.querySelector('#txtHDHomerunPortRange').checked = config.HDHomerunPortRange;
+            page.querySelector('#chkEnableSSDPTracing').checked = config.EnableSSDPTracing;
+            page.querySelector('#txtSSDPTracingFilter').value = config.SSDPTracingFilter;
+            page.querySelector('#txtPublishedServer').value = (config.PublishedServerUriBySubnet || []).join(', ');
             loading.hide();
         }
 
@@ -164,7 +196,7 @@ import alert from '../../components/alert';
         view.querySelector('.dashboardHostingForm').addEventListener('submit', onSubmit);
         view.addEventListener('viewshow', function (e) {
             loading.show();
-            ApiClient.getServerConfiguration().then(function (config) {
+            ApiClient.getNamedConfiguration('network').then(function (config) {
                 loadPage(view, config);
             });
         });
