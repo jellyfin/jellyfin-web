@@ -338,7 +338,7 @@ function getQuery(options, item) {
         SortOrder: 'Ascending',
         IncludeItemTypes: '',
         Recursive: true,
-        Fields: 'AudioInfo,SeriesInfo,ParentId,PrimaryImageAspectRatio,BasicSyncInfo',
+        Fields: 'AudioInfo,ParentId,PrimaryImageAspectRatio,BasicSyncInfo',
         Limit: 100,
         StartIndex: 0,
         CollapseBoxSetItems: false
