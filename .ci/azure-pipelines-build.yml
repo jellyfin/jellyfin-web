@@ -8,8 +8,6 @@ jobs:
         BuildConfiguration: development
       Production:
         BuildConfiguration: production
-      Standalone:
-        BuildConfiguration: standalone
 
   pool:
     vmImage: 'ubuntu-latest'
@@ -21,15 +19,15 @@ jobs:
       versionSpec: '12.x'
 
   - task: Cache@2
-    displayName: 'Check Cache'
+    displayName: 'Cache node_modules'
     inputs:
       key: 'yarn | yarn.lock'
       path: 'node_modules'
-      cacheHitVar: CACHE_RESTORED
 
   - script: 'yarn install --frozen-lockfile'
     displayName: 'Install Dependencies'
-    condition: ne(variables.CACHE_RESTORED, 'true')
+    env:
+      SKIP_PREPARE: 'true'
 
   - script: 'yarn build:development'
     displayName: 'Build Development'
@@ -38,10 +36,6 @@ jobs:
   - script: 'yarn build:production'
     displayName: 'Build Production'
     condition: eq(variables['BuildConfiguration'], 'production')
-
-  - script: 'yarn build:standalone'
-    displayName: 'Build Standalone'
-    condition: eq(variables['BuildConfiguration'], 'standalone')
 
   - script: 'test -d dist'
     displayName: 'Check Build'

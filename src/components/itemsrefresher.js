@@ -1,6 +1,6 @@
-import playbackManager from 'playbackManager';
-import serverNotifications from 'serverNotifications';
-import events from 'events';
+import { playbackManager } from './playback/playbackmanager';
+import serverNotifications from '../scripts/serverNotifications';
+import { Events } from 'jellyfin-apiclient';
 
 function onUserDataChanged(e, apiClient, userData) {
     const instance = this;
@@ -110,7 +110,7 @@ function onPlaybackStopped(e, stopInfo) {
 function addNotificationEvent(instance, name, handler, owner) {
     const localHandler = handler.bind(instance);
     owner = owner || serverNotifications;
-    events.on(owner, name, localHandler);
+    Events.on(owner, name, localHandler);
     instance['event_' + name] = localHandler;
 }
 
@@ -118,7 +118,7 @@ function removeNotificationEvent(instance, name, owner) {
     const handler = instance['event_' + name];
     if (handler) {
         owner = owner || serverNotifications;
-        events.off(owner, name, handler);
+        Events.off(owner, name, handler);
         instance['event_' + name] = null;
     }
 }

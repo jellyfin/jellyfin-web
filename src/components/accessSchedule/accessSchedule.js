@@ -1,3 +1,4 @@
+
 /* eslint-disable indent */
 
 /**
@@ -5,12 +6,12 @@
  * @module components/accessSchedule/accessSchedule
  */
 
-import dialogHelper from 'dialogHelper';
-import datetime from 'datetime';
-import globalize from 'globalize';
-import 'emby-select';
-import 'paper-icon-button-light';
-import 'formDialogStyle';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import datetime from '../../scripts/datetime';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
 
     function getDisplayTime(hours) {
         let minutes = 0;
@@ -59,7 +60,7 @@ import 'formDialogStyle';
 
     export function show(options) {
         return new Promise((resolve, reject) => {
-            import('text!./accessSchedule.template.html').then(({default: template}) => {
+            import('./accessSchedule.template.html').then(({default: template}) => {
                 const dlg = dialogHelper.createDialog({
                     removeOnClose: true,
                     size: 'small'

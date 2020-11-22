@@ -1,7 +1,10 @@
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
-import 'emby-button';
+import loading from '../../../components/loading/loading';
+import libraryMenu from '../../../scripts/libraryMenu';
+import globalize from '../../../scripts/globalize';
+import '../../../elements/emby-button/emby-button';
+import Dashboard from '../../../scripts/clientUtils';
+import toast from '../../../components/toast/toast';
+import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
@@ -52,7 +55,7 @@ import 'emby-button';
 
                 page.querySelector('.chkEnableLocalEasyPassword').checked = user.Configuration.EnableLocalPassword;
 
-                import('autoFocuser').then(({default: autoFocuser}) => {
+                import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(page);
                 });
             });
@@ -81,10 +84,7 @@ import 'emby-button';
                 user.Configuration.EnableLocalPassword = view.querySelector('.chkEnableLocalEasyPassword').checked;
                 ApiClient.updateUserConfiguration(user.Id, user.Configuration).then(function () {
                     loading.hide();
-
-                    import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('SettingsSaved'));
-                    });
+                    toast(globalize.translate('SettingsSaved'));
 
                     loadUser(view, params);
                 });
@@ -104,10 +104,7 @@ import 'emby-button';
 
             ApiClient.updateUserPassword(userId, currentPassword, newPassword).then(function () {
                 loading.hide();
-
-                import('toast').then(({default: toast}) => {
-                    toast(globalize.translate('PasswordSaved'));
-                });
+                toast(globalize.translate('PasswordSaved'));
 
                 loadUser(view, params);
             }, function () {
@@ -123,9 +120,7 @@ import 'emby-button';
             const form = this;
 
             if (form.querySelector('#txtNewPassword').value != form.querySelector('#txtNewPasswordConfirm').value) {
-                import('toast').then(({default: toast}) => {
-                    toast(globalize.translate('PasswordMatchError'));
-                });
+                toast(globalize.translate('PasswordMatchError'));
             } else {
                 loading.show();
                 savePassword();
@@ -144,18 +139,16 @@ import 'emby-button';
 
         function resetPassword() {
             const msg = globalize.translate('PasswordResetConfirmation');
-            import('confirm').then(({default: confirm}) => {
-                confirm(msg, globalize.translate('ResetPassword')).then(function () {
-                    const userId = params.userId;
-                    loading.show();
-                    ApiClient.resetUserPassword(userId).then(function () {
-                        loading.hide();
-                        Dashboard.alert({
-                            message: globalize.translate('PasswordResetComplete'),
-                            title: globalize.translate('ResetPassword')
-                        });
-                        loadUser(view, params);
+            confirm(msg, globalize.translate('ResetPassword')).then(function () {
+                const userId = params.userId;
+                loading.show();
+                ApiClient.resetUserPassword(userId).then(function () {
+                    loading.hide();
+                    Dashboard.alert({
+                        message: globalize.translate('PasswordResetComplete'),
+                        title: globalize.translate('ResetPassword')
                     });
+                    loadUser(view, params);
                 });
             });
         }
@@ -163,18 +156,16 @@ import 'emby-button';
         function resetEasyPassword() {
             const msg = globalize.translate('PinCodeResetConfirmation');
 
-            import('confirm').then(({default: confirm}) => {
-                confirm(msg, globalize.translate('HeaderPinCodeReset')).then(function () {
-                    const userId = params.userId;
-                    loading.show();
-                    ApiClient.resetEasyPassword(userId).then(function () {
-                        loading.hide();
-                        Dashboard.alert({
-                            message: globalize.translate('PinCodeResetComplete'),
-                            title: globalize.translate('HeaderPinCodeReset')
-                        });
-                        loadUser(view, params);
+            confirm(msg, globalize.translate('HeaderPinCodeReset')).then(function () {
+                const userId = params.userId;
+                loading.show();
+                ApiClient.resetEasyPassword(userId).then(function () {
+                    loading.hide();
+                    Dashboard.alert({
+                        message: globalize.translate('PinCodeResetComplete'),
+                        title: globalize.translate('HeaderPinCodeReset')
                     });
+                    loadUser(view, params);
                 });
             });
         }

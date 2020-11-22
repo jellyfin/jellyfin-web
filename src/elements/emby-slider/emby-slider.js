@@ -1,10 +1,10 @@
-import browser from 'browser';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import keyboardnavigation from 'keyboardnavigation';
-import 'css!./emby-slider';
-import 'webcomponents';
-import 'emby-input';
+import browser from '../../scripts/browser';
+import dom from '../../scripts/dom';
+import layoutManager from '../../components/layoutManager';
+import keyboardnavigation from '../../scripts/keyboardNavigation';
+import './emby-slider.css';
+import 'webcomponents.js/webcomponents-lite';
+import '../emby-input/emby-input';
 
 /* eslint-disable indent */
 
@@ -442,7 +442,7 @@ import 'emby-input';
             position = (position / runtime) * 100;
         }
 
-        for (const range in ranges) {
+        for (const range of ranges) {
             if (position != null) {
                 if (position >= range.end) {
                     continue;

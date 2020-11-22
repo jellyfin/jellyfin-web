@@ -5,20 +5,22 @@
  * @module components/mediaLibraryCreator/mediaLibraryCreator
  */
 
-import loading from 'loading';
-import dialogHelper from 'dialogHelper';
-import dom from 'dom';
-import $ from 'jQuery';
-import libraryoptionseditor from 'components/libraryoptionseditor/libraryoptionseditor';
-import globalize from 'globalize';
-import 'emby-toggle';
-import 'emby-input';
-import 'emby-select';
-import 'paper-icon-button-light';
-import 'listViewStyle';
-import 'formDialogStyle';
-import 'emby-button';
-import 'flexStyles';
+import loading from '../loading/loading';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import dom from '../../scripts/dom';
+import 'jquery';
+import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-toggle/emby-toggle';
+import '../listview/listview.css';
+import '../formdialog.css';
+import '../../assets/css/flexstyles.scss';
+import toast from '../toast/toast';
+import alert from '../alert';
 
     function onAddLibrary() {
         if (isCreating) {
@@ -26,11 +28,9 @@ import 'flexStyles';
         }
 
         if (pathInfos.length == 0) {
-            import('alert').then(({default: alert}) => {
-                alert({
-                    text: globalize.translate('PleaseAddAtLeastOneFolder'),
-                    type: 'error'
-                });
+            alert({
+                text: globalize.translate('PleaseAddAtLeastOneFolder'),
+                type: 'error'
             });
 
             return false;
@@ -54,9 +54,7 @@ import 'flexStyles';
             loading.hide();
             dialogHelper.close(dlg);
         }, () => {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-            });
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
 
             isCreating = false;
             loading.hide();
@@ -98,18 +96,12 @@ import 'flexStyles';
         page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
         page.querySelector('.btnSubmit').addEventListener('click', onAddLibrary);
         page.querySelector('.folderList').addEventListener('click', onRemoveClick);
-        page.querySelector('.chkAdvanced').addEventListener('change', onToggleAdvancedChange);
-    }
-
-    function onToggleAdvancedChange() {
-        const dlg = dom.parentWithClass(this, 'dlg-librarycreator');
-        libraryoptionseditor.setAdvancedVisible(dlg.querySelector('.libraryOptions'), this.checked);
     }
 
     function onAddButtonClick() {
         const page = dom.parentWithClass(this, 'dlg-librarycreator');
 
-        import('directorybrowser').then(({default: directoryBrowser}) => {
+        import('../directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
             const picker = new directoryBrowser();
             picker.show({
                 enableNetworkSharePath: true,
@@ -190,7 +182,6 @@ import 'flexStyles';
     function initLibraryOptions(dlg) {
         libraryoptionseditor.embed(dlg.querySelector('.libraryOptions')).then(() => {
             $('#selectCollectionType', dlg).trigger('change');
-            onToggleAdvancedChange.call(dlg.querySelector('.chkAdvanced'));
         });
     }
 
@@ -200,7 +191,7 @@ export class showEditor {
             currentOptions = options;
             currentResolve = resolve;
             hasChanges = false;
-            import('text!./components/mediaLibraryCreator/mediaLibraryCreator.template.html').then(({default: template}) => {
+            import('./mediaLibraryCreator.template.html').then(({default: template}) => {
                 const dlg = dialogHelper.createDialog({
                     size: 'small',
                     modal: false,

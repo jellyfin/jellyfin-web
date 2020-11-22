@@ -5,11 +5,11 @@
  * @module components/libraryoptionseditor/libraryoptionseditor
  */
 
-import globalize from 'globalize';
-import dom from 'dom';
-import 'emby-checkbox';
-import 'emby-select';
-import 'emby-input';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-input/emby-input';
 
     function populateLanguages(parent) {
         return ApiClient.getCultures().then(languages => {
@@ -304,7 +304,7 @@ import 'emby-input';
     }
 
     function showImageOptionsForType(type) {
-        import('imageoptionseditor').then(({default: ImageOptionsEditor}) => {
+        import('../imageOptionsEditor/imageOptionsEditor').then(({default: ImageOptionsEditor}) => {
             let typeOptions = getTypeOptions(currentLibraryOptions, type);
             if (!typeOptions) {
                 typeOptions = {
@@ -362,8 +362,9 @@ import 'emby-input';
         currentAvailableOptions = null;
         const isNewLibrary = libraryOptions === null;
         isNewLibrary && parent.classList.add('newlibrary');
-        const response = await fetch('components/libraryoptionseditor/libraryoptionseditor.template.html');
-        const template = await response.text();
+
+        const { default: template } = await import('./libraryoptionseditor.template.html');
+
         parent.innerHTML = globalize.translateHtml(template);
         populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
         const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
@@ -374,13 +375,6 @@ import 'emby-input';
                 return;
             });
         });
-    }
-
-    export function setAdvancedVisible(parent, visible) {
-        const elems = parent.querySelectorAll('.advanced');
-        for (let i = 0; i < elems.length; i++) {
-            visible ? elems[i].classList.remove('advancedHide') : elems[i].classList.add('advancedHide');
-        }
     }
 
     export function setContentType(parent, contentType) {
@@ -589,6 +583,5 @@ export default {
     embed: embed,
     setContentType: setContentType,
     getLibraryOptions: getLibraryOptions,
-    setLibraryOptions: setLibraryOptions,
-    setAdvancedVisible: setAdvancedVisible
+    setLibraryOptions: setLibraryOptions
 };

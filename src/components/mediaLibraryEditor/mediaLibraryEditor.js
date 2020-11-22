@@ -5,18 +5,20 @@
  * @module components/mediaLibraryEditor/mediaLibraryEditor
  */
 
-import jQuery from 'jQuery';
-import loading from 'loading';
-import dialogHelper from 'dialogHelper';
-import dom from 'dom';
-import libraryoptionseditor from 'components/libraryoptionseditor/libraryoptionseditor';
-import globalize from 'globalize';
-import 'emby-button';
-import 'listViewStyle';
-import 'paper-icon-button-light';
-import 'formDialogStyle';
-import 'emby-toggle';
-import 'flexStyles';
+import 'jquery';
+import loading from '../loading/loading';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import dom from '../../scripts/dom';
+import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-button/emby-button';
+import '../listview/listview.css';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import '../../elements/emby-toggle/emby-toggle';
+import '../../assets/css/flexstyles.scss';
+import toast from '../toast/toast';
+import confirm from '../confirm/confirm';
 
     function onEditLibrary() {
         if (isCreating) {
@@ -47,9 +49,7 @@ import 'flexStyles';
             hasChanges = true;
             refreshLibraryFromServer(page);
         }, () => {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-            });
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
         });
     }
 
@@ -62,9 +62,7 @@ import 'flexStyles';
             hasChanges = true;
             refreshLibraryFromServer(page);
         }, () => {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-            });
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
         });
     }
 
@@ -72,22 +70,18 @@ import 'flexStyles';
         const button = btnRemovePath;
         const virtualFolder = currentOptions.library;
 
-        import('confirm').then(({default: confirm}) => {
-            confirm({
-                title: globalize.translate('HeaderRemoveMediaLocation'),
-                text: globalize.translate('MessageConfirmRemoveMediaLocation'),
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-            }).then(() => {
-                const refreshAfterChange = currentOptions.refresh;
-                ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
-                    hasChanges = true;
-                    refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
-                }, () => {
-                    import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('ErrorDefault'));
-                    });
-                });
+        confirm({
+            title: globalize.translate('HeaderRemoveMediaLocation'),
+            text: globalize.translate('MessageConfirmRemoveMediaLocation'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        }).then(() => {
+            const refreshAfterChange = currentOptions.refresh;
+            ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
+                hasChanges = true;
+                refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
+            }, () => {
+                toast(globalize.translate('ErrorDefault'));
             });
         });
     }
@@ -167,7 +161,7 @@ import 'flexStyles';
     }
 
     function showDirectoryBrowser(context, originalPath, networkPath) {
-        import('directorybrowser').then(({default: directoryBrowser}) => {
+        import('../directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
             const picker = new directoryBrowser();
             picker.show({
                 enableNetworkSharePath: true,
@@ -189,20 +183,12 @@ import 'flexStyles';
         });
     }
 
-    function onToggleAdvancedChange() {
-        const dlg = dom.parentWithClass(this, 'dlg-libraryeditor');
-        libraryoptionseditor.setAdvancedVisible(dlg.querySelector('.libraryOptions'), this.checked);
-    }
-
     function initEditor(dlg, options) {
         renderLibrary(dlg, options);
         dlg.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
         dlg.querySelector('.folderList').addEventListener('click', onListItemClick);
-        dlg.querySelector('.chkAdvanced').addEventListener('change', onToggleAdvancedChange);
         dlg.querySelector('.btnSubmit').addEventListener('click', onEditLibrary);
-        libraryoptionseditor.embed(dlg.querySelector('.libraryOptions'), options.library.CollectionType, options.library.LibraryOptions).then(() => {
-            onToggleAdvancedChange.call(dlg.querySelector('.chkAdvanced'));
-        });
+        libraryoptionseditor.embed(dlg.querySelector('.libraryOptions'), options.library.CollectionType, options.library.LibraryOptions);
     }
 
     function onDialogClosed() {
@@ -215,7 +201,7 @@ export class showEditor {
         currentOptions = options;
         currentDeferred = deferred;
         hasChanges = false;
-        import('text!./components/mediaLibraryEditor/mediaLibraryEditor.template.html').then(({default: template}) => {
+        import('./mediaLibraryEditor.template.html').then(({default: template}) => {
             const dlg = dialogHelper.createDialog({
                 size: 'small',
                 modal: false,

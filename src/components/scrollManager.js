@@ -5,9 +5,9 @@
  * @module components/scrollManager
  */
 
-import dom from 'dom';
-import browser from 'browser';
-import layoutManager from 'layoutManager';
+import dom from '../scripts/dom';
+import browser from '../scripts/browser';
+import layoutManager from './layoutManager';
 
     /**
      * Scroll time in ms.

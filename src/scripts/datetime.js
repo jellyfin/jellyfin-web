@@ -1,4 +1,4 @@
-import globalize from 'globalize';
+import globalize from './globalize';
 
 /* eslint-disable indent */
 

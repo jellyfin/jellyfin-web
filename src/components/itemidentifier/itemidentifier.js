@@ -5,19 +5,21 @@
  * @module components/itemidentifier/itemidentifier
  */
 
-import dialogHelper from 'dialogHelper';
-import loading from 'loading';
-import globalize from 'globalize';
-import scrollHelper from 'scrollHelper';
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import browser from 'browser';
-import 'emby-input';
-import 'emby-checkbox';
-import 'paper-icon-button-light';
-import 'css!./../formdialog';
-import 'material-icons';
-import 'cardStyle';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import loading from '../loading/loading';
+import globalize from '../../scripts/globalize';
+import scrollHelper from '../../scripts/scrollHelper';
+import layoutManager from '../layoutManager';
+import focusManager from '../focusManager';
+import browser from '../../scripts/browser';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import 'material-design-icons-iconfont';
+import '../cardbuilder/card.css';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
     const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -30,7 +32,7 @@ import 'cardStyle';
     let currentSearchResult;
 
     function getApiClient() {
-        return window.connectionManager.getApiClient(currentServerId);
+        return ServerConnections.getApiClient(currentServerId);
     }
 
     function searchForIdentificationResults(page) {
@@ -67,9 +69,7 @@ import 'cardStyle';
         }
 
         if (!hasId && !lookupInfo.Name) {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('PleaseEnterNameOrId'));
-            });
+            toast(globalize.translate('PleaseEnterNameOrId'));
             return;
         }
 
@@ -334,7 +334,7 @@ import 'cardStyle';
     function showEditor(itemId) {
         loading.show();
 
-        return import('text!./itemidentifier.template.html').then(({default: template}) => {
+        return import('./itemidentifier.template.html').then(({default: template}) => {
             const apiClient = getApiClient();
 
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
@@ -416,7 +416,7 @@ import 'cardStyle';
         currentItem = null;
         currentItemType = itemType;
 
-        return import('text!./itemidentifier.template.html').then(({default: template}) => {
+        return import('./itemidentifier.template.html').then(({default: template}) => {
             const dialogOptions = {
                 size: 'small',
                 removeOnClose: true,

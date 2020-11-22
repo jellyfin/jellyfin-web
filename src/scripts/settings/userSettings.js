@@ -1,5 +1,5 @@
-import appSettings from 'appSettings';
-import events from 'events';
+import appSettings from './appSettings';
+import { Events } from 'jellyfin-apiclient';
 
 function onSaveTimeout() {
     const self = this;
@@ -77,7 +77,7 @@ export class UserSettings {
         }
 
         if (currentValue !== value) {
-            events.trigger(this, 'change', [name]);
+            Events.trigger(this, 'change', [name]);
         }
 
         return result;
@@ -112,6 +112,33 @@ export class UserSettings {
         return apiClient.getUser(this.currentUserId).then(function (user) {
             return user.Configuration;
         });
+    }
+
+    /**
+     * Get or set 'Allowed Audio Channels'.
+     * @param {string|undefined} val - 'Allowed Audio Channels'.
+     * @return {string} 'Allowed Audio Channels'.
+     */
+    allowedAudioChannels(val) {
+        if (val !== undefined) {
+            return this.set('allowedAudioChannels', val, false);
+        }
+
+        return this.get('allowedAudioChannels', false) || '-1';
+    }
+
+    /**
+     * Get or set 'Perfer fMP4-HLS Container' state.
+     * @param {boolean|undefined} val - Flag to enable 'Perfer fMP4-HLS Container' or undefined.
+     * @return {boolean} 'Prefer fMP4-HLS Container' state.
+     */
+    preferFmp4HlsContainer(val) {
+        if (val !== undefined) {
+            return this.set('preferFmp4HlsContainer', val.toString(), false);
+        }
+
+        val = this.get('preferFmp4HlsContainer', false);
+        return val === 'true';
     }
 
     /**
@@ -457,6 +484,8 @@ export const importFrom = currentSettings.importFrom.bind(currentSettings);
 export const set = currentSettings.set.bind(currentSettings);
 export const get = currentSettings.get.bind(currentSettings);
 export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
+export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(currentSettings);
+export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);

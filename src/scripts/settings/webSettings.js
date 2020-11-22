@@ -85,14 +85,49 @@ export function getMultiServer() {
     });
 }
 
-export function getThemes() {
+export function getServers() {
     return getConfig().then(config => {
-        return config.themes;
+        return config.servers || [];
     }).catch(error => {
         console.log('cannot get web config:', error);
         return [];
     });
 }
+
+const baseDefaultTheme = {
+    'name': 'Dark',
+    'id': 'dark',
+    'default': true
+};
+
+let internalDefaultTheme = baseDefaultTheme;
+
+const checkDefaultTheme = (themes) => {
+    if (themes) {
+        const defaultTheme = themes.find((theme) => theme.default);
+
+        if (defaultTheme) {
+            internalDefaultTheme = defaultTheme;
+            return;
+        }
+    }
+
+    internalDefaultTheme = baseDefaultTheme;
+};
+
+export function getThemes() {
+    return getConfig().then(config => {
+        const themes = Array.isArray(config.themes) ? config.themes : [];
+        checkDefaultTheme(themes);
+        return themes;
+    }).catch(error => {
+        console.log('cannot get web config:', error);
+        checkDefaultTheme();
+        return [];
+    });
+}
+
+export const getDefaultTheme = () => internalDefaultTheme;
 
 export function getPlugins() {
     return getConfig().then(config => {

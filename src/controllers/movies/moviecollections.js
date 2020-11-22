@@ -1,11 +1,11 @@
-import loading from 'loading';
-import libraryBrowser from 'libraryBrowser';
-import imageLoader from 'imageLoader';
-import listView from 'listView';
-import cardBuilder from 'cardBuilder';
-import * as userSettings from 'userSettings';
-import globalize from 'globalize';
-import 'emby-itemscontainer';
+import loading from '../../components/loading/loading';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import imageLoader from '../../components/images/imageLoader';
+import listView from '../../components/listview/listview';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import * as userSettings from '../../scripts/settings/userSettings';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
@@ -193,7 +193,7 @@ import 'emby-itemscontainer';
                 loading.hide();
                 isLoading = false;
 
-                import('autoFocuser').then(({default: autoFocuser}) => {
+                import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(page);
                 });
             });
@@ -246,7 +246,7 @@ import 'emby-itemscontainer';
                 reloadItems(tabContent);
             });
             tabContent.querySelector('.btnNewCollection').addEventListener('click', () => {
-                import('collectionEditor').then(({default: collectionEditor}) => {
+                import('../../components/collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
                     const serverId = ApiClient.serverInfo().Id;
                     new collectionEditor({
                         items: [],

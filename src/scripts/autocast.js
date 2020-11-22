@@ -1,5 +1,6 @@
-import events from 'events';
-import playbackManager from 'playbackManager';
+import { Events } from 'jellyfin-apiclient';
+import { playbackManager } from '../components/playback/playbackmanager';
+import ServerConnections from '../components/ServerConnections';
 
 export function supported() {
     return typeof(Storage) !== 'undefined';
@@ -41,7 +42,12 @@ function onOpen() {
     });
 }
 
-const apiClient = window.connectionManager.currentApiClient();
-if (apiClient && supported()) {
-    events.on(apiClient, 'websocketopen', onOpen);
+try {
+    const apiClient = ServerConnections.currentApiClient();
+
+    if (apiClient && supported()) {
+        Events.on(apiClient, 'websocketopen', onOpen);
+    }
+} catch (ex) {
+    console.warn('Could not get current apiClient', ex);
 }

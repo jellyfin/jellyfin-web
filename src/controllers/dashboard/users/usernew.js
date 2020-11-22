@@ -1,7 +1,9 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-checkbox';
+import 'jquery';
+import loading from '../../../components/loading/loading';
+import globalize from '../../../scripts/globalize';
+import '../../../elements/emby-checkbox/emby-checkbox';
+import Dashboard from '../../../scripts/clientUtils';
+import toast from '../../../components/toast/toast';
 
 /* eslint-disable indent */
 
@@ -88,10 +90,7 @@ import 'emby-checkbox';
                 Dashboard.navigate('useredit.html?userId=' + user.Id);
             });
         }, function (response) {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('ErrorDefault'));
-            });
-
+            toast(globalize.translate('ErrorDefault'));
             loading.hide();
         });
     }

@@ -1,18 +1,20 @@
-import events from 'events';
-import layoutManager from 'layoutManager';
-import inputManager from 'inputManager';
-import * as userSettings from 'userSettings';
-import libraryMenu from 'libraryMenu';
-import * as mainTabsManager from 'mainTabsManager';
-import cardBuilder from 'cardBuilder';
-import dom from 'dom';
-import imageLoader from 'imageLoader';
-import playbackManager from 'playbackManager';
-import globalize from 'globalize';
-import 'emby-scroller';
-import 'emby-itemscontainer';
-import 'emby-tabs';
-import 'emby-button';
+
+import { Events } from 'jellyfin-apiclient';
+import layoutManager from '../../components/layoutManager';
+import inputManager from '../../scripts/inputManager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import libraryMenu from '../../scripts/libraryMenu';
+import * as mainTabsManager from '../../components/maintabsmanager';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import dom from '../../scripts/dom';
+import imageLoader from '../../components/images/imageLoader';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-button/emby-button';
+import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 
@@ -182,7 +184,7 @@ import 'emby-button';
     }
 
     function autoFocus(page) {
-        import('autoFocuser').then(({default: autoFocuser}) => {
+        import('../../components/autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(page);
         });
     }
@@ -281,31 +283,31 @@ import 'emby-button';
 
             switch (index) {
                 case 0:
-                    depends = 'controllers/movies/movies';
+                    depends = 'movies';
                     break;
 
                 case 1:
-                    depends = 'controllers/movies/moviesrecommended.js';
+                    depends = 'moviesrecommended.js';
                     break;
 
                 case 2:
-                    depends = 'controllers/movies/movietrailers';
+                    depends = 'movietrailers';
                     break;
 
                 case 3:
-                    depends = 'controllers/movies/movies';
+                    depends = 'movies';
                     break;
 
                 case 4:
-                    depends = 'controllers/movies/moviecollections';
+                    depends = 'moviecollections';
                     break;
 
                 case 5:
-                    depends = 'controllers/movies/moviegenres';
+                    depends = 'moviegenres';
                     break;
             }
 
-            import(depends).then(({default: controllerFactory}) => {
+            import(`../movies/${depends}`).then(({default: controllerFactory}) => {
                 let tabContent;
 
                 if (index === suggestionsTabIndex) {
@@ -403,7 +405,7 @@ import 'emby-button';
                 }
             }
 
-            events.on(playbackManager, 'playbackstop', onPlaybackStop);
+            Events.on(playbackManager, 'playbackstop', onPlaybackStop);
             inputManager.on(window, onInputCommand);
         });
         view.addEventListener('viewbeforehide', function () {

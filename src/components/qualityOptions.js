@@ -1,4 +1,4 @@
-import globalize from 'globalize';
+import globalize from '../scripts/globalize';
 
 export function getVideoQualityOptions(options) {
     const maxStreamingBitrate = options.currentMaxBitrate;

@@ -1,11 +1,11 @@
-import layoutManager from 'layoutManager';
-import loading from 'loading';
-import libraryBrowser from 'libraryBrowser';
-import cardBuilder from 'cardBuilder';
-import lazyLoader from 'lazyLoader';
-import globalize from 'globalize';
-import appRouter from 'appRouter';
-import 'emby-button';
+import layoutManager from '../../components/layoutManager';
+import loading from '../../components/loading/loading';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
+import globalize from '../../scripts/globalize';
+import { appRouter } from '../../components/appRouter';
+import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 

@@ -1,9 +1,11 @@
-import appSettings from 'appSettings';
-import * as userSettings from 'userSettings';
-import playbackManager from 'playbackManager';
-import globalize from 'globalize';
-import events from 'events';
-import castSenderApiLoader from 'castSenderApiLoader';
+import appSettings from '../../scripts/settings/appSettings';
+import * as userSettings from '../../scripts/settings/userSettings';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import globalize from '../../scripts/globalize';
+import { Events } from 'jellyfin-apiclient';
+import castSenderApiLoader from '../../components/castSenderApi';
+import ServerConnections from '../../components/ServerConnections';
+import alert from '../../components/alert';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 
@@ -167,7 +169,7 @@ class CastPlayer {
                 alertText(globalize.translate('MessageChromecastConnectionError'), globalize.translate('HeaderError'));
             }, 300);
         } else if (message.type) {
-            events.trigger(this, message.type, [message.data]);
+            Events.trigger(this, message.type, [message.data]);
         }
     }
 
@@ -236,7 +238,7 @@ class CastPlayer {
         document.addEventListener('volumeupbutton', onVolumeUpKeyDown, false);
         document.addEventListener('volumedownbutton', onVolumeDownKeyDown, false);
 
-        events.trigger(this, 'connect');
+        Events.trigger(this, 'connect');
         this.sendMessage({
             options: {},
             command: 'Identify'
@@ -324,11 +326,11 @@ class CastPlayer {
 
         let apiClient;
         if (message.options && message.options.ServerId) {
-            apiClient = window.connectionManager.getApiClient(message.options.ServerId);
+            apiClient = ServerConnections.getApiClient(message.options.ServerId);
         } else if (message.options && message.options.items && message.options.items.length) {
-            apiClient = window.connectionManager.getApiClient(message.options.items[0].ServerId);
+            apiClient = ServerConnections.getApiClient(message.options.items[0].ServerId);
         } else {
-            apiClient = window.connectionManager.currentApiClient();
+            apiClient = ServerConnections.currentApiClient();
         }
 
         message = Object.assign(message, {
@@ -351,14 +353,7 @@ class CastPlayer {
             message.subtitleBurnIn = appSettings.get('subtitleburnin') || '';
         }
 
-        return new Promise(function (resolve, reject) {
-            import('./chromecastHelper').then(({ default: chromecastHelper }) => {
-                chromecastHelper.getServerAddress(apiClient).then(function (serverAddress) {
-                    message.serverAddress = serverAddress;
-                    player.sendMessageInternal(message).then(resolve, reject);
-                }, reject);
-            });
-        });
+        return player.sendMessageInternal(message);
     }
 
     sendMessageInternal(message) {
@@ -439,11 +434,9 @@ class CastPlayer {
 }
 
 function alertText(text, title) {
-    import('alert').then(({default: alert}) => {
-        alert({
-            text: text,
-            title: title
-        });
+    alert({
+        text,
+        title
     });
 }
 
@@ -495,11 +488,11 @@ function getItemsForPlayback(apiClient, query) {
 }
 
 function bindEventForRelay(instance, eventName) {
-    events.on(instance._castPlayer, eventName, function (e, data) {
+    Events.on(instance._castPlayer, eventName, function (e, data) {
         console.debug('cc: ' + eventName);
         const state = instance.getPlayerStateInternal(data);
 
-        events.trigger(instance, eventName, [state]);
+        Events.trigger(instance, eventName, [state]);
     });
 }
 
@@ -514,7 +507,7 @@ function initializeChromecast() {
         }
     }));
 
-    events.on(instance._castPlayer, 'connect', function (e) {
+    Events.on(instance._castPlayer, 'connect', function (e) {
         if (currentResolve) {
             sendConnectionResult(true);
         } else {
@@ -526,20 +519,20 @@ function initializeChromecast() {
         instance.lastPlayerData = null;
     });
 
-    events.on(instance._castPlayer, 'playbackstart', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackstart', function (e, data) {
         console.debug('cc: playbackstart');
 
         instance._castPlayer.initializeCastPlayer();
 
         const state = instance.getPlayerStateInternal(data);
-        events.trigger(instance, 'playbackstart', [state]);
+        Events.trigger(instance, 'playbackstart', [state]);
     });
 
-    events.on(instance._castPlayer, 'playbackstop', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackstop', function (e, data) {
         console.debug('cc: playbackstop');
         let state = instance.getPlayerStateInternal(data);
 
-        events.trigger(instance, 'playbackstop', [state]);
+        Events.trigger(instance, 'playbackstop', [state]);
 
         state = instance.lastPlayerData.PlayState || {};
         const volume = state.VolumeLevel || 0.5;
@@ -552,11 +545,11 @@ function initializeChromecast() {
         instance.lastPlayerData.PlayState.IsMuted = mute;
     });
 
-    events.on(instance._castPlayer, 'playbackprogress', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackprogress', function (e, data) {
         console.debug('cc: positionchange');
         const state = instance.getPlayerStateInternal(data);
 
-        events.trigger(instance, 'timeupdate', [state]);
+        Events.trigger(instance, 'timeupdate', [state]);
     });
 
     bindEventForRelay(instance, 'timeupdate');
@@ -566,11 +559,11 @@ function initializeChromecast() {
     bindEventForRelay(instance, 'repeatmodechange');
     bindEventForRelay(instance, 'shufflequeuemodechange');
 
-    events.on(instance._castPlayer, 'playstatechange', function (e, data) {
+    Events.on(instance._castPlayer, 'playstatechange', function (e, data) {
         console.debug('cc: playstatechange');
         const state = instance.getPlayerStateInternal(data);
 
-        events.trigger(instance, 'pause', [state]);
+        Events.trigger(instance, 'pause', [state]);
     });
 }
 
@@ -664,7 +657,7 @@ class ChromecastPlayer {
         console.debug(JSON.stringify(data));
 
         if (triggerStateChange) {
-            events.trigger(this, 'statechange', [data]);
+            Events.trigger(this, 'statechange', [data]);
         }
 
         return data;
@@ -672,7 +665,7 @@ class ChromecastPlayer {
 
     playWithCommand(options, command) {
         if (!options.items) {
-            const apiClient = window.connectionManager.getApiClient(options.serverId);
+            const apiClient = ServerConnections.getApiClient(options.serverId);
             const instance = this;
 
             return apiClient.getItem(apiClient.getCurrentUserId(), options.ids[0]).then(function (item) {
@@ -984,7 +977,7 @@ class ChromecastPlayer {
     }
 
     shuffle(item) {
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         const userId = apiClient.getCurrentUserId();
 
         const instance = this;
@@ -997,7 +990,7 @@ class ChromecastPlayer {
     }
 
     instantMix(item) {
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         const userId = apiClient.getCurrentUserId();
 
         const instance = this;
@@ -1035,7 +1028,7 @@ class ChromecastPlayer {
             }
 
             const instance = this;
-            const apiClient = window.connectionManager.getApiClient(options.serverId);
+            const apiClient = ServerConnections.getApiClient(options.serverId);
 
             return getItemsForPlayback(apiClient, {
                 Ids: options.ids.join(',')
