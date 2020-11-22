@@ -2,7 +2,6 @@ const { src, dest, series, parallel, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
 const del = require('del');
 const babel = require('gulp-babel');
-const concat = require('gulp-concat');
 const terser = require('gulp-terser');
 const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
@@ -16,7 +15,6 @@ const stream = require('webpack-stream');
 const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
 const sass = require('gulp-sass');
-const gulpif = require('gulp-if');
 const lazypipe = require('lazypipe');
 
 sass.compiler = require('node-sass');
@@ -30,10 +28,7 @@ if (mode.production()) {
 
 const options = {
     javascript: {
-        query: ['src/**/*.js', '!src/bundle.js', '!src/standalone.js', '!src/scripts/apploader.js']
-    },
-    apploader: {
-        query: ['src/standalone.js', 'src/scripts/apploader.js']
+        query: ['src/**/*.js', '!src/bundle.js']
     },
     css: {
         query: ['src/**/*.css', 'src/**/*.scss']
@@ -67,8 +62,6 @@ function serve() {
             javascript(path);
         }
     });
-
-    watch(options.apploader.query, apploader(true));
 
     watch('src/bundle.js', webpack);
 
@@ -131,20 +124,6 @@ function javascript(query) {
         .pipe(browserSync.stream());
 }
 
-function apploader(standalone) {
-    function task() {
-        return src(options.apploader.query, { base: './src/' })
-            .pipe(gulpif(standalone, concat('scripts/apploader.js')))
-            .pipe(pipelineJavascript())
-            .pipe(dest('dist/'))
-            .pipe(browserSync.stream());
-    }
-
-    task.displayName = 'apploader';
-
-    return task;
-}
-
 function webpack() {
     return stream(config)
         .pipe(dest('dist/'))
@@ -195,10 +174,5 @@ function injectBundle() {
         .pipe(browserSync.stream());
 }
 
-function build(standalone) {
-    return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy));
-}
-
-exports.default = series(build(false), injectBundle);
-exports.standalone = series(build(true), injectBundle);
-exports.serve = series(exports.standalone, serve);
+exports.default = series(clean, parallel(javascript, webpack, css, html, images, copy), injectBundle);
+exports.serve = series(exports.default, serve);

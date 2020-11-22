@@ -25,7 +25,6 @@ module.exports = {
         'eslint:recommended',
         // 'plugin:promise/recommended',
         'plugin:import/errors',
-        'plugin:import/warnings',
         'plugin:eslint-comments/recommended',
         'plugin:compat/recommended'
     ],
@@ -79,16 +78,12 @@ module.exports = {
                 // Dependency globals
                 '$': 'readonly',
                 'jQuery': 'readonly',
-                'requirejs': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'writable',
-                'AppInfo': 'writable',
                 'chrome': 'writable',
                 'DlnaProfilePage': 'writable',
-                'Dashboard': 'writable',
                 'DashboardPage': 'writable',
                 'Emby': 'readonly',
-                'Events': 'writable',
                 'getParameterByName': 'writable',
                 'getWindowLocationSearch': 'writable',
                 'Globalize': 'writable',
@@ -98,8 +93,6 @@ module.exports = {
                 'LinkParser': 'writable',
                 'LiveTvHelpers': 'writable',
                 'MetadataEditor': 'writable',
-                'pageClassOn': 'writable',
-                'pageIdOn': 'writable',
                 'PlaylistViewer': 'writable',
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly'

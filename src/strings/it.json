@@ -204,7 +204,7 @@
     "Guide": "Guida",
     "GuideProviderLogin": "Accedi",
     "GuideProviderSelectListings": "selezionare Annunci",
-    "H264CrfHelp": "Il fattore di frequenza costante (CRF) è l'impostazione di qualità predefinita per l'encoder x264. È possibile impostare i valori compresi tra 0 e 51, in cui valori inferiori potrebbero determinare una migliore qualità (a discapito delle dimensioni superiori dei file). I valori normali sono compresi tra 18 e 28. L'impostazione predefinita per x264 è 23, quindi è possibile utilizzare questo come punto di partenza.",
+    "H264CrfHelp": "Il fattore di frequenza costante (CRF) è l'impostazione di qualità predefinita per l'encoder x264 e x265. È possibile impostare i valori compresi tra 0 e 51, in cui valori inferiori potrebbero determinare una migliore qualità (a discapito delle dimensioni superiori dei file). I valori normali sono compresi tra 18 e 28. L'impostazione predefinita per x264 è 23 e per x265 è 28, quindi è possibile utilizzare questo come punto di partenza.",
     "EncoderPresetHelp": "Scegli una velocità maggiore per migliorare le performance, o minore per incrementare la qualità.",
     "HDPrograms": "Programmi HD",
     "HardwareAccelerationWarning": "L'attivazione dell'accelerazione hardware potrebbe causare instabilità in qualche sistema. Assicurarsi che il sistema operativo e i driver video siano completamente aggiornati. Se hai difficoltà a riprodurre video dopo aver abilitato questa operazione, dovrai cambiare l'impostazione in None.",
@@ -499,7 +499,7 @@
     "LabelGroupMoviesIntoCollections": "Raggruppa i film nelle collezioni",
     "LabelGroupMoviesIntoCollectionsHelp": "Quando si visualizzano le liste di film, quelli appartenenti ad una collezione saranno visualizzati come un elemento raggruppato.",
     "LabelH264Crf": "CRF di codifica H264:",
-    "LabelEncoderPreset": "Preset di codifica H264:",
+    "LabelEncoderPreset": "Preset di codifica:",
     "LabelHardwareAccelerationType": "Accelerazione Hardware:",
     "LabelHardwareAccelerationTypeHelp": "L'accelerazione hardware richiede un'ulteriore configurazione.",
     "LabelHomeNetworkQuality": "Qualità della rete domestica:",
@@ -1416,5 +1416,11 @@
     "OptionAllowContentDownload": "Consenti il download dei media",
     "HeaderDeleteDevices": "Elimina tutti i dispositivi",
     "DeleteDevicesConfirmation": "Sei sicuro di voler eliminare tutti i dispositivi? Tutte le altre sessioni verrano disconnesse. I dispositivi riappariranno appena un utente vi effettuerà il login.",
-    "DeleteAll": "Elimina tutto"
+    "DeleteAll": "Elimina tutto",
+    "OptionAllowContentDownloadHelp": "Gli utenti possono scaricare contenuti e salvarli nei loro dispositivi. Non è uguale alla sincronizzazione. I libri richiedono che questa proprietà sia attivata per lavorare correttamente.",
+    "YoutubeDenied": "Il video richiesto non può essere riprodotto nei player embedded.",
+    "YoutubeNotFound": "Video non trovato.",
+    "YoutubePlaybackError": "Il video richiesto non può essere riprodotto.",
+    "YoutubeBadRequest": "Richiesta non valida.",
+    "PluginFromRepo": "{0} dal repository {1}"
 }

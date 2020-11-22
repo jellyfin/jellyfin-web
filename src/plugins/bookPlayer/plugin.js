@@ -1,14 +1,14 @@
-import browser from 'browser';
-import loading from 'loading';
-import keyboardnavigation from 'keyboardnavigation';
-import dialogHelper from 'dialogHelper';
-import dom from 'dom';
-import events from 'events';
-import 'css!./style';
-import 'material-icons';
-import 'paper-icon-button-light';
-
+import loading from '../../components/loading/loading';
+import keyboardnavigation from '../../scripts/keyboardNavigation';
+import dialogHelper from '../../components/dialogHelper/dialogHelper';
+import '../../scripts/dom';
+import { Events } from 'jellyfin-apiclient';
+import './style.css';
+import 'material-design-icons-iconfont';
+import '../../elements/emby-button/paper-icon-button-light';
+import ServerConnections from '../../components/ServerConnections';
 import TableOfContents from './tableOfContents';
+import browser from '../../scripts/browser';
 
 export class BookPlayer {
     constructor() {
@@ -260,7 +260,7 @@ export class BookPlayer {
         };
 
         const serverId = item.ServerId;
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             import('epubjs').then(({default: epubjs}) => {
@@ -290,7 +290,7 @@ export class BookPlayer {
                         epubElem.style.display = 'block';
                         rendition.on('relocated', (locations) => {
                             this.progress = book.locations.percentageFromCfi(locations.start.cfi);
-                            events.trigger(this, 'timeupdate');
+                            Events.trigger(this, 'timeupdate');
                         });
 
                         loading.hide();

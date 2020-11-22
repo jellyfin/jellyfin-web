@@ -1,8 +1,10 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import globalize from 'globalize';
-import dom from 'dom';
-import libraryMenu from 'libraryMenu';
+import 'jquery';
+import loading from '../../components/loading/loading';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import libraryMenu from '../../scripts/libraryMenu';
+import Dashboard from '../../scripts/clientUtils';
+import alert from '../../components/alert';
 
 /* eslint-disable indent */
 
@@ -13,12 +15,15 @@ import libraryMenu from 'libraryMenu';
         page.querySelector('#chkDecodingColorDepth10Hevc').checked = config.EnableDecodingColorDepth10Hevc;
         page.querySelector('#chkDecodingColorDepth10Vp9').checked = config.EnableDecodingColorDepth10Vp9;
         page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
+        page.querySelector('#chkAllowHevcEncoding').checked = config.AllowHevcEncoding;
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
         $('#selectThreadCount', page).val(config.EncodingThreadCount);
         $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
         page.querySelector('#txtMaxMuxingQueueSize').value = config.MaxMuxingQueueSize || '';
         page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
         $('#txtTranscodingTempPath', page).val(systemInfo.TranscodingTempPath || '');
+        page.querySelector('#txtFallbackFontPath').value = config.FallbackFontPath || '';
+        page.querySelector('#chkEnableFallbackFont').checked = config.EnableFallbackFont;
         $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
         page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
         page.querySelector('#txtOpenclDevice').value = config.OpenclDevice || '';
@@ -30,6 +35,7 @@ import libraryMenu from 'libraryMenu';
         page.querySelector('#txtTonemappingParam').value = config.TonemappingParam || '';
         page.querySelector('#selectEncoderPreset').value = config.EncoderPreset || '';
         page.querySelector('#txtH264Crf').value = config.H264Crf || '';
+        page.querySelector('#txtH265Crf').value = config.H265Crf || '';
         page.querySelector('#selectDeinterlaceMethod').value = config.DeinterlaceMethod || '';
         page.querySelector('#chkDoubleRateDeinterlacing').checked = config.DeinterlaceDoubleRate;
         page.querySelector('#chkEnableSubtitleExtraction').checked = config.EnableSubtitleExtraction || false;
@@ -42,12 +48,7 @@ import libraryMenu from 'libraryMenu';
 
     function onSaveEncodingPathFailure(response) {
         loading.hide();
-        let msg = '';
-        msg = globalize.translate('FFmpegSavePathNotFound');
-
-        import('alert').then(({default: alert}) => {
-            alert(msg);
-        });
+        alert(globalize.translate('FFmpegSavePathNotFound'));
     }
 
     function updateEncoder(form) {
@@ -73,6 +74,8 @@ import libraryMenu from 'libraryMenu';
                 config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
                 config.MaxMuxingQueueSize = form.querySelector('#txtMaxMuxingQueueSize').value;
                 config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();
+                config.FallbackFontPath = form.querySelector('#txtFallbackFontPath').value;
+                config.EnableFallbackFont = form.querySelector('#txtFallbackFontPath').value ? form.querySelector('#chkEnableFallbackFont').checked : false;
                 config.EncodingThreadCount = $('#selectThreadCount', form).val();
                 config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
                 config.VaapiDevice = $('#txtVaapiDevice', form).val();
@@ -86,6 +89,7 @@ import libraryMenu from 'libraryMenu';
                 config.TonemappingParam = form.querySelector('#txtTonemappingParam').value || '0';
                 config.EncoderPreset = form.querySelector('#selectEncoderPreset').value;
                 config.H264Crf = parseInt(form.querySelector('#txtH264Crf').value || '0');
+                config.H265Crf = parseInt(form.querySelector('#txtH265Crf').value || '0');
                 config.DeinterlaceMethod = form.querySelector('#selectDeinterlaceMethod').value;
                 config.DeinterlaceDoubleRate = form.querySelector('#chkDoubleRateDeinterlacing').checked;
                 config.EnableSubtitleExtraction = form.querySelector('#chkEnableSubtitleExtraction').checked;
@@ -98,25 +102,21 @@ import libraryMenu from 'libraryMenu';
                 config.EnableDecodingColorDepth10Hevc = form.querySelector('#chkDecodingColorDepth10Hevc').checked;
                 config.EnableDecodingColorDepth10Vp9 = form.querySelector('#chkDecodingColorDepth10Vp9').checked;
                 config.EnableHardwareEncoding = form.querySelector('#chkHardwareEncoding').checked;
+                config.AllowHevcEncoding = form.querySelector('#chkAllowHevcEncoding').checked;
                 ApiClient.updateNamedConfiguration('encoding', config).then(function () {
                     updateEncoder(form);
                 }, function () {
-                    import('alert').then(({default: alert}) => {
-                        alert(globalize.translate('ErrorDefault'));
-                    });
-
+                    alert(globalize.translate('ErrorDefault'));
                     Dashboard.processServerConfigurationUpdateResult();
                 });
             });
         };
 
         if ($('#selectVideoDecoder', form).val()) {
-            import('alert').then(({default: alert}) => {
-                alert({
-                    title: globalize.translate('TitleHardwareAcceleration'),
-                    text: globalize.translate('HardwareAccelerationWarning')
-                }).then(onDecoderConfirmed);
-            });
+            alert({
+                title: globalize.translate('TitleHardwareAcceleration'),
+                text: globalize.translate('HardwareAccelerationWarning')
+            }).then(onDecoderConfirmed);
         } else {
             onDecoderConfirmed();
         }
@@ -186,7 +186,7 @@ import libraryMenu from 'libraryMenu';
             setDecodingCodecsVisible(page, this.value);
         });
         $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     includeFiles: true,
@@ -201,7 +201,7 @@ import libraryMenu from 'libraryMenu';
             });
         });
         $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     callback: function (path) {
@@ -214,6 +214,23 @@ import libraryMenu from 'libraryMenu';
                     validateWriteable: true,
                     header: globalize.translate('HeaderSelectTranscodingPath'),
                     instruction: globalize.translate('HeaderSelectTranscodingPathHelp')
+                });
+            });
+        });
+        $('#btnSelectFallbackFontPath', page).on('click.selectDirectory', function () {
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
+                const picker = new directoryBrowser();
+                picker.show({
+                    includeDirectories: true,
+                    callback: function (path) {
+                        if (path) {
+                            page.querySelector('#txtFallbackFontPath').value = path;
+                        }
+
+                        picker.close();
+                    },
+                    header: globalize.translate('HeaderSelectFallbackFontPath'),
+                    instruction: globalize.translate('HeaderSelectFallbackFontPathHelp')
                 });
             });
         });

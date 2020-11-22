@@ -44,7 +44,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 
 ### Dependencies
 
-- [Node.js](https://nodejs.org/en/download/)
+- [Node.js](https://nodejs.org/en/download)
 - [Yarn 1.22.4](https://classic.yarnpkg.com/en/docs/install)
 - Gulp-cli
 
@@ -69,14 +69,8 @@ Jellyfin Web is the frontend used for most of the clients available for end user
    yarn serve
    ```
 
-4. Build the client with sourcemaps.
+4. Build the client with sourcemaps available.
 
    ```sh
    yarn build:development
-   ```
-
-   You can build a nginx compatible version as well.
-
-   ```sh
-   yarn build:standalone
    ```

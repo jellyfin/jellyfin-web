@@ -1413,5 +1413,6 @@
     "LabelTonemappingRange": "Alcance do Tone mapping :",
     "TonemappingAlgorithmHelp": "O Tone mapping pode ser afinado. Se não está familiarizado com estas opções mantenha os valores padrão. O valor recomendado é Reinhard.",
     "AllowTonemappingHelp": "O Tone mapping permite transformar o alcance dinâmico de um vídeo de HDR para SDR mantendo as cores e detalhes da imagem, que é informação importante para representar a cena original. Atualmente apenas funciona durante a transcodificação de vídeos com metadados HDR10 ou HLG embutidos. Caso a reprodução não seja suave ou falhe, considere desligar o descodificador de hardware correspondente.",
-    "LabelMaxMuxingQueueSizeHelp": "Número máximo de pacotes armazenados em <i>buffer</i> enquanto aguardam que todas a transmissões iniciem. Tente aumentá-lo caso se depare com o seguinte erro nos <i>logs</i> do ffmpeg \"Too many packets buffered for output stream\". O valor recomendado é 2048."
+    "LabelMaxMuxingQueueSizeHelp": "Número máximo de pacotes armazenados em <i>buffer</i> enquanto aguardam que todas a transmissões iniciem. Tente aumentá-lo caso se depare com o seguinte erro nos <i>logs</i> do ffmpeg \"Too many packets buffered for output stream\". O valor recomendado é 2048.",
+    "DeleteAll": "Apagar tudo"
 }

@@ -1,7 +1,9 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
+import 'jquery';
+import loading from '../../components/loading/loading';
+import libraryMenu from '../../scripts/libraryMenu';
+import globalize from '../../scripts/globalize';
+import Dashboard from '../../scripts/clientUtils';
+import alert from '../../components/alert';
 
 /* eslint-disable indent */
 
@@ -38,11 +40,8 @@ import globalize from 'globalize';
     function showConfirmMessage(config) {
         const msg = [];
         msg.push(globalize.translate('MetadataSettingChangeHelp'));
-
-        import('alert').then(({default: alert}) => {
-            alert({
-                text: msg.join('<br/><br/>')
-            });
+        alert({
+            text: msg.join('<br/><br/>')
         });
     }
 

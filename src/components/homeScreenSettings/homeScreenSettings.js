@@ -1,13 +1,16 @@
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import loading from 'loading';
-import homeSections from 'homeSections';
-import dom from 'dom';
-import events from 'events';
-import 'listViewStyle';
-import 'emby-select';
-import 'emby-checkbox';
+
+import layoutManager from '../layoutManager';
+import focusManager from '../focusManager';
+import globalize from '../../scripts/globalize';
+import loading from '../loading/loading';
+import { Events } from 'jellyfin-apiclient';
+import homeSections from '../homesections/homesections';
+import dom from '../../scripts/dom';
+import '../listview/listview.css';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-checkbox/emby-checkbox';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
 
 /* eslint-disable indent */
 
@@ -369,12 +372,10 @@ import 'emby-checkbox';
             saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('SettingsSaved'));
-                    });
+                    toast(globalize.translate('SettingsSaved'));
                 }
 
-                events.trigger(instance, 'saved');
+                Events.trigger(instance, 'saved');
             }, () => {
                 loading.hide();
             });
@@ -383,7 +384,7 @@ import 'emby-checkbox';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -417,7 +418,7 @@ import 'emby-checkbox';
     }
 
     function embed(options, self) {
-        return import('text!./homeScreenSettings.template.html').then(({default: template}) => {
+        return import('./homeScreenSettings.template.html').then(({default: template}) => {
             for (let i = 1; i <= numConfigurableSections; i++) {
                 template = template.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
             }
@@ -455,7 +456,7 @@ import 'emby-checkbox';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+            const apiClient = ServerConnections.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             apiClient.getUser(userId).then(user => {

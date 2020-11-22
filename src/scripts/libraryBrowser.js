@@ -1,5 +1,5 @@
-import * as userSettings from 'userSettings';
-import globalize from 'globalize';
+import * as userSettings from './settings/userSettings';
+import globalize from './globalize';
 
 export function getSavedQueryKey(modifier) {
     return window.location.href.split('#')[0] + (modifier || '');
@@ -55,7 +55,7 @@ export function showLayoutMenu (button, currentLayout, views) {
         };
     });
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -120,8 +120,8 @@ export function getQueryPagingHtml (options) {
 
 export function showSortMenu (options) {
     Promise.all([
-        import('dialogHelper'),
-        import('emby-radio')
+        import('../components/dialogHelper/dialogHelper'),
+        import('../elements/emby-radio/emby-radio')
     ]).then(([{default: dialogHelper}]) => {
         function onSortByChange() {
             const newValue = this.value;

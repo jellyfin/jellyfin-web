@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+import ServerConnections from '../../components/ServerConnections';
 
 class BackdropScreensaver {
     constructor() {
@@ -20,10 +21,10 @@ class BackdropScreensaver {
                 Limit: 200
             };
 
-            const apiClient = window.connectionManager.currentApiClient();
+            const apiClient = ServerConnections.currentApiClient();
             apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
                 if (result.Items.length) {
-                    import('slideshow').then(({default: Slideshow}) => {
+                    import('../../components/slideshow/slideshow').then(({default: Slideshow}) => {
                         const newSlideShow = new Slideshow({
                             showTitle: true,
                             cover: true,
@@ -42,6 +43,7 @@ class BackdropScreensaver {
                 this.currentSlideshow.hide();
                 this.currentSlideshow = null;
             }
+            return Promise.resolve();
         }
     }
 /* eslint-enable indent */

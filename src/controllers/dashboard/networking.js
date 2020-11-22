@@ -1,7 +1,9 @@
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-checkbox';
-import 'emby-select';
+import loading from '../../components/loading/loading';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-select/emby-select';
+import Dashboard from '../../scripts/clientUtils';
+import alert from '../../components/alert';
 
 /* eslint-disable indent */
 
@@ -110,9 +112,7 @@ import 'emby-select';
 
     function showAlertText(options) {
         return new Promise(function (resolve, reject) {
-            import('alert').then(({default: alert}) => {
-                alert(options).then(resolve, reject);
-            });
+            alert(options).then(resolve, reject);
         });
     }
 
@@ -177,7 +177,7 @@ import 'emby-select';
             }
         });
         view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
+            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
                 const picker = new directoryBrowser();
                 picker.show({
                     includeFiles: true,

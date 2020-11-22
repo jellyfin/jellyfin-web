@@ -1,7 +1,7 @@
-import layoutManager from 'layoutManager';
-import 'css!./emby-radio';
-import 'webcomponents';
-import browser from 'browser';
+import layoutManager from '../../components/layoutManager';
+import browser from '../../scripts/browser';
+import 'webcomponents.js/webcomponents-lite';
+import './emby-radio.css';
 
 /* eslint-disable indent */
 

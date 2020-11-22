@@ -1,9 +1,11 @@
-import appSettings from 'appSettings';
-import browser from 'browser';
-import events from 'events';
-import * as htmlMediaHelper from 'htmlMediaHelper';
-import * as webSettings from 'webSettings';
-import globalize from 'globalize';
+
+import appSettings from '../scripts/settings/appSettings';
+import browser from '../scripts/browser';
+import { Events } from 'jellyfin-apiclient';
+import * as htmlMediaHelper from '../components/htmlMediaHelper';
+import * as webSettings from '../scripts/settings/webSettings';
+import globalize from '../scripts/globalize';
+import profileBuilder from '../scripts/browserDeviceProfile';
 
 function getBaseProfileOptions(item) {
     const disableHlsVideoAudioCodecs = [];
@@ -26,19 +28,16 @@ function getBaseProfileOptions(item) {
 
 function getDeviceProfile(item, options = {}) {
     return new Promise(function (resolve) {
-        import('browserdeviceprofile').then(({default: profileBuilder}) => {
-            let profile;
+        let profile;
 
-            if (window.NativeShell) {
-                profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
-            } else {
-                const builderOpts = getBaseProfileOptions(item);
-                builderOpts.enableSsaRender = (item && !options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats');
-                profile = profileBuilder(builderOpts);
-            }
+        if (window.NativeShell) {
+            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
+        } else {
+            const builderOpts = getBaseProfileOptions(item);
+            profile = profileBuilder(builderOpts);
+        }
 
-            resolve(profile);
-        });
+        resolve(profile);
     });
 }
 
@@ -57,60 +56,62 @@ function generateDeviceId() {
 
     if (keys.push(navigator.userAgent), keys.push(new Date().getTime()), window.btoa) {
         const result = replaceAll(btoa(keys.join('|')), '=', '1');
-        return Promise.resolve(result);
+        return result;
     }
 
-    return Promise.resolve(new Date().getTime());
+    return new Date().getTime();
 }
 
 function getDeviceId() {
-    const key = '_deviceId2';
-    const deviceId = appSettings.get(key);
+    if (!deviceId) {
+        const key = '_deviceId2';
 
-    if (deviceId) {
-        return Promise.resolve(deviceId);
+        deviceId = appSettings.get(key);
+
+        if (!deviceId) {
+            deviceId = generateDeviceId();
+            appSettings.set(key, deviceId);
+        }
     }
 
-    return generateDeviceId().then(function (deviceId) {
-        appSettings.set(key, deviceId);
-        return deviceId;
-    });
+    return deviceId;
 }
 
 function getDeviceName() {
-    let deviceName;
-    if (browser.tizen) {
-        deviceName = 'Samsung Smart TV';
-    } else if (browser.web0s) {
-        deviceName = 'LG Smart TV';
-    } else if (browser.operaTv) {
-        deviceName = 'Opera TV';
-    } else if (browser.xboxOne) {
-        deviceName = 'Xbox One';
-    } else if (browser.ps4) {
-        deviceName = 'Sony PS4';
-    } else if (browser.chrome) {
-        deviceName = 'Chrome';
-    } else if (browser.edgeChromium) {
-        deviceName = 'Edge Chromium';
-    } else if (browser.edge) {
-        deviceName = 'Edge';
-    } else if (browser.firefox) {
-        deviceName = 'Firefox';
-    } else if (browser.opera) {
-        deviceName = 'Opera';
-    } else if (browser.safari) {
-        deviceName = 'Safari';
-    } else {
-        deviceName = 'Web Browser';
-    }
+    if (!deviceName) {
+        if (browser.tizen) {
+            deviceName = 'Samsung Smart TV';
+        } else if (browser.web0s) {
+            deviceName = 'LG Smart TV';
+        } else if (browser.operaTv) {
+            deviceName = 'Opera TV';
+        } else if (browser.xboxOne) {
+            deviceName = 'Xbox One';
+        } else if (browser.ps4) {
+            deviceName = 'Sony PS4';
+        } else if (browser.chrome) {
+            deviceName = 'Chrome';
+        } else if (browser.edgeChromium) {
+            deviceName = 'Edge Chromium';
+        } else if (browser.edge) {
+            deviceName = 'Edge';
+        } else if (browser.firefox) {
+            deviceName = 'Firefox';
+        } else if (browser.opera) {
+            deviceName = 'Opera';
+        } else if (browser.safari) {
+            deviceName = 'Safari';
+        } else {
+            deviceName = 'Web Browser';
+        }
 
-    if (browser.ipad) {
-        deviceName += ' iPad';
-    } else if (browser.iphone) {
-        deviceName += ' iPhone';
-    } else if (browser.android) {
-        deviceName += ' Android';
+        if (browser.ipad) {
+            deviceName += ' iPad';
+        } else if (browser.iphone) {
+            deviceName += ' iPhone';
+        } else if (browser.android) {
+            deviceName += ' Android';
+        }
     }
 
     return deviceName;
@@ -172,7 +173,7 @@ function supportsCue() {
 function onAppVisible() {
     if (isHidden) {
         isHidden = false;
-        events.trigger(appHost, 'resume');
+        Events.trigger(appHost, 'resume');
     }
 }
 
@@ -296,7 +297,7 @@ function askForExit() {
         return;
     }
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then((actionsheet) => {
         exitPromise = actionsheet.show({
             title: globalize.translate('MessageConfirmAppExit'),
             items: [
@@ -318,7 +319,7 @@ let deviceName;
 const appName = 'Jellyfin Web';
 const appVersion = '10.7.0';
 
-const appHost = {
+export const appHost = {
     getWindowState: function () {
         return document.windowState || 'Normal';
     },
@@ -353,16 +354,16 @@ const appHost = {
             return window.NativeShell.AppHost.init();
         }
 
-        deviceName = getDeviceName();
-        getDeviceId().then(function (id) {
-            deviceId = id;
-        });
+        return {
+            deviceId: getDeviceId(),
+            deviceName: getDeviceName()
+        };
     },
     deviceName: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.deviceName() : deviceName;
+        return window.NativeShell ? window.NativeShell.AppHost.deviceName() : getDeviceName();
     },
     deviceId: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.deviceId() : deviceId;
+        return window.NativeShell ? window.NativeShell.AppHost.deviceId() : getDeviceId();
     },
     appName: function () {
         return window.NativeShell ? window.NativeShell.AppHost.appName() : appName;
@@ -407,4 +408,5 @@ if (window.addEventListener) {
     window.addEventListener('blur', onAppHidden);
 }
 
-export default appHost;
+// load app host on module load
+appHost.init();

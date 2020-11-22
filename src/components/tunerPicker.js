@@ -1,16 +1,17 @@
-import dialogHelper from 'dialogHelper';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import loading from 'loading';
-import browser from 'browser';
-import focusManager from 'focusManager';
-import scrollHelper from 'scrollHelper';
-import 'material-icons';
-import 'formDialogStyle';
-import 'emby-button';
-import 'emby-itemscontainer';
-import 'cardStyle';
+import dialogHelper from './dialogHelper/dialogHelper';
+import dom from '../scripts/dom';
+import layoutManager from './layoutManager';
+import globalize from '../scripts/globalize';
+import loading from './loading/loading';
+import browser from '../scripts/browser';
+import focusManager from './focusManager';
+import scrollHelper from '../scripts/scrollHelper';
+import 'material-design-icons-iconfont';
+import './formdialog.css';
+import '../elements/emby-button/emby-button';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
+import './cardbuilder/card.css';
+import ServerConnections from './ServerConnections';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -162,7 +163,7 @@ function tunerPicker() {
             scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
         }
 
-        const apiClient = window.connectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
         discoverDevices(dlg, apiClient);
 
         if (layoutManager.tv) {

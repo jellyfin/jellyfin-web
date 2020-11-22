@@ -1,7 +1,9 @@
-import playbackManager from 'playbackManager';
-import nowPlayingHelper from 'nowPlayingHelper';
-import shell from 'shell';
-import events from 'events';
+import { playbackManager } from '../playback/playbackmanager';
+import nowPlayingHelper from '../playback/nowplayinghelper';
+import { Events } from 'jellyfin-apiclient';
+import ServerConnections from '../ServerConnections';
+import shell from '../../scripts/shell';
+
 /* eslint-disable indent */
 
     // Reports media playback to the device for lock screen control
@@ -16,16 +18,16 @@ import events from 'events';
         } else if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
 
-            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         } else if (options.type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
-                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             } else if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
-                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -38,11 +40,11 @@ import events from 'events';
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
 
-            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
         } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
 
-            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;
@@ -164,12 +166,12 @@ import events from 'events';
 
     function releaseCurrentPlayer() {
         if (currentPlayer) {
-            events.off(currentPlayer, 'playbackstart', onPlaybackStart);
-            events.off(currentPlayer, 'playbackstop', onPlaybackStopped);
-            events.off(currentPlayer, 'unpause', onGeneralEvent);
-            events.off(currentPlayer, 'pause', onGeneralEvent);
-            events.off(currentPlayer, 'statechange', onStateChanged);
-            events.off(currentPlayer, 'timeupdate', onGeneralEvent);
+            Events.off(currentPlayer, 'playbackstart', onPlaybackStart);
+            Events.off(currentPlayer, 'playbackstop', onPlaybackStopped);
+            Events.off(currentPlayer, 'unpause', onGeneralEvent);
+            Events.off(currentPlayer, 'pause', onGeneralEvent);
+            Events.off(currentPlayer, 'statechange', onStateChanged);
+            Events.off(currentPlayer, 'timeupdate', onGeneralEvent);
 
             currentPlayer = null;
 
@@ -198,12 +200,12 @@ import events from 'events';
         const state = playbackManager.getPlayerState(player);
         updatePlayerState(player, state, 'init');
 
-        events.on(currentPlayer, 'playbackstart', onPlaybackStart);
-        events.on(currentPlayer, 'playbackstop', onPlaybackStopped);
-        events.on(currentPlayer, 'unpause', onGeneralEvent);
-        events.on(currentPlayer, 'pause', onGeneralEvent);
-        events.on(currentPlayer, 'statechange', onStateChanged);
-        events.on(currentPlayer, 'timeupdate', onGeneralEvent);
+        Events.on(currentPlayer, 'playbackstart', onPlaybackStart);
+        Events.on(currentPlayer, 'playbackstop', onPlaybackStopped);
+        Events.on(currentPlayer, 'unpause', onGeneralEvent);
+        Events.on(currentPlayer, 'pause', onGeneralEvent);
+        Events.on(currentPlayer, 'statechange', onStateChanged);
+        Events.on(currentPlayer, 'timeupdate', onGeneralEvent);
     }
 
     function execute(name) {
@@ -251,7 +253,7 @@ import events from 'events';
         });
     }
 
-    events.on(playbackManager, 'playerchange', function () {
+    Events.on(playbackManager, 'playerchange', function () {
         bindToPlayer(playbackManager.getCurrentPlayer());
     });
 

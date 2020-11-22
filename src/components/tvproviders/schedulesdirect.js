@@ -1,13 +1,15 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-checkbox';
-import 'emby-input';
-import 'listViewStyle';
-import 'paper-icon-button-light';
-import 'emby-select';
-import 'emby-button';
-import 'flexStyles';
+import 'jquery';
+import loading from '../loading/loading';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
+import '../listview/listview.css';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.scss';
+import Dashboard from '../../scripts/clientUtils';
+import { Events } from 'jellyfin-apiclient';
 
 export default function (page, providerId, options) {
     function reload() {
@@ -83,63 +85,35 @@ export default function (page, providerId, options) {
         loading.hide();
     }
 
-    function sha256(str) {
-        if (!self.TextEncoder) {
-            return Promise.resolve('');
-        }
-
-        const buffer = new TextEncoder('utf-8').encode(str);
-        return crypto.subtle.digest('SHA-256', buffer).then(function (hash) {
-            return hex(hash);
-        });
-    }
-
-    function hex(buffer) {
-        const hexCodes = [];
-        const view = new DataView(buffer);
-
-        for (let i = 0; i < view.byteLength; i += 4) {
-            const value = view.getUint32(i);
-            const stringValue = value.toString(16);
-            const paddedValue = ('00000000' + stringValue).slice(-'00000000'.length);
-            hexCodes.push(paddedValue);
-        }
-
-        return hexCodes.join('');
-    }
-
     function submitLoginForm() {
         loading.show();
-        sha256(page.querySelector('.txtPass').value).then(function (passwordHash) {
-            const info = {
-                Type: 'SchedulesDirect',
-                Username: page.querySelector('.txtUser').value,
-                EnableAllTuners: true,
-                Password: passwordHash,
-                Pw: page.querySelector('.txtPass').value
-            };
-            const id = providerId;
+        const info = {
+            Type: 'SchedulesDirect',
+            Username: page.querySelector('.txtUser').value,
+            EnableAllTuners: true,
+            Password: page.querySelector('.txtPass').value
+        };
+        const id = providerId;
 
-            if (id) {
-                info.Id = id;
-            }
+        if (id) {
+            info.Id = id;
+        }
 
-            ApiClient.ajax({
-                type: 'POST',
-                url: ApiClient.getUrl('LiveTv/ListingProviders', {
-                    ValidateLogin: true
-                }),
-                data: JSON.stringify(info),
-                contentType: 'application/json',
-                dataType: 'json'
-            }).then(function (result) {
-                Dashboard.processServerConfigurationUpdateResult();
-                providerId = result.Id;
-                reload();
-            }, function () {
-                Dashboard.alert({ // ApiClient.ajax() error handler
-                    message: globalize.translate('ErrorSavingTvProvider')
-                });
+        ApiClient.ajax({
+            type: 'POST',
+            url: ApiClient.getUrl('LiveTv/ListingProviders', {
+                ValidateLogin: true
+            }),
+            data: JSON.stringify(info),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).then(function (result) {
+            Dashboard.processServerConfigurationUpdateResult();
+            providerId = result.Id;
+            reload();
+        }, function () {
+            Dashboard.alert({ // ApiClient.ajax() error handler
+                message: globalize.translate('ErrorSavingTvProvider')
             });
         });
     }

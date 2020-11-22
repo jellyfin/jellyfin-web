@@ -1,6 +1,6 @@
-import loading from 'loading';
-import libraryBrowser from 'libraryBrowser';
-import cardBuilder from 'cardBuilder';
+import loading from '../../components/loading/loading';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
 /* eslint-disable indent */
 
@@ -50,7 +50,7 @@ import cardBuilder from 'cardBuilder';
             });
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(context);
             });
         });
