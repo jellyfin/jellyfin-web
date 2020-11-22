@@ -93,6 +93,10 @@ import alert from '../../components/alert';
             return 'The http and https ports must be different.';
         }
 
+        if (!form.querySelector('#chkEnableIP6').checked && !form.querySelector('#chkEnableIP4').checked) {
+            return 'Either IPv4 or IPv6 need to be checked.'
+        }
+
         return null;
     }
 
