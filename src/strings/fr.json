@@ -1456,7 +1456,7 @@
     "LabelCreateHttpPortMap": "Active le mappage de port automatique pour le trafic http ainsi que https.",
     "LabelAutomaticDiscoveryHelp": "Permet aux applications de détecter automatiquement Jellyfin en utilisant le port UDP 7359.",
     "LabelAutomaticDiscovery": "Activer la Découverte Automatique :",
-    "LabelAutoDiscoveryTracingHelp": "Une fois activé, les paquets reçus sur le port de découverte automatique seront historisés.",
+    "LabelAutoDiscoveryTracingHelp": "Une fois activé, les paquets reçus sur le port de découverte automatique seront historés.",
     "LabelAutoDiscoveryTracing": "Activer le traçage Découverte Automatique.",
     "HeaderDebugging": "Débogage et traçage"
 }
