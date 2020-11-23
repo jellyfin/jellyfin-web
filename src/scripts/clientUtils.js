@@ -31,8 +31,11 @@ export async function serverAddress() {
     const urls = [];
     urls.push(window.location.origin);
     urls.push(`https://${window.location.hostname}:8920`);
-    urls.push(`http://${window.location.hostname}:8096`);
     urls.push(...await webSettings.getServers());
+
+    if (window.location.protocol === 'http') {
+        urls.push(`http://${window.location.hostname}:8096`);
+    }
 
     const promises = urls.map(url => {
         return fetch(`${url}/System/Info/Public`).then(resp => url).catch(error => {
