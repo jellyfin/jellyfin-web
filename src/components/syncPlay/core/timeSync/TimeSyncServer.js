@@ -1,9 +1,9 @@
 /**
  * Module that manages time syncing with server.
- * @module components/syncPlay/core/timeSync/server
+ * @module components/syncPlay/core/timeSync/TimeSyncServer
  */
 
-import TimeSync from './timeSync';
+import TimeSync from './TimeSync';
 
 /**
  * Class that manages time syncing with server.

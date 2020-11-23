@@ -1,6 +1,6 @@
 /**
  * Module that replaces the PlaybackManager's queue.
- * @module components/syncPlay/players/queueManager
+ * @module components/syncPlay/ui/players/QueueManager
  */
 
 /**

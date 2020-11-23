@@ -1,6 +1,6 @@
 /**
  * Module that manages time syncing with another device.
- * @module components/syncPlay/core/timeSync/timeSync
+ * @module components/syncPlay/core/timeSync/TimeSync
  */
 
 import { Events } from 'jellyfin-apiclient';

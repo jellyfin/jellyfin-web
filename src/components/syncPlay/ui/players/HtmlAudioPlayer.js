@@ -1,14 +1,14 @@
 /**
  * Module that manages the HtmlAudioPlayer for SyncPlay.
- * @module components/syncPlay/players/htmlAudioPlayer
+ * @module components/syncPlay/ui/players/HtmlAudioPlayer
  */
 
-import SyncPlayHtmlVideoPlayer from './htmlVideoPlayer';
+import HtmlVideoPlayer from './HtmlVideoPlayer';
 
 /**
  * Class that manages the HtmlAudioPlayer for SyncPlay.
  */
-class SyncPlayHtmlAudioPlayer extends SyncPlayHtmlVideoPlayer {
+class HtmlAudioPlayer extends HtmlVideoPlayer {
     static type = 'htmlaudioplayer';
 
     constructor(player, syncPlayManager) {
@@ -16,4 +16,4 @@ class SyncPlayHtmlAudioPlayer extends SyncPlayHtmlVideoPlayer {
     }
 }
 
-export default SyncPlayHtmlAudioPlayer;
+export default HtmlAudioPlayer;

@@ -1,15 +1,15 @@
 /**
  * Module that manages the HtmlVideoPlayer for SyncPlay.
- * @module components/syncPlay/players/htmlVideoPlayer
+ * @module components/syncPlay/ui/players/HtmlVideoPlayer
  */
 
 import { Events } from 'jellyfin-apiclient';
-import SyncPlayNoActivePlayer from './noActivePlayer';
+import NoActivePlayer from './NoActivePlayer';
 
 /**
  * Class that manages the HtmlVideoPlayer for SyncPlay.
  */
-class SyncPlayHtmlVideoPlayer extends SyncPlayNoActivePlayer {
+class HtmlVideoPlayer extends NoActivePlayer {
     static type = 'htmlvideoplayer';
 
     constructor(player, syncPlayManager) {
@@ -152,4 +152,4 @@ class SyncPlayHtmlVideoPlayer extends SyncPlayNoActivePlayer {
     }
 }
 
-export default SyncPlayHtmlVideoPlayer;
+export default HtmlVideoPlayer;

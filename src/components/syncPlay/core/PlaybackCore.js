@@ -1,15 +1,15 @@
 /**
  * Module that manages the playback of SyncPlay.
- * @module components/syncPlay/core/playbackCore
+ * @module components/syncPlay/core/PlaybackCore
  */
 
 import { Events } from 'jellyfin-apiclient';
-import * as Helper from './helper';
+import * as Helper from './Helper';
 
 /**
  * Class that manages the playback of SyncPlay.
  */
-class SyncPlayPlaybackCore {
+class PlaybackCore {
     constructor() {
         this.manager = null;
         this.timeSyncCore = null;
@@ -29,7 +29,7 @@ class SyncPlayPlaybackCore {
 
     /**
      * Initializes the core.
-     * @param {SyncPlayManager} syncPlayManager The SyncPlay manager.
+     * @param {Manager} syncPlayManager The SyncPlay manager.
      */
     init(syncPlayManager) {
         this.manager = syncPlayManager;
@@ -574,4 +574,4 @@ class SyncPlayPlaybackCore {
     }
 }
 
-export default SyncPlayPlaybackCore;
+export default PlaybackCore;

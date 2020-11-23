@@ -1,6 +1,6 @@
 /**
  * Module that translates events from a player to SyncPlay events.
- * @module components/syncPlay/core/players/genericPlayer
+ * @module components/syncPlay/core/players/GenericPlayer
  */
 
 import { Events } from 'jellyfin-apiclient';
@@ -8,7 +8,7 @@ import { Events } from 'jellyfin-apiclient';
 /**
  * Class that translates events from a player to SyncPlay events.
  */
-class SyncPlayGenericPlayer {
+class GenericPlayer {
     static type = 'generic';
 
     constructor(player, syncPlayManager) {
@@ -302,4 +302,4 @@ class SyncPlayGenericPlayer {
     }
 }
 
-export default SyncPlayGenericPlayer;
+export default GenericPlayer;

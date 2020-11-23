@@ -1,22 +1,22 @@
 /**
  * Module that creates wrappers for known players.
- * @module components/syncPlay/core/players/factory
+ * @module components/syncPlay/core/players/PlayerFactory
  */
 
-import SyncPlayGenericPlayer from './genericPlayer';
+import GenericPlayer from './GenericPlayer';
 
 /**
  * Class that creates wrappers for known players.
  */
-class SyncPlayPlayerFactory {
+class PlayerFactory {
     constructor() {
         this.wrappers = {};
-        this.DefaultWrapper = SyncPlayGenericPlayer;
+        this.DefaultWrapper = GenericPlayer;
     }
 
     /**
      * Registers a wrapper to the list of players that can be managed.
-     * @param {SyncPlayGenericPlayer} wrapperClass The wrapper to register.
+     * @param {GenericPlayer} wrapperClass The wrapper to register.
      */
     registerWrapper(wrapperClass) {
         console.debug('SyncPlay WrapperFactory registerWrapper:', wrapperClass.type);
@@ -25,7 +25,7 @@ class SyncPlayPlayerFactory {
 
     /**
      * Sets the default player wrapper.
-     * @param {SyncPlayGenericPlayer} wrapperClass The wrapper.
+     * @param {GenericPlayer} wrapperClass The wrapper.
      */
     setDefaultWrapper(wrapperClass) {
         console.debug('SyncPlay WrapperFactory setDefaultWrapper:', wrapperClass.type);
@@ -68,6 +68,4 @@ class SyncPlayPlayerFactory {
     }
 }
 
-/** SyncPlayPlayerFactory singleton. */
-const playerFactory = new SyncPlayPlayerFactory();
-export default playerFactory;
+export default PlayerFactory;

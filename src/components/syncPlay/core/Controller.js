@@ -1,21 +1,21 @@
 /**
  * Module that exposes SyncPlay calls to external modules.
- * @module components/syncPlay/core/controller
+ * @module components/syncPlay/core/Controller
  */
 
-import * as Helper from './helper';
+import * as Helper from './Helper';
 
 /**
  * Class that exposes SyncPlay calls to external modules.
  */
-class SyncPlayController {
+class Controller {
     constructor() {
         this.manager = null;
     }
 
     /**
      * Initializes the controller.
-     * @param {SyncPlayManager} syncPlayManager The SyncPlay manager.
+     * @param {Manager} syncPlayManager The SyncPlay manager.
      */
     init(syncPlayManager) {
         this.manager = syncPlayManager;
@@ -218,4 +218,4 @@ class SyncPlayController {
     }
 }
 
-export default SyncPlayController;
+export default Controller;

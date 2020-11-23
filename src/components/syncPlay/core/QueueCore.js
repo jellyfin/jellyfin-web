@@ -1,14 +1,14 @@
 /**
  * Module that manages the queue of SyncPlay.
- * @module components/syncPlay/core/queueCore
+ * @module components/syncPlay/core/QueueCore
  */
 
-import * as Helper from './helper';
+import * as Helper from './Helper';
 
 /**
  * Class that manages the queue of SyncPlay.
  */
-class SyncPlayQueueCore {
+class QueueCore {
     constructor() {
         this.manager = null;
         this.lastPlayQueueUpdate = null;
@@ -17,7 +17,7 @@ class SyncPlayQueueCore {
 
     /**
      * Initializes the core.
-     * @param {SyncPlayManager} syncPlayManager The SyncPlay manager.
+     * @param {Manager} syncPlayManager The SyncPlay manager.
      */
     init(syncPlayManager) {
         this.manager = syncPlayManager;
@@ -369,4 +369,4 @@ class SyncPlayQueueCore {
     }
 }
 
-export default SyncPlayQueueCore;
+export default QueueCore;

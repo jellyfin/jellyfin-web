@@ -1,18 +1,18 @@
 /**
  * Module that manages the PlaybackManager when there's no active player.
- * @module components/syncPlay/players/genericPlayer
+ * @module components/syncPlay/ui/players/NoActivePlayer
  */
 
 import { playbackManager } from '../../../playback/playbackmanager';
 import SyncPlay from 'SyncPlay';
-import QueueManager from './queueManager';
+import QueueManager from './QueueManager';
 
 let syncPlayManager;
 
 /**
  * Class that manages the PlaybackManager when there's no active player.
  */
-class SyncPlayNoActivePlayer extends SyncPlay.Players.GenericPlayer {
+class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     static type = 'default';
 
     constructor(player, _syncPlayManager) {
@@ -143,25 +143,25 @@ class SyncPlayNoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's sendCommand method.
      */
-    sendCommandRequest(cmd, player) {
-        console.debug('SyncPlay sendCommand:', cmd.Name, cmd);
+    sendCommandRequest(command, player) {
+        console.debug('SyncPlay sendCommand:', command.Name, command);
         const controller = syncPlayManager.getController();
         const playerWrapper = syncPlayManager.getPlayerWrapper();
 
-        const defaultAction = (command, player) => {
-            playerWrapper.localSendCommand(command);
+        const defaultAction = (_command, _player) => {
+            playerWrapper.localSendCommand(_command);
         };
 
-        const ignoreCallback = (command, player) => {
+        const ignoreCallback = (_command, _player) => {
             // Do nothing.
         };
 
-        const SetRepeatModeCallback = (command, player) => {
-            controller.setRepeatMode(command.Arguments.RepeatMode);
+        const SetRepeatModeCallback = (_command, _player) => {
+            controller.setRepeatMode(_command.Arguments.RepeatMode);
         };
 
-        const SetShuffleQueueCallback = (command, player) => {
-            controller.setShuffleMode(command.Arguments.ShuffleMode);
+        const SetShuffleQueueCallback = (_command, _player) => {
+            controller.setShuffleMode(_command.Arguments.ShuffleMode);
         };
 
         // Commands to override.
@@ -172,11 +172,11 @@ class SyncPlayNoActivePlayer extends SyncPlay.Players.GenericPlayer {
         };
 
         // Handle command.
-        const commandHandler = overrideCommands[cmd.Name];
+        const commandHandler = overrideCommands[command.Name];
         if (typeof commandHandler === 'function') {
-            commandHandler(cmd, player);
+            commandHandler(command, player);
         } else {
-            defaultAction(cmd, player);
+            defaultAction(command, player);
         }
     }
 
@@ -441,4 +441,4 @@ class SyncPlayNoActivePlayer extends SyncPlay.Players.GenericPlayer {
     }
 }
 
-export default SyncPlayNoActivePlayer;
+export default NoActivePlayer;

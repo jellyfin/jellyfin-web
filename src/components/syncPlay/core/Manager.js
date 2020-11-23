@@ -1,27 +1,31 @@
 /**
  * Module that manages the SyncPlay feature.
- * @module components/syncPlay/core/manager
+ * @module components/syncPlay/core/Manager
  */
 
 import { Events } from 'jellyfin-apiclient';
-import * as Helper from './helper';
-import PlayerFactory from './players/factory';
-import TimeSyncCore from './timeSync/core';
-import SyncPlayPlaybackCore from './playbackCore';
-import SyncPlayQueueCore from './queueCore';
-import SyncPlayController from './controller';
+import * as Helper from './Helper';
+import TimeSyncCore from './timeSync/TimeSyncCore';
+import PlaybackCore from './PlaybackCore';
+import QueueCore from './QueueCore';
+import Controller from './Controller';
 
 /**
  * Class that manages the SyncPlay feature.
  */
-class SyncPlayManager {
-    constructor() {
+class Manager {
+    /**
+     * Creates an instance of SyncPlay Manager.
+     * @param {PlayerFactory} playerFactory The PlayerFactory instance.
+     */
+    constructor(playerFactory) {
+        this.playerFactory = playerFactory;
         this.apiClient = null;
 
         this.timeSyncCore = new TimeSyncCore();
-        this.playbackCore = new SyncPlayPlaybackCore();
-        this.queueCore = new SyncPlayQueueCore();
-        this.controller = new SyncPlayController();
+        this.playbackCore = new PlaybackCore();
+        this.queueCore = new QueueCore();
+        this.controller = new Controller();
 
         this.syncMethod = 'None'; // Used for stats.
 
@@ -49,7 +53,7 @@ class SyncPlayManager {
         this.apiClient = apiClient;
 
         // Get default player wrapper.
-        this.playerWrapper = PlayerFactory.getDefaultWrapper(this);
+        this.playerWrapper = this.playerFactory.getDefaultWrapper(this);
 
         // Initialize components.
         this.timeSyncCore.init(this);
@@ -77,7 +81,7 @@ class SyncPlayManager {
 
     /**
      * Gets the playback core.
-     * @returns {SyncPlayPlaybackCore} The playback core.
+     * @returns {PlaybackCore} The playback core.
      */
     getPlaybackCore() {
         return this.playbackCore;
@@ -85,7 +89,7 @@ class SyncPlayManager {
 
     /**
      * Gets the queue core.
-     * @returns {SyncPlayQueueCore} The queue core.
+     * @returns {QueueCore} The queue core.
      */
     getQueueCore() {
         return this.queueCore;
@@ -93,7 +97,7 @@ class SyncPlayManager {
 
     /**
      * Gets the controller used to manage SyncPlay playback.
-     * @returns {SyncPlayController} The controller.
+     * @returns {Controller} The controller.
      */
     getController() {
         return this.controller;
@@ -144,7 +148,7 @@ class SyncPlayManager {
         this.playerWrapper.unbindFromPlayer();
 
         this.currentPlayer = player;
-        this.playerWrapper = PlayerFactory.getWrapper(player, this);
+        this.playerWrapper = this.playerFactory.getWrapper(player, this);
 
         if (this.isSyncPlayEnabled()) {
             this.playerWrapper.bindToPlayer();
@@ -160,7 +164,7 @@ class SyncPlayManager {
         this.currentPlayer = null;
         this.playerWrapper.unbindFromPlayer();
 
-        this.playerWrapper = PlayerFactory.getDefaultWrapper(this);
+        this.playerWrapper = this.playerFactory.getDefaultWrapper(this);
         if (this.isSyncPlayEnabled()) {
             this.playerWrapper.bindToPlayer();
         }
@@ -474,6 +478,4 @@ class SyncPlayManager {
     }
 }
 
-/** SyncPlayManager singleton. */
-const syncPlayManager = new SyncPlayManager();
-export default syncPlayManager;
+export default Manager;

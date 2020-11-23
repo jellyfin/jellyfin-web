@@ -33,9 +33,9 @@ import '../components/playback/playerSelectionMenu';
 import SyncPlay from 'SyncPlay';
 import { playbackManager } from '../components/playback/playbackmanager';
 import SyncPlayToasts from '../components/syncPlay/ui/syncPlayToasts';
-import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/noActivePlayer';
-import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/htmlVideoPlayer';
-import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/htmlAudioPlayer';
+import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/NoActivePlayer';
+import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideoPlayer';
+import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {

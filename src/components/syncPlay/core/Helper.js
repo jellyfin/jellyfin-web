@@ -1,6 +1,6 @@
 /**
  * Module that offers some utility functions.
- * @module components/syncPlay/core/helper
+ * @module components/syncPlay/core/Helper
  */
 
 import { Events } from 'jellyfin-apiclient';
@@ -156,9 +156,7 @@ export function translateItemsForPlayback(apiClient, items, options) {
             SortBy: options.shuffle ? 'Random' : 'SortName',
             MediaTypes: 'Photo,Video'
         }).then(function (result) {
-            const items = result.Items;
-
-            let index = items.map(function (i) {
+            let index = result.Items.map(function (i) {
                 return i.Id;
             }).indexOf(firstItem.Id);
 
