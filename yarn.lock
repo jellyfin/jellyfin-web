@@ -1365,11 +1365,6 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-alameda@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/alameda/-/alameda-1.4.0.tgz#ca53cad0feb5e24994a9be859e0593e8c2d8f58c"
-  integrity sha512-d6nIRyg4SD/zBupcfZ3lUis58l4H/3U7c1RBtFkcz/7u1dDIQwx26KUvKJ35esOVP6WsAjmRoP2VQ39kQZT/Gg==
-
 alphanum-sort@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
