@@ -6,7 +6,6 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const Assets = [
-    'alameda/alameda.js',
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
     'libass-wasm/dist/js/subtitles-octopus-worker.js',
