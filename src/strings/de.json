@@ -1459,5 +1459,12 @@
     "HeaderNetworking": "IP-Protokolle",
     "HeaderAutoDiscovery": "Netzwerkerkennung",
     "HeaderAddUser": "Benutzer hinzufügen",
-    "HeaderAddUpdateSubtitle": "Untertitel hinzufügen/aktualisieren"
+    "HeaderAddUpdateSubtitle": "Untertitel hinzufügen/aktualisieren",
+    "LabelSSDPTracingFilterHelp": "Optionale IP-Adresse zum Filtern des protokollierten SSDP-Verkehrs.",
+    "LabelSSDPTracingFilter": "",
+    "LabelPublishedServerUriHelp": "Überschreibe die von Jellyfin genutzte URI auf Basis des Interfaces oder der IP-Adresse des Clients.",
+    "LabelPublishedServerUri": "Veröffentlichte Server-URI's:",
+    "LabelEnableSSDPTracingHelp": "Aktiviere detailreiche SSDP Netzwerkverfolgung-Logs.<br/><b>WARNUNG:</b> Dies wird erhebliche Einbüßungen in der Leistung hervorrufen.",
+    "LabelEnableSSDPTracing": "Aktiviere SSDP Verfolgung:",
+    "HeaderDebugging": "Fehler Testen und Verfolgen"
 }
