@@ -65,9 +65,7 @@ import 'webcomponents.js/webcomponents-lite';
         const uncheckedHtml = '<span class="material-icons checkboxIcon checkboxIcon-unchecked ' + uncheckedIcon + '"></span>';
         labelElement.insertAdjacentHTML('beforeend', '<span class="' + outlineClass + '">' + checkHtml + uncheckedHtml + '</span>');
 
-        if (labelTextElement) {
-            labelTextElement.classList.add('checkboxLabel');
-        }
+        labelTextElement.classList.add('checkboxLabel');
 
         this.addEventListener('keydown', onKeyDown);
 
