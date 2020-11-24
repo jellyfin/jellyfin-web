@@ -1007,7 +1007,7 @@
     "Whitelist": "Whitelist",
     "UserAgentHelp": "Zadajte vlastnú HTTP hlavičku pre user agenta.",
     "TitleHostingSettings": "Nastavenie hostingu",
-    "Thumb": "Náhľad",
+    "Thumb": "Thumb",
     "TheseSettingsAffectSubtitlesOnThisDevice": "Toto nastavenie ovplyvní titulky na tomto zariadení",
     "TabNetworking": "Sieť",
     "SystemDlnaProfilesHelp": "Systémové profily sú len na čítanie. Zmeny systémových profilov budú uložené do nového vlastné profilu.",
@@ -1199,7 +1199,7 @@
     "LabelKodiMetadataUser": "Ukladá dáta používateľa o pozeraní do NFO súboru pre:",
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Povoľuje nahradenie ciest k obrázkom pomocou nastavenej cesty serveru pre nahradené cesty.",
     "LabelKodiMetadataEnablePathSubstitution": "Povoliť nahradenie ciest",
-    "LabelKodiMetadataEnableExtraThumbsHelp": "Sťahované obrázky môžu byť ukladané do oboch extrafanart a extrathumbs pre zaistenie čo najväčšej kompatibility s Kodi skinmi.",
+    "LabelKodiMetadataEnableExtraThumbsHelp": "Sťahované obrázky môžu byť ukladané do oboch extrafanart a extrathumbs pre zaistenie čo najväčšej kompatibility so vzhľadmi Kodi.",
     "LabelKodiMetadataEnableExtraThumbs": "Kopírovať extrafanart do extrathumbs",
     "LabelKodiMetadataDateFormatHelp": "Všetky dátumy z NFO súboru budú prenesené s použitím tohoto formátu.",
     "LabelInternetQuality": "Internetová kvalita:",
@@ -1360,5 +1360,6 @@
     "EnableAutoCast": "Nastaviť ako predvolený",
     "DeleteDevicesConfirmation": "Naozaj chcete odstrániť všetky zariadenia? Všetky ostatné relácie budú odhlásené. Zariadenia sa znovu objavia až pri ďalšom prihlásení.",
     "DeleteAll": "Zmazať všetko",
-    "Data": "Údaje"
+    "Data": "Údaje",
+    "ThumbCard": "Thumb karta"
 }
