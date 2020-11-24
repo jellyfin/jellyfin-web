@@ -29,23 +29,46 @@ export async function serverAddress() {
     // if (current) return Promise.resolve(current);
 
     const urls = [];
+    if (window.location.href.indexOf('/web/') !== -1) {
+        const split = window.location.href.split('/web/');
+
+        for (let i = split.length - 1; i > 0; i--) {
+            urls.push(split.slice(0, i).join('/web/'));
+        }
+    }
     urls.push(window.location.origin);
     urls.push(`https://${window.location.hostname}:8920`);
-    urls.push(...await webSettings.getServers());
 
     if (window.location.protocol === 'http') {
         urls.push(`http://${window.location.hostname}:8096`);
     }
 
+    urls.push(...await webSettings.getServers());
+
+    console.debug('URL candidates:', urls);
+
     const promises = urls.map(url => {
-        return fetch(`${url}/System/Info/Public`).then(resp => url).catch(error => {
+        return fetch(`${url}/System/Info/Public`).then(resp => {
+            return {
+                url: url,
+                response: resp
+            };
+        }).catch(error => {
             return Promise.resolve();
         });
     });
 
     return Promise.all(promises).then(responses => {
-        responses = responses.filter(response => response);
-        return responses[0];
+        responses = responses.filter(obj => obj && obj.response.ok);
+        return Promise.all(responses.map(obj => {
+            return {
+                url: obj.url,
+                config: obj.response.json()
+            };
+        }));
+    }).then(configs => {
+        const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
+        return Promise.resolve(selection.url);
     }).catch(error => {
         console.log(error);
         return Promise.resolve();
