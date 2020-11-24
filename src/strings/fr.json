@@ -1433,8 +1433,8 @@
     "DeleteAll": "Tout supprimer",
     "EnableFallbackFont": "Activer les polices de secours",
     "EnableFallbackFontHelp": "Activer des polices alternatives personnalisées. Ceci peut éviter les problèmes de rendu incorrect des sous-titres.",
-    "LabelFallbackFontPathHelp": "Spécifiez un chemin contenant les polices de remplacement pour le rendu des sous-titres ASS / SSA. La taille de police totale maximale autorisée est de 20 Mo. Les formats de police légers et conviviaux pour le Web tels que woff2 sont recommandés.",
-    "LabelFallbackFontPath": "Chemin du dossier des polices de secours :",
+    "LabelFallbackFontPathHelp": "Spécifiez un chemin contenant les polices de secours pour le rendu des sous-titres ASS / SSA. La taille de police totale maximale autorisée est de 20 Mo. Les formats de police légers et adaptés au web tels que woff2 sont recommandés.",
+    "LabelFallbackFontPath": "Chemin du dossier de secours des polices :",
     "HeaderSelectFallbackFontPathHelp": "Parcourez ou entrez le chemin du dossier de polices de secours à utiliser pour le rendu des sous-titres ASS/SSA.",
     "HeaderSelectFallbackFontPath": "Sélectionnez le dossier des polices de secours",
     "LabelH265Crf": "CRF d'encodage H265 :",
@@ -1483,5 +1483,7 @@
     "Remuxing": "Remuxing",
     "RemuxHelp1": "Le média est dans un conteneur incompatible (MKV, AVI, WMV, etc.), mais les deux flux vidéos et audio sont compatibles avec l'appareil. Le média va être reconditionné sans perte, à la volée, avant d'être envoyé vers l'appareil.",
     "LabelHDHomerunPortRangeHelp": "Restreint la plage de ports UDP pour HD Homerun à cette valeur. (La valeur par défaut est 1024 - 645535).",
-    "LabelHDHomerunPortRange": "Plage de ports HD Homerun :"
+    "LabelHDHomerunPortRange": "Plage de ports HD Homerun :",
+    "PreferFmp4HlsContainerHelp": "Préférer l'utilisation de fMP4 comme conteneur pour HLS, rendant possible la lecture en direct de flux HEVC sur les appareils compatibles.",
+    "LabelPublishedServerUriHelp": "Outrepasser l'URI utilisée par Jellyfin, basée sur l'interface, ou adresse IP du client."
 }
