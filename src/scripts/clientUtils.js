@@ -67,7 +67,7 @@ export async function serverAddress() {
             };
         }));
     }).then(configs => {
-        let selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
+        const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
         return Promise.resolve(selection.url);
     }).catch(error => {
         console.log(error);
