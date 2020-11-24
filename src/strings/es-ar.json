@@ -1444,7 +1444,7 @@
     "LabelPublishedServerUri": "Publicar las URLs del Servidor:",
     "LabelIsForced": "Forzados",
     "LabelHDHomerunPortRangeHelp": "Restringir el rango de puertos UDP para HD Homerun a estos valores. (Por defecto de 1024 - 645535).",
-    "LabelHDHomerunPortRange": "Rango de HD Homerun:",
+    "LabelHDHomerunPortRange": "Rango de puertos HD Homerun:",
     "LabelH265Crf": "Codificación CRF para H265:",
     "LabelEnableSSDPTracingHelp": "Habilita detalles del rastreo de red SSDP para ser registrados. <br/><b>ATENCIÓN:</b> Esto causara degradación de la perfomance.",
     "LabelEnableSSDPTracing": "Habilitar Registro SSDP:",
