@@ -29,10 +29,10 @@ export async function serverAddress() {
     // if (current) return Promise.resolve(current);
 
     const urls = [];
-    if (window.location.href.indexOf('/web/') !== -1) { // Do we polyfill String.prototype.includes?
+    if (window.location.href.indexOf('/web/') !== -1) {
         const split = window.location.href.split('/web/');
 
-        for (let i = split.length - 1; i ; i--) {
+        for (let i = split.length - 1; i > 0; i--) {
             urls.push(split.slice(0, i).join('/web/'));
         }
     }
@@ -45,7 +45,7 @@ export async function serverAddress() {
 
     urls.push(...await webSettings.getServers());
 
-    console.log('URL candidates:', urls);
+    console.debug('URL candidates:', urls);
 
     const promises = urls.map(url => {
         return fetch(`${url}/System/Info/Public`).then(resp => {
@@ -67,8 +67,7 @@ export async function serverAddress() {
             };
         }));
     }).then(configs => {
-        let selection = configs.find(obj => !obj.config.StartupWizardCompleted);
-        if (!selection) selection = configs[0];
+        let selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
         return Promise.resolve(selection.url);
     }).catch(error => {
         console.log(error);
