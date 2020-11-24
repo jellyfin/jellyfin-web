@@ -1191,5 +1191,7 @@
     "LabelCachePathHelp": "Määritä välimuistitiedostojen, kuten kuvien, polku. Jätä tyhjäksi käyttääksesi palvelimen oletusarvoa.",
     "LabelBlastMessageIntervalHelp": "Määrittää ajan sekunteina jokaisen \"Olen elossa\" -viestin välillä.",
     "LabelBindToLocalNetworkAddressHelp": "Korvaa HTTP-palvelimen paikallinen IP-osoite. Jos se on tyhjä, palvelin linkitetään kaikkiin käytettävissä oleviin osoitteisiin. Tämän arvon muuttaminen edellyttää uudelleenkäynnistystä.",
-    "LabelDefaultUserHelp": "Määrittää käyttäjän kirjaston, joka näytetään liitetyissä laitteissa. Tätä asetusta voidaan muuttaa laitekohtaisesti laiteprofiilin avulla."
+    "LabelDefaultUserHelp": "Määrittää käyttäjän kirjaston, joka näytetään liitetyissä laitteissa. Tätä asetusta voidaan muuttaa laitekohtaisesti laiteprofiilin avulla.",
+    "ClearQueue": "Tyhjennä jono",
+    "ButtonPlayer": "Soitin"
 }
