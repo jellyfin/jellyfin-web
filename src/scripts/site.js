@@ -125,13 +125,13 @@ function loadPlugins() {
     console.groupCollapsed('loading installed plugins');
     console.dir(pluginManager);
     return getPlugins().then(function (list) {
-        // these two plugins are dependent on features
         if (!appHost.supports('remotecontrol')) {
+            // Disable remote player plugins if not supported
             list.splice(list.indexOf('sessionPlayer'), 1);
-
-            if (!browser.chrome && !browser.opera) {
-                list.splice(list.indexOf('chromecastPlayer', 1));
-            }
+            list.splice(list.indexOf('chromecastPlayer'), 1);
+        } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
+            // Disable chromecast player in unsupported browsers
+            list.splice(list.indexOf('chromecastPlayer'), 1);
         }
 
         // add any native plugins
