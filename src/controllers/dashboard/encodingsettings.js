@@ -172,6 +172,8 @@ import alert from '../../components/alert';
                 page.querySelector('#txtOpenclDevice').setAttribute('required', 'required');
                 page.querySelector('.tonemappingOptions').classList.remove('hide');
             } else if (this.value == 'vaapi') {
+                page.querySelector('.fldOpenclDevice').classList.add('hide');
+                page.querySelector('#txtOpenclDevice').removeAttribute('required');
                 page.querySelector('.tonemappingOptions').classList.remove('hide');
             } else {
                 page.querySelector('.fldOpenclDevice').classList.add('hide');
