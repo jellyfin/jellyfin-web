@@ -1486,5 +1486,5 @@
     "LabelPublishedServerUriHelp": "Ghi đè URI được Jellyfin dùng, dựa trên giao diện hoặc địa chỉ IP của ứng dụng khách.",
     "LabelPublishedServerUri": "URI Máy Chủ Đã Công Bố:",
     "LabelHDHomerunPortRangeHelp": "Giới hạn phạm vi cổng HD Homerun UDP ở giá trị này. (Mặc định là 1024 - 645535).",
-    "LabelHDHomerunPortRange": "Phạm Vi Homerun HD:"
+    "LabelHDHomerunPortRange": "Dải cổng Homerun HD:"
 }
