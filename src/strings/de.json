@@ -1466,5 +1466,19 @@
     "LabelPublishedServerUri": "Veröffentlichte Server-URI's:",
     "LabelEnableSSDPTracingHelp": "Aktiviere detailreiche SSDP Netzwerkverfolgung-Logs.<br/><b>WARNUNG:</b> Dies wird erhebliche Einbüßungen in der Leistung hervorrufen.",
     "LabelEnableSSDPTracing": "Aktiviere SSDP Verfolgung:",
-    "HeaderDebugging": "Fehler Testen und Verfolgen"
+    "HeaderDebugging": "Fehler Testen und Verfolgen",
+    "AllowHevcEncoding": "Erlaube Codierung im HEVC-Format",
+    "PreferFmp4HlsContainerHelp": "Bevorzuge den fMP4 als Standardcontainer für HLS zu verwenden, damit HEVC-Inhalte direkt auf unterstützten Geräten gestreamt werden können.",
+    "PreferFmp4HlsContainer": "Bevorzuge den fMP4-HLS Mediencontainer",
+    "LabelDirectStreamingInfo": "Direkte Streaming-Informationen",
+    "LabelTranscodingInfo": "Transcodierungsinfo",
+    "LabelVideoInfo": "Videoinformationen",
+    "LabelAudioInfo": "Audioinformationen",
+    "RemuxHelp2": "Remux verbraucht sehr wenig Rechenleistung bei einer völlig verlustfreien Medienqualität.",
+    "RemuxHelp1": "Das Medium befindet sich in einem inkompatiblen Dateicontainer (MKV, AVI, WMV, usw.), aber sowohl Video- als auch der Audiosteam sind mit dem Gerät kompatibel. Die Medien werden verlustfrei im laufenden Betrieb neu verpackt, bevor die an das Gerät gesendet werden.",
+    "PluginFromRepo": "{0} aus dem Repository {1}",
+    "LabelUDPPortRangeHelp": "Beschränkt Jellyfin auf die Verwendung dieses Portbereichs beim Herstellen von UDP-Verbindungen. (Standard ist 1024 - 645535).<br/> Hinweis: Für bestimmte Funktionen sind feste Ports erforderlich, die möglicherweise außerhalb dieses Bereichs liegen.",
+    "LabelUDPPortRange": "UDP-Kommunikationsbereich:",
+    "LabelHDHomerunPortRangeHelp": "Beschränkt den HD Homerun UDP-Portbereich zu diesem Wert. (Standard ist 1024 - 645535).",
+    "LabelHDHomerunPortRange": "HD Homerun Portbereich:"
 }
