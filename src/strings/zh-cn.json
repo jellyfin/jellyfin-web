@@ -1467,7 +1467,7 @@
     "LabelPublishedServerUriHelp": "根据接口或客户端 IP 地址覆盖 Jellyfin 使用的 URI。",
     "LabelIsForced": "强制的",
     "LabelHDHomerunPortRangeHelp": "将 HD Homerun 的 UDP 端口范围限制为该值。（默认值为 1024 - 645535）。",
-    "LabelHDHomerunPortRange": "HD Homerun 范围：",
+    "LabelHDHomerunPortRange": "HD Homerun 端口范围：",
     "LabelEnableSSDPTracing": "启用 SSDP 跟踪：",
     "LabelEnableIP6Help": "启用 IPv6 功能。",
     "LabelEnableIP6": "启用 IPv6：",
