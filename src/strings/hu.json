@@ -1462,7 +1462,7 @@
     "LabelMaxMuxingQueueSize": "Maximális muxing sor méret:",
     "LabelIsForced": "Kényszerített",
     "LabelHDHomerunPortRangeHelp": "Erre az értékre korlátozza a HD Homerun UDP porttartományt. (Alapértelmezés szerint 1024 - 645535).",
-    "LabelHDHomerunPortRange": "HD Homerun tartomány:",
+    "LabelHDHomerunPortRange": "HD Homerun port tartomány:",
     "LabelH265Crf": "CRF-Dekódoló H265:",
     "LabelEnableSSDPTracingHelp": "Engedélyezze az SSDP hálózati nyomon követésének naplózását.<br/><b>FIGYELEM:</b> Ez komoly teljesítményromlást okoz.",
     "LabelEnableSSDPTracing": "Az SSDP nyomkövetés engedélyezése:",
