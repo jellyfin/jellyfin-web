@@ -1447,5 +1447,6 @@
     "VideoAudio": "Video Zvuk",
     "Video": "Video",
     "AllowTonemappingHelp": "Mapovanie tónov umožňuje zmeniť dynamicky rozsah videa z HDR na SDR bez straty veľmi dôležitých informácií o pôvodnom obraze, ako napr. detaily a farby. V súčastnosti táto funkcia funguje len pri prekódovaní videa s vloženými HDR10 alebo HLG metadátami. Pokiaľ nie je prehrávanie plynulé alebo vôbec nefunguje, skúste vypnúť príslušný hardvérový dekodér.",
-    "LabelTonemappingThresholdHelp": "Parametre algoritmu mapovania tónov sú prispôsobené jednotlivým scénam. A tento prah sa používa na zistenie, či sa scéna zmenila alebo nie. Pokiaľ rozdiel medzi súčasnou priemernou svetlosťou snímku a priebežným priemerom tento prah prekročí, bude priemerná a vrchná svetlosť scény prepočítaná. Doporučené a predvolené hodnoty sú 0.8 a 0.2."
+    "LabelTonemappingThresholdHelp": "Parametre algoritmu mapovania tónov sú prispôsobené jednotlivým scénam. A tento prah sa používa na zistenie, či sa scéna zmenila alebo nie. Pokiaľ rozdiel medzi súčasnou priemernou svetlosťou snímku a priebežným priemerom tento prah prekročí, bude priemerná a vrchná svetlosť scény prepočítaná. Doporučené a predvolené hodnoty sú 0.8 a 0.2.",
+    "LabelUDPPortRangeHelp": "Obmedzí UDP pripojenie Jellyfinu na tento rozsah. (Predvolená hodnota je 1024 - 645535).<br/> Poznámka: Niektoré funkcie vyžadujú určité porty, ktoré sa môžu nachádzať mimo tohto rozsahu."
 }
