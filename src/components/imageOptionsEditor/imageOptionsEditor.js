@@ -90,7 +90,7 @@ import template from './imageOptionsEditor.template.html';
         });
     }
 
-    async function showEditor(itemType, options, availableOptions) {
+    function showEditor(itemType, options, availableOptions) {
         const dlg = dialogHelper.createDialog({
             size: 'small',
             removeOnClose: true,
