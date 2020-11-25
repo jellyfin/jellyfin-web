@@ -375,7 +375,7 @@ function onOpenUploadMenu(e) {
     });
 }
 
-function showEditorInternal(itemId, serverId, template) {
+function showEditorInternal(itemId, serverId) {
     hasChanges = false;
 
     const apiClient = ServerConnections.getApiClient(serverId);
@@ -454,9 +454,7 @@ function showEditorInternal(itemId, serverId, template) {
 function showEditor(itemId, serverId) {
     loading.show();
 
-    return new Promise(function (resolve, reject) {
-        showEditorInternal(itemId, serverId, template).then(resolve, reject);
-    });
+    return showEditorInternal(itemId, serverId);
 }
 
 export default {

@@ -1092,17 +1092,17 @@ function Guide(options) {
         }
     }
 
-    const context = options.element;
+    const guideContext = options.element;
 
-    context.classList.add('tvguide');
+    guideContext.classList.add('tvguide');
 
-    context.innerHTML = globalize.translateHtml(template, 'core');
+    guideContext.innerHTML = globalize.translateHtml(template, 'core');
 
-    const programGrid = context.querySelector('.programGrid');
-    const timeslotHeaders = context.querySelector('.timeslotHeaders');
+    const programGrid = guideContext.querySelector('.programGrid');
+    const timeslotHeaders = guideContext.querySelector('.timeslotHeaders');
 
     if (layoutManager.tv) {
-        dom.addEventListener(context.querySelector('.guideVerticalScroller'), 'focus', onScrollerFocus, {
+        dom.addEventListener(guideContext.querySelector('.guideVerticalScroller'), 'focus', onScrollerFocus, {
             capture: true,
             passive: true
         });
@@ -1111,43 +1111,43 @@ function Guide(options) {
     }
 
     if (browser.iOS || browser.osx) {
-        context.querySelector('.channelsContainer').classList.add('noRubberBanding');
+        guideContext.querySelector('.channelsContainer').classList.add('noRubberBanding');
 
         programGrid.classList.add('noRubberBanding');
     }
 
     dom.addEventListener(programGrid, 'scroll', function (e) {
-        onProgramGridScroll(context, this, timeslotHeaders);
+        onProgramGridScroll(guideContext, this, timeslotHeaders);
     }, {
         passive: true
     });
 
     dom.addEventListener(timeslotHeaders, 'scroll', function () {
-        onTimeslotHeadersScroll(context, this);
+        onTimeslotHeadersScroll(guideContext, this);
     }, {
         passive: true
     });
 
     programGrid.addEventListener('click', onProgramGridClick);
 
-    context.querySelector('.btnNextPage').addEventListener('click', function () {
+    guideContext.querySelector('.btnNextPage').addEventListener('click', function () {
         currentStartIndex += currentChannelLimit;
-        reloadPage(context);
+        reloadPage(guideContext);
         restartAutoRefresh();
     });
 
-    context.querySelector('.btnPreviousPage').addEventListener('click', function () {
+    guideContext.querySelector('.btnPreviousPage').addEventListener('click', function () {
         currentStartIndex = Math.max(currentStartIndex - currentChannelLimit, 0);
-        reloadPage(context);
+        reloadPage(guideContext);
         restartAutoRefresh();
     });
 
-    context.querySelector('.btnGuideViewSettings').addEventListener('click', function () {
+    guideContext.querySelector('.btnGuideViewSettings').addEventListener('click', function () {
         showViewSettings(self);
         restartAutoRefresh();
     });
 
-    context.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
+    guideContext.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
         const allTabButtons = e.target.querySelectorAll('.guide-date-tab-button');
 
         const tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex)];
@@ -1176,12 +1176,12 @@ function Guide(options) {
             let startTimeOfDayMs = (date.getHours() * 60 * 60 * 1000);
             startTimeOfDayMs += (date.getMinutes() * 60 * 1000);
 
-            changeDate(context, date, scrollToTimeMs, scrollToTimeMs, startTimeOfDayMs, false);
+            changeDate(guideContext, date, scrollToTimeMs, scrollToTimeMs, startTimeOfDayMs, false);
         }
     });
 
-    setScrollEvents(context, true);
-    itemShortcuts.on(context);
+    setScrollEvents(guideContext, true);
+    itemShortcuts.on(guideContext);
 
     Events.trigger(self, 'load');
 

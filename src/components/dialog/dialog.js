@@ -13,7 +13,7 @@ import template from './dialog.template.html';
 
 /* eslint-disable indent */
 
-    function showDialog(options, template) {
+    function showDialog(options) {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -129,9 +129,7 @@ import template from './dialog.template.html';
             options = text;
         }
 
-        return new Promise((resolve, reject) => {
-            showDialog(options, template).then(resolve, reject);
-        });
+        return showDialog(options);
     }
 
 /* eslint-enable indent */

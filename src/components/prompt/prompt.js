@@ -28,7 +28,7 @@ export default (() => {
         txtInput.value = options.value || '';
     }
 
-    function showDialog(options, template) {
+    function showDialog(options) {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -117,15 +117,13 @@ export default (() => {
         };
     } else {
         return options => {
-            return new Promise((resolve, reject) => {
-                if (typeof options === 'string') {
-                    options = {
-                        title: '',
-                        text: options
-                    };
-                }
-                showDialog(options, template).then(resolve, reject);
-            });
+            if (typeof options === 'string') {
+                options = {
+                    title: '',
+                    text: options
+                };
+            }
+            return showDialog(options);
         };
     }
 })();

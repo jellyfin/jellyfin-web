@@ -163,7 +163,7 @@ import template from './itemMediaInfo.template.html';
         return `<span class="mediaInfoLabel">${label}</span><span class="mediaInfoAttribute">${value}</span>`;
     }
 
-    function loadMediaInfo(itemId, serverId, template) {
+    function loadMediaInfo(itemId, serverId) {
         const apiClient = ServerConnections.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
             const dialogOptions = {
@@ -195,9 +195,7 @@ import template from './itemMediaInfo.template.html';
 
     export function show(itemId, serverId) {
         loading.show();
-        return new Promise((resolve, reject) => {
-            loadMediaInfo(itemId, serverId, template).then(resolve, reject);
-        });
+        return loadMediaInfo(itemId, serverId);
     }
 
 /* eslint-enable indent */
