@@ -16,7 +16,6 @@ import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import template from './filtermenu.template.html';
 
-
 function onSubmit(e) {
     e.preventDefault();
     return false;

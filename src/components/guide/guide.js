@@ -27,7 +27,6 @@ import 'webcomponents.js/webcomponents-lite';
 import ServerConnections from '../ServerConnections';
 import template from './tvguide.template.html';
 
-
 function showViewSettings(instance) {
     import('./guide-settings').then(({default: guideSettingsDialog}) => {
         guideSettingsDialog.show(instance.categoryOptions).then(function () {
@@ -144,7 +143,6 @@ function Guide(options) {
     let autoRefreshInterval;
     let programCells;
     let lastFocusDirection;
-    let programGrid;
 
     self.refresh = function () {
         currentDate = null;
@@ -1100,7 +1098,7 @@ function Guide(options) {
 
     context.innerHTML = globalize.translateHtml(template, 'core');
 
-    programGrid = context.querySelector('.programGrid');
+    const programGrid = context.querySelector('.programGrid');
     const timeslotHeaders = context.querySelector('.timeslotHeaders');
 
     if (layoutManager.tv) {
