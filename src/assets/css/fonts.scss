@@ -5,7 +5,7 @@
 }
 
 html {
-    @include font;
+    @include font($size: 93%);
     text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
