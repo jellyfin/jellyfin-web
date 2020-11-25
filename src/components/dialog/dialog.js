@@ -118,7 +118,7 @@ import template from './dialog.template.html';
         });
     }
 
-    export async function show(text, title) {
+    export function show(text, title) {
         let options;
         if (typeof text === 'string') {
             options = {
