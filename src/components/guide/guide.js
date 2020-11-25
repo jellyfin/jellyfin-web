@@ -772,13 +772,13 @@ function Guide(options) {
     let lastGridScroll = 0;
     let lastHeaderScroll = 0;
     let scrollXPct = 0;
-    function onProgramGridScroll(context, elem, timeslotHeaders) {
+    function onProgramGridScroll(context, elem, headers) {
         if ((new Date().getTime() - lastHeaderScroll) >= 1000) {
             lastGridScroll = new Date().getTime();
 
             const scrollLeft = elem.scrollLeft;
             scrollXPct = (scrollLeft * 100) / elem.scrollWidth;
-            nativeScrollTo(timeslotHeaders, scrollLeft, true);
+            nativeScrollTo(headers, scrollLeft, true);
         }
 
         updateProgramCellsOnScroll(elem, programCells);
