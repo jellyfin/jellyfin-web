@@ -46,7 +46,11 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
     html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
-    html += '<span class="cardImageIcon material-icons folder"></span>';
+    if (plugin.ImageUrl) {
+        html += '<span class="cardImageIcon"><img src="/Plugins/' + plugin.Id + '/Image" style="width:80px;height:80px" /></span>';
+    } else {
+        html += '<span class="cardImageIcon material-icons folder"></span>';
+    }
     html += configPageUrl ? '</a>' : '</div>';
     html += '</div>';
     html += '<div class="cardFooter">';
