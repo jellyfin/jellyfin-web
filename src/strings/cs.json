@@ -1465,7 +1465,7 @@
     "LabelPublishedServerUri": "Veřejné URI serveru:",
     "LabelIsForced": "Vynucené",
     "LabelHDHomerunPortRangeHelp": "Omezí rozsah UDP portů HD Homerun na tuto hodnotu. (Výchozí hodnota je 1024-645535).",
-    "LabelHDHomerunPortRange": "Rozsah HD Homerun:",
+    "LabelHDHomerunPortRange": "Rozsah portů HD Homerun:",
     "LabelH265Crf": "Kódování H265 CRF:",
     "LabelEnableSSDPTracingHelp": "Povolí zaznamenávání podrobností o trasování sítě SSDP.<br/><b>VAROVÁNÍ:</b> Způsobuje závažné snížení výkonu.",
     "LabelEnableSSDPTracing": "Povolit trasování SSDP:",
