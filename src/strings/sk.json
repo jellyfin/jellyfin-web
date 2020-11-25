@@ -1445,5 +1445,6 @@
     "LabelSelectMono": "Mono",
     "AspectRatioCover": "Obal",
     "VideoAudio": "Video Zvuk",
-    "Video": "Video"
+    "Video": "Video",
+    "AllowTonemappingHelp": "Mapovanie tónov umožňuje zmeniť dynamicky rozsah videa z HDR na SDR bez straty veľmi dôležitých informácií o pôvodnom obraze, ako napr. detaily a farby. V súčastnosti táto funkcia funguje len pri prekódovaní videa s vloženými HDR10 alebo HLG metadátami. Pokiaľ nie je prehrávanie plynulé alebo vôbec nefunguje, skúste vypnúť príslušný hardvérový dekodér."
 }
