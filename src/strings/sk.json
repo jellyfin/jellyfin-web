@@ -837,7 +837,7 @@
     "LabelAlbumArtMaxHeight": "Maximálna výška obrázku albumu:",
     "LabelAirDays": "Vysielané:",
     "HeaderTunerDevices": "Tunery",
-    "ViewPlaybackInfo": "Zobraziť info o prehrávaní",
+    "ViewPlaybackInfo": "Zobraziť informácie o prehrávaní",
     "Uniform": "Jednotné",
     "ThemeVideos": "Tematické videá",
     "ThemeSongs": "Tématická hudba",
@@ -1003,7 +1003,7 @@
     "XmlTvMovieCategoriesHelp": "Programy s týmito kategóriami budú zobrazené ako filmy. Viacej kategórií oddelte \"|\".",
     "XmlTvKidsCategoriesHelp": "Programy s týmito kategóriami budú zobrazené ako programy pre deti. Viacej kategórií oddelte \"|\".",
     "XmlDocumentAttributeListHelp": "Tieto atribúty sú aplikované do koreňového prvku každej XML odpovede.",
-    "Writer": "Napísal",
+    "Writer": "Scenárista",
     "Whitelist": "Whitelist",
     "UserAgentHelp": "Zadajte vlastnú HTTP hlavičku pre používateľského agenta.",
     "TitleHostingSettings": "Nastavenie hostingu",
@@ -1439,5 +1439,11 @@
     "LabelHDHomerunPortRangeHelp": "Obmedzí rozsah portov pre HD Homerun na túto hodnotu. (Predvolená hodnota je 1024-645535).",
     "LabelHDHomerunPortRange": "Rozsah portov HD Homerun:",
     "LabelH265Crf": "H265 kódovanie CRF:",
-    "LabelEnableSSDPTracingHelp": "Povolí logovanie podrobností trasovania SSDP siete.<br/><b>UPOZORNENIE:</b> Toto spôsobuje závažné zníženie výkonu."
+    "LabelEnableSSDPTracingHelp": "Povolí logovanie podrobností trasovania SSDP siete.<br/><b>UPOZORNENIE:</b> Toto spôsobuje závažné zníženie výkonu.",
+    "YoutubeBadRequest": "Zlá požiadavka.",
+    "LabelSelectStereo": "Stereo",
+    "LabelSelectMono": "Mono",
+    "AspectRatioCover": "Obal",
+    "VideoAudio": "Video Zvuk",
+    "Video": "Video"
 }
