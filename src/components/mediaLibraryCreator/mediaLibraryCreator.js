@@ -21,6 +21,7 @@ import '../formdialog.css';
 import '../../assets/css/flexstyles.scss';
 import toast from '../toast/toast';
 import alert from '../alert';
+import template from './mediaLibraryCreator.template.html';
 
     function onAddLibrary() {
         if (isCreating) {
@@ -191,28 +192,26 @@ export class showEditor {
             currentOptions = options;
             currentResolve = resolve;
             hasChanges = false;
-            import('./mediaLibraryCreator.template.html').then(({default: template}) => {
-                const dlg = dialogHelper.createDialog({
-                    size: 'small',
-                    modal: false,
-                    removeOnClose: true,
-                    scrollY: false
-                });
-                dlg.classList.add('ui-body-a');
-                dlg.classList.add('background-theme-a');
-                dlg.classList.add('dlg-librarycreator');
-                dlg.classList.add('formDialog');
-                dlg.innerHTML = globalize.translateHtml(template);
-                initEditor(dlg, options.collectionTypeOptions);
-                dlg.addEventListener('close', onDialogClosed);
-                dialogHelper.open(dlg);
-                dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                    dialogHelper.close(dlg);
-                });
-                pathInfos = [];
-                renderPaths(dlg);
-                initLibraryOptions(dlg);
+            const dlg = dialogHelper.createDialog({
+                size: 'small',
+                modal: false,
+                removeOnClose: true,
+                scrollY: false
             });
+            dlg.classList.add('ui-body-a');
+            dlg.classList.add('background-theme-a');
+            dlg.classList.add('dlg-librarycreator');
+            dlg.classList.add('formDialog');
+            dlg.innerHTML = globalize.translateHtml(template);
+            initEditor(dlg, options.collectionTypeOptions);
+            dlg.addEventListener('close', onDialogClosed);
+            dialogHelper.open(dlg);
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                dialogHelper.close(dlg);
+            });
+            pathInfos = [];
+            renderPaths(dlg);
+            initLibraryOptions(dlg);
         });
     }
 }

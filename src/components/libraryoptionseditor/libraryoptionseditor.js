@@ -10,6 +10,7 @@ import dom from '../../scripts/dom';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-input/emby-input';
+import template from './libraryoptionseditor.template.html';
 
     function populateLanguages(parent) {
         return ApiClient.getCultures().then(languages => {
@@ -362,8 +363,6 @@ import '../../elements/emby-input/emby-input';
         currentAvailableOptions = null;
         const isNewLibrary = libraryOptions === null;
         isNewLibrary && parent.classList.add('newlibrary');
-
-        const { default: template } = await import('./libraryoptionseditor.template.html');
 
         parent.innerHTML = globalize.translateHtml(template);
         populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));

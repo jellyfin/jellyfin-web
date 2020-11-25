@@ -18,6 +18,7 @@ import './recordingcreator.css';
 import 'material-design-icons-iconfont';
 import ServerConnections from '../ServerConnections';
 import { playbackManager } from '../playback/playbackmanager';
+import template from './recordingcreator.template.html';
 
 let currentDialog;
 let closeAction;
@@ -136,64 +137,62 @@ function showEditor(itemId, serverId) {
 
         loading.show();
 
-        import('./recordingcreator.template.html').then(({ default: template }) => {
-            const dialogOptions = {
-                removeOnClose: true,
-                scrollY: false
-            };
+        const dialogOptions = {
+            removeOnClose: true,
+            scrollY: false
+        };
 
-            if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
+
+        const dlg = dialogHelper.createDialog(dialogOptions);
+
+        dlg.classList.add('formDialog');
+        dlg.classList.add('recordingDialog');
+
+        let html = '';
+
+        html += globalize.translateHtml(template, 'core');
+
+        dlg.innerHTML = html;
+
+        currentDialog = dlg;
+
+        function onRecordingChanged() {
+            reload(dlg, itemId, serverId, true);
+        }
+
+        dlg.addEventListener('close', function () {
+            Events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+            executeCloseAction(closeAction, itemId, serverId);
+
+            if (currentRecordingFields && currentRecordingFields.hasChanged()) {
+                resolve();
             } else {
-                dialogOptions.size = 'small';
+                reject();
             }
-
-            const dlg = dialogHelper.createDialog(dialogOptions);
-
-            dlg.classList.add('formDialog');
-            dlg.classList.add('recordingDialog');
-
-            let html = '';
-
-            html += globalize.translateHtml(template, 'core');
-
-            dlg.innerHTML = html;
-
-            currentDialog = dlg;
-
-            function onRecordingChanged() {
-                reload(dlg, itemId, serverId, true);
-            }
-
-            dlg.addEventListener('close', function () {
-                Events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
-                executeCloseAction(closeAction, itemId, serverId);
-
-                if (currentRecordingFields && currentRecordingFields.hasChanged()) {
-                    resolve();
-                } else {
-                    reject();
-                }
-            });
-
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-            }
-
-            init(dlg);
-
-            reload(dlg, itemId, serverId);
-
-            currentRecordingFields = new recordingFields({
-                parent: dlg.querySelector('.recordingFields'),
-                programId: itemId,
-                serverId: serverId
-            });
-
-            Events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
-
-            dialogHelper.open(dlg);
         });
+
+        if (layoutManager.tv) {
+            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+        }
+
+        init(dlg);
+
+        reload(dlg, itemId, serverId);
+
+        currentRecordingFields = new recordingFields({
+            parent: dlg.querySelector('.recordingFields'),
+            programId: itemId,
+            serverId: serverId
+        });
+
+        Events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+
+        dialogHelper.open(dlg);
     });
 }
 

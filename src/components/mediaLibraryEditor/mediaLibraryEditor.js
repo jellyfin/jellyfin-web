@@ -19,6 +19,7 @@ import '../../elements/emby-toggle/emby-toggle';
 import '../../assets/css/flexstyles.scss';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
+import template from './mediaLibraryEditor.template.html';
 
     function onEditLibrary() {
         if (isCreating) {
@@ -201,27 +202,25 @@ export class showEditor {
         currentOptions = options;
         currentDeferred = deferred;
         hasChanges = false;
-        import('./mediaLibraryEditor.template.html').then(({default: template}) => {
-            const dlg = dialogHelper.createDialog({
-                size: 'small',
-                modal: false,
-                removeOnClose: true,
-                scrollY: false
-            });
-            dlg.classList.add('dlg-libraryeditor');
-            dlg.classList.add('ui-body-a');
-            dlg.classList.add('background-theme-a');
-            dlg.classList.add('formDialog');
-            dlg.innerHTML = globalize.translateHtml(template);
-            dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.library.Name;
-            initEditor(dlg, options);
-            dlg.addEventListener('close', onDialogClosed);
-            dialogHelper.open(dlg);
-            dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                dialogHelper.close(dlg);
-            });
-            refreshLibraryFromServer(dlg);
+        const dlg = dialogHelper.createDialog({
+            size: 'small',
+            modal: false,
+            removeOnClose: true,
+            scrollY: false
         });
+        dlg.classList.add('dlg-libraryeditor');
+        dlg.classList.add('ui-body-a');
+        dlg.classList.add('background-theme-a');
+        dlg.classList.add('formDialog');
+        dlg.innerHTML = globalize.translateHtml(template);
+        dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.library.Name;
+        initEditor(dlg, options);
+        dlg.addEventListener('close', onDialogClosed);
+        dialogHelper.open(dlg);
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
+            dialogHelper.close(dlg);
+        });
+        refreshLibraryFromServer(dlg);
         return deferred.promise();
     }
 }

@@ -17,6 +17,7 @@ import '../formdialog.css';
 import 'material-design-icons-iconfont';
 import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
+import template from './itemMediaInfo.template.html';
 
     function setMediaInfo(user, page, item) {
         let html = item.MediaSources.map(version => {
@@ -194,10 +195,8 @@ import ServerConnections from '../ServerConnections';
 
     export function show(itemId, serverId) {
         loading.show();
-        return import('./itemMediaInfo.template.html').then(({default: template}) => {
-            return new Promise((resolve, reject) => {
-                loadMediaInfo(itemId, serverId, template).then(resolve, reject);
-            });
+        return new Promise((resolve, reject) => {
+            loadMediaInfo(itemId, serverId, template).then(resolve, reject);
         });
     }
 

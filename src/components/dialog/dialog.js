@@ -9,6 +9,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../formdialog.css';
 import '../../assets/css/flexstyles.scss';
+import template from './dialog.template.html';
 
 /* eslint-disable indent */
 
@@ -128,7 +129,6 @@ import '../../assets/css/flexstyles.scss';
             options = text;
         }
 
-        const { default: template } = await import('./dialog.template.html');
         return new Promise((resolve, reject) => {
             showDialog(options, template).then(resolve, reject);
         });

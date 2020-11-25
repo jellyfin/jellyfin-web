@@ -17,6 +17,7 @@ import '../formdialog.css';
 import './style.css';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
+import template from './imageUploader.template.html';
 
     let currentItemId;
     let currentServerId;
@@ -128,49 +129,47 @@ import toast from '../toast/toast';
     function showEditor(options, resolve) {
         options = options || {};
 
-        return import('./imageUploader.template.html').then(({default: template}) => {
-            currentItemId = options.itemId;
-            currentServerId = options.serverId;
+        currentItemId = options.itemId;
+        currentServerId = options.serverId;
 
-            const dialogOptions = {
-                removeOnClose: true
-            };
+        const dialogOptions = {
+            removeOnClose: true
+        };
 
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
+
+        const dlg = dialogHelper.createDialog(dialogOptions);
+
+        dlg.classList.add('formDialog');
+
+        dlg.innerHTML = globalize.translateHtml(template, 'core');
+
+        if (layoutManager.tv) {
+            scrollHelper.centerFocus.on(dlg, false);
+        }
+
+        // Has to be assigned a z-index after the call to .open()
+        dlg.addEventListener('close', () => {
             if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
+                scrollHelper.centerFocus.off(dlg, false);
             }
 
-            const dlg = dialogHelper.createDialog(dialogOptions);
+            loading.hide();
+            resolve(hasChanges);
+        });
 
-            dlg.classList.add('formDialog');
+        dialogHelper.open(dlg);
 
-            dlg.innerHTML = globalize.translateHtml(template, 'core');
+        initEditor(dlg);
 
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg, false);
-            }
+        dlg.querySelector('#selectImageType').value = options.imageType || 'Primary';
 
-            // Has to be assigned a z-index after the call to .open()
-            dlg.addEventListener('close', () => {
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.off(dlg, false);
-                }
-
-                loading.hide();
-                resolve(hasChanges);
-            });
-
-            dialogHelper.open(dlg);
-
-            initEditor(dlg);
-
-            dlg.querySelector('#selectImageType').value = options.imageType || 'Primary';
-
-            dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                dialogHelper.close(dlg);
-            });
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
+            dialogHelper.close(dlg);
         });
     }
 

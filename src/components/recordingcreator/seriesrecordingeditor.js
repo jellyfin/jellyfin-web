@@ -15,6 +15,7 @@ import './recordingcreator.css';
 import 'material-design-icons-iconfont';
 import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
+import template from './seriesrecordingeditor.template.html';
 
 /*eslint prefer-const: "error"*/
 
@@ -151,7 +152,46 @@ function embed(itemId, serverId, options) {
     loading.show();
     options = options || {};
 
-    import('./seriesrecordingeditor.template.html').then(({ default: template }) => {
+    const dialogOptions = {
+        removeOnClose: true,
+        scrollY: false
+    };
+
+    if (layoutManager.tv) {
+        dialogOptions.size = 'fullscreen';
+    } else {
+        dialogOptions.size = 'small';
+    }
+
+    const dlg = options.context;
+
+    dlg.classList.add('hide');
+    dlg.innerHTML = globalize.translateHtml(template, 'core');
+
+    dlg.querySelector('.formDialogHeader').classList.add('hide');
+    dlg.querySelector('.formDialogFooter').classList.add('hide');
+    dlg.querySelector('.formDialogContent').className = '';
+    dlg.querySelector('.dialogContentInner').className = '';
+    dlg.classList.remove('hide');
+
+    dlg.removeEventListener('change', onFieldChange);
+    dlg.addEventListener('change', onFieldChange);
+
+    currentDialog = dlg;
+
+    init(dlg);
+
+    reload(dlg, itemId);
+}
+
+function showEditor(itemId, serverId, options) {
+    return new Promise(function (resolve, reject) {
+        recordingUpdated = false;
+        recordingDeleted = false;
+        currentServerId = serverId;
+        loading.show();
+        options = options || {};
+
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -163,96 +203,53 @@ function embed(itemId, serverId, options) {
             dialogOptions.size = 'small';
         }
 
-        const dlg = options.context;
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
-        dlg.classList.add('hide');
-        dlg.innerHTML = globalize.translateHtml(template, 'core');
+        dlg.classList.add('formDialog');
+        dlg.classList.add('recordingDialog');
 
-        dlg.querySelector('.formDialogHeader').classList.add('hide');
-        dlg.querySelector('.formDialogFooter').classList.add('hide');
-        dlg.querySelector('.formDialogContent').className = '';
-        dlg.querySelector('.dialogContentInner').className = '';
-        dlg.classList.remove('hide');
+        if (!layoutManager.tv) {
+            dlg.style['min-width'] = '20%';
+        }
 
-        dlg.removeEventListener('change', onFieldChange);
-        dlg.addEventListener('change', onFieldChange);
+        let html = '';
+
+        html += globalize.translateHtml(template, 'core');
+
+        dlg.innerHTML = html;
+
+        if (options.enableCancel === false) {
+            dlg.querySelector('.formDialogFooter').classList.add('hide');
+        }
 
         currentDialog = dlg;
+
+        dlg.addEventListener('closing', function () {
+            if (!recordingDeleted) {
+                this.querySelector('.btnSubmit').click();
+            }
+        });
+
+        dlg.addEventListener('close', function () {
+            if (recordingUpdated) {
+                resolve({
+                    updated: true,
+                    deleted: recordingDeleted
+                });
+            } else {
+                reject();
+            }
+        });
+
+        if (layoutManager.tv) {
+            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+        }
 
         init(dlg);
 
         reload(dlg, itemId);
-    });
-}
 
-function showEditor(itemId, serverId, options) {
-    return new Promise(function (resolve, reject) {
-        recordingUpdated = false;
-        recordingDeleted = false;
-        currentServerId = serverId;
-        loading.show();
-        options = options || {};
-
-        import('./seriesrecordingeditor.template.html').then(({ default: template }) => {
-            const dialogOptions = {
-                removeOnClose: true,
-                scrollY: false
-            };
-
-            if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
-            }
-
-            const dlg = dialogHelper.createDialog(dialogOptions);
-
-            dlg.classList.add('formDialog');
-            dlg.classList.add('recordingDialog');
-
-            if (!layoutManager.tv) {
-                dlg.style['min-width'] = '20%';
-            }
-
-            let html = '';
-
-            html += globalize.translateHtml(template, 'core');
-
-            dlg.innerHTML = html;
-
-            if (options.enableCancel === false) {
-                dlg.querySelector('.formDialogFooter').classList.add('hide');
-            }
-
-            currentDialog = dlg;
-
-            dlg.addEventListener('closing', function () {
-                if (!recordingDeleted) {
-                    this.querySelector('.btnSubmit').click();
-                }
-            });
-
-            dlg.addEventListener('close', function () {
-                if (recordingUpdated) {
-                    resolve({
-                        updated: true,
-                        deleted: recordingDeleted
-                    });
-                } else {
-                    reject();
-                }
-            });
-
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-            }
-
-            init(dlg);
-
-            reload(dlg, itemId);
-
-            dialogHelper.open(dlg);
-        });
+        dialogHelper.open(dlg);
     });
 }
 

@@ -17,6 +17,7 @@ import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
+import template from './subtitleeditor.template.html';
 
 let currentItem;
 let hasChanges;
@@ -454,9 +455,7 @@ function showEditor(itemId, serverId) {
     loading.show();
 
     return new Promise(function (resolve, reject) {
-        import('./subtitleeditor.template.html').then(({default: template}) => {
-            showEditorInternal(itemId, serverId, template).then(resolve, reject);
-        });
+        showEditorInternal(itemId, serverId, template).then(resolve, reject);
     });
 }
 
