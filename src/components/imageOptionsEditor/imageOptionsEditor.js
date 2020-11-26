@@ -11,6 +11,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-input/emby-input';
+import template from './imageOptionsEditor.template.html';
 
     function getDefaultImageConfig(itemType, type) {
         return {
@@ -89,10 +90,7 @@ import '../../elements/emby-input/emby-input';
         });
     }
 
-    async function showEditor(itemType, options, availableOptions) {
-        const response = await fetch('components/imageOptionsEditor/imageOptionsEditor.template.html');
-        const template = await response.text();
-
+    function showEditor(itemType, options, availableOptions) {
         const dlg = dialogHelper.createDialog({
             size: 'small',
             removeOnClose: true,
