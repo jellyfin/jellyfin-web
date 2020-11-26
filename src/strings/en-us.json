@@ -151,7 +151,7 @@
     "DeinterlaceMethodHelp": "Select the deinterlacing method to use when software transcoding interlaced content. When hardware acceleration supporting hardware deinterlacing is enabled the hardware deinterlacer will be used instead of this setting.",
     "Delete": "Delete",
     "DeleteAll": "Delete All",
-    "DeleteDevicesConfirmation": "Are you sure you wish to delete all devices? All other sessions will be logged out. Devices will reappear the next time a user signs in.", 
+    "DeleteDevicesConfirmation": "Are you sure you wish to delete all devices? All other sessions will be logged out. Devices will reappear the next time a user signs in.",
     "DeleteDeviceConfirmation": "Are you sure you wish to delete this device? It will reappear the next time a user signs in with it.",
     "DeleteImage": "Delete Image",
     "DeleteImageConfirmation": "Are you sure you wish to delete this image?",
@@ -1430,5 +1430,6 @@
     "SubtitleVerticalPositionHelp": "Line number where text appears. Positive numbers indicate top down. Negative numbers indicate bottom up.",
     "Preview": "Preview",
     "LabelMaxMuxingQueueSize": "Max muxing queue size:",
-    "LabelMaxMuxingQueueSizeHelp": "Maximum number of packets that can be buffered while waiting for all streams to initialize. Try to increase it if you still encounter \"Too many packets buffered for output stream\" error in ffmpeg logs. The recommended value is 2048."
+    "LabelMaxMuxingQueueSizeHelp": "Maximum number of packets that can be buffered while waiting for all streams to initialize. Try to increase it if you still encounter \"Too many packets buffered for output stream\" error in ffmpeg logs. The recommended value is 2048.",
+    "NumberRemaining": "{0} remaining"
 }

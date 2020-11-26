@@ -257,16 +257,18 @@ import 'emby-button';
             if (item.Type === 'Audio') {
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             } else {
-                minutes = item.RunTimeTicks / 600000000;
+                // 10,000 ticks per millisecond * 60,000 milliseconds per minute = 600,000,000 ticks per minute
+                const ticksPerMinute = 10000 * 60000;
+                minutes = item.RunTimeTicks / ticksPerMinute;
 
                 minutes = minutes || 1;
 
                 if (item.UserData?.PlaybackPositionTicks) {
-                    let remainingMinutes = (item.RunTimeTicks - item.UserData.PlaybackPositionTicks) / 600000000;
+                    let remainingMinutes = (item.RunTimeTicks - item.UserData.PlaybackPositionTicks) / ticksPerMinute;
                     remainingMinutes = remainingMinutes || 1;
-                    miscInfo.push(`${Math.round(minutes)} mins (${Math.round(remainingMinutes)} remaining)`);
+                    miscInfo.push(`${globalize.translate('ValueMinutes', Math.round(minutes))} (${globalize.translate("NumberRemaining", Math.round(remainingMinutes))})`);
                 } else {
-                    miscInfo.push(`${Math.round(minutes)} mins`);
+                    miscInfo.push(`${globalize.translate('ValueMinutes', Math.round(minutes))}`);
                 }
             }
         }
