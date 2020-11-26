@@ -31,13 +31,13 @@ export async function serverAddress() {
     // Use servers specified in config.json
     const urls = await webSettings.getServers();
 
-    // Otherwise, use computed base-url
+    // Otherwise use computed base URL
     if (urls.length == 0) {
         const index = window.location.href.toLowerCase().lastIndexOf('/web');
         if (index != -1) {
             urls.push(window.location.href.substring(0, index));
         } else {
-            // fall back to location without path
+            // fallback to location without path
             urls.push(window.location.origin);
         }
     }
