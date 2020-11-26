@@ -19,6 +19,7 @@ import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../appRouter';
+import template from './metadataEditor.template.html';
 
 /* eslint-disable indent */
 
@@ -1028,48 +1029,46 @@ import { appRouter } from '../appRouter';
     function show(itemId, serverId, resolve, reject) {
         loading.show();
 
-        import('./metadataEditor.template.html').then(({default: template}) => {
-            const dialogOptions = {
-                removeOnClose: true,
-                scrollY: false
-            };
+        const dialogOptions = {
+            removeOnClose: true,
+            scrollY: false
+        };
 
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
+
+        const dlg = dialogHelper.createDialog(dialogOptions);
+
+        dlg.classList.add('formDialog');
+
+        let html = '';
+
+        html += globalize.translateHtml(template, 'core');
+
+        dlg.innerHTML = html;
+
+        if (layoutManager.tv) {
+            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+        }
+
+        dialogHelper.open(dlg);
+
+        dlg.addEventListener('close', function () {
             if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
+                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }
 
-            const dlg = dialogHelper.createDialog(dialogOptions);
-
-            dlg.classList.add('formDialog');
-
-            let html = '';
-
-            html += globalize.translateHtml(template, 'core');
-
-            dlg.innerHTML = html;
-
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-            }
-
-            dialogHelper.open(dlg);
-
-            dlg.addEventListener('close', function () {
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                }
-
-                resolve();
-            });
-
-            currentContext = dlg;
-
-            init(dlg, ServerConnections.getApiClient(serverId));
-
-            reload(dlg, itemId, serverId);
+            resolve();
         });
+
+        currentContext = dlg;
+
+        init(dlg, ServerConnections.getApiClient(serverId));
+
+        reload(dlg, itemId, serverId);
     }
 
     export default {
@@ -1083,21 +1082,19 @@ import { appRouter } from '../appRouter';
             return new Promise(function (resolve, reject) {
                 loading.show();
 
-                import('./metadataEditor.template.html').then(({default: template}) => {
-                    elem.innerHTML = globalize.translateHtml(template, 'core');
+                elem.innerHTML = globalize.translateHtml(template, 'core');
 
-                    elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
-                    elem.querySelector('.btnClose').classList.add('hide');
-                    elem.querySelector('.btnHeaderSave').classList.remove('hide');
-                    elem.querySelector('.btnCancel').classList.add('hide');
+                elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
+                elem.querySelector('.btnClose').classList.add('hide');
+                elem.querySelector('.btnHeaderSave').classList.remove('hide');
+                elem.querySelector('.btnCancel').classList.add('hide');
 
-                    currentContext = elem;
+                currentContext = elem;
 
-                    init(elem, ServerConnections.getApiClient(serverId));
-                    reload(elem, itemId, serverId);
+                init(elem, ServerConnections.getApiClient(serverId));
+                reload(elem, itemId, serverId);
 
-                    focusManager.autoFocus(elem);
-                });
+                focusManager.autoFocus(elem);
             });
         }
     };

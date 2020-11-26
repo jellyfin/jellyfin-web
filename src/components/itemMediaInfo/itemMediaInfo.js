@@ -17,6 +17,7 @@ import '../formdialog.css';
 import 'material-design-icons-iconfont';
 import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
+import template from './itemMediaInfo.template.html';
 
     function setMediaInfo(user, page, item) {
         let html = item.MediaSources.map(version => {
@@ -162,7 +163,7 @@ import ServerConnections from '../ServerConnections';
         return `<span class="mediaInfoLabel">${label}</span><span class="mediaInfoAttribute">${value}</span>`;
     }
 
-    function loadMediaInfo(itemId, serverId, template) {
+    function loadMediaInfo(itemId, serverId) {
         const apiClient = ServerConnections.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
             const dialogOptions = {
@@ -194,11 +195,7 @@ import ServerConnections from '../ServerConnections';
 
     export function show(itemId, serverId) {
         loading.show();
-        return import('./itemMediaInfo.template.html').then(({default: template}) => {
-            return new Promise((resolve, reject) => {
-                loadMediaInfo(itemId, serverId, template).then(resolve, reject);
-            });
-        });
+        return loadMediaInfo(itemId, serverId);
     }
 
 /* eslint-enable indent */

@@ -8,6 +8,7 @@ import 'material-design-icons-iconfont';
 import '../formdialog.css';
 import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.scss';
+import template from './sortmenu.template.html';
 
 function onSubmit(e) {
     e.preventDefault();
@@ -44,64 +45,62 @@ function saveValues(context, settingsKey) {
 class SortMenu {
     show(options) {
         return new Promise(function (resolve, reject) {
-            import('./sortmenu.template.html').then(({default: template}) => {
-                const dialogOptions = {
-                    removeOnClose: true,
-                    scrollY: false
-                };
+            const dialogOptions = {
+                removeOnClose: true,
+                scrollY: false
+            };
 
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'small';
+            }
+
+            const dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('formDialog');
+
+            let html = '';
+
+            html += '<div class="formDialogHeader">';
+            html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<h3 class="formDialogHeaderTitle">${Sort}</h3>';
+
+            html += '</div>';
+
+            html += template;
+
+            dlg.innerHTML = globalize.translateHtml(html, 'core');
+
+            fillSortBy(dlg, options.sortOptions);
+            initEditor(dlg, options.settings);
+
+            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+                dialogHelper.close(dlg);
+            });
+
+            if (layoutManager.tv) {
+                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+            }
+
+            let submitted;
+
+            dlg.querySelector('form').addEventListener('change', function () {
+                submitted = true;
+            }, true);
+
+            dialogHelper.open(dlg).then(function () {
                 if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
-                } else {
-                    dialogOptions.size = 'small';
+                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }
 
-                const dlg = dialogHelper.createDialog(dialogOptions);
-
-                dlg.classList.add('formDialog');
-
-                let html = '';
-
-                html += '<div class="formDialogHeader">';
-                html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
-                html += '<h3 class="formDialogHeaderTitle">${Sort}</h3>';
-
-                html += '</div>';
-
-                html += template;
-
-                dlg.innerHTML = globalize.translateHtml(html, 'core');
-
-                fillSortBy(dlg, options.sortOptions);
-                initEditor(dlg, options.settings);
-
-                dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                    dialogHelper.close(dlg);
-                });
-
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+                if (submitted) {
+                    saveValues(dlg, options.settingsKey);
+                    resolve();
+                    return;
                 }
 
-                let submitted;
-
-                dlg.querySelector('form').addEventListener('change', function () {
-                    submitted = true;
-                }, true);
-
-                dialogHelper.open(dlg).then(function () {
-                    if (layoutManager.tv) {
-                        centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                    }
-
-                    if (submitted) {
-                        saveValues(dlg, options.settingsKey);
-                        resolve();
-                        return;
-                    }
-
-                    reject();
-                });
+                reject();
             });
         });
     }

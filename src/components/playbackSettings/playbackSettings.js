@@ -10,6 +10,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
+import template from './playbackSettings.template.html';
 
 /* eslint-disable indent */
 
@@ -278,21 +279,19 @@ import toast from '../toast/toast';
     }
 
     function embed(options, self) {
-        return import('./playbackSettings.template.html').then(({default: template}) => {
-            options.element.innerHTML = globalize.translateHtml(template, 'core');
+        options.element.innerHTML = globalize.translateHtml(template, 'core');
 
-            options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
+        options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
 
-            if (options.enableSaveButton) {
-                options.element.querySelector('.btnSave').classList.remove('hide');
-            }
+        if (options.enableSaveButton) {
+            options.element.querySelector('.btnSave').classList.remove('hide');
+        }
 
-            self.loadData();
+        self.loadData();
 
-            if (options.autoFocus) {
-                focusManager.autoFocus(options.element);
-            }
-        });
+        if (options.autoFocus) {
+            focusManager.autoFocus(options.element);
+        }
     }
 
     class PlaybackSettings {

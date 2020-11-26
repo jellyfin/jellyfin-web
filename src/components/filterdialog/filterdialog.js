@@ -6,6 +6,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import './style.css';
 import ServerConnections from '../ServerConnections';
+import template from './filterdialog.template.html';
 
 /* eslint-disable indent */
     function renderOptions(context, selector, cssClass, items, isCheckedFn) {
@@ -402,28 +403,26 @@ import ServerConnections from '../ServerConnections';
         }
 
         show() {
-            return import('./filterdialog.template.html').then(({default: template}) => {
-                return new Promise((resolve) => {
-                    const dlg = dialogHelper.createDialog({
-                        removeOnClose: true,
-                        modal: false
-                    });
-                    dlg.classList.add('ui-body-a');
-                    dlg.classList.add('background-theme-a');
-                    dlg.classList.add('formDialog');
-                    dlg.classList.add('filterDialog');
-                    dlg.innerHTML = globalize.translateHtml(template);
-                    setVisibility(dlg, this.options);
-                    dialogHelper.open(dlg);
-                    dlg.addEventListener('close', resolve);
-                    updateFilterControls(dlg, this.options);
-                    this.bindEvents(dlg);
-                    if (enableDynamicFilters(this.options.mode)) {
-                        dlg.classList.add('dynamicFilterDialog');
-                        const apiClient = ServerConnections.getApiClient(this.options.serverId);
-                        loadDynamicFilters(dlg, apiClient, apiClient.getCurrentUserId(), this.options.query);
-                    }
+            return new Promise((resolve) => {
+                const dlg = dialogHelper.createDialog({
+                    removeOnClose: true,
+                    modal: false
                 });
+                dlg.classList.add('ui-body-a');
+                dlg.classList.add('background-theme-a');
+                dlg.classList.add('formDialog');
+                dlg.classList.add('filterDialog');
+                dlg.innerHTML = globalize.translateHtml(template);
+                setVisibility(dlg, this.options);
+                dialogHelper.open(dlg);
+                dlg.addEventListener('close', resolve);
+                updateFilterControls(dlg, this.options);
+                this.bindEvents(dlg);
+                if (enableDynamicFilters(this.options.mode)) {
+                    dlg.classList.add('dynamicFilterDialog');
+                    const apiClient = ServerConnections.getApiClient(this.options.serverId);
+                    loadDynamicFilters(dlg, apiClient, apiClient.getCurrentUserId(), this.options.query);
+                }
             });
         }
     }

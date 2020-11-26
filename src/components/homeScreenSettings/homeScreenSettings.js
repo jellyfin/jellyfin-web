@@ -11,6 +11,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
+import template from './homeScreenSettings.template.html';
 
 /* eslint-disable indent */
 
@@ -418,29 +419,28 @@ import toast from '../toast/toast';
     }
 
     function embed(options, self) {
-        return import('./homeScreenSettings.template.html').then(({default: template}) => {
-            for (let i = 1; i <= numConfigurableSections; i++) {
-                template = template.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
-            }
+        let workingTemplate = template;
+        for (let i = 1; i <= numConfigurableSections; i++) {
+            workingTemplate = workingTemplate.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
+        }
 
-            options.element.innerHTML = globalize.translateHtml(template, 'core');
+        options.element.innerHTML = globalize.translateHtml(workingTemplate, 'core');
 
-            options.element.querySelector('.viewOrderList').addEventListener('click', onSectionOrderListClick);
-            options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
-            options.element.addEventListener('change', onChange);
+        options.element.querySelector('.viewOrderList').addEventListener('click', onSectionOrderListClick);
+        options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
+        options.element.addEventListener('change', onChange);
 
-            if (options.enableSaveButton) {
-                options.element.querySelector('.btnSave').classList.remove('hide');
-            }
+        if (options.enableSaveButton) {
+            options.element.querySelector('.btnSave').classList.remove('hide');
+        }
 
-            if (layoutManager.tv) {
-                options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
-            } else {
-                options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
-            }
+        if (layoutManager.tv) {
+            options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
+        } else {
+            options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
+        }
 
-            self.loadData(options.autoFocus);
-        });
+        self.loadData(options.autoFocus);
     }
 
     class HomeScreenSettings {

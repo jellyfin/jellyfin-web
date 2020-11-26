@@ -13,6 +13,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
+import template from './displaySettings.template.html';
 
 /* eslint-disable indent */
 
@@ -197,8 +198,7 @@ import toast from '../toast/toast';
         return false;
     }
 
-    async function embed(options, self) {
-        const { default: template } = await import('./displaySettings.template.html');
+    function embed(options, self) {
         options.element.innerHTML = globalize.translateHtml(template, 'core');
         options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
         if (options.enableSaveButton) {
