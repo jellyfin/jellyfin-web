@@ -77,12 +77,9 @@ function loadCoreDictionary() {
 
 function init() {
     serverAddress().then(server => {
-        if (!server) {
-            navigate('selectserver.html');
-            return;
+        if (server) {
+            ServerConnections.initApiClient(server);
         }
-
-        ServerConnections.initApiClient(server);
     }).then(() => {
         console.debug('initAfterDependencies promises resolved');
 
