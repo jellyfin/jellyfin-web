@@ -91,7 +91,7 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|date-fns|epubjs|pdfjs-dist)/,
+                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|date-fns|epubjs|flv.js|libarchive.js|pdfjs-dist|xmldom)/,
                 use: [{
                     loader: 'babel-loader',
                     options: {
