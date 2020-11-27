@@ -91,11 +91,24 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|date-fns|epubjs|flv.js|libarchive.js|pdfjs-dist|xmldom)/,
+                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|date-fns|epubjs|flv.js|libarchive.js)/,
                 use: [{
                     loader: 'babel-loader',
                     options: {
                         presets: packageConfig.babel.presets
+                    }
+                }]
+            },
+            /* modules that Babel breaks when transforming to ESM */
+            {
+                test: /node_modules[\\/](pdfjs-dist|xmldom)[\\/].*\.js$/,
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        presets: packageConfig.babel.presets,
+                        plugins: [
+                            '@babel/transform-modules-umd'
+                        ]
                     }
                 }]
             },
