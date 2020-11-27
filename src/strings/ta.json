@@ -1481,7 +1481,7 @@
     "LabelPublishedServerUri": "வெளியிடப்பட்ட சேவையக URI கள்:",
     "LabelIsForced": "கட்டாயப்படுத்தப்பட்டது",
     "LabelHDHomerunPortRangeHelp": "HD Homerun UDP போர்ட் வரம்பை இந்த மதிப்புக்கு கட்டுப்படுத்துகிறது. (இயல்புநிலை 1024 - 645535).",
-    "LabelHDHomerunPortRange": "HD Homerun வரம்பு:",
+    "LabelHDHomerunPortRange": "HD Homerun போர்ட் வரம்பு:",
     "LabelEnableSSDPTracingHelp": "SSDP நெட்வொர்க் டிரேசிங் உள்நுழைய விவரங்களை இயக்கவும்.<br/><b> எச்சரிக்கை:</b> இது கடுமையான செயல்திறன் சீரழிவை ஏற்படுத்தும்.",
     "LabelEnableSSDPTracing": "SSDP தடத்தை இயக்கு:",
     "LabelEnableIP6Help": "IPv6 செயல்பாட்டை இயக்குகிறது.",
