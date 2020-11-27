@@ -255,5 +255,12 @@
     "HeaderUser": "Utilisateur",
     "HeaderAudioBooks": "Livres audio",
     "HeaderApiKeys": "Clés API",
-    "HeaderApiKey": "Clé API"
+    "HeaderApiKey": "Clé API",
+    "DeinterlaceMethodHelp": "Sélectionnez la méthode de désentrelacement à utiliser lorsque le logiciel transcode le contenu entrelacé. Lorsque l'accélération matérielle prenant en charge le désentrelacement matériel est activée, le désentrelaceur matériel sera utilisé à la place de ce paramètre.",
+    "DefaultSubtitlesHelp": "Les sous-titres seront chargés selon les marqueurs par défaut et forcé dans les métadonnées intégrées. Les langues préférées seront utilisées quand plusieurs options seront disponibles.",
+    "DailyAt": "Tous les jours à {0}",
+    "Bwdif": "BWDIF",
+    "ButtonPlayer": "Joueur",
+    "ButtonCast": "Distribution",
+    "ApiKeysCaption": "Liste des clés API actuellement activées"
 }
