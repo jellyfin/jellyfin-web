@@ -152,7 +152,7 @@
   dependencies:
     "@babel/types" "^7.12.1"
 
-"@babel/helper-module-imports@^7.0.0", "@babel/helper-module-imports@^7.12.1", "@babel/helper-module-imports@^7.12.5":
+"@babel/helper-module-imports@7.x", "@babel/helper-module-imports@^7.0.0", "@babel/helper-module-imports@^7.12.1", "@babel/helper-module-imports@^7.12.5":
   version "7.12.5"
   resolved "https://registry.yarnpkg.com/@babel/helper-module-imports/-/helper-module-imports-7.12.5.tgz#1bfc0229f794988f76ed0a4d4e90860850b54dfb"
   integrity sha512-SR713Ogqg6++uexFRORf/+nPXMmWIn80TALu0uaFb+iQIUoR7bOC7zBWyzBs5b3tBBJXuyD0cRu1F15GyzjOWA==
@@ -1148,6 +1148,11 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
+"@uupaa/dynamic-import-polyfill@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@uupaa/dynamic-import-polyfill/-/dynamic-import-polyfill-1.0.2.tgz#e540cfd8671058fe1e48f816fc8be07e058d5d3a"
+  integrity sha512-V3vzdXunOKKob1F+2ldv/4iGQoQA/iyqtW8PVlr1v16xCCKL831pGUubT+vs5/9wxTE/zBKEhjIjmmpK6nqw2A==
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -1605,6 +1610,13 @@ babel-plugin-dynamic-import-node@^2.3.3:
   integrity sha512-jZVI+s9Zg3IqA/kdi0i6UDCybUI3aSBLnglhYbSSjKlV7yF1F/5LWv8MakQmvYpnbJDS6fcBL2KzHSxNCMtWSQ==
   dependencies:
     object.assign "^4.1.0"
+
+babel-plugin-dynamic-import-polyfill@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-polyfill/-/babel-plugin-dynamic-import-polyfill-1.0.0.tgz#f251f47ae05ab193cb0ffb93cae0cfe0bf2bd122"
+  integrity sha512-fqdut9hGeaAgdX3sbAY25TkqA7LPmZB+Hf1XI67AppvhUw1cBST58BPwl5kPwDZYIvmqRwnsVKM0lppsQAsxhg==
+  dependencies:
+    "@babel/helper-module-imports" "7.x"
 
 babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"

@@ -24,7 +24,7 @@ const LibarchiveWasm = [
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
-    target: 'web',
+    target: 'browserslist',
     resolve: {
         modules: [
             path.resolve(__dirname, 'node_modules')
@@ -91,7 +91,7 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!date-fns|epubjs)/,
+                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|date-fns|epubjs|pdfjs-dist)/,
                 use: [{
                     loader: 'babel-loader',
                     options: {
