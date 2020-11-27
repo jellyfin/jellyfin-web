@@ -30,6 +30,8 @@ import { pageClassOn, serverAddress } from './clientUtils';
 import '../libraries/screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
+import '../legacy/focusPreventScroll';
+import '../legacy/vendorStyles';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
