@@ -1469,7 +1469,8 @@ import { appRouter } from '../../../components/appRouter';
             dom.addEventListener(view, 'dblclick', onDoubleClick, {});
         } else {
             const options = { passive: true };
-            dom.addEventListener(view, 'dblclick', function () {
+            dom.addEventListener(view, 'dblclick', (e) => {
+                if (e.target !== view) return;
                 playbackManager.toggleFullscreen(currentPlayer);
             }, options);
         }
