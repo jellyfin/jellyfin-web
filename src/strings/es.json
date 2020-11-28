@@ -1450,5 +1450,8 @@
     "LabelPlaybackInfo": "Información de reproducción",
     "RemuxHelp2": "Remux utiliza muy poca potencia de procesamiento con una calidad multimedia sin pérdidas.",
     "RemuxHelp1": "Los medios están en un contenedor de archivos incompatible (MKV, AVI, WMV, etc.) pero tanto la transmisión de video como la transmisión de audio son compatibles con el dispositivo. Los medios se volverán a empaquetar sin pérdidas sobre la marcha antes de enviarse al dispositivo.",
-    "Remuxing": "Remuxing"
+    "Remuxing": "Remuxing",
+    "HeaderDebugging": "Depuración y obtención de trazas",
+    "HeaderAddUser": "Añadir usuario",
+    "HeaderAddUpdateSubtitle": "Añadir/Actualizar subtítulo"
 }
