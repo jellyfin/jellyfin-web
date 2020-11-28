@@ -1306,5 +1306,8 @@
     "ApiKeysCaption": "Liste over aktive API nøgler",
     "EnableBlurHash": "Aktiver slørrede erstatninger for billeder",
     "DeleteDevicesConfirmation": "Er du sikker på at du ønsker at slette alle enheder? Alle andre sessioner vil blive logget ud. Enhederne vil dukke op igen næste gang en bruger logger ind.",
-    "DeleteAll": "Slet Alt"
+    "DeleteAll": "Slet Alt",
+    "EnableDetailsBanner": "Detalje Banner",
+    "EnableDecodingColorDepth10Vp9": "Aktiver 10-bit hardware dekodning for VP9",
+    "EnableDecodingColorDepth10Hevc": "Aktiver 10-bit hardware dekodning for HEVC"
 }
