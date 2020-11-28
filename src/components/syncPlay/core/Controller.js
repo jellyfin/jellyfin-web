@@ -72,7 +72,7 @@ class Controller {
         const sendPlayRequest = (items) => {
             const queue = items.map(item => item.Id);
             apiClient.requestSyncPlayPlay({
-                PlayingQueue: queue.join(','),
+                PlayingQueue: queue,
                 PlayingItemPosition: options.startIndex ? options.startIndex : 0,
                 StartPositionTicks: options.startPositionTicks ? options.startPositionTicks : 0
             });
@@ -135,7 +135,7 @@ class Controller {
             Helper.translateItemsForPlayback(apiClient, options.items, options).then((items) => {
                 const itemIds = items.map(item => item.Id);
                 apiClient.requestSyncPlayQueue({
-                    ItemIds: itemIds.join(','),
+                    ItemIds: itemIds,
                     Mode: mode
                 });
             });
@@ -146,7 +146,7 @@ class Controller {
                 Helper.translateItemsForPlayback(apiClient, result.Items, options).then((items) => {
                     const itemIds = items.map(item => item.Id);
                     apiClient.requestSyncPlayQueue({
-                        ItemIds: itemIds.join(','),
+                        ItemIds: itemIds,
                         Mode: mode
                     });
                 });

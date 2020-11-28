@@ -176,12 +176,11 @@ class QueueCore {
             const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
             const isPlaying = playerWrapper.isPlaying();
 
-            apiClient.requestSyncPlayBuffering({
+            apiClient.requestSyncPlayReady({
                 When: now.toISOString(),
                 PositionTicks: currentPositionTicks,
                 IsPlaying: isPlaying,
-                PlaylistItemId: this.getCurrentPlaylistItemId(),
-                BufferingDone: true
+                PlaylistItemId: this.getCurrentPlaylistItemId()
             });
         }).catch((error) => {
             console.error('Error while waiting for `playbackstart` event!', origin, error);

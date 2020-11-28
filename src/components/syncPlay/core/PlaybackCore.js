@@ -129,14 +129,19 @@ class PlaybackCore {
         const now = this.timeSyncCore.localDateToRemote(currentTime);
         const playlistItemId = this.manager.getQueueCore().getCurrentPlaylistItemId();
 
-        const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlayBuffering({
+        const options = {
             When: now.toISOString(),
             PositionTicks: currentPositionTicks,
             IsPlaying: isPlaying,
-            PlaylistItemId: playlistItemId,
-            BufferingDone: !isBuffering
-        });
+            PlaylistItemId: playlistItemId
+        };
+
+        const apiClient = this.manager.getApiClient();
+        if (isBuffering) {
+            apiClient.requestSyncPlayBuffering(options);
+        } else {
+            apiClient.requestSyncPlayReady(options);
+        }
     }
 
     /**
