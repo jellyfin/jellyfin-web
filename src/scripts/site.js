@@ -26,7 +26,7 @@ import './libraryMenu';
 import './routes';
 import '../components/themeMediaPlayer';
 import './autoBackdrops';
-import { navigate, pageClassOn, serverAddress } from './clientUtils';
+import { pageClassOn, serverAddress } from './clientUtils';
 import '../libraries/screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
@@ -77,12 +77,9 @@ function loadCoreDictionary() {
 
 function init() {
     serverAddress().then(server => {
-        if (!server) {
-            navigate('selectserver.html');
-            return;
+        if (server) {
+            ServerConnections.initApiClient(server);
         }
-
-        ServerConnections.initApiClient(server);
     }).then(() => {
         console.debug('initAfterDependencies promises resolved');
 
