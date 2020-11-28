@@ -28,22 +28,19 @@ export async function serverAddress() {
     // TODO this makes things faster but it also blocks the wizard in some scenarios
     // if (current) return Promise.resolve(current);
 
-    const urls = [];
-    if (window.location.href.indexOf('/web/') !== -1) {
-        const split = window.location.href.split('/web/');
+    // Use servers specified in config.json
+    const urls = await webSettings.getServers();
 
-        for (let i = split.length - 1; i > 0; i--) {
-            urls.push(split.slice(0, i).join('/web/'));
+    // Otherwise use computed base URL
+    if (urls.length == 0) {
+        const index = window.location.href.toLowerCase().lastIndexOf('/web');
+        if (index != -1) {
+            urls.push(window.location.href.substring(0, index));
+        } else {
+            // fallback to location without path
+            urls.push(window.location.origin);
         }
     }
-    urls.push(window.location.origin);
-    urls.push(`https://${window.location.hostname}:8920`);
-
-    if (window.location.protocol === 'http') {
-        urls.push(`http://${window.location.hostname}:8096`);
-    }
-
-    urls.push(...await webSettings.getServers());
 
     console.debug('URL candidates:', urls);
 
