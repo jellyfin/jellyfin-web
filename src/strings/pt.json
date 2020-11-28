@@ -791,7 +791,7 @@
     "Delete": "Remover",
     "DefaultSubtitlesHelp": "As legendas são carregadas com base nas definições por omissão ou forçado nos metadados. As preferências de idioma são consideradas quando existem múltiplas opções disponíveis.",
     "ErrorDefault": "Ocorreu um erro ao processar o pedido. Por favor, tente novamente mais tarde.",
-    "Default": "Por omissão",
+    "Default": "Predefinição",
     "DeathDateValue": "Faleceu: {0}",
     "DatePlayed": "Reproduzido a",
     "DateAdded": "Adicionado a",
