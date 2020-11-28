@@ -78,7 +78,7 @@
     "Channels": "Kanaler",
     "CinemaModeConfigurationHelp": "Biograftilstand giver dig biografoplevelsen direkte ind i din stue, med muligheden for at vise trailere og brugerdefinerede introduktioner før hovedfilmen.",
     "Composer": "Komponist",
-    "ConfigureDateAdded": "Konfigurer hvordan tilføjet-dato bestemmes, under Jellyfin Server-kontrolpanelet under Biblioteksindstillinger",
+    "ConfigureDateAdded": "Konfigurer hvordan tilføjet-dato bestemmes, under kontrolpanelet under biblioteksindstillingerne",
     "ConfirmDeleteImage": "Slet billede?",
     "ConfirmDeleteItem": "Hvis dette element slettes, fjernes det både fra dit filsystem samt din mediebibliotek. Er du sikker på du ønsker at fortsætte?",
     "ConfirmDeleteItems": "Sletning af disse emner vil både fjerne dem fra filsystemet og dit mediebibliotek. Er du sikker på at du vil fortsætte?",
@@ -970,7 +970,7 @@
     "Desktop": "Skrivebord",
     "DirectPlaying": "Afspiller direkte",
     "DirectStreamHelp1": "Medie filen er kompatibel med enheden i forhold til opløsning og medie type (H.264,AC3, etc.), men er i en ikke kompatibel fil container (mkv, avi, wmv, etc). Videoen vil blive genpakket live før den streames til enheden.",
-    "DirectStreamHelp2": "Direkte Streaming af en fil bruger meget lidt processor kraft uden nogen tab af video kvalitet.",
+    "DirectStreamHelp2": "Strømforbruget ved direkte streaming afhænger oftest af lydprofilen. Kun video er ukomprimeret.",
     "DirectStreaming": "Direkte streaming",
     "Directors": "Instruktører",
     "Disc": "Disk",
@@ -1303,5 +1303,8 @@
     "ButtonUseQuickConnect": "Brug Quick Connect",
     "ButtonPlayer": "Afspiller",
     "Authorize": "Tillad",
-    "ApiKeysCaption": "Liste over aktive API nøgler"
+    "ApiKeysCaption": "Liste over aktive API nøgler",
+    "EnableBlurHash": "Aktiver slørrede erstatninger for billeder",
+    "DeleteDevicesConfirmation": "Er du sikker på at du ønsker at slette alle enheder? Alle andre sessioner vil blive logget ud. Enhederne vil dukke op igen næste gang en bruger logger ind.",
+    "DeleteAll": "Slet Alt"
 }
