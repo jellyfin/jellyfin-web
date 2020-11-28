@@ -303,7 +303,7 @@
     "DateAdded": "新增日期",
     "DatePlayed": "播放日期",
     "DeathDateValue": "死於： {0}",
-    "Default": "預設",
+    "Default": "原本",
     "ButtonAddScheduledTaskTrigger": "新增觸發器",
     "ColorPrimaries": "三原色",
     "ColorSpace": "色彩空間",
@@ -1392,7 +1392,7 @@
     "QuickConnectAuthorizeSuccess": "需要認證",
     "QuickConnectAuthorizeCode": "輸入代號 {0} 來登入",
     "QuickConnectActivationSuccessful": "成功啟用",
-    "QuickConnect": "Quick Connect",
+    "QuickConnect": "快速連接",
     "PosterCard": "海報卡片",
     "PlaybackRate": "播放速度",
     "LabelQuickConnectCode": "Quick Connect 代號：",
@@ -1403,7 +1403,7 @@
     "DeleteDevicesConfirmation": "確定要刪除所有裝置？其他所有工作階段都會被登出。裝置會在使用者下次登入時再次出現。",
     "DeleteAll": "刪除全部",
     "OptionMaxActiveSessionsHelp": "填0會關閉這項功能。",
-    "OptionMaxActiveSessions": "設定最多同時工作階段數",
+    "OptionMaxActiveSessions": "設定最多同時工作階段數。",
     "OptionAllowContentDownloadHelp": "使用者可以下載多媒體，並儲存於自己的裝置。這與同步功能不同。圖書庫需要開啟這項功能才能正常運作。",
     "OptionAllowContentDownload": "允許下載多媒體",
     "LabelUserMaxActiveSessions": "最多同時工作階段數：",
@@ -1436,5 +1436,10 @@
     "HeaderDebugging": "偵錯和追蹤",
     "HeaderAutoDiscovery": "探索網域",
     "HeaderAddUser": "新增使用者",
-    "HeaderAddUpdateSubtitle": "新增/更新 字幕"
+    "HeaderAddUpdateSubtitle": "新增/更新 字幕",
+    "LabelEnableIP6Help": "啟用IPv6功能。",
+    "LabelEnableIP6": "啟用IPv6:",
+    "LabelEnableIP4Help": "啟用IPv4功能。",
+    "LabelEnableIP4": "啟用IPv4:",
+    "LabelDropSubtitleHere": "將字幕檔丟到這裡，或點擊瀏覽。"
 }
