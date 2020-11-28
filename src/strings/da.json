@@ -1297,5 +1297,11 @@
     "YoutubeBadRequest": "Fejl request.",
     "YoutubePlaybackError": "Videon kan ikke afspilles.",
     "YoutubeNotFound": "Video ikke fundet.",
-    "ButtonCast": "Cast-funktion"
+    "ButtonCast": "Cast-funktion",
+    "ClearQueue": "Ryd kø",
+    "Bwdif": "BWDIF",
+    "ButtonUseQuickConnect": "Brug Quick Connect",
+    "ButtonPlayer": "Afspiller",
+    "Authorize": "Tillad",
+    "ApiKeysCaption": "Liste over aktive API nøgler"
 }
