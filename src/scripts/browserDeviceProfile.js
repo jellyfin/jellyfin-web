@@ -345,26 +345,8 @@ import browser from './browser';
         const canPlayEac3VideoAudio = supportsEac3(videoTestElement);
         const canPlayAc3VideoAudioInHls = supportsAc3InHls(videoTestElement);
 
-        if (canPlayAc3VideoAudio) {
-            videoAudioCodecs.push('ac3');
-            if (canPlayEac3VideoAudio) {
-                videoAudioCodecs.push('eac3');
-            }
-
-            // This works in edge desktop, but not mobile
-            // TODO: Retest this on mobile
-            // Transcoding codec is the first in hlsVideoAudioCodecs
-            // Put ac3/eac3 first only when the audio channels > 2 and need transcoding
-            if (canPlayAc3VideoAudioInHls && physicalAudioChannels > 2) {
-                hlsInTsVideoAudioCodecs.push('ac3');
-                hlsInFmp4VideoAudioCodecs.push('ac3');
-                if (canPlayEac3VideoAudio) {
-                    hlsInTsVideoAudioCodecs.push('eac3');
-                    hlsInFmp4VideoAudioCodecs.push('eac3');
-                }
-            }
-        }
-
+        // Transcoding codec is the first in hlsVideoAudioCodecs.
+        // Prefer AAC, MP3 to other codecs when audio transcoding.
         if (canPlayAacVideoAudio) {
             videoAudioCodecs.push('aac');
             hlsInTsVideoAudioCodecs.push('aac');
@@ -382,25 +364,21 @@ import browser from './browser';
             hlsInFmp4VideoAudioCodecs.push('mp3');
         }
 
-        // For ac3/eac3 directstream
+        // For AC3/EAC3 remuxing.
+        // Do not use AC3 for audio transcoding unless AAC and MP3 are not supported.
         if (canPlayAc3VideoAudio) {
-            if (canPlayAc3VideoAudioInHls) {
-                if (hlsInTsVideoAudioCodecs.indexOf('ac3') === -1) {
-                    hlsInTsVideoAudioCodecs.push('ac3');
-                }
+            videoAudioCodecs.push('ac3');
+            if (canPlayEac3VideoAudio) {
+                videoAudioCodecs.push('eac3');
+            }
 
-                if (hlsInFmp4VideoAudioCodecs.indexOf('ac3') === -1) {
-                    hlsInFmp4VideoAudioCodecs.push('ac3');
-                }
+            if (canPlayAc3VideoAudioInHls) {
+                hlsInTsVideoAudioCodecs.push('ac3');
+                hlsInFmp4VideoAudioCodecs.push('ac3');
 
                 if (canPlayEac3VideoAudio) {
-                    if (hlsInTsVideoAudioCodecs.indexOf('eac3') === -1) {
-                        hlsInTsVideoAudioCodecs.push('eac3');
-                    }
-
-                    if (hlsInFmp4VideoAudioCodecs.indexOf('eac3') === -1) {
-                        hlsInFmp4VideoAudioCodecs.push('eac3');
-                    }
+                    hlsInTsVideoAudioCodecs.push('eac3');
+                    hlsInFmp4VideoAudioCodecs.push('eac3');
                 }
             }
         }
