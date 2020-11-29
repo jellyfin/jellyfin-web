@@ -660,7 +660,7 @@ import { appRouter } from '../appRouter';
         console.debug('nowplaying event: ' + event.type);
         const player = this;
 
-        if (!state.NowPlayingItem || layoutManager.tv || !state.IsFullscreen) {
+        if (!state.NowPlayingItem || layoutManager.tv) {
             hideNowPlayingBar();
             return;
         }
