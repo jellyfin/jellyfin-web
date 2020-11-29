@@ -748,7 +748,7 @@
     "DisplayInMyMedia": "Mostrar no ecrã principal",
     "Disconnect": "Desligar",
     "DirectStreaming": "Reprodução direta",
-    "DirectStreamHelp2": "Reprodução direta de um ficheiro requer pouco processamento e implica uma perda de qualidade mínima.",
+    "DirectStreamHelp2": "O consumo de energia da transmissão direta depende do perfil do áudio. Apenas a transmissão do vídeo está sem perdas.",
     "DefaultSubtitlesHelp": "As legendas são carregadas com base nas definições padrão ou forçado nos metadados. As preferências de idioma são consideradas quando existem múltiplas opções disponíveis.",
     "DefaultMetadataLangaugeDescription": "Estes são os valores padrão que podem ser personalizados para cada uma das bibliotecas.",
     "ErrorDefault": "Ocorreu um erro a processar o pedido. Por favor, tente novamente mais tarde.",
@@ -795,7 +795,7 @@
     "Items": "Itens",
     "InstallingPackage": "A instalar {0} (version {1})",
     "HttpsRequiresCert": "Para activar ligações seguras, é necessário fornecer um certificado SSL confiável. Forneça um certificado SSL ou desactive as ligações seguras.",
-    "DirectStreamHelp1": "O tipo de multimédia (H.264, AC3, etc.) e a sua resolução são compatíveis com o dispositivo, no entanto, o formato (mkv, avi, wmv, etc.) não é. O conteúdo será reempacotado em tempo real antes de ser enviado para o dispositivo.",
+    "DirectStreamHelp1": "A transmissão de vídeo é compatível com o dispositivo, mas possui um formato de áudio (DTS, TRUEHD, etc) ou número de canais de audio incompatível. A transmissão será reempacotado sem perda em tempo real antes de ser enviada para o dispositivo.",
     "DirectPlaying": "Reprodução direta",
     "Backdrop": "Imagem de Fundo",
     "SortChannelsBy": "Ordenar canais por:",
@@ -1414,5 +1414,7 @@
     "TonemappingAlgorithmHelp": "O Tone mapping pode ser afinado. Se não está familiarizado com estas opções mantenha os valores padrão. O valor recomendado é Reinhard.",
     "AllowTonemappingHelp": "O Tone mapping permite transformar o alcance dinâmico de um vídeo de HDR para SDR mantendo as cores e detalhes da imagem, que é informação importante para representar a cena original. Atualmente apenas funciona durante a transcodificação de vídeos com metadados HDR10 ou HLG embutidos. Caso a reprodução não seja suave ou falhe, considere desligar o descodificador de hardware correspondente.",
     "LabelMaxMuxingQueueSizeHelp": "Número máximo de pacotes armazenados em <i>buffer</i> enquanto aguardam que todas a transmissões iniciem. Tente aumentá-lo caso se depare com o seguinte erro nos <i>logs</i> do ffmpeg \"Too many packets buffered for output stream\". O valor recomendado é 2048.",
-    "DeleteAll": "Apagar tudo"
+    "DeleteAll": "Apagar tudo",
+    "DeleteDevicesConfirmation": "Tem a certeza de que deseja remover todos os dispositivos? Todas as outras sessões também serão desconectadas. Os dispositivos irão reaparecer da próxima vez que um utilizador iniciar sessão.",
+    "Bwdif": "BWDIF"
 }
