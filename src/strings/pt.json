@@ -1213,5 +1213,11 @@
     "HeaderDeleteDevices": "Apagar Todos os Dispositivos",
     "Other": "Outros",
     "DeleteDevicesConfirmation": "Tem a certeza que pretende apagar todos os dispositivos? Todas as sessões serão terminadas e os dispositivos reaparecerão no próximo início de sessão.",
-    "DeleteAll": "Apagar Tudo"
+    "DeleteAll": "Apagar Tudo",
+    "DailyAt": "Diariamente, às {0}",
+    "ClearQueue": "Limpar fila",
+    "Bwdif": "BWDIF",
+    "ButtonPlayer": "Reprodutor",
+    "ButtonCast": "Projetar",
+    "AllowTonemappingHelp": "O mapeamento de tons pode mudar a gama dinâmica de um vídeo de HDR para SDR, mantendo as detalhes e as cores, as quais são importantes para reproduzir a imagem original. Atualmente, funciona apenas quando transcodificam-se vídeos com metadados HDR10 ou HLG incorporados. Se a reprodução não estiver suave, ou se falhar, por favor considere desativar o descodificador por hardware correspondente."
 }
