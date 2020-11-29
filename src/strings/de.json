@@ -1244,7 +1244,7 @@
     "NoCreatedLibraries": "Sieht so aus als hättest du bis jetzt keine Bibliothek erstellt. {0}Möchtest du jetzt eine Bibliothek erstellen?{1}",
     "AllowFfmpegThrottling": "Transkodierung drosseln",
     "PlaybackErrorNoCompatibleStream": "Dieser Client ist nicht mit den Medien kompatibel und der Server sendet kein kompatibles Medienformat.",
-    "AllowFfmpegThrottlingHelp": "Wenn eine Transkodierung oder ein Remux weit genug über die aktuelle Abspielposition fortgeschritten ist, pausiere sie sodass weniger Ressourcen verbraucht werden. Dies ist am nützlichsten, wenn wenig geskippt wird. Bei Wiedergabeproblemen sollte diese Option deaktiviert werden.",
+    "AllowFfmpegThrottlingHelp": "Wenn eine Transkodierung oder ein Remux weit genug über die aktuelle Abspielposition fortgeschritten ist, pausiere sie, sodass weniger Ressourcen verbraucht werden. Dies ist am nützlichsten, wenn wenig übersprungen wird. Bei Wiedergabeproblemen sollte diese Option deaktiviert werden.",
     "ClientSettings": "Client Einstellungen",
     "OnApplicationStartup": "Beim Starten der Applikation",
     "EveryXHours": "Alle {0} Stunden",
@@ -1475,10 +1475,16 @@
     "LabelVideoInfo": "Videoinformationen",
     "LabelAudioInfo": "Audioinformationen",
     "RemuxHelp2": "Remux verbraucht sehr wenig Rechenleistung bei einer völlig verlustfreien Medienqualität.",
-    "RemuxHelp1": "Das Medium befindet sich in einem inkompatiblen Dateicontainer (MKV, AVI, WMV, usw.), aber sowohl Video- als auch der Audiosteam sind mit dem Gerät kompatibel. Die Medien werden verlustfrei im laufenden Betrieb neu verpackt, bevor die an das Gerät gesendet werden.",
+    "RemuxHelp1": "Das Medium befindet sich in einem inkompatiblen Dateicontainer (MKV, AVI, WMV, usw.), aber sowohl Video- als auch der Audiostream sind mit dem Gerät kompatibel. Die Medien werden verlustfrei im laufenden Betrieb neu verpackt, bevor sie an das Gerät gesendet werden.",
     "PluginFromRepo": "{0} aus dem Repository {1}",
     "LabelUDPPortRangeHelp": "Beschränkt Jellyfin auf die Verwendung dieses Portbereichs beim Herstellen von UDP-Verbindungen. (Standard ist 1024 - 645535).<br/> Hinweis: Für bestimmte Funktionen sind feste Ports erforderlich, die möglicherweise außerhalb dieses Bereichs liegen.",
     "LabelUDPPortRange": "UDP-Kommunikationsbereich:",
     "LabelHDHomerunPortRangeHelp": "Beschränkt den HD Homerun UDP-Portbereich zu diesem Wert. (Standard ist 1024 - 645535).",
-    "LabelHDHomerunPortRange": "HD Homerun Portbereich:"
+    "LabelHDHomerunPortRange": "HD Homerun Portbereich:",
+    "LabelSyncPlayInfo": "SyncPlay-Info",
+    "LabelOriginalMediaInfo": "Originale Medieninformation",
+    "Remuxing": "Remuxing",
+    "LabelRemuxingInfo": "Remux-Information",
+    "AspectRatioCover": "Bedecken",
+    "AspectRatioFill": "Füllen"
 }
