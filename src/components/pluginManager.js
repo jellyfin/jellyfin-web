@@ -74,9 +74,14 @@ import { playbackManager } from './playback/playbackmanager';
             if (typeof pluginSpec === 'string') {
                 if (pluginSpec in window) {
                     console.log(`Loading plugin (via window): ${pluginSpec}`);
+                    let pluginInstance = await window[pluginSpec];
+
+                    if (typeof pluginInstance === 'function') {
+                        pluginInstance = await pluginInstance();
+                    }
 
                     // init plugin and pass basic dependencies
-                    plugin = new window[pluginSpec]({
+                    plugin = new pluginInstance({
                         events: Events,
                         loading,
                         appSettings,
