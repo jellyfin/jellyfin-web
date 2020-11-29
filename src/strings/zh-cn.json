@@ -1286,7 +1286,7 @@
     "LabelStable": "稳定版",
     "LabelEnableHttpsHelp": "监听已配置的 HTTPS 端口。必须配置有效的证书才会生效。",
     "LabelEnableHttps": "启用 HTTPS",
-    "LabelChromecastVersion": "Chromecast版本",
+    "LabelChromecastVersion": "Chromecast 版本",
     "HeaderDVR": "DVR",
     "MessageSyncPlayErrorAccessingGroups": "访问群组列表时发生错误。",
     "MessageSyncPlayLibraryAccessDenied": "对此内容的访问受到限制。",
