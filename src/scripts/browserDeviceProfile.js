@@ -538,17 +538,27 @@ import browser from './browser';
                 Type: 'Audio'
             });
 
-            if (audioFormat === 'webma') {
+            // https://www.webmproject.org/about/faq/
+            if (audioFormat === 'opus' || audioFormat === 'webma') {
                 profile.DirectPlayProfiles.push({
                     Container: 'webm',
+                    AudioCodec: audioFormat,
                     Type: 'Audio'
                 });
             }
 
             // aac also appears in the m4a and m4b container
+            // m4a/alac only works when using safari
             if (audioFormat === 'aac' || audioFormat === 'alac') {
                 profile.DirectPlayProfiles.push({
-                    Container: 'm4a,m4b',
+                    Container: 'm4a',
+                    AudioCodec: audioFormat,
+                    Type: 'Audio'
+                });
+
+                profile.DirectPlayProfiles.push({
+                    Container: 'm4b',
+                    AudioCodec: audioFormat,
                     Type: 'Audio'
                 });
             }
