@@ -41,6 +41,16 @@ export default function (view, params) {
             page.querySelector('.selectServer').classList.add('hide');
         }
 
+        ApiClient.getQuickConnect('Status')
+            .then(status => {
+                if (status !== 'Unavailable') {
+                    page.querySelector('.lnkQuickConnectPreferences').classList.remove('hide');
+                }
+            })
+            .catch(() => {
+                console.debug('Failed to get QuickConnect status');
+            });
+
         ApiClient.getUser(userId).then(function (user) {
             page.querySelector('.headerUsername').innerHTML = user.Name;
             if (user.Policy.IsAdministrator && !layoutManager.tv) {

@@ -263,6 +263,17 @@ import toast from '../../../components/toast/toast';
             }
 
             const apiClient = getApiClient();
+
+            apiClient.getQuickConnect('Status')
+                .then(status => {
+                    if (status !== 'Unavailable') {
+                        view.querySelector('.btnQuick').classList.remove('hide');
+                    }
+                })
+                .catch(() => {
+                    console.debug('Failed to get QuickConnect status');
+                });
+
             apiClient.getPublicUsers().then(function (users) {
                 if (users.length) {
                     showVisualForm();
