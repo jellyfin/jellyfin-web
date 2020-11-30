@@ -20,8 +20,14 @@ jobs:
         with:
           node-version: 12
 
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install Node.js dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
         env:
           SKIP_PREPARE: true
 
@@ -44,8 +50,14 @@ jobs:
         with:
           node-version: 12
 
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install Node.js dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
         env:
           SKIP_PREPARE: true
 
@@ -68,8 +80,14 @@ jobs:
         with:
           node-version: 12
 
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install Node.js dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
         env:
           SKIP_PREPARE: true
 
