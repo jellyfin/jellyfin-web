@@ -76,6 +76,15 @@ async function getDefaultConfig() {
     }
 }
 
+export function getIncludeCorsCredentials() {
+    return getConfig()
+        .then(config => config.includeCorsCredentials)
+        .catch(error => {
+            console.log('cannot get web config:', error);
+            return false;
+        });
+}
+
 export function getMultiServer() {
     return getConfig().then(config => {
         return config.multiserver;

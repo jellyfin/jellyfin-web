@@ -28,6 +28,7 @@ import Screenfull from 'screenfull';
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../../components/ServerConnections';
 import profileBuilder from '../../scripts/browserDeviceProfile';
+import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 
 /* eslint-disable indent */
 
@@ -382,7 +383,7 @@ function tryRemoveElement(elem) {
          */
         setSrcWithHlsJs(elem, options, url) {
             return new Promise((resolve, reject) => {
-                requireHlsPlayer(() => {
+                requireHlsPlayer(async () => {
                     let maxBufferLength = 30;
                     let maxMaxBufferLength = 600;
 
@@ -395,12 +396,14 @@ function tryRemoveElement(elem) {
                         maxMaxBufferLength = 6;
                     }
 
+                    const includeCorsCredentials = await getIncludeCorsCredentials();
+
                     const hls = new Hls({
                         manifestLoadingTimeOut: 20000,
                         maxBufferLength: maxBufferLength,
                         maxMaxBufferLength: maxMaxBufferLength,
                         xhrSetup(xhr) {
-                            xhr.withCredentials = true;
+                            xhr.withCredentials = includeCorsCredentials;
                         }
                     });
                     hls.loadSource(url);
@@ -419,7 +422,7 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        setCurrentSrc(elem, options) {
+        async setCurrentSrc(elem, options) {
             elem.removeEventListener('error', this.onError);
 
             let val = options.url;
@@ -459,8 +462,11 @@ function tryRemoveElement(elem) {
             } else {
                 elem.autoplay = true;
 
-                // Safari will not send cookies without this
-                elem.crossOrigin = 'use-credentials';
+                const includeCorsCredentials = await getIncludeCorsCredentials();
+                if (includeCorsCredentials) {
+                    // Safari will not send cookies without this
+                    elem.crossOrigin = 'use-credentials';
+                }
 
                 return applySrc(elem, val, options).then(() => {
                     this.#currentSrc = val;

@@ -3,6 +3,7 @@ import browser from '../../scripts/browser';
 import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
+import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -129,11 +130,13 @@ class HtmlAudioPlayer {
 
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
                 return new Promise(function (resolve, reject) {
-                    requireHlsPlayer(function () {
+                    requireHlsPlayer(async () => {
+                        const includeCorsCredentials = await getIncludeCorsCredentials();
+
                         const hls = new Hls({
                             manifestLoadingTimeOut: 20000,
                             xhrSetup: function (xhr, url) {
-                                xhr.withCredentials = true;
+                                xhr.withCredentials = includeCorsCredentials;
                             }
                         });
                         hls.loadSource(val);
@@ -146,11 +149,14 @@ class HtmlAudioPlayer {
                         self._currentSrc = val;
                     });
                 });
-            }, function () {
+            }, async () => {
                 elem.autoplay = true;
 
-                // Safari will not send cookies without this
-                elem.crossOrigin = 'use-credentials';
+                const includeCorsCredentials = await getIncludeCorsCredentials();
+                if (includeCorsCredentials) {
+                    // Safari will not send cookies without this
+                    elem.crossOrigin = 'use-credentials';
+                }
 
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
                     self._currentSrc = val;
