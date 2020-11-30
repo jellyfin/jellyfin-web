@@ -31,8 +31,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           eslint_flags: 'src/'
 
-  run-stylelint:
-    name: Run stylelint
+  run-stylelint-css:
+    name: Run stylelint (css)
     runs-on: ubuntu-latest
 
     steps:
@@ -54,3 +54,28 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           stylelint_input: 'src/**/*.css'
+
+  run-stylelint-scss:
+    name: Run stylelint (scss)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install Node.js dependencies
+        run: yarn
+        env:
+          SKIP_PREPARE: true
+
+      - name: Run stylelint
+        uses: reviewdog/action-stylelint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          stylelint_config: '.stylelintrc.scss.json'
+          stylelint_input: 'src/**/*.scss'
