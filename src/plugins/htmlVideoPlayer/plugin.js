@@ -383,8 +383,22 @@ function tryRemoveElement(elem) {
         setSrcWithHlsJs(elem, options, url) {
             return new Promise((resolve, reject) => {
                 requireHlsPlayer(() => {
+                    let maxBufferLength = 30;
+                    let maxMaxBufferLength = 600;
+
+                    // chromium based browsers cannot handle huge fragments in high bitrate.
+                    // This issue usually happens when using HWA encoders with a high bitrate setting.
+                    // Limit the BufferLength to 6s, it works fine when playing 4k 120Mbps over HLS on chrome.
+                    // https://github.com/video-dev/hls.js/issues/876
+                    if ((browser.chrome || browser.edgeChromium) && playbackManager.getMaxStreamingBitrate(this) >= 25000000) {
+                        maxBufferLength = 6;
+                        maxMaxBufferLength = 6;
+                    }
+
                     const hls = new Hls({
-                        manifestLoadingTimeOut: 20000
+                        manifestLoadingTimeOut: 20000,
+                        maxBufferLength: maxBufferLength,
+                        maxMaxBufferLength: maxMaxBufferLength
                     });
                     hls.loadSource(url);
                     hls.attachMedia(elem);
