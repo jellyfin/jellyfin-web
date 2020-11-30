@@ -3337,10 +3337,10 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-expose-loader@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/expose-loader/-/expose-loader-1.0.1.tgz#f44d2514daa64e7b06818f15f474c4c6e55dbf17"
-  integrity sha512-FcxYU+tfzik+0Ve6Ymw8lKJNWhMQpuJOEkLhz0fGIgfDdFKxkr+BSSTkw+MRkK51hemQ+1eR7c2H46E5CxtBZw==
+expose-loader@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/expose-loader/-/expose-loader-1.0.3.tgz#5686d3b78cac8831c4af11c3dc361563deb8a9c0"
+  integrity sha512-gP6hs3vYeWIqyoVfsApGQcgCEpbcI1xe+celwI31zeDhXz2q03ycBC1+75IlQUGaYvj6rAloFIe/NIBnEElLsQ==
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
