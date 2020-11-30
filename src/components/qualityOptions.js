@@ -41,15 +41,15 @@ export function getVideoQualityOptions(options) {
     if (maxAllowedWidth >= 1260) {
         qualityOptions.push({ name: '720p - 8 Mbps', maxHeight: 720, bitrate: 8000000 });
         qualityOptions.push({ name: '720p - 6 Mbps', maxHeight: 720, bitrate: 6000000 });
-        qualityOptions.push({ name: '720p - 3 Mbps', maxHeight: 720, bitrate: 3000000 });
+        qualityOptions.push({ name: '720p - 4 Mbps', maxHeight: 720, bitrate: 3000000 });
     }
     if (maxAllowedWidth >= 620) {
+        qualityOptions.push({ name: '480p - 3 Mbps', maxHeight: 480, bitrate: 3000000 });
         qualityOptions.push({ name: '480p - 1.5 Mbps', maxHeight: 480, bitrate: 1500000 });
         qualityOptions.push({ name: '480p - 720 kbps', maxHeight: 480, bitrate: 720000 });
-        qualityOptions.push({ name: '480p - 420 kbps', maxHeight: 480, bitrate: 420000 });
     }
 
-    qualityOptions.push({ name: '360p - 360 kbps', maxHeight: 360, bitrate: 360000 });
+    qualityOptions.push({ name: '360p - 420 kbps', maxHeight: 360, bitrate: 420000 });
 
     if (maxStreamingBitrate) {
         let selectedIndex = -1;
