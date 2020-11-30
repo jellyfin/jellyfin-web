@@ -32,10 +32,7 @@ jobs:
           SKIP_PREPARE: true
 
       - name: Run eslint
-        uses: reviewdog/action-eslint@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          eslint_flags: 'src/'
+        run: yarn lint
 
   run-stylelint-css:
     name: Run stylelint (css)
@@ -50,6 +47,9 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set up stylelint matcher
+        uses: xt0rted/stylelint-problem-matcher@v1
+
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
@@ -62,10 +62,7 @@ jobs:
           SKIP_PREPARE: true
 
       - name: Run stylelint
-        uses: reviewdog/action-stylelint@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          stylelint_input: 'src/**/*.css'
+        run: yarn stylelint:css
 
   run-stylelint-scss:
     name: Run stylelint (scss)
@@ -80,6 +77,9 @@ jobs:
         with:
           node-version: 12
 
+      - name: Set up stylelint matcher
+        uses: xt0rted/stylelint-problem-matcher@v1
+
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
@@ -92,8 +92,4 @@ jobs:
           SKIP_PREPARE: true
 
       - name: Run stylelint
-        uses: reviewdog/action-stylelint@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          stylelint_config: '.stylelintrc.scss.json'
-          stylelint_input: 'src/**/*.scss'
+        run: yarn stylelint:scss
