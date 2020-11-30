@@ -456,9 +456,6 @@ function tryRemoveElement(elem) {
             } else {
                 elem.autoplay = true;
 
-                // Safari will not send cookies without this
-                elem.crossOrigin = 'use-credentials';
-
                 return applySrc(elem, val, options).then(() => {
                     this.#currentSrc = val;
 

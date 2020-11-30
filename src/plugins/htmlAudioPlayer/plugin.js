@@ -146,9 +146,6 @@ class HtmlAudioPlayer {
             }, function () {
                 elem.autoplay = true;
 
-                // Safari will not send cookies without this
-                elem.crossOrigin = 'use-credentials';
-
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
                     self._currentSrc = val;
 
