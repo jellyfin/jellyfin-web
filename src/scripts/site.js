@@ -137,7 +137,7 @@ function loadPlugins() {
         }
 
         Promise.all(list.map((plugin) => {
-            return pluginManager.loadPlugin(import(/* webpackChunkName: "[request]" */ `../plugins/${plugin}`));
+            return pluginManager.loadPlugin(plugin);
         }))
             .then(function () {
                 console.debug('finished loading plugins');
