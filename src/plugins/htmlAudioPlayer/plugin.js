@@ -131,7 +131,10 @@ class HtmlAudioPlayer {
                 return new Promise(function (resolve, reject) {
                     requireHlsPlayer(function () {
                         const hls = new Hls({
-                            manifestLoadingTimeOut: 20000
+                            manifestLoadingTimeOut: 20000,
+                            xhrSetup: function (xhr, url) {
+                                xhr.withCredentials = true;
+                            }
                         });
                         hls.loadSource(val);
                         hls.attachMedia(elem);

@@ -398,7 +398,10 @@ function tryRemoveElement(elem) {
                     const hls = new Hls({
                         manifestLoadingTimeOut: 20000,
                         maxBufferLength: maxBufferLength,
-                        maxMaxBufferLength: maxMaxBufferLength
+                        maxMaxBufferLength: maxMaxBufferLength,
+                        xhrSetup(xhr) {
+                            xhr.withCredentials = true;
+                        }
                     });
                     hls.loadSource(url);
                     hls.attachMedia(elem);
