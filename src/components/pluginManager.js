@@ -89,7 +89,8 @@ import { playbackManager } from './playback/playbackmanager';
                     });
                 } else {
                     console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
-                    plugin = await import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`);
+                    const pluginResult = await import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`);
+                    plugin = new pluginResult.default;
                 }
             } else if (pluginSpec.then) {
                 console.debug('Loading plugin (via promise/async function)');
