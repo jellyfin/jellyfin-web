@@ -212,7 +212,7 @@
     "CinemaModeConfigurationHelp": "Mod cinema aduce experiența cinematografică în sufrageria dumneavoastră prin abilitatea de a rula trailere sau introuri personalizate înaintea titlului principal.",
     "ConfigureDateAdded": "Configurează cum este determinată data adaugării în tabloul de bord din setările librariei",
     "DefaultSubtitlesHelp": "Subtitrările sunt încărcate în funcție de opțiunile implicite și forțate din metadatele încorporate. Preferințele de limbă sunt luate în considerare atunci când sunt disponibile mai multe opțiuni.",
-    "DirectStreamHelp1": "Media este compatibilă cu dispozitivul în ceea ce privește rezoluția și tipul de media(H.264, AC3, etc), dar se află într-un container de fișiere incompatibil (mkv, avi, wmv, etc). Videoclipul va fi re-ambalat în timp real înainte de a-l transmite către dispozitiv.",
+    "DirectStreamHelp1": "Fluxul video este compatibil cu dispozitivul, dar are un format audio incompatibil(DTS, TRUEHD, etc) sau numărul de canale audio. Videoclipul va fi re-ambalat în timp real înainte de a-l transmite către dispozitiv.",
     "CopyStreamURLSuccess": "URL copiat cu succes.",
     "CustomDlnaProfilesHelp": "Crează un profil customizat pentru a viza un nou dispozitiv sau a trece peste un profil de sistem.",
     "DateAdded": "Data adăugării",
