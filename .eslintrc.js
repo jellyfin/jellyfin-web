@@ -101,9 +101,7 @@ module.exports = {
                 // TODO: Fix warnings and remove these rules
                 'no-redeclare': ['off'],
                 'no-useless-escape': ['off'],
-                'no-unused-vars': ['off'],
-                // TODO: Remove after ES6 migration is complete
-                'import/no-unresolved': ['off']
+                'no-unused-vars': ['off']
             },
             settings: {
                 polyfills: [
