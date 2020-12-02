@@ -261,7 +261,11 @@ import template from './itemidentifier.template.html';
     function getSearchImageDisplayUrl(url, provider) {
         const apiClient = getApiClient();
 
-        return apiClient.getUrl('Items/RemoteSearch/Image', { imageUrl: url, ProviderName: provider });
+        return apiClient.getUrl('Items/RemoteSearch/Image', {
+            imageUrl: url,
+            ProviderName: provider,
+            api_key: apiClient.accessToken()
+        });
     }
 
     function submitIdentficationResult(page) {
