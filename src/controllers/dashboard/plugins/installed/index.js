@@ -98,7 +98,7 @@ function populateList(page, plugins, pluginConfigurationPages) {
     } else {
         html += '<div class="centerMessage">';
         html += '<h1>' + globalize.translate('MessageNoPluginsInstalled') + '</h1>';
-        html += '<p><a is="emby-linkbutton" class="button-link" href="availableplugins.html">';
+        html += '<p><a is="emby-linkbutton" class="button-link" href="#!/availableplugins.html">';
         html += globalize.translate('MessageBrowsePluginCatalog');
         html += '</a></p>';
         html += '</div>';

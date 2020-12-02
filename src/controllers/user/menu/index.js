@@ -22,12 +22,12 @@ export default function (view, params) {
         const userId = params.userId || Dashboard.getCurrentUserId();
         const page = this;
 
-        page.querySelector('.lnkMyProfile').setAttribute('href', 'myprofile.html?userId=' + userId);
-        page.querySelector('.lnkDisplayPreferences').setAttribute('href', 'mypreferencesdisplay.html?userId=' + userId);
-        page.querySelector('.lnkHomePreferences').setAttribute('href', 'mypreferenceshome.html?userId=' + userId);
-        page.querySelector('.lnkPlaybackPreferences').setAttribute('href', 'mypreferencesplayback.html?userId=' + userId);
-        page.querySelector('.lnkSubtitlePreferences').setAttribute('href', 'mypreferencessubtitles.html?userId=' + userId);
-        page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', 'mypreferencesquickconnect.html');
+        page.querySelector('.lnkMyProfile').setAttribute('href', '#!/myprofile.html?userId=' + userId);
+        page.querySelector('.lnkDisplayPreferences').setAttribute('href', '#!/mypreferencesdisplay.html?userId=' + userId);
+        page.querySelector('.lnkHomePreferences').setAttribute('href', '#!/mypreferenceshome.html?userId=' + userId);
+        page.querySelector('.lnkPlaybackPreferences').setAttribute('href', '#!/mypreferencesplayback.html?userId=' + userId);
+        page.querySelector('.lnkSubtitlePreferences').setAttribute('href', '#!/mypreferencessubtitles.html?userId=' + userId);
+        page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', '#!/mypreferencesquickconnect.html');
 
         if (window.NativeShell && window.NativeShell.AppHost.supports('clientsettings')) {
             page.querySelector('.clientSettings').classList.remove('hide');

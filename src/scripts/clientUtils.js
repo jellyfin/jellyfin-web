@@ -95,7 +95,7 @@ export function logout() {
 }
 
 export function getPluginUrl(name) {
-    return 'configurationpage?name=' + encodeURIComponent(name);
+    return '#!/configurationpage?name=' + encodeURIComponent(name);
 }
 
 export function navigate(url, preserveQueryString) {
