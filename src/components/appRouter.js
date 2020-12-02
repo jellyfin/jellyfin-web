@@ -51,6 +51,12 @@ class AppRouter {
         }
 
         this.setBaseRoute();
+
+        // paths that start with a hashbang (i.e. /#!/page.html) get transformed to starting with //
+        // we need to strip one "/" for our routes to work
+        page('//*', (ctx) => {
+            page.redirect(ctx.path.substring(1));
+        });
     }
 
     /**
@@ -682,27 +688,27 @@ class AppRouter {
         const serverId = item.ServerId || options.serverId;
 
         if (item === 'settings') {
-            return 'mypreferencesmenu.html';
+            return '#!/mypreferencesmenu.html';
         }
 
         if (item === 'wizard') {
-            return 'wizardstart.html';
+            return '#!/wizardstart.html';
         }
 
         if (item === 'manageserver') {
-            return 'dashboard.html';
+            return '#!/dashboard.html';
         }
 
         if (item === 'recordedtv') {
-            return 'livetv.html?tab=3&serverId=' + options.serverId;
+            return '#!/livetv.html?tab=3&serverId=' + options.serverId;
         }
 
         if (item === 'nextup') {
-            return 'list.html?type=nextup&serverId=' + options.serverId;
+            return '#!/list.html?type=nextup&serverId=' + options.serverId;
         }
 
         if (item === 'list') {
-            let url = 'list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
+            let url = '#!/list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
 
             if (options.isFavorite) {
                 url += '&IsFavorite=true';
@@ -713,57 +719,57 @@ class AppRouter {
 
         if (item === 'livetv') {
             if (options.section === 'programs') {
-                return 'livetv.html?tab=0&serverId=' + options.serverId;
+                return '#!/livetv.html?tab=0&serverId=' + options.serverId;
             }
             if (options.section === 'guide') {
-                return 'livetv.html?tab=1&serverId=' + options.serverId;
+                return '#!/livetv.html?tab=1&serverId=' + options.serverId;
             }
 
             if (options.section === 'movies') {
-                return 'list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'shows') {
-                return 'list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
             }
 
             if (options.section === 'sports') {
-                return 'list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'kids') {
-                return 'list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'news') {
-                return 'list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'onnow') {
-                return 'list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'dvrschedule') {
-                return 'livetv.html?tab=4&serverId=' + options.serverId;
+                return '#!/livetv.html?tab=4&serverId=' + options.serverId;
             }
 
             if (options.section === 'seriesrecording') {
-                return 'livetv.html?tab=5&serverId=' + options.serverId;
+                return '#!/livetv.html?tab=5&serverId=' + options.serverId;
             }
 
-            return 'livetv.html?serverId=' + options.serverId;
+            return '#!/livetv.html?serverId=' + options.serverId;
         }
 
         if (itemType == 'SeriesTimer') {
-            return 'details?seriesTimerId=' + id + '&serverId=' + serverId;
+            return '#!/details?seriesTimerId=' + id + '&serverId=' + serverId;
         }
 
         if (item.CollectionType == 'livetv') {
-            return 'livetv.html';
+            return '#!/livetv.html';
         }
 
         if (item.Type === 'Genre') {
-            url = 'list.html?genreId=' + item.Id + '&serverId=' + serverId;
+            url = '#!/list.html?genreId=' + item.Id + '&serverId=' + serverId;
 
             if (context === 'livetv') {
                 url += '&type=Programs';
@@ -777,7 +783,7 @@ class AppRouter {
         }
 
         if (item.Type === 'MusicGenre') {
-            url = 'list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
+            url = '#!/list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
 
             if (options.parentId) {
                 url += '&parentId=' + options.parentId;
@@ -787,7 +793,7 @@ class AppRouter {
         }
 
         if (item.Type === 'Studio') {
-            url = 'list.html?studioId=' + item.Id + '&serverId=' + serverId;
+            url = '#!/list.html?studioId=' + item.Id + '&serverId=' + serverId;
 
             if (options.parentId) {
                 url += '&parentId=' + options.parentId;
@@ -798,7 +804,7 @@ class AppRouter {
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
             if (item.CollectionType == 'movies') {
-                url = 'movies.html?topParentId=' + item.Id;
+                url = '#!/movies.html?topParentId=' + item.Id;
 
                 if (options && options.section === 'latest') {
                     url += '&tab=1';
@@ -808,7 +814,7 @@ class AppRouter {
             }
 
             if (item.CollectionType == 'tvshows') {
-                url = 'tv.html?topParentId=' + item.Id;
+                url = '#!/tv.html?topParentId=' + item.Id;
 
                 if (options && options.section === 'latest') {
                     url += '&tab=2';
@@ -818,31 +824,31 @@ class AppRouter {
             }
 
             if (item.CollectionType == 'music') {
-                return 'music.html?topParentId=' + item.Id;
+                return '#!/music.html?topParentId=' + item.Id;
             }
         }
 
         const itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
 
         if (itemTypes.indexOf(itemType) >= 0) {
-            return 'details?id=' + id + '&serverId=' + serverId;
+            return '#!/details?id=' + id + '&serverId=' + serverId;
         }
 
         const contextSuffix = context ? '&context=' + context : '';
 
         if (itemType == 'Series' || itemType == 'Season' || itemType == 'Episode') {
-            return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;
+            return '#!/details?id=' + id + contextSuffix + '&serverId=' + serverId;
         }
 
         if (item.IsFolder) {
             if (id) {
-                return 'list.html?parentId=' + id + '&serverId=' + serverId;
+                return '#!/list.html?parentId=' + id + '&serverId=' + serverId;
             }
 
             return '#';
         }
 
-        return 'details?id=' + id + '&serverId=' + serverId;
+        return '#!/details?id=' + id + '&serverId=' + serverId;
     }
 }
 
