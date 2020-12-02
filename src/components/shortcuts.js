@@ -204,11 +204,15 @@ import toast from './toast/toast';
         } else if (action === 'play' || action === 'resume') {
             const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0');
 
-            playbackManager.play({
-                ids: [playableItemId],
-                startPositionTicks: startPositionTicks,
-                serverId: serverId
-            });
+            if (playbackManager.canPlay(item)) {
+                playbackManager.play({
+                    ids: [playableItemId],
+                    startPositionTicks: startPositionTicks,
+                    serverId: serverId
+                });
+            } else {
+                console.warn('Unable to play item', item);
+            }
         } else if (action === 'queue') {
             if (playbackManager.isPlaying()) {
                 playbackManager.queue({
