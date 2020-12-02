@@ -7,6 +7,7 @@ on:
 jobs:
   triage:
     runs-on: ubuntu-latest
+    if: github.repository == 'jellyfin/jellyfin-web'
     steps:
       - uses: mschilde/auto-label-merge-conflicts@master
         with:
