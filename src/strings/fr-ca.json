@@ -345,5 +345,8 @@
     "DeleteImageConfirmation": "Voulez-vous vraiment supprimer cette image ?",
     "DeleteImage": "Supprimer l'image",
     "DeleteDeviceConfirmation": "Voulez-vous vraiment supprimer cet appareil ? Il réapparaîtra dès que quelqu'un l'utilisera pour se connecter.",
-    "DeleteAll": "Tout supprimer"
+    "DeleteAll": "Tout supprimer",
+    "HeaderCodecProfile": "Profil de codec",
+    "HeaderChapterImages": "Images des chapitres",
+    "HeaderChannelAccess": "Accès aux chaînes"
 }
