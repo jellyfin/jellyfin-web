@@ -503,7 +503,7 @@ class AppRouter {
 
         this.firstConnectionResult = null;
         if (firstResult && firstResult.State === 'ServerSignIn') {
-            const url = ApiClient.serverAddress() + '/System/Info/Public';
+            const url = firstResult.ApiClient.serverAddress() + '/System/Info/Public';
             fetch(url).then(response => {
                 if (!response.ok) return Promise.reject('fetch failed');
                 return response.json();
