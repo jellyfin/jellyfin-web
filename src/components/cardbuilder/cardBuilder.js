@@ -1418,6 +1418,7 @@ import ServerConnections from '../ServerConnections';
             const mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';
             const collectionTypeData = item.CollectionType ? (' data-collectiontype="' + item.CollectionType + '"') : '';
             const channelIdData = item.ChannelId ? (' data-channelid="' + item.ChannelId + '"') : '';
+            const pathData = item.Path ? (' data-path="' + item.Path + '"') : '';
             const contextData = options.context ? (' data-context="' + options.context + '"') : '';
             const parentIdData = options.parentId ? (' data-parentid="' + options.parentId + '"') : '';
 
@@ -1427,7 +1428,7 @@ import ServerConnections from '../ServerConnections';
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
-            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + pathData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
         /**

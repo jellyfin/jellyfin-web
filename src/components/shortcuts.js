@@ -145,6 +145,7 @@ import toast from './toast/toast';
             SeriesId: card.getAttribute('data-seriesid'),
             ServerId: card.getAttribute('data-serverid'),
             MediaType: card.getAttribute('data-mediatype'),
+            Path: card.getAttribute('data-path'),
             IsFolder: card.getAttribute('data-isfolder') === 'true',
             UserData: {
                 PlaybackPositionTicks: parseInt(card.getAttribute('data-positionticks') || '0')
