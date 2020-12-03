@@ -284,7 +284,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
      */
     nextTrackRequest(player) {
         const controller = syncPlayManager.getController();
-        controller.nextTrack();
+        controller.nextItem();
     }
 
     /**
@@ -292,7 +292,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
      */
     previousTrackRequest(player) {
         const controller = syncPlayManager.getController();
-        controller.previousTrack();
+        controller.previousItem();
     }
 
     /**
@@ -388,7 +388,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Calls original PlaybackManager's nextTrack method.
      */
-    localNextTrack() {
+    localNextItem() {
         if (playbackManager.syncPlayEnabled) {
             playbackManager._localNextTrack(this.player);
         } else {
@@ -399,7 +399,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Calls original PlaybackManager's previousTrack method.
      */
-    localPreviousTrack() {
+    localPreviousItem() {
         if (playbackManager.syncPlayEnabled) {
             playbackManager._localPreviousTrack(this.player);
         } else {

@@ -267,14 +267,14 @@ class GenericPlayer {
     /**
      * Picks next item in playlist.
      */
-    localNextTrack() {
+    localNextItem() {
 
     }
 
     /**
      * Picks previous item in playlist.
      */
-    localPreviousTrack() {
+    localPreviousItem() {
 
     }
 

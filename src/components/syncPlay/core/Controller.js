@@ -71,7 +71,7 @@ class Controller {
         const apiClient = this.manager.getApiClient();
         const sendPlayRequest = (items) => {
             const queue = items.map(item => item.Id);
-            apiClient.requestSyncPlayPlay({
+            apiClient.requestSyncPlaySetNewQueue({
                 PlayingQueue: queue,
                 PlayingItemPosition: options.startIndex ? options.startIndex : 0,
                 StartPositionTicks: options.startPositionTicks ? options.startPositionTicks : 0
@@ -163,21 +163,21 @@ class Controller {
     }
 
     /**
-     * Plays next track from playlist in SyncPlay group.
+     * Plays next item from playlist in SyncPlay group.
      */
-    nextTrack() {
+    nextItem() {
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlayNextTrack({
+        apiClient.requestSyncPlayNextItem({
             PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId()
         });
     }
 
     /**
-     * Plays previous track from playlist in SyncPlay group.
+     * Plays previous item from playlist in SyncPlay group.
      */
-    previousTrack() {
+    previousItem() {
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlayPreviousTrack({
+        apiClient.requestSyncPlayPreviousItem({
             PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId()
         });
     }

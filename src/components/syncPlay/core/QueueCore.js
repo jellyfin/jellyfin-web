@@ -66,8 +66,8 @@ class QueueCore {
                     break;
                 }
                 case 'SetCurrentItem':
-                case 'NextTrack':
-                case 'PreviousTrack': {
+                case 'NextItem':
+                case 'PreviousItem': {
                     playerWrapper.onQueueUpdate();
 
                     const playlistItemId = this.getCurrentPlaylistItemId();
