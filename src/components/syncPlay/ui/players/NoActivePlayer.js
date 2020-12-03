@@ -4,7 +4,7 @@
  */
 
 import { playbackManager } from '../../../playback/playbackmanager';
-import SyncPlay from 'SyncPlay';
+import SyncPlay from '../../core';
 import QueueManager from './QueueManager';
 
 let syncPlayManager;

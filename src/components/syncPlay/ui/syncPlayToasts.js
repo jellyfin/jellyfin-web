@@ -6,7 +6,7 @@
 import { Events } from 'jellyfin-apiclient';
 import toast from '../../toast/toast';
 import globalize from '../../../scripts/globalize';
-import SyncPlay from 'SyncPlay';
+import SyncPlay from '../core';
 
 /**
  * Class that notifies user about SyncPlay messages using toasts.

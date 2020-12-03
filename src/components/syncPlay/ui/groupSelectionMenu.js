@@ -1,5 +1,5 @@
 import { Events } from 'jellyfin-apiclient';
-import SyncPlay from 'SyncPlay';
+import SyncPlay from '../core';
 import loading from '../../loading/loading';
 import toast from '../../toast/toast';
 import actionsheet from '../../actionSheet/actionSheet';

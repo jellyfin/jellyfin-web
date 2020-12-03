@@ -30,7 +30,7 @@ import { navigate, pageClassOn, serverAddress } from './clientUtils';
 import '../libraries/screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
-import SyncPlay from 'SyncPlay';
+import SyncPlay from '../components/syncPlay/core';
 import { playbackManager } from '../components/playback/playbackmanager';
 import SyncPlayToasts from '../components/syncPlay/ui/syncPlayToasts';
 import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/NoActivePlayer';

@@ -3,7 +3,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
-import SyncPlay from 'SyncPlay';
+import SyncPlay from '../../components/syncPlay/core';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';

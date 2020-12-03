@@ -1,5 +1,5 @@
 import { playbackManager } from '../../../components/playback/playbackmanager';
-import SyncPlay from 'SyncPlay';
+import SyncPlay from '../../../components/syncPlay/core';
 import dom from '../../../scripts/dom';
 import inputManager from '../../../scripts/inputManager';
 import mouseManager from '../../../scripts/mouseManager';

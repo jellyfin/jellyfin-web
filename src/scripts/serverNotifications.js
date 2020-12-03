@@ -1,5 +1,5 @@
 import { playbackManager } from '../components/playback/playbackmanager';
-import SyncPlay from 'SyncPlay';
+import SyncPlay from '../components/syncPlay/core';
 import { Events } from 'jellyfin-apiclient';
 import inputManager from '../scripts/inputManager';
 import focusManager from '../components/focusManager';

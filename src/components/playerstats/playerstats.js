@@ -4,7 +4,7 @@ import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import playMethodHelper from '../playback/playmethodhelper';
-import SyncPlay from 'SyncPlay';
+import SyncPlay from '../../components/syncPlay/core';
 import './playerstats.css';
 import ServerConnections from '../ServerConnections';
 
