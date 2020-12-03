@@ -1425,7 +1425,7 @@ import ServerConnections from '../ServerConnections';
             let additionalCardContent = '';
 
             if (layoutManager.desktop && !options.disableHoverMenu) {
-                additionalCardContent += getHoverMenuHtml(item, action, options);
+                additionalCardContent += getHoverMenuHtml(item, action);
             }
 
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + pathData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
@@ -1435,10 +1435,9 @@ import ServerConnections from '../ServerConnections';
          * Generates HTML markup for the card overlay.
          * @param {object} item - Item used to generate the card overlay.
          * @param {string} action - Action assigned to the overlay.
-         * @param {Array} options - Card builder options.
          * @returns {string} HTML markup of the card overlay.
          */
-        function getHoverMenuHtml(item, action, options) {
+        function getHoverMenuHtml(item, action) {
             let html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
