@@ -1,7 +1,6 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const packageConfig = require('./package.json');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -93,10 +92,7 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|date-fns|epubjs|flv.js|libarchive.js)/,
                 use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        presets: packageConfig.babel.presets
-                    }
+                    loader: 'babel-loader'
                 }]
             },
             /* modules that Babel breaks when transforming to ESM */
@@ -105,7 +101,6 @@ module.exports = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        presets: packageConfig.babel.presets,
                         plugins: [
                             '@babel/transform-modules-umd'
                         ]

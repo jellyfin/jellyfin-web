@@ -77,22 +77,6 @@
     "workbox-core": "^5.1.4",
     "workbox-precaching": "^5.1.4"
   },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "useBuiltIns": "usage",
-          "corejs": 3
-        }
-      ]
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-proposal-private-methods",
-      "babel-plugin-dynamic-import-polyfill"
-    ]
-  },
   "browserslist": [
     "last 2 Firefox versions",
     "last 2 Chrome versions",
