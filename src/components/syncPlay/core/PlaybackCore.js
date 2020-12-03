@@ -503,6 +503,12 @@ class PlaybackCore {
 
         if (!lastCommand || lastCommand.Command !== 'Unpause' || this.isBuffering()) return;
 
+        // Avoid spoilers by making sure that command item matches current playlist item.
+        // This check is needed when switching from one item to another.
+        const queueCore = this.manager.getQueueCore();
+        const currentPlaylistItem = queueCore.getCurrentPlaylistItemId();
+        if (lastCommand.PlaylistItemId !== currentPlaylistItem) return;
+
         const { currentTime, currentPosition } = timeUpdateData;
 
         // Get current PositionTicks.
