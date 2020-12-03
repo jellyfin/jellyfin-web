@@ -124,6 +124,11 @@ class AppRouter {
     }
 
     show(path, options) {
+        // ensure the path does not start with '#!' since the router adds this
+        if (path.startsWith('#!')) {
+            path = path.substring(2);
+        }
+
         if (path.indexOf('/') !== 0 && path.indexOf('://') === -1) {
             path = '/' + path;
         }
