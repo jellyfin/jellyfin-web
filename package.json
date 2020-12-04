@@ -72,7 +72,7 @@
     "swiper": "^6.3.5",
     "webcomponents.js": "^0.7.24",
     "whatwg-fetch": "^3.5.0",
-    "workbox-core": "^5.1.4",
+    "workbox-core": "^6.0.2",
     "workbox-precaching": "^5.1.4"
   },
   "babel": {
