@@ -603,7 +603,7 @@ import Headroom from 'headroom.js';
                     guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
-                    guideView.url = 'livetv.html?tab=1';
+                    guideView.url = '#!/livetv.html?tab=1';
                     list.push(guideView);
                 }
             }
