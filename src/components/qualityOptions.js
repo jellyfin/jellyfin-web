@@ -52,7 +52,7 @@ export function getVideoQualityOptions(options) {
     qualityOptions.push({ name: '360p - 420 kbps', maxHeight: 360, bitrate: 420000 });
 
     if (maxStreamingBitrate) {
-        let selectedIndex = 0;
+        let selectedIndex = qualityOptions.length - 1;
         for (let i = 0, length = qualityOptions.length; i < length; i++) {
             const option = qualityOptions[i];
 
@@ -100,7 +100,7 @@ export function getAudioQualityOptions(options) {
     qualityOptions.push({ name: '64 kbps', bitrate: 64000 });
 
     if (maxStreamingBitrate) {
-        let selectedIndex = 0;
+        let selectedIndex = qualityOptions.length - 1;
         for (let i = 0, length = qualityOptions.length; i < length; i++) {
             const option = qualityOptions[i];
 
