@@ -198,7 +198,7 @@ class ArchiveSource {
     release() {
         this.files = [];
         /* eslint-disable-next-line compat/compat */
-        this.urls.map(URL.revokeObjectURL);
+        this.urls.forEach(URL.revokeObjectURL);
         this.urls = [];
     }
 }
