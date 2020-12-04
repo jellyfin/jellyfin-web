@@ -1,0 +1,24 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1">
+        <span class="material-icons arrow_back"></span>
+    </button>
+    <h3 class="formDialogHeaderTitle">${HeaderSyncPlayOfflinePlayback}</h3>
+</div>
+<div class="formDialogContent smoothScrollY">
+    <div class="dialogContentInner dialog-content-centered">
+        <form style="margin: auto;">
+            <h2 class="sectionTitle">${HeaderSyncPlayOfflinePlaybackOpenFiles}</h2>
+            <div class="offlinePlayback-dropZone fieldDescription">
+                <div>${LabelSyncPlayOfflinePlaybackDropFilesHere}</div>
+                <input type="file" multiple="true" id="files" name="uploadSubtitle" style="position: absolute;top:0;left:0;right:0;bottom:0;width:100%;opacity:0;"/>
+            </div>
+            <h2 class="sectionTitle">${HeaderSyncPlayOfflinePlaybackPlaylist}</h2>
+            <div class="paperList" id="groupPlaylist"></div>
+        </form>
+        <div class="formDialogFooter">
+            <button is="emby-button" type="submit" class="raised button-submit block btnSave formDialogFooterItem">
+                <span id="saveButtonText">${Play}</span>
+            </button>
+        </div>
+    </div>
+</div>

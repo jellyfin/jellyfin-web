@@ -3,9 +3,12 @@
  * @module components/syncPlay/ui/players/NoActivePlayer
  */
 
+import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from '../../../playback/playbackmanager';
 import SyncPlay from '../../core';
 import QueueManager from './QueueManager';
+import OfflinePlayback from '../offlinePlayback/OfflinePlayback';
+import OfflineQueueManager from './OfflineQueueManager';
 
 let syncPlayManager;
 
@@ -18,6 +21,25 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     constructor(player, _syncPlayManager) {
         super(player, _syncPlayManager);
         syncPlayManager = _syncPlayManager;
+
+        this.initQueueManager();
+
+        Events.on(SyncPlay.Settings, 'enableOfflinePlayback', () => {
+            this.initQueueManager();
+        });
+    }
+
+    initQueueManager() {
+        this.enableOfflinePlayback = SyncPlay.Settings.getBool('enableOfflinePlayback');
+        if (this.enableOfflinePlayback) {
+            this.queueManager = new OfflineQueueManager(this.manager);
+        } else {
+            this.queueManager = new QueueManager(this.manager);
+        }
+
+        if (playbackManager.syncPlayEnabled) {
+            playbackManager._playQueueManager = this.queueManager;
+        }
     }
 
     /**
@@ -58,7 +80,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         playbackManager._localToggleQueueShuffleMode = playbackManager.toggleQueueShuffleMode;
 
         // Override local callbacks.
-        playbackManager._playQueueManager = new QueueManager(this.manager);
+        playbackManager._playQueueManager = this.queueManager;
 
         playbackManager.play = this.playRequest;
         playbackManager.setCurrentPlaylistItem = this.setCurrentPlaylistItemRequest;
@@ -322,18 +344,29 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Calls original PlaybackManager's play method.
      */
-    localPlay(options) {
-        if (playbackManager.syncPlayEnabled) {
-            return playbackManager._localPlay(options);
-        } else {
-            return playbackManager.play(options);
-        }
+    async localPlay(options) {
+        // FIXME: don't use play as first item won't be generated using custom queue manager.
+        // if (playbackManager.syncPlayEnabled) {
+        //     return playbackManager._localPlay(options);
+        // } else {
+        //     return playbackManager.play(options);
+        // }
+
+        const playlistItemId = this.queueManager.getCurrentPlaylistItemId();
+        this.localSetCurrentPlaylistItem(playlistItemId);
     }
 
     /**
      * Calls original PlaybackManager's setCurrentPlaylistItem method.
      */
-    localSetCurrentPlaylistItem(playlistItemId) {
+    async localSetCurrentPlaylistItem(playlistItemId) {
+        // Check queue for files that need to be opened.
+        try {
+            await this.checkOfflineItems();
+        } catch (error) {
+            return;
+        }
+
         if (playbackManager.syncPlayEnabled) {
             return playbackManager._localSetCurrentPlaylistItem(playlistItemId, this.player);
         } else {
@@ -388,7 +421,10 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Calls original PlaybackManager's nextTrack method.
      */
-    localNextItem() {
+    async localNextItem() {
+        // Check queue for files that need to be opened.
+        await this.checkOfflineItems();
+
         if (playbackManager.syncPlayEnabled) {
             playbackManager._localNextTrack(this.player);
         } else {
@@ -399,7 +435,10 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Calls original PlaybackManager's previousTrack method.
      */
-    localPreviousItem() {
+    async localPreviousItem() {
+        // Check queue for files that need to be opened.
+        await this.checkOfflineItems();
+
         if (playbackManager.syncPlayEnabled) {
             playbackManager._localPreviousTrack(this.player);
         } else {
@@ -437,6 +476,16 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
             playbackManager._localToggleQueueShuffleMode(this.player);
         } else {
             playbackManager.toggleQueueShuffleMode(this.player);
+        }
+    }
+
+    /**
+     * Open required files for offline playback if needed.
+     */
+    checkOfflineItems() {
+        if (this.enableOfflinePlayback) {
+            const items = this.queueManager.getPlaylist();
+            return OfflinePlayback.checkOfflineItems(items);
         }
     }
 }

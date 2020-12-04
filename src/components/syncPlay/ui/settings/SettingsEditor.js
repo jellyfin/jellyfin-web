@@ -155,6 +155,7 @@ class SettingsEditor {
     async initEditor() {
         const { context } = this;
 
+        context.querySelector('#chkOfflinePlayback').checked = SyncPlay.Settings.getBool('enableOfflinePlayback', false);
         context.querySelector('#txtExtraTimeOffset').value = SyncPlay.Settings.getFloat('extraTimeOffset', 0.0);
         context.querySelector('#chkSyncCorrection').checked = SyncPlay.Settings.getBool('enableSyncCorrection', true);
         context.querySelector('#txtMinDelaySpeedToSync').value = SyncPlay.Settings.getFloat('minDelaySpeedToSync', 60.0);
@@ -218,6 +219,7 @@ class SettingsEditor {
     async saveToAppSettings() {
         const { context } = this;
 
+        const enableOfflinePlayback = context.querySelector('#chkOfflinePlayback').checked;
         const timeSyncDevice = context.querySelector('#selectTimeSync').value;
         const extraTimeOffset = context.querySelector('#txtExtraTimeOffset').value;
         const syncCorrection = context.querySelector('#chkSyncCorrection').checked;
@@ -228,6 +230,7 @@ class SettingsEditor {
         const useSpeedToSync = context.querySelector('#chkSpeedToSync').checked;
         const useSkipToSync = context.querySelector('#chkSkipToSync').checked;
 
+        SyncPlay.Settings.set('enableOfflinePlayback', enableOfflinePlayback);
         SyncPlay.Settings.set('timeSyncDevice', timeSyncDevice);
         SyncPlay.Settings.set('extraTimeOffset', extraTimeOffset);
         SyncPlay.Settings.set('enableSyncCorrection', syncCorrection);

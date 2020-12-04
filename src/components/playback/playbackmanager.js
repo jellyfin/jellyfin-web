@@ -2405,6 +2405,12 @@ class PlaybackManager {
                 playMethod = 'DirectPlay';
             }
 
+            // Offline playback.
+            if (item.OfflineUrl !== undefined) {
+                mediaUrl = item.OfflineUrl;
+                playMethod = 'OfflinePlayback';
+            }
+
             const resultInfo = {
                 url: mediaUrl,
                 mimeType: contentType,

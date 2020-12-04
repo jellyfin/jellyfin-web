@@ -395,10 +395,12 @@ import ServerConnections from '../ServerConnections';
                 name: globalize.translate('LabelPlaybackInfo')
             };
 
-            baseCategory.stats.unshift({
-                label: globalize.translate('LabelPlayMethod'),
-                value: localizedDisplayMethod
-            });
+            if (localizedDisplayMethod) {
+                baseCategory.stats.unshift({
+                    label: globalize.translate('LabelPlayMethod'),
+                    value: localizedDisplayMethod
+                });
+            }
 
             baseCategory.stats.unshift({
                 label: globalize.translate('LabelPlayer'),
