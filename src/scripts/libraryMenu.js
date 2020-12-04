@@ -315,7 +315,7 @@ import Headroom from 'headroom.js';
             html += '</h3>';
 
             if (appHost.supports('multiserver')) {
-                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="#!/selectserver.html?showuser=1"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
             }
 
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('Settings') + '</span></a>';
@@ -325,6 +325,11 @@ import Headroom from 'headroom.js';
 
         // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;
+
+        const btnSelectServer = navDrawerScrollContainer.querySelector('.btnSelectServer');
+        if (btnSelectServer) {
+            btnSelectServer.addEventListener('click', onSelectServerClick);
+        }
 
         const btnSettings = navDrawerScrollContainer.querySelector('.btnSettings');
         if (btnSettings) {
@@ -675,6 +680,10 @@ import Headroom from 'headroom.js';
         if (dom.parentWithTag(e.target, 'A')) {
             setTimeout(closeMainDrawer, 30);
         }
+    }
+
+    function onSelectServerClick() {
+        Dashboard.selectServer();
     }
 
     function onSettingsClick() {
