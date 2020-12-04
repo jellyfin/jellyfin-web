@@ -136,7 +136,9 @@ export default function(view, params) {
             dialogHelper.close(dialog);
         });
 
-        dialog.querySelector('.newPluginForm').addEventListener('submit', () => {
+        dialog.querySelector('.newPluginForm').addEventListener('submit', e => {
+            e.preventDefault();
+
             repositories.push({
                 Name: dialog.querySelector('#txtRepositoryName').value,
                 Url: dialog.querySelector('#txtRepositoryUrl').value,
