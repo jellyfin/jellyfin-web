@@ -113,7 +113,7 @@ export class ComicsPlayer {
             loading.hide();
             this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
                 direction: 'horizontal',
-                // loop is disabled due to the lack ofSwiper support in virtual slides
+                // loop is disabled due to the lack of Swiper support in virtual slides
                 loop: false,
                 zoom: {
                     minRatio: 1,
