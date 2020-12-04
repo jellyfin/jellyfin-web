@@ -38,10 +38,10 @@ import Dashboard from '../../../scripts/clientUtils';
 
     function getTabs() {
         return [{
-            href: 'dlnasettings.html',
+            href: '#!/dlnasettings.html',
             name: globalize.translate('Settings')
         }, {
-            href: 'dlnaprofiles.html',
+            href: '#!/dlnaprofiles.html',
             name: globalize.translate('TabProfiles')
         }];
     }

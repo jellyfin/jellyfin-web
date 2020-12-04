@@ -20,7 +20,6 @@ class AppRouter {
     currentViewLoadRequest;
     firstConnectionResult;
     forcedLogoutMsg;
-    handleAnchorClick = page.clickHandler;
     isDummyBackToHome;
     msgTimeout;
     popstateOccurred = false;
