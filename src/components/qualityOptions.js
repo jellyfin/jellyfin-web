@@ -52,17 +52,14 @@ export function getVideoQualityOptions(options) {
     qualityOptions.push({ name: '360p - 420 kbps', maxHeight: 360, bitrate: 420000 });
 
     if (maxStreamingBitrate) {
-        let selectedIndex = -1;
+        let selectedIndex = qualityOptions.length - 1;
         for (let i = 0, length = qualityOptions.length; i < length; i++) {
             const option = qualityOptions[i];
 
-            if (selectedIndex === -1 && option.bitrate <= maxStreamingBitrate) {
+            if (option.bitrate > 0 && option.bitrate <= maxStreamingBitrate) {
                 selectedIndex = i;
+                break;
             }
-        }
-
-        if (selectedIndex === -1) {
-            selectedIndex = qualityOptions.length - 1;
         }
 
         const currentQualityOption = qualityOptions[selectedIndex];
@@ -103,17 +100,14 @@ export function getAudioQualityOptions(options) {
     qualityOptions.push({ name: '64 kbps', bitrate: 64000 });
 
     if (maxStreamingBitrate) {
-        let selectedIndex = -1;
+        let selectedIndex = qualityOptions.length - 1;
         for (let i = 0, length = qualityOptions.length; i < length; i++) {
             const option = qualityOptions[i];
 
-            if (selectedIndex === -1 && option.bitrate <= maxStreamingBitrate) {
+            if (option.bitrate > 0 && option.bitrate <= maxStreamingBitrate) {
                 selectedIndex = i;
+                break;
             }
-        }
-
-        if (selectedIndex === -1) {
-            selectedIndex = qualityOptions.length - 1;
         }
 
         const currentQualityOption = qualityOptions[selectedIndex];
