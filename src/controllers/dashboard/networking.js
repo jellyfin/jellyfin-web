@@ -136,7 +136,7 @@ import alert from '../../components/alert';
             page.querySelector('#txtPortNumber').value = config.HttpServerPortNumber;
             page.querySelector('#txtPublicPort').value = config.PublicPort;
             page.querySelector('#txtPublicHttpsPort').value = config.PublicHttpsPort;
-            page.querySelector('#txtLocalAddress').value = (config.LocalNetworkSubnets || []).join(', ');
+            page.querySelector('#txtLocalAddress').value = (config.LocalNetworkAddresses || []).join(', ');
             page.querySelector('#txtLanNetworks').value = (config.LocalNetworkSubnets || []).join(', ');
             page.querySelector('#txtKnownProxies').value = (config.KnownProxies || []).join(', ');
             page.querySelector('#txtExternalAddressFilter').value = (config.RemoteIPFilter || []).join(', ');
