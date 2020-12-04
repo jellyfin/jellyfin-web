@@ -88,7 +88,7 @@
     "AllowMediaConversion": "Autoriser la conversion des médias",
     "AllowMediaConversionHelp": "Autoriser ou refuser l'accès à la fonctionnalité de conversion des médias.",
     "AllowOnTheFlySubtitleExtraction": "Autoriser l'extraction des sous-titres à la volée",
-    "AllowOnTheFlySubtitleExtractionHelp": "Les sous-titres intégrés peuvent être extraits des vidéos et distribués aux clients en format texte pour éviter le transcodage. Sur certains systèmes, cela peut prendre du temps et arrêter la lecture de la vidéo pendant le processus d'extraction. Désactivez cette option pour graver les sous-titres avec un transcodage quand l'appareil ne les prend pas en charge nativement.",
+    "AllowOnTheFlySubtitleExtractionHelp": "Les sous-titres intégrés peuvent être extraits des vidéos et distribués aux clients en texte brut pour éviter le transcodage. Sur certains systèmes, cela peut prendre du temps et arrêter la lecture de la vidéo pendant le processus d'extraction. Désactivez cette option pour graver les sous-titres avec un transcodage quand l'appareil ne les prend pas en charge nativement.",
     "AllowRemoteAccess": "Autoriser les connexions à distance sur ce serveur Jellyfin.",
     "AllowRemoteAccessHelp": "Si l'option est désactivée, toutes les connexions distantes seront bloquées.",
     "Artists": "Artistes",
