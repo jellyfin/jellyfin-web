@@ -1876,6 +1876,9 @@ class PlaybackManager {
             }
         }
 
+        self.translateItemsForPlayback = translateItemsForPlayback;
+        self.getItemsForPlayback = getItemsForPlayback;
+
         self.play = function (options) {
             normalizePlayOptions(options);
 
@@ -2504,29 +2507,38 @@ class PlaybackManager {
             })[0];
         }
 
+        self.getItemFromPlaylistItemId = function (playlistItemId) {
+            let item;
+            let itemIndex;
+            const playlist = self._playQueueManager.getPlaylist();
+
+            for (let i = 0, length = playlist.length; i < length; i++) {
+                if (playlist[i].PlaylistItemId === playlistItemId) {
+                    item = playlist[i];
+                    itemIndex = i;
+                    break;
+                }
+            }
+
+            return {
+                Item: item,
+                Index: itemIndex
+            };
+        };
+
         self.setCurrentPlaylistItem = function (playlistItemId, player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.setCurrentPlaylistItem(playlistItemId);
             }
 
-            let newItem;
-            let newItemIndex;
-            const playlist = self._playQueueManager.getPlaylist();
+            const newItem = self.getItemFromPlaylistItemId(playlistItemId);
 
-            for (let i = 0, length = playlist.length; i < length; i++) {
-                if (playlist[i].PlaylistItemId === playlistItemId) {
-                    newItem = playlist[i];
-                    newItemIndex = i;
-                    break;
-                }
-            }
+            if (newItem.Item) {
+                const newItemPlayOptions = newItem.Item.playOptions || getDefaultPlayOptions();
 
-            if (newItem) {
-                const newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
-
-                playInternal(newItem, newItemPlayOptions, function () {
-                    setPlaylistState(newItem.PlaylistItemId, newItemIndex);
+                playInternal(newItem.Item, newItemPlayOptions, function () {
+                    setPlaylistState(newItem.Item.PlaylistItemId, newItem.Index);
                 });
             }
         };
@@ -2904,6 +2916,8 @@ class PlaybackManager {
                     return;
                 }
             }
+
+            Events.trigger(self, 'playbackerror', [errorType]);
 
             const displayErrorCode = 'NoCompatibleStream';
             onPlaybackStopped.call(player, e, displayErrorCode);

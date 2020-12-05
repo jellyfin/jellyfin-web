@@ -6,8 +6,8 @@ import viewManager from '../components/viewManager/viewManager';
 import { appRouter } from '../components/appRouter';
 import { appHost } from '../components/apphost';
 import { playbackManager } from '../components/playback/playbackmanager';
-import syncPlayManager from '../components/syncPlay/syncPlayManager';
-import { show as groupSelectionMenuShow } from '../components/syncPlay/groupSelectionMenu';
+import SyncPlay from '../components/syncPlay/core';
+import groupSelectionMenu from '../components/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
@@ -230,7 +230,7 @@ import Headroom from 'headroom.js';
 
     function onSyncButtonClicked() {
         const btn = this;
-        groupSelectionMenuShow(btn);
+        groupSelectionMenu.show(btn);
     }
 
     function onSyncPlayEnabled(event, enabled) {
@@ -315,7 +315,7 @@ import Headroom from 'headroom.js';
             html += '</h3>';
 
             if (appHost.supports('multiserver')) {
-                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="#!/selectserver.html?showuser=1"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
             }
 
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('Settings') + '</span></a>';
@@ -325,6 +325,11 @@ import Headroom from 'headroom.js';
 
         // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;
+
+        const btnSelectServer = navDrawerScrollContainer.querySelector('.btnSelectServer');
+        if (btnSelectServer) {
+            btnSelectServer.addEventListener('click', onSelectServerClick);
+        }
 
         const btnSettings = navDrawerScrollContainer.querySelector('.btnSettings');
         if (btnSettings) {
@@ -598,7 +603,7 @@ import Headroom from 'headroom.js';
                     guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
-                    guideView.url = 'livetv.html?tab=1';
+                    guideView.url = '#!/livetv.html?tab=1';
                     list.push(guideView);
                 }
             }
@@ -675,6 +680,10 @@ import Headroom from 'headroom.js';
         if (dom.parentWithTag(e.target, 'A')) {
             setTimeout(closeMainDrawer, 30);
         }
+    }
+
+    function onSelectServerClick() {
+        Dashboard.selectServer();
     }
 
     function onSettingsClick() {
@@ -1000,8 +1009,8 @@ import Headroom from 'headroom.js';
 
     Events.on(playbackManager, 'playerchange', updateCastIcon);
 
-    Events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
-    Events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
+    Events.on(SyncPlay.Manager, 'enabled', onSyncPlayEnabled);
+    Events.on(SyncPlay.Manager, 'syncing', onSyncPlaySyncing);
 
     loadNavDrawer();
 

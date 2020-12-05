@@ -4,7 +4,7 @@ import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import playMethodHelper from '../playback/playmethodhelper';
-import syncPlayManager from '../syncPlay/syncPlayManager';
+import SyncPlay from '../../components/syncPlay/core';
 import './playerstats.css';
 import ServerConnections from '../ServerConnections';
 
@@ -342,16 +342,22 @@ import ServerConnections from '../ServerConnections';
 
     function getSyncPlayStats() {
         const syncStats = [];
-        const stats = syncPlayManager.getStats();
+        const stats = SyncPlay.Manager.getStats();
 
         syncStats.push({
-            label: globalize.translate('LabelSyncPlayTimeOffset'),
-            value: stats.TimeOffset + globalize.translate('MillisecondsUnit')
+            label: globalize.translate('LabelSyncPlayTimeSyncDevice'),
+            value: stats.TimeSyncDevice
+        });
+
+        syncStats.push({
+            // TODO: clean old string 'LabelSyncPlayTimeOffset' from translations.
+            label: globalize.translate('LabelSyncPlayTimeSyncOffset'),
+            value: stats.TimeSyncOffset + ' ' + globalize.translate('MillisecondsUnit')
         });
 
         syncStats.push({
             label: globalize.translate('LabelSyncPlayPlaybackDiff'),
-            value: stats.PlaybackDiff + globalize.translate('MillisecondsUnit')
+            value: stats.PlaybackDiff + ' ' + globalize.translate('MillisecondsUnit')
         });
 
         syncStats.push({
@@ -433,7 +439,7 @@ import ServerConnections from '../ServerConnections';
             });
 
             const apiClient = ServerConnections.getApiClient(playbackManager.currentItem(player).ServerId);
-            if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
+            if (SyncPlay.Manager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),
                     name: globalize.translate('LabelSyncPlayInfo')

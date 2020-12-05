@@ -32,6 +32,12 @@ import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
 import '../legacy/focusPreventScroll';
 import '../legacy/vendorStyles';
+import SyncPlay from '../components/syncPlay/core';
+import { playbackManager } from '../components/playback/playbackmanager';
+import SyncPlayToasts from '../components/syncPlay/ui/syncPlayToasts';
+import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/NoActivePlayer';
+import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideoPlayer';
+import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
@@ -116,6 +122,7 @@ function onGlobalizeInit() {
     import('../assets/css/librarybrowser.css');
 
     loadPlugins().then(function () {
+        initSyncPlay();
         onAppReady();
     });
 }
@@ -151,6 +158,23 @@ function loadPlugins() {
             })
         ;
     });
+}
+
+function initSyncPlay() {
+    // Register player wrappers.
+    SyncPlay.PlayerFactory.setDefaultWrapper(SyncPlayNoActivePlayer);
+    SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlVideoPlayer);
+    SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlAudioPlayer);
+
+    // Listen for player changes.
+    Events.on(playbackManager, 'playerchange', (event, newPlayer, newTarget, oldPlayer) => {
+        SyncPlay.Manager.onPlayerChange(newPlayer, newTarget, oldPlayer);
+    });
+
+    // Start SyncPlay.
+    const apiClient = ServerConnections.currentApiClient();
+    SyncPlay.Manager.init(apiClient);
+    SyncPlayToasts.init();
 }
 
 function onAppReady() {

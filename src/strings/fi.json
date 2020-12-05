@@ -1193,5 +1193,8 @@
     "LabelBindToLocalNetworkAddressHelp": "Korvaa HTTP-palvelimen paikallinen IP-osoite. Jos se on tyhjä, palvelin linkitetään kaikkiin käytettävissä oleviin osoitteisiin. Tämän arvon muuttaminen edellyttää uudelleenkäynnistystä.",
     "LabelDefaultUserHelp": "Määrittää käyttäjän kirjaston, joka näytetään liitetyissä laitteissa. Tätä asetusta voidaan muuttaa laitekohtaisesti laiteprofiilin avulla.",
     "ClearQueue": "Tyhjennä jono",
-    "ButtonPlayer": "Soitin"
+    "ButtonPlayer": "Soitin",
+    "DeleteDevicesConfirmation": "Haluatko varmasti poistaa kaikki laitteet? Kaikki muut istunnot tullaan kirjaamaan ulos. Laitteet näytetään uudelleen kun käyttäjä kirjautuu seuraavan kerran sisään.",
+    "DeleteAll": "Poista kaikki",
+    "ButtonCast": "Näyttelijät"
 }

@@ -159,13 +159,13 @@ function reloadList(page) {
 
 function getTabs() {
     return [{
-        href: 'installedplugins.html',
+        href: '#!/installedplugins.html',
         name: globalize.translate('TabMyPlugins')
     }, {
-        href: 'availableplugins.html',
+        href: '#!/availableplugins.html',
         name: globalize.translate('TabCatalog')
     }, {
-        href: 'repositories.html',
+        href: '#!/repositories.html',
         name: globalize.translate('TabRepositories')
     }];
 }
