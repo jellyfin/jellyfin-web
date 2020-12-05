@@ -1125,7 +1125,7 @@
     "MessageSyncPlayErrorNoActivePlayer": "Không tìm thấy trình phát đang hoạt động. Phát đồng bộ SyncPlay đã bị tắt.",
     "MessageSyncPlayErrorAccessingGroups": "Đã xảy ra lỗi khi truy cập danh sách nhóm.",
     "MessageSyncPlayLibraryAccessDenied": "Quyền truy cập vào nội dung này bị hạn chế.",
-    "MessageSyncPlayJoinGroupDenied": "Cần có quyền để sử dụng SyncPlay.",
+    "MessageSyncPlayJoinGroupDenied": "Không thể tham gia nhóm.",
     "MessageSyncPlayCreateGroupDenied": "Cần có quyền để tạo nhóm.",
     "MessageSyncPlayGroupDoesNotExist": "Không thể tham gia nhóm vì nó không tồn tại.",
     "MessageSyncPlayPlaybackPermissionRequired": "Cần có quyền phát lại.",
@@ -1486,5 +1486,13 @@
     "LabelPublishedServerUriHelp": "Ghi đè URI được Jellyfin dùng, dựa trên giao diện hoặc địa chỉ IP của ứng dụng khách.",
     "LabelPublishedServerUri": "URI Máy Chủ Đã Công Bố:",
     "LabelHDHomerunPortRangeHelp": "Giới hạn phạm vi cổng HD Homerun UDP ở giá trị này. (Mặc định là 1024 - 645535).",
-    "LabelHDHomerunPortRange": "Dải cổng Homerun HD:"
+    "LabelHDHomerunPortRange": "Dải cổng Homerun HD:",
+    "SyncPlayGroupDefaultTitle": "{0}'s nhóm",
+    "MessageSyncPlayIsDisabled": "Cần có quyền để sử dụng SyncPlay.",
+    "LabelSyncPlayTimeSyncOffset": "Thời gian bù đắp:",
+    "LabelSyncPlayTimeSyncDevice": "Đồng bộ hóa thời gian với:",
+    "LabelSyncPlayResumePlaybackDescription": "Tham gia nhóm phát lại",
+    "LabelSyncPlayResumePlayback": "Tiếp tục phát lại cục bộ",
+    "LabelSyncPlayHaltPlaybackDescription": "Và bỏ qua các cập nhật danh sách phát hiện tại",
+    "LabelSyncPlayHaltPlayback": "Dừng phát lại cục bộ"
 }
