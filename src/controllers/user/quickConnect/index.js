@@ -1,17 +1,13 @@
-import QuickConnectSettings from '../../../components/quickConnectSettings/quickConnectSettings';
+import { activate, authorize } from './helper';
 import globalize from '../../../scripts/globalize';
 import toast from '../../../components/toast/toast';
 
 export default function (view) {
-    let quickConnectSettingsInstance = null;
-
     view.addEventListener('viewshow', function () {
         const codeElement = view.querySelector('#txtQuickConnectCode');
 
-        quickConnectSettingsInstance = new QuickConnectSettings();
-
         view.querySelector('#btnQuickConnectActivate').addEventListener('click', () => {
-            quickConnectSettingsInstance.activate(quickConnectSettingsInstance).then(() => {
+            activate().then(() => {
                 renderPage();
             });
         });
@@ -24,7 +20,7 @@ export default function (view) {
             }
 
             const code = codeElement.value;
-            quickConnectSettingsInstance.authorize(code);
+            authorize(code);
         });
 
         view.querySelector('.quickConnectSettingsContainer').addEventListener('submit', (e) => {

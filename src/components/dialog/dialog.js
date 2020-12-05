@@ -13,10 +13,11 @@ import template from './dialog.template.html';
 
 /* eslint-disable indent */
 
-    function showDialog(options) {
+    function showDialog(options = { dialogOptions: {}, buttons: [] }) {
         const dialogOptions = {
             removeOnClose: true,
-            scrollY: false
+            scrollY: false,
+            ...options.dialogOptions
         };
 
         const enableTvLayout = layoutManager.tv;

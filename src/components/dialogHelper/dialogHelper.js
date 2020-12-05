@@ -360,13 +360,16 @@ import '../../assets/css/scrollstyles.css';
         });
     }
 
-    export function createDialog(options) {
-        options = options || {};
-
+    export function createDialog(options = {}) {
         // If there's no native dialog support, use a plain div
         // Also not working well in samsung tizen browser, content inside not clickable
         // Just go ahead and always use a plain div because we're seeing issues overlaying absoltutely positioned content over a modal dialog
         const dlg = document.createElement('div');
+
+        // Add an id so we can access the dialog element
+        if (options.id) {
+            dlg.id = options.id;
+        }
 
         dlg.classList.add('focuscontainer');
         dlg.classList.add('hide');
