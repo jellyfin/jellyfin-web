@@ -1293,7 +1293,7 @@
     "MessageSyncPlayErrorNoActivePlayer": "Keine aktive Wiedergabe gefunden. SyncPlay wurde deaktiviert.",
     "MessageSyncPlayErrorAccessingGroups": "Beim Zugriff auf die Gruppen ist ein Fehler aufgetreten.",
     "MessageSyncPlayLibraryAccessDenied": "Der Zugang zu diesem Inhalt ist beschränkt.",
-    "MessageSyncPlayJoinGroupDenied": "Eine Berechtigung ist erforderlich um SyncPlay zu benutzen.",
+    "MessageSyncPlayJoinGroupDenied": "Gruppenbeitritt fehlgeschlagen.",
     "MessageSyncPlayCreateGroupDenied": "Zum Erstellen einer Gruppe ist eine Genehmigung erforderlich.",
     "MessageSyncPlayGroupDoesNotExist": "Konnte der Gruppe nicht beitreten, da sie nicht existiert.",
     "MessageSyncPlayPlaybackPermissionRequired": "Wiedergabegenehmigung erforderlich.",
@@ -1486,5 +1486,13 @@
     "Remuxing": "Remuxing",
     "LabelRemuxingInfo": "Remux-Information",
     "AspectRatioCover": "Bedecken",
-    "AspectRatioFill": "Füllen"
+    "AspectRatioFill": "Füllen",
+    "SyncPlayGroupDefaultTitle": "{0}te Gruppe",
+    "MessageSyncPlayIsDisabled": "Erlaubnis erforderlich um SyncPlay zu nutzen.",
+    "LabelSyncPlayTimeSyncOffset": "Zeitverschiebung:",
+    "LabelSyncPlayTimeSyncDevice": "Zeitsynchronisierung mit:",
+    "LabelSyncPlayResumePlaybackDescription": "Lokale Wiedergabe wiederherstellen",
+    "LabelSyncPlayResumePlayback": "Setze lokale Wiedergabe fort",
+    "LabelSyncPlayHaltPlaybackDescription": "Und ignoriere aktuelle Änderungen der Wiedergabeliste",
+    "LabelSyncPlayHaltPlayback": "Stoppe lokale Wiedergabe"
 }
