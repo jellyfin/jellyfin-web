@@ -143,13 +143,9 @@ function loadPlugins() {
             list = list.concat(window.NativeShell.getPlugins());
         }
 
-        Promise.all(list.map((plugin) => {
-            return pluginManager.loadPlugin(plugin);
-        }))
-            .then(function () {
-                console.debug('finished loading plugins');
-            })
-            .catch(() => console.debug('failed loading plugins'))
+        Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)))
+            .then(() => console.debug('finished loading plugins'))
+            .catch(e => console.warn('failed loading plugins', e))
             .finally(() => {
                 console.groupEnd('loading installed plugins');
                 packageManager.init();
