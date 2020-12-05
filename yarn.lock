@@ -4697,10 +4697,10 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
-jellyfin-apiclient@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/jellyfin-apiclient/-/jellyfin-apiclient-1.4.2.tgz#0a7ab7b371380cfb1bc9789204439b8dfdcdbafd"
-  integrity sha512-xUvt1G0cDlam6hJgC5Jr6EE5botzdEMGxeer3Vm0+zhM7nb8iFnRmQRmTpVbXtYS8NLiHsiUmK1RLlelgtWDYg==
+jellyfin-apiclient@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/jellyfin-apiclient/-/jellyfin-apiclient-1.5.0.tgz#44a91c267c3a9a230c32489e7138d565f3b0703e"
+  integrity sha512-F1LP0w+jrNBI+T17uLdOpESn/hNqZdubnWfQy1VGZnSn4abktAR+J+kIFH/RaSBbTRSAbZ2QxIyyu0Jxm3aB6A==
 
 "jellyfin-noto@https://github.com/jellyfin/jellyfin-noto":
   version "1.0.3"
