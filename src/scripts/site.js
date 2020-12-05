@@ -30,6 +30,8 @@ import { pageClassOn, serverAddress } from './clientUtils';
 import '../libraries/screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
+import '../legacy/focusPreventScroll';
+import '../legacy/vendorStyles';
 import SyncPlay from '../components/syncPlay/core';
 import { playbackManager } from '../components/playback/playbackmanager';
 import SyncPlayToasts from '../components/syncPlay/ui/syncPlayToasts';

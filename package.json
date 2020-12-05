@@ -10,9 +10,12 @@
     "@babel/eslint-plugin": "^7.12.1",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/plugin-proposal-private-methods": "^7.12.1",
+    "@babel/plugin-transform-modules-umd": "^7.12.1",
     "@babel/preset-env": "^7.12.7",
+    "@uupaa/dynamic-import-polyfill": "^1.0.2",
     "autoprefixer": "^9.8.6",
     "babel-loader": "^8.2.2",
+    "babel-plugin-dynamic-import-polyfill": "^1.0.0",
     "clean-webpack-plugin": "^3.0.0",
     "confusing-browser-globals": "^1.0.10",
     "copy-webpack-plugin": "^6.3.2",
@@ -74,21 +77,6 @@
     "whatwg-fetch": "^3.5.0",
     "workbox-core": "^5.1.4",
     "workbox-precaching": "^5.1.4"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "useBuiltIns": "usage",
-          "corejs": 3
-        }
-      ]
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-proposal-private-methods"
-    ]
   },
   "browserslist": [
     "last 2 Firefox versions",

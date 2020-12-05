@@ -1,7 +1,6 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const packageConfig = require('./package.json');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -24,7 +23,7 @@ const LibarchiveWasm = [
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
-    target: 'web',
+    target: 'browserslist',
     resolve: {
         modules: [
             path.resolve(__dirname, 'node_modules')
@@ -91,11 +90,20 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!date-fns|epubjs)/,
+                exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|date-fns|epubjs|flv.js|libarchive.js)/,
+                use: [{
+                    loader: 'babel-loader'
+                }]
+            },
+            /* modules that Babel breaks when transforming to ESM */
+            {
+                test: /node_modules[\\/](pdfjs-dist|xmldom)[\\/].*\.js$/,
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        presets: packageConfig.babel.presets
+                        plugins: [
+                            '@babel/transform-modules-umd'
+                        ]
                     }
                 }]
             },
