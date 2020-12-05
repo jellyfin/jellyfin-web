@@ -876,7 +876,7 @@
     "MessageSyncPlayErrorNoActivePlayer": "செயலில் உள்ள எந்த பிளேயரும் கிடைக்கவில்லை. ஒத்திசைவு முடக்கப்பட்டுள்ளது.",
     "MessageSyncPlayErrorAccessingGroups": "குழுக்கள் பட்டியலை அணுகும்போது பிழை ஏற்பட்டது.",
     "MessageSyncPlayLibraryAccessDenied": "இந்த உள்ளடக்கத்திற்கான அணுகல் தடைசெய்யப்பட்டுள்ளது.",
-    "MessageSyncPlayJoinGroupDenied": "ஒத்திசைவைப் பயன்படுத்த அனுமதி தேவை.",
+    "MessageSyncPlayJoinGroupDenied": "குழுவில் சேர முடியாது.",
     "MessageSyncPlayCreateGroupDenied": "ஒரு குழுவை உருவாக்க அனுமதி தேவை.",
     "MessageSyncPlayGroupDoesNotExist": "குழு இல்லாததால் குழுவில் சேர முடியவில்லை.",
     "MessageSyncPlayPlaybackPermissionRequired": "பின்னணி அனுமதி தேவை.",
@@ -1501,5 +1501,13 @@
     "HeaderDebugging": "பிழைத்திருத்தம் மற்றும் தடமறிதல்",
     "HeaderAutoDiscovery": "பிணைய கண்டுபிடிப்பு",
     "HeaderAddUser": "பயனரைச் சேர்க்கவும்",
-    "HeaderAddUpdateSubtitle": "வசனத்தைச் சேர்க்கவும் / புதுப்பிக்கவும்"
+    "HeaderAddUpdateSubtitle": "வசனத்தைச் சேர்க்கவும் / புதுப்பிக்கவும்",
+    "SyncPlayGroupDefaultTitle": "{0} இன் குழு",
+    "MessageSyncPlayIsDisabled": "ஒத்திசைவைப் பயன்படுத்த அனுமதி தேவை.",
+    "LabelSyncPlayTimeSyncOffset": "நேரம் ஆஃப்செட்:",
+    "LabelSyncPlayTimeSyncDevice": "இதனுடன் ஒத்திசைக்கும் நேரம்:",
+    "LabelSyncPlayResumePlaybackDescription": "மீண்டும் குழு பின்னணியில் சேரவும்",
+    "LabelSyncPlayResumePlayback": "உள்ளூர் பின்னணியை மீண்டும் தொடங்குங்கள்",
+    "LabelSyncPlayHaltPlaybackDescription": "தற்போதைய பிளேலிஸ்ட் புதுப்பிப்புகளை புறக்கணிக்கவும்",
+    "LabelSyncPlayHaltPlayback": "உள்ளூர் பின்னணியை நிறுத்துங்கள்"
 }
