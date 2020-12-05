@@ -833,7 +833,7 @@
     "MessageSyncPlayErrorNoActivePlayer": "No se ha encontrado ningún reproductor activo. SyncPlay ha sido deshabilitado.",
     "MessageSyncPlayErrorAccessingGroups": "Se produjo un error al acceder a la lista de grupos.",
     "MessageSyncPlayLibraryAccessDenied": "El acceso a este contenido está restringido.",
-    "MessageSyncPlayJoinGroupDenied": "Se requiere permiso para usar SyncPlay.",
+    "MessageSyncPlayJoinGroupDenied": "No se puede unir al grupo.",
     "MessageSyncPlayCreateGroupDenied": "Se requiere permiso para crear un grupo.",
     "MessageSyncPlayGroupDoesNotExist": "No se pudo unir al grupo porque no existe.",
     "MessageSyncPlayPlaybackPermissionRequired": "Se requiere permiso de reproducción.",
@@ -1486,5 +1486,13 @@
     "LabelAudioInfo": "Información de Audio",
     "LabelPlaybackInfo": "Información de Reproducción",
     "RemuxHelp2": "El Remezclado usa muy poca potencia de procesamiento sin perdida de calidad.",
-    "RemuxHelp1": "El medio esta en un contenedor incompatible (MKV, AVI, WMV, etc), pero tanto el vídeo como el audio son compatibles con el dispositivo. El medio sera re-empaquetado sin perdidas, en tiempo real, antes de ser enviado."
+    "RemuxHelp1": "El medio esta en un contenedor incompatible (MKV, AVI, WMV, etc), pero tanto el vídeo como el audio son compatibles con el dispositivo. El medio sera re-empaquetado sin perdidas, en tiempo real, antes de ser enviado.",
+    "SyncPlayGroupDefaultTitle": "Grupo de {0}",
+    "MessageSyncPlayIsDisabled": "Se requiere permiso para usar SyncPlay.",
+    "LabelSyncPlayTimeSyncOffset": "Desplazamiento de tiempo:",
+    "LabelSyncPlayTimeSyncDevice": "Sincronización de tiempo con:",
+    "LabelSyncPlayResumePlaybackDescription": "Volver a unirse a la reproducción del grupo",
+    "LabelSyncPlayResumePlayback": "Reanudar la reproducción local",
+    "LabelSyncPlayHaltPlaybackDescription": "E ignore las actualizaciones actuales de la lista de reproducción",
+    "LabelSyncPlayHaltPlayback": "Detener la reproducción local"
 }
