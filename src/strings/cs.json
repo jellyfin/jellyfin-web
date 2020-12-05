@@ -1294,7 +1294,7 @@
     "MessageSyncPlayErrorNoActivePlayer": "Nebyl nalezen žádný aktivní přehrávač. Synchronizace přehrávání byla vypnuta.",
     "MessageSyncPlayErrorAccessingGroups": "Při načítání seznamu skupin došlo k chybě.",
     "MessageSyncPlayLibraryAccessDenied": "Přístup k tomuto obsahu je omezen.",
-    "MessageSyncPlayJoinGroupDenied": "K použití synchronizace přehrávání je vyžadováno povolení.",
+    "MessageSyncPlayJoinGroupDenied": "Nelze se připojit ke skupině.",
     "MessageSyncPlayCreateGroupDenied": "K vytvoření skupiny je vyžadováno povolení.",
     "MessageSyncPlayGroupDoesNotExist": "Připojení ke skupině se nezdařilo, protože skupina neexistuje.",
     "MessageSyncPlayPlaybackPermissionRequired": "K přehrávání je vyžadováno povolení.",
@@ -1486,5 +1486,13 @@
     "HeaderDebugging": "Ladění a trasování",
     "HeaderAutoDiscovery": "Rozpoznání sítě",
     "HeaderAddUser": "Přidat uživatele",
-    "HeaderAddUpdateSubtitle": "Přidat/aktualizovat titulky"
+    "HeaderAddUpdateSubtitle": "Přidat/aktualizovat titulky",
+    "SyncPlayGroupDefaultTitle": "Skupina uživatele {0}",
+    "MessageSyncPlayIsDisabled": "K použití funkce SyncPlay je vyžadováno povolení.",
+    "LabelSyncPlayTimeSyncOffset": "Časový rozdíl:",
+    "LabelSyncPlayTimeSyncDevice": "Synchronizace času s:",
+    "LabelSyncPlayResumePlaybackDescription": "Připojit se zpět ke skupinovému přehrávání",
+    "LabelSyncPlayResumePlayback": "Pokračovat v místním přehrávání",
+    "LabelSyncPlayHaltPlaybackDescription": "A ignorovat aktualizace aktuálního seznamu skladeb",
+    "LabelSyncPlayHaltPlayback": "Zastavit místní přehrávání"
 }
