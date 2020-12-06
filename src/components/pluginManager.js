@@ -77,7 +77,7 @@ import { playbackManager } from './playback/playbackmanager';
                     let pluginInstance = await window[pluginSpec];
 
                     if (typeof pluginInstance === 'function') {
-                        pluginInstance = await new pluginInstance();
+                        pluginInstance = await pluginInstance();
                     }
 
                     // init plugin and pass basic dependencies
