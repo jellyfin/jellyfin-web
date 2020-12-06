@@ -1,50 +1,88 @@
 
 /* eslint-disable indent */
+    const deviceAppNameIconList = [
+        {
+            names: ['Samsung Smart TV'],
+            icon: 'samsung.svg'
+        },
+        {
+            names: ['Xbox One'],
+            icon: 'xbox.svg'
+        },
+        {
+            names: ['Sony PS4'],
+            icon: 'playstation.svg'
+        },
+        {
+            names: ['Kodi'],
+            icon: 'kodi.svg'
+        },
+        {
+            names: ['Jellyfin Android', 'Android TV'],
+            icon: 'android.svg'
+        }
+    ]
+
+    const deviceNameIconList = [
+        {
+            names: ['Opera'],
+            icon: 'opera.svg'
+        },
+        {
+            names: ['Chrome'],
+            icon: 'chrome.svg'
+        },
+        {
+            names: ['Firefox'],
+            icon: 'firefox.svg'
+        },
+        {
+            names: ['Safari'],
+            icon: 'safari.svg'
+        },
+        {
+            names: ['Edge Chromium'],
+            icon: 'edgechromium.svg'
+        },
+        {
+            names: ['Edge'],
+            icon: 'edge.svg'
+        },
+        {
+            names: ['Internet Explorer'],
+            icon: 'msie.svg'
+        }
+    ]
 
     export function getDeviceIcon(device) {
         const baseUrl = 'assets/img/devices/';
-        switch (device.AppName || device.Client) {
-            case 'Samsung Smart TV':
-                return baseUrl + 'samsung.svg';
-            case 'Xbox One':
-                return baseUrl + 'xbox.svg';
-            case 'Sony PS4':
-                return baseUrl + 'playstation.svg';
-            case 'Kodi':
-                return baseUrl + 'kodi.svg';
-            case 'Jellyfin Android':
-            case 'Android TV':
-                return baseUrl + 'android.svg';
-            case 'Jellyfin Web':
-                switch (device.Name || device.DeviceName) {
-                    case 'Opera':
-                    case 'Opera TV':
-                    case 'Opera Android':
-                        return baseUrl + 'opera.svg';
-                    case 'Chrome':
-                    case 'Chrome Android':
-                        return baseUrl + 'chrome.svg';
-                    case 'Firefox':
-                    case 'Firefox Android':
-                        return baseUrl + 'firefox.svg';
-                    case 'Safari':
-                    case 'Safari iPad':
-                    case 'Safari iPhone':
-                        return baseUrl + 'safari.svg';
-                    case 'Edge Chromium':
-                    case 'Edge Chromium Android':
-                    case 'Edge Chromium iPad':
-                    case 'Edge Chromium iPhone':
-                        return baseUrl + 'edgechromium.svg';
-                    case 'Edge':
-                        return baseUrl + 'edge.svg';
-                    case 'Internet Explorer':
-                        return baseUrl + 'msie.svg';
-                    default:
-                        return baseUrl + 'html5.svg';
-                }
-            default:
-                return baseUrl + 'other.svg';
+
+        let appName = device.AppName ?? device.Client ?? undefined;
+        if (!appName)
+            return baseUrl + 'other.svg';
+
+        if (appName === 'Jellyfin Web') {
+            let deviceName = device.Name ?? device.DeviceName ?? undefined;
+            if (!deviceName)
+                return baseUrl + 'html5.svg';
+
+            deviceName = deviceName.toLocaleLowerCase();
+
+            const result = deviceNameIconList.find((cur) => {
+                const index = cur.names.findIndex((val) => val.toLocaleLowerCase().includes(deviceName));
+                return index !== -1;
+            });
+
+            return result ? baseUrl + result.icon : baseUrl + 'html5.svg';
+        } else {
+            appName = appName.toLocaleLowerCase();
+
+            const result = deviceAppNameIconList.find((cur) => {
+                const index = cur.names.findIndex((val) => val.toLocaleLowerCase().includes(appName));
+                return index !== -1;
+            });
+
+            return result ? baseUrl + result.icon : baseUrl +'other.svg';
         }
     }
 

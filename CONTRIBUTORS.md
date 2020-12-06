@@ -43,6 +43,7 @@
  - [Orry Verducci](https://github.com/orryverducci)
  - [Camc314](https://github.com/camc314)
  - [danieladov](https://github.com/danieladov)
+ - [erri120](https://github.com/erri120)
 
 # Emby Contributors
 
