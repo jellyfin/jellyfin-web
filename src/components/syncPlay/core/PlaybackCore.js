@@ -70,7 +70,6 @@ class PlaybackCore {
     onPlaybackStop(stopInfo) {
         this.lastCommand = null;
         Events.trigger(this.manager, 'playbackstop', [stopInfo]);
-        this.manager.releaseCurrentPlayer();
     }
 
     /**
