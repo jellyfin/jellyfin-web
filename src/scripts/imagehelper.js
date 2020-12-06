@@ -21,7 +21,7 @@
             names: ['Jellyfin Android', 'Android TV'],
             icon: 'android.svg'
         }
-    ]
+    ];
 
     const deviceNameIconList = [
         {
@@ -52,7 +52,7 @@
             names: ['Internet Explorer'],
             icon: 'msie.svg'
         }
-    ]
+    ];
 
     export function getDeviceIcon(device) {
         const baseUrl = 'assets/img/devices/';
@@ -82,7 +82,7 @@
                 return index !== -1;
             });
 
-            return result ? baseUrl + result.icon : baseUrl +'other.svg';
+            return result ? baseUrl + result.icon : baseUrl + 'other.svg';
         }
     }
 
