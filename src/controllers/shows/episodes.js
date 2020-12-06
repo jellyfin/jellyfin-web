@@ -23,7 +23,7 @@ import Dashboard from '../../scripts/clientUtils';
                         SortOrder: 'Ascending',
                         IncludeItemTypes: 'Episode',
                         Recursive: true,
-                        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,UserData',
+                        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
                         IsMissing: false,
                         ImageTypeLimit: 1,
                         EnableImageTypes: 'Primary,Backdrop,Thumb',
