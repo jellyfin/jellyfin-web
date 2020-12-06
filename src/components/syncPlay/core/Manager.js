@@ -246,6 +246,22 @@ class Manager {
     }
 
     /**
+     * Handles a message from the server.
+     * @param {Object} message The message.
+     * @param {Object} apiClient The ApiClient.
+     */
+    processMessage(message, apiClient) {
+        // Detect message type.
+        if (message.Type !== undefined) {
+            this.processGroupUpdate(message, apiClient);
+        } else if (message.Command !== undefined) {
+            this.processCommand(message, apiClient);
+        } else {
+            console.error('SyncPlay: unknown message received from server.', message);
+        }
+    }
+
+    /**
      * Handles a group update from the server.
      * @param {Object} cmd The group update.
      * @param {Object} apiClient The ApiClient.

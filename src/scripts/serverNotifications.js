@@ -193,10 +193,8 @@ function onMessageReceived(e, msg) {
                 Events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
             }
         }
-    } else if (msg.MessageType === 'SyncPlayCommand') {
-        SyncPlay.Manager.processCommand(msg.Data, apiClient);
-    } else if (msg.MessageType === 'SyncPlayGroupUpdate') {
-        SyncPlay.Manager.processGroupUpdate(msg.Data, apiClient);
+    } else if (msg.MessageType === 'SyncPlay') {
+        SyncPlay.Manager.processMessage(msg.Data, apiClient);
     } else {
         Events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
     }
