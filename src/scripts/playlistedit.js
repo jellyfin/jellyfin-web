@@ -3,7 +3,7 @@ import listView from '../components/listview/listview';
 function getFetchPlaylistItemsFn(itemId) {
     return function () {
         const query = {
-            Fields: 'PrimaryImageAspectRatio,UserData',
+            Fields: 'PrimaryImageAspectRatio',
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
             UserId: ApiClient.getCurrentUserId()
         };

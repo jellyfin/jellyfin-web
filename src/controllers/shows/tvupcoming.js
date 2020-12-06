@@ -13,7 +13,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         loading.show();
         const query = {
             Limit: 48,
-            Fields: 'AirTime,UserData',
+            Fields: 'AirTime',
             UserId: ApiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
