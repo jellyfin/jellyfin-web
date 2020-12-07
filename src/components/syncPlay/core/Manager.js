@@ -154,6 +154,9 @@ class Manager {
 
         if (this.isSyncPlayEnabled()) {
             this.playerWrapper.bindToPlayer();
+            if (this.playerWrapper.isRemote()) {
+                this.playerWrapper.joinGroup();
+            }
         }
 
         Events.trigger(this, 'playerchange', [this.currentPlayer]);
@@ -357,6 +360,9 @@ class Manager {
 
         this.syncPlayEnabledAt = groupInfo.LastUpdatedAt;
         this.playerWrapper.bindToPlayer();
+        if (this.playerWrapper.isRemote()) {
+            this.playerWrapper.joinGroup();
+        }
 
         Events.trigger(this, 'enabled', [true]);
 
@@ -390,6 +396,9 @@ class Manager {
         this.playbackCore.syncEnabled = false;
         Events.trigger(this, 'enabled', [false]);
         this.playerWrapper.unbindFromPlayer();
+        if (this.playerWrapper.isRemote()) {
+            this.playerWrapper.leaveGroup();
+        }
 
         if (showMessage) {
             toast(globalize.translate('MessageSyncPlayDisabled'));

@@ -36,6 +36,7 @@ import { playbackManager } from '../components/playback/playbackmanager';
 import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/NoActivePlayer';
 import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideoPlayer';
 import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
+import SyncPlayRemotePlayer from '../components/syncPlay/ui/players/RemotePlayer';
 import { currentSettings } from './settings/userSettings';
 
 // TODO: Move this elsewhere
@@ -160,6 +161,7 @@ function initSyncPlay() {
     SyncPlay.PlayerFactory.setDefaultWrapper(SyncPlayNoActivePlayer);
     SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlVideoPlayer);
     SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlAudioPlayer);
+    SyncPlay.PlayerFactory.registerWrapper(SyncPlayRemotePlayer);
 
     // Listen for player changes.
     Events.on(playbackManager, 'playerchange', (event, newPlayer, newTarget, oldPlayer) => {

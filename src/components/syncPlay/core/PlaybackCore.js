@@ -81,7 +81,8 @@ class PlaybackCore {
      * Called by player wrapper when playback stops.
      */
     onPlaybackStop(stopInfo) {
-        this.lastCommand = null;
+        // TODO: find out if this is needed.
+        // this.lastCommand = null;
         Events.trigger(this.manager, 'playbackstop', [stopInfo]);
     }
 
