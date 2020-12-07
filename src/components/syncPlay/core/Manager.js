@@ -343,7 +343,7 @@ class Manager {
      * @param {Object} groupInfo The joined group's info.
      * @param {boolean} showMessage Display message.
      */
-    enableSyncPlay(apiClient, groupInfo, showMessage = false) {
+    async enableSyncPlay(apiClient, groupInfo, showMessage = false) {
         if (this.isSyncPlayEnabled()) {
             if (groupInfo.GroupId === this.groupInfo.GroupId) {
                 console.debug(`SyncPlay enableSyncPlay: group ${this.groupInfo.GroupId} already joined.`);
@@ -361,7 +361,15 @@ class Manager {
         this.syncPlayEnabledAt = groupInfo.LastUpdatedAt;
         this.playerWrapper.bindToPlayer();
         if (this.playerWrapper.isRemote()) {
-            this.playerWrapper.joinGroup();
+            try {
+                await this.playerWrapper.joinGroup();
+            } catch (error) {
+                // Disable SyncPlay locally as well.
+                this.disableSyncPlay(false);
+                await apiClient.leaveSyncPlayGroup();
+                toast(globalize.translate('MessageSyncPlayRemoteSessionJoinFailed'));
+                return;
+            }
         }
 
         Events.trigger(this, 'enabled', [true]);
@@ -387,7 +395,7 @@ class Manager {
      * Disables SyncPlay.
      * @param {boolean} showMessage Display message.
      */
-    disableSyncPlay(showMessage = false) {
+    async disableSyncPlay(showMessage = false) {
         this.syncPlayEnabledAt = null;
         this.syncPlayReady = false;
         this.followingGroupPlayback = true;
@@ -397,7 +405,15 @@ class Manager {
         Events.trigger(this, 'enabled', [false]);
         this.playerWrapper.unbindFromPlayer();
         if (this.playerWrapper.isRemote()) {
-            this.playerWrapper.leaveGroup();
+            try {
+                await this.playerWrapper.leaveGroup();
+            } catch (error) {
+                if (showMessage) {
+                    toast(globalize.translate('MessageSyncPlayRemoteSessionLeaveFailed'));
+                }
+
+                return;
+            }
         }
 
         if (showMessage) {

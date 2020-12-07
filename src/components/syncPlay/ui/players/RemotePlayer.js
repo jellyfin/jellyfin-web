@@ -27,7 +27,7 @@ class RemotePlayer extends NoActivePlayer {
         const groupInfo = this.manager.getGroupInfo();
         this.remoteSessionId = sessionId;
 
-        apiClient.joinSyncPlayGroup({
+        return apiClient.joinSyncPlayGroup({
             GroupId: groupInfo.GroupId,
             RemoteSessionId: this.remoteSessionId
         }).then(() => {
@@ -40,7 +40,7 @@ class RemotePlayer extends NoActivePlayer {
 
     leaveGroup() {
         const apiClient = this.manager.getApiClient();
-        apiClient.leaveSyncPlayGroup({
+        return apiClient.leaveSyncPlayGroup({
             RemoteSessionId: this.remoteSessionId
         });
     }
