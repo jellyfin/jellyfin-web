@@ -1308,7 +1308,7 @@
     "MessageSyncPlayErrorNoActivePlayer": "Nem található aktív lejátszó. A SyncPlay letiltásra került.",
     "MessageSyncPlayErrorAccessingGroups": "Hiba történt a csoportok listájának betöltésekor.",
     "MessageSyncPlayLibraryAccessDenied": "A tartalomhoz való hozzáférés korlátozva van.",
-    "MessageSyncPlayJoinGroupDenied": "A SyncPlay használatához jogosultság szükséges.",
+    "MessageSyncPlayJoinGroupDenied": "Nem lehet csatlakozni a csoporthoz.",
     "MessageSyncPlayCreateGroupDenied": "Jogosultság szükséges a csoportok létrehozásához.",
     "MessageSyncPlayGroupDoesNotExist": "Nem sikerült csatlakozni a csoporthoz, mivel az nem létezik.",
     "MessageSyncPlayPlaybackPermissionRequired": "Lejátszási jogosultság szükséges.",
@@ -1486,5 +1486,13 @@
     "HeaderDebugging": "Hibakeresés és nyomkövetés",
     "HeaderAutoDiscovery": "Hálózati felfedezés",
     "HeaderAddUser": "Felhasználó hozzáadása",
-    "HeaderAddUpdateSubtitle": "Felirat hozzáadása/frissítése"
+    "HeaderAddUpdateSubtitle": "Felirat hozzáadása/frissítése",
+    "SyncPlayGroupDefaultTitle": "{0} csoportja",
+    "MessageSyncPlayIsDisabled": "Engedély szükséges a SyncPlay használatához.",
+    "LabelSyncPlayTimeSyncOffset": "Időeltolódás:",
+    "LabelSyncPlayTimeSyncDevice": "Idő szinkronizálása ezzel:",
+    "LabelSyncPlayResumePlaybackDescription": "Csatlakozz a csoportos lejátszáshoz",
+    "LabelSyncPlayResumePlayback": "Folytassa a helyi lejátszást",
+    "LabelSyncPlayHaltPlaybackDescription": "És hagyja figyelmen kívül a lejátszási lista aktuális frissítéseit",
+    "LabelSyncPlayHaltPlayback": "Állítsd le a helyi lejátszást"
 }
