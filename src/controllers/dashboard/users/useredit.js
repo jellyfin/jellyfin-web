@@ -174,7 +174,6 @@ import toast from '../../../components/toast/toast';
 
     $(document).on('pageinit', '#editUserPage', function () {
         $('.editUserProfileForm').off('submit', onSubmit).on('submit', onSubmit);
-        this.querySelector('.sharingHelp').innerHTML = globalize.translate('OptionAllowLinkSharingHelp', 30);
         const page = this;
         $('#chkEnableDeleteAllFolders', this).on('change', function () {
             if (this.checked) {
