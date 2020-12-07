@@ -169,8 +169,11 @@ function initSyncPlay() {
 
     // Start SyncPlay.
     const apiClient = ServerConnections.currentApiClient();
-    SyncPlay.Manager.init(apiClient);
+    if (apiClient) SyncPlay.Manager.init(apiClient);
     SyncPlayToasts.init();
+
+    // FIXME: Multiple apiClients?
+    Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => SyncPlay.Manager.init(newApiClient));
 }
 
 function onAppReady() {
