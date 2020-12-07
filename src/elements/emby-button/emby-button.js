@@ -18,6 +18,7 @@ function onAnchorClick(e) {
                 shell.openUrl(href);
             }
         } else {
+            e.preventDefault();
             appRouter.show(href);
         }
     } else {
