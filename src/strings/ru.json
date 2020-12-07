@@ -1287,7 +1287,7 @@
     "HeaderRemoteAccessSettings": "Параметры удалённого доступа",
     "HeaderHttpsSettings": "Параметры HTTPS",
     "HeaderDVR": "DVR",
-    "MessageSyncPlayJoinGroupDenied": "Требуется разрешение для использования SyncPlay.",
+    "MessageSyncPlayJoinGroupDenied": "Невозможно присоединиться к группе.",
     "MessageSyncPlayDisabled": "SyncPlay отключен.",
     "MessageSyncPlayEnabled": "SyncPlay включён.",
     "LabelSyncPlayAccess": "Доступ к SyncPlay",
@@ -1486,5 +1486,13 @@
     "HeaderDebugging": "Отладка и трассировка",
     "HeaderAutoDiscovery": "Сетевое обнаружение",
     "HeaderAddUser": "Добавить пользователя",
-    "HeaderAddUpdateSubtitle": "Добавить/Обновить субтитры"
+    "HeaderAddUpdateSubtitle": "Добавить/Обновить субтитры",
+    "SyncPlayGroupDefaultTitle": "Группа {0}",
+    "MessageSyncPlayIsDisabled": "Для использования SyncPlay требуется разрешение.",
+    "LabelSyncPlayTimeSyncOffset": "Смещение по времени:",
+    "LabelSyncPlayTimeSyncDevice": "Синхронизация времени с:",
+    "LabelSyncPlayResumePlaybackDescription": "Присоединиться снова к групповому воспроизведению",
+    "LabelSyncPlayResumePlayback": "Возобновить локальное воспроизведение",
+    "LabelSyncPlayHaltPlaybackDescription": "И игнорировать текущие обновления плей-листа",
+    "LabelSyncPlayHaltPlayback": "Остановить локальное воспроизведение"
 }
