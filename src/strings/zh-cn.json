@@ -1320,7 +1320,7 @@
     "MessageSyncPlayErrorMedia": "同步播放启用失败！媒体错误。",
     "MessageSyncPlayErrorMissingSession": "同步播放启用失败！找不到 Session。",
     "MessageSyncPlayErrorNoActivePlayer": "未找到活动的用户。同步播放已被关闭。",
-    "MessageSyncPlayJoinGroupDenied": "需要权限以使用同步播放。",
+    "MessageSyncPlayJoinGroupDenied": "无法加入群组。",
     "MessageSyncPlayNoGroupsAvailable": "暂无可用的群组。先播放点什么吧。",
     "MessageSyncPlayDisabled": "同步播放已关闭。",
     "MessageSyncPlayEnabled": "同步播放已开启。",
@@ -1486,5 +1486,13 @@
     "HeaderDebugging": "调试和跟踪",
     "HeaderAutoDiscovery": "网络发现",
     "HeaderAddUser": "添加用户",
-    "HeaderAddUpdateSubtitle": "添加 / 更新字幕"
+    "HeaderAddUpdateSubtitle": "添加 / 更新字幕",
+    "SyncPlayGroupDefaultTitle": "{0} 的群组",
+    "MessageSyncPlayIsDisabled": "需要权限来启用同步播放。",
+    "LabelSyncPlayTimeSyncOffset": "时间偏差：",
+    "LabelSyncPlayTimeSyncDevice": "与时间同步：",
+    "LabelSyncPlayResumePlaybackDescription": "加入群组播放",
+    "LabelSyncPlayResumePlayback": "恢复本地播放",
+    "LabelSyncPlayHaltPlaybackDescription": "并且忽略当前的播放列表更新",
+    "LabelSyncPlayHaltPlayback": "停止本地播放"
 }
