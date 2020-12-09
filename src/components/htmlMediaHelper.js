@@ -158,15 +158,11 @@ import { Events } from 'jellyfin-apiclient';
                         // (but rewinding cannot happen as the first event with media of non-empty duration)
                         console.debug(`seeking to ${seconds} on ${e.type} event`);
                         setCurrentTimeIfNeeded(element, seconds);
-                        events.map(function(name) {
-                            element.removeEventListener(name, onMediaChange);
-                        });
+                        events.forEach(name => element.removeEventListener(name, onMediaChange));
                         if (onMediaReady) onMediaReady();
                     }
                 };
-                events.map(function (name) {
-                    return element.addEventListener(name, onMediaChange);
-                });
+                events.forEach(name => element.addEventListener(name, onMediaChange));
             }
         }
     }
