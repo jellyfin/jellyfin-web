@@ -1412,7 +1412,7 @@
     "QuickConnectDescription": "要使用快速连接登录，请点击要登录的设备上的快速连接按钮，然后在下方输入显示的验证码。",
     "QuickConnectDeactivated": "在批准登录请求之前，快速连接已被禁用",
     "QuickConnectAuthorizeFail": "未知的快速连接验证码",
-    "QuickConnectAuthorizeSuccess": "请求授权",
+    "QuickConnectAuthorizeSuccess": "请求已被授权成功",
     "QuickConnectAuthorizeCode": "输入验证码 {0} 以登陆",
     "QuickConnectActivationSuccessful": "启用成功",
     "QuickConnect": "快速连接",
