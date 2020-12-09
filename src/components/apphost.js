@@ -28,7 +28,7 @@ function getBaseProfileOptions(item) {
     };
 }
 
-function getDeviceProfile(item, options = {}) {
+function getDeviceProfile(item) {
     return new Promise(function (resolve) {
         let profile;
 
