@@ -77,16 +77,12 @@ import { playbackManager } from './playback/playbackmanager';
 
                     const pluginDefinition = await window[pluginSpec];
                     if (typeof pluginDefinition !== 'function') {
-                        const err = new TypeError('Plugin definitions in window have to be an (async) function returning the plugin class');
-                        console.error(err);
-                        throw err;
+                        throw new TypeError('Plugin definitions in window have to be an (async) function returning the plugin class');
                     }
 
                     const pluginClass = await pluginDefinition();
                     if (typeof pluginClass !== 'function') {
-                        const err = new TypeError(`Plugin definition doesn't return a class for '${pluginSpec}'`);
-                        console.error(err);
-                        throw err;
+                        throw new TypeError(`Plugin definition doesn't return a class for '${pluginSpec}'`);
                     }
 
                     // init plugin and pass basic dependencies
@@ -107,9 +103,7 @@ import { playbackManager } from './playback/playbackmanager';
                 const pluginResult = await pluginSpec;
                 plugin = new pluginResult.default;
             } else {
-                const err = new TypeError('Plugins have to be a Promise that resolves to a plugin builder function');
-                console.error(err);
-                throw err;
+                throw new TypeError('Plugins have to be a Promise that resolves to a plugin builder function');
             }
 
             return this.#preparePlugin(pluginSpec, plugin);
