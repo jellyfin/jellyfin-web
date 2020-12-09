@@ -74,14 +74,23 @@ import { playbackManager } from './playback/playbackmanager';
             if (typeof pluginSpec === 'string') {
                 if (pluginSpec in window) {
                     console.log(`Loading plugin (via window): ${pluginSpec}`);
-                    let pluginInstance = await window[pluginSpec];
 
-                    if (typeof pluginInstance === 'function') {
-                        pluginInstance = await pluginInstance();
+                    const pluginDefinition = await window[pluginSpec];
+                    if (typeof pluginDefinition !== 'function') {
+                        const err = new TypeError('Plugin definitions in window have to be an (async) function returning the plugin class');
+                        console.error(err);
+                        throw err;
+                    }
+
+                    const pluginClass = await pluginDefinition();
+                    if (typeof pluginClass !== 'function') {
+                        const err = new TypeError(`Plugin definition doesn't return a class for '${pluginSpec}'`);
+                        console.error(err);
+                        throw err;
                     }
 
                     // init plugin and pass basic dependencies
-                    plugin = new pluginInstance({
+                    plugin = new pluginClass({
                         events: Events,
                         loading,
                         appSettings,
