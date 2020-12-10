@@ -1306,7 +1306,7 @@
     "LabelSyncPlayTimeOffset": "Décalage de temps avec le serveur :",
     "HeaderSyncPlayEnabled": "SyncPlay activé",
     "MessageSyncPlayLibraryAccessDenied": "L'accès à ce contenu est restreint.",
-    "MessageSyncPlayJoinGroupDenied": "Permission requise pour utiliser SyncPlay.",
+    "MessageSyncPlayJoinGroupDenied": "Impossible de rejoindre le group",
     "MessageSyncPlayCreateGroupDenied": "Permission requise pour créer un groupe.",
     "MessageSyncPlayGroupDoesNotExist": "Impossible de rejoindre le groupe car il n'existe pas.",
     "MessageSyncPlayPlaybackPermissionRequired": "Autorisation de lecture requise.",
@@ -1486,5 +1486,13 @@
     "LabelHDHomerunPortRange": "Plage de ports HD Homerun :",
     "PreferFmp4HlsContainerHelp": "Préférer l'utilisation de fMP4 comme conteneur pour HLS, rendant possible la lecture en direct de flux HEVC sur les appareils compatibles.",
     "LabelPublishedServerUriHelp": "Outrepasser l'URI utilisée par Jellyfin, basée sur l'interface, ou adresse IP du client.",
-    "LabelPublishedServerUri": "URIs du Serveur Publiées :"
+    "LabelPublishedServerUri": "URIs du Serveur Publiées :",
+    "LabelSyncPlayHaltPlayback": "Arrêter la lecture locale",
+    "SyncPlayGroupDefaultTitle": "Groupe de {0}",
+    "MessageSyncPlayIsDisabled": "Permission requises pour utiliser SyncPlay.",
+    "LabelSyncPlayTimeSyncOffset": "Décalage du temps :",
+    "LabelSyncPlayTimeSyncDevice": "Synchroniser le temps avec :",
+    "LabelSyncPlayResumePlaybackDescription": "Rejoindre le groupe de lecture",
+    "LabelSyncPlayResumePlayback": "Relancer la lecture",
+    "LabelSyncPlayHaltPlaybackDescription": "Et ignorer les mises à jour de la liste de lecture"
 }
