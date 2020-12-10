@@ -539,5 +539,10 @@
     "EnableBlurHashHelp": "Les images en cours de chargement seront remplacées par une image générique unique.",
     "DropShadow": "Ombre portée",
     "Down": "Bas",
-    "DoNotRecord": "Ne pas enregistrer"
+    "DoNotRecord": "Ne pas enregistrer",
+    "HeaderDebugging": "Débogage et traçage",
+    "HeaderContainerProfile": "Profile conteneur",
+    "EnableTonemapping": "Activer le mappage de tonalité",
+    "EnableBlurHash": "Activer remplacements brouillés pour les images",
+    "DisplayMissingEpisodesWithinSeasonsHelp": "Ceci doit aussi être activé pour les librairies TV dans la configuration serveur."
 }
