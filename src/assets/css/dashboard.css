@@ -246,20 +246,12 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 @media all and (min-width: 70em) {
     .dashboardSections {
-        -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: row;
         flex-direction: row;
     }
 
     .dashboardColumn-2-60 {
-        width: 46%;
-    }
-
-    .dashboardColumn-2-40 {
-        width: 27%;
+        flex-grow: 2;
     }
 
     .dashboardSection {
@@ -291,6 +283,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .activeSession {
+    min-width: 10rem;
     width: 100% !important;
 }
 
