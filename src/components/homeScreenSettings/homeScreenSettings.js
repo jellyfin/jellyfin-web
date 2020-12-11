@@ -57,8 +57,8 @@ import template from './homeScreenSettings.template.html';
                 value: 'suggestions'
             });
             list.push({
-                name: globalize.translate('Genres'),
-                value: 'genres'
+                name: globalize.translate('Trailers'),
+                value: 'trailers'
             });
             list.push({
                 name: globalize.translate('Favorites'),
@@ -67,6 +67,10 @@ import template from './homeScreenSettings.template.html';
             list.push({
                 name: globalize.translate('Collections'),
                 value: 'collections'
+            });
+            list.push({
+                name: globalize.translate('Genres'),
+                value: 'genres'
             });
         } else if (type === 'tvshows') {
             list.push({
@@ -79,7 +83,7 @@ import template from './homeScreenSettings.template.html';
                 value: 'suggestions'
             });
             list.push({
-                name: globalize.translate('Upcoming'),
+                name: globalize.translate('TabUpcoming'),
                 value: 'upcoming'
             });
             list.push({
@@ -87,7 +91,7 @@ import template from './homeScreenSettings.template.html';
                 value: 'genres'
             });
             list.push({
-                name: globalize.translate('Networks'),
+                name: globalize.translate('TabNetworks'),
                 value: 'networks'
             });
             list.push({
@@ -117,18 +121,38 @@ import template from './homeScreenSettings.template.html';
                 value: 'playlists'
             });
             list.push({
+                name: globalize.translate('Songs'),
+                value: 'songs'
+            });
+            list.push({
                 name: globalize.translate('Genres'),
                 value: 'genres'
             });
         } else if (type === 'livetv') {
             list.push({
-                name: globalize.translate('Suggestions'),
-                value: 'suggestions',
+                name: globalize.translate('Programs'),
+                value: 'programs',
                 isDefault: true
             });
             list.push({
                 name: globalize.translate('Guide'),
                 value: 'guide'
+            });
+            list.push({
+                name: globalize.translate('Channels'),
+                value: 'channels'
+            });
+            list.push({
+                name: globalize.translate('Recordings'),
+                value: 'recordings'
+            });
+            list.push({
+                name: globalize.translate('Schedule'),
+                value: 'schedule'
+            });
+            list.push({
+                name: globalize.translate('Series'),
+                value: 'series'
             });
         }
 
