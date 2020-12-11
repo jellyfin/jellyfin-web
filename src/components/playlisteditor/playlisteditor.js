@@ -49,7 +49,8 @@ import ServerConnections from '../ServerConnections';
         apiClient.ajax({
             type: 'POST',
             url: url,
-            dataType: 'json'
+            dataType: 'json',
+            contentType: 'application/json'
         }).then(result => {
             loading.hide();
 
