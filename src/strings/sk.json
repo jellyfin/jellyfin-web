@@ -1292,7 +1292,7 @@
     "MessageSyncPlayErrorNoActivePlayer": "Nebol nájdený žiadny aktívny prehrávač. Funkcia SyncPlay bola vypnutá.",
     "MessageSyncPlayErrorAccessingGroups": "Pri načítaní zoznamu skupín sa vyskytla chyba.",
     "MessageSyncPlayLibraryAccessDenied": "Prístup k tomuto obsahuje je obmedzený.",
-    "MessageSyncPlayJoinGroupDenied": "K použitiu funkcie SyncPlay je požadované povolenie.",
+    "MessageSyncPlayJoinGroupDenied": "Nedá sa pripojiť ku skupine.",
     "MessageSyncPlayCreateGroupDenied": "K vytvoreniu skupiny je požadované povolenie.",
     "MessageSyncPlayGroupDoesNotExist": "Pripojenie ku skupine zlyhalo, pretože skupina neexistuje.",
     "MessageSyncPlayPlaybackPermissionRequired": "K prehrávaniu je potrebné povolenie.",
@@ -1486,5 +1486,13 @@
     "LabelAudioInfo": "Informácie o zvuku",
     "LabelPlaybackInfo": "Informácie o prehrávaní",
     "RemuxHelp2": "Remuxovanie nevyžaduje veľa výkonu a poskytuje kompletne bezstrátovú kvalitu medií.",
-    "RemuxHelp1": "Médium je v nekompatibilnom súborovom kontajneri (MKV, AVI, WMV atď.), ale video aj zvuk sú kompatibilné so zariadením. Médium bude pred odoslaním do zariadenia bezstrátovo prebalené za behu."
+    "RemuxHelp1": "Médium je v nekompatibilnom súborovom kontajneri (MKV, AVI, WMV atď.), ale video aj zvuk sú kompatibilné so zariadením. Médium bude pred odoslaním do zariadenia bezstrátovo prebalené za behu.",
+    "SyncPlayGroupDefaultTitle": "Skupina používateľa {0}",
+    "MessageSyncPlayIsDisabled": "K použitiu funkcie SyncPlay je vyžadované povolenie.",
+    "LabelSyncPlayTimeSyncOffset": "Časový rozdiel:",
+    "LabelSyncPlayTimeSyncDevice": "Časová synchronizácia s:",
+    "LabelSyncPlayResumePlaybackDescription": "Pripojiť sa späť ku skupinovému prehrávaniu",
+    "LabelSyncPlayResumePlayback": "Pokračovať v lokálnom prehrávaní",
+    "LabelSyncPlayHaltPlaybackDescription": "A ignorovať aktualizácie aktuálneho playlistu",
+    "LabelSyncPlayHaltPlayback": "Zastaviť lokálne prehrávanie"
 }
