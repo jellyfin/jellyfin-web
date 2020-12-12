@@ -387,11 +387,11 @@ function tryRemoveElement(elem) {
                     let maxBufferLength = 30;
                     let maxMaxBufferLength = 600;
 
-                    // chromium based browsers cannot handle huge fragments in high bitrate.
+                    // Some browsers cannot handle huge fragments in high bitrate.
                     // This issue usually happens when using HWA encoders with a high bitrate setting.
                     // Limit the BufferLength to 6s, it works fine when playing 4k 120Mbps over HLS on chrome.
                     // https://github.com/video-dev/hls.js/issues/876
-                    if ((browser.chrome || browser.edgeChromium) && playbackManager.getMaxStreamingBitrate(this) >= 25000000) {
+                    if ((browser.chrome || browser.edgeChromium || browser.firefox) && playbackManager.getMaxStreamingBitrate(this) >= 25000000) {
                         maxBufferLength = 6;
                         maxMaxBufferLength = 6;
                     }
