@@ -157,9 +157,7 @@ import confirm from '../confirm/confirm';
             }
 
             confirm(msg, title).then(() => {
-                const promises = itemIds.map(itemId => {
-                    apiClient.deleteItem(itemId);
-                });
+                const promises = itemIds.map(itemId => apiClient.deleteItem(itemId));
 
                 Promise.all(promises).then(resolve, () => {
                     alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);

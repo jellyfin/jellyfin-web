@@ -283,9 +283,9 @@ function getAudioMaxValues(deviceProfile) {
     let maxAudioBitDepth = null;
     let maxAudioBitrate = null;
 
-    deviceProfile.CodecProfiles.map(function (codecProfile) {
+    deviceProfile.CodecProfiles.forEach(codecProfile => {
         if (codecProfile.Type === 'Audio') {
-            (codecProfile.Conditions || []).map(function (condition) {
+            (codecProfile.Conditions || []).forEach(condition => {
                 if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitDepth') {
                     return maxAudioBitDepth = condition.Value;
                 } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioSampleRate') {
@@ -334,7 +334,7 @@ function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, api
 
     let directPlayContainers = '';
 
-    deviceProfile.DirectPlayProfiles.map(function (p) {
+    deviceProfile.DirectPlayProfiles.forEach(p => {
         if (p.Type === 'Audio') {
             if (directPlayContainers) {
                 directPlayContainers += ',' + p.Container;
@@ -360,7 +360,7 @@ function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
 
     let audioDirectPlayContainers = '';
 
-    deviceProfile.DirectPlayProfiles.map(function (p) {
+    deviceProfile.DirectPlayProfiles.forEach(p => {
         if (p.Type === 'Audio') {
             if (audioDirectPlayContainers) {
                 audioDirectPlayContainers += ',' + p.Container;
