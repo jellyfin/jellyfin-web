@@ -9,6 +9,7 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../formdialog.css';
+import template from './prompt.template.html';
 
 /* eslint-disable indent */
 export default (() => {
@@ -27,7 +28,7 @@ export default (() => {
         txtInput.value = options.value || '';
     }
 
-    function showDialog(options, template) {
+    function showDialog(options) {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -116,17 +117,13 @@ export default (() => {
         };
     } else {
         return options => {
-            return new Promise((resolve, reject) => {
-                import('./prompt.template.html').then(({default: template}) => {
-                    if (typeof options === 'string') {
-                        options = {
-                            title: '',
-                            text: options
-                        };
-                    }
-                    showDialog(options, template).then(resolve, reject);
-                });
-            });
+            if (typeof options === 'string') {
+                options = {
+                    title: '',
+                    text: options
+                };
+            }
+            return showDialog(options);
         };
     }
 })();

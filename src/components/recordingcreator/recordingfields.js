@@ -10,6 +10,7 @@ import './recordingfields.css';
 import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
+import template from './recordingfields.template.html';
 
 /*eslint prefer-const: "error"*/
 
@@ -119,18 +120,16 @@ class RecordingEditor {
     embed() {
         const self = this;
         return new Promise(function (resolve, reject) {
-            import('./recordingfields.template.html').then(({default: template}) => {
-                const options = self.options;
-                const context = options.parent;
-                context.innerHTML = globalize.translateHtml(template, 'core');
+            const options = self.options;
+            const context = options.parent;
+            context.innerHTML = globalize.translateHtml(template, 'core');
 
-                context.querySelector('.singleRecordingButton').addEventListener('click', onRecordChange.bind(self));
-                context.querySelector('.seriesRecordingButton').addEventListener('click', onRecordSeriesChange.bind(self));
-                context.querySelector('.btnManageRecording').addEventListener('click', onManageRecordingClick.bind(self));
-                context.querySelector('.btnManageSeriesRecording').addEventListener('click', onManageSeriesRecordingClick.bind(self));
+            context.querySelector('.singleRecordingButton').addEventListener('click', onRecordChange.bind(self));
+            context.querySelector('.seriesRecordingButton').addEventListener('click', onRecordSeriesChange.bind(self));
+            context.querySelector('.btnManageRecording').addEventListener('click', onManageRecordingClick.bind(self));
+            context.querySelector('.btnManageSeriesRecording').addEventListener('click', onManageSeriesRecordingClick.bind(self));
 
-                fetchData(self).then(resolve);
-            });
+            fetchData(self).then(resolve);
         });
     }
 

@@ -9,13 +9,15 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../formdialog.css';
 import '../../assets/css/flexstyles.scss';
+import template from './dialog.template.html';
 
 /* eslint-disable indent */
 
-    function showDialog(options, template) {
+    function showDialog(options = { dialogOptions: {}, buttons: [] }) {
         const dialogOptions = {
             removeOnClose: true,
-            scrollY: false
+            scrollY: false,
+            ...options.dialogOptions
         };
 
         const enableTvLayout = layoutManager.tv;
@@ -117,7 +119,7 @@ import '../../assets/css/flexstyles.scss';
         });
     }
 
-    export async function show(text, title) {
+    export function show(text, title) {
         let options;
         if (typeof text === 'string') {
             options = {
@@ -128,10 +130,7 @@ import '../../assets/css/flexstyles.scss';
             options = text;
         }
 
-        const { default: template } = await import('./dialog.template.html');
-        return new Promise((resolve, reject) => {
-            showDialog(options, template).then(resolve, reject);
-        });
+        return showDialog(options);
     }
 
 /* eslint-enable indent */

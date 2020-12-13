@@ -75,8 +75,18 @@ import { playbackManager } from './playback/playbackmanager';
                 if (pluginSpec in window) {
                     console.log(`Loading plugin (via window): ${pluginSpec}`);
 
+                    const pluginDefinition = await window[pluginSpec];
+                    if (typeof pluginDefinition !== 'function') {
+                        throw new TypeError('Plugin definitions in window have to be an (async) function returning the plugin class');
+                    }
+
+                    const pluginClass = await pluginDefinition();
+                    if (typeof pluginClass !== 'function') {
+                        throw new TypeError(`Plugin definition doesn't return a class for '${pluginSpec}'`);
+                    }
+
                     // init plugin and pass basic dependencies
-                    plugin = new window[pluginSpec]({
+                    plugin = new pluginClass({
                         events: Events,
                         loading,
                         appSettings,
@@ -84,7 +94,8 @@ import { playbackManager } from './playback/playbackmanager';
                     });
                 } else {
                     console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
-                    plugin = await import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`);
+                    const pluginResult = await import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`);
+                    plugin = new pluginResult.default;
                 }
             } else if (pluginSpec.then) {
                 console.debug('Loading plugin (via promise/async function)');
@@ -92,9 +103,7 @@ import { playbackManager } from './playback/playbackmanager';
                 const pluginResult = await pluginSpec;
                 plugin = new pluginResult.default;
             } else {
-                const err = new TypeError('Plugins have to be a Promise that resolves to a plugin builder function');
-                console.error(err);
-                throw err;
+                throw new TypeError('Plugins have to be a Promise that resolves to a plugin builder function');
             }
 
             return this.#preparePlugin(pluginSpec, plugin);

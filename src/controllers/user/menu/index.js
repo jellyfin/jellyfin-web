@@ -22,24 +22,28 @@ export default function (view, params) {
         const userId = params.userId || Dashboard.getCurrentUserId();
         const page = this;
 
-        page.querySelector('.lnkMyProfile').setAttribute('href', 'myprofile.html?userId=' + userId);
-        page.querySelector('.lnkDisplayPreferences').setAttribute('href', 'mypreferencesdisplay.html?userId=' + userId);
-        page.querySelector('.lnkHomePreferences').setAttribute('href', 'mypreferenceshome.html?userId=' + userId);
-        page.querySelector('.lnkPlaybackPreferences').setAttribute('href', 'mypreferencesplayback.html?userId=' + userId);
-        page.querySelector('.lnkSubtitlePreferences').setAttribute('href', 'mypreferencessubtitles.html?userId=' + userId);
-        page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', 'mypreferencesquickconnect.html');
+        page.querySelector('.lnkMyProfile').setAttribute('href', '#!/myprofile.html?userId=' + userId);
+        page.querySelector('.lnkDisplayPreferences').setAttribute('href', '#!/mypreferencesdisplay.html?userId=' + userId);
+        page.querySelector('.lnkHomePreferences').setAttribute('href', '#!/mypreferenceshome.html?userId=' + userId);
+        page.querySelector('.lnkPlaybackPreferences').setAttribute('href', '#!/mypreferencesplayback.html?userId=' + userId);
+        page.querySelector('.lnkSubtitlePreferences').setAttribute('href', '#!/mypreferencessubtitles.html?userId=' + userId);
+        page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', '#!/mypreferencesquickconnect.html');
 
-        if (window.NativeShell && window.NativeShell.AppHost.supports('clientsettings')) {
-            page.querySelector('.clientSettings').classList.remove('hide');
-        } else {
-            page.querySelector('.clientSettings').classList.add('hide');
-        }
+        const supportsClientSettings = appHost.supports('clientsettings');
+        page.querySelector('.clientSettings').classList.toggle('hide', !supportsClientSettings);
 
-        if (appHost.supports('multiserver')) {
-            page.querySelector('.selectServer').classList.remove('hide');
-        } else {
-            page.querySelector('.selectServer').classList.add('hide');
-        }
+        const supportsMultiServer = appHost.supports('multiserver');
+        page.querySelector('.selectServer').classList.toggle('hide', !supportsMultiServer);
+
+        ApiClient.getQuickConnect('Status')
+            .then(status => {
+                if (status !== 'Unavailable') {
+                    page.querySelector('.lnkQuickConnectPreferences').classList.remove('hide');
+                }
+            })
+            .catch(() => {
+                console.debug('Failed to get QuickConnect status');
+            });
 
         ApiClient.getUser(userId).then(function (user) {
             page.querySelector('.headerUsername').innerHTML = user.Name;

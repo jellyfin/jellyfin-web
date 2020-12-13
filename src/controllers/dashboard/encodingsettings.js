@@ -145,13 +145,13 @@ import alert from '../../components/alert';
 
     function getTabs() {
         return [{
-            href: 'encodingsettings.html',
+            href: '#!/encodingsettings.html',
             name: globalize.translate('Transcoding')
         }, {
-            href: 'playbackconfiguration.html',
+            href: '#!/playbackconfiguration.html',
             name: globalize.translate('ButtonResume')
         }, {
-            href: 'streamingsettings.html',
+            href: '#!/streamingsettings.html',
             name: globalize.translate('TabStreaming')
         }];
     }
@@ -170,6 +170,10 @@ import alert from '../../components/alert';
             if (this.value == 'nvenc' || this.value == 'amf') {
                 page.querySelector('.fldOpenclDevice').classList.remove('hide');
                 page.querySelector('#txtOpenclDevice').setAttribute('required', 'required');
+                page.querySelector('.tonemappingOptions').classList.remove('hide');
+            } else if (this.value == 'vaapi') {
+                page.querySelector('.fldOpenclDevice').classList.add('hide');
+                page.querySelector('#txtOpenclDevice').removeAttribute('required');
                 page.querySelector('.tonemappingOptions').classList.remove('hide');
             } else {
                 page.querySelector('.fldOpenclDevice').classList.add('hide');

@@ -77,13 +77,13 @@ function getRepositoryHtml(repository) {
 
 function getTabs() {
     return [{
-        href: 'installedplugins.html',
+        href: '#!/installedplugins.html',
         name: globalize.translate('TabMyPlugins')
     }, {
-        href: 'availableplugins.html',
+        href: '#!/availableplugins.html',
         name: globalize.translate('TabCatalog')
     }, {
-        href: 'repositories.html',
+        href: '#!/repositories.html',
         name: globalize.translate('TabRepositories')
     }];
 }
@@ -136,7 +136,9 @@ export default function(view, params) {
             dialogHelper.close(dialog);
         });
 
-        dialog.querySelector('.newPluginForm').addEventListener('submit', () => {
+        dialog.querySelector('.newPluginForm').addEventListener('submit', e => {
+            e.preventDefault();
+
             repositories.push({
                 Name: dialog.querySelector('#txtRepositoryName').value,
                 Url: dialog.querySelector('#txtRepositoryUrl').value,

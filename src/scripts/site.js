@@ -6,6 +6,7 @@ import 'intersection-observer';
 import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
+import 'jellyfin-noto/font-faces.css';
 import '../assets/css/site.scss';
 import { Events } from 'jellyfin-apiclient';
 import ServerConnections from '../components/ServerConnections';
@@ -25,10 +26,18 @@ import './libraryMenu';
 import './routes';
 import '../components/themeMediaPlayer';
 import './autoBackdrops';
-import { navigate, pageClassOn, serverAddress } from './clientUtils';
+import { pageClassOn, serverAddress } from './clientUtils';
 import '../libraries/screensavermanager';
 import './serverNotifications';
 import '../components/playback/playerSelectionMenu';
+import '../legacy/focusPreventScroll';
+import '../legacy/vendorStyles';
+import SyncPlay from '../components/syncPlay/core';
+import { playbackManager } from '../components/playback/playbackmanager';
+import SyncPlayToasts from '../components/syncPlay/ui/syncPlayToasts';
+import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/NoActivePlayer';
+import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideoPlayer';
+import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
@@ -76,12 +85,9 @@ function loadCoreDictionary() {
 
 function init() {
     serverAddress().then(server => {
-        if (!server) {
-            navigate('selectserver.html');
-            return;
+        if (server) {
+            ServerConnections.initApiClient(server);
         }
-
-        ServerConnections.initApiClient(server);
     }).then(() => {
         console.debug('initAfterDependencies promises resolved');
 
@@ -116,6 +122,7 @@ function onGlobalizeInit() {
     import('../assets/css/librarybrowser.css');
 
     loadPlugins().then(function () {
+        initSyncPlay();
         onAppReady();
     });
 }
@@ -124,13 +131,13 @@ function loadPlugins() {
     console.groupCollapsed('loading installed plugins');
     console.dir(pluginManager);
     return getPlugins().then(function (list) {
-        // these two plugins are dependent on features
         if (!appHost.supports('remotecontrol')) {
+            // Disable remote player plugins if not supported
             list.splice(list.indexOf('sessionPlayer'), 1);
-
-            if (!browser.chrome && !browser.opera) {
-                list.splice(list.indexOf('chromecastPlayer', 1));
-            }
+            list.splice(list.indexOf('chromecastPlayer'), 1);
+        } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
+            // Disable chromecast player in unsupported browsers
+            list.splice(list.indexOf('chromecastPlayer'), 1);
         }
 
         // add any native plugins
@@ -138,19 +145,35 @@ function loadPlugins() {
             list = list.concat(window.NativeShell.getPlugins());
         }
 
-        Promise.all(list.map((plugin) => {
-            return pluginManager.loadPlugin(import(/* webpackChunkName: "[request]" */ `../plugins/${plugin}`));
-        }))
-            .then(function () {
-                console.debug('finished loading plugins');
-            })
-            .catch(() => console.debug('failed loading plugins'))
+        Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)))
+            .then(() => console.debug('finished loading plugins'))
+            .catch(e => console.warn('failed loading plugins', e))
             .finally(() => {
                 console.groupEnd('loading installed plugins');
                 packageManager.init();
             })
         ;
     });
+}
+
+function initSyncPlay() {
+    // Register player wrappers.
+    SyncPlay.PlayerFactory.setDefaultWrapper(SyncPlayNoActivePlayer);
+    SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlVideoPlayer);
+    SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlAudioPlayer);
+
+    // Listen for player changes.
+    Events.on(playbackManager, 'playerchange', (event, newPlayer, newTarget, oldPlayer) => {
+        SyncPlay.Manager.onPlayerChange(newPlayer, newTarget, oldPlayer);
+    });
+
+    // Start SyncPlay.
+    const apiClient = ServerConnections.currentApiClient();
+    if (apiClient) SyncPlay.Manager.init(apiClient);
+    SyncPlayToasts.init();
+
+    // FIXME: Multiple apiClients?
+    Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => SyncPlay.Manager.init(newApiClient));
 }
 
 function onAppReady() {

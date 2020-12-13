@@ -7,6 +7,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-radio/emby-radio';
 import '../formdialog.css';
 import 'material-design-icons-iconfont';
+import template from './guide-settings.template.html';
 
 function saveCategories(context, options) {
     const categories = [];
@@ -88,59 +89,57 @@ function showEditor(options) {
     return new Promise(function (resolve, reject) {
         let settingsChanged = false;
 
-        import('./guide-settings.template.html').then(({ default: template }) => {
-            const dialogOptions = {
-                removeOnClose: true,
-                scrollY: false
-            };
+        const dialogOptions = {
+            removeOnClose: true,
+            scrollY: false
+        };
 
-            if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
-            }
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
 
-            const dlg = dialogHelper.createDialog(dialogOptions);
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
-            dlg.classList.add('formDialog');
+        dlg.classList.add('formDialog');
 
-            let html = '';
+        let html = '';
 
-            html += globalize.translateHtml(template, 'core');
+        html += globalize.translateHtml(template, 'core');
 
-            dlg.innerHTML = html;
+        dlg.innerHTML = html;
 
-            dlg.addEventListener('change', function () {
-                settingsChanged = true;
-            });
-
-            dlg.addEventListener('close', function () {
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
-                }
-
-                save(dlg);
-                saveCategories(dlg, options);
-
-                if (settingsChanged) {
-                    resolve();
-                } else {
-                    reject();
-                }
-            });
-
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                dialogHelper.close(dlg);
-            });
-
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-            }
-
-            load(dlg);
-            loadCategories(dlg, options);
-            dialogHelper.open(dlg);
+        dlg.addEventListener('change', function () {
+            settingsChanged = true;
         });
+
+        dlg.addEventListener('close', function () {
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
+            }
+
+            save(dlg);
+            saveCategories(dlg, options);
+
+            if (settingsChanged) {
+                resolve();
+            } else {
+                reject();
+            }
+        });
+
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+            dialogHelper.close(dlg);
+        });
+
+        if (layoutManager.tv) {
+            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+        }
+
+        load(dlg);
+        loadCategories(dlg, options);
+        dialogHelper.open(dlg);
     });
 }
 

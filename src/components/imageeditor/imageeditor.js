@@ -16,6 +16,7 @@ import './imageeditor.css';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import confirm from '../confirm/confirm';
+import template from './imageeditor.template.html';
 
 /* eslint-disable indent */
 
@@ -419,53 +420,51 @@ import confirm from '../confirm/confirm';
 
         loading.show();
 
-        import('./imageeditor.template.html').then(({default: template}) => {
-            const apiClient = ServerConnections.getApiClient(serverId);
-            apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-                const dialogOptions = {
-                    removeOnClose: true
-                };
+        const apiClient = ServerConnections.getApiClient(serverId);
+        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+            const dialogOptions = {
+                removeOnClose: true
+            };
 
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'small';
+            }
+
+            const dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('formDialog');
+
+            dlg.innerHTML = globalize.translateHtml(template, 'core');
+
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.on(dlg, false);
+            }
+
+            initEditor(dlg, options);
+
+            // Has to be assigned a z-index after the call to .open()
+            dlg.addEventListener('close', function () {
                 if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
+                    scrollHelper.centerFocus.off(dlg, false);
+                }
+
+                loading.hide();
+
+                if (hasChanges) {
+                    resolve();
                 } else {
-                    dialogOptions.size = 'small';
+                    reject();
                 }
+            });
 
-                const dlg = dialogHelper.createDialog(dialogOptions);
+            dialogHelper.open(dlg);
 
-                dlg.classList.add('formDialog');
+            reload(dlg, item);
 
-                dlg.innerHTML = globalize.translateHtml(template, 'core');
-
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg, false);
-                }
-
-                initEditor(dlg, options);
-
-                // Has to be assigned a z-index after the call to .open()
-                dlg.addEventListener('close', function () {
-                    if (layoutManager.tv) {
-                        scrollHelper.centerFocus.off(dlg, false);
-                    }
-
-                    loading.hide();
-
-                    if (hasChanges) {
-                        resolve();
-                    } else {
-                        reject();
-                    }
-                });
-
-                dialogHelper.open(dlg);
-
-                reload(dlg, item);
-
-                dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                    dialogHelper.close(dlg);
-                });
+            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+                dialogHelper.close(dlg);
             });
         });
     }

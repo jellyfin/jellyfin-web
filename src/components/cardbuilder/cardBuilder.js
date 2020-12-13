@@ -1418,26 +1418,28 @@ import ServerConnections from '../ServerConnections';
             const mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';
             const collectionTypeData = item.CollectionType ? (' data-collectiontype="' + item.CollectionType + '"') : '';
             const channelIdData = item.ChannelId ? (' data-channelid="' + item.ChannelId + '"') : '';
+            const pathData = item.Path ? (' data-path="' + item.Path + '"') : '';
             const contextData = options.context ? (' data-context="' + options.context + '"') : '';
             const parentIdData = options.parentId ? (' data-parentid="' + options.parentId + '"') : '';
+            const startDate = item.StartDate ? (' data-startdate="' + item.StartDate.toString() + '"') : '';
+            const endDate = item.EndDate ? (' data-enddate="' + item.EndDate.toString() + '"') : '';
 
             let additionalCardContent = '';
 
             if (layoutManager.desktop && !options.disableHoverMenu) {
-                additionalCardContent += getHoverMenuHtml(item, action, options);
+                additionalCardContent += getHoverMenuHtml(item, action);
             }
 
-            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + pathData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + startDate + endDate + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
         /**
          * Generates HTML markup for the card overlay.
          * @param {object} item - Item used to generate the card overlay.
          * @param {string} action - Action assigned to the overlay.
-         * @param {Array} options - Card builder options.
          * @returns {string} HTML markup of the card overlay.
          */
-        function getHoverMenuHtml(item, action, options) {
+        function getHoverMenuHtml(item, action) {
             let html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';

@@ -1,3 +1,4 @@
+import { importModule } from '@uupaa/dynamic-import-polyfill';
 import './viewManager/viewContainer.css';
 import Dashboard from '../scripts/clientUtils';
 
@@ -17,7 +18,7 @@ import Dashboard from '../scripts/clientUtils';
 
             controllerUrl = Dashboard.getPluginUrl(controllerUrl);
             const apiUrl = ApiClient.getUrl('/web/' + controllerUrl);
-            return import(/* webpackIgnore: true */ apiUrl).then((ControllerFactory) => {
+            return importModule(apiUrl).then((ControllerFactory) => {
                 options.controllerFactory = ControllerFactory;
             });
         }

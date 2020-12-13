@@ -11,6 +11,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
+import template from './homeScreenSettings.template.html';
 
 /* eslint-disable indent */
 
@@ -56,8 +57,8 @@ import toast from '../toast/toast';
                 value: 'suggestions'
             });
             list.push({
-                name: globalize.translate('Genres'),
-                value: 'genres'
+                name: globalize.translate('Trailers'),
+                value: 'trailers'
             });
             list.push({
                 name: globalize.translate('Favorites'),
@@ -66,6 +67,10 @@ import toast from '../toast/toast';
             list.push({
                 name: globalize.translate('Collections'),
                 value: 'collections'
+            });
+            list.push({
+                name: globalize.translate('Genres'),
+                value: 'genres'
             });
         } else if (type === 'tvshows') {
             list.push({
@@ -78,7 +83,7 @@ import toast from '../toast/toast';
                 value: 'suggestions'
             });
             list.push({
-                name: globalize.translate('Upcoming'),
+                name: globalize.translate('TabUpcoming'),
                 value: 'upcoming'
             });
             list.push({
@@ -86,7 +91,7 @@ import toast from '../toast/toast';
                 value: 'genres'
             });
             list.push({
-                name: globalize.translate('Networks'),
+                name: globalize.translate('TabNetworks'),
                 value: 'networks'
             });
             list.push({
@@ -116,18 +121,38 @@ import toast from '../toast/toast';
                 value: 'playlists'
             });
             list.push({
+                name: globalize.translate('Songs'),
+                value: 'songs'
+            });
+            list.push({
                 name: globalize.translate('Genres'),
                 value: 'genres'
             });
         } else if (type === 'livetv') {
             list.push({
-                name: globalize.translate('Suggestions'),
-                value: 'suggestions',
+                name: globalize.translate('Programs'),
+                value: 'programs',
                 isDefault: true
             });
             list.push({
                 name: globalize.translate('Guide'),
                 value: 'guide'
+            });
+            list.push({
+                name: globalize.translate('Channels'),
+                value: 'channels'
+            });
+            list.push({
+                name: globalize.translate('Recordings'),
+                value: 'recordings'
+            });
+            list.push({
+                name: globalize.translate('Schedule'),
+                value: 'schedule'
+            });
+            list.push({
+                name: globalize.translate('Series'),
+                value: 'series'
             });
         }
 
@@ -418,29 +443,28 @@ import toast from '../toast/toast';
     }
 
     function embed(options, self) {
-        return import('./homeScreenSettings.template.html').then(({default: template}) => {
-            for (let i = 1; i <= numConfigurableSections; i++) {
-                template = template.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
-            }
+        let workingTemplate = template;
+        for (let i = 1; i <= numConfigurableSections; i++) {
+            workingTemplate = workingTemplate.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
+        }
 
-            options.element.innerHTML = globalize.translateHtml(template, 'core');
+        options.element.innerHTML = globalize.translateHtml(workingTemplate, 'core');
 
-            options.element.querySelector('.viewOrderList').addEventListener('click', onSectionOrderListClick);
-            options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
-            options.element.addEventListener('change', onChange);
+        options.element.querySelector('.viewOrderList').addEventListener('click', onSectionOrderListClick);
+        options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
+        options.element.addEventListener('change', onChange);
 
-            if (options.enableSaveButton) {
-                options.element.querySelector('.btnSave').classList.remove('hide');
-            }
+        if (options.enableSaveButton) {
+            options.element.querySelector('.btnSave').classList.remove('hide');
+        }
 
-            if (layoutManager.tv) {
-                options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
-            } else {
-                options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
-            }
+        if (layoutManager.tv) {
+            options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
+        } else {
+            options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
+        }
 
-            self.loadData(options.autoFocus);
-        });
+        self.loadData(options.autoFocus);
     }
 
     class HomeScreenSettings {

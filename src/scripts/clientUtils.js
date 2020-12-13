@@ -28,21 +28,44 @@ export async function serverAddress() {
     // TODO this makes things faster but it also blocks the wizard in some scenarios
     // if (current) return Promise.resolve(current);
 
-    const urls = [];
-    urls.push(window.location.origin);
-    urls.push(`https://${window.location.hostname}:8920`);
-    urls.push(`http://${window.location.hostname}:8096`);
-    urls.push(...await webSettings.getServers());
+    // Use servers specified in config.json
+    const urls = await webSettings.getServers();
+
+    // Otherwise use computed base URL
+    if (urls.length == 0) {
+        const index = window.location.href.toLowerCase().lastIndexOf('/web');
+        if (index != -1) {
+            urls.push(window.location.href.substring(0, index));
+        } else {
+            // fallback to location without path
+            urls.push(window.location.origin);
+        }
+    }
+
+    console.debug('URL candidates:', urls);
 
     const promises = urls.map(url => {
-        return fetch(`${url}/System/Info/Public`).then(resp => url).catch(error => {
+        return fetch(`${url}/System/Info/Public`).then(resp => {
+            return {
+                url: url,
+                response: resp
+            };
+        }).catch(error => {
             return Promise.resolve();
         });
     });
 
     return Promise.all(promises).then(responses => {
-        responses = responses.filter(response => response);
-        return responses[0];
+        responses = responses.filter(obj => obj && obj.response.ok);
+        return Promise.all(responses.map(obj => {
+            return {
+                url: obj.url,
+                config: obj.response.json()
+            };
+        }));
+    }).then(configs => {
+        const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
+        return Promise.resolve(selection.url);
     }).catch(error => {
         console.log(error);
         return Promise.resolve();

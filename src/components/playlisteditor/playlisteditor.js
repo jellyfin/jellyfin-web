@@ -3,6 +3,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
+import SyncPlay from '../../components/syncPlay/core';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
@@ -48,7 +49,8 @@ import ServerConnections from '../ServerConnections';
         apiClient.ajax({
             type: 'POST',
             url: url,
-            dataType: 'json'
+            dataType: 'json',
+            contentType: 'application/json'
         }).then(result => {
             loading.hide();
 
@@ -117,7 +119,7 @@ import ServerConnections from '../ServerConnections';
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
             let html = '';
 
-            if (editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) {
+            if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay.Manager.isSyncPlayEnabled()) {
                 html += `<option value="queue">${globalize.translate('AddToPlayQueue')}</option>`;
             }
 

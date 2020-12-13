@@ -1057,7 +1057,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .sectionTitleButton,
 .sectionTitleIconButton {
     margin-right: 0 !important;
-    display: inline-block;
+    display: inline-flex;
     vertical-align: middle;
 }
 

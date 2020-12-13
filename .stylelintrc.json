@@ -1,14 +1,14 @@
 {
   "plugins": [
-		"stylelint-no-browser-hacks/lib",
+		"stylelint-no-browser-hacks/lib"
 	],
   "rules": {
     "at-rule-empty-line-before": [ "always", {
-      except: [
+      "except": [
         "blockless-after-same-name-blockless",
-        "first-nested",
+        "first-nested"
       ],
-      ignore: ["after-comment"],
+      "ignore": ["after-comment"]
     } ],
     "at-rule-name-case": "lower",
     "at-rule-name-space-after": "always-single-line",
@@ -26,27 +26,27 @@
     "color-hex-length": "short",
     "color-no-invalid-hex": true,
     "comment-empty-line-before": [ "always", {
-      except: ["first-nested"],
-      ignore: ["stylelint-commands"],
+      "except": ["first-nested"],
+      "ignore": ["stylelint-commands"]
     } ],
     "comment-no-empty": true,
     "comment-whitespace-inside": "always",
     "custom-property-empty-line-before": [ "always", {
-      except: [
+      "except": [
         "after-custom-property",
-        "first-nested",
+        "first-nested"
       ],
-      ignore: [
+      "ignore": [
         "after-comment",
-        "inside-single-line-block",
-      ],
+        "inside-single-line-block"
+      ]
     } ],
     "declaration-bang-space-after": "never",
     "declaration-bang-space-before": "always",
     "declaration-block-no-duplicate-properties": [
       true,
       {
-        ignore: ["consecutive-duplicates-with-different-values"]
+        "ignore": ["consecutive-duplicates-with-different-values"]
       }
     ],
     "declaration-block-no-shorthand-property-overrides": true,
@@ -105,8 +105,8 @@
       }
     ],
     "rule-empty-line-before": [ "always-multi-line", {
-      except: ["first-nested"],
-      ignore: ["after-comment"],
+      "except": ["first-nested"],
+      "ignore": ["after-comment"]
     } ],
     "selector-attribute-brackets-space-inside": "never",
     "selector-attribute-operator-space-after": "never",
@@ -138,6 +138,6 @@
     "value-list-comma-newline-after": "always-multi-line",
     "value-list-comma-space-after": "always-single-line",
     "value-list-comma-space-before": "never",
-    "value-list-max-empty-lines": 0,
+    "value-list-max-empty-lines": 0
   }
 }

@@ -218,9 +218,9 @@ function getProviderName(providerId) {
 function getProviderConfigurationUrl(providerId) {
     switch (providerId = providerId.toLowerCase()) {
         case 'xmltv':
-            return 'livetvguideprovider.html?type=xmltv';
+            return '#!/livetvguideprovider.html?type=xmltv';
         case 'schedulesdirect':
-            return 'livetvguideprovider.html?type=schedulesdirect';
+            return '#!/livetvguideprovider.html?type=schedulesdirect';
     }
 }
 
@@ -293,36 +293,34 @@ function onDevicesListClick(e) {
     }
 }
 
-export default function () {
-    $(document).on('pageinit', '#liveTvStatusPage', function () {
-        const page = this;
-        $('.btnAddDevice', page).on('click', function () {
-            addDevice(this);
-        });
-        $('.formAddDevice', page).on('submit', function () {
-            submitAddDeviceForm(page);
-            return false;
-        });
-        $('.btnAddProvider', page).on('click', function () {
-            addProvider(this);
-        });
-        page.querySelector('.devicesList').addEventListener('click', onDevicesListClick);
-    }).on('pageshow', '#liveTvStatusPage', function () {
-        const page = this;
-        reload(page);
-        taskButton({
-            mode: 'on',
-            progressElem: page.querySelector('.refreshGuideProgress'),
-            taskKey: 'RefreshGuide',
-            button: page.querySelector('.btnRefresh')
-        });
-    }).on('pagehide', '#liveTvStatusPage', function () {
-        const page = this;
-        taskButton({
-            mode: 'off',
-            progressElem: page.querySelector('.refreshGuideProgress'),
-            taskKey: 'RefreshGuide',
-            button: page.querySelector('.btnRefresh')
-        });
+$(document).on('pageinit', '#liveTvStatusPage', function () {
+    const page = this;
+    $('.btnAddDevice', page).on('click', function () {
+        addDevice(this);
     });
-}
+    $('.formAddDevice', page).on('submit', function () {
+        submitAddDeviceForm(page);
+        return false;
+    });
+    $('.btnAddProvider', page).on('click', function () {
+        addProvider(this);
+    });
+    page.querySelector('.devicesList').addEventListener('click', onDevicesListClick);
+}).on('pageshow', '#liveTvStatusPage', function () {
+    const page = this;
+    reload(page);
+    taskButton({
+        mode: 'on',
+        progressElem: page.querySelector('.refreshGuideProgress'),
+        taskKey: 'RefreshGuide',
+        button: page.querySelector('.btnRefresh')
+    });
+}).on('pagehide', '#liveTvStatusPage', function () {
+    const page = this;
+    taskButton({
+        mode: 'off',
+        progressElem: page.querySelector('.refreshGuideProgress'),
+        taskKey: 'RefreshGuide',
+        button: page.querySelector('.btnRefresh')
+    });
+});

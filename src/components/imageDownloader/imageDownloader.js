@@ -13,6 +13,7 @@ import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import '../cardbuilder/card.css';
 import ServerConnections from '../ServerConnections';
+import template from './imageDownloader.template.html';
 
 /* eslint-disable indent */
 
@@ -316,44 +317,42 @@ import ServerConnections from '../ServerConnections';
     function showEditor(itemId, serverId, itemType) {
         loading.show();
 
-        import('./imageDownloader.template.html').then(({default: template}) => {
-            const apiClient = ServerConnections.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
-            currentItemId = itemId;
-            currentItemType = itemType;
+        currentItemId = itemId;
+        currentItemType = itemType;
 
-            const dialogOptions = {
-                removeOnClose: true
-            };
+        const dialogOptions = {
+            removeOnClose: true
+        };
 
-            if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
-            }
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
 
-            const dlg = dialogHelper.createDialog(dialogOptions);
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
-            dlg.innerHTML = globalize.translateHtml(template, 'core');
+        dlg.innerHTML = globalize.translateHtml(template, 'core');
 
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg, false);
-            }
+        if (layoutManager.tv) {
+            scrollHelper.centerFocus.on(dlg, false);
+        }
 
-            // Has to be assigned a z-index after the call to .open()
-            dlg.addEventListener('close', onDialogClosed);
+        // Has to be assigned a z-index after the call to .open()
+        dlg.addEventListener('close', onDialogClosed);
 
-            dialogHelper.open(dlg);
+        dialogHelper.open(dlg);
 
-            const editorContent = dlg.querySelector('.formDialogContent');
-            initEditor(editorContent, apiClient);
+        const editorContent = dlg.querySelector('.formDialogContent');
+        initEditor(editorContent, apiClient);
 
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                dialogHelper.close(dlg);
-            });
-
-            reloadBrowsableImages(editorContent, apiClient);
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+            dialogHelper.close(dlg);
         });
+
+        reloadBrowsableImages(editorContent, apiClient);
     }
 
     function onDialogClosed() {

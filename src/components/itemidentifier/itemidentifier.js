@@ -20,6 +20,7 @@ import 'material-design-icons-iconfont';
 import '../cardbuilder/card.css';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
+import template from './itemidentifier.template.html';
 
     const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -260,7 +261,11 @@ import toast from '../toast/toast';
     function getSearchImageDisplayUrl(url, provider) {
         const apiClient = getApiClient();
 
-        return apiClient.getUrl('Items/RemoteSearch/Image', { imageUrl: url, ProviderName: provider });
+        return apiClient.getUrl('Items/RemoteSearch/Image', {
+            imageUrl: url,
+            ProviderName: provider,
+            api_key: apiClient.accessToken()
+        });
     }
 
     function submitIdentficationResult(page) {
@@ -334,89 +339,12 @@ import toast from '../toast/toast';
     function showEditor(itemId) {
         loading.show();
 
-        return import('./itemidentifier.template.html').then(({default: template}) => {
-            const apiClient = getApiClient();
+        const apiClient = getApiClient();
 
-            apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
-                currentItem = item;
-                currentItemType = currentItem.Type;
+        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
+            currentItem = item;
+            currentItemType = currentItem.Type;
 
-                const dialogOptions = {
-                    size: 'small',
-                    removeOnClose: true,
-                    scrollY: false
-                };
-
-                if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
-                }
-
-                const dlg = dialogHelper.createDialog(dialogOptions);
-
-                dlg.classList.add('formDialog');
-                dlg.classList.add('recordingDialog');
-
-                let html = '';
-                html += globalize.translateHtml(template, 'core');
-
-                dlg.innerHTML = html;
-
-                // Has to be assigned a z-index after the call to .open()
-                dlg.addEventListener('close', onDialogClosed);
-
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-                }
-
-                if (item.Path) {
-                    dlg.querySelector('.fldPath').classList.remove('hide');
-                } else {
-                    dlg.querySelector('.fldPath').classList.add('hide');
-                }
-
-                dlg.querySelector('.txtPath').innerHTML = item.Path || '';
-
-                dialogHelper.open(dlg);
-
-                dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
-                    e.preventDefault();
-                    searchForIdentificationResults(dlg);
-                    return false;
-                });
-
-                dlg.querySelector('.identifyOptionsForm').addEventListener('submit', e => {
-                    e.preventDefault();
-                    submitIdentficationResult(dlg);
-                    return false;
-                });
-
-                dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                    dialogHelper.close(dlg);
-                });
-
-                dlg.classList.add('identifyDialog');
-
-                showIdentificationForm(dlg, item);
-                loading.hide();
-            });
-        });
-    }
-
-    function onDialogClosed() {
-        loading.hide();
-        if (hasChanges) {
-            currentResolve();
-        } else {
-            currentReject();
-        }
-    }
-
-    // TODO investigate where this was used
-    function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
-        currentItem = null;
-        currentItemType = itemType;
-
-        return import('./itemidentifier.template.html').then(({default: template}) => {
             const dialogOptions = {
                 size: 'small',
                 removeOnClose: true,
@@ -437,15 +365,22 @@ import toast from '../toast/toast';
 
             dlg.innerHTML = html;
 
+            // Has to be assigned a z-index after the call to .open()
+            dlg.addEventListener('close', onDialogClosed);
+
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
             }
 
-            dialogHelper.open(dlg);
+            if (item.Path) {
+                dlg.querySelector('.fldPath').classList.remove('hide');
+            } else {
+                dlg.querySelector('.fldPath').classList.add('hide');
+            }
 
-            dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                dialogHelper.close(dlg);
-            });
+            dlg.querySelector('.txtPath').innerHTML = item.Path || '';
+
+            dialogHelper.open(dlg);
 
             dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
                 e.preventDefault();
@@ -453,17 +388,83 @@ import toast from '../toast/toast';
                 return false;
             });
 
-            dlg.addEventListener('close', () => {
-                loading.hide();
-                const foundItem = hasChanges ? currentSearchResult : null;
+            dlg.querySelector('.identifyOptionsForm').addEventListener('submit', e => {
+                e.preventDefault();
+                submitIdentficationResult(dlg);
+                return false;
+            });
 
-                resolveFunc(foundItem);
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                dialogHelper.close(dlg);
             });
 
             dlg.classList.add('identifyDialog');
 
-            showIdentificationFormFindNew(dlg, itemName, itemYear, itemType);
+            showIdentificationForm(dlg, item);
+            loading.hide();
         });
+    }
+
+    function onDialogClosed() {
+        loading.hide();
+        if (hasChanges) {
+            currentResolve();
+        } else {
+            currentReject();
+        }
+    }
+
+    // TODO investigate where this was used
+    function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
+        currentItem = null;
+        currentItemType = itemType;
+
+        const dialogOptions = {
+            size: 'small',
+            removeOnClose: true,
+            scrollY: false
+        };
+
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        }
+
+        const dlg = dialogHelper.createDialog(dialogOptions);
+
+        dlg.classList.add('formDialog');
+        dlg.classList.add('recordingDialog');
+
+        let html = '';
+        html += globalize.translateHtml(template, 'core');
+
+        dlg.innerHTML = html;
+
+        if (layoutManager.tv) {
+            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+        }
+
+        dialogHelper.open(dlg);
+
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
+            dialogHelper.close(dlg);
+        });
+
+        dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
+            e.preventDefault();
+            searchForIdentificationResults(dlg);
+            return false;
+        });
+
+        dlg.addEventListener('close', () => {
+            loading.hide();
+            const foundItem = hasChanges ? currentSearchResult : null;
+
+            resolveFunc(foundItem);
+        });
+
+        dlg.classList.add('identifyDialog');
+
+        showIdentificationFormFindNew(dlg, itemName, itemYear, itemType);
     }
 
     function showIdentificationFormFindNew(dlg, itemName, itemYear, itemType) {

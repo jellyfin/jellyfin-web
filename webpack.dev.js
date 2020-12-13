@@ -4,7 +4,7 @@ const merge = require('webpack-merge');
 
 module.exports = merge(common, {
     mode: 'development',
-    entry: './scripts/standalone.js',
+    entry: './scripts/site.js',
     devtool: 'source-map',
     module: {
         rules: [

@@ -295,26 +295,26 @@ function loadItems(element, item, type, query, listOptions) {
 
 function getMoreItemsHref(item, type) {
     if (item.Type === 'Genre') {
-        return 'list.html?type=' + type + '&genreId=' + item.Id + '&serverId=' + item.ServerId;
+        return '#!/list.html?type=' + type + '&genreId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
     if (item.Type === 'MusicGenre') {
-        return 'list.html?type=' + type + '&musicGenreId=' + item.Id + '&serverId=' + item.ServerId;
+        return '#!/list.html?type=' + type + '&musicGenreId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
     if (item.Type === 'Studio') {
-        return 'list.html?type=' + type + '&studioId=' + item.Id + '&serverId=' + item.ServerId;
+        return '#!/list.html?type=' + type + '&studioId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
     if (item.Type === 'MusicArtist') {
-        return 'list.html?type=' + type + '&artistId=' + item.Id + '&serverId=' + item.ServerId;
+        return '#!/list.html?type=' + type + '&artistId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
     if (item.Type === 'Person') {
-        return 'list.html?type=' + type + '&personId=' + item.Id + '&serverId=' + item.ServerId;
+        return '#!/list.html?type=' + type + '&personId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
-    return 'list.html?type=' + type + '&parentId=' + item.Id + '&serverId=' + item.ServerId;
+    return '#!/list.html?type=' + type + '&parentId=' + item.Id + '&serverId=' + item.ServerId;
 }
 
 function addCurrentItemToQuery(query, item) {
@@ -338,7 +338,7 @@ function getQuery(options, item) {
         SortOrder: 'Ascending',
         IncludeItemTypes: '',
         Recursive: true,
-        Fields: 'AudioInfo,SeriesInfo,ParentId,PrimaryImageAspectRatio,BasicSyncInfo',
+        Fields: 'AudioInfo,ParentId,PrimaryImageAspectRatio,BasicSyncInfo',
         Limit: 100,
         StartIndex: 0,
         CollapseBoxSetItems: false

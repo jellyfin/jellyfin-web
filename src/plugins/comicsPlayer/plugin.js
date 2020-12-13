@@ -5,6 +5,9 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import { appRouter } from '../../components/appRouter';
 import ServerConnections from '../../components/ServerConnections';
+// eslint-disable-next-line import/named, import/namespace
+import { Swiper } from 'swiper/swiper-bundle.esm';
+import 'swiper/swiper-bundle.css';
 
 export class ComicsPlayer {
     constructor() {
@@ -27,6 +30,8 @@ export class ComicsPlayer {
 
     stop() {
         this.unbindEvents();
+
+        this.archiveSource?.release();
 
         const elem = this.mediaElement;
         if (elem) {
@@ -101,41 +106,36 @@ export class ComicsPlayer {
             workerUrl: appRouter.baseUrl() + '/libraries/worker-bundle.js'
         });
 
-        return new Promise((resolve, reject) => {
-            const downloadUrl = apiClient.getItemDownloadUrl(item.Id);
-            const archiveSource = new ArchiveSource(downloadUrl);
+        const downloadUrl = apiClient.getItemDownloadUrl(item.Id);
+        this.archiveSource = new ArchiveSource(downloadUrl);
 
-            const instance = this;
-            import('swiper').then(({default: Swiper}) => {
-                archiveSource.load().then(() => {
-                    loading.hide();
-                    this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
-                        direction: 'horizontal',
-                        // loop is disabled due to the lack of support in virtual slides
-                        loop: false,
-                        zoom: {
-                            minRatio: 1,
-                            toggle: true,
-                            containerClass: 'slider-zoom-container'
-                        },
-                        autoplay: false,
-                        keyboard: {
-                            enabled: true
-                        },
-                        preloadImages: true,
-                        slidesPerView: 1,
-                        slidesPerColumn: 1,
-                        initialSlide: 0,
-                        // reduces memory consumption for large libraries while allowing preloading of images
-                        virtual: {
-                            slides: archiveSource.urls,
-                            cache: true,
-                            renderSlide: instance.getImgFromUrl,
-                            addSlidesBefore: 1,
-                            addSlidesAfter: 1
-                        }
-                    });
-                });
+        return this.archiveSource.load().then(() => {
+            loading.hide();
+            this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
+                direction: 'horizontal',
+                // loop is disabled due to the lack of Swiper support in virtual slides
+                loop: false,
+                zoom: {
+                    minRatio: 1,
+                    toggle: true,
+                    containerClass: 'slider-zoom-container'
+                },
+                autoplay: false,
+                keyboard: {
+                    enabled: true
+                },
+                preloadImages: true,
+                slidesPerView: 1,
+                slidesPerColumn: 1,
+                initialSlide: 0,
+                // reduces memory consumption for large libraries while allowing preloading of images
+                virtual: {
+                    slides: this.archiveSource.urls,
+                    cache: true,
+                    renderSlide: this.getImgFromUrl,
+                    addSlidesBefore: 1,
+                    addSlidesAfter: 1
+                }
             });
         });
     }
@@ -166,8 +166,6 @@ class ArchiveSource {
         this.url = url;
         this.files = [];
         this.urls = [];
-        this.loadPromise = this.load();
-        this.itemsLoaded = 0;
     }
 
     async load() {
@@ -179,7 +177,6 @@ class ArchiveSource {
         const blob = await res.blob();
         this.archive = await Archive.open(blob);
         this.raw = await this.archive.getFilesArray();
-        this.numberOfFiles = this.raw.length;
         await this.archive.extractFiles();
 
         const files = await this.archive.getFilesArray();
@@ -198,17 +195,11 @@ class ArchiveSource {
         }
     }
 
-    getLength() {
-        return this.raw.length;
-    }
-
-    async item(index) {
-        if (this.urls[index]) {
-            return this.urls[index];
-        }
-
-        await this.loadPromise;
-        return this.urls[index];
+    release() {
+        this.files = [];
+        /* eslint-disable-next-line compat/compat */
+        this.urls.forEach(URL.revokeObjectURL);
+        this.urls = [];
     }
 }
 

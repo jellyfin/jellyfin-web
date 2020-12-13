@@ -7,6 +7,9 @@ import * as webSettings from '../scripts/settings/webSettings';
 import globalize from '../scripts/globalize';
 import profileBuilder from '../scripts/browserDeviceProfile';
 
+const appName = 'Jellyfin Web';
+const appVersion = '10.7.0';
+
 function getBaseProfileOptions(item) {
     const disableHlsVideoAudioCodecs = [];
 
@@ -31,7 +34,7 @@ function getDeviceProfile(item, options = {}) {
         let profile;
 
         if (window.NativeShell) {
-            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
+            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, appVersion);
         } else {
             const builderOpts = getBaseProfileOptions(item);
             profile = profileBuilder(builderOpts);
@@ -316,8 +319,6 @@ function askForExit() {
 
 let deviceId;
 let deviceName;
-const appName = 'Jellyfin Web';
-const appVersion = '10.7.0';
 
 export const appHost = {
     getWindowState: function () {

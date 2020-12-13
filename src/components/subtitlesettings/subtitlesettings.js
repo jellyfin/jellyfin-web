@@ -17,6 +17,7 @@ import '../../assets/css/flexstyles.scss';
 import './subtitlesettings.css';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
+import template from './subtitlesettings.template.html';
 
 /**
  * Subtitle settings.
@@ -158,63 +159,61 @@ function hideSubtitlePreview(persistent) {
 }
 
 function embed(options, self) {
-    import('./subtitlesettings.template.html').then(({default: template}) => {
-        options.element.classList.add('subtitlesettings');
-        options.element.innerHTML = globalize.translateHtml(template, 'core');
+    options.element.classList.add('subtitlesettings');
+    options.element.innerHTML = globalize.translateHtml(template, 'core');
 
-        options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
+    options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
 
-        options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
-        options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
-        options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
-        options.element.querySelector('#selectFont').addEventListener('change', onAppearanceFieldChange);
-        options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
-        options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
+    options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#selectFont').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);
 
-        if (options.enableSaveButton) {
-            options.element.querySelector('.btnSave').classList.remove('hide');
+    if (options.enableSaveButton) {
+        options.element.querySelector('.btnSave').classList.remove('hide');
+    }
+
+    if (appHost.supports('subtitleappearancesettings')) {
+        options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
+
+        self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');
+        self._refFullPreview = 0;
+
+        const sliderVerticalPosition = options.element.querySelector('#sliderVerticalPosition');
+        sliderVerticalPosition.addEventListener('input', onAppearanceFieldChange);
+        sliderVerticalPosition.addEventListener('input', () => showSubtitlePreview.call(self));
+
+        const eventPrefix = window.PointerEvent ? 'pointer' : 'mouse';
+        sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSubtitlePreview.call(self, true));
+        sliderVerticalPosition.addEventListener(`${eventPrefix}leave`, () => hideSubtitlePreview.call(self, true));
+
+        if (layoutManager.tv) {
+            sliderVerticalPosition.addEventListener('focus', () => showSubtitlePreview.call(self, true));
+            sliderVerticalPosition.addEventListener('blur', () => hideSubtitlePreview.call(self, true));
+
+            // Give CustomElements time to attach
+            setTimeout(() => {
+                sliderVerticalPosition.classList.add('focusable');
+                sliderVerticalPosition.enableKeyboardDragging();
+            }, 0);
         }
 
-        if (appHost.supports('subtitleappearancesettings')) {
-            options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
-
-            self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');
-            self._refFullPreview = 0;
-
-            const sliderVerticalPosition = options.element.querySelector('#sliderVerticalPosition');
-            sliderVerticalPosition.addEventListener('input', onAppearanceFieldChange);
-            sliderVerticalPosition.addEventListener('input', () => showSubtitlePreview.call(self));
-
-            const eventPrefix = window.PointerEvent ? 'pointer' : 'mouse';
-            sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSubtitlePreview.call(self, true));
-            sliderVerticalPosition.addEventListener(`${eventPrefix}leave`, () => hideSubtitlePreview.call(self, true));
-
-            if (layoutManager.tv) {
-                sliderVerticalPosition.addEventListener('focus', () => showSubtitlePreview.call(self, true));
-                sliderVerticalPosition.addEventListener('blur', () => hideSubtitlePreview.call(self, true));
-
-                // Give CustomElements time to attach
-                setTimeout(() => {
-                    sliderVerticalPosition.classList.add('focusable');
-                    sliderVerticalPosition.enableKeyboardDragging();
-                }, 0);
+        options.element.querySelector('.chkPreview').addEventListener('change', (e) => {
+            if (e.target.checked) {
+                showSubtitlePreview.call(self, true);
+            } else {
+                hideSubtitlePreview.call(self, true);
             }
+        });
+    }
 
-            options.element.querySelector('.chkPreview').addEventListener('change', (e) => {
-                if (e.target.checked) {
-                    showSubtitlePreview.call(self, true);
-                } else {
-                    hideSubtitlePreview.call(self, true);
-                }
-            });
-        }
+    self.loadData();
 
-        self.loadData();
-
-        if (options.autoFocus) {
-            focusManager.autoFocus(options.element);
-        }
-    });
+    if (options.autoFocus) {
+        focusManager.autoFocus(options.element);
+    }
 }
 
 export class SubtitleSettings {

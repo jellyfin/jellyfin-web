@@ -93,6 +93,10 @@ import alert from '../../components/alert';
             return 'The http and https ports must be different.';
         }
 
+        if (!form.querySelector('#chkEnableIP6').checked && !form.querySelector('#chkEnableIP4').checked) {
+            return 'Either IPv4 or IPv6 need to be checked.';
+        }
+
         return null;
     }
 
@@ -132,7 +136,7 @@ import alert from '../../components/alert';
             page.querySelector('#txtPortNumber').value = config.HttpServerPortNumber;
             page.querySelector('#txtPublicPort').value = config.PublicPort;
             page.querySelector('#txtPublicHttpsPort').value = config.PublicHttpsPort;
-            page.querySelector('#txtLocalAddress').value = (config.LocalNetworkSubnets || []).join(', ');
+            page.querySelector('#txtLocalAddress').value = (config.LocalNetworkAddresses || []).join(', ');
             page.querySelector('#txtLanNetworks').value = (config.LocalNetworkSubnets || []).join(', ');
             page.querySelector('#txtKnownProxies').value = (config.KnownProxies || []).join(', ');
             page.querySelector('#txtExternalAddressFilter').value = (config.RemoteIPFilter || []).join(', ');

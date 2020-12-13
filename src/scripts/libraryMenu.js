@@ -6,8 +6,8 @@ import viewManager from '../components/viewManager/viewManager';
 import { appRouter } from '../components/appRouter';
 import { appHost } from '../components/apphost';
 import { playbackManager } from '../components/playback/playbackmanager';
-import syncPlayManager from '../components/syncPlay/syncPlayManager';
-import { show as groupSelectionMenuShow } from '../components/syncPlay/groupSelectionMenu';
+import SyncPlay from '../components/syncPlay/core';
+import groupSelectionMenu from '../components/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
@@ -230,7 +230,7 @@ import Headroom from 'headroom.js';
 
     function onSyncButtonClicked() {
         const btn = this;
-        groupSelectionMenuShow(btn);
+        groupSelectionMenu.show(btn);
     }
 
     function onSyncPlayEnabled(event, enabled) {
@@ -292,7 +292,7 @@ import Headroom from 'headroom.js';
     function refreshLibraryInfoInDrawer(user, drawer) {
         let html = '';
         html += '<div style="height:.5em;"></div>';
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
+        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#!/home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
 
         // libraries are added here
         html += '<div class="libraryMenuOptions">';
@@ -303,8 +303,8 @@ import Headroom from 'headroom.js';
             html += '<h3 class="sidebarHeader">';
             html += globalize.translate('HeaderAdmin');
             html += '</h3>';
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><span class="material-icons navMenuOptionIcon dashboard"></span><span class="navMenuOptionText">' + globalize.translate('TabDashboard') + '</span></a>';
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit"></span><span class="navMenuOptionText">' + globalize.translate('Metadata') + '</span></a>';
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#!/dashboard.html"><span class="material-icons navMenuOptionIcon dashboard"></span><span class="navMenuOptionText">' + globalize.translate('TabDashboard') + '</span></a>';
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#!/edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit"></span><span class="navMenuOptionText">' + globalize.translate('Metadata') + '</span></a>';
             html += '</div>';
         }
 
@@ -315,7 +315,7 @@ import Headroom from 'headroom.js';
             html += '</h3>';
 
             if (appHost.supports('multiserver')) {
-                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('SelectServer') + '</span></a>';
             }
 
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('Settings') + '</span></a>';
@@ -325,6 +325,11 @@ import Headroom from 'headroom.js';
 
         // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;
+
+        const btnSelectServer = navDrawerScrollContainer.querySelector('.btnSelectServer');
+        if (btnSelectServer) {
+            btnSelectServer.addEventListener('click', onSelectServerClick);
+        }
 
         const btnSettings = navDrawerScrollContainer.querySelector('.btnSettings');
         if (btnSettings) {
@@ -390,28 +395,28 @@ import Headroom from 'headroom.js';
             name: globalize.translate('TabServer')
         }, {
             name: globalize.translate('TabDashboard'),
-            href: 'dashboard.html',
+            href: '#!/dashboard.html',
             pageIds: ['dashboardPage'],
             icon: 'dashboard'
         }, {
             name: globalize.translate('General'),
-            href: 'dashboardgeneral.html',
+            href: '#!/dashboardgeneral.html',
             pageIds: ['dashboardGeneralPage'],
             icon: 'settings'
         }, {
             name: globalize.translate('HeaderUsers'),
-            href: 'userprofiles.html',
+            href: '#!/userprofiles.html',
             pageIds: ['userProfilesPage', 'newUserPage', 'editUserPage', 'userLibraryAccessPage', 'userParentalControlPage', 'userPasswordPage'],
             icon: 'people'
         }, {
             name: globalize.translate('HeaderLibraries'),
-            href: 'library.html',
+            href: '#!/library.html',
             pageIds: ['mediaLibraryPage', 'librarySettingsPage', 'libraryDisplayPage', 'metadataImagesConfigurationPage', 'metadataNfoPage'],
             icon: 'folder'
         }, {
             name: globalize.translate('TitlePlayback'),
             icon: 'play_arrow',
-            href: 'encodingsettings.html',
+            href: '#!/encodingsettings.html',
             pageIds: ['encodingSettingsPage', 'playbackConfigurationPage', 'streamingSettingsPage']
         }];
         addPluginPagesToMainMenu(links, pluginItems, 'server');
@@ -421,25 +426,25 @@ import Headroom from 'headroom.js';
         });
         links.push({
             name: globalize.translate('HeaderDevices'),
-            href: 'devices.html',
+            href: '#!/devices.html',
             pageIds: ['devicesPage', 'devicePage'],
             icon: 'devices'
         });
         links.push({
             name: globalize.translate('QuickConnect'),
-            href: 'quickConnect.html',
+            href: '#!/quickConnect.html',
             pageIds: ['quickConnectPage'],
             icon: 'tap_and_play'
         });
         links.push({
             name: globalize.translate('HeaderActivity'),
-            href: 'serveractivity.html',
+            href: '#!/serveractivity.html',
             pageIds: ['serverActivityPage'],
             icon: 'assessment'
         });
         links.push({
             name: globalize.translate('DLNA'),
-            href: 'dlnasettings.html',
+            href: '#!/dlnasettings.html',
             pageIds: ['dlnaSettingsPage', 'dlnaProfilesPage', 'dlnaProfilePage'],
             icon: 'input'
         });
@@ -449,13 +454,13 @@ import Headroom from 'headroom.js';
         });
         links.push({
             name: globalize.translate('LiveTV'),
-            href: 'livetvstatus.html',
+            href: '#!/livetvstatus.html',
             pageIds: ['liveTvStatusPage', 'liveTvTunerPage'],
             icon: 'live_tv'
         });
         links.push({
             name: globalize.translate('HeaderDVR'),
-            href: 'livetvsettings.html',
+            href: '#!/livetvsettings.html',
             pageIds: ['liveTvSettingsPage'],
             icon: 'dvr'
         });
@@ -466,36 +471,36 @@ import Headroom from 'headroom.js';
         links.push({
             name: globalize.translate('TabNetworking'),
             icon: 'cloud',
-            href: 'networking.html',
+            href: '#!/networking.html',
             pageIds: ['networkingPage']
         });
         links.push({
             name: globalize.translate('HeaderApiKeys'),
             icon: 'vpn_key',
-            href: 'apikeys.html',
+            href: '#!/apikeys.html',
             pageIds: ['apiKeysPage']
         });
         links.push({
             name: globalize.translate('TabLogs'),
-            href: 'log.html',
+            href: '#!/log.html',
             pageIds: ['logPage'],
             icon: 'bug_report'
         });
         links.push({
             name: globalize.translate('TabNotifications'),
             icon: 'notifications',
-            href: 'notificationsettings.html',
+            href: '#!/notificationsettings.html',
             pageIds: ['notificationSettingsPage', 'notificationSettingPage']
         });
         links.push({
             name: globalize.translate('TabPlugins'),
             icon: 'shopping_cart',
-            href: 'installedplugins.html',
+            href: '#!/installedplugins.html',
             pageIds: ['pluginsPage', 'pluginCatalogPage']
         });
         links.push({
             name: globalize.translate('TabScheduledTasks'),
-            href: 'scheduledtasks.html',
+            href: '#!/scheduledtasks.html',
             pageIds: ['scheduledTasksPage', 'scheduledTaskPage'],
             icon: 'schedule'
         });
@@ -567,7 +572,7 @@ import Headroom from 'headroom.js';
     function createDashboardMenu(apiClient) {
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
             let html = '';
-            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html">';
+            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="#!/home.html">';
             html += '<img src="assets/img/icon-transparent.png" />';
             html += '</a>';
             html += toolsMenuHtml;
@@ -598,7 +603,7 @@ import Headroom from 'headroom.js';
                     guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
-                    guideView.url = 'livetv.html?tab=1';
+                    guideView.url = '#!/livetv.html?tab=1';
                     list.push(guideView);
                 }
             }
@@ -675,6 +680,10 @@ import Headroom from 'headroom.js';
         if (dom.parentWithTag(e.target, 'A')) {
             setTimeout(closeMainDrawer, 30);
         }
+    }
+
+    function onSelectServerClick() {
+        Dashboard.selectServer();
     }
 
     function onSettingsClick() {
@@ -1000,8 +1009,8 @@ import Headroom from 'headroom.js';
 
     Events.on(playbackManager, 'playerchange', updateCastIcon);
 
-    Events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
-    Events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
+    Events.on(SyncPlay.Manager, 'enabled', onSyncPlayEnabled);
+    Events.on(SyncPlay.Manager, 'syncing', onSyncPlaySyncing);
 
     loadNavDrawer();
 

@@ -171,7 +171,30 @@ function renderTrackSelections(page, instance, item, forceReload) {
         return;
     }
 
-    const mediaSources = item.MediaSources;
+    let mediaSources = item.MediaSources;
+
+    const resolutionNames = [];
+    const sourceNames = [];
+    mediaSources.forEach(function (v) {
+        (v.Name.endsWith('p') || v.Name.endsWith('i')) && !Number.isNaN(parseInt(v.Name, 10)) ? resolutionNames.push(v) : sourceNames.push(v);
+    });
+
+    resolutionNames.sort((a, b) => parseInt(b.Name, 10) - parseInt(a.Name, 10));
+    sourceNames.sort(function(a, b) {
+        const nameA = a.Name.toUpperCase();
+        const nameB = b.Name.toUpperCase();
+        if (nameA < nameB) {
+            return -1;
+        } else if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    });
+
+    mediaSources = [];
+    resolutionNames.forEach(v => mediaSources.push(v));
+    sourceNames.forEach(v => mediaSources.push(v));
+
     instance._currentPlaybackMediaSources = mediaSources;
 
     page.querySelector('.trackSelections').classList.remove('hide');
@@ -1221,7 +1244,7 @@ function renderSimilarItems(page, item, context) {
         const options = {
             userId: apiClient.getCurrentUserId(),
             limit: 12,
-            fields: 'PrimaryImageAspectRatio,UserData,CanDelete'
+            fields: 'PrimaryImageAspectRatio,CanDelete'
         };
 
         if (item.Type == 'MusicAlbum' && item.AlbumArtists && item.AlbumArtists.length) {

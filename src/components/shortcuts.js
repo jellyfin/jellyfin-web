@@ -145,7 +145,10 @@ import toast from './toast/toast';
             SeriesId: card.getAttribute('data-seriesid'),
             ServerId: card.getAttribute('data-serverid'),
             MediaType: card.getAttribute('data-mediatype'),
+            Path: card.getAttribute('data-path'),
             IsFolder: card.getAttribute('data-isfolder') === 'true',
+            StartDate: card.getAttribute('data-startdate'),
+            EndDate: card.getAttribute('data-enddate'),
             UserData: {
                 PlaybackPositionTicks: parseInt(card.getAttribute('data-positionticks') || '0')
             }
@@ -204,11 +207,15 @@ import toast from './toast/toast';
         } else if (action === 'play' || action === 'resume') {
             const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0');
 
-            playbackManager.play({
-                ids: [playableItemId],
-                startPositionTicks: startPositionTicks,
-                serverId: serverId
-            });
+            if (playbackManager.canPlay(item)) {
+                playbackManager.play({
+                    ids: [playableItemId],
+                    startPositionTicks: startPositionTicks,
+                    serverId: serverId
+                });
+            } else {
+                console.warn('Unable to play item', item);
+            }
         } else if (action === 'queue') {
             if (playbackManager.isPlaying()) {
                 playbackManager.queue({

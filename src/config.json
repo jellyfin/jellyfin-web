@@ -1,4 +1,5 @@
 {
+  "includeCorsCredentials": false,
   "multiserver": false,
   "themes": [
     {

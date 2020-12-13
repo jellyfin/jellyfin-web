@@ -1,4 +1,5 @@
 import { playbackManager } from '../../../components/playback/playbackmanager';
+import SyncPlay from '../../../components/syncPlay/core';
 import dom from '../../../scripts/dom';
 import inputManager from '../../../scripts/inputManager';
 import mouseManager from '../../../scripts/mouseManager';
@@ -1469,7 +1470,8 @@ import { appRouter } from '../../../components/appRouter';
             dom.addEventListener(view, 'dblclick', onDoubleClick, {});
         } else {
             const options = { passive: true };
-            dom.addEventListener(view, 'dblclick', function () {
+            dom.addEventListener(view, 'dblclick', (e) => {
+                if (e.target !== view) return;
                 playbackManager.toggleFullscreen(currentPlayer);
             }, options);
         }
@@ -1568,6 +1570,111 @@ import { appRouter } from '../../../components/appRouter';
                 });
             })();
         }
+
+        // Register to SyncPlay playback events and show big animated icon
+        const showIcon = (action) => {
+            let primary_icon_name = '';
+            let secondary_icon_name = '';
+            let animation_class = 'oneShotPulse';
+            let iconVisibilityTime = 1500;
+            const syncPlayIcon = view.querySelector('#syncPlayIcon');
+
+            switch (action) {
+                case 'schedule-play':
+                    primary_icon_name = 'sync spin';
+                    secondary_icon_name = 'play_arrow centered';
+                    animation_class = 'infinitePulse';
+                    iconVisibilityTime = -1;
+                    hideOsd();
+                    break;
+                case 'unpause':
+                    primary_icon_name = 'play_circle_outline';
+                    break;
+                case 'pause':
+                    primary_icon_name = 'pause_circle_outline';
+                    showOsd();
+                    break;
+                case 'seek':
+                    primary_icon_name = 'update';
+                    animation_class = 'infinitePulse';
+                    iconVisibilityTime = -1;
+                    break;
+                case 'buffering':
+                    primary_icon_name = 'schedule';
+                    animation_class = 'infinitePulse';
+                    iconVisibilityTime = -1;
+                    break;
+                case 'wait-pause':
+                    primary_icon_name = 'schedule';
+                    secondary_icon_name = 'pause shifted';
+                    animation_class = 'infinitePulse';
+                    iconVisibilityTime = -1;
+                    break;
+                case 'wait-unpause':
+                    primary_icon_name = 'schedule';
+                    secondary_icon_name = 'play_arrow shifted';
+                    animation_class = 'infinitePulse';
+                    iconVisibilityTime = -1;
+                    break;
+                default: {
+                    syncPlayIcon.style.visibility = 'hidden';
+                    return;
+                }
+            }
+
+            syncPlayIcon.setAttribute('class', 'syncPlayIconCircle ' + animation_class);
+
+            const primaryIcon = syncPlayIcon.querySelector('.primary-icon');
+            primaryIcon.setAttribute('class', 'primary-icon material-icons ' + primary_icon_name);
+
+            const secondaryIcon = syncPlayIcon.querySelector('.secondary-icon');
+            secondaryIcon.setAttribute('class', 'secondary-icon material-icons ' + secondary_icon_name);
+
+            const clone = syncPlayIcon.cloneNode(true);
+            clone.style.visibility = 'visible';
+            syncPlayIcon.parentNode.replaceChild(clone, syncPlayIcon);
+
+            if (iconVisibilityTime < 0) {
+                return;
+            }
+
+            setTimeout(() => {
+                clone.style.visibility = 'hidden';
+            }, iconVisibilityTime);
+        };
+
+        Events.on(SyncPlay.Manager, 'enabled', (event, enabled) => {
+            if (enabled) {
+                // SyncPlay enabled
+            } else {
+                const syncPlayIcon = view.querySelector('#syncPlayIcon');
+                syncPlayIcon.style.visibility = 'hidden';
+            }
+        });
+
+        Events.on(SyncPlay.Manager, 'notify-osd', (event, action) => {
+            showIcon(action);
+        });
+
+        Events.on(SyncPlay.Manager, 'group-state-update', (event, state, reason) => {
+            if (state === 'Playing' && reason === 'Unpause') {
+                showIcon('schedule-play');
+            } else if (state === 'Playing' && reason === 'Ready') {
+                showIcon('schedule-play');
+            } else if (state === 'Paused' && reason === 'Pause') {
+                showIcon('pause');
+            } else if (state === 'Paused' && reason === 'Ready') {
+                showIcon('clear');
+            } else if (state === 'Waiting' && reason === 'Seek') {
+                showIcon('seek');
+            } else if (state === 'Waiting' && reason === 'Buffer') {
+                showIcon('buffering');
+            } else if (state === 'Waiting' && reason === 'Pause') {
+                showIcon('wait-pause');
+            } else if (state === 'Waiting' && reason === 'Unpause') {
+                showIcon('wait-unpause');
+            }
+        });
     }
 
 /* eslint-enable indent */

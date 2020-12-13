@@ -11,6 +11,8 @@ import '../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../scripts/clientUtils';
 import ServerConnections from '../../../components/ServerConnections';
 import toast from '../../../components/toast/toast';
+import dialogHelper from '../../../components/dialogHelper/dialogHelper';
+import baseAlert from '../../../components/alert';
 
 /* eslint-disable indent */
 
@@ -49,9 +51,12 @@ import toast from '../../../components/toast/toast';
                 return false;
             }
 
-            Dashboard.alert({
-                message: globalize.translate('QuickConnectAuthorizeCode', json.Code),
-                title: globalize.translate('QuickConnect')
+            baseAlert({
+                dialogOptions: {
+                    id: 'quickConnectAlert'
+                },
+                title: globalize.translate('QuickConnect'),
+                text: globalize.translate('QuickConnectAuthorizeCode', json.Code)
             });
 
             const connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
@@ -64,10 +69,22 @@ import toast from '../../../components/toast/toast';
 
                     clearInterval(interval);
 
+                    // Close the QuickConnect dialog
+                    const dlg = document.getElementById('quickConnectAlert');
+                    if (dlg) {
+                        dialogHelper.close(dlg);
+                    }
+
                     const result = await apiClient.quickConnect(data.Authentication);
                     onLoginSuccessful(result.User.Id, result.AccessToken, apiClient);
                 }, function (e) {
                     clearInterval(interval);
+
+                    // Close the QuickConnect dialog
+                    const dlg = document.getElementById('quickConnectAlert');
+                    if (dlg) {
+                        dialogHelper.close(dlg);
+                    }
 
                     Dashboard.alert({
                         message: globalize.translate('QuickConnectDeactivated'),
@@ -263,6 +280,17 @@ import toast from '../../../components/toast/toast';
             }
 
             const apiClient = getApiClient();
+
+            apiClient.getQuickConnect('Status')
+                .then(status => {
+                    if (status !== 'Unavailable') {
+                        view.querySelector('.btnQuick').classList.remove('hide');
+                    }
+                })
+                .catch(() => {
+                    console.debug('Failed to get QuickConnect status');
+                });
+
             apiClient.getPublicUsers().then(function (users) {
                 if (users.length) {
                     showVisualForm();
