@@ -23,6 +23,20 @@ function deletePlugin(page, uniqueid, name) {
     });
 }
 
+function enablePlugin(page, uniqueid, name) {
+    loading.show();
+    ApiClient.enablePlugin(uniqueid).then(function () {
+        reloadList(page);
+    });
+}
+
+function disablePlugin(page, uniqueid, name) {
+    loading.show();
+    ApiClient.disablePlugin(uniqueid).then(function () {
+        reloadList(page);
+    });
+}
+
 function showNoConfigurationMessage() {
     Dashboard.alert({
         message: globalize.translate('MessageNoPluginConfiguration')
@@ -41,12 +55,18 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     })[0];
     const configPageUrl = configPage ? Dashboard.getPluginUrl(configPage.Name) : null;
     let html = '';
-    html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' class='card backdropCard'>";
+    html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' data-status='" +plugin.Status + "' class='card backdropCard'>";
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
     html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
-    html += '<span class="cardImageIcon material-icons folder"></span>';
+    html += '<span style="background-image: url(/Plugins/' + plugin.Id + '/StatusImage); background-position: center; background-repeat: no-repeat" class="cardImageIcon';
+    if (plugin.HasImage) {
+        html += '"><img src="/Plugins/' + plugin.Id + '/Image" style="width:100%;height:auto"/>';
+    } else {
+        html += ' material-icons folder">';
+    }
+    html += '</span> ';
     html += configPageUrl ? '</a>' : '</div>';
     html += '</div>';
     html += '<div class="cardFooter">';
@@ -114,6 +134,7 @@ function showPluginMenu(page, elem) {
     const name = card.getAttribute('data-name');
     const removable = card.getAttribute('data-removable');
     const configHref = card.querySelector('.cardContent').getAttribute('href');
+    const status = card.getAttribute('data-status');
     const menuItems = [];
 
     if (configHref) {
@@ -125,6 +146,22 @@ function showPluginMenu(page, elem) {
     }
 
     if (removable === 'true') {
+        if (status === 'Disabled') {
+            menuItems.push({
+                name: globalize.translate('EnablePlugin'),
+                id: 'enable',
+                icon: 'enable'
+            });
+        }
+
+        if (status === 'Active') {
+            menuItems.push({
+                name: globalize.translate('DisablePlugin'),
+                id: 'disable',
+                icon: 'disable'
+            });
+        }
+
         menuItems.push({
             name: globalize.translate('ButtonUninstall'),
             id: 'delete',
@@ -143,6 +180,12 @@ function showPluginMenu(page, elem) {
                         break;
                     case 'delete':
                         deletePlugin(page, id, name);
+                        break;
+                    case 'enable':
+                        enablePlugin(page, id.name);
+                        break;
+                    case 'disable':
+                        disablePlugin(page, id, name);
                         break;
                 }
             }
