@@ -1306,7 +1306,7 @@
     "LabelSyncPlayTimeOffset": "Décalage de temps avec le serveur :",
     "HeaderSyncPlayEnabled": "SyncPlay activé",
     "MessageSyncPlayLibraryAccessDenied": "L'accès à ce contenu est restreint.",
-    "MessageSyncPlayJoinGroupDenied": "Impossible de rejoindre le group",
+    "MessageSyncPlayJoinGroupDenied": "Impossible de rejoindre le groupe.",
     "MessageSyncPlayCreateGroupDenied": "Permission requise pour créer un groupe.",
     "MessageSyncPlayGroupDoesNotExist": "Impossible de rejoindre le groupe car il n'existe pas.",
     "MessageSyncPlayPlaybackPermissionRequired": "Autorisation de lecture requise.",
