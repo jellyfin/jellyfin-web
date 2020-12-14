@@ -7,7 +7,7 @@ import '../../../../elements/emby-button/emby-button';
 import Dashboard, { pageIdOn } from '../../../../scripts/clientUtils';
 import confirm from '../../../../components/confirm/confirm';
 
-function deletePlugin(page, uniqueid, name) {
+function deletePlugin(page, uniqueid, version, name) {
     const msg = globalize.translate('UninstallPluginConfirmation', name);
 
     confirm({
@@ -17,22 +17,22 @@ function deletePlugin(page, uniqueid, name) {
         confirmText: globalize.translate('HeaderUninstallPlugin')
     }).then(function () {
         loading.show();
-        ApiClient.uninstallPlugin(uniqueid).then(function () {
+        ApiClient.uninstallPlugin(uniqueid, version).then(function () {
             reloadList(page);
         });
     });
 }
 
-function enablePlugin(page, uniqueid, name) {
+function enablePlugin(page, uniqueid, version) {
     loading.show();
-    ApiClient.enablePlugin(uniqueid).then(function () {
+    ApiClient.enablePlugin(uniqueid, version).then(function () {
         reloadList(page);
     });
 }
 
-function disablePlugin(page, uniqueid, name) {
+function disablePlugin(page, uniqueid, version) {
     loading.show();
-    ApiClient.disablePlugin(uniqueid).then(function () {
+    ApiClient.disablePlugin(uniqueid, version).then(function () {
         reloadList(page);
     });
 }
@@ -55,14 +55,14 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     })[0];
     const configPageUrl = configPage ? Dashboard.getPluginUrl(configPage.Name) : null;
     let html = '';
-    html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' data-status='" +plugin.Status + "' class='card backdropCard'>";
+    html += "<div data-id='" + plugin.Id + "' data-version='" + plugin.Version + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' data-status='" +plugin.Status + "' class='card backdropCard'>";
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
     html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
-    html += '<span style="background-image: url(/Plugins/' + plugin.Id + '/StatusImage); background-position: center; background-repeat: no-repeat" class="cardImageIcon';
+    html += '<span style="background-image: url(/Plugins/' + plugin.Id + '/' + plugin.Version +'/StatusImage); background-position: center; background-repeat: no-repeat" class="cardImageIcon';
     if (plugin.HasImage) {
-        html += '"><img src="/Plugins/' + plugin.Id + '/Image" style="width:100%;height:auto"/>';
+        html += '"><img src="/Plugins/' + plugin.Id + '/' + plugin.Version + '/Image" style="width:100%;height:auto"/>';
     } else {
         html += ' material-icons folder">';
     }
@@ -135,6 +135,7 @@ function showPluginMenu(page, elem) {
     const removable = card.getAttribute('data-removable');
     const configHref = card.querySelector('.cardContent').getAttribute('href');
     const status = card.getAttribute('data-status');
+    const version = card.getAttribute('data-version');
     const menuItems = [];
 
     if (configHref) {
@@ -150,7 +151,7 @@ function showPluginMenu(page, elem) {
             menuItems.push({
                 name: globalize.translate('EnablePlugin'),
                 id: 'enable',
-                icon: 'enable'
+                icon: 'mode_enable'
             });
         }
 
@@ -158,7 +159,7 @@ function showPluginMenu(page, elem) {
             menuItems.push({
                 name: globalize.translate('DisablePlugin'),
                 id: 'disable',
-                icon: 'disable'
+                icon: 'mode_disable'
             });
         }
 
@@ -179,13 +180,13 @@ function showPluginMenu(page, elem) {
                         Dashboard.navigate(configHref);
                         break;
                     case 'delete':
-                        deletePlugin(page, id, name);
+                        deletePlugin(page, id, version, name);
                         break;
                     case 'enable':
-                        enablePlugin(page, id.name);
+                        enablePlugin(page, id, version);
                         break;
                     case 'disable':
-                        disablePlugin(page, id, name);
+                        disablePlugin(page, id, version);
                         break;
                 }
             }
