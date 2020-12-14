@@ -1,5 +1,7 @@
+@import "../../styles/noto-sans/index.scss";
+
 @mixin font($weight: null, $size: null) {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "Noto Sans", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", sans-serif;
     font-weight: $weight;
     font-size: $size;
 }
