@@ -127,8 +127,8 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .sessionAppInfo img {
-    max-width: 2.25rem;
-    max-height: 2.25rem;
+    max-width: 40px;
+    max-height: 40px;
     margin-right: 8px;
 }
 
@@ -202,6 +202,10 @@ div[data-role=controlgroup] a.ui-btn-active {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
     flex-grow: 1;
+}
+
+.dashboardActionsContainer {
+    margin: 1em -0.3em 0;
 }
 
 .sessionNowPlayingContent {
@@ -283,12 +287,8 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .activeSession {
-    min-width: 10rem;
+    min-width: 15rem;
     width: 100% !important;
-}
-
-.activeSession .cardBox {
-    margin: 0;
 }
 
 .activitylogUserPhoto {
@@ -303,7 +303,9 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 @media all and (min-width: 50em) {
     .activeSession {
-        flex: 1;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 50%;
     }
 }
 
@@ -352,7 +354,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .sessionNowPlayingDetails {
     display: flex;
-    white-space: nowrap;
 }
 
 .sessionNowPlayingInfo {
@@ -379,8 +380,9 @@ div[data-role=controlgroup] a.ui-btn-active {
     background: transparent !important;
 }
 
-.activeDevices {
-    gap: 1rem;
+.activeDevices.itemsContainer {
+    /* offset for cardBox margin */
+    margin: -0.6em;
 }
 
 .activeSession .playbackProgress,
