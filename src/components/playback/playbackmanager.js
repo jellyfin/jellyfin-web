@@ -287,11 +287,11 @@ function getAudioMaxValues(deviceProfile) {
         if (codecProfile.Type === 'Audio') {
             (codecProfile.Conditions || []).forEach(condition => {
                 if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitDepth') {
-                    return maxAudioBitDepth = condition.Value;
+                    maxAudioBitDepth = condition.Value;
                 } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioSampleRate') {
-                    return maxAudioSampleRate = condition.Value;
+                    maxAudioSampleRate = condition.Value;
                 } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitrate') {
-                    return maxAudioBitrate = condition.Value;
+                    maxAudioBitrate = condition.Value;
                 }
             });
         }
