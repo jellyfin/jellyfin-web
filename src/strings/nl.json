@@ -1286,7 +1286,7 @@
     "MessageSyncPlayErrorNoActivePlayer": "Geen actieve speler gevonden. SyncPlay is uitgeschakeld.",
     "MessageSyncPlayErrorAccessingGroups": "Er is een fout opgetreden bij het openen van de groepslijst.",
     "MessageSyncPlayLibraryAccessDenied": "Toegang tot deze inhoud is beperkt.",
-    "MessageSyncPlayJoinGroupDenied": "Toestemming vereist om SyncPlay te gebruiken.",
+    "MessageSyncPlayJoinGroupDenied": "Kan niet deelnemen aan groep.",
     "MessageSyncPlayCreateGroupDenied": "Toestemming vereist om een groep te maken.",
     "MessageSyncPlayGroupDoesNotExist": "Kan niet deelnemen aan de groep omdat deze niet bestaat.",
     "MessageSyncPlayPlaybackPermissionRequired": "Afspeelrechten vereist.",
@@ -1486,5 +1486,7 @@
     "YoutubeBadRequest": "Foute aanvraag.",
     "LabelH265Crf": "H265 encodering CRF:",
     "LabelCreateHttpPortMapHelp": "Sta automatische port mapping toe om regels te maken voor http verkeer naast https verkeer.",
-    "LabelAutoDiscoveryTracingHelp": "Als dit aan staat, worden alle packets die op de auto discovery port binnenkomen gelogged."
+    "LabelAutoDiscoveryTracingHelp": "Als dit aan staat, worden alle packets die op de auto discovery port binnenkomen gelogged.",
+    "SyncPlayGroupDefaultTitle": "{0}'s groep",
+    "MessageSyncPlayIsDisabled": "Toestemming nodig om SyncPlay te mogen gebruiken."
 }
