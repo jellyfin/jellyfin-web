@@ -17,7 +17,7 @@ function deletePlugin(page, uniqueid, version, name) {
         confirmText: globalize.translate('HeaderUninstallPlugin')
     }).then(function () {
         loading.show();
-        ApiClient.uninstallPlugin(uniqueid, version).then(function () {
+        ApiClient.uninstallPluginByVersion(uniqueid, version).then(function () {
             reloadList(page);
         });
     });
@@ -60,7 +60,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
     html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
-    html += '<span style="background-image: url(/Plugins/' + plugin.Id + '/' + plugin.Version +'/StatusImage); background-position: center; background-repeat: no-repeat" class="cardImageIcon';
+    html += '<span class="cardImageIcon';
     if (plugin.HasImage) {
         html += '"><img src="/Plugins/' + plugin.Id + '/' + plugin.Version + '/Image" style="width:100%;height:auto"/>';
     } else {
@@ -77,9 +77,9 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
         html += '</div>';
     }
 
-    html += "<div class='cardText'>";
+    html += "<div class='cardText'>"
     html += configPage && configPage.DisplayName ? configPage.DisplayName : plugin.Name;
-    html += '</div>';
+    html += '<br/>Status: ' + plugin.Status +'</div>';
     html += "<div class='cardText cardText-secondary'>";
     html += plugin.Version;
     html += '</div>';
