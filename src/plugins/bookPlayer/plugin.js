@@ -6,7 +6,7 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import ServerConnections from '../../components/ServerConnections';
 import TableOfContents from './tableOfContents';
-import browser from '../../scripts/browser';
+import dom from '../../scripts/dom';
 import { translateHtml } from '../../scripts/globalize';
 
 import '../../scripts/dom';
@@ -31,9 +31,10 @@ export class BookPlayer {
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.openTableOfContents = this.openTableOfContents.bind(this);
-        this.prevChapter = this.prevChapter.bind(this);
-        this.nextChapter = this.nextChapter.bind(this);
+        this.previous = this.previous.bind(this);
+        this.next = this.next.bind(this);
         this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
+        this.onTouchStart = this.onTouchStart.bind(this);
     }
 
     play(options) {
@@ -109,20 +110,18 @@ export class BookPlayer {
 
     onWindowKeyUp(e) {
         const key = keyboardnavigation.getKeyName(e);
-        const rendition = this.rendition;
-        const book = rendition.book;
 
         if (!this.loaded) return;
         switch (key) {
             case 'l':
             case 'ArrowRight':
             case 'Right':
-                book.package.metadata.direction === 'rtl' ? rendition.prev() : rendition.next();
+                this.next();
                 break;
             case 'j':
             case 'ArrowLeft':
             case 'Left':
-                book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev();
+                this.previous();
                 break;
             case 'Escape':
                 if (this.tocElement) {
@@ -136,6 +135,19 @@ export class BookPlayer {
         }
     }
 
+    onTouchStart(e) {
+        if (!this.loaded || !e.touches || e.touches.length === 0) return;
+
+        // epubjs stores pages off the screen or something for preloading
+        // get the modulus of the touch event to account for the increased width
+        const touchX = e.touches[0].clientX % dom.getWindowSize().innerWidth;
+        if (touchX < dom.getWindowSize().innerWidth / 2) {
+            this.previous();
+        } else {
+            this.next();
+        }
+    }
+
     onDialogClosed() {
         this.stop();
     }
@@ -146,8 +158,8 @@ export class BookPlayer {
         elem.addEventListener('close', this.onDialogClosed, {once: true});
         elem.querySelector('#btnBookplayerExit').addEventListener('click', this.onDialogClosed, {once: true});
         elem.querySelector('#btnBookplayerToc').addEventListener('click', this.openTableOfContents);
-        elem.querySelector('#btnBookplayerPrev')?.addEventListener('click', this.prevChapter);
-        elem.querySelector('#btnBookplayerNext')?.addEventListener('click', this.nextChapter);
+        elem.querySelector('#btnBookplayerPrev')?.addEventListener('click', this.previous);
+        elem.querySelector('#btnBookplayerNext')?.addEventListener('click', this.next);
     }
 
     bindEvents() {
@@ -155,7 +167,7 @@ export class BookPlayer {
 
         document.addEventListener('keyup', this.onWindowKeyUp);
 
-        // FIXME: I don't really get why document keyup event is not triggered when epub is in focus
+        this.rendition.on('touchstart', this.onTouchStart);
         this.rendition.on('keyup', this.onWindowKeyUp);
     }
 
@@ -165,8 +177,8 @@ export class BookPlayer {
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('#btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
         elem.querySelector('#btnBookplayerToc').removeEventListener('click', this.openTableOfContents);
-        elem.querySelector('#btnBookplayerPrev')?.removeEventListener('click', this.prevChapter);
-        elem.querySelector('#btnBookplayerNext')?.removeEventListener('click', this.nextChapter);
+        elem.querySelector('#btnBookplayerPrev')?.removeEventListener('click', this.previous);
+        elem.querySelector('#btnBookplayerNext')?.removeEventListener('click', this.next);
     }
 
     unbindEvents() {
@@ -176,9 +188,8 @@ export class BookPlayer {
 
         document.removeEventListener('keyup', this.onWindowKeyUp);
 
-        if (this.rendition) {
-            this.rendition.off('keyup', this.onWindowKeyUp);
-        }
+        this.rendition?.off('touchstart', this.onTouchStart);
+        this.rendition?.off('keyup', this.onWindowKeyUp);
     }
 
     openTableOfContents() {
@@ -187,14 +198,18 @@ export class BookPlayer {
         }
     }
 
-    prevChapter(e) {
-        this.rendition.prev();
-        e.preventDefault();
+    previous(e) {
+        e?.preventDefault();
+        if (this.rendition) {
+            this.rendition.book.package.metadata.direction === 'rtl' ? this.rendition.next() : this.rendition.prev();
+        }
     }
 
-    nextChapter(e) {
-        this.rendition.next();
-        e.preventDefault();
+    next(e) {
+        e?.preventDefault();
+        if (this.rendition) {
+            this.rendition.book.package.metadata.direction === 'rtl' ? this.rendition.prev() : this.rendition.next();
+        }
     }
 
     createMediaElement() {
