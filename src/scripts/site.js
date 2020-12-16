@@ -246,15 +246,11 @@ function onAppReady() {
 function registerServiceWorker() {
     /* eslint-disable compat/compat */
     if (navigator.serviceWorker && window.appMode !== 'cordova' && window.appMode !== 'android') {
-        try {
-            navigator.serviceWorker.register('/serviceworker.js').then(() =>
-                console.log('serviceWorker registered')
-            ).catch(error =>
-                console.log('error registering serviceWorker: ' + error)
-            );
-        } catch (err) {
-            console.error('error registering serviceWorker: ' + err);
-        }
+        navigator.serviceWorker.register('/serviceworker.js').then(() =>
+            console.log('serviceWorker registered')
+        ).catch(error =>
+            console.log('error registering serviceWorker: ' + error)
+        );
     } else {
         console.warn('serviceWorker unsupported');
     }
