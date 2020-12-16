@@ -127,8 +127,8 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .sessionAppInfo img {
-    max-width: 40px;
-    max-height: 40px;
+    max-width: 2.5em;
+    max-height: 2.5em;
     margin-right: 8px;
 }
 
@@ -303,6 +303,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 @media all and (min-width: 50em) {
     .activeSession {
+        max-width: 25rem;
         flex-grow: 0;
         flex-shrink: 0;
         flex-basis: 50%;
