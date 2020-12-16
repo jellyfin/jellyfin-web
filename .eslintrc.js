@@ -29,6 +29,7 @@ module.exports = {
         'plugin:compat/recommended'
     ],
     rules: {
+        'array-callback-return': ['error'],
         'block-spacing': ['error'],
         'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
         'comma-dangle': ['error', 'never'],
