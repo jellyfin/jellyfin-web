@@ -160,13 +160,16 @@ button::-moz-focus-inner {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     background-clip: content-box !important;
     color: inherit;
+}
+
+.cardContent.cardImageContainer {
+    display: flex;
 }
 
 .cardScalable .cardImageContainer {
