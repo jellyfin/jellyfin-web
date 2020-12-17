@@ -1488,5 +1488,11 @@
     "LabelCreateHttpPortMapHelp": "Sta automatische port mapping toe om regels te maken voor http verkeer naast https verkeer.",
     "LabelAutoDiscoveryTracingHelp": "Als dit aan staat, worden alle packets die op de auto discovery port binnenkomen gelogged.",
     "SyncPlayGroupDefaultTitle": "{0}'s groep",
-    "MessageSyncPlayIsDisabled": "Toestemming nodig om SyncPlay te mogen gebruiken."
+    "MessageSyncPlayIsDisabled": "Toestemming nodig om SyncPlay te mogen gebruiken.",
+    "LabelSyncPlayTimeSyncOffset": "Tijdverschuiving:",
+    "LabelSyncPlayTimeSyncDevice": "Tijd synchroniseren met:",
+    "LabelSyncPlayResumePlaybackDescription": "Doe mee met groepsweergave",
+    "LabelSyncPlayResumePlayback": "Hervat lokaal afspelen",
+    "LabelSyncPlayHaltPlaybackDescription": "En negeer de huidige afspeellijstupdates",
+    "LabelSyncPlayHaltPlayback": "Stop lokaal afspelen"
 }
