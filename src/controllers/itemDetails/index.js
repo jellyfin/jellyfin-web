@@ -597,7 +597,9 @@ function renderPrimaryImage(page, item, apiClient) {
             tag: item.ImageTags.Primary
         });
 
-        page.querySelector('#primaryImage').src = imageUrl;
+        const imageElem = page.querySelector('#primaryImage');
+        imageElem.src = imageUrl;
+        imageElem.alt = item.Name;
         page.querySelector('.primaryImageWrapper')?.classList.remove('hide');
     }
 }
