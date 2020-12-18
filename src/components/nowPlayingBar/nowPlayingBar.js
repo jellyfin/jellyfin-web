@@ -556,6 +556,7 @@ import { appRouter } from '../appRouter';
                         const options = {
                             play: false,
                             queue: false,
+                            stopPlayback: true,
                             clearQueue: true,
                             positionTo: contextButton
                         };
