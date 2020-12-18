@@ -261,6 +261,10 @@
     max-height: 50vh;
 }
 
+.primaryImageWrapper > img.aspect-square {
+    max-height: 45vh;
+}
+
 .layout-mobile .primaryImageWrapper {
     display: block;
     flex: 1 0 auto;

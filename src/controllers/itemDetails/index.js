@@ -600,6 +600,9 @@ function renderPrimaryImage(page, item, apiClient) {
         const imageElem = page.querySelector('#primaryImage');
         imageElem.src = imageUrl;
         imageElem.alt = item.Name;
+        if (item.PrimaryImageAspectRatio === 1) {
+            imageElem.classList.add('aspect-square');
+        }
         page.querySelector('.primaryImageWrapper')?.classList.remove('hide');
     }
 }
