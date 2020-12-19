@@ -440,7 +440,7 @@
     "LabelAppName": "Название приложения",
     "LabelAppNameExample": "Пример: Sickbeard, Sonarr",
     "LabelArtists": "Исполнители:",
-    "LabelArtistsHelp": "Для разделения исполнителей используйте точку с запятой ;",
+    "LabelArtistsHelp": "Для разделения исполнителей используйте ; (точку с запятой).",
     "LabelAudioLanguagePreference": "Выбор языка аудио:",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Автоматически обновлять метаданные из Интернета:",
     "LabelBindToLocalNetworkAddress": "Привязка к адресу в локальной сети:",
