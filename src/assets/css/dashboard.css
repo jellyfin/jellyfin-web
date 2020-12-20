@@ -287,7 +287,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .activeSession {
-    min-width: 15rem;
+    min-width: 20rem;
     width: 100% !important;
 }
 
