@@ -1,8 +1,8 @@
 import * as userSettings from './settings/userSettings';
-import * as webSettings from './settings/webSettings';
 import skinManager from './themeManager';
 import { Events } from 'jellyfin-apiclient';
 import ServerConnections from '../components/ServerConnections';
+import { pageClassOn } from '../scripts/clientUtils';
 
 // Set the default theme when loading
 skinManager.setTheme(userSettings.theme())
@@ -12,6 +12,14 @@ skinManager.setTheme(userSettings.theme())
     .then(() => document.body.classList.add('force-scroll'));
 
 // set the saved theme once a user authenticates
-Events.on(ServerConnections, 'localusersignedin', function (e, user) {
+Events.on(ServerConnections, 'localusersignedin', () => {
     skinManager.setTheme(userSettings.theme());
+});
+
+pageClassOn('viewbeforeshow', 'page', function () {
+    if (this.classList.contains('type-interior')) {
+        skinManager.setTheme(userSettings.dashboardTheme());
+    } else {
+        skinManager.setTheme(userSettings.theme());
+    }
 });
