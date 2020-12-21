@@ -175,6 +175,7 @@
     "LabelCurrentPassword": "Jelenlegi jelszó:",
     "LabelCustomDeviceDisplayNameHelp": "Adj meg egy egyedi nevet, vagy hagyd üresen a készülék által elküldött név használatához.",
     "LabelCustomRating": "Egyéni értékelés:",
+    "LabelDashboardTheme": "Szerver vezérlőpult kinézete:",
     "LabelDateAdded": "Hozzáadva:",
     "LabelDateTimeLocale": "Dátum és idő formátum:",
     "LabelDay": "Nap:",

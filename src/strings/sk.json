@@ -882,6 +882,7 @@
     "LabelDisplayLanguageHelp": "Preklad Jellyfinu je v neustálom vývoji.",
     "LabelDefaultUserHelp": "Určuje, ktorá používateľská knižnica by mala byť zobrazená na pripojenom zariadení. Toto nastavenie môže byť prepísané pomocou profilov pre každé zariadenie.",
     "LabelDateAddedBehaviorHelp": "Pokiaľ majú metadáta hodnotu, bude vždy použitá pred niektorou z týchto možností.",
+    "LabelDashboardTheme": "Téma dashboardu servera:",
     "LabelCustomDeviceDisplayNameHelp": "Nahraďte vlastným názvom alebo ponechajte prázdne, aby bol názov určený zariadením.",
     "LabelCache": "Vyrovnávacia pamäť:",
     "LabelBurnSubtitles": "Vypáliť titulky:",

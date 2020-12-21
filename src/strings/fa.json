@@ -459,6 +459,7 @@
     "ValueDiscNumber": "دیسک {0}",
     "LabelImportOnlyFavoriteChannels": "محدود کردن کانال‌هایی که به عنوان مورد علاقه انتخاب شده‌اند",
     "LabelDateAdded": "تاریخ اضافه شده:",
+    "LabelDashboardTheme": "تم داشبورد سرور:",
     "LabelCustomRating": "امتیازدهی سفارشی:",
     "LabelCustomCssHelp": "ظاهر سفارشی مورد نظر خود را در رابط وب اعمال کنید.",
     "LabelCustomCss": "CSS سفارشی:",

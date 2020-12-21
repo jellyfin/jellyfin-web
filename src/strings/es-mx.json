@@ -456,6 +456,7 @@
     "LabelCustomCssHelp": "Aplica tus propio estilos personalizados a la interfaz web.",
     "LabelCustomDeviceDisplayNameHelp": "Proporcione un nombre personalizado para mostrar o déjalo vacío para usar el nombre reportado por el dispositivo.",
     "LabelCustomRating": "Calificación personalizada:",
+    "LabelDashboardTheme": "Tema del panel de control del servidor:",
     "LabelDateAdded": "Fecha de adición:",
     "LabelDateAddedBehavior": "Comportamiento de la fecha de adición para nuevo contenido:",
     "LabelDateAddedBehaviorHelp": "Si un valor de metadatos está presente, siempre se utilizará antes que cualquiera de estas opciones.",

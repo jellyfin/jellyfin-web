@@ -824,6 +824,7 @@
     "LabelDeviceDescription": "Laitteen kuvaus",
     "LabelDefaultScreen": "Oletusnäyttö:",
     "LabelDefaultUser": "Oletuskäyttäjä:",
+    "LabelDashboardTheme": "Palvelimen päänäkymän teema:",
     "LabelCustomCertificatePathHelp": "Polku PKCS #12-tiedostoon joka sisältää varmenteen ja yksityisen avaimen jolla TLS-tuki otetaan käyttöön omalle verkkotunnukselle.",
     "LabelCustomCertificatePath": "Mukautetun SSL-varmenteen polku:",
     "LabelContentType": "Sisältötyyppi:",

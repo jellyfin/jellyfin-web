@@ -424,6 +424,7 @@
     "LabelCustomCssHelp": "Applicera din egen CSS-stil för webbgränssnittet.",
     "LabelCustomDeviceDisplayNameHelp": "Ange ett anpassat enhetsnamn. Lämna blankt för att använda det namn enheten själv rapporterar.",
     "LabelCustomRating": "Anpassad åldersgräns:",
+    "LabelDashboardTheme": "Kontrollpanelstema:",
     "LabelDateAdded": "Inlagd den:",
     "LabelDateAddedBehavior": "Hantering av datum för nytt innehåll:",
     "LabelDateAddedBehaviorHelp": "Om ett metadatavärde finns kommer det alltid att användas i stället för dessa alternativ.",

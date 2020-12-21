@@ -1141,6 +1141,7 @@
     "LabelInternetQuality": "Internet quality:",
     "LabelFileOrUrl": "File or URL:",
     "LabelDateAdded": "Date added:",
+    "LabelDashboardTheme": "Server dashboard theme:",
     "LabelCustomRating": "Custom rating:",
     "LabelCollection": "Collection:",
     "LabelChannels": "Channels:",

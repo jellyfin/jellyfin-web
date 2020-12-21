@@ -721,6 +721,7 @@
     "LabelDateAddedBehaviorHelp": "Dacă există o valoare de metadate, aceasta va fi întotdeauna folosită înainte de oricare dintre aceste opțiuni.",
     "LabelDateAddedBehavior": "Comportamentul datei adăugării pentru conținut nou:",
     "LabelDateAdded": "Data adăugării:",
+    "LabelDashboardTheme": "Tema tabloul de bord al serverului:",
     "LabelCustomRating": "Evaluare personalizată:",
     "LabelCustomDeviceDisplayNameHelp": "Furnizați un nume de afișare personalizat sau lăsați gol pentru a utiliza numele raportat de dispozitiv.",
     "LabelCustomCssHelp": "Aplicați propriul stil personalizat pe interfața web.",

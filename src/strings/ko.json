@@ -877,6 +877,7 @@
     "LabelDynamicExternalId": "{0} ID:",
     "LabelDisplayLanguageHelp": "Jellyfin 번역은 진행 중인 프로젝트입니다.",
     "LabelDisplayLanguage": "표시 언어:",
+    "LabelDashboardTheme": "서버 대시보드 테마:",
     "LabelChannels": "채널:",
     "LabelCancelled": "취소됨",
     "LabelBitrate": "비트레이트:",

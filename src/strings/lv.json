@@ -922,6 +922,7 @@
     "LabelDownMixAudioScaleHelp": "Pastiprināt audio lejupmiksēšanas laikā. Vērtība viens paturēs oriģinālo skaļumu.",
     "LabelDownMixAudioScale": "Audio pastiprinājums lejupmiksējot:",
     "LabelDateAddedBehaviorHelp": "Ja atrodas metadatu vērtība, tā vienmēr tiks izmantota pirms jebkuras no šīm opcijām.",
+    "LabelDashboardTheme": "Servera vadības paneļa tēma:",
     "LabelCustomDeviceDisplayNameHelp": "Ievadi pielāgotu displeja vārdu vai atstāj tukšu lai izmantotu ierīces noteikto.",
     "LabelCachePathHelp": "Nosaki pielāgotu atrašanās vietu priekš keša datnēm kā attēliem. Atstāj tukšu lai izmantotu servera noklusējumu.",
     "LabelAllowedRemoteAddressesMode": "Attālās IP adreses filtra režīms:",
