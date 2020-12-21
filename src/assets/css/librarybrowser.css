@@ -250,6 +250,26 @@
     padding-bottom: 10vh;
 }
 
+.primaryImageWrapper {
+    display: none;
+}
+
+.primaryImageWrapper > img {
+    display: block;
+    margin: 0 auto;
+    max-width: 80vw;
+    max-height: 50vh;
+}
+
+.primaryImageWrapper > img.aspect-square {
+    max-height: 45vh;
+}
+
+.layout-mobile .primaryImageWrapper {
+    display: block;
+    flex: 1 0 auto;
+}
+
 @media all and (min-width: 40em) {
     .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
@@ -453,8 +473,7 @@
 }
 
 .layout-mobile .itemBackdrop {
-    background-attachment: scroll;
-    height: 26.5vh;
+    display: none;
 }
 
 .layout-desktop .itemBackdrop::after {
@@ -614,7 +633,8 @@
 }
 
 .layout-mobile .mainDetailButtons {
-    margin-top: 1em;
+    flex: 2 0 70%;
+    margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
 
@@ -638,9 +658,9 @@
 }
 
 .layout-mobile .detailPagePrimaryContainer {
-    display: block;
+    flex-wrap: wrap;
     position: relative;
-    padding: 0.5em 3.3% 0.5em;
+    padding: 4.5rem 3.3% 0.5rem;
 }
 
 .layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
@@ -667,6 +687,10 @@
 
 .infoWrapper {
     flex: 1 0 0;
+}
+
+.layout-mobile .infoWrapper {
+    flex: 2 0 70%;
 }
 
 .infoText {
@@ -729,7 +753,8 @@
     background-size: contain;
 }
 
-.noBackdrop .detailLogo {
+.noBackdrop .detailLogo,
+.layout-mobile .detailLogo {
     display: none;
 }
 
