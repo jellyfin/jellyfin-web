@@ -45,8 +45,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 ### Dependencies
 
 - [Node.js](https://nodejs.org/en/download)
-- [Yarn 1.22.4](https://classic.yarnpkg.com/en/docs/install)
-- Gulp-cli
+- [Yarn 1.22.5](https://classic.yarnpkg.com/en/docs/install)
 
 ### Getting Started
 
