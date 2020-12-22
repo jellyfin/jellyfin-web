@@ -231,6 +231,13 @@ div[data-role=controlgroup] a.ui-btn-active {
     margin-bottom: 0.5em;
 }
 
+.dashboardSection .sectionTitleTextButton > .material-icons.material-icons {
+    font-size: 1.17em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-top: 0;
+}
+
 .activeRecordingItems > .card {
     width: 50%;
 }
