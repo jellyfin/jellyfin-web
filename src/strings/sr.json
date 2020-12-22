@@ -687,5 +687,9 @@
     "LabelDroppedFrames": "Испуштени оквири:",
     "LabelDropImageHere": "Спустите слику овде или кликните да бисте је прегледали.",
     "LabelDownMixAudioScaleHelp": "Појачајте звук при смањењу звука. Вредност један сачуваће изворни волумен.",
-    "LabelDownMixAudioScale": "Појачање звука при смањењу миксовања:"
+    "LabelDownMixAudioScale": "Појачање звука при смањењу миксовања:",
+    "LabelImageType": "Тип слике:",
+    "LabelImageFetchersHelp": "Омогућите и поређајте жељене дохватаче слике по реду приоритета.",
+    "LabelAllowedAudioChannels": "Максимално дозвољени аудио канали",
+    "AllowHevcEncoding": "Дозволи кодирање у HEVC формату"
 }
