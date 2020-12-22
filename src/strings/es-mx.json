@@ -213,7 +213,7 @@
     "Guide": "Guía",
     "GuideProviderLogin": "Iniciar sesión",
     "GuideProviderSelectListings": "Elegir listados",
-    "H264CrfHelp": "El «Factor de transferencia constante» (CRF) es la configuración de calidad por defecto para los codificadores x264 y x265. Puedes establecer valores entre 0 y 51, donde los valores más bajos dan como resultado mejor calidad (a expensas de archivos más grandes). Los valores comunes son entre 18 y 28. El valor por defecto para x264 es 23,  para x265 es 28, así que puedes usar estos valores como punto de referencia.",
+    "H264CrfHelp": "El «Factor de transferencia constante» (CRF) es la configuración de calidad por defecto para los codificadores x264 y x265. Puedes establecer valores entre 0 y 51, donde los valores más bajos dan como resultado mejor calidad (a expensas de archivos más grandes). Los valores comunes son entre 18 y 28. El valor por defecto para x264 es 23, para x265 es 28, así que puedes usar estos valores como punto de referencia.",
     "EncoderPresetHelp": "Elige un valor más rápido para mejorar el rendimiento, o uno más lento para mejorar la calidad.",
     "HDPrograms": "Programas en HD",
     "HardwareAccelerationWarning": "Habilitar la aceleración por hardware podría causar inestabilidad en algunos entornos. Asegúrate de que tu sistema operativo y controladores de video están actualizados. Si tienes dificultades reproduciendo videos después de habilitar esto, necesitarás volver a cambiar la configuración a Ninguno.",
