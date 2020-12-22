@@ -1039,6 +1039,6 @@
     "ClearQueue": "Hapus antrian",
     "Bwdif": "BWDIF",
     "ButtonCast": "Penyiaran",
-    "AllowTonemappingHelp": "Pemetaan corak dapat mengubah jarak dinamis video dari HDR menjadi SDR sembari mempertahankan detail dan kualitas gambar, yang merupakan informasi penting untuk mereprentasikan kualitas gmabar orisinal. Saat ini hanya bekerja ketika transcoding  video dengan metadata HDR10 atau HLG. Jika pemutaran video tidak lancar atau gagal, pertimbangkan untuk mematikan opsi  dekoder perangkat keras yang sesuai.",
+    "AllowTonemappingHelp": "Pemetaan corak dapat mengubah jarak dinamis video dari HDR menjadi SDR sembari mempertahankan detail dan kualitas gambar, yang merupakan informasi penting untuk mereprentasikan kualitas gmabar orisinal. Saat ini hanya bekerja ketika transcoding video dengan metadata HDR10 atau HLG. Jika pemutaran video tidak lancar atau gagal, pertimbangkan untuk mematikan opsi dekoder perangkat keras yang sesuai.",
     "HeaderPortRanges": "Pengaturan Proxy dan Firewall"
 }
