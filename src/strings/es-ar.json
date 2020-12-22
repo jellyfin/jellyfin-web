@@ -170,7 +170,7 @@
     "DetectingDevices": "Detectando dispositivos",
     "DeviceAccessHelp": "Esto aplica solo a dispositivos que pueden ser identificados y esto no va a prevenir el acceso con el navegador. Filtrar el acceso a los dispositivos del usuario va a prevenir el uso con nuevos dispositivos, hasta que estos sean aprobados.",
     "DirectPlaying": "Reproducción directa",
-    "DirectStreamHelp1": "El medio es compatible con el dispositivo, pero tiene un formato de audio incompatible (DTS, TRUEHD,etc)  o el numero incorrecto de canales de audio. El medio sera convertido en tiempo real antes de enviarse al dispositivo. Solamente el audio sera transcodificado.",
+    "DirectStreamHelp1": "El medio es compatible con el dispositivo, pero tiene un formato de audio incompatible (DTS, TRUEHD,etc) o el numero incorrecto de canales de audio. El medio sera convertido en tiempo real antes de enviarse al dispositivo. Solamente el audio sera transcodificado.",
     "DirectStreamHelp2": "La potencia consumida por la transmisión directa normalmente depende del canal de audio. Solo el video es sin perdidas.",
     "DirectStreaming": "Transmisión directa",
     "Director": "Director",
