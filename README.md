@@ -45,25 +45,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 ### Dependencies
 
 - [Node.js](https://nodejs.org/en/download)
-- [Yarn 1.22.4](https://classic.yarnpkg.com/en/docs/install)
-
-#### Debian Dependencies
-
-1. Install Node.js
-
-```sh
-curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh
-sudo bash nodesource_setup.sh
-sudo apt install nodejs
-```
-
-2. Install Yarn
-
- ```sh
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt update && sudo apt install yarn
-```
+- [Yarn 1.22.5](https://classic.yarnpkg.com/en/docs/install)
 
 ### Getting Started
 
