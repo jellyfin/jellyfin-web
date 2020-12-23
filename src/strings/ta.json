@@ -1509,5 +1509,6 @@
     "LabelSyncPlayResumePlaybackDescription": "மீண்டும் குழு பின்னணியில் சேரவும்",
     "LabelSyncPlayResumePlayback": "உள்ளூர் பின்னணியை மீண்டும் தொடங்குங்கள்",
     "LabelSyncPlayHaltPlaybackDescription": "தற்போதைய பிளேலிஸ்ட் புதுப்பிப்புகளை புறக்கணிக்கவும்",
-    "LabelSyncPlayHaltPlayback": "உள்ளூர் பின்னணியை நிறுத்துங்கள்"
+    "LabelSyncPlayHaltPlayback": "உள்ளூர் பின்னணியை நிறுத்துங்கள்",
+    "LabelDashboardTheme": "சேவையக டாஷ்போர்டு தீம்:"
 }
