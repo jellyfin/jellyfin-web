@@ -239,6 +239,7 @@
     "LabelCustomCss": "CSS по избор:",
     "LabelCustomCssHelp": "Добавете собствен стил към уеб-интерфейса.",
     "LabelCustomRating": "Оценка по избор:",
+    "LabelDashboardTheme": "Облик на сървърното табло:",
     "LabelDateAdded": "Дата на добавяне:",
     "LabelDateTimeLocale": "Местоположение за дата и час:",
     "LabelDay": "Ден:",

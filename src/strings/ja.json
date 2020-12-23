@@ -730,6 +730,7 @@
     "LabelCommunityRating": "コミュニティ評価:",
     "LabelContentType": "コンテンツタイプ:",
     "LabelCountry": "国:",
+    "LabelDashboardTheme": "サーバーダッシュボードテーマ:",
     "LabelPublicHttpsPortHelp": "公開ポート番号はローカルHTTPSポートにマッピングしてください。",
     "LabelAlbumArtMaxWidth": "アルバムアート最大高さ:",
     "LabelAlbumArtMaxHeight": "アルバムアート最大高さ:",

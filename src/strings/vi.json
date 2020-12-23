@@ -575,6 +575,7 @@
     "LabelDateAddedBehaviorHelp": "Nếu có giá trị dữ liệu mô tả, nó sẽ luôn được sử dụng trước một trong các tùy chọn này.",
     "LabelDateAddedBehavior": "Hành động thêm ngày cho nội dung mới:",
     "LabelDateAdded": "Ngày thêm vào:",
+    "LabelDashboardTheme": "Chủ đề bảng điều khiển máy chủ:",
     "LabelCustomRating": "Đánh giá tuỳ chọn:",
     "ApiKeysCaption": "Danh sách các Khóa API hiện được bật",
     "LabelBaseUrl": "URL cơ bản:",

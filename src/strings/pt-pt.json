@@ -777,6 +777,7 @@
     "LabelDefaultScreen": "Ecrã por defeito:",
     "LabelDeathDate": "Data de falecimento:",
     "LabelDateTimeLocale": "Localização da data/hora:",
+    "LabelDashboardTheme": "Tema do Painel Principal:",
     "LabelCertificatePasswordHelp": "Se o certificado requer uma palavra-passe, escreva-a aqui.",
     "LabelCertificatePassword": "Palavra-passe do certificado:",
     "LabelBurnSubtitles": "Integrar legendas:",

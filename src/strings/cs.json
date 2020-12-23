@@ -386,6 +386,7 @@
     "LabelCustomCssHelp": "Aplikovat vaše vlastní styly webového rozhraní.",
     "LabelCustomDeviceDisplayNameHelp": "Nahradit vlastním názvem zobrazení nebo ponechte prázdné, aby název byl určen zařízením.",
     "LabelCustomRating": "Vlastní hodnocení:",
+    "LabelDashboardTheme": "Téma nástěnky serveru:",
     "LabelDateAdded": "Datum přidání:",
     "LabelDateAddedBehavior": "Nový obsah řadit dle data:",
     "LabelDateAddedBehaviorHelp": "Pokud je hodnota metadat přítomna, bude vždy použita před některou z těchto možností.",

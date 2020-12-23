@@ -441,6 +441,7 @@
     "LabelCustomCssHelp": "Uw eigen aangepaste stijl voor de web-interface toepassen.",
     "LabelCustomDeviceDisplayNameHelp": "Geef een eigen weergave naam op of laat deze leeg om de naam te gebruiken die het apparaat opgeeft.",
     "LabelCustomRating": "Aangepaste classificatie:",
+    "LabelDashboardTheme": "Server dashboard thema:",
     "LabelDateAdded": "Datum toegevoegd:",
     "LabelDateAddedBehavior": "Datum toegevoegd gedrag voor nieuwe content:",
     "LabelDateAddedBehaviorHelp": "Als metadata gegevens aanwezig is krijgt deze voorrang op deze opties.",

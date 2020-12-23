@@ -1116,6 +1116,7 @@
     "LabelBurnSubtitles": "Brenn inn undertekst:",
     "LabelCache": "Mellomlagring:",
     "LabelCustomCertificatePathHelp": "Filbanen til en PKCS#12-fil med et sertifikat og privatnøkkel for å aktivere TLS-støtte på et eget domene.",
+    "LabelDashboardTheme": "Tema for serveroversikt:",
     "LabelDefaultScreen": "Standardskjerm:",
     "LabelDropShadow": "Underskygge:",
     "LabelDynamicExternalId": "{0} ID:",

@@ -363,6 +363,7 @@
     "LabelDateAddedBehaviorHelp": "Quando os metadados incluirem um valor, este será utilizado antes destas opções.",
     "LabelDateAddedBehavior": "Comportamento da data de adição para novo conteúdo:",
     "LabelDateAdded": "Adicionado a:",
+    "LabelDashboardTheme": "Tema do Painel Principal:",
     "LabelCustomRating": "Classificação personalizada:",
     "LabelCustomDeviceDisplayNameHelp": "Forneça um nome a ser mostrado, ou deixe em branco para utilizar o nome reportado pelo dispositivo.",
     "LabelCustomCssHelp": "Aplicar um ficheiro de estilos personalizado à interface web.",

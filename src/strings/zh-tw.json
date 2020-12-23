@@ -613,6 +613,7 @@
     "HeaderSelectServerCachePathHelp": "瀏覽或者輸入路徑以用於伺服器快取檔案。請確保該資料夾可以被寫入。",
     "LabelCustomDeviceDisplayNameHelp": "指定自訂的顯示名稱，或者留空以使用設備自己報告的名稱。",
     "LabelCustomRating": "自訂分級：",
+    "LabelDashboardTheme": "控制台佈景主題：",
     "LabelDateAdded": "新增日期：",
     "LabelDateAddedBehavior": "新內容加入的日期應使用：",
     "LabelDateTimeLocale": "設定時區：",
