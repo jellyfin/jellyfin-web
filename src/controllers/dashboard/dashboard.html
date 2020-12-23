@@ -15,11 +15,11 @@
                         <p id="architecture"></p>
                     </div>
 
-                    <div style="margin-top:1em;">
+                    <div class="dashboardActionsContainer">
                         <button is="emby-button" type="button" class="raised btnRefresh">
                             <span>${ButtonScanAllLibraries}</span>
                         </button>
-                        <button is="emby-button" type="button" id="btnRestartServer" class="raised hide" onclick="DashboardPage.restart(this);" style="margin-left:0;">
+                        <button is="emby-button" type="button" id="btnRestartServer" class="raised hide" onclick="DashboardPage.restart(this);">
                             <span>${Restart}</span>
                         </button>
                         <button is="emby-button" type="button" id="btnShutdown" class="raised" onclick="DashboardPage.shutdown(this);">
