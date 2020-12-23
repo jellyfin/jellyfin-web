@@ -747,6 +747,7 @@
     "LabelDateAddedBehaviorHelp": "Si un valor de metadatos está presente, siempre se utilizará antes de cualquiera de estas opciones.",
     "LabelDateAddedBehavior": "Comportamiento de la fecha de adición para nuevo contenido:",
     "LabelDateAdded": "Fecha de adición:",
+    "LabelDashboardTheme": "Tema del panel de control del servidor:",
     "LabelCustomRating": "Calificación personalizada:",
     "LabelCustomDeviceDisplayNameHelp": "Proporcione un nombre personalizado para mostrar o déjalo vacío para usar el nombre reportado por el dispositivo.",
     "LabelCustomCssHelp": "Aplica tu propio estilo personalizado a la interfaz web.",

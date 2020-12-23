@@ -437,6 +437,7 @@
     "LabelCustomCssHelp": "Wende deine eigenen benutzerdefinierte Styles auf die Weboberfläche an.",
     "LabelCustomDeviceDisplayNameHelp": "Lege einen individuellen Anzeigenamen fest oder lasse das Feld leer, um den vom gerät übermittelten Namen zu nutzen.",
     "LabelCustomRating": "Eigene Bewertung:",
+    "LabelDashboardTheme": "Server Dashboard Theme:",
     "LabelDateAdded": "Hinzugefügt am:",
     "LabelDateAddedBehavior": "Verhalten für Hinzufügedatum bei neuen Inhalten:",
     "LabelDateAddedBehaviorHelp": "Wenn ein Metadatenwert vorhanden ist, wird dieser immer gegenüber den anderen Optionen bevorzugt werden.",

@@ -560,6 +560,7 @@
     "LabelCustomCssHelp": "Apply your own custom styles on the web interface.",
     "LabelCustomDeviceDisplayNameHelp": "Supply a custom display name or leave empty to use the name reported by the device.",
     "LabelCustomRating": "Custom rating:",
+    "LabelDashboardTheme": "Server dashboard theme:",
     "LabelDateAdded": "Date added:",
     "LabelDateAddedBehavior": "Date added behavior for new content:",
     "LabelDateAddedBehaviorHelp": "If a metadata value is present, it will always be used before either of these options.",

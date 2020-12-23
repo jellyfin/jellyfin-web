@@ -394,6 +394,7 @@
     "LabelCustomCss": "Προσαρμοσμένο css:",
     "LabelCustomCssHelp": "Εφαρμόστε το δικό σας προσαρμοσμένο css στην διεπαφή ιστού.",
     "LabelCustomRating": "Προσαρμοσμένη αξιολόγηση:",
+    "LabelDashboardTheme": "Θέμα εμφάνισης πίνακα ελέγχου server:",
     "LabelDateAdded": "Ημερνία προσθήκης:",
     "LabelDateTimeLocale": "Ημερομηνία τοπική ώρα:",
     "LabelDay": "Ημέρα:",
