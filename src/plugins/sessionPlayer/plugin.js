@@ -86,7 +86,7 @@ function unsubscribeFromPlayerUpdates(instance) {
 function processUpdatedSessions(instance, sessions, apiClient) {
     const serverId = apiClient.serverId();
 
-    sessions.map(function (s) {
+    sessions.forEach(s => {
         if (s.NowPlayingItem) {
             s.NowPlayingItem.ServerId = serverId;
         }

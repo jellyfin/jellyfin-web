@@ -6,7 +6,6 @@ import 'intersection-observer';
 import 'classlist.js';
 import 'whatwg-fetch';
 import 'resize-observer-polyfill';
-import 'jellyfin-noto/font-faces.css';
 import '../assets/css/site.scss';
 import { Events } from 'jellyfin-apiclient';
 import ServerConnections from '../components/ServerConnections';
@@ -246,15 +245,11 @@ function onAppReady() {
 function registerServiceWorker() {
     /* eslint-disable compat/compat */
     if (navigator.serviceWorker && window.appMode !== 'cordova' && window.appMode !== 'android') {
-        try {
-            navigator.serviceWorker.register('/serviceworker.js').then(() =>
-                console.log('serviceWorker registered')
-            ).catch(error =>
-                console.log('error registering serviceWorker: ' + error)
-            );
-        } catch (err) {
-            console.error('error registering serviceWorker: ' + err);
-        }
+        navigator.serviceWorker.register('/serviceworker.js').then(() =>
+            console.log('serviceWorker registered')
+        ).catch(error =>
+            console.log('error registering serviceWorker: ' + error)
+        );
     } else {
         console.warn('serviceWorker unsupported');
     }

@@ -467,6 +467,7 @@
     "LabelCustomCssHelp": "Zastosuj własne niestandardowe arkusze stylów dla interfejsu webowego.",
     "LabelCustomDeviceDisplayNameHelp": "Dostarcz własną nazwę wyświetlania lub zostaw puste i użyj nazwy dostarczonej przez urządzenie.",
     "LabelCustomRating": "Kategoria wiekowa własna:",
+    "LabelDashboardTheme": "Motyw kokpitu serwera:",
     "LabelDateAdded": "Data dodania:",
     "LabelDateAddedBehavior": "Data dodania dla nowej zawartości:",
     "LabelDateAddedBehaviorHelp": "Jeśli istnieją metadane, będą one zawsze użyte przed którąkolwiek z tych opcji.",

@@ -1,0 +1,27 @@
+// Mixin to help create the Noto Sans font-faces
+@mixin fontFace($family: "Noto Sans", $style: normal, $weight: 400, $url: null, $range: null) {
+    @font-face {
+        font-family: $family;
+        font-style: $style;
+        font-display: swap;
+        font-weight: $weight;
+        src: url($url) format("woff2");
+        unicode-range: $range;
+    }
+}
+
+// Standard character set
+@import "./base-400-normal";
+@import "./base-700-normal";
+// HK character set
+@import "./hk-400-normal";
+@import "./hk-700-normal";
+// JP character set
+@import "./jp-400-normal";
+@import "./jp-700-normal";
+// KR character set
+@import "./kr-400-normal";
+@import "./kr-700-normal";
+// SC character set
+@import "./sc-400-normal";
+@import "./sc-700-normal";

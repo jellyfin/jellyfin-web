@@ -209,11 +209,10 @@ function updateNowPlayingInfo(context, state, serverId) {
         if (autoFocusContextButton) {
             contextButton.focus();
         }
-        const stopPlayback = !!layoutManager.mobile;
         const options = {
             play: false,
             queue: false,
-            stopPlayback: stopPlayback,
+            stopPlayback: true,
             clearQueue: true,
             openAlbum: false,
             positionTo: contextButton

@@ -127,8 +127,8 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .sessionAppInfo img {
-    max-width: 40px;
-    max-height: 40px;
+    max-width: 2.5em;
+    max-height: 2.5em;
     margin-right: 8px;
 }
 
@@ -204,6 +204,10 @@ div[data-role=controlgroup] a.ui-btn-active {
     flex-grow: 1;
 }
 
+.dashboardActionsContainer {
+    margin: 1em -0.3em 0;
+}
+
 .sessionNowPlayingContent {
     -webkit-background-size: cover;
     background-size: cover;
@@ -231,6 +235,13 @@ div[data-role=controlgroup] a.ui-btn-active {
     margin-bottom: 0.5em;
 }
 
+.dashboardSection .sectionTitleTextButton > .material-icons.material-icons {
+    font-size: 1.17em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-top: 0;
+}
+
 .activeRecordingItems > .card {
     width: 50%;
 }
@@ -246,20 +257,12 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 @media all and (min-width: 70em) {
     .dashboardSections {
-        -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: row;
         flex-direction: row;
     }
 
     .dashboardColumn-2-60 {
-        width: 46%;
-    }
-
-    .dashboardColumn-2-40 {
-        width: 27%;
+        flex-grow: 2;
     }
 
     .dashboardSection {
@@ -291,6 +294,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .activeSession {
+    min-width: 20rem;
     width: 100% !important;
 }
 
@@ -304,15 +308,12 @@ div[data-role=controlgroup] a.ui-btn-active {
     background-position: center;
 }
 
-@media all and (min-width: 40em) {
-    .activeSession {
-        width: 100% !important;
-    }
-}
-
 @media all and (min-width: 50em) {
     .activeSession {
-        width: 50% !important;
+        max-width: 25rem;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 50%;
     }
 }
 
@@ -325,6 +326,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .sessionAppInfo {
+    flex-grow: 1;
     padding: 0.5em;
     overflow: hidden;
 }
@@ -344,6 +346,8 @@ div[data-role=controlgroup] a.ui-btn-active {
     right: 0;
     bottom: 0;
     font-weight: 400;
+    display: flex;
+    flex-direction: column;
 }
 
 .sessionNowPlayingContent-withbackground + .sessionNowPlayingInnerContent {
@@ -358,9 +362,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .sessionNowPlayingDetails {
     display: flex;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
 }
 
 .sessionNowPlayingInfo {
@@ -385,6 +386,11 @@ div[data-role=controlgroup] a.ui-btn-active {
     margin: 0;
     width: 100%;
     background: transparent !important;
+}
+
+.activeDevices.itemsContainer {
+    /* offset for cardBox margin */
+    margin: -0.6em;
 }
 
 .activeSession .playbackProgress,

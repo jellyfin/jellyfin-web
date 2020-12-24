@@ -1037,6 +1037,7 @@
     "LabelCache": "Cache:",
     "LabelCertificatePassword": "Adgangskode til certifikat:",
     "LabelCertificatePasswordHelp": "Hvis dit certifikat kræver en adgangskode, skriv det venligst her.",
+    "LabelDashboardTheme": "Server dashboard tema:",
     "LabelDateTimeLocale": "Dato og tid område:",
     "LabelDefaultScreen": "Standard skærm:",
     "LabelDisplayLanguage": "Visningssprog:",

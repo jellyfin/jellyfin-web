@@ -33,9 +33,7 @@ export default {
      */
     downloadFiles(items) {
         if (window.NativeShell) {
-            items.map(function(item) {
-                window.NativeShell.downloadFile(item);
-            });
+            items.forEach(item => window.NativeShell.downloadFile(item));
             return true;
         }
         return false;

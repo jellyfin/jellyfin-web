@@ -17,21 +17,17 @@ import template from './displaySettings.template.html';
 
 /* eslint-disable indent */
 
-    function fillThemes(context, userSettings) {
-        const select = context.querySelector('#selectTheme');
-
+    function fillThemes(select, selectedTheme) {
         skinManager.getThemes().then(themes => {
             select.innerHTML = themes.map(t => {
                 return `<option value="${t.id}">${t.name}</option>`;
             }).join('');
 
             // get default theme
-            const defaultTheme = themes.find(theme => {
-                return theme.default;
-            });
+            const defaultTheme = themes.find(theme => theme.default);
 
             // set the current theme
-            select.value = userSettings.theme() || defaultTheme.id;
+            select.value = selectedTheme || defaultTheme.id;
         });
     }
 
@@ -89,6 +85,8 @@ import template from './displaySettings.template.html';
             context.querySelector('.learnHowToContributeContainer').classList.add('hide');
         }
 
+        context.querySelector('.selectDashboardThemeContainer').classList.toggle('hide', !user.Policy.IsAdministrator);
+
         if (appHost.supports('screensaver')) {
             context.querySelector('.selectScreensaverContainer').classList.remove('hide');
         } else {
@@ -111,7 +109,9 @@ import template from './displaySettings.template.html';
             context.querySelector('.fldThemeVideo').classList.add('hide');
         }
 
-        fillThemes(context, userSettings);
+        fillThemes(context.querySelector('#selectTheme'), userSettings.theme());
+        fillThemes(context.querySelector('#selectDashboardTheme'), userSettings.dashboardTheme());
+
         loadScreensavers(context, userSettings);
 
         context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
@@ -147,6 +147,7 @@ import template from './displaySettings.template.html';
         userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
         userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
         userSettingsInstance.theme(context.querySelector('#selectTheme').value);
+        userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
         userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
 
         userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
