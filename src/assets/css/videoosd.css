@@ -22,6 +22,7 @@
     color: #fff;
     user-select: none;
     -webkit-touch-callout: none;
+    pointer-events: none;
 }
 
 .skinHeader-withBackground.osdHeader {
@@ -32,6 +33,7 @@
     backdrop-filter: none;
     color: #eee;
     height: 7.5em;
+    pointer-events: none;
 }
 
 .osdHeader-hidden {
@@ -39,6 +41,7 @@
 }
 
 .osdHeader .headerTop {
+    pointer-events: all;
     max-height: 3.5em;
 }
 
@@ -104,6 +107,7 @@
 }
 
 .osdControls {
+    pointer-events: all;
     flex-grow: 1;
     padding: 0 0.8em;
 }
