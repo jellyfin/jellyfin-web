@@ -1117,5 +1117,9 @@
     "MessageSyncPlayUserLeft": "<b>{0}</b> је напустио/ла групу.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> се придружио групи.",
     "MessageSyncPlayLibraryAccessDenied": "Приступ овом садржају је ограничен.",
-    "MessageNoTrailersFound": "Инсталирајте канал за трејлере да бисте побољшали своје филмско искуство додавањем библиотеке интернет трејлери."
+    "MessageNoTrailersFound": "Инсталирајте канал за трејлере да бисте побољшали своје филмско искуство додавањем библиотеке интернет трејлери.",
+    "MediaInfoColorPrimaries": "Примарне боје",
+    "MediaInfoCodecTag": "Ознака кодека",
+    "MediaInfoCodec": "Кодек",
+    "MediaInfoBitrate": "Брзина бита"
 }
