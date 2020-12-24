@@ -779,6 +779,17 @@ div.itemDetailGalleryLink.defaultCardBackground {
     height: 23vw;
 }
 
+.sectionTitleTextButton > .material-icons {
+    font-size: 1.5em;
+    margin-bottom: 0.35em;
+    margin-top: 0;
+}
+
+.layout-mobile .sectionTitleTextButton > .material-icons {
+    margin-bottom: 0;
+    padding-top: 0.5em;
+}
+
 .itemDetailGalleryLink.defaultCardBackground > .material-icons {
     font-size: 15vw;
     margin-top: 50%;
