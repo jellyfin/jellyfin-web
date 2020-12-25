@@ -195,7 +195,7 @@ function renderSection(page, item, element, type) {
                 ArtistIds: '',
                 AlbumArtistIds: '',
                 SortOrder: 'Descending',
-                SortBy: 'ProductionYear,Sortname'
+                SortBy: 'PremiereDate,ProductionYear,Sortname'
             }, {
                 shape: 'overflowSquare',
                 playFromHere: true,
