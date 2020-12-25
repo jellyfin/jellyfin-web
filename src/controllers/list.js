@@ -304,8 +304,6 @@ import { appRouter } from '../components/appRouter';
 
             if (item.Type === 'MusicGenre') {
                 query.IncludeItemTypes = 'MusicAlbum';
-            } else if (item.Type === 'GameGenre') {
-                query.IncludeItemTypes = 'Game';
             } else if (item.CollectionType === 'movies') {
                 query.IncludeItemTypes = 'Movie';
             } else if (item.CollectionType === 'tvshows') {
