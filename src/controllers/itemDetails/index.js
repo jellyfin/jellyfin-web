@@ -1209,7 +1209,7 @@ function renderMoreFromArtist(view, item, apiClient) {
             IncludeItemTypes: 'MusicAlbum',
             Recursive: true,
             ExcludeItemIds: item.Id,
-            SortBy: 'ProductionYear,SortName',
+            SortBy: 'PremiereDate,ProductionYear,SortName',
             SortOrder: 'Descending'
         };
 
@@ -1391,7 +1391,7 @@ function renderChildren(page, item) {
             Fields: fields
         });
     } else if (item.Type == 'MusicArtist') {
-        query.SortBy = 'ProductionYear,SortName';
+        query.SortBy = 'PremiereDate,ProductionYear,SortName';
     }
 
     promise = promise || apiClient.getItems(apiClient.getCurrentUserId(), query);
