@@ -324,8 +324,6 @@ function addCurrentItemToQuery(query, item) {
         query.Genres = item.Name;
     } else if (item.Type === 'MusicGenre') {
         query.Genres = item.Name;
-    } else if (item.Type === 'GameGenre') {
-        query.Genres = item.Name;
     } else if (item.Type === 'Studio') {
         query.StudioIds = item.Id;
     } else if (item.Type === 'MusicArtist') {
