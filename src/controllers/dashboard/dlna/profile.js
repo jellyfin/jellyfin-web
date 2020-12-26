@@ -568,29 +568,29 @@ function onSubmit(e) {
 
 export default function (view, params) {
     const page = view;
-    const tabs = view.querySelector('.viewPanelTabs');
+    const viewTabButton = view.querySelectorAll('.viewTabButton');
+    const viewTab = view.querySelectorAll('.viewTab');
 
-    const btnViewTab = tabs.querySelectorAll('.viewTabButton');
-    for (const tabs of btnViewTab) {
-        tabs.addEventListener('click', openTabs);
-    }
+    viewTabButton.forEach(function(el) {
+        el.addEventListener('click', openTabs);
+    });
 
     function openTabs(el) {
         const btnTarget = el.currentTarget;
-
-        for (const viewTab of view.querySelectorAll('.viewTab')) {
-            viewTab.classList.add('hide');
-        }
-
-        for (const btnViewTab of view.querySelectorAll('.viewTabButton')) {
-            btnViewTab.classList.remove('ui-btn-active');
-        }
-
         const value = this.tagName == 'A' ? this.getAttribute('data-value') : this.value;
-        for (const elems of view.querySelectorAll('.' + value)) {
-            elems.classList.remove('hide');
-        }
+        const elems = view.querySelectorAll('.' + value);
 
+        viewTab.forEach(function(el) {
+            el.classList.add('hide');
+        });
+
+        viewTabButton.forEach(function(el) {
+            el.classList.remove('ui-btn-active');
+        });
+
+        elems.forEach(function(el) {
+            el.classList.remove('hide');
+        });
         btnTarget.classList.add('ui-btn-active');
     }
 
