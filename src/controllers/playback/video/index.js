@@ -8,7 +8,6 @@ import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
 import { Events } from 'jellyfin-apiclient';
-import browser from '../../../scripts/browser';
 import globalize from '../../../scripts/globalize';
 import { appHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
@@ -30,52 +29,6 @@ import { appRouter } from '../../../components/appRouter';
     }
 
     export default function (view, params) {
-        function onVerticalSwipe(e, elem, data) {
-            const player = currentPlayer;
-
-            if (player) {
-                const deltaY = data.currentDeltaY;
-                const windowSize = dom.getWindowSize();
-
-                if (supportsBrightnessChange && data.clientX < windowSize.innerWidth / 2) {
-                    return void doBrightnessTouch(deltaY, player, windowSize.innerHeight);
-                }
-
-                doVolumeTouch(deltaY, player, windowSize.innerHeight);
-            }
-        }
-
-        function doBrightnessTouch(deltaY, player, viewHeight) {
-            const delta = -deltaY / viewHeight * 100;
-            let newValue = playbackManager.getBrightness(player) + delta;
-            newValue = Math.min(newValue, 100);
-            newValue = Math.max(newValue, 0);
-            playbackManager.setBrightness(newValue, player);
-        }
-
-        function doVolumeTouch(deltaY, player, viewHeight) {
-            const delta = -deltaY / viewHeight * 100;
-            let newValue = playbackManager.getVolume(player) + delta;
-            newValue = Math.min(newValue, 100);
-            newValue = Math.max(newValue, 0);
-            playbackManager.setVolume(newValue, player);
-        }
-
-        function onDoubleClick(e) {
-            const clientX = e.clientX;
-
-            if (clientX != null) {
-                if (clientX < dom.getWindowSize().innerWidth / 2) {
-                    playbackManager.rewind(currentPlayer);
-                } else {
-                    playbackManager.fastForward(currentPlayer);
-                }
-
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        }
-
         function getDisplayItem(item) {
             if (item.Type === 'TvChannel') {
                 const apiClient = ServerConnections.getApiClient(item.ServerId);
@@ -676,7 +629,6 @@ import { appRouter } from '../../../components/appRouter';
             updatePlayPauseState(playState.IsPaused);
             const supportedCommands = playbackManager.getSupportedCommands(player);
             currentPlayerSupportedCommands = supportedCommands;
-            supportsBrightnessChange = supportedCommands.indexOf('SetBrightness') !== -1;
             updatePlayerVolumeState(player, playState.IsMuted, playState.VolumeLevel);
 
             if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
@@ -1270,7 +1222,6 @@ import { appRouter } from '../../../components/appRouter';
         let currentItem;
         let recordingButtonManager;
         let enableProgressByTimeOfDay;
-        let supportsBrightnessChange;
         let currentVisibleMenu;
         let statsOverlay;
         let osdHideTimeout;
@@ -1466,15 +1417,9 @@ import { appRouter } from '../../../components/appRouter';
             passive: true
         });
 
-        if (browser.touch) {
-            dom.addEventListener(view, 'dblclick', onDoubleClick, {});
-        } else {
-            const options = { passive: true };
-            dom.addEventListener(view, 'dblclick', (e) => {
-                if (e.target !== view) return;
-                playbackManager.toggleFullscreen(currentPlayer);
-            }, options);
-        }
+        dom.addEventListener(view, 'dblclick', function () {
+            playbackManager.toggleFullscreen(currentPlayer);
+        });
 
         view.querySelector('.buttonMute').addEventListener('click', function () {
             playbackManager.toggleMute(currentPlayer);
@@ -1555,21 +1500,6 @@ import { appRouter } from '../../../components/appRouter';
         });
         view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
         view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
-
-        if (browser.touch) {
-            (function () {
-                import('../../../scripts/touchHelper').then(({default: TouchHelper}) => {
-                    self.touchHelper = new TouchHelper(view, {
-                        swipeYThreshold: 30,
-                        triggerOnMove: true,
-                        preventDefaultOnMove: true,
-                        ignoreTagNames: ['BUTTON', 'INPUT', 'TEXTAREA']
-                    });
-                    Events.on(self.touchHelper, 'swipeup', onVerticalSwipe);
-                    Events.on(self.touchHelper, 'swipedown', onVerticalSwipe);
-                });
-            })();
-        }
 
         // Register to SyncPlay playback events and show big animated icon
         const showIcon = (action) => {
