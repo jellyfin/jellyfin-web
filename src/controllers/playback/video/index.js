@@ -1418,6 +1418,7 @@ import { appRouter } from '../../../components/appRouter';
         });
 
         dom.addEventListener(view, 'dblclick', function () {
+            if (e.target !== view) return;
             playbackManager.toggleFullscreen(currentPlayer);
         });
 
