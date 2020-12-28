@@ -49,6 +49,11 @@
     "worker-plugin": "^5.0.0"
   },
   "dependencies": {
+    "@fontsource/noto-sans": "^4.0.1",
+    "@fontsource/noto-sans-hk": "^4.0.1",
+    "@fontsource/noto-sans-jp": "^4.0.1",
+    "@fontsource/noto-sans-kr": "^4.0.1",
+    "@fontsource/noto-sans-sc": "^4.0.1",
     "blurhash": "^1.1.3",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "core-js": "^3.8.1",
@@ -56,11 +61,6 @@
     "epubjs": "^0.3.85",
     "fast-text-encoding": "^1.0.3",
     "flv.js": "^1.5.0",
-    "fontsource-noto-sans": "^3.1.5",
-    "fontsource-noto-sans-hk": "^3.1.5",
-    "fontsource-noto-sans-jp": "^3.1.5",
-    "fontsource-noto-sans-kr": "^3.1.5",
-    "fontsource-noto-sans-sc": "^3.1.5",
     "headroom.js": "^0.12.0",
     "hls.js": "^0.14.17",
     "intersection-observer": "^0.12.0",

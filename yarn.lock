@@ -864,6 +864,31 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fontsource/noto-sans-hk@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-hk/-/noto-sans-hk-4.0.1.tgz#6b386a8253c15df14261b146a34bb4063cc15242"
+  integrity sha512-76IaL1EanyVxXAjpGkYdNBS+hBoDamqhx6U6GCDKgd16SMP41dkY/pjnlbaexbOvU6nsxm7tEa1c5RIyIkbbEA==
+
+"@fontsource/noto-sans-jp@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-jp/-/noto-sans-jp-4.0.1.tgz#f1861444c9222e15e2e73affe640968011f784c8"
+  integrity sha512-eigwdjxy7LzRJVJL+foqe2jRuIKcBWnO/CkDr1JR46kY2FyrfAG0pqRu3KIN2jU9tqbXBCXsIhctQo7F3vlBxQ==
+
+"@fontsource/noto-sans-kr@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-kr/-/noto-sans-kr-4.0.1.tgz#fc5dd021927291e4fec6e881164b293c16944117"
+  integrity sha512-GUg4nB6gOKwacxZmioMZak2+9UFDQ1iB2wvKhL86ZJa4ZBpssyGNYfRzP9WABFBMA2uhKrgEVXXCm5QmkRjGtg==
+
+"@fontsource/noto-sans-sc@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-sc/-/noto-sans-sc-4.0.1.tgz#bdd50239df14728bf58dced7206f70cd5a365dbe"
+  integrity sha512-XkSoPi8pNdMclIeRQQOIg8MfaYyWqDXRDt8l0/c+tn9zQRCXviJ9ASrzVvdzhqxaDw9cqrfUymTcgOH3KJqDNg==
+
+"@fontsource/noto-sans@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans/-/noto-sans-4.0.1.tgz#60233d49b5606b92ca96000adf6cd2891029d791"
+  integrity sha512-jdSYVHUb//rxOGFOTvAd7FIaDUrD5oQpvqUBaHLDBGO/niDuf9mZjmdPDJnm5tIFYKUKqUTyCS39dAWcdB6EeA==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -3583,31 +3608,6 @@ follow-redirects@^1.0.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
   integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
-
-fontsource-noto-sans-hk@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/fontsource-noto-sans-hk/-/fontsource-noto-sans-hk-3.1.5.tgz#c036686a9614ff1a5621b7192b5e5d367585ca16"
-  integrity sha512-TVmCd5MVyfh7yk/q5eBcMU5+IzzK3GBIxGGmdMZIf6cL52KAJajoXNxh7avMXj0PUE0o0LgpjnJgRu867T4qEQ==
-
-fontsource-noto-sans-jp@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/fontsource-noto-sans-jp/-/fontsource-noto-sans-jp-3.1.5.tgz#46413170552ae8ab022a7dcfa13d2b632bdbf941"
-  integrity sha512-+B/Jul/9jx0Oh6AVIvAcT7ztLP3dffNhvtCCVDXyyGGlpkH1KyFdwUnRsqL+py6qsOFE626wIUK2EOaA25RQkA==
-
-fontsource-noto-sans-kr@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/fontsource-noto-sans-kr/-/fontsource-noto-sans-kr-3.1.5.tgz#5c5eee9e35a3031a07e34e9d782b8cec9eb348d4"
-  integrity sha512-NKYWuGPk5Q/vPXu2dTt5CTXUD4daaiV7H/WD+zQt005rGFdhZ3Hu75sb6x9NfzZYgWNlZH4Rf32gIyEOhJKmoQ==
-
-fontsource-noto-sans-sc@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/fontsource-noto-sans-sc/-/fontsource-noto-sans-sc-3.1.5.tgz#f29b2690e74842dc2c7f02f0678d77598c5e0f3d"
-  integrity sha512-4uX6tkvtxWMxiNQp1sf/uKrLm22dQx9jfN8TxL4XCVSIerYQ1mgZFXyGgNjub19DtuIHFI/cxALNhOeCq5RwPg==
-
-fontsource-noto-sans@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/fontsource-noto-sans/-/fontsource-noto-sans-3.1.5.tgz#a408002e1bc8fd21b18fa8d7fa942dcd3255d2c5"
-  integrity sha512-HtnF1LBkz1kW/7KYSbV4UB9+0Ogyik0qoyki6nWqb6ob319WCurxjZQlZn3e/szosPaWmF4L9UASACXQ1U6ZJQ==
 
 for-in@^1.0.2:
   version "1.0.2"
