@@ -1458,7 +1458,7 @@
     "LabelEnableIP4": "Enable IPv4:",
     "HeaderNetworking": "IP Protocols",
     "EnablePlugin": "Enable Plugin",
-    "DisablePlugin": "Disable Plugin"
+    "DisablePlugin": "Disable Plugin",
     "YoutubeDenied": "Requested video is not allowed to be played in embedded players.",
     "YoutubeNotFound": "Video not found.",
     "YoutubePlaybackError": "Requested video cannot be played.",
