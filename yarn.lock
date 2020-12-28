@@ -3584,10 +3584,10 @@ follow-redirects@^1.0.0:
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
   integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
 
-fontsource-noto-sans-hk@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/fontsource-noto-sans-hk/-/fontsource-noto-sans-hk-3.1.5.tgz#c036686a9614ff1a5621b7192b5e5d367585ca16"
-  integrity sha512-TVmCd5MVyfh7yk/q5eBcMU5+IzzK3GBIxGGmdMZIf6cL52KAJajoXNxh7avMXj0PUE0o0LgpjnJgRu867T4qEQ==
+fontsource-noto-sans-hk@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/fontsource-noto-sans-hk/-/fontsource-noto-sans-hk-4.0.0.tgz#bc34895f8c3c671ec00a99a50705f0f5765a5b17"
+  integrity sha512-Nodg2//C4gb6aC0TGUxg77f6Zk6GbyH3t5WuVPMQv5pgabgaBbk/tgNMS8zL42E/vR4WP8qd7CpgrFRcsarO9g==
 
 fontsource-noto-sans-jp@^3.1.5:
   version "3.1.5"
