@@ -77,9 +77,9 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
         html += '</div>';
     }
 
-    html += "<div class='cardText'>"
+    html += "<div class='cardText'>";
     html += configPage && configPage.DisplayName ? configPage.DisplayName : plugin.Name;
-    html += '<br/>Status: ' + plugin.Status +'</div>';
+    html += '<br/>Status: ' + plugin.Status + '</div>';
     html += "<div class='cardText cardText-secondary'>";
     html += plugin.Version;
     html += '</div>';
