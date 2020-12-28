@@ -1410,7 +1410,7 @@
     "EnableAutoCast": "Задать по умолчанию",
     "ButtonUseQuickConnect": "Использовать Quick Connect",
     "ButtonActivate": "Активация",
-    "Authorize": "Авторизация",
+    "Authorize": "Авторизовать",
     "LabelUserMaxActiveSessions": "Максимальное количество одновременных пользовательских сессий:",
     "OptionMaxActiveSessionsHelp": "Значение 0 отключит эту функцию.",
     "OptionMaxActiveSessions": "Устанавливает максимальное количество одновременных пользовательских сеансов.",
