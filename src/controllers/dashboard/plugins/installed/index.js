@@ -55,7 +55,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     })[0];
     const configPageUrl = configPage ? Dashboard.getPluginUrl(configPage.Name) : null;
     let html = '';
-    html += "<div data-id='" + plugin.Id + "' data-version='" + plugin.Version + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' data-status='" +plugin.Status + "' class='card backdropCard'>";
+    html += "<div data-id='" + plugin.Id + "' data-version='" + plugin.Version + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' data-status='" + plugin.Status + "' class='card backdropCard'>";
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
