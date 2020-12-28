@@ -3589,10 +3589,10 @@ fontsource-noto-sans-hk@^3.1.5:
   resolved "https://registry.yarnpkg.com/fontsource-noto-sans-hk/-/fontsource-noto-sans-hk-3.1.5.tgz#c036686a9614ff1a5621b7192b5e5d367585ca16"
   integrity sha512-TVmCd5MVyfh7yk/q5eBcMU5+IzzK3GBIxGGmdMZIf6cL52KAJajoXNxh7avMXj0PUE0o0LgpjnJgRu867T4qEQ==
 
-fontsource-noto-sans-jp@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/fontsource-noto-sans-jp/-/fontsource-noto-sans-jp-3.1.5.tgz#46413170552ae8ab022a7dcfa13d2b632bdbf941"
-  integrity sha512-+B/Jul/9jx0Oh6AVIvAcT7ztLP3dffNhvtCCVDXyyGGlpkH1KyFdwUnRsqL+py6qsOFE626wIUK2EOaA25RQkA==
+fontsource-noto-sans-jp@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/fontsource-noto-sans-jp/-/fontsource-noto-sans-jp-4.0.0.tgz#24c09a8d314a3f4dee1cb689aca58163a4337a5f"
+  integrity sha512-/XLWHhy7nBTb8V+J05nb6O/SeeChlWhpx2Srs8Ipl2p0KztUTMz9AmYTARuWOLErtZc/Ar2XwuUjsWA+MBMBGw==
 
 fontsource-noto-sans-kr@^3.1.5:
   version "3.1.5"
