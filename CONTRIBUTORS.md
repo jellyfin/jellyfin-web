@@ -34,6 +34,7 @@
  - [Ryan Hartzell](https://github.com/ryan-hartzell)
  - [Thibault Nocchi](https://github.com/ThibaultNocchi)
  - [MrTimscampi](https://github.com/MrTimscampi)
+ - [artiume](https://github.com/Artiume)
  - [ConfusedPolarBear](https://github.com/ConfusedPolarBear)
  - [Sarab Singh](https://github.com/sarab97)
  - [DesertCookie](https://github.com/desertcookie)
