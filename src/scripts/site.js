@@ -68,7 +68,7 @@ window.getParameterByName = function(name, url) {
 };
 
 function loadCoreDictionary() {
-    const languages = ['ar', 'be-by', 'bg-bg', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'es', 'es-ar', 'es-mx', 'fa', 'fi', 'fr', 'fr-ca', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'ms', 'nb', 'nl', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sv', 'tr', 'uk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
+    const languages = ['af', 'ar', 'be-by', 'bg-bg', 'bn_bd' 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'eo', 'es', 'es-419', 'es-ar', 'es_do', 'es-mx', 'fa', 'fi', 'fil', 'fr', 'fr-ca', 'gl', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt-lt', 'mr', 'ms', 'nb', 'nl', 'pl', 'pr', 'pt', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sq', 'sv', 'ta', 'th', 'tr', 'uk', 'ur_pk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
     const translations = languages.map(function (language) {
         return {
             lang: language,
