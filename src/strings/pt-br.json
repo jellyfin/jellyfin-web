@@ -1427,5 +1427,9 @@
     "HeaderDeleteDevices": "Excluir todos os dispositivos",
     "DeleteDevicesConfirmation": "Tem certeza de que deseja excluir todos os dispositivos? Todas as outras sessões serão desconectadas. Os dispositivos reaparecerão na próxima vez que um usuário fizer login.",
     "DeleteAll": "Excluir tudo",
-    "HeaderSelectFallbackFontPath": "Selecione a pasta de fontes reserva"
+    "HeaderSelectFallbackFontPath": "Selecione a pasta de fontes reserva",
+    "HeaderPortRanges": "Configurações de Firewall e Proxy",
+    "HeaderNetworking": "Protocolos IP",
+    "HeaderAutoDiscovery": "Descoberta de Rede",
+    "HeaderAddUser": "Adicionar Usuário"
 }
