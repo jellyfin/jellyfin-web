@@ -59,10 +59,10 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
+    html += configPageUrl ? `<a class="cardContent cardImageContainer" is="emby-linkbutton" href="${configPageUrl}">` : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
     html += '<span class="cardImageIcon';
     if (plugin.HasImage) {
-        html += '"><img src="/Plugins/' + plugin.Id + '/' + plugin.Version + '/Image" style="width:100%;height:auto"/>';
+        html += `"><img src="/Plugins/${plugin.Id}/${plugin.Version}/Image" style="width:100%;height:auto"/>`;
     } else {
         html += ' material-icons folder">';
     }
@@ -79,7 +79,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
 
     html += "<div class='cardText'>";
     html += configPage && configPage.DisplayName ? configPage.DisplayName : plugin.Name;
-    html += '<br/>' + globalize.translate('LabelStatus') + ' ' + plugin.Status + '</div>';
+    html += '<br/>' + globalize.translate('LabelStatus') + ` ${plugin.Status}</div>`;
     html += "<div class='cardText cardText-secondary'>";
     html += plugin.Version;
     html += '</div>';
