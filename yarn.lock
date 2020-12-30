@@ -1307,6 +1307,11 @@
     "@webassemblyjs/wast-parser" "1.9.1"
     "@xtuc/long" "4.2.2"
 
+"@webcomponents/webcomponentsjs@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-2.5.0.tgz#61b27785a6ad5bfd68fa018201fe418b118cb38d"
+  integrity sha512-C0l51MWQZ9kLzcxOZtniOMohpIFdCLZum7/TEHv3XWFc1Fvt5HCpbSX84x8ltka/JuNKcuiDnxXFkiB2gaePcg==
+
 "@webpack-cli/info@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@webpack-cli/info/-/info-1.2.0.tgz#6051d6adf3618df664f4945a2b76355c00f83f0d"
@@ -8693,11 +8698,6 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   integrity sha512-O84QOnr0icsbFGLS0O3bI5FswxzRr8/gHwWkDlQFskhSPryQXvrTMxjxGP4+iWYoauLoBvfDpkrOauZ+0iZpDA==
   dependencies:
     minimalistic-assert "^1.0.0"
-
-webcomponents.js@^0.7.24:
-  version "0.7.24"
-  resolved "https://registry.yarnpkg.com/webcomponents.js/-/webcomponents.js-0.7.24.tgz#2116fbfa1468ec416a7befdaa333e1d118f69c04"
-  integrity sha1-IRb7+hRo7EFqe+/aozPh0Rj2nAQ=
 
 webpack-cli@^4.3.0:
   version "4.3.0"
