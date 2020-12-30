@@ -9,6 +9,8 @@ import Dashboard from '../../scripts/clientUtils';
     function loadPage(page, config) {
         $('#txtMinResumePct', page).val(config.MinResumePct);
         $('#txtMaxResumePct', page).val(config.MaxResumePct);
+        $('#txtMinAudiobookResume', page).val(config.MinAudiobookResume);
+        $('#txtMaxAudiobookResume', page).val(config.MaxAudiobookResume);
         $('#txtMinResumeDuration', page).val(config.MinResumeDurationSeconds);
         loading.hide();
     }
@@ -19,6 +21,8 @@ import Dashboard from '../../scripts/clientUtils';
         ApiClient.getServerConfiguration().then(function (config) {
             config.MinResumePct = $('#txtMinResumePct', form).val();
             config.MaxResumePct = $('#txtMaxResumePct', form).val();
+            config.MinAudiobookResume = $('#txtMinAudiobookResume', form).val();
+            config.MaxAudiobookResume = $('#txtMaxAudiobookResume', form).val();
             config.MinResumeDurationSeconds = $('#txtMinResumeDuration', form).val();
 
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
