@@ -1,11 +1,8 @@
 import './emby-toggle.css';
-import 'webcomponents.js/webcomponents-lite';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
-/* eslint-disable indent */
-
-    const EmbyTogglePrototype = Object.create(HTMLInputElement.prototype);
-
-    function onKeyDown(e) {
+class onKeyDown {
+    constructor(e) {
         // Don't submit form on enter
         if (e.keyCode === 13) {
             e.preventDefault();
@@ -19,8 +16,9 @@ import 'webcomponents.js/webcomponents-lite';
             return false;
         }
     }
-
-    EmbyTogglePrototype.attachedCallback = function () {
+}
+class EmbyToggle extends HTMLInputElement {
+    connectedCallback() {
         if (this.getAttribute('data-embytoggle') === 'true') {
             return;
         }
@@ -41,11 +39,9 @@ import 'webcomponents.js/webcomponents-lite';
         labelTextElement.classList.add('mdl-switch__label');
 
         this.addEventListener('keydown', onKeyDown);
-    };
+    }
+}
 
-    document.registerElement('emby-toggle', {
-        prototype: EmbyTogglePrototype,
-        extends: 'input'
-    });
-
-/* eslint-enable indent */
+customElements.define('emby-toggle', EmbyToggle, {
+    extends: 'input'
+});

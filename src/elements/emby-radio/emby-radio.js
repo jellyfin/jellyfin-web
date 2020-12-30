@@ -1,13 +1,10 @@
 import layoutManager from '../../components/layoutManager';
 import browser from '../../scripts/browser';
-import 'webcomponents.js/webcomponents-lite';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import './emby-radio.css';
 
-/* eslint-disable indent */
-
-    const EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
-
-    function onKeyDown(e) {
+class onKeyDown {
+    constructor(e) {
         // Don't submit form on enter
         // Real (non-emulator) Tizen does nothing on Space
         if (e.keyCode === 13 || (e.keyCode === 32 && browser.tizen)) {
@@ -24,8 +21,9 @@ import './emby-radio.css';
             return false;
         }
     }
-
-    EmbyRadioPrototype.attachedCallback = function () {
+}
+class EmbyRadio extends HTMLInputElement {
+    connectedCallback() {
         const showFocus = !layoutManager.mobile;
 
         if (this.getAttribute('data-radio') === 'true') {
@@ -72,11 +70,9 @@ import './emby-radio.css';
         this.insertAdjacentHTML('afterend', html);
 
         this.addEventListener('keydown', onKeyDown);
-    };
+    }
+}
 
-    document.registerElement('emby-radio', {
-        prototype: EmbyRadioPrototype,
-        extends: 'input'
-    });
-
-/* eslint-enable indent */
+customElements.define('emby-radio', EmbyRadio, {
+    extends: 'input'
+});

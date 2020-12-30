@@ -3,134 +3,240 @@ import dom from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.css';
-import 'webcomponents.js/webcomponents-lite';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import '../emby-input/emby-input';
 
-/* eslint-disable indent */
+let supportsValueSetOverride = false;
 
-    const EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
-
-    let supportsValueSetOverride = false;
-
-    if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-        const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
-        // descriptor returning null in webos
-        if (descriptor && descriptor.configurable) {
-            supportsValueSetOverride = true;
-        }
+if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
+    const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement, 'value');
+    // descriptor returning null in webos
+    if (descriptor && descriptor.configurable) {
+        supportsValueSetOverride = true;
     }
+}
 
-    /**
+/**
      * Returns slider fraction corresponding to client position.
      *
      * @param {Object} range slider itself
      * @param {number} clientX client X-coordinate
      * @return {number} slider fraction
      */
-    function mapClientToFraction(range, clientX) {
-        const rect = range.sliderBubbleTrack.getBoundingClientRect();
+function mapClientToFraction(range, clientX) {
+    const rect = range.sliderBubbleTrack.getBoundingClientRect();
 
-        let fraction = (clientX - rect.left) / rect.width;
+    let fraction = (clientX - rect.left) / rect.width;
 
-        // Snap to step
-        const valueRange = range.max - range.min;
-        if (range.step !== 'any' && valueRange !== 0) {
-            const step = (range.step || 1) / valueRange;
-            fraction = Math.round(fraction / step) * step;
-        }
-
-        return Math.min(Math.max(fraction, 0), 1);
+    // Snap to step
+    const valueRange = range.max - range.min;
+    if (range.step !== 'any' && valueRange !== 0) {
+        const step = (range.step || 1) / valueRange;
+        fraction = Math.round(fraction / step) * step;
     }
 
-    /**
+    return Math.min(Math.max(fraction, 0), 1);
+}
+
+/**
      * Returns slider value corresponding to slider fraction.
      *
      * @param {Object} range slider itself
      * @param {number} fraction slider fraction
      * @return {number} slider value
      */
-    function mapFractionToValue(range, fraction) {
-        let value = (range.max - range.min) * fraction;
+function mapFractionToValue(range, fraction) {
+    let value = (range.max - range.min) * fraction;
 
-        // Snap to step
-        if (range.step !== 'any') {
-            const step = range.step || 1;
-            value = Math.round(value / step) * step;
-        }
-
-        value += parseFloat(range.min);
-
-        return Math.min(Math.max(value, range.min), range.max);
+    // Snap to step
+    if (range.step !== 'any') {
+        const step = range.step || 1;
+        value = Math.round(value / step) * step;
     }
 
-    /**
+    value += parseFloat(range.min);
+
+    return Math.min(Math.max(value, range.min), range.max);
+}
+
+/**
      * Returns slider fraction corresponding to slider value.
      *
      * @param {Object} range slider itself
      * @param {number} value slider value (snapped to step)
      * @return {number} slider fraction
      */
-    function mapValueToFraction(range, value) {
-        const valueRange = range.max - range.min;
-        const fraction = valueRange !== 0 ? (value - range.min) / valueRange : 0;
-        return Math.min(Math.max(fraction, 0), 1);
-    }
+function mapValueToFraction(range, value) {
+    const valueRange = range.max - range.min;
+    const fraction = valueRange !== 0 ? (value - range.min) / valueRange : 0;
+    return Math.min(Math.max(fraction, 0), 1);
+}
 
-    /**
+/**
      * Updates progress bar.
      *
      * @param {boolean} [isValueSet] update by 'valueset' event or by timer
      */
-    function updateValues(isValueSet) {
-        // Do not update values by 'valueset' in case of soft-implemented dragging
-        if (!!isValueSet && (!!this.keyboardDragging || !!this.touched)) {
-            return;
+function updateValues(isValueSet) {
+    // Do not update values by 'valueset' in case of soft-implemented dragging
+    if (!!isValueSet && (!!this.keyboardDragging || !!this.touched)) {
+        return;
+    }
+
+    const range = this;
+    const value = range.value;
+
+    // put this on a callback. Doing it within the event sometimes causes the slider to get hung up and not respond
+    // Keep only one per slider frame request
+    cancelAnimationFrame(range.updateValuesFrame);
+    range.updateValuesFrame = requestAnimationFrame(function () {
+        const backgroundLower = range.backgroundLower;
+
+        if (backgroundLower) {
+            let fraction = (value - range.min) / (range.max - range.min);
+
+            fraction *= 100;
+            backgroundLower.style.width = fraction + '%';
+        }
+    });
+}
+
+function updateBubble(range, value, bubble, bubbleText) {
+    requestAnimationFrame(function () {
+        const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
+        const bubbleRect = bubble.getBoundingClientRect();
+
+        let bubblePos = bubbleTrackRect.width * value / 100;
+        bubblePos = Math.min(Math.max(bubblePos, bubbleRect.width / 2), bubbleTrackRect.width - bubbleRect.width / 2);
+
+        bubble.style.left = bubblePos + 'px';
+
+        if (range.getBubbleHtml) {
+            value = range.getBubbleHtml(value);
+        } else {
+            if (range.getBubbleText) {
+                value = range.getBubbleText(value);
+            } else {
+                value = mapFractionToValue(range, value / 100).toLocaleString();
+            }
+            value = '<h1 class="sliderBubbleText">' + value + '</h1>';
         }
 
-        const range = this;
-        const value = range.value;
+        bubble.innerHTML = value;
+    });
+}
 
-        // put this on a callback. Doing it within the event sometimes causes the slider to get hung up and not respond
-        // Keep only one per slider frame request
-        cancelAnimationFrame(range.updateValuesFrame);
-        range.updateValuesFrame = requestAnimationFrame(function () {
-            const backgroundLower = range.backgroundLower;
+/**
+     * Keyboard dragging timeout.
+     * After this delay "change" event will be fired.
+     */
+const KeyboardDraggingTimeout = 1000;
 
-            if (backgroundLower) {
-                let fraction = (value - range.min) / (range.max - range.min);
+/**
+     * Keyboard dragging timer.
+     */
+let keyboardDraggingTimer;
 
-                fraction *= 100;
-                backgroundLower.style.width = fraction + '%';
-            }
-        });
+/**
+     * Start keyboard dragging.
+     *
+     * @param {Object} elem slider itself
+     */
+function startKeyboardDragging(elem) {
+    elem.keyboardDragging = true;
+
+    clearTimeout(keyboardDraggingTimer);
+    keyboardDraggingTimer = setTimeout(function () {
+        finishKeyboardDragging(elem);
+    }, KeyboardDraggingTimeout);
+}
+
+/**
+     * Finish keyboard dragging.
+     *
+     * @param {Object} elem slider itself
+     */
+function finishKeyboardDragging(elem) {
+    clearTimeout(keyboardDraggingTimer);
+    keyboardDraggingTimer = undefined;
+
+    elem.keyboardDragging = false;
+
+    const event = new Event('change', {
+        bubbles: true,
+        cancelable: false
+    });
+    elem.dispatchEvent(event);
+}
+
+/**
+     * Do step by delta.
+     *
+     * @param {Object} elem slider itself
+     * @param {number} delta step amount
+     */
+function stepKeyboard(elem, delta) {
+    startKeyboardDragging(elem);
+
+    elem.value = Math.max(elem.min, Math.min(elem.max, parseFloat(elem.value) + delta));
+
+    const event = new Event('input', {
+        bubbles: true,
+        cancelable: false
+    });
+    elem.dispatchEvent(event);
+}
+
+/**
+     * Handle KeyDown event
+     */
+function onKeyDown(e) {
+    switch (keyboardnavigation.getKeyName(e)) {
+        case 'ArrowLeft':
+        case 'Left':
+            stepKeyboard(this, -this.keyboardStepDown || -1);
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+        case 'ArrowRight':
+        case 'Right':
+            stepKeyboard(this, this.keyboardStepUp || 1);
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+    }
+}
+
+function setRange(elem, startPercent, endPercent) {
+    const style = elem.style;
+    style.left = Math.max(startPercent, 0) + '%';
+
+    const widthPercent = endPercent - startPercent;
+    style.width = Math.max(Math.min(widthPercent, 100), 0) + '%';
+}
+
+function mapRangesFromRuntimeToPercent(ranges, runtime) {
+    if (!runtime) {
+        return [];
     }
 
-    function updateBubble(range, value, bubble, bubbleText) {
-        requestAnimationFrame(function () {
-            const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
-            const bubbleRect = bubble.getBoundingClientRect();
+    return ranges.map(function (r) {
+        return {
+            start: (r.start / runtime) * 100,
+            end: (r.end / runtime) * 100
+        };
+    });
+}
 
-            let bubblePos = bubbleTrackRect.width * value / 100;
-            bubblePos = Math.min(Math.max(bubblePos, bubbleRect.width / 2), bubbleTrackRect.width - bubbleRect.width / 2);
-
-            bubble.style.left = bubblePos + 'px';
-
-            if (range.getBubbleHtml) {
-                value = range.getBubbleHtml(value);
-            } else {
-                if (range.getBubbleText) {
-                    value = range.getBubbleText(value);
-                } else {
-                    value = mapFractionToValue(range, value / 100).toLocaleString();
-                }
-                value = '<h1 class="sliderBubbleText">' + value + '</h1>';
-            }
-
-            bubble.innerHTML = value;
-        });
+function startInterval(range) {
+    const interval = range.interval;
+    if (interval) {
+        clearInterval(interval);
     }
-
-    EmbySliderPrototype.attachedCallback = function () {
+    range.interval = setInterval(updateValues.bind(range, true), 100);
+}
+class EmbySlider extends HTMLInputElement {
+    connectedCallback() {
         if (this.getAttribute('data-embyslider') === 'true') {
             return;
         }
@@ -305,98 +411,27 @@ import '../emby-input/emby-input';
         } else {
             startInterval(this);
         }
-    };
-
-    /**
-     * Keyboard dragging timeout.
-     * After this delay "change" event will be fired.
-     */
-    const KeyboardDraggingTimeout = 1000;
-
-    /**
-     * Keyboard dragging timer.
-     */
-    let keyboardDraggingTimer;
-
-    /**
-     * Start keyboard dragging.
-     *
-     * @param {Object} elem slider itself
-     */
-    function startKeyboardDragging(elem) {
-        elem.keyboardDragging = true;
-
-        clearTimeout(keyboardDraggingTimer);
-        keyboardDraggingTimer = setTimeout(function () {
-            finishKeyboardDragging(elem);
-        }, KeyboardDraggingTimeout);
     }
 
-    /**
-     * Finish keyboard dragging.
-     *
-     * @param {Object} elem slider itself
-     */
-    function finishKeyboardDragging(elem) {
-        clearTimeout(keyboardDraggingTimer);
-        keyboardDraggingTimer = undefined;
-
-        elem.keyboardDragging = false;
-
-        const event = new Event('change', {
-            bubbles: true,
-            cancelable: false
-        });
-        elem.dispatchEvent(event);
-    }
-
-    /**
-     * Do step by delta.
-     *
-     * @param {Object} elem slider itself
-     * @param {number} delta step amount
-     */
-    function stepKeyboard(elem, delta) {
-        startKeyboardDragging(elem);
-
-        elem.value = Math.max(elem.min, Math.min(elem.max, parseFloat(elem.value) + delta));
-
-        const event = new Event('input', {
-            bubbles: true,
-            cancelable: false
-        });
-        elem.dispatchEvent(event);
-    }
-
-    /**
-     * Handle KeyDown event
-     */
-    function onKeyDown(e) {
-        switch (keyboardnavigation.getKeyName(e)) {
-            case 'ArrowLeft':
-            case 'Left':
-                stepKeyboard(this, -this.keyboardStepDown || -1);
-                e.preventDefault();
-                e.stopPropagation();
-                break;
-            case 'ArrowRight':
-            case 'Right':
-                stepKeyboard(this, this.keyboardStepUp || 1);
-                e.preventDefault();
-                e.stopPropagation();
-                break;
+    disconnectedCallback() {
+        const interval = this.interval;
+        if (interval) {
+            clearInterval(interval);
         }
+        this.interval = null;
+        this.backgroundUpper = null;
+        this.backgroundLower = null;
     }
 
     /**
      * Enable keyboard dragging.
      */
-    EmbySliderPrototype.enableKeyboardDragging = function () {
+    enableKeyboardDragging() {
         if (!this.keyboardDraggingEnabled) {
             this.addEventListener('keydown', onKeyDown);
             this.keyboardDraggingEnabled = true;
         }
-    };
+    }
 
     /**
      * Set steps for keyboard input.
@@ -404,33 +439,12 @@ import '../emby-input/emby-input';
      * @param {number} stepDown step to reduce
      * @param {number} stepUp step to increase
      */
-    EmbySliderPrototype.setKeyboardSteps = function (stepDown, stepUp) {
+    setKeyboardSteps(stepDown, stepUp) {
         this.keyboardStepDown = stepDown || stepUp || 1;
         this.keyboardStepUp = stepUp || stepDown || 1;
-    };
-
-    function setRange(elem, startPercent, endPercent) {
-        const style = elem.style;
-        style.left = Math.max(startPercent, 0) + '%';
-
-        const widthPercent = endPercent - startPercent;
-        style.width = Math.max(Math.min(widthPercent, 100), 0) + '%';
     }
 
-    function mapRangesFromRuntimeToPercent(ranges, runtime) {
-        if (!runtime) {
-            return [];
-        }
-
-        return ranges.map(function (r) {
-            return {
-                start: (r.start / runtime) * 100,
-                end: (r.end / runtime) * 100
-            };
-        });
-    }
-
-    EmbySliderPrototype.setBufferedRanges = function (ranges, runtime, position) {
+    setBufferedRanges(ranges, runtime, position) {
         const elem = this.backgroundUpper;
         if (!elem) {
             return;
@@ -454,9 +468,9 @@ import '../emby-input/emby-input';
         }
 
         setRange(elem, 0, 0);
-    };
+    }
 
-    EmbySliderPrototype.setIsClear = function (isClear) {
+    setIsClear(isClear) {
         const backgroundLower = this.backgroundLower;
         if (backgroundLower) {
             if (isClear) {
@@ -465,29 +479,10 @@ import '../emby-input/emby-input';
                 backgroundLower.classList.remove('mdl-slider-background-lower-clear');
             }
         }
-    };
-
-    function startInterval(range) {
-        const interval = range.interval;
-        if (interval) {
-            clearInterval(interval);
-        }
-        range.interval = setInterval(updateValues.bind(range, true), 100);
     }
+}
 
-    EmbySliderPrototype.detachedCallback = function () {
-        const interval = this.interval;
-        if (interval) {
-            clearInterval(interval);
-        }
-        this.interval = null;
-        this.backgroundUpper = null;
-        this.backgroundLower = null;
-    };
+customElements.define('emby-slider', EmbySlider, {
+    extends: 'input'
+});
 
-    document.registerElement('emby-slider', {
-        prototype: EmbySliderPrototype,
-        extends: 'input'
-    });
-
-/* eslint-enable indent */

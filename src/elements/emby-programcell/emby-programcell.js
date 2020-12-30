@@ -1,12 +1,11 @@
-const ProgramCellPrototype = Object.create(HTMLButtonElement.prototype);
+class ProgramCell extends HTMLButtonElement {
+    disconnectedCallback() {
+        this.posLeft = null;
+        this.posWidth = null;
+        this.guideProgramName = null;
+    }
+}
 
-ProgramCellPrototype.detachedCallback = function () {
-    this.posLeft = null;
-    this.posWidth = null;
-    this.guideProgramName = null;
-};
-
-document.registerElement('emby-programcell', {
-    prototype: ProgramCellPrototype,
+customElements.define('emby-programcell', ProgramCell, {
     extends: 'button'
 });

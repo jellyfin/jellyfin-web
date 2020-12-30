@@ -1,13 +1,10 @@
-import 'webcomponents.js/webcomponents-lite';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import { removeEventListener, addEventListener } from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import shell from '../../scripts/shell';
 import { appRouter } from '../../components/appRouter';
 import { appHost } from '../../components/apphost';
 import './emby-button.css';
-
-const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
-const EmbyLinkButtonPrototype = Object.create(HTMLAnchorElement.prototype);
 
 function onAnchorClick(e) {
     const href = this.getAttribute('href') || '';
@@ -25,51 +22,83 @@ function onAnchorClick(e) {
         e.preventDefault();
     }
 }
+class EmbyButton extends HTMLButtonElement {
+    constructor() {
+        super();
+        if (this.classList.contains('emby-button')) {
+            return;
+        }
 
-EmbyButtonPrototype.createdCallback = function () {
-    if (this.classList.contains('emby-button')) {
-        return;
+        this.classList.add('emby-button');
+        // TODO replace all instances of element-showfocus with this method
+        if (layoutManager.tv) {
+            // handles all special css for tv layout
+            // this method utilizes class chaining
+            this.classList.add('show-focus');
+        }
     }
 
-    this.classList.add('emby-button');
-    // TODO replace all instances of element-showfocus with this method
-    if (layoutManager.tv) {
-        // handles all special css for tv layout
-        // this method utilizes class chaining
-        this.classList.add('show-focus');
-    }
-};
+    connectedCallback() {
+        if (this.tagName === 'A') {
+            removeEventListener(this, 'click', onAnchorClick, {});
+            addEventListener(this, 'click', onAnchorClick, {});
 
-EmbyButtonPrototype.attachedCallback = function () {
-    if (this.tagName === 'A') {
-        removeEventListener(this, 'click', onAnchorClick, {});
-        addEventListener(this, 'click', onAnchorClick, {});
-
-        if (this.getAttribute('data-autohide') === 'true') {
-            if (appHost.supports('externallinks')) {
-                this.classList.remove('hide');
-            } else {
-                this.classList.add('hide');
+            if (this.getAttribute('data-autohide') === 'true') {
+                if (appHost.supports('externallinks')) {
+                    this.classList.remove('hide');
+                } else {
+                    this.classList.add('hide');
+                }
             }
         }
     }
-};
 
-EmbyButtonPrototype.detachedCallback = function () {
-    removeEventListener(this, 'click', onAnchorClick, {});
-};
+    disconnectedCallback() {
+        removeEventListener(this, 'click', onAnchorClick, {});
+    }
+}
 
-EmbyLinkButtonPrototype.createdCallback = EmbyButtonPrototype.createdCallback;
-EmbyLinkButtonPrototype.attachedCallback = EmbyButtonPrototype.attachedCallback;
+class EmbyLinkButton extends HTMLAnchorElement {
+    constructor() {
+        super();
+        if (this.classList.contains('emby-button')) {
+            return;
+        }
 
-document.registerElement('emby-button', {
-    prototype: EmbyButtonPrototype,
+        this.classList.add('emby-button');
+        // TODO replace all instances of element-showfocus with this method
+        if (layoutManager.tv) {
+            // handles all special css for tv layout
+            // this method utilizes class chaining
+            this.classList.add('show-focus');
+        }
+    }
+
+    connectedCallback() {
+        if (this.tagName === 'A') {
+            removeEventListener(this, 'click', onAnchorClick, {});
+            addEventListener(this, 'click', onAnchorClick, {});
+
+            if (this.getAttribute('data-autohide') === 'true') {
+                if (appHost.supports('externallinks')) {
+                    this.classList.remove('hide');
+                } else {
+                    this.classList.add('hide');
+                }
+            }
+        }
+    }
+
+    disconnectedCallback() {
+    }
+}
+
+customElements.define('emby-button', EmbyButton, {
     extends: 'button'
 });
 
-document.registerElement('emby-linkbutton', {
-    prototype: EmbyLinkButtonPrototype,
+customElements.define('emby-linkbutton', EmbyLinkButton, {
     extends: 'a'
 });
 
-export default EmbyButtonPrototype;
+export default EmbyButton;

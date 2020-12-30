@@ -266,7 +266,9 @@ import { appRouter } from '../appRouter';
         }
 
         parentContainer.insertAdjacentHTML('afterbegin', getNowPlayingBarHtml());
-        window.CustomElements.upgradeSubtree(parentContainer);
+        if ('CustomElements' in window) {
+            window.CustomElements.upgradeSubtree(parentContainer);
+          }
 
         nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 

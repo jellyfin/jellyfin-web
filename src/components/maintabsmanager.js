@@ -135,7 +135,10 @@ import '../elements/emby-button/emby-button';
             }).join('') + '</div></div>';
 
             tabsContainerElem.innerHTML = tabsHtml;
-            window.CustomElements.upgradeSubtree(tabsContainerElem);
+
+            if ('CustomElements' in window) {
+                window.CustomElements.upgradeSubtree(tabsContainerElem);
+              }
 
             document.body.classList.add('withSectionTabs');
             tabOwnerView = view;

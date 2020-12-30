@@ -1,13 +1,10 @@
 import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import './emby-checkbox.css';
-import 'webcomponents.js/webcomponents-lite';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
-/* eslint-disable indent */
-
-    const EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
-
-    function onKeyDown(e) {
+class onKeyDown {
+    constructor(e) {
         // Don't submit form on enter
         // Real (non-emulator) Tizen does nothing on Space
         if (e.keyCode === 13 || (e.keyCode === 32 && browser.tizen)) {
@@ -22,23 +19,25 @@ import 'webcomponents.js/webcomponents-lite';
             return false;
         }
     }
+}
 
-    const enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s ? true : false;
+const enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s ? true : false;
 
-    function forceRefresh(loading) {
-        const elem = this.parentNode;
+function forceRefresh(loading) {
+    const elem = this.parentNode;
 
-        elem.style.webkitAnimationName = 'repaintChrome';
-        elem.style.webkitAnimationDelay = (loading === true ? '500ms' : '');
-        elem.style.webkitAnimationDuration = '10ms';
-        elem.style.webkitAnimationIterationCount = '1';
+    elem.style.webkitAnimationName = 'repaintChrome';
+    elem.style.webkitAnimationDelay = (loading === true ? '500ms' : '');
+    elem.style.webkitAnimationDuration = '10ms';
+    elem.style.webkitAnimationIterationCount = '1';
 
-        setTimeout(function () {
-            elem.style.webkitAnimationName = '';
-        }, (loading === true ? 520 : 20));
-    }
+    setTimeout(function () {
+        elem.style.webkitAnimationName = '';
+    }, (loading === true ? 520 : 20));
+}
 
-    EmbyCheckboxPrototype.attachedCallback = function () {
+class EmbyCheckbox extends HTMLInputElement {
+    connectedCallback() {
         if (this.getAttribute('data-embycheckbox') === 'true') {
             return;
         }
@@ -84,9 +83,9 @@ import 'webcomponents.js/webcomponents-lite';
                 passive: true
             });
         }
-    };
+    }
 
-    EmbyCheckboxPrototype.detachedCallback = function () {
+    disconnectedCallback() {
         this.removeEventListener('keydown', onKeyDown);
 
         dom.removeEventListener(this, 'click', forceRefresh, {
@@ -101,11 +100,9 @@ import 'webcomponents.js/webcomponents-lite';
         dom.removeEventListener(this, 'change', forceRefresh, {
             passive: true
         });
-    };
+    }
+}
 
-    document.registerElement('emby-checkbox', {
-        prototype: EmbyCheckboxPrototype,
-        extends: 'input'
-    });
-
-/* eslint-enable indent */
+customElements.define('emby-checkbox', EmbyCheckbox, {
+    extends: 'input'
+});

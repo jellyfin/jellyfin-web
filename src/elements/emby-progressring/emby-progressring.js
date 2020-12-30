@@ -1,12 +1,10 @@
 import './emby-progressring.css';
-import 'webcomponents.js/webcomponents-lite';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import template from './emby-progressring.template.html';
 
-/* eslint-disable indent */
-
-    const EmbyProgressRing = Object.create(HTMLDivElement.prototype);
-
-    EmbyProgressRing.createdCallback = function () {
+class EmbyProgressRing extends HTMLDivElement {
+    constructor() {
+        super();
         this.classList.add('progressring');
         const instance = this;
 
@@ -30,9 +28,9 @@ import template from './emby-progressring.template.html';
         }
 
         instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
-    };
+    }
 
-    EmbyProgressRing.setProgress = function (progress) {
+    setProgress(progress) {
         progress = Math.floor(progress);
 
         let angle;
@@ -71,13 +69,13 @@ import template from './emby-progressring.template.html';
         }
 
         this.querySelector('.progressring-text').innerHTML = progress + '%';
-    };
+    }
 
-    EmbyProgressRing.attachedCallback = function () {
+    connectedCallback() {
 
-    };
+    }
 
-    EmbyProgressRing.detachedCallback = function () {
+    disconnectedCallback() {
         const observer = this.observer;
 
         if (observer) {
@@ -86,13 +84,11 @@ import template from './emby-progressring.template.html';
 
             this.observer = null;
         }
-    };
+    }
+}
 
-    document.registerElement('emby-progressring', {
-        prototype: EmbyProgressRing,
-        extends: 'div'
-    });
+customElements.define('emby-progressring', EmbyProgressRing, {
+    extends: 'div'
+});
 
-    export default EmbyProgressRing;
-
-/* eslint-enable indent */
+export default EmbyProgressRing;

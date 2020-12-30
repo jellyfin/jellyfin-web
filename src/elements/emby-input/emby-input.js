@@ -1,36 +1,47 @@
 import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import './emby-input.css';
-import 'webcomponents.js/webcomponents-lite';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
-/* eslint-disable indent */
+let inputId = 0;
+let supportsFloatingLabel = false;
 
-    const EmbyInputPrototype = Object.create(HTMLInputElement.prototype);
+if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
+    const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
 
-    let inputId = 0;
-    let supportsFloatingLabel = false;
+    // descriptor returning null in webos
+    if (descriptor && descriptor.configurable) {
+        const baseSetMethod = descriptor.set;
+        descriptor.set = function (value) {
+            baseSetMethod.call(this, value);
 
-    if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-        const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+            this.dispatchEvent(new CustomEvent('valueset', {
+                bubbles: false,
+                cancelable: false
+            }));
+        };
 
-        // descriptor returning null in webos
-        if (descriptor && descriptor.configurable) {
-            const baseSetMethod = descriptor.set;
-            descriptor.set = function (value) {
-                baseSetMethod.call(this, value);
+        Object.defineProperty(HTMLInputElement.prototype, 'value', descriptor);
+        supportsFloatingLabel = true;
+    }
+}
 
-                this.dispatchEvent(new CustomEvent('valueset', {
-                    bubbles: false,
-                    cancelable: false
-                }));
-            };
+function onChange() {
+    const label = this.labelElement;
+    if (this.value) {
+        label.classList.remove('inputLabel-float');
+    } else {
+        const instanceSupportsFloat = supportsFloatingLabel && this.type !== 'date' && this.type !== 'time';
 
-            Object.defineProperty(HTMLInputElement.prototype, 'value', descriptor);
-            supportsFloatingLabel = true;
+        if (instanceSupportsFloat) {
+            label.classList.add('inputLabel-float');
         }
     }
+}
 
-    EmbyInputPrototype.createdCallback = function () {
+class EmbyInput extends HTMLInputElement {
+    constructor() {
+        super();
         if (!this.id) {
             this.id = 'embyinput' + inputId;
             inputId++;
@@ -93,33 +104,18 @@ import 'webcomponents.js/webcomponents-lite';
                 }
             }
         }
-    };
-
-    function onChange() {
-        const label = this.labelElement;
-        if (this.value) {
-            label.classList.remove('inputLabel-float');
-        } else {
-            const instanceSupportsFloat = supportsFloatingLabel && this.type !== 'date' && this.type !== 'time';
-
-            if (instanceSupportsFloat) {
-                label.classList.add('inputLabel-float');
-            }
-        }
     }
 
-    EmbyInputPrototype.attachedCallback = function () {
+    connectedCallback() {
         this.labelElement.htmlFor = this.id;
         onChange.call(this);
-    };
+    }
 
-    EmbyInputPrototype.label = function (text) {
+    label(text) {
         this.labelElement.innerHTML = text;
-    };
+    }
+}
 
-    document.registerElement('emby-input', {
-        prototype: EmbyInputPrototype,
-        extends: 'input'
-    });
-
-/* eslint-enable indent */
+customElements.define('emby-input', EmbyInput, {
+    extends: 'input'
+});

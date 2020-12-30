@@ -23,7 +23,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../assets/css/flexstyles.scss';
-import 'webcomponents.js/webcomponents-lite';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import ServerConnections from '../ServerConnections';
 import template from './tvguide.template.html';
 

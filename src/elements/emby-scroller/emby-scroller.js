@@ -4,107 +4,110 @@ import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';
 import focusManager from '../../components/focusManager';
 import browser from '../../scripts/browser';
-import 'webcomponents.js/webcomponents-lite';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import './emby-scroller.css';
 
-/* eslint-disable indent */
+function initCenterFocus(elem, scrollerInstance) {
+    dom.addEventListener(elem, 'focus', function (e) {
+        const focused = focusManager.focusableParent(e.target);
+        if (focused) {
+            scrollerInstance.toCenter(focused);
+        }
+    }, {
+        capture: true,
+        passive: true
+    });
+}
 
-    const ScrollerPrototype = Object.create(HTMLDivElement.prototype);
+function onInputCommand(e) {
+    const cmd = e.detail.command;
+    if (cmd === 'end') {
+        focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
+        e.preventDefault();
+        e.stopPropagation();
+    } else if (cmd === 'pageup') {
+        focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), -12);
+        e.preventDefault();
+        e.stopPropagation();
+    } else if (cmd === 'pagedown') {
+        focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), 12);
+        e.preventDefault();
+        e.stopPropagation();
+    }
+}
 
-    ScrollerPrototype.createdCallback = function () {
+function loadScrollButtons(scroller) {
+    import('../emby-scrollbuttons/emby-scrollbuttons').then(() => {
+        scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
+    });
+}
+class Scroller extends HTMLDivElement {
+    constructor() {
+        super();
         this.classList.add('emby-scroller');
-    };
-
-    function initCenterFocus(elem, scrollerInstance) {
-        dom.addEventListener(elem, 'focus', function (e) {
-            const focused = focusManager.focusableParent(e.target);
-            if (focused) {
-                scrollerInstance.toCenter(focused);
-            }
-        }, {
-            capture: true,
-            passive: true
-        });
     }
 
-    ScrollerPrototype.scrollToBeginning = function () {
+    scrollToBeginning() {
         if (this.scroller) {
             this.scroller.slideTo(0, true);
         }
-    };
+    }
 
-    ScrollerPrototype.toStart = function (elem, immediate) {
+    toStart(elem, immediate) {
         if (this.scroller) {
             this.scroller.toStart(elem, immediate);
         }
-    };
+    }
 
-    ScrollerPrototype.toCenter = function (elem, immediate) {
+    toCenter(elem, immediate) {
         if (this.scroller) {
             this.scroller.toCenter(elem, immediate);
         }
-    };
+    }
 
-    ScrollerPrototype.scrollToPosition = function (pos, immediate) {
+    scrollToPosition(pos, immediate) {
         if (this.scroller) {
             this.scroller.slideTo(pos, immediate);
         }
-    };
+    }
 
-    ScrollerPrototype.getScrollPosition = function () {
+    getScrollPosition() {
         if (this.scroller) {
             return this.scroller.getScrollPosition();
         }
-    };
+    }
 
-    ScrollerPrototype.getScrollSize = function () {
+    getScrollSize() {
         if (this.scroller) {
             return this.scroller.getScrollSize();
         }
-    };
+    }
 
-    ScrollerPrototype.getScrollEventName = function () {
+    getScrollEventName() {
         if (this.scroller) {
             return this.scroller.getScrollEventName();
         }
-    };
+    }
 
-    ScrollerPrototype.getScrollSlider = function () {
+    getScrollSlider() {
         if (this.scroller) {
             return this.scroller.getScrollSlider();
         }
-    };
+    }
 
-    ScrollerPrototype.addScrollEventListener = function (fn, options) {
+    addScrollEventListener(fn, options) {
         if (this.scroller) {
             dom.addEventListener(this.scroller.getScrollFrame(), this.scroller.getScrollEventName(), fn, options);
         }
-    };
+    }
 
-    ScrollerPrototype.removeScrollEventListener = function (fn, options) {
+    removeScrollEventListener(fn, options) {
         if (this.scroller) {
             dom.removeEventListener(this.scroller.getScrollFrame(), this.scroller.getScrollEventName(), fn, options);
         }
-    };
-
-    function onInputCommand(e) {
-        const cmd = e.detail.command;
-        if (cmd === 'end') {
-            focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
-            e.preventDefault();
-            e.stopPropagation();
-        } else if (cmd === 'pageup') {
-            focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), -12);
-            e.preventDefault();
-            e.stopPropagation();
-        } else if (cmd === 'pagedown') {
-            focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), 12);
-            e.preventDefault();
-            e.stopPropagation();
-        }
     }
 
-    ScrollerPrototype.attachedCallback = function () {
+    connectedCallback() {
         if (this.getAttribute('data-navcommands')) {
             inputManager.on(this, onInputCommand);
         }
@@ -153,29 +156,23 @@ import './emby-scroller.css';
         if (enableScrollButtons) {
             loadScrollButtons(this);
         }
-    };
-
-    function loadScrollButtons(scroller) {
-        import('../emby-scrollbuttons/emby-scrollbuttons').then(() => {
-            scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
-        });
     }
 
-    ScrollerPrototype.pause = function () {
+    pause() {
         const headroom = this.headroom;
         if (headroom) {
             headroom.pause();
         }
-    };
+    }
 
-    ScrollerPrototype.resume = function () {
+    resume() {
         const headroom = this.headroom;
         if (headroom) {
             headroom.resume();
         }
-    };
+    }
 
-    ScrollerPrototype.detachedCallback = function () {
+    disconnectedCallback() {
         if (this.getAttribute('data-navcommands')) {
             inputManager.off(this, onInputCommand);
         }
@@ -191,11 +188,10 @@ import './emby-scroller.css';
             scrollerInstance.destroy();
             this.scroller = null;
         }
-    };
+    }
+}
 
-    document.registerElement('emby-scroller', {
-        prototype: ScrollerPrototype,
-        extends: 'div'
-    });
+customElements.define('emby-scroller', Scroller, {
+    extends: 'div'
+});
 
-/* eslint-enable indent */
