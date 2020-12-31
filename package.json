@@ -64,7 +64,7 @@
     "headroom.js": "^0.12.0",
     "hls.js": "^0.14.17",
     "intersection-observer": "^0.12.0",
-    "jellyfin-apiclient": "^1.5.0",
+    "jellyfin-apiclient": "^1.6.0",
     "jquery": "^3.5.1",
     "jstree": "^3.3.11",
     "libarchive.js": "^1.3.0",
