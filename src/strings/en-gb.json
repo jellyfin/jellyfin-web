@@ -1443,7 +1443,7 @@
     "HeaderPortRanges": "Firewall and Proxy Settings",
     "LabelUDPPortRange": "UDP Communication Range:",
     "LabelUDPPortRangeHelp": "Restrict Jellyfin to use this port range when making UDP connections. (Default is 1024 - 645535).<br/> Note: Certain function require fixed ports that may be outside of this range.",
-    "LabelHDHomerunPortRange": "HD Home-run port range:",
+    "LabelHDHomerunPortRange": "HDHomeRun port range:",
     "LabelHDHomerunPortRangeHelp": "Restricts the HD Homerun UDP port range to this value. (Default is 1024 - 645535).",
     "LabelPublishedServerUri": "Published Server URIs:",
     "LabelPublishedServerUriHelp": "Override the URI used by Jellyfin, based on the interface, or client IP address.",
@@ -1495,5 +1495,9 @@
     "LabelDropSubtitleHere": "Drop subtitle here, or click to browse.",
     "HeaderUploadSubtitle": "Upload Subtitle",
     "HeaderAddUser": "Add User",
-    "HeaderAddUpdateSubtitle": "Add/Update Subtitle"
+    "HeaderAddUpdateSubtitle": "Add/Update Subtitle",
+    "LabelMinAudiobookResumeHelp": "Titles are assumed unplayed if stopped before this time.",
+    "LabelMinAudiobookResume": "Minimum Audiobook resume in minutes:",
+    "LabelMaxAudiobookResumeHelp": "Titles are assumed fully played if stopped after this time.",
+    "LabelMaxAudiobookResume": "Maximum Audiobook resume in minutes:"
 }
