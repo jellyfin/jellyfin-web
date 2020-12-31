@@ -1495,5 +1495,9 @@
     "LabelSyncPlayResumePlaybackDescription": "Volver a unirse a la reproducción del grupo",
     "LabelSyncPlayResumePlayback": "Reanudar la reproducción local",
     "LabelSyncPlayHaltPlaybackDescription": "E ignore las actualizaciones actuales de la lista de reproducción",
-    "LabelSyncPlayHaltPlayback": "Detener la reproducción local"
+    "LabelSyncPlayHaltPlayback": "Detener la reproducción local",
+    "LabelMinAudiobookResumeHelp": "Se asume que los títulos no se reproducen si se detienen antes de este tiempo.",
+    "LabelMinAudiobookResume": "Reanudación mínima de audiolibros en minutos:",
+    "LabelMaxAudiobookResumeHelp": "Se asume que los títulos están completamente reproducidos si se detienen después de este tiempo.",
+    "LabelMaxAudiobookResume": "Reanudación máxima de audiolibros en minutos:"
 }
