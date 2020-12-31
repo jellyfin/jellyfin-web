@@ -6,7 +6,7 @@ import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
 import { getLocale, localeWithSuffix } from '../../../scripts/dfnshelper';
 import '../../../components/listview/listview.css';
-import '../../../elements/emby-button/emby-button';
+import '../../../elements/emby-button/emby-linkbutton';
 
 /* eslint-disable indent */
 

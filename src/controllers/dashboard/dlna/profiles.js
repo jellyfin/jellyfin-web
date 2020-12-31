@@ -3,7 +3,7 @@ import globalize from '../../../scripts/globalize';
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import '../../../components/listview/listview.css';
-import '../../../elements/emby-button/emby-button';
+import '../../../elements/emby-button/emby-linkbutton';
 import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */

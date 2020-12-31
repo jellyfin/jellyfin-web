@@ -3,6 +3,7 @@ import libraryMenu from '../../../../scripts/libraryMenu';
 import globalize from '../../../../scripts/globalize';
 import dialogHelper from '../../../../components/dialogHelper/dialogHelper';
 import '../../../../elements/emby-button/emby-button';
+import '../../../../elements/emby-button/emby-linkbutton';
 import '../../../../elements/emby-checkbox/emby-checkbox';
 import '../../../../elements/emby-select/emby-select';
 import '../../../../components/formdialog.css';

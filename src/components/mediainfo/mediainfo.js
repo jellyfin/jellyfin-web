@@ -6,7 +6,7 @@ import indicators from '../indicators/indicators';
 import 'material-design-icons-iconfont';
 import './mediainfo.css';
 import '../guide/programs.css';
-import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/emby-linkbutton';
 
 /* eslint-disable indent */
     function getTimerIndicator(item) {

@@ -1,6 +1,6 @@
 import datetime from '../../scripts/datetime';
 import loading from '../../components/loading/loading';
-import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/emby-linkbutton';
 import '../../components/listview/listview.css';
 import '../../assets/css/flexstyles.scss';
 

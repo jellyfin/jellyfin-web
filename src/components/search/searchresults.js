@@ -4,7 +4,7 @@ import cardBuilder from '../cardbuilder/cardBuilder';
 import { appRouter } from '../appRouter';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/emby-linkbutton';
 import ServerConnections from '../ServerConnections';
 import template from './searchresults.template.html';
 

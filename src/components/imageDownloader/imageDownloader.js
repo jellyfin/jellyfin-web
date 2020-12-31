@@ -9,7 +9,7 @@ import scrollHelper from '../../scripts/scrollHelper';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/emby-linkbutton';
 import '../formdialog.css';
 import '../cardbuilder/card.css';
 import ServerConnections from '../ServerConnections';

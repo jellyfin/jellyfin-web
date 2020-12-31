@@ -6,6 +6,7 @@ import { localeWithSuffix } from '../../../scripts/dfnshelper';
 import '../../../elements/emby-button/paper-icon-button-light';
 import '../../../components/cardbuilder/card.css';
 import '../../../elements/emby-button/emby-button';
+import '../../../elements/emby-button/emby-linkbutton';
 import '../../../components/indicators/indicators.css';
 import '../../../assets/css/flexstyles.scss';
 import Dashboard, { pageIdOn } from '../../../scripts/clientUtils';

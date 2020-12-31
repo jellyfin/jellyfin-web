@@ -3,7 +3,7 @@ import libraryMenu from '../../../../scripts/libraryMenu';
 import dom from '../../../../scripts/dom';
 import globalize from '../../../../scripts/globalize';
 import '../../../../components/cardbuilder/card.css';
-import '../../../../elements/emby-button/emby-button';
+import '../../../../elements/emby-button/emby-linkbutton';
 import Dashboard, { pageIdOn } from '../../../../scripts/clientUtils';
 import confirm from '../../../../components/confirm/confirm';
 

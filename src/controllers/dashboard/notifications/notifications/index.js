@@ -1,7 +1,7 @@
 import loading from '../../../../components/loading/loading';
 import globalize from '../../../../scripts/globalize';
 import '../../../../components/listview/listview.css';
-import '../../../../elements/emby-button/emby-button';
+import '../../../../elements/emby-button/emby-linkbutton';
 
 function reload(page) {
     loading.show();

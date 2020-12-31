@@ -22,6 +22,7 @@ import '../../assets/css/scrollstyles.css';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/emby-linkbutton';
 import '../../elements/emby-playstatebutton/emby-playstatebutton';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-scroller/emby-scroller';

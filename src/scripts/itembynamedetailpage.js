@@ -4,6 +4,7 @@ import imageLoader from '../components/images/imageLoader';
 import globalize from './globalize';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-button/emby-button';
+import '../elements/emby-button/emby-linkbutton';
 import ServerConnections from '../components/ServerConnections';
 
 function renderItems(page, item) {

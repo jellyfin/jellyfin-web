@@ -3,6 +3,7 @@ import browser from '../scripts/browser';
 import { Events } from 'jellyfin-apiclient';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
+import '../elements/emby-button/emby-linkbutton';
 
 /* eslint-disable indent */
 

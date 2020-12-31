@@ -22,7 +22,8 @@ function onAnchorClick(e) {
         e.preventDefault();
     }
 }
-class EmbyButton extends HTMLButtonElement {
+
+class EmbyLinkButton extends HTMLAnchorElement {
     constructor() {
         super();
         if (this.classList.contains('emby-button')) {
@@ -54,12 +55,9 @@ class EmbyButton extends HTMLButtonElement {
     }
 
     disconnectedCallback() {
-        removeEventListener(this, 'click', onAnchorClick, {});
     }
 }
 
-customElements.define('emby-button', EmbyButton, {
-    extends: 'button'
+customElements.define('emby-linkbutton', EmbyLinkButton, {
+    extends: 'a'
 });
-
-export default EmbyButton;

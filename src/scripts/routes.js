@@ -1,4 +1,5 @@
 import '../elements/emby-button/emby-button';
+import '../elements/emby-button/emby-linkbutton';
 import '../elements/emby-input/emby-input';
 import '../scripts/livetvcomponents';
 import '../elements/emby-button/paper-icon-button-light';

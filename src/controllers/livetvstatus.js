@@ -10,7 +10,7 @@ import '../assets/css/flexstyles.scss';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../components/cardbuilder/card.css';
 import 'material-design-icons-iconfont';
-import '../elements/emby-button/emby-button';
+import '../elements/emby-button/emby-linkbutton';
 import Dashboard from '../scripts/clientUtils';
 import confirm from '../components/confirm/confirm';
 
