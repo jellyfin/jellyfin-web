@@ -1499,5 +1499,7 @@
     "LabelMinAudiobookResumeHelp": "Položky jsou považovány za nepřehrané, pokud jsou zastaveny před tímto časem.",
     "LabelMinAudiobookResume": "Minimální délka v minutách pro pokračování u audioknih:",
     "LabelMaxAudiobookResumeHelp": "Položky jsou považovány za přehrané, pokud jsou zastaveny po tomto čase.",
-    "LabelMaxAudiobookResume": "Maximální délka v minutách pro pokračování u audioknih:"
+    "LabelMaxAudiobookResume": "Maximální délka v minutách pro pokračování u audioknih:",
+    "MessagePlaybackError": "Přehrání tohoto souboru na vašem zařízení Google Cast se nezdařilo.",
+    "MessageChromecastConnectionError": "Vašemu zařízení Google Cast se nezdařilo kontaktovat server Jellyfin. Zkontrolujte připojení a zkuste to znovu."
 }
