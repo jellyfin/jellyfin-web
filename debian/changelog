@@ -1,3 +1,9 @@
+jellyfin-web (10.7.0~rc2) unstable; urgency=medium
+
+  * New upstream version 10.7.0-rc2; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v10.7.0-rc2
+
+ -- Jellyfin Packaging Team <packaging@jellyfin.org>  Thu, 31 Dec 2020 19:23:51 -0500
+
 jellyfin-web (10.7.0~rc1) unstable; urgency=medium
 
   * New upstream version 10.7.0-rc1; release changelog at https://github.com/jellyfin/jellyfin-web/releases/tag/v10.7.0-rc1
