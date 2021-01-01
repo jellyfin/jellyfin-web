@@ -555,7 +555,7 @@
     "LabelMetadataSaversHelp": "选择储存媒体资料的文件格式。",
     "LabelMethod": "方法：",
     "LabelMinBackdropDownloadWidth": "下载背景图的最小宽度：",
-    "LabelMinResumeDuration": "恢复播放最小时间：",
+    "LabelMinResumeDuration": "恢复播放的最短时间：",
     "LabelMinResumeDurationHelp": "以秒为单位保存播放视频位置并允许您继续播放。",
     "LabelMinResumePercentage": "恢复播放最小百分比：",
     "LabelMinResumePercentageHelp": "如果在此时间之前停止播放，媒体会标记为“未播放”。",
@@ -1495,5 +1495,9 @@
     "LabelSyncPlayResumePlaybackDescription": "加入群组播放",
     "LabelSyncPlayResumePlayback": "恢复本地播放",
     "LabelSyncPlayHaltPlaybackDescription": "并且忽略当前的播放列表更新",
-    "LabelSyncPlayHaltPlayback": "停止本地播放"
+    "LabelSyncPlayHaltPlayback": "停止本地播放",
+    "LabelMaxAudiobookResumeHelp": "如果在此时间之后停止播放，媒体会标记为“已播放”。",
+    "LabelMinAudiobookResumeHelp": "如果在此时间之前停止播放，媒体会标记为“未播放”。",
+    "LabelMinAudiobookResume": "恢复播放有声读物的最短时间：",
+    "LabelMaxAudiobookResume": "恢复播放有声读物的最长时间："
 }
