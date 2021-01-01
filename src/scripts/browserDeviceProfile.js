@@ -159,7 +159,10 @@ import browser from './browser';
             return true;
         }
 
-        if (browser.edgeChromium && browser.windows) {
+        // There's no proper method to check MKV in web browsers.
+        // Chromium based browsers support MKV container.
+        // Chrome on iOS/iPad OS is regarded as safari.
+        if (browser.chrome || browser.edg || browser.edga) {
             return true;
         }
 
