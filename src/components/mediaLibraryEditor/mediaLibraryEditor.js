@@ -13,7 +13,6 @@ import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
 import '../listview/listview.css';
-import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import '../../elements/emby-toggle/emby-toggle';
 import '../../assets/css/flexstyles.scss';

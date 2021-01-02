@@ -6,7 +6,6 @@ import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/emby-button';
 import '../../elements/emby-input/emby-input';
 import '../formdialog.css';
 import template from './prompt.template.html';

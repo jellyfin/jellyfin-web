@@ -5,7 +5,6 @@ import loading from '../loading/loading';
 import dom from '../../scripts/dom';
 import recordingHelper from './recordinghelper';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/emby-button';
 import './recordingfields.css';
 import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';

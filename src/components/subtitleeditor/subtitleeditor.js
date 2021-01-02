@@ -12,7 +12,6 @@ import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import 'material-design-icons-iconfont';
 import './subtitleeditor.css';
-import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';

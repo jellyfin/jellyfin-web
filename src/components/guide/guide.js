@@ -19,7 +19,6 @@ import 'material-design-icons-iconfont';
 import '../../assets/css/scrollstyles.css';
 import '../../elements/emby-programcell/emby-programcell';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/emby-button';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../assets/css/flexstyles.scss';

@@ -12,7 +12,6 @@ import 'jquery';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/emby-button';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-toggle/emby-toggle';

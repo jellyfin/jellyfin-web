@@ -5,7 +5,6 @@ import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/emby-button';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';

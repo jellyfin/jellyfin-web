@@ -7,7 +7,6 @@ import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
 import './directorybrowser.css';
 import '../formdialog.css';
-import '../../elements/emby-button/emby-button';
 import alert from '../alert';
 
 /* eslint-disable indent */

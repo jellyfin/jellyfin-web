@@ -4,8 +4,6 @@ import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
 import globalize from '../../scripts/globalize';
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/emby-button';
 import '../../elements/emby-input/emby-input';
 import '../formdialog.css';
 import '../../assets/css/flexstyles.scss';

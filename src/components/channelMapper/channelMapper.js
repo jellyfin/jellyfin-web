@@ -5,7 +5,6 @@ import globalize from '../../scripts/globalize';
 import actionsheet from '../actionSheet/actionSheet';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/emby-button';
 import '../listview/listview.css';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';

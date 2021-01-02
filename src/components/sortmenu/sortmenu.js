@@ -6,7 +6,6 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
-import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.scss';
 import template from './sortmenu.template.html';
 

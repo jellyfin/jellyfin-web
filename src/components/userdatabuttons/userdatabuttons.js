@@ -3,7 +3,6 @@ import dom from '../../scripts/dom';
 import itemHelper from '../itemHelper';
 import '../../elements/emby-button/emby-button';
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/emby-button';
 import './userdatabuttons.css';
 import ServerConnections from '../ServerConnections';
 

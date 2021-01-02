@@ -12,7 +12,6 @@ import '../../elements/emby-select/emby-select';
 import '../listview/listview.css';
 import '../../elements/emby-textarea/emby-textarea';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import '../../assets/css/clearbutton.scss';
 import '../../assets/css/flexstyles.scss';

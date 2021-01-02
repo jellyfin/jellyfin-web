@@ -12,7 +12,6 @@ import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.css';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import 'material-design-icons-iconfont';
 import '../../assets/css/flexstyles.scss';

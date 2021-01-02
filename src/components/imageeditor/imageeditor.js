@@ -11,7 +11,6 @@ import { appHost } from '../apphost';
 import '../cardbuilder/card.css';
 import '../formdialog.css';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/emby-button';
 import './imageeditor.css';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
