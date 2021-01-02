@@ -1,27 +1,7 @@
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
-import { removeEventListener, addEventListener } from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
-import shell from '../../scripts/shell';
-import { appRouter } from '../../components/appRouter';
-import { appHost } from '../../components/apphost';
 import './emby-button.css';
 
-function onAnchorClick(e) {
-    const href = this.getAttribute('href') || '';
-    if (href !== '#') {
-        if (this.getAttribute('target')) {
-            if (!appHost.supports('targetblank')) {
-                e.preventDefault();
-                shell.openUrl(href);
-            }
-        } else {
-            e.preventDefault();
-            appRouter.show(href);
-        }
-    } else {
-        e.preventDefault();
-    }
-}
 class EmbyButton extends HTMLButtonElement {
     constructor() {
         super();
@@ -36,25 +16,6 @@ class EmbyButton extends HTMLButtonElement {
             // this method utilizes class chaining
             this.classList.add('show-focus');
         }
-    }
-
-    connectedCallback() {
-        if (this.tagName === 'A') {
-            removeEventListener(this, 'click', onAnchorClick, {});
-            addEventListener(this, 'click', onAnchorClick, {});
-
-            if (this.getAttribute('data-autohide') === 'true') {
-                if (appHost.supports('externallinks')) {
-                    this.classList.remove('hide');
-                } else {
-                    this.classList.add('hide');
-                }
-            }
-        }
-    }
-
-    disconnectedCallback() {
-        removeEventListener(this, 'click', onAnchorClick, {});
     }
 }
 

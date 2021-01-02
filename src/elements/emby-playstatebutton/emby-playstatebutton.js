@@ -93,8 +93,6 @@ function bindEvents(button) {
 
 class EmbyPlaystateButton extends EmbyButton {
     connectedCallback() {
-        super.connectedCallback(this);
-
         const itemId = this.getAttribute('data-id');
         const serverId = this.getAttribute('data-serverid');
         if (itemId && serverId) {
@@ -105,7 +103,6 @@ class EmbyPlaystateButton extends EmbyButton {
     }
 
     disconnectedCallback() {
-        super.disconnectedCallback(this);
         clearEvents(this);
         this.iconElement = null;
     }

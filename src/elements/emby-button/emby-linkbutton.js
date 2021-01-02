@@ -55,6 +55,7 @@ class EmbyLinkButton extends HTMLAnchorElement {
     }
 
     disconnectedCallback() {
+        removeEventListener(this, 'click', onAnchorClick, {});
     }
 }
 
