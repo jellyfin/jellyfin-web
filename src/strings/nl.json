@@ -6,7 +6,7 @@
     "AddToCollection": "Toevoegen aan Collectie",
     "AddToPlayQueue": "Toevoegen aan wachtrij",
     "AddToPlaylist": "Toevoegen aan afspeellijst",
-    "AddedOnValue": "Toegevoegd {0}",
+    "AddedOnValue": "{0} toegevoegd",
     "AdditionalNotificationServices": "Blader door de Plug-in catalogus om aanvullende meldingsdiensten te installeren.",
     "AirDate": "Uitzenddatum",
     "Aired": "Uitgezonden",
@@ -1497,6 +1497,9 @@
     "LabelSyncPlayHaltPlaybackDescription": "En negeer de huidige afspeellijstupdates",
     "LabelSyncPlayHaltPlayback": "Stop lokaal afspelen",
     "LabelMinAudiobookResume": "Minimale resterende duur van luisterboek:",
-    "LabelMaxAudiobookResumeHelp": "Boek zal worden aangenomen als klaar, na dit tijdstip.",
-    "LabelMaxAudiobookResume": "Maximale resterende duur in minuten:"
+    "LabelMaxAudiobookResumeHelp": "Titels worden als afgespeeld beschouwd indien gestopt na deze tijd.",
+    "LabelMaxAudiobookResume": "Maximale resterende duur in minuten:",
+    "MessagePlaybackError": "Er was een error tijdens het afspelen van dit bestand op uw Google Cast.",
+    "MessageChromecastConnectionError": "Uw Google Cast kan niet verbinden met de Jellyfin server. Controleer de verbinding en probeer opnieuw.",
+    "LabelMinAudiobookResumeHelp": "Titels worden als niet afgespeeld beschouwd indien gestopt voor deze tijd."
 }
