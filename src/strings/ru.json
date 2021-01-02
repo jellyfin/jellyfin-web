@@ -1495,5 +1495,11 @@
     "LabelSyncPlayResumePlaybackDescription": "Присоединиться снова к групповому воспроизведению",
     "LabelSyncPlayResumePlayback": "Возобновить локальное воспроизведение",
     "LabelSyncPlayHaltPlaybackDescription": "И игнорировать текущие обновления плей-листа",
-    "LabelSyncPlayHaltPlayback": "Остановить локальное воспроизведение"
+    "LabelSyncPlayHaltPlayback": "Остановить локальное воспроизведение",
+    "MessagePlaybackError": "При воспроизведении этого файла на ресивере Google Cast произошла ошибка.",
+    "MessageChromecastConnectionError": "Приёмник Google Cast не может связаться с Jellyfin-сервером. Проверьте соединение и попробуйте снова.",
+    "LabelMinAudiobookResumeHelp": "Произведения считаются не воспроизведенными, если они остановлены до этого времени.",
+    "LabelMinAudiobookResume": "Мин. возобновление аудиокниги, мин:",
+    "LabelMaxAudiobookResumeHelp": "Произведения считаются полностью воспроизведенными, если они остановлены после этого времени.",
+    "LabelMaxAudiobookResume": "Макс. возобновление аудиокниги, мин:"
 }
