@@ -2,6 +2,7 @@ import layoutManager from '../../components/layoutManager';
 import './emby-button.css';
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
+// TODO: replace with emby-button
 class EmbyButton extends HTMLButtonElement {
     constructor() {
         super();
