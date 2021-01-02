@@ -1499,5 +1499,7 @@
     "LabelMaxAudiobookResumeHelp": "如果在此时间之后停止播放，媒体会标记为“已播放”。",
     "LabelMinAudiobookResumeHelp": "如果在此时间之前停止播放，媒体会标记为“未播放”。",
     "LabelMinAudiobookResume": "恢复播放有声读物的最短时间：",
-    "LabelMaxAudiobookResume": "恢复播放有声读物的最长时间："
+    "LabelMaxAudiobookResume": "恢复播放有声读物的最长时间：",
+    "MessagePlaybackError": "在您的 Google Cast 接收器上播放此文件时发生错误。",
+    "MessageChromecastConnectionError": "您的 Google Cast 接收器无法联系 Jellyfin 服务器。请检查连接，然后重试。"
 }
