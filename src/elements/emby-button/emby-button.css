@@ -9,12 +9,6 @@
     font-family: inherit;
     color: inherit;
     background: transparent;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    box-sizing: border-box;
-    margin: 0 0.29em;
-    background: transparent;
     min-width: initial;
     min-height: initial;
     width: auto;
@@ -23,7 +17,6 @@
     /* These are getting an outline in opera tv browsers, which run chrome 30 */
     outline: none !important;
     overflow: hidden;
-    outline: none !important;
     outline-width: 0;
     -moz-user-select: none;
     -ms-user-select: none;
