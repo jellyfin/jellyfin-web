@@ -1495,5 +1495,8 @@
     "LabelSyncPlayResumePlaybackDescription": "Doe mee met groepsweergave",
     "LabelSyncPlayResumePlayback": "Hervat lokaal afspelen",
     "LabelSyncPlayHaltPlaybackDescription": "En negeer de huidige afspeellijstupdates",
-    "LabelSyncPlayHaltPlayback": "Stop lokaal afspelen"
+    "LabelSyncPlayHaltPlayback": "Stop lokaal afspelen",
+    "LabelMinAudiobookResume": "Minimale resterende duur van luisterboek:",
+    "LabelMaxAudiobookResumeHelp": "Boek zal worden aangenomen als klaar, na dit tijdstip.",
+    "LabelMaxAudiobookResume": "Maximale resterende duur in minuten:"
 }
