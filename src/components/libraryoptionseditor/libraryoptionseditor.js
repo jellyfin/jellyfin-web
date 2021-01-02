@@ -76,9 +76,9 @@ import template from './libraryoptionseditor.template.html';
             html += '</h3>';
             html += '</div>';
             if (i > 0) {
-                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_up"></span></button>`;
+                html += `<button type="button" is="emby-button" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_up"></span></button>`;
             } else if (plugins.length > 1) {
-                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_down"></span></button>`;
+                html += `<button type="button" is="emby-button" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_down"></span></button>`;
             }
             html += '</div>';
         }
@@ -132,9 +132,9 @@ import template from './libraryoptionseditor.template.html';
             html += '</h3>';
             html += '</div>';
             if (index > 0) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up"></span></button>';
+                html += '<button type="button" is="emby-button" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up"></span></button>';
             } else if (plugins.length > 1) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down"></span></button>';
+                html += '<button type="button" is="emby-button" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down"></span></button>';
             }
             html += '</div>';
         });
@@ -198,9 +198,9 @@ import template from './libraryoptionseditor.template.html';
             html += '</h3>';
             html += '</div>';
             if (i > 0) {
-                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_up"></span></button>`;
+                html += `<button type="button" is="emby-button" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_up"></span></button>`;
             } else if (plugins.length > 1) {
-                html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_down"></span></button>`;
+                html += `<button type="button" is="emby-button" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_down"></span></button>`;
             }
             html += '</div>';
         }
@@ -237,9 +237,9 @@ import template from './libraryoptionseditor.template.html';
             html += '</h3>';
             html += '</div>';
             if (i > 0) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_up"></span></button>';
+                html += '<button type="button" is="emby-button" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_up"></span></button>';
             } else if (plugins.length > 1) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_down"></span></button>';
+                html += '<button type="button" is="emby-button" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_down"></span></button>';
             }
             html += '</div>';
         }

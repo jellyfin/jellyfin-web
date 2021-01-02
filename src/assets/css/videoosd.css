@@ -235,7 +235,7 @@
 }
 
 @media all and (max-width: 33.75em) {
-    .videoOsdBottom .paper-icon-button-light {
+    .videoOsdBottom .emby-button {
         margin: 0;
     }
 }

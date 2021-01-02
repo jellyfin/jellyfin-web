@@ -8,6 +8,7 @@
     font-size: inherit;
     font-family: inherit;
     color: inherit;
+    background: transparent;
 
     /* These are getting an outline in opera tv browsers, which run chrome 30 */
     outline: none !important;

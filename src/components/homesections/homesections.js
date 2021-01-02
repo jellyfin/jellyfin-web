@@ -5,7 +5,7 @@ import imageLoader from '../images/imageLoader';
 import globalize from '../../scripts/globalize';
 import { appRouter } from '../appRouter';
 import imageHelper from '../../scripts/imagehelper';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-button/emby-linkbutton';

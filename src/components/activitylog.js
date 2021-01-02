@@ -44,7 +44,7 @@ import alert from './alert';
         html += '</div>';
 
         if (entry.Overview) {
-            html += `<button type="button" is="paper-icon-button-light" class="btnEntryInfo" data-id="${entry.Id}" title="${globalize.translate('Info')}">
+            html += `<button type="button" is="emby-button" class="btnEntryInfo" data-id="${entry.Id}" title="${globalize.translate('Info')}">
                        <span class="material-icons info"></span>
                     </button>`;
         }

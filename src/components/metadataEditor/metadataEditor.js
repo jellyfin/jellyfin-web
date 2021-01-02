@@ -12,7 +12,7 @@ import '../../elements/emby-select/emby-select';
 import '../listview/listview.css';
 import '../../elements/emby-textarea/emby-textarea';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import '../../assets/css/clearbutton.scss';
 import '../../assets/css/flexstyles.scss';
@@ -460,7 +460,7 @@ import template from './metadataEditor.template.html';
             html += '</div>';
 
             if (formatString) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser"></span></button>';
+                html += '<button type="button" is="emby-button" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser"></span></button>';
             }
             html += '</div>';
 
@@ -896,7 +896,7 @@ import template from './metadataEditor.template.html';
 
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="emby-button" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><span class="material-icons delete"></span></button>';
 
             html += '</div>';
         }
@@ -931,7 +931,7 @@ import template from './metadataEditor.template.html';
             html += '</button>';
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="emby-button" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete"></span></button>';
 
             html += '</div>';
         }

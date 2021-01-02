@@ -310,7 +310,7 @@ import confirm from '../../components/confirm/confirm';
 
         if (virtualFolder.showMenu !== false) {
             html += '<div style="text-align:right; float:right;padding-top:5px;">';
-            html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert"></span></button>';
+            html += '<button type="button" is="emby-button" class="btnCardMenu autoSize"><span class="material-icons more_vert"></span></button>';
             html += '</div>';
         }
 

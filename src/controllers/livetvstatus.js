@@ -41,7 +41,7 @@ function getDeviceHtml(device) {
     html += '</div>';
     html += '</div>';
     html += '<div class="cardFooter visualCardBox-cardFooter">';
-    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><span class="material-icons more_vert"></span></button>';
+    html += '<button is="emby-button" class="itemAction btnCardOptions autoSize" data-action="menu"><span class="material-icons more_vert"></span></button>';
     html += '<div class="cardText">' + (device.FriendlyName || getTunerName(device.Type)) + '</div>';
     html += '<div class="cardText cardText-secondary">';
     html += device.Url || '&nbsp;';
@@ -120,7 +120,7 @@ function renderProviders(page, providers) {
             html += '</div>';
             html += '</a>';
             html += '</div>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnOptions" data-id="' + provider.Id + '"><span class="material-icons listItemAside more_vert"></span></button>';
+            html += '<button type="button" is="emby-button" class="btnOptions" data-id="' + provider.Id + '"><span class="material-icons listItemAside more_vert"></span></button>';
             html += '</div>';
         }
 

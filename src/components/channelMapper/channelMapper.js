@@ -4,7 +4,7 @@ import loading from '../loading/loading';
 import globalize from '../../scripts/globalize';
 import actionsheet from '../actionSheet/actionSheet';
 import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/emby-button';
 import '../listview/listview.css';
 import 'material-design-icons-iconfont';
@@ -85,7 +85,7 @@ export default class channelMapper {
 
             html += '</div>';
             html += '</div>';
-            html += `<button class="btnMap autoSize" is="paper-icon-button-light" type="button" data-id="${channel.Id}" data-providerid="${channel.ProviderChannelId}"><span class="material-icons mode_edit"></span></button>`;
+            html += `<button class="btnMap autoSize" is="emby-button" type="button" data-id="${channel.Id}" data-providerid="${channel.ProviderChannelId}"><span class="material-icons mode_edit"></span></button>`;
             return html += '</div>';
         }
 
@@ -127,7 +127,7 @@ export default class channelMapper {
             let html = '';
             const title = globalize.translate('MapChannels');
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<button is="emby-button" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">';
             html += title;
             html += '</h3>';

@@ -1,12 +1,12 @@
 import './emby-scrollbuttons.css';
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
-import '../emby-button/paper-icon-button-light';
+import '../emby-button/emby-button';
 
 function getScrollButtonHtml(direction) {
     let html = '';
     const icon = direction === 'left' ? 'chevron_left' : 'chevron_right';
 
-    html += '<button type="button" is="paper-icon-button-light" data-ripple="false" data-direction="' + direction + '" class="emby-scrollbuttons-button">';
+    html += '<button type="button" is="emby-button" data-ripple="false" data-direction="' + direction + '" class="emby-scrollbuttons-button">';
     html += '<span class="material-icons ' + icon + '"></span>';
     html += '</button>';
 

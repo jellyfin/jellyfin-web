@@ -408,7 +408,7 @@ function getArtistLinksHtml(artists, serverId, context) {
             itemType: 'MusicArtist',
             serverId: serverId
         });
-        html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + artist.Name + '</a>');
+        html.push('<a class="button-link" is="emby-linkbutton" href="' + href + '">' + artist.Name + '</a>');
     }
 
     return html.join(' / ');
@@ -441,7 +441,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push('<a class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
     } else if (item.IsSeries || item.EpisodeTitle) {
         parentNameHtml.push(item.Name);
     }
@@ -456,7 +456,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
+        parentNameHtml.push('<a class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
     } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
         parentRoute = appRouter.getRouteUrl({
             Id: item.SeasonId,
@@ -467,7 +467,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
+        parentNameHtml.push('<a class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
         parentNameHtml.push(item.SeasonName || 'S' + item.ParentIndexNumber);
     } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
@@ -480,7 +480,7 @@ function renderName(item, container, context) {
         }, {
             context: context
         });
-        parentNameHtml.push('<a style="color:inherit;" class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
+        parentNameHtml.push('<a class="button-link" tabindex="-1" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
     } else if (item.Album) {
         parentNameHtml.push(item.Album);
     }
@@ -984,7 +984,7 @@ function renderGenres(page, item, context = inferContext(item)) {
     const type = context === 'music' ? 'MusicGenre' : 'Genre';
 
     const html = genres.map(function (p) {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+        return '<a class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
             Name: p.Name,
             Type: type,
             ServerId: item.ServerId,
@@ -1013,7 +1013,7 @@ function renderWriter(page, item, context) {
     });
 
     const html = writers.map(function (person) {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+        return '<a class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
             Name: person.Name,
             Type: 'Person',
             ServerId: item.ServerId,
@@ -1042,7 +1042,7 @@ function renderDirector(page, item, context) {
     });
 
     const html = directors.map(function (person) {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+        return '<a class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
             Name: person.Name,
             Type: 'Person',
             ServerId: item.ServerId,

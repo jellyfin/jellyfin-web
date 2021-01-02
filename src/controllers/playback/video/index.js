@@ -16,7 +16,7 @@ import * as userSettings from '../../../scripts/settings/userSettings';
 import keyboardnavigation from '../../../scripts/keyboardNavigation';
 import '../../../assets/css/scrollstyles.css';
 import '../../../elements/emby-slider/emby-slider';
-import '../../../elements/emby-button/paper-icon-button-light';
+import '../../../elements/emby-button/emby-button';
 import '../../../assets/css/videoosd.css';
 import ServerConnections from '../../../components/ServerConnections';
 import shell from '../../../scripts/shell';

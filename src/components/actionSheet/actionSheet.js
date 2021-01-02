@@ -141,7 +141,7 @@ export function show(options) {
     }
 
     if (layoutManager.tv) {
-        html += `<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1">
+        html += `<button is="emby-button" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1">
                      <span class="material-icons arrow_back"></span>
                  </button>`;
     }

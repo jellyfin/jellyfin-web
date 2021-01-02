@@ -4,7 +4,7 @@ import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
 import '../listview/listview.css';
 import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import './directorybrowser.css';
 import '../formdialog.css';
 import '../../elements/emby-button/emby-button';
@@ -126,7 +126,7 @@ import alert from '../alert';
         html += `<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ${readOnlyAttribute} label="${globalize.translate(labelKey)}"/>`;
         html += '</div>';
         if (!readOnlyAttribute) {
-            html += `<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="${globalize.translate('Refresh')}"><span class="material-icons search"></span></button>`;
+            html += `<button type="button" is="emby-button" class="btnRefreshDirectories emby-input-iconbutton" title="${globalize.translate('Refresh')}"><span class="material-icons search"></span></button>`;
         }
         html += '</div>';
         if (!readOnlyAttribute) {
@@ -273,7 +273,7 @@ import alert from '../alert';
 
                         let html = '';
                         html += '<div class="formDialogHeader">';
-                        html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+                        html += '<button is="emby-button" class="btnCloseDialog autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
                         html += '<h3 class="formDialogHeaderTitle">';
                         html += options.header || globalize.translate('HeaderSelectPath');
                         html += '</h3>';

@@ -58,9 +58,9 @@ import '../../../elements/emby-button/emby-linkbutton';
             html += '</a>';
             html += '</div>';
             if (task.State === 'Running') {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStop') + '"><span class="material-icons stop"></span></button>';
+                html += '<button type="button" is="emby-button" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStop') + '"><span class="material-icons stop"></span></button>';
             } else if (task.State === 'Idle') {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStart') + '"><span class="material-icons play_arrow"></span></button>';
+                html += '<button type="button" is="emby-button" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate('ButtonStart') + '"><span class="material-icons play_arrow"></span></button>';
             }
             html += '</div>';
         }

@@ -92,7 +92,7 @@ import toast from '../../../components/toast/toast';
             li += '<h3 class="listItemBodyText">' + h.Name + ': ' + (h.Value || '') + '</h3>';
             li += '<div class="listItemBodyText secondary">' + (h.Match || '') + '</div>';
             li += '</div>';
-            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteIdentificationHeader listItemButton" data-index="' + index + '"><span class="material-icons delete"></span></button>';
+            li += '<button type="button" is="emby-button" class="btnDeleteIdentificationHeader listItemButton" data-index="' + index + '"><span class="material-icons delete"></span></button>';
             li += '</div>';
             index++;
             return li;
@@ -147,7 +147,7 @@ import toast from '../../../components/toast/toast';
             li += '<div class="listItemBody">';
             li += '<h3 class="listItemBodyText">' + h.Name + ' = ' + (h.Value || '') + '</h3>';
             li += '</div>';
-            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteXmlAttribute listItemButton" data-index="0"><span class="material-icons delete"></span></button>';
+            li += '<button type="button" is="emby-button" class="btnDeleteXmlAttribute listItemButton" data-index="0"><span class="material-icons delete"></span></button>';
             return li += '</div>';
         }).join('') + '</div>';
         const elem = $('.xmlDocumentAttributeList', page).html(html).trigger('create');
@@ -189,7 +189,7 @@ import toast from '../../../components/toast/toast';
             li += '<div class="listItemBody">';
             li += '<h3 class="listItemBodyText">' + (h.Format || '') + '</h3>';
             li += '</div>';
-            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-index="' + index + '"><span class="material-icons delete"></span></button>';
+            li += '<button type="button" is="emby-button" class="btnDeleteProfile listItemButton" data-index="' + index + '"><span class="material-icons delete"></span></button>';
             li += '</div>';
             index++;
             return li;
@@ -279,7 +279,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + index + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="emby-button" class="btnDeleteProfile listItemButton" data-profileindex="' + index + '"><span class="material-icons delete"></span></button>';
             html += '</div>';
         }
 
@@ -340,7 +340,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="emby-button" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
             html += '</div>';
         }
 
@@ -424,7 +424,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="emby-button" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
             html += '</div>';
         }
 
@@ -496,7 +496,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="emby-button" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
             html += '</div>';
         }
 
@@ -576,7 +576,7 @@ import toast from '../../../components/toast/toast';
             }
 
             html += '</a>';
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="emby-button" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><span class="material-icons delete"></span></button>';
             html += '</div>';
         }
 

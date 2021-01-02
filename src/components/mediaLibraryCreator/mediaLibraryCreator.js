@@ -12,7 +12,7 @@ import 'jquery';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-toggle/emby-toggle';
@@ -128,7 +128,7 @@ import template from './mediaLibraryCreator.template.html';
         }
 
         html += '</div>';
-        html += `<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle"></span></button>`;
+        html += `<button type="button" is="emby-button"" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle"></span></button>`;
         html += '</div>';
         return html;
     }

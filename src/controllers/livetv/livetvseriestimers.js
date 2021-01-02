@@ -1,7 +1,6 @@
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import loading from '../../components/loading/loading';
-import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
 
 function renderTimers(context, timers) {

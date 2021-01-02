@@ -14,7 +14,7 @@ import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import 'material-design-icons-iconfont';
 import '../cardbuilder/card.css';

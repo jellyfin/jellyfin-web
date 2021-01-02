@@ -5,7 +5,7 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import { appRouter } from '../../components/appRouter';
 import './style.css';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import { Events } from 'jellyfin-apiclient';
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 
@@ -161,7 +161,7 @@ export class PdfPlayer {
             let html = '';
             html += '<canvas id="canvas"></canvas>';
             html += '<div class="actionButtons">';
-            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><i class="material-icons actionButtonIcon close"></i></button>';
+            html += '<button is="emby-button" class="autoSize btnExit" tabindex="-1"><i class="material-icons actionButtonIcon close"></i></button>';
             html += '</div>';
 
             elem.id = 'pdfPlayer';

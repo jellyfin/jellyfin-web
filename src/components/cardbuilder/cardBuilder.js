@@ -18,7 +18,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import itemShortcuts from '../shortcuts';
 import imageHelper from '../../scripts/imagehelper';
 import './card.css';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../guide/programs.css';
 import ServerConnections from '../ServerConnections';
 
@@ -785,7 +785,7 @@ import ServerConnections from '../ServerConnections';
 
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
                 if (options.cardFooterAside !== 'none') {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><span class="material-icons more_vert"></span></button>';
+                    html += '<button is="emby-button" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><span class="material-icons more_vert"></span></button>';
                 }
             }
 
@@ -1300,15 +1300,15 @@ import ServerConnections from '../ServerConnections';
                 const btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
+                    overlayButtons += '<button is="emby-button" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
                 }
 
                 if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
+                    overlayButtons += '<button is="emby-button" class="' + btnCssClass + '" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
                 }
 
                 if (options.overlayMoreButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon more_vert"></span></button>';
+                    overlayButtons += '<button is="emby-button" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon more_vert"></span></button>';
                 }
             }
 
@@ -1444,10 +1444,10 @@ import ServerConnections from '../ServerConnections';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
 
-            const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
+            const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction emby-button';
 
             if (playbackManager.canPlay(item)) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></span></button>';
+                html += '<button is="emby-button" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></span></button>';
             }
 
             html += '<div class="cardOverlayButton-br flex">';
@@ -1468,7 +1468,7 @@ import ServerConnections from '../ServerConnections';
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';
+            html += '<button is="emby-button" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';
             html += '</div>';
             html += '</div>';
 

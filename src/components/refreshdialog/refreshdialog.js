@@ -5,7 +5,7 @@ import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
@@ -120,7 +120,7 @@ class RefreshDialog {
         const title = globalize.translate('RefreshMetadata');
 
         html += '<div class="formDialogHeader">';
-        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+        html += '<button is="emby-button" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
         html += '<h3 class="formDialogHeaderTitle">';
         html += title;
         html += '</h3>';

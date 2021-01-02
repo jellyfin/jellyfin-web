@@ -9,7 +9,7 @@ import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
@@ -242,7 +242,7 @@ import ServerConnections from '../ServerConnections';
             const title = globalize.translate('HeaderAddToPlaylist');
 
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<button is="emby-button" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">';
             html += title;
             html += '</h3>';

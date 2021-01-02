@@ -11,7 +11,7 @@ import { appHost } from '../apphost';
 import '../cardbuilder/card.css';
 import '../formdialog.css';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import './imageeditor.css';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
@@ -163,23 +163,23 @@ import template from './imageeditor.template.html';
 
             if (image.ImageType === 'Backdrop' || image.ImageType === 'Screenshot') {
                 if (index > 0) {
-                    html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left"></span></button>';
+                    html += '<button type="button" is="emby-button" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left"></span></button>';
                 } else {
-                    html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left"></span></button>';
+                    html += '<button type="button" is="emby-button" class="autoSize" disabled title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left"></span></button>';
                 }
 
                 if (index < numImages - 1) {
-                    html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex + 1) + '" title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right"></span></button>';
+                    html += '<button type="button" is="emby-button" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex + 1) + '" title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right"></span></button>';
                 } else {
-                    html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right"></span></button>';
+                    html += '<button type="button" is="emby-button" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right"></span></button>';
                 }
             } else {
                 if (imageProviders.length) {
-                    html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><span class="material-icons search"></span></button>';
+                    html += '<button type="button" is="emby-button" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><span class="material-icons search"></span></button>';
                 }
             }
 
-            html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : 'null') + '" class="btnDeleteImage autoSize" title="' + globalize.translate('Delete') + '"><span class="material-icons delete"></span></button>';
+            html += '<button type="button" is="emby-button" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : 'null') + '" class="btnDeleteImage autoSize" title="' + globalize.translate('Delete') + '"><span class="material-icons delete"></span></button>';
             html += '</div>';
         }
 

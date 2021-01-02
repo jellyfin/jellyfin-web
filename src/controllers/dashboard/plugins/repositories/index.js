@@ -70,7 +70,7 @@ function getRepositoryHtml(repository) {
     html += `<h3 class="listItemBodyText">${repository.Name}</h3>`;
     html += `<div class="listItemBodyText secondary">${repository.Url}</div>`;
     html += '</div>';
-    html += `<button type="button" is="paper-icon-button-light" id="${repository.Url}" class="btnDelete" title="${globalize.translate('Delete')}"><span class="material-icons delete"></span></button>`;
+    html += `<button type="button" is="emby-button" id="${repository.Url}" class="btnDelete" title="${globalize.translate('Delete')}"><span class="material-icons delete"></span></button>`;
     html += '</div>';
 
     return html;
@@ -116,7 +116,7 @@ export default function(view, params) {
         let html = '';
 
         html += '<div class="formDialogHeader">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+        html += '<button type="button" is="emby-button" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
         html += `<h3 class="formDialogHeaderTitle">${globalize.translate('HeaderNewRepository')}</h3>`;
         html += '</div>';
         html += '<form class="newPluginForm" style="margin:4em">';

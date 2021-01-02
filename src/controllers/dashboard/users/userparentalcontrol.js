@@ -4,7 +4,7 @@ import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import globalize from '../../../scripts/globalize';
 import '../../../components/listview/listview.css';
-import '../../../elements/emby-button/paper-icon-button-light';
+import '../../../elements/emby-button/emby-button';
 import toast from '../../../components/toast/toast';
 
 /* eslint-disable indent */
@@ -114,7 +114,7 @@ import toast from '../../../components/toast/toast';
             li += h;
             li += '</h3>';
             li += '</div>';
-            li += '<button type="button" is="paper-icon-button-light" class="blockedTag btnDeleteTag listItemButton" data-tag="' + h + '"><span class="material-icons delete"></span></button>';
+            li += '<button type="button" is="emby-button" class="blockedTag btnDeleteTag listItemButton" data-tag="' + h + '"><span class="material-icons delete"></span></button>';
             return li += '</div>';
         }).join('');
 
@@ -149,7 +149,7 @@ import toast from '../../../components/toast/toast';
             itemHtml += '</h3>';
             itemHtml += '<div class="listItemBodyText secondary">' + getDisplayTime(a.StartHour) + ' - ' + getDisplayTime(a.EndHour) + '</div>';
             itemHtml += '</div>';
-            itemHtml += '<button type="button" is="paper-icon-button-light" class="btnDelete listItemButton" data-index="' + index + '"><span class="material-icons delete"></span></button>';
+            itemHtml += '<button type="button" is="emby-button" class="btnDelete listItemButton" data-index="' + index + '"><span class="material-icons delete"></span></button>';
             itemHtml += '</div>';
             index++;
             return itemHtml;

@@ -112,7 +112,7 @@ import confirm from '../../../components/confirm/confirm';
 
             if (canEdit || canDelete(device.Id)) {
                 deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
-                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert"></span></button>';
+                deviceHtml += '<button type="button" is="emby-button" data-id="' + device.Id + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert"></span></button>';
                 deviceHtml += '</div>';
             }
 

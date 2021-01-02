@@ -1,6 +1,6 @@
 import dom from '../../scripts/dom';
 import recordingHelper from './recordinghelper';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/emby-button';
 import './recordingfields.css';
 import ServerConnections from '../ServerConnections';

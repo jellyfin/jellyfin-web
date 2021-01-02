@@ -9,7 +9,7 @@ import focusManager from '../focusManager';
 import layoutManager from '../layoutManager';
 import dom from '../../scripts/dom';
 import './style.css';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import 'material-design-icons-iconfont';
 
     const selectedButtonClass = 'alphaPickerButton-selected';
@@ -75,7 +75,7 @@ import 'material-design-icons-iconfont';
 
         html += `<div class="${rowClassName}">`;
         if (options.mode === 'keyboard') {
-            html += `<button data-value=" " is="paper-icon-button-light" class="${alphaPickerButtonClassName}"><span class="material-icons alphaPickerButtonIcon space_bar"></span></button>`;
+            html += `<button data-value=" " is="emby-button" class="${alphaPickerButtonClassName}"><span class="material-icons alphaPickerButtonIcon space_bar"></span></button>`;
         } else {
             letters = ['#'];
             html += mapLetters(letters, vertical).join('');
@@ -85,7 +85,7 @@ import 'material-design-icons-iconfont';
         html += mapLetters(letters, vertical).join('');
 
         if (options.mode === 'keyboard') {
-            html += `<button data-value="backspace" is="paper-icon-button-light" class="${alphaPickerButtonClassName}"><span class="material-icons alphaPickerButtonIcon backspace"></span></button>`;
+            html += `<button data-value="backspace" is="emby-button" class="${alphaPickerButtonClassName}"><span class="material-icons alphaPickerButtonIcon backspace"></span></button>`;
             html += '</div>';
 
             letters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];

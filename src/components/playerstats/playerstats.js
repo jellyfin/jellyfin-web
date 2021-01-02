@@ -1,5 +1,5 @@
 import { Events } from 'jellyfin-apiclient';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
@@ -26,7 +26,7 @@ import ServerConnections from '../ServerConnections';
         if (layoutManager.tv) {
             button = '';
         } else {
-            button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><span class="material-icons close"></span></button>';
+            button = '<button type="button" is="emby-button" class="playerStats-closeButton"><span class="material-icons close"></span></button>';
         }
 
         const contentClass = layoutManager.tv ? 'playerStats-content playerStats-content-tv' : 'playerStats-content';

@@ -13,7 +13,7 @@ import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
 import '../listview/listview.css';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import '../../elements/emby-toggle/emby-toggle';
 import '../../assets/css/flexstyles.scss';
@@ -119,7 +119,7 @@ import template from './mediaLibraryEditor.template.html';
         }
 
         html += '</div>';
-        html += `<button type="button" is="paper-icon-button-light" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle"></span></button>`;
+        html += `<button type="button" is="emby-button" class="listItemButton btnRemovePath" data-index="${index}"><span class="material-icons remove_circle"></span></button>`;
         html += '</div>';
         return html;
     }

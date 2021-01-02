@@ -1,7 +1,7 @@
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import itemHelper from '../itemHelper';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/emby-button';
 import './userdatabuttons.css';
@@ -20,7 +20,7 @@ function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCss
         buttonCssClass = buttonCssClass ? (buttonCssClass + ' mini') : 'mini';
     }
 
-    const is = style === 'fab' ? 'emby-button' : 'paper-icon-button-light';
+    const is = style === 'fab' ? 'emby-button' : 'emby-button';
     let className = style === 'fab' ? 'autoSize fab' : 'autoSize';
 
     if (buttonCssClass) {

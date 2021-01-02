@@ -6,7 +6,7 @@ import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 class EmbyButton extends HTMLButtonElement {
     constructor() {
         super();
-        this.classList.add('paper-icon-button-light');
+        this.classList.add('emby-button');
 
         if (layoutManager.tv) {
             this.classList.add('show-focus');
@@ -14,6 +14,6 @@ class EmbyButton extends HTMLButtonElement {
     }
 }
 
-customElements.define('paper-icon-button-light', EmbyButton, {
+customElements.define('emby-button', EmbyButton, {
     extends: 'button'
 });

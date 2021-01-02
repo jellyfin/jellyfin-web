@@ -11,7 +11,7 @@ import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
 import './style.css';
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import ServerConnections from '../ServerConnections';
 // eslint-disable-next-line import/named, import/namespace
 import { Swiper } from 'swiper/swiper-bundle.esm';
@@ -114,7 +114,7 @@ function getImgUrl(item, user) {
 function getIcon(icon, cssClass, canFocus, autoFocus) {
     const tabIndex = canFocus ? '' : ' tabindex="-1"';
     autoFocus = autoFocus ? ' autofocus' : '';
-    return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '"></span></button>';
+    return '<button is="emby-button" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '"></span></button>';
 }
 
 /**

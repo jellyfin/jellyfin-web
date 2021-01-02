@@ -8,7 +8,7 @@ import nowPlayingHelper from '../playback/nowplayinghelper';
 import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
 import itemContextMenu from '../itemContextMenu';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import ServerConnections from '../ServerConnections';
 import appFooter from '../appFooter/appFooter';
@@ -59,13 +59,13 @@ import { appRouter } from '../appRouter';
         // The onclicks are needed due to the return false above
         html += '<div class="nowPlayingBarCenter">';
 
-        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous"></span></button>';
+        html += '<button is="emby-button" class="previousTrackButton mediaButton"><span class="material-icons skip_previous"></span></button>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
+        html += '<button is="emby-button" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
 
-        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><span class="material-icons stop"></span></button>';
+        html += '<button is="emby-button" class="stopButton mediaButton"><span class="material-icons stop"></span></button>';
         if (!layoutManager.mobile) {
-            html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
+            html += '<button is="emby-button" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
         }
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
@@ -73,23 +73,23 @@ import { appRouter } from '../appRouter';
 
         html += '<div class="nowPlayingBarRight">';
 
-        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><span class="material-icons volume_up"></span></button>';
+        html += '<button is="emby-button" class="muteButton mediaButton"><span class="material-icons volume_up"></span></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat"></span></button>';
-        html += '<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle"></span></button>';
+        html += '<button is="emby-button" class="toggleRepeatButton mediaButton"><span class="material-icons repeat"></span></button>';
+        html += '<button is="emby-button" class="btnShuffleQueue mediaButton"><span class="material-icons shuffle"></span></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
+        html += '<button is="emby-button" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
         if (layoutManager.mobile) {
-            html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
+            html += '<button is="emby-button" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
         } else {
-            html += '<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton"><span class="material-icons more_vert"></span></button>';
+            html += '<button is="emby-button" class="btnToggleContextMenu mediaButton"><span class="material-icons more_vert"></span></button>';
         }
 
         html += '</div>';
@@ -571,7 +571,7 @@ import { appRouter } from '../appRouter';
                             });
                         });
                     }
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton emby-button" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
                 });
             }
         } else {

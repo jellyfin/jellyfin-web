@@ -8,7 +8,7 @@ import focusManager from '../focusManager';
 import dom from '../../scripts/dom';
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.css';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import 'material-design-icons-iconfont';
 import './subtitleeditor.css';
@@ -115,7 +115,7 @@ function fillSubtitleList(context, item) {
 
             if (!layoutManager.tv) {
                 if (s.Path) {
-                    itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete"></span></button>';
+                    itemHtml += '<button is="emby-button" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete"></span></button>';
                 }
             }
 
@@ -222,7 +222,7 @@ function renderSearchResults(context, results) {
         html += '</div>';
 
         if (!layoutManager.tv) {
-            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><span class="material-icons file_download"></span></button>';
+            html += '<button type="button" is="emby-button" data-subid="' + result.Id + '" class="btnDownload listItemButton"><span class="material-icons file_download"></span></button>';
         }
 
         html += '</' + tagName + '>';

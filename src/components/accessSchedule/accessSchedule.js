@@ -10,7 +10,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import datetime from '../../scripts/datetime';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-select/emby-select';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import template from './accessSchedule.template.html';
 

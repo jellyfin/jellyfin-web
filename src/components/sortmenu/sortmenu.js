@@ -3,7 +3,7 @@ import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-select/emby-select';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
 import '../../elements/emby-button/emby-button';
@@ -63,7 +63,7 @@ class SortMenu {
             let html = '';
 
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<button is="emby-button" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">${Sort}</h3>';
 
             html += '</div>';

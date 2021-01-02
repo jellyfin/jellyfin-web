@@ -2,7 +2,6 @@ import '../elements/emby-button/emby-button';
 import '../elements/emby-button/emby-linkbutton';
 import '../elements/emby-input/emby-input';
 import '../scripts/livetvcomponents';
-import '../elements/emby-button/paper-icon-button-light';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-collapse/emby-collapse';
 import '../elements/emby-select/emby-select';

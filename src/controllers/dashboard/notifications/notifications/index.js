@@ -40,7 +40,7 @@ function reload(page) {
             itemHtml += '<div class="listItemBody">';
             itemHtml += '<div class="listItemBodyText">' + notification.Name + '</div>';
             itemHtml += '</div>';
-            itemHtml += '<button type="button" is="paper-icon-button-light"><span class="material-icons mode_edit"></span></button>';
+            itemHtml += '<button type="button" is="emby-button"><span class="material-icons mode_edit"></span></button>';
             itemHtml += '</a>';
             return itemHtml;
         }).join('');

@@ -520,6 +520,10 @@
     color: inherit;
 }
 
+.detailsGroupItem a {
+    color: inherit;
+}
+
 .personBackdrop {
     background-size: contain;
 }

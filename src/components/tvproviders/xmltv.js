@@ -4,7 +4,7 @@ import globalize from '../../scripts/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../listview/listview.css';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import Dashboard from '../../scripts/clientUtils';
 import { Events } from 'jellyfin-apiclient';
 

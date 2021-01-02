@@ -76,7 +76,7 @@ import confirm from '../../../components/confirm/confirm';
                 }
 
                 html += '</div>';
-                html += '<button class="btnDeleteTrigger" data-index="' + i + '" type="button" is="paper-icon-button-light" title="' + globalize.translate('Delete') + '"><span class="material-icons delete"></span></button>';
+                html += '<button class="btnDeleteTrigger" data-index="' + i + '" type="button" is="emby-button" title="' + globalize.translate('Delete') + '"><span class="material-icons delete"></span></button>';
                 html += '</div>';
             }
 

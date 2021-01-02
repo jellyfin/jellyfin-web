@@ -8,7 +8,7 @@ import '../../assets/css/scrollstyles.css';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-collapse/emby-collapse';
 import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../formdialog.css';
 import './recordingcreator.css';
 import 'material-design-icons-iconfont';

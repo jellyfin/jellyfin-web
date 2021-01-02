@@ -9,7 +9,7 @@ import imageLoader from '../images/imageLoader';
 import recordingFields from './recordingfields';
 import { Events } from 'jellyfin-apiclient';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import '../../elements/emby-input/emby-input';

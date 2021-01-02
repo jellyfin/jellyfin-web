@@ -8,7 +8,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.css';
@@ -228,7 +228,7 @@ class FilterMenu {
             let html = '';
 
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<button is="emby-button" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">${Filters}</h3>';
 
             html += '</div>';
