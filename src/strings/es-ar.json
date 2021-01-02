@@ -206,7 +206,7 @@
     "EnableNextVideoInfoOverlay": "Mostrar información del siguiente vídeo durante la reproducción",
     "EnableNextVideoInfoOverlayHelp": "Al final de un video, muestra información sobre el próximo video que aparece en la lista de reproducción actual.",
     "EnablePhotos": "Mostrar fotografías",
-    "EnablePhotosHelp": "Las Imágenes serán detectadas y se mostrarán junto a otros archivos de medios",
+    "EnablePhotosHelp": "Las Imágenes serán detectadas y se mostrarán junto a otros archivos de medios.",
     "EnableStreamLooping": "Repetir automáticamente transmisiones en vivo",
     "EnableStreamLoopingHelp": "Habilita esto sí las transmisiones en vivo sólo contienen unos cuantos segundos y es necesario solicitarlos continuamente. Habilitar esto cuando no es necesario puede causar problemas.",
     "EnableThemeSongsHelp": "Reproducir canciones temáticas en segundo plano mientras se navega por la biblioteca.",
@@ -531,7 +531,7 @@
     "LabelFailed": "Fallido",
     "LabelExtractChaptersDuringLibraryScanHelp": "Genere imágenes de capítulos cuando se importen videos durante el escaneo de la biblioteca. De lo contrario, se extraerán durante la tarea programada de las imágenes de los capítulos, lo que permitirá que el análisis de la biblioteca regular se complete más rápido.",
     "LabelExtractChaptersDuringLibraryScan": "Extraer imágenes de capítulos durante el escaneo de la biblioteca",
-    "LabelBaseUrlHelp": "Agregue un subdirectorio personalizado a la URL del servidor. Por ejemplo: <code>http://example.com/<b><baseurl></b> </code>",
+    "LabelBaseUrlHelp": "Agregue un subdirectorio personalizado a la URL del servidor. Por ejemplo: <code>http://ejemplo.com/<b>&lt;baseurl&gt;</b></code>",
     "LabelBaseUrl": "URL base:",
     "LabelEveryXMinutes": "Cada:",
     "LabelEvent": "Evento:",
@@ -1171,7 +1171,7 @@
     "RememberMe": "Recuérdame",
     "ButtonCast": "Transmitir",
     "ButtonSyncPlay": "SyncPlay",
-    "EnableBlurHashHelp": "Las imágenes que aún se están cargando se mostrarán con un marcador de posición borroso",
+    "EnableBlurHashHelp": "Las imágenes que aún se están cargando se mostrarán con un marcador de posición único.",
     "EnableBlurHash": "Habilitar marcadores de posición borrosos para imágenes",
     "OnApplicationStartup": "En el inicio de la aplicación",
     "EveryXHours": "Cada {0} horas",
@@ -1499,5 +1499,7 @@
     "LabelMinAudiobookResumeHelp": "Se asume que los títulos no se reproducen si se detienen antes de este tiempo.",
     "LabelMinAudiobookResume": "Reanudación mínima de audiolibros en minutos:",
     "LabelMaxAudiobookResumeHelp": "Se asume que los títulos están completamente reproducidos si se detienen después de este tiempo.",
-    "LabelMaxAudiobookResume": "Reanudación máxima de audiolibros en minutos:"
+    "LabelMaxAudiobookResume": "Reanudación máxima de audiolibros en minutos:",
+    "MessagePlaybackError": "Se produjo un error al reproducir este archivo en su receptor Google Cast.",
+    "MessageChromecastConnectionError": "Su receptor de Google Cast no puede comunicarse con el servidor de Jellyfin. Compruebe la conexión y vuelve a intentarlo."
 }
