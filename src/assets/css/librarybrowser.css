@@ -210,6 +210,7 @@
     margin: 0 !important;
     -webkit-border-radius: 0 !important;
     border-radius: 0 !important;
+    justify-content: start;
 }
 
 .navMenuOptionIcon {

@@ -20,7 +20,6 @@ function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCss
         buttonCssClass = buttonCssClass ? (buttonCssClass + ' mini') : 'mini';
     }
 
-    const is = style === 'fab' ? 'emby-button' : 'emby-button';
     let className = style === 'fab' ? 'autoSize fab' : 'autoSize';
 
     if (buttonCssClass) {
@@ -35,7 +34,7 @@ function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCss
 
     iconCssClass += 'material-icons';
 
-    return '<button title="' + tooltip + '" data-itemid="' + itemId + '" data-serverid="' + serverId + '" is="' + is + '" data-method="' + method + '" class="' + className + '"><span class="' + iconCssClass + ' ' + icon + '"></span></button>';
+    return '<button title="' + tooltip + '" data-itemid="' + itemId + '" data-serverid="' + serverId + '" is="emby-button" data-method="' + method + '" class="' + className + '"><span class="' + iconCssClass + ' ' + icon + '"></span></button>';
 }
 
 function onContainerClick(e) {

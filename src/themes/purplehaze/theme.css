@@ -74,10 +74,6 @@ html {
     background-color: rgba(0, 164, 220, 0.2);
 }
 
-.emby-button.show-focus:focus {
-    color: #ff77f1;
-}
-
 progress {
     border-radius: 0.4em;
 }
@@ -450,7 +446,7 @@ a[data-role=button] {
 }
 
 .emby-button.show-focus:focus {
-    background: #8ae9c1;
+    background: #ff77f1;
     color: #f8f8fe;
 }
 
@@ -460,7 +456,7 @@ a[data-role=button] {
 }
 
 .mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__focus-circle {
-    background: #00a4dc;
+    background: #ff77f1;
 }
 
 .emby-tab-button {

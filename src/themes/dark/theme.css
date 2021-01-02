@@ -66,10 +66,6 @@ html {
     background-color: rgba(0, 164, 220, 0.2);
 }
 
-.emby-button.show-focus:focus {
-    color: #00a4dc;
-}
-
 .fab,
 .raised {
     background: #303030;
