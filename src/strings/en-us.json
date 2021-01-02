@@ -683,6 +683,8 @@
     "LabelManufacturer": "Manufacturer:",
     "LabelManufacturerUrl": "Manufacturer URL",
     "LabelMatchType": "Match type:",
+    "LabelMaxAudiobookResume": "Maximum Audiobook resume in minutes:",
+    "LabelMaxAudiobookResumeHelp": "Titles are assumed fully played if stopped after this time.",
     "LabelMaxBackdropsPerItem": "Maximum number of backdrops per item:",
     "LabelMaxChromecastBitrate": "Chromecast streaming quality:",
     "LabelMaxMuxingQueueSize": "Max muxing queue size:",
@@ -705,6 +707,8 @@
     "LabelMetadataSavers": "Metadata savers:",
     "LabelMetadataSaversHelp": "Choose the file formats to use when saving your metadata.",
     "LabelMethod": "Method:",
+    "LabelMinAudiobookResume": "Minimum Audiobook resume in minutes:",
+    "LabelMinAudiobookResumeHelp": "Titles are assumed unplayed if stopped before this time.",
     "LabelMinBackdropDownloadWidth": "Minimum backdrop download width:",
     "LabelMinResumeDuration": "Minimum resume duration:",
     "LabelMinResumeDurationHelp": "The shortest video length in seconds that will save playback location and let you resume.",
@@ -1491,5 +1495,7 @@
     "YoutubeBadRequest": "Bad request.",
     "YoutubePlaybackError": "Requested video cannot be played.",
     "YoutubeNotFound": "Video not found.",
-    "YoutubeDenied": "Requested video is not allowed to be played in embedded players."
+    "YoutubeDenied": "Requested video is not allowed to be played in embedded players.",
+    "MessageChromecastConnectionError": "Your Google Cast receiver is unable to contact the Jellyfin server. Please check the connection and try again.",
+    "MessagePlaybackError": "There was an error playing this file on your Google Cast receiver."
 }

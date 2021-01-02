@@ -1510,5 +1510,11 @@
     "LabelSyncPlayResumePlayback": "உள்ளூர் பின்னணியை மீண்டும் தொடங்குங்கள்",
     "LabelSyncPlayHaltPlaybackDescription": "தற்போதைய பிளேலிஸ்ட் புதுப்பிப்புகளை புறக்கணிக்கவும்",
     "LabelSyncPlayHaltPlayback": "உள்ளூர் பின்னணியை நிறுத்துங்கள்",
-    "LabelDashboardTheme": "சேவையக டாஷ்போர்டு தீம்:"
+    "LabelDashboardTheme": "சேவையக டாஷ்போர்டு தீம்:",
+    "LabelMinAudiobookResumeHelp": "இந்த நேரத்திற்கு முன் நிறுத்தப்பட்டால் தலைப்புகள் காட்டப்படாது என்று கருதப்படுகிறது.",
+    "LabelMinAudiobookResume": "குறைந்தபட்ச ஒலிப்புத்தகம் மறுதொடக்கம் (நிமிடங்களில்):",
+    "LabelMaxAudiobookResumeHelp": "இந்த நேரத்திற்குப் பிறகு நிறுத்தப்பட்டால் தலைப்புகள் முழுமையாக விளையாடப்படும் என்று கருதப்படுகிறது.",
+    "LabelMaxAudiobookResume": "அதிகபட்ச ஒலிப்புத்தகம் மறுதொடக்கம் (நிமிடங்களில்):",
+    "MessagePlaybackError": "உங்கள் Google Cast ரிசீவரில் இந்த கோப்பை இயக்குவதில் பிழை ஏற்பட்டது.",
+    "MessageChromecastConnectionError": "உங்கள் Google Cast ரிசீவரை ஜெல்லிஃபின் சேவையகத்துடன் தொடர்பு கொள்ள முடியவில்லை. இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்."
 }

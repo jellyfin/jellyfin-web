@@ -1495,5 +1495,11 @@
     "LabelSyncPlayResumePlaybackDescription": "Tham gia nhóm phát lại",
     "LabelSyncPlayResumePlayback": "Tiếp tục phát lại cục bộ",
     "LabelSyncPlayHaltPlaybackDescription": "Và bỏ qua các cập nhật danh sách phát hiện tại",
-    "LabelSyncPlayHaltPlayback": "Dừng phát lại cục bộ"
+    "LabelSyncPlayHaltPlayback": "Dừng phát lại cục bộ",
+    "LabelMinAudiobookResumeHelp": "Tiêu đề được coi là chưa phát nếu dừng trước thời gian này.",
+    "LabelMinAudiobookResume": "Tiếp tục Sách nói tối thiểu sau vài phút:",
+    "LabelMaxAudiobookResumeHelp": "Các tiêu đề được coi là phát đầy đủ nếu dừng sau thời gian này.",
+    "LabelMaxAudiobookResume": "Tiếp tục Sách nói tối đa trong vài phút:",
+    "MessagePlaybackError": "Đã xảy ra lỗi khi phát tệp này trên bộ thu Google Cast của bạn.",
+    "MessageChromecastConnectionError": "Bộ thu Google Cast của bạn không thể kết nối với máy chủ Jellyfin. Vui lòng kiểm tra kết nối và thử lại."
 }
