@@ -1431,5 +1431,8 @@
     "HeaderPortRanges": "Configurações de Firewall e Proxy",
     "HeaderNetworking": "Protocolos IP",
     "HeaderAutoDiscovery": "Descoberta de Rede",
-    "HeaderAddUser": "Adicionar Usuário"
+    "HeaderAddUser": "Adicionar Usuário",
+    "HeaderUploadSubtitle": "Carregar Legenda",
+    "HeaderDebugging": "Depuração e Rastreamento",
+    "HeaderAddUpdateSubtitle": "Adicionar/Atualizar Legenda"
 }
