@@ -872,5 +872,7 @@
     "Overview": "Özet",
     "MoreMediaInfo": "Medya Bilgisi",
     "MediaInfoAspectRatio": "En/Boy oranı",
-    "RefreshMetadata": "Metaveriyi yenile"
+    "RefreshMetadata": "Metaveriyi yenile",
+    "ButtonPlayer": "Oyuncu",
+    "ButtonCast": "Oyuncular"
 }
