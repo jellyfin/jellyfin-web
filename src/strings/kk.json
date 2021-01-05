@@ -1387,5 +1387,16 @@
     "EnableQuickConnect": "Osy serverde Quick Connect qosý",
     "EnableFasterAnimationsHelp": "Jyldam anımasıalar men aýysýlardy paıdalaný",
     "EnableBlurHash": "Keskіnder úshіn bulyńǵyr toltyrǵyshtardy qosý",
-    "ApiKeysCaption": "Aǵymdaǵy qosylǵan API-kіltterdiń tіzіmі"
+    "ApiKeysCaption": "Aǵymdaǵy qosylǵan API-kіltterdiń tіzіmі",
+    "LabelMaxAudiobookResume": "Dybys kіtaptyń eń kóp jalǵastyrylýy, mın:",
+    "LabelKnownProxies": "Belgili proksıler:",
+    "LabelHDHomerunPortRange": "HD Homerun porttarynyń aýqymy:",
+    "LabelH265Crf": "H265 kodtaý CRF máni:",
+    "LabelEnableSSDPTracing": "SSDP qadaǵalaýyn qosý:",
+    "LabelEnableIP6Help": "IPv6 múmkindikterin qosady.",
+    "LabelEnableIP4Help": "IPv4 múmkindikterin qosady.",
+    "EnableDetailsBannerHelp": "Baner sýretіn tarmaq egjeıleri betіnіń joǵarysynda beıneleý.",
+    "EnableDecodingColorDepth10Vp9": "VP9 úshіn 10-bıttіk apparattyq kodsyzdandyrýdy qosý",
+    "EnableDecodingColorDepth10Hevc": "HEVC úshіn 10-bıttіk apparattyq kodsyzdandyrýdy qosý",
+    "DeleteDevicesConfirmation": "Shynymen barlyq qurylǵylardy joıý qajet pe? Barlyq qalǵan seanstar aıaqtalady. Paıdalanýshy kelesі kіrgen kezde qurylǵylar qaıta paıda bolady."
 }
