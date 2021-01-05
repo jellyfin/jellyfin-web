@@ -1,5 +1,15 @@
 {
     "ButtonSyncPlay": "SyncPlay",
     "AccessRestrictedTryAgainLater": "ابھی آپ یہ استعمال نہیں کر سکتے۔ کچھ دیر بعد کوشش کریںَ",
-    "Absolute": "سارا"
+    "Absolute": "سارا",
+    "Folders": "فولڈرز",
+    "Favorites": "پسندیدہ",
+    "Add": "شامل",
+    "Actor": "اداکار",
+    "MediaInfoChannels": "چینلز",
+    "LabelSelectAudioChannels": "چینلز",
+    "Channels": "چینلز",
+    "Collections": "مجموعہ",
+    "Books": "کتابیں",
+    "Albums": "البمز"
 }
