@@ -5,7 +5,7 @@
         font-style: $style;
         font-display: swap;
         font-weight: $weight;
-        src: url($url) format("woff2");
+        src: local($family), url($url) format("woff2");
         unicode-range: $range;
     }
 }
