@@ -240,6 +240,9 @@ browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') 
 if (!browser.tizen) {
     browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
 } else {
+    // UserAgent string contains 'Safari' and 'safari' is set by matched browser, but we only want 'tizen' to be true
+    delete browser.safari;
+
     const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
     browser.tizenVersion = parseInt(v[1]);
 }
