@@ -697,9 +697,9 @@ function reloadFromItem(instance, page, params, item, user) {
     const itemBirthLocation = page.querySelector('#itemBirthLocation');
 
     if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
-        const location = item.ProductionLocations[0];
+        let location = item.ProductionLocations[0];
         if (!layoutManager.tv && appHost.supports('externallinks')) {
-            gmap = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${location}</a>`;
+            location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${location}</a>`;
         }
         itemBirthLocation.classList.remove('hide');
         itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', location);
