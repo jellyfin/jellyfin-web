@@ -9,14 +9,9 @@
     font-family: inherit;
     color: inherit;
     background: transparent;
-    min-width: initial;
-    min-height: initial;
-    width: auto;
-    height: auto;
 
     /* These are getting an outline in opera tv browsers, which run chrome 30 */
     outline: none !important;
-    overflow: hidden;
     outline-width: 0;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -38,7 +33,6 @@
     line-height: 1.35;
     transform-origin: center;
     transition: 0.2s;
-    justify-content: center;
 }
 
 .emby-button.show-focus:focus {
@@ -69,11 +63,6 @@
 .emby-button > .material-icons {
     /* For non-fab buttons that have icons */
     font-size: 1.66956521739130434em;
-
-    /* Make sure its on top of the ripple */
-    position: relative;
-    z-index: 1;
-    vertical-align: middle;
 }
 
 .button-link > .material-icons {

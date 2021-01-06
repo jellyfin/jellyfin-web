@@ -1,6 +1,7 @@
 .homeLibraryButton {
     min-width: 18%;
     margin: 0.5em !important;
+    padding: 1em;
 }
 
 @media all and (max-width: 50em) {
