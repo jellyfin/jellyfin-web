@@ -182,7 +182,7 @@
     "EnableThemeSongsHelp": "Taqyryptyq áýender tasyǵyshhanany sholý kezinde  óńde oınatylady.",
     "EnableThemeVideosHelp": "Taqyryptyq beıneler tasyǵyshhanany sholý kezinde óńde oınatylady.",
     "Ended": "Aıaqtaldy",
-    "EndsAtValue": "Sońy: {0}",
+    "EndsAtValue": "Sońy {0} kezinde",
     "Episodes": "Bólimder",
     "ErrorAddingListingsToSchedulesDirect": "Schedules Direct tirkelgińizge tizbek ústeý kezinde qate oryn aldy. Schedules Direct tirkelgisinde tizbekterdiń tek qana shekteýli sany rýqsat etiledi. Oryndamas buryn Schedules Direct saıtyna kirip jáne tirkelgiden basqa tizbelerdi alastaý qajet bolýy múmkin.",
     "ErrorAddingMediaPathToVirtualFolder": "Tasyǵyshderekter jolyn ústegen kezinde qate oryn aldy. Jol durys ekenine jáne Jellyfin osy jaıǵasymǵa qatynaıtyna kóz jetkizińiz.",
