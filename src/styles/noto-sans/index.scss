@@ -1,5 +1,3 @@
-@use "sass:map";
-
 // Map font weight numbers to names
 $weight-names: (100: "Thin", 200: "ExtraLight", 300: "Light", 400: "Regular", 500: "Medium", 600: "SemiBold", 700: "Bold", 800: "ExtraBold", 900: "Black");
 
@@ -10,7 +8,7 @@ $weight-names: (100: "Thin", 200: "ExtraLight", 300: "Light", 400: "Regular", 50
         font-style: $style;
         font-display: swap;
         font-weight: $weight;
-        src: local($family), local("#{$family} #{map.get($weight-names, $weight)}"), url($url) format("woff2");
+        src: local($family), local("#{$family} #{map-get($weight-names, $weight)}"), url($url) format("woff2");
         unicode-range: $range;
     }
 }
