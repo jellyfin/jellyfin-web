@@ -363,7 +363,7 @@ button::-moz-focus-inner {
     font-weight: bold;
 }
 
-.cardImageContainer .cardImageIcon {
+.cardImageIcon {
     font-size: 5em;
     color: inherit;
 }
