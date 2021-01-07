@@ -821,14 +821,20 @@ class AppRouter {
                 url = '#!/tv.html?topParentId=' + item.Id;
 
                 if (options && options.section === 'latest') {
-                    url += '&tab=2';
+                    url += '&tab=1';
                 }
 
                 return url;
             }
 
             if (item.CollectionType == 'music') {
-                return '#!/music.html?topParentId=' + item.Id;
+                url = '#!/music.html?topParentId=' + item.Id;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
+
+                return url;
             }
         }
 
