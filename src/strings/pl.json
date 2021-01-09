@@ -1409,7 +1409,7 @@
     "LabelTonemappingRange": "Zakres mapowania tonów:",
     "LabelTonemappingPeakHelp": "Nadpisz peak sygnału/nominalny/referencyjny tą wartością. Przydatne gdy dołączone w metadanych informacje o peak nie są wiarygodne lub gdy mapowanie tonów zachodzi z niższego do wyższego zakresu. Zalecane i domyślne wartości to 100 i 0.",
     "LabelTonemappingPeak": "Peak mapowania tonów:",
-    "LabelTonemappingParamHelp": "Wyreguluj algorytm mapowania tonów. Zalecane i domyślne wartości to NaN. Ogólnie pozostaw puste.",
+    "LabelTonemappingParamHelp": "Wyreguluj algorytm mapowania tonów. Zalecane i domyślne wartości to NaN. Ogólnie pozostaw to puste.",
     "LabelTonemappingParam": "Parametry mapowania tonów:",
     "LabelTonemappingDesatHelp": "Zaaplikuj desaturację dla uwydatnień które przekraczają ten poziom jasności. Im wyższa wartość tym więcej informacji o kolorze zostanie zachowane. To ustawienie pomaga zapobiec nienaturalnie uwydatnionym kolorom (płynnie) przechodząc w biel. Uzyskane obrazy wyglądają bardziej naturalnie kosztem utraty informacji o kolorach poza skalą. Zalecane i domyślne wartości to 0 i 0.5.",
     "LabelTonemappingDesat": "Desaturacja mapowania tonów:",
@@ -1445,7 +1445,7 @@
     "AllowHevcEncoding": "Zezwól na kodowanie w formacie HEVC",
     "LabelSyncPlayInfo": "Informacje o SyncPlay",
     "LabelOriginalMediaInfo": "Informacje o oryginalnym pliku",
-    "LabelDirectStreamingInfo": "Informacje o Direct Streaming",
+    "LabelDirectStreamingInfo": "Informacje o bezpośrednim przesyłaniu strumieniowym",
     "LabelTranscodingInfo": "Informacje o transkodowaniu",
     "LabelVideoInfo": "Informacje o wideo",
     "LabelAudioInfo": "Informacje o dźwięku",
@@ -1454,7 +1454,7 @@
     "AspectRatioCover": "Okładka",
     "EnableFallbackFontHelp": "Włącz niestandardowe czcionki. Może pozwolić uniknąć problemów przy renderowaniu napisów.",
     "EnableFallbackFont": "Włącz czcionki rezerwowe",
-    "LabelFallbackFontPathHelp": "Sprecyzuj ścieżkę zawierającą rezerwowe czcionki dla renderowania napisów ASS/SSA. Maksymalny dozwolony rozmiar czcionki to 20MB. Lekkie i przyjazne dla sieci (web-friendly) formaty czcionek takie jak woff2 są zalecane.",
+    "LabelFallbackFontPathHelp": "Sprecyzuj ścieżkę zawierającą rezerwowe czcionki dla renderowania napisów ASS/SSA. Maksymalny dozwolony łączny rozmiar czcionki to 20MB. Lekkie i przyjazne dla sieci (web-friendly) formaty czcionek takie jak woff2 są zalecane.",
     "LabelFallbackFontPath": "Ścieżka folderu czcionki rezerwowej:",
     "HeaderSelectFallbackFontPathHelp": "Wyszukaj lub podaj ścieżkę folderu czcionki rezerwowej do użycia przy renderowaniu napisów ASS/SAA.",
     "HeaderSelectFallbackFontPath": "Wybierz Ścieżkę Foldery Czcionki Rezerwowej",
@@ -1498,5 +1498,8 @@
     "LabelCreateHttpPortMap": "Włącz automatyczne mapowanie portów dla ruchu http oraz https.",
     "LabelColorPrimaries": "Kolory podstawowe:",
     "LabelAutomaticDiscoveryHelp": "Zezwól aplikacjom na automatyczne wykrywanie serwera Jellyfin przy użyciu portu UDP 7359.",
-    "HeaderDebugging": "Debugowanie i Tracing"
+    "HeaderDebugging": "Debugowanie i Tracing",
+    "RemuxHelp1": "Nośnik znajduje się w niekompatybilnym kontenerze plików (MKV, AVI, WMV, itp.), ale zarówno strumień wideo, jak i strumień audio są zgodne z urządzeniem. Nośnik zostanie bezstratnie przepakowany w locie przed wysłaniem do urządzenia.",
+    "UseDoubleRateDeinterlacingHelp": "To ustawienie wykorzystuje szybkość pola podczas usuwania przeplotu, często określaną jako usuwanie przeplotu typu bob, która podwaja liczbę klatek na sekundę, aby zapewnić pełny ruch, taki jaki można zobaczyć podczas oglądania wideo z przeplotem na telewizorze.",
+    "LabelH265Crf": "CRF kodowania H265:"
 }
