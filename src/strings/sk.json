@@ -1495,5 +1495,11 @@
     "LabelSyncPlayResumePlaybackDescription": "Pripojiť sa späť ku skupinovému prehrávaniu",
     "LabelSyncPlayResumePlayback": "Pokračovať v lokálnom prehrávaní",
     "LabelSyncPlayHaltPlaybackDescription": "A ignorovať aktualizácie aktuálneho playlistu",
-    "LabelSyncPlayHaltPlayback": "Zastaviť lokálne prehrávanie"
+    "LabelSyncPlayHaltPlayback": "Zastaviť lokálne prehrávanie",
+    "MessagePlaybackError": "Nastala chyba pri prehrávaní tohoto súboru na vašom zariadení Google Cast.",
+    "MessageChromecastConnectionError": "Vášmu zariadeniu Google Cast sa nepodarilo kontaktovať Jellyfin server. Prosím, skontrolujte spojenie a skúste to znovu.",
+    "LabelMinAudiobookResumeHelp": "Tituly sú považované za neprehrané, pokiaľ sú zastavené pred týmto časom.",
+    "LabelMinAudiobookResume": "Minimálna dĺžka pre pokračovanie audiokníh v minútach:",
+    "LabelMaxAudiobookResumeHelp": "Tituly sú považované za prehrané, pokiaľ sú zastavené po tomto čase.",
+    "LabelMaxAudiobookResume": "Maximálna dĺžka pre pokračovanie audiokníh v minútach:"
 }
