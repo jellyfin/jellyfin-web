@@ -25,7 +25,7 @@ import confirm from '../../../components/confirm/confirm';
         confirm({
             text: msg,
             title: globalize.translate('HeaderDeleteDevices'),
-            confirmText: globalize.translate('ButtonDelete'),
+            confirmText: globalize.translate('Delete'),
             primary: 'delete'
         }).then(async () => {
             loading.show();
