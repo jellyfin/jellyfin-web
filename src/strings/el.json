@@ -61,11 +61,11 @@
     "ButtonLibraryAccess": "Πρόσβαση στη βιβλιοθήκη",
     "ButtonManualLogin": "Χειροκίνητη Είσοδος",
     "ButtonMore": "Περισσότερα",
-    "ButtonNextTrack": "Επομενο",
+    "ButtonNextTrack": "Επόμενο",
     "ButtonOpen": "Άνοιγμα",
     "ButtonParentalControl": "Γονικός έλεγχος",
     "ButtonPause": "Παύση",
-    "ButtonPreviousTrack": "Προηγουμενο",
+    "ButtonPreviousTrack": "Προηγούμενο",
     "ButtonQuickStartGuide": "Οδηγός Γρήγορης Εκκίνησης",
     "ButtonRefreshGuideData": "Ανανέωση Δεδομένων Οδηγού",
     "ButtonRemove": "Κατάργηση",
@@ -82,7 +82,7 @@
     "ButtonSignOut": "Έξοδος",
     "ButtonStart": "Έναρξη",
     "ButtonStop": "Διακοπή",
-    "ButtonSubmit": "υποβολή",
+    "ButtonSubmit": "Yποβολή",
     "ButtonTrailer": "Τρέϊλερ",
     "ButtonUninstall": "Απεγκατάσταση",
     "ButtonWebsite": "Ιστοσελίδα",
@@ -1062,5 +1062,8 @@
     "DeleteAll": "Διαγραφή Ολων",
     "DeleteDevicesConfirmation": "Είστε βέβαιοι ότι θέλετε να διαγράψετε όλες τις συσκευές; Όλες οι άλλες συνεδρίες θα αποσυνδεθούν. Οι συσκευές θα ξαναεμφανιστούν την επόμενη φορά που ένας χρήστης θα συνδεθεί με αυτές.",
     "ClearQueue": "Καθαρισμός ουράς",
-    "ApiKeysCaption": "Λίστα με τα τρέχοντα ενεργοποιημένα κλειδιά API"
+    "ApiKeysCaption": "Λίστα με τα τρέχοντα ενεργοποιημένα κλειδιά API",
+    "DailyAt": "Καθημερινά στις",
+    "ButtonPlayer": "Player",
+    "ButtonCast": "Μετάδοση"
 }
