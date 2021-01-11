@@ -1,3 +1,4 @@
+
 /* eslint-disable indent */
 
 /**
@@ -5,12 +6,13 @@
  * @module components/accessSchedule/accessSchedule
  */
 
-import dialogHelper from 'dialogHelper';
-import datetime from 'datetime';
-import globalize from 'globalize';
-import 'emby-select';
-import 'paper-icon-button-light';
-import 'formDialogStyle';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import datetime from '../../scripts/datetime';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import template from './accessSchedule.template.html';
 
     function getDisplayTime(hours) {
         let minutes = 0;
@@ -59,33 +61,31 @@ import 'formDialogStyle';
 
     export function show(options) {
         return new Promise((resolve, reject) => {
-            import('text!./accessSchedule.template.html').then(({default: template}) => {
-                const dlg = dialogHelper.createDialog({
-                    removeOnClose: true,
-                    size: 'small'
-                });
-                dlg.classList.add('formDialog');
-                let html = '';
-                html += globalize.translateHtml(template);
-                dlg.innerHTML = html;
-                populateHours(dlg);
-                loadSchedule(dlg, options.schedule);
-                dialogHelper.open(dlg);
-                dlg.addEventListener('close', () => {
-                    if (dlg.submitted) {
-                        resolve(options.schedule);
-                    } else {
-                        reject();
-                    }
-                });
-                dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                    dialogHelper.close(dlg);
-                });
-                dlg.querySelector('form').addEventListener('submit', event => {
-                    submitSchedule(dlg, options);
-                    event.preventDefault();
-                    return false;
-                });
+            const dlg = dialogHelper.createDialog({
+                removeOnClose: true,
+                size: 'small'
+            });
+            dlg.classList.add('formDialog');
+            let html = '';
+            html += globalize.translateHtml(template);
+            dlg.innerHTML = html;
+            populateHours(dlg);
+            loadSchedule(dlg, options.schedule);
+            dialogHelper.open(dlg);
+            dlg.addEventListener('close', () => {
+                if (dlg.submitted) {
+                    resolve(options.schedule);
+                } else {
+                    reject();
+                }
+            });
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                dialogHelper.close(dlg);
+            });
+            dlg.querySelector('form').addEventListener('submit', event => {
+                submitSchedule(dlg, options);
+                event.preventDefault();
+                return false;
             });
         });
     }

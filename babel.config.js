@@ -1,0 +1,20 @@
+module.exports = {
+    babelrcRoots: [
+        // Keep the root as a root
+        '.'
+    ],
+    presets: [
+        [
+            '@babel/preset-env',
+            {
+                useBuiltIns: 'usage',
+                corejs: 3
+            }
+        ]
+    ],
+    plugins: [
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-private-methods',
+        'babel-plugin-dynamic-import-polyfill'
+    ]
+};

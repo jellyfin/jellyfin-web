@@ -1,11 +1,8 @@
-import multiDownload from 'multi-download';
+import multiDownload from './multiDownload';
+import shell from './shell';
 
 export function download(items) {
-    if (window.NativeShell) {
-        items.map(function (item) {
-            window.NativeShell.downloadFile(item);
-        });
-    } else {
+    if (!shell.downloadFiles(items)) {
         multiDownload(items.map(function (item) {
             return item.url;
         }));

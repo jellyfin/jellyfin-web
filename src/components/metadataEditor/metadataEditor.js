@@ -1,21 +1,25 @@
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import dialogHelper from 'dialogHelper';
-import datetime from 'datetime';
-import loading from 'loading';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import shell from 'shell';
-import 'emby-checkbox';
-import 'emby-input';
-import 'emby-select';
-import 'listViewStyle';
-import 'emby-textarea';
-import 'emby-button';
-import 'paper-icon-button-light';
-import 'css!./../formdialog';
-import 'clearButtonStyle';
-import 'flexStyles';
+import dom from '../../scripts/dom';
+import layoutManager from '../layoutManager';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import datetime from '../../scripts/datetime';
+import loading from '../loading/loading';
+import focusManager from '../focusManager';
+import globalize from '../../scripts/globalize';
+import shell from '../../scripts/shell';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-select/emby-select';
+import '../listview/listview.css';
+import '../../elements/emby-textarea/emby-textarea';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import '../../assets/css/clearbutton.scss';
+import '../../assets/css/flexstyles.scss';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import { appRouter } from '../appRouter';
+import template from './metadataEditor.template.html';
 
 /* eslint-disable indent */
 
@@ -35,9 +39,7 @@ import 'flexStyles';
 
     function submitUpdatedItem(form, item) {
         function afterContentTypeUpdated() {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('MessageItemSaved'));
-            });
+            toast(globalize.translate('MessageItemSaved'));
 
             loading.hide();
             closeDialog(true);
@@ -207,7 +209,7 @@ import 'flexStyles';
     }
 
     function addElementToList(source, sortCallback) {
-        import('prompt').then(({default: prompt}) => {
+        import('../prompt/prompt').then(({default: prompt}) => {
             prompt({
                 label: 'Value:'
             }).then(function (text) {
@@ -225,7 +227,7 @@ import 'flexStyles';
     }
 
     function editPerson(context, person, index) {
-        import('personEditor').then(({default: personEditor}) => {
+        import('./personEditor').then(({default: personEditor}) => {
             personEditor.show(person).then(function (updatedPerson) {
                 const isNew = index === -1;
 
@@ -239,20 +241,18 @@ import 'flexStyles';
     }
 
     function afterDeleted(context, item) {
-        var parentId = item.ParentId || item.SeasonId || item.SeriesId;
+        const parentId = item.ParentId || item.SeasonId || item.SeriesId;
 
         if (parentId) {
             reload(context, parentId, item.ServerId);
         } else {
-            import('appRouter').then(({default: appRouter}) => {
-                appRouter.goHome();
-            });
+            appRouter.goHome();
         }
     }
 
     function showMoreMenu(context, button, user) {
-        import('itemContextMenu').then(({default: itemContextMenu}) => {
-            var item = currentItem;
+        import('../itemContextMenu').then(({default: itemContextMenu}) => {
+            const item = currentItem;
 
             itemContextMenu.show({
                 item: item,
@@ -289,7 +289,7 @@ import 'flexStyles';
     }
 
     function getApiClient() {
-        return window.connectionManager.getApiClient(currentItem.ServerId);
+        return ServerConnections.getApiClient(currentItem.ServerId);
     }
 
     function bindAll(elems, eventName, fn) {
@@ -369,7 +369,7 @@ import 'flexStyles';
     }
 
     function getItem(itemId, serverId) {
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         if (itemId) {
             return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
@@ -379,7 +379,7 @@ import 'flexStyles';
     }
 
     function getEditorConfig(itemId, serverId) {
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         if (itemId) {
             return apiClient.getJSON(apiClient.getUrl('Items/' + itemId + '/MetadataEditor'));
@@ -1020,7 +1020,7 @@ import 'flexStyles';
     }
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then(({default: scrollHelper}) => {
+        import('../../scripts/scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
@@ -1029,48 +1029,46 @@ import 'flexStyles';
     function show(itemId, serverId, resolve, reject) {
         loading.show();
 
-        import('text!./metadataEditor.template.html').then(({default: template}) => {
-            const dialogOptions = {
-                removeOnClose: true,
-                scrollY: false
-            };
+        const dialogOptions = {
+            removeOnClose: true,
+            scrollY: false
+        };
 
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
+
+        const dlg = dialogHelper.createDialog(dialogOptions);
+
+        dlg.classList.add('formDialog');
+
+        let html = '';
+
+        html += globalize.translateHtml(template, 'core');
+
+        dlg.innerHTML = html;
+
+        if (layoutManager.tv) {
+            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+        }
+
+        dialogHelper.open(dlg);
+
+        dlg.addEventListener('close', function () {
             if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
+                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }
 
-            const dlg = dialogHelper.createDialog(dialogOptions);
-
-            dlg.classList.add('formDialog');
-
-            let html = '';
-
-            html += globalize.translateHtml(template, 'core');
-
-            dlg.innerHTML = html;
-
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-            }
-
-            dialogHelper.open(dlg);
-
-            dlg.addEventListener('close', function () {
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                }
-
-                resolve();
-            });
-
-            currentContext = dlg;
-
-            init(dlg, window.connectionManager.getApiClient(serverId));
-
-            reload(dlg, itemId, serverId);
+            resolve();
         });
+
+        currentContext = dlg;
+
+        init(dlg, ServerConnections.getApiClient(serverId));
+
+        reload(dlg, itemId, serverId);
     }
 
     export default {
@@ -1084,21 +1082,19 @@ import 'flexStyles';
             return new Promise(function (resolve, reject) {
                 loading.show();
 
-                import('text!./metadataEditor.template.html').then(({default: template}) => {
-                    elem.innerHTML = globalize.translateHtml(template, 'core');
+                elem.innerHTML = globalize.translateHtml(template, 'core');
 
-                    elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
-                    elem.querySelector('.btnClose').classList.add('hide');
-                    elem.querySelector('.btnHeaderSave').classList.remove('hide');
-                    elem.querySelector('.btnCancel').classList.add('hide');
+                elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
+                elem.querySelector('.btnClose').classList.add('hide');
+                elem.querySelector('.btnHeaderSave').classList.remove('hide');
+                elem.querySelector('.btnCancel').classList.add('hide');
 
-                    currentContext = elem;
+                currentContext = elem;
 
-                    init(elem, window.connectionManager.getApiClient(serverId));
-                    reload(elem, itemId, serverId);
+                init(elem, ServerConnections.getApiClient(serverId));
+                reload(elem, itemId, serverId);
 
-                    focusManager.autoFocus(elem);
-                });
+                focusManager.autoFocus(elem);
             });
         }
     };

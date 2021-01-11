@@ -1,12 +1,12 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import events from 'events';
-import globalize from 'globalize';
-import serverNotifications from 'serverNotifications';
-import * as datefns from 'date-fns';
-import dfnshelper from 'dfnshelper';
-import 'listViewStyle';
-import 'emby-button';
+import 'jquery';
+import loading from '../../../components/loading/loading';
+import { Events } from 'jellyfin-apiclient';
+import globalize from '../../../scripts/globalize';
+import serverNotifications from '../../../scripts/serverNotifications';
+import { formatDistance, formatDistanceToNow } from 'date-fns';
+import { getLocale, localeWithSuffix } from '../../../scripts/dfnshelper';
+import '../../../components/listview/listview.css';
+import '../../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 
@@ -77,8 +77,8 @@ import 'emby-button';
             if (task.LastExecutionResult) {
                 const endtime = Date.parse(task.LastExecutionResult.EndTimeUtc);
                 const starttime = Date.parse(task.LastExecutionResult.StartTimeUtc);
-                html += globalize.translate('LabelScheduledTaskLastRan', datefns.formatDistanceToNow(endtime, dfnshelper.localeWithSuffix),
-                    datefns.formatDistance(starttime, endtime, { locale: dfnshelper.getLocale() }));
+                html += globalize.translate('LabelScheduledTaskLastRan', formatDistanceToNow(endtime, localeWithSuffix),
+                    formatDistance(starttime, endtime, { locale: getLocale() }));
                 if (task.LastExecutionResult.Status === 'Failed') {
                     html += " <span style='color:#FF0000;'>(" + globalize.translate('LabelFailed') + ')</span>';
                 } else if (task.LastExecutionResult.Status === 'Cancelled') {
@@ -177,7 +177,7 @@ import 'emby-button';
         });
 
         view.addEventListener('viewbeforehide', function() {
-            events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+            Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
             stopInterval();
         });
 
@@ -185,7 +185,7 @@ import 'emby-button';
             loading.show();
             startInterval();
             reloadList(view);
-            events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+            Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
         });
     }
 

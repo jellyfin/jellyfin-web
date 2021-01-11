@@ -1,32 +1,34 @@
-import inputManager from 'inputManager';
-import browser from 'browser';
-import globalize from 'globalize';
-import scrollHelper from 'scrollHelper';
-import serverNotifications from 'serverNotifications';
-import loading from 'loading';
-import datetime from 'datetime';
-import focusManager from 'focusManager';
-import playbackManager from 'playbackManager';
-import * as userSettings from 'userSettings';
-import imageLoader from 'imageLoader';
-import events from 'events';
-import layoutManager from 'layoutManager';
-import itemShortcuts from 'itemShortcuts';
-import dom from 'dom';
-import 'css!./guide.css';
-import 'programStyles';
-import 'material-icons';
-import 'scrollStyles';
-import 'emby-programcell';
-import 'emby-button';
-import 'paper-icon-button-light';
-import 'emby-tabs';
-import 'emby-scroller';
-import 'flexStyles';
-import 'webcomponents';
+import inputManager from '../../scripts/inputManager';
+import browser from '../../scripts/browser';
+import globalize from '../../scripts/globalize';
+import { Events } from 'jellyfin-apiclient';
+import scrollHelper from '../../scripts/scrollHelper';
+import serverNotifications from '../../scripts/serverNotifications';
+import loading from '../loading/loading';
+import datetime from '../../scripts/datetime';
+import focusManager from '../focusManager';
+import { playbackManager } from '../playback/playbackmanager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import imageLoader from '../images/imageLoader';
+import layoutManager from '../layoutManager';
+import itemShortcuts from '../shortcuts';
+import dom from '../../scripts/dom';
+import './guide.css';
+import './programs.css';
+import 'material-design-icons-iconfont';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-programcell/emby-programcell';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../assets/css/flexstyles.scss';
+import 'webcomponents.js/webcomponents-lite';
+import ServerConnections from '../ServerConnections';
+import template from './tvguide.template.html';
 
 function showViewSettings(instance) {
-    import('guide-settings-dialog').then(({default: guideSettingsDialog}) => {
+    import('./guide-settings').then(({default: guideSettingsDialog}) => {
         guideSettingsDialog.show(instance.categoryOptions).then(function () {
             instance.refresh();
         });
@@ -141,7 +143,6 @@ function Guide(options) {
     let autoRefreshInterval;
     let programCells;
     let lastFocusDirection;
-    let programGrid;
 
     self.refresh = function () {
         currentDate = null;
@@ -164,10 +165,10 @@ function Guide(options) {
     self.destroy = function () {
         stopAutoRefresh();
 
-        events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-        events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
+        Events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
+        Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
+        Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
 
         setScrollEvents(options.element, false);
         itemShortcuts.off(options.element);
@@ -212,7 +213,7 @@ function Guide(options) {
     }
 
     function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-        const apiClient = window.connectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
 
         const channelQuery = {
 
@@ -771,13 +772,13 @@ function Guide(options) {
     let lastGridScroll = 0;
     let lastHeaderScroll = 0;
     let scrollXPct = 0;
-    function onProgramGridScroll(context, elem, timeslotHeaders) {
+    function onProgramGridScroll(context, elem, headers) {
         if ((new Date().getTime() - lastHeaderScroll) >= 1000) {
             lastGridScroll = new Date().getTime();
 
             const scrollLeft = elem.scrollLeft;
             scrollXPct = (scrollLeft * 100) / elem.scrollWidth;
-            nativeScrollTo(timeslotHeaders, scrollLeft, true);
+            nativeScrollTo(headers, scrollLeft, true);
         }
 
         updateProgramCellsOnScroll(elem, programCells);
@@ -872,7 +873,7 @@ function Guide(options) {
     function reloadPage(page) {
         showLoading();
 
-        const apiClient = window.connectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
 
         apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
             setDateRange(page, guideInfo);
@@ -1001,7 +1002,7 @@ function Guide(options) {
             const item = items[id];
 
             if (item) {
-                events.trigger(self, 'focus', [
+                Events.trigger(self, 'focus', [
                     {
                         item: item
                     }]);
@@ -1091,107 +1092,105 @@ function Guide(options) {
         }
     }
 
-    import('text!./tvguide.template.html').then(({default: template}) => {
-        const context = options.element;
+    const guideContext = options.element;
 
-        context.classList.add('tvguide');
+    guideContext.classList.add('tvguide');
 
-        context.innerHTML = globalize.translateHtml(template, 'core');
+    guideContext.innerHTML = globalize.translateHtml(template, 'core');
 
-        programGrid = context.querySelector('.programGrid');
-        const timeslotHeaders = context.querySelector('.timeslotHeaders');
+    const programGrid = guideContext.querySelector('.programGrid');
+    const timeslotHeaders = guideContext.querySelector('.timeslotHeaders');
 
-        if (layoutManager.tv) {
-            dom.addEventListener(context.querySelector('.guideVerticalScroller'), 'focus', onScrollerFocus, {
-                capture: true,
-                passive: true
-            });
-        } else if (layoutManager.desktop) {
-            timeslotHeaders.classList.add('timeslotHeaders-desktop');
-        }
-
-        if (browser.iOS || browser.osx) {
-            context.querySelector('.channelsContainer').classList.add('noRubberBanding');
-
-            programGrid.classList.add('noRubberBanding');
-        }
-
-        dom.addEventListener(programGrid, 'scroll', function (e) {
-            onProgramGridScroll(context, this, timeslotHeaders);
-        }, {
+    if (layoutManager.tv) {
+        dom.addEventListener(guideContext.querySelector('.guideVerticalScroller'), 'focus', onScrollerFocus, {
+            capture: true,
             passive: true
         });
+    } else if (layoutManager.desktop) {
+        timeslotHeaders.classList.add('timeslotHeaders-desktop');
+    }
 
-        dom.addEventListener(timeslotHeaders, 'scroll', function () {
-            onTimeslotHeadersScroll(context, this);
-        }, {
-            passive: true
-        });
+    if (browser.iOS || browser.osx) {
+        guideContext.querySelector('.channelsContainer').classList.add('noRubberBanding');
 
-        programGrid.addEventListener('click', onProgramGridClick);
+        programGrid.classList.add('noRubberBanding');
+    }
 
-        context.querySelector('.btnNextPage').addEventListener('click', function () {
-            currentStartIndex += currentChannelLimit;
-            reloadPage(context);
-            restartAutoRefresh();
-        });
-
-        context.querySelector('.btnPreviousPage').addEventListener('click', function () {
-            currentStartIndex = Math.max(currentStartIndex - currentChannelLimit, 0);
-            reloadPage(context);
-            restartAutoRefresh();
-        });
-
-        context.querySelector('.btnGuideViewSettings').addEventListener('click', function () {
-            showViewSettings(self);
-            restartAutoRefresh();
-        });
-
-        context.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
-            const allTabButtons = e.target.querySelectorAll('.guide-date-tab-button');
-
-            const tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex)];
-            if (tabButton) {
-                const previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex)];
-
-                const date = new Date();
-                date.setTime(parseInt(tabButton.getAttribute('data-date')));
-
-                const scrollWidth = programGrid.scrollWidth;
-                let scrollToTimeMs;
-                if (scrollWidth) {
-                    scrollToTimeMs = (programGrid.scrollLeft / scrollWidth) * msPerDay;
-                } else {
-                    scrollToTimeMs = 0;
-                }
-
-                if (previousButton) {
-                    const previousDate = new Date();
-                    previousDate.setTime(parseInt(previousButton.getAttribute('data-date')));
-
-                    scrollToTimeMs += (previousDate.getHours() * 60 * 60 * 1000);
-                    scrollToTimeMs += (previousDate.getMinutes() * 60 * 1000);
-                }
-
-                let startTimeOfDayMs = (date.getHours() * 60 * 60 * 1000);
-                startTimeOfDayMs += (date.getMinutes() * 60 * 1000);
-
-                changeDate(context, date, scrollToTimeMs, scrollToTimeMs, startTimeOfDayMs, false);
-            }
-        });
-
-        setScrollEvents(context, true);
-        itemShortcuts.on(context);
-
-        events.trigger(self, 'load');
-
-        events.on(serverNotifications, 'TimerCreated', onTimerCreated);
-        events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
-
-        self.refresh();
+    dom.addEventListener(programGrid, 'scroll', function (e) {
+        onProgramGridScroll(guideContext, this, timeslotHeaders);
+    }, {
+        passive: true
     });
+
+    dom.addEventListener(timeslotHeaders, 'scroll', function () {
+        onTimeslotHeadersScroll(guideContext, this);
+    }, {
+        passive: true
+    });
+
+    programGrid.addEventListener('click', onProgramGridClick);
+
+    guideContext.querySelector('.btnNextPage').addEventListener('click', function () {
+        currentStartIndex += currentChannelLimit;
+        reloadPage(guideContext);
+        restartAutoRefresh();
+    });
+
+    guideContext.querySelector('.btnPreviousPage').addEventListener('click', function () {
+        currentStartIndex = Math.max(currentStartIndex - currentChannelLimit, 0);
+        reloadPage(guideContext);
+        restartAutoRefresh();
+    });
+
+    guideContext.querySelector('.btnGuideViewSettings').addEventListener('click', function () {
+        showViewSettings(self);
+        restartAutoRefresh();
+    });
+
+    guideContext.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
+        const allTabButtons = e.target.querySelectorAll('.guide-date-tab-button');
+
+        const tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex)];
+        if (tabButton) {
+            const previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex)];
+
+            const date = new Date();
+            date.setTime(parseInt(tabButton.getAttribute('data-date')));
+
+            const scrollWidth = programGrid.scrollWidth;
+            let scrollToTimeMs;
+            if (scrollWidth) {
+                scrollToTimeMs = (programGrid.scrollLeft / scrollWidth) * msPerDay;
+            } else {
+                scrollToTimeMs = 0;
+            }
+
+            if (previousButton) {
+                const previousDate = new Date();
+                previousDate.setTime(parseInt(previousButton.getAttribute('data-date')));
+
+                scrollToTimeMs += (previousDate.getHours() * 60 * 60 * 1000);
+                scrollToTimeMs += (previousDate.getMinutes() * 60 * 1000);
+            }
+
+            let startTimeOfDayMs = (date.getHours() * 60 * 60 * 1000);
+            startTimeOfDayMs += (date.getMinutes() * 60 * 1000);
+
+            changeDate(guideContext, date, scrollToTimeMs, scrollToTimeMs, startTimeOfDayMs, false);
+        }
+    });
+
+    setScrollEvents(guideContext, true);
+    itemShortcuts.on(guideContext);
+
+    Events.trigger(self, 'load');
+
+    Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
+    Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
+    Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
+    Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+
+    self.refresh();
 }
 
 export default Guide;

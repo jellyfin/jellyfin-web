@@ -1,8 +1,10 @@
-import events from 'events';
-import playbackManager from 'playbackManager';
-import pluginManager from 'pluginManager';
-import inputManager from 'inputManager';
-import * as userSettings from 'userSettings';
+import { Events } from 'jellyfin-apiclient';
+import { playbackManager } from '../components/playback/playbackmanager';
+import { pluginManager } from '../components/pluginManager';
+import inputManager from '../scripts/inputManager';
+import * as userSettings from '../scripts/settings/userSettings';
+import ServerConnections from '../components/ServerConnections';
+import './screensavermanager.css';
 
 function getMinIdleTime() {
     // Returns the minimum amount of idle time required before the screen saver can be displayed
@@ -16,7 +18,7 @@ function getFunctionalEventIdleTime() {
     return new Date().getTime() - lastFunctionalEvent;
 }
 
-events.on(playbackManager, 'playbackstop', function (e, stopInfo) {
+Events.on(playbackManager, 'playbackstop', function (e, stopInfo) {
     const state = stopInfo.state;
     if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
         lastFunctionalEvent = new Date().getTime();
@@ -52,6 +54,8 @@ function ScreenSaverManager() {
 
         console.debug('Showing screensaver ' + screensaver.name);
 
+        document.body.classList.add('screensaver-noScroll');
+
         screensaver.show();
         activeScreenSaver = screensaver;
 
@@ -69,7 +73,9 @@ function ScreenSaverManager() {
     function hide() {
         if (activeScreenSaver) {
             console.debug('Hiding screensaver');
-            activeScreenSaver.hide();
+            activeScreenSaver.hide().then(() => {
+                document.body.classList.remove('screensaver-noScroll');
+            });
             activeScreenSaver = null;
         }
 
@@ -84,7 +90,7 @@ function ScreenSaverManager() {
 
     this.show = function () {
         let isLoggedIn;
-        const apiClient = window.connectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
 
         if (apiClient && apiClient.isLoggedIn()) {
             isLoggedIn = true;

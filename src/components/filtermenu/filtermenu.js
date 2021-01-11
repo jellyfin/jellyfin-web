@@ -1,25 +1,27 @@
-import dom from 'dom';
-import focusManager from 'focusManager';
-import dialogHelper from 'dialogHelper';
-import inputManager from 'inputManager';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import * as userSettings from 'userSettings';
-import 'emby-checkbox';
-import 'emby-input';
-import 'paper-icon-button-light';
-import 'emby-select';
-import 'material-icons';
-import 'css!./../formdialog';
-import 'emby-button';
-import 'flexStyles';
+import dom from '../../scripts/dom';
+import focusManager from '../focusManager';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import inputManager from '../../scripts/inputManager';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-select/emby-select';
+import 'material-design-icons-iconfont';
+import '../formdialog.css';
+import '../../assets/css/flexstyles.scss';
+import ServerConnections from '../ServerConnections';
+import template from './filtermenu.template.html';
 
 function onSubmit(e) {
     e.preventDefault();
     return false;
 }
 function renderOptions(context, selector, cssClass, items, isCheckedFn) {
-    var elem = context.querySelector(selector);
+    const elem = context.querySelector(selector);
 
     if (items.length) {
         elem.classList.remove('hide');
@@ -27,12 +29,12 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
         elem.classList.add('hide');
     }
 
-    var html = '';
+    let html = '';
 
     html += items.map(function (filter) {
-        var itemHtml = '';
+        let itemHtml = '';
 
-        var checkedHtml = isCheckedFn(filter) ? ' checked' : '';
+        const checkedHtml = isCheckedFn(filter) ? ' checked' : '';
         itemHtml += '<label>';
         itemHtml += '<input is="emby-checkbox" type="checkbox"' + checkedHtml + ' data-filter="' + filter.Id + '" class="' + cssClass + '"/>';
         itemHtml += '<span>' + filter.Name + '</span>';
@@ -47,21 +49,21 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 function renderDynamicFilters(context, result, options) {
     renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
         // Switching from | to ,
-        var delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
+        const delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
         return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
     });
 }
 
 function setBasicFilter(context, key, elem) {
-    var value = elem.checked;
+    let value = elem.checked;
     value = value ? value : null;
     userSettings.setFilter(key, value);
 }
 function moveCheckboxFocus(elem, offset) {
-    var parent = dom.parentWithClass(elem, 'checkboxList-verticalwrap');
-    var elems = focusManager.getFocusableElements(parent);
+    const parent = dom.parentWithClass(elem, 'checkboxList-verticalwrap');
+    const elems = focusManager.getFocusableElements(parent);
 
-    var index = -1;
+    let index = -1;
     for (let i = 0, length = elems.length; i < length; i++) {
         if (elems[i] === elem) {
             index = i;
@@ -74,14 +76,14 @@ function moveCheckboxFocus(elem, offset) {
     index = Math.min(elems.length - 1, index);
     index = Math.max(0, index);
 
-    var newElem = elems[index];
+    const newElem = elems[index];
     if (newElem) {
         focusManager.focus(newElem);
     }
 }
 function centerFocus(elem, horiz, on) {
-    import('scrollHelper').then(({ default: scrollHelper }) => {
-        var fn = on ? 'on' : 'off';
+    import('../../scripts/scrollHelper').then((scrollHelper) => {
+        const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
 }
@@ -100,7 +102,7 @@ function onInputCommand(e) {
     }
 }
 function saveValues(context, settings, settingsKey) {
-    var elems = context.querySelectorAll('.simpleFilter');
+    let elems = context.querySelectorAll('.simpleFilter');
     for (let i = 0, length = elems.length; i < length; i++) {
         if (elems[i].tagName === 'INPUT') {
             setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
@@ -110,7 +112,7 @@ function saveValues(context, settings, settingsKey) {
     }
 
     // Video type
-    var videoTypes = [];
+    const videoTypes = [];
     elems = context.querySelectorAll('.chkVideoTypeFilter');
 
     for (let i = 0, length = elems.length; i < length; i++) {
@@ -121,7 +123,7 @@ function saveValues(context, settings, settingsKey) {
     userSettings.setFilter(settingsKey + '-filter-VideoTypes', videoTypes.join(','));
 
     // Series status
-    var seriesStatuses = [];
+    const seriesStatuses = [];
     elems = context.querySelectorAll('.chkSeriesStatus');
 
     for (let i = 0, length = elems.length; i < length; i++) {
@@ -131,7 +133,7 @@ function saveValues(context, settings, settingsKey) {
     }
 
     // Genres
-    var genres = [];
+    const genres = [];
     elems = context.querySelectorAll('.chkGenreFilter');
 
     for (let i = 0, length = elems.length; i < length; i++) {
@@ -142,7 +144,7 @@ function saveValues(context, settings, settingsKey) {
     userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
 }
 function bindCheckboxInput(context, on) {
-    var elems = context.querySelectorAll('.checkboxList-verticalwrap');
+    const elems = context.querySelectorAll('.checkboxList-verticalwrap');
     for (let i = 0, length = elems.length; i < length; i++) {
         if (on) {
             inputManager.on(elems[i], onInputCommand);
@@ -154,9 +156,9 @@ function bindCheckboxInput(context, on) {
 function initEditor(context, settings) {
     context.querySelector('form').addEventListener('submit', onSubmit);
 
-    var elems = context.querySelectorAll('.simpleFilter');
-    var i;
-    var length;
+    let elems = context.querySelectorAll('.simpleFilter');
+    let i;
+    let length;
 
     for (i = 0, length = elems.length; i < length; i++) {
         if (elems[i].tagName === 'INPUT') {
@@ -166,14 +168,14 @@ function initEditor(context, settings) {
         }
     }
 
-    var videoTypes = settings.VideoTypes ? settings.VideoTypes.split(',') : [];
+    const videoTypes = settings.VideoTypes ? settings.VideoTypes.split(',') : [];
     elems = context.querySelectorAll('.chkVideoTypeFilter');
 
     for (i = 0, length = elems.length; i < length; i++) {
         elems[i].checked = videoTypes.indexOf(elems[i].getAttribute('data-filter')) !== -1;
     }
 
-    var seriesStatuses = settings.SeriesStatus ? settings.SeriesStatus.split(',') : [];
+    const seriesStatuses = settings.SeriesStatus ? settings.SeriesStatus.split(',') : [];
     elems = context.querySelectorAll('.chkSeriesStatus');
 
     for (i = 0, length = elems.length; i < length; i++) {
@@ -193,9 +195,9 @@ function initEditor(context, settings) {
     }
 }
 function loadDynamicFilters(context, options) {
-    var apiClient = window.connectionManager.getApiClient(options.serverId);
+    const apiClient = ServerConnections.getApiClient(options.serverId);
 
-    var filterMenuOptions = Object.assign(options.filterMenuOptions, {
+    const filterMenuOptions = Object.assign(options.filterMenuOptions, {
 
         UserId: apiClient.getCurrentUserId(),
         ParentId: options.parentId,
@@ -209,75 +211,73 @@ function loadDynamicFilters(context, options) {
 class FilterMenu {
     show(options) {
         return new Promise( (resolve, reject) => {
-            import('text!./filtermenu.template.html').then(({ default: template }) => {
-                var dialogOptions = {
-                    removeOnClose: true,
-                    scrollY: false
-                };
-                if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
+            const dialogOptions = {
+                removeOnClose: true,
+                scrollY: false
+            };
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'small';
+            }
+
+            const dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('formDialog');
+
+            let html = '';
+
+            html += '<div class="formDialogHeader">';
+            html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+            html += '<h3 class="formDialogHeaderTitle">${Filters}</h3>';
+
+            html += '</div>';
+
+            html += template;
+
+            dlg.innerHTML = globalize.translateHtml(html, 'core');
+
+            const settingElements = dlg.querySelectorAll('.viewSetting');
+            for (let i = 0, length = settingElements.length; i < length; i++) {
+                if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
+                    settingElements[i].classList.add('hide');
                 } else {
-                    dialogOptions.size = 'small';
+                    settingElements[i].classList.remove('hide');
                 }
+            }
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+            initEditor(dlg, options.settings);
+            loadDynamicFilters(dlg, options);
 
-                dlg.classList.add('formDialog');
+            bindCheckboxInput(dlg, true);
+            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+                dialogHelper.close(dlg);
+            });
 
-                var html = '';
+            if (layoutManager.tv) {
+                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+            }
 
-                html += '<div class="formDialogHeader">';
-                html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
-                html += '<h3 class="formDialogHeaderTitle">${Filters}</h3>';
+            let submitted;
 
-                html += '</div>';
+            dlg.querySelector('form').addEventListener('change', function () {
+                submitted = true;
+            }, true);
 
-                html += template;
-
-                dlg.innerHTML = globalize.translateHtml(html, 'core');
-
-                var settingElements = dlg.querySelectorAll('.viewSetting');
-                for (let i = 0, length = settingElements.length; i < length; i++) {
-                    if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
-                        settingElements[i].classList.add('hide');
-                    } else {
-                        settingElements[i].classList.remove('hide');
-                    }
-                }
-
-                initEditor(dlg, options.settings);
-                loadDynamicFilters(dlg, options);
-
-                bindCheckboxInput(dlg, true);
-                dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                    dialogHelper.close(dlg);
-                });
+            dialogHelper.open(dlg).then( function() {
+                bindCheckboxInput(dlg, false);
 
                 if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }
 
-                var submitted;
-
-                dlg.querySelector('form').addEventListener('change', function () {
-                    submitted = true;
-                }, true);
-
-                dialogHelper.open(dlg).then( function() {
-                    bindCheckboxInput(dlg, false);
-
-                    if (layoutManager.tv) {
-                        centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                    }
-
-                    if (submitted) {
-                        //if (!options.onChange) {
-                        saveValues(dlg, options.settings, options.settingsKey);
-                        return resolve();
-                        //}
-                    }
+                if (submitted) {
+                    //if (!options.onChange) {
+                    saveValues(dlg, options.settings, options.settingsKey);
                     return resolve();
-                });
+                    //}
+                }
+                return resolve();
             });
         });
     }

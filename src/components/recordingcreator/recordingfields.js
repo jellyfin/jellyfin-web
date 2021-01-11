@@ -1,13 +1,16 @@
-import globalize from 'globalize';
-import serverNotifications from 'serverNotifications';
-import loading from 'loading';
-import dom from 'dom';
-import recordingHelper from 'recordingHelper';
-import events from 'events';
-import 'paper-icon-button-light';
-import 'emby-button';
-import 'css!./recordingfields';
-import 'flexStyles';
+import globalize from '../../scripts/globalize';
+import { Events } from 'jellyfin-apiclient';
+import serverNotifications from '../../scripts/serverNotifications';
+import loading from '../loading/loading';
+import dom from '../../scripts/dom';
+import recordingHelper from './recordinghelper';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import './recordingfields.css';
+import '../../assets/css/flexstyles.scss';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import template from './recordingfields.template.html';
 
 /*eslint prefer-const: "error"*/
 
@@ -45,7 +48,7 @@ function loadData(parent, program, apiClient) {
 
 function fetchData(instance) {
     const options = instance.options;
-    const apiClient = window.connectionManager.getApiClient(options.serverId);
+    const apiClient = ServerConnections.getApiClient(options.serverId);
 
     options.parent.querySelector('.recordingFields').classList.remove('hide');
     return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then(function (program) {
@@ -104,31 +107,29 @@ class RecordingEditor {
         const timerChangedHandler = onTimerChangedExternally.bind(this);
         this.timerChangedHandler = timerChangedHandler;
 
-        events.on(serverNotifications, 'TimerCreated', timerChangedHandler);
-        events.on(serverNotifications, 'TimerCancelled', timerChangedHandler);
+        Events.on(serverNotifications, 'TimerCreated', timerChangedHandler);
+        Events.on(serverNotifications, 'TimerCancelled', timerChangedHandler);
 
         const seriesTimerChangedHandler = onSeriesTimerChangedExternally.bind(this);
         this.seriesTimerChangedHandler = seriesTimerChangedHandler;
 
-        events.on(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
-        events.on(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
+        Events.on(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
+        Events.on(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
     }
 
     embed() {
         const self = this;
         return new Promise(function (resolve, reject) {
-            import('text!./recordingfields.template.html').then(({default: template}) => {
-                const options = self.options;
-                const context = options.parent;
-                context.innerHTML = globalize.translateHtml(template, 'core');
+            const options = self.options;
+            const context = options.parent;
+            context.innerHTML = globalize.translateHtml(template, 'core');
 
-                context.querySelector('.singleRecordingButton').addEventListener('click', onRecordChange.bind(self));
-                context.querySelector('.seriesRecordingButton').addEventListener('click', onRecordSeriesChange.bind(self));
-                context.querySelector('.btnManageRecording').addEventListener('click', onManageRecordingClick.bind(self));
-                context.querySelector('.btnManageSeriesRecording').addEventListener('click', onManageSeriesRecordingClick.bind(self));
+            context.querySelector('.singleRecordingButton').addEventListener('click', onRecordChange.bind(self));
+            context.querySelector('.seriesRecordingButton').addEventListener('click', onRecordSeriesChange.bind(self));
+            context.querySelector('.btnManageRecording').addEventListener('click', onManageRecordingClick.bind(self));
+            context.querySelector('.btnManageSeriesRecording').addEventListener('click', onManageSeriesRecordingClick.bind(self));
 
-                fetchData(self).then(resolve);
-            });
+            fetchData(self).then(resolve);
         });
     }
 
@@ -144,14 +145,14 @@ class RecordingEditor {
         const timerChangedHandler = this.timerChangedHandler;
         this.timerChangedHandler = null;
 
-        events.off(serverNotifications, 'TimerCreated', timerChangedHandler);
-        events.off(serverNotifications, 'TimerCancelled', timerChangedHandler);
+        Events.off(serverNotifications, 'TimerCreated', timerChangedHandler);
+        Events.off(serverNotifications, 'TimerCancelled', timerChangedHandler);
 
         const seriesTimerChangedHandler = this.seriesTimerChangedHandler;
         this.seriesTimerChangedHandler = null;
 
-        events.off(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
-        events.off(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
+        Events.off(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
+        Events.off(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
     }
 }
 
@@ -162,7 +163,7 @@ function onManageRecordingClick(e) {
     }
 
     const self = this;
-    import('recordingEditor').then(({default: recordingEditor}) => {
+    import('./recordingeditor').then(({default: recordingEditor}) => {
         recordingEditor.show(self.TimerId, options.serverId, {
             enableCancel: false
         }).then(function () {
@@ -180,7 +181,7 @@ function onManageSeriesRecordingClick(e) {
 
     const self = this;
 
-    import('seriesRecordingEditor').then(({default: seriesRecordingEditor}) => {
+    import('./seriesrecordingeditor').then(({default: seriesRecordingEditor}) => {
         seriesRecordingEditor.show(self.SeriesTimerId, options.serverId, {
 
             enableCancel: false
@@ -196,7 +197,7 @@ function onRecordChange(e) {
 
     const self = this;
     const options = this.options;
-    const apiClient = window.connectionManager.getApiClient(options.serverId);
+    const apiClient = ServerConnections.getApiClient(options.serverId);
 
     const button = dom.parentWithTag(e.target, 'BUTTON');
     const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
@@ -207,7 +208,7 @@ function onRecordChange(e) {
         if (!hasEnabledTimer) {
             loading.show();
             recordingHelper.createRecording(apiClient, options.programId, false).then(function () {
-                events.trigger(self, 'recordingchanged');
+                Events.trigger(self, 'recordingchanged');
                 fetchData(self);
                 loading.hide();
             });
@@ -216,7 +217,7 @@ function onRecordChange(e) {
         if (hasEnabledTimer) {
             loading.show();
             recordingHelper.cancelTimer(apiClient, this.TimerId, true).then(function () {
-                events.trigger(self, 'recordingchanged');
+                Events.trigger(self, 'recordingchanged');
                 fetchData(self);
                 loading.hide();
             });
@@ -225,9 +226,7 @@ function onRecordChange(e) {
 }
 
 function sendToast(msg) {
-    import('toast').then(({default: toast}) => {
-        toast(msg);
-    });
+    toast(msg);
 }
 
 function onRecordSeriesChange(e) {
@@ -235,7 +234,7 @@ function onRecordSeriesChange(e) {
 
     const self = this;
     const options = this.options;
-    const apiClient = window.connectionManager.getApiClient(options.serverId);
+    const apiClient = ServerConnections.getApiClient(options.serverId);
 
     const button = dom.parentWithTag(e.target, 'BUTTON');
     const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');

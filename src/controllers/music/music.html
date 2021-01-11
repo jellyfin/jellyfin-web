@@ -8,7 +8,26 @@
             }
         }
     </style>
-    <div class="pageTabContent pageTabContent" id="suggestionsTab" data-index="0">
+    <div class="pageTabContent pageTabContent" id="albumsTab" data-index="0">
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom">
+            <div class="paging"></div>
+            <button is="paper-icon-button-light" class="btnPlayAll musicglobalButton" title="${HeaderPlayAll}"><span class="material-icons play_arrow"></span></button>
+            <button is="paper-icon-button-light" class="btnShuffle musicglobalButton" title="${Shuffle}"><span class="material-icons shuffle"></span></button>
+            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy"></span></button>
+            <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha"></span></button>
+            <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_list"></span></button>
+        </div>
+
+        <div class="alphaPicker alphaPicker-fixed alphaPicker-vertical">
+        </div>
+
+        <div is="emby-itemscontainer" class="itemsContainer padded-left padded-right">
+        </div>
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom">
+            <div class="paging"></div>
+        </div>
+    </div>
+    <div class="pageTabContent pageTabContent" id="suggestionsTab" data-index="1">
 
         <div class="verticalSection">
 
@@ -33,25 +52,6 @@
         </div>
 
         <div class="favoriteSections verticalSection"></div>
-    </div>
-    <div class="pageTabContent pageTabContent" id="albumsTab" data-index="1">
-        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom">
-            <div class="paging"></div>
-            <button is="paper-icon-button-light" class="btnPlayAll musicglobalButton" title="${HeaderPlayAll}"><span class="material-icons play_arrow"></span></button>
-            <button is="paper-icon-button-light" class="btnShuffle musicglobalButton" title="${Shuffle}"><span class="material-icons shuffle"></span></button>
-            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy"></span></button>
-            <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha"></span></button>
-            <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_list"></span></button>
-        </div>
-
-        <div class="alphaPicker alphaPicker-fixed alphaPicker-vertical">
-        </div>
-
-        <div is="emby-itemscontainer" class="itemsContainer padded-left padded-right">
-        </div>
-        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom">
-            <div class="paging"></div>
-        </div>
     </div>
     <div class="pageTabContent" id="albumArtistsTab" data-index="2">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom">
@@ -85,7 +85,7 @@
             <div class="paging"></div>
         </div>
     </div>
-    <div class="pageTabContent" data-index="4">
+    <div class="pageTabContent" id="playlistsTab" data-index="4">
 
         <div is="emby-itemscontainer" id="items" class="itemsContainer padded-left padded-right padded-top vertical-wrap centered"></div>
     </div>
@@ -104,7 +104,5 @@
     </div>
     <div class="pageTabContent" id="genresTab" data-index="6">
         <div is="emby-itemscontainer" id="items" class="itemsContainer padded-left padded-right padded-top vertical-wrap"></div>
-    </div>
-    <div class="pageTabContent" data-index="7">
     </div>
 </div>

@@ -1,9 +1,13 @@
-import events from 'events';
-import globalize from 'globalize';
+import { Events } from 'jellyfin-apiclient';
+import globalize from '../scripts/globalize';
+import loading from './loading/loading';
+import appSettings from '../scripts/settings/appSettings';
+import { playbackManager } from './playback/playbackmanager';
+
 /* eslint-disable indent */
 
     // TODO: replace with each plugin version
-    var cacheParam = new Date().getTime();
+    const cacheParam = new Date().getTime();
 
     class PluginManager {
         pluginsList = [];
@@ -13,7 +17,7 @@ import globalize from 'globalize';
         }
 
         #loadStrings(plugin) {
-            var strings = plugin.getTranslations ? plugin.getTranslations() : [];
+            const strings = plugin.getTranslations ? plugin.getTranslations() : [];
             return globalize.loadStrings({
                 name: plugin.id || plugin.packageName,
                 strings: strings
@@ -27,7 +31,7 @@ import globalize from 'globalize';
             Emby.App.defineRoute(route, plugin.id);
         }
 
-        #registerPlugin(plugin) {
+        async #registerPlugin(plugin) {
             this.#register(plugin);
 
             if (plugin.getRoutes) {
@@ -38,63 +42,71 @@ import globalize from 'globalize';
 
             if (plugin.type === 'skin') {
                 // translations won't be loaded for skins until needed
-                return Promise.resolve(plugin);
+                return plugin;
             } else {
-                return new Promise((resolve, reject) => {
-                    this.#loadStrings(plugin)
-                        .then(function () {
-                            resolve(plugin);
-                        })
-                        .catch(reject);
-                });
+                return await this.#loadStrings(plugin);
             }
         }
 
-        loadPlugin(pluginSpec) {
+        async #preparePlugin(pluginSpec, plugin) {
             if (typeof pluginSpec === 'string') {
-                console.debug('Loading plugin (via deprecated requirejs method): ' + pluginSpec);
+                // See if it's already installed
+                const existing = this.plugins.filter(function (p) {
+                    return p.id === plugin.id;
+                })[0];
 
-                return new Promise((resolve, reject) => {
-                    require([pluginSpec], (pluginFactory) => {
-                        var plugin = pluginFactory.default ? new pluginFactory.default() : new pluginFactory();
+                if (existing) {
+                    return pluginSpec;
+                }
 
-                        // See if it's already installed
-                        var existing = this.pluginsList.filter(function (p) {
-                            return p.id === plugin.id;
-                        })[0];
+                plugin.installUrl = pluginSpec;
 
-                        if (existing) {
-                            resolve(pluginSpec);
-                        }
-
-                        plugin.installUrl = pluginSpec;
-
-                        var separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
-                        plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
-
-                        var paths = {};
-                        paths[plugin.id] = plugin.baseUrl;
-
-                        requirejs.config({
-                            waitSeconds: 0,
-                            paths: paths
-                        });
-
-                        this.#registerPlugin(plugin).then(resolve).catch(reject);
-                    });
-                });
-            } else if (pluginSpec.then) {
-                return pluginSpec.then(pluginBuilder => {
-                    return pluginBuilder();
-                }).then((plugin) => {
-                    console.debug(`Plugin loaded: ${plugin.id}`);
-                    return this.#registerPlugin(plugin);
-                });
-            } else {
-                const err = new TypeError('Plugins have to be a Promise that resolves to a plugin builder function or a RequireJS url (deprecated)');
-                console.error(err);
-                return Promise.reject(err);
+                const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
+                plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
             }
+
+            return this.#registerPlugin(plugin);
+        }
+
+        async loadPlugin(pluginSpec) {
+            let plugin;
+
+            if (typeof pluginSpec === 'string') {
+                if (pluginSpec in window) {
+                    console.log(`Loading plugin (via window): ${pluginSpec}`);
+
+                    const pluginDefinition = await window[pluginSpec];
+                    if (typeof pluginDefinition !== 'function') {
+                        throw new TypeError('Plugin definitions in window have to be an (async) function returning the plugin class');
+                    }
+
+                    const pluginClass = await pluginDefinition();
+                    if (typeof pluginClass !== 'function') {
+                        throw new TypeError(`Plugin definition doesn't return a class for '${pluginSpec}'`);
+                    }
+
+                    // init plugin and pass basic dependencies
+                    plugin = new pluginClass({
+                        events: Events,
+                        loading,
+                        appSettings,
+                        playbackManager
+                    });
+                } else {
+                    console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
+                    const pluginResult = await import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`);
+                    plugin = new pluginResult.default;
+                }
+            } else if (pluginSpec.then) {
+                console.debug('Loading plugin (via promise/async function)');
+
+                const pluginResult = await pluginSpec;
+                plugin = new pluginResult.default;
+            } else {
+                throw new TypeError('Plugins have to be a Promise that resolves to a plugin builder function');
+            }
+
+            return this.#preparePlugin(pluginSpec, plugin);
         }
 
         // In lieu of automatic discovery, plugins will register dynamic objects
@@ -103,7 +115,7 @@ import globalize from 'globalize';
         // type (skin, screensaver, etc)
         #register(obj) {
             this.pluginsList.push(obj);
-            events.trigger(this, 'registered', [obj]);
+            Events.trigger(this, 'registered', [obj]);
         }
 
         ofType(type) {
@@ -135,7 +147,7 @@ import globalize from 'globalize';
                 })[0];
             }
 
-            var url = plugin.baseUrl + '/' + path;
+            let url = plugin.baseUrl + '/' + path;
 
             if (addCacheParam) {
                 url += url.includes('?') ? '&' : '?';
@@ -148,4 +160,4 @@ import globalize from 'globalize';
 
 /* eslint-enable indent */
 
-export default new PluginManager();
+export const pluginManager = new PluginManager();

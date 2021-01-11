@@ -1,10 +1,10 @@
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import shell from 'shell';
-import appRouter from 'appRouter';
-import appHost from 'apphost';
-import 'css!./emby-button';
-import 'webcomponents';
+import 'webcomponents.js/webcomponents-lite';
+import { removeEventListener, addEventListener } from '../../scripts/dom';
+import layoutManager from '../../components/layoutManager';
+import shell from '../../scripts/shell';
+import { appRouter } from '../../components/appRouter';
+import { appHost } from '../../components/apphost';
+import './emby-button.css';
 
 const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
 const EmbyLinkButtonPrototype = Object.create(HTMLAnchorElement.prototype);
@@ -18,7 +18,8 @@ function onAnchorClick(e) {
                 shell.openUrl(href);
             }
         } else {
-            appRouter.handleAnchorClick(e);
+            e.preventDefault();
+            appRouter.show(href);
         }
     } else {
         e.preventDefault();
@@ -41,8 +42,8 @@ EmbyButtonPrototype.createdCallback = function () {
 
 EmbyButtonPrototype.attachedCallback = function () {
     if (this.tagName === 'A') {
-        dom.removeEventListener(this, 'click', onAnchorClick, {});
-        dom.addEventListener(this, 'click', onAnchorClick, {});
+        removeEventListener(this, 'click', onAnchorClick, {});
+        addEventListener(this, 'click', onAnchorClick, {});
 
         if (this.getAttribute('data-autohide') === 'true') {
             if (appHost.supports('externallinks')) {
@@ -55,7 +56,7 @@ EmbyButtonPrototype.attachedCallback = function () {
 };
 
 EmbyButtonPrototype.detachedCallback = function () {
-    dom.removeEventListener(this, 'click', onAnchorClick, {});
+    removeEventListener(this, 'click', onAnchorClick, {});
 };
 
 EmbyLinkButtonPrototype.createdCallback = EmbyButtonPrototype.createdCallback;

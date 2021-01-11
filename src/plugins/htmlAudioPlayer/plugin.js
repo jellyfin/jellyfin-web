@@ -1,12 +1,12 @@
-import events from 'events';
-import browser from 'browser';
-import appHost from 'apphost';
-import * as htmlMediaHelper from 'htmlMediaHelper';
+import { Events } from 'jellyfin-apiclient';
+import browser from '../../scripts/browser';
+import { appHost } from '../../components/apphost';
+import * as htmlMediaHelper from '../../components/htmlMediaHelper';
+import profileBuilder from '../../scripts/browserDeviceProfile';
+import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 
 function getDefaultProfile() {
-    return import('browserdeviceprofile').then(({ default: profileBuilder }) => {
-        return profileBuilder({});
-    });
+    return profileBuilder({});
 }
 
 let fadeTimeout;
@@ -51,7 +51,7 @@ function supportsFade() {
 }
 
 function requireHlsPlayer(callback) {
-    import('hlsjs').then(({ default: hls }) => {
+    import('hls.js').then(({ default: hls }) => {
         window.Hls = hls;
         callback();
     });
@@ -68,7 +68,7 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
 
     // issue head request to get content type
     return new Promise(function (resolve, reject) {
-        import('fetchHelper').then((fetchHelper) => {
+        import('../../components/fetchhelper').then((fetchHelper) => {
             fetchHelper.ajax({
                 url: url,
                 type: 'HEAD'
@@ -130,9 +130,14 @@ class HtmlAudioPlayer {
 
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
                 return new Promise(function (resolve, reject) {
-                    requireHlsPlayer(function () {
+                    requireHlsPlayer(async () => {
+                        const includeCorsCredentials = await getIncludeCorsCredentials();
+
                         const hls = new Hls({
-                            manifestLoadingTimeOut: 20000
+                            manifestLoadingTimeOut: 20000,
+                            xhrSetup: function (xhr, url) {
+                                xhr.withCredentials = includeCorsCredentials;
+                            }
                         });
                         hls.loadSource(val);
                         hls.attachMedia(elem);
@@ -144,11 +149,14 @@ class HtmlAudioPlayer {
                         self._currentSrc = val;
                     });
                 });
-            }, function () {
+            }, async () => {
                 elem.autoplay = true;
 
-                // Safari will not send cookies without this
-                elem.crossOrigin = 'use-credentials';
+                const includeCorsCredentials = await getIncludeCorsCredentials();
+                if (includeCorsCredentials) {
+                    // Safari will not send cookies without this
+                    elem.crossOrigin = 'use-credentials';
+                }
 
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
                     self._currentSrc = val;
@@ -251,14 +259,14 @@ class HtmlAudioPlayer {
             // Don't trigger events after user stop
             if (!self._isFadingOut) {
                 self._currentTime = time;
-                events.trigger(self, 'timeupdate');
+                Events.trigger(self, 'timeupdate');
             }
         }
 
         function onVolumeChange() {
             if (!self._isFadingOut) {
                 htmlMediaHelper.saveVolume(this.volume);
-                events.trigger(self, 'volumechange');
+                Events.trigger(self, 'volumechange');
             }
         }
 
@@ -269,19 +277,19 @@ class HtmlAudioPlayer {
 
                 htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
             }
-            events.trigger(self, 'playing');
+            Events.trigger(self, 'playing');
         }
 
         function onPlay(e) {
-            events.trigger(self, 'unpause');
+            Events.trigger(self, 'unpause');
         }
 
         function onPause() {
-            events.trigger(self, 'pause');
+            Events.trigger(self, 'pause');
         }
 
         function onWaiting() {
-            events.trigger(self, 'waiting');
+            Events.trigger(self, 'waiting');
         }
 
         function onError() {

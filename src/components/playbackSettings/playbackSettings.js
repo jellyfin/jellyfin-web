@@ -1,13 +1,16 @@
-import browser from 'browser';
-import appSettings from 'appSettings';
-import appHost from 'apphost';
-import focusManager from 'focusManager';
-import qualityoptions from 'qualityoptions';
-import globalize from 'globalize';
-import loading from 'loading';
-import events from 'events';
-import 'emby-select';
-import 'emby-checkbox';
+import browser from '../../scripts/browser';
+import appSettings from '../../scripts/settings/appSettings';
+import { appHost } from '../apphost';
+import focusManager from '../focusManager';
+import qualityoptions from '../qualityOptions';
+import globalize from '../../scripts/globalize';
+import loading from '../loading/loading';
+import { Events } from 'jellyfin-apiclient';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-checkbox/emby-checkbox';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import template from './playbackSettings.template.html';
 
 /* eslint-disable indent */
 
@@ -145,6 +148,8 @@ import 'emby-checkbox';
 
         showHideQualityFields(context, user, apiClient);
 
+        context.querySelector('#selectAllowedAudioChannels').value = userSettings.allowedAudioChannels();
+
         apiClient.getCultures().then(allCultures => {
             populateLanguages(context.querySelector('#selectAudioLanguage'), allCultures);
 
@@ -187,6 +192,7 @@ import 'emby-checkbox';
         }
 
         context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
+        context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
         context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
         context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
         context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
@@ -222,10 +228,11 @@ import 'emby-checkbox';
         setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
         setMaxBitrateFromField(context.querySelector('.selectMusicInternetQuality'), false, 'Audio');
 
+        userSettingsInstance.allowedAudioChannels(context.querySelector('#selectAllowedAudioChannels').value);
         user.Configuration.AudioLanguagePreference = context.querySelector('#selectAudioLanguage').value;
         user.Configuration.PlayDefaultAudioTrack = context.querySelector('.chkPlayDefaultAudioTrack').checked;
         user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
-
+        userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
         userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
 
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
@@ -243,12 +250,10 @@ import 'emby-checkbox';
             saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('SettingsSaved'));
-                    });
+                    toast(globalize.translate('SettingsSaved'));
                 }
 
-                events.trigger(instance, 'saved');
+                Events.trigger(instance, 'saved');
             }, () => {
                 loading.hide();
             });
@@ -257,7 +262,7 @@ import 'emby-checkbox';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -274,21 +279,19 @@ import 'emby-checkbox';
     }
 
     function embed(options, self) {
-        return import('text!./playbackSettings.template.html').then(({default: template}) => {
-            options.element.innerHTML = globalize.translateHtml(template, 'core');
+        options.element.innerHTML = globalize.translateHtml(template, 'core');
 
-            options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
+        options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
 
-            if (options.enableSaveButton) {
-                options.element.querySelector('.btnSave').classList.remove('hide');
-            }
+        if (options.enableSaveButton) {
+            options.element.querySelector('.btnSave').classList.remove('hide');
+        }
 
-            self.loadData();
+        self.loadData();
 
-            if (options.autoFocus) {
-                focusManager.autoFocus(options.element);
-            }
-        });
+        if (options.autoFocus) {
+            focusManager.autoFocus(options.element);
+        }
     }
 
     class PlaybackSettings {
@@ -304,7 +307,7 @@ import 'emby-checkbox';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+            const apiClient = ServerConnections.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             apiClient.getUser(userId).then(user => {

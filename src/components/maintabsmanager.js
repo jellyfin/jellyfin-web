@@ -1,8 +1,8 @@
-import dom from 'dom';
-import browser from 'browser';
-import events from 'events';
-import 'emby-tabs';
-import 'emby-button';
+import dom from '../scripts/dom';
+import browser from '../scripts/browser';
+import { Events } from 'jellyfin-apiclient';
+import '../elements/emby-tabs/emby-tabs';
+import '../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
 
@@ -65,11 +65,11 @@ import 'emby-button';
             }
         };
 
-        import('touchHelper').then(({default: TouchHelper}) => {
+        import('../scripts/touchHelper').then(({default: TouchHelper}) => {
             const touchHelper = new TouchHelper(view.parentNode.parentNode);
 
-            events.on(touchHelper, 'swipeleft', onSwipeLeft);
-            events.on(touchHelper, 'swiperight', onSwipeRight);
+            Events.on(touchHelper, 'swipeleft', onSwipeLeft);
+            Events.on(touchHelper, 'swiperight', onSwipeRight);
 
             view.addEventListener('viewdestroy', function () {
                 touchHelper.destroy();

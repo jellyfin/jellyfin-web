@@ -1,6 +1,7 @@
-import playbackManager from 'playbackManager';
-import events from 'events';
-import serverNotifications from 'serverNotifications';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import { Events } from 'jellyfin-apiclient';
+import serverNotifications from '../../scripts/serverNotifications';
+import ServerConnections from '../../components/ServerConnections';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();
@@ -53,10 +54,10 @@ function getCurrentApiClient(instance) {
     const currentServerId = instance.currentServerId;
 
     if (currentServerId) {
-        return window.connectionManager.getApiClient(currentServerId);
+        return ServerConnections.getApiClient(currentServerId);
     }
 
-    return window.connectionManager.currentApiClient();
+    return ServerConnections.currentApiClient();
 }
 
 function sendCommandByName(instance, name, options) {
@@ -85,7 +86,7 @@ function unsubscribeFromPlayerUpdates(instance) {
 function processUpdatedSessions(instance, sessions, apiClient) {
     const serverId = apiClient.serverId();
 
-    sessions.map(function (s) {
+    sessions.forEach(s => {
         if (s.NowPlayingItem) {
             s.NowPlayingItem.ServerId = serverId;
         }
@@ -104,7 +105,7 @@ function processUpdatedSessions(instance, sessions, apiClient) {
         instance.lastPlayerData = session;
 
         for (let i = 0, length = eventNames.length; i < length; i++) {
-            events.trigger(instance, eventNames[i], [session]);
+            Events.trigger(instance, eventNames[i], [session]);
         }
     } else {
         instance.lastPlayerData = session;
@@ -186,7 +187,7 @@ class SessionPlayer {
         this.isLocalPlayer = false;
         this.id = 'remoteplayer';
 
-        events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
+        Events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
             processUpdatedSessions(self, data, apiClient);
         });
     }

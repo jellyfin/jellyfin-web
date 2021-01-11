@@ -1,7 +1,9 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
+import 'jquery';
+import loading from '../../../components/loading/loading';
+import libraryMenu from '../../../scripts/libraryMenu';
+import globalize from '../../../scripts/globalize';
+import Dashboard from '../../../scripts/clientUtils';
+import toast from '../../../components/toast/toast';
 
 /* eslint-disable indent */
 
@@ -97,11 +99,9 @@ import globalize from 'globalize';
         $('#chkEnableVideoPlaybackRemuxing', page).prop('checked', user.Policy.EnablePlaybackRemuxing);
         $('#chkForceRemoteSourceTranscoding', page).prop('checked', user.Policy.ForceRemoteSourceTranscoding);
         $('#chkRemoteAccess', page).prop('checked', user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess);
-        $('#chkEnableSyncTranscoding', page).prop('checked', user.Policy.EnableSyncTranscoding);
-        $('#chkEnableConversion', page).prop('checked', user.Policy.EnableMediaConversion || false);
-        $('#chkEnableSharing', page).prop('checked', user.Policy.EnablePublicSharing);
         $('#txtRemoteClientBitrateLimit', page).val(user.Policy.RemoteClientBitrateLimit / 1e6 || '');
         $('#txtLoginAttemptsBeforeLockout', page).val(user.Policy.LoginAttemptsBeforeLockout || '0');
+        $('#txtMaxActiveSessions', page).val(user.Policy.MaxActiveSessions || '0');
         if (ApiClient.isMinServerVersion('10.6.0')) {
             $('#selectSyncPlayAccess').val(user.Policy.SyncPlayAccess);
         }
@@ -111,10 +111,7 @@ import globalize from 'globalize';
     function onSaveComplete(page, user) {
         Dashboard.navigate('userprofiles.html');
         loading.hide();
-
-        import('toast').then(({default: toast}) => {
-            toast(globalize.translate('SettingsSaved'));
-        });
+        toast(globalize.translate('SettingsSaved'));
     }
 
     function saveUser(user, page) {
@@ -132,12 +129,10 @@ import globalize from 'globalize';
         user.Policy.EnablePlaybackRemuxing = $('#chkEnableVideoPlaybackRemuxing', page).is(':checked');
         user.Policy.ForceRemoteSourceTranscoding = $('#chkForceRemoteSourceTranscoding', page).is(':checked');
         user.Policy.EnableContentDownloading = $('#chkEnableDownloading', page).is(':checked');
-        user.Policy.EnableSyncTranscoding = $('#chkEnableSyncTranscoding', page).is(':checked');
-        user.Policy.EnableMediaConversion = $('#chkEnableConversion', page).is(':checked');
-        user.Policy.EnablePublicSharing = $('#chkEnableSharing', page).is(':checked');
         user.Policy.EnableRemoteAccess = $('#chkRemoteAccess', page).is(':checked');
         user.Policy.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($('#txtRemoteClientBitrateLimit', page).val() || '0'));
         user.Policy.LoginAttemptsBeforeLockout = parseInt($('#txtLoginAttemptsBeforeLockout', page).val() || '0');
+        user.Policy.MaxActiveSessions = parseInt($('#txtMaxActiveSessions', page).val() || '0');
         user.Policy.AuthenticationProviderId = page.querySelector('.selectLoginProvider').value;
         user.Policy.PasswordResetProviderId = page.querySelector('.selectPasswordResetProvider').value;
         user.Policy.EnableContentDeletion = $('#chkEnableDeleteAllFolders', page).is(':checked');
@@ -179,7 +174,6 @@ import globalize from 'globalize';
 
     $(document).on('pageinit', '#editUserPage', function () {
         $('.editUserProfileForm').off('submit', onSubmit).on('submit', onSubmit);
-        this.querySelector('.sharingHelp').innerHTML = globalize.translate('OptionAllowLinkSharingHelp', 30);
         const page = this;
         $('#chkEnableDeleteAllFolders', this).on('change', function () {
             if (this.checked) {

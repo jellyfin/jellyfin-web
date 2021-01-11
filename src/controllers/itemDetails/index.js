@@ -1,32 +1,36 @@
-import appHost from 'apphost';
-import loading from 'loading';
-import appRouter from 'appRouter';
-import itemShortcuts from 'itemShortcuts';
-import layoutManager from 'layoutManager';
-import * as userSettings from 'userSettings';
-import cardBuilder from 'cardBuilder';
-import datetime from 'datetime';
-import mediaInfo from 'mediaInfo';
-import backdrop from 'backdrop';
-import listView from 'listView';
-import itemContextMenu from 'itemContextMenu';
-import itemHelper from 'itemHelper';
-import dom from 'dom';
-import indicators from 'indicators';
-import imageLoader from 'imageLoader';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
-import browser from 'browser';
-import events from 'events';
-import playbackManager from 'playbackManager';
-import 'scrollStyles';
-import 'emby-itemscontainer';
-import 'emby-checkbox';
-import 'emby-button';
-import 'emby-playstatebutton';
-import 'emby-ratingbutton';
-import 'emby-scroller';
-import 'emby-select';
+import { appHost } from '../../components/apphost';
+import loading from '../../components/loading/loading';
+import { appRouter } from '../../components/appRouter';
+import layoutManager from '../../components/layoutManager';
+import { Events } from 'jellyfin-apiclient';
+import * as userSettings from '../../scripts/settings/userSettings';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import datetime from '../../scripts/datetime';
+import mediaInfo from '../../components/mediainfo/mediainfo';
+import backdrop from '../../components/backdrop/backdrop';
+import listView from '../../components/listview/listview';
+import itemContextMenu from '../../components/itemContextMenu';
+import itemHelper from '../../components/itemHelper';
+import dom from '../../scripts/dom';
+import indicators from '../../components/indicators/indicators';
+import imageLoader from '../../components/images/imageLoader';
+import libraryMenu from '../../scripts/libraryMenu';
+import globalize from '../../scripts/globalize';
+import browser from '../../scripts/browser';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-playstatebutton/emby-playstatebutton';
+import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-select/emby-select';
+import itemShortcuts from '../../components/shortcuts';
+import Dashboard from '../../scripts/clientUtils';
+import ServerConnections from '../../components/ServerConnections';
+import confirm from '../../components/confirm/confirm';
+import { download } from '../../scripts/fileDownloader';
 
 function getPromise(apiClient, params) {
     const id = params.id;
@@ -140,7 +144,7 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
     }
 
     if (user.Policy.EnableLiveTvManagement) {
-        import('seriesRecordingEditor').then(({ default: seriesRecordingEditor }) => {
+        import('../../components/recordingcreator/seriesrecordingeditor').then(({ default: seriesRecordingEditor }) => {
             seriesRecordingEditor.embed(item, apiClient.serverId(), {
                 context: page.querySelector('.seriesRecordingEditor')
             });
@@ -167,7 +171,30 @@ function renderTrackSelections(page, instance, item, forceReload) {
         return;
     }
 
-    const mediaSources = item.MediaSources;
+    let mediaSources = item.MediaSources;
+
+    const resolutionNames = [];
+    const sourceNames = [];
+    mediaSources.forEach(function (v) {
+        (v.Name.endsWith('p') || v.Name.endsWith('i')) && !Number.isNaN(parseInt(v.Name, 10)) ? resolutionNames.push(v) : sourceNames.push(v);
+    });
+
+    resolutionNames.sort((a, b) => parseInt(b.Name, 10) - parseInt(a.Name, 10));
+    sourceNames.sort(function(a, b) {
+        const nameA = a.Name.toUpperCase();
+        const nameB = b.Name.toUpperCase();
+        if (nameA < nameB) {
+            return -1;
+        } else if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    });
+
+    mediaSources = [];
+    resolutionNames.forEach(v => mediaSources.push(v));
+    sourceNames.forEach(v => mediaSources.push(v));
+
     instance._currentPlaybackMediaSources = mediaSources;
 
     page.querySelector('.trackSelections').classList.remove('hide');
@@ -525,7 +552,7 @@ function renderDetailPageBackdrop(page, item, apiClient) {
     let hasbackdrop = false;
     const itemBackdropElement = page.querySelector('#itemBackdrop');
 
-    if (!layoutManager.mobile && !userSettings.detailsBanner()) {
+    if (layoutManager.mobile || !userSettings.detailsBanner()) {
         return false;
     }
 
@@ -562,10 +589,28 @@ function renderDetailPageBackdrop(page, item, apiClient) {
     return hasbackdrop;
 }
 
-function reloadFromItem(instance, page, params, item, user) {
-    const apiClient = window.connectionManager.getApiClient(item.ServerId);
+function renderPrimaryImage(page, item, apiClient) {
+    if (item?.ImageTags?.Primary) {
+        const imageUrl = apiClient.getScaledImageUrl(item.Id, {
+            type: 'Primary',
+            maxWidth: dom.getScreenWidth(),
+            tag: item.ImageTags.Primary
+        });
 
-    Emby.Page.setTitle('');
+        const imageElem = page.querySelector('#primaryImage');
+        imageElem.src = imageUrl;
+        imageElem.alt = item.Name;
+        if (item.PrimaryImageAspectRatio === 1) {
+            imageElem.classList.add('aspect-square');
+        }
+        page.querySelector('.primaryImageWrapper')?.classList.remove('hide');
+    }
+}
+
+function reloadFromItem(instance, page, params, item, user) {
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+
+    appRouter.setTitle('');
 
     // Start rendering the artwork first
     renderImage(page, item);
@@ -573,6 +618,9 @@ function reloadFromItem(instance, page, params, item, user) {
     if (!layoutManager.tv) {
         renderLogo(page, item, apiClient);
         renderDetailPageBackdrop(page, item, apiClient);
+    }
+    if (layoutManager.mobile) {
+        renderPrimaryImage(page, item, apiClient);
     }
     renderBackdrop(item);
 
@@ -649,9 +697,12 @@ function reloadFromItem(instance, page, params, item, user) {
     const itemBirthLocation = page.querySelector('#itemBirthLocation');
 
     if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
-        const gmap = '<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=' + item.ProductionLocations[0] + '">' + item.ProductionLocations[0] + '</a>';
+        let location = item.ProductionLocations[0];
+        if (!layoutManager.tv && appHost.supports('externallinks')) {
+            location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${location}</a>`;
+        }
         itemBirthLocation.classList.remove('hide');
-        itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', gmap);
+        itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', location);
     } else {
         itemBirthLocation.classList.add('hide');
     }
@@ -663,7 +714,7 @@ function reloadFromItem(instance, page, params, item, user) {
         hideAll(page, 'btnDownload', true);
     }
 
-    import('autoFocuser').then(({ default: autoFocuser }) => {
+    import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
         autoFocuser.autoFocus(page);
     });
 }
@@ -705,7 +756,7 @@ function showRecordingFields(instance, page, item, user) {
         const recordingFieldsElement = page.querySelector('.recordingFields');
 
         if (item.Type == 'Program' && user.Policy.EnableLiveTvManagement) {
-            import('recordingFields').then(({ default: recordingFields }) => {
+            import('../../components/recordingcreator/recordingfields').then(({ default: recordingFields }) => {
                 instance.currentRecordingFields = new recordingFields({
                     parent: recordingFieldsElement,
                     programId: item.Id,
@@ -780,7 +831,11 @@ function renderImage(page, item) {
 }
 
 function refreshDetailImageUserData(elem, item) {
-    elem.querySelector('.detailImageProgressContainer').innerHTML = indicators.getProgressBarHtml(item);
+    const container = elem.querySelector('.detailImageProgressContainer');
+
+    if (container) {
+        container.innerHTML = indicators.getProgressBarHtml(item);
+    }
 }
 
 function refreshImage(page, item) {
@@ -802,7 +857,7 @@ function renderNextUp(page, item, user) {
         return void section.classList.add('hide');
     }
 
-    window.connectionManager.getApiClient(item.ServerId).getNextUpEpisodes({
+    ServerConnections.getApiClient(item.ServerId).getNextUpEpisodes({
         SeriesId: item.Id,
         UserId: user.Id
     }).then(function (result) {
@@ -1066,7 +1121,7 @@ function renderDetails(page, item, apiClient, context, isStatic) {
     reloadUserDataButtons(page, item);
 
     // Don't allow redirection to other websites from the TV layout
-    if (!layoutManager.tv) {
+    if (!layoutManager.tv && appHost.supports('externallinks')) {
         renderLinks(page, item);
     }
 
@@ -1154,7 +1209,7 @@ function renderMoreFromArtist(view, item, apiClient) {
             IncludeItemTypes: 'MusicAlbum',
             Recursive: true,
             ExcludeItemIds: item.Id,
-            SortBy: 'ProductionYear,SortName',
+            SortBy: 'PremiereDate,ProductionYear,SortName',
             SortOrder: 'Descending'
         };
 
@@ -1206,11 +1261,11 @@ function renderSimilarItems(page, item, context) {
         }
 
         similarCollapsible.classList.remove('hide');
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
         const options = {
             userId: apiClient.getCurrentUserId(),
             limit: 12,
-            fields: 'PrimaryImageAspectRatio,UserData,CanDelete'
+            fields: 'PrimaryImageAspectRatio,CanDelete'
         };
 
         if (item.Type == 'MusicAlbum' && item.AlbumArtists && item.AlbumArtists.length) {
@@ -1320,7 +1375,7 @@ function renderChildren(page, item) {
     }
 
     let promise;
-    const apiClient = window.connectionManager.getApiClient(item.ServerId);
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
     const userId = apiClient.getCurrentUserId();
 
     if (item.Type == 'Series') {
@@ -1336,7 +1391,7 @@ function renderChildren(page, item) {
             Fields: fields
         });
     } else if (item.Type == 'MusicArtist') {
-        query.SortBy = 'ProductionYear,SortName';
+        query.SortBy = 'PremiereDate,ProductionYear,SortName';
     }
 
     promise = promise || apiClient.getItems(apiClient.getCurrentUserId(), query);
@@ -1482,13 +1537,13 @@ function renderChildren(page, item) {
 }
 
 function renderItemsByName(page, item) {
-    import('scripts/itembynamedetailpage').then(() => {
+    import('../../scripts/itembynamedetailpage').then(() => {
         window.ItemsByName.renderItems(page, item);
     });
 }
 
 function renderPlaylistItems(page, item) {
-    import('scripts/playlistedit').then(() => {
+    import('../../scripts/playlistedit').then(() => {
         PlaylistViewer.render(page, item);
     });
 }
@@ -1568,7 +1623,7 @@ function renderChannelGuide(page, apiClient, item) {
 }
 
 function renderSeriesSchedule(page, item) {
-    const apiClient = window.connectionManager.getApiClient(item.ServerId);
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
     apiClient.getLiveTvPrograms({
         UserId: apiClient.getCurrentUserId(),
         HasAired: false,
@@ -1692,7 +1747,7 @@ function renderCollectionItems(page, parentItem, types, items) {
 
     // HACK: Call autoFocuser again because btnPlay may be hidden, but focused by reloadFromItem
     // FIXME: Sometimes focus does not move until all (?) sections are loaded
-    import('autoFocuser').then(({ default: autoFocuser }) => {
+    import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
         autoFocuser.autoFocus(page);
     });
 }
@@ -1724,11 +1779,11 @@ function renderCollectionItemType(page, parentItem, type, items) {
     html += '</div>';
     const collectionItems = page.querySelector('.collectionItems');
     collectionItems.insertAdjacentHTML('beforeend', html);
-    imageLoader.lazyChildren(collectionItems);
+    imageLoader.lazyChildren(collectionItems.lastChild);
 }
 
 function renderMusicVideos(page, item, user) {
-    window.connectionManager.getApiClient(item.ServerId).getItems(user.Id, {
+    ServerConnections.getApiClient(item.ServerId).getItems(user.Id, {
         SortBy: 'SortName',
         SortOrder: 'Ascending',
         IncludeItemTypes: 'MusicVideo',
@@ -1748,7 +1803,7 @@ function renderMusicVideos(page, item, user) {
 }
 
 function renderAdditionalParts(page, item, user) {
-    window.connectionManager.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
+    ServerConnections.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
         if (result.Items.length) {
             page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
             const additionalPartsContent = page.querySelector('#additionalPartsContent');
@@ -1767,7 +1822,7 @@ function renderScenes(page, item) {
         page.querySelector('#scenesCollapsible').classList.remove('hide');
         const scenesContent = page.querySelector('#scenesContent');
 
-        import('chaptercardbuilder').then(({ default: chaptercardbuilder }) => {
+        import('../../components/cardbuilder/chaptercardbuilder').then(({ default: chaptercardbuilder }) => {
             chaptercardbuilder.buildChapterCards(item, chapters, {
                 itemsContainer: scenesContent,
                 backdropShape: 'overflowBackdrop',
@@ -1793,7 +1848,7 @@ function getVideosHtml(items) {
 }
 
 function renderSpecials(page, item, user) {
-    window.connectionManager.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
+    ServerConnections.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
         const specialsContent = page.querySelector('#specialsContent');
         specialsContent.innerHTML = getVideosHtml(specials);
         imageLoader.lazyChildren(specialsContent);
@@ -1812,7 +1867,7 @@ function renderCast(page, item) {
     page.querySelector('#castCollapsible').classList.remove('hide');
     const castContent = page.querySelector('#castContent');
 
-    import('peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
+    import('../../components/cardbuilder/peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
         peoplecardbuilder.buildPeopleCards(people, {
             itemsContainer: castContent,
             coverImage: true,
@@ -1846,10 +1901,14 @@ function onTrackSelectionsSubmit(e) {
 window.ItemDetailPage = new itemDetailPage();
 
 export default function (view, params) {
+    function getApiClient() {
+        return params.serverId ? ServerConnections.getApiClient(params.serverId) : ApiClient;
+    }
+
     function reload(instance, page, params) {
         loading.show();
 
-        const apiClient = params.serverId ? window.connectionManager.getApiClient(params.serverId) : ApiClient;
+        const apiClient = getApiClient();
 
         Promise.all([getPromise(apiClient, params), apiClient.getCurrentUser()]).then(([item, user]) => {
             currentItem = item;
@@ -1860,16 +1919,14 @@ export default function (view, params) {
     }
 
     function splitVersions(instance, page, apiClient, params) {
-        import('confirm').then(({ default: confirm }) => {
-            confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
-                loading.show();
-                apiClient.ajax({
-                    type: 'DELETE',
-                    url: apiClient.getUrl('Videos/' + params.id + '/AlternateSources')
-                }).then(function () {
-                    loading.hide();
-                    reload(instance, page, params);
-                });
+        confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
+            loading.show();
+            apiClient.ajax({
+                type: 'DELETE',
+                url: apiClient.getUrl('Videos/' + params.id + '/AlternateSources')
+            }).then(function () {
+                loading.hide();
+                reload(instance, page, params);
             });
         });
     }
@@ -1898,7 +1955,7 @@ export default function (view, params) {
         const item = currentItem;
 
         if (item.Type === 'Program') {
-            const apiClient = window.connectionManager.getApiClient(item.ServerId);
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
             return void apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
                 playbackManager.play({
                     items: [channel]
@@ -1926,7 +1983,7 @@ export default function (view, params) {
     }
 
     function onCancelSeriesTimerClick() {
-        import('recordingHelper').then(({ default: recordingHelper }) => {
+        import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
                 Dashboard.navigate('livetv.html');
             });
@@ -1934,8 +1991,8 @@ export default function (view, params) {
     }
 
     function onCancelTimerClick() {
-        import('recordingHelper').then(({ default: recordingHelper }) => {
-            recordingHelper.cancelTimer(window.connectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
+        import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
+            recordingHelper.cancelTimer(ServerConnections.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
                 reload(self, view, params);
             });
         });
@@ -1946,19 +2003,19 @@ export default function (view, params) {
     }
 
     function onDownloadClick() {
-        import('fileDownloader').then(({ default: fileDownloader }) => {
-            const downloadHref = apiClient.getItemDownloadUrl(currentItem.Id);
-            fileDownloader.download([{
-                url: downloadHref,
-                itemId: currentItem.Id,
-                serverId: currentItem.serverId
-            }]);
-        });
+        const downloadHref = getApiClient().getItemDownloadUrl(currentItem.Id);
+        download([{
+            url: downloadHref,
+            itemId: currentItem.Id,
+            serverId: currentItem.serverId
+        }]);
     }
 
     function onMoreCommandsClick() {
         const button = this;
         let selectedItem = view.querySelector('.selectSource').value || currentItem.Id;
+
+        const apiClient = getApiClient();
 
         apiClient.getItem(apiClient.getCurrentUserId(), selectedItem).then(function (item) {
             selectedItem = item;
@@ -1982,6 +2039,7 @@ export default function (view, params) {
 
     function onWebSocketMessage(e, data) {
         const msg = data;
+        const apiClient = getApiClient();
 
         if (msg.MessageType === 'UserDataChanged' && currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
             const key = currentItem.UserData.Key;
@@ -1999,63 +2057,68 @@ export default function (view, params) {
 
     let currentItem;
     const self = this;
-    const apiClient = params.serverId ? window.connectionManager.getApiClient(params.serverId) : ApiClient;
 
-    const btnResume = view.querySelector('.mainDetailButtons .btnResume');
-    const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');
-    if (layoutManager.tv && !btnResume.classList.contains('hide')) {
-        btnResume.classList.add('fab');
-        btnResume.classList.add('detailFloatingButton');
-    } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
-        btnPlay.classList.add('fab');
-        btnPlay.classList.add('detailFloatingButton');
-    }
+    function init() {
+        const apiClient = getApiClient();
 
-    view.querySelectorAll('.btnPlay');
-    bindAll(view, '.btnPlay', 'click', onPlayClick);
-    bindAll(view, '.btnResume', 'click', onPlayClick);
-    bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
-    bindAll(view, '.btnShuffle', 'click', onShuffleClick);
-    bindAll(view, '.btnPlayTrailer', 'click', onPlayTrailerClick);
-    bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
-    bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
-    bindAll(view, '.btnDownload', 'click', onDownloadClick);
-    view.querySelector('.detailImageContainer').addEventListener('click', onPosterClick);
-    view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
-    view.querySelector('.btnSplitVersions').addEventListener('click', function () {
-        splitVersions(self, view, apiClient, params);
-    });
-    bindAll(view, '.btnMoreCommands', 'click', onMoreCommandsClick);
-    view.querySelector('.selectSource').addEventListener('change', function () {
-        renderVideoSelections(view, self._currentPlaybackMediaSources);
-        renderAudioSelections(view, self._currentPlaybackMediaSources);
-        renderSubtitleSelections(view, self._currentPlaybackMediaSources);
-    });
-    view.addEventListener('viewshow', function (e) {
-        const page = this;
-
-        libraryMenu.setTransparentMenu(true);
-
-        if (e.detail.isRestored) {
-            if (currentItem) {
-                Emby.Page.setTitle('');
-                renderTrackSelections(page, self, currentItem, true);
-            }
-        } else {
-            reload(self, page, params);
+        const btnResume = view.querySelector('.mainDetailButtons .btnResume');
+        const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');
+        if (layoutManager.tv && !btnResume.classList.contains('hide')) {
+            btnResume.classList.add('fab');
+            btnResume.classList.add('detailFloatingButton');
+        } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
+            btnPlay.classList.add('fab');
+            btnPlay.classList.add('detailFloatingButton');
         }
 
-        events.on(apiClient, 'message', onWebSocketMessage);
-        events.on(playbackManager, 'playerchange', onPlayerChange);
-    });
-    view.addEventListener('viewbeforehide', function () {
-        events.off(apiClient, 'message', onWebSocketMessage);
-        events.off(playbackManager, 'playerchange', onPlayerChange);
-        libraryMenu.setTransparentMenu(false);
-    });
-    view.addEventListener('viewdestroy', function () {
-        currentItem = null;
-        self._currentPlaybackMediaSources = null;
-        self.currentRecordingFields = null;
-    });
+        view.querySelectorAll('.btnPlay');
+        bindAll(view, '.btnPlay', 'click', onPlayClick);
+        bindAll(view, '.btnResume', 'click', onPlayClick);
+        bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
+        bindAll(view, '.btnShuffle', 'click', onShuffleClick);
+        bindAll(view, '.btnPlayTrailer', 'click', onPlayTrailerClick);
+        bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
+        bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
+        bindAll(view, '.btnDownload', 'click', onDownloadClick);
+        view.querySelector('.detailImageContainer').addEventListener('click', onPosterClick);
+        view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
+        view.querySelector('.btnSplitVersions').addEventListener('click', function () {
+            splitVersions(self, view, apiClient, params);
+        });
+        bindAll(view, '.btnMoreCommands', 'click', onMoreCommandsClick);
+        view.querySelector('.selectSource').addEventListener('change', function () {
+            renderVideoSelections(view, self._currentPlaybackMediaSources);
+            renderAudioSelections(view, self._currentPlaybackMediaSources);
+            renderSubtitleSelections(view, self._currentPlaybackMediaSources);
+        });
+        view.addEventListener('viewshow', function (e) {
+            const page = this;
+
+            libraryMenu.setTransparentMenu(!layoutManager.mobile);
+
+            if (e.detail.isRestored) {
+                if (currentItem) {
+                    appRouter.setTitle('');
+                    renderTrackSelections(page, self, currentItem, true);
+                }
+            } else {
+                reload(self, page, params);
+            }
+
+            Events.on(apiClient, 'message', onWebSocketMessage);
+            Events.on(playbackManager, 'playerchange', onPlayerChange);
+        });
+        view.addEventListener('viewbeforehide', function () {
+            Events.off(apiClient, 'message', onWebSocketMessage);
+            Events.off(playbackManager, 'playerchange', onPlayerChange);
+            libraryMenu.setTransparentMenu(false);
+        });
+        view.addEventListener('viewdestroy', function () {
+            currentItem = null;
+            self._currentPlaybackMediaSources = null;
+            self.currentRecordingFields = null;
+        });
+    }
+
+    init();
 }

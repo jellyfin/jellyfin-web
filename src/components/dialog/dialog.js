@@ -1,21 +1,23 @@
-import dialogHelper from 'dialogHelper';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import scrollHelper from 'scrollHelper';
-import globalize from 'globalize';
-import 'material-icons';
-import 'emby-button';
-import 'paper-icon-button-light';
-import 'emby-input';
-import 'formDialogStyle';
-import 'flexStyles';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import dom from '../../scripts/dom';
+import layoutManager from '../layoutManager';
+import scrollHelper from '../../scripts/scrollHelper';
+import globalize from '../../scripts/globalize';
+import 'material-design-icons-iconfont';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-input/emby-input';
+import '../formdialog.css';
+import '../../assets/css/flexstyles.scss';
+import template from './dialog.template.html';
 
 /* eslint-disable indent */
 
-    function showDialog(options, template) {
+    function showDialog(options = { dialogOptions: {}, buttons: [] }) {
         const dialogOptions = {
             removeOnClose: true,
-            scrollY: false
+            scrollY: false,
+            ...options.dialogOptions
         };
 
         const enableTvLayout = layoutManager.tv;
@@ -117,7 +119,7 @@ import 'flexStyles';
         });
     }
 
-    export async function show(text, title) {
+    export function show(text, title) {
         let options;
         if (typeof text === 'string') {
             options = {
@@ -128,10 +130,7 @@ import 'flexStyles';
             options = text;
         }
 
-        const { default: template } = await import('text!./dialog.template.html');
-        return new Promise((resolve, reject) => {
-            showDialog(options, template).then(resolve, reject);
-        });
+        return showDialog(options);
     }
 
 /* eslint-enable indent */

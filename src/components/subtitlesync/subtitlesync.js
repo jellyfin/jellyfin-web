@@ -1,7 +1,8 @@
-import playbackManager from 'playbackManager';
-import layoutManager from 'layoutManager';
-import template from 'text!./subtitlesync.template.html';
-import 'css!./subtitlesync';
+
+import { playbackManager } from '../playback/playbackmanager';
+import layoutManager from '../layoutManager';
+import template from './subtitlesync.template.html';
+import './subtitlesync.css';
 
 let player;
 let subtitleSyncSlider;
@@ -44,11 +45,11 @@ function init(instance) {
             let inputOffset = /[-+]?\d+\.?\d*/g.exec(this.textContent);
             if (inputOffset) {
                 inputOffset = inputOffset[0];
+                inputOffset = parseFloat(inputOffset);
+                inputOffset = Math.min(30, Math.max(-30, inputOffset));
 
                 // replace current text by considered offset
                 this.textContent = inputOffset + 's';
-
-                inputOffset = parseFloat(inputOffset);
                 // set new offset
                 playbackManager.setSubtitleOffset(inputOffset, player);
                 // synchronize with slider value
@@ -120,7 +121,7 @@ function getPercentageFromOffset(value) {
     // convert fraction to percent
     percentValue *= 50;
     percentValue += 50;
-    return Math.min(100, Math.max(0, percentValue.toFixed()));
+    return Math.min(100, Math.max(0, percentValue.toFixed(1)));
 }
 
 class SubtitleSync {

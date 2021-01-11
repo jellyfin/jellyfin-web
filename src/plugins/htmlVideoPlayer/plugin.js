@@ -1,10 +1,10 @@
-import browser from 'browser';
-import events from 'events';
-import appHost from 'apphost';
-import loading from 'loading';
-import dom from 'dom';
-import playbackManager from 'playbackManager';
-import appRouter from 'appRouter';
+import browser from '../../scripts/browser';
+import { Events } from 'jellyfin-apiclient';
+import { appHost } from '../../components/apphost';
+import loading from '../../components/loading/loading';
+import dom from '../../scripts/dom';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import { appRouter } from '../../components/appRouter';
 import {
     bindEventsToHlsPlayer,
     destroyHlsPlayer,
@@ -22,10 +22,13 @@ import {
     getSavedVolume,
     isValidDuration,
     getBufferedRanges
-} from 'htmlMediaHelper';
-import itemHelper from 'itemHelper';
-import screenfull from 'screenfull';
-import globalize from 'globalize';
+} from '../../components/htmlMediaHelper';
+import itemHelper from '../../components/itemHelper';
+import Screenfull from 'screenfull';
+import globalize from '../../scripts/globalize';
+import ServerConnections from '../../components/ServerConnections';
+import profileBuilder from '../../scripts/browserDeviceProfile';
+import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 
 /* eslint-disable indent */
 
@@ -85,7 +88,7 @@ function tryRemoveElement(elem) {
     }
 
     function requireHlsPlayer(callback) {
-        import('hlsjs').then(({default: hls}) => {
+        import('hls.js').then(({default: hls}) => {
             window.Hls = hls;
             callback();
         });
@@ -103,18 +106,10 @@ function tryRemoveElement(elem) {
         });
     }
 
-    function hidePrePlaybackPage() {
-        const animatedPage = document.querySelector('.page:not(.hide)');
-        animatedPage.classList.add('hide');
-        // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
-        document.body.classList.remove('force-scroll');
-    }
-
     function zoomIn(elem) {
         return new Promise(resolve => {
             const duration = 240;
             elem.style.animation = `htmlvideoplayer-zoomin ${duration}ms ease-in normal`;
-            hidePrePlaybackPage();
             dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
                 once: true
             });
@@ -140,9 +135,7 @@ function tryRemoveElement(elem) {
     }
 
     function getDefaultProfile() {
-        return import('browserdeviceprofile').then(({default: profileBuilder}) => {
-            return profileBuilder({});
-        });
+        return profileBuilder({});
     }
 
     export class HtmlVideoPlayer {
@@ -287,7 +280,7 @@ function tryRemoveElement(elem) {
         incrementFetchQueue() {
             if (this.#fetchQueue <= 0) {
                 this.isFetching = true;
-                events.trigger(this, 'beginFetch');
+                Events.trigger(this, 'beginFetch');
             }
 
             this.#fetchQueue++;
@@ -301,7 +294,7 @@ function tryRemoveElement(elem) {
 
             if (this.#fetchQueue <= 0) {
                 this.isFetching = false;
-                events.trigger(this, 'endFetch');
+                Events.trigger(this, 'endFetch');
             }
         }
 
@@ -324,7 +317,7 @@ function tryRemoveElement(elem) {
 
                 console.debug(`prefetching hls playlist: ${hlsPlaylistUrl}`);
 
-                return window.connectionManager.getApiClient(item.ServerId).ajax({
+                return ServerConnections.getApiClient(item.ServerId).ajax({
 
                     type: 'GET',
                     url: hlsPlaylistUrl
@@ -363,7 +356,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setSrcWithFlvJs(elem, options, url) {
-            return import('flvjs').then(({default: flvjs}) => {
+            return import('flv.js').then(({default: flvjs}) => {
                 const flvPlayer = flvjs.createPlayer({
                         type: 'flv',
                         url: url
@@ -390,9 +383,28 @@ function tryRemoveElement(elem) {
          */
         setSrcWithHlsJs(elem, options, url) {
             return new Promise((resolve, reject) => {
-                requireHlsPlayer(() => {
+                requireHlsPlayer(async () => {
+                    let maxBufferLength = 30;
+                    let maxMaxBufferLength = 600;
+
+                    // Some browsers cannot handle huge fragments in high bitrate.
+                    // This issue usually happens when using HWA encoders with a high bitrate setting.
+                    // Limit the BufferLength to 6s, it works fine when playing 4k 120Mbps over HLS on chrome.
+                    // https://github.com/video-dev/hls.js/issues/876
+                    if ((browser.chrome || browser.edgeChromium || browser.firefox) && playbackManager.getMaxStreamingBitrate(this) >= 25000000) {
+                        maxBufferLength = 6;
+                        maxMaxBufferLength = 6;
+                    }
+
+                    const includeCorsCredentials = await getIncludeCorsCredentials();
+
                     const hls = new Hls({
-                        manifestLoadingTimeOut: 20000
+                        manifestLoadingTimeOut: 20000,
+                        maxBufferLength: maxBufferLength,
+                        maxMaxBufferLength: maxMaxBufferLength,
+                        xhrSetup(xhr) {
+                            xhr.withCredentials = includeCorsCredentials;
+                        }
                     });
                     hls.loadSource(url);
                     hls.attachMedia(elem);
@@ -410,7 +422,7 @@ function tryRemoveElement(elem) {
         /**
          * @private
          */
-        setCurrentSrc(elem, options) {
+        async setCurrentSrc(elem, options) {
             elem.removeEventListener('error', this.onError);
 
             let val = options.url;
@@ -450,8 +462,11 @@ function tryRemoveElement(elem) {
             } else {
                 elem.autoplay = true;
 
-                // Safari will not send cookies without this
-                elem.crossOrigin = 'use-credentials';
+                const includeCorsCredentials = await getIncludeCorsCredentials();
+                if (includeCorsCredentials) {
+                    // Safari will not send cookies without this
+                    elem.crossOrigin = 'use-credentials';
+                }
 
                 return applySrc(elem, val, options).then(() => {
                     this.#currentSrc = val;
@@ -679,6 +694,7 @@ function tryRemoveElement(elem) {
             destroyFlvPlayer(this);
 
             appRouter.setTransparency('none');
+            document.body.classList.remove('hide-scroll');
 
             const videoElement = this.#mediaElement;
 
@@ -705,8 +721,8 @@ function tryRemoveElement(elem) {
                 dlg.parentNode.removeChild(dlg);
             }
 
-            if (screenfull.isEnabled) {
-                screenfull.exit();
+            if (Screenfull.isEnabled) {
+                Screenfull.exit();
             } else {
                 // iOS Safari
                 if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
@@ -755,7 +771,7 @@ function tryRemoveElement(elem) {
                 this.updateSubtitleText(timeMs);
             }
 
-            events.trigger(this, 'timeupdate');
+            Events.trigger(this, 'timeupdate');
         };
 
         /**
@@ -768,7 +784,7 @@ function tryRemoveElement(elem) {
              */
             const elem = e.target;
             saveVolume(elem.volume);
-            events.trigger(this, 'volumechange');
+            Events.trigger(this, 'volumechange');
         };
 
         /**
@@ -827,14 +843,14 @@ function tryRemoveElement(elem) {
                     this.onStartedAndNavigatedToOsd();
                 }
             }
-            events.trigger(this, 'playing');
+            Events.trigger(this, 'playing');
         };
 
         /**
          * @private
          */
         onPlay = () => {
-            events.trigger(this, 'unpause');
+            Events.trigger(this, 'unpause');
         };
 
         /**
@@ -860,25 +876,25 @@ function tryRemoveElement(elem) {
          * @private
          */
         onClick = () => {
-            events.trigger(this, 'click');
+            Events.trigger(this, 'click');
         };
 
         /**
          * @private
          */
         onDblClick = () => {
-            events.trigger(this, 'dblclick');
+            Events.trigger(this, 'dblclick');
         };
 
         /**
          * @private
          */
         onPause = () => {
-            events.trigger(this, 'pause');
+            Events.trigger(this, 'pause');
         };
 
         onWaiting() {
-            events.trigger(this, 'waiting');
+            Events.trigger(this, 'waiting');
         }
 
         /**
@@ -1031,15 +1047,21 @@ function tryRemoveElement(elem) {
          * @private
          */
         renderSsaAss(videoElement, track, item) {
+            const avaliableFonts = [];
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
-            const apiClient = window.connectionManager.getApiClient(item);
+            attachments.map(function (i) {
+                // embedded font url
+                return avaliableFonts.push(i.DeliveryUrl);
+            });
+            const apiClient = ServerConnections.getApiClient(item);
+            const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
+                api_key: apiClient.accessToken()
+            });
             const htmlVideoPlayer = this;
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                fonts: attachments.map(function (i) {
-                    return apiClient.getUrl(i.DeliveryUrl);
-                }),
+                fonts: avaliableFonts,
                 workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
                 legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
                 onError() {
@@ -1059,8 +1081,22 @@ function tryRemoveElement(elem) {
                 resizeVariation: 0.2,
                 renderAhead: 90
             };
-            import('JavascriptSubtitlesOctopus').then(({default: SubtitlesOctopus}) => {
-                this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+            import('libass-wasm').then(({default: SubtitlesOctopus}) => {
+                apiClient.getNamedConfiguration('encoding').then(config => {
+                    if (config.EnableFallbackFont) {
+                        apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
+                            fontFiles.forEach(font => {
+                                const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
+                                    api_key: apiClient.accessToken()
+                                });
+                                avaliableFonts.push(fontUrl);
+                            });
+                            this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                        });
+                    } else {
+                        this.#currentSubtitlesOctopus = new SubtitlesOctopus(options);
+                    }
+                });
             });
         }
 
@@ -1115,7 +1151,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setSubtitleAppearance(elem, innerElem) {
-            Promise.all([import('userSettings'), import('subtitleAppearanceHelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
+            Promise.all([import('../../scripts/settings/userSettings'), import('../../components/subtitlesettings/subtitleappearancehelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
                 subtitleAppearanceHelper.applyStyles({
                     text: innerElem,
                     window: elem
@@ -1136,7 +1172,7 @@ function tryRemoveElement(elem) {
          * @private
          */
         setCueAppearance() {
-            Promise.all([import('userSettings'), import('subtitleAppearanceHelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
+            Promise.all([import('../../scripts/settings/userSettings'), import('../../components/subtitlesettings/subtitleappearancehelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
                 const elementId = `${this.id}-cuestyle`;
 
                 let styleElem = document.querySelector(`#${elementId}`);
@@ -1191,7 +1227,7 @@ function tryRemoveElement(elem) {
 
             // download the track json
             this.fetchSubtitles(track, item).then(function (data) {
-                import('userSettings').then((userSettings) => {
+                import('../../scripts/settings/userSettings').then((userSettings) => {
                     // show in ui
                     console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
@@ -1283,7 +1319,7 @@ function tryRemoveElement(elem) {
             const dlg = document.querySelector('.videoPlayerContainer');
 
                 if (!dlg) {
-                    return import('css!./style').then(() => {
+                    return import('./style.css').then(() => {
                         loading.show();
 
                         const dlg = document.createElement('div');
@@ -1328,17 +1364,26 @@ function tryRemoveElement(elem) {
                         this.#videoDialog = dlg;
                         this.#mediaElement = videoElement;
 
+                        if (options.fullscreen) {
+                            // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
+                            document.body.classList.add('hide-scroll');
+                        }
+
                         // don't animate on smart tv's, too slow
                         if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
                             return zoomIn(dlg).then(function () {
                                 return videoElement;
                             });
                         } else {
-                            hidePrePlaybackPage();
                             return videoElement;
                         }
                     });
                 } else {
+                    // we need to hide scrollbar when starting playback from page with animated background
+                    if (options.fullscreen) {
+                        document.body.classList.add('hide-scroll');
+                    }
+
                     return Promise.resolve(dlg.querySelector('video'));
                 }
         }
@@ -1513,7 +1558,7 @@ function tryRemoveElement(elem) {
         return false;
     }
 
-    static isAirPlayEnabled() {
+    isAirPlayEnabled() {
         if (document.AirPlayEnabled) {
             return !!document.AirplayElement;
         }
@@ -1555,7 +1600,7 @@ function tryRemoveElement(elem) {
             elem.style['-webkit-filter'] = `brightness(${cssValue})`;
             elem.style.filter = `brightness(${cssValue})`;
             elem.brightnessValue = val;
-            events.trigger(this, 'brightnesschange');
+            Events.trigger(this, 'brightnesschange');
         }
     }
 
@@ -1715,13 +1760,13 @@ function tryRemoveElement(elem) {
 
     getSupportedAspectRatios() {
         return [{
-            name: 'Auto',
+            name: globalize.translate('Auto'),
             id: 'auto'
         }, {
-            name: 'Cover',
+            name: globalize.translate('AspectRatioCover'),
             id: 'cover'
         }, {
-            name: 'Fill',
+            name: globalize.translate('AspectRatioFill'),
             id: 'fill'
         }];
     }

@@ -1,15 +1,17 @@
-import itemShortcuts from 'itemShortcuts';
-import inputManager from 'inputManager';
-import playbackManager from 'playbackManager';
-import imageLoader from 'imageLoader';
-import layoutManager from 'layoutManager';
-import browser from 'browser';
-import dom from 'dom';
-import loading from 'loading';
-import focusManager from 'focusManager';
-import serverNotifications from 'serverNotifications';
-import events from 'events';
-import 'webcomponents';
+import itemShortcuts from '../../components/shortcuts';
+import inputManager from '../../scripts/inputManager';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import imageLoader from '../../components/images/imageLoader';
+import layoutManager from '../../components/layoutManager';
+import browser from '../../scripts/browser';
+import dom from '../../scripts/dom';
+import loading from '../../components/loading/loading';
+import focusManager from '../../components/focusManager';
+import serverNotifications from '../../scripts/serverNotifications';
+import { Events } from 'jellyfin-apiclient';
+import 'webcomponents.js/webcomponents-lite';
+import ServerConnections from '../../components/ServerConnections';
+import Sortable from 'sortablejs';
 
 /* eslint-disable indent */
 
@@ -72,7 +74,7 @@ import 'webcomponents';
         }
 
         const self = this;
-        import('multiSelect').then(({default: MultiSelect}) => {
+        import('../../components/multiSelect/multiSelect').then(({default: MultiSelect}) => {
             self.multiSelect = new MultiSelect({
                 container: self,
                 bindOnClick: false
@@ -102,7 +104,7 @@ import 'webcomponents';
         }
 
         const serverId = el.getAttribute('data-serverid');
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         loading.show();
 
@@ -132,23 +134,21 @@ import 'webcomponents';
         }
 
         const self = this;
-        import('sortable').then(({default: Sortable}) => {
-            self.sortable = new Sortable(self, {
-                draggable: '.listItem',
-                handle: '.listViewDragHandle',
+        self.sortable = new Sortable(self, {
+            draggable: '.listItem',
+            handle: '.listViewDragHandle',
 
-                // dragging ended
-                onEnd: function (evt) {
-                    return onDrop(evt, self);
-                }
-            });
+            // dragging ended
+            onEnd: function (evt) {
+                return onDrop(evt, self);
+            }
         });
     };
 
     function onUserDataChanged(e, apiClient, userData) {
         const itemsContainer = this;
 
-        import('cardBuilder').then(({default: cardBuilder}) => {
+        import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
             cardBuilder.onUserDataChanged(userData, itemsContainer);
         });
 
@@ -183,7 +183,7 @@ import 'webcomponents';
         // This could be null, not supported by all tv providers
         const newTimerId = data.Id;
 
-        import('cardBuilder').then(({default: cardBuilder}) => {
+        import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
             cardBuilder.onTimerCreated(programId, newTimerId, itemsContainer);
         });
     }
@@ -203,7 +203,7 @@ import 'webcomponents';
             return;
         }
 
-        import('cardBuilder').then(({default: cardBuilder}) => {
+        import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
             cardBuilder.onTimerCancelled(data.Id, itemsContainer);
         });
     }
@@ -215,7 +215,7 @@ import 'webcomponents';
             return;
         }
 
-        import('cardBuilder').then(({default: cardBuilder}) => {
+        import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
             cardBuilder.onSeriesTimerCancelled(data.Id, itemsContainer);
         });
     }
@@ -270,7 +270,7 @@ import 'webcomponents';
     function addNotificationEvent(instance, name, handler, owner) {
         const localHandler = handler.bind(instance);
         owner = owner || serverNotifications;
-        events.on(owner, name, localHandler);
+        Events.on(owner, name, localHandler);
         instance['event_' + name] = localHandler;
     }
 
@@ -278,7 +278,7 @@ import 'webcomponents';
         const handler = instance['event_' + name];
         if (handler) {
             owner = owner || serverNotifications;
-            events.off(owner, name, handler);
+            Events.off(owner, name, handler);
             instance['event_' + name] = null;
         }
     }

@@ -1,25 +1,39 @@
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import dom from 'dom';
-import globalize from 'globalize';
-import 'cardStyle';
-import 'emby-button';
+import loading from '../../../../components/loading/loading';
+import libraryMenu from '../../../../scripts/libraryMenu';
+import dom from '../../../../scripts/dom';
+import globalize from '../../../../scripts/globalize';
+import '../../../../components/cardbuilder/card.css';
+import '../../../../elements/emby-button/emby-button';
+import Dashboard, { pageIdOn } from '../../../../scripts/clientUtils';
+import confirm from '../../../../components/confirm/confirm';
 
-function deletePlugin(page, uniqueid, name) {
+function deletePlugin(page, uniqueid, version, name) {
     const msg = globalize.translate('UninstallPluginConfirmation', name);
 
-    import('confirm').then(({default: confirm}) => {
-        confirm.default({
-            title: globalize.translate('HeaderUninstallPlugin'),
-            text: msg,
-            primary: 'delete',
-            confirmText: globalize.translate('HeaderUninstallPlugin')
-        }).then(function () {
-            loading.show();
-            ApiClient.uninstallPlugin(uniqueid).then(function () {
-                reloadList(page);
-            });
+    confirm({
+        title: globalize.translate('HeaderUninstallPlugin'),
+        text: msg,
+        primary: 'delete',
+        confirmText: globalize.translate('HeaderUninstallPlugin')
+    }).then(function () {
+        loading.show();
+        ApiClient.uninstallPluginByVersion(uniqueid, version).then(function () {
+            reloadList(page);
         });
+    });
+}
+
+function enablePlugin(page, uniqueid, version) {
+    loading.show();
+    ApiClient.enablePlugin(uniqueid, version).then(function () {
+        reloadList(page);
+    });
+}
+
+function disablePlugin(page, uniqueid, version) {
+    loading.show();
+    ApiClient.disablePlugin(uniqueid, version).then(function () {
+        reloadList(page);
     });
 }
 
@@ -41,12 +55,18 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     })[0];
     const configPageUrl = configPage ? Dashboard.getPluginUrl(configPage.Name) : null;
     let html = '';
-    html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' data-removable='" + plugin.CanUninstall + "' class='card backdropCard'>";
+    html += `<div data-id='${plugin.Id}' data-version='${plugin.Version}' data-name='${plugin.Name}' data-removable='${plugin.CanUninstall}' data-status='${plugin.Status}' class='card backdropCard'>`;
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
-    html += '<span class="cardImageIcon material-icons folder"></span>';
+    html += configPageUrl ? `<a class="cardContent cardImageContainer" is="emby-linkbutton" href="${configPageUrl}">` : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
+    html += '<span class="cardImageIcon';
+    if (plugin.HasImage) {
+        html += `"><img src="/Plugins/${plugin.Id}/${plugin.Version}/Image" style="width:100%;height:auto"/>`;
+    } else {
+        html += ' material-icons folder">';
+    }
+    html += '</span> ';
     html += configPageUrl ? '</a>' : '</div>';
     html += '</div>';
     html += '<div class="cardFooter">';
@@ -59,7 +79,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
 
     html += "<div class='cardText'>";
     html += configPage && configPage.DisplayName ? configPage.DisplayName : plugin.Name;
-    html += '</div>';
+    html += `<br/>${globalize.translate('LabelStatus')} ${plugin.Status}</div>`;
     html += "<div class='cardText cardText-secondary'>";
     html += plugin.Version;
     html += '</div>';
@@ -98,7 +118,7 @@ function populateList(page, plugins, pluginConfigurationPages) {
     } else {
         html += '<div class="centerMessage">';
         html += '<h1>' + globalize.translate('MessageNoPluginsInstalled') + '</h1>';
-        html += '<p><a is="emby-linkbutton" class="button-link" href="availableplugins.html">';
+        html += '<p><a is="emby-linkbutton" class="button-link" href="#!/availableplugins.html">';
         html += globalize.translate('MessageBrowsePluginCatalog');
         html += '</a></p>';
         html += '</div>';
@@ -114,6 +134,8 @@ function showPluginMenu(page, elem) {
     const name = card.getAttribute('data-name');
     const removable = card.getAttribute('data-removable');
     const configHref = card.querySelector('.cardContent').getAttribute('href');
+    const status = card.getAttribute('data-status');
+    const version = card.getAttribute('data-version');
     const menuItems = [];
 
     if (configHref) {
@@ -125,6 +147,22 @@ function showPluginMenu(page, elem) {
     }
 
     if (removable === 'true') {
+        if (status === 'Disabled') {
+            menuItems.push({
+                name: globalize.translate('EnablePlugin'),
+                id: 'enable',
+                icon: 'mode_enable'
+            });
+        }
+
+        if (status === 'Active') {
+            menuItems.push({
+                name: globalize.translate('DisablePlugin'),
+                id: 'disable',
+                icon: 'mode_disable'
+            });
+        }
+
         menuItems.push({
             name: globalize.translate('ButtonUninstall'),
             id: 'delete',
@@ -132,7 +170,7 @@ function showPluginMenu(page, elem) {
         });
     }
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../../../../components/actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
             items: menuItems,
             positionTo: elem,
@@ -142,7 +180,13 @@ function showPluginMenu(page, elem) {
                         Dashboard.navigate(configHref);
                         break;
                     case 'delete':
-                        deletePlugin(page, id, name);
+                        deletePlugin(page, id, version, name);
+                        break;
+                    case 'enable':
+                        enablePlugin(page, id, version);
+                        break;
+                    case 'disable':
+                        disablePlugin(page, id, version);
                         break;
                 }
             }
@@ -159,13 +203,13 @@ function reloadList(page) {
 
 function getTabs() {
     return [{
-        href: 'installedplugins.html',
+        href: '#!/installedplugins.html',
         name: globalize.translate('TabMyPlugins')
     }, {
-        href: 'availableplugins.html',
+        href: '#!/availableplugins.html',
         name: globalize.translate('TabCatalog')
     }, {
-        href: 'repositories.html',
+        href: '#!/repositories.html',
         name: globalize.translate('TabRepositories')
     }];
 }

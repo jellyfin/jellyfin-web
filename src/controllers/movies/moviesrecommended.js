@@ -1,18 +1,20 @@
-import events from 'events';
-import layoutManager from 'layoutManager';
-import inputManager from 'inputManager';
-import * as userSettings from 'userSettings';
-import libraryMenu from 'libraryMenu';
-import * as mainTabsManager from 'mainTabsManager';
-import cardBuilder from 'cardBuilder';
-import dom from 'dom';
-import imageLoader from 'imageLoader';
-import playbackManager from 'playbackManager';
-import globalize from 'globalize';
-import 'emby-scroller';
-import 'emby-itemscontainer';
-import 'emby-tabs';
-import 'emby-button';
+
+import { Events } from 'jellyfin-apiclient';
+import layoutManager from '../../components/layoutManager';
+import inputManager from '../../scripts/inputManager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import libraryMenu from '../../scripts/libraryMenu';
+import * as mainTabsManager from '../../components/maintabsmanager';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import dom from '../../scripts/dom';
+import imageLoader from '../../components/images/imageLoader';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-button/emby-button';
+import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 
@@ -58,7 +60,7 @@ import 'emby-button';
     }
 
     function loadResume(page, userId, parentId) {
-        let screenWidth = dom.getWindowSize().innerWidth;
+        const screenWidth = dom.getWindowSize().innerWidth;
         const options = {
             SortBy: 'DatePlayed',
             SortOrder: 'Descending',
@@ -154,8 +156,8 @@ import 'emby-button';
     }
 
     function loadSuggestions(page, userId, parentId) {
-        let screenWidth = dom.getWindowSize().innerWidth;
-        let url = ApiClient.getUrl('Movies/Recommendations', {
+        const screenWidth = dom.getWindowSize().innerWidth;
+        const url = ApiClient.getUrl('Movies/Recommendations', {
             userId: userId,
             categoryLimit: 6,
             ItemLimit: screenWidth >= 1920 ? 8 : screenWidth >= 1600 ? 8 : screenWidth >= 1200 ? 6 : 5,
@@ -172,7 +174,7 @@ import 'emby-button';
 
             const html = recommendations.map(getRecommendationHtml).join('');
             page.querySelector('.noItemsMessage').classList.add('hide');
-            let recs = page.querySelector('.recommendations');
+            const recs = page.querySelector('.recommendations');
             recs.innerHTML = html;
             imageLoader.lazyChildren(recs);
 
@@ -182,7 +184,7 @@ import 'emby-button';
     }
 
     function autoFocus(page) {
-        import('autoFocuser').then(({default: autoFocuser}) => {
+        import('../../components/autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(page);
         });
     }
@@ -281,31 +283,31 @@ import 'emby-button';
 
             switch (index) {
                 case 0:
-                    depends = 'controllers/movies/movies';
+                    depends = 'movies';
                     break;
 
                 case 1:
-                    depends = 'controllers/movies/moviesrecommended.js';
+                    depends = 'moviesrecommended.js';
                     break;
 
                 case 2:
-                    depends = 'controllers/movies/movietrailers';
+                    depends = 'movietrailers';
                     break;
 
                 case 3:
-                    depends = 'controllers/movies/movies';
+                    depends = 'movies';
                     break;
 
                 case 4:
-                    depends = 'controllers/movies/moviecollections';
+                    depends = 'moviecollections';
                     break;
 
                 case 5:
-                    depends = 'controllers/movies/moviegenres';
+                    depends = 'moviegenres';
                     break;
             }
 
-            import(depends).then(({default: controllerFactory}) => {
+            import(`../movies/${depends}`).then(({default: controllerFactory}) => {
                 let tabContent;
 
                 if (index === suggestionsTabIndex) {
@@ -320,11 +322,6 @@ import 'emby-button';
 
                     if (index === suggestionsTabIndex) {
                         controller = this;
-                    } else if (index === 6) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: 'movies',
-                            parentId: params.topParentId
-                        });
                     } else if (index == 0 || index == 3) {
                         controller = new controllerFactory(view, params, tabContent, {
                             mode: index ? 'favorites' : 'movies'
@@ -381,21 +378,21 @@ import 'emby-button';
         const suggestionsTabIndex = 1;
 
         this.initTab = function () {
-            let tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             initSuggestedTab(view, tabContent);
         };
 
         this.renderTab = function () {
-            let tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, params, tabContent);
         };
 
-        let tabControllers = [];
+        const tabControllers = [];
         let renderedTabs = [];
         view.addEventListener('viewshow', function (e) {
             initTabs();
             if (!view.getAttribute('data-title')) {
-                var parentId = params.topParentId;
+                const parentId = params.topParentId;
 
                 if (parentId) {
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
@@ -408,7 +405,7 @@ import 'emby-button';
                 }
             }
 
-            events.on(playbackManager, 'playbackstop', onPlaybackStop);
+            Events.on(playbackManager, 'playbackstop', onPlaybackStop);
             inputManager.on(window, onInputCommand);
         });
         view.addEventListener('viewbeforehide', function () {

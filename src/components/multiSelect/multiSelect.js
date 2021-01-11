@@ -1,9 +1,13 @@
-import browser from 'browser';
-import appHost from 'apphost';
-import loading from 'loading';
-import globalize from 'globalize';
-import dom from 'dom';
-import 'css!./multiSelect';
+import browser from '../../scripts/browser';
+import { appHost } from '../apphost';
+import loading from '../loading/loading';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import './multiSelect.css';
+import ServerConnections from '../ServerConnections';
+import alert from '../alert';
+import playlistEditor from '../playlisteditor/playlisteditor';
+import confirm from '../confirm/confirm';
 
 /* eslint-disable indent */
 
@@ -137,10 +141,8 @@ import 'css!./multiSelect';
     }
 
     function alertText(options) {
-        return new Promise((resolve, reject) => {
-            import('alert').then(({default: alert}) => {
-                alert(options).then(resolve, resolve);
-            });
+        return new Promise((resolve) => {
+            alert(options).then(resolve, resolve);
         });
     }
 
@@ -154,22 +156,18 @@ import 'css!./multiSelect';
                 title = globalize.translate('HeaderDeleteItems');
             }
 
-            import('confirm').then(({default: confirm}) => {
-                confirm(msg, title).then(() => {
-                    const promises = itemIds.map(itemId => {
-                        apiClient.deleteItem(itemId);
-                    });
+            confirm(msg, title).then(() => {
+                const promises = itemIds.map(itemId => apiClient.deleteItem(itemId));
 
-                    Promise.all(promises).then(resolve, () => {
-                        alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);
-                    });
-                }, reject);
-            });
+                Promise.all(promises).then(resolve, () => {
+                    alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);
+                });
+            }, reject);
         });
     }
 
     function showMenuForSelectedItems(e) {
-        const apiClient = window.connectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
 
         apiClient.getCurrentUser().then(user => {
             const menuItems = [];
@@ -196,11 +194,14 @@ import 'css!./multiSelect';
             }
 
             if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
+                // Disabled because there is no callback for this item
+                /*
                 menuItems.push({
                     name: globalize.translate('Download'),
                     id: 'download',
                     icon: 'file_download'
                 });
+                */
             }
 
             if (user.Policy.IsAdministrator) {
@@ -229,7 +230,7 @@ import 'css!./multiSelect';
                 icon: 'refresh'
             });
 
-            import('actionsheet').then(({default: actionsheet}) => {
+            import('../actionSheet/actionSheet').then((actionsheet) => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: e.target,
@@ -239,7 +240,7 @@ import 'css!./multiSelect';
 
                         switch (id) {
                             case 'addtocollection':
-                                import('collectionEditor').then(({default: collectionEditor}) => {
+                                import('../collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
                                     new collectionEditor({
                                         items: items,
                                         serverId: serverId
@@ -249,11 +250,9 @@ import 'css!./multiSelect';
                                 dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
-                                import('playlistEditor').then(({default: playlistEditor}) => {
-                                    new playlistEditor({
-                                        items: items,
-                                        serverId: serverId
-                                    });
+                                new playlistEditor({
+                                    items: items,
+                                    serverId: serverId
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
@@ -281,7 +280,7 @@ import 'css!./multiSelect';
                                 dispatchNeedsRefresh();
                                 break;
                             case 'refresh':
-                                import('refreshDialog').then(({default: refreshDialog}) => {
+                                import('../refreshdialog/refreshdialog').then(({default: refreshDialog}) => {
                                     new refreshDialog({
                                         itemIds: items,
                                         serverId: serverId
@@ -317,11 +316,8 @@ import 'css!./multiSelect';
 
     function combineVersions(apiClient, selection) {
         if (selection.length < 2) {
-            import('alert').then(({default: alert}) => {
-                alert({
-
-                    text: globalize.translate('PleaseSelectTwoItems')
-                });
+            alert({
+                text: globalize.translate('PleaseSelectTwoItems')
             });
             return;
         }
@@ -341,7 +337,7 @@ import 'css!./multiSelect';
     }
 
     function showSelections(initialCard) {
-        import('emby-checkbox').then(() => {
+        import('../../elements/emby-checkbox/emby-checkbox').then(() => {
             const cards = document.querySelectorAll('.card');
             for (let i = 0, length = cards.length; i < length; i++) {
                 showSelection(cards[i], initialCard === cards[i]);

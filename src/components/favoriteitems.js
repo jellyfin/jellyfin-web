@@ -1,12 +1,12 @@
-import loading from 'loading';
-import cardBuilder from 'cardBuilder';
-import dom from 'dom';
-import appHost from 'apphost';
-import imageLoader from 'imageLoader';
-import globalize from 'globalize';
-import layoutManager from 'layoutManager';
-import 'scrollStyles';
-import 'emby-itemscontainer';
+import loading from './loading/loading';
+import cardBuilder from './cardbuilder/cardBuilder';
+import dom from '../scripts/dom';
+import { appHost } from './apphost';
+import imageLoader from './images/imageLoader';
+import globalize from '../scripts/globalize';
+import layoutManager from './layoutManager';
+import '../assets/css/scrollstyles.css';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
@@ -141,7 +141,7 @@ import 'emby-itemscontainer';
 
             if (result.Items.length) {
                 if (html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">', !layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
-                    html += '<a is="emby-linkbutton" href="' + ('list.html?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                    html += '<a is="emby-linkbutton" href="' + ('#!/list.html?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate(section.name);
                     html += '</h2>';

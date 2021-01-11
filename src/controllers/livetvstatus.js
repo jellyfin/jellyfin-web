@@ -1,16 +1,18 @@
-import $ from 'jQuery';
-import globalize from 'globalize';
-import taskButton from 'scripts/taskbutton';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import loading from 'loading';
-import browser from 'browser';
-import 'listViewStyle';
-import 'flexStyles';
-import 'emby-itemscontainer';
-import 'cardStyle';
-import 'material-icons';
-import 'emby-button';
+import 'jquery';
+import globalize from '../scripts/globalize';
+import taskButton from '../scripts/taskbutton';
+import dom from '../scripts/dom';
+import layoutManager from '../components/layoutManager';
+import loading from '../components/loading/loading';
+import browser from '../scripts/browser';
+import '../components/listview/listview.css';
+import '../assets/css/flexstyles.scss';
+import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '../components/cardbuilder/card.css';
+import 'material-design-icons-iconfont';
+import '../elements/emby-button/emby-button';
+import Dashboard from '../scripts/clientUtils';
+import confirm from '../components/confirm/confirm';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -56,17 +58,15 @@ function renderDevices(page, devices) {
 function deleteDevice(page, id) {
     const message = globalize.translate('MessageConfirmDeleteTunerDevice');
 
-    import('confirm').then(({default: confirm}) => {
-        confirm(message, globalize.translate('HeaderDeleteDevice')).then(function () {
-            loading.show();
-            ApiClient.ajax({
-                type: 'DELETE',
-                url: ApiClient.getUrl('LiveTv/TunerHosts', {
-                    Id: id
-                })
-            }).then(function () {
-                reload(page);
-            });
+    confirm(message, globalize.translate('HeaderDeleteDevice')).then(function () {
+        loading.show();
+        ApiClient.ajax({
+            type: 'DELETE',
+            url: ApiClient.getUrl('LiveTv/TunerHosts', {
+                Id: id
+            })
+        }).then(function () {
+            reload(page);
         });
     });
 }
@@ -145,7 +145,7 @@ function showProviderOptions(page, providerId, button) {
         id: 'map'
     });
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
         actionsheet.show({
             items: items,
             positionTo: button
@@ -163,7 +163,7 @@ function showProviderOptions(page, providerId, button) {
 }
 
 function mapChannels(page, providerId) {
-    import('components/channelMapper/channelMapper').then(({default: channelMapper}) => {
+    import('../components/channelMapper/channelMapper').then(({default: channelMapper}) => {
         new channelMapper({
             serverId: ApiClient.serverInfo().Id,
             providerId: providerId
@@ -174,19 +174,17 @@ function mapChannels(page, providerId) {
 function deleteProvider(page, id) {
     const message = globalize.translate('MessageConfirmDeleteGuideProvider');
 
-    import('confirm').then(({default: confirm}) => {
-        confirm(message, globalize.translate('HeaderDeleteProvider')).then(function () {
-            loading.show();
-            ApiClient.ajax({
-                type: 'DELETE',
-                url: ApiClient.getUrl('LiveTv/ListingProviders', {
-                    Id: id
-                })
-            }).then(function () {
-                reload(page);
-            }, function () {
-                reload(page);
-            });
+    confirm(message, globalize.translate('HeaderDeleteProvider')).then(function () {
+        loading.show();
+        ApiClient.ajax({
+            type: 'DELETE',
+            url: ApiClient.getUrl('LiveTv/ListingProviders', {
+                Id: id
+            })
+        }).then(function () {
+            reload(page);
+        }, function () {
+            reload(page);
         });
     });
 }
@@ -220,9 +218,9 @@ function getProviderName(providerId) {
 function getProviderConfigurationUrl(providerId) {
     switch (providerId = providerId.toLowerCase()) {
         case 'xmltv':
-            return 'livetvguideprovider.html?type=xmltv';
+            return '#!/livetvguideprovider.html?type=xmltv';
         case 'schedulesdirect':
-            return 'livetvguideprovider.html?type=schedulesdirect';
+            return '#!/livetvguideprovider.html?type=schedulesdirect';
     }
 }
 
@@ -237,7 +235,7 @@ function addProvider(button) {
         id: 'xmltv'
     });
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -263,7 +261,7 @@ function showDeviceMenu(button, tunerDeviceId) {
         id: 'edit'
     });
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
         actionsheet.show({
             items: items,
             positionTo: button
@@ -295,36 +293,34 @@ function onDevicesListClick(e) {
     }
 }
 
-export default function () {
-    $(document).on('pageinit', '#liveTvStatusPage', function () {
-        const page = this;
-        $('.btnAddDevice', page).on('click', function () {
-            addDevice(this);
-        });
-        $('.formAddDevice', page).on('submit', function () {
-            submitAddDeviceForm(page);
-            return false;
-        });
-        $('.btnAddProvider', page).on('click', function () {
-            addProvider(this);
-        });
-        page.querySelector('.devicesList').addEventListener('click', onDevicesListClick);
-    }).on('pageshow', '#liveTvStatusPage', function () {
-        const page = this;
-        reload(page);
-        taskButton({
-            mode: 'on',
-            progressElem: page.querySelector('.refreshGuideProgress'),
-            taskKey: 'RefreshGuide',
-            button: page.querySelector('.btnRefresh')
-        });
-    }).on('pagehide', '#liveTvStatusPage', function () {
-        const page = this;
-        taskButton({
-            mode: 'off',
-            progressElem: page.querySelector('.refreshGuideProgress'),
-            taskKey: 'RefreshGuide',
-            button: page.querySelector('.btnRefresh')
-        });
+$(document).on('pageinit', '#liveTvStatusPage', function () {
+    const page = this;
+    $('.btnAddDevice', page).on('click', function () {
+        addDevice(this);
     });
-}
+    $('.formAddDevice', page).on('submit', function () {
+        submitAddDeviceForm(page);
+        return false;
+    });
+    $('.btnAddProvider', page).on('click', function () {
+        addProvider(this);
+    });
+    page.querySelector('.devicesList').addEventListener('click', onDevicesListClick);
+}).on('pageshow', '#liveTvStatusPage', function () {
+    const page = this;
+    reload(page);
+    taskButton({
+        mode: 'on',
+        progressElem: page.querySelector('.refreshGuideProgress'),
+        taskKey: 'RefreshGuide',
+        button: page.querySelector('.btnRefresh')
+    });
+}).on('pagehide', '#liveTvStatusPage', function () {
+    const page = this;
+    taskButton({
+        mode: 'off',
+        progressElem: page.querySelector('.refreshGuideProgress'),
+        taskKey: 'RefreshGuide',
+        button: page.querySelector('.btnRefresh')
+    });
+});

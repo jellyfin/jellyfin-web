@@ -1,7 +1,10 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-button';
+import 'jquery';
+import loading from '../../../../components/loading/loading';
+import globalize from '../../../../scripts/globalize';
+import '../../../../elements/emby-button/emby-button';
+import Dashboard from '../../../../scripts/clientUtils';
+import alert from '../../../../components/alert';
+import confirm from '../../../../components/confirm/confirm';
 
 function populateHistory(packageInfo, page) {
     let html = '';
@@ -21,7 +24,7 @@ function populateVersions(packageInfo, page, installedPlugin) {
 
     for (let i = 0; i < packageInfo.versions.length; i++) {
         const version = packageInfo.versions[i];
-        html += '<option value="' + version.version + '">' + version.version + '</option>';
+        html += '<option value="' + version.version + '">' + globalize.translate('PluginFromRepo', version.version, version.repositoryName) + '</option>';
     }
 
     const selectmenu = $('#selectVersion', page).html(html);
@@ -68,9 +71,7 @@ function renderPackage(pkg, installedPlugins, page) {
 }
 
 function alertText(options) {
-    import('alert').then(({default: alert}) => {
-        alert(options);
-    });
+    alert(options);
 }
 
 function performInstallation(page, name, guid, version) {
@@ -94,12 +95,10 @@ function performInstallation(page, name, guid, version) {
         msg += '<br/>';
         msg += globalize.translate('PleaseConfirmPluginInstallation');
 
-        import('confirm').then(({default: confirm}) => {
-            confirm(msg, globalize.translate('HeaderConfirmPluginInstallation')).then(function () {
-                alertCallback();
-            }).catch(() => {
-                console.debug('plugin not installed');
-            });
+        confirm(msg, globalize.translate('HeaderConfirmPluginInstallation')).then(function () {
+            alertCallback();
+        }).catch(() => {
+            console.debug('plugin not installed');
         });
     } else {
         alertCallback();

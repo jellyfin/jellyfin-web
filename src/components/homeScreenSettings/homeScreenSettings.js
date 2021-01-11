@@ -1,13 +1,17 @@
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import loading from 'loading';
-import homeSections from 'homeSections';
-import dom from 'dom';
-import events from 'events';
-import 'listViewStyle';
-import 'emby-select';
-import 'emby-checkbox';
+
+import layoutManager from '../layoutManager';
+import focusManager from '../focusManager';
+import globalize from '../../scripts/globalize';
+import loading from '../loading/loading';
+import { Events } from 'jellyfin-apiclient';
+import homeSections from '../homesections/homesections';
+import dom from '../../scripts/dom';
+import '../listview/listview.css';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-checkbox/emby-checkbox';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import template from './homeScreenSettings.template.html';
 
 /* eslint-disable indent */
 
@@ -53,8 +57,8 @@ import 'emby-checkbox';
                 value: 'suggestions'
             });
             list.push({
-                name: globalize.translate('Genres'),
-                value: 'genres'
+                name: globalize.translate('Trailers'),
+                value: 'trailers'
             });
             list.push({
                 name: globalize.translate('Favorites'),
@@ -63,6 +67,10 @@ import 'emby-checkbox';
             list.push({
                 name: globalize.translate('Collections'),
                 value: 'collections'
+            });
+            list.push({
+                name: globalize.translate('Genres'),
+                value: 'genres'
             });
         } else if (type === 'tvshows') {
             list.push({
@@ -75,26 +83,30 @@ import 'emby-checkbox';
                 value: 'suggestions'
             });
             list.push({
-                name: globalize.translate('Latest'),
-                value: 'latest'
+                name: globalize.translate('TabUpcoming'),
+                value: 'upcoming'
             });
             list.push({
                 name: globalize.translate('Genres'),
                 value: 'genres'
             });
             list.push({
-                name: globalize.translate('Favorites'),
-                value: 'favorites'
+                name: globalize.translate('TabNetworks'),
+                value: 'networks'
+            });
+            list.push({
+                name: globalize.translate('Episodes'),
+                value: 'episodes'
             });
         } else if (type === 'music') {
             list.push({
-                name: globalize.translate('Suggestions'),
-                value: 'suggestions',
+                name: globalize.translate('Albums'),
+                value: 'albums',
                 isDefault: true
             });
             list.push({
-                name: globalize.translate('Albums'),
-                value: 'albums'
+                name: globalize.translate('Suggestions'),
+                value: 'suggestions'
             });
             list.push({
                 name: globalize.translate('HeaderAlbumArtists'),
@@ -109,18 +121,38 @@ import 'emby-checkbox';
                 value: 'playlists'
             });
             list.push({
+                name: globalize.translate('Songs'),
+                value: 'songs'
+            });
+            list.push({
                 name: globalize.translate('Genres'),
                 value: 'genres'
             });
         } else if (type === 'livetv') {
             list.push({
-                name: globalize.translate('Suggestions'),
-                value: 'suggestions',
+                name: globalize.translate('Programs'),
+                value: 'programs',
                 isDefault: true
             });
             list.push({
                 name: globalize.translate('Guide'),
                 value: 'guide'
+            });
+            list.push({
+                name: globalize.translate('Channels'),
+                value: 'channels'
+            });
+            list.push({
+                name: globalize.translate('Recordings'),
+                value: 'recordings'
+            });
+            list.push({
+                name: globalize.translate('Schedule'),
+                value: 'schedule'
+            });
+            list.push({
+                name: globalize.translate('Series'),
+                value: 'series'
             });
         }
 
@@ -365,12 +397,10 @@ import 'emby-checkbox';
             saveUser(context, user, userSettings, apiClient).then(() => {
                 loading.hide();
                 if (enableSaveConfirmation) {
-                    import('toast').then(({default: toast}) => {
-                        toast(globalize.translate('SettingsSaved'));
-                    });
+                    toast(globalize.translate('SettingsSaved'));
                 }
 
-                events.trigger(instance, 'saved');
+                Events.trigger(instance, 'saved');
             }, () => {
                 loading.hide();
             });
@@ -379,7 +409,7 @@ import 'emby-checkbox';
 
     function onSubmit(e) {
         const self = this;
-        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
@@ -413,29 +443,28 @@ import 'emby-checkbox';
     }
 
     function embed(options, self) {
-        return import('text!./homeScreenSettings.template.html').then(({default: template}) => {
-            for (let i = 1; i <= numConfigurableSections; i++) {
-                template = template.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
-            }
+        let workingTemplate = template;
+        for (let i = 1; i <= numConfigurableSections; i++) {
+            workingTemplate = workingTemplate.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
+        }
 
-            options.element.innerHTML = globalize.translateHtml(template, 'core');
+        options.element.innerHTML = globalize.translateHtml(workingTemplate, 'core');
 
-            options.element.querySelector('.viewOrderList').addEventListener('click', onSectionOrderListClick);
-            options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
-            options.element.addEventListener('change', onChange);
+        options.element.querySelector('.viewOrderList').addEventListener('click', onSectionOrderListClick);
+        options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
+        options.element.addEventListener('change', onChange);
 
-            if (options.enableSaveButton) {
-                options.element.querySelector('.btnSave').classList.remove('hide');
-            }
+        if (options.enableSaveButton) {
+            options.element.querySelector('.btnSave').classList.remove('hide');
+        }
 
-            if (layoutManager.tv) {
-                options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
-            } else {
-                options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
-            }
+        if (layoutManager.tv) {
+            options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
+        } else {
+            options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
+        }
 
-            self.loadData(options.autoFocus);
-        });
+        self.loadData(options.autoFocus);
     }
 
     class HomeScreenSettings {
@@ -451,7 +480,7 @@ import 'emby-checkbox';
             loading.show();
 
             const userId = self.options.userId;
-            const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+            const apiClient = ServerConnections.getApiClient(self.options.serverId);
             const userSettings = self.options.userSettings;
 
             apiClient.getUser(userId).then(user => {

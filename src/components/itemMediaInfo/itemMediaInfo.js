@@ -5,17 +5,19 @@
  * @module components/itemMediaInfo/itemMediaInfo
  */
 
-import dialogHelper from 'dialogHelper';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import loading from 'loading';
-import 'emby-select';
-import 'listViewStyle';
-import 'paper-icon-button-light';
-import 'css!./../formdialog';
-import 'material-icons';
-import 'emby-button';
-import 'flexStyles';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import loading from '../loading/loading';
+import '../../elements/emby-select/emby-select';
+import '../listview/listview.css';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import 'material-design-icons-iconfont';
+import '../../assets/css/flexstyles.scss';
+import ServerConnections from '../ServerConnections';
+import template from './itemMediaInfo.template.html';
 
     function setMediaInfo(user, page, item) {
         let html = item.MediaSources.map(version => {
@@ -120,6 +122,18 @@ import 'flexStyles';
             if (stream.BitDepth) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoBitDepth'), `${stream.BitDepth} bit`));
             }
+            if (stream.VideoRange) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoVideoRange'), stream.VideoRange));
+            }
+            if (stream.ColorSpace) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoColorSpace'), stream.ColorSpace));
+            }
+            if (stream.ColorTransfer) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoColorTransfer'), stream.ColorTransfer));
+            }
+            if (stream.ColorPrimaries) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoColorPrimaries'), stream.ColorPrimaries));
+            }
             if (stream.PixelFormat) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoPixelFormat'), stream.PixelFormat));
             }
@@ -149,8 +163,8 @@ import 'flexStyles';
         return `<span class="mediaInfoLabel">${label}</span><span class="mediaInfoAttribute">${value}</span>`;
     }
 
-    function loadMediaInfo(itemId, serverId, template) {
-        const apiClient = window.connectionManager.getApiClient(serverId);
+    function loadMediaInfo(itemId, serverId) {
+        const apiClient = ServerConnections.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
             const dialogOptions = {
                 size: 'small',
@@ -181,11 +195,7 @@ import 'flexStyles';
 
     export function show(itemId, serverId) {
         loading.show();
-        return import('text!./itemMediaInfo.template.html').then(({default: template}) => {
-            return new Promise((resolve, reject) => {
-                loadMediaInfo(itemId, serverId, template).then(resolve, reject);
-            });
-        });
+        return loadMediaInfo(itemId, serverId);
     }
 
 /* eslint-enable indent */

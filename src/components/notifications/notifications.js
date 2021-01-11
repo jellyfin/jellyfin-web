@@ -1,7 +1,7 @@
-import serverNotifications from 'serverNotifications';
-import playbackManager from 'playbackManager';
-import events from 'events';
-import globalize from 'globalize';
+import serverNotifications from '../../scripts/serverNotifications';
+import { playbackManager } from '../playback/playbackmanager';
+import { Events } from 'jellyfin-apiclient';
+import globalize from '../../scripts/globalize';
 
 function onOneDocumentClick() {
     document.removeEventListener('click', onOneDocumentClick);
@@ -31,7 +31,7 @@ function closeAfter(notification, timeoutMs) {
 
 function resetRegistration() {
     /* eslint-disable-next-line compat/compat */
-    let serviceWorker = navigator.serviceWorker;
+    const serviceWorker = navigator.serviceWorker;
     if (serviceWorker) {
         serviceWorker.ready.then(function (registration) {
             serviceWorkerRegistration = registration;
@@ -47,7 +47,7 @@ function showPersistentNotification(title, options, timeoutMs) {
 
 function showNonPersistentNotification(title, options, timeoutMs) {
     try {
-        let notif = new Notification(title, options); /* eslint-disable-line compat/compat */
+        const notif = new Notification(title, options); /* eslint-disable-line compat/compat */
 
         if (notif.show) {
             notif.show();
@@ -67,7 +67,7 @@ function showNonPersistentNotification(title, options, timeoutMs) {
 }
 
 function showNotification(options, timeoutMs, apiClient) {
-    let title = options.title;
+    const title = options.title;
 
     options.data = options.data || {};
     options.data.serverId = apiClient.serverInfo().Id;
@@ -95,7 +95,7 @@ function showNewItemNotification(item, apiClient) {
         body = item.SeriesName + ' - ' + body;
     }
 
-    let notification = {
+    const notification = {
         title: 'New ' + item.Type,
         body: body,
         vibrate: true,
@@ -103,7 +103,7 @@ function showNewItemNotification(item, apiClient) {
         data: {}
     };
 
-    let imageTags = item.ImageTags || {};
+    const imageTags = item.ImageTags || {};
 
     if (imageTags.Primary) {
         notification.icon = apiClient.getScaledImageUrl(item.Id, {
@@ -117,7 +117,7 @@ function showNewItemNotification(item, apiClient) {
 }
 
 function onLibraryChanged(data, apiClient) {
-    let newItems = data.ItemsAdded;
+    const newItems = data.ItemsAdded;
 
     if (!newItems.length) {
         return;
@@ -140,7 +140,7 @@ function onLibraryChanged(data, apiClient) {
         EnableTotalRecordCount: false
 
     }).then(function (result) {
-        let items = result.Items;
+        const items = result.Items;
 
         for (const item of items) {
             showNewItemNotification(item, apiClient);
@@ -159,7 +159,7 @@ function showPackageInstallNotification(apiClient, installation, status) {
             return;
         }
 
-        let notification = {
+        const notification = {
             tag: 'install' + installation.Id,
             data: {}
         };
@@ -188,58 +188,58 @@ function showPackageInstallNotification(apiClient, installation, status) {
         }
 
         if (status === 'progress') {
-            let percentComplete = Math.round(installation.PercentComplete || 0);
+            const percentComplete = Math.round(installation.PercentComplete || 0);
 
             notification.body = percentComplete + '% complete.';
         }
 
-        let timeout = status === 'cancelled' ? 5000 : 0;
+        const timeout = status === 'cancelled' ? 5000 : 0;
 
         showNotification(notification, timeout, apiClient);
     });
 }
 
-events.on(serverNotifications, 'LibraryChanged', function (e, apiClient, data) {
+Events.on(serverNotifications, 'LibraryChanged', function (e, apiClient, data) {
     onLibraryChanged(data, apiClient);
 });
 
-events.on(serverNotifications, 'PackageInstallationCompleted', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationCompleted', function (e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'completed');
 });
 
-events.on(serverNotifications, 'PackageInstallationFailed', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationFailed', function (e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'failed');
 });
 
-events.on(serverNotifications, 'PackageInstallationCancelled', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationCancelled', function (e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'cancelled');
 });
 
-events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'progress');
 });
 
-events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
-    let serverId = apiClient.serverInfo().Id;
-    let notification = {
+Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
+    const serverId = apiClient.serverInfo().Id;
+    const notification = {
         tag: 'restart' + serverId,
         title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
     };
     showNotification(notification, 0, apiClient);
 });
 
-events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
-    let serverId = apiClient.serverInfo().Id;
-    let notification = {
+Events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
+    const serverId = apiClient.serverInfo().Id;
+    const notification = {
         tag: 'restart' + serverId,
         title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
     };
     showNotification(notification, 0, apiClient);
 });
 
-events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
-    let serverId = apiClient.serverInfo().Id;
-    let notification = {
+Events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
+    const serverId = apiClient.serverInfo().Id;
+    const notification = {
         tag: 'restart' + serverId,
         title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
     };

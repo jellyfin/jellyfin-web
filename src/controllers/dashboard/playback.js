@@ -1,13 +1,16 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
+import 'jquery';
+import loading from '../../components/loading/loading';
+import libraryMenu from '../../scripts/libraryMenu';
+import globalize from '../../scripts/globalize';
+import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 
     function loadPage(page, config) {
         $('#txtMinResumePct', page).val(config.MinResumePct);
         $('#txtMaxResumePct', page).val(config.MaxResumePct);
+        $('#txtMinAudiobookResume', page).val(config.MinAudiobookResume);
+        $('#txtMaxAudiobookResume', page).val(config.MaxAudiobookResume);
         $('#txtMinResumeDuration', page).val(config.MinResumeDurationSeconds);
         loading.hide();
     }
@@ -18,6 +21,8 @@ import globalize from 'globalize';
         ApiClient.getServerConfiguration().then(function (config) {
             config.MinResumePct = $('#txtMinResumePct', form).val();
             config.MaxResumePct = $('#txtMaxResumePct', form).val();
+            config.MinAudiobookResume = $('#txtMinAudiobookResume', form).val();
+            config.MaxAudiobookResume = $('#txtMaxAudiobookResume', form).val();
             config.MinResumeDurationSeconds = $('#txtMinResumeDuration', form).val();
 
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
@@ -28,13 +33,13 @@ import globalize from 'globalize';
 
     function getTabs() {
         return [{
-            href: 'encodingsettings.html',
+            href: '#!/encodingsettings.html',
             name: globalize.translate('Transcoding')
         }, {
-            href: 'playbackconfiguration.html',
+            href: '#!/playbackconfiguration.html',
             name: globalize.translate('ButtonResume')
         }, {
-            href: 'streamingsettings.html',
+            href: '#!/streamingsettings.html',
             name: globalize.translate('TabStreaming')
         }];
     }

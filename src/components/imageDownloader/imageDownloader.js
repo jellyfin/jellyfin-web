@@ -1,17 +1,19 @@
-import dom from 'dom';
-import loading from 'loading';
-import appHost from 'apphost';
-import dialogHelper from 'dialogHelper';
-import imageLoader from 'imageLoader';
-import browser from 'browser';
-import layoutManager from 'layoutManager';
-import scrollHelper from 'scrollHelper';
-import globalize from 'globalize';
-import 'emby-checkbox';
-import 'paper-icon-button-light';
-import 'emby-button';
-import 'formDialogStyle';
-import 'cardStyle';
+import dom from '../../scripts/dom';
+import loading from '../loading/loading';
+import { appHost } from '../apphost';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import imageLoader from '../images/imageLoader';
+import browser from '../../scripts/browser';
+import layoutManager from '../layoutManager';
+import scrollHelper from '../../scripts/scrollHelper';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-button/emby-button';
+import '../formdialog.css';
+import '../cardbuilder/card.css';
+import ServerConnections from '../ServerConnections';
+import template from './imageDownloader.template.html';
 
 /* eslint-disable indent */
 
@@ -315,44 +317,42 @@ import 'cardStyle';
     function showEditor(itemId, serverId, itemType) {
         loading.show();
 
-        import('text!./imageDownloader.template.html').then(({default: template}) => {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
-            currentItemId = itemId;
-            currentItemType = itemType;
+        currentItemId = itemId;
+        currentItemType = itemType;
 
-            const dialogOptions = {
-                removeOnClose: true
-            };
+        const dialogOptions = {
+            removeOnClose: true
+        };
 
-            if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
-            }
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
 
-            const dlg = dialogHelper.createDialog(dialogOptions);
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
-            dlg.innerHTML = globalize.translateHtml(template, 'core');
+        dlg.innerHTML = globalize.translateHtml(template, 'core');
 
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg, false);
-            }
+        if (layoutManager.tv) {
+            scrollHelper.centerFocus.on(dlg, false);
+        }
 
-            // Has to be assigned a z-index after the call to .open()
-            dlg.addEventListener('close', onDialogClosed);
+        // Has to be assigned a z-index after the call to .open()
+        dlg.addEventListener('close', onDialogClosed);
 
-            dialogHelper.open(dlg);
+        dialogHelper.open(dlg);
 
-            const editorContent = dlg.querySelector('.formDialogContent');
-            initEditor(editorContent, apiClient);
+        const editorContent = dlg.querySelector('.formDialogContent');
+        initEditor(editorContent, apiClient);
 
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                dialogHelper.close(dlg);
-            });
-
-            reloadBrowsableImages(editorContent, apiClient);
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+            dialogHelper.close(dlg);
         });
+
+        reloadBrowsableImages(editorContent, apiClient);
     }
 
     function onDialogClosed() {

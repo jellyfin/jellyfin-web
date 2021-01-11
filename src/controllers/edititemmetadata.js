@@ -1,11 +1,11 @@
-import loading from 'loading';
-import 'scripts/editorsidebar';
+import loading from '../components/loading/loading';
+import '../scripts/editorsidebar';
 
 function reload(context, itemId) {
     loading.show();
 
     if (itemId) {
-        import('metadataEditor').then(({ default: metadataEditor }) => {
+        import('../components/metadataEditor/metadataEditor').then(({ default: metadataEditor }) => {
             metadataEditor.embed(context.querySelector('.editPageInnerContent'), itemId, ApiClient.serverInfo().Id);
         });
     } else {
@@ -20,7 +20,7 @@ export default function (view, params) {
     });
     MetadataEditor.setCurrentItemId(null);
     view.querySelector('.libraryTree').addEventListener('itemclicked', function (event) {
-        var data = event.detail;
+        const data = event.detail;
 
         if (data.id != MetadataEditor.getCurrentItemId()) {
             MetadataEditor.setCurrentItemId(data.id);

@@ -1,8 +1,9 @@
-import globalize from 'globalize';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import 'listViewStyle';
-import 'emby-button';
+import globalize from '../../../scripts/globalize';
+import loading from '../../../components/loading/loading';
+import libraryMenu from '../../../scripts/libraryMenu';
+import confirm from '../../../components/confirm/confirm';
+import '../../../components/listview/listview.css';
+import '../../../elements/emby-button/emby-button';
 
 function loadProfiles(page) {
     loading.show();
@@ -37,7 +38,7 @@ function renderProfiles(page, element, profiles) {
         html += '<div class="listItem listItem-border">';
         html += '<span class="listItemIcon material-icons live_tv"></span>';
         html += '<div class="listItemBody two-line">';
-        html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='dlnaprofile.html?id=" + profile.Id + "'>";
+        html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='#!/dlnaprofile.html?id=" + profile.Id + "'>";
         html += '<div>' + profile.Name + '</div>';
         html += '</a>';
         html += '</div>';
@@ -67,26 +68,24 @@ function renderProfiles(page, element, profiles) {
 }
 
 function deleteProfile(page, id) {
-    import('confirm').then(({default: confirm}) => {
-        confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
-            loading.show();
-            ApiClient.ajax({
-                type: 'DELETE',
-                url: ApiClient.getUrl('Dlna/Profiles/' + id)
-            }).then(function () {
-                loading.hide();
-                loadProfiles(page);
-            });
+    confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
+        loading.show();
+        ApiClient.ajax({
+            type: 'DELETE',
+            url: ApiClient.getUrl('Dlna/Profiles/' + id)
+        }).then(function () {
+            loading.hide();
+            loadProfiles(page);
         });
     });
 }
 
 function getTabs() {
     return [{
-        href: 'dlnasettings.html',
+        href: '#!/dlnasettings.html',
         name: globalize.translate('Settings')
     }, {
-        href: 'dlnaprofiles.html',
+        href: '#!/dlnaprofiles.html',
         name: globalize.translate('TabProfiles')
     }];
 }

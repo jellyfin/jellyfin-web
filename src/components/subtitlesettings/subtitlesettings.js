@@ -1,20 +1,23 @@
-import globalize from 'globalize';
-import appHost from 'apphost';
-import appSettings from 'appSettings';
-import focusManager from 'focusManager';
-import layoutManager from 'layoutManager';
-import loading from 'loading';
-import subtitleAppearanceHelper from 'subtitleAppearanceHelper';
-import settingsHelper from 'settingsHelper';
-import dom from 'dom';
-import events from 'events';
-import 'listViewStyle';
-import 'emby-select';
-import 'emby-slider';
-import 'emby-input';
-import 'emby-checkbox';
-import 'flexStyles';
-import 'css!./subtitlesettings';
+import globalize from '../../scripts/globalize';
+import { appHost } from '../apphost';
+import appSettings from '../../scripts/settings/appSettings';
+import focusManager from '../focusManager';
+import layoutManager from '../layoutManager';
+import loading from '../loading/loading';
+import subtitleAppearanceHelper from './subtitleappearancehelper';
+import settingsHelper from '../settingshelper';
+import dom from '../../scripts/dom';
+import { Events } from 'jellyfin-apiclient';
+import '../listview/listview.css';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-slider/emby-slider';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../assets/css/flexstyles.scss';
+import './subtitlesettings.css';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import template from './subtitlesettings.template.html';
 
 /**
  * Subtitle settings.
@@ -87,12 +90,10 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
         saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
             loading.hide();
             if (enableSaveConfirmation) {
-                import('toast').then(({default: toast}) => {
-                    toast(globalize.translate('SettingsSaved'));
-                });
+                toast(globalize.translate('SettingsSaved'));
             }
 
-            events.trigger(instance, 'saved');
+            Events.trigger(instance, 'saved');
         }, function () {
             loading.hide();
         });
@@ -158,63 +159,61 @@ function hideSubtitlePreview(persistent) {
 }
 
 function embed(options, self) {
-    import('text!./subtitlesettings.template.html').then(({default: template}) => {
-        options.element.classList.add('subtitlesettings');
-        options.element.innerHTML = globalize.translateHtml(template, 'core');
+    options.element.classList.add('subtitlesettings');
+    options.element.innerHTML = globalize.translateHtml(template, 'core');
 
-        options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
+    options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
 
-        options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
-        options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
-        options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
-        options.element.querySelector('#selectFont').addEventListener('change', onAppearanceFieldChange);
-        options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
-        options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
+    options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#selectFont').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);
 
-        if (options.enableSaveButton) {
-            options.element.querySelector('.btnSave').classList.remove('hide');
+    if (options.enableSaveButton) {
+        options.element.querySelector('.btnSave').classList.remove('hide');
+    }
+
+    if (appHost.supports('subtitleappearancesettings')) {
+        options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
+
+        self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');
+        self._refFullPreview = 0;
+
+        const sliderVerticalPosition = options.element.querySelector('#sliderVerticalPosition');
+        sliderVerticalPosition.addEventListener('input', onAppearanceFieldChange);
+        sliderVerticalPosition.addEventListener('input', () => showSubtitlePreview.call(self));
+
+        const eventPrefix = window.PointerEvent ? 'pointer' : 'mouse';
+        sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSubtitlePreview.call(self, true));
+        sliderVerticalPosition.addEventListener(`${eventPrefix}leave`, () => hideSubtitlePreview.call(self, true));
+
+        if (layoutManager.tv) {
+            sliderVerticalPosition.addEventListener('focus', () => showSubtitlePreview.call(self, true));
+            sliderVerticalPosition.addEventListener('blur', () => hideSubtitlePreview.call(self, true));
+
+            // Give CustomElements time to attach
+            setTimeout(() => {
+                sliderVerticalPosition.classList.add('focusable');
+                sliderVerticalPosition.enableKeyboardDragging();
+            }, 0);
         }
 
-        if (appHost.supports('subtitleappearancesettings')) {
-            options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
-
-            self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');
-            self._refFullPreview = 0;
-
-            const sliderVerticalPosition = options.element.querySelector('#sliderVerticalPosition');
-            sliderVerticalPosition.addEventListener('input', onAppearanceFieldChange);
-            sliderVerticalPosition.addEventListener('input', () => showSubtitlePreview.call(self));
-
-            const eventPrefix = window.PointerEvent ? 'pointer' : 'mouse';
-            sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSubtitlePreview.call(self, true));
-            sliderVerticalPosition.addEventListener(`${eventPrefix}leave`, () => hideSubtitlePreview.call(self, true));
-
-            if (layoutManager.tv) {
-                sliderVerticalPosition.addEventListener('focus', () => showSubtitlePreview.call(self, true));
-                sliderVerticalPosition.addEventListener('blur', () => hideSubtitlePreview.call(self, true));
-
-                // Give CustomElements time to attach
-                setTimeout(() => {
-                    sliderVerticalPosition.classList.add('focusable');
-                    sliderVerticalPosition.enableKeyboardDragging();
-                }, 0);
+        options.element.querySelector('.chkPreview').addEventListener('change', (e) => {
+            if (e.target.checked) {
+                showSubtitlePreview.call(self, true);
+            } else {
+                hideSubtitlePreview.call(self, true);
             }
+        });
+    }
 
-            options.element.querySelector('.chkPreview').addEventListener('change', (e) => {
-                if (e.target.checked) {
-                    showSubtitlePreview.call(self, true);
-                } else {
-                    hideSubtitlePreview.call(self, true);
-                }
-            });
-        }
+    self.loadData();
 
-        self.loadData();
-
-        if (options.autoFocus) {
-            focusManager.autoFocus(options.element);
-        }
-    });
+    if (options.autoFocus) {
+        focusManager.autoFocus(options.element);
+    }
 }
 
 export class SubtitleSettings {
@@ -231,7 +230,7 @@ export class SubtitleSettings {
         loading.show();
 
         const userId = self.options.userId;
-        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
         apiClient.getUser(userId).then(function (user) {
@@ -255,7 +254,7 @@ export class SubtitleSettings {
 
     onSubmit(e) {
         const self = this;
-        const apiClient = window.connectionManager.getApiClient(self.options.serverId);
+        const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 

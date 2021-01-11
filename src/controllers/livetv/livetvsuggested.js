@@ -1,15 +1,16 @@
-import layoutManager from 'layoutManager';
-import * as userSettings from 'userSettings';
-import inputManager from 'inputManager';
-import loading from 'loading';
-import globalize from 'globalize';
-import * as mainTabsManager from 'mainTabsManager';
-import cardBuilder from 'cardBuilder';
-import imageLoader from 'imageLoader';
-import 'scrollStyles';
-import 'emby-itemscontainer';
-import 'emby-tabs';
-import 'emby-button';
+import layoutManager from '../../components/layoutManager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import inputManager from '../../scripts/inputManager';
+import loading from '../../components/loading/loading';
+import globalize from '../../scripts/globalize';
+import * as mainTabsManager from '../../components/maintabsmanager';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-button/emby-button';
+import Dashboard from '../../scripts/clientUtils';
 
 function enableScrollX() {
     return !layoutManager.desktop;
@@ -60,7 +61,7 @@ function loadRecommendedPrograms(page) {
         });
         loading.hide();
 
-        import('autoFocuser').then(({default: autoFocuser}) => {
+        import('../../components/autoFocuser').then(({default: autoFocuser}) => {
             autoFocuser.autoFocus(page);
         });
     });
@@ -239,31 +240,31 @@ export default function (view, params) {
         // TODO int is a little hard to read
         switch (index) {
             case 0:
-                depends = 'controllers/livetv/livetvsuggested';
+                depends = 'livetvsuggested';
                 break;
 
             case 1:
-                depends = 'controllers/livetv/livetvguide';
+                depends = 'livetvguide';
                 break;
 
             case 2:
-                depends = 'controllers/livetv/livetvchannels';
+                depends = 'livetvchannels';
                 break;
 
             case 3:
-                depends = 'controllers/livetv/livetvrecordings';
+                depends = 'livetvrecordings';
                 break;
 
             case 4:
-                depends = 'controllers/livetv/livetvschedule';
+                depends = 'livetvschedule';
                 break;
 
             case 5:
-                depends = 'controllers/livetv/livetvseriestimers';
+                depends = 'livetvseriestimers';
                 break;
         }
 
-        import(depends).then(({default: controllerFactory}) => {
+        import(`../livetv/${depends}`).then(({default: controllerFactory}) => {
             let tabContent;
 
             if (index === 0) {
@@ -337,7 +338,7 @@ export default function (view, params) {
     let initialTabIndex = currentTabIndex;
     let lastFullRender = 0;
     [].forEach.call(view.querySelectorAll('.sectionTitleTextButton-programs'), function (link) {
-        const href = link.href;
+        const href = link.getAttribute('href');
 
         if (href) {
             link.href = href + '&serverId=' + ApiClient.serverId();

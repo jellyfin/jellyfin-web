@@ -1,4 +1,5 @@
-import globalize from 'globalize';
+import globalize from '../../../scripts/globalize';
+import Dashboard from '../../../scripts/clientUtils';
 
 /* eslint-disable indent */
 
@@ -41,6 +42,7 @@ import globalize from 'globalize';
                 type: 'POST',
                 url: ApiClient.getUrl('Users/ForgotPassword'),
                 dataType: 'json',
+                contentType: 'application/json',
                 data: JSON.stringify({
                     EnteredUsername: view.querySelector('#txtName').value
                 })

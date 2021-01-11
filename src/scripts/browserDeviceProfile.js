@@ -1,13 +1,13 @@
-define(['browser'], function (browser) {
-    'use strict';
-
-    browser = browser.default || browser;
+import appSettings from './settings/appSettings';
+import * as userSettings from './settings/userSettings';
+import browser from './browser';
+/* eslint-disable indent */
 
     function canPlayH264(videoTestElement) {
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
     }
 
-    function canPlayH265(videoTestElement, options) {
+    function canPlayHevc(videoTestElement, options) {
         if (browser.tizen || browser.xboxOne || browser.web0s || options.supportsHevc) {
             return true;
         }
@@ -16,6 +16,7 @@ define(['browser'], function (browser) {
             return false;
         }
 
+        // hevc main level 4.0
         return !!videoTestElement.canPlayType &&
         (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L120"').replace(/no/, '') ||
         videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L120"').replace(/no/, '') ||
@@ -23,7 +24,7 @@ define(['browser'], function (browser) {
         videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, ''));
     }
 
-    var _supportsTextTracks;
+    let _supportsTextTracks;
     function supportsTextTracks() {
         if (browser.tizen) {
             return true;
@@ -37,7 +38,7 @@ define(['browser'], function (browser) {
         return _supportsTextTracks;
     }
 
-    var _canPlayHls;
+    let _canPlayHls;
     function canPlayHls() {
         if (_canPlayHls == null) {
             _canPlayHls = canPlayNativeHls() || canPlayHlsWithMSE();
@@ -51,7 +52,7 @@ define(['browser'], function (browser) {
             return true;
         }
 
-        var media = document.createElement('video');
+        const media = document.createElement('video');
         if (media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
             media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')) {
             return true;
@@ -107,7 +108,7 @@ define(['browser'], function (browser) {
     }
 
     function canPlayAudioFormat(format) {
-        var typeString;
+        let typeString;
 
         if (format === 'flac') {
             if (browser.tizen || browser.web0s || browser.edgeUwp) {
@@ -192,9 +193,9 @@ define(['browser'], function (browser) {
     }
 
     function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
-        var supported = false;
-        var profileContainer = container;
-        var videoCodecs = [];
+        let supported = false;
+        let profileContainer = container;
+        const videoCodecs = [];
 
         switch (container) {
             case 'asf':
@@ -207,8 +208,7 @@ define(['browser'], function (browser) {
                 // Explicitly add supported codecs to make other codecs be transcoded
                 if (browser.tizenVersion >= 4) {
                     videoCodecs.push('h264');
-                    if (canPlayH265(videoTestElement, options)) {
-                        videoCodecs.push('h265');
+                    if (canPlayHevc(videoTestElement, options)) {
                         videoCodecs.push('hevc');
                     }
                 }
@@ -248,8 +248,8 @@ define(['browser'], function (browser) {
             case 'ts':
                 supported = testCanPlayTs();
                 videoCodecs.push('h264');
-                if (canPlayH265(videoTestElement, options)) {
-                    videoCodecs.push('h265');
+                // safari doesn't support hevc in TS-HLS
+                if ((browser.tizen || browser.web0s) && canPlayHevc(videoTestElement, options)) {
                     videoCodecs.push('hevc');
                 }
                 if (supportsVc1(videoTestElement)) {
@@ -277,10 +277,10 @@ define(['browser'], function (browser) {
     }
 
     function getGlobalMaxVideoBitrate() {
-        var isTizenFhd = false;
+        let isTizenFhd = false;
         if (browser.tizen) {
             try {
-                var isTizenUhd = webapis.productinfo.isUdPanelSupported();
+                const isTizenUhd = webapis.productinfo.isUdPanelSupported();
                 isTizenFhd = !isTizenUhd;
                 console.debug('isTizenFhd = ' + isTizenFhd);
             } catch (error) {
@@ -294,41 +294,44 @@ define(['browser'], function (browser) {
                     (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
-    return function (options) {
+    export default function (options) {
         options = options || {};
 
-        var physicalAudioChannels = options.audioChannels || (browser.tv || browser.ps4 || browser.xboxOne ? 6 : 2);
+        const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox;
+        const allowedAudioChannels = parseInt(userSettings.allowedAudioChannels() || '-1');
+        const physicalAudioChannels = (allowedAudioChannels > 0 ? allowedAudioChannels : null) || options.audioChannels || (isSurroundSoundSupportedBrowser || browser.tv || browser.ps4 || browser.xboxOne ? 6 : 2);
 
-        var bitrateSetting = getMaxBitrate();
+        const bitrateSetting = getMaxBitrate();
 
-        var videoTestElement = document.createElement('video');
+        const videoTestElement = document.createElement('video');
 
-        var canPlayVp8 = videoTestElement.canPlayType('video/webm; codecs="vp8"').replace(/no/, '');
-        var canPlayVp9 = videoTestElement.canPlayType('video/webm; codecs="vp9"').replace(/no/, '');
-        var webmAudioCodecs = ['vorbis'];
+        const canPlayVp8 = videoTestElement.canPlayType('video/webm; codecs="vp8"').replace(/no/, '');
+        const canPlayVp9 = videoTestElement.canPlayType('video/webm; codecs="vp9"').replace(/no/, '');
+        const webmAudioCodecs = ['vorbis'];
 
-        var canPlayMkv = testCanPlayMkv(videoTestElement);
+        const canPlayMkv = testCanPlayMkv(videoTestElement);
 
-        var profile = {};
+        const profile = {};
 
         profile.MaxStreamingBitrate = bitrateSetting;
         profile.MaxStaticBitrate = 100000000;
-        profile.MusicStreamingTranscodingBitrate = Math.min(bitrateSetting, 192000);
+        profile.MusicStreamingTranscodingBitrate = Math.min(bitrateSetting, 384000);
 
         profile.DirectPlayProfiles = [];
 
-        var videoAudioCodecs = [];
-        var hlsVideoAudioCodecs = [];
+        let videoAudioCodecs = [];
+        let hlsInTsVideoAudioCodecs = [];
+        let hlsInFmp4VideoAudioCodecs = [];
 
-        var supportsMp3VideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.69"').replace(/no/, '')
+        const supportsMp3VideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.69"').replace(/no/, '')
                                     || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '')
                                     || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp3"').replace(/no/, '');
 
         // Not sure how to test for this
-        var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
+        const supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
 
         /* eslint-disable compat/compat */
-        var maxVideoWidth = browser.xboxOne ?
+        let maxVideoWidth = browser.xboxOne ?
             (window.screen ? window.screen.width : null) :
             null;
 
@@ -337,27 +340,17 @@ define(['browser'], function (browser) {
             maxVideoWidth = options.maxVideoWidth;
         }
 
-        var canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
+        const canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
+        const canPlayAc3VideoAudio = supportsAc3(videoTestElement);
+        const canPlayEac3VideoAudio = supportsEac3(videoTestElement);
+        const canPlayAc3VideoAudioInHls = supportsAc3InHls(videoTestElement);
 
-        // Only put mp3 first if mkv support is there
-        // Otherwise with HLS and mp3 audio we're seeing some browsers
-        // safari is lying
-        if (supportsAc3(videoTestElement)) {
-            videoAudioCodecs.push('ac3');
-
-            var eAc3 = supportsEac3(videoTestElement);
-            if (eAc3) {
-                videoAudioCodecs.push('eac3');
-            }
-
-            // This works in edge desktop, but not mobile
-            // TODO: Retest this on mobile
-            if (supportsAc3InHls(videoTestElement)) {
-                hlsVideoAudioCodecs.push('ac3');
-                if (eAc3) {
-                    hlsVideoAudioCodecs.push('eac3');
-                }
-            }
+        // Transcoding codec is the first in hlsVideoAudioCodecs.
+        // Prefer AAC, MP3 to other codecs when audio transcoding.
+        if (canPlayAacVideoAudio) {
+            videoAudioCodecs.push('aac');
+            hlsInTsVideoAudioCodecs.push('aac');
+            hlsInFmp4VideoAudioCodecs.push('aac');
         }
 
         if (supportsMp3VideoAudio) {
@@ -365,27 +358,27 @@ define(['browser'], function (browser) {
 
             // PS4 fails to load HLS with mp3 audio
             if (!browser.ps4) {
-                // mp3 encoder only supports 2 channels, so only make that preferred if we're only requesting 2 channels
-                // Also apply it for chromecast because it no longer supports AAC 5.1
-                if (physicalAudioChannels <= 2) {
-                    hlsVideoAudioCodecs.push('mp3');
-                }
-            }
-        }
-
-        if (canPlayAacVideoAudio) {
-            if (videoAudioCodecs.indexOf('aac') === -1) {
-                videoAudioCodecs.push('aac');
+                hlsInTsVideoAudioCodecs.push('mp3');
             }
 
-            hlsVideoAudioCodecs.push('aac');
+            hlsInFmp4VideoAudioCodecs.push('mp3');
         }
 
-        if (supportsMp3VideoAudio) {
-            // PS4 fails to load HLS with mp3 audio
-            if (!browser.ps4) {
-                if (hlsVideoAudioCodecs.indexOf('mp3') === -1) {
-                    hlsVideoAudioCodecs.push('mp3');
+        // For AC3/EAC3 remuxing.
+        // Do not use AC3 for audio transcoding unless AAC and MP3 are not supported.
+        if (canPlayAc3VideoAudio) {
+            videoAudioCodecs.push('ac3');
+            if (canPlayEac3VideoAudio) {
+                videoAudioCodecs.push('eac3');
+            }
+
+            if (canPlayAc3VideoAudioInHls) {
+                hlsInTsVideoAudioCodecs.push('ac3');
+                hlsInFmp4VideoAudioCodecs.push('ac3');
+
+                if (canPlayEac3VideoAudio) {
+                    hlsInTsVideoAudioCodecs.push('eac3');
+                    hlsInFmp4VideoAudioCodecs.push('eac3');
                 }
             }
         }
@@ -394,7 +387,7 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('mp2');
         }
 
-        var supportsDts = browser.tizen || browser.web0s || options.supportsDts || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
+        let supportsDts = browser.tizen || browser.web0s || options.supportsDts || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
 
         // DTS audio not supported in 2018 models (Tizen 4.0)
         if (browser.tizenVersion >= 4) {
@@ -421,38 +414,54 @@ define(['browser'], function (browser) {
 
         if (canPlayAudioFormat('opus')) {
             videoAudioCodecs.push('opus');
-            hlsVideoAudioCodecs.push('opus');
+            hlsInTsVideoAudioCodecs.push('opus');
             webmAudioCodecs.push('opus');
         }
 
         if (canPlayAudioFormat('flac')) {
             videoAudioCodecs.push('flac');
+            hlsInFmp4VideoAudioCodecs.push('flac');
+        }
+
+        if (canPlayAudioFormat('alac')) {
+            videoAudioCodecs.push('alac');
+            hlsInFmp4VideoAudioCodecs.push('alac');
         }
 
         videoAudioCodecs = videoAudioCodecs.filter(function (c) {
             return (options.disableVideoAudioCodecs || []).indexOf(c) === -1;
         });
 
-        hlsVideoAudioCodecs = hlsVideoAudioCodecs.filter(function (c) {
+        hlsInTsVideoAudioCodecs = hlsInTsVideoAudioCodecs.filter(function (c) {
             return (options.disableHlsVideoAudioCodecs || []).indexOf(c) === -1;
         });
 
-        var mp4VideoCodecs = [];
-        var webmVideoCodecs = [];
-        var hlsVideoCodecs = [];
+        hlsInFmp4VideoAudioCodecs = hlsInFmp4VideoAudioCodecs.filter(function (c) {
+            return (options.disableHlsVideoAudioCodecs || []).indexOf(c) === -1;
+        });
+
+        const mp4VideoCodecs = [];
+        const webmVideoCodecs = [];
+        const hlsInTsVideoCodecs = [];
+        const hlsInFmp4VideoCodecs = [];
+
+        if ((browser.safari || browser.tizen || browser.web0s) && canPlayHevc(videoTestElement, options)) {
+            hlsInFmp4VideoCodecs.push('hevc');
+        }
 
         if (canPlayH264(videoTestElement)) {
             mp4VideoCodecs.push('h264');
-            hlsVideoCodecs.push('h264');
+            hlsInTsVideoCodecs.push('h264');
+
+            if (browser.safari || browser.tizen || browser.web0s) {
+                hlsInFmp4VideoCodecs.push('h264');
+            }
         }
 
-        if (canPlayH265(videoTestElement, options)) {
-            mp4VideoCodecs.push('h265');
-            mp4VideoCodecs.push('hevc');
-
-            if (browser.tizen || browser.web0s) {
-                hlsVideoCodecs.push('h265');
-                hlsVideoCodecs.push('hevc');
+        if (canPlayHevc(videoTestElement, options)) {
+            // safari is lying on HDR and 60fps videos, use fMP4 instead
+            if (!browser.safari) {
+                mp4VideoCodecs.push('hevc');
             }
         }
 
@@ -524,29 +533,31 @@ define(['browser'], function (browser) {
         });
 
         ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
-            if (audioFormat === 'mp2') {
+            profile.DirectPlayProfiles.push({
+                Container: audioFormat,
+                Type: 'Audio'
+            });
+
+            // https://www.webmproject.org/about/faq/
+            if (audioFormat === 'opus' || audioFormat === 'webma') {
                 profile.DirectPlayProfiles.push({
-                    Container: 'mp2,mp3',
-                    Type: 'Audio',
-                    AudioCodec: audioFormat
-                });
-            } else if (audioFormat === 'mp3') {
-                profile.DirectPlayProfiles.push({
-                    Container: audioFormat,
-                    Type: 'Audio',
-                    AudioCodec: audioFormat
-                });
-            } else {
-                profile.DirectPlayProfiles.push({
-                    Container: audioFormat === 'webma' ? 'webma,webm' : audioFormat,
+                    Container: 'webm',
+                    AudioCodec: audioFormat,
                     Type: 'Audio'
                 });
             }
 
             // aac also appears in the m4a and m4b container
+            // m4a/alac only works when using safari
             if (audioFormat === 'aac' || audioFormat === 'alac') {
                 profile.DirectPlayProfiles.push({
-                    Container: 'm4a,m4b',
+                    Container: 'm4a',
+                    AudioCodec: audioFormat,
+                    Type: 'Audio'
+                });
+
+                profile.DirectPlayProfiles.push({
+                    Container: 'm4b',
                     AudioCodec: audioFormat,
                     Type: 'Audio'
                 });
@@ -555,7 +566,7 @@ define(['browser'], function (browser) {
 
         profile.TranscodingProfiles = [];
 
-        var hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls() ? true : false;
+        const hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls() ? true : false;
 
         if (canPlayHls() && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({
@@ -620,18 +631,34 @@ define(['browser'], function (browser) {
             });
         }
 
-        if (canPlayHls() && hlsVideoAudioCodecs.length && options.enableHls !== false) {
-            profile.TranscodingProfiles.push({
-                Container: 'ts',
-                Type: 'Video',
-                AudioCodec: hlsVideoAudioCodecs.join(','),
-                VideoCodec: hlsVideoCodecs.join(','),
-                Context: 'Streaming',
-                Protocol: 'hls',
-                MaxAudioChannels: physicalAudioChannels.toString(),
-                MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
-            });
+        if (canPlayHls() && options.enableHls !== false) {
+            if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && userSettings.preferFmp4HlsContainer() && (browser.safari || browser.tizen || browser.web0s)) {
+                profile.TranscodingProfiles.push({
+                    Container: 'mp4',
+                    Type: 'Video',
+                    AudioCodec: hlsInFmp4VideoAudioCodecs.join(','),
+                    VideoCodec: hlsInFmp4VideoCodecs.join(','),
+                    Context: 'Streaming',
+                    Protocol: 'hls',
+                    MaxAudioChannels: physicalAudioChannels.toString(),
+                    MinSegments: browser.iOS || browser.osx ? '2' : '1',
+                    BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+                });
+            }
+
+            if (hlsInTsVideoCodecs.length && hlsInTsVideoAudioCodecs.length) {
+                profile.TranscodingProfiles.push({
+                    Container: 'ts',
+                    Type: 'Video',
+                    AudioCodec: hlsInTsVideoAudioCodecs.join(','),
+                    VideoCodec: hlsInTsVideoCodecs.join(','),
+                    Context: 'Streaming',
+                    Protocol: 'hls',
+                    MaxAudioChannels: physicalAudioChannels.toString(),
+                    MinSegments: browser.iOS || browser.osx ? '2' : '1',
+                    BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+                });
+            }
         }
 
         if (canPlayVp8) {
@@ -661,9 +688,9 @@ define(['browser'], function (browser) {
 
         profile.CodecProfiles = [];
 
-        var supportsSecondaryAudio = browser.tizen || videoTestElement.audioTracks;
+        const supportsSecondaryAudio = browser.tizen || videoTestElement.audioTracks;
 
-        var aacCodecProfileConditions = [];
+        const aacCodecProfileConditions = [];
 
         // Handle he-aac not supported
         if (!videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.5"').replace(/no/, '')) {
@@ -706,8 +733,8 @@ define(['browser'], function (browser) {
             });
         }
 
-        var maxH264Level = 42;
-        var h264Profiles = 'high|main|baseline|constrained baseline';
+        let maxH264Level = 42;
+        let h264Profiles = 'high|main|baseline|constrained baseline';
 
         if (browser.tizen || browser.web0s ||
             videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '')) {
@@ -725,6 +752,36 @@ define(['browser'], function (browser) {
             if (!browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile) {
                 h264Profiles += '|high 10';
             }
+        }
+
+        let maxHevcLevel = 120;
+        let hevcProfiles = 'main';
+
+        // hevc main level 4.1
+        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.4.L123"').replace(/no/, '') ||
+            videoTestElement.canPlayType('video/mp4; codecs="hev1.1.4.L123"').replace(/no/, '')) {
+            maxHevcLevel = 123;
+        }
+
+        // hevc main10 level 4.1
+        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L123"').replace(/no/, '') ||
+            videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L123"').replace(/no/, '')) {
+            maxHevcLevel = 123;
+            hevcProfiles = 'main|main 10';
+        }
+
+        // hevc main10 level 5.1
+        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L153"').replace(/no/, '') ||
+            videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L153"').replace(/no/, '')) {
+            maxHevcLevel = 153;
+            hevcProfiles = 'main|main 10';
+        }
+
+        // hevc main10 level 6.1
+        if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.2.4.L183"').replace(/no/, '') ||
+            videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L183"').replace(/no/, '')) {
+            maxHevcLevel = 183;
+            hevcProfiles = 'main|main 10';
         }
 
         const h264CodecProfileConditions = [
@@ -748,8 +805,36 @@ define(['browser'], function (browser) {
             }
         ];
 
+        const hevcCodecProfileConditions = [
+            {
+                Condition: 'NotEquals',
+                Property: 'IsAnamorphic',
+                Value: 'true',
+                IsRequired: false
+            },
+            {
+                Condition: 'EqualsAny',
+                Property: 'VideoProfile',
+                Value: hevcProfiles,
+                IsRequired: false
+            },
+            {
+                Condition: 'LessThanEqual',
+                Property: 'VideoLevel',
+                Value: maxHevcLevel.toString(),
+                IsRequired: false
+            }
+        ];
+
         if (!browser.edgeUwp && !browser.tizen && !browser.web0s) {
             h264CodecProfileConditions.push({
+                Condition: 'NotEquals',
+                Property: 'IsInterlaced',
+                Value: 'true',
+                IsRequired: false
+            });
+
+            hevcCodecProfileConditions.push({
                 Condition: 'NotEquals',
                 Property: 'IsInterlaced',
                 Value: 'true',
@@ -764,17 +849,35 @@ define(['browser'], function (browser) {
                 Value: maxVideoWidth.toString(),
                 IsRequired: false
             });
+
+            hevcCodecProfileConditions.push({
+                Condition: 'LessThanEqual',
+                Property: 'Width',
+                Value: maxVideoWidth.toString(),
+                IsRequired: false
+            });
         }
 
-        var globalMaxVideoBitrate = (getGlobalMaxVideoBitrate() || '').toString();
+        const globalMaxVideoBitrate = (getGlobalMaxVideoBitrate() || '').toString();
 
-        var h264MaxVideoBitrate = globalMaxVideoBitrate;
+        const h264MaxVideoBitrate = globalMaxVideoBitrate;
+
+        const hevcMaxVideoBitrate = globalMaxVideoBitrate;
 
         if (h264MaxVideoBitrate) {
             h264CodecProfileConditions.push({
                 Condition: 'LessThanEqual',
                 Property: 'VideoBitrate',
                 Value: h264MaxVideoBitrate,
+                IsRequired: true
+            });
+        }
+
+        if (hevcMaxVideoBitrate) {
+            hevcCodecProfileConditions.push({
+                Condition: 'LessThanEqual',
+                Property: 'VideoBitrate',
+                Value: hevcMaxVideoBitrate,
                 IsRequired: true
             });
         }
@@ -806,7 +909,13 @@ define(['browser'], function (browser) {
             Conditions: h264CodecProfileConditions
         });
 
-        var globalVideoConditions = [];
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Codec: 'hevc',
+            Conditions: hevcCodecProfileConditions
+        });
+
+        const globalVideoConditions = [];
 
         if (globalMaxVideoBitrate) {
             globalVideoConditions.push({
@@ -841,7 +950,7 @@ define(['browser'], function (browser) {
                 Method: 'External'
             });
         }
-        if (options.enableSsaRender) {
+        if (options.enableSsaRender !== false && (!options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats')) {
             profile.SubtitleProfiles.push({
                 Format: 'ass',
                 Method: 'External'
@@ -860,5 +969,5 @@ define(['browser'], function (browser) {
         });
 
         return profile;
-    };
-});
+    }
+/* eslint-enable indent */

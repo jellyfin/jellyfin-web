@@ -1,10 +1,10 @@
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
-import 'cardStyle';
-import 'emby-button';
-import 'emby-checkbox';
-import 'emby-select';
+import loading from '../../../../components/loading/loading';
+import libraryMenu from '../../../../scripts/libraryMenu';
+import globalize from '../../../../scripts/globalize';
+import '../../../../components/cardbuilder/card.css';
+import '../../../../elements/emby-button/emby-button';
+import '../../../../elements/emby-checkbox/emby-checkbox';
+import '../../../../elements/emby-select/emby-select';
 
 function reloadList(page) {
     loading.show();
@@ -91,7 +91,7 @@ function populateList(options) {
 
 function getPluginHtml(plugin, options, installedPlugins) {
     let html = '';
-    let href = plugin.externalUrl ? plugin.externalUrl : 'addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
+    let href = plugin.externalUrl ? plugin.externalUrl : '#!/addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
 
     if (options.context) {
         href += '&context=' + options.context;
@@ -123,13 +123,13 @@ function getPluginHtml(plugin, options, installedPlugins) {
 
 function getTabs() {
     return [{
-        href: 'installedplugins.html',
+        href: '#!/installedplugins.html',
         name: globalize.translate('TabMyPlugins')
     }, {
-        href: 'availableplugins.html',
+        href: '#!/availableplugins.html',
         name: globalize.translate('TabCatalog')
     }, {
-        href: 'repositories.html',
+        href: '#!/repositories.html',
         name: globalize.translate('TabRepositories')
     }];
 }

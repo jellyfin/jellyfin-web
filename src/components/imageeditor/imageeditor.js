@@ -1,18 +1,22 @@
-import dialogHelper from 'dialogHelper';
-import loading from 'loading';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import focusManager from 'focusManager';
-import globalize from 'globalize';
-import scrollHelper from 'scrollHelper';
-import imageLoader from 'imageLoader';
-import browser from 'browser';
-import appHost from 'apphost';
-import 'cardStyle';
-import 'formDialogStyle';
-import 'emby-button';
-import 'paper-icon-button-light';
-import 'css!./imageeditor';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import loading from '../loading/loading';
+import dom from '../../scripts/dom';
+import layoutManager from '../layoutManager';
+import focusManager from '../focusManager';
+import globalize from '../../scripts/globalize';
+import scrollHelper from '../../scripts/scrollHelper';
+import imageLoader from '../images/imageLoader';
+import browser from '../../scripts/browser';
+import { appHost } from '../apphost';
+import '../cardbuilder/card.css';
+import '../formdialog.css';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import './imageeditor.css';
+import ServerConnections from '../ServerConnections';
+import alert from '../alert';
+import confirm from '../confirm/confirm';
+import template from './imageeditor.template.html';
 
 /* eslint-disable indent */
 
@@ -35,10 +39,10 @@ import 'css!./imageeditor';
         let apiClient;
 
         if (item) {
-            apiClient = window.connectionManager.getApiClient(item.ServerId);
+            apiClient = ServerConnections.getApiClient(item.ServerId);
             reloadItem(page, item, apiClient, focusContext);
         } else {
-            apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+            apiClient = ServerConnections.getApiClient(currentItem.ServerId);
             apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (item) {
                 reloadItem(page, item, apiClient, focusContext);
             });
@@ -58,8 +62,8 @@ import 'css!./imageeditor';
         currentItem = item;
 
         apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
-            var btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
-            for (var i = 0, length = btnBrowseAllImages.length; i < length; i++) {
+            const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
+            for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
                 if (providers.length) {
                     btnBrowseAllImages[i].classList.remove('hide');
                 } else {
@@ -199,15 +203,11 @@ import 'css!./imageeditor';
             return;
         }
 
-        import('confirm').then(({default: confirm}) => {
-            confirm({
-
-                text: globalize.translate('ConfirmDeleteImage'),
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-
-            }).then(afterConfirm);
-        });
+        confirm({
+            text: globalize.translate('ConfirmDeleteImage'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        }).then(afterConfirm);
     }
 
     function moveImage(context, apiClient, itemId, type, index, newIndex, focusContext) {
@@ -215,9 +215,7 @@ import 'css!./imageeditor';
             hasChanges = true;
             reload(context, null, focusContext);
         }, function () {
-            import('alert').then(({default: alert}) => {
-                alert(globalize.translate('ErrorDefault'));
-            });
+            alert(globalize.translate('ErrorDefault'));
         });
     }
 
@@ -281,7 +279,7 @@ import 'css!./imageeditor';
     }
 
     function showImageDownloader(page, imageType) {
-        import('imageDownloader').then(({default: ImageDownloader}) => {
+        import('../imageDownloader/imageDownloader').then((ImageDownloader) => {
             ImageDownloader.show(currentItem.Id, currentItem.ServerId, currentItem.Type, imageType).then(function () {
                 hasChanges = true;
                 reload(page);
@@ -292,14 +290,14 @@ import 'css!./imageeditor';
     function showActionSheet(context, imageCard) {
         const itemId = imageCard.getAttribute('data-id');
         const serverId = imageCard.getAttribute('data-serverid');
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         const type = imageCard.getAttribute('data-imagetype');
         const index = parseInt(imageCard.getAttribute('data-index'));
         const providerCount = parseInt(imageCard.getAttribute('data-providers'));
         const numImages = parseInt(imageCard.getAttribute('data-numimages'));
 
-        import('actionsheet').then(({default: actionSheet}) => {
+        import('../actionSheet/actionSheet').then(({default: actionSheet}) => {
             const commands = [];
 
             commands.push({
@@ -370,7 +368,7 @@ import 'css!./imageeditor';
         addListeners(context, 'btnOpenUploadMenu', 'click', function () {
             const imageType = this.getAttribute('data-imagetype');
 
-            import('imageUploader').then(({default: imageUploader}) => {
+            import('../imageUploader/imageUploader').then(({default: imageUploader}) => {
                 imageUploader.show({
 
                     theme: options.theme,
@@ -403,7 +401,7 @@ import 'css!./imageeditor';
             const type = this.getAttribute('data-imagetype');
             let index = this.getAttribute('data-index');
             index = index === 'null' ? null : parseInt(index);
-            const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+            const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
             deleteImage(context, currentItem.Id, type, index, apiClient, true);
         });
 
@@ -411,7 +409,7 @@ import 'css!./imageeditor';
             const type = this.getAttribute('data-imagetype');
             const index = this.getAttribute('data-index');
             const newIndex = this.getAttribute('data-newindex');
-            const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+            const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
             moveImage(context, apiClient, currentItem.Id, type, index, newIndex, dom.parentWithClass(this, 'itemsContainer'));
         });
     }
@@ -422,53 +420,51 @@ import 'css!./imageeditor';
 
         loading.show();
 
-        import('text!./imageeditor.template.html').then(({default: template}) => {
-            const apiClient = window.connectionManager.getApiClient(serverId);
-            apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-                const dialogOptions = {
-                    removeOnClose: true
-                };
+        const apiClient = ServerConnections.getApiClient(serverId);
+        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+            const dialogOptions = {
+                removeOnClose: true
+            };
 
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'small';
+            }
+
+            const dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('formDialog');
+
+            dlg.innerHTML = globalize.translateHtml(template, 'core');
+
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.on(dlg, false);
+            }
+
+            initEditor(dlg, options);
+
+            // Has to be assigned a z-index after the call to .open()
+            dlg.addEventListener('close', function () {
                 if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
+                    scrollHelper.centerFocus.off(dlg, false);
+                }
+
+                loading.hide();
+
+                if (hasChanges) {
+                    resolve();
                 } else {
-                    dialogOptions.size = 'small';
+                    reject();
                 }
+            });
 
-                const dlg = dialogHelper.createDialog(dialogOptions);
+            dialogHelper.open(dlg);
 
-                dlg.classList.add('formDialog');
+            reload(dlg, item);
 
-                dlg.innerHTML = globalize.translateHtml(template, 'core');
-
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg, false);
-                }
-
-                initEditor(dlg, options);
-
-                // Has to be assigned a z-index after the call to .open()
-                dlg.addEventListener('close', function () {
-                    if (layoutManager.tv) {
-                        scrollHelper.centerFocus.off(dlg, false);
-                    }
-
-                    loading.hide();
-
-                    if (hasChanges) {
-                        resolve();
-                    } else {
-                        reject();
-                    }
-                });
-
-                dialogHelper.open(dlg);
-
-                reload(dlg, item);
-
-                dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                    dialogHelper.close(dlg);
-                });
+            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+                dialogHelper.close(dlg);
             });
         });
     }

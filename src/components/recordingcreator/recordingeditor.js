@@ -1,17 +1,20 @@
-import dialogHelper from 'dialogHelper';
-import globalize from 'globalize';
-import layoutManager from 'layoutManager';
-import loading from 'loading';
-import scrollHelper from 'scrollHelper';
-import 'scrollStyles';
-import 'emby-button';
-import 'emby-collapse';
-import 'emby-input';
-import 'paper-icon-button-light';
-import 'css!./../formdialog';
-import 'css!./recordingcreator';
-import 'material-icons';
-import 'flexStyles';
+
+import dialogHelper from '../dialogHelper/dialogHelper';
+import globalize from '../../scripts/globalize';
+import layoutManager from '../layoutManager';
+import loading from '../loading/loading';
+import scrollHelper from '../../scripts/scrollHelper';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-collapse/emby-collapse';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import './recordingcreator.css';
+import 'material-design-icons-iconfont';
+import '../../assets/css/flexstyles.scss';
+import ServerConnections from '../ServerConnections';
+import template from './recordingeditor.template.html';
 
 let currentDialog;
 let recordingDeleted = false;
@@ -20,7 +23,7 @@ let currentServerId;
 let currentResolve;
 
 function deleteTimer(apiClient, timerId) {
-    return import('recordingHelper').then(({ default: recordingHelper }) => {
+    return import('./recordinghelper').then(({ default: recordingHelper }) => {
         recordingHelper.cancelTimerWithConfirmation(timerId, apiClient.serverId());
     });
 }
@@ -40,7 +43,7 @@ function closeDialog(isDeleted) {
 function onSubmit(e) {
     const form = this;
 
-    const apiClient = window.connectionManager.getApiClient(currentServerId);
+    const apiClient = ServerConnections.getApiClient(currentServerId);
 
     apiClient.getLiveTvTimer(currentItemId).then(function (item) {
         item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
@@ -60,7 +63,7 @@ function init(context) {
     });
 
     context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-        const apiClient = window.connectionManager.getApiClient(currentServerId);
+        const apiClient = ServerConnections.getApiClient(currentServerId);
 
         deleteTimer(apiClient, currentItemId).then(function () {
             closeDialog(true);
@@ -74,7 +77,7 @@ function reload(context, id) {
     loading.show();
     currentItemId = id;
 
-    const apiClient = window.connectionManager.getApiClient(currentServerId);
+    const apiClient = ServerConnections.getApiClient(currentServerId);
     apiClient.getLiveTvTimer(id).then(function (result) {
         renderTimer(context, result, apiClient);
         loading.hide();
@@ -89,63 +92,61 @@ function showEditor(itemId, serverId, options) {
         options = options || {};
         currentResolve = resolve;
 
-        import('text!./recordingeditor.template.html').then(({default: template}) => {
-            const dialogOptions = {
-                removeOnClose: true,
-                scrollY: false
-            };
+        const dialogOptions = {
+            removeOnClose: true,
+            scrollY: false
+        };
 
-            if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        }
+
+        const dlg = dialogHelper.createDialog(dialogOptions);
+
+        dlg.classList.add('formDialog');
+        dlg.classList.add('recordingDialog');
+
+        if (!layoutManager.tv) {
+            dlg.style['min-width'] = '20%';
+            dlg.classList.add('dialog-fullscreen-lowres');
+        }
+
+        let html = '';
+
+        html += globalize.translateHtml(template, 'core');
+
+        dlg.innerHTML = html;
+
+        if (options.enableCancel === false) {
+            dlg.querySelector('.formDialogFooter').classList.add('hide');
+        }
+
+        currentDialog = dlg;
+
+        dlg.addEventListener('closing', function () {
+            if (!recordingDeleted) {
+                dlg.querySelector('.btnSubmit').click();
             }
-
-            const dlg = dialogHelper.createDialog(dialogOptions);
-
-            dlg.classList.add('formDialog');
-            dlg.classList.add('recordingDialog');
-
-            if (!layoutManager.tv) {
-                dlg.style['min-width'] = '20%';
-                dlg.classList.add('dialog-fullscreen-lowres');
-            }
-
-            let html = '';
-
-            html += globalize.translateHtml(template, 'core');
-
-            dlg.innerHTML = html;
-
-            if (options.enableCancel === false) {
-                dlg.querySelector('.formDialogFooter').classList.add('hide');
-            }
-
-            currentDialog = dlg;
-
-            dlg.addEventListener('closing', function () {
-                if (!recordingDeleted) {
-                    dlg.querySelector('.btnSubmit').click();
-                }
-            });
-
-            dlg.addEventListener('close', function () {
-                if (recordingDeleted) {
-                    resolve({
-                        updated: true,
-                        deleted: true
-                    });
-                }
-            });
-
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-            }
-
-            init(dlg);
-
-            reload(dlg, itemId);
-
-            dialogHelper.open(dlg);
         });
+
+        dlg.addEventListener('close', function () {
+            if (recordingDeleted) {
+                resolve({
+                    updated: true,
+                    deleted: true
+                });
+            }
+        });
+
+        if (layoutManager.tv) {
+            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+        }
+
+        init(dlg);
+
+        reload(dlg, itemId);
+
+        dialogHelper.open(dlg);
     });
 }
 

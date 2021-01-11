@@ -5,11 +5,12 @@
  * @module components/libraryoptionseditor/libraryoptionseditor
  */
 
-import globalize from 'globalize';
-import dom from 'dom';
-import 'emby-checkbox';
-import 'emby-select';
-import 'emby-input';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-input/emby-input';
+import template from './libraryoptionseditor.template.html';
 
     function populateLanguages(parent) {
         return ApiClient.getCultures().then(languages => {
@@ -258,11 +259,9 @@ import 'emby-input';
         elem.innerHTML = html;
         if (html) {
             elem.classList.remove('hide');
-            page.querySelector('.chkDownloadImagesInAdvanceContainer').classList.remove('hide');
             page.querySelector('.chkSaveLocalContainer').classList.remove('hide');
         } else {
             elem.classList.add('hide');
-            page.querySelector('.chkDownloadImagesInAdvanceContainer').classList.add('hide');
             page.querySelector('.chkSaveLocalContainer').classList.add('hide');
         }
         return true;
@@ -306,7 +305,7 @@ import 'emby-input';
     }
 
     function showImageOptionsForType(type) {
-        import('imageoptionseditor').then(({default: ImageOptionsEditor}) => {
+        import('../imageOptionsEditor/imageOptionsEditor').then(({default: ImageOptionsEditor}) => {
             let typeOptions = getTypeOptions(currentLibraryOptions, type);
             if (!typeOptions) {
                 typeOptions = {
@@ -364,8 +363,7 @@ import 'emby-input';
         currentAvailableOptions = null;
         const isNewLibrary = libraryOptions === null;
         isNewLibrary && parent.classList.add('newlibrary');
-        const response = await fetch('components/libraryoptionseditor/libraryoptionseditor.template.html');
-        const template = await response.text();
+
         parent.innerHTML = globalize.translateHtml(template);
         populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
         const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
@@ -376,13 +374,6 @@ import 'emby-input';
                 return;
             });
         });
-    }
-
-    export function setAdvancedVisible(parent, visible) {
-        const elems = parent.querySelectorAll('.advanced');
-        for (let i = 0; i < elems.length; i++) {
-            visible ? elems[i].classList.remove('advancedHide') : elems[i].classList.add('advancedHide');
-        }
     }
 
     export function setContentType(parent, contentType) {
@@ -399,12 +390,10 @@ import 'emby-input';
         }
 
         if (contentType === 'tvshows') {
-            parent.querySelector('.chkImportMissingEpisodesContainer').classList.remove('hide');
             parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.remove('hide');
             parent.querySelector('.fldSeasonZeroDisplayName').classList.remove('hide');
             parent.querySelector('#txtSeasonZeroName').setAttribute('required', 'required');
         } else {
-            parent.querySelector('.chkImportMissingEpisodesContainer').classList.add('hide');
             parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.add('hide');
             parent.querySelector('.fldSeasonZeroDisplayName').classList.add('hide');
             parent.querySelector('#txtSeasonZeroName').removeAttribute('required');
@@ -509,9 +498,7 @@ import 'emby-input';
             EnableRealtimeMonitor: parent.querySelector('.chkEnableRealtimeMonitor').checked,
             ExtractChapterImagesDuringLibraryScan: parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked,
             EnableChapterImageExtraction: parent.querySelector('.chkExtractChapterImages').checked,
-            DownloadImagesInAdvance: parent.querySelector('#chkDownloadImagesInAdvance').checked,
             EnableInternetProviders: true,
-            ImportMissingEpisodes: parent.querySelector('#chkImportMissingEpisodes').checked,
             SaveLocalMetadata: parent.querySelector('#chkSaveLocal').checked,
             EnableAutomaticSeriesGrouping: parent.querySelector('.chkAutomaticallyGroupSeries').checked,
             PreferredMetadataLanguage: parent.querySelector('#selectLanguage').value,
@@ -567,9 +554,7 @@ import 'emby-input';
         parent.querySelector('.chkEnableRealtimeMonitor').checked = options.EnableRealtimeMonitor;
         parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked = options.ExtractChapterImagesDuringLibraryScan;
         parent.querySelector('.chkExtractChapterImages').checked = options.EnableChapterImageExtraction;
-        parent.querySelector('#chkDownloadImagesInAdvance').checked = options.DownloadImagesInAdvance;
         parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
-        parent.querySelector('#chkImportMissingEpisodes').checked = options.ImportMissingEpisodes;
         parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
         parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked = options.EnableEmbeddedEpisodeInfos;
@@ -597,6 +582,5 @@ export default {
     embed: embed,
     setContentType: setContentType,
     getLibraryOptions: getLibraryOptions,
-    setLibraryOptions: setLibraryOptions,
-    setAdvancedVisible: setAdvancedVisible
+    setLibraryOptions: setLibraryOptions
 };

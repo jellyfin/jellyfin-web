@@ -3,7 +3,7 @@
         <div class="dashboardSections" style="padding-top:.5em;">
             <div class="dashboardColumn dashboardColumn-2-60 dashboardColumn-3-46">
                 <div class="dashboardSection">
-                    <a is="emby-linkbutton" href="dashboardgeneral.html" class="button-flat sectionTitleTextButton">
+                    <a is="emby-linkbutton" href="#!/dashboardgeneral.html" class="button-flat sectionTitleTextButton">
                         <h3>${TabServer}</h3>
                         <span class="material-icons chevron_right"></span>
                     </a>
@@ -15,8 +15,11 @@
                         <p id="architecture"></p>
                     </div>
 
-                    <div style="margin-top:1em;">
-                        <button is="emby-button" type="button" id="btnRestartServer" class="raised" onclick="DashboardPage.restart(this);" style="margin-left:0;">
+                    <div class="dashboardActionsContainer">
+                        <button is="emby-button" type="button" class="raised btnRefresh">
+                            <span>${ButtonScanAllLibraries}</span>
+                        </button>
+                        <button is="emby-button" type="button" id="btnRestartServer" class="raised hide" onclick="DashboardPage.restart(this);">
                             <span>${Restart}</span>
                         </button>
                         <button is="emby-button" type="button" id="btnShutdown" class="raised" onclick="DashboardPage.shutdown(this);">
@@ -32,7 +35,7 @@
                 </div>
 
                 <div class="dashboardSection">
-                    <a is="emby-linkbutton" href="devices.html" class="button-flat sectionTitleTextButton">
+                    <a is="emby-linkbutton" href="#!/devices.html" class="button-flat sectionTitleTextButton">
                         <h3>${HeaderActiveDevices}</h3>
                         <span class="material-icons chevron_right"></span>
                     </a>
@@ -43,7 +46,7 @@
 
             <div class="dashboardColumn dashboardColumn-2-40 dashboardColumn-3-27">
                 <div class="dashboardSection">
-                    <a is="emby-linkbutton" href="serveractivity.html?useractivity=true" class="button-flat sectionTitleTextButton">
+                    <a is="emby-linkbutton" href="#!/serveractivity.html?useractivity=true" class="button-flat sectionTitleTextButton">
                         <h3>${HeaderActivity}</h3>
                         <span class="material-icons chevron_right"></span>
                     </a>
@@ -60,7 +63,7 @@
                 </div>
 
                 <div class="dashboardSection serverActivitySection hide activityContainer">
-                    <a is="emby-linkbutton" href="serveractivity.html?useractivity=false" class="button-flat sectionTitleTextButton">
+                    <a is="emby-linkbutton" href="#!/serveractivity.html?useractivity=false" class="button-flat sectionTitleTextButton">
                         <h3>${Alerts}</h3>
                         <span class="material-icons chevron_right"></span>
                     </a>
@@ -69,7 +72,7 @@
                 </div>
 
                 <div class="dashboardSection">
-                    <a is="emby-linkbutton" href="dashboardgeneral.html" class="button-flat sectionTitleTextButton">
+                    <a is="emby-linkbutton" href="#!/dashboardgeneral.html" class="button-flat sectionTitleTextButton">
                         <h3>${HeaderPaths}</h3>
                         <span class="material-icons chevron_right"></span>
                     </a>

@@ -1,12 +1,12 @@
-import loading from 'loading';
-import * as userSettings from 'userSettings';
-import events from 'events';
-import libraryBrowser from 'libraryBrowser';
-import AlphaPicker from 'alphaPicker';
-import listView from 'listView';
-import cardBuilder from 'cardBuilder';
-import globalize from 'globalize';
-import 'emby-itemscontainer';
+import loading from '../../components/loading/loading';
+import * as userSettings from '../../scripts/settings/userSettings';
+import { Events } from 'jellyfin-apiclient';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
+import listView from '../../components/listview/listview';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
@@ -25,7 +25,12 @@ import 'emby-itemscontainer';
 
         const updateFilterControls = () => {
             if (this.alphaPicker) {
-                this.alphaPicker.value(query.NameStartsWithOrGreater);
+                this.alphaPicker.value(query.NameStartsWith);
+                if (query.SortBy.indexOf('SortName') === 0) {
+                    this.alphaPicker.visible(true);
+                } else {
+                    this.alphaPicker.visible(false);
+                }
             }
         };
 
@@ -86,7 +91,7 @@ import 'emby-itemscontainer';
             isLoading = false;
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(tabContent);
             });
         }
@@ -163,12 +168,12 @@ import 'emby-itemscontainer';
             itemsContainer.fetchData = fetchData;
             itemsContainer.getItemsHtml = getItemsHtml;
             itemsContainer.afterRefresh = afterRefresh;
-            let alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            const alphaPickerElement = tabContent.querySelector('.alphaPicker');
 
             if (alphaPickerElement) {
                 alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                    let newValue = e.detail.value;
-                    query.NameStartsWithOrGreater = newValue;
+                    const newValue = e.detail.value;
+                    query.NameStartsWith = newValue;
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });
@@ -237,7 +242,7 @@ import 'emby-itemscontainer';
                 libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle, 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
-                let viewStyle = e.detail.viewStyle;
+                const viewStyle = e.detail.viewStyle;
                 userSettings.set(savedViewKey, viewStyle);
                 query.StartIndex = 0;
                 onViewStyleChange();
@@ -273,13 +278,13 @@ import 'emby-itemscontainer';
         query = userSettings.loadQuerySettings(savedQueryKey, query);
 
         this.showFilterMenu = function () {
-            import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
-                let filterDialog = new filterDialogFactory({
+            import('../../components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+                const filterDialog = new filterDialogFactory({
                     query: query,
                     mode: 'movies',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, 'filterchange', () => {
+                Events.on(filterDialog, 'filterchange', () => {
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });

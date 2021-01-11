@@ -1,12 +1,12 @@
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
-import dialogHelper from 'dialogHelper';
-import 'emby-button';
-import 'emby-checkbox';
-import 'emby-select';
-import 'formDialogStyle';
-import 'listViewStyle';
+import loading from '../../../../components/loading/loading';
+import libraryMenu from '../../../../scripts/libraryMenu';
+import globalize from '../../../../scripts/globalize';
+import dialogHelper from '../../../../components/dialogHelper/dialogHelper';
+import '../../../../elements/emby-button/emby-button';
+import '../../../../elements/emby-checkbox/emby-checkbox';
+import '../../../../elements/emby-select/emby-select';
+import '../../../../components/formdialog.css';
+import '../../../../components/listview/listview.css';
 
 let repositories = [];
 
@@ -42,10 +42,10 @@ function saveList(page) {
 }
 
 function populateList(options) {
-    var html = '';
+    let html = '';
 
     html += '<div class="paperList">';
-    for (var i = 0; i < options.repositories.length; i++) {
+    for (let i = 0; i < options.repositories.length; i++) {
         html += getRepositoryHtml(options.repositories[i]);
     }
 
@@ -59,7 +59,7 @@ function populateList(options) {
 }
 
 function getRepositoryHtml(repository) {
-    var html = '';
+    let html = '';
 
     html += '<div class="listItem listItem-border">';
     html += `<a is="emby-linkbutton" style="margin:0;padding:0" class="clearLink listItemIconContainer" href="${repository.Url}">`;
@@ -77,13 +77,13 @@ function getRepositoryHtml(repository) {
 
 function getTabs() {
     return [{
-        href: 'installedplugins.html',
+        href: '#!/installedplugins.html',
         name: globalize.translate('TabMyPlugins')
     }, {
-        href: 'availableplugins.html',
+        href: '#!/availableplugins.html',
         name: globalize.translate('TabCatalog')
     }, {
-        href: 'repositories.html',
+        href: '#!/repositories.html',
         name: globalize.translate('TabRepositories')
     }];
 }
@@ -93,9 +93,9 @@ export default function(view, params) {
         libraryMenu.setTabs('plugins', 2, getTabs);
         reloadList(this);
 
-        var save = this;
+        const save = this;
         $('#repositories', view).on('click', '.btnDelete', function() {
-            var button = this;
+            const button = this;
             repositories = repositories.filter(function (r) {
                 return r.Url !== button.id;
             });
@@ -136,7 +136,9 @@ export default function(view, params) {
             dialogHelper.close(dialog);
         });
 
-        dialog.querySelector('.newPluginForm').addEventListener('submit', () => {
+        dialog.querySelector('.newPluginForm').addEventListener('submit', e => {
+            e.preventDefault();
+
             repositories.push({
                 Name: dialog.querySelector('#txtRepositoryName').value,
                 Url: dialog.querySelector('#txtRepositoryUrl').value,

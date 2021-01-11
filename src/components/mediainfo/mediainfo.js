@@ -1,12 +1,12 @@
-import datetime from 'datetime';
-import globalize from 'globalize';
-import appRouter from 'appRouter';
-import itemHelper from 'itemHelper';
-import indicators from 'indicators';
-import 'material-icons';
-import 'css!./mediainfo.css';
-import 'programStyles';
-import 'emby-button';
+import datetime from '../../scripts/datetime';
+import globalize from '../../scripts/globalize';
+import { appRouter } from '../appRouter';
+import itemHelper from '../itemHelper';
+import indicators from '../indicators/indicators';
+import 'material-design-icons-iconfont';
+import './mediainfo.css';
+import '../guide/programs.css';
+import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
     function getTimerIndicator(item) {
@@ -100,11 +100,10 @@ import 'emby-button';
         return html;
     }
 
-    export function getMediaInfoHtml(item, options) {
+    export function getMediaInfoHtml(item, options = {}) {
         let html = '';
 
         const miscInfo = [];
-        options = options || {};
         let text;
         let date;
         let minutes;
@@ -289,7 +288,9 @@ import 'emby-button';
             return getMediaInfoItem(m);
         }).join('');
 
-        html += getStarIconsHtml(item);
+        if (options.starRating !== false) {
+            html += getStarIconsHtml(item);
+        }
 
         if (item.HasSubtitles && options.subtitles !== false) {
             html += '<div class="mediaInfoItem mediaInfoText closedCaptionMediaInfoText">CC</div>';
@@ -418,9 +419,8 @@ import 'emby-button';
         return false;
     }
 
-    export function getPrimaryMediaInfoHtml(item, options) {
-        options = options || {};
-        if (options.interactive == null) {
+    export function getPrimaryMediaInfoHtml(item, options = {}) {
+        if (options.interactive === undefined) {
             options.interactive = false;
         }
 

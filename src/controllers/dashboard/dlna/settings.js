@@ -1,6 +1,7 @@
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
+import loading from '../../../components/loading/loading';
+import libraryMenu from '../../../scripts/libraryMenu';
+import globalize from '../../../scripts/globalize';
+import Dashboard from '../../../scripts/clientUtils';
 
 function loadPage(page, config, users) {
     page.querySelector('#chkEnablePlayTo').checked = config.EnablePlayTo;
@@ -38,10 +39,10 @@ function onSubmit(e) {
 
 function getTabs() {
     return [{
-        href: 'dlnasettings.html',
+        href: '#!/dlnasettings.html',
         name: globalize.translate('Settings')
     }, {
-        href: 'dlnaprofiles.html',
+        href: '#!/dlnaprofiles.html',
         name: globalize.translate('TabProfiles')
     }];
 }

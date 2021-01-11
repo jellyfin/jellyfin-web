@@ -1,30 +1,30 @@
-import loading from 'loading';
-import dom from 'dom';
-import globalize from 'globalize';
-import * as datefns from 'date-fns';
-import dfnshelper from 'dfnshelper';
-import 'paper-icon-button-light';
-import 'cardStyle';
-import 'emby-button';
-import 'indicators';
-import 'flexStyles';
+import loading from '../../../components/loading/loading';
+import dom from '../../../scripts/dom';
+import globalize from '../../../scripts/globalize';
+import { formatDistanceToNow } from 'date-fns';
+import { localeWithSuffix } from '../../../scripts/dfnshelper';
+import '../../../elements/emby-button/paper-icon-button-light';
+import '../../../components/cardbuilder/card.css';
+import '../../../elements/emby-button/emby-button';
+import '../../../components/indicators/indicators.css';
+import '../../../assets/css/flexstyles.scss';
+import Dashboard, { pageIdOn } from '../../../scripts/clientUtils';
+import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */
 
     function deleteUser(page, id) {
         const msg = globalize.translate('DeleteUserConfirmation');
 
-        import('confirm').then(({default: confirm}) => {
-            confirm({
-                title: globalize.translate('DeleteUser'),
-                text: msg,
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-            }).then(function () {
-                loading.show();
-                ApiClient.deleteUser(id).then(function () {
-                    loadData(page);
-                });
+        confirm({
+            title: globalize.translate('DeleteUser'),
+            text: msg,
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        }).then(function () {
+            loading.show();
+            ApiClient.deleteUser(id).then(function () {
+                loadData(page);
             });
         });
     }
@@ -55,7 +55,7 @@ import 'flexStyles';
             icon: 'delete'
         });
 
-        import('actionsheet').then(({default: actionsheet}) => {
+        import('../../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
             actionsheet.show({
                 items: menuItems,
                 positionTo: card,
@@ -93,7 +93,7 @@ import 'flexStyles';
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
-        html += '<a is="emby-linkbutton" class="cardContent" href="useredit.html?userId=' + user.Id + '">';
+        html += '<a is="emby-linkbutton" class="cardContent" href="#!/useredit.html?userId=' + user.Id + '">';
         let imgUrl;
 
         if (user.PrimaryImageTag) {
@@ -139,7 +139,7 @@ import 'flexStyles';
     // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
     function getLastSeenText(lastActivityDate) {
         if (lastActivityDate) {
-            return globalize.translate('LastSeen', datefns.formatDistanceToNow(Date.parse(lastActivityDate), dfnshelper.localeWithSuffix));
+            return globalize.translate('LastSeen', formatDistanceToNow(Date.parse(lastActivityDate), localeWithSuffix));
         }
 
         return '';

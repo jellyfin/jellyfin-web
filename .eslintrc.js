@@ -25,11 +25,11 @@ module.exports = {
         'eslint:recommended',
         // 'plugin:promise/recommended',
         'plugin:import/errors',
-        'plugin:import/warnings',
         'plugin:eslint-comments/recommended',
         'plugin:compat/recommended'
     ],
     rules: {
+        'array-callback-return': ['error'],
         'block-spacing': ['error'],
         'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
         'comma-dangle': ['error', 'never'],
@@ -44,12 +44,12 @@ module.exports = {
         'no-restricted-globals': ['error'].concat(restrictedGlobals),
         'no-trailing-spaces': ['error'],
         '@babel/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
-        //'no-unused-vars': ['error', { 'vars': 'all', 'args': 'none', 'ignoreRestSiblings': true }],
         'one-var': ['error', 'never'],
         'padded-blocks': ['error', 'never'],
-        //'prefer-const': ['error', {'destructuring': 'all'}],
+        'prefer-const': ['error', {'destructuring': 'all'}],
         'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         '@babel/semi': ['error'],
+        'no-var': ['error'],
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error'
@@ -79,16 +79,12 @@ module.exports = {
                 // Dependency globals
                 '$': 'readonly',
                 'jQuery': 'readonly',
-                'requirejs': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'writable',
-                'AppInfo': 'writable',
                 'chrome': 'writable',
                 'DlnaProfilePage': 'writable',
-                'Dashboard': 'writable',
                 'DashboardPage': 'writable',
                 'Emby': 'readonly',
-                'Events': 'writable',
                 'getParameterByName': 'writable',
                 'getWindowLocationSearch': 'writable',
                 'Globalize': 'writable',
@@ -98,19 +94,15 @@ module.exports = {
                 'LinkParser': 'writable',
                 'LiveTvHelpers': 'writable',
                 'MetadataEditor': 'writable',
-                'pageClassOn': 'writable',
-                'pageIdOn': 'writable',
                 'PlaylistViewer': 'writable',
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly'
             },
             rules: {
                 // TODO: Fix warnings and remove these rules
-                'no-redeclare': ['off'],
-                'no-useless-escape': ['off'],
-                'no-unused-vars': ['off'],
-                // TODO: Remove after ES6 migration is complete
-                'import/no-unresolved': ['off']
+                'no-redeclare': ['warn'],
+                'no-useless-escape': ['warn'],
+                'no-unused-vars': ['warn']
             },
             settings: {
                 polyfills: [

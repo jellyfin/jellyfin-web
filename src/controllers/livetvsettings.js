@@ -1,7 +1,9 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-button';
+import 'jquery';
+import loading from '../components/loading/loading';
+import globalize from '../scripts/globalize';
+import '../elements/emby-button/emby-button';
+import Dashboard from '../scripts/clientUtils';
+import alert from '../components/alert';
 
 function loadPage(page, config) {
     $('.liveTvSettingsForm', page).show();
@@ -50,81 +52,77 @@ function showSaveMessage(recordingPathChanged) {
     }
 
     if (msg) {
-        import('alert').then(({default: alert}) => {
-            alert(msg);
-        });
+        alert(msg);
     }
 }
 
-export default function () {
-    $(document).on('pageinit', '#liveTvSettingsPage', function () {
-        const page = this;
-        $('.liveTvSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
-        $('#btnSelectRecordingPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
-                picker.show({
-                    callback: function (path) {
-                        if (path) {
-                            $('#txtRecordingPath', page).val(path);
-                        }
-
-                        picker.close();
-                    },
-                    validateWriteable: true
-                });
-            });
-        });
-        $('#btnSelectMovieRecordingPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
-                picker.show({
-                    callback: function (path) {
-                        if (path) {
-                            $('#txtMovieRecordingPath', page).val(path);
-                        }
-
-                        picker.close();
-                    },
-                    validateWriteable: true
-                });
-            });
-        });
-        $('#btnSelectSeriesRecordingPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
-                picker.show({
-                    callback: function (path) {
-                        if (path) {
-                            $('#txtSeriesRecordingPath', page).val(path);
-                        }
-
-                        picker.close();
-                    },
-                    validateWriteable: true
-                });
-            });
-        });
-        $('#btnSelectPostProcessorPath', page).on('click.selectDirectory', function () {
-            import('directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
-                picker.show({
-                    includeFiles: true,
-                    callback: function (path) {
-                        if (path) {
-                            $('#txtPostProcessor', page).val(path);
-                        }
-
-                        picker.close();
+$(document).on('pageinit', '#liveTvSettingsPage', function () {
+    const page = this;
+    $('.liveTvSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
+    $('#btnSelectRecordingPath', page).on('click.selectDirectory', function () {
+        import('../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
+            const picker = new directoryBrowser();
+            picker.show({
+                callback: function (path) {
+                    if (path) {
+                        $('#txtRecordingPath', page).val(path);
                     }
-                });
+
+                    picker.close();
+                },
+                validateWriteable: true
             });
-        });
-    }).on('pageshow', '#liveTvSettingsPage', function () {
-        loading.show();
-        const page = this;
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            loadPage(page, config);
         });
     });
-}
+    $('#btnSelectMovieRecordingPath', page).on('click.selectDirectory', function () {
+        import('../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
+            const picker = new directoryBrowser();
+            picker.show({
+                callback: function (path) {
+                    if (path) {
+                        $('#txtMovieRecordingPath', page).val(path);
+                    }
+
+                    picker.close();
+                },
+                validateWriteable: true
+            });
+        });
+    });
+    $('#btnSelectSeriesRecordingPath', page).on('click.selectDirectory', function () {
+        import('../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
+            const picker = new directoryBrowser();
+            picker.show({
+                callback: function (path) {
+                    if (path) {
+                        $('#txtSeriesRecordingPath', page).val(path);
+                    }
+
+                    picker.close();
+                },
+                validateWriteable: true
+            });
+        });
+    });
+    $('#btnSelectPostProcessorPath', page).on('click.selectDirectory', function () {
+        import('../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
+            const picker = new directoryBrowser();
+            picker.show({
+                includeFiles: true,
+                callback: function (path) {
+                    if (path) {
+                        $('#txtPostProcessor', page).val(path);
+                    }
+
+                    picker.close();
+                }
+            });
+        });
+    });
+}).on('pageshow', '#liveTvSettingsPage', function () {
+    loading.show();
+    const page = this;
+    ApiClient.getNamedConfiguration('livetv').then(function (config) {
+        loadPage(page, config);
+    });
+});

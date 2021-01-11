@@ -1,19 +1,20 @@
-import events from 'events';
-import playbackManager from 'playbackManager';
-import dom from 'dom';
-import browser from 'browser';
-import 'css!./iconosd';
-import 'material-icons';
 
-var currentPlayer;
-var osdElement;
-var iconElement;
-var progressElement;
+import { Events } from 'jellyfin-apiclient';
+import { playbackManager } from './playbackmanager';
+import dom from '../../scripts/dom';
+import browser from '../../scripts/browser';
+import './iconosd.css';
+import 'material-design-icons-iconfont';
 
-var enableAnimation;
+let currentPlayer;
+let osdElement;
+let iconElement;
+let progressElement;
+
+let enableAnimation;
 
 function getOsdElementHtml() {
-    var html = '';
+    let html = '';
 
     html += '<span class="material-icons iconOsdIcon volume_up"></span>';
 
@@ -23,7 +24,7 @@ function getOsdElementHtml() {
 }
 
 function ensureOsdElement() {
-    var elem = osdElement;
+    let elem = osdElement;
     if (!elem) {
         enableAnimation = browser.supportsCssAnimation();
 
@@ -46,11 +47,11 @@ function onHideComplete() {
     this.classList.add('hide');
 }
 
-var hideTimeout;
+let hideTimeout;
 function showOsd() {
     clearHideTimeout();
 
-    var elem = osdElement;
+    const elem = osdElement;
 
     dom.removeEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
         once: true
@@ -78,7 +79,7 @@ function clearHideTimeout() {
 function hideOsd() {
     clearHideTimeout();
 
-    var elem = osdElement;
+    const elem = osdElement;
     if (elem) {
         if (enableAnimation) {
             // trigger reflow
@@ -108,17 +109,17 @@ function updatePlayerVolumeState(isMuted, volume) {
 }
 
 function releaseCurrentPlayer() {
-    var player = currentPlayer;
+    const player = currentPlayer;
 
     if (player) {
-        events.off(player, 'volumechange', onVolumeChanged);
-        events.off(player, 'playbackstop', hideOsd);
+        Events.off(player, 'volumechange', onVolumeChanged);
+        Events.off(player, 'playbackstop', hideOsd);
         currentPlayer = null;
     }
 }
 
 function onVolumeChanged(e) {
-    var player = this;
+    const player = this;
 
     ensureOsdElement();
 
@@ -141,11 +142,11 @@ function bindToPlayer(player) {
     }
 
     hideOsd();
-    events.on(player, 'volumechange', onVolumeChanged);
-    events.on(player, 'playbackstop', hideOsd);
+    Events.on(player, 'volumechange', onVolumeChanged);
+    Events.on(player, 'playbackstop', hideOsd);
 }
 
-events.on(playbackManager, 'playerchange', function () {
+Events.on(playbackManager, 'playerchange', function () {
     bindToPlayer(playbackManager.getCurrentPlayer());
 });
 

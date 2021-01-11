@@ -1,68 +1,29 @@
-import playbackManager from 'playbackManager';
-import dom from 'dom';
-import inputManager from 'inputManager';
-import mouseManager from 'mouseManager';
-import datetime from 'datetime';
-import itemHelper from 'itemHelper';
-import mediaInfo from 'mediaInfo';
-import focusManager from 'focusManager';
-import events from 'events';
-import browser from 'browser';
-import globalize from 'globalize';
-import appHost from 'apphost';
-import layoutManager from 'layoutManager';
-import * as userSettings from 'userSettings';
-import keyboardnavigation from 'keyboardnavigation';
-import 'scrollStyles';
-import 'emby-slider';
-import 'paper-icon-button-light';
-import 'css!assets/css/videoosd';
+import { playbackManager } from '../../../components/playback/playbackmanager';
+import SyncPlay from '../../../components/syncPlay/core';
+import dom from '../../../scripts/dom';
+import inputManager from '../../../scripts/inputManager';
+import mouseManager from '../../../scripts/mouseManager';
+import datetime from '../../../scripts/datetime';
+import itemHelper from '../../../components/itemHelper';
+import mediaInfo from '../../../components/mediainfo/mediainfo';
+import focusManager from '../../../components/focusManager';
+import { Events } from 'jellyfin-apiclient';
+import browser from '../../../scripts/browser';
+import globalize from '../../../scripts/globalize';
+import { appHost } from '../../../components/apphost';
+import layoutManager from '../../../components/layoutManager';
+import * as userSettings from '../../../scripts/settings/userSettings';
+import keyboardnavigation from '../../../scripts/keyboardNavigation';
+import '../../../assets/css/scrollstyles.css';
+import '../../../elements/emby-slider/emby-slider';
+import '../../../elements/emby-button/paper-icon-button-light';
+import '../../../assets/css/videoosd.css';
+import ServerConnections from '../../../components/ServerConnections';
+import shell from '../../../scripts/shell';
+import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
+import { appRouter } from '../../../components/appRouter';
 
 /* eslint-disable indent */
-
-    function seriesImageUrl(item, options) {
-        if (item.Type !== 'Episode') {
-            return null;
-        }
-
-        options = options || {};
-        options.type = options.type || 'Primary';
-        if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
-            options.tag = item.SeriesPrimaryImageTag;
-            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-        }
-
-        if (options.type === 'Thumb') {
-            if (item.SeriesThumbImageTag) {
-                options.tag = item.SeriesThumbImageTag;
-                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-
-            if (item.ParentThumbImageTag) {
-                options.tag = item.ParentThumbImageTag;
-                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
-            }
-        }
-
-        return null;
-    }
-
-    function imageUrl(item, options) {
-        options = options || {};
-        options.type = options.type || 'Primary';
-
-        if (item.ImageTags && item.ImageTags[options.type]) {
-            options.tag = item.ImageTags[options.type];
-            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
-        }
-
-        if (options.type === 'Primary' && item.AlbumId && item.AlbumPrimaryImageTag) {
-            options.tag = item.AlbumPrimaryImageTag;
-            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
-        }
-
-        return null;
-    }
 
     function getOpenedDialog() {
         return document.querySelector('.dialogContainer .dialog.opened');
@@ -117,7 +78,7 @@ import 'css!assets/css/videoosd';
 
         function getDisplayItem(item) {
             if (item.Type === 'TvChannel') {
-                const apiClient = window.connectionManager.getApiClient(item.ServerId);
+                const apiClient = ServerConnections.getApiClient(item.ServerId);
                 return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
                     return {
                         originalItem: refreshedItem,
@@ -141,9 +102,9 @@ import 'css!assets/css/videoosd';
                 return void view.querySelector('.btnRecord').classList.add('hide');
             }
 
-            window.connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+            ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
-                    import('recordingButton').then(({default: RecordingButton}) => {
+                    import('../../../components/recordingcreator/recordingbutton').then(({default: RecordingButton}) => {
                         if (recordingButtonManager) {
                             return void recordingButtonManager.refreshItem(item);
                         }
@@ -163,7 +124,6 @@ import 'css!assets/css/videoosd';
             currentItem = item;
             const displayItem = itemInfo.displayItem || item;
             updateRecordingButton(displayItem);
-            setPoster(displayItem, item);
             let parentName = displayItem.SeriesName || displayItem.Album;
 
             if (displayItem.EpisodeTitle || displayItem.IsSeries) {
@@ -171,42 +131,6 @@ import 'css!assets/css/videoosd';
             }
 
             setTitle(displayItem, parentName);
-            const titleElement = view.querySelector('.osdTitle');
-            let displayName = itemHelper.getDisplayName(displayItem, {
-                includeParentInfo: displayItem.Type !== 'Program',
-                includeIndexNumber: displayItem.Type !== 'Program'
-            });
-
-            if (!displayName) {
-                displayName = displayItem.Type;
-            }
-
-            titleElement.innerHTML = displayName;
-
-            if (displayName) {
-                titleElement.classList.remove('hide');
-            } else {
-                titleElement.classList.add('hide');
-            }
-
-            const mediaInfoHtml = mediaInfo.getPrimaryMediaInfoHtml(displayItem, {
-                runtime: false,
-                subtitles: false,
-                tomatoes: false,
-                endsAt: false,
-                episodeTitle: false,
-                originalAirDate: displayItem.Type !== 'Program',
-                episodeTitleIndexNumber: displayItem.Type !== 'Program',
-                programIndicator: false
-            });
-            const osdMediaInfo = view.querySelector('.osdMediaInfo');
-            osdMediaInfo.innerHTML = mediaInfoHtml;
-
-            if (mediaInfoHtml) {
-                osdMediaInfo.classList.remove('hide');
-            } else {
-                osdMediaInfo.classList.add('hide');
-            }
 
             const secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
             const secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(displayItem, {
@@ -219,12 +143,6 @@ import 'css!assets/css/videoosd';
                 secondaryMediaInfo.classList.remove('hide');
             } else {
                 secondaryMediaInfo.classList.add('hide');
-            }
-
-            if (displayName) {
-                view.querySelector('.osdMainTextContainer').classList.remove('hide');
-            } else {
-                view.querySelector('.osdMainTextContainer').classList.add('hide');
             }
 
             if (enableProgressByTimeOfDay) {
@@ -276,9 +194,8 @@ import 'css!assets/css/videoosd';
 
             currentItem = item;
             if (!item) {
-                setPoster(null);
                 updateRecordingButton(null);
-                Emby.Page.setTitle('');
+                appRouter.setTitle('');
                 nowPlayingVolumeSlider.disabled = true;
                 nowPlayingPositionSlider.disabled = true;
                 btnFastForward.disabled = true;
@@ -313,45 +230,26 @@ import 'css!assets/css/videoosd';
         }
 
         function setTitle(item, parentName) {
-            Emby.Page.setTitle(parentName || '');
+            let itemName = itemHelper.getDisplayName(item, {
+                includeParentInfo: item.Type !== 'Program',
+                includeIndexNumber: item.Type !== 'Program'
+            });
+
+            if (itemName && parentName) {
+                itemName = `${parentName} - ${itemName}`;
+            }
+
+            if (!itemName) {
+                itemName = parentName || '';
+            }
+
+            appRouter.setTitle(itemName);
 
             const documentTitle = parentName || (item ? item.Name : null);
 
             if (documentTitle) {
                 document.title = documentTitle;
             }
-        }
-
-        function setPoster(item, secondaryItem) {
-            const osdPoster = view.querySelector('.osdPoster');
-
-            if (item) {
-                let imgUrl = seriesImageUrl(item, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Primary'
-                }) || seriesImageUrl(item, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Thumb'
-                }) || imageUrl(item, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Primary'
-                });
-
-                if (!imgUrl && secondaryItem && (imgUrl = seriesImageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Primary'
-                }) || seriesImageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Thumb'
-                }) || imageUrl(secondaryItem, {
-                    maxWidth: osdPoster.clientWidth,
-                    type: 'Primary'
-                })), imgUrl) {
-                    return void (osdPoster.innerHTML = '<img src="' + imgUrl + '" />');
-                }
-            }
-
-            osdPoster.innerHTML = '';
         }
 
         let mouseIsDown = false;
@@ -617,7 +515,7 @@ import 'css!assets/css/videoosd';
 
             if (state.NextMediaType !== 'Video') {
                 view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
-                Emby.Page.back();
+                appRouter.back();
             }
         }
 
@@ -647,16 +545,16 @@ import 'css!assets/css/videoosd';
             onStateChanged.call(player, {
                 type: 'init'
             }, state);
-            events.on(player, 'playbackstart', onPlaybackStart);
-            events.on(player, 'playbackstop', onPlaybackStopped);
-            events.on(player, 'volumechange', onVolumeChanged);
-            events.on(player, 'pause', onPlayPauseStateChanged);
-            events.on(player, 'unpause', onPlayPauseStateChanged);
-            events.on(player, 'timeupdate', onTimeUpdate);
-            events.on(player, 'fullscreenchange', updateFullscreenIcon);
-            events.on(player, 'mediastreamschange', onMediaStreamsChanged);
-            events.on(player, 'beginFetch', onBeginFetch);
-            events.on(player, 'endFetch', onEndFetch);
+            Events.on(player, 'playbackstart', onPlaybackStart);
+            Events.on(player, 'playbackstop', onPlaybackStopped);
+            Events.on(player, 'volumechange', onVolumeChanged);
+            Events.on(player, 'pause', onPlayPauseStateChanged);
+            Events.on(player, 'unpause', onPlayPauseStateChanged);
+            Events.on(player, 'timeupdate', onTimeUpdate);
+            Events.on(player, 'fullscreenchange', updateFullscreenIcon);
+            Events.on(player, 'mediastreamschange', onMediaStreamsChanged);
+            Events.on(player, 'beginFetch', onBeginFetch);
+            Events.on(player, 'endFetch', onEndFetch);
             resetUpNextDialog();
 
             if (player.isFetching) {
@@ -671,14 +569,14 @@ import 'css!assets/css/videoosd';
             const player = currentPlayer;
 
             if (player) {
-                events.off(player, 'playbackstart', onPlaybackStart);
-                events.off(player, 'playbackstop', onPlaybackStopped);
-                events.off(player, 'volumechange', onVolumeChanged);
-                events.off(player, 'pause', onPlayPauseStateChanged);
-                events.off(player, 'unpause', onPlayPauseStateChanged);
-                events.off(player, 'timeupdate', onTimeUpdate);
-                events.off(player, 'fullscreenchange', updateFullscreenIcon);
-                events.off(player, 'mediastreamschange', onMediaStreamsChanged);
+                Events.off(player, 'playbackstart', onPlaybackStart);
+                Events.off(player, 'playbackstop', onPlaybackStopped);
+                Events.off(player, 'volumechange', onVolumeChanged);
+                Events.off(player, 'pause', onPlayPauseStateChanged);
+                Events.off(player, 'unpause', onPlayPauseStateChanged);
+                Events.off(player, 'timeupdate', onTimeUpdate);
+                Events.off(player, 'fullscreenchange', updateFullscreenIcon);
+                Events.off(player, 'mediastreamschange', onMediaStreamsChanged);
                 currentPlayer = null;
             }
         }
@@ -720,7 +618,7 @@ import 'css!assets/css/videoosd';
         }
 
         function showComingUpNext(player) {
-            import('upNextDialog').then(({default: UpNextDialog}) => {
+            import('../../../components/upnextdialog/upnextdialog').then(({default: UpNextDialog}) => {
                 if (!(currentVisibleMenu || currentUpNextDialog)) {
                     currentVisibleMenu = 'upnext';
                     comingUpNextDisplayed = true;
@@ -730,7 +628,7 @@ import 'css!assets/css/videoosd';
                             player: player,
                             nextItem: nextItem
                         });
-                        events.on(currentUpNextDialog, 'hide', onUpNextHidden);
+                        Events.on(currentUpNextDialog, 'hide', onUpNextHidden);
                     }, onUpNextHidden);
                 }
             });
@@ -867,7 +765,7 @@ import 'css!assets/css/videoosd';
                     }
 
                     if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording') {
-                        endsAtText.innerHTML = '&nbsp;&nbsp;-&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
+                        endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
                     } else {
                         endsAtText.innerHTML = '';
                     }
@@ -877,8 +775,20 @@ import 'css!assets/css/videoosd';
                     nowPlayingPositionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
                 }
 
-                updateTimeText(nowPlayingPositionText, positionTicks);
-                updateTimeText(nowPlayingDurationText, runtimeTicks, true);
+                if (positionTicks >= 0) {
+                    updateTimeText(nowPlayingPositionText, positionTicks);
+                    nowPlayingPositionText.classList.remove('hide');
+                } else {
+                    nowPlayingPositionText.classList.add('hide');
+                }
+
+                const leftTicks = runtimeTicks - positionTicks;
+                if (leftTicks >= 0) {
+                    updateTimeText(nowPlayingDurationText, leftTicks);
+                    nowPlayingDurationText.classList.remove('hide');
+                } else {
+                    nowPlayingPositionText.classList.add('hide');
+                }
             }
         }
 
@@ -959,7 +869,7 @@ import 'css!assets/css/videoosd';
         function onSettingsButtonClick(e) {
             const btn = this;
 
-            import('playerSettingsMenu').then(({default: playerSettingsMenu}) => {
+            import('../../../components/playback/playersettingsmenu').then((playerSettingsMenu) => {
                 const player = currentPlayer;
 
                 if (player) {
@@ -996,7 +906,7 @@ import 'css!assets/css/videoosd';
         }
 
         function toggleStats() {
-            import('playerStats').then(({default: PlayerStats}) => {
+            import('../../../components/playerstats/playerstats').then(({default: PlayerStats}) => {
                 const player = currentPlayer;
 
                 if (player) {
@@ -1036,7 +946,7 @@ import 'css!assets/css/videoosd';
             });
             const positionTo = this;
 
-            import('actionsheet').then(({default: actionsheet}) => {
+            import('../../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
                 actionsheet.show({
                     items: menuItems,
                     title: globalize.translate('Audio'),
@@ -1082,7 +992,7 @@ import 'css!assets/css/videoosd';
             });
             const positionTo = this;
 
-            import('actionsheet').then(({default: actionsheet}) => {
+            import('../../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
                 actionsheet.show({
                     title: globalize.translate('Subtitles'),
                     items: menuItems,
@@ -1104,14 +1014,12 @@ import 'css!assets/css/videoosd';
         }
 
         function toggleSubtitleSync(action) {
-            import('subtitleSync').then(({default: SubtitleSync}) => {
-                const player = currentPlayer;
-                if (subtitleSyncOverlay) {
-                    subtitleSyncOverlay.toggle(action);
-                } else if (player) {
-                    subtitleSyncOverlay = new SubtitleSync(player);
-                }
-            });
+            const player = currentPlayer;
+            if (subtitleSyncOverlay) {
+                subtitleSyncOverlay.toggle(action);
+            } else if (player) {
+                subtitleSyncOverlay = new SubtitleSync(player);
+            }
         }
 
         function destroySubtitleSync() {
@@ -1335,9 +1243,7 @@ import 'css!assets/css/videoosd';
         let playPauseClickTimeout;
         function onViewHideStopPlayback() {
             if (playbackManager.isPlayingVideo()) {
-                import('shell').then(({default: shell}) => {
-                    shell.disableFullscreen();
-                });
+                shell.disableFullscreen();
 
                 clearTimeout(playPauseClickTimeout);
                 const player = currentPlayer;
@@ -1355,9 +1261,7 @@ import 'css!assets/css/videoosd';
             }
         }
 
-        import('shell').then(({default: shell}) => {
-            shell.enableFullscreen();
-        });
+        shell.enableFullscreen();
 
         let currentPlayer;
         let comingUpNextDisplayed;
@@ -1402,11 +1306,11 @@ import 'css!assets/css/videoosd';
 
         view.addEventListener('viewbeforeshow', function (e) {
             headerElement.classList.add('osdHeader');
-            Emby.Page.setTransparency('full');
+            appRouter.setTransparency('full');
         });
         view.addEventListener('viewshow', function (e) {
             try {
-                events.on(playbackManager, 'playerchange', onPlayerChange);
+                Events.on(playbackManager, 'playerchange', onPlayerChange);
                 bindToPlayer(playbackManager.getCurrentPlayer());
                 /* eslint-disable-next-line compat/compat */
                 dom.addEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
@@ -1444,9 +1348,7 @@ import 'css!assets/css/videoosd';
                     passive: true
                 });
             } catch (e) {
-                import('appRouter').then(({default: appRouter}) => {
-                    appRouter.goHome();
-                });
+                appRouter.goHome();
             }
         });
         view.addEventListener('viewbeforehide', function () {
@@ -1491,7 +1393,7 @@ import 'css!assets/css/videoosd';
                 passive: true
             });
             inputManager.off(window, onInputCommand);
-            events.off(playbackManager, 'playerchange', onPlayerChange);
+            Events.off(playbackManager, 'playerchange', onPlayerChange);
             releaseCurrentPlayer();
         });
         view.querySelector('.btnFullscreen').addEventListener('click', function () {
@@ -1568,7 +1470,8 @@ import 'css!assets/css/videoosd';
             dom.addEventListener(view, 'dblclick', onDoubleClick, {});
         } else {
             const options = { passive: true };
-            dom.addEventListener(view, 'dblclick', function () {
+            dom.addEventListener(view, 'dblclick', (e) => {
+                if (e.target !== view) return;
                 playbackManager.toggleFullscreen(currentPlayer);
             }, options);
         }
@@ -1622,7 +1525,7 @@ import 'css!assets/css/videoosd';
             const item = currentItem;
 
             if (item && item.Chapters && item.Chapters.length && item.Chapters[0].ImageTag) {
-                const html = getChapterBubbleHtml(window.connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+                const html = getChapterBubbleHtml(ServerConnections.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
                 if (html) {
                     return html;
@@ -1655,18 +1558,123 @@ import 'css!assets/css/videoosd';
 
         if (browser.touch) {
             (function () {
-                import('touchHelper').then(({default: TouchHelper}) => {
+                import('../../../scripts/touchHelper').then(({default: TouchHelper}) => {
                     self.touchHelper = new TouchHelper(view, {
                         swipeYThreshold: 30,
                         triggerOnMove: true,
                         preventDefaultOnMove: true,
                         ignoreTagNames: ['BUTTON', 'INPUT', 'TEXTAREA']
                     });
-                    events.on(self.touchHelper, 'swipeup', onVerticalSwipe);
-                    events.on(self.touchHelper, 'swipedown', onVerticalSwipe);
+                    Events.on(self.touchHelper, 'swipeup', onVerticalSwipe);
+                    Events.on(self.touchHelper, 'swipedown', onVerticalSwipe);
                 });
             })();
         }
+
+        // Register to SyncPlay playback events and show big animated icon
+        const showIcon = (action) => {
+            let primary_icon_name = '';
+            let secondary_icon_name = '';
+            let animation_class = 'oneShotPulse';
+            let iconVisibilityTime = 1500;
+            const syncPlayIcon = view.querySelector('#syncPlayIcon');
+
+            switch (action) {
+                case 'schedule-play':
+                    primary_icon_name = 'sync spin';
+                    secondary_icon_name = 'play_arrow centered';
+                    animation_class = 'infinitePulse';
+                    iconVisibilityTime = -1;
+                    hideOsd();
+                    break;
+                case 'unpause':
+                    primary_icon_name = 'play_circle_outline';
+                    break;
+                case 'pause':
+                    primary_icon_name = 'pause_circle_outline';
+                    showOsd();
+                    break;
+                case 'seek':
+                    primary_icon_name = 'update';
+                    animation_class = 'infinitePulse';
+                    iconVisibilityTime = -1;
+                    break;
+                case 'buffering':
+                    primary_icon_name = 'schedule';
+                    animation_class = 'infinitePulse';
+                    iconVisibilityTime = -1;
+                    break;
+                case 'wait-pause':
+                    primary_icon_name = 'schedule';
+                    secondary_icon_name = 'pause shifted';
+                    animation_class = 'infinitePulse';
+                    iconVisibilityTime = -1;
+                    break;
+                case 'wait-unpause':
+                    primary_icon_name = 'schedule';
+                    secondary_icon_name = 'play_arrow shifted';
+                    animation_class = 'infinitePulse';
+                    iconVisibilityTime = -1;
+                    break;
+                default: {
+                    syncPlayIcon.style.visibility = 'hidden';
+                    return;
+                }
+            }
+
+            syncPlayIcon.setAttribute('class', 'syncPlayIconCircle ' + animation_class);
+
+            const primaryIcon = syncPlayIcon.querySelector('.primary-icon');
+            primaryIcon.setAttribute('class', 'primary-icon material-icons ' + primary_icon_name);
+
+            const secondaryIcon = syncPlayIcon.querySelector('.secondary-icon');
+            secondaryIcon.setAttribute('class', 'secondary-icon material-icons ' + secondary_icon_name);
+
+            const clone = syncPlayIcon.cloneNode(true);
+            clone.style.visibility = 'visible';
+            syncPlayIcon.parentNode.replaceChild(clone, syncPlayIcon);
+
+            if (iconVisibilityTime < 0) {
+                return;
+            }
+
+            setTimeout(() => {
+                clone.style.visibility = 'hidden';
+            }, iconVisibilityTime);
+        };
+
+        Events.on(SyncPlay.Manager, 'enabled', (event, enabled) => {
+            if (enabled) {
+                // SyncPlay enabled
+            } else {
+                const syncPlayIcon = view.querySelector('#syncPlayIcon');
+                syncPlayIcon.style.visibility = 'hidden';
+            }
+        });
+
+        Events.on(SyncPlay.Manager, 'notify-osd', (event, action) => {
+            showIcon(action);
+        });
+
+        Events.on(SyncPlay.Manager, 'group-state-update', (event, state, reason) => {
+            if (state === 'Playing' && reason === 'Unpause') {
+                showIcon('schedule-play');
+            } else if (state === 'Playing' && reason === 'Ready') {
+                showIcon('schedule-play');
+            } else if (state === 'Paused' && reason === 'Pause') {
+                showIcon('pause');
+            } else if (state === 'Paused' && reason === 'Ready') {
+                showIcon('clear');
+            } else if (state === 'Waiting' && reason === 'Seek') {
+                showIcon('seek');
+            } else if (state === 'Waiting' && reason === 'Buffer') {
+                showIcon('buffering');
+            } else if (state === 'Waiting' && reason === 'Pause') {
+                showIcon('wait-pause');
+            } else if (state === 'Waiting' && reason === 'Unpause') {
+                showIcon('wait-unpause');
+            }
+        });
     }
 
 /* eslint-enable indent */

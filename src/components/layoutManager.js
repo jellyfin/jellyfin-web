@@ -1,6 +1,8 @@
-import browser from 'browser';
-import appSettings from 'appSettings';
-import events from 'events';
+
+import { appHost } from './apphost';
+import browser from '../scripts/browser';
+import appSettings from '../scripts/settings/appSettings';
+import { Events } from 'jellyfin-apiclient';
 
 function setLayout(instance, layout, selectedLayout) {
     if (layout === selectedLayout) {
@@ -30,10 +32,10 @@ class LayoutManager {
             }
         }
 
-        events.trigger(this, 'modechange');
+        Events.trigger(this, 'modechange');
     }
 
-    getSavedLayout(layout) {
+    getSavedLayout() {
         return appSettings.get('layout');
     }
 
@@ -58,4 +60,12 @@ class LayoutManager {
     }
 }
 
-export default new LayoutManager();
+const layoutManager = new LayoutManager();
+
+if (appHost.getDefaultLayout) {
+    layoutManager.defaultLayout = appHost.getDefaultLayout();
+}
+
+layoutManager.init();
+
+export default layoutManager;

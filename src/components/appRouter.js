@@ -1,13 +1,16 @@
-import appHost from 'apphost';
-import appSettings from 'appSettings';
-import backdrop from 'backdrop';
-import browser from 'browser';
-import events from 'events';
-import globalize from 'globalize';
-import itemHelper from 'itemHelper';
-import loading from 'loading';
+import { appHost } from './apphost';
+import appSettings from '../scripts/settings/appSettings';
+import backdrop from './backdrop/backdrop';
+import browser from '../scripts/browser';
+import { Events } from 'jellyfin-apiclient';
+import globalize from '../scripts/globalize';
+import itemHelper from './itemHelper';
+import loading from './loading/loading';
 import page from 'page';
-import viewManager from 'viewManager';
+import viewManager from './viewManager/viewManager';
+import Dashboard from '../scripts/clientUtils';
+import ServerConnections from './ServerConnections';
+import alert from './alert';
 
 class AppRouter {
     allRoutes = [];
@@ -17,7 +20,6 @@ class AppRouter {
     currentViewLoadRequest;
     firstConnectionResult;
     forcedLogoutMsg;
-    handleAnchorClick = page.clickHandler;
     isDummyBackToHome;
     msgTimeout;
     popstateOccurred = false;
@@ -48,6 +50,12 @@ class AppRouter {
         }
 
         this.setBaseRoute();
+
+        // paths that start with a hashbang (i.e. /#!/page.html) get transformed to starting with //
+        // we need to strip one "/" for our routes to work
+        page('//*', (ctx) => {
+            page.redirect(ctx.path.substring(1));
+        });
     }
 
     /**
@@ -76,11 +84,7 @@ class AppRouter {
     }
 
     showSelectServer() {
-        Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
-    }
-
-    showWelcome() {
-        Dashboard.navigate(AppInfo.isNativeApp ? 'selectserver.html' : 'login.html');
+        Dashboard.navigate('selectserver.html');
     }
 
     showSettings() {
@@ -94,7 +98,7 @@ class AppRouter {
     beginConnectionWizard() {
         backdrop.clearBackdrop();
         loading.show();
-        window.connectionManager.connect({
+        ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.handleConnectionResult(result);
@@ -119,6 +123,11 @@ class AppRouter {
     }
 
     show(path, options) {
+        // ensure the path does not start with '#!' since the router adds this
+        if (path.startsWith('#!')) {
+            path = path.substring(2);
+        }
+
         if (path.indexOf('/') !== 0 && path.indexOf('://') === -1) {
             path = '/' + path;
         }
@@ -150,10 +159,10 @@ class AppRouter {
         loading.show();
         this.initApiClients();
 
-        events.on(appHost, 'beforeexit', this.onBeforeExit);
-        events.on(appHost, 'resume', this.onAppResume);
+        Events.on(appHost, 'beforeexit', this.onBeforeExit);
+        Events.on(appHost, 'resume', this.onAppResume);
 
-        window.connectionManager.connect({
+        ServerConnections.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then((result) => {
             this.firstConnectionResult = result;
@@ -209,7 +218,7 @@ class AppRouter {
     showItem(item, serverId, options) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof (item) === 'string') {
-            const apiClient = serverId ? window.connectionManager.getApiClient(serverId) : window.connectionManager.currentApiClient();
+            const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
             apiClient.getItem(apiClient.getCurrentUserId(), item).then((itemObject) => {
                 this.showItem(itemObject, options);
             });
@@ -268,7 +277,7 @@ class AppRouter {
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
-                Emby.Page.goHome();
+                this.goHome();
                 break;
             case 'ServerSignIn':
                 result.ApiClient.getPublicUsers().then((users) => {
@@ -282,17 +291,12 @@ class AppRouter {
             case 'ServerSelection':
                 this.showSelectServer();
                 break;
-            case 'ConnectSignIn':
-                this.showWelcome();
-                break;
             case 'ServerUpdateNeeded':
-                import('alert').then(({default: alert}) =>{
-                    alert({
-                        text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
-                        html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
-                    }).then(() => {
-                        this.showSelectServer();
-                    });
+                alert({
+                    text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
+                    html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                }).then(() => {
+                    this.showSelectServer();
                 });
                 break;
             default:
@@ -308,22 +312,20 @@ class AppRouter {
             url = route.contentPath || route.path;
         }
 
-        if (url.includes('configurationpage')) {
-            url = ApiClient.getUrl('/web' + url);
-        } else if (url.indexOf('://') === -1) {
-            // Put a slash at the beginning but make sure to avoid a double slash
-            if (url.indexOf('/') !== 0) {
-                url = '/' + url;
-            }
-
-            url = this.baseUrl() + url;
-        }
-
         if (ctx.querystring && route.enableContentQueryString) {
             url += '?' + ctx.querystring;
         }
 
-        import('text!' + url).then(({default: html}) => {
+        let promise;
+        if (route.serverRequest) {
+            const apiClient = ServerConnections.currentApiClient();
+            url = apiClient.getUrl(`/web${url}`);
+            promise = apiClient.get(url);
+        } else {
+            promise = import(/* webpackChunkName: "[request]" */ `../controllers/${url}`);
+        }
+
+        promise.then((html) => {
             this.loadContent(ctx, route, html, request);
         });
     }
@@ -340,7 +342,7 @@ class AppRouter {
         };
 
         if (route.controller) {
-            import('controllers/' + route.controller).then(onInitComplete);
+            import('../controllers/' + route.controller).then(onInitComplete);
         } else {
             onInitComplete();
         }
@@ -407,9 +409,7 @@ class AppRouter {
         this.forcedLogoutMsg = null;
 
         if (msg) {
-            import('alert').then((alert) => {
-                alert(msg);
-            });
+            alert(msg);
         }
     }
 
@@ -484,8 +484,8 @@ class AppRouter {
             newApiClient.getMaxBandwidth = this.getMaxBandwidth;
         }
 
-        events.off(newApiClient, 'requestfail', this.onRequestFail);
-        events.on(newApiClient, 'requestfail', this.onRequestFail);
+        Events.off(newApiClient, 'requestfail', this.onRequestFail);
+        Events.on(newApiClient, 'requestfail', this.onRequestFail);
     }
 
     initApiClient(apiClient, instance) {
@@ -493,15 +493,15 @@ class AppRouter {
     }
 
     initApiClients() {
-        window.connectionManager.getApiClients().forEach((apiClient) => {
+        ServerConnections.getApiClients().forEach((apiClient) => {
             this.initApiClient(apiClient, this);
         });
 
-        events.on(window.connectionManager, 'apiclientcreated', this.onApiClientCreated);
+        Events.on(ServerConnections, 'apiclientcreated', this.onApiClientCreated);
     }
 
     onAppResume() {
-        const apiClient = window.connectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
 
         if (apiClient) {
             apiClient.ensureWebSocket();
@@ -510,25 +510,35 @@ class AppRouter {
 
     authenticate(ctx, route, callback) {
         const firstResult = this.firstConnectionResult;
-        if (firstResult) {
-            this.firstConnectionResult = null;
 
-            if (firstResult.State !== 'SignedIn' && !route.anonymous) {
-                this.handleConnectionResult(firstResult);
-                return;
-            }
+        this.firstConnectionResult = null;
+        if (firstResult && firstResult.State === 'ServerSignIn') {
+            const url = firstResult.ApiClient.serverAddress() + '/System/Info/Public';
+            fetch(url).then(response => {
+                if (!response.ok) return Promise.reject('fetch failed');
+                return response.json();
+            }).then(data => {
+                if (data !== null && data.StartupWizardCompleted === false) {
+                    Dashboard.navigate('wizardstart.html');
+                } else {
+                    this.handleConnectionResult(firstResult);
+                }
+            }).catch(error => {
+                console.error(error);
+            });
+
+            return;
         }
 
-        const apiClient = window.connectionManager.currentApiClient();
+        const apiClient = ServerConnections.currentApiClient();
         const pathname = ctx.pathname.toLowerCase();
 
-        console.debug('appRouter - processing path request ' + pathname);
-
+        console.debug('processing path request: ' + pathname);
         const isCurrentRouteStartup = this.currentRouteInfo ? this.currentRouteInfo.route.startup : true;
         const shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
 
         if (!shouldExitApp && (!apiClient || !apiClient.isLoggedIn()) && !route.anonymous) {
-            console.debug('appRouter - route does not allow anonymous access, redirecting to login');
+            console.debug('route does not allow anonymous access: redirecting to login');
             this.beginConnectionWizard();
             return;
         }
@@ -536,17 +546,17 @@ class AppRouter {
         if (shouldExitApp) {
             if (appHost.supports('exit')) {
                 appHost.exit();
-                return;
             }
+
             return;
         }
 
         if (apiClient && apiClient.isLoggedIn()) {
-            console.debug('appRouter - user is authenticated');
+            console.debug('user is authenticated');
 
             if (route.isDefaultRoute) {
-                console.debug('appRouter - loading skin home page');
-                Emby.Page.goHome();
+                console.debug('loading home page');
+                this.goHome();
                 return;
             } else if (route.roles) {
                 this.validateRoles(apiClient, route.roles).then(() => {
@@ -556,7 +566,7 @@ class AppRouter {
             }
         }
 
-        console.debug('appRouter - proceeding to ' + pathname);
+        console.debug('proceeding to page: ' + pathname);
         callback();
     }
 
@@ -682,27 +692,27 @@ class AppRouter {
         const serverId = item.ServerId || options.serverId;
 
         if (item === 'settings') {
-            return 'mypreferencesmenu.html';
+            return '#!/mypreferencesmenu.html';
         }
 
         if (item === 'wizard') {
-            return 'wizardstart.html';
+            return '#!/wizardstart.html';
         }
 
         if (item === 'manageserver') {
-            return 'dashboard.html';
+            return '#!/dashboard.html';
         }
 
         if (item === 'recordedtv') {
-            return 'livetv.html?tab=3&serverId=' + options.serverId;
+            return '#!/livetv.html?tab=3&serverId=' + options.serverId;
         }
 
         if (item === 'nextup') {
-            return 'list.html?type=nextup&serverId=' + options.serverId;
+            return '#!/list.html?type=nextup&serverId=' + options.serverId;
         }
 
         if (item === 'list') {
-            let url = 'list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
+            let url = '#!/list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
 
             if (options.isFavorite) {
                 url += '&IsFavorite=true';
@@ -713,57 +723,57 @@ class AppRouter {
 
         if (item === 'livetv') {
             if (options.section === 'programs') {
-                return 'livetv.html?tab=0&serverId=' + options.serverId;
+                return '#!/livetv.html?tab=0&serverId=' + options.serverId;
             }
             if (options.section === 'guide') {
-                return 'livetv.html?tab=1&serverId=' + options.serverId;
+                return '#!/livetv.html?tab=1&serverId=' + options.serverId;
             }
 
             if (options.section === 'movies') {
-                return 'list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'shows') {
-                return 'list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
             }
 
             if (options.section === 'sports') {
-                return 'list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'kids') {
-                return 'list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'news') {
-                return 'list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'onnow') {
-                return 'list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
+                return '#!/list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'dvrschedule') {
-                return 'livetv.html?tab=4&serverId=' + options.serverId;
+                return '#!/livetv.html?tab=4&serverId=' + options.serverId;
             }
 
             if (options.section === 'seriesrecording') {
-                return 'livetv.html?tab=5&serverId=' + options.serverId;
+                return '#!/livetv.html?tab=5&serverId=' + options.serverId;
             }
 
-            return 'livetv.html?serverId=' + options.serverId;
+            return '#!/livetv.html?serverId=' + options.serverId;
         }
 
         if (itemType == 'SeriesTimer') {
-            return 'details?seriesTimerId=' + id + '&serverId=' + serverId;
+            return '#!/details?seriesTimerId=' + id + '&serverId=' + serverId;
         }
 
         if (item.CollectionType == 'livetv') {
-            return 'livetv.html';
+            return '#!/livetv.html';
         }
 
         if (item.Type === 'Genre') {
-            url = 'list.html?genreId=' + item.Id + '&serverId=' + serverId;
+            url = '#!/list.html?genreId=' + item.Id + '&serverId=' + serverId;
 
             if (context === 'livetv') {
                 url += '&type=Programs';
@@ -777,7 +787,7 @@ class AppRouter {
         }
 
         if (item.Type === 'MusicGenre') {
-            url = 'list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
+            url = '#!/list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
 
             if (options.parentId) {
                 url += '&parentId=' + options.parentId;
@@ -787,7 +797,7 @@ class AppRouter {
         }
 
         if (item.Type === 'Studio') {
-            url = 'list.html?studioId=' + item.Id + '&serverId=' + serverId;
+            url = '#!/list.html?studioId=' + item.Id + '&serverId=' + serverId;
 
             if (options.parentId) {
                 url += '&parentId=' + options.parentId;
@@ -798,7 +808,7 @@ class AppRouter {
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
             if (item.CollectionType == 'movies') {
-                url = 'movies.html?topParentId=' + item.Id;
+                url = '#!/movies.html?topParentId=' + item.Id;
 
                 if (options && options.section === 'latest') {
                     url += '&tab=1';
@@ -808,7 +818,7 @@ class AppRouter {
             }
 
             if (item.CollectionType == 'tvshows') {
-                url = 'tv.html?topParentId=' + item.Id;
+                url = '#!/tv.html?topParentId=' + item.Id;
 
                 if (options && options.section === 'latest') {
                     url += '&tab=2';
@@ -818,32 +828,36 @@ class AppRouter {
             }
 
             if (item.CollectionType == 'music') {
-                return 'music.html?topParentId=' + item.Id;
+                return '#!/music.html?topParentId=' + item.Id;
             }
         }
 
         const itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
 
         if (itemTypes.indexOf(itemType) >= 0) {
-            return 'details?id=' + id + '&serverId=' + serverId;
+            return '#!/details?id=' + id + '&serverId=' + serverId;
         }
 
         const contextSuffix = context ? '&context=' + context : '';
 
         if (itemType == 'Series' || itemType == 'Season' || itemType == 'Episode') {
-            return 'details?id=' + id + contextSuffix + '&serverId=' + serverId;
+            return '#!/details?id=' + id + contextSuffix + '&serverId=' + serverId;
         }
 
         if (item.IsFolder) {
             if (id) {
-                return 'list.html?parentId=' + id + '&serverId=' + serverId;
+                return '#!/list.html?parentId=' + id + '&serverId=' + serverId;
             }
 
             return '#';
         }
 
-        return 'details?id=' + id + '&serverId=' + serverId;
+        return '#!/details?id=' + id + '&serverId=' + serverId;
     }
 }
 
-export default new AppRouter();
+export const appRouter = new AppRouter();
+
+window.Emby = window.Emby || {};
+
+window.Emby.Page = appRouter;

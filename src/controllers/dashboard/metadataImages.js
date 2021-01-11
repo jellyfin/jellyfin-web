@@ -1,8 +1,9 @@
-import $ from 'jQuery';
-import loading from 'loading';
-import libraryMenu from 'libraryMenu';
-import globalize from 'globalize';
-import 'listViewStyle';
+import 'jquery';
+import loading from '../../components/loading/loading';
+import libraryMenu from '../../scripts/libraryMenu';
+import globalize from '../../scripts/globalize';
+import '../../components/listview/listview.css';
+import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 
@@ -51,16 +52,16 @@ import 'listViewStyle';
 
     function getTabs() {
         return [{
-            href: 'library.html',
+            href: '#!/library.html',
             name: globalize.translate('HeaderLibraries')
         }, {
-            href: 'librarydisplay.html',
+            href: '#!/librarydisplay.html',
             name: globalize.translate('Display')
         }, {
-            href: 'metadataimages.html',
+            href: '#!/metadataimages.html',
             name: globalize.translate('Metadata')
         }, {
-            href: 'metadatanfo.html',
+            href: '#!/metadatanfo.html',
             name: globalize.translate('TabNfoSettings')
         }];
     }

@@ -1,3 +1,4 @@
+import ServerConnections from '../../components/ServerConnections';
 
 export default class PhotoPlayer {
     constructor() {
@@ -9,12 +10,12 @@ export default class PhotoPlayer {
 
     play(options) {
         return new Promise(function (resolve, reject) {
-            import('slideshow').then(({default: slideshow}) => {
-                var index = options.startIndex || 0;
+            import('../../components/slideshow/slideshow').then(({default: Slideshow}) => {
+                const index = options.startIndex || 0;
 
-                var apiClient = window.connectionManager.currentApiClient();
+                const apiClient = ServerConnections.currentApiClient();
                 apiClient.getCurrentUser().then(function(result) {
-                    var newSlideShow = new slideshow({
+                    const newSlideShow = new Slideshow({
                         showTitle: false,
                         cover: false,
                         items: options.items,

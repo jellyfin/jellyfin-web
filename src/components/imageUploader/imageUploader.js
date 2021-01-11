@@ -5,16 +5,19 @@
  * @module components/imageUploader/imageUploader
  */
 
-import dialogHelper from 'dialogHelper';
-import dom from 'dom';
-import loading from 'loading';
-import scrollHelper from 'scrollHelper';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import 'emby-button';
-import 'emby-select';
-import 'formDialogStyle';
-import 'css!./style';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import dom from '../../scripts/dom';
+import loading from '../loading/loading';
+import scrollHelper from '../../scripts/scrollHelper';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-select/emby-select';
+import '../formdialog.css';
+import './style.css';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import template from './imageUploader.template.html';
 
     let currentItemId;
     let currentServerId;
@@ -26,16 +29,12 @@ import 'css!./style';
 
         switch (evt.target.error.code) {
             case evt.target.error.NOT_FOUND_ERR:
-                import('toast').then(({default: toast}) => {
-                    toast(globalize.translate('MessageFileReadError'));
-                });
+                toast(globalize.translate('MessageFileReadError'));
                 break;
             case evt.target.error.ABORT_ERR:
                 break; // noop
             default:
-                import('toast').then(({default: toast}) => {
-                    toast(globalize.translate('MessageFileReadError'));
-                });
+                toast(globalize.translate('MessageFileReadError'));
                 break;
         }
     }
@@ -87,9 +86,7 @@ import 'css!./style';
         }
 
         if (!file.type.startsWith('image/')) {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('MessageImageFileTypeAllowed'));
-            });
+            toast(globalize.translate('MessageImageFileTypeAllowed'));
             e.preventDefault();
             return false;
         }
@@ -100,14 +97,12 @@ import 'css!./style';
 
         const imageType = dlg.querySelector('#selectImageType').value;
         if (imageType === 'None') {
-            import('toast').then(({default: toast}) => {
-                toast(globalize.translate('MessageImageTypeNotSelected'));
-            });
+            toast(globalize.translate('MessageImageTypeNotSelected'));
             e.preventDefault();
             return false;
         }
 
-        window.connectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
+        ServerConnections.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
             dlg.querySelector('#uploadImage').value = '';
 
             loading.hide();
@@ -134,49 +129,47 @@ import 'css!./style';
     function showEditor(options, resolve) {
         options = options || {};
 
-        return import('text!./imageUploader.template.html').then(({default: template}) => {
-            currentItemId = options.itemId;
-            currentServerId = options.serverId;
+        currentItemId = options.itemId;
+        currentServerId = options.serverId;
 
-            const dialogOptions = {
-                removeOnClose: true
-            };
+        const dialogOptions = {
+            removeOnClose: true
+        };
 
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
+
+        const dlg = dialogHelper.createDialog(dialogOptions);
+
+        dlg.classList.add('formDialog');
+
+        dlg.innerHTML = globalize.translateHtml(template, 'core');
+
+        if (layoutManager.tv) {
+            scrollHelper.centerFocus.on(dlg, false);
+        }
+
+        // Has to be assigned a z-index after the call to .open()
+        dlg.addEventListener('close', () => {
             if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
+                scrollHelper.centerFocus.off(dlg, false);
             }
 
-            const dlg = dialogHelper.createDialog(dialogOptions);
+            loading.hide();
+            resolve(hasChanges);
+        });
 
-            dlg.classList.add('formDialog');
+        dialogHelper.open(dlg);
 
-            dlg.innerHTML = globalize.translateHtml(template, 'core');
+        initEditor(dlg);
 
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg, false);
-            }
+        dlg.querySelector('#selectImageType').value = options.imageType || 'Primary';
 
-            // Has to be assigned a z-index after the call to .open()
-            dlg.addEventListener('close', () => {
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.off(dlg, false);
-                }
-
-                loading.hide();
-                resolve(hasChanges);
-            });
-
-            dialogHelper.open(dlg);
-
-            initEditor(dlg);
-
-            dlg.querySelector('#selectImageType').value = options.imageType || 'Primary';
-
-            dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                dialogHelper.close(dlg);
-            });
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
+            dialogHelper.close(dlg);
         });
     }
 

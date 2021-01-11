@@ -1,19 +1,20 @@
-import browser from 'browser';
-import layoutManager from 'layoutManager';
-import * as userSettings from 'userSettings';
-import inputManager from 'inputManager';
-import loading from 'loading';
-import cardBuilder from 'cardBuilder';
-import dom from 'dom';
-import imageLoader from 'imageLoader';
-import libraryMenu from 'libraryMenu';
-import * as mainTabsManager from 'mainTabsManager';
-import globalize from 'globalize';
-import 'scrollStyles';
-import 'emby-itemscontainer';
-import 'emby-tabs';
-import 'emby-button';
-import 'flexStyles';
+import browser from '../../scripts/browser';
+import layoutManager from '../../components/layoutManager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import inputManager from '../../scripts/inputManager';
+import loading from '../../components/loading/loading';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import dom from '../../scripts/dom';
+import imageLoader from '../../components/images/imageLoader';
+import libraryMenu from '../../scripts/libraryMenu';
+import * as mainTabsManager from '../../components/maintabsmanager';
+import globalize from '../../scripts/globalize';
+import '../../assets/css/scrollstyles.css';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-tabs/emby-tabs';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.scss';
+import Dashboard from '../../scripts/clientUtils';
 
 /* eslint-disable indent */
 
@@ -56,7 +57,7 @@ import 'flexStyles';
             EnableTotalRecordCount: false
         };
         ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-            var elem = page.querySelector('#recentlyAddedSongs');
+            const elem = page.querySelector('#recentlyAddedSongs');
             elem.innerHTML = cardBuilder.getCardsHtml({
                 items: items,
                 showUnplayedIndicator: false,
@@ -74,7 +75,7 @@ import 'flexStyles';
             imageLoader.lazyChildren(elem);
             loading.hide();
 
-            import('autoFocuser').then(({default: autoFocuser}) => {
+            import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                 autoFocuser.autoFocus(page);
             });
         });
@@ -103,7 +104,7 @@ import 'flexStyles';
                 elem.classList.add('hide');
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
+            const itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -145,7 +146,7 @@ import 'flexStyles';
                 elem.classList.add('hide');
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
+            const itemsContainer = elem.querySelector('.itemsContainer');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -170,16 +171,16 @@ import 'flexStyles';
         loadRecentlyPlayed(tabContent, parentId);
         loadFrequentlyPlayed(tabContent, parentId);
 
-        import('components/favoriteitems').then(({default: favoriteItems}) => {
+        import('../../components/favoriteitems').then(({default: favoriteItems}) => {
             favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']);
         });
     }
 
     function getTabs() {
         return [{
-            name: globalize.translate('Suggestions')
-        }, {
             name: globalize.translate('Albums')
+        }, {
+            name: globalize.translate('Suggestions')
         }, {
             name: globalize.translate('HeaderAlbumArtists')
         }, {
@@ -195,7 +196,7 @@ import 'flexStyles';
 
     function getDefaultTabIndex(folderId) {
         switch (userSettings.get('landing-' + folderId)) {
-            case 'albums':
+            case 'suggestions':
                 return 1;
 
             case 'albumartists':
@@ -221,7 +222,7 @@ import 'flexStyles';
     export default function (view, params) {
         function reload() {
             loading.show();
-            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, tabContent, params.topParentId);
         }
 
@@ -268,35 +269,35 @@ import 'flexStyles';
 
             switch (index) {
                 case 0:
-                    depends = 'controllers/music/musicrecommended';
+                    depends = 'musicalbums';
                     break;
 
                 case 1:
-                    depends = 'controllers/music/musicalbums';
+                    depends = 'musicrecommended';
                     break;
 
                 case 2:
                 case 3:
-                    depends = 'controllers/music/musicartists';
+                    depends = 'musicartists';
                     break;
 
                 case 4:
-                    depends = 'controllers/music/musicplaylists';
+                    depends = 'musicplaylists';
                     break;
 
                 case 5:
-                    depends = 'controllers/music/songs';
+                    depends = 'songs';
                     break;
 
                 case 6:
-                    depends = 'controllers/music/musicgenres';
+                    depends = 'musicgenres';
                     break;
             }
 
-            import(depends).then(({default: controllerFactory}) => {
+            import(`../music/${depends}`).then(({default: controllerFactory}) => {
                 let tabContent;
 
-                if (index == 0) {
+                if (index == 1) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     this.tabContent = tabContent;
                 }
@@ -306,13 +307,8 @@ import 'flexStyles';
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
 
-                    if (index === 0) {
+                    if (index === 1) {
                         controller = this;
-                    } else if (index === 7) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: 'music',
-                            parentId: params.topParentId
-                        });
                     } else {
                         controller = new controllerFactory(view, params, tabContent);
                     }
@@ -360,9 +356,10 @@ import 'flexStyles';
         }
 
         let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
+        const suggestionsTabIndex = 1;
 
         this.initTab = function () {
-            const tabContent = view.querySelector(".pageTabContent[data-index='0']");
+            const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             const containers = tabContent.querySelectorAll('.itemsContainer');
 
             for (let i = 0, length = containers.length; i < length; i++) {

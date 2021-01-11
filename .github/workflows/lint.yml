@@ -1,0 +1,95 @@
+name: Lint
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  run-eslint:
+    name: Run eslint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Node.js dependencies
+        run: yarn install --frozen-lockfile
+        env:
+          SKIP_PREPARE: true
+
+      - name: Run eslint
+        run: yarn lint
+
+  run-stylelint-css:
+    name: Run stylelint (css)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Set up stylelint matcher
+        uses: xt0rted/stylelint-problem-matcher@v1
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Node.js dependencies
+        run: yarn install --frozen-lockfile
+        env:
+          SKIP_PREPARE: true
+
+      - name: Run stylelint
+        run: yarn stylelint:css
+
+  run-stylelint-scss:
+    name: Run stylelint (scss)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Set up stylelint matcher
+        uses: xt0rted/stylelint-problem-matcher@v1
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Node.js dependencies
+        run: yarn install --frozen-lockfile
+        env:
+          SKIP_PREPARE: true
+
+      - name: Run stylelint
+        run: yarn stylelint:scss

@@ -5,10 +5,11 @@
  * @module components/cardBuilder/chaptercardbuilder
  */
 
-import datetime from 'datetime';
-import imageLoader from 'imageLoader';
-import layoutManager from 'layoutManager';
-import browser from 'browser';
+import datetime from '../../scripts/datetime';
+import imageLoader from '../images/imageLoader';
+import layoutManager from '../layoutManager';
+import browser from '../../scripts/browser';
+import ServerConnections from '../ServerConnections';
 
     const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -47,7 +48,7 @@ import browser from 'browser';
         let html = '';
         let itemsInRow = 0;
 
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
 
         for (let i = 0, length = chapters.length; i < length; i++) {
             if (options.rows && itemsInRow === 0) {

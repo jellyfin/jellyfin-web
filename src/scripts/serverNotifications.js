@@ -1,9 +1,12 @@
-import playbackManager from 'playbackManager';
-import syncPlayManager from 'syncPlayManager';
-import events from 'events';
-import inputManager from 'inputManager';
-import focusManager from 'focusManager';
-import appRouter from 'appRouter';
+import { playbackManager } from '../components/playback/playbackmanager';
+import SyncPlay from '../components/syncPlay/core';
+import { Events } from 'jellyfin-apiclient';
+import inputManager from '../scripts/inputManager';
+import focusManager from '../components/focusManager';
+import { appRouter } from '../components/appRouter';
+import ServerConnections from '../components/ServerConnections';
+import toast from '../components/toast/toast';
+import alert from '../components/alert';
 
 const serverNotifications = {};
 
@@ -14,13 +17,9 @@ function notifyApp() {
 function displayMessage(cmd) {
     const args = cmd.Arguments;
     if (args.TimeoutMs) {
-        import('toast').then(({default: toast}) => {
-            toast({ title: args.Header, text: args.Text });
-        });
+        toast({ title: args.Header, text: args.Text });
     } else {
-        import('alert').then(({default: alert}) => {
-            alert({ title: args.Header, text: args.Text });
-        });
+        alert({ title: args.Header, text: args.Text });
     }
 }
 
@@ -191,24 +190,24 @@ function onMessageReceived(e, msg) {
     } else if (msg.MessageType === 'UserDataChanged') {
         if (msg.Data.UserId === apiClient.getCurrentUserId()) {
             for (let i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
-                events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
+                Events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
             }
         }
     } else if (msg.MessageType === 'SyncPlayCommand') {
-        syncPlayManager.processCommand(msg.Data, apiClient);
+        SyncPlay.Manager.processCommand(msg.Data, apiClient);
     } else if (msg.MessageType === 'SyncPlayGroupUpdate') {
-        syncPlayManager.processGroupUpdate(msg.Data, apiClient);
+        SyncPlay.Manager.processGroupUpdate(msg.Data, apiClient);
     } else {
-        events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
+        Events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
     }
 }
 function bindEvents(apiClient) {
-    events.off(apiClient, 'message', onMessageReceived);
-    events.on(apiClient, 'message', onMessageReceived);
+    Events.off(apiClient, 'message', onMessageReceived);
+    Events.on(apiClient, 'message', onMessageReceived);
 }
 
-window.connectionManager.getApiClients().forEach(bindEvents);
-events.on(window.connectionManager, 'apiclientcreated', function (e, newApiClient) {
+ServerConnections.getApiClients().forEach(bindEvents);
+Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
     bindEvents(newApiClient);
 });
 

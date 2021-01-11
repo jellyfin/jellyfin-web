@@ -1,14 +1,15 @@
-import browser from 'browser';
-import dialogHelper from 'dialogHelper';
-import layoutManager from 'layoutManager';
-import scrollHelper from 'scrollHelper';
-import globalize from 'globalize';
-import dom from 'dom';
-import 'material-icons';
-import 'emby-button';
-import 'paper-icon-button-light';
-import 'emby-input';
-import 'formDialogStyle';
+import browser from '../../scripts/browser';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import layoutManager from '../layoutManager';
+import scrollHelper from '../../scripts/scrollHelper';
+import globalize from '../../scripts/globalize';
+import dom from '../../scripts/dom';
+import 'material-design-icons-iconfont';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-input/emby-input';
+import '../formdialog.css';
+import template from './prompt.template.html';
 
 /* eslint-disable indent */
 export default (() => {
@@ -27,7 +28,7 @@ export default (() => {
         txtInput.value = options.value || '';
     }
 
-    function showDialog(options, template) {
+    function showDialog(options) {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -116,17 +117,13 @@ export default (() => {
         };
     } else {
         return options => {
-            return new Promise((resolve, reject) => {
-                import('text!./prompt.template.html').then(({default: template}) => {
-                    if (typeof options === 'string') {
-                        options = {
-                            title: '',
-                            text: options
-                        };
-                    }
-                    showDialog(options, template).then(resolve, reject);
-                });
-            });
+            if (typeof options === 'string') {
+                options = {
+                    title: '',
+                    text: options
+                };
+            }
+            return showDialog(options);
         };
     }
 })();

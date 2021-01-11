@@ -1,7 +1,7 @@
-import * as lazyLoader from 'lazyLoader';
-import * as userSettings from 'userSettings';
-import * as blurhash from 'blurhash';
-import 'css!./style';
+import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
+import * as userSettings from '../../scripts/settings/userSettings';
+import { decode, isBlurhashValid } from 'blurhash';
+import './style.css';
 /* eslint-disable indent */
 
     export function lazyImage(elem, source = elem.getAttribute('data-src')) {
@@ -13,7 +13,7 @@ import 'css!./style';
     }
 
     function itemBlurhashing(target, blurhashstr) {
-        if (blurhash.isBlurhashValid(blurhashstr)) {
+        if (isBlurhashValid(blurhashstr)) {
             // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
             // improving the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
@@ -21,7 +21,7 @@ import 'css!./style';
             const height = 18;
             let pixels;
             try {
-                pixels = blurhash.decode(blurhashstr, width, height);
+                pixels = decode(blurhashstr, width, height);
             } catch (err) {
                 console.error('Blurhash decode error: ', err);
                 target.classList.add('non-blurhashable');
@@ -56,7 +56,7 @@ import 'css!./style';
             throw new Error('entry cannot be null');
         }
         const target = entry.target;
-        var source = undefined;
+        let source = undefined;
 
         if (target) {
             source = target.getAttribute('data-src');
@@ -87,9 +87,6 @@ import 'css!./style';
             requestAnimationFrame(() => {
                 if (elem.tagName !== 'IMG') {
                     elem.style.backgroundImage = "url('" + url + "')";
-                    if (elem.classList.contains('blurhashed')) {
-                        elem.style.backgroundColor = '#fff';
-                    }
                 } else {
                     elem.setAttribute('src', url);
                 }
@@ -101,17 +98,22 @@ import 'css!./style';
                 } else {
                     elem.classList.add('lazy-image-fadein');
                 }
+
+                const canvas = elem.previousSibling;
+                if (elem.classList.contains('blurhashed') && canvas && canvas.tagName === 'CANVAS') {
+                    canvas.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
+                    canvas.classList.add('lazy-hidden');
+                }
             });
         });
     }
 
     function emptyImageElement(elem) {
-        var url;
+        let url;
 
         if (elem.tagName !== 'IMG') {
             url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, '');
             elem.style.backgroundImage = 'none';
-            elem.style.backgroundColor = null;
         } else {
             url = elem.getAttribute('src');
             elem.setAttribute('src', '');
@@ -120,6 +122,16 @@ import 'css!./style';
 
         elem.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
         elem.classList.add('lazy-hidden');
+
+        const canvas = elem.previousSibling;
+        if (canvas && canvas.tagName === 'CANVAS') {
+            canvas.classList.remove('lazy-hidden');
+            if (userSettings.enableFastFadein()) {
+                canvas.classList.add('lazy-image-fadein-fast');
+            } else {
+                canvas.classList.add('lazy-image-fadein');
+            }
+        }
     }
 
     export function lazyChildren(elem) {
@@ -133,14 +145,15 @@ import 'css!./style';
                 }
             }
         }
+
         lazyLoader.lazyChildren(elem, fillImage);
     }
 
     export function getPrimaryImageAspectRatio(items) {
-        var values = [];
+        const values = [];
 
-        for (var i = 0, length = items.length; i < length; i++) {
-            var ratio = items[i].PrimaryImageAspectRatio || 0;
+        for (let i = 0, length = items.length; i < length; i++) {
+            const ratio = items[i].PrimaryImageAspectRatio || 0;
 
             if (!ratio) {
                 continue;
@@ -158,9 +171,9 @@ import 'css!./style';
             return a - b;
         });
 
-        var half = Math.floor(values.length / 2);
+        const half = Math.floor(values.length / 2);
 
-        var result;
+        let result;
 
         if (values.length % 2) {
             result = values[half];
@@ -169,13 +182,13 @@ import 'css!./style';
         }
 
         // If really close to 2:3 (poster image), just return 2:3
-        var aspect2x3 = 2 / 3;
+        const aspect2x3 = 2 / 3;
         if (Math.abs(aspect2x3 - result) <= 0.15) {
             return aspect2x3;
         }
 
         // If really close to 16:9 (episode image), just return 16:9
-        var aspect16x9 = 16 / 9;
+        const aspect16x9 = 16 / 9;
         if (Math.abs(aspect16x9 - result) <= 0.2) {
             return aspect16x9;
         }
@@ -186,7 +199,7 @@ import 'css!./style';
         }
 
         // If really close to 4:3 (poster image), just return 2:3
-        var aspect4x3 = 4 / 3;
+        const aspect4x3 = 4 / 3;
         if (Math.abs(aspect4x3 - result) <= 0.15) {
             return aspect4x3;
         }
@@ -195,8 +208,8 @@ import 'css!./style';
     }
 
     export function fillImages(elems) {
-        for (var i = 0, length = elems.length; i < length; i++) {
-            var elem = elems[0];
+        for (let i = 0, length = elems.length; i < length; i++) {
+            const elem = elems[0];
             fillImage(elem);
         }
     }

@@ -1,11 +1,13 @@
-import events from 'events';
-import globalize from 'globalize';
-import dom from 'dom';
+import { Events } from 'jellyfin-apiclient';
+import globalize from '../scripts/globalize';
+import dom from '../scripts/dom';
 import * as datefns from 'date-fns';
-import dfnshelper from 'dfnshelper';
-import serverNotifications from 'serverNotifications';
-import 'emby-button';
-import 'listViewStyle';
+import dfnshelper from '../scripts/dfnshelper';
+import serverNotifications from '../scripts/serverNotifications';
+import '../elements/emby-button/emby-button';
+import './listview/listview.css';
+import ServerConnections from './ServerConnections';
+import alert from './alert';
 
 /* eslint-disable indent */
 
@@ -127,10 +129,8 @@ import 'listViewStyle';
     }
 
     function showItemOverview(item) {
-        import('alert').then(({default: alert}) => {
-            alert({
-                text: item.Overview
-            });
+        alert({
+            text: item.Overview
         });
     }
 
@@ -140,11 +140,11 @@ class ActivityLog {
         const element = options.element;
         element.classList.add('activityLogListWidget');
         element.addEventListener('click', onListClick.bind(this));
-        const apiClient = window.connectionManager.getApiClient(options.serverId);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
         reloadData(this, element, apiClient);
         const onUpdate = onActivityLogUpdate.bind(this);
         this.updateFn = onUpdate;
-        events.on(serverNotifications, 'ActivityLogEntry', onUpdate);
+        Events.on(serverNotifications, 'ActivityLogEntry', onUpdate);
         apiClient.sendMessage('ActivityLogEntryStart', '0,1500');
     }
     destroy() {
@@ -152,13 +152,13 @@ class ActivityLog {
 
         if (options) {
             options.element.classList.remove('activityLogListWidget');
-            window.connectionManager.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
+            ServerConnections.getApiClient(options.serverId).sendMessage('ActivityLogEntryStop', '0,1500');
         }
 
         const onUpdate = this.updateFn;
 
         if (onUpdate) {
-            events.off(serverNotifications, 'ActivityLogEntry', onUpdate);
+            Events.off(serverNotifications, 'ActivityLogEntry', onUpdate);
         }
 
         this.items = null;

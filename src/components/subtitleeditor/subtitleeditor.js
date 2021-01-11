@@ -1,26 +1,31 @@
-import dialogHelper from 'dialogHelper';
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import * as userSettings from 'userSettings';
-import loading from 'loading';
-import focusManager from 'focusManager';
-import dom from 'dom';
-import 'emby-select';
-import 'listViewStyle';
-import 'paper-icon-button-light';
-import 'css!./../formdialog';
-import 'material-icons';
-import 'css!./subtitleeditor';
-import 'emby-button';
-import 'flexStyles';
+import { appHost } from '../apphost';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
+import loading from '../loading/loading';
+import focusManager from '../focusManager';
+import dom from '../../scripts/dom';
+import '../../elements/emby-select/emby-select';
+import '../listview/listview.css';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../formdialog.css';
+import 'material-design-icons-iconfont';
+import './subtitleeditor.css';
+import '../../elements/emby-button/emby-button';
+import '../../assets/css/flexstyles.scss';
+import ServerConnections from '../ServerConnections';
+import toast from '../toast/toast';
+import confirm from '../confirm/confirm';
+import template from './subtitleeditor.template.html';
 
 let currentItem;
 let hasChanges;
 
 function downloadRemoteSubtitles(context, id) {
-    let url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
+    const url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
 
-    let apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+    const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
     apiClient.ajax({
 
         type: 'POST',
@@ -29,50 +34,46 @@ function downloadRemoteSubtitles(context, id) {
     }).then(function () {
         hasChanges = true;
 
-        import('toast').then(({default: toast}) => {
-            toast(globalize.translate('MessageDownloadQueued'));
-        });
+        toast(globalize.translate('MessageDownloadQueued'));
 
         focusManager.autoFocus(context);
     });
 }
 
 function deleteLocalSubtitle(context, index) {
-    let msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
+    const msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
-    import('confirm').then(({default: confirm}) => {
-        confirm({
+    confirm({
 
-            title: globalize.translate('ConfirmDeletion'),
-            text: msg,
-            confirmText: globalize.translate('Delete'),
-            primary: 'delete'
+        title: globalize.translate('ConfirmDeletion'),
+        text: msg,
+        confirmText: globalize.translate('Delete'),
+        primary: 'delete'
+
+    }).then(function () {
+        loading.show();
+
+        const itemId = currentItem.Id;
+        const url = 'Videos/' + itemId + '/Subtitles/' + index;
+
+        const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+
+        apiClient.ajax({
+
+            type: 'DELETE',
+            url: apiClient.getUrl(url)
 
         }).then(function () {
-            loading.show();
-
-            let itemId = currentItem.Id;
-            let url = 'Videos/' + itemId + '/Subtitles/' + index;
-
-            let apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
-
-            apiClient.ajax({
-
-                type: 'DELETE',
-                url: apiClient.getUrl(url)
-
-            }).then(function () {
-                hasChanges = true;
-                reload(context, apiClient, itemId);
-            });
+            hasChanges = true;
+            reload(context, apiClient, itemId);
         });
     });
 }
 
 function fillSubtitleList(context, item) {
-    let streams = item.MediaStreams || [];
+    const streams = item.MediaStreams || [];
 
-    let subs = streams.filter(function (s) {
+    const subs = streams.filter(function (s) {
         return s.Type === 'Subtitle';
     });
 
@@ -86,7 +87,7 @@ function fillSubtitleList(context, item) {
         html += subs.map(function (s) {
             let itemHtml = '';
 
-            let tagName = layoutManager.tv ? 'button' : 'div';
+            const tagName = layoutManager.tv ? 'button' : 'div';
             let className = layoutManager.tv && s.Path ? 'listItem listItem-border btnDelete' : 'listItem listItem-border';
 
             if (layoutManager.tv) {
@@ -126,7 +127,7 @@ function fillSubtitleList(context, item) {
         html += '</div>';
     }
 
-    let elem = context.querySelector('.subtitleList');
+    const elem = context.querySelector('.subtitleList');
 
     if (subs.length) {
         elem.classList.remove('hide');
@@ -137,18 +138,18 @@ function fillSubtitleList(context, item) {
 }
 
 function fillLanguages(context, apiClient, languages) {
-    let selectLanguage = context.querySelector('#selectLanguage');
+    const selectLanguage = context.querySelector('#selectLanguage');
 
     selectLanguage.innerHTML = languages.map(function (l) {
         return '<option value="' + l.ThreeLetterISOLanguageName + '">' + l.DisplayName + '</option>';
     });
 
-    let lastLanguage = userSettings.get('subtitleeditor-language');
+    const lastLanguage = userSettings.get('subtitleeditor-language');
     if (lastLanguage) {
         selectLanguage.value = lastLanguage;
     } else {
         apiClient.getCurrentUser().then(function (user) {
-            let lang = user.Configuration.SubtitleLanguagePreference;
+            const lang = user.Configuration.SubtitleLanguagePreference;
 
             if (lang) {
                 selectLanguage.value = lang;
@@ -171,9 +172,9 @@ function renderSearchResults(context, results) {
     context.querySelector('.noSearchResults').classList.add('hide');
 
     for (let i = 0, length = results.length; i < length; i++) {
-        let result = results[i];
+        const result = results[i];
 
-        let provider = result.ProviderName;
+        const provider = result.ProviderName;
 
         if (provider !== lastProvider) {
             if (i > 0) {
@@ -184,7 +185,7 @@ function renderSearchResults(context, results) {
             lastProvider = provider;
         }
 
-        let tagName = layoutManager.tv ? 'button' : 'div';
+        const tagName = layoutManager.tv ? 'button' : 'div';
         let className = layoutManager.tv ? 'listItem listItem-border btnOptions' : 'listItem listItem-border';
         if (layoutManager.tv) {
             className += ' listItem-focusscale listItem-button';
@@ -194,7 +195,7 @@ function renderSearchResults(context, results) {
 
         html += '<span class="listItemIcon material-icons closed_caption"></span>';
 
-        let bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
+        const bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
 
         html += '<div class="listItemBody ' + bodyClass + '">';
 
@@ -231,7 +232,7 @@ function renderSearchResults(context, results) {
         html += '</div>';
     }
 
-    let elem = context.querySelector('.subtitleResults');
+    const elem = context.querySelector('.subtitleResults');
     elem.innerHTML = html;
 
     loading.hide();
@@ -242,8 +243,8 @@ function searchForSubtitles(context, language) {
 
     loading.show();
 
-    let apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
-    let url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
+    const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+    const url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
 
     apiClient.getJSON(url).then(function (results) {
         renderSearchResults(context, results);
@@ -258,7 +259,7 @@ function reload(context, apiClient, itemId) {
 
         fillSubtitleList(context, item);
         let file = item.Path || '';
-        let index = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
+        const index = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
         if (index > -1) {
             file = file.substring(index + 1);
         }
@@ -282,9 +283,9 @@ function reload(context, apiClient, itemId) {
 }
 
 function onSearchSubmit(e) {
-    let form = this;
+    const form = this;
 
-    let lang = form.querySelector('#selectLanguage', form).value;
+    const lang = form.querySelector('#selectLanguage', form).value;
 
     searchForSubtitles(dom.parentWithClass(form, 'formDialogContent'), lang);
 
@@ -293,10 +294,10 @@ function onSearchSubmit(e) {
 }
 
 function onSubtitleListClick(e) {
-    let btnDelete = dom.parentWithClass(e.target, 'btnDelete');
+    const btnDelete = dom.parentWithClass(e.target, 'btnDelete');
     if (btnDelete) {
-        let index = btnDelete.getAttribute('data-index');
-        let context = dom.parentWithClass(btnDelete, 'subtitleEditorDialog');
+        const index = btnDelete.getAttribute('data-index');
+        const context = dom.parentWithClass(btnDelete, 'subtitleEditorDialog');
         deleteLocalSubtitle(context, index);
     }
 }
@@ -305,14 +306,14 @@ function onSubtitleResultsClick(e) {
     let subtitleId;
     let context;
 
-    let btnOptions = dom.parentWithClass(e.target, 'btnOptions');
+    const btnOptions = dom.parentWithClass(e.target, 'btnOptions');
     if (btnOptions) {
         subtitleId = btnOptions.getAttribute('data-subid');
         context = dom.parentWithClass(btnOptions, 'subtitleEditorDialog');
         showDownloadOptions(btnOptions, context, subtitleId);
     }
 
-    let btnDownload = dom.parentWithClass(e.target, 'btnDownload');
+    const btnDownload = dom.parentWithClass(e.target, 'btnDownload');
     if (btnDownload) {
         subtitleId = btnDownload.getAttribute('data-subid');
         context = dom.parentWithClass(btnDownload, 'subtitleEditorDialog');
@@ -321,14 +322,14 @@ function onSubtitleResultsClick(e) {
 }
 
 function showDownloadOptions(button, context, subtitleId) {
-    let items = [];
+    const items = [];
 
     items.push({
         name: globalize.translate('Download'),
         id: 'download'
     });
 
-    import('actionsheet').then(({default: actionsheet}) => {
+    import('../actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
             items: items,
             positionTo: button
@@ -346,18 +347,40 @@ function showDownloadOptions(button, context, subtitleId) {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('scrollHelper').then(({default: scrollHelper}) => {
-        let fn = on ? 'on' : 'off';
+    import('../../scripts/scrollHelper').then(({default: scrollHelper}) => {
+        const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
 }
 
-function showEditorInternal(itemId, serverId, template) {
+function onOpenUploadMenu(e) {
+    const dialog = dom.parentWithClass(e.target, 'subtitleEditorDialog');
+    const selectLanguage = dialog.querySelector('#selectLanguage');
+    const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+
+    import('../subtitleuploader/subtitleuploader').then(({default: subtitleUploader}) => {
+        subtitleUploader.show({
+            languages: {
+                list: selectLanguage.innerHTML,
+                value: selectLanguage.value
+            },
+            itemId: currentItem.Id,
+            serverId: currentItem.ServerId
+        }).then(function (hasChanged) {
+            if (hasChanged) {
+                hasChanges = true;
+                reload(dialog, apiClient, currentItem.Id);
+            }
+        });
+    });
+}
+
+function showEditorInternal(itemId, serverId) {
     hasChanges = false;
 
-    let apiClient = window.connectionManager.getApiClient(serverId);
+    const apiClient = ServerConnections.getApiClient(serverId);
     return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-        let dialogOptions = {
+        const dialogOptions = {
             removeOnClose: true,
             scrollY: false
         };
@@ -368,7 +391,7 @@ function showEditorInternal(itemId, serverId, template) {
             dialogOptions.size = 'small';
         }
 
-        let dlg = dialogHelper.createDialog(dialogOptions);
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
         dlg.classList.add('formDialog');
         dlg.classList.add('subtitleEditorDialog');
@@ -379,7 +402,9 @@ function showEditorInternal(itemId, serverId, template) {
 
         dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
 
-        let btnSubmit = dlg.querySelector('.btnSubmit');
+        dlg.querySelector('.btnOpenUploadMenu').addEventListener('click', onOpenUploadMenu);
+
+        const btnSubmit = dlg.querySelector('.btnSubmit');
 
         if (layoutManager.tv) {
             centerFocus(dlg.querySelector('.formDialogContent'), false, true);
@@ -388,7 +413,12 @@ function showEditorInternal(itemId, serverId, template) {
             btnSubmit.classList.add('hide');
         }
 
-        let editorContent = dlg.querySelector('.formDialogContent');
+        // Don't allow redirection to other websites from the TV layout
+        if (layoutManager.tv || !appHost.supports('externallinks')) {
+            dlg.querySelector('.btnHelp').remove();
+        }
+
+        const editorContent = dlg.querySelector('.formDialogContent');
 
         dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
         dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);
@@ -424,11 +454,7 @@ function showEditorInternal(itemId, serverId, template) {
 function showEditor(itemId, serverId) {
     loading.show();
 
-    return new Promise(function (resolve, reject) {
-        import('text!./subtitleeditor.template.html').then(({default: template}) => {
-            showEditorInternal(itemId, serverId, template).then(resolve, reject);
-        });
-    });
+    return showEditorInternal(itemId, serverId);
 }
 
 export default {

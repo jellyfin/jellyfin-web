@@ -1,15 +1,21 @@
-import datetime from 'datetime';
-import events from 'events';
-import browser from 'browser';
-import imageLoader from 'imageLoader';
-import layoutManager from 'layoutManager';
-import playbackManager from 'playbackManager';
-import nowPlayingHelper from 'nowPlayingHelper';
-import appHost from 'apphost';
-import dom from 'dom';
-import itemContextMenu from 'itemContextMenu';
-import 'paper-icon-button-light';
-import 'emby-ratingbutton';
+import datetime from '../../scripts/datetime';
+import { Events } from 'jellyfin-apiclient';
+import browser from '../../scripts/browser';
+import imageLoader from '../images/imageLoader';
+import layoutManager from '../layoutManager';
+import { playbackManager } from '../playback/playbackmanager';
+import nowPlayingHelper from '../playback/nowplayinghelper';
+import { appHost } from '../apphost';
+import dom from '../../scripts/dom';
+import itemContextMenu from '../itemContextMenu';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-ratingbutton/emby-ratingbutton';
+import ServerConnections from '../ServerConnections';
+import appFooter from '../appFooter/appFooter';
+import itemShortcuts from '../shortcuts';
+import './nowPlayingBar.css';
+import '../../elements/emby-slider/emby-slider';
+import { appRouter } from '../appRouter';
 
 /* eslint-disable indent */
 
@@ -243,52 +249,42 @@ import 'emby-ratingbutton';
     }
 
     function showRemoteControl() {
-        import('appRouter').then(({default: appRouter}) => {
-            appRouter.showNowPlaying();
-        });
+        appRouter.showNowPlaying();
     }
 
     let nowPlayingBarElement;
     function getNowPlayingBar() {
         if (nowPlayingBarElement) {
-            return Promise.resolve(nowPlayingBarElement);
+            return nowPlayingBarElement;
         }
 
-        return new Promise(function (resolve, reject) {
-            Promise.all([
-                import('appFooter-shared'),
-                import('itemShortcuts'),
-                import('css!./nowPlayingBar.css'),
-                import('emby-slider')
-            ])
-            .then(([appfooter, itemShortcuts]) => {
-                const parentContainer = appfooter.element;
-                nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
+            const parentContainer = appFooter.element;
+            nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
-                if (nowPlayingBarElement) {
-                    resolve(nowPlayingBarElement);
-                    return;
-                }
+        if (nowPlayingBarElement) {
+            return nowPlayingBarElement;
+        }
 
-                parentContainer.insertAdjacentHTML('afterbegin', getNowPlayingBarHtml());
-                nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
+        parentContainer.insertAdjacentHTML('afterbegin', getNowPlayingBarHtml());
+        window.CustomElements.upgradeSubtree(parentContainer);
 
-                if (layoutManager.mobile) {
-                    hideButton(nowPlayingBarElement.querySelector('.btnShuffleQueue'));
-                    hideButton(nowPlayingBarElement.querySelector('.nowPlayingBarCenter'));
-                }
+        nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
-                if (browser.safari && browser.slow) {
-                    // Not handled well here. The wrong elements receive events, bar doesn't update quickly enough, etc.
-                    nowPlayingBarElement.classList.add('noMediaProgress');
-                }
+        if (layoutManager.mobile) {
+            hideButton(nowPlayingBarElement.querySelector('.btnShuffleQueue'));
+            hideButton(nowPlayingBarElement.querySelector('.nowPlayingBarCenter'));
+        }
 
-                itemShortcuts.on(nowPlayingBarElement);
+        if (browser.safari && browser.slow) {
+            // Not handled well here. The wrong elements receive events, bar doesn't update quickly enough, etc.
+            nowPlayingBarElement.classList.add('noMediaProgress');
+        }
 
-                bindEvents(nowPlayingBarElement);
-                resolve(nowPlayingBarElement);
-            });
-        });
+        itemShortcuts.on(nowPlayingBarElement);
+
+        bindEvents(nowPlayingBarElement);
+
+        return nowPlayingBarElement;
     }
 
     function showButton(button) {
@@ -451,7 +447,7 @@ import 'emby-ratingbutton';
             if (item.SeriesPrimaryImageTag) {
                 options.tag = item.SeriesPrimaryImageTag;
 
-                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
         }
 
@@ -459,12 +455,12 @@ import 'emby-ratingbutton';
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
-                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
-                return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -481,12 +477,12 @@ import 'emby-ratingbutton';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
-            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
-            return window.connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;
@@ -547,7 +543,7 @@ import 'emby-ratingbutton';
 
         if (nowPlayingItem.Id) {
             if (isRefreshing) {
-                const apiClient = window.connectionManager.getApiClient(nowPlayingItem.ServerId);
+                const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
                     const userData = item.UserData || {};
                     const likes = userData.Likes == null ? '' : userData.Likes;
@@ -560,6 +556,7 @@ import 'emby-ratingbutton';
                         const options = {
                             play: false,
                             queue: false,
+                            stopPlayback: true,
                             clearQueue: true,
                             positionTo: contextButton
                         };
@@ -582,7 +579,7 @@ import 'emby-ratingbutton';
 
     function onPlaybackStart(e, state) {
         console.debug('nowplaying event: ' + e.type);
-        var player = this;
+        const player = this;
         onStateChanged.call(player, e, state);
     }
 
@@ -620,7 +617,7 @@ import 'emby-ratingbutton';
             return;
         }
 
-        getNowPlayingBar().then(slideUp);
+        slideUp(getNowPlayingBar());
     }
 
     function hideNowPlayingBar() {
@@ -664,7 +661,7 @@ import 'emby-ratingbutton';
         console.debug('nowplaying event: ' + event.type);
         const player = this;
 
-        if (!state.NowPlayingItem || layoutManager.tv) {
+        if (!state.NowPlayingItem || layoutManager.tv || state.IsFullscreen === false) {
             hideNowPlayingBar();
             return;
         }
@@ -681,9 +678,8 @@ import 'emby-ratingbutton';
             return;
         }
 
-        getNowPlayingBar().then(function () {
-            updatePlayerStateInternal(event, state, player);
-        });
+        getNowPlayingBar();
+        updatePlayerStateInternal(event, state, player);
     }
 
     function onTimeUpdate(e) {
@@ -707,15 +703,15 @@ import 'emby-ratingbutton';
         const player = currentPlayer;
 
         if (player) {
-            events.off(player, 'playbackstart', onPlaybackStart);
-            events.off(player, 'statechange', onPlaybackStart);
-            events.off(player, 'repeatmodechange', onRepeatModeChange);
-            events.off(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
-            events.off(player, 'playbackstop', onPlaybackStopped);
-            events.off(player, 'volumechange', onVolumeChanged);
-            events.off(player, 'pause', onPlayPauseStateChanged);
-            events.off(player, 'unpause', onPlayPauseStateChanged);
-            events.off(player, 'timeupdate', onTimeUpdate);
+            Events.off(player, 'playbackstart', onPlaybackStart);
+            Events.off(player, 'statechange', onPlaybackStart);
+            Events.off(player, 'repeatmodechange', onRepeatModeChange);
+            Events.off(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
+            Events.off(player, 'playbackstop', onPlaybackStopped);
+            Events.off(player, 'volumechange', onVolumeChanged);
+            Events.off(player, 'pause', onPlayPauseStateChanged);
+            Events.off(player, 'unpause', onPlayPauseStateChanged);
+            Events.off(player, 'timeupdate', onTimeUpdate);
 
             currentPlayer = null;
             hideNowPlayingBar();
@@ -753,18 +749,18 @@ import 'emby-ratingbutton';
 
         refreshFromPlayer(player);
 
-        events.on(player, 'playbackstart', onPlaybackStart);
-        events.on(player, 'statechange', onPlaybackStart);
-        events.on(player, 'repeatmodechange', onRepeatModeChange);
-        events.on(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
-        events.on(player, 'playbackstop', onPlaybackStopped);
-        events.on(player, 'volumechange', onVolumeChanged);
-        events.on(player, 'pause', onPlayPauseStateChanged);
-        events.on(player, 'unpause', onPlayPauseStateChanged);
-        events.on(player, 'timeupdate', onTimeUpdate);
+        Events.on(player, 'playbackstart', onPlaybackStart);
+        Events.on(player, 'statechange', onPlaybackStart);
+        Events.on(player, 'repeatmodechange', onRepeatModeChange);
+        Events.on(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
+        Events.on(player, 'playbackstop', onPlaybackStopped);
+        Events.on(player, 'volumechange', onVolumeChanged);
+        Events.on(player, 'pause', onPlayPauseStateChanged);
+        Events.on(player, 'unpause', onPlayPauseStateChanged);
+        Events.on(player, 'timeupdate', onTimeUpdate);
     }
 
-    events.on(playbackManager, 'playerchange', function () {
+    Events.on(playbackManager, 'playerchange', function () {
         bindToPlayer(playbackManager.getCurrentPlayer());
     });
 

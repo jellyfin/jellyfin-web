@@ -1,12 +1,13 @@
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import events from 'events';
-import browser from 'browser';
-import AlphaPicker from 'alphaPicker';
-import 'emby-input';
-import 'flexStyles';
-import 'material-icons';
-import 'css!./searchfields';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import { Events } from 'jellyfin-apiclient';
+import browser from '../../scripts/browser';
+import AlphaPicker from '../alphaPicker/alphaPicker';
+import '../../elements/emby-input/emby-input';
+import '../../assets/css/flexstyles.scss';
+import 'material-design-icons-iconfont';
+import './searchfields.css';
+import template from './searchfields.template.html';
 
 /* eslint-disable indent */
 
@@ -15,7 +16,7 @@ import 'css!./searchfields';
         let value = instance.nextSearchValue;
 
         value = (value || '').trim();
-        events.trigger(instance, 'search', [value]);
+        Events.trigger(instance, 'search', [value]);
     }
 
     function triggerSearch(instance, value) {
@@ -61,30 +62,28 @@ import 'css!./searchfields';
     }
 
     function embed(elem, instance, options) {
-        import('text!./searchfields.template.html').then(({default: template}) => {
-            let html = globalize.translateHtml(template, 'core');
+        let html = globalize.translateHtml(template, 'core');
 
-            if (browser.tizen || browser.orsay) {
-                html = html.replace('<input ', '<input readonly ');
-            }
+        if (browser.tizen || browser.orsay) {
+            html = html.replace('<input ', '<input readonly ');
+        }
 
-            elem.innerHTML = html;
+        elem.innerHTML = html;
 
-            elem.classList.add('searchFields');
+        elem.classList.add('searchFields');
 
-            const txtSearch = elem.querySelector('.searchfields-txtSearch');
+        const txtSearch = elem.querySelector('.searchfields-txtSearch');
 
-            if (layoutManager.tv) {
-                const alphaPickerElement = elem.querySelector('.alphaPicker');
+        if (layoutManager.tv) {
+            const alphaPickerElement = elem.querySelector('.alphaPicker');
 
-                elem.querySelector('.alphaPicker').classList.remove('hide');
-                initAlphaPicker(alphaPickerElement, instance);
-            }
+            elem.querySelector('.alphaPicker').classList.remove('hide');
+            initAlphaPicker(alphaPickerElement, instance);
+        }
 
-            txtSearch.addEventListener('input', onSearchInput.bind(instance));
+        txtSearch.addEventListener('input', onSearchInput.bind(instance));
 
-            instance.focus();
-        });
+        instance.focus();
     }
 
 class SearchFields {

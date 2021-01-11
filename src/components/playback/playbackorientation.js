@@ -1,8 +1,9 @@
-import playbackManager from 'playbackManager';
-import layoutManager from 'layoutManager';
-import events from 'events';
 
-var orientationLocked;
+import { playbackManager } from './playbackmanager';
+import layoutManager from '../layoutManager';
+import { Events } from 'jellyfin-apiclient';
+
+let orientationLocked;
 
 function onOrientationChangeSuccess() {
     orientationLocked = true;
@@ -13,16 +14,16 @@ function onOrientationChangeError(err) {
     console.error('error locking orientation: ' + err);
 }
 
-events.on(playbackManager, 'playbackstart', function (e, player, state) {
-    var isLocalVideo = player.isLocalPlayer && !player.isExternalPlayer && playbackManager.isPlayingVideo(player);
+Events.on(playbackManager, 'playbackstart', function (e, player, state) {
+    const isLocalVideo = player.isLocalPlayer && !player.isExternalPlayer && playbackManager.isPlayingVideo(player);
 
     if (isLocalVideo && layoutManager.mobile) {
         /* eslint-disable-next-line compat/compat */
-        var lockOrientation = window.screen.lockOrientation || window.screen.mozLockOrientation || window.screen.msLockOrientation || (window.screen.orientation && window.screen.orientation.lock);
+        const lockOrientation = window.screen.lockOrientation || window.screen.mozLockOrientation || window.screen.msLockOrientation || (window.screen.orientation && window.screen.orientation.lock);
 
         if (lockOrientation) {
             try {
-                var promise = lockOrientation('landscape');
+                const promise = lockOrientation('landscape');
                 if (promise.then) {
                     promise.then(onOrientationChangeSuccess, onOrientationChangeError);
                 } else {
@@ -36,10 +37,10 @@ events.on(playbackManager, 'playbackstart', function (e, player, state) {
     }
 });
 
-events.on(playbackManager, 'playbackstop', function (e, playbackStopInfo) {
+Events.on(playbackManager, 'playbackstop', function (e, playbackStopInfo) {
     if (orientationLocked && !playbackStopInfo.nextMediaType) {
         /* eslint-disable-next-line compat/compat */
-        var unlockOrientation = window.screen.unlockOrientation || window.screen.mozUnlockOrientation || window.screen.msUnlockOrientation || (window.screen.orientation && window.screen.orientation.unlock);
+        const unlockOrientation = window.screen.unlockOrientation || window.screen.mozUnlockOrientation || window.screen.msUnlockOrientation || (window.screen.orientation && window.screen.orientation.unlock);
 
         if (unlockOrientation) {
             try {

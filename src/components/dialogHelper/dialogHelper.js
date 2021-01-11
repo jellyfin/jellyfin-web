@@ -1,11 +1,11 @@
-import appRouter from 'appRouter';
-import focusManager from 'focusManager';
-import browser from 'browser';
-import layoutManager from 'layoutManager';
-import inputManager from 'inputManager';
-import dom from 'dom';
-import 'css!./dialoghelper.css';
-import 'scrollStyles';
+import { appRouter } from '../appRouter';
+import focusManager from '../focusManager';
+import browser from '../../scripts/browser';
+import layoutManager from '../layoutManager';
+import inputManager from '../../scripts/inputManager';
+import dom from '../../scripts/dom';
+import './dialoghelper.css';
+import '../../assets/css/scrollstyles.css';
 
 /* eslint-disable indent */
 
@@ -310,16 +310,16 @@ import 'scrollStyles';
     const supportsOverscrollBehavior = 'overscroll-behavior-y' in document.body.style;
 
     function shouldLockDocumentScroll(options) {
-        if (supportsOverscrollBehavior && (options.size || !browser.touch)) {
-            return false;
-        }
-
         if (options.lockScroll != null) {
             return options.lockScroll;
         }
 
         if (options.size === 'fullscreen') {
             return true;
+        }
+
+        if (supportsOverscrollBehavior && (options.size || !browser.touch)) {
+            return false;
         }
 
         if (options.size) {
@@ -354,19 +354,22 @@ import 'scrollStyles';
     }
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then((scrollHelper) => {
+        import('../../scripts/scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    export function createDialog(options) {
-        options = options || {};
-
+    export function createDialog(options = {}) {
         // If there's no native dialog support, use a plain div
         // Also not working well in samsung tizen browser, content inside not clickable
         // Just go ahead and always use a plain div because we're seeing issues overlaying absoltutely positioned content over a modal dialog
         const dlg = document.createElement('div');
+
+        // Add an id so we can access the dialog element
+        if (options.id) {
+            dlg.id = options.id;
+        }
 
         dlg.classList.add('focuscontainer');
         dlg.classList.add('hide');

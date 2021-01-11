@@ -5,12 +5,14 @@
  * @module components/shortcuts
  */
 
-import playbackManager from 'playbackManager';
-import inputManager from 'inputManager';
-import appRouter from 'appRouter';
-import globalize from 'globalize';
-import dom from 'dom';
-import recordingHelper from 'recordingHelper';
+import { playbackManager } from './playback/playbackmanager';
+import inputManager from '../scripts/inputManager';
+import { appRouter } from './appRouter';
+import globalize from '../scripts/globalize';
+import dom from '../scripts/dom';
+import recordingHelper from './recordingcreator/recordinghelper';
+import ServerConnections from './ServerConnections';
+import toast from './toast/toast';
 
     function playAllFromHere(card, serverId, queue) {
         const parent = card.parentNode;
@@ -69,7 +71,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function showProgramDialog(item) {
-        import('recordingCreator').then(({default:recordingCreator}) => {
+        import('./recordingcreator/recordingcreator').then(({default:recordingCreator}) => {
             recordingCreator.show(item.Id, item.ServerId);
         });
     }
@@ -80,7 +82,7 @@ import recordingHelper from 'recordingHelper';
         const id = button.getAttribute('data-id');
         const type = button.getAttribute('data-type');
 
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         if (type === 'Timer') {
             return apiClient.getLiveTvTimer(id);
@@ -109,8 +111,8 @@ import recordingHelper from 'recordingHelper';
                 item.PlaylistItemId = elem ? elem.getAttribute('data-playlistitemid') : null;
             }
 
-            import('itemContextMenu').then(({default: itemContextMenu}) => {
-                window.connectionManager.getApiClient(item.ServerId).getCurrentUser().then(user => {
+            import('./itemContextMenu').then((itemContextMenu) => {
+                ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(user => {
                     itemContextMenu.show(Object.assign({
                         item: item,
                         play: true,
@@ -143,7 +145,10 @@ import recordingHelper from 'recordingHelper';
             SeriesId: card.getAttribute('data-seriesid'),
             ServerId: card.getAttribute('data-serverid'),
             MediaType: card.getAttribute('data-mediatype'),
+            Path: card.getAttribute('data-path'),
             IsFolder: card.getAttribute('data-isfolder') === 'true',
+            StartDate: card.getAttribute('data-startdate'),
+            EndDate: card.getAttribute('data-enddate'),
             UserData: {
                 PlaybackPositionTicks: parseInt(card.getAttribute('data-positionticks') || '0')
             }
@@ -153,7 +158,7 @@ import recordingHelper from 'recordingHelper';
     function showPlayMenu(card, target) {
         const item = getItemInfoFromCard(card);
 
-        import('playMenu').then(({default: playMenu}) => {
+        import('./playmenu').then((playMenu) => {
             playMenu.show({
 
                 item: item,
@@ -163,9 +168,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function sendToast(text) {
-        import('toast').then(({default: toast}) => {
-            toast(text);
-        });
+        toast(text);
     }
 
     function executeAction(card, target, action) {
@@ -204,11 +207,15 @@ import recordingHelper from 'recordingHelper';
         } else if (action === 'play' || action === 'resume') {
             const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0');
 
-            playbackManager.play({
-                ids: [playableItemId],
-                startPositionTicks: startPositionTicks,
-                serverId: serverId
-            });
+            if (playbackManager.canPlay(item)) {
+                playbackManager.play({
+                    ids: [playableItemId],
+                    startPositionTicks: startPositionTicks,
+                    serverId: serverId
+                });
+            } else {
+                console.warn('Unable to play item', item);
+            }
         } else if (action === 'queue') {
             if (playbackManager.isPlaying()) {
                 playbackManager.queue({
@@ -269,7 +276,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function addToPlaylist(item) {
-        import('playlistEditor').then(({default: playlistEditor}) => {
+        import('./playlisteditor/playlisteditor').then(({default: playlistEditor}) => {
             new playlistEditor().show({
                 items: [item.Id],
                 serverId: item.ServerId
@@ -279,7 +286,7 @@ import recordingHelper from 'recordingHelper';
     }
 
     function playTrailer(item) {
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
 
         apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(trailers => {
             playbackManager.play({ items: trailers });
@@ -287,23 +294,23 @@ import recordingHelper from 'recordingHelper';
     }
 
     function editItem(item, serverId) {
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         return new Promise((resolve, reject) => {
             const serverId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
                 if (item.ProgramId) {
-                    import('recordingCreator').then(({default: recordingCreator}) => {
+                    import('./recordingcreator/recordingcreator').then(({default: recordingCreator}) => {
                         recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
                     });
                 } else {
-                    import('recordingEditor').then(({default: recordingEditor}) => {
+                    import('./recordingcreator/recordingeditor').then(({default: recordingEditor}) => {
                         recordingEditor.show(item.Id, serverId).then(resolve, reject);
                     });
                 }
             } else {
-                import('metadataEditor').then(({default: metadataEditor}) => {
+                import('./metadataEditor/metadataEditor').then(({default: metadataEditor}) => {
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             }
@@ -397,4 +404,3 @@ export default {
     onClick: onClick,
     getShortcutAttributesHtml: getShortcutAttributesHtml
 };
-

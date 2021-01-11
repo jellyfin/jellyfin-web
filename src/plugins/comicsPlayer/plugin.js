@@ -1,8 +1,13 @@
-import loading from 'loading';
-import dialogHelper from 'dialogHelper';
-import keyboardnavigation from 'keyboardnavigation';
-import appRouter from 'appRouter';
-import * as libarchive from 'libarchive';
+// eslint-disable-next-line import/named, import/namespace
+import { Archive } from 'libarchive.js';
+import loading from '../../components/loading/loading';
+import dialogHelper from '../../components/dialogHelper/dialogHelper';
+import keyboardnavigation from '../../scripts/keyboardNavigation';
+import { appRouter } from '../../components/appRouter';
+import ServerConnections from '../../components/ServerConnections';
+// eslint-disable-next-line import/named, import/namespace
+import { Swiper } from 'swiper/swiper-bundle.esm';
+import 'swiper/swiper-bundle.css';
 
 export class ComicsPlayer {
     constructor() {
@@ -19,14 +24,16 @@ export class ComicsPlayer {
     play(options) {
         this.progress = 0;
 
-        let elem = this.createMediaElement();
+        const elem = this.createMediaElement();
         return this.setCurrentSrc(elem, options);
     }
 
     stop() {
         this.unbindEvents();
 
-        let elem = this.mediaElement;
+        this.archiveSource?.release();
+
+        const elem = this.mediaElement;
         if (elem) {
             dialogHelper.close(elem);
             this.mediaElement = null;
@@ -40,7 +47,7 @@ export class ComicsPlayer {
     }
 
     onWindowKeyUp(e) {
-        let key = keyboardnavigation.getKeyName(e);
+        const key = keyboardnavigation.getKeyName(e);
         switch (key) {
             case 'Escape':
                 this.stop();
@@ -87,53 +94,48 @@ export class ComicsPlayer {
     }
 
     setCurrentSrc(elem, options) {
-        let item = options.items[0];
+        const item = options.items[0];
         this.currentItem = item;
 
         loading.show();
 
-        let serverId = item.ServerId;
-        let apiClient = window.connectionManager.getApiClient(serverId);
+        const serverId = item.ServerId;
+        const apiClient = ServerConnections.getApiClient(serverId);
 
-        libarchive.Archive.init({
+        Archive.init({
             workerUrl: appRouter.baseUrl() + '/libraries/worker-bundle.js'
         });
 
-        return new Promise((resolve, reject) => {
-            let downloadUrl = apiClient.getItemDownloadUrl(item.Id);
-            const archiveSource = new ArchiveSource(downloadUrl);
+        const downloadUrl = apiClient.getItemDownloadUrl(item.Id);
+        this.archiveSource = new ArchiveSource(downloadUrl);
 
-            var instance = this;
-            import('swiper').then(({default: Swiper}) => {
-                archiveSource.load().then(() => {
-                    loading.hide();
-                    this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
-                        direction: 'horizontal',
-                        // loop is disabled due to the lack of support in virtual slides
-                        loop: false,
-                        zoom: {
-                            minRatio: 1,
-                            toggle: true,
-                            containerClass: 'slider-zoom-container'
-                        },
-                        autoplay: false,
-                        keyboard: {
-                            enabled: true
-                        },
-                        preloadImages: true,
-                        slidesPerView: 1,
-                        slidesPerColumn: 1,
-                        initialSlide: 0,
-                        // reduces memory consumption for large libraries while allowing preloading of images
-                        virtual: {
-                            slides: archiveSource.urls,
-                            cache: true,
-                            renderSlide: instance.getImgFromUrl,
-                            addSlidesBefore: 1,
-                            addSlidesAfter: 1
-                        }
-                    });
-                });
+        return this.archiveSource.load().then(() => {
+            loading.hide();
+            this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
+                direction: 'horizontal',
+                // loop is disabled due to the lack of Swiper support in virtual slides
+                loop: false,
+                zoom: {
+                    minRatio: 1,
+                    toggle: true,
+                    containerClass: 'slider-zoom-container'
+                },
+                autoplay: false,
+                keyboard: {
+                    enabled: true
+                },
+                preloadImages: true,
+                slidesPerView: 1,
+                slidesPerColumn: 1,
+                initialSlide: 0,
+                // reduces memory consumption for large libraries while allowing preloading of images
+                virtual: {
+                    slides: this.archiveSource.urls,
+                    cache: true,
+                    renderSlide: this.getImgFromUrl,
+                    addSlidesBefore: 1,
+                    addSlidesAfter: 1
+                }
             });
         });
     }
@@ -164,23 +166,20 @@ class ArchiveSource {
         this.url = url;
         this.files = [];
         this.urls = [];
-        this.loadPromise = this.load();
-        this.itemsLoaded = 0;
     }
 
     async load() {
-        let res = await fetch(this.url);
+        const res = await fetch(this.url);
         if (!res.ok) {
             return;
         }
 
-        let blob = await res.blob();
-        this.archive = await libarchive.Archive.open(blob);
+        const blob = await res.blob();
+        this.archive = await Archive.open(blob);
         this.raw = await this.archive.getFilesArray();
-        this.numberOfFiles = this.raw.length;
         await this.archive.extractFiles();
 
-        let files = await this.archive.getFilesArray();
+        const files = await this.archive.getFilesArray();
         files.sort((a, b) => {
             if (a.file.name < b.file.name) {
                 return -1;
@@ -189,24 +188,18 @@ class ArchiveSource {
             }
         });
 
-        for (let file of files) {
+        for (const file of files) {
             /* eslint-disable-next-line compat/compat */
-            let url = URL.createObjectURL(file.file);
+            const url = URL.createObjectURL(file.file);
             this.urls.push(url);
         }
     }
 
-    getLength() {
-        return this.raw.length;
-    }
-
-    async item(index) {
-        if (this.urls[index]) {
-            return this.urls[index];
-        }
-
-        await this.loadPromise;
-        return this.urls[index];
+    release() {
+        this.files = [];
+        /* eslint-disable-next-line compat/compat */
+        this.urls.forEach(URL.revokeObjectURL);
+        this.urls = [];
     }
 }
 

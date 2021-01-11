@@ -1,11 +1,13 @@
-import dom from 'dom';
-import loading from 'loading';
-import globalize from 'globalize';
-import 'emby-select';
-import 'emby-button';
-import 'emby-input';
-import 'emby-checkbox';
-import 'listViewStyle';
+import dom from '../../../scripts/dom';
+import Dashboard from '../../../scripts/clientUtils';
+import loading from '../../../components/loading/loading';
+import globalize from '../../../scripts/globalize';
+import toast from '../../../components/toast/toast';
+import '../../../elements/emby-select/emby-select';
+import '../../../elements/emby-button/emby-button';
+import '../../../elements/emby-input/emby-input';
+import '../../../elements/emby-checkbox/emby-checkbox';
+import '../../../components/listview/listview.css';
 
 function loadProfile(page) {
     loading.show();
@@ -495,9 +497,7 @@ function saveProfile(page, profile) {
             data: JSON.stringify(profile),
             contentType: 'application/json'
         }).then(function () {
-            import('toast').then(({default: toast}) => {
-                toast('Settings saved.');
-            });
+            toast('Settings saved.');
         }, Dashboard.processErrorResponse);
     } else {
         ApiClient.ajax({

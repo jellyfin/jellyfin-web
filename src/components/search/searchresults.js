@@ -1,10 +1,12 @@
-import layoutManager from 'layoutManager';
-import globalize from 'globalize';
-import cardBuilder from 'cardBuilder';
-import appRouter from 'appRouter';
-import 'emby-scroller';
-import 'emby-itemscontainer';
-import 'emby-button';
+import layoutManager from '../layoutManager';
+import globalize from '../../scripts/globalize';
+import cardBuilder from '../cardbuilder/cardBuilder';
+import { appRouter } from '../appRouter';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-button/emby-button';
+import ServerConnections from '../ServerConnections';
+import template from './searchresults.template.html';
 
 /* eslint-disable indent */
 
@@ -584,19 +586,18 @@ import 'emby-button';
     }
 
     function embed(elem, instance, options) {
-        import('text!./searchresults.template.html').then(({default: template}) => {
-            if (!enableScrollX()) {
-                template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');
-                template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
-            }
+        let workingTemplate = template;
+        if (!enableScrollX()) {
+            workingTemplate = replaceAll(workingTemplate, 'data-horizontal="true"', 'data-horizontal="false"');
+            workingTemplate = replaceAll(workingTemplate, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
+        }
 
-            const html = globalize.translateHtml(template, 'core');
+        const html = globalize.translateHtml(workingTemplate, 'core');
 
-            elem.innerHTML = html;
+        elem.innerHTML = html;
 
-            elem.classList.add('searchResults');
-            instance.search('');
-        });
+        elem.classList.add('searchResults');
+        instance.search('');
     }
 
 class SearchResults {
@@ -605,7 +606,7 @@ class SearchResults {
         embed(options.element, this, options);
     }
     search(value) {
-        const apiClient = window.connectionManager.getApiClient(this.options.serverId);
+        const apiClient = ServerConnections.getApiClient(this.options.serverId);
 
         search(this, apiClient, this.options.element, value);
     }

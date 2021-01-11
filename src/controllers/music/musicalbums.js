@@ -1,14 +1,14 @@
-import playbackManager from 'playbackManager';
-import loading from 'loading';
-import events from 'events';
-import libraryBrowser from 'libraryBrowser';
-import imageLoader from 'imageLoader';
-import AlphaPicker from 'alphaPicker';
-import listView from 'listView';
-import cardBuilder from 'cardBuilder';
-import * as userSettings from 'userSettings';
-import globalize from 'globalize';
-import 'emby-itemscontainer';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import loading from '../../components/loading/loading';
+import { Events } from 'jellyfin-apiclient';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import imageLoader from '../../components/images/imageLoader';
+import AlphaPicker from '../../components/alphaPicker/alphaPicker';
+import listView from '../../components/listview/listview';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import * as userSettings from '../../scripts/settings/userSettings';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 /* eslint-disable indent */
 
@@ -155,20 +155,21 @@ import 'emby-itemscontainer';
                         overlayPlayButton: true
                     });
                 }
+
                 let elems = tabContent.querySelectorAll('.paging');
 
-                for (let i = 0, length = elems.length; i < length; i++) {
-                    elems[i].innerHTML = pagingHtml;
+                for (const elem of elems) {
+                    elem.innerHTML = pagingHtml;
                 }
 
                 elems = tabContent.querySelectorAll('.btnNextPage');
-                for (let i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onNextPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll('.btnPreviousPage');
-                for (let i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener('click', onPreviousPageClick);
+                for (const elem of elems) {
+                    elem.addEventListener('click', onPreviousPageClick);
                 }
 
                 const itemsContainer = tabContent.querySelector('.itemsContainer');
@@ -178,7 +179,7 @@ import 'emby-itemscontainer';
                 loading.hide();
                 isLoading = false;
 
-                import('autoFocuser').then(({default: autoFocuser}) => {
+                import('../../components/autoFocuser').then(({default: autoFocuser}) => {
                     autoFocuser.autoFocus(tabContent);
                 });
             });
@@ -186,7 +187,16 @@ import 'emby-itemscontainer';
 
         const updateFilterControls = (tabContent) => {
             const query = getQuery();
-            this.alphaPicker.value(query.NameStartsWithOrGreater);
+
+            if (this.alphaPicker) {
+                this.alphaPicker.value(query.NameStartsWith);
+
+                if (query.SortBy.indexOf('SortName') === 0) {
+                    this.alphaPicker.visible(true);
+                } else {
+                    this.alphaPicker.visible(false);
+                }
+            }
         };
 
         let savedQueryKey;
@@ -194,16 +204,17 @@ import 'emby-itemscontainer';
         let isLoading = false;
 
         this.showFilterMenu = function () {
-            import('components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
+            import('../../components/filterdialog/filterdialog').then(({default: filterDialogFactory}) => {
                 const filterDialog = new filterDialogFactory({
                     query: getQuery(),
                     mode: 'albums',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, 'filterchange', function () {
+                Events.on(filterDialog, 'filterchange', function () {
                     getQuery().StartIndex = 0;
                     reloadItems(tabContent);
                 });
+
                 filterDialog.show();
             });
         };
@@ -219,10 +230,11 @@ import 'emby-itemscontainer';
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 const newValue = e.detail.value;
                 const query = getQuery();
-                query.NameStartsWithOrGreater = newValue;
+                query.NameStartsWith = newValue;
                 query.StartIndex = 0;
                 reloadItems(tabContent);
             });
+
             this.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
                 valueChangeEvent: 'click'
@@ -235,6 +247,7 @@ import 'emby-itemscontainer';
             tabContent.querySelector('.btnFilter').addEventListener('click', () => {
                 this.showFilterMenu();
             });
+
             tabContent.querySelector('.btnSort').addEventListener('click', (e) => {
                 libraryBrowser.showSortMenu({
                     items: [{
@@ -267,10 +280,12 @@ import 'emby-itemscontainer';
                     button: e.target
                 });
             });
+
             const btnSelectView = tabContent.querySelector('.btnSelectView');
             btnSelectView.addEventListener('click', (e) => {
                 libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
+
             btnSelectView.addEventListener('layoutchange', function (e) {
                 const viewStyle = e.detail.viewStyle;
                 getPageData().view = viewStyle;
@@ -279,6 +294,7 @@ import 'emby-itemscontainer';
                 onViewStyleChange();
                 reloadItems(tabContent);
             });
+
             tabContent.querySelector('.btnPlayAll').addEventListener('click', playAll);
             tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
         };

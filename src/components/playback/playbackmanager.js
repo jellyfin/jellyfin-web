@@ -1,14 +1,16 @@
-import events from 'events';
-import datetime from 'datetime';
-import appSettings from 'appSettings';
-import itemHelper from 'itemHelper';
-import pluginManager from 'pluginManager';
-import PlayQueueManager from 'playQueueManager';
-import * as userSettings from 'userSettings';
-import globalize from 'globalize';
-import loading from 'loading';
-import appHost from 'apphost';
-import screenfull from 'screenfull';
+import { Events } from 'jellyfin-apiclient';
+import datetime from '../../scripts/datetime';
+import appSettings from '../../scripts/settings/appSettings';
+import itemHelper from '../itemHelper';
+import { pluginManager } from '../pluginManager';
+import PlayQueueManager from './playqueuemanager';
+import * as userSettings from '../../scripts/settings/userSettings';
+import globalize from '../../scripts/globalize';
+import loading from '../loading/loading';
+import { appHost } from '../apphost';
+import * as Screenfull from 'screenfull';
+import ServerConnections from '../ServerConnections';
+import alert from '../alert';
 
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
@@ -23,14 +25,14 @@ function enableLocalPlaylistManagement(player) {
 }
 
 function bindToFullscreenChange(player) {
-    if (screenfull.isEnabled) {
-        screenfull.on('change', function () {
-            events.trigger(player, 'fullscreenchange');
+    if (Screenfull.isEnabled) {
+        Screenfull.on('change', function () {
+            Events.trigger(player, 'fullscreenchange');
         });
     } else {
         // iOS Safari
         document.addEventListener('webkitfullscreenchange', function () {
-            events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange');
         }, false);
     }
 }
@@ -46,14 +48,14 @@ function triggerPlayerChange(playbackManagerInstance, newPlayer, newTarget, prev
         }
     }
 
-    events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
+    Events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
 }
 
 function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
     if (!serverId) {
         // Not a server item
         // We can expand on this later and possibly report them
-        events.trigger(playbackManagerInstance, 'reportplayback', [false]);
+        Events.trigger(playbackManagerInstance, 'reportplayback', [false]);
         return;
     }
 
@@ -68,11 +70,11 @@ function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, 
         addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
     }
 
-    const apiClient = window.connectionManager.getApiClient(serverId);
+    const apiClient = ServerConnections.getApiClient(serverId);
     const reportPlaybackPromise = apiClient[method](info);
     // Notify that report has been sent
     reportPlaybackPromise.then(() => {
-        events.trigger(playbackManagerInstance, 'reportplayback', [true]);
+        Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
     });
 }
 
@@ -105,7 +107,7 @@ function normalizeName(t) {
 }
 
 function getItemsForPlayback(serverId, query) {
-    const apiClient = window.connectionManager.getApiClient(serverId);
+    const apiClient = ServerConnections.getApiClient(serverId);
 
     if (query.Ids && query.Ids.split(',').length === 1) {
         const itemId = query.Ids.split(',');
@@ -281,15 +283,15 @@ function getAudioMaxValues(deviceProfile) {
     let maxAudioBitDepth = null;
     let maxAudioBitrate = null;
 
-    deviceProfile.CodecProfiles.map(function (codecProfile) {
+    deviceProfile.CodecProfiles.forEach(codecProfile => {
         if (codecProfile.Type === 'Audio') {
-            (codecProfile.Conditions || []).map(function (condition) {
+            (codecProfile.Conditions || []).forEach(condition => {
                 if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitDepth') {
-                    return maxAudioBitDepth = condition.Value;
+                    maxAudioBitDepth = condition.Value;
                 } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioSampleRate') {
-                    return maxAudioSampleRate = condition.Value;
+                    maxAudioSampleRate = condition.Value;
                 } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitrate') {
-                    return maxAudioBitrate = condition.Value;
+                    maxAudioBitrate = condition.Value;
                 }
             });
         }
@@ -332,7 +334,7 @@ function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, api
 
     let directPlayContainers = '';
 
-    deviceProfile.DirectPlayProfiles.map(function (p) {
+    deviceProfile.DirectPlayProfiles.forEach(p => {
         if (p.Type === 'Audio') {
             if (directPlayContainers) {
                 directPlayContainers += ',' + p.Container;
@@ -358,7 +360,7 @@ function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
 
     let audioDirectPlayContainers = '';
 
-    deviceProfile.DirectPlayProfiles.map(function (p) {
+    deviceProfile.DirectPlayProfiles.forEach(p => {
         if (p.Type === 'Audio') {
             if (audioDirectPlayContainers) {
                 audioDirectPlayContainers += ',' + p.Container;
@@ -619,7 +621,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
         } else if (mediaSource.Protocol === 'File') {
             return new Promise(function (resolve, reject) {
                 // Determine if the file can be accessed directly
-                import('filesystem').then((filesystem) => {
+                import('../../scripts/filesystem').then((filesystem) => {
                     const method = isFolderRip ?
                         'directoryExists' :
                         'fileExists';
@@ -647,11 +649,9 @@ function validatePlaybackInfoResult(instance, result) {
 }
 
 function showPlaybackInfoErrorMessage(instance, errorCode) {
-    import('alert').then(({ default: alert }) => {
-        alert({
-            text: globalize.translate(errorCode),
-            title: globalize.translate('HeaderPlaybackError')
-        });
+    alert({
+        text: globalize.translate(errorCode),
+        title: globalize.translate('HeaderPlaybackError')
     });
 }
 
@@ -852,13 +852,13 @@ class PlaybackManager {
                 player.tryPair(targetInfo) :
                 Promise.resolve();
 
-            events.trigger(self, 'pairing');
+            Events.trigger(self, 'pairing');
 
             promise.then(function () {
-                events.trigger(self, 'paired');
+                Events.trigger(self, 'paired');
                 setCurrentPlayerInternal(player, targetInfo);
             }, function () {
-                events.trigger(self, 'pairerror');
+                Events.trigger(self, 'pairerror');
                 if (currentPairingId === targetInfo.id) {
                     currentPairingId = null;
                 }
@@ -869,7 +869,7 @@ class PlaybackManager {
             const promises = players.filter(displayPlayerIndividually).map(getPlayerTargets);
 
             return Promise.all(promises).then(function (responses) {
-                return window.connectionManager.currentApiClient().getCurrentUser().then(function (user) {
+                return ServerConnections.currentApiClient().getCurrentUser().then(function (user) {
                     const targets = [];
 
                     targets.push({
@@ -1110,8 +1110,8 @@ class PlaybackManager {
         self.increasePlaybackRate = function (player) {
             player = player || self._currentPlayer;
             if (player) {
-                let current = self.getPlaybackRate(player);
-                let supported = self.getSupportedPlaybackRates(player);
+                const current = self.getPlaybackRate(player);
+                const supported = self.getSupportedPlaybackRates(player);
 
                 let index = -1;
                 for (let i = 0, length = supported.length; i < length; i++) {
@@ -1129,8 +1129,8 @@ class PlaybackManager {
         self.decreasePlaybackRate = function (player) {
             player = player || self._currentPlayer;
             if (player) {
-                let current = self.getPlaybackRate(player);
-                let supported = self.getSupportedPlaybackRates(player);
+                const current = self.getPlaybackRate(player);
+                const supported = self.getSupportedPlaybackRates(player);
 
                 let index = -1;
                 for (let i = 0, length = supported.length; i < length; i++) {
@@ -1161,7 +1161,7 @@ class PlaybackManager {
                 if (!brightnessOsdLoaded) {
                     brightnessOsdLoaded = true;
                     // TODO: Have this trigger an event instead to get the osd out of here
-                    import('brightnessOsd').then();
+                    import('./brightnessosd').then();
                 }
                 player.setBrightness(val);
             }
@@ -1367,7 +1367,7 @@ class PlaybackManager {
         function getSavedMaxStreamingBitrate(apiClient, mediaType) {
             if (!apiClient) {
                 // This should hopefully never happen
-                apiClient = window.connectionManager.currentApiClient();
+                apiClient = ServerConnections.currentApiClient();
             }
 
             const endpointInfo = apiClient.getSavedEndpointInfo() || {};
@@ -1390,7 +1390,7 @@ class PlaybackManager {
             const mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
             const currentItem = self.currentItem(player);
 
-            const apiClient = currentItem ? window.connectionManager.getApiClient(currentItem.ServerId) : window.connectionManager.currentApiClient();
+            const apiClient = currentItem ? ServerConnections.getApiClient(currentItem.ServerId) : ServerConnections.currentApiClient();
             return getSavedMaxStreamingBitrate(apiClient, mediaType);
         };
 
@@ -1404,7 +1404,7 @@ class PlaybackManager {
             const mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
             const currentItem = self.currentItem(player);
 
-            const apiClient = currentItem ? window.connectionManager.getApiClient(currentItem.ServerId) : window.connectionManager.currentApiClient();
+            const apiClient = currentItem ? ServerConnections.getApiClient(currentItem.ServerId) : ServerConnections.currentApiClient();
             const endpointInfo = apiClient.getSavedEndpointInfo() || {};
 
             return appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType);
@@ -1416,7 +1416,7 @@ class PlaybackManager {
                 return player.setMaxStreamingBitrate(options);
             }
 
-            const apiClient = window.connectionManager.getApiClient(self.currentItem(player).ServerId);
+            const apiClient = ServerConnections.getApiClient(self.currentItem(player).ServerId);
 
             apiClient.getEndpointInfo().then(function (endpointInfo) {
                 const playerData = getPlayerData(player);
@@ -1447,12 +1447,12 @@ class PlaybackManager {
                 return player.isFullscreen();
             }
 
-            if (!screenfull.isEnabled) {
+            if (!Screenfull.isEnabled) {
                 // iOS Safari
                 return document.webkitIsFullScreen;
             }
 
-            return screenfull.isFullscreen;
+            return Screenfull.isFullscreen;
         };
 
         self.toggleFullscreen = function (player) {
@@ -1461,8 +1461,8 @@ class PlaybackManager {
                 return player.toggleFullscreen();
             }
 
-            if (screenfull.isEnabled) {
-                screenfull.toggle();
+            if (Screenfull.isEnabled) {
+                Screenfull.toggle();
             } else {
                 // iOS Safari
                 if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
@@ -1678,7 +1678,7 @@ class PlaybackManager {
                 const subtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
 
                 let currentMediaSource = self.currentMediaSource(player);
-                const apiClient = window.connectionManager.getApiClient(currentItem.ServerId);
+                const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
                 if (ticks) {
                     ticks = parseInt(ticks);
@@ -1834,7 +1834,7 @@ class PlaybackManager {
                 }, queryOptions));
             } else if (firstItem.Type === 'Episode' && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
                 promise = new Promise(function (resolve, reject) {
-                    const apiClient = window.connectionManager.getApiClient(firstItem.ServerId);
+                    const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
                     apiClient.getCurrentUser().then(function (user) {
                         if (!user.Configuration.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
@@ -1875,6 +1875,9 @@ class PlaybackManager {
                 return Promise.resolve(items);
             }
         }
+
+        self.translateItemsForPlayback = translateItemsForPlayback;
+        self.getItemsForPlayback = getItemsForPlayback;
 
         self.play = function (options) {
             normalizePlayOptions(options);
@@ -2065,7 +2068,7 @@ class PlaybackManager {
                 return playOther(items, options, user);
             }
 
-            const apiClient = window.connectionManager.getApiClient(firstItem.ServerId);
+            const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
             return getIntros(firstItem, apiClient, options).then(function (introsResult) {
                 const introItems = introsResult.Items;
@@ -2128,14 +2131,14 @@ class PlaybackManager {
                 const mediaType = item.MediaType;
 
                 const onBitrateDetectionFailure = function () {
-                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(window.connectionManager.getApiClient(item.ServerId), mediaType), item, playOptions, onPlaybackStartedFn);
+                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType), item, playOptions, onPlaybackStartedFn);
                 };
 
                 if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
                     return onBitrateDetectionFailure();
                 }
 
-                const apiClient = window.connectionManager.getApiClient(item.ServerId);
+                const apiClient = ServerConnections.getApiClient(item.ServerId);
                 apiClient.getEndpointInfo().then(function (endpointInfo) {
                     if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
                         return apiClient.detectBitrate().then(function (bitrate) {
@@ -2158,7 +2161,7 @@ class PlaybackManager {
                 removeCurrentPlayer(player);
             }
 
-            events.trigger(self, 'playbackcancelled');
+            Events.trigger(self, 'playbackcancelled');
 
             return Promise.reject();
         }
@@ -2240,13 +2243,14 @@ class PlaybackManager {
                     const streamInfo = createStreamInfoFromUrlItem(item);
                     streamInfo.fullscreen = playOptions.fullscreen;
                     getPlayerData(player).isChangingStream = false;
-                    return player.play(streamInfo).then(function () {
+                    return player.play(streamInfo).then(() => {
                         loading.hide();
                         onPlaybackStartedFn();
                         onPlaybackStarted(player, playOptions, streamInfo);
-                    }, function () {
-                        // TODO: show error message
+                    }).catch((errorCode) => {
                         self.stop(player);
+                        loading.hide();
+                        showPlaybackInfoErrorMessage(self, errorCode || 'ErrorDefault');
                     });
                 });
             }
@@ -2254,7 +2258,7 @@ class PlaybackManager {
             return Promise.all([promise, player.getDeviceProfile(item)]).then(function (responses) {
                 const deviceProfile = responses[1];
 
-                const apiClient = window.connectionManager.getApiClient(item.ServerId);
+                const apiClient = ServerConnections.getApiClient(item.ServerId);
 
                 const mediaSourceId = playOptions.mediaSourceId;
                 const audioStreamIndex = playOptions.audioStreamIndex;
@@ -2299,11 +2303,11 @@ class PlaybackManager {
             const startPosition = options.startPositionTicks || 0;
             const mediaType = options.mediaType || item.MediaType;
             const player = getPlayer(item, options);
-            const apiClient = window.connectionManager.getApiClient(item.ServerId);
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
 
             // Call this just to ensure the value is recorded, it is needed with getSavedMaxStreamingBitrate
             return apiClient.getEndpointInfo().then(function () {
-                const maxBitrate = getSavedMaxStreamingBitrate(window.connectionManager.getApiClient(item.ServerId), mediaType);
+                const maxBitrate = getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType);
 
                 return player.getDeviceProfile(item).then(function (deviceProfile) {
                     return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, options.mediaSourceId, options.audioStreamIndex, options.subtitleStreamIndex).then(function (mediaSource) {
@@ -2319,11 +2323,11 @@ class PlaybackManager {
             const mediaType = options.mediaType || item.MediaType;
             // TODO: Remove the true forceLocalPlayer hack
             const player = getPlayer(item, options, true);
-            const apiClient = window.connectionManager.getApiClient(item.ServerId);
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
 
             // Call this just to ensure the value is recorded, it is needed with getSavedMaxStreamingBitrate
             return apiClient.getEndpointInfo().then(function () {
-                const maxBitrate = getSavedMaxStreamingBitrate(window.connectionManager.getApiClient(item.ServerId), mediaType);
+                const maxBitrate = getSavedMaxStreamingBitrate(ServerConnections.getApiClient(item.ServerId), mediaType);
 
                 return player.getDeviceProfile(item).then(function (deviceProfile) {
                     return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, false, null, null, null, null).then(function (playbackInfoResult) {
@@ -2503,29 +2507,38 @@ class PlaybackManager {
             })[0];
         }
 
+        self.getItemFromPlaylistItemId = function (playlistItemId) {
+            let item;
+            let itemIndex;
+            const playlist = self._playQueueManager.getPlaylist();
+
+            for (let i = 0, length = playlist.length; i < length; i++) {
+                if (playlist[i].PlaylistItemId === playlistItemId) {
+                    item = playlist[i];
+                    itemIndex = i;
+                    break;
+                }
+            }
+
+            return {
+                Item: item,
+                Index: itemIndex
+            };
+        };
+
         self.setCurrentPlaylistItem = function (playlistItemId, player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.setCurrentPlaylistItem(playlistItemId);
             }
 
-            let newItem;
-            let newItemIndex;
-            const playlist = self._playQueueManager.getPlaylist();
+            const newItem = self.getItemFromPlaylistItemId(playlistItemId);
 
-            for (let i = 0, length = playlist.length; i < length; i++) {
-                if (playlist[i].PlaylistItemId === playlistItemId) {
-                    newItem = playlist[i];
-                    newItemIndex = i;
-                    break;
-                }
-            }
+            if (newItem.Item) {
+                const newItemPlayOptions = newItem.Item.playOptions || getDefaultPlayOptions();
 
-            if (newItem) {
-                const newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
-
-                playInternal(newItem, newItemPlayOptions, function () {
-                    setPlaylistState(newItem.PlaylistItemId, newItemIndex);
+                playInternal(newItem.Item, newItemPlayOptions, function () {
+                    setPlaylistState(newItem.Item.PlaylistItemId, newItem.Index);
                 });
             }
         };
@@ -2548,7 +2561,7 @@ class PlaybackManager {
 
             const isCurrentIndex = removeResult.isCurrentIndex;
 
-            events.trigger(player, 'playlistitemremove', [
+            Events.trigger(player, 'playlistitemremove', [
                 {
                     playlistItemIds: playlistItemIds
                 }
@@ -2573,7 +2586,7 @@ class PlaybackManager {
                 return;
             }
 
-            events.trigger(player, 'playlistitemmove', [
+            Events.trigger(player, 'playlistitemmove', [
                 {
                     playlistItemId: moveResult.playlistItemId,
                     newIndex: moveResult.newIndex
@@ -2707,7 +2720,7 @@ class PlaybackManager {
             const queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
 
             if (queueDirectToPlayer) {
-                const apiClient = window.connectionManager.getApiClient(items[0].ServerId);
+                const apiClient = ServerConnections.getApiClient(items[0].ServerId);
 
                 player.getDeviceProfile(items[0]).then(function (profile) {
                     setStreamUrls(items, profile, self.getMaxStreamingBitrate(player), apiClient, 0).then(function () {
@@ -2727,7 +2740,7 @@ class PlaybackManager {
             } else {
                 self._playQueueManager.queue(items);
             }
-            events.trigger(player, 'playlistitemadd');
+            Events.trigger(player, 'playlistitemadd');
         }
 
         function onPlayerProgressInterval() {
@@ -2779,8 +2792,8 @@ class PlaybackManager {
 
             state.IsFirstItem = isFirstItem;
             state.IsFullscreen = fullscreen;
-            events.trigger(player, 'playbackstart', [state]);
-            events.trigger(self, 'playbackstart', [player, state]);
+            Events.trigger(player, 'playbackstart', [state]);
+            Events.trigger(self, 'playbackstart', [player, state]);
 
             // only used internally as a safeguard to avoid reporting other events to the server before playback start
             streamInfo.started = true;
@@ -2810,8 +2823,8 @@ class PlaybackManager {
 
             state.IsFirstItem = isFirstItem;
             state.IsFullscreen = fullscreen;
-            events.trigger(player, 'playbackstart', [state]);
-            events.trigger(self, 'playbackstart', [player, state]);
+            Events.trigger(player, 'playbackstart', [state]);
+            Events.trigger(self, 'playbackstart', [player, state]);
 
             // only used internally as a safeguard to avoid reporting other events to the server before playback start
             streamInfo.started = true;
@@ -2850,8 +2863,8 @@ class PlaybackManager {
 
             state.NextItem = playbackStopInfo.nextItem;
 
-            events.trigger(player, 'playbackstop', [state]);
-            events.trigger(self, 'playbackstop', [playbackStopInfo]);
+            Events.trigger(player, 'playbackstop', [state]);
+            Events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
             const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
@@ -2904,6 +2917,8 @@ class PlaybackManager {
                 }
             }
 
+            Events.trigger(self, 'playbackerror', [errorType]);
+
             const displayErrorCode = 'NoCompatibleStream';
             onPlaybackStopped.call(player, e, displayErrorCode);
         }
@@ -2935,7 +2950,7 @@ class PlaybackManager {
 
             state.NextMediaType = nextMediaType;
 
-            if (isServerItem(streamInfo.item)) {
+            if (streamInfo && isServerItem(streamInfo.item)) {
                 if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
                     state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
                 }
@@ -2952,8 +2967,8 @@ class PlaybackManager {
                 self._playQueueManager.reset();
             }
 
-            events.trigger(player, 'playbackstop', [state]);
-            events.trigger(self, 'playbackstop', [playbackStopInfo]);
+            Events.trigger(player, 'playbackstop', [state]);
+            Events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
             const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
@@ -2999,7 +3014,7 @@ class PlaybackManager {
                     reportPlayback(self, state, activePlayer, true, serverId, 'reportPlaybackStopped');
                 }
 
-                events.trigger(self, 'playbackstop', [{
+                Events.trigger(self, 'playbackstop', [{
                     player: activePlayer,
                     state: state,
                     nextItem: newItem,
@@ -3010,8 +3025,8 @@ class PlaybackManager {
 
         function bindStopped(player) {
             if (enableLocalPlaylistManagement(player)) {
-                events.off(player, 'stopped', onPlaybackStopped);
-                events.on(player, 'stopped', onPlaybackStopped);
+                Events.off(player, 'stopped', onPlaybackStopped);
+                Events.on(player, 'stopped', onPlaybackStopped);
             }
         }
 
@@ -3061,7 +3076,7 @@ class PlaybackManager {
         }
 
         function unbindStopped(player) {
-            events.off(player, 'stopped', onPlaybackStopped);
+            Events.off(player, 'stopped', onPlaybackStopped);
         }
 
         function initLegacyVolumeMethods(player) {
@@ -3090,28 +3105,28 @@ class PlaybackManager {
             }
 
             if (enableLocalPlaylistManagement(player)) {
-                events.on(player, 'error', onPlaybackError);
-                events.on(player, 'timeupdate', onPlaybackTimeUpdate);
-                events.on(player, 'pause', onPlaybackPause);
-                events.on(player, 'unpause', onPlaybackUnpause);
-                events.on(player, 'volumechange', onPlaybackVolumeChange);
-                events.on(player, 'repeatmodechange', onRepeatModeChange);
-                events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
-                events.on(player, 'playlistitemmove', onPlaylistItemMove);
-                events.on(player, 'playlistitemremove', onPlaylistItemRemove);
-                events.on(player, 'playlistitemadd', onPlaylistItemAdd);
+                Events.on(player, 'error', onPlaybackError);
+                Events.on(player, 'timeupdate', onPlaybackTimeUpdate);
+                Events.on(player, 'pause', onPlaybackPause);
+                Events.on(player, 'unpause', onPlaybackUnpause);
+                Events.on(player, 'volumechange', onPlaybackVolumeChange);
+                Events.on(player, 'repeatmodechange', onRepeatModeChange);
+                Events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
+                Events.on(player, 'playlistitemmove', onPlaylistItemMove);
+                Events.on(player, 'playlistitemremove', onPlaylistItemRemove);
+                Events.on(player, 'playlistitemadd', onPlaylistItemAdd);
             } else if (player.isLocalPlayer) {
-                events.on(player, 'itemstarted', onPlaybackStartedFromSelfManagingPlayer);
-                events.on(player, 'itemstopped', onPlaybackStoppedFromSelfManagingPlayer);
-                events.on(player, 'timeupdate', onPlaybackTimeUpdate);
-                events.on(player, 'pause', onPlaybackPause);
-                events.on(player, 'unpause', onPlaybackUnpause);
-                events.on(player, 'volumechange', onPlaybackVolumeChange);
-                events.on(player, 'repeatmodechange', onRepeatModeChange);
-                events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
-                events.on(player, 'playlistitemmove', onPlaylistItemMove);
-                events.on(player, 'playlistitemremove', onPlaylistItemRemove);
-                events.on(player, 'playlistitemadd', onPlaylistItemAdd);
+                Events.on(player, 'itemstarted', onPlaybackStartedFromSelfManagingPlayer);
+                Events.on(player, 'itemstopped', onPlaybackStoppedFromSelfManagingPlayer);
+                Events.on(player, 'timeupdate', onPlaybackTimeUpdate);
+                Events.on(player, 'pause', onPlaybackPause);
+                Events.on(player, 'unpause', onPlaybackUnpause);
+                Events.on(player, 'volumechange', onPlaybackVolumeChange);
+                Events.on(player, 'repeatmodechange', onRepeatModeChange);
+                Events.on(player, 'shufflequeuemodechange', onShuffleQueueModeChange);
+                Events.on(player, 'playlistitemmove', onPlaylistItemMove);
+                Events.on(player, 'playlistitemremove', onPlaylistItemRemove);
+                Events.on(player, 'playlistitemadd', onPlaylistItemAdd);
             }
 
             if (player.isLocalPlayer) {
@@ -3120,13 +3135,13 @@ class PlaybackManager {
             bindStopped(player);
         }
 
-        events.on(pluginManager, 'registered', function (e, plugin) {
+        Events.on(pluginManager, 'registered', function (e, plugin) {
             if (plugin.type === 'mediaplayer') {
                 initMediaPlayer(plugin);
             }
         });
 
-        pluginManager.ofType('mediaplayer').map(initMediaPlayer);
+        pluginManager.ofType('mediaplayer').forEach(initMediaPlayer);
 
         function sendProgressUpdate(player, progressEventName, reportPlaylist) {
             if (!player) {
@@ -3157,15 +3172,15 @@ class PlaybackManager {
 
             streamInfo.lastMediaInfoQuery = new Date().getTime();
 
-            const apiClient = window.connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
 
             if (!apiClient.isMinServerVersion('3.2.70.7')) {
                 return;
             }
 
-            window.connectionManager.getApiClient(serverId).getLiveStreamMediaInfo(liveStreamId).then(function (info) {
+            ServerConnections.getApiClient(serverId).getLiveStreamMediaInfo(liveStreamId).then(function (info) {
                 mediaSource.MediaStreams = info.MediaStreams;
-                events.trigger(player, 'mediastreamschange');
+                Events.trigger(player, 'mediastreamschange');
             }, function () {
             });
         }
@@ -3190,9 +3205,9 @@ class PlaybackManager {
         };
 
         if (appHost.supports('remotecontrol')) {
-            import('serverNotifications').then(({ default: serverNotifications }) => {
-                events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
-                events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
+            import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
+                Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
+                Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
             });
         }
     }
@@ -3220,7 +3235,7 @@ class PlaybackManager {
             return Promise.reject();
         }
 
-        const apiClient = window.connectionManager.getApiClient(nextItem.item.ServerId);
+        const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
         return apiClient.getItem(apiClient.getCurrentUserId(), nextItem.item.Id);
     }
 
@@ -3361,7 +3376,7 @@ class PlaybackManager {
             return player.playTrailers(item);
         }
 
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
 
         const instance = this;
 
@@ -3393,7 +3408,7 @@ class PlaybackManager {
     }
 
     getSubtitleUrl(textStream, serverId) {
-        const apiClient = window.connectionManager.getApiClient(serverId);
+        const apiClient = ServerConnections.getApiClient(serverId);
 
         return !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
     }
@@ -3473,7 +3488,7 @@ class PlaybackManager {
             return player.instantMix(item);
         }
 
-        const apiClient = window.connectionManager.getApiClient(item.ServerId);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
 
         const options = {};
         options.UserId = apiClient.getCurrentUserId();
@@ -3588,7 +3603,7 @@ class PlaybackManager {
         }
 
         this._playQueueManager.setRepeatMode(value);
-        events.trigger(player, 'repeatmodechange');
+        Events.trigger(player, 'repeatmodechange');
     }
 
     getRepeatMode(player = this._currentPlayer) {
@@ -3605,7 +3620,7 @@ class PlaybackManager {
         }
 
         this._playQueueManager.setShuffleMode(value);
-        events.trigger(player, 'shufflequeuemodechange');
+        Events.trigger(player, 'shufflequeuemodechange');
     }
 
     getQueueShuffleMode(player = this._currentPlayer) {
@@ -3633,7 +3648,7 @@ class PlaybackManager {
         } else {
             this._playQueueManager.toggleShuffleMode();
         }
-        events.trigger(player, 'shufflequeuemodechange');
+        Events.trigger(player, 'shufflequeuemodechange');
     }
 
     clearQueue(clearCurrentItem = false, player = this._currentPlayer) {
@@ -3642,7 +3657,7 @@ class PlaybackManager {
         }
 
         this._playQueueManager.clearPlaylist(clearCurrentItem);
-        events.trigger(player, 'playlistitemremove');
+        Events.trigger(player, 'playlistitemremove');
     }
 
     trySetActiveDeviceName(name) {
@@ -3757,4 +3772,12 @@ class PlaybackManager {
     }
 }
 
-export default new PlaybackManager();
+export const playbackManager = new PlaybackManager();
+
+window.addEventListener('beforeunload', function () {
+    try {
+        playbackManager.onAppClose();
+    } catch (err) {
+        console.error('error in onAppClose: ' + err);
+    }
+});

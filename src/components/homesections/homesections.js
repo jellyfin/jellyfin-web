@@ -1,15 +1,17 @@
-import cardBuilder from 'cardBuilder';
-import dom from 'dom';
-import layoutManager from 'layoutManager';
-import imageLoader from 'imageLoader';
-import globalize from 'globalize';
-import appRouter from 'appRouter';
-import imageHelper from 'scripts/imagehelper';
-import 'paper-icon-button-light';
-import 'emby-itemscontainer';
-import 'emby-scroller';
-import 'emby-button';
-import 'css!./homesections';
+import cardBuilder from '../cardbuilder/cardBuilder';
+import dom from '../../scripts/dom';
+import layoutManager from '../layoutManager';
+import imageLoader from '../images/imageLoader';
+import globalize from '../../scripts/globalize';
+import { appRouter } from '../appRouter';
+import imageHelper from '../../scripts/imagehelper';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-button/emby-button';
+import './homesections.css';
+import Dashboard from '../../scripts/clientUtils';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -211,7 +213,7 @@ import 'css!./homesections';
 
     function getFetchLatestItemsFn(serverId, parentId, collectionType) {
         return function () {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             let limit = 16;
 
             if (enableScrollX()) {
@@ -367,7 +369,7 @@ import 'css!./homesections';
 
     function getContinueWatchingFetchFn(serverId) {
         return function () {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
 
             let limit;
@@ -440,7 +442,7 @@ import 'css!./homesections';
 
     function getContinueListeningFetchFn(serverId) {
         return function () {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
 
             let limit;
@@ -489,7 +491,7 @@ import 'css!./homesections';
     function loadResumeAudio(elem, apiClient, userId) {
         let html = '';
 
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueListening') + '</h2>';
         if (enableScrollX()) {
             html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="audioplayback,markplayed">';
@@ -513,7 +515,7 @@ import 'css!./homesections';
 
     function getOnNowFetchFn(serverId) {
         return function () {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getLiveTvRecommendedPrograms({
                 userId: apiClient.getCurrentUserId(),
                 IsAiring: true,
@@ -656,10 +658,10 @@ import 'css!./homesections';
 
     function getNextUpFetchFn(serverId) {
         return function () {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
-                Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo,Path',
+                Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,Path',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
@@ -727,7 +729,7 @@ import 'css!./homesections';
 
     function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
         return function () {
-            const apiClient = window.connectionManager.getApiClient(serverId);
+            const apiClient = ServerConnections.getApiClient(serverId);
             return apiClient.getLiveTvRecordings({
                 userId: apiClient.getCurrentUserId(),
                 Limit: enableScrollX() ? 12 : 5,

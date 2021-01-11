@@ -1,39 +1,53 @@
-import loading from 'loading';
-import dom from 'dom';
-import globalize from 'globalize';
-import imageHelper from 'scripts/imagehelper';
-import * as datefns from 'date-fns';
-import dfnshelper from 'dfnshelper';
-import 'emby-button';
-import 'emby-itemscontainer';
-import 'cardStyle';
+import loading from '../../../components/loading/loading';
+import dom from '../../../scripts/dom';
+import globalize from '../../../scripts/globalize';
+import imageHelper from '../../../scripts/imagehelper';
+import { formatDistanceToNow } from 'date-fns';
+import { localeWithSuffix } from '../../../scripts/dfnshelper';
+import '../../../elements/emby-button/emby-button';
+import '../../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../../components/cardbuilder/card.css';
+import Dashboard from '../../../scripts/clientUtils';
+import confirm from '../../../components/confirm/confirm';
 
 /* eslint-disable indent */
+
+    // Local cache of loaded
+    let deviceIds = [];
 
     function canDelete(deviceId) {
         return deviceId !== ApiClient.deviceId();
     }
 
+    function deleteAllDevices(page) {
+        const msg = globalize.translate('DeleteDevicesConfirmation');
+
+        confirm({
+            text: msg,
+            title: globalize.translate('HeaderDeleteDevices'),
+            confirmText: globalize.translate('ButtonDelete'),
+            primary: 'delete'
+        }).then(async () => {
+            loading.show();
+            await Promise.all(
+                deviceIds.filter(canDelete).map((id) => ApiClient.deleteDevice(id))
+            );
+            loadData(page);
+        });
+    }
+
     function deleteDevice(page, id) {
         const msg = globalize.translate('DeleteDeviceConfirmation');
 
-        import('confirm').then(({default: confirm}) => {
-            confirm({
-                text: msg,
-                title: globalize.translate('HeaderDeleteDevice'),
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-            }).then(function () {
-                loading.show();
-                ApiClient.ajax({
-                    type: 'DELETE',
-                    url: ApiClient.getUrl('Devices', {
-                        Id: id
-                    })
-                }).then(function () {
-                    loadData(page);
-                });
-            });
+        confirm({
+            text: msg,
+            title: globalize.translate('HeaderDeleteDevice'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        }).then(async () => {
+            loading.show();
+            await ApiClient.deleteDevice(id);
+            loadData(page);
         });
     }
 
@@ -56,7 +70,7 @@ import 'cardStyle';
             });
         }
 
-        import('actionsheet').then(({default: actionsheet}) => {
+        import('../../../components/actionSheet/actionSheet').then(({default: actionsheet}) => {
             actionsheet.show({
                 items: menuItems,
                 positionTo: btn,
@@ -82,7 +96,7 @@ import 'cardStyle';
             deviceHtml += '<div class="cardBox visualCardBox">';
             deviceHtml += '<div class="cardScalable">';
             deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
-            deviceHtml += '<a is="emby-linkbutton" href="' + (canEdit ? 'device.html?id=' + device.Id : '#') + '" class="cardContent cardImageContainer">';
+            deviceHtml += '<a is="emby-linkbutton" href="' + (canEdit ? '#!/device.html?id=' + device.Id : '#') + '" class="cardContent cardImageContainer">';
             const iconUrl = imageHelper.getDeviceIcon(device);
 
             if (iconUrl) {
@@ -112,7 +126,7 @@ import 'cardStyle';
 
             if (device.LastUserName) {
                 deviceHtml += device.LastUserName;
-                deviceHtml += ', ' + datefns.formatDistanceToNow(Date.parse(device.DateLastActivity), dfnshelper.localeWithSuffix);
+                deviceHtml += ', ' + formatDistanceToNow(Date.parse(device.DateLastActivity), localeWithSuffix);
             }
 
             deviceHtml += '&nbsp;';
@@ -129,6 +143,7 @@ import 'cardStyle';
         loading.show();
         ApiClient.getJSON(ApiClient.getUrl('Devices')).then(function (result) {
             load(page, result.Items);
+            deviceIds = result.Items.map((device) => device.Id);
             loading.hide();
         });
     }
@@ -145,6 +160,9 @@ import 'cardStyle';
         view.addEventListener('viewshow', function () {
             loadData(this);
         });
-    }
 
+        view.querySelector('#deviceDeleteAll').addEventListener('click', function() {
+            deleteAllDevices(view);
+        });
+    }
 /* eslint-enable indent */

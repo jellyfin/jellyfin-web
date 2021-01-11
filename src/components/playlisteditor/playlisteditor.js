@@ -1,17 +1,19 @@
-import dom from 'dom';
-import dialogHelper from 'dialogHelper';
-import loading from 'loading';
-import layoutManager from 'layoutManager';
-import playbackManager from 'playbackManager';
-import * as userSettings from 'userSettings';
-import appRouter from 'appRouter';
-import globalize from 'globalize';
-import 'emby-input';
-import 'paper-icon-button-light';
-import 'emby-select';
-import 'material-icons';
-import 'css!./../formdialog';
-import 'emby-button';
+import dom from '../../scripts/dom';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import loading from '../loading/loading';
+import layoutManager from '../layoutManager';
+import { playbackManager } from '../playback/playbackmanager';
+import SyncPlay from '../../components/syncPlay/core';
+import * as userSettings from '../../scripts/settings/userSettings';
+import { appRouter } from '../appRouter';
+import globalize from '../../scripts/globalize';
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-input/emby-input';
+import '../../elements/emby-button/paper-icon-button-light';
+import '../../elements/emby-select/emby-select';
+import 'material-design-icons-iconfont';
+import '../formdialog.css';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -21,7 +23,7 @@ import 'emby-button';
         const panel = dom.parentWithClass(this, 'dialog');
 
         const playlistId = panel.querySelector('#selectPlaylistToAddTo').value;
-        const apiClient = window.connectionManager.getApiClient(currentServerId);
+        const apiClient = ServerConnections.getApiClient(currentServerId);
 
         if (playlistId) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
@@ -47,7 +49,8 @@ import 'emby-button';
         apiClient.ajax({
             type: 'POST',
             url: url,
-            dataType: 'json'
+            dataType: 'json',
+            contentType: 'application/json'
         }).then(result => {
             loading.hide();
 
@@ -112,11 +115,11 @@ import 'emby-button';
             EnableTotalRecordCount: false
         };
 
-        const apiClient = window.connectionManager.getApiClient(currentServerId);
+        const apiClient = ServerConnections.getApiClient(currentServerId);
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
             let html = '';
 
-            if (editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) {
+            if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay.Manager.isSyncPlayEnabled()) {
                 html += `<option value="queue">${globalize.translate('AddToPlayQueue')}</option>`;
             }
 
@@ -209,7 +212,7 @@ import 'emby-button';
     }
 
     function centerFocus(elem, horiz, on) {
-        import('scrollHelper').then((scrollHelper) => {
+        import('../../scripts/scrollHelper').then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });

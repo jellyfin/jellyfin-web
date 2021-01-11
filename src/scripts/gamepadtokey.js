@@ -20,49 +20,49 @@
 // #      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // #      THE SOFTWARE.
 
-import appHost from 'apphost';
+import { appHost } from '../components/apphost';
 
-var _GAMEPAD_A_BUTTON_INDEX = 0;
-var _GAMEPAD_B_BUTTON_INDEX = 1;
-var _GAMEPAD_DPAD_UP_BUTTON_INDEX = 12;
-var _GAMEPAD_DPAD_DOWN_BUTTON_INDEX = 13;
-var _GAMEPAD_DPAD_LEFT_BUTTON_INDEX = 14;
-var _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX = 15;
-var _GAMEPAD_A_KEY = 'GamepadA';
-var _GAMEPAD_B_KEY = 'GamepadB';
-var _GAMEPAD_DPAD_UP_KEY = 'GamepadDPadUp';
-var _GAMEPAD_DPAD_DOWN_KEY = 'GamepadDPadDown';
-var _GAMEPAD_DPAD_LEFT_KEY = 'GamepadDPadLeft';
-var _GAMEPAD_DPAD_RIGHT_KEY = 'GamepadDPadRight';
-var _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = 'GamepadLeftThumbStickUp';
-var _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = 'GamepadLeftThumbStickDown';
-var _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = 'GamepadLeftThumbStickLeft';
-var _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = 'GamepadLeftThumbStickRight';
-var _GAMEPAD_A_KEYCODE = 0;
-var _GAMEPAD_B_KEYCODE = 27;
-var _GAMEPAD_DPAD_UP_KEYCODE = 38;
-var _GAMEPAD_DPAD_DOWN_KEYCODE = 40;
-var _GAMEPAD_DPAD_LEFT_KEYCODE = 37;
-var _GAMEPAD_DPAD_RIGHT_KEYCODE = 39;
-var _GAMEPAD_LEFT_THUMBSTICK_UP_KEYCODE = 38;
-var _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEYCODE = 40;
-var _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEYCODE = 37;
-var _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEYCODE = 39;
-var _THUMB_STICK_THRESHOLD = 0.75;
+const _GAMEPAD_A_BUTTON_INDEX = 0;
+const _GAMEPAD_B_BUTTON_INDEX = 1;
+const _GAMEPAD_DPAD_UP_BUTTON_INDEX = 12;
+const _GAMEPAD_DPAD_DOWN_BUTTON_INDEX = 13;
+const _GAMEPAD_DPAD_LEFT_BUTTON_INDEX = 14;
+const _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX = 15;
+const _GAMEPAD_A_KEY = 'GamepadA';
+const _GAMEPAD_B_KEY = 'GamepadB';
+const _GAMEPAD_DPAD_UP_KEY = 'GamepadDPadUp';
+const _GAMEPAD_DPAD_DOWN_KEY = 'GamepadDPadDown';
+const _GAMEPAD_DPAD_LEFT_KEY = 'GamepadDPadLeft';
+const _GAMEPAD_DPAD_RIGHT_KEY = 'GamepadDPadRight';
+const _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = 'GamepadLeftThumbStickUp';
+const _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = 'GamepadLeftThumbStickDown';
+const _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = 'GamepadLeftThumbStickLeft';
+const _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = 'GamepadLeftThumbStickRight';
+const _GAMEPAD_A_KEYCODE = 0;
+const _GAMEPAD_B_KEYCODE = 27;
+const _GAMEPAD_DPAD_UP_KEYCODE = 38;
+const _GAMEPAD_DPAD_DOWN_KEYCODE = 40;
+const _GAMEPAD_DPAD_LEFT_KEYCODE = 37;
+const _GAMEPAD_DPAD_RIGHT_KEYCODE = 39;
+const _GAMEPAD_LEFT_THUMBSTICK_UP_KEYCODE = 38;
+const _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEYCODE = 40;
+const _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEYCODE = 37;
+const _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEYCODE = 39;
+const _THUMB_STICK_THRESHOLD = 0.75;
 
-var _leftThumbstickUpPressed = false;
-var _leftThumbstickDownPressed = false;
-var _leftThumbstickLeftPressed = false;
-var _leftThumbstickRightPressed = false;
-var _dPadUpPressed = false;
-var _dPadDownPressed = false;
-var _dPadLeftPressed = false;
-var _dPadRightPressed = false;
-var _gamepadAPressed = false;
-var _gamepadBPressed = false;
+let _leftThumbstickUpPressed = false;
+let _leftThumbstickDownPressed = false;
+let _leftThumbstickLeftPressed = false;
+let _leftThumbstickRightPressed = false;
+let _dPadUpPressed = false;
+let _dPadDownPressed = false;
+let _dPadLeftPressed = false;
+let _dPadRightPressed = false;
+let _gamepadAPressed = false;
+let _gamepadBPressed = false;
 
 // The set of buttons on the gamepad we listen for.
-var ProcessedButtons = [
+const ProcessedButtons = [
     _GAMEPAD_DPAD_UP_BUTTON_INDEX,
     _GAMEPAD_DPAD_DOWN_BUTTON_INDEX,
     _GAMEPAD_DPAD_LEFT_BUTTON_INDEX,
@@ -71,7 +71,7 @@ var ProcessedButtons = [
     _GAMEPAD_B_BUTTON_INDEX
 ];
 
-var _ButtonPressedState = {};
+const _ButtonPressedState = {};
 _ButtonPressedState.getgamepadA = function () {
     return _gamepadAPressed;
 };
@@ -162,11 +162,11 @@ _ButtonPressedState.setdPadRight = function (newPressedState) {
     _dPadRightPressed = newPressedState;
 };
 
-var times = {};
+const times = {};
 
 function throttle(key) {
-    var time = times[key] || 0;
-    var now = new Date().getTime();
+    const time = times[key] || 0;
+    const now = new Date().getTime();
 
     if ((now - time) >= 200) {
         //times[key] = now;
@@ -180,7 +180,7 @@ function resetThrottle(key) {
     times[key] = new Date().getTime();
 }
 
-var isElectron = navigator.userAgent.toLowerCase().indexOf('electron') !== -1;
+const isElectron = navigator.userAgent.toLowerCase().indexOf('electron') !== -1;
 function allowInput() {
     // This would be nice but always seems to return true with electron
     if (!isElectron && document.hidden) { /* eslint-disable-line compat/compat */
@@ -199,7 +199,7 @@ function raiseEvent(name, key, keyCode) {
         return;
     }
 
-    var event = document.createEvent('Event');
+    const event = document.createEvent('Event');
     event.initEvent(name, true, true);
     event.key = key;
     event.keyCode = keyCode;
@@ -218,7 +218,7 @@ function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRep
     // No-op if oldPressedState === newPressedState
     if (newPressedState === true) {
         // button down
-        var fire = false;
+        let fire = false;
 
         // always fire if this is the initial down press
         if (oldPressedState === false) {
@@ -244,19 +244,19 @@ function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRep
     }
 }
 
-var inputLoopTimer;
+let inputLoopTimer;
 function runInputLoop() {
     // Get the latest gamepad state.
-    var gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
-    for (var i = 0, len = gamepads.length; i < len; i++) {
-        var gamepad = gamepads[i];
+    const gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
+    for (let i = 0, len = gamepads.length; i < len; i++) {
+        const gamepad = gamepads[i];
         if (!gamepad) {
             continue;
         }
         // Iterate through the axes
-        var axes = gamepad.axes;
-        var leftStickX = axes[0];
-        var leftStickY = axes[1];
+        const axes = gamepad.axes;
+        const leftStickX = axes[0];
+        const leftStickY = axes[1];
         if (leftStickX > _THUMB_STICK_THRESHOLD) { // Right
             _ButtonPressedState.setleftThumbstickRight(true);
         } else if (leftStickX < -_THUMB_STICK_THRESHOLD) { // Left
@@ -272,8 +272,8 @@ function runInputLoop() {
             _ButtonPressedState.setleftThumbstickDown(false);
         }
         // Iterate through the buttons to see if Left thumbstick, DPad, A and B are pressed.
-        var buttons = gamepad.buttons;
-        for (var j = 0, len = buttons.length; j < len; j++) {
+        const buttons = gamepad.buttons;
+        for (let j = 0, len = buttons.length; j < len; j++) {
             if (ProcessedButtons.indexOf(j) !== -1) {
                 if (buttons[j].pressed) {
                     switch (j) {
@@ -355,9 +355,9 @@ function stopInputLoop() {
 }
 
 function isGamepadConnected() {
-    var gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
-    for (var i = 0, len = gamepads.length; i < len; i++) {
-        var gamepad = gamepads[i];
+    const gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
+    for (let i = 0, len = gamepads.length; i < len; i++) {
+        const gamepad = gamepads[i];
         if (gamepad && gamepad.connected) {
             return true;
         }

@@ -6,27 +6,43 @@
     -ms-user-select: none;
 }
 
-.osdPoster img,
 .videoOsdBottom {
     bottom: 0;
     left: 0;
     right: 0;
+    position: fixed;
+    background: linear-gradient(0deg, rgba(16, 16, 16, 0.75) 0%, rgba(16, 16, 16, 0) 100%);
+    padding-top: 7.5em;
+    padding-bottom: 1.75em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    will-change: opacity;
+    transition: opacity 0.3s ease-out;
+    color: #fff;
+    user-select: none;
+    -webkit-touch-callout: none;
+    pointer-events: none;
 }
 
-.osdHeader {
-    -webkit-transition: opacity 0.3s ease-out;
-    -o-transition: opacity 0.3s ease-out;
+.skinHeader-withBackground.osdHeader {
     transition: opacity 0.3s ease-out;
     position: relative;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.7) !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    color: #eee !important;
+    background: linear-gradient(180deg, rgba(16, 16, 16, 0.75) 0%, rgba(16, 16, 16, 0) 100%);
+    backdrop-filter: none;
+    color: #eee;
+    height: 7.5em;
+    pointer-events: none;
 }
 
 .osdHeader-hidden {
     opacity: 0;
+}
+
+.osdHeader .headerTop {
+    pointer-events: all;
+    max-height: 3.5em;
 }
 
 .osdHeader .headerButton:not(.headerBackButton):not(.headerCastButton):not(.headerSyncButton) {
@@ -86,34 +102,18 @@
     opacity: 0.6;
 }
 
-.videoOsdBottom {
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 1%;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    flex-direction: row;
-    will-change: opacity;
-    -webkit-transition: opacity 0.3s ease-out;
-    -o-transition: opacity 0.3s ease-out;
-    transition: opacity 0.3s ease-out;
-    color: #fff;
-    user-select: none;
-    -webkit-touch-callout: none;
-}
-
 .videoOsdBottom-hidden {
     opacity: 0;
 }
 
 .osdControls {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
+    pointer-events: all;
     flex-grow: 1;
+    padding: 0 0.8em;
+}
+
+.layout-desktop .osdControls {
+    max-width: calc(100vh * 1.77 - 2vh);
 }
 
 .videoOsdBottom .buttons {
@@ -145,7 +145,7 @@
 }
 
 .volumeButtons {
-    margin: 0 0.5em 0 auto;
+    margin: 0 1em 0 0.29em;
     display: flex;
     -webkit-align-items: center;
     align-items: center;
@@ -153,31 +153,11 @@
 
 .osdTimeText {
     margin-left: 1em;
+    margin-right: auto;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-.osdPoster {
-    width: 10%;
-    position: relative;
-    margin-right: 0.5em;
-}
-
-.osdPoster img {
-    position: absolute;
-    height: auto;
-    width: 100%;
-    -webkit-box-shadow: 0 0 1.9vh #000;
-    box-shadow: 0 0 1.9vh #000;
-    border: 0.08em solid #222;
-    user-drag: none;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-drag: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
 }
 
 .osdTitle,
@@ -277,5 +257,121 @@
 @media all and (max-width: 75em) {
     .videoOsdBottom .endsAtText {
         display: none !important;
+    }
+}
+
+.syncPlayContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.primary-icon {
+    position: absolute;
+    font-size: 64px;
+    align-self: center;
+}
+
+.primary-icon.spin {
+    font-size: 76px !important;
+    animation: spin 2s linear infinite;
+}
+
+.secondary-icon {
+    position: absolute;
+    font-size: 24px;
+}
+
+.secondary-icon.centered {
+    font-size: 28px !important;
+    align-self: center;
+}
+
+.secondary-icon.shifted {
+    right: 0;
+    bottom: 0;
+    font-size: 52px;
+}
+
+.syncPlayIconCircle {
+    position: relative;
+    visibility: hidden;
+    display: flex;
+    justify-content: center;
+
+    border-radius: 50%;
+    margin: 60px;
+    height: 96px;
+    width: 96px;
+
+    color: rgba(0, 164, 220, 0);
+    background: rgba(0, 164, 220, 0);
+    box-shadow: 0 0 0 0 rgba(0, 164, 220, 0);
+    transform: scale(1);
+}
+
+.syncPlayIconCircle.oneShotPulse {
+    animation: pulse 1.5s 1;
+}
+
+.syncPlayIconCircle.infinitePulse {
+    animation: infinite-pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        color: rgba(0, 164, 220, 0.7);
+        background: rgba(0, 164, 220, 0.3);
+        box-shadow: 0 0 0 0 rgba(0, 164, 220, 0.3);
+    }
+
+    70% {
+        transform: scale(1);
+        color: rgba(0, 164, 220, 0);
+        background: rgba(0, 164, 220, 0);
+        box-shadow: 0 0 0 60px rgba(0, 164, 220, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        color: rgba(0, 164, 220, 0);
+        background: rgba(0, 164, 220, 0);
+        box-shadow: 0 0 0 0 rgba(0, 164, 220, 0);
+    }
+}
+
+@keyframes infinite-pulse {
+    0% {
+        transform: scale(0.95);
+        color: rgba(0, 164, 220, 0.7);
+        background: rgba(0, 164, 220, 0.3);
+        box-shadow: 0 0 0 0 rgba(0, 164, 220, 0.3);
+    }
+
+    70% {
+        transform: scale(1);
+        color: rgba(0, 164, 220, 0.6);
+        background: rgba(0, 164, 220, 0);
+        box-shadow: 0 0 0 60px rgba(0, 164, 220, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        color: rgba(0, 164, 220, 0.7);
+        background: rgba(0, 164, 220, 0.3);
+        box-shadow: 0 0 0 0 rgba(0, 164, 220, 0);
+    }
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(-360deg);
     }
 }

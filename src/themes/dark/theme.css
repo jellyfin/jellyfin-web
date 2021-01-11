@@ -320,7 +320,8 @@ html {
     color: #fff;
 }
 
-.mainDrawer {
+.mainDrawer,
+.drawer-open {
     background-color: #101010;
 }
 

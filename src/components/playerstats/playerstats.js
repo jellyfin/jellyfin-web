@@ -1,11 +1,12 @@
-import events from 'events';
-import globalize from 'globalize';
-import playbackManager from 'playbackManager';
-import syncPlayManager from 'syncPlayManager';
-import playMethodHelper from 'playMethodHelper';
-import layoutManager from 'layoutManager';
-import 'paper-icon-button-light';
-import 'css!./playerstats';
+import { Events } from 'jellyfin-apiclient';
+import '../../elements/emby-button/paper-icon-button-light';
+import globalize from '../../scripts/globalize';
+import layoutManager from '../layoutManager';
+import { playbackManager } from '../playback/playbackmanager';
+import playMethodHelper from '../playback/playmethodhelper';
+import SyncPlay from '../../components/syncPlay/core';
+import './playerstats.css';
+import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
@@ -94,7 +95,7 @@ import 'css!./playerstats';
             return Promise.resolve(instance.lastSession);
         }
 
-        const apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
+        const apiClient = ServerConnections.getApiClient(playbackManager.currentItem(player).ServerId);
 
         return apiClient.getSessions({
             deviceId: apiClient.deviceId()
@@ -263,6 +264,34 @@ import 'css!./playerstats';
             });
         }
 
+        if (videoStream.VideoRange) {
+            sessionStats.push({
+                label: globalize.translate('LabelVideoRange'),
+                value: videoStream.VideoRange
+            });
+        }
+
+        if (videoStream.ColorSpace) {
+            sessionStats.push({
+                label: globalize.translate('LabelColorSpace'),
+                value: videoStream.ColorSpace
+            });
+        }
+
+        if (videoStream.ColorTransfer) {
+            sessionStats.push({
+                label: globalize.translate('LabelColorTransfer'),
+                value: videoStream.ColorTransfer
+            });
+        }
+
+        if (videoStream.ColorPrimaries) {
+            sessionStats.push({
+                label: globalize.translate('LabelColorPrimaries'),
+                value: videoStream.ColorPrimaries
+            });
+        }
+
         const audioInfos = [];
 
         if (audioCodec) {
@@ -313,16 +342,22 @@ import 'css!./playerstats';
 
     function getSyncPlayStats() {
         const syncStats = [];
-        const stats = syncPlayManager.getStats();
+        const stats = SyncPlay.Manager.getStats();
 
         syncStats.push({
-            label: globalize.translate('LabelSyncPlayTimeOffset'),
-            value: stats.TimeOffset + globalize.translate('MillisecondsUnit')
+            label: globalize.translate('LabelSyncPlayTimeSyncDevice'),
+            value: stats.TimeSyncDevice
+        });
+
+        syncStats.push({
+            // TODO: clean old string 'LabelSyncPlayTimeOffset' from translations.
+            label: globalize.translate('LabelSyncPlayTimeSyncOffset'),
+            value: stats.TimeSyncOffset + ' ' + globalize.translate('MillisecondsUnit')
         });
 
         syncStats.push({
             label: globalize.translate('LabelSyncPlayPlaybackDiff'),
-            value: stats.PlaybackDiff + globalize.translate('MillisecondsUnit')
+            value: stats.PlaybackDiff + ' ' + globalize.translate('MillisecondsUnit')
         });
 
         syncStats.push({
@@ -343,15 +378,26 @@ import 'css!./playerstats';
             const session = responses[1];
 
             const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+            let localizedDisplayMethod = displayPlayMethod;
+
+            if (displayPlayMethod === 'DirectPlay') {
+                localizedDisplayMethod = globalize.translate('DirectPlaying');
+            } else if (displayPlayMethod === 'Remux') {
+                localizedDisplayMethod = globalize.translate('Remuxing');
+            } else if (displayPlayMethod === 'DirectStream') {
+                localizedDisplayMethod = globalize.translate('DirectStreaming');
+            } else if (displayPlayMethod === 'Transcode') {
+                localizedDisplayMethod = globalize.translate('Transcoding');
+            }
 
             const baseCategory = {
                 stats: [],
-                name: 'Playback Info'
+                name: globalize.translate('LabelPlaybackInfo')
             };
 
             baseCategory.stats.unshift({
                 label: globalize.translate('LabelPlayMethod'),
-                value: displayPlayMethod
+                value: localizedDisplayMethod
             });
 
             baseCategory.stats.unshift({
@@ -366,30 +412,37 @@ import 'css!./playerstats';
             for (let i = 0, length = playerStats.length; i < length; i++) {
                 const category = playerStats[i];
                 if (category.type === 'audio') {
-                    category.name = 'Audio Info';
+                    category.name = globalize.translate('LabelAudioInfo');
                 } else if (category.type === 'video') {
-                    category.name = 'Video Info';
+                    category.name = globalize.translate('LabelVideoInfo');
                 }
                 categories.push(category);
+            }
+
+            let localizedTranscodingInfo = globalize.translate('LabelTranscodingInfo');
+            if (displayPlayMethod === 'Remux') {
+                localizedTranscodingInfo = globalize.translate('LabelRemuxingInfo');
+            } else if (displayPlayMethod === 'DirectStream') {
+                localizedTranscodingInfo = globalize.translate('LabelDirectStreamingInfo');
             }
 
             if (session.TranscodingInfo) {
                 categories.push({
                     stats: getTranscodingStats(session, player, displayPlayMethod),
-                    name: displayPlayMethod === 'Transcode' ? 'Transcoding Info' : 'Direct Stream Info'
+                    name: localizedTranscodingInfo
                 });
             }
 
             categories.push({
                 stats: getMediaSourceStats(session, player),
-                name: 'Original Media Info'
+                name: globalize.translate('LabelOriginalMediaInfo')
             });
 
-            var apiClient = window.connectionManager.getApiClient(playbackManager.currentItem(player).ServerId);
-            if (syncPlayManager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
+            const apiClient = ServerConnections.getApiClient(playbackManager.currentItem(player).ServerId);
+            if (SyncPlay.Manager.isSyncPlayEnabled() && apiClient.isMinServerVersion('10.6.0')) {
                 categories.push({
                     stats: getSyncPlayStats(),
-                    name: 'SyncPlay Info'
+                    name: globalize.translate('LabelSyncPlayInfo')
                 });
             }
 
@@ -422,14 +475,14 @@ import 'css!./playerstats';
         };
 
         instance.onTimeUpdate = localOnTimeUpdate;
-        events.on(player, 'timeupdate', localOnTimeUpdate);
+        Events.on(player, 'timeupdate', localOnTimeUpdate);
     }
 
     function unbindEvents(instance, player) {
         const localOnTimeUpdate = instance.onTimeUpdate;
 
         if (localOnTimeUpdate) {
-            events.off(player, 'timeupdate', localOnTimeUpdate);
+            Events.off(player, 'timeupdate', localOnTimeUpdate);
         }
     }
 

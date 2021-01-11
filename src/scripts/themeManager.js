@@ -1,10 +1,10 @@
-import * as webSettings from 'webSettings';
+import { getDefaultTheme, getThemes as getConfiguredThemes } from './settings/webSettings';
 
-var themeStyleElement = document.querySelector('#cssTheme');
-var currentThemeId;
+let themeStyleElement = document.querySelector('#cssTheme');
+let currentThemeId;
 
 function unloadTheme() {
-    var elem = themeStyleElement;
+    const elem = themeStyleElement;
     if (elem) {
         elem.removeAttribute('href');
         currentThemeId = null;
@@ -12,14 +12,22 @@ function unloadTheme() {
 }
 
 function getThemes() {
-    return webSettings.getThemes();
+    return getConfiguredThemes();
 }
 
 function getThemeStylesheetInfo(id) {
     return getThemes().then(themes => {
-        var theme = themes.find(theme => {
-            return id ? theme.id === id : theme.default;
-        });
+        let theme;
+
+        if (id) {
+            theme = themes.find(currentTheme => {
+                return currentTheme.id === id;
+            });
+        }
+
+        if (!theme) {
+            theme = getDefaultTheme();
+        }
 
         return {
             stylesheetPath: 'themes/' + theme.id + '/theme.css',
@@ -41,7 +49,7 @@ function setTheme(id) {
                 return;
             }
 
-            var linkUrl = info.stylesheetPath;
+            const linkUrl = info.stylesheetPath;
             unloadTheme();
 
             let link = themeStyleElement;

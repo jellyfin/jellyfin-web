@@ -1,10 +1,11 @@
-import backdrop from 'backdrop';
-import * as mainTabsManager from 'mainTabsManager';
-import layoutManager from 'layoutManager';
-import 'emby-tabs';
+import backdrop from '../backdrop/backdrop';
+import * as mainTabsManager from '../maintabsmanager';
+import layoutManager from '../layoutManager';
+import '../../elements/emby-tabs/emby-tabs';
+import { appRouter } from '../appRouter';
 
 function onViewDestroy(e) {
-    var tabControllers = this.tabControllers;
+    const tabControllers = this.tabControllers;
 
     if (tabControllers) {
         tabControllers.forEach(function (t) {
@@ -32,9 +33,9 @@ class TabbedView {
         this.view = view;
         this.params = params;
 
-        var self = this;
+        const self = this;
 
-        var currentTabIndex = parseInt(params.tab || this.getDefaultTabIndex(params.parentId));
+        let currentTabIndex = parseInt(params.tab || this.getDefaultTabIndex(params.parentId));
         this.initialTabIndex = currentTabIndex;
 
         function validateTabLoad(index) {
@@ -44,7 +45,7 @@ class TabbedView {
         function loadTab(index, previousIndex) {
             validateTabLoad(index).then(function () {
                 self.getTabController(index).then(function (controller) {
-                    var refresh = !controller.refreshed;
+                    const refresh = !controller.refreshed;
 
                     controller.onResume({
                         autoFocus: previousIndex == null && layoutManager.tv,
@@ -64,10 +65,10 @@ class TabbedView {
         }
 
         function onTabChange(e) {
-            var newIndex = parseInt(e.detail.selectedTabIndex);
-            var previousIndex = e.detail.previousIndex;
+            const newIndex = parseInt(e.detail.selectedTabIndex);
+            const previousIndex = e.detail.previousIndex;
 
-            var previousTabController = previousIndex == null ? null : self.tabControllers[previousIndex];
+            const previousTabController = previousIndex == null ? null : self.tabControllers[previousIndex];
             if (previousTabController && previousTabController.onPause) {
                 previousTabController.onPause();
             }
@@ -92,7 +93,7 @@ class TabbedView {
         this.setTitle();
         backdrop.clearBackdrop();
 
-        var currentTabController = this.currentTabController;
+        const currentTabController = this.currentTabController;
 
         if (!currentTabController) {
             mainTabsManager.selectedTabIndex(this.initialTabIndex);
@@ -102,14 +103,14 @@ class TabbedView {
     }
 
     onPause() {
-        var currentTabController = this.currentTabController;
+        const currentTabController = this.currentTabController;
 
         if (currentTabController && currentTabController.onPause) {
             currentTabController.onPause();
         }
     }
     setTitle() {
-        Emby.Page.setTitle('');
+        appRouter.setTitle('');
     }
 }
 
