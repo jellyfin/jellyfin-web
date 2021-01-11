@@ -3,5 +3,16 @@
     "Add": "Lisa",
     "Actor": "Näitleja",
     "AccessRestrictedTryAgainLater": "Juurdepääs on hetkel piiratud. Palun proovige hiljem uuesti.",
-    "Absolute": "Absoluutne"
+    "Absolute": "Absoluutne",
+    "AllLanguages": "Kõik keeled",
+    "AllEpisodes": "Kõik episoodid",
+    "AllChannels": "Kõik kanalid",
+    "All": "Kõik",
+    "Alerts": "Teavitused",
+    "Albums": "Albumid",
+    "Album": "Album",
+    "AirDate": "Väljalaskekuupäev",
+    "AddToPlayQueue": "Lisa esitamise järjekorda",
+    "AddToPlaylist": "Lisa esitusloendisse",
+    "AddToCollection": "Lisa kollektsiooni"
 }
