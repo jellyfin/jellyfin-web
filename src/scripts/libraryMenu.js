@@ -464,6 +464,7 @@ import Headroom from 'headroom.js';
             pageIds: ['liveTvSettingsPage'],
             icon: 'dvr'
         });
+        addPluginPagesToMainMenu(links, pluginItems, 'livetv');
         links.push({
             divider: true,
             name: globalize.translate('TabAdvanced')
@@ -503,6 +504,10 @@ import Headroom from 'headroom.js';
             href: '#!/scheduledtasks.html',
             pageIds: ['scheduledTasksPage', 'scheduledTaskPage'],
             icon: 'schedule'
+        });
+        links.push({
+            divider: true,
+            name: globalize.translate('TabPlugins')
         });
         addPluginPagesToMainMenu(links, pluginItems);
         return links;
