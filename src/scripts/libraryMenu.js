@@ -505,12 +505,26 @@ import Headroom from 'headroom.js';
             pageIds: ['scheduledTasksPage', 'scheduledTaskPage'],
             icon: 'schedule'
         });
-        links.push({
-            divider: true,
-            name: globalize.translate('TabPlugins')
-        });
-        addPluginPagesToMainMenu(links, pluginItems);
+        if (hasUnsortedPlugins(pluginItems)) {
+            links.push({
+                divider: true,
+                name: globalize.translate('TabPlugins')
+            });
+            addPluginPagesToMainMenu(links, pluginItems);
+        }
+        
         return links;
+    }
+
+    function hasUnsortedPlugins(pluginItems) {
+        for (let i = 0, length = pluginItems.length; i < length; i++) {
+            const pluginItem = pluginItems[i];
+
+            if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === undefined) {
+                return true;
+            }
+        }
+        return false;
     }
 
     function addPluginPagesToMainMenu(links, pluginItems, section) {
