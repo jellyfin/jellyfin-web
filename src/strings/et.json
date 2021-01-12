@@ -14,5 +14,8 @@
     "AirDate": "Väljalaskekuupäev",
     "AddToPlayQueue": "Lisa esitamise järjekorda",
     "AddToPlaylist": "Lisa esitusloendisse",
-    "AddToCollection": "Lisa kollektsiooni"
+    "AddToCollection": "Lisa kollektsiooni",
+    "AllLibraries": "Kõik kogud",
+    "AlbumArtist": "Albumi artist",
+    "AdditionalNotificationServices": "Lisanduvate teavitusteenuste paigaldamiseks sirvige pistikprogrammide kataloogi."
 }
