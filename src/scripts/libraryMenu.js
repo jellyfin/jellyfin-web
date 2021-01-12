@@ -512,7 +512,6 @@ import Headroom from 'headroom.js';
             });
             addPluginPagesToMainMenu(links, pluginItems);
         }
-        
         return links;
     }
 
