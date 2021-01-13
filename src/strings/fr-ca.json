@@ -71,7 +71,7 @@
     "WizardCompleted": "C'est tout ce dont nous avons besoin pour le moment. Jellyfin a commencé à récolter les informations de votre bibliothèque de médias. Jetez un oeil à quelques unes de nos applications, puis cliquez sur <b>Terminer</b> pour consulter le <b>Tableau de bord</b>.",
     "Absolute": "Absolu",
     "AccessRestrictedTryAgainLater": "L'accès est présentement limité. Veuillez réessayer plus tard.",
-    "Actor": "Acteur(trice)",
+    "Actor": "Acteur",
     "AddToPlayQueue": "Ajouter à la file d'attente",
     "AddedOnValue": "Ajouté le {0}",
     "AdditionalNotificationServices": "Visitez le catalogue d'extensions pour installer des services de notifications supplémentaires.",
@@ -631,9 +631,11 @@
     "LabelAlbumArtMaxResHelp": "Résolution maximale des couvertures d'album disponibles via la propriété upnp:albumArtURI.",
     "LabelAlbumArtMaxHeight": "Hauteur maximale des couvertures d'album :",
     "LabelAlbumArtists": "Artistes de l'album :",
-    "LabelBaseUrlHelp": "Ajouter un sous-dossier personalisé a l'addresse du serveur. Par exemple : <code>http ://example.com/<b>&lt ;baseurl&gt ;</b></code>",
+    "LabelBaseUrlHelp": "Ajouter un sous-dossier personalisé a l'addresse du serveur. Par exemple : <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
     "LabelAutoDiscoveryTracing": "Activer la journalisation de la découverte automatique.",
     "LabelAirsBeforeSeason": "Diffusé avant la saison :",
     "LabelAirsBeforeEpisode": "Diffusé avant l'épisode :",
-    "LabelAirsAfterSeason": "Diffusé après saison :"
+    "LabelAirsAfterSeason": "Diffusé après saison :",
+    "ShowYear": "Montrer l'année",
+    "ShowTitle": "Montrer le titre"
 }
