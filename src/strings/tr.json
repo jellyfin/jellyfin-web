@@ -213,7 +213,7 @@
     "ConfirmDeleteImage": "Resmi Sil?",
     "ButtonResetEasyPassword": "Kolay pin kodunu sıfırla",
     "ColorPrimaries": "Renk primerleri",
-    "DirectStreamHelp2": "Doğrudan akış, video kalitesinde minimum kayıpla çok az işlem gücü kullanır.",
+    "DirectStreamHelp2": "Doğrudan akış tarafından tüketilen güç genellikle ses profiline bağlıdır. Yalnızca video akışı kayıpsızdır.",
     "DirectStreaming": "Doğrudan akış",
     "Director": "Yönetmen",
     "Directors": "Yönetmen",
@@ -258,7 +258,7 @@
     "ConfirmDeleteItem": "Bu öğeyi silmek, onu hem dosya sisteminden hem de medya kütüphanenizden siler. Devam etmek istediğinize emin misiniz?",
     "ValueSpecialEpisodeName": "Özel - {0}",
     "DeviceAccessHelp": "Bu, yalnızca benzersiz şekilde tanımlanabilen ve tarayıcı erişimini engellemeyen cihazlar için geçerlidir. Kullanıcı cihazlarına erişimin filtrelenmesi, burada onaylanana kadar yeni cihazları kullanmalarını önler.",
-    "DirectStreamHelp1": "Medya, çözünürlük ve medya türüyle (H.264, AC3, vb.) İlgili cihazla uyumludur, ancak uyumsuz bir dosya içerdiğinde (mkv, avi, wmv, vb.) video bulunup, cihaza aktarılmadan önce anında yeniden paketlenecek.",
+    "DirectStreamHelp1": "Video akışı cihazla uyumludur ancak uyumsuz bir ses formatına (DTS, TRUEHD, vb.) veya ses kanallarına sahiptir. Video akışı, cihaza gönderilmeden önce anında kayıpsız bir şekilde yeniden paketlenecektir. Yalnızca ses akışının kodu dönüştürülecektir.",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Bu, sunucu yapılandırmasındaki TV kütüphaneleri için de etkinleştirilmelidir.",
     "EasyPasswordHelp": "Kolay pin kodunuz, desteklenen istemcilerde çevrimdışı erişim için kullanılır ve ayrıca ağ içinde oturum açmak için de kullanılabilir.",
     "ChangingMetadataImageSettingsNewContent": "Meta veri veya resim indirme ayarlarında yapılan değişiklikler yalnızca kitaplığınıza eklenen yeni içerikler için geçerli olacaktır. Değişiklikleri mevcut başlıklara uygulamak için meta verilerini el ile yenilemeniz gerekir.",
@@ -878,5 +878,8 @@
     "Option3D": "3D",
     "EnableFasterAnimationsHelp": "Daha hızlı animasyonlar ve geçişler kullan",
     "EnableFasterAnimations": "Daha hızlı animasyonlar",
-    "Menu": "Menü"
+    "Menu": "Menü",
+    "EnableBlurHashHelp": "Hala yüklenmekte olan resimler benzersiz bir yer tutucuyla görüntülenecektir.",
+    "EnableBlurHash": "Resimler için bulanık yer tutucuları etkinleştir",
+    "AllowTonemappingHelp": "Ton eşleme, orijinal sahneyi temsil etmek için çok önemli bilgiler olan görüntü ayrıntılarını ve renkleri korurken bir videonun dinamik aralığını HDR'den SDR'ye dönüştürebilir. Şu anda yalnızca gömülü HDR10 veya HLG meta verileri içeren videoları dönüştürürken çalışır. Oynatma düzgün değilse veya başarısız olursa, lütfen ilgili donanım kod çözücüyü kapatmayı düşünün."
 }
