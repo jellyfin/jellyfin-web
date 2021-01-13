@@ -202,7 +202,7 @@
     "ButtonRevoke": "Geri al",
     "ChannelNumber": "Kanal numarası",
     "ContinueWatching": "İzlemeye devam et",
-    "CriticRating": "Rotten Tomatoes puanı",
+    "CriticRating": "Eleştirmen puanı",
     "CustomDlnaProfilesHelp": "Yeni bir cihazı hedeflemek veya bir sistem profilini geçersiz kılmak için özel bir profil oluşturun.",
     "Descending": "Azalan",
     "DetectingDevices": "Cihazları tespit",
@@ -877,5 +877,6 @@
     "ButtonCast": "Oyuncular",
     "Option3D": "3D",
     "EnableFasterAnimationsHelp": "Daha hızlı animasyonlar ve geçişler kullan",
-    "EnableFasterAnimations": "Daha hızlı animasyonlar"
+    "EnableFasterAnimations": "Daha hızlı animasyonlar",
+    "Menu": "Menü"
 }
