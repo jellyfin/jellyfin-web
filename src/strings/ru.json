@@ -1339,7 +1339,7 @@
     "EnableFasterAnimations": "Ускоренная анимация",
     "EnableDecodingColorDepth10Vp9": "Включить 10-битное аппаратное декодирование для VP9",
     "EnableDecodingColorDepth10Hevc": "Включить 10-битное аппаратное декодирование для HEVC",
-    "StopPlayback": "Остановить проигрывание",
+    "StopPlayback": "Остановить воспроизведение",
     "Writers": "Сценаристы",
     "ViewAlbumArtist": "Смотреть исполнителя альбомa",
     "ClearQueue": "Очистить очередь",
