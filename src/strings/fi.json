@@ -1232,5 +1232,6 @@
     "EnableTonemapping": "Ota äänikartoitus käyttöön",
     "EnableBlurHashHelp": "Vielä ladattavat kuvat näytetään yksilöllisen paikkamerkin avulla.",
     "EnableBlurHash": "Ota hämärretyt paikkamerkit käyttöön kuville",
-    "AllowTonemappingHelp": "Sävykartoitus voi muuttaa videon dynaamisen alueen HDR: stä SDR: ksi säilyttäen samalla kuvan yksityiskohdat ja värit, jotka ovat erittäin tärkeitä tietoja alkuperäisen kohtauksen edustamiseksi. Toimii tällä hetkellä vain videoiden transkoodaamisessa upotetuilla HDR10- tai HLG-metatiedoilla. Jos toisto ei ole sujuvaa tai epäonnistuu, harkitse vastaavan laitteistodekooderin sammuttamista."
+    "AllowTonemappingHelp": "Sävykartoitus voi muuttaa videon dynaamisen alueen HDR: stä SDR: ksi säilyttäen samalla kuvan yksityiskohdat ja värit, jotka ovat erittäin tärkeitä tietoja alkuperäisen kohtauksen edustamiseksi. Toimii tällä hetkellä vain videoiden transkoodaamisessa upotetuilla HDR10- tai HLG-metatiedoilla. Jos toisto ei ole sujuvaa tai epäonnistuu, harkitse vastaavan laitteistodekooderin sammuttamista.",
+    "LabelffmpegPathHelp": "Polku ffmpeg-sovellustiedostoon tai kansioon sisältää ffmpegin."
 }
