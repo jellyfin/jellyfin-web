@@ -1220,5 +1220,17 @@
     "HeaderDeleteDevices": "Poista kaikki laitteet",
     "HeaderAddUser": "Lisää käyttäjä",
     "HeaderAddUpdateSubtitle": "Lisää/päivitä tekstitykset",
-    "EnableFasterAnimationsHelp": "Käytä nopeampia animaatioita ja siirtymiä"
+    "EnableFasterAnimationsHelp": "Käytä nopeampia animaatioita ja siirtymiä",
+    "LabelEnableSSDPTracing": "Ota SSDP-jäljitys käyttöön:",
+    "LabelEnableSingleImageInDidlLimitHelp": "Jotkin laitteet eivät hahmonna oikein, jos Didliin on upotettu useita kuvia.",
+    "LabelAutomaticDiscovery": "Ota automaattinen etsintä käyttöön:",
+    "LabelAutoDiscoveryTracingHelp": "Kun tämä on käytössä, automaattiseen etsintäporttiin vastaanotettu paketti kirjataan lokiin.",
+    "LabelAutoDiscoveryTracing": "Ota automaattisen etsinnän jäljitys käyttöön.",
+    "LabelAlbumArtPN": "Albumin kuvitus PN:",
+    "HeaderDebugging": "Debuggaus ja Jäljitys",
+    "HeaderAutoDiscovery": "Verkon etsiminen",
+    "EnableTonemapping": "Ota äänikartoitus käyttöön",
+    "EnableBlurHashHelp": "Vielä ladattavat kuvat näytetään yksilöllisen paikkamerkin avulla.",
+    "EnableBlurHash": "Ota hämärretyt paikkamerkit käyttöön kuville",
+    "AllowTonemappingHelp": "Sävykartoitus voi muuttaa videon dynaamisen alueen HDR: stä SDR: ksi säilyttäen samalla kuvan yksityiskohdat ja värit, jotka ovat erittäin tärkeitä tietoja alkuperäisen kohtauksen edustamiseksi. Toimii tällä hetkellä vain videoiden transkoodaamisessa upotetuilla HDR10- tai HLG-metatiedoilla. Jos toisto ei ole sujuvaa tai epäonnistuu, harkitse vastaavan laitteistodekooderin sammuttamista."
 }
