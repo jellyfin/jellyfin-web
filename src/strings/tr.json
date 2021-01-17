@@ -1038,5 +1038,8 @@
     "RecommendationDirectedBy": "Yönetmen: {0}",
     "ServerUpdateNeeded": "Bu sunucunun güncellenmesi gerekiyor. En son sürümü indirmek için lütfen {0} adresini ziyaret edin",
     "LatestFromLibrary": "Son {0}",
-    "OptionSaveMetadataAsHiddenHelp": "Bunun değiştirilmesi, bundan sonra kaydedilen yeni meta verilere uygulanacaktır. Mevcut meta veri dosyaları, sunucu tarafından bir sonraki kaydedilmelerinde güncellenecektir."
+    "OptionSaveMetadataAsHiddenHelp": "Bunun değiştirilmesi, bundan sonra kaydedilen yeni meta verilere uygulanacaktır. Mevcut meta veri dosyaları, sunucu tarafından bir sonraki kaydedilmelerinde güncellenecektir.",
+    "SkipEpisodesAlreadyInMyLibraryHelp": "Bölümler, mevcut olduğunda sezon ve bölüm numaraları kullanılarak karşılaştırılacaktır.",
+    "Season": "Sezon",
+    "LabelSeasonNumber": "Sezon numarası:"
 }
