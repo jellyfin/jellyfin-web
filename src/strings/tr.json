@@ -940,5 +940,6 @@
     "LabelColorTransfer": "Renk aktarımı:",
     "LabelColorSpace": "Renk alanı:",
     "LabelColorPrimaries": "Renk ön seçimleri:",
-    "LabelAutomaticDiscoveryHelp": "Uygulamaların, 7359 UDP bağlantı noktasını kullanarak Jellyfin'i otomatik olarak algılamasına izin verin."
+    "LabelAutomaticDiscoveryHelp": "Uygulamaların, 7359 UDP bağlantı noktasını kullanarak Jellyfin'i otomatik olarak algılamasına izin verin.",
+    "SortByValue": "{0} göre sırala"
 }
