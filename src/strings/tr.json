@@ -1041,5 +1041,12 @@
     "OptionSaveMetadataAsHiddenHelp": "Bunun değiştirilmesi, bundan sonra kaydedilen yeni meta verilere uygulanacaktır. Mevcut meta veri dosyaları, sunucu tarafından bir sonraki kaydedilmelerinde güncellenecektir.",
     "SkipEpisodesAlreadyInMyLibraryHelp": "Bölümler, mevcut olduğunda sezon ve bölüm numaraları kullanılarak karşılaştırılacaktır.",
     "Season": "Sezon",
-    "LabelSeasonNumber": "Sezon numarası:"
+    "LabelSeasonNumber": "Sezon numarası:",
+    "SkipEpisodesAlreadyInMyLibrary": "Zaten kitaplığımda bulunan bölümleri kaydetme",
+    "RepeatEpisodes": "Bölümleri tekrarla",
+    "PlayNextEpisodeAutomatically": "Sonraki bölümü otomatik olarak oynat",
+    "OptionUnairedEpisode": "Yayınlanmamış Bölümler",
+    "OptionMissingEpisode": "Eksik Bölümler",
+    "NewEpisodesOnly": "Yalnızca yeni bölümler",
+    "NewEpisodes": "Yeni bölümler"
 }
