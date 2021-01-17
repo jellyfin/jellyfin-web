@@ -845,7 +845,7 @@
     "Writers": "Yazarlar",
     "Writer": "Yazar",
     "RecommendationBecauseYouWatched": "Buna benzer içerikler: {0}",
-    "NextUp": "Gelecek Hafta",
+    "NextUp": "Sıradaki Bölümler",
     "OptionParentalRating": "Yaş Derecelendirmesi",
     "HeaderUploadSubtitle": "Altyazı Yükle",
     "HeaderAutoDiscovery": "Ağ Algılama",
@@ -1037,5 +1037,6 @@
     "RecommendationStarring": "Başrolde {0}",
     "RecommendationDirectedBy": "Yönetmen: {0}",
     "ServerUpdateNeeded": "Bu sunucunun güncellenmesi gerekiyor. En son sürümü indirmek için lütfen {0} adresini ziyaret edin",
-    "LatestFromLibrary": "Son {0}"
+    "LatestFromLibrary": "Son {0}",
+    "OptionSaveMetadataAsHiddenHelp": "Bunun değiştirilmesi, bundan sonra kaydedilen yeni meta verilere uygulanacaktır. Mevcut meta veri dosyaları, sunucu tarafından bir sonraki kaydedilmelerinde güncellenecektir."
 }
