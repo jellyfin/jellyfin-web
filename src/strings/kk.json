@@ -1442,7 +1442,7 @@
     "LabelPublishedServerUri": "Jarıalanǵan serverlik URI-mekenjaılary:",
     "LabelOpenclDevice": "OpenCL qurylǵysy:",
     "LabelMinAudiobookResumeHelp": "Bul kezden buryn toqtatylsa týyndylar oınatylmaǵan dep boljaldy.",
-    "LabelMinAudiobookResume": "Dybys kіtaptyń eń kóp jalǵastyrylýy, mın:",
+    "LabelMinAudiobookResume": "Dybys kіtabyń jalǵastyý úshin eń az ýaqyty, mın:",
     "LabelMaxMuxingQueueSize": "Mýksiń kezeginіń eń úlken mólsherі:",
     "LabelFallbackFontPathHelp": "ASS/SSA sýbtıtrlerіn qalyptastyrý úshin orynbasýshy qarіpterden turatyn joldy anyqtańyz. Qarіptіń ruqsat etіlgen jalpy eń úlken kólemі - 20 MB. Qarіptіń jeńіldetilgen jáne ýeb-betterine yńǵaıly pishimderi, mysaly, woff2 usynylady.",
     "EnableFallbackFontHelp": "Teńsheýlі balama qarіpterdі qosý. Bul sýbtıtrlerdі burys qalyptastyrý máselesinen jaltarý bolýy múmkin.",
@@ -1462,5 +1462,16 @@
     "MessagePluginInstallError": "Plagındі ornatý kezіnde qate paıda boldy.",
     "MessageNoGenresAvailable": "Internetten janrlardy alý úshin keıbіr metaderekter jetkіzýshіlerin qosý.",
     "MessageGetInstalledPluginsError": "Ornatylǵan plagınderdіń aǵymdyq tіzіmіn alý kezіnde qate paıda boldy.",
-    "MessagePlaybackError": "Bul faıldy Google Cast qabyldaǵyshy oınatqanda qate paıda boldy."
+    "MessagePlaybackError": "Bul faıldy Google Cast qabyldaǵyshy oınatqanda qate paıda boldy.",
+    "LabelMaxAudiobookResumeHelp": "Osy ýaqyttan keıіn toqtatylǵan bolsa, shyǵarylymdar tolyǵymen oınatyldy dep sanalady.",
+    "LabelIconMaxResHelp": "\"upnp:icon\" sıpaty arqyly kórstiletin belgishelerdiń eń joǵary ajyratylymdyǵy.",
+    "LabelHDHomerunPortRangeHelp": "HD Homerun qurylǵysynyń UDP-porttar aýqymy osy mánge shekteledі. (Ádepkіsi: 1024 - 645535).",
+    "LabelEnableSSDPTracingHelp": "Tіrkeletin SSDP-jelіsіn qadaǵalaý egjeılerі qosylady.<br/><b>ESKERTÝ:</b> Bul ónіmdіlіktіń salmaqty nasharlaýyna ákeledі.",
+    "LabelCreateHttpPortMap": "HTTP-trafigi jáne de HTTPS úshin, avtomatty port salǵastyrý qosylady.",
+    "YoutubeDenied": "Saýal jasalǵan beıne úshin endіrіlgen oınatqyshtarda oınatýǵa tyıym salynǵan.",
+    "WriteAccessRequired": "Jellyfin osy qaltada jazýǵa ruqsatty qajet etedі. Jazý ruqsatyn qamtamasyz etіp, qaıtalap kórіńіz.",
+    "TonemappingRangeHelp": "Shyǵystyq tús aýqymyn tańdaý. Avto, kіrіstik aýqymymen bіrdeı bolady.",
+    "LabelSSDPTracingFilterHelp": "Tіrkelgen SSDP-trafıgіn súzýge arnalǵan mindetti emes IP-mekenjaı.",
+    "LabelRepositoryUrlHelp": "Ústelinetin repozıtorı manıfestіnіń jaıǵasymy.",
+    "LabelPublishedServerUriHelp": "Jellyfin paıdalanylatyn URI, ınterfeıs nemese tutynǵysh IP-mekenjaıy negіznde almastyrylady."
 }
