@@ -276,7 +276,7 @@
     "AspectRatio": "En/Boy oranı",
     "Audio": "Ses",
     "AuthProviderHelp": "Bu kullanıcının şifresini doğrulamak için kullanılacak bir kimlik doğrulama sağlayıcısı seçin.",
-    "Backdrop": "Arka plan",
+    "Backdrop": "Arka Plan",
     "Backdrops": "Arka Planlar",
     "Banner": "Afiş",
     "BirthDateValue": "Doğum Tarihi: {0}",
@@ -1020,10 +1020,10 @@
     "Runtime": "Süre",
     "LabelRuntimeMinutes": "Süre:",
     "LabelSource": "Kaynak:",
-    "Screenshots": "Ekran görüntüleri",
-    "Screenshot": "Ekran görüntüsü",
+    "Screenshots": "Ekran Görüntüleri",
+    "Screenshot": "Ekran Görüntüsü",
     "ThumbCard": "Küçük Resim Kartı",
-    "Thumb": "Küçük resim",
+    "Thumb": "Küçük Resim",
     "Primary": "Birincil",
     "SearchResults": "Arama Sonuçları",
     "SearchForSubtitles": "Altyazı Ara",
@@ -1078,5 +1078,8 @@
     "MessageSyncPlayUserJoined": "<b>{0}</b> gruba katıldı.",
     "MessageSyncPlayGroupWait": "<b>{0}</b> arabelleğe alıyor…",
     "LabelVersionInstalled": "{0} yüklendi",
-    "LabelScheduledTaskLastRan": "Son çalıştırma {0}, {1} sürdü."
+    "LabelScheduledTaskLastRan": "Son çalıştırma {0}, {1} sürdü.",
+    "RememberMe": "Beni Hatırla",
+    "PosterCard": "Poster Kartı",
+    "TitleHardwareAcceleration": "Donanım Hızlandırma"
 }
