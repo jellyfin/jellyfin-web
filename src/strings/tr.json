@@ -617,7 +617,7 @@
     "ButtonSyncPlay": "Birlikte İzle",
     "Settings": "Ayarlar",
     "LabelIdentificationFieldHelp": "Büyük / küçük harfe duyarlı olmayan bir alt dize veya regex ifadesi.",
-    "LabelIconMaxResHelp": "upnp: icon özelliği aracılığıyla gösterilen simgelerin maksimum çözünürlüğü.",
+    "LabelIconMaxResHelp": "\"upnp:icon\" özelliği aracılığıyla gösterilen simgelerin maksimum çözünürlüğü.",
     "LabelHttpsPortHelp": "HTTPS sunucusu için TCP bağlantı noktası numarası.",
     "LabelHttpsPort": "Yerel HTTPS bağlantı noktası numarası:",
     "LabelHomeScreenSectionValue": "Ana ekran bölümü {0}:",
