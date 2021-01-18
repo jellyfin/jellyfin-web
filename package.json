@@ -33,7 +33,7 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "sass": "^1.32.0",
-    "sass-loader": "^10.1.0",
+    "sass-loader": "^10.1.1",
     "source-map-loader": "^2.0.0",
     "style-loader": "^2.0.0",
     "stylelint": "^13.8.0",
