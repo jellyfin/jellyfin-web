@@ -1488,7 +1488,7 @@
     "LabelRemuxingInfo": "Remux-Information",
     "AspectRatioCover": "Bedecken",
     "AspectRatioFill": "Füllen",
-    "SyncPlayGroupDefaultTitle": "{0}te Gruppe",
+    "SyncPlayGroupDefaultTitle": "{0}'s Gruppe",
     "MessageSyncPlayIsDisabled": "Erlaubnis erforderlich um SyncPlay zu nutzen.",
     "LabelSyncPlayTimeSyncOffset": "Zeitverschiebung:",
     "LabelSyncPlayTimeSyncDevice": "Zeitsynchronisierung mit:",
