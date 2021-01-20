@@ -1261,7 +1261,7 @@
     "LabelAudioBitDepth": "Lyd bitdybde:",
     "FetchingData": "Henter yderligere data",
     "Episode": "Afsnit",
-    "DeinterlaceMethodHelp": "Vælg hvilken konverteringsmulighed der skal bruges til transkodning af indhold.",
+    "DeinterlaceMethodHelp": "Vælg hvilken konverteringsmulighed der skal bruges til transkodning af indhold.  Når hardware-acceleration der understøtter hardware-deinterlacing er slået til, vil dette blive brugt istedet for denne indstilling.",
     "CopyStreamURLSuccess": "URL kopieret.",
     "CopyStreamURL": "Kopier stream URL",
     "ClientSettings": "Klient Indstillinger",
@@ -1310,5 +1310,6 @@
     "DeleteAll": "Slet Alt",
     "EnableDetailsBanner": "Detalje Banner",
     "EnableDecodingColorDepth10Vp9": "Aktiver 10-bit hardware dekodning for VP9",
-    "EnableDecodingColorDepth10Hevc": "Aktiver 10-bit hardware dekodning for HEVC"
+    "EnableDecodingColorDepth10Hevc": "Aktiver 10-bit hardware dekodning for HEVC",
+    "AllowTonemappingHelp": "Tonekortlægning kan omdanne det dynamiske område for en video fra HDR til SDR, samtidig med at billeddetaljer og farver opretholdes, hvilket er meget vigtig information til at repræsentere den originale scene. Fungerer i øjeblikket kun, når der omkodes videoer med indlejret HDR10- eller HLG-metadata. Hvis afspilningen ikke er jævn eller mislykkes, skal du overveje at slukke for den tilsvarende hardwaredekoder."
 }
