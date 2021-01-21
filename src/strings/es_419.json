@@ -1390,7 +1390,7 @@
     "MediaInfoColorTransfer": "Transferencia de Color",
     "MediaInfoColorSpace": "Espacio de Color",
     "MediaInfoVideoRange": "Rango del Video",
-    "Bwdif": "BWDIF",
+    "Bwdif": "BWDIF (Filtro desentrelazado Bob Weaver)",
     "VideoAudio": "Audio del Video",
     "Video": "Vídeo",
     "UseDoubleRateDeinterlacingHelp": "Esta configuración utiliza la velocidad de campo al desentrelazar, a menudo denominado desentrelazado bob, que duplica la velocidad de fotogramas del video para proporcionar un movimiento completo similar al ver un video entrelazado en un televisor.",
