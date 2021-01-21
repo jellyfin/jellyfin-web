@@ -351,9 +351,13 @@ function reloadPlayButtons(page, item) {
         const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
         hideAll(page, 'btnResume', isResumable);
 
-        if (isResumable) {
-            for (const elem of page.querySelectorAll('.btnPlay')) {
-                elem.querySelector('.detailButton-icon').classList.replace('play_arrow', 'replay');
+        for (const elem of page.querySelectorAll('.btnPlay')) {
+            const btnPlay = elem.querySelector('.detailButton-icon');
+
+            if (isResumable) {
+                btnPlay.classList.replace('play_arrow', 'replay');
+            } else {
+                btnPlay.classList.replace('replay', 'play_arrow');
             }
         }
     } else {
