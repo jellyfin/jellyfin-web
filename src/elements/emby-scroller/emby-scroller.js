@@ -4,7 +4,6 @@ import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';
 import focusManager from '../../components/focusManager';
 import browser from '../../scripts/browser';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import './emby-scroller.css';
 
 function initCenterFocus(elem, scrollerInstance) {

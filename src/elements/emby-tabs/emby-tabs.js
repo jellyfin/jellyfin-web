@@ -1,4 +1,3 @@
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import dom from '../../scripts/dom';
 import scroller from '../../libraries/scroller';
 import browser from '../../scripts/browser';

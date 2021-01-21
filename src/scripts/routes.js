@@ -295,9 +295,9 @@ import { appRouter } from '../components/appRouter';
 
     defineRoute({
         alias: '/home.html',
-        path: 'home.html',
+        path: 'home/home.html',
         autoFocus: false,
-        controller: 'home',
+        controller: 'home/home',
         type: 'home'
     });
 

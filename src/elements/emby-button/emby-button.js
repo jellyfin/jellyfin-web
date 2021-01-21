@@ -1,4 +1,3 @@
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import layoutManager from '../../components/layoutManager';
 import './emby-button.css';
 

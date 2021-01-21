@@ -3,7 +3,6 @@ import dom from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.css';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import '../emby-input/emby-input';
 
 let supportsValueSetOverride = false;

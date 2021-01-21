@@ -1,7 +1,6 @@
 import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import './emby-input.css';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
 let inputId = 0;
 let supportsFloatingLabel = false;

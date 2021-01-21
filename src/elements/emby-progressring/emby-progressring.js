@@ -1,5 +1,4 @@
 import './emby-progressring.css';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import template from './emby-progressring.template.html';
 
 class EmbyProgressRing extends HTMLDivElement {

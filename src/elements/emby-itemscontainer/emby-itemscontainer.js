@@ -9,7 +9,6 @@ import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import serverNotifications from '../../scripts/serverNotifications';
 import { Events } from 'jellyfin-apiclient';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import ServerConnections from '../../components/ServerConnections';
 import Sortable from 'sortablejs';
 

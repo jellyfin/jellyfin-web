@@ -79,7 +79,7 @@ class TabbedView {
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
         view.addEventListener('viewbeforeshow', function (e) {
-            mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, onBeforeTabChange, onTabChange, false);
+            mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, onBeforeTabChange, onTabChange, true);
         });
 
         view.addEventListener('viewshow', function (e) {

@@ -1,6 +1,5 @@
 import layoutManager from '../../components/layoutManager';
 import browser from '../../scripts/browser';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import './emby-radio.css';
 
 class onKeyDown {

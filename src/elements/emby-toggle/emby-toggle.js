@@ -1,5 +1,4 @@
 import './emby-toggle.css';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
 class onKeyDown {
     constructor(e) {

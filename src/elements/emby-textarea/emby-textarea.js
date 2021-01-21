@@ -1,5 +1,4 @@
 import './emby-textarea.css';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import '../emby-input/emby-input';
 
 function autoGrow(textarea, maxLines) {

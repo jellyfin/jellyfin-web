@@ -1,4 +1,3 @@
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import { removeEventListener, addEventListener } from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import shell from '../../scripts/shell';

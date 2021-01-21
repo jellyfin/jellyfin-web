@@ -1,5 +1,4 @@
 import './emby-collapse.css';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import '../emby-button/emby-button';
 
 function slideDownToShow(button, elem) {

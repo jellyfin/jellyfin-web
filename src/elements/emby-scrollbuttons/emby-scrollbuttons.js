@@ -1,5 +1,4 @@
 import './emby-scrollbuttons.css';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import '../emby-button/emby-button';
 
 function getScrollButtonHtml(direction) {

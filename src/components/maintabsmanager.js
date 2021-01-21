@@ -139,7 +139,7 @@ import '../elements/emby-button/emby-linkbutton';
 
             if ('CustomElements' in window) {
                 window.CustomElements.upgradeSubtree(tabsContainerElem);
-              }
+            }
 
             document.body.classList.add('withSectionTabs');
             tabOwnerView = view;

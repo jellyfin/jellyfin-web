@@ -1,13 +1,13 @@
-import { appRouter } from '../components/appRouter';
-import cardBuilder from '../components/cardbuilder/cardBuilder';
-import dom from '../scripts/dom';
-import globalize from '../scripts/globalize';
-import { appHost } from '../components/apphost';
-import layoutManager from '../components/layoutManager';
-import focusManager from '../components/focusManager';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
-import '../elements/emby-scroller/emby-scroller';
-import ServerConnections from '../components/ServerConnections';
+import { appRouter } from '../../components/appRouter';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import dom from '../../scripts/dom';
+import globalize from '../../scripts/globalize';
+import { appHost } from '../../components/apphost';
+import layoutManager from '../../components/layoutManager';
+import focusManager from '../../components/focusManager';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '../../elements/emby-scroller/emby-scroller';
+import ServerConnections from '../../components/ServerConnections';
 
 /* eslint-disable indent */
 

@@ -1,7 +1,6 @@
 import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import './emby-checkbox.css';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
 class onKeyDown {
     constructor(e) {

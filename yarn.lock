@@ -1182,6 +1182,11 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
+"@ungap/custom-elements@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@ungap/custom-elements/-/custom-elements-0.1.10.tgz#c1672c5b2c90275be9f9f7996ee1c8763c19e435"
+  integrity sha512-k6bvvleNbl+Wei9pP2s+bEi5DYLk/2CDylREncYqYXqElCeCDP0dSTyEu7HGVHQmsjwQkiZnxWyXNbYoQDmopg==
+
 "@uupaa/dynamic-import-polyfill@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@uupaa/dynamic-import-polyfill/-/dynamic-import-polyfill-1.0.2.tgz#e540cfd8671058fe1e48f816fc8be07e058d5d3a"
@@ -1331,11 +1336,6 @@
     "@webassemblyjs/ast" "1.9.1"
     "@webassemblyjs/wast-parser" "1.9.1"
     "@xtuc/long" "4.2.2"
-
-"@webcomponents/webcomponentsjs@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-2.5.0.tgz#61b27785a6ad5bfd68fa018201fe418b118cb38d"
-  integrity sha512-C0l51MWQZ9kLzcxOZtniOMohpIFdCLZum7/TEHv3XWFc1Fvt5HCpbSX84x8ltka/JuNKcuiDnxXFkiB2gaePcg==
 
 "@webpack-cli/info@^1.2.0":
   version "1.2.0"

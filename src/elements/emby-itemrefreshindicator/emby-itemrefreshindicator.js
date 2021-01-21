@@ -2,7 +2,6 @@ import EmbyProgressRing from '../emby-progressring/emby-progressring';
 import dom from '../../scripts/dom';
 import serverNotifications from '../../scripts/serverNotifications';
 import { Events } from 'jellyfin-apiclient';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
 function addNotificationEvent(instance, name, handler) {
     const localHandler = handler.bind(instance);

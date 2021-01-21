@@ -22,7 +22,6 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../assets/css/flexstyles.scss';
-import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import ServerConnections from '../ServerConnections';
 import template from './tvguide.template.html';
 
