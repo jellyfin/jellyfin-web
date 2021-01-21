@@ -648,7 +648,7 @@
     "LabelSeriesRecordingPath": "مسیر ضبط سریال‌ها (اختیاری):",
     "LabelSelectFolderGroups": "به طور خودکار محتواهای پوشه‌های زیر را به فیلم ، موسیقی و تلویزیون گروه بندی شود:",
     "LabelSeasonNumber": "شماره فصل:",
-    "ConfigureDateAdded": "تنظیم کنید که چگونه تاریخ اضافه شده در داشبورد سرور Jellyfin تحت تنظیمات کتابخانه تعیین می‌شود",
+    "ConfigureDateAdded": "تنظیم کنید که چگونه تاریخ اضافه شده در داشبورد تحت تنظیمات کتابخانه تعیین می‌شود",
     "CinemaModeConfigurationHelp": "حالت سینما تجربه تئاتر گونه را مستقیم به اتاق نشیمن شما می‌آورد با قابلیت پخش تریلرها و پیش نمایش‌ها قبل از سایر ویژگی‌های اصلی.",
     "NoSubtitleSearchResultsFound": "نتیجه‌ای یافت نشد.",
     "MessageNoPluginConfiguration": "این افزونه هیچ تنظیماتی برای پیکربندی ندارد.",
@@ -1326,5 +1326,10 @@
     "EnableBlurHashHelp": "Images that are still being loaded will be displayed with a blurred placeholder",
     "ButtonSyncPlay": "SyncPlay",
     "ButtonActivate": "فعال‌سازی",
-    "Authorize": "مجاز"
+    "Authorize": "مجاز",
+    "DeleteAll": "حذف همه",
+    "Data": "داده",
+    "ClearQueue": "پاکسازی صف",
+    "ButtonPlayer": "پخش‌کننده",
+    "ButtonCast": "بازیگران"
 }
