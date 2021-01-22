@@ -1490,5 +1490,7 @@
     "OptionAllowContentDownloadHelp": "Paıdalanýshylar tasyǵyshderekterdi júktep alyp, ony óz qurylǵylarynda saqtaı alady. Bul úndestirý múmkіndіgіmen bіrdeı emes. Kіtap tasyǵyshhanalaryna bul durys jumys іsteý úshіn qajet.",
     "RemuxHelp2": "Remuksıń múldem shyǵynsyz tasyǵyshderekter sapasymen óte az óńdeý qýatyn paıdalanady.",
     "PreferFmp4HlsContainerHelp": "Qoldaý kórsetіlgen qurylǵylarǵa HEVC-mazmundy tikeleı taratýǵa múmkіndіk beretіn, HLS úshіn ádepkі retіnde fMP4-konteınerdi paıdalanýyn qalaý.",
-    "MessageChromecastConnectionError": "Google Cast qabyldaǵyshy Jellyfin-serverben baılanysa almaıdy. Qosylymdy tekserіp, qaıtalap kórіńіz."
+    "MessageChromecastConnectionError": "Google Cast qabyldaǵyshy Jellyfin-serverben baılanysa almaıdy. Qosylymdy tekserіp, qaıtalap kórіńіz.",
+    "TonemappingAlgorithmHelp": "Reńk salǵastyrýdy naqty teńsheýge bolady. Eger osy opsıalarmen tanys bolmasańyz, ádettegideı ádepkіni qaldyryńyz. Usynylǵan mán - Hable.",
+    "LabelUDPPortRangeHelp": "UDP-qosylymdaryn jasaǵanda, Jellyfin úshin osy port aýqymyn paıdalanýǵa shekteý qoıylady. (Ádepkі mánі: 1024 - 645535).<br/>Eskerim: Belgіlі bіr múmkindik úshіn osy aýqymnan tys turaqty porttar qajet bolýy múmkіn."
 }
