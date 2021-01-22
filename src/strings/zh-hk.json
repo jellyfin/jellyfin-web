@@ -386,5 +386,16 @@
     "CriticRating": "評論家評分",
     "ConfirmDeletion": "確定刪除",
     "ConfirmDeleteItems": "刪除這些物品將會從檔案系統及媒體庫中刪除。請問是否繼續？",
-    "ConfirmDeleteItem": "刪除此物品將會從檔案系統及媒體庫中刪除。請問是否繼續？"
+    "ConfirmDeleteItem": "刪除此物品將會從檔案系統及媒體庫中刪除。請問是否繼續？",
+    "EnableCinemaMode": "電影院模式",
+    "EnableAutoCast": "設為預設",
+    "DeleteAll": "刪除全部",
+    "Data": "資料",
+    "DashboardVersionNumber": "版本: {0}",
+    "ButtonUseQuickConnect": "使用快速連結",
+    "ButtonPlayer": "播放器",
+    "ButtonCast": "投影",
+    "ButtonActivate": "啟用",
+    "Authorize": "授權",
+    "ApiKeysCaption": "目前已啟用的 API Keys 列表"
 }
