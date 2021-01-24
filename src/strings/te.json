@@ -1,1 +1,12 @@
-{}
+{
+    "AirDate": "ప్రసార తేదీ",
+    "AddToPlayQueue": "క్యూలో చేర్చండి",
+    "AddToPlaylist": "పాటల క్రమంలో చేర్చు",
+    "AddToCollection": "సేకరణకు జోడించండి",
+    "AdditionalNotificationServices": "అదనపు నోటిఫికేషన్ సేవలను వ్యవస్థాపించడానికి ప్లగిన్ కేటలాగ్‌ను బ్రౌజ్ చేయండి.",
+    "AddedOnValue": "{0} జోడించబడింది",
+    "Add": "జోడించు",
+    "Actor": "నటుడు",
+    "AccessRestrictedTryAgainLater": "ప్రవేశం ప్రస్తుతం పరిమితం చేయబడింది. దయచేసి తర్వాత మళ్లీ ప్రయత్నించండి.",
+    "Absolute": "సంపూర్ణ"
+}
