@@ -40,7 +40,7 @@
     "Browse": "Explorar",
     "MessageBrowsePluginCatalog": "Explore el catálogo de extensiones para ver las extensiones disponibles.",
     "ButtonAddMediaLibrary": "Añadir biblioteca de medios",
-    "ButtonAddScheduledTaskTrigger": "Agregar Activador",
+    "ButtonAddScheduledTaskTrigger": "Agregar disparador",
     "ButtonAddServer": "Añadir servidor",
     "ButtonAddUser": "Agregar Usuario",
     "ButtonArrowLeft": "Izquierda",
@@ -1246,7 +1246,7 @@
     "LabelDroppedFrames": "Frames perdidos:",
     "LabelCorruptedFrames": "Frames corruptos:",
     "AskAdminToCreateLibrary": "Pídele a un administrador que cree una biblioteca.",
-    "AllowFfmpegThrottling": "Pausar las conversiones",
+    "AllowFfmpegThrottling": "Acelerar las conversiones",
     "ClientSettings": "Ajustes de cliente",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Priorizar la información embebida sobre los nombres de archivos",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Usar la información de episodio de los metadatos embebidos si está disponible.",
@@ -1500,5 +1500,6 @@
     "LabelSyncPlayHaltPlayback": "Detener la reproducción local",
     "LabelMinAudiobookResumeHelp": "Los títulos se consideran vistos si se paran antes de este tiempo.",
     "LabelMinAudiobookResume": "Reanudación mínima del audiolibro en minutos:",
-    "LabelMaxAudiobookResumeHelp": "Los títulos se consideran como vistos si se paran después de este minuto."
+    "LabelMaxAudiobookResumeHelp": "Los títulos se consideran como vistos si se paran después de este minuto.",
+    "LabelMaxAudiobookResume": "Reanudación máxima de audiolibros en minutos:"
 }
