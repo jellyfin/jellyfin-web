@@ -101,6 +101,18 @@ class Controller {
     }
 
     /**
+     * Clears the playlist of a SyncPlay group.
+     * @param {Array} clearPlayingItem Whether to remove the playing item as well.
+     */
+    clearPlaylist(clearPlayingItem = false) {
+        const apiClient = this.manager.getApiClient();
+        apiClient.requestSyncPlayRemoveFromPlaylist({
+            ClearPlaylist: true,
+            ClearPlayingItem: clearPlayingItem
+        });
+    }
+
+    /**
      * Removes items from SyncPlay group playlist.
      * @param {Array} playlistItemIds The items to remove.
      */
