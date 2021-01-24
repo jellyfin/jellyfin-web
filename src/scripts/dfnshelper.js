@@ -1,5 +1,5 @@
-import { af, arDZ, be, bg, bn, ca, cs, da, de, el, enGB, enUS, eo, es, faIR, fi, fil, fr, frCA, he, hi, hr, hu, gl, id, is, it, ja, kk, ko, lt, ms, nb,
-    nl, pl, ptBR, pt, ro, ru, sk, sl, sq, sv, ta, th, tr, uk, vi, zhCN, zhTW } from 'date-fns/locale';
+import { af, arDZ, be, bg, bn, ca, cs, da, de, el, enGB, enUS, eo, es, faIR, fi, fr, frCA, he, hi, hr, hu, gl, id, is, it, ja, kk, ko, lt, ms, nb,
+    nl, pl, ptBR, pt, ro, ru, sk, sl, sv, ta, th, tr, uk, vi, zhCN, zhTW } from 'date-fns/locale';
 import globalize from './globalize';
 
 const dateLocales = (locale) => ({
@@ -22,7 +22,6 @@ const dateLocales = (locale) => ({
     'es-mx': es,
     'fa': faIR,
     'fi': fi,
-    'fil': fil,
     'fr': fr,
     'fr-ca': frCA,
     'gl': gl,
@@ -49,7 +48,6 @@ const dateLocales = (locale) => ({
     'ru': ru,
     'sk': sk,
     'sl-si': sl,
-    'sq': sq,
     'sv': sv,
     'ta': ta,
     'th': th,
