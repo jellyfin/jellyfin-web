@@ -516,9 +516,7 @@ import Headroom from 'headroom.js';
     }
 
     function hasUnsortedPlugins(pluginItems) {
-        for (let i = 0, length = pluginItems.length; i < length; i++) {
-            const pluginItem = pluginItems[i];
-
+        for (const pluginItem of pluginItems) {
             if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === undefined) {
                 return true;
             }
@@ -527,9 +525,7 @@ import Headroom from 'headroom.js';
     }
 
     function addPluginPagesToMainMenu(links, pluginItems, section) {
-        for (let i = 0, length = pluginItems.length; i < length; i++) {
-            const pluginItem = pluginItems[i];
-
+        for (const pluginItem of pluginItems) {
             if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
                 links.push({
                     name: pluginItem.DisplayName,
