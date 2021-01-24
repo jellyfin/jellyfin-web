@@ -1448,7 +1448,7 @@
     "HeaderSelectFallbackFontPathHelp": "Tallózzon vagy írja be az alternatív betűtípusok elérési útját az ASS / SSA feliratok megjelenítéséhez.",
     "HeaderSelectFallbackFontPath": "Válassza ki az alternatív betűtípusok mappa útvonalát",
     "UseDoubleRateDeinterlacingHelp": "Ez a beállítás a térválasztásnál használja a mezősebességet, amelyet gyakran bob deinterlacing-ként emlegetnek, ami megduplázza a videó képkockasebességét, hogy teljes mozgást biztosítson, mint amit a váltott sávú videók tévén nézése esetén látna.",
-    "PluginFromRepo": "{0} a tárból {1}",
+    "PluginFromRepo": "{0} verzió a {1} tárolóból",
     "OptionAllowContentDownloadHelp": "A felhasználók letölthetik az adathordozókat, és tárolhatják azokat eszközeiken. Ez nem azonos a szinkronizálási funkcióval. A könyvtári könyvtáraknak engedélyezniük kell a megfelelő működését.",
     "OptionAllowContentDownload": "Médialetöltések engedélyezése",
     "MediaInfoColorPrimaries": "Fő színek",
