@@ -91,8 +91,7 @@ export function getItemsForPlayback(apiClient, query) {
 
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
             return {
-                Items: [item],
-                TotalRecordCount: 1
+                Items: [item]
             };
         });
     } else {
