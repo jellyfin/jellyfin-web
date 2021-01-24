@@ -14,6 +14,7 @@ import alert from '../../components/alert';
         });
         page.querySelector('#chkDecodingColorDepth10Hevc').checked = config.EnableDecodingColorDepth10Hevc;
         page.querySelector('#chkDecodingColorDepth10Vp9').checked = config.EnableDecodingColorDepth10Vp9;
+        page.querySelector('#chkEnhancedNvdecDecoder').checked = config.EnableEnhancedNvdecDecoder;
         page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
         page.querySelector('#chkAllowHevcEncoding').checked = config.AllowHevcEncoding;
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
@@ -101,6 +102,7 @@ import alert from '../../components/alert';
                 });
                 config.EnableDecodingColorDepth10Hevc = form.querySelector('#chkDecodingColorDepth10Hevc').checked;
                 config.EnableDecodingColorDepth10Vp9 = form.querySelector('#chkDecodingColorDepth10Vp9').checked;
+                config.EnableEnhancedNvdecDecoder = form.querySelector('#chkEnhancedNvdecDecoder').checked;
                 config.EnableHardwareEncoding = form.querySelector('#chkHardwareEncoding').checked;
                 config.AllowHevcEncoding = form.querySelector('#chkAllowHevcEncoding').checked;
                 ApiClient.updateNamedConfiguration('encoding', config).then(function () {
@@ -179,6 +181,13 @@ import alert from '../../components/alert';
                 page.querySelector('.fldOpenclDevice').classList.add('hide');
                 page.querySelector('#txtOpenclDevice').removeAttribute('required');
                 page.querySelector('.tonemappingOptions').classList.add('hide');
+            }
+
+            if (this.value == 'nvenc')
+            {
+                page.querySelector('.fldEnhancedNvdec').classList.remove('hide');
+            } else {
+                page.querySelector('.fldEnhancedNvdec').classList.add('hide');
             }
 
             if (this.value) {
