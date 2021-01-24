@@ -2,6 +2,7 @@ import loading from '../../../../components/loading/loading';
 import libraryMenu from '../../../../scripts/libraryMenu';
 import dom from '../../../../scripts/dom';
 import globalize from '../../../../scripts/globalize';
+import * as cardBuilder from '../../../../components/cardbuilder/cardBuilder.js';
 import '../../../../components/cardbuilder/card.css';
 import '../../../../elements/emby-button/emby-button';
 import Dashboard, { pageIdOn } from '../../../../scripts/clientUtils';
@@ -59,15 +60,20 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += configPageUrl ? `<a class="cardContent cardImageContainer" is="emby-linkbutton" href="${configPageUrl}">` : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
-    html += '<span class="cardImageIcon';
-    if (plugin.HasImage) {
-        html += `"><img src="/Plugins/${plugin.Id}/${plugin.Version}/Image" style="width:100%;height:auto"/>`;
+    html += `<div class="cardContent ${cardBuilder.getDefaultBackgroundClass()}">`;
+    if (configPageUrl) {
+        html += `<a class="cardImageContainer" is="emby-linkbutton" href="${configPageUrl}">`;
     } else {
-        html += ' material-icons folder">';
+        html += '<div class="cardImageContainer noConfigPluginCard noHoverEffect emby-button">';
     }
-    html += '</span> ';
+
+    html += `<span class="cardImageIcon ${plugin.HasImage ? 'material-icons extension' : ''}">`;
+    if (plugin.HasImage) {
+        html += `<img src="/Plugins/${plugin.Id}/${plugin.Version}/Image" style="width:100%;height:auto" />`;
+    }
+    html += '</span>';
     html += configPageUrl ? '</a>' : '</div>';
+    html += '</div>';
     html += '</div>';
     html += '<div class="cardFooter">';
 
