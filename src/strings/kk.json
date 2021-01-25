@@ -1,5 +1,5 @@
 {
-    "Absolute": "Túpnusqalyq",
+    "Absolute": "Naqpa-naq",
     "AccessRestrictedTryAgainLater": "Aǵymda qatynaý shektelgen. Áreketti keıin qaıtalańyz.",
     "Actor": "Aktór",
     "Add": "Ústeý",
@@ -765,7 +765,7 @@
     "MediaInfoExternal": "Syrtqy",
     "MediaInfoForced": "Májbúrli",
     "MediaInfoFramerate": "Kadr jyld-ǵy",
-    "MediaInfoInterlaced": "Kezektesýlik",
+    "MediaInfoInterlaced": "Shatysqan",
     "MediaInfoLanguage": "Tili",
     "MediaInfoLayout": "Jaılastyrýy",
     "MediaInfoLevel": "Deńgeıi",
@@ -1039,7 +1039,7 @@
     "SendMessage": "Habar jiberý",
     "Series": "Telehıkaıa",
     "SeriesCancelled": "Telehıkaıa boldyrylmady.",
-    "SeriesDisplayOrderHelp": "Bólimderdi efır kúnimen, DVD retimen nemese túpnusqalyq nómirleýimen retteý.",
+    "SeriesDisplayOrderHelp": "Bólimderdi efır kúnimen, DVD retimen nemese naqpa-naq nómirleýmen retteý.",
     "SeriesRecordingScheduled": "Telehıkaıa jazýy josparlaǵan.",
     "SeriesSettings": "Telehıkaıa parametrleri",
     "SeriesYearToPresent": "{0} - Aǵymda",
@@ -1245,8 +1245,8 @@
     "PlaybackErrorNoCompatibleStream": "Bul klıent tasyǵysh derektermen úılesimsiz jáne server úılesimdi pishiminde tasyǵysh derekterin jibermedi.",
     "AllowFfmpegThrottlingHelp": "Qaıta kodtaý nemese remýksıń aǵymdyq oınatý jaıǵasymynan edáýir alǵa ozǵanda, qor kózderin azdaý tutynatyndaı etip údiristi kidirtedi. Bul jıi izdemeı qaraý kezinde paıdaly. Eger oınatý máseleleri bolsa, ony óshirińiz.",
     "Album": "Álbom",
-    "DeinterlaceMethodHelp": "",
-    "LabelDeinterlaceMethod": "Jol aralyq jaımany joıý ádisi:",
+    "DeinterlaceMethodHelp": "Baǵdarlamalyq jasaqtama shatysqan mazmundy qaita kodtaý kezіnde paıdalanylatyn shatyssyzdandyrý ádіsіn tańdańyz. Aparattyq jedeldetýdі qoldaıtyn aparattyq shatyssyzdandyrýdy qosylǵan kezde, osy parametrdіń ornyna aparattyq shatyssyzdandyrǵysh qoldanylady.",
+    "LabelDeinterlaceMethod": "Shatyssyzdandyrýdy ádisi:",
     "YadifBob": "YADIF eki eseleýimen",
     "OnApplicationStartup": "Qoldanba iske qosylǵanda",
     "EveryXHours": "Ár {0} saǵ",
@@ -1449,7 +1449,7 @@
     "LabelFallbackFontPath": "Orynbasýshy qarіp qaltasynyń joly:",
     "HeaderSelectFallbackFontPathHelp": "ASS/SSA sýbtıtrlerіn qalyptastyrý úshіn paıdalanylatyn orynbasýshy qarip qaltasyn sharlańyz nemese engіzіńіz.",
     "HeaderSelectFallbackFontPath": "Orynbasýshy qarіp qaltasynyń jolyn tańdaý",
-    "UseDoubleRateDeinterlacing": "Deınterleısıń kezіnde kadr jıіlіgіn ekі ese kóbeıý",
+    "UseDoubleRateDeinterlacing": "Shatyssyzdandyrýdy kezіnde kadr jıіlіgіn qosarlaý",
     "QuickConnectDeactivated": "Kіrý saýaly bekitilý múmkin bolmastaı, Quick connect ajyratyldy",
     "QuickConnectNotAvailable": "Quick Connect qosylýyn server ákіmshіsіnen surańyz",
     "QuickConnectNotActive": "Bul serverde Quick connect belsendі emes",
@@ -1497,5 +1497,6 @@
     "RemuxHelp1": "Tasyǵyshderekter syıysymdy emes faıldyq konteınerde (MKV, AVI, WMV jáne t.b.) tur, al beıne aǵyny da, dybys aǵyny da qurylǵymen syıysymdy. Tasyǵyshderekter qurylǵyǵa jіberіlmes buryn naqty ýaqytta derekteri joǵaltymynsyz qaita jınaqtalady.",
     "KnownProxiesHelp": "Jellyfin danasyna qosylý kezіnde paıdalanylatyn belgіlі proksılerdiń útіrmen bólіngen IP-mekenjaılar tіzіmі. Osy X-Forwarded-For ústingi derektemeler tıisti paıdalaný úshіn qajet. Saqtaýdan keıіn qaıta iske qosýdy qajet etedі.",
     "LabelMaxMuxingQueueSizeHelp": "Barlyq aǵyndardyń iske qosylǵanyn kútken kezde býferge jіberіletіn eń kóp desteler sany. Eger álі de ffmpeg jurnaldarynda \"Too many packets buffered for output stream\" (Shyǵarylym aǵyny úshіn tym kóp deste býferlengen) qatesi kezdesip tursa, ony artyp kórіńіz. Usynylǵan máni - 2048.",
-    "AllowTonemappingHelp": "Tonmapıń, keskіnnіń egjeılerі men tústerіn saqtaı otyryp, beınenіń HDR dınamıkalyq aýqymyn SDR aýqymyna túrlendire alady, bul túpnusqalyq sahnamen tanystyrý úshіn óte mańyzdy aqparat. Aǵymda, endirilgen HDR10 nemese HLG metaderekterі bar beınelerdі qaıta kodtaý kezіnde ǵana, jumys іsteıdі. Eger oınatý tegіs bolmasa nemese sátsіz aıaqtalsa, tıіstі aparattyq dekoderdі óshіrýin qarastyryńyz."
+    "AllowTonemappingHelp": "Tonmapıń, keskіnnіń egjeılerі men tústerіn saqtaı otyryp, beınenіń HDR dınamıkalyq aýqymyn SDR aýqymyna túrlendire alady, bul túpnusqalyq sahnamen tanystyrý úshіn óte mańyzdy aqparat. Aǵymda, endirilgen HDR10 nemese HLG metaderekterі bar beınelerdі qaıta kodtaý kezіnde ǵana, jumys іsteıdі. Eger oınatý tegіs bolmasa nemese sátsіz aıaqtalsa, tıіstі aparattyq dekoderdі óshіrýin qarastyryńyz.",
+    "UnsupportedPlayback": "Jellyfin, DRM arqyly qorǵalǵan mazmundyń shıfryn sheshe almaıdy, bіraq barlyq mazmunǵa, sonyń іshіnde qorǵalǵan shyǵarymdarǵa, buǵan qaramastan áreket jasalady. Keıbіr faıldar, shıfrlaý nemese basqa qoldaý kórsetіlmeıtіn múmkіndіkterge baılanysty, mysaly, áreketestik shyǵarymdarǵa, tolyq qara bolyp kórіnýі múmkіn."
 }
