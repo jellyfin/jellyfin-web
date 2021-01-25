@@ -622,7 +622,7 @@
     "AnyLanguage": "Qualsevol idioma",
     "AlwaysPlaySubtitlesHelp": "Es carregaran els subtítols que coincideixin amb la preferència d’idioma independentment del llenguatge d’àudio.",
     "AllowRemoteAccessHelp": "Si no es marca, totes les connexions remotes es bloquejaran.",
-    "AllowRemoteAccess": "Permet connexions remotes a aquest servidor de Jellyfin.",
+    "AllowRemoteAccess": "Permet connexions remotes a aquest servidor.",
     "AllowOnTheFlySubtitleExtraction": "Permet extreure subtítols sobre la marxa",
     "AllowMediaConversionHelp": "Concedir o denegar l’accés a la funció de mitjans de conversió.",
     "AllowMediaConversion": "Permetre la conversió de mitjans",
