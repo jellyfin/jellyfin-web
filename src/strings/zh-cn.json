@@ -1502,5 +1502,7 @@
     "LabelMaxAudiobookResume": "恢复播放有声读物的最长时间：",
     "MessagePlaybackError": "在您的 Google Cast 接收器上播放此文件时发生错误。",
     "MessageChromecastConnectionError": "您的 Google Cast 接收器无法联系 Jellyfin 服务器。请检查连接，然后重试。",
-    "EnableEnhancedNvdecDecoder": "启用增强的 NVDEC 解码器"
+    "EnableEnhancedNvdecDecoder": "启用增强的 NVDEC 解码器",
+    "EnableVppTonemapping": "启用 VPP 色调映射",
+    "AllowVppTonemappingHelp": "完全基于硬件的色调映射，不需要 OpenCL 滤镜。目前仅在转码内嵌 HDR10 元数据的视频时生效。"
 }

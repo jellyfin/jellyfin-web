@@ -27,6 +27,7 @@ import alert from '../../components/alert';
         page.querySelector('#chkEnableFallbackFont').checked = config.EnableFallbackFont;
         $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
         page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
+        page.querySelector('#chkVppTonemapping').checked = config.EnableVppTonemapping;
         page.querySelector('#txtOpenclDevice').value = config.OpenclDevice || '';
         page.querySelector('#selectTonemappingAlgorithm').value = config.TonemappingAlgorithm;
         page.querySelector('#selectTonemappingRange').value = config.TonemappingRange;
@@ -82,6 +83,7 @@ import alert from '../../components/alert';
                 config.VaapiDevice = $('#txtVaapiDevice', form).val();
                 config.OpenclDevice = form.querySelector('#txtOpenclDevice').value;
                 config.EnableTonemapping = form.querySelector('#chkTonemapping').checked;
+                config.EnableVppTonemapping = form.querySelector('#chkVppTonemapping').checked;
                 config.TonemappingAlgorithm = form.querySelector('#selectTonemappingAlgorithm').value;
                 config.TonemappingRange = form.querySelector('#selectTonemappingRange').value;
                 config.TonemappingDesat = form.querySelector('#txtTonemappingDesat').value;
@@ -183,11 +185,16 @@ import alert from '../../components/alert';
                 page.querySelector('.tonemappingOptions').classList.add('hide');
             }
 
-            if (this.value == 'nvenc')
-            {
+            if (this.value == 'nvenc') {
                 page.querySelector('.fldEnhancedNvdec').classList.remove('hide');
             } else {
                 page.querySelector('.fldEnhancedNvdec').classList.add('hide');
+            }
+
+            if (this.value == 'vaapi') {
+                page.querySelector('.fldVppTonemapping').classList.remove('hide');
+            } else {
+                page.querySelector('.fldVppTonemapping').classList.add('hide');
             }
 
             if (this.value) {
