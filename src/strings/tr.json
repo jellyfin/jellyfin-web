@@ -144,7 +144,7 @@
     "TabCatalog": "Katalog",
     "TabCodecs": "Codecler",
     "TabLatest": "En Son",
-    "TabMusic": "Muzik",
+    "TabMusic": "Müzik",
     "TabMyPlugins": "Eklentilerim",
     "TabNetworks": "Ağlar",
     "TabNotifications": "Bildirimler",
@@ -1113,5 +1113,9 @@
     "LabelEnableIP6": "IPv6'yı etkinleştirin:",
     "LabelEnableIP4Help": "IPv4 işlevselliğini etkinleştirir.",
     "LabelEnableIP4": "IPv4'ü etkinleştirin:",
-    "LabelDropSubtitleHere": "Altyazıyı buraya bırakın veya göz atmak için tıklayın."
+    "LabelDropSubtitleHere": "Altyazıyı buraya bırakın veya göz atmak için tıklayın.",
+    "MusicVideos": "Müzik Videoları",
+    "MusicVideo": "Müzik Videosu",
+    "MusicAlbum": "Müzik Albümü",
+    "LabelSelectFolderGroups": "Aşağıdaki klasörlerdeki içeriği otomatik olarak Filmler, Müzik ve TV gibi görünümlerde gruplandırın:"
 }
