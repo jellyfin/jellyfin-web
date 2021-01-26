@@ -4,7 +4,7 @@ import { pluginManager } from '../components/pluginManager';
 import inputManager from '../scripts/inputManager';
 import * as userSettings from '../scripts/settings/userSettings';
 import ServerConnections from '../components/ServerConnections';
-import './screensavermanager.css';
+import './screensavermanager.scss';
 
 function getMinIdleTime() {
     // Returns the minimum amount of idle time required before the screen saver can be displayed
