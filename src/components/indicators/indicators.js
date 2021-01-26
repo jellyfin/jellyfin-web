@@ -1,7 +1,7 @@
 import datetime from '../../scripts/datetime';
 import itemHelper from '../itemHelper';
 import '../../elements/emby-progressbar/emby-progressbar';
-import './indicators.css';
+import './indicators.scss';
 import 'material-design-icons-iconfont';
 
 export function enableProgressIndicator(item) {

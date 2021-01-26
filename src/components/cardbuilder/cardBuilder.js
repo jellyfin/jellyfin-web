@@ -17,9 +17,9 @@ import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
 import itemShortcuts from '../shortcuts';
 import imageHelper from '../../scripts/imagehelper';
-import './card.css';
+import './card.scss';
 import '../../elements/emby-button/paper-icon-button-light';
-import '../guide/programs.css';
+import '../guide/programs.scss';
 import ServerConnections from '../ServerConnections';
 
         const enableFocusTransform = !browser.slow && !browser.edge;

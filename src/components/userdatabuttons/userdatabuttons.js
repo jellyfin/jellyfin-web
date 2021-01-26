@@ -4,7 +4,7 @@ import itemHelper from '../itemHelper';
 import '../../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/emby-button';
-import './userdatabuttons.css';
+import './userdatabuttons.scss';
 import ServerConnections from '../ServerConnections';
 
 const userDataMethods = {

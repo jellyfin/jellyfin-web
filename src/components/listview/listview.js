@@ -12,7 +12,7 @@ import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import datetime from '../../scripts/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
-import './listview.css';
+import './listview.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-playstatebutton/emby-playstatebutton';
 import ServerConnections from '../ServerConnections';

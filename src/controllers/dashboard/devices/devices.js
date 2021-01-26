@@ -6,7 +6,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { localeWithSuffix } from '../../../scripts/dfnshelper';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../../components/cardbuilder/card.css';
+import '../../../components/cardbuilder/card.scss';
 import Dashboard from '../../../scripts/clientUtils';
 import confirm from '../../../components/confirm/confirm';
 

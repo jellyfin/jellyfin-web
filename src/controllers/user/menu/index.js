@@ -1,5 +1,5 @@
 import { appHost } from '../../../components/apphost';
-import '../../../components/listview/listview.css';
+import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
 import layoutManager from '../../../components/layoutManager';
 import Dashboard from '../../../scripts/clientUtils';

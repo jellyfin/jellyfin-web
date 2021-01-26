@@ -43,7 +43,7 @@ import confirm from '../../../components/confirm/confirm';
             $('.taskName', view).html(task.Name);
             $('#pTaskDescription', view).html(task.Description);
 
-            import('../../../components/listview/listview.css').then(() => {
+            import('../../../components/listview/listview.scss').then(() => {
                 ScheduledTaskPage.loadTaskTriggers(view, task);
             });
 

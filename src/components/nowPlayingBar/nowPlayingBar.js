@@ -13,7 +13,7 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import ServerConnections from '../ServerConnections';
 import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
-import './nowPlayingBar.css';
+import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
 import { appRouter } from '../appRouter';
 

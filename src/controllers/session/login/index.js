@@ -6,7 +6,7 @@ import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
 import browser from '../../../scripts/browser';
 import globalize from '../../../scripts/globalize';
-import '../../../components/cardbuilder/card.css';
+import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../scripts/clientUtils';
 import ServerConnections from '../../../components/ServerConnections';

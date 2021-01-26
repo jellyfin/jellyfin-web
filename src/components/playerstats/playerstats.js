@@ -5,7 +5,7 @@ import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import playMethodHelper from '../playback/playmethodhelper';
 import SyncPlay from '../../components/syncPlay/core';
-import './playerstats.css';
+import './playerstats.scss';
 import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */

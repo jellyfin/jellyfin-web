@@ -9,8 +9,8 @@ import template from './subtitleuploader.template.html';
 import toast from '../toast/toast';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
-import '../formdialog.css';
-import './style.css';
+import '../formdialog.scss';
+import './style.scss';
 
 let currentItemId;
 let currentServerId;

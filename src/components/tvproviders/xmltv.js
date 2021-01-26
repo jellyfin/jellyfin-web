@@ -3,7 +3,7 @@ import loading from '../loading/loading';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
-import '../listview/listview.css';
+import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import Dashboard from '../../scripts/clientUtils';
 import { Events } from 'jellyfin-apiclient';
