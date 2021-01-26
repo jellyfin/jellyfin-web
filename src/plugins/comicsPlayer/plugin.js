@@ -9,6 +9,8 @@ import ServerConnections from '../../components/ServerConnections';
 import { Swiper } from 'swiper/swiper-bundle.esm';
 import 'swiper/swiper-bundle.css';
 
+import './style.scss';
+
 export class ComicsPlayer {
     constructor() {
         this.name = 'Comics Player';
