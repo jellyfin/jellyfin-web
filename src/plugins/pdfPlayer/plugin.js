@@ -4,7 +4,7 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import { appRouter } from '../../components/appRouter';
-import './style.css';
+import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import { Events } from 'jellyfin-apiclient';
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';

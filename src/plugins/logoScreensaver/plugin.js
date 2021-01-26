@@ -126,7 +126,7 @@ export default function () {
     }
 
     self.show = function () {
-        import('./style.css').then(() => {
+        import('./style.scss').then(() => {
             let elem = document.querySelector('.logoScreenSaver');
 
             if (!elem) {

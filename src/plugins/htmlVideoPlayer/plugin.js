@@ -1319,7 +1319,7 @@ function tryRemoveElement(elem) {
             const dlg = document.querySelector('.videoPlayerContainer');
 
                 if (!dlg) {
-                    return import('./style.css').then(() => {
+                    return import('./style.scss').then(() => {
                         loading.show();
 
                         const dlg = document.createElement('div');
