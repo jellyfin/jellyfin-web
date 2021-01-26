@@ -3,7 +3,7 @@ import dom from '../../scripts/dom';
 import scroller from '../../libraries/scroller';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
-import './emby-tabs.css';
+import './emby-tabs.scss';
 import '../../assets/css/scrollstyles.scss';
 
 /* eslint-disable indent */

@@ -5,7 +5,7 @@ import inputManager from '../../scripts/inputManager';
 import focusManager from '../../components/focusManager';
 import browser from '../../scripts/browser';
 import 'webcomponents.js/webcomponents-lite';
-import './emby-scroller.css';
+import './emby-scroller.scss';
 
 /* eslint-disable indent */
 

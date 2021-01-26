@@ -1,4 +1,4 @@
-import './emby-toggle.css';
+import './emby-toggle.scss';
 import 'webcomponents.js/webcomponents-lite';
 
 /* eslint-disable indent */

@@ -4,7 +4,7 @@ import layoutManager from '../../components/layoutManager';
 import shell from '../../scripts/shell';
 import { appRouter } from '../../components/appRouter';
 import { appHost } from '../../components/apphost';
-import './emby-button.css';
+import './emby-button.scss';
 
 const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
 const EmbyLinkButtonPrototype = Object.create(HTMLAnchorElement.prototype);
