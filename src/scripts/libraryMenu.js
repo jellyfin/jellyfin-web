@@ -464,6 +464,7 @@ import Headroom from 'headroom.js';
             pageIds: ['liveTvSettingsPage'],
             icon: 'dvr'
         });
+        addPluginPagesToMainMenu(links, pluginItems, 'livetv');
         links.push({
             divider: true,
             name: globalize.translate('TabAdvanced')
@@ -504,14 +505,27 @@ import Headroom from 'headroom.js';
             pageIds: ['scheduledTasksPage', 'scheduledTaskPage'],
             icon: 'schedule'
         });
-        addPluginPagesToMainMenu(links, pluginItems);
+        if (hasUnsortedPlugins(pluginItems)) {
+            links.push({
+                divider: true,
+                name: globalize.translate('TabPlugins')
+            });
+            addPluginPagesToMainMenu(links, pluginItems);
+        }
         return links;
     }
 
-    function addPluginPagesToMainMenu(links, pluginItems, section) {
-        for (let i = 0, length = pluginItems.length; i < length; i++) {
-            const pluginItem = pluginItems[i];
+    function hasUnsortedPlugins(pluginItems) {
+        for (const pluginItem of pluginItems) {
+            if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === undefined) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    function addPluginPagesToMainMenu(links, pluginItems, section) {
+        for (const pluginItem of pluginItems) {
             if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
                 links.push({
                     name: pluginItem.DisplayName,
