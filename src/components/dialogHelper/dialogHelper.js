@@ -5,7 +5,7 @@ import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
 import dom from '../../scripts/dom';
 import './dialoghelper.css';
-import '../../assets/css/scrollstyles.css';
+import '../../assets/css/scrollstyles.scss';
 
 /* eslint-disable indent */
 

@@ -16,7 +16,7 @@ import dom from '../../scripts/dom';
 import './guide.css';
 import './programs.css';
 import 'material-design-icons-iconfont';
-import '../../assets/css/scrollstyles.css';
+import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-programcell/emby-programcell';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';

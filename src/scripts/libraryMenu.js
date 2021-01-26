@@ -13,7 +13,7 @@ import globalize from './globalize';
 import imageHelper from './imagehelper';
 import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
-import '../assets/css/scrollstyles.css';
+import '../assets/css/scrollstyles.scss';
 import '../assets/css/flexstyles.scss';
 import Dashboard, { pageClassOn } from './clientUtils';
 import ServerConnections from '../components/ServerConnections';

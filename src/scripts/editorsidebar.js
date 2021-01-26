@@ -307,7 +307,7 @@ import Dashboard from './clientUtils';
         updateEditorNode(this, item);
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
         /* eslint-disable-next-line  @babel/no-unused-expressions */
-        import('../assets/css/metadataeditor.css');
+        import('../assets/css/metadataeditor.scss');
     }).on('pagebeforeshow', '.metadataEditorPage', function () {
         const page = this;
         Dashboard.getCurrentUser().then(function (user) {
