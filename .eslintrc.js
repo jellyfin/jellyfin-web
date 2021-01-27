@@ -99,8 +99,6 @@ module.exports = {
                 'Windows': 'readonly'
             },
             rules: {
-                // TODO: Fix warnings and remove these rules
-                'no-useless-escape': ['warn']
             },
             settings: {
                 polyfills: [
