@@ -91,7 +91,7 @@ function save(page) {
         }).map(function (c) {
             return c.getAttribute('data-itemid');
         });
-        ApiClient.updateNamedConfiguration(notificationsConfigurationKey, notificationOptions).then(function (r) {
+        ApiClient.updateNamedConfiguration(notificationsConfigurationKey, notificationOptions).then(function () {
             Dashboard.processServerConfigurationUpdateResult();
             Dashboard.navigate('notificationsettings.html');
         });

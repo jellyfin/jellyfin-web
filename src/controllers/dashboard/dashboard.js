@@ -218,7 +218,7 @@ import confirm from '../../components/confirm/confirm';
         });
     }
 
-    function renderInfo(view, sessions, forceUpdate) {
+    function renderInfo(view, sessions) {
         sessions = filterSessions(sessions);
         renderActiveConnections(view, sessions);
         loading.hide();
@@ -730,7 +730,7 @@ import confirm from '../../components/confirm/confirm';
             });
         }
     };
-    export default function (view, params) {
+    export default function (view) {
         function onRestartRequired(evt, apiClient) {
             console.debug('onRestartRequired not implemented', evt, apiClient);
         }

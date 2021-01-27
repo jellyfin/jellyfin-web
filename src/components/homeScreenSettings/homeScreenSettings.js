@@ -219,7 +219,7 @@ import template from './homeScreenSettings.template.html';
         context.querySelector('.selectTVHomeScreen').value = userSettings.get('tvhome') || '';
     }
 
-    function getPerLibrarySettingsHtml(item, user, userSettings, apiClient) {
+    function getPerLibrarySettingsHtml(item, user, userSettings) {
         let html = '';
 
         let isChecked;

@@ -82,7 +82,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         });
     }
 
-    function getUserHtml(user, addConnectIndicator) {
+    function getUserHtml(user) {
         let html = '';
         let cssClass = 'card squareCard scalableCard squareCard-scalable';
 

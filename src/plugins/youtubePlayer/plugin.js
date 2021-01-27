@@ -24,7 +24,7 @@ function zoomIn(elem, iterations) {
 }
 
 function createMediaElement(instance, options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         const dlg = document.querySelector('.youtubePlayerContainer');
 
         if (!dlg) {
@@ -111,7 +111,7 @@ function onPlayerReady(event) {
     event.target.playVideo();
 }
 
-function onTimeUpdate(e) {
+function onTimeUpdate() {
     Events.trigger(this, 'timeupdate');
 }
 
@@ -242,7 +242,7 @@ class YoutubePlayer {
 
         return mediaType === 'audio' || mediaType === 'video';
     }
-    canPlayItem(item) {
+    canPlayItem() {
         // Does not play server items
         return false;
     }
@@ -255,12 +255,12 @@ class YoutubePlayer {
     currentSrc() {
         return this._currentSrc;
     }
-    setSubtitleStreamIndex(index) {
+    setSubtitleStreamIndex() {
     }
     canSetAudioStreamIndex() {
         return false;
     }
-    setAudioStreamIndex(index) {
+    setAudioStreamIndex() {
     }
     // Save this for when playback stops, because querying the time at that point might return 0
     currentTime(val) {
@@ -275,7 +275,7 @@ class YoutubePlayer {
             return currentYoutubePlayer.getCurrentTime() * 1000;
         }
     }
-    duration(val) {
+    duration() {
         const currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {

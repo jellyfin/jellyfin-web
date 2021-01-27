@@ -163,10 +163,6 @@ import ServerConnections from '../ServerConnections';
         return html;
     }
 
-    function getId(item) {
-        return item.Id;
-    }
-
     export function getListViewHtml(options) {
         const items = options.items;
 
@@ -183,7 +179,6 @@ import ServerConnections from '../ServerConnections';
         let outerHtml = '';
 
         const enableContentWrapper = options.enableOverview && !layoutManager.tv;
-        const containerAlbumArtistIds = (options.containerAlbumArtists || []).map(getId);
 
         for (let i = 0, length = items.length; i < length; i++) {
             const item = items[i];

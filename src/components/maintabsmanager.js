@@ -47,7 +47,7 @@ import '../elements/emby-button/emby-button';
         return true;
     }
 
-    function configureSwipeTabs(view, tabsElem, getTabContainersFn) {
+    function configureSwipeTabs(view, tabsElem) {
         if (!browser.touch) {
             return;
         }

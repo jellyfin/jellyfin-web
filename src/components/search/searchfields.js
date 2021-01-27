@@ -61,7 +61,7 @@ import template from './searchfields.template.html';
         triggerSearch(searchFieldsInstance, value);
     }
 
-    function embed(elem, instance, options) {
+    function embed(elem, instance) {
         let html = globalize.translateHtml(template, 'core');
 
         if (browser.tizen || browser.orsay) {

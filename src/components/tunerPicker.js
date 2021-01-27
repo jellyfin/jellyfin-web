@@ -106,7 +106,7 @@ function renderDevices(view, devices) {
     }
 }
 
-function discoverDevices(view, apiClient) {
+function discoverDevices(view) {
     loading.show();
     view.querySelector('.loadingContent').classList.remove('hide');
     return ApiClient.getJSON(ApiClient.getUrl('LiveTv/Tuners/Discvover', {

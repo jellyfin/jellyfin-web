@@ -104,7 +104,7 @@ export default function (view, params, tabContent) {
         });
     }
 
-    function reloadItems(context, save) {
+    function reloadItems(context) {
         loading.show();
         isLoading = true;
         const query = getQuery();

@@ -91,7 +91,7 @@ import toast from '../../../components/toast/toast';
         loading.hide();
     }
 
-    function onSaveComplete(page) {
+    function onSaveComplete() {
         loading.hide();
         toast(globalize.translate('SettingsSaved'));
     }

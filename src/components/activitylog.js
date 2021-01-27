@@ -54,7 +54,7 @@ import alert from './alert';
         return html;
     }
 
-    function renderList(elem, apiClient, result, startIndex, limit) {
+    function renderList(elem, apiClient, result) {
         elem.innerHTML = result.Items.map(function (i) {
             return getEntryHtml(i, apiClient);
         }).join('');
@@ -101,7 +101,7 @@ import alert from './alert';
         });
     }
 
-    function onActivityLogUpdate(e, apiClient, data) {
+    function onActivityLogUpdate(e, apiClient) {
         const options = this.options;
 
         if (options && options.serverId === apiClient.serverId()) {

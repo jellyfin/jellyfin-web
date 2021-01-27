@@ -189,7 +189,7 @@ export class PdfPlayer {
         const serverId = item.ServerId;
         const apiClient = ServerConnections.getApiClient(serverId);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const downloadHref = apiClient.getItemDownloadUrl(item.Id);
 
             this.bindEvents();

@@ -37,7 +37,7 @@ import alert from '../../components/alert';
         return false;
     }
 
-    function showConfirmMessage(config) {
+    function showConfirmMessage() {
         const msg = [];
         msg.push(globalize.translate('MetadataSettingChangeHelp'));
         alert({

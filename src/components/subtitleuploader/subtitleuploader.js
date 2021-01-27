@@ -108,7 +108,7 @@ function initEditor(page) {
     });
 }
 
-function showEditor(options, resolve, reject) {
+function showEditor(options, resolve) {
     options = options || {};
     currentItemId = options.itemId;
     currentServerId = options.serverId;

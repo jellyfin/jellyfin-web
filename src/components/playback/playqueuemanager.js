@@ -114,7 +114,7 @@ class PlayQueueManager {
         return this._currentPlaylistItemId;
     }
 
-    setPlaylistState(playlistItemId, playlistIndex) {
+    setPlaylistState(playlistItemId) {
         this._currentPlaylistItemId = playlistItemId;
     }
 

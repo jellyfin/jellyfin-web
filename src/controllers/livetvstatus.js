@@ -246,7 +246,7 @@ function addProvider(button) {
     });
 }
 
-function addDevice(button) {
+function addDevice() {
     Dashboard.navigate('livetvtuner.html');
 }
 

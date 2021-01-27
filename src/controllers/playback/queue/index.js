@@ -2,17 +2,17 @@ import remotecontrolFactory from '../../../components/remotecontrol/remotecontro
 import libraryMenu from '../../../scripts/libraryMenu';
 import '../../../elements/emby-button/emby-button';
 
-export default function (view, params) {
+export default function (view) {
     const remoteControl = new remotecontrolFactory();
     remoteControl.init(view, view.querySelector('.remoteControlContent'));
-    view.addEventListener('viewshow', function (e) {
+    view.addEventListener('viewshow', function () {
         libraryMenu.setTransparentMenu(true);
 
         if (remoteControl) {
             remoteControl.onShow();
         }
     });
-    view.addEventListener('viewbeforehide', function (e) {
+    view.addEventListener('viewbeforehide', function () {
         libraryMenu.setTransparentMenu(false);
 
         if (remoteControl) {

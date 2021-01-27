@@ -185,7 +185,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             });
         };
 
-        const updateFilterControls = (tabContent) => {
+        const updateFilterControls = () => {
             const query = getQuery();
 
             if (this.alphaPicker) {

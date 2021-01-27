@@ -6,7 +6,7 @@ import '../../assets/css/flexstyles.scss';
 
 /* eslint-disable indent */
 
-    export default function(view, params) {
+    export default function(view) {
         view.addEventListener('viewbeforeshow', function() {
             loading.show();
             const apiClient = ApiClient;

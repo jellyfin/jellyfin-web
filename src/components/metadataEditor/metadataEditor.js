@@ -31,7 +31,7 @@ import template from './metadataEditor.template.html';
         return currentContext.classList.contains('dialog');
     }
 
-    function closeDialog(isSubmitted) {
+    function closeDialog() {
         if (isDialog()) {
             dialogHelper.close(currentContext);
         }
@@ -298,7 +298,7 @@ import template from './metadataEditor.template.html';
         }
     }
 
-    function init(context, apiClient) {
+    function init(context) {
         context.querySelector('.externalIds').addEventListener('click', function (e) {
             const btnOpenExternalId = dom.parentWithClass(e.target, 'btnOpenExternalId');
             if (btnOpenExternalId) {
@@ -328,7 +328,7 @@ import template from './metadataEditor.template.html';
             });
         });
 
-        context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
+        context.querySelector('.btnHeaderSave').addEventListener('click', function () {
             context.querySelector('.btnSave').click();
         });
 
@@ -347,7 +347,7 @@ import template from './metadataEditor.template.html';
         form.removeEventListener('submit', onSubmit);
         form.addEventListener('submit', onSubmit);
 
-        context.querySelector('#btnAddPerson').addEventListener('click', function (event, data) {
+        context.querySelector('#btnAddPerson').addEventListener('click', function () {
             editPerson(context, {}, -1);
         });
 
@@ -1026,7 +1026,7 @@ import template from './metadataEditor.template.html';
         });
     }
 
-    function show(itemId, serverId, resolve, reject) {
+    function show(itemId, serverId, resolve) {
         loading.show();
 
         const dialogOptions = {
@@ -1079,7 +1079,7 @@ import template from './metadataEditor.template.html';
         },
 
         embed: function (elem, itemId, serverId) {
-            return new Promise(function (resolve, reject) {
+            return new Promise(function () {
                 loading.show();
 
                 elem.innerHTML = globalize.translateHtml(template, 'core');

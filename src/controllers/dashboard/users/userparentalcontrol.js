@@ -161,7 +161,7 @@ import toast from '../../../components/toast/toast';
         });
     }
 
-    function onSaveComplete(page) {
+    function onSaveComplete() {
         loading.hide();
         toast(globalize.translate('SettingsSaved'));
     }

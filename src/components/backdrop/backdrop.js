@@ -7,7 +7,7 @@ import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
-    function enableAnimation(elem) {
+    function enableAnimation() {
         if (browser.slow) {
             return false;
         }

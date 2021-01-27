@@ -49,7 +49,7 @@ import ServerConnections from '../../../components/ServerConnections';
         });
     }
 
-    export default function(view, params) {
+    export default function(view) {
         view.querySelector('.addServerForm').addEventListener('submit', onServerSubmit);
         view.querySelector('.btnCancel').addEventListener('click', goBack);
 

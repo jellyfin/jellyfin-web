@@ -54,7 +54,7 @@ function onFileReaderError(evt) {
     }
 }
 
-function onFileReaderAbort(evt) {
+function onFileReaderAbort() {
     loading.hide();
     toast(globalize.translate('FileReadCancelled'));
 }
@@ -95,7 +95,7 @@ export default function (view, params) {
             });
         });
     });
-    view.querySelector('#btnAddImage').addEventListener('click', function (evt) {
+    view.querySelector('#btnAddImage').addEventListener('click', function () {
         view.querySelector('#uploadImage').click();
     });
     view.querySelector('#uploadImage').addEventListener('change', function (evt) {

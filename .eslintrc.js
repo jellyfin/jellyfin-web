@@ -101,8 +101,7 @@ module.exports = {
             rules: {
                 // TODO: Fix warnings and remove these rules
                 'no-redeclare': ['warn'],
-                'no-useless-escape': ['warn'],
-                'no-unused-vars': ['warn']
+                'no-useless-escape': ['warn']
             },
             settings: {
                 polyfills: [

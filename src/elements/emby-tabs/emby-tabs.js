@@ -15,7 +15,7 @@ import '../../assets/css/scrollstyles.scss';
         newButton.classList.add(activeButtonClass);
     }
 
-    function getTabPanel(tabs, index) {
+    function getTabPanel() {
         return null;
     }
 
@@ -291,13 +291,13 @@ import '../../assets/css/scrollstyles.scss';
         }
     };
 
-    EmbyTabs.triggerBeforeTabChange = function (selected) {
+    EmbyTabs.triggerBeforeTabChange = function () {
         const tabs = this;
 
         triggerBeforeTabChange(tabs, tabs.selectedIndex());
     };
 
-    EmbyTabs.triggerTabChange = function (selected) {
+    EmbyTabs.triggerTabChange = function () {
         const tabs = this;
 
         tabs.dispatchEvent(new CustomEvent('tabchange', {

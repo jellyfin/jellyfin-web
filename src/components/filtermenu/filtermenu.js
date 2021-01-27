@@ -210,7 +210,7 @@ function loadDynamicFilters(context, options) {
 }
 class FilterMenu {
     show(options) {
-        return new Promise( (resolve, reject) => {
+        return new Promise( (resolve) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false

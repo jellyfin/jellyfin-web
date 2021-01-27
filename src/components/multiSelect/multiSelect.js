@@ -84,7 +84,7 @@ import confirm from '../confirm/confirm';
         }
     }
 
-    function onSelectionChange(e) {
+    function onSelectionChange() {
         updateItemSelection(this, this.checked);
     }
 
@@ -459,7 +459,7 @@ import confirm from '../confirm/confirm';
             touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
         }
 
-        function onMouseOut(e) {
+        function onMouseOut() {
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;
