@@ -416,7 +416,7 @@
     "LabelMovieCategories": "Filmske kategorije:",
     "LabelMovieRecordingPath": "Putanja za snimanje filmova (neobavezno):",
     "LabelMusicStreamingTranscodingBitrate": "Brzina prijenosa konvertiranja glazbe:",
-    "LabelMusicStreamingTranscodingBitrateHelp": "Odredite maksimalnu brzinu prijenosa pri strujanju glazbe",
+    "LabelMusicStreamingTranscodingBitrateHelp": "Odredite maksimalnu brzinu prijenosa pri strujanju glazbe.",
     "LabelName": "Ime:",
     "LabelNewName": "Novo ime:",
     "LabelNewPassword": "Nova lozinka:",
