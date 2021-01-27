@@ -224,11 +224,11 @@ import confirm from '../../components/confirm/confirm';
         loading.hide();
     }
 
-    function pollForInfo(view, apiClient, forceUpdate) {
+    function pollForInfo(view, apiClient) {
         apiClient.getSessions({
             ActiveWithinSeconds: 960
         }).then(function (sessions) {
-            renderInfo(view, sessions, forceUpdate);
+            renderInfo(view, sessions);
         });
         apiClient.getScheduledTasks().then(function (tasks) {
             renderRunningTasks(view, tasks);
@@ -745,14 +745,14 @@ import confirm from '../../components/confirm/confirm';
 
         function onPackageInstalling(evt, apiClient) {
             if (apiClient.serverId() === serverId) {
-                pollForInfo(view, apiClient, true);
+                pollForInfo(view, apiClient);
                 reloadSystemInfo(view, apiClient);
             }
         }
 
         function onPackageInstallationCompleted(evt, apiClient) {
             if (apiClient.serverId() === serverId) {
-                pollForInfo(view, apiClient, true);
+                pollForInfo(view, apiClient);
                 reloadSystemInfo(view, apiClient);
             }
         }

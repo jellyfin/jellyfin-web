@@ -77,7 +77,7 @@ function showNotification(options, timeoutMs, apiClient) {
     resetRegistration();
 
     if (serviceWorkerRegistration) {
-        showPersistentNotification(title, options, timeoutMs);
+        showPersistentNotification(title, options);
         return;
     }
 

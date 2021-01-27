@@ -727,12 +727,12 @@ export default function () {
         });
         context.querySelector('.btnAudioTracks').addEventListener('click', function (e) {
             if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
-                showAudioMenu(context, currentPlayer, e.target, lastPlayerState.NowPlayingItem);
+                showAudioMenu(context, currentPlayer, e.target);
             }
         });
         context.querySelector('.btnSubtitles').addEventListener('click', function (e) {
             if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
-                showSubtitleMenu(context, currentPlayer, e.target, lastPlayerState.NowPlayingItem);
+                showSubtitleMenu(context, currentPlayer, e.target);
             }
         });
         context.querySelector('.btnStop').addEventListener('click', function () {
@@ -946,7 +946,7 @@ export default function () {
     };
 
     self.onShow = function () {
-        onShow(dlg, window.location.hash);
+        onShow(dlg);
     };
 
     self.destroy = function () {

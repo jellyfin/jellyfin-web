@@ -101,7 +101,7 @@ function processUpdatedSessions(instance, sessions, apiClient) {
     if (session) {
         normalizeImages(session, apiClient);
 
-        const eventNames = getChangedEvents(instance.lastPlayerData, session);
+        const eventNames = getChangedEvents(instance.lastPlayerData);
         instance.lastPlayerData = session;
 
         for (let i = 0, length = eventNames.length; i < length; i++) {

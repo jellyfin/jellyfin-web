@@ -146,7 +146,7 @@ import toast from '../../../components/toast/toast';
         }
         ApiClient.updateUser(user).then(function () {
             ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                onSaveComplete(page, user);
+                onSaveComplete();
             });
         });
     }

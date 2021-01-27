@@ -161,9 +161,9 @@ function showEditor(options, resolve) {
 }
 
 export function show(options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         hasChanges = false;
-        showEditor(options, resolve, reject);
+        showEditor(options, resolve);
     });
 }
 

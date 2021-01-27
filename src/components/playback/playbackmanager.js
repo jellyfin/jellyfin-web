@@ -2048,7 +2048,7 @@ class PlaybackManager {
             return player.play(options);
         }
 
-        function playWithIntros(items, options, user) {
+        function playWithIntros(items, options) {
             let playStartIndex = options.startIndex || 0;
             let firstItem = items[playStartIndex];
 
@@ -2065,7 +2065,7 @@ class PlaybackManager {
             }
 
             if (firstItem.MediaType === 'Photo' || firstItem.MediaType === 'Book') {
-                return playOther(items, options, user);
+                return playOther(items, options);
             }
 
             const apiClient = ServerConnections.getApiClient(firstItem.ServerId);

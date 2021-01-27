@@ -163,8 +163,7 @@ function tunerPicker() {
             scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
         }
 
-        const apiClient = ServerConnections.getApiClient(options.serverId);
-        discoverDevices(dlg, apiClient);
+        discoverDevices(dlg);
 
         if (layoutManager.tv) {
             scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);

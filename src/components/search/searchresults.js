@@ -603,7 +603,7 @@ import template from './searchresults.template.html';
 class SearchResults {
     constructor(options) {
         this.options = options;
-        embed(options.element, this, options);
+        embed(options.element, this);
     }
     search(value) {
         const apiClient = ServerConnections.getApiClient(this.options.serverId);

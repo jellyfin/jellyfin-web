@@ -440,13 +440,13 @@ import confirm from '../confirm/confirm';
                     deltaY = 100;
                 }
                 if (deltaX >= 5 || deltaY >= 5) {
-                    onMouseOut(e);
+                    onMouseOut();
                 }
             }
         }
 
-        function onTouchEnd(e) {
-            onMouseOut(e);
+        function onTouchEnd() {
+            onMouseOut();
         }
 
         function onMouseDown(e) {

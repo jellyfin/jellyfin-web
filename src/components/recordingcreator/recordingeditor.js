@@ -79,7 +79,7 @@ function reload(context, id) {
 
     const apiClient = ServerConnections.getApiClient(currentServerId);
     apiClient.getLiveTvTimer(id).then(function (result) {
-        renderTimer(context, result, apiClient);
+        renderTimer(context, result);
         loading.hide();
     });
 }

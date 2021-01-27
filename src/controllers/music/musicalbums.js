@@ -112,7 +112,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 }
 
                 window.scrollTo(0, 0);
-                updateFilterControls(page);
+                updateFilterControls();
                 let html;
                 const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
@@ -304,7 +304,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
         this.renderTab = function () {
             reloadItems(tabContent);
-            updateFilterControls(tabContent);
+            updateFilterControls();
         };
 
         this.destroy = function () {};

@@ -89,7 +89,7 @@ import template from './searchfields.template.html';
 class SearchFields {
     constructor(options) {
         this.options = options;
-        embed(options.element, this, options);
+        embed(options.element, this);
     }
     focus() {
         this.options.element.querySelector('.searchfields-txtSearch').focus();

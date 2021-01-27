@@ -42,7 +42,7 @@ import template from './metadataEditor.template.html';
             toast(globalize.translate('MessageItemSaved'));
 
             loading.hide();
-            closeDialog(true);
+            closeDialog();
         }
 
         const apiClient = getApiClient();
@@ -319,7 +319,7 @@ import template from './metadataEditor.template.html';
 
         bindAll(context.querySelectorAll('.btnCancel'), 'click', function (event) {
             event.preventDefault();
-            closeDialog(false);
+            closeDialog();
         });
 
         context.querySelector('.btnMore').addEventListener('click', function (e) {
@@ -1066,15 +1066,15 @@ import template from './metadataEditor.template.html';
 
         currentContext = dlg;
 
-        init(dlg, ServerConnections.getApiClient(serverId));
+        init(dlg);
 
         reload(dlg, itemId, serverId);
     }
 
     export default {
         show: function (itemId, serverId) {
-            return new Promise(function (resolve, reject) {
-                return show(itemId, serverId, resolve, reject);
+            return new Promise(function (resolve) {
+                return show(itemId, serverId, resolve);
             });
         },
 
@@ -1091,7 +1091,7 @@ import template from './metadataEditor.template.html';
 
                 currentContext = elem;
 
-                init(elem, ServerConnections.getApiClient(serverId));
+                init(elem);
                 reload(elem, itemId, serverId);
 
                 focusManager.autoFocus(elem);

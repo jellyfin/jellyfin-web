@@ -222,7 +222,7 @@ import Dashboard from '../../scripts/clientUtils';
         const userId = ApiClient.getCurrentUserId();
         loadResume(tabContent, userId, parentId);
         loadLatest(tabContent, userId, parentId);
-        loadSuggestions(tabContent, userId, parentId);
+        loadSuggestions(tabContent, userId);
     }
 
     function getTabs() {

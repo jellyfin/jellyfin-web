@@ -140,17 +140,17 @@ import ServerConnections from '../ServerConnections';
         if (section === 'latestmedia') {
             loadRecentlyAdded(elem, apiClient, user, userViews);
         } else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
-            loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews, allSections);
+            loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews);
         } else if (section === 'librarybuttons') {
             loadlibraryButtons(elem, apiClient, user, userSettings, userViews);
         } else if (section === 'resume') {
-            loadResumeVideo(elem, apiClient, userId);
+            loadResumeVideo(elem, apiClient);
         } else if (section === 'resumeaudio') {
-            loadResumeAudio(elem, apiClient, userId);
+            loadResumeAudio(elem, apiClient);
         } else if (section === 'activerecordings') {
-            loadLatestLiveTvRecordings(elem, true, apiClient, userId);
+            loadLatestLiveTvRecordings(elem, true, apiClient);
         } else if (section === 'nextup') {
-            loadNextUp(elem, apiClient, userId);
+            loadNextUp(elem, apiClient);
         } else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
         } else {

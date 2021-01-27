@@ -55,7 +55,7 @@ function fetchData(instance) {
         instance.TimerId = program.TimerId;
         instance.Status = program.Status;
         instance.SeriesTimerId = program.SeriesTimerId;
-        loadData(options.parent, program, apiClient);
+        loadData(options.parent, program);
     });
 }
 

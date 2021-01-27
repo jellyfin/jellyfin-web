@@ -296,7 +296,7 @@ function onDevicesListClick(e) {
 $(document).on('pageinit', '#liveTvStatusPage', function () {
     const page = this;
     $('.btnAddDevice', page).on('click', function () {
-        addDevice(this);
+        addDevice();
     });
     $('.formAddDevice', page).on('submit', function () {
         submitAddDeviceForm(page);

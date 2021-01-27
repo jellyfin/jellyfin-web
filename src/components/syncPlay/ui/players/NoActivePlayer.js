@@ -176,7 +176,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         if (typeof commandHandler === 'function') {
             commandHandler(command, player);
         } else {
-            defaultAction(command, player);
+            defaultAction(command);
         }
     }
 

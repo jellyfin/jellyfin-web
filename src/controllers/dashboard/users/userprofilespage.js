@@ -146,14 +146,14 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         return '';
     }
 
-    function getUserSectionHtml(users, addConnectIndicator) {
+    function getUserSectionHtml(users) {
         return users.map(function (u__q) {
-            return getUserHtml(u__q, addConnectIndicator);
+            return getUserHtml(u__q);
         }).join('');
     }
 
     function renderUsers(page, users) {
-        page.querySelector('.localUsers').innerHTML = getUserSectionHtml(users, true);
+        page.querySelector('.localUsers').innerHTML = getUserSectionHtml(users);
     }
 
     function loadData(page) {

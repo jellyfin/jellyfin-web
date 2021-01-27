@@ -142,7 +142,7 @@ import '../elements/emby-button/emby-button';
 
             tabsElem = tabsContainerElem.querySelector('[is="emby-tabs"]');
 
-            configureSwipeTabs(view, tabsElem, getTabContainersFn);
+            configureSwipeTabs(view, tabsElem);
 
             tabsElem.addEventListener('beforetabchange', function (e) {
                 const tabContainers = getTabContainersFn();

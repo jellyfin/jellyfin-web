@@ -426,7 +426,7 @@ import { appRouter } from '../../../components/appRouter';
             if (state.NowPlayingItem) {
                 isEnabled = true;
                 updatePlayerStateInternal(event, player, state);
-                updatePlaylist(player);
+                updatePlaylist();
                 enableStopOnBack(true);
             }
         }

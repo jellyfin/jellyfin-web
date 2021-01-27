@@ -97,7 +97,7 @@ import alert from './alert';
             }
 
             instance.items = result.Items;
-            renderList(elem, apiClient, result, startIndex, limit);
+            renderList(elem, apiClient, result);
         });
     }
 
