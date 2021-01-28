@@ -133,8 +133,6 @@ import ServerConnections from '../ServerConnections';
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
         const section = allSections[index];
-        const userId = user.Id;
-
         const elem = page.querySelector('.section' + index);
 
         if (section === 'latestmedia') {

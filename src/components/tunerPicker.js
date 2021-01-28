@@ -11,7 +11,6 @@ import './formdialog.scss';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import './cardbuilder/card.scss';
-import ServerConnections from './ServerConnections';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -120,7 +119,7 @@ function discoverDevices(view) {
 }
 
 function tunerPicker() {
-    this.show = function (options) {
+    this.show = function () {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
