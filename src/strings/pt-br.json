@@ -134,7 +134,7 @@
     "DetectingDevices": "Detectando dispositivos",
     "DeviceAccessHelp": "Isto apenas aplica para dispositivos que podem ser identificados como únicos e não evitarão o acesso do navegador. Filtrar o acesso ao dispositivo do usuário evitará que sejam usados novos dispositivos até que sejam aprovados aqui.",
     "DirectPlaying": "Reprodução direta",
-    "DirectStreamHelp1": "A mídia é compatível com o dispositivo em relação à resolução e tipo de mídia (H.264, AC3, etc), mas está em um formato de arquivo incompatível (mkv, avi, wmv, etc). O vídeo será reempacotado em tempo real antes de iniciar o streaming para o dispositivo.",
+    "DirectStreamHelp1": "O vídeo é compatível com o dispositivo, mas possui formato de áudio (DTS, TRUEHD, etc) or número de canais incompatível. O vídeo será reempacotado em tempo real sem perdas por compressão antes de iniciar o streaming para o dispositivo. Apenas o áudio será transcodificado.",
     "DirectStreamHelp2": "O streaming direto de um arquivo usa baixo processamento sem perda de qualidade de vídeo.",
     "DirectStreaming": "Streaming Direto",
     "Director": "Diretor",
@@ -209,7 +209,7 @@
     "GuestStar": "Convidado especial",
     "Guide": "Guia",
     "GuideProviderSelectListings": "Selecionar Listas",
-    "H264CrfHelp": "O CRF (Constant Rate Factor) é a configuração padrão de qualidade para o codificador x264. Você pode definir valores entre 0 e 51, onde valores menores resultarão em melhor qualidade (ao custo de arquivos maiores). Valores saudáveis estão entre 18 e 28. O padrão para o x264 é 23, então você pode usar isso como um ponto de partida.",
+    "H264CrfHelp": "O CRF (Constant Rate Factor) é a configuração padrão de qualidade para o codificador x264 e x265. Você pode definir valores entre 0 e 51, onde valores menores resultarão em melhor qualidade (ao custo de arquivos maiores). Valores saudáveis estão entre 18 e 28. O padrão para o x264 é 23 e para x265 é 28, então você pode usar esses valores como um ponto de partida.",
     "EncoderPresetHelp": "Escolha um valor mais rápido para melhorar o desempenho ou um valor mais lento para melhorar a qualidade.",
     "HDPrograms": "Programas em HD",
     "HardwareAccelerationWarning": "Ativar a aceleração de hardware pode causar instabilidade em alguns sistemas. Verifique se seu sistema operacional e drivers de vídeo estão atualizados. Se tiver dificuldades em reproduzir vídeo depois de ativar, retorne a configuração para automático.",
@@ -1434,5 +1434,10 @@
     "HeaderAddUser": "Adicionar Usuário",
     "HeaderUploadSubtitle": "Carregar Legenda",
     "HeaderDebugging": "Depuração e Rastreamento",
-    "HeaderAddUpdateSubtitle": "Adicionar/Atualizar Legenda"
+    "HeaderAddUpdateSubtitle": "Adicionar/Atualizar Legenda",
+    "LabelCreateHttpPortMap": "Habilitar redirecionamento de portas automático para tráfego http e https.",
+    "LabelAutomaticDiscoveryHelp": "Permitir que aplicações detectem o Jellyfin automaticamente utilizando a porta UDP 7359.",
+    "LabelAutomaticDiscovery": "Habilitar Descobrimento Automático:",
+    "LabelAutoDiscoveryTracingHelp": "Quando habilitado, os pacotes recebidos na porta de descobrimento automático são registrados.",
+    "LabelAutoDiscoveryTracing": "Habilitar rastreamento de Descobrimento Automático."
 }
