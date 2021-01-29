@@ -160,8 +160,19 @@ import alert from '../../components/alert';
         }];
     }
 
+    let systemInfo;
+    function getSystemInfo() {
+        return systemInfo ? Promise.resolve(systemInfo) : ApiClient.getPublicSystemInfo().then(
+            info => {
+                systemInfo = info;
+                return info;
+            }
+        );
+    }
+
     $(document).on('pageinit', '#encodingSettingsPage', function () {
         const page = this;
+        getSystemInfo();
         page.querySelector('#selectVideoDecoder').addEventListener('change', function () {
             if (this.value == 'vaapi') {
                 page.querySelector('.fldVaapiDevice').classList.remove('hide');
@@ -191,7 +202,7 @@ import alert from '../../components/alert';
                 page.querySelector('.fldEnhancedNvdec').classList.add('hide');
             }
 
-            if (this.value == 'vaapi') {
+            if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'vaapi' || this.value == 'qsv')) {
                 page.querySelector('.fldVppTonemapping').classList.remove('hide');
             } else {
                 page.querySelector('.fldVppTonemapping').classList.add('hide');
