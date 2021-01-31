@@ -1258,7 +1258,7 @@
     "Episode": "Épisode",
     "BoxSet": "Coffret",
     "Artist": "Artiste",
-    "AlbumArtist": "Artiste de l'Album",
+    "AlbumArtist": "Album de l'Artiste",
     "Album": "Album",
     "OnApplicationStartup": "Au démarrage de l'application",
     "EveryXHours": "Toutes les {0} heures",
