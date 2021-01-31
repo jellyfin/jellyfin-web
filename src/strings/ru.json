@@ -1155,7 +1155,7 @@
     "ValueSeconds": "{0} сек",
     "ValueSeriesCount": "{0} сериал(а/ов)",
     "ValueSongCount": "{0} композици(и/й)",
-    "ValueSpecialEpisodeName": "Специальный эпизод - {0}",
+    "ValueSpecialEpisodeName": "Спецэпизод - {0}",
     "ValueTimeLimitMultiHour": "Временной лимит: {0} час(а/ов)",
     "ValueTimeLimitSingleHour": "Временной лимит: 1 час",
     "ValueVideoCodec": "Видео кодек: {0}",
