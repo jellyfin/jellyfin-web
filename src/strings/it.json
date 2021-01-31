@@ -1454,5 +1454,10 @@
     "LabelIsForced": "Forzato",
     "LabelAutomaticDiscovery": "Abilita L'Auto Discovery:",
     "LabelAutoDiscoveryTracingHelp": "Se abilitato, i pacchetti ricevuti sulla porta di auto-discovery saranno loggati.",
-    "LabelAutoDiscoveryTracing": "Abilita il tracciamento dell'Auto Discovery."
+    "LabelAutoDiscoveryTracing": "Abilita il tracciamento dell'Auto Discovery.",
+    "LabelEnableSSDPTracingHelp": "Abilita la registrazione dei dettagli di tracciamento SSDP.<br/><b>ATTENZIONE:</b> Ciò causerà una grave riduzione delle prestazioni.",
+    "LabelEnableSSDPTracing": "Abilita il tracciamento SSDP:",
+    "LabelDropSubtitleHere": "Trascina i sottotitoli, o clicca per selezionare.",
+    "LabelCreateHttpPortMapHelp": "Consenti la mappatura automatica delle porte per creare una regola per il traffico http oltre al traffico https.",
+    "LabelCreateHttpPortMap": "Abilita la mappatura automatica delle porte per il traffico http e https."
 }
