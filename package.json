@@ -72,7 +72,7 @@
     "material-design-icons-iconfont": "^6.1.0",
     "native-promise-only": "^0.8.0-a",
     "page": "^1.11.6",
-    "pdfjs-dist": "2.5.207",
+    "pdfjs-dist": "2.6.347",
     "resize-observer-polyfill": "^1.5.1",
     "screenfull": "^5.1.0",
     "sortablejs": "^1.13.0",
