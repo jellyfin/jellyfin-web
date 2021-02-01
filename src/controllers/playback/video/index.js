@@ -1156,6 +1156,12 @@ import { appRouter } from '../../../components/appRouter';
                 case '<':
                     playbackManager.decreasePlaybackRate(currentPlayer);
                     break;
+                case 'PageUp':
+                    playbackManager.nextChapter(currentPlayer);
+                    break;
+                case 'PageDown':
+                    playbackManager.previousChapter(currentPlayer);
+                    break;
             }
         }
 
