@@ -52,6 +52,8 @@ function populateList(options) {
     html += '</div>';
     if (!options.repositories.length) {
         options.noneElement.classList.remove('hide');
+    } else {
+        options.noneElement.classList.add('hide');
     }
 
     options.listElement.innerHTML = html;
