@@ -845,7 +845,7 @@ import ServerConnections from '../ServerConnections';
                     Name: name,
                     Type: item.Type,
                     CollectionType: item.CollectionType,
-                    IsFolder: item.IsFolder,
+                    IsFolder: item.IsFolder
                 }, null, null, 'a'));
             }
 
@@ -1028,8 +1028,8 @@ import ServerConnections from '../ServerConnections';
             }
 
             let href = '';
-            if(tag === 'a') {
-                href = `href="${appRouter.getRouteUrl(item)}"`
+            if (tag === 'a') {
+                href = `href="${appRouter.getRouteUrl(item)}"`;
             }
 
             let html = '<' + tag + ' ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' ' + href + ' type="button" class="itemAction textActionButton" title="' + text + '" data-action="link">';
@@ -1314,7 +1314,7 @@ import ServerConnections from '../ServerConnections';
             }
 
             const mediaSourceCount = item.MediaSourceCount || 1;
-            if (mediaSourceCount > 1 && (options.indicators == null ||  typeof options.indicators == 'boolean' && options.indicators || typeof options.indicators?.mediaSourceCount == 'boolean' && options.indicators.mediaSourceCount)) {
+            if (mediaSourceCount > 1 && (options.indicators == null || typeof options.indicators == 'boolean' && options.indicators || typeof options.indicators?.mediaSourceCount == 'boolean' && options.indicators.mediaSourceCount)) {
                 innerCardFooter += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
             }
 
@@ -1502,7 +1502,7 @@ import ServerConnections from '../ServerConnections';
             }
 
             // Only show hover menu if hoverMenu.cornerButtons is set and cornerButtons has properties set to true
-            if(hoverMenu?.cornerButtons == null || typeof hoverMenu?.cornerButtons == 'boolean' && hoverMenu.cornerButtons || typeof hoverMenu?.cornerButtons == 'object' && Object.entries(hoverMenu.cornerButtons).length && Object.entries(hoverMenu.cornerButtons).some(([, optVal]) => optVal == true)) {
+            if (hoverMenu?.cornerButtons == null || typeof hoverMenu?.cornerButtons == 'boolean' && hoverMenu.cornerButtons || typeof hoverMenu?.cornerButtons == 'object' && Object.entries(hoverMenu.cornerButtons).length && Object.entries(hoverMenu.cornerButtons).some(([, optVal]) => optVal == true)) {
                 html += '<div class="cardOverlayButton-br flex">';
 
                 const userData = item.UserData || {};

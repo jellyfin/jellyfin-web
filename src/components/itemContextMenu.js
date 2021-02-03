@@ -450,7 +450,7 @@ import toast from './toast/toast';
                     getResolveFunction(resolve, id)();
                     break;
                 case 'openInNewTab':
-                    window.open(appRouter.getRouteUrl(item),'_blank','noopener');
+                    window.open(appRouter.getRouteUrl(item), '_blank', 'noopener');
                     getResolveFunction(resolve, id)();
                     break;
                 case 'open':
