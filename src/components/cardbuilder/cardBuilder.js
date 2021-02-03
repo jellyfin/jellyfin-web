@@ -20,6 +20,7 @@ import imageHelper from '../../scripts/imagehelper';
 import './card.css';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../guide/programs.css';
+import { appRouter } from '../appRouter';
 import ServerConnections from '../ServerConnections';
 
         const enableFocusTransform = !browser.slow && !browser.edge;
@@ -806,7 +807,7 @@ import ServerConnections from '../ServerConnections';
                                 Name: item.SeriesName,
                                 Type: 'Series',
                                 IsFolder: true
-                            }));
+                            }, null, null, 'a'));
                         } else {
                             lines.push(item.SeriesName);
                         }
@@ -844,8 +845,8 @@ import ServerConnections from '../ServerConnections';
                     Name: name,
                     Type: item.Type,
                     CollectionType: item.CollectionType,
-                    IsFolder: item.IsFolder
-                }));
+                    IsFolder: item.IsFolder,
+                }, null, null, 'a'));
             }
 
             if (showOtherText) {
@@ -1017,7 +1018,7 @@ import ServerConnections from '../ServerConnections';
          * @param {string} serverId - ID of the server.
          * @returns {string} HTML markup of the action button.
          */
-        function getTextActionButton(item, text, serverId) {
+        function getTextActionButton(item, text, serverId, tag = 'button') {
             if (!text) {
                 text = itemHelper.getDisplayName(item);
             }
@@ -1026,9 +1027,14 @@ import ServerConnections from '../ServerConnections';
                 return text;
             }
 
-            let html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" title="' + text + '" data-action="link">';
+            let href = '';
+            if(tag === 'a') {
+                href = `href="${appRouter.getRouteUrl(item)}"`
+            }
+
+            let html = '<' + tag + ' ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' ' + href + ' type="button" class="itemAction textActionButton" title="' + text + '" data-action="link">';
             html += text;
-            html += '</button>';
+            html += '</' + tag + '>';
 
             return html;
         }
@@ -1145,6 +1151,48 @@ import ServerConnections from '../ServerConnections';
          */
         function buildCard(index, item, apiClient, options) {
             let action = options.action || 'link';
+
+            // All Options Reference
+            // {
+            //     action: null,
+            //     shape: null,
+            //     cardCssClass: null,
+            //     cardClass: null,
+            //     showTitle: null,
+            //     overlayText: null,
+            //     cardLayout: null,
+            //     coverImage: null,
+            //     showChannelLogo: null,
+            //     showLogo: null,
+            //     indicators: { // Can be null to show all, if false then show none, else check each prop (null = show, true = show, false = hide)
+            //         groupCount: false,
+            //         mediaSourceCount: false,
+            //         missing: false,
+            //         sync: false,
+            //         timer: false,
+            //         type: false,
+            //         groupCount: false,
+            //         played: false
+            //     },
+            //     overlayPlayButton: null,
+            //     overlayMoreButton: null,
+            //     overlayInfoButton: null,
+            //     showChildCountIndicator: null,
+            //     missingIndicator: null,
+            //     centerPlayButton: null,
+            //     collectionId: null,
+            //     playlistId: null,
+            //     context: null,
+            //     parentId: null,
+            //     hoverMenu: { // Can be null to show all, if false then show none, else check each prop (null = show, true = show, false = hide)
+            //         playButton: false,
+            //         cornerButtons: { // Can be null to show all, if false then show none, else check each prop (null = show, true = show, false = hide)
+            //             favorite: false,
+            //             watched: false,
+            //             more: false
+            //         }
+            //     },
+            // }
 
             if (action === 'play' && item.IsFolder) {
                 // If this hard-coding is ever removed make sure to test nested photo albums
@@ -1266,7 +1314,7 @@ import ServerConnections from '../ServerConnections';
             }
 
             const mediaSourceCount = item.MediaSourceCount || 1;
-            if (mediaSourceCount > 1 && options.disableIndicators !== true) {
+            if (mediaSourceCount > 1 && (options.indicators == null ||  typeof options.indicators == 'boolean' && options.indicators || typeof options.indicators?.mediaSourceCount == 'boolean' && options.indicators.mediaSourceCount)) {
                 innerCardFooter += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
             }
 
@@ -1347,24 +1395,27 @@ import ServerConnections from '../ServerConnections';
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 
-            if (options.disableIndicators !== true) {
+            if (options.indicators == null || typeof options.indicators == 'boolean' && options.indicators || typeof options.indicators == 'object' && Object.entries(options.indicators).length) {
                 let indicatorsHtml = '';
 
-                if (options.missingIndicator !== false) {
+                if (options.indicators?.missing == null || typeof options.indicators?.missing == 'boolean' && options.indicators.missing) {
                     indicatorsHtml += indicators.getMissingIndicator(item);
                 }
-
-                indicatorsHtml += indicators.getSyncIndicator(item);
-                indicatorsHtml += indicators.getTimerIndicator(item);
-
-                indicatorsHtml += indicators.getTypeIndicator(item);
-
-                if (options.showGroupCount) {
+                if (options.indicators?.sync == null || typeof options.indicators?.sync == 'boolean' && options.indicators.sync) {
+                    indicatorsHtml += indicators.getSyncIndicator(item);
+                }
+                if (options.indicators?.timer == null || typeof options.indicators?.timer == 'boolean' && options.indicators.timer) {
+                    indicatorsHtml += indicators.getTimerIndicator(item);
+                }
+                if (options.indicators?.type == null || typeof options.indicators?.type == 'boolean' && options.indicators.type) {
+                    indicatorsHtml += indicators.getTypeIndicator(item);
+                }
+                if (options.indicators == null || (options.indicators?.played == null || typeof options.indicators?.played == 'boolean' && options.indicators.played)) {
+                    indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
+                } else if (options.indicators != null && options.indicators.groupCount == null || typeof options.indicators.groupCount == 'boolean' && options.indicators.groupCount) {
                     indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
                         minCount: 1
                     });
-                } else {
-                    indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
                 }
 
                 if (item.Type === 'CollectionFolder' || item.CollectionType) {
@@ -1426,8 +1477,8 @@ import ServerConnections from '../ServerConnections';
 
             let additionalCardContent = '';
 
-            if (layoutManager.desktop && !options.disableHoverMenu) {
-                additionalCardContent += getHoverMenuHtml(item, action);
+            if (layoutManager.desktop && options.hoverMenu == null || typeof options.hoverMenu == 'boolean' && options.hoverMenu || typeof options.hoverMenu == 'object' && Object.entries(options.hoverMenu).length) {
+                additionalCardContent += getHoverMenuHtml(item, action, options.hoverMenu);
             }
 
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + pathData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + startDate + endDate + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
@@ -1439,37 +1490,42 @@ import ServerConnections from '../ServerConnections';
          * @param {string} action - Action assigned to the overlay.
          * @returns {string} HTML markup of the card overlay.
          */
-        function getHoverMenuHtml(item, action) {
+        function getHoverMenuHtml(item, action, hoverMenu) {
             let html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
 
             const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
-            if (playbackManager.canPlay(item)) {
+            if (playbackManager.canPlay(item) && (hoverMenu == null || hoverMenu.playButton == null || typeof hoverMenu.playButton == 'boolean' && hoverMenu.playButton)) {
                 html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></span></button>';
             }
 
-            html += '<div class="cardOverlayButton-br flex">';
+            // Only show hover menu if hoverMenu.cornerButtons is set and cornerButtons has properties set to true
+            if(hoverMenu?.cornerButtons == null || typeof hoverMenu?.cornerButtons == 'boolean' && hoverMenu.cornerButtons || typeof hoverMenu?.cornerButtons == 'object' && Object.entries(hoverMenu.cornerButtons).length && Object.entries(hoverMenu.cornerButtons).some(([, optVal]) => optVal == true)) {
+                html += '<div class="cardOverlayButton-br flex">';
 
-            const userData = item.UserData || {};
+                const userData = item.UserData || {};
 
-            if (itemHelper.canMarkPlayed(item)) {
-                /* eslint-disable-next-line  @babel/no-unused-expressions */
-                import('../../elements/emby-playstatebutton/emby-playstatebutton');
-                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
+                if (itemHelper.canMarkPlayed(item) && (hoverMenu?.cornerButtons == null || hoverMenu.cornerButtons?.watched == null || typeof hoverMenu.cornerButtons?.watched == 'boolean' && hoverMenu.cornerButtons.watched)) {
+                    /* eslint-disable-next-line  @babel/no-unused-expressions */
+                    import('../../elements/emby-playstatebutton/emby-playstatebutton');
+                    html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
+                }
+
+                if (itemHelper.canRate(item) && (hoverMenu?.cornerButtons == null || hoverMenu.cornerButtons?.favorite == null || typeof hoverMenu.cornerButtons?.favorite == 'boolean' && hoverMenu.cornerButtons.favorite)) {
+                    const likes = userData.Likes == null ? '' : userData.Likes;
+
+                    /* eslint-disable-next-line  @babel/no-unused-expressions */
+                    import('../../elements/emby-ratingbutton/emby-ratingbutton');
+                    html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
+                }
+
+                if (hoverMenu?.cornerButtons == null || hoverMenu.cornerButtons?.more == null || typeof hoverMenu.cornerButtons?.more == 'boolean' && hoverMenu.cornerButtons.more) {
+                    html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';
+                }
+                html += '</div>';
             }
-
-            if (itemHelper.canRate(item)) {
-                const likes = userData.Likes == null ? '' : userData.Likes;
-
-                /* eslint-disable-next-line  @babel/no-unused-expressions */
-                import('../../elements/emby-ratingbutton/emby-ratingbutton');
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
-            }
-
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></span></button>';
-            html += '</div>';
             html += '</div>';
 
             return html;

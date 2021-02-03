@@ -71,6 +71,7 @@ function hideAll(page, className, show) {
 function getContextMenuOptions(item, user, button) {
     return {
         item: item,
+        openInNewTab: false,
         open: false,
         play: false,
         playAllFromHere: false,
@@ -813,8 +814,11 @@ function renderDetailImage(elem, item, imageLoader) {
         centerText: true,
         overlayText: false,
         transition: false,
-        disableIndicators: true,
+        indicators: false,
         overlayPlayButton: true,
+        hoverMenu: {
+            cornerButtons: false
+        },
         action: 'play',
         width: dom.getWindowSize().innerWidth * 0.25
     });
@@ -1974,8 +1978,8 @@ export default function (view, params) {
         playCurrentItem(this, this.getAttribute('data-mode'));
     }
 
-    function onPosterClick(e) {
-        itemShortcuts.onClick.call(view.querySelector('.detailImageContainer'), e);
+    function onPosterClick() {
+        playCurrentItem(this, this.getAttribute('data-mode'));
     }
 
     function onInstantMixClick() {

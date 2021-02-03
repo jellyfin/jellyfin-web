@@ -40,6 +40,12 @@ import Sortable from 'sortablejs';
         const target = e.target;
         const card = dom.parentWithAttribute(target, 'data-id');
 
+        // handle links
+        if(target.getAttribute('data-id') != null && target.getAttribute('data-action') == 'link' && target.classList.toString() === 'itemAction textActionButton' && target.tagName === 'A') {
+            // allow A tag to open regular menu
+            return false;
+        }
+
         // check for serverId, it won't be present on selectserver
         if (card && card.getAttribute('data-serverid')) {
             inputManager.handleCommand('menu', {

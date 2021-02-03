@@ -1083,6 +1083,8 @@
     "NoSubtitleSearchResultsFound": "No results found.",
     "NoSubtitlesHelp": "Subtitles will not be loaded by default. They can still be turned on manually during playback.",
     "NumLocationsValue": "{0} folders",
+    "OpenInNewTab": "Open in new tab",
+    "Open": "Open",
     "Off": "Off",
     "OnApplicationStartup": "On application startup",
     "OneChannel": "One channel",

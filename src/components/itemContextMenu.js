@@ -18,6 +18,29 @@ import toast from './toast/toast';
 
         const commands = [];
 
+        // Commands for open/open in new tab, can disable by setting options.open != null or options.openInNewTab != null
+        if (options.open == null || typeof options.open == 'boolean' && options.open) {
+            commands.push({
+                name: globalize.translate('Open'),
+                id: 'open',
+                icon: 'tab'
+            });
+        }
+        if (options.openInNewTab == null || typeof options.openInNewTab == 'boolean' && options.openInNewTab) {
+            commands.push({
+                name: globalize.translate('OpenInNewTab'),
+                id: 'openInNewTab',
+                icon: 'tab'
+            });
+        }
+
+        // Add divider if we have commands and previous command isn't a divider
+        if (commands.length && commands[commands.length - 1].divider == null) {
+            commands.push({
+                divider: true
+            });
+        }
+
         if (canPlay && item.MediaType !== 'Photo') {
             if (options.play !== false) {
                 commands.push({
@@ -93,7 +116,8 @@ import toast from './toast/toast';
             }
         }
 
-        if (commands.length) {
+        // Add divider if we have added commands and previous command isn't a divider
+        if (commands.length && commands[commands.length - 1].divider == null) {
             commands.push({
                 divider: true
             });
@@ -423,6 +447,10 @@ import toast from './toast/toast';
                     break;
                 case 'refresh':
                     refresh(apiClient, item);
+                    getResolveFunction(resolve, id)();
+                    break;
+                case 'openInNewTab':
+                    window.open(appRouter.getRouteUrl(item),'_blank','noopener');
                     getResolveFunction(resolve, id)();
                     break;
                 case 'open':
