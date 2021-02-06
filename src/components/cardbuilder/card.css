@@ -365,7 +365,7 @@ button::-moz-focus-inner {
 }
 
 .cardImageIcon {
-    font-size: 5em;
+    font-size: 5em !important;
     color: inherit;
 }
 

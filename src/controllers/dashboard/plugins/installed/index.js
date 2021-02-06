@@ -67,10 +67,11 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
         html += '<div class="cardImageContainer noConfigPluginCard noHoverEffect emby-button">';
     }
 
-    html += `<span class="cardImageIcon ${plugin.HasImage ? 'material-icons extension' : ''}">`;
+    html += `<span class="cardImageIcon ${plugin.HasImage ? '' : 'material-icons extension'}">`;
     if (plugin.HasImage) {
         html += `<img src="/Plugins/${plugin.Id}/${plugin.Version}/Image" style="width:100%;height:auto" />`;
     }
+
     html += '</span>';
     html += configPageUrl ? '</a>' : '</div>';
     html += '</div>';

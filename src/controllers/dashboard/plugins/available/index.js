@@ -105,7 +105,12 @@ function getPluginHtml(plugin, options, installedPlugins) {
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
     html += `<div class="cardContent ${cardBuilder.getDefaultBackgroundClass()}">`;
     html += `<a class="cardImageContainer" is="emby-linkbutton" href="${href}" ${target}>`;
-    html += '<span class="cardImageIcon material-icons extension"></span>';
+    html += `<span class="cardImageIcon ${plugin.ImageUrl ? '' : 'material-icons extension'}">`;
+    if (plugin.ImageUrl) {
+        html += `<img src="${plugin.ImageUrl}" style="width:100%;height:auto" />`;
+    }
+
+    html += '</span>';
     html += '</a>';
     html += '</div>';
     html += '</div>';
