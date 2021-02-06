@@ -260,7 +260,7 @@ import confirm from '../../components/confirm/confirm';
                 html += '<div class="cardBox visualCardBox">';
                 html += '<div class="cardScalable visualCardBox-cardScalable">';
                 html += '<div class="cardPadder cardPadder-backdrop"></div>';
-                html += `<div class="cardContent ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()}">`;
+                html += `<div class="cardContent ${cardBuilder.getDefaultBackgroundClass()}">`;
 
                 if (imgUrl) {
                     html += '<div class="sessionNowPlayingContent sessionNowPlayingContent-withbackground"';
