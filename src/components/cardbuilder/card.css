@@ -226,8 +226,8 @@ button::-moz-focus-inner {
 }
 
 .visualCardBox .cardContent {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    border-top-left-radius: 0.2em;
+    border-top-right-radius: 0.2em;
 }
 
 .cardContent-shadow,

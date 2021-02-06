@@ -10,6 +10,7 @@ import '../../../components/indicators/indicators.css';
 import '../../../assets/css/flexstyles.scss';
 import Dashboard, { pageIdOn } from '../../../scripts/clientUtils';
 import confirm from '../../../components/confirm/confirm';
+import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
 /* eslint-disable indent */
 
@@ -93,7 +94,7 @@ import confirm from '../../../components/confirm/confirm';
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
-        html += '<a is="emby-linkbutton" class="cardContent" href="#!/useredit.html?userId=' + user.Id + '">';
+        html += `<a is="emby-linkbutton" class="cardContent ${cardBuilder.getDefaultBackgroundClass()}" href="#!/useredit.html?userId=${user.Id}">`;
         let imgUrl;
 
         if (user.PrimaryImageTag) {

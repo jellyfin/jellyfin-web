@@ -104,13 +104,14 @@ function getPluginHtml(plugin, options, installedPlugins) {
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
     html += `<div class="cardContent ${cardBuilder.getDefaultBackgroundClass()}">`;
-    html += `<a class="cardImageContainer" is="emby-linkbutton" href="${href}" ${target}>`;
-    html += `<span class="cardImageIcon ${plugin.ImageUrl ? '' : 'material-icons extension'}">`;
-    if (plugin.ImageUrl) {
-        html += `<img src="${plugin.ImageUrl}" style="width:100%;height:auto" />`;
+    html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${href}" ${target}>`;
+
+    if (plugin.imageUrl) {
+        html += `<img src="${plugin.imageUrl}" style="width:100%" />`;
+    } else {
+        html += `<span class="cardImageIcon material-icons extension"></span>`;
     }
 
-    html += '</span>';
     html += '</a>';
     html += '</div>';
     html += '</div>';

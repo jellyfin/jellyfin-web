@@ -9,6 +9,7 @@ import '../../components/cardbuilder/card.css';
 import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 import Dashboard, { pageClassOn, pageIdOn } from '../../scripts/clientUtils';
 import confirm from '../../components/confirm/confirm';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
 /* eslint-disable indent */
 
@@ -276,10 +277,11 @@ import confirm from '../../components/confirm/confirm';
         let hasCardImageContainer;
 
         if (imgUrl) {
-            html += '<div class="cardImageContainer editLibrary" style="cursor:pointer;background-image:url(\'' + imgUrl + "');\">";
+            html += `<div class="cardImageContainer editLibrary ${cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer">`;
+            html += `<img src="${imgUrl}" style="width:100%" />`;
             hasCardImageContainer = true;
         } else if (!virtualFolder.showNameWithIcon) {
-            html += '<div class="cardImageContainer editLibrary" style="cursor:pointer;">';
+            html += `<div class="cardImageContainer editLibrary ${cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer;">`;
             html += '<span class="cardImageIcon-small material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></span>';
             hasCardImageContainer = true;
         }

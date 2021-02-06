@@ -179,6 +179,8 @@
     "DirectStreamHelp1": "The video stream is compatible with the device, but has an incompatible audio format (DTS, TRUEHD, etc) or number of audio channels. The video stream will be repackaged losslessly on the fly before being sent to the device. Only the audio stream will be transcoded.",
     "DirectStreamHelp2": "Power consumed by direct streaming usually depends on the audio profile. Only the video stream is lossless.",
     "DirectStreaming": "Direct streaming",
+    "EnablePlugin": "Enable Plugin",
+    "DisablePlugin": "Disable Plugin",
     "Disc": "Disc",
     "Disconnect": "Disconnect",
     "Display": "Display",
