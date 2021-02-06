@@ -74,7 +74,6 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     } else {
         html += '<span class="cardImageIcon material-icons extension"></span>';
     }
-
     html += configPageUrl ? '</a>' : '</div>';
     html += '</div>';
     html += '</div>';
