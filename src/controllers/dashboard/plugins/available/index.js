@@ -109,7 +109,7 @@ function getPluginHtml(plugin, options, installedPlugins) {
     if (plugin.imageUrl) {
         html += `<img src="${plugin.imageUrl}" style="width:100%" />`;
     } else {
-        html += `<span class="cardImageIcon material-icons extension"></span>`;
+        html += '<span class="cardImageIcon material-icons extension"></span>';
     }
 
     html += '</a>';

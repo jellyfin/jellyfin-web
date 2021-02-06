@@ -72,7 +72,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     if (plugin.HasImage) {
         html += `<img src="/Plugins/${plugin.Id}/${plugin.Version}/Image" style="width:100%" />`;
     } else {
-        html += `<span class="cardImageIcon material-icons extension"></span>`;
+        html += '<span class="cardImageIcon material-icons extension"></span>';
     }
 
     html += configPageUrl ? '</a>' : '</div>';
