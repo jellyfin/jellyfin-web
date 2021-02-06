@@ -65,7 +65,7 @@ export async function serverAddress() {
         }));
     }).then(configs => {
         const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
-        return Promise.resolve(selection.url);
+        return Promise.resolve(selection?.url);
     }).catch(error => {
         console.log(error);
         return Promise.resolve();

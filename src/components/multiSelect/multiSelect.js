@@ -319,6 +319,7 @@ import confirm from '../confirm/confirm';
             alert({
                 text: globalize.translate('PleaseSelectTwoItems')
             });
+
             return;
         }
 

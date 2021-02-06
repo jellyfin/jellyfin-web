@@ -112,7 +112,7 @@ export default function (page, providerId, options) {
             providerId = result.Id;
             reload();
         }, function () {
-            Dashboard.alert({ // ApiClient.ajax() error handler
+            Dashboard.alert({
                 message: globalize.translate('ErrorSavingTvProvider')
             });
         });

@@ -11,7 +11,6 @@ import '../../elements/emby-input/emby-input';
 import '../formdialog.css';
 import template from './prompt.template.html';
 
-/* eslint-disable indent */
 export default (() => {
     function replaceAll(str, find, replace) {
         return str.split(find).join(replace);
@@ -127,4 +126,3 @@ export default (() => {
         };
     }
 })();
-/* eslint-enable indent */
