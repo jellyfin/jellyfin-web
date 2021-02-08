@@ -999,10 +999,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-sc/-/noto-sans-sc-4.2.0.tgz#a2161a3be3dfaebde5c32c1056bbe57b6afaada6"
   integrity sha512-XY3M0yKRqOLjFc/jmdz9lVf4rGbNymMDKY8aKm2V3tkwSUjG97A8pOn/vhC88lxbzAYHLNNeWn0te1Cruu2zsg==
 
-"@fontsource/noto-sans@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans/-/noto-sans-4.1.0.tgz#2412957de2bc9b49dda4b1dc9ba25a171d9ce752"
-  integrity sha512-c6Ug4PjLq9wNatEidCFajJ0qd8HOQ6pfW//yWFMNSpDhDfl+111I1bPadrDo0oZVm/DjJRcFaRyhtu1VdveoIQ==
+"@fontsource/noto-sans@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans/-/noto-sans-4.2.0.tgz#56bf843895c93f9b79f0012c64629df46d0904e0"
+  integrity sha512-IoO8Nay6oneyEjm0Bp2PMRyoHj4L8btRIrPBUBfRIFccpg/jBwbB55nay7bPpyiILGq0Xd6/AnadUo+g3ASpow==
 
 "@hapi/address@^2.1.2":
   version "2.1.4"
