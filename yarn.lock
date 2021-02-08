@@ -8111,10 +8111,10 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swiper@^6.4.10:
-  version "6.4.10"
-  resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.4.10.tgz#d2a8bce471717b770d005fcd5e8af42ac630cac6"
-  integrity sha512-uNTdbkcVjNQVOwXhr+e8rTB4Uu8QfWHaZQSSptykWJX/QjSBuAPxAUFnHG8IKGQfTljGol9eLv6g8KTwvGjYNA==
+swiper@^6.4.11:
+  version "6.4.11"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.4.11.tgz#183b719cd7ccadc1c18558db49242098ca1d564c"
+  integrity sha512-AtOotOxvGBlYddJa7s1wzdh7/BAyfJq9h8q/JKgI2X9UrSx87YAOSfnM5j2UifYbvETmR6qhivGFew6kogA8Yw==
   dependencies:
     dom7 "^3.0.0"
     ssr-window "^3.0.0"
