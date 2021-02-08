@@ -44,10 +44,10 @@
     eslint-visitor-keys "^1.3.0"
     semver "^6.3.0"
 
-"@babel/eslint-plugin@^7.12.1":
-  version "7.12.1"
-  resolved "https://registry.yarnpkg.com/@babel/eslint-plugin/-/eslint-plugin-7.12.1.tgz#67626a16312dfe7c5dd7685a1a8af7b03c43985b"
-  integrity sha512-rOjrD5yupTYCO4x0kEbQmi/NsaD+VGOD/9Cvso64WMVPY2y6o5Nvw2sqFWdeSEBdR1Dsa07YjplBs067x5YbXg==
+"@babel/eslint-plugin@^7.12.13":
+  version "7.12.13"
+  resolved "https://registry.yarnpkg.com/@babel/eslint-plugin/-/eslint-plugin-7.12.13.tgz#92be33fd8ce7d9729ad19599ba4f13a165ed4069"
+  integrity sha512-f2gA5zhmNdSEqFzdn4LHMrm0+cy7Ev+Ky2wbojNIItnLZKQlujJnBsnjlYZlkKQlTODHkEFcrCV6JeEc0/lktg==
   dependencies:
     eslint-rule-composer "^0.3.0"
 
@@ -874,25 +874,25 @@
   resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-hk/-/noto-sans-hk-4.1.0.tgz#cde7bb2b93eb19e7bfa77dc28ce0d5dfb14e07b2"
   integrity sha512-RoQtyTHZRQxX6SPb+JlkuyoWK77Wzn84g9P0//QxHbY9D5M5FqfDvSJV2OCfJ1vWIkplWEkfYY2a7m89Pdu7sQ==
 
-"@fontsource/noto-sans-jp@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-jp/-/noto-sans-jp-4.1.0.tgz#80a6dab687765a6817d45ca55c11e93f212eab5a"
-  integrity sha512-MeGk11EyhgIE8S+NNzlCTheSQjJkSfoOKmU+RPUO8UWHtVYp/5L63vcQdWpmCcNGTv+gA73eAAcETbPjI/wF9w==
+"@fontsource/noto-sans-jp@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-jp/-/noto-sans-jp-4.2.0.tgz#f52f7bdc50734e21fe80b07cf6afd85e628827d5"
+  integrity sha512-dK8LruJwwe2HpZ+ei1tSl1Sz3EKsRWRXKml6kYx9SCMWsA+6HqfRnhRk6W2tmouDeS3tqvST8oyWxKXF3KkpYQ==
 
 "@fontsource/noto-sans-kr@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-kr/-/noto-sans-kr-4.1.0.tgz#3e01294093f1e9ebb836ab6d5afd1ba37b0237fe"
   integrity sha512-FnIh9c58ia5vAPrRsHNdB4gBSZqnzoZxdCj4bEz8o6VuFN3gReHR5ShWk8EthvJiswC0+e8dz8cwTUlGTXvmeg==
 
-"@fontsource/noto-sans-sc@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-sc/-/noto-sans-sc-4.1.0.tgz#0ce77e67a39817e145124321bada10e426d6ff74"
-  integrity sha512-3NOpADIbiS4h6ZVkcS+wHeMwoi0RUbtOFtp7bYbSlVXIrosRhDkCpIAT24SbjYieqJ1cjfN5KZIo8h2mjK1Fkw==
+"@fontsource/noto-sans-sc@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-sc/-/noto-sans-sc-4.2.0.tgz#a2161a3be3dfaebde5c32c1056bbe57b6afaada6"
+  integrity sha512-XY3M0yKRqOLjFc/jmdz9lVf4rGbNymMDKY8aKm2V3tkwSUjG97A8pOn/vhC88lxbzAYHLNNeWn0te1Cruu2zsg==
 
-"@fontsource/noto-sans@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans/-/noto-sans-4.1.0.tgz#2412957de2bc9b49dda4b1dc9ba25a171d9ce752"
-  integrity sha512-c6Ug4PjLq9wNatEidCFajJ0qd8HOQ6pfW//yWFMNSpDhDfl+111I1bPadrDo0oZVm/DjJRcFaRyhtu1VdveoIQ==
+"@fontsource/noto-sans@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans/-/noto-sans-4.2.0.tgz#56bf843895c93f9b79f0012c64629df46d0904e0"
+  integrity sha512-IoO8Nay6oneyEjm0Bp2PMRyoHj4L8btRIrPBUBfRIFccpg/jBwbB55nay7bPpyiILGq0Xd6/AnadUo+g3ASpow==
 
 "@hapi/address@^2.1.2":
   version "2.1.4"
@@ -1323,22 +1323,22 @@
     "@webassemblyjs/ast" "1.11.0"
     "@xtuc/long" "4.2.2"
 
-"@webpack-cli/configtest@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@webpack-cli/configtest/-/configtest-1.0.0.tgz#2aff5f1ebc6f793c13ba9b2a701d180eab17f5ee"
-  integrity sha512-Un0SdBoN1h4ACnIO7EiCjWuyhNI0Jl96JC+63q6xi4HDUYRZn8Auluea9D+v9NWKc5J4sICVEltdBaVjLX39xw==
+"@webpack-cli/configtest@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@webpack-cli/configtest/-/configtest-1.0.1.tgz#241aecfbdc715eee96bed447ed402e12ec171935"
+  integrity sha512-B+4uBUYhpzDXmwuo3V9yBH6cISwxEI4J+NO5ggDaGEEHb0osY/R7MzeKc0bHURXQuZjMM4qD+bSJCKIuI3eNBQ==
 
-"@webpack-cli/info@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@webpack-cli/info/-/info-1.2.1.tgz#af98311f983d0b9fce7284cfcf1acaf1e9f4879c"
-  integrity sha512-fLnDML5HZ5AEKzHul8xLAksoKN2cibu6MgonkUj8R9V7bbeVRkd1XbGEGWrAUNYHbX1jcqCsDEpBviE5StPMzQ==
+"@webpack-cli/info@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@webpack-cli/info/-/info-1.2.2.tgz#ef3c0cd947a1fa083e174a59cb74e0b6195c236c"
+  integrity sha512-5U9kUJHnwU+FhKH4PWGZuBC1hTEPYyxGSL5jjoBI96Gx8qcYJGOikpiIpFoTq8mmgX3im2zAo2wanv/alD74KQ==
   dependencies:
     envinfo "^7.7.3"
 
-"@webpack-cli/serve@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@webpack-cli/serve/-/serve-1.2.2.tgz#1f8eee44f96524756268f5e3f43e9d943f864d41"
-  integrity sha512-03GkWxcgFfm8+WIwcsqJb9agrSDNDDoxaNnexPnCCexP5SCE4IgFd9lNpSy+K2nFqVMpgTFw6SwbmVAVTndVew==
+"@webpack-cli/serve@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@webpack-cli/serve/-/serve-1.3.0.tgz#2730c770f5f1f132767c63dcaaa4ec28f8c56a6c"
+  integrity sha512-k2p2VrONcYVX1wRRrf0f3X2VGltLWcv+JzXRBDmvCxGlCeESx4OXw91TsWeKOkp784uNoVQo313vxJFHXPPwfw==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -2152,10 +2152,10 @@ commander@^4.1.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
   integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
 
-commander@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-6.2.0.tgz#b990bfb8ac030aedc6d11bc04d1488ffef56db75"
-  integrity sha512-zP4jEKbe8SHzKJYQmq8Y9gYjtO/POJLgIdKgV7B9qNmABVFVc+ctqSX6iXh4mCpJfRBOabiZ2YKPg8ciDw6C+Q==
+commander@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-7.0.0.tgz#3e2bbfd8bb6724760980988fb5b22b7ee6b71ab2"
+  integrity sha512-ovx/7NkTrnPuIV8sqk/GjUIIM1+iUQeqA3ye2VNpq9sVoiZsooObWlQy+OPWGI17GDaEoybuAGJm6U8yC077BA==
 
 common-tags@^1.8.0:
   version "1.8.0"
@@ -3285,13 +3285,10 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-expose-loader@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/expose-loader/-/expose-loader-1.0.3.tgz#5686d3b78cac8831c4af11c3dc361563deb8a9c0"
-  integrity sha512-gP6hs3vYeWIqyoVfsApGQcgCEpbcI1xe+celwI31zeDhXz2q03ycBC1+75IlQUGaYvj6rAloFIe/NIBnEElLsQ==
-  dependencies:
-    loader-utils "^2.0.0"
-    schema-utils "^3.0.0"
+expose-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/expose-loader/-/expose-loader-2.0.0.tgz#1c323577db3d16f7817e4652024f2c545b3f6a70"
+  integrity sha512-WBpSGlNkn7YwbU2us7O+h0XsoFrB43Y/VCNSpRV4OZFXXKgw8W800BgNxLV0S97N3+KGnFYSCAJi1AV86NO22w==
 
 express@^4.17.1:
   version "4.17.1"
@@ -7278,16 +7275,13 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sass-loader@^10.1.1:
-  version "10.1.1"
-  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-10.1.1.tgz#4ddd5a3d7638e7949065dd6e9c7c04037f7e663d"
-  integrity sha512-W6gVDXAd5hR/WHsPicvZdjAWHBcEJ44UahgxcIE196fW2ong0ZHMPO1kZuI5q0VlvMQZh32gpv69PLWQm70qrw==
+sass-loader@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-11.0.0.tgz#5263c486afd0a1694bdd47abd533eabee00f9e37"
+  integrity sha512-08+bTpDfYK/wTow+LQx2D3VCFQinQij4uyGJl3yRUiOTx7n0FDDiReIIbXIVU0LFX5FhjC7s99lSKT4Qnm5eFg==
   dependencies:
     klona "^2.0.4"
-    loader-utils "^2.0.0"
     neo-async "^2.6.2"
-    schema-utils "^3.0.0"
-    semver "^7.3.2"
 
 sass@^1.32.5:
   version "1.32.5"
@@ -8117,10 +8111,10 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swiper@^6.4.10:
-  version "6.4.10"
-  resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.4.10.tgz#d2a8bce471717b770d005fcd5e8af42ac630cac6"
-  integrity sha512-uNTdbkcVjNQVOwXhr+e8rTB4Uu8QfWHaZQSSptykWJX/QjSBuAPxAUFnHG8IKGQfTljGol9eLv6g8KTwvGjYNA==
+swiper@^6.4.11:
+  version "6.4.11"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.4.11.tgz#183b719cd7ccadc1c18558db49242098ca1d564c"
+  integrity sha512-AtOotOxvGBlYddJa7s1wzdh7/BAyfJq9h8q/JKgI2X9UrSx87YAOSfnM5j2UifYbvETmR6qhivGFew6kogA8Yw==
   dependencies:
     dom7 "^3.0.0"
     ssr-window "^3.0.0"
@@ -8690,17 +8684,17 @@ webidl-conversions@^4.0.2:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
   integrity sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==
 
-webpack-cli@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-4.4.0.tgz#38c7fa01ea31510f5c490245dd1bb28018792f1b"
-  integrity sha512-/Qh07CXfXEkMu5S8wEpjuaw2Zj/CC0hf/qbTDp6N8N7JjdGuaOjZ7kttz+zhuJO/J5m7alQEhNk9lsc4rC6xgQ==
+webpack-cli@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-4.5.0.tgz#b5213b84adf6e1f5de6391334c9fa53a48850466"
+  integrity sha512-wXg/ef6Ibstl2f50mnkcHblRPN/P9J4Nlod5Hg9HGFgSeF8rsqDGHJeVe4aR26q9l62TUJi6vmvC2Qz96YJw1Q==
   dependencies:
     "@discoveryjs/json-ext" "^0.5.0"
-    "@webpack-cli/configtest" "^1.0.0"
-    "@webpack-cli/info" "^1.2.1"
-    "@webpack-cli/serve" "^1.2.2"
+    "@webpack-cli/configtest" "^1.0.1"
+    "@webpack-cli/info" "^1.2.2"
+    "@webpack-cli/serve" "^1.3.0"
     colorette "^1.2.1"
-    commander "^6.2.0"
+    commander "^7.0.0"
     enquirer "^2.3.6"
     execa "^5.0.0"
     fastest-levenshtein "^1.0.12"
