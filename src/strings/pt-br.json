@@ -1439,5 +1439,13 @@
     "LabelAutomaticDiscoveryHelp": "Permitir que aplicações detectem o Jellyfin automaticamente utilizando a porta UDP 7359.",
     "LabelAutomaticDiscovery": "Habilitar Descobrimento Automático:",
     "LabelAutoDiscoveryTracingHelp": "Quando habilitado, os pacotes recebidos na porta de descobrimento automático são registrados.",
-    "LabelAutoDiscoveryTracing": "Habilitar rastreamento de Descobrimento Automático."
+    "LabelAutoDiscoveryTracing": "Habilitar rastreamento de Descobrimento Automático.",
+    "LabelEnableSSDPTracingHelp": "Habilite o rastreamento de rede SSDP de detalhes a ser registrado.<br/><b> AVISO:</b> Isso causará uma grave degradação no desempenho.",
+    "LabelEnableSSDPTracing": "Habilitar rastreamento de SSDP:",
+    "LabelEnableIP6Help": "Ativa a funcionalidade IPv6.",
+    "LabelEnableIP6": "Ativar IPv6:",
+    "LabelEnableIP4Help": "Ativa a funcionalidade IPv4.",
+    "LabelEnableIP4": "Ativar IPv4:",
+    "LabelDropSubtitleHere": "Solte a legenda aqui ou clique para navegar.",
+    "LabelCreateHttpPortMapHelp": "Permita o mapeamento automático de portas para criar uma regra para o tráfego http além do tráfego https."
 }
