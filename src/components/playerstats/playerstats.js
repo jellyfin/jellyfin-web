@@ -142,14 +142,13 @@ import ServerConnections from '../ServerConnections';
             });
         }
 
-        if (audioChannels) {
-            sessionStats.push({
-                label: globalize.translate('LabelAudioChannels'),
-                value: audioChannels
-            });
-        }
-
         if (displayPlayMethod === 'Transcode') {
+            if (audioChannels) {
+                sessionStats.push({
+                    label: globalize.translate('LabelAudioChannels'),
+                    value: audioChannels
+                });
+            }
             if (totalBitrate) {
                 sessionStats.push({
                     label: globalize.translate('LabelBitrate'),
