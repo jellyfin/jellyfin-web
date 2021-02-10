@@ -1447,5 +1447,6 @@
     "LabelEnableIP4Help": "Ativa a funcionalidade IPv4.",
     "LabelEnableIP4": "Ativar IPv4:",
     "LabelDropSubtitleHere": "Solte a legenda aqui ou clique para navegar.",
-    "LabelCreateHttpPortMapHelp": "Permita o mapeamento automático de portas para criar uma regra para o tráfego http além do tráfego https."
+    "LabelCreateHttpPortMapHelp": "Permita o mapeamento automático de portas para criar uma regra para o tráfego http além do tráfego https.",
+    "LabelH265Crf": "Codificação CRF para H265:"
 }
