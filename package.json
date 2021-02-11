@@ -91,6 +91,7 @@
     "screenfull": "^5.1.0",
     "sortablejs": "^1.13.0",
     "swiper": "^6.7.0",
+    "tailwindcss": "^2.0.3",
     "webcomponents.js": "^0.7.24",
     "whatwg-fetch": "^3.6.2",
     "workbox-core": "^5.1.4",
