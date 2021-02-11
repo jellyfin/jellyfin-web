@@ -1,11 +1,11 @@
 <div id="dashboardPage" data-role="page" class="page type-interior dashboardHomePage fullWidthContent">
     <div class="content-primary">
-        <div class="dashboardSections" style="padding-top:.5em;">
-            <div class="dashboardColumn dashboardColumn-2-60 dashboardColumn-3-46">
-                <div class="dashboardSection">
-                    <a is="emby-linkbutton" href="#!/dashboardgeneral.html" class="button-flat sectionTitleTextButton">
-                        <h3>${TabServer}</h3>
-                        <span class="material-icons chevron_right"></span>
+        <div class="flex flex-col dashboardSections pt-2">
+            <div class="flex flex-col flex-shrink-0 flex-grow dashboardColumn-2-60">
+                <div class="flex-shrink-0 mb-8 dashboardSection">
+                    <a is="emby-linkbutton" href="#!/dashboardgeneral.html" class="m-0 button-flat sectionTitleTextButton">
+                        <h3 class="my-2">${TabServer}</h3>
+                        <span class="my-2 pt-0  material-icons chevron_right"></span>
                     </a>
 
                     <div class="paperList" style="padding: 1em;">
@@ -28,82 +28,82 @@
                     </div>
 
                     <div style="margin-top: 2em;" class="runningTasksContainer hide">
-                        <h3>${HeaderRunningTasks}</h3>
+                        <h3 class="my-2">${HeaderRunningTasks}</h3>
                         <div id="divRunningTasks" class="paperList" style="padding: 1em;">
                         </div>
                     </div>
                 </div>
 
-                <div class="dashboardSection">
-                    <a is="emby-linkbutton" href="#!/devices.html" class="button-flat sectionTitleTextButton">
-                        <h3>${HeaderActiveDevices}</h3>
-                        <span class="material-icons chevron_right"></span>
+                <div class="flex-shrink-0 mb-8 dashboardSection">
+                    <a is="emby-linkbutton" href="#!/devices.html" class="m-0 button-flat sectionTitleTextButton">
+                        <h3 class="my-2">${HeaderActiveDevices}</h3>
+                        <span class="my-2 pt-0  material-icons chevron_right"></span>
                     </a>
                     <div class="activeDevices itemsContainer vertical-wrap">
                     </div>
                 </div>
             </div>
 
-            <div class="dashboardColumn dashboardColumn-2-40 dashboardColumn-3-27">
-                <div class="dashboardSection">
-                    <a is="emby-linkbutton" href="#!/serveractivity.html?useractivity=true" class="button-flat sectionTitleTextButton">
-                        <h3>${HeaderActivity}</h3>
-                        <span class="material-icons chevron_right"></span>
+            <div class="flex flex-col flex-shrink-0 flex-grow dashboardColumn-2-40">
+                <div class="flex-shrink-0 mb-8 dashboardSection">
+                    <a is="emby-linkbutton" href="#!/serveractivity.html?useractivity=true" class="m-0 button-flat sectionTitleTextButton">
+                        <h3 class="my-2">${HeaderActivity}</h3>
+                        <span class="my-2 pt-0  material-icons chevron_right"></span>
                     </a>
                     <div class="paperList userActivityItems" data-activitylimit="7" data-useractivity="true">
                     </div>
                 </div>
             </div>
-            <div class="dashboardColumn dashboardColumn-3-27">
+            <div class="flex flex-col flex-shrink-0 flex-grow">
 
-                <div class="dashboardSection activeRecordingsSection hide">
-                    <h3>${HeaderActiveRecordings}</h3>
-                    <div class="activeRecordingItems vertical-wrap" is="emby-itemscontainer">
+                <div class="flex-shrink-0 mb-8 dashboardSection activeRecordingsSection hide">
+                    <h3 class="my-2">${HeaderActiveRecordings}</h3>
+                    <div class="my-2 activeRecordingItems vertical-wrap" is="emby-itemscontainer">
                     </div>
                 </div>
 
-                <div class="dashboardSection serverActivitySection hide activityContainer">
-                    <a is="emby-linkbutton" href="#!/serveractivity.html?useractivity=false" class="button-flat sectionTitleTextButton">
-                        <h3>${Alerts}</h3>
-                        <span class="material-icons chevron_right"></span>
+                <div class="flex-shrink-0 mb-8 dashboardSection serverActivitySection hide activityContainer">
+                    <a is="emby-linkbutton" href="#!/serveractivity.html?useractivity=false" class="m-0 button-flat sectionTitleTextButton">
+                        <h3 class="my-2">${Alerts}</h3>
+                        <span class="my-2 pt-0 material-icons chevron_right"></span>
                     </a>
                     <div class="paperList serverActivityItems" data-activitylimit="4" data-useractivity="false">
                     </div>
                 </div>
 
-                <div class="dashboardSection">
-                    <a is="emby-linkbutton" href="#!/dashboardgeneral.html" class="button-flat sectionTitleTextButton">
-                        <h3>${HeaderPaths}</h3>
-                        <span class="material-icons chevron_right"></span>
+                <div class="flex-shrink-0 mb-8 dashboardSection">
+                    <a is="emby-linkbutton" href="#!/dashboardgeneral.html" class="m-0 button-flat sectionTitleTextButton">
+                        <h3 class="my-2">${HeaderPaths}</h3>
+                        <span class="my-2 pt-0 material-icons chevron_right"></span>
                     </a>
                     <div class="paperList">
                         <div class="listItem listItem-border">
                             <div class="listItemBody two-line">
-                                <div class="listItemBodyText secondary" style="margin:0;">${LabelCache}</div>
+                                <div class="m-0 listItemBodyText secondary">${LabelCache}</div>
                                 <div class="listItemBodyText" id="cachePath"></div>
                             </div>
                         </div>
                         <div class="listItem listItem-border">
                             <div class="listItemBody two-line">
-                                <div class="listItemBodyText secondary" style="margin:0;">${LabelLogs}</div>
+                                <div class="m-0 listItemBodyText secondary">${LabelLogs}</div>
                                 <div class="listItemBodyText" id="logPath"></div>
                             </div>
                         </div>
                         <div class="listItem listItem-border">
                             <div class="listItemBody two-line">
-                                <div class="listItemBodyText secondary" style="margin:0;">${LabelMetadata}</div>
+                                <div class="m-0 listItemBodyText secondary">${LabelMetadata}</div>
                                 <div class="listItemBodyText" id="metadataPath"></div>
                             </div>
                         </div>
                         <div class="listItem listItem-border">
                             <div class="listItemBody two-line">
-                                <div class="listItemBodyText secondary" style="margin:0;">${LabelTranscodes}</div>
+                                <div class="m-0 listItemBodyText secondary">${LabelTranscodes}</div>
                                 <div class="listItemBodyText" id="transcodePath"></div>
                             </div>
                         </div>
                         <div class="listItem listItem-border">
                             <div class="listItemBody two-line">
-                                <div class="listItemBodyText secondary" style="margin:0;">${LabelWeb}</div>
+                                <div class="m-0 listItemBodyText secondary">${LabelWeb}</div>
                                 <div class="listItemBodyText" id="webPath"></div>
                             </div>
                         </div>
@@ -112,10 +112,9 @@
             </div>
         </div>
 
-        <div class="dashboardFooter">
-            <div style="height:1px;" class="ui-bar-inherit"></div>
-            <div style="margin-top:1em;">
-                <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="https://jellyfin.org" target="_blank">Jellyfin</a>
+        <div class="m-14 text-center">
+            <div class="mt-4">
+                <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link px-3" href="https://jellyfin.org" target="_blank">Jellyfin</a>
             </div>
         </div>
     </div>
