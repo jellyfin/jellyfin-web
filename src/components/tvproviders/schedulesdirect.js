@@ -7,7 +7,6 @@ import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.scss';
 import Dashboard from '../../scripts/clientUtils';
 import { Events } from 'jellyfin-apiclient';
 

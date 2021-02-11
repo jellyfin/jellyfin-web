@@ -8,7 +8,6 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../formdialog.scss';
-import '../../assets/css/flexstyles.scss';
 import template from './dialog.template.html';
 
 /* eslint-disable indent */
@@ -32,8 +31,8 @@ import template from './dialog.template.html';
 
         dlg.innerHTML = globalize.translateHtml(template, 'core');
 
-        dlg.classList.add('align-items-center');
-        dlg.classList.add('justify-content-center');
+        dlg.classList.add('items-center');
+        dlg.classList.add('justify-center');
         const formDialogContent = dlg.querySelector('.formDialogContent');
         formDialogContent.classList.add('no-grow');
 

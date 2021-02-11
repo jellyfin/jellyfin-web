@@ -8,7 +8,6 @@ import globalize from '../../scripts/globalize';
 import itemHelper from '../itemHelper';
 import './upnextdialog.scss';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.scss';
 
 /* eslint-disable indent */
 
@@ -17,16 +16,16 @@ import '../../assets/css/flexstyles.scss';
     function getHtml() {
         let html = '';
 
-        html += '<div class="flex flex-direction-column flex-grow">';
+        html += '<div class="flex flex-col flex-grow">';
 
         html += '<h2 class="upNextDialog-nextVideoText" style="margin:.25em 0;">&nbsp;</h2>';
 
         html += '<h3 class="upNextDialog-title" style="margin:.25em 0 .5em;"></h3>';
 
-        html += '<div class="flex flex-direction-row upNextDialog-mediainfo">';
+        html += '<div class="flex flex-row upNextDialog-mediainfo">';
         html += '</div>';
 
-        html += '<div class="flex flex-direction-row upNextDialog-buttons" style="margin-top:1em;">';
+        html += '<div class="flex flex-row upNextDialog-buttons" style="margin-top:1em;">';
 
         html += '<button type="button" is="emby-button" class="raised raised-mini btnStartNow upNextDialog-button">';
         html += globalize.translate('HeaderStartNow');

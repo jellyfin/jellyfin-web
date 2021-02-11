@@ -1,0 +1,24 @@
+<div id="quickConnectPage" data-role="page" class="page type-interior advancedConfigurationPage">
+    <div class="content-primary">
+        <form class="quickConnectSettings">
+            <div class="verticalSection">
+                <div class="sectionTitleContainer flex items-center">
+                    <h2 class="sectionTitle">${QuickConnect}</h2>
+                </div>
+            </div>
+
+            <div>${LabelCurrentStatus}<span id="quickConnectStatus" style="padding:0 0.4em;"></span></div>
+
+            <div class="checkboxList paperList" style="padding:.5em 1em;">
+                <label>
+                    <input type="checkbox" is="emby-checkbox" id="chkQuickConnectAvailable" />
+                    <span>${EnableQuickConnect}</span>
+                </label>
+            </div>
+
+            <button is="emby-button" id="btnQuickConnectSubmit" type="submit" class="raised button-submit block">
+                <span>${Save}</span>
+            </button>
+        </form>
+    </div>
+</div>

@@ -6,7 +6,6 @@ import layoutManager from '../components/layoutManager';
 import loading from '../components/loading/loading';
 import browser from '../scripts/browser';
 import '../components/listview/listview.scss';
-import '../assets/css/flexstyles.scss';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../components/cardbuilder/card.scss';
 import 'material-design-icons-iconfont';

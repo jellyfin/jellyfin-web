@@ -15,7 +15,6 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import '../../assets/css/clearbutton.scss';
-import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../appRouter';
@@ -451,7 +450,7 @@ import template from './metadataEditor.template.html';
             const labelText = globalize.translate('LabelDynamicExternalId', fullName);
 
             html += '<div class="inputContainer">';
-            html += '<div class="flex align-items-center">';
+            html += '<div class="flex items-center">';
 
             const value = providerIds[idInfo.Key] || '';
 
@@ -460,7 +459,7 @@ import template from './metadataEditor.template.html';
             html += '</div>';
 
             if (formatString) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId self-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser"></span></button>';
             }
             html += '</div>';
 

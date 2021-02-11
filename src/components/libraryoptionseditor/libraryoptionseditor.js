@@ -217,7 +217,7 @@ import template from './libraryoptionseditor.template.html';
         if (!plugins.length) return html;
 
         html += '<div class="imageFetcher" data-type="' + availableTypeOptions.Type + '">';
-        html += '<div class="flex align-items-center" style="margin:1.5em 0 .5em;">';
+        html += '<div class="flex items-center" style="margin:1.5em 0 .5em;">';
         html += '<h3 class="checkboxListLabel" style="margin:0;">' + globalize.translate('HeaderTypeImageFetchers', availableTypeOptions.Type) + '</h3>';
         const supportedImageTypes = availableTypeOptions.SupportedImageTypes || [];
         if (supportedImageTypes.length > 1 || supportedImageTypes.length === 1 && supportedImageTypes[0] !== 'Primary') {

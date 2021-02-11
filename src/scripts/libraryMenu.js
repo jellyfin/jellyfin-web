@@ -14,7 +14,6 @@ import { getMenuLinks } from '../scripts/settings/webSettings';
 import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.scss';
-import '../assets/css/flexstyles.scss';
 import Dashboard, { pageClassOn } from './clientUtils';
 import ServerConnections from '../components/ServerConnections';
 import Headroom from 'headroom.js';
@@ -23,7 +22,7 @@ import Headroom from 'headroom.js';
 
     function renderHeader() {
         let html = '';
-        html += '<div class="flex align-items-center flex-grow headerTop">';
+        html += '<div class="flex items-center flex-grow headerTop">';
         html += '<div class="headerLeft">';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><span class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '"></span></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><span class="material-icons home"></span></button>';

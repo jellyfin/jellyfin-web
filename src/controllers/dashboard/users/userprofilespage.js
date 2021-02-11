@@ -7,7 +7,6 @@ import '../../../elements/emby-button/paper-icon-button-light';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-button/emby-button';
 import '../../../components/indicators/indicators.scss';
-import '../../../assets/css/flexstyles.scss';
 import Dashboard, { pageIdOn } from '../../../scripts/clientUtils';
 import confirm from '../../../components/confirm/confirm';
 import cardBuilder from '../../../components/cardbuilder/cardBuilder';
@@ -114,7 +113,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         if (imgUrl) {
             html += '<div class="' + imageClass + '" style="background-image:url(\'' + imgUrl + "');\">";
         } else {
-            html += `<div class="${imageClass} ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()} flex align-items-center justify-content-center">`;
+            html += `<div class="${imageClass} ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()} flex items-center justify-center">`;
             html += '<span class="material-icons cardImageIcon person"></span>';
         }
 
@@ -122,11 +121,11 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         html += '</a>';
         html += '</div>';
         html += '<div class="cardFooter visualCardBox-cardFooter">';
-        html += '<div class="cardText flex align-items-center">';
+        html += '<div class="cardText flex items-center">';
         html += '<div class="flex-grow" style="overflow:hidden;text-overflow:ellipsis;">';
         html += user.Name;
         html += '</div>';
-        html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu flex-shrink-zero"><span class="material-icons more_vert"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu flex-shrink-0"><span class="material-icons more_vert"></span></button>';
         html += '</div>';
         html += '<div class="cardText cardText-secondary">';
         const lastSeen = getLastSeenText(user.LastActivityDate);

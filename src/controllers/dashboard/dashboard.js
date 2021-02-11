@@ -15,7 +15,6 @@ import imageHelper from '../../scripts/imagehelper';
 import indicators from '../../components/indicators/indicators';
 import '../../components/listview/listview.scss';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import taskButton from '../../scripts/taskbutton';
 import Dashboard from '../../scripts/clientUtils';
@@ -310,7 +309,7 @@ import confirm from '../../components/confirm/confirm';
                 html += '</div>';
                 html += '</div>';
                 html += '<div class="sessionCardFooter cardFooter">';
-                html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
+                html += '<div class="sessionCardButtons flex items-center justify-center">';
 
                 let btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hide';
                 const playIcon = session.PlayState.IsPaused ? 'pause' : 'play_arrow';
@@ -323,7 +322,7 @@ import confirm from '../../components/confirm/confirm';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('SendMessage') + '"><span class="material-icons message"></span></button>';
                 html += '</div>';
 
-                html += '<div class="flex align-items-center justify-content-center">';
+                html += '<div class="flex items-center justify-center">';
                 const userImage = DashboardPage.getUserImage(session);
                 html += userImage ? '<div class="activitylogUserPhoto" style="background-image:url(\'' + userImage + "');\"></div>" : '<div style="height:1.71em;"></div>';
                 html += '<div class="sessionUserName">';

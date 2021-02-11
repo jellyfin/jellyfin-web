@@ -9,7 +9,6 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
-import '../../assets/css/flexstyles.scss';
 import template from './viewSettings.template.html';
 
 function onSubmit(e) {

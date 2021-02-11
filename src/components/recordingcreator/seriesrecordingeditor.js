@@ -13,7 +13,6 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import './recordingcreator.scss';
 import 'material-design-icons-iconfont';
-import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import template from './seriesrecordingeditor.template.html';
 

@@ -13,7 +13,6 @@ import '../formdialog.scss';
 import 'material-design-icons-iconfont';
 import './subtitleeditor.scss';
 import '../../elements/emby-button/emby-button';
-import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
@@ -216,7 +215,7 @@ function renderSearchResults(context, results) {
         }
 
         if (result.IsHashMatch) {
-            html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('PerfectMatch') + '</div></div>';
+            html += '<div class="secondary listItemBodyText"><div class="inline-flex items-center justify-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('PerfectMatch') + '</div></div>';
         }
 
         html += '</div>';

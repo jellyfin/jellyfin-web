@@ -890,15 +890,15 @@ export default function () {
     }
 
     function init(ownerView, context) {
-        let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
+        let volumecontrolHtml = '<div class="volumecontrol flex items-center flex-wrap justify-center">';
         volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up"></span></button>`;
         volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
         volumecontrolHtml += '</div>';
         const optionsSection = context.querySelector('.playlistSectionButton');
         if (!layoutManager.mobile) {
             context.querySelector('.nowPlayingSecondaryButtons').insertAdjacentHTML('beforeend', volumecontrolHtml);
-            optionsSection.classList.remove('align-items-center', 'justify-content-center');
-            optionsSection.classList.add('align-items-right', 'justify-content-flex-end');
+            optionsSection.classList.remove('items-center', 'justify-center');
+            optionsSection.classList.add('align-items-right', 'justify-end');
             context.querySelector('.playlist').classList.remove('hide');
             context.querySelector('.btnSavePlaylist').classList.remove('hide');
             context.classList.add('padded-bottom');
@@ -906,8 +906,8 @@ export default function () {
             optionsSection.querySelector('.btnTogglePlaylist').insertAdjacentHTML('afterend', volumecontrolHtml);
             optionsSection.classList.add('playlistSectionButtonTransparent');
             context.querySelector('.btnTogglePlaylist').classList.remove('hide');
-            context.querySelector('.playlistSectionButton').classList.remove('justify-content-center');
-            context.querySelector('.playlistSectionButton').classList.add('justify-content-space-between');
+            context.querySelector('.playlistSectionButton').classList.remove('justify-center');
+            context.querySelector('.playlistSectionButton').classList.add('justify-between');
         }
 
         bindEvents(context);
