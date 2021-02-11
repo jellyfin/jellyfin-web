@@ -1501,5 +1501,7 @@
     "LabelMaxAudiobookResumeHelp": "Các tiêu đề được coi là phát đầy đủ nếu dừng sau thời gian này.",
     "LabelMaxAudiobookResume": "Tiếp tục Sách nói tối đa trong vài phút:",
     "MessagePlaybackError": "Đã xảy ra lỗi khi phát tệp này trên bộ thu Google Cast của bạn.",
-    "MessageChromecastConnectionError": "Bộ thu Google Cast của bạn không thể kết nối với máy chủ Jellyfin. Vui lòng kiểm tra kết nối và thử lại."
+    "MessageChromecastConnectionError": "Bộ thu Google Cast của bạn không thể kết nối với máy chủ Jellyfin. Vui lòng kiểm tra kết nối và thử lại.",
+    "AllowVppTonemappingHelp": "Ánh xạ âm dựa trên phần cứng đầy đủ mà không cần sử dụng bộ lọc OpenCL. Hiện chỉ hoạt động khi chuyển mã video có siêu dữ liệu HDR10 được nhúng.",
+    "EnableEnhancedNvdecDecoder": "Bật bộ giải mã NVDEC nâng cao"
 }
