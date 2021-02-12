@@ -24,7 +24,7 @@ module.exports = {
     extends: [
         'eslint:recommended',
         // 'plugin:promise/recommended',
-        'plugin:import/errors',
+        // 'plugin:import/errors',
         'plugin:eslint-comments/recommended',
         'plugin:compat/recommended'
     ],
@@ -57,7 +57,8 @@ module.exports = {
     overrides: [
         {
             files: [
-                './src/**/*.js'
+                './src/**/*.js',
+                './src/**/*.ts'
             ],
             parser: '@babel/eslint-parser',
             env: {
@@ -191,6 +192,17 @@ module.exports = {
                     'document.querySelector'
                 ]
             }
+        },
+        {
+            files: [
+                './src/**/*.ts'
+            ],
+            parser: '@typescript-eslint/parser',
+            extends: [
+                'eslint:recommended',
+                'plugin:@typescript-eslint/recommended',
+                'plugin:eslint-comments/recommended'
+            ]
         }
     ]
 };

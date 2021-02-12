@@ -246,12 +246,14 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 reloadItems(tabContent);
             });
             tabContent.querySelector('.btnNewCollection').addEventListener('click', () => {
-                import('../../components/collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
+                import('../../components/collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
                     const serverId = ApiClient.serverInfo().Id;
-                    new collectionEditor({
+                    const collectionEditor = new CollectionEditor({
                         items: [],
                         serverId: serverId
                     });
+
+                    collectionEditor.show();
                 });
             });
         };

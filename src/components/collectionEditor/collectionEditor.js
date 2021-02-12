@@ -221,9 +221,9 @@ import toast from '../toast/toast';
                 dialogOptions.size = 'small';
             }
 
-            const dlg = dialogHelper.createDialog(dialogOptions);
+            this.dlg = dialogHelper.createDialog(dialogOptions);
 
-            dlg.classList.add('formDialog');
+            this.dlg.classList.add('formDialog');
 
             let html = '';
             const title = items.length ? globalize.translate('HeaderAddToCollection') : globalize.translate('NewCollection');
@@ -238,24 +238,26 @@ import toast from '../toast/toast';
 
             html += getEditorHtml();
 
-            dlg.innerHTML = html;
+            this.dlg.innerHTML = html;
 
-            initEditor(dlg, items);
+            initEditor(this.dlg, items);
 
-            dlg.querySelector('.btnCancel').addEventListener('click', () => {
-                dialogHelper.close(dlg);
+            this.dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                dialogHelper.close(this.dlg);
             });
 
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+                centerFocus(this.dlg.querySelector('.formDialogContent'), false, true);
             }
+        }
 
-            return dialogHelper.open(dlg).then(() => {
+        show() {
+            return dialogHelper.open(this.dlg).then(() => {
                 if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                    centerFocus(this.dlg.querySelector('.formDialogContent'), false, false);
                 }
 
-                if (dlg.submitted) {
+                if (this.dlg.submitted) {
                     return Promise.resolve();
                 }
 

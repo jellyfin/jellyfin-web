@@ -25,6 +25,7 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     resolve: {
+        extensions: ['.wasm', '.mjs', '.js', '.ts', '.json'],
         modules: [
             path.resolve(__dirname, 'node_modules')
         ]

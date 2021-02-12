@@ -189,12 +189,12 @@ export default function (view, params) {
         reloadItems();
     });
     view.querySelector('.btnNewPlaylist').addEventListener('click', function () {
-        import('playlistEditor').then(({default: playlistEditor}) => {
+        import('playlistEditor').then(({default: PlaylistEditor}) => {
             const serverId = ApiClient.serverInfo().Id;
-            new playlistEditor({
+            new PlaylistEditor({
                 items: [],
                 serverId: serverId
-            });
+            }).show();
         });
     });
     onViewStyleChange();

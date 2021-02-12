@@ -7,6 +7,7 @@
     "allowJs": true,
     "checkJs": false,
     "moduleResolution": "node",
-    "lib": ["DOM", "ES2015"]
+    "lib": ["DOM", "ES2015"],
+    "strictNullChecks": true
   }
 }

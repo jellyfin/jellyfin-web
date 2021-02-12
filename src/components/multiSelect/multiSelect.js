@@ -6,7 +6,7 @@ import dom from '../../scripts/dom';
 import './multiSelect.css';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
-import playlistEditor from '../playlisteditor/playlisteditor';
+import PlaylistEditor from '../playlisteditor/playlisteditor';
 import confirm from '../confirm/confirm';
 
 /* eslint-disable indent */
@@ -240,20 +240,22 @@ import confirm from '../confirm/confirm';
 
                         switch (id) {
                             case 'addtocollection':
-                                import('../collectionEditor/collectionEditor').then(({default: collectionEditor}) => {
-                                    new collectionEditor({
+                                import('../collectionEditor/collectionEditor').then(({default: CollectionEditor}) => {
+                                    const collectionEditor = new CollectionEditor({
                                         items: items,
                                         serverId: serverId
                                     });
+
+                                    collectionEditor.show();
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
-                                new playlistEditor({
+                                new PlaylistEditor({
                                     items: items,
                                     serverId: serverId
-                                });
+                                }).show();
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;

@@ -1023,37 +1023,10 @@ class PlaybackManager {
             return players;
         };
 
-        function getDefaultPlayOptions() {
+        self.getDefaultPlayOptions = function () {
             return {
                 fullscreen: true
             };
-        }
-
-        self.canPlay = function (item) {
-            const itemType = item.Type;
-
-            if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
-                return true;
-            }
-
-            if (item.LocationType === 'Virtual') {
-                if (itemType !== 'Program') {
-                    return false;
-                }
-            }
-
-            if (itemType === 'Program') {
-                if (!item.EndDate || !item.StartDate) {
-                    return false;
-                }
-
-                if (new Date().getTime() > datetime.parseISO8601Date(item.EndDate).getTime() || new Date().getTime() < datetime.parseISO8601Date(item.StartDate).getTime()) {
-                    return false;
-                }
-            }
-
-            //var mediaType = item.MediaType;
-            return getPlayer(item, getDefaultPlayOptions()) != null;
         };
 
         self.toggleAspectRatio = function (player) {
@@ -1686,7 +1659,7 @@ class PlaybackManager {
 
                 const maxBitrate = params.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
 
-                const currentPlayOptions = currentItem.playOptions || getDefaultPlayOptions();
+                const currentPlayOptions = currentItem.playOptions || self.getDefaultPlayOptions();
 
                 getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, true, currentMediaSource.Id, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
                     if (validatePlaybackInfoResult(self, result)) {
@@ -1832,7 +1805,7 @@ class PlaybackManager {
                     SortBy: options.shuffle ? 'Random' : (['BoxSet'].indexOf(firstItem.Type) === -1 ? 'SortName' : null),
                     MediaTypes: 'Audio,Video'
                 }, queryOptions));
-            } else if (firstItem.Type === 'Episode' && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
+            } else if (firstItem.Type === 'Episode' && items.length === 1 && self.getPlayer(firstItem, options).supportsProgress !== false) {
                 promise = new Promise(function (resolve, reject) {
                     const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
@@ -2039,7 +2012,7 @@ class PlaybackManager {
 
         function playOther(items, options, user) {
             const playStartIndex = options.startIndex || 0;
-            const player = getPlayer(items[playStartIndex], options);
+            const player = self.getPlayer(items[playStartIndex], options);
 
             loading.hide();
 
@@ -2225,7 +2198,7 @@ class PlaybackManager {
         function playAfterBitrateDetect(maxBitrate, item, playOptions, onPlaybackStartedFn) {
             const startPosition = playOptions.startPositionTicks;
 
-            const player = getPlayer(item, playOptions);
+            const player = self.getPlayer(item, playOptions);
             const activePlayer = self._currentPlayer;
 
             let promise;
@@ -2302,7 +2275,7 @@ class PlaybackManager {
             options = options || {};
             const startPosition = options.startPositionTicks || 0;
             const mediaType = options.mediaType || item.MediaType;
-            const player = getPlayer(item, options);
+            const player = self.getPlayer(item, options);
             const apiClient = ServerConnections.getApiClient(item.ServerId);
 
             // Call this just to ensure the value is recorded, it is needed with getSavedMaxStreamingBitrate
@@ -2322,7 +2295,7 @@ class PlaybackManager {
             const startPosition = options.startPositionTicks || 0;
             const mediaType = options.mediaType || item.MediaType;
             // TODO: Remove the true forceLocalPlayer hack
-            const player = getPlayer(item, options, true);
+            const player = self.getPlayer(item, options, true);
             const apiClient = ServerConnections.getApiClient(item.ServerId);
 
             // Call this just to ensure the value is recorded, it is needed with getSavedMaxStreamingBitrate
@@ -2489,7 +2462,7 @@ class PlaybackManager {
             });
         }
 
-        function getPlayer(item, playOptions, forceLocalPlayers) {
+        self.getPlayer = function(item, playOptions, forceLocalPlayers) {
             const serverItem = isServerItem(item);
             return getAutomaticPlayers(self, forceLocalPlayers).filter(function (p) {
                 if (p.canPlayMediaType(item.MediaType)) {
@@ -2505,7 +2478,7 @@ class PlaybackManager {
 
                 return false;
             })[0];
-        }
+        };
 
         self.getItemFromPlaylistItemId = function (playlistItemId) {
             let item;
@@ -2535,7 +2508,7 @@ class PlaybackManager {
             const newItem = self.getItemFromPlaylistItemId(playlistItemId);
 
             if (newItem.Item) {
-                const newItemPlayOptions = newItem.Item.playOptions || getDefaultPlayOptions();
+                const newItemPlayOptions = newItem.Item.playOptions || self.getDefaultPlayOptions();
 
                 playInternal(newItem.Item, newItemPlayOptions, function () {
                     setPlaylistState(newItem.Item.PlaylistItemId, newItem.Index);
@@ -2633,7 +2606,7 @@ class PlaybackManager {
             if (newItemInfo) {
                 console.debug('playing next track');
 
-                const newItemPlayOptions = newItemInfo.item.playOptions || getDefaultPlayOptions();
+                const newItemPlayOptions = newItemInfo.item.playOptions || self.getDefaultPlayOptions();
 
                 playInternal(newItemInfo.item, newItemPlayOptions, function () {
                     setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
@@ -2653,7 +2626,7 @@ class PlaybackManager {
                 const newItem = playlist[newIndex];
 
                 if (newItem) {
-                    const newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
+                    const newItemPlayOptions = newItem.playOptions || self.getDefaultPlayOptions();
                     newItemPlayOptions.startPositionTicks = 0;
 
                     playInternal(newItem, newItemPlayOptions, function () {
@@ -2805,7 +2778,7 @@ class PlaybackManager {
             const player = this;
             setCurrentPlayerInternal(player);
 
-            const playOptions = item.playOptions || getDefaultPlayOptions();
+            const playOptions = item.playOptions || self.getDefaultPlayOptions();
             const isFirstItem = playOptions.isFirstItem;
             const fullscreen = playOptions.fullscreen;
 
@@ -2866,8 +2839,8 @@ class PlaybackManager {
             Events.trigger(player, 'playbackstop', [state]);
             Events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
-            const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
-            const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
+            const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || self.getDefaultPlayOptions()) : self.getDefaultPlayOptions();
+            const newPlayer = nextItem ? self.getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
             if (newPlayer !== player) {
                 destroyPlayer(player);
@@ -2970,8 +2943,8 @@ class PlaybackManager {
             Events.trigger(player, 'playbackstop', [state]);
             Events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
-            const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
-            const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
+            const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || self.getDefaultPlayOptions()) : self.getDefaultPlayOptions();
+            const newPlayer = nextItem ? self.getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
             if (newPlayer !== player) {
                 destroyPlayer(player);
@@ -3210,6 +3183,33 @@ class PlaybackManager {
                 Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
             });
         }
+    }
+
+    canPlay(item) {
+        const itemType = item.Type;
+
+        if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
+            return true;
+        }
+
+        if (item.LocationType === 'Virtual') {
+            if (itemType !== 'Program') {
+                return false;
+            }
+        }
+
+        if (itemType === 'Program') {
+            if (!item.EndDate || !item.StartDate) {
+                return false;
+            }
+
+            if (new Date().getTime() > datetime.parseISO8601Date(item.EndDate).getTime() || new Date().getTime() < datetime.parseISO8601Date(item.StartDate).getTime()) {
+                return false;
+            }
+        }
+
+        //var mediaType = item.MediaType;
+        return this.getPlayer(item, this.getDefaultPlayOptions()) != null;
     }
 
     getCurrentPlayer() {

@@ -13,6 +13,8 @@
     "@babel/plugin-transform-modules-umd": "^7.12.13",
     "@babel/preset-env": "^7.12.13",
     "@babel/preset-typescript": "^7.12.16",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^4.15.0",
     "@uupaa/dynamic-import-polyfill": "^1.0.2",
     "autoprefixer": "^9.8.6",
     "babel-loader": "^8.2.2",
