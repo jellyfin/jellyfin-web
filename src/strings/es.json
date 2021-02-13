@@ -1501,5 +1501,8 @@
     "LabelMinAudiobookResumeHelp": "Los títulos se consideran vistos si se paran antes de este tiempo.",
     "LabelMinAudiobookResume": "Reanudación mínima del audiolibro en minutos:",
     "LabelMaxAudiobookResumeHelp": "Los títulos se consideran como vistos si se paran después de este minuto.",
-    "LabelMaxAudiobookResume": "Reanudación máxima de audiolibros en minutos:"
+    "LabelMaxAudiobookResume": "Reanudación máxima de audiolibros en minutos:",
+    "AllowVppTonemappingHelp": "Mapeo de tonos completo basado en hardware sin usar el filtro OpenCL. Actualmente solo funciona al transcodificar videos con metadatos HDR10 incrustados.",
+    "EnableVppTonemapping": "Habilitar mapeo de tonos VPP",
+    "EnableEnhancedNvdecDecoder": "Habilitar decodificador NVDEC mejorado"
 }
