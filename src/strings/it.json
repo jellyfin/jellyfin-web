@@ -1480,5 +1480,9 @@
     "LabelMaxAudiobookResume": "Ripresa massima degli Audiolibri in minuti:",
     "LabelHDHomerunPortRangeHelp": "Restringi il range delle porte UDP di HD Homerun a questo valore. (Default è 1024 - 645535).",
     "LabelHDHomerunPortRange": "Range porte di HD Homerun:",
-    "LabelH265Crf": "CRF di codifica H265:"
+    "LabelH265Crf": "CRF di codifica H265:",
+    "LabelAllowedAudioChannels": "Numero massimo di Canali Audio permessi",
+    "AspectRatioFill": "Riempi",
+    "AspectRatioCover": "Copertina",
+    "SyncPlayGroupDefaultTitle": "Gruppo di {0}"
 }
