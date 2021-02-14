@@ -1501,5 +1501,7 @@
     "LabelMinAudiobookResumeHelp": "Tituly sú považované za neprehrané, pokiaľ sú zastavené pred týmto časom.",
     "LabelMinAudiobookResume": "Minimálna dĺžka pre pokračovanie audiokníh v minútach:",
     "LabelMaxAudiobookResumeHelp": "Tituly sú považované za prehrané, pokiaľ sú zastavené po tomto čase.",
-    "LabelMaxAudiobookResume": "Maximálna dĺžka pre pokračovanie audiokníh v minútach:"
+    "LabelMaxAudiobookResume": "Maximálna dĺžka pre pokračovanie audiokníh v minútach:",
+    "EnableVppTonemapping": "Povoliť VPP mapovanie tónov",
+    "EnableEnhancedNvdecDecoder": "Povoliť vylepšený NVDEC dekóder"
 }
