@@ -46,5 +46,7 @@
     "Favorites": "Mga Paborito",
     "Channels": "Mga Channel",
     "Albums": "Mga Album",
-    "Default": "Default"
+    "Default": "Default",
+    "AlwaysPlaySubtitlesHelp": "Ang mga subtitle na tugma sa preferred na lengguwahe ay laging i-loload kahit anong lengguwahe ng audio.",
+    "AlwaysPlaySubtitles": "Laging i-play"
 }
