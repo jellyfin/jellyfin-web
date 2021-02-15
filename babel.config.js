@@ -3,6 +3,7 @@ module.exports = {
         // Keep the root as a root
         '.'
     ],
+    sourceType: 'unambiguous',
     presets: [
         [
             '@babel/preset-env',
