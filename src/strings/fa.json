@@ -705,7 +705,7 @@
     "LabelAuthProvider": "Authentication Provider:",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Automatically refresh metadata from the internet:",
     "LabelBindToLocalNetworkAddress": "Bind to local network address:",
-    "LabelBindToLocalNetworkAddressHelp": "Optional. Override the local IP address to bind the http server to. If left empty, the server will bind to all availabile addresses. Changing this value requires restarting Jellyfin Server.",
+    "LabelBindToLocalNetworkAddressHelp": "Optional. Override the local IP address to bind the http server to. If left empty, the server will bind to all available addresses. Changing this value requires restarting Jellyfin Server.",
     "LabelBirthDate": "Birth date:",
     "LabelBirthYear": "Birth year:",
     "LabelBitrate": "Bitrate:",
