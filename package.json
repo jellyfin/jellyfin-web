@@ -51,7 +51,7 @@
   "dependencies": {
     "@fontsource/noto-sans": "^4.2.0",
     "@fontsource/noto-sans-hk": "^4.2.0",
-    "@fontsource/noto-sans-jp": "^4.2.0",
+    "@fontsource/noto-sans-jp": "^4.2.1",
     "@fontsource/noto-sans-kr": "^4.2.0",
     "@fontsource/noto-sans-sc": "^4.2.0",
     "blurhash": "^1.1.3",
