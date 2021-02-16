@@ -277,7 +277,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         let hasCardImageContainer;
 
         if (imgUrl) {
-            html += `<div class="cardImageContainer editLibrary ${cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer">`;
+            html += `<div class="cardImageContainer editLibrary ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer">`;
             html += `<img src="${imgUrl}" style="width:100%" />`;
             hasCardImageContainer = true;
         } else if (!virtualFolder.showNameWithIcon) {

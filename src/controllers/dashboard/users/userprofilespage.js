@@ -94,7 +94,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
-        html += `<a is="emby-linkbutton" class="cardContent ${cardBuilder.getDefaultBackgroundClass()}" href="#!/useredit.html?userId=${user.Id}">`;
+        html += `<a is="emby-linkbutton" class="cardContent ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()}" href="#!/useredit.html?userId=${user.Id}">`;
         let imgUrl;
 
         if (user.PrimaryImageTag) {
@@ -114,7 +114,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         if (imgUrl) {
             html += '<div class="' + imageClass + '" style="background-image:url(\'' + imgUrl + "');\">";
         } else {
-            html += '<div class="' + imageClass + ' flex align-items-center justify-content-center">';
+            html += `<div class="${imageClass} ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()} flex align-items-center justify-content-center">`;
             html += '<span class="material-icons cardImageIcon person"></span>';
         }
 
