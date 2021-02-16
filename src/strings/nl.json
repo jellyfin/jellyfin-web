@@ -1501,5 +1501,8 @@
     "LabelMaxAudiobookResume": "Maximale resterende duur in minuten:",
     "MessagePlaybackError": "Er was een error tijdens het afspelen van dit bestand op uw Google Cast.",
     "MessageChromecastConnectionError": "Uw Google Cast kan niet verbinden met de Jellyfin server. Controleer de verbinding en probeer opnieuw.",
-    "LabelMinAudiobookResumeHelp": "Titels worden als niet afgespeeld beschouwd indien gestopt voor deze tijd."
+    "LabelMinAudiobookResumeHelp": "Titels worden als niet afgespeeld beschouwd indien gestopt voor deze tijd.",
+    "AllowVppTonemappingHelp": "Volledige hardware-gebaseerde tonemapping zonder OpenCL-filter. Werkt momenteel alleen bij het transcoderen van video's met ingesloten HDR10-metadata.",
+    "EnableVppTonemapping": "VPP Tone mapping aanzetten",
+    "EnableEnhancedNvdecDecoder": "Verbeterde NVDEC decoder aanzetten"
 }
