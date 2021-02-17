@@ -1495,5 +1495,14 @@
     "LabelSyncPlayResumePlaybackDescription": "Csatlakozz a csoportos lejátszáshoz",
     "LabelSyncPlayResumePlayback": "Folytassa a helyi lejátszást",
     "LabelSyncPlayHaltPlaybackDescription": "És hagyja figyelmen kívül a lejátszási lista aktuális frissítéseit",
-    "LabelSyncPlayHaltPlayback": "Állítsd le a helyi lejátszást"
+    "LabelSyncPlayHaltPlayback": "Állítsd le a helyi lejátszást",
+    "AllowVppTonemappingHelp": "Teljes hardver alapú hangtérképezés OpenCL szűrő nélkül. Jelenleg csak videók beágyazott HDR10 metaadatokkal történő átkódolása esetén működik.",
+    "EnableVppTonemapping": "Aktiválja a VPP hangtérképet",
+    "EnableEnhancedNvdecDecoder": "Engedélyezze a továbbfejlesztett NVDEC dekódert",
+    "MessagePlaybackError": "Hiba történt a fájl lejátszása során, a Google Cast vevőn.",
+    "MessageChromecastConnectionError": "Google Cast-vevője nem tud kapcsolatba lépni a Jellyfin szerverrel. Kérjük, ellenőrizze a kapcsolatot, és próbálja újra.",
+    "LabelMinAudiobookResumeHelp": "A címeket nem lejátszottnak tekintjük, ha ez alatt az idő alatt fejezed be.",
+    "LabelMinAudiobookResume": "A hangoskönyv minimális folytatása percekben:",
+    "LabelMaxAudiobookResumeHelp": "A címeket teljesen lejátszottnak tekintjük, ha ezen idő után fejezed be.",
+    "LabelMaxAudiobookResume": "A hangoskönyv maximális folytatása percekben:"
 }
