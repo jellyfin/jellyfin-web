@@ -19,7 +19,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "confusing-browser-globals": "^1.0.10",
     "copy-webpack-plugin": "^7.0.0",
-    "css-loader": "^5.0.1",
+    "css-loader": "^5.0.2",
     "cssnano": "^4.1.10",
     "eslint": "^7.19.0",
     "eslint-plugin-compat": "^3.9.0",
