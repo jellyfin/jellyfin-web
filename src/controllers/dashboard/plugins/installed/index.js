@@ -62,9 +62,9 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += `<div class="cardContent ${cardBuilder.getDefaultBackgroundClass()}">`;
+    html += `<div class="cardContent">`;
     if (configPageUrl) {
-        html += `<a class="cardImageContainer" is="emby-linkbutton" href="${configPageUrl}">`;
+        html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${configPageUrl}">`;
     } else {
         html += '<div class="cardImageContainer noConfigPluginCard noHoverEffect emby-button">';
     }
@@ -72,7 +72,9 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     if (plugin.HasImage) {
         html += `<img src="/Plugins/${plugin.Id}/${plugin.Version}/Image" style="width:100%" />`;
     } else {
+        html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
         html += '<span class="cardImageIcon material-icons extension"></span>';
+        html += '</div>';
     }
     html += configPageUrl ? '</a>' : '</div>';
     html += '</div>';

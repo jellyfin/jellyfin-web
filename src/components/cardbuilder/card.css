@@ -365,13 +365,8 @@ button::-moz-focus-inner {
 }
 
 .cardImageIcon {
-    font-size: 5em !important;
+    font-size: 5em;
     color: inherit;
-}
-
-.cardImageIcon-small {
-    font-size: 3em !important;
-    margin-bottom: 0.1em;
 }
 
 .cardIndicators {

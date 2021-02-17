@@ -166,9 +166,9 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
                 html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
             } else {
-                html += `<div class="cardImage flex align-items-center justify-content-center ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()}">`;
+                html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
                 html += '<span class="material-icons cardImageIcon person"></span>';
-                html += `</div>`;
+                html += '</div>';
             }
 
             html += '</div>';
