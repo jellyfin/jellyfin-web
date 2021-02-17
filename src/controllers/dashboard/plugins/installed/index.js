@@ -62,7 +62,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += `<div class="cardContent">`;
+    html += '<div class="cardContent">';
     if (configPageUrl) {
         html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${configPageUrl}">`;
     } else {

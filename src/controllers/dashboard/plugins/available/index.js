@@ -103,7 +103,7 @@ function getPluginHtml(plugin, options, installedPlugins) {
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += `<div class="cardContent">`;
+    html += '<div class="cardContent">';
     html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${href}" ${target}>`;
 
     if (plugin.imageUrl) {
