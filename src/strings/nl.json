@@ -810,7 +810,7 @@
     "OptionAllowLinkSharingHelp": "Alleen webpagina's met media-informatie worden gedeeld. Media-bestanden worden nooit publiekelijk gedeeld. Gedeelde items zijn beperkt in tijd en verlopen na {0} dagen.",
     "OptionAllowManageLiveTv": "Live TV opname beheer toestaan",
     "OptionAllowMediaPlayback": "Media afspelen toestaan",
-    "OptionAllowMediaPlaybackTranscodingHelp": "Het beperken van toegang tot transcodering kan afspeelfouten in clients veroorzaken door niet ondersteunde madiaformaten.",
+    "OptionAllowMediaPlaybackTranscodingHelp": "Het beperken van toegang tot transcodering kan afspeelfouten in clients veroorzaken door niet ondersteunde mediaformaten.",
     "OptionAllowRemoteControlOthers": "Op afstand besturen van andere gebruikers toestaan",
     "OptionAllowRemoteSharedDevices": "Op afstand besturen van gedeelde apparaten toestaan",
     "OptionAllowRemoteSharedDevicesHelp": "DLNA apparaten worden als gedeeld apparaat gezien totdat een gebruiker deze gaat gebruiken.",
