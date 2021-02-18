@@ -1501,5 +1501,8 @@
     "HeaderDebugging": "Debugowanie i Tracing",
     "RemuxHelp1": "Nośnik znajduje się w niekompatybilnym kontenerze plików (MKV, AVI, WMV, itp.), ale zarówno strumień wideo, jak i strumień audio są zgodne z urządzeniem. Nośnik zostanie bezstratnie przepakowany w locie przed wysłaniem do urządzenia.",
     "UseDoubleRateDeinterlacingHelp": "To ustawienie wykorzystuje szybkość pola podczas usuwania przeplotu, często określaną jako usuwanie przeplotu typu bob, która podwaja liczbę klatek na sekundę, aby zapewnić pełny ruch, taki jaki można zobaczyć podczas oglądania wideo z przeplotem na telewizorze.",
-    "LabelH265Crf": "CRF kodowania H265:"
+    "LabelH265Crf": "CRF kodowania H265:",
+    "AllowVppTonemappingHelp": "W pełni sprzętowe mapowanie tonów bez użycia filtra OpenCL. Aktualnie działa wyłącznie w trakcie transkodowania wideo z wbudowanymi metadanymi HDR10.",
+    "EnableVppTonemapping": "Włącz mapowanie tonów VPP",
+    "EnableEnhancedNvdecDecoder": "Włącz ulepszony dekoder NVDEC"
 }
