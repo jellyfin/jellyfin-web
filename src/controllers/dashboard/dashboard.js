@@ -292,12 +292,12 @@ import confirm from '../../components/confirm/confirm';
                 html += '</div>';
 
                 let percent = 100 * session?.PlayState?.PositionTicks / nowPlayingItem?.RunTimeTicks;
-                html += indicators.getProgressHtml(percent ?? 0, {
+                html += indicators.getProgressHtml(percent || 0, {
                     containerClass: 'playbackProgress'
                 });
 
                 percent = session?.TranscodingInfo?.CompletionPercentage?.toFixed(1);
-                html += indicators.getProgressHtml(percent ?? 0, {
+                html += indicators.getProgressHtml(percent || 0, {
                     containerClass: 'transcodingProgress'
                 });
 
@@ -589,12 +589,12 @@ import confirm from '../../components/confirm/confirm';
             const transcodingProgress = row.querySelector('.transcodingProgress');
 
             let percent = 100 * session?.PlayState?.PositionTicks / nowPlayingItem?.RunTimeTicks;
-            playbackProgressElem.outerHTML = indicators.getProgressHtml(percent ?? 0, {
+            playbackProgressElem.outerHTML = indicators.getProgressHtml(percent || 0, {
                 containerClass: 'playbackProgress'
             });
 
             percent = session?.TranscodingInfo?.CompletionPercentage?.toFixed(1);
-            transcodingProgress.outerHTML = indicators.getProgressHtml(percent ?? 0, {
+            transcodingProgress.outerHTML = indicators.getProgressHtml(percent || 0, {
                 containerClass: 'transcodingProgress'
             });
 
