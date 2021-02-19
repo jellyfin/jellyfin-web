@@ -1081,7 +1081,7 @@
     "LabelCreateHttpPortMapHelp": "Izinkan pemetaan port otomatis untuk membuat aturan untuk lalu lintas http selain untuk lalu lintas https.",
     "LabelCreateHttpPortMap": "Aktifkan pemetaan port otomatis untuk lalu lintas http serta https.",
     "LabelColorTransfer": "Transfer warna:",
-    "LabelColorSpace": "Space warna:",
+    "LabelColorSpace": "Ruang warna:",
     "LabelColorPrimaries": "Warna utama:",
     "LabelAutomaticDiscoveryHelp": "Izinkan aplikasi mendeteksi Jellyfin secara otomatis dengan menggunakan port UDP 7359.",
     "LabelAutomaticDiscovery": "Aktifkan Penemuan Otomatis:",
