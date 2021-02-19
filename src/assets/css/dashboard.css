@@ -401,7 +401,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .transcodingProgress > div {
-    z-index: 900;
+    z-index: 10;
     background-color: #dd4919;
 }
 
