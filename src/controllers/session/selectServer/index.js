@@ -17,6 +17,7 @@ import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../scripts/clientUtils';
 import ServerConnections from '../../../components/ServerConnections';
 import alert from '../../../components/alert';
+import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
 /* eslint-disable indent */
 
@@ -64,7 +65,7 @@ import alert from '../../../components/alert';
             cardContainer += '<div class="cardPadder cardPadder-square">';
             cardContainer += '</div>';
             cardContainer += '<div class="cardContent">';
-            cardContainer += '<div class="cardImageContainer coveredImage" style="background:#0288D1;border-radius:.15em;">';
+            cardContainer += `<div class="cardImageContainer coveredImage ${cardBuilder.getDefaultBackgroundClass()}" style="border-radius:0.2em">`;
             cardContainer += cardImageContainer;
             cardContainer += '</div>';
             cardContainer += '</div>';

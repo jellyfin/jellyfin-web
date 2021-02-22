@@ -1,6 +1,7 @@
 import loading from '../../../../components/loading/loading';
 import libraryMenu from '../../../../scripts/libraryMenu';
 import globalize from '../../../../scripts/globalize';
+import * as cardBuilder from '../../../../components/cardbuilder/cardBuilder.js';
 import '../../../../components/cardbuilder/card.css';
 import '../../../../elements/emby-button/emby-button';
 import '../../../../elements/emby-checkbox/emby-checkbox';
@@ -102,9 +103,19 @@ function getPluginHtml(plugin, options, installedPlugins) {
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + href + '"' + target + '>';
-    html += '<span class="cardImageIcon material-icons folder"></span>';
+    html += '<div class="cardContent">';
+    html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${href}" ${target}>`;
+
+    if (plugin.imageUrl) {
+        html += `<img src="${plugin.imageUrl}" style="width:100%" />`;
+    } else {
+        html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
+        html += '<span class="cardImageIcon material-icons extension"></span>';
+        html += '</div>';
+    }
+
     html += '</a>';
+    html += '</div>';
     html += '</div>';
     html += '<div class="cardFooter">';
     html += "<div class='cardText'>";

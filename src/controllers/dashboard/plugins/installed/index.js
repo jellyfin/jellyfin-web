@@ -2,6 +2,7 @@ import loading from '../../../../components/loading/loading';
 import libraryMenu from '../../../../scripts/libraryMenu';
 import dom from '../../../../scripts/dom';
 import globalize from '../../../../scripts/globalize';
+import * as cardBuilder from '../../../../components/cardbuilder/cardBuilder.js';
 import '../../../../components/cardbuilder/card.css';
 import '../../../../elements/emby-button/emby-button';
 import Dashboard, { pageIdOn } from '../../../../scripts/clientUtils';
@@ -53,21 +54,30 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     const configPage = pluginConfigurationPages.filter(function (pluginConfigurationPage) {
         return pluginConfigurationPage.PluginId == plugin.Id;
     })[0];
+
     const configPageUrl = configPage ? Dashboard.getPluginUrl(configPage.Name) : null;
     let html = '';
+
     html += `<div data-id='${plugin.Id}' data-version='${plugin.Version}' data-name='${plugin.Name}' data-removable='${plugin.CanUninstall}' data-status='${plugin.Status}' class='card backdropCard'>`;
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += configPageUrl ? `<a class="cardContent cardImageContainer" is="emby-linkbutton" href="${configPageUrl}">` : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer emby-button">';
-    html += '<span class="cardImageIcon';
-    if (plugin.HasImage) {
-        html += `"><img src="/Plugins/${plugin.Id}/${plugin.Version}/Image" style="width:100%;height:auto"/>`;
+    html += '<div class="cardContent">';
+    if (configPageUrl) {
+        html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${configPageUrl}">`;
     } else {
-        html += ' material-icons folder">';
+        html += '<div class="cardImageContainer noConfigPluginCard noHoverEffect emby-button">';
     }
-    html += '</span> ';
+
+    if (plugin.HasImage) {
+        html += `<img src="/Plugins/${plugin.Id}/${plugin.Version}/Image" style="width:100%" />`;
+    } else {
+        html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
+        html += '<span class="cardImageIcon material-icons extension"></span>';
+        html += '</div>';
+    }
     html += configPageUrl ? '</a>' : '</div>';
+    html += '</div>';
     html += '</div>';
     html += '<div class="cardFooter">';
 
@@ -133,7 +143,7 @@ function showPluginMenu(page, elem) {
     const id = card.getAttribute('data-id');
     const name = card.getAttribute('data-name');
     const removable = card.getAttribute('data-removable');
-    const configHref = card.querySelector('.cardContent').getAttribute('href');
+    const configHref = card.querySelector('.cardImageContainer').getAttribute('href');
     const status = card.getAttribute('data-status');
     const version = card.getAttribute('data-version');
     const menuItems = [];
