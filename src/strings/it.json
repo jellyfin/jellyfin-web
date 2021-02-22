@@ -1484,5 +1484,8 @@
     "LabelAllowedAudioChannels": "Numero massimo di Canali Audio permessi",
     "AspectRatioFill": "Riempi",
     "AspectRatioCover": "Copertina",
-    "SyncPlayGroupDefaultTitle": "Gruppo di {0}"
+    "SyncPlayGroupDefaultTitle": "Gruppo di {0}",
+    "AllowHevcEncoding": "Permetti codifica in formato HEVC",
+    "DisablePlugin": "Disabilita Plugin",
+    "EnablePlugin": "Abilita Plugin"
 }
