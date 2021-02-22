@@ -1504,5 +1504,7 @@
     "LabelMinAudiobookResumeHelp": "A címeket nem lejátszottnak tekintjük, ha ez alatt az idő alatt fejezed be.",
     "LabelMinAudiobookResume": "A hangoskönyv minimális folytatása percekben:",
     "LabelMaxAudiobookResumeHelp": "A címeket teljesen lejátszottnak tekintjük, ha ezen idő után fejezed be.",
-    "LabelMaxAudiobookResume": "A hangoskönyv maximális folytatása percekben:"
+    "LabelMaxAudiobookResume": "A hangoskönyv maximális folytatása percekben:",
+    "DisablePlugin": "Beépülő modul letiltása",
+    "EnablePlugin": "Beépülő modul engedélyezése"
 }
