@@ -1115,7 +1115,7 @@
     "EnableStreamLoopingHelp": "Kapcsold be, ha az élő stream csak néhány másodpercnyi adatot tartalmaz és folyamatosan újra kell kérni. Ennek szükségtelen bekapcsolása problémát okozhat.",
     "Guide": "Műsorújság",
     "H264CrfHelp": "A Constant Rate Factor (CRF) az alapértelmezett minőségi beállítás az x264 és x265 enkóderhez. Az értékek 0 és 51 között állíthatók, ahol az alacsonyabb érték jobb minőséget eredményez (nagyobb fájl méret mellett). Az ajánlott érték 18 és 28 között van. Az x264 alapértelmezett beállítása 23, x265-é 28, ez lehet kiindulási alap.",
-    "HeaderApiKeysHelp": "A külső alkalmazásoknak egy API kulcsra van szükésge, hogy kommunikáljanak a Szerverrel. A kulcsokat egy normális fiókkal történő belépéssel lehet megkapni, vagy kézileg felvenni egy alkalmazáshoz tartozó kulcsot.",
+    "HeaderApiKeysHelp": "A külső alkalmazásoknak egy API kulcsra van szüksége, hogy kommunikáljanak a szerverrel. A kulcsokat egy fiókkal történő belépéssel lehet megkapni, vagy kézileg felvenni egy alkalmazáshoz tartozó kulcsot.",
     "HeaderBranding": "Személyes arculat",
     "HeaderContinueListening": "Folyamatban lévő zenék",
     "HeaderDeleteTaskTrigger": "Feladatvezérlő törlése",
