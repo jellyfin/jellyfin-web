@@ -1504,5 +1504,7 @@
     "MessageChromecastConnectionError": "Bộ thu Google Cast của bạn không thể kết nối với máy chủ Jellyfin. Vui lòng kiểm tra kết nối và thử lại.",
     "AllowVppTonemappingHelp": "Ánh xạ âm dựa trên phần cứng đầy đủ mà không cần sử dụng bộ lọc OpenCL. Hiện chỉ hoạt động khi chuyển mã video có siêu dữ liệu HDR10 được nhúng.",
     "EnableEnhancedNvdecDecoder": "Bật bộ giải mã NVDEC nâng cao",
-    "EnableVppTonemapping": "Bật ánh xạ tông màu VPP"
+    "EnableVppTonemapping": "Bật ánh xạ tông màu VPP",
+    "DisablePlugin": "Tắt Plugin",
+    "EnablePlugin": "Bật Plugin"
 }
