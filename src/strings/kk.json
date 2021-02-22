@@ -1505,5 +1505,7 @@
     "LabelTonemappingDesatHelp": "Jaryqtyqtyŋ osy deŋgeiіnen asatyn jarqyn aimaqtar üşіn qanyqsyzdandyru qoldanylady. Parametr neğūrlym joğary bolsa, soğūrlym tüstіk aqparat saqtalady. Būl parametr öte jarqyn aimaqtar üşın rabaisyz köz şağylystyratyndai tüsterіn boldyrmauğa kömektesedі, ornyna olar aq tüske (tegіs) ainalady. Būl auqymnan tys tüster turaly aqparatty azaitu esebınen keskınderdіn tabiğilyğyn köbırek sezіnuge mäjbür etedі. Ūsynylğan jäne ädepkі mänder - 0 jäne 0.5 bolady.",
     "AllowVppTonemappingHelp": "OpenCL süzgısın qoldanbai aparattyq qūraldarğa tolyq negızdelgen tonmapiŋ. Ağymda HDR10 metaderekterı bar beinelerdı qaita kodtau kezınde ğana jūmys ısteidı.",
     "EnableVppTonemapping": "VPP tonmapiŋdi qosu",
-    "EnableEnhancedNvdecDecoder": "Jaqsartylğan NVDEC kodsyzdandyrğyşty qosu"
+    "EnableEnhancedNvdecDecoder": "Jaqsartylğan NVDEC kodsyzdandyrğyşty qosu",
+    "DisablePlugin": "Plagindı öşıru",
+    "EnablePlugin": "Plagindı qosu"
 }
