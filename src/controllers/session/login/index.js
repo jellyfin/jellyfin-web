@@ -13,6 +13,7 @@ import ServerConnections from '../../../components/ServerConnections';
 import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
+import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
 /* eslint-disable indent */
 
@@ -131,29 +132,6 @@ import baseAlert from '../../../components/alert';
         }
     }
 
-    const metroColors = ['#6FBD45', '#4BB3DD', '#4164A5', '#E12026', '#800080', '#E1B222', '#008040', '#0094FF', '#FF00C7', '#FF870F', '#7F0037'];
-
-    function getRandomMetroColor() {
-        const index = Math.floor(Math.random() * (metroColors.length - 1));
-        return metroColors[index];
-    }
-
-    function getMetroColor(str) {
-        if (str) {
-            const character = String(str.substr(0, 1).charCodeAt());
-            let sum = 0;
-
-            for (let i = 0; i < character.length; i++) {
-                sum += parseInt(character.charAt(i));
-            }
-
-            const index = String(sum).substr(-1);
-            return metroColors[index];
-        }
-
-        return getRandomMetroColor();
-    }
-
     function loadUserList(context, apiClient, users) {
         let html = '';
 
@@ -176,7 +154,7 @@ import baseAlert from '../../../components/alert';
             html += '<div class="' + cardBoxCssClass + '">';
             html += '<div class="cardScalable">';
             html += '<div class="cardPadder cardPadder-square"></div>';
-            html += '<div class="cardContent" data-haspw="' + user.HasPassword + '" data-username="' + user.Name + '" data-userid="' + user.Id + '">';
+            html += `<div class="cardContent" style="border-radius:0.2em" data-haspw="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
             let imgUrl;
 
             if (user.PrimaryImageTag) {
@@ -185,11 +163,12 @@ import baseAlert from '../../../components/alert';
                     tag: user.PrimaryImageTag,
                     type: 'Primary'
                 });
+
                 html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
             } else {
-                const background = getMetroColor(user.Id);
-                imgUrl = 'assets/img/avatar.png';
-                html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
+                html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
+                html += '<span class="material-icons cardImageIcon person"></span>';
+                html += '</div>';
             }
 
             html += '</div>';
