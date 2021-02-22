@@ -1504,5 +1504,7 @@
     "LabelMaxAudiobookResume": "Maximale Hörbuch-Fortsetzung in Minuten:",
     "AllowVppTonemappingHelp": "Vollständig hardwarebasiertes Tone-Mapping ohne Verwendung von OpenCL-Filter. Funktioniert derzeit nur bei der Transcodierung von Videos mit eingebetteten HDR10-Metadaten.",
     "EnableVppTonemapping": "VPP-Tone-Mapping einschalten",
-    "EnableEnhancedNvdecDecoder": "Erweiterten NVDEC-Decoder einschalten"
+    "EnableEnhancedNvdecDecoder": "Erweiterten NVDEC-Decoder einschalten",
+    "DisablePlugin": "Plugin deaktivieren",
+    "EnablePlugin": "Plugin aktivieren"
 }
