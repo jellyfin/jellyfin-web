@@ -81,7 +81,8 @@ div[data-role="page"] {
 .content-primary,
 .padded-bottom-page,
 .page,
-.pageWithAbsoluteTabs .pageTabContent {
+.pageWithAbsoluteTabs .pageTabContent,
+.itemsContainer {
     /* provides room for the music controls */
     padding-bottom: 5em !important;
 }

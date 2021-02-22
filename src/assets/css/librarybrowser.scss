@@ -1052,7 +1052,8 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .itemsContainer {
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media all and (max-height: 31.25em) {
