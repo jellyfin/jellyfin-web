@@ -33,7 +33,7 @@ function populateVersions(packageInfo, page, installedPlugin) {
         $('#pCurrentVersion', page).hide().html('');
     }
 
-    const packageVersion = packageInfo.versions[0];
+    const packageVersion = packageInfo.versions.sort().pop();
     if (packageVersion) {
         selectmenu.val(packageVersion.version);
     }
