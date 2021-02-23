@@ -87,7 +87,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
         html += '</div>';
     }
 
-    html += '<div class="cardText">'
+    html += '<div class="cardText">';
     html += `${plugin.Name}<span class='cardText cardText-secondary'>${plugin.Version}</span>`;
     html += '</div>';
     html += `<div class="cardText">${globalize.translate('LabelStatus')} ${plugin.Status}</div>`;
