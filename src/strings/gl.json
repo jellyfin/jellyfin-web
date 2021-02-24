@@ -17,5 +17,12 @@
     "Channels": "Canles",
     "Books": "Libros",
     "Artists": "Artistas",
-    "Absolute": ""
+    "Absolute": "",
+    "Movies": "Películas",
+    "HeaderContinueWatching": "Seguir mirando",
+    "HeaderAlbumArtists": "Artistas de Album",
+    "Genres": "Xéneros",
+    "Folders": "Cartafoles",
+    "Favorites": "Favoritos",
+    "Default": "Por defecto"
 }
