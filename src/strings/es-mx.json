@@ -120,7 +120,7 @@
     "DateAdded": "Fecha de adición",
     "DatePlayed": "Fecha de reproducción",
     "DeathDateValue": "Falleció: {0}",
-    "Default": "Por defecto",
+    "Default": "Predeterminado",
     "ErrorDefault": "Ha ocurrido un error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.",
     "DefaultMetadataLangaugeDescription": "Estos son sus valores por defecto y pueden ser personalizados en cada biblioteca.",
     "DefaultSubtitlesHelp": "Los subtítulos se cargan basados en los indicadores «por defecto» y «forzado» incluidos en los metadatos. Las preferencias de idioma son consideradas cuando hay múltiples opciones disponibles.",
@@ -1495,5 +1495,7 @@
     "LabelSyncPlayResumePlayback": "Reanudar reproducción local",
     "LabelSyncPlayHaltPlaybackDescription": "Y también ignorar las actualizaciones de la lista actual",
     "LabelSyncPlayHaltPlayback": "Detener reproducción local",
-    "LabelEnableSSDPTracingHelp": "Habilitar el registro detallado del seguimiento de red SSDP.<br/><b>ADVERTENCIA:</b> Esto causará una seria degradación del rendimiento."
+    "LabelEnableSSDPTracingHelp": "Habilitar el registro detallado del seguimiento de red SSDP.<br/><b>ADVERTENCIA:</b> Esto causará una seria degradación del rendimiento.",
+    "DisablePlugin": "Deshabilitar Extensión",
+    "EnablePlugin": "Habilitar Extensión"
 }
