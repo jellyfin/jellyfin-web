@@ -1501,5 +1501,10 @@
     "LabelDirectStreamingInfo": "Información de transmisión directa",
     "LabelTranscodingInfo": "Infomacion de transcodificacion",
     "LabelVideoInfo": "Infomacion de video",
-    "LabelAudioInfo": "Informacion de audio"
+    "LabelAudioInfo": "Informacion de audio",
+    "AllowVppTonemappingHelp": "Mapeo de tonos completo basado en hardware sin usar el filtro OpenCL. Actualmente solo funciona al transcodificar videos con metadatos HDR10 incrustados.",
+    "EnableVppTonemapping": "Habilitar mapeo de tonos VPP",
+    "EnableEnhancedNvdecDecoder": "Habilitar decodificador NVDEC mejorado",
+    "DisablePlugin": "Deshabilitar Extensión",
+    "EnablePlugin": "Habilitar Extensión"
 }
