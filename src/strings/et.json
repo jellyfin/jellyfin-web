@@ -17,5 +17,7 @@
     "AddToCollection": "Lisa kollektsiooni",
     "AllLibraries": "Kõik kogud",
     "AlbumArtist": "Albumi artist",
-    "AdditionalNotificationServices": "Lisanduvate teavitusteenuste paigaldamiseks sirvige pistikprogrammide kataloogi."
+    "AdditionalNotificationServices": "Lisanduvate teavitusteenuste paigaldamiseks sirvige pistikprogrammide kataloogi.",
+    "AllComplexFormats": "Kõik Komplekssed Formaadid (ASS, SSA, VOBSUB, PGS, SUB, IDX, …)",
+    "Aired": "Ilmunud"
 }
