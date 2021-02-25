@@ -22,6 +22,10 @@ function populateHistory(packageInfo, page) {
 function populateVersions(packageInfo, page, installedPlugin) {
     let html = '';
 
+    packageInfo.versions.sort((a, b) => {
+        return b.timestamp < a.timestamp ? 1 : -1;
+    });
+
     for (let i = 0; i < packageInfo.versions.length; i++) {
         const version = packageInfo.versions[i];
         html += '<option value="' + version.version + '">' + globalize.translate('PluginFromRepo', version.version, version.repositoryName) + '</option>';
@@ -33,7 +37,7 @@ function populateVersions(packageInfo, page, installedPlugin) {
         $('#pCurrentVersion', page).hide().html('');
     }
 
-    const packageVersion = packageInfo.versions.sort().pop();
+    const packageVersion = packageInfo.versions.pop();
     if (packageVersion) {
         selectmenu.val(packageVersion.version);
     }
