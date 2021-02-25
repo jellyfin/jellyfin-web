@@ -30,9 +30,6 @@ import confirm from '../../components/confirm/confirm';
         const text = [];
         const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
-        text.push(DashboardPage.getSessionNowPlayingStreamInfo(session));
-        text.push('<br/>');
-
         if (displayPlayMethod === 'Remux') {
             title = globalize.translate('Remuxing');
             text.push(globalize.translate('RemuxHelp1'));
@@ -43,9 +40,13 @@ import confirm from '../../components/confirm/confirm';
             text.push(globalize.translate('DirectStreamHelp1'));
             text.push('<br/>');
             text.push(globalize.translate('DirectStreamHelp2'));
+        } else if (displayPlayMethod === 'DirectPlay') {
+            title = globalize.translate('DirectPlaying');
+            text.push(globalize.translate('DirectPlayHelp'));
         } else if (displayPlayMethod === 'Transcode') {
             title = globalize.translate('Transcoding');
             text.push(globalize.translate('MediaIsBeingConverted'));
+            text.push(DashboardPage.getSessionNowPlayingStreamInfo(session));
 
             if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
                 text.push('<br/>');
@@ -403,10 +404,8 @@ import confirm from '../../components/confirm/confirm';
             } else if (displayPlayMethod === 'DirectStream') {
                 html += globalize.translate('DirectStreaming');
             } else if (displayPlayMethod === 'Transcode') {
-                html += globalize.translate('Transcoding');
-
                 if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
-                    html += ' (' + session.TranscodingInfo.Framerate + ' fps)';
+                    html += `${globalize.translate('Framerate')}: ${session.TranscodingInfo.Framerate}fps`;
                 }
 
                 showTranscodingInfo = true;
@@ -550,8 +549,10 @@ import confirm from '../../components/confirm/confirm';
 
             if (nowPlayingItem) {
                 row.classList.add('playingSession');
+                row.querySelector('.btnSessionInfo').classList.remove('hide');
             } else {
                 row.classList.remove('playingSession');
+                row.querySelector('.btnSessionInfo').classList.add('hide');
             }
 
             if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1) {
