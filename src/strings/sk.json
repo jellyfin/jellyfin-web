@@ -1503,5 +1503,8 @@
     "LabelMaxAudiobookResumeHelp": "Tituly sú považované za prehrané, pokiaľ sú zastavené po tomto čase.",
     "LabelMaxAudiobookResume": "Maximálna dĺžka pre pokračovanie audiokníh v minútach:",
     "EnableVppTonemapping": "Povoliť VPP mapovanie tónov",
-    "EnableEnhancedNvdecDecoder": "Povoliť vylepšený NVDEC dekóder"
+    "EnableEnhancedNvdecDecoder": "Povoliť vylepšený NVDEC dekóder",
+    "AllowVppTonemappingHelp": "Plne hardvérovo založené mapovanie tónov bez použitia OpenCL filtra. V súčastnosti funguje iba pri videách, ktoré sa prekódovajú a obsahujú vložené HDR10 metadáta.",
+    "DisablePlugin": "Zakázať zásuvné moduly",
+    "EnablePlugin": "Povoliť zásuvné moduly"
 }
