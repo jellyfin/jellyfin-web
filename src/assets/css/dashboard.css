@@ -320,7 +320,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 .sessionCardFooter {
     padding-top: 0.5em !important;
     padding-bottom: 1em !important;
-    border-top: 1px solid #eee;
     text-align: center;
     position: relative;
 }
@@ -346,13 +345,9 @@ div[data-role=controlgroup] a.ui-btn-active {
     right: 0;
     bottom: 0;
     font-weight: 400;
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     flex-direction: column;
-}
-
-.sessionNowPlayingContent-withbackground + .sessionNowPlayingInnerContent {
-    color: #fff !important;
-    background: rgba(0, 0, 0, 0.7);
 }
 
 .sessionAppName {
@@ -377,10 +372,6 @@ div[data-role=controlgroup] a.ui-btn-active {
     padding: 0.8em 0.5em;
 }
 
-.sessionNowPlayingStreamInfo {
-    white-space: nowrap;
-}
-
 .playbackProgress,
 .transcodingProgress {
     margin: 0;
@@ -393,6 +384,7 @@ div[data-role=controlgroup] a.ui-btn-active {
     margin: -0.6em;
 }
 
+.activeSession .backgroundProgress,
 .activeSession .playbackProgress,
 .activeSession .transcodingProgress {
     position: absolute;
@@ -409,7 +401,12 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .transcodingProgress > div {
+    z-index: 10;
     background-color: #dd4919;
+}
+
+.backgroundProgress > div {
+    background-color: #303030;
 }
 
 @media all and (max-width: 34.375em) {
