@@ -40,9 +40,13 @@ import confirm from '../../components/confirm/confirm';
             text.push(globalize.translate('DirectStreamHelp1'));
             text.push('<br/>');
             text.push(globalize.translate('DirectStreamHelp2'));
+        } else if (displayPlayMethod === 'DirectPlay') {
+            title = globalize.translate('DirectPlaying');
+            text.push(globalize.translate('DirectPlayHelp'));
         } else if (displayPlayMethod === 'Transcode') {
             title = globalize.translate('Transcoding');
             text.push(globalize.translate('MediaIsBeingConverted'));
+            text.push(DashboardPage.getSessionNowPlayingStreamInfo(session));
 
             if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
                 text.push('<br/>');
@@ -251,12 +255,13 @@ import confirm from '../../components/confirm/confirm';
             } else {
                 const nowPlayingItem = session.NowPlayingItem;
                 const className = 'scalableCard card activeSession backdropCard backdropCard-scalable';
+                const imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem);
+
                 html += '<div class="' + className + '" id="' + rowId + '">';
                 html += '<div class="cardBox visualCardBox">';
                 html += '<div class="cardScalable visualCardBox-cardScalable">';
                 html += '<div class="cardPadder cardPadder-backdrop"></div>';
-                html += '<div class="cardContent">';
-                const imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem);
+                html += `<div class="cardContent ${cardBuilder.getDefaultBackgroundClass()}">`;
 
                 if (imgUrl) {
                     html += '<div class="sessionNowPlayingContent sessionNowPlayingContent-withbackground"';
@@ -287,29 +292,19 @@ import confirm from '../../components/confirm/confirm';
                 html += '<div class="sessionNowPlayingTime">' + DashboardPage.getSessionNowPlayingTime(session) + '</div>';
                 html += '</div>';
 
-                if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
-                    const percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
-                    html += indicators.getProgressHtml(percent, {
-                        containerClass: 'playbackProgress'
-                    });
-                } else {
-                    // need to leave the element in just in case the device starts playback
-                    html += indicators.getProgressHtml(0, {
-                        containerClass: 'playbackProgress hide'
-                    });
-                }
+                let percent = 100 * session?.PlayState?.PositionTicks / nowPlayingItem?.RunTimeTicks;
+                html += indicators.getProgressHtml(percent || 0, {
+                    containerClass: 'playbackProgress'
+                });
 
-                if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
-                    const percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
-                    html += indicators.getProgressHtml(percent, {
-                        containerClass: 'transcodingProgress'
-                    });
-                } else {
-                    // same issue as playbackProgress element above
-                    html += indicators.getProgressHtml(0, {
-                        containerClass: 'transcodingProgress hide'
-                    });
-                }
+                percent = session?.TranscodingInfo?.CompletionPercentage?.toFixed(1);
+                html += indicators.getProgressHtml(percent || 0, {
+                    containerClass: 'transcodingProgress'
+                });
+
+                html += indicators.getProgressHtml(100, {
+                    containerClass: 'backgroundProgress'
+                });
 
                 html += '</div>';
                 html += '</div>';
@@ -322,16 +317,10 @@ import confirm from '../../components/confirm/confirm';
 
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><span class="material-icons ' + playIcon + '"></span></button>';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><span class="material-icons stop"></span></button>';
-
-                btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('ViewPlaybackInfo') + '"><span class="material-icons info"></span></button>';
 
                 btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== ServerConnections.deviceId() ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('SendMessage') + '"><span class="material-icons message"></span></button>';
-                html += '</div>';
-
-                html += '<div class="sessionNowPlayingStreamInfo" style="padding:.5em 0 1em;">';
-                html += DashboardPage.getSessionNowPlayingStreamInfo(session);
                 html += '</div>';
 
                 html += '<div class="flex align-items-center justify-content-center">';
@@ -415,10 +404,8 @@ import confirm from '../../components/confirm/confirm';
             } else if (displayPlayMethod === 'DirectStream') {
                 html += globalize.translate('DirectStreaming');
             } else if (displayPlayMethod === 'Transcode') {
-                html += globalize.translate('Transcoding');
-
                 if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
-                    html += ' (' + session.TranscodingInfo.Framerate + ' fps)';
+                    html += `${globalize.translate('Framerate')}: ${session.TranscodingInfo.Framerate}fps`;
                 }
 
                 showTranscodingInfo = true;
@@ -562,20 +549,16 @@ import confirm from '../../components/confirm/confirm';
 
             if (nowPlayingItem) {
                 row.classList.add('playingSession');
+                row.querySelector('.btnSessionInfo').classList.remove('hide');
             } else {
                 row.classList.remove('playingSession');
+                row.querySelector('.btnSessionInfo').classList.add('hide');
             }
 
             if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1) {
                 row.querySelector('.btnSessionSendMessage').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionSendMessage').classList.add('hide');
-            }
-
-            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo) {
-                row.querySelector('.btnSessionInfo').classList.remove('hide');
-            } else {
-                row.querySelector('.btnSessionInfo').classList.add('hide');
             }
 
             const btnSessionPlayPause = row.querySelector('.btnSessionPlayPause');
@@ -592,7 +575,6 @@ import confirm from '../../components/confirm/confirm';
             btnSessionPlayPauseIcon.classList.remove('play_arrow', 'pause');
             btnSessionPlayPauseIcon.classList.add(session.PlayState && session.PlayState.IsPaused ? 'play_arrow' : 'pause');
 
-            row.querySelector('.sessionNowPlayingStreamInfo').innerHTML = DashboardPage.getSessionNowPlayingStreamInfo(session);
             row.querySelector('.sessionNowPlayingTime').innerHTML = DashboardPage.getSessionNowPlayingTime(session);
             row.querySelector('.sessionUserName').innerHTML = DashboardPage.getUsersHtml(session);
             row.querySelector('.sessionAppSecondaryText').innerHTML = DashboardPage.getAppSecondaryText(session);
@@ -605,30 +587,17 @@ import confirm from '../../components/confirm/confirm';
             }
 
             const playbackProgressElem = row.querySelector('.playbackProgress');
-
-            if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
-                const percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
-                playbackProgressElem.outerHTML = indicators.getProgressHtml(percent, {
-                    containerClass: 'playbackProgress'
-                });
-            } else {
-                playbackProgressElem.outerHTML = indicators.getProgressHtml(0, {
-                    containerClass: 'playbackProgress hide'
-                });
-            }
-
             const transcodingProgress = row.querySelector('.transcodingProgress');
 
-            if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
-                const percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
-                transcodingProgress.outerHTML = indicators.getProgressHtml(percent, {
-                    containerClass: 'transcodingProgress'
-                });
-            } else {
-                transcodingProgress.outerHTML = indicators.getProgressHtml(0, {
-                    containerClass: 'transcodingProgress hide'
-                });
-            }
+            let percent = 100 * session?.PlayState?.PositionTicks / nowPlayingItem?.RunTimeTicks;
+            playbackProgressElem.outerHTML = indicators.getProgressHtml(percent || 0, {
+                containerClass: 'playbackProgress'
+            });
+
+            percent = session?.TranscodingInfo?.CompletionPercentage?.toFixed(1);
+            transcodingProgress.outerHTML = indicators.getProgressHtml(percent || 0, {
+                containerClass: 'transcodingProgress'
+            });
 
             const imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || '';
             const imgElem = row.querySelector('.sessionNowPlayingContent');
