@@ -1049,11 +1049,11 @@ function tryRemoveElement(elem) {
         renderSsaAss(videoElement, track, item) {
             const avaliableFonts = [];
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
+            const apiClient = ServerConnections.getApiClient(item);
             attachments.map(function (i) {
                 // embedded font url
-                return avaliableFonts.push(i.DeliveryUrl);
+                return avaliableFonts.push(apiClient.getUrl(i.DeliveryUrl));
             });
-            const apiClient = ServerConnections.getApiClient(item);
             const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
                 api_key: apiClient.accessToken()
             });
