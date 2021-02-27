@@ -1507,5 +1507,7 @@
     "EnableVppTonemapping": "VPP tonmapiŋdi qosu",
     "EnableEnhancedNvdecDecoder": "Jaqsartylğan NVDEC kodsyzdandyrğyşty qosu",
     "DisablePlugin": "Plagindı öşıru",
-    "EnablePlugin": "Plagindı qosu"
+    "EnablePlugin": "Plagindı qosu",
+    "Framerate": "Kadr jyld-ğy",
+    "DirectPlayHelp": "Qainar fail osy tūtynğyşpen tolyğymen üilesımdı, al seans osy faildy özgertusız qabyldaidy."
 }
