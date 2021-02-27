@@ -1506,5 +1506,7 @@
     "EnableVppTonemapping": "Включить VPP-тонмаппинг",
     "EnableEnhancedNvdecDecoder": "Включить улучшенный декодер NVDEC",
     "DisablePlugin": "Отключить плагин",
-    "EnablePlugin": "Включить плагин"
+    "EnablePlugin": "Включить плагин",
+    "Framerate": "Ч-та кадров",
+    "DirectPlayHelp": "Исходный файл полностью совместим с этим клиентом, а сеанс получает файл без изменений."
 }
