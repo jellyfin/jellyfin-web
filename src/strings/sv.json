@@ -1443,5 +1443,16 @@
     "Framerate": "Bilder per sekund",
     "DisablePlugin": "Avaktivera plugin",
     "EnablePlugin": "Aktivera plugin",
-    "DirectPlayHelp": "Källfilen är inte kompatibel med denna klient, filen spelas upp utan omkodning."
+    "DirectPlayHelp": "Källfilen är inte kompatibel med denna klient, filen spelas upp utan omkodning.",
+    "LabelTonemappingDesat": "Tonmappning desat:",
+    "LabelTonemappingAlgorithm": "Välj algoritm för tonmappning:",
+    "LabelSyncPlayTimeSyncOffset": "Tidsförskjutning:",
+    "LabelSyncPlayTimeSyncDevice": "Synkronisera tid med:",
+    "LabelSyncPlayResumePlaybackDescription": "Återanslut till gruppuppspelning",
+    "LabelSyncPlayResumePlayback": "Återuppta lokal uppspelning",
+    "LabelSyncPlayHaltPlaybackDescription": "Och ignorera nuvarande uppdateringar av spellistan",
+    "LabelSyncPlayHaltPlayback": "Stoppa lokal uppspelning",
+    "LabelSSDPTracingFilterHelp": "Valfri IP-adress som den loggade SSDP-trafiken kan filtreras på.",
+    "LabelSSDPTracingFilter": "SSDP-filter:",
+    "LabelPublishedServerUriHelp": "Åsidosätt URI:n som används av Jellyfin, baserad på gränssnittet eller klientens IP-adress."
 }
