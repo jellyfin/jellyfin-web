@@ -1506,5 +1506,7 @@
     "EnableVppTonemapping": "启用 VPP 色调映射",
     "AllowVppTonemappingHelp": "完全基于硬件的色调映射，不需要 OpenCL 滤镜。目前仅在转码内嵌 HDR10 元数据的视频时生效。",
     "DisablePlugin": "关闭插件",
-    "EnablePlugin": "激活插件"
+    "EnablePlugin": "激活插件",
+    "DirectPlayHelp": "源文件与此客户端完全兼容，会话正在接收文件而未做任何修改。",
+    "Framerate": "帧率"
 }
