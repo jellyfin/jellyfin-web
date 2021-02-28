@@ -1506,5 +1506,7 @@
     "EnableEnhancedNvdecDecoder": "Bật bộ giải mã NVDEC nâng cao",
     "EnableVppTonemapping": "Bật ánh xạ tông màu VPP",
     "DisablePlugin": "Tắt Plugin",
-    "EnablePlugin": "Bật Plugin"
+    "EnablePlugin": "Bật Plugin",
+    "Framerate": "Tỷ lệ khung hình",
+    "DirectPlayHelp": "Tệp nguồn hoàn toàn tương thích với ứng dụng khách này và phiên đang nhận tệp mà không có sửa đổi."
 }
