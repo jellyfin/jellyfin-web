@@ -78,7 +78,7 @@
     "sortablejs": "^1.13.0",
     "swiper": "^6.4.15",
     "webcomponents.js": "^0.7.24",
-    "whatwg-fetch": "^3.6.1",
+    "whatwg-fetch": "^3.6.2",
     "workbox-core": "^5.1.4",
     "workbox-precaching": "^5.1.4"
   },
