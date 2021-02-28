@@ -11,7 +11,7 @@
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-proposal-private-methods": "^7.12.13",
     "@babel/plugin-transform-modules-umd": "^7.12.13",
-    "@babel/preset-env": "^7.12.13",
+    "@babel/preset-env": "^7.13.8",
     "@uupaa/dynamic-import-polyfill": "^1.0.2",
     "autoprefixer": "^9.8.6",
     "babel-loader": "^8.2.2",
