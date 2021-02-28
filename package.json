@@ -32,7 +32,7 @@
     "html-webpack-plugin": "^5.2.0",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
-    "sass": "^1.32.7",
+    "sass": "^1.32.8",
     "sass-loader": "^11.0.1",
     "source-map-loader": "^2.0.1",
     "style-loader": "^2.0.0",
@@ -78,7 +78,7 @@
     "sortablejs": "^1.13.0",
     "swiper": "^6.4.15",
     "webcomponents.js": "^0.7.24",
-    "whatwg-fetch": "^3.6.1",
+    "whatwg-fetch": "^3.6.2",
     "workbox-core": "^5.1.4",
     "workbox-precaching": "^5.1.4"
   },
