@@ -1506,5 +1506,7 @@
     "EnableVppTonemapping": "VPP-Tone-Mapping einschalten",
     "EnableEnhancedNvdecDecoder": "Erweiterten NVDEC-Decoder einschalten",
     "DisablePlugin": "Plugin deaktivieren",
-    "EnablePlugin": "Plugin aktivieren"
+    "EnablePlugin": "Plugin aktivieren",
+    "Framerate": "Bildrate",
+    "DirectPlayHelp": "Die Quelldatei ist vollständig mit diesem Client kompatibel, und die Sitzung empfängt die Datei ohne Änderungen."
 }
