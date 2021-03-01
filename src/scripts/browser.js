@@ -210,7 +210,7 @@ if (!browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera 
     browser.safari = true;
 }
 
-browser.osx = userAgent.toLowerCase().indexOf('os x') !== -1;
+browser.osx = userAgent.toLowerCase().indexOf('mac os x') !== -1;
 
 // This is a workaround to detect iPads on iOS 13+ that report as desktop Safari
 // This may break in the future if Apple releases a touchscreen Mac
