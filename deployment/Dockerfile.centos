@@ -12,12 +12,10 @@ ENV IS_DOCKER=YES
 # Prepare CentOS environment
 RUN yum update -y \
   && yum install -y epel-release \
-  && yum install -y @buildsys-build rpmdevtools git yum-plugins-core nodejs-yarn autoconf automake glibc-devel
+  && yum install -y @buildsys-build rpmdevtools git yum-plugins-core autoconf automake glibc-devel
 
-# Install recent NodeJS and Yarn
-RUN curl -fSsLo /etc/yum.repos.d/yarn.repo https://dl.yarnpkg.com/rpm/yarn.repo \
-  && rpm -i https://rpm.nodesource.com/pub_10.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm \
-  && yum install -y yarn
+# Install recent NodeJS
+RUN rpm -i https://rpm.nodesource.com/pub_10.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm
 
 # Link to build script
 RUN ln -sf ${SOURCE_DIR}/deployment/build.centos /build.sh

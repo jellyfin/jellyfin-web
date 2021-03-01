@@ -14,8 +14,6 @@ ENV IS_DOCKER=YES
 RUN apt-get update \
   && apt-get install -y debhelper mmv npm git
 
-# Prepare Yarn
-RUN npm install -g yarn
 
 # Link to build script
 RUN ln -sf ${SOURCE_DIR}/deployment/build.debian /build.sh
