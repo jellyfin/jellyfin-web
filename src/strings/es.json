@@ -1506,5 +1506,7 @@
     "EnableVppTonemapping": "Habilitar mapeo de tonos VPP",
     "EnableEnhancedNvdecDecoder": "Habilitar decodificador NVDEC mejorado",
     "DisablePlugin": "Deshabilitar Extensión",
-    "EnablePlugin": "Habilitar Extensión"
+    "EnablePlugin": "Habilitar Extensión",
+    "Framerate": "Tasa de cuadros",
+    "DirectPlayHelp": "El archivo origen es totalmente compatible con este cliente, y la sesión está recibiendo el archivo sin modificaciones."
 }
