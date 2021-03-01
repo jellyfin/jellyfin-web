@@ -160,6 +160,7 @@ button::-moz-focus-inner {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    border-radius: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
