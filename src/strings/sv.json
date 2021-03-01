@@ -1468,5 +1468,12 @@
     "LabelTonemappingPeakHelp": "Åsidosätt signal/nominal/reference peak med detta värde. Det är användbart när den inbäddade informationen i metadatan inte är tillförlitlig eller när man tonmappar från ett lägre till högre omfång. De förvalda värdena är 100 och 0.",
     "LabelTonemappingPeak": "Tonmappning peak:",
     "LabelTonemappingParamHelp": "Ställ in algoritm för tonmappning. De rekommenderade och förvalda värdena är NaN. Vanligtvis kan man lämna det tomt.",
-    "LabelTonemappingParam": "Tonmappning param:"
+    "LabelTonemappingParam": "Tonmappning param:",
+    "RemuxHelp1": "Mediet finns i en inkompatibel filbehållare (MKV, AVI, WMV, etc) men både videoströmmen och ljudströmmen är kompatibla med enheten. Media kommer att förpackas förlustfritt i farten innan den skickas till enheten.",
+    "AspectRatioCover": "Omslag",
+    "EnableFallbackFontHelp": "Aktivera anpassade alternativa teckensnitt. Detta kan undvika problemet med felaktig återgivning av undertexter.",
+    "UseDoubleRateDeinterlacingHelp": "Denna inställning använder fälthastigheten vid deinterlacing, ofta kallad bob deinterlacing, vilket fördubblar bildhastigheten för videon för att ge full rörelse som är vad du skulle se när du tittar på interlaced video på en TV.",
+    "TonemappingRangeHelp": "Välj utdatafärgsintervall. Auto är samma som inmatningsområdet.",
+    "LabelTonemappingDesatHelp": "Använd desaturering för höjdpunkter som överstiger denna ljusstyrka. Ju högre parameter, desto mer färginformation bevaras. Denna inställning hjälper till att förhindra onaturligt utblåsta färger för superhöjdpunkter genom att (mjukt) förvandlas till vitt istället. Detta gör att bilderna känns mer naturliga, på bekostnad av att minska informationen om färger utanför området. De rekommenderade värdena och standardvärdena är 0 och 0.5.",
+    "LabelOpenclDeviceHelp": "Det här är OpenCL-enheten som används för tonmappning. Den vänstra sidan av punkten är plattformsnumret och den högra sidan är enhetsnumret på plattformen. Standardvärdet är 0.0. ffmpeg-applikationen som innehåller OpenCL-hårdvaruaccelereringsmetoden krävs."
 }
