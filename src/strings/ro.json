@@ -1502,5 +1502,12 @@
     "LabelMinAudiobookResumeHelp": "Titlurile se presupun neredate dacă sunt oprite înainte de această durată.",
     "LabelMinAudiobookResume": "Timp minim de reluare pentru cărți audio:",
     "LabelMaxAudiobookResumeHelp": "Titlurile sunt considerate complet redate dacă sunt oprite după acest timp.",
-    "LabelMaxAudiobookResume": "Timp maxim de reluare pentru cărți audio:"
+    "LabelMaxAudiobookResume": "Timp maxim de reluare pentru cărți audio:",
+    "AllowVppTonemappingHelp": "Cartografiere completă a tonurilor bazată pe hardware fără utilizarea filtrului OpenCL. În prezent funcționează numai la transcodarea videoclipurilor cu metadate HDR10 încorporate.",
+    "EnableVppTonemapping": "Activați maparea tonului VPP",
+    "EnableEnhancedNvdecDecoder": "Activați decodorul NVDEC îmbunătățit",
+    "Framerate": "Rata frame-urilor",
+    "DisablePlugin": "Dezactivați Pluginul",
+    "EnablePlugin": "Activați Pluginul",
+    "DirectPlayHelp": "Fișierul sursă este pe deplin compatibil cu acest client, iar sesiunea primește fișierul fără modificări."
 }
