@@ -106,15 +106,6 @@ import '../../assets/css/scrollstyles.css';
                     tryRemoveElement(dlg);
                 }
             }
-
-            //resolve();
-            // if we just called history.back(), then use a timeout to allow the history events to fire first
-            setTimeout(() => {
-                resolve({
-                    element: dlg,
-                    closedByBack: self.closedByBack
-                });
-            }, 1);
         }
 
         dlg.addEventListener('close', onDialogClosed);
@@ -265,6 +256,7 @@ import '../../assets/css/scrollstyles.css';
             dom.addEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
                 once: true
             });
+
             return;
         }
 

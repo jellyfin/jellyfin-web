@@ -106,9 +106,9 @@ import confirm from '../../components/confirm/confirm';
                     case 'sendmessage':
                         showSendMessageForm(btn, session);
                         break;
-
                     case 'transcodinginfo':
                         showPlaybackInfo(btn, session);
+                        break;
                 }
             });
         });
