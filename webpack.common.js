@@ -48,7 +48,7 @@ module.exports = {
                     }
                 },
                 {
-                    from: __dirname + '/*.*',
+                    from: '*.*',
                     globOptions: {
                         ignore: ['**.js', '**.html']
                     }
