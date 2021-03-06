@@ -738,7 +738,7 @@
     "LabelffmpegPath": "FFmpeg joly:",
     "LabelffmpegPathHelp": "FFmpeg-qoldabaŋyzdyŋ failyna, nemese FFmpeg bar qaltağa jol.",
     "LanNetworksHelp": "Ötkızu mümkındıgın şekteudı jüzege asyru kezınde jergılıktı jelıde qarastyrylatyn jelıler üşın ütırlermen bölıngen IP-mekenjailarynyŋ tızbesı nemese IP/netmask jazbalar. Eger ornatylsa, barlyq basqa IP-mekenjailary syrtqy jelıde qarastyrylady jäne syrtqy ötkızu mümkındıgın şekteulerıne ūşyraidy. Eger bos qaldyrylsa, serverdıŋ ışkı jelısı tek jergılıktı jelıde sanalady.",
-    "Large": "İrı",
+    "Large": "Irı",
     "LatestFromLibrary": "Eŋ keiıngı {0}",
     "LearnHowYouCanContribute": "Qalai üles qosuynyŋyz mümkın turaly üirenıŋız.",
     "LibraryAccessHelp": "Būl paidalanuşymen ortaqtasu üşın tasyğyşhanalardy bölekteŋız. Metaderek retteuşını paidalanyp äkımşıler barlyq qaltalardy öŋdeuı mümkın.",
@@ -1506,8 +1506,8 @@
     "AllowVppTonemappingHelp": "OpenCL süzgısın qoldanbai aparattyq qūraldarğa tolyq negızdelgen tonmapiŋ. Ağymda HDR10 metaderekterı bar beinelerdı qaita kodtau kezınde ğana jūmys ısteidı.",
     "EnableVppTonemapping": "VPP tonmapiŋdi qosu",
     "EnableEnhancedNvdecDecoder": "Jaqsartylğan NVDEC kodsyzdandyrğyşty qosu",
-    "DisablePlugin": "Plagindı öşıru",
-    "EnablePlugin": "Plagindı qosu",
+    "DisablePlugin": "Öşıru",
+    "EnablePlugin": "Qosu",
     "Framerate": "Kadr jyld-ğy",
     "DirectPlayHelp": "Qainar fail osy tūtynğyşpen tolyğymen üilesımdı, al seans osy faildy özgertusız qabyldaidy."
 }
