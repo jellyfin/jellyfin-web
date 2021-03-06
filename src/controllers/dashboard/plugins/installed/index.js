@@ -66,7 +66,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     if (configPageUrl) {
         html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${configPageUrl}">`;
     } else {
-        html += '<div class="cardImageContainer noConfigPluginCard noHoverEffect emby-button">';
+        html += '<div class="cardImageContainer noConfigPluginCard noHoverEffect emby-button" style="margin:0;padding:0">';
     }
 
     if (plugin.HasImage) {
@@ -87,12 +87,10 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
         html += '</div>';
     }
 
-    html += "<div class='cardText'>";
-    html += configPage && configPage.DisplayName ? configPage.DisplayName : plugin.Name;
-    html += `<br/>${globalize.translate('LabelStatus')} ${plugin.Status}</div>`;
-    html += "<div class='cardText cardText-secondary'>";
-    html += plugin.Version;
+    html += '<div class="cardText">';
+    html += `${plugin.Name}<span class='cardText cardText-secondary'>${plugin.Version}</span>`;
     html += '</div>';
+    html += `<div class="cardText">${globalize.translate('LabelStatus')} ${plugin.Status}</div>`;
     html += '</div>';
     html += '</div>';
     html += '</div>';
@@ -161,7 +159,7 @@ function showPluginMenu(page, elem) {
             menuItems.push({
                 name: globalize.translate('EnablePlugin'),
                 id: 'enable',
-                icon: 'mode_enable'
+                icon: 'check_circle_outline'
             });
         }
 
@@ -169,7 +167,7 @@ function showPluginMenu(page, elem) {
             menuItems.push({
                 name: globalize.translate('DisablePlugin'),
                 id: 'disable',
-                icon: 'mode_disable'
+                icon: 'do_not_disturb'
             });
         }
 
