@@ -1505,8 +1505,8 @@
     "AllowVppTonemappingHelp": "Ánh xạ âm dựa trên phần cứng đầy đủ mà không cần sử dụng bộ lọc OpenCL. Hiện chỉ hoạt động khi chuyển mã video có siêu dữ liệu HDR10 được nhúng.",
     "EnableEnhancedNvdecDecoder": "Bật bộ giải mã NVDEC nâng cao",
     "EnableVppTonemapping": "Bật ánh xạ tông màu VPP",
-    "DisablePlugin": "Tắt Plugin",
-    "EnablePlugin": "Bật Plugin",
+    "DisablePlugin": "Tắt",
+    "EnablePlugin": "Bật",
     "Framerate": "Tỷ lệ khung hình",
     "DirectPlayHelp": "Tệp nguồn hoàn toàn tương thích với ứng dụng khách này và phiên đang nhận tệp mà không có sửa đổi."
 }
