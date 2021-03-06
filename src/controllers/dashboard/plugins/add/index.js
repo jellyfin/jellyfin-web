@@ -23,7 +23,7 @@ function populateVersions(packageInfo, page, installedPlugin) {
     let html = '';
 
     packageInfo.versions.sort((a, b) => {
-        return b.timestamp < a.timestamp ? 1 : -1;
+        return b.timestamp < a.timestamp ? -1 : 1;
     });
 
     for (let i = 0; i < packageInfo.versions.length; i++) {
