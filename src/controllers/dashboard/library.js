@@ -256,7 +256,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             style += 'min-width:33.3%;';
         }
 
-        let elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}"' ` : '';
+        const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}"' ` : '';
         html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" style="' + style + '" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
 
         html += '<div class="cardBox visualCardBox">';
