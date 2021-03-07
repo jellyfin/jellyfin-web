@@ -44,12 +44,14 @@ module.exports = {
                 {
                     from: 'assets/**',
                     globOptions: {
+                        dot: true,
                         ignore: ['**/css/*']
                     }
                 },
                 {
-                    from: __dirname + '/*.*',
+                    from: '*.*',
                     globOptions: {
+                        dot: true,
                         ignore: ['**.js', '**.html']
                     }
                 }
