@@ -1486,7 +1486,7 @@
     "AspectRatioCover": "Copertina",
     "SyncPlayGroupDefaultTitle": "Gruppo di {0}",
     "AllowHevcEncoding": "Permetti codifica in formato HEVC",
-    "DisablePlugin": "Disabilita Plugin",
-    "EnablePlugin": "Abilita Plugin",
+    "DisablePlugin": "Disabilita",
+    "EnablePlugin": "Abilita",
     "DirectPlayHelp": "Il file sorgente è totalmente compatibile con questo client e la sessione lo sta ricevendo senza alcuna modifica."
 }
