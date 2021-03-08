@@ -1505,8 +1505,8 @@
     "LabelMinAudiobookResume": "A hangoskönyv minimális folytatása percekben:",
     "LabelMaxAudiobookResumeHelp": "A címeket teljesen lejátszottnak tekintjük, ha ezen idő után fejezed be.",
     "LabelMaxAudiobookResume": "A hangoskönyv maximális folytatása percekben:",
-    "DisablePlugin": "Beépülő modul letiltása",
-    "EnablePlugin": "Beépülő modul engedélyezése",
+    "DisablePlugin": "Letiltás",
+    "EnablePlugin": "Engedélyezés",
     "Framerate": "Filmkocka szám",
     "DirectPlayHelp": "A forrásfájl teljes mértékben kompatibilis ezzel az klienssel, és a munkamenet módosítások nélkül fogadja a fájlt."
 }
