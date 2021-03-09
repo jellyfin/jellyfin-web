@@ -1385,7 +1385,7 @@
     "QuickConnectActivationSuccessful": "Succesvol geactiveerd",
     "LabelKnownProxies": "Bekende proxies:",
     "LabelCurrentStatus": "Huidige status:",
-    "KnownProxiesHelp": "Een door komma gescheiden lijst van IP adresen van bekende proxies. Die gebruikt worden bij het verbinden met je Jellyfin instantie. Dit is nodig om goed gebruik te maken van X-Forwarded-For headers. Reboot nodig na opslaan.",
+    "KnownProxiesHelp": "Een door komma gescheiden lijst van IP adressen van bekende proxies, die gebruikt worden bij het verbinden met je Jellyfin instantie. Dit is nodig om goed gebruik te maken van X-Forwarded-For headers. Reboot nodig na opslaan.",
     "EnableQuickConnect": "Schakel Quick Connect in op deze server",
     "ButtonUseQuickConnect": "Gebruik Quick Connect",
     "LabelMaxMuxingQueueSizeHelp": "Maximaal aantal pakketten dat kan worden gebufferd terwijl wordt gewacht tot alle streams zijn geïnitialiseerd. Probeer het te verhogen als u nog steeds de fout \"Te veel pakketten gebufferd voor uitvoerstroom\" tegenkomt in ffmpeg-logboeken. De aanbevolen waarde is 2048.",
