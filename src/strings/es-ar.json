@@ -1506,7 +1506,7 @@
     "EnableVppTonemapping": "Habilitar el mapeo de tonos VPP",
     "EnableEnhancedNvdecDecoder": "Habilitar decodificador NVDEC mejorado",
     "DisablePlugin": "Deshabilitar Plugin",
-    "EnablePlugin": "Habilitar Pugin",
+    "EnablePlugin": "Habilitar Plugin",
     "Framerate": "Tasa de Cuadros",
     "DirectPlayHelp": "El Archivo fuente es enteramente compatible con este cliente y la sesión esta recibiendo el archivo sin modificaciones"
 }
