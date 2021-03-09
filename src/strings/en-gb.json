@@ -1412,7 +1412,7 @@
     "LabelIconMaxResHelp": "Maximum resolution of icons exposed via the upnp:icon property.",
     "LabelCurrentStatus": "Current status:",
     "LabelAlbumArtMaxResHelp": "Maximum resolution of album art exposed via the upnp:albumArtURI property.",
-    "KnownProxiesHelp": "Comma separated list of IP addresses/hostnames of known proxies used when connecting to your Jellyfin instance. This is required to make proper use of X-Forwarded-For headers. Requires a reboot after saving.",
+    "KnownProxiesHelp": "Comma separated list of IP addresses of known proxies used when connecting to your Jellyfin instance. This is required to make proper use of X-Forwarded-For headers. Requires a reboot after saving.",
     "Other": "Other",
     "EnableQuickConnect": "Enable quick connect on this server",
     "ButtonUseQuickConnect": "Use Quick Connect",
