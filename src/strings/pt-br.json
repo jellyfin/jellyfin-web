@@ -1501,5 +1501,9 @@
     "LabelMaxAudiobookResumeHelp": "Os títulos são considerados totalmente reproduzidos se parados após esse período.",
     "LabelMaxAudiobookResume": "Resumo máximo do audiolivro em minutos:",
     "LabelIsForced": "Forçado",
-    "LabelHDHomerunPortRangeHelp": "Restringe o intervalo de portas UDP HD Homerun a este valor. (O padrão é 1024 - 645535)."
+    "LabelHDHomerunPortRangeHelp": "Restringe o intervalo de portas UDP HD Homerun a este valor. (O padrão é 1024 - 645535).",
+    "Framerate": "Taxa de quadros",
+    "DisablePlugin": "Desativar",
+    "EnablePlugin": "Habilitar",
+    "DirectPlayHelp": "O arquivo de origem é totalmente compatível com este cliente e a sessão está recebendo o arquivo sem modificações."
 }
