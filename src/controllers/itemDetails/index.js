@@ -745,9 +745,7 @@ function renderLogo(page, item, apiClient) {
 
     const url = logoImageUrl(item, apiClient, {});
 
-    if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
-        detailLogo.classList.add('hide');
-    } else if (url) {
+    if (url) {
         detailLogo.classList.remove('hide');
         imageLoader.setLazyImage(detailLogo, url);
     } else {
