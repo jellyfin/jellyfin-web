@@ -1501,5 +1501,12 @@
     "LabelMaxAudiobookResumeHelp": "Položky jsou považovány za přehrané, pokud jsou zastaveny po tomto čase.",
     "LabelMaxAudiobookResume": "Maximální délka v minutách pro pokračování u audioknih:",
     "MessagePlaybackError": "Přehrání tohoto souboru na vašem zařízení Google Cast se nezdařilo.",
-    "MessageChromecastConnectionError": "Vašemu zařízení Google Cast se nezdařilo kontaktovat server Jellyfin. Zkontrolujte připojení a zkuste to znovu."
+    "MessageChromecastConnectionError": "Vašemu zařízení Google Cast se nezdařilo kontaktovat server Jellyfin. Zkontrolujte připojení a zkuste to znovu.",
+    "AllowVppTonemappingHelp": "Plně hardwarové mapování tónů bez použití filtru OpenCL. Momentálně funguje pouze při překódování videí, které obsahují metadata HDR10.",
+    "EnableVppTonemapping": "Povolit mapování tónů VPP",
+    "EnableEnhancedNvdecDecoder": "Povolit vylepšený dekodér NVDEC",
+    "Framerate": "Snímková frekvence",
+    "DisablePlugin": "Zakázat",
+    "EnablePlugin": "Povolit",
+    "DirectPlayHelp": "Zdrojový soubor je s klientem plně kompatibilní a relaci je tak soubor posílán bez úprav."
 }
