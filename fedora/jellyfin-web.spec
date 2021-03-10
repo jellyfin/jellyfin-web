@@ -18,6 +18,9 @@ BuildRequires:  nodejs-yarn
 # ditto for Fedora's yarn RPM
 BuildRequires: git
 BuildArch:		noarch
+%if 0%{?fedora} >= 33
+BuildRequires: nodejs
+%endif
 
 # Disable Automatic Dependency Processing
 AutoReqProv:    no
