@@ -119,7 +119,7 @@
     "DatePlayed": "Data de reprodução",
     "DeathDateValue": "Morte: {0}",
     "Default": "Padrão",
-    "ErrorDefault": "Ocorreu um erro ao processar o pedido. Por favor, tente novamente mais tarde.",
+    "ErrorDefault": "Ocorreu um erro ao processar o requisito. Por favor, tente novamente mais tarde.",
     "DefaultMetadataLangaugeDescription": "Estas são suas configurações padrão e podem ser personalizadas por biblioteca.",
     "DefaultSubtitlesHelp": "Legendas são carregadas com base nas configurações padrão e de legendas forçadas nos metadados incorporados. As preferências de idioma são consideradas quando existem múltiplas opções disponíveis.",
     "Delete": "Excluir",
@@ -1422,7 +1422,7 @@
     "UseDoubleRateDeinterlacingHelp": "Essa configuração utiliza a \"field rate\" ao fazer o processo de \"deinterlacing\", frequentemente chamado de \"bob deinterlacing\", que dobra a taxa de quadros do vídeo para proporcionar um movimento completo similar àquele visto ao ver um vídeo \"interlaçado\" em uma TV.",
     "OptionMaxActiveSessions": "Estabelece o número máximo de sessões de usuários simultâneas.",
     "LabelUserMaxActiveSessions": "Número máximo de sessões de usuários simultâneas:",
-    "OptionAllowContentDownloadHelp": "Os usuários podem baixar mídias e armazená-las em seus dispositivos. Isso não é o mesmo que um recurso de sincronização. Para funcionar corretamente isso exige que a biblioteca de mídia esteja habilitada.",
+    "OptionAllowContentDownloadHelp": "Os usuários podem baixar mídias e armazená-las em seus dispositivos. Isso não é o mesmo que um recurso de sincronização. As bibliotecas de livros exigem que isso esteja habilitado para funcionar corretamente.",
     "OptionAllowContentDownload": "Permitir download de mídia",
     "HeaderDeleteDevices": "Excluir todos os dispositivos",
     "DeleteDevicesConfirmation": "Tem certeza de que deseja excluir todos os dispositivos? Todas as outras sessões serão desconectadas. Os dispositivos reaparecerão na próxima vez que um usuário fizer login.",
@@ -1440,7 +1440,7 @@
     "LabelAutomaticDiscovery": "Habilitar Descobrimento Automático:",
     "LabelAutoDiscoveryTracingHelp": "Quando habilitado, os pacotes recebidos na porta de descobrimento automático são registrados.",
     "LabelAutoDiscoveryTracing": "Habilitar rastreamento de Descobrimento Automático.",
-    "LabelEnableSSDPTracingHelp": "Habilite o rastreamento de rede SSDP de detalhes a ser registrado.<br/><b> AVISO:</b> Isso causará uma grave degradação no desempenho.",
+    "LabelEnableSSDPTracingHelp": "Habilitar que os detalhes do rastreamento da rede SSDP sejam registrados.<br/><b> AVISO:</b> Isso causará uma grave degradação do desempenho.",
     "LabelEnableSSDPTracing": "Habilitar rastreamento de SSDP:",
     "LabelEnableIP6Help": "Ativa a funcionalidade IPv6.",
     "LabelEnableIP6": "Ativar IPv6:",
@@ -1505,5 +1505,7 @@
     "Framerate": "Taxa de quadros",
     "DisablePlugin": "Desativar",
     "EnablePlugin": "Habilitar",
-    "DirectPlayHelp": "O arquivo de origem é totalmente compatível com este cliente e a sessão está recebendo o arquivo sem modificações."
+    "DirectPlayHelp": "O arquivo de origem é totalmente compatível com este cliente e a sessão está recebendo o arquivo sem modificações.",
+    "YoutubeBadRequest": "Requisição ruim.",
+    "AspectRatioFill": "Preencher"
 }
