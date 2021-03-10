@@ -1507,6 +1507,6 @@
     "EnableEnhancedNvdecDecoder": "Aktiver forbedret NVDEC-dekoder",
     "Framerate": "Bildefrekvens",
     "DisablePlugin": "Deaktiver programtillegg",
-    "EnablePlugin": "Aktiver programtillegg",
+    "EnablePlugin": "Aktiver",
     "DirectPlayHelp": "Kildefilen er helt kompatibel med denne klienten, og økten mottar filen uten endringer."
 }
