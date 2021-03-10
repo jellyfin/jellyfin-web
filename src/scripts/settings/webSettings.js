@@ -56,7 +56,8 @@ async function getConfig() {
         return data;
     } catch (error) {
         console.warn('failed to fetch the web config file:', error);
-        return DefaultConfig;
+        data = DefaultConfig;
+        return data;
     }
 }
 
