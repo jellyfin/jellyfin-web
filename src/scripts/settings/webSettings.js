@@ -1,5 +1,6 @@
-let data;
+import DefaultConfig from '../../config.json';
 
+let data;
 const urlResolver = document.createElement('a');
 
 // `fetch` with `file:` support
@@ -55,24 +56,7 @@ async function getConfig() {
         return data;
     } catch (error) {
         console.warn('failed to fetch the web config file:', error);
-        return getDefaultConfig();
-    }
-}
-
-async function getDefaultConfig() {
-    try {
-        const response = await fetchLocal('config.template.json', {
-            cache: 'no-cache'
-        });
-
-        if (!response.ok) {
-            throw new Error('network response was not ok');
-        }
-
-        data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('failed to fetch the default web config file:', error);
+        return DefaultConfig;
     }
 }
 
@@ -126,39 +110,23 @@ const checkDefaultTheme = (themes) => {
 
 export function getThemes() {
     return getConfig().then(config => {
-        const themes = Array.isArray(config.themes) ? config.themes : [ baseDefaultTheme ];
+        const themes = Array.isArray(config.themes) ? config.themes : DefaultConfig.themes;
         checkDefaultTheme(themes);
         return themes;
     }).catch(error => {
         console.log('cannot get web config:', error);
         checkDefaultTheme();
-        return [ baseDefaultTheme ];
+        return DefaultConfig.themes;
     });
 }
 
 export const getDefaultTheme = () => internalDefaultTheme;
 
-const defaultPlugins = [
-    'playAccessValidation/plugin',
-    'experimentalWarnings/plugin',
-    'htmlAudioPlayer/plugin',
-    'htmlVideoPlayer/plugin',
-    'photoPlayer/plugin',
-    'comicsPlayer/plugin',
-    'bookPlayer/plugin',
-    'youtubePlayer/plugin',
-    'backdropScreensaver/plugin',
-    'pdfPlayer/plugin',
-    'logoScreensaver/plugin',
-    'sessionPlayer/plugin',
-    'chromecastPlayer/plugin'
-];
-
 export function getPlugins() {
     return getConfig().then(config => {
-        return config.plugins || defaultPlugins;
+        return config.plugins || DefaultConfig.plugins;
     }).catch(error => {
         console.log('cannot get web config:', error);
-        return defaultPlugins;
+        return DefaultConfig.plugins;
     });
 }
