@@ -1441,8 +1441,8 @@
     "LabelMaxMuxingQueueSize": "Maximal muxing köstorlek:",
     "LabelMaxAudiobookResume": "Maximal tid för att återuppta ljudböcker, i minuter:",
     "Framerate": "Bilder per sekund",
-    "DisablePlugin": "Avaktivera plugin",
-    "EnablePlugin": "Aktivera plugin",
+    "DisablePlugin": "Avaktivera",
+    "EnablePlugin": "Aktivera",
     "DirectPlayHelp": "Källfilen är inte kompatibel med denna klient, filen spelas upp utan omkodning.",
     "LabelTonemappingDesat": "Tonmappning desat:",
     "LabelTonemappingAlgorithm": "Välj algoritm för tonmappning:",
@@ -1475,5 +1475,10 @@
     "UseDoubleRateDeinterlacingHelp": "Denna inställning använder fälthastigheten vid deinterlacing, ofta kallad bob deinterlacing, vilket fördubblar bildhastigheten för videon för att ge full rörelse som är vad du skulle se när du tittar på interlaced video på en TV.",
     "TonemappingRangeHelp": "Välj utdatafärgsintervall. Auto är samma som inmatningsområdet.",
     "LabelTonemappingDesatHelp": "Använd desaturering för höjdpunkter som överstiger denna ljusstyrka. Ju högre parameter, desto mer färginformation bevaras. Denna inställning hjälper till att förhindra onaturligt utblåsta färger för superhöjdpunkter genom att (mjukt) förvandlas till vitt istället. Detta gör att bilderna känns mer naturliga, på bekostnad av att minska informationen om färger utanför området. De rekommenderade värdena och standardvärdena är 0 och 0.5.",
-    "LabelOpenclDeviceHelp": "Det här är OpenCL-enheten som används för tonmappning. Den vänstra sidan av punkten är plattformsnumret och den högra sidan är enhetsnumret på plattformen. Standardvärdet är 0.0. ffmpeg-applikationen som innehåller OpenCL-hårdvaruaccelereringsmetoden krävs."
+    "LabelOpenclDeviceHelp": "Det här är OpenCL-enheten som används för tonmappning. Den vänstra sidan av punkten är plattformsnumret och den högra sidan är enhetsnumret på plattformen. Standardvärdet är 0.0. ffmpeg-applikationen som innehåller OpenCL-hårdvaruaccelereringsmetoden krävs.",
+    "LabelVideoInfo": "Video-information",
+    "LabelAudioInfo": "Ljud-information",
+    "LabelPlaybackInfo": "Uppspelnings information",
+    "AspectRatioFill": "Fyll",
+    "EnableFallbackFont": "Aktivera reserv-gränssnitt"
 }
