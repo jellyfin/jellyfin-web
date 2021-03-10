@@ -78,7 +78,7 @@ async function getDefaultConfig() {
 
 export function getIncludeCorsCredentials() {
     return getConfig()
-        .then(config => config.includeCorsCredentials)
+        .then(config => !!config.includeCorsCredentials)
         .catch(error => {
             console.log('cannot get web config:', error);
             return false;
@@ -87,7 +87,7 @@ export function getIncludeCorsCredentials() {
 
 export function getMultiServer() {
     return getConfig().then(config => {
-        return config.multiserver;
+        return !!config.multiserver;
     }).catch(error => {
         console.log('cannot get web config:', error);
         return false;
@@ -126,23 +126,39 @@ const checkDefaultTheme = (themes) => {
 
 export function getThemes() {
     return getConfig().then(config => {
-        const themes = Array.isArray(config.themes) ? config.themes : [];
+        const themes = Array.isArray(config.themes) ? config.themes : [ baseDefaultTheme ];
         checkDefaultTheme(themes);
         return themes;
     }).catch(error => {
         console.log('cannot get web config:', error);
         checkDefaultTheme();
-        return [];
+        return [ baseDefaultTheme ];
     });
 }
 
 export const getDefaultTheme = () => internalDefaultTheme;
 
+const defaultPlugins = [
+    'playAccessValidation/plugin',
+    'experimentalWarnings/plugin',
+    'htmlAudioPlayer/plugin',
+    'htmlVideoPlayer/plugin',
+    'photoPlayer/plugin',
+    'comicsPlayer/plugin',
+    'bookPlayer/plugin',
+    'youtubePlayer/plugin',
+    'backdropScreensaver/plugin',
+    'pdfPlayer/plugin',
+    'logoScreensaver/plugin',
+    'sessionPlayer/plugin',
+    'chromecastPlayer/plugin'
+];
+
 export function getPlugins() {
     return getConfig().then(config => {
-        return config.plugins;
+        return config.plugins || defaultPlugins;
     }).catch(error => {
         console.log('cannot get web config:', error);
-        return [];
+        return defaultPlugins;
     });
 }
