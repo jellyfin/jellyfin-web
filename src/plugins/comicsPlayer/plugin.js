@@ -57,11 +57,29 @@ export class ComicsPlayer {
         }
     }
 
+    bindMediaElementEvents() {
+        const elem = this.mediaElement;
+
+        elem?.addEventListener('close', this.onDialogClosed, {once: true});
+        elem?.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, {once: true});
+    }
+
     bindEvents() {
+        this.bindMediaElementEvents();
+
         document.addEventListener('keyup', this.onWindowKeyUp);
     }
 
+    unbindMediaElementEvents() {
+        const elem = this.mediaElement;
+
+        elem?.removeEventListener('close', this.onDialogClosed);
+        elem?.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
+    }
+
     unbindEvents() {
+        this.unbindMediaElementEvents();
+
         document.removeEventListener('keyup', this.onWindowKeyUp);
     }
 
@@ -85,13 +103,16 @@ export class ComicsPlayer {
             elem.id = 'comicsPlayer';
             elem.classList.add('slideshowDialog');
 
-            elem.innerHTML = '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
+            elem.innerHTML = `<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>
+<div class="actionButtons">
+    <button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><i class="material-icons actionButtonIcon close"></i></button>
+</div>`;
 
-            this.bindEvents();
             dialogHelper.open(elem);
         }
 
         this.mediaElement = elem;
+        this.bindEvents();
         return elem;
     }
 
