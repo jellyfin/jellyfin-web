@@ -110,6 +110,9 @@ const checkDefaultTheme = (themes) => {
 
 export function getThemes() {
     return getConfig().then(config => {
+        if (!Array.isArray(config.themes)) {
+            console.error('web config is invalid, missing themes:', config);
+        }
         const themes = Array.isArray(config.themes) ? config.themes : DefaultConfig.themes;
         checkDefaultTheme(themes);
         return themes;
@@ -124,6 +127,9 @@ export const getDefaultTheme = () => internalDefaultTheme;
 
 export function getPlugins() {
     return getConfig().then(config => {
+        if (!config.plugins) {
+            console.error('web config is invalid, missing plugins:', config);
+        }
         return config.plugins || DefaultConfig.plugins;
     }).catch(error => {
         console.log('cannot get web config:', error);
