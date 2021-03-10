@@ -1,5 +1,6 @@
-let data;
+import DefaultConfig from '../../config.json';
 
+let data;
 const urlResolver = document.createElement('a');
 
 // `fetch` with `file:` support
@@ -55,30 +56,14 @@ async function getConfig() {
         return data;
     } catch (error) {
         console.warn('failed to fetch the web config file:', error);
-        return getDefaultConfig();
-    }
-}
-
-async function getDefaultConfig() {
-    try {
-        const response = await fetchLocal('config.template.json', {
-            cache: 'no-cache'
-        });
-
-        if (!response.ok) {
-            throw new Error('network response was not ok');
-        }
-
-        data = await response.json();
+        data = DefaultConfig;
         return data;
-    } catch (error) {
-        console.error('failed to fetch the default web config file:', error);
     }
 }
 
 export function getIncludeCorsCredentials() {
     return getConfig()
-        .then(config => config.includeCorsCredentials)
+        .then(config => !!config.includeCorsCredentials)
         .catch(error => {
             console.log('cannot get web config:', error);
             return false;
@@ -87,7 +72,7 @@ export function getIncludeCorsCredentials() {
 
 export function getMultiServer() {
     return getConfig().then(config => {
-        return config.multiserver;
+        return !!config.multiserver;
     }).catch(error => {
         console.log('cannot get web config:', error);
         return false;
@@ -126,13 +111,16 @@ const checkDefaultTheme = (themes) => {
 
 export function getThemes() {
     return getConfig().then(config => {
-        const themes = Array.isArray(config.themes) ? config.themes : [];
+        if (!Array.isArray(config.themes)) {
+            console.error('web config is invalid, missing themes:', config);
+        }
+        const themes = Array.isArray(config.themes) ? config.themes : DefaultConfig.themes;
         checkDefaultTheme(themes);
         return themes;
     }).catch(error => {
         console.log('cannot get web config:', error);
         checkDefaultTheme();
-        return [];
+        return DefaultConfig.themes;
     });
 }
 
@@ -140,9 +128,12 @@ export const getDefaultTheme = () => internalDefaultTheme;
 
 export function getPlugins() {
     return getConfig().then(config => {
-        return config.plugins;
+        if (!config.plugins) {
+            console.error('web config is invalid, missing plugins:', config);
+        }
+        return config.plugins || DefaultConfig.plugins;
     }).catch(error => {
         console.log('cannot get web config:', error);
-        return [];
+        return DefaultConfig.plugins;
     });
 }
