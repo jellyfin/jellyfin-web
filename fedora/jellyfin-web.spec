@@ -41,7 +41,7 @@ mv dist %{buildroot}%{_datadir}/jellyfin-web
 %{__install} -D -m 0644 LICENSE %{buildroot}%{_datadir}/licenses/jellyfin/LICENSE
 
 %files
-%attr(755,root,root) %{_datadir}/jellyfin-web
+%attr(644,root,root) %{_datadir}/jellyfin-web
 %{_datadir}/licenses/jellyfin/LICENSE
 
 %changelog
