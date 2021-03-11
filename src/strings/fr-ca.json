@@ -688,5 +688,16 @@
     "Framerate": "Images par seconde",
     "DisablePlugin": "Désactiver",
     "EnablePlugin": "Activer",
-    "DirectPlayHelp": "Le fichier source est entièrement compatible avec ce client, et la session reçoit le fichier sans modifications."
+    "DirectPlayHelp": "Le fichier source est entièrement compatible avec ce client, et la session reçoit le fichier sans modifications.",
+    "ShowAdvancedSettings": "Afficher les paramètres avancés",
+    "SettingsWarning": "Le changement de ces valeurs peut causer une instabilité ou des erreurs de connexion. Si vous rencontrez des problèmes, nous vous recommandons de restaurer les valeurs par défaut.",
+    "SettingsSaved": "Paramètres sauvegardés.",
+    "Settings": "Paramètres",
+    "ServerRestartNeededAfterPluginInstall": "Jellyfin va nécessiter un redémarrage après l'installation d'un plugin.",
+    "ServerNameIsShuttingDown": "Le serveur à {0} s'arrête.",
+    "Smart": "Intelligent",
+    "Smaller": "Plus petit",
+    "SmallCaps": "Lettres minuscules",
+    "Small": "Petit",
+    "SkipEpisodesAlreadyInMyLibraryHelp": "Les épisodes seront comparés en utilisant les saisons et les numéros d'épisodes, si disponibles."
 }
