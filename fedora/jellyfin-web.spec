@@ -2,7 +2,7 @@
 
 Name:           jellyfin-web
 Version:        10.7.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Free Software Media System web client
 License:        GPLv3
 URL:            https://jellyfin.org
