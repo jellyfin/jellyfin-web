@@ -489,7 +489,7 @@
     "ItemCount": "{0} items",
     "Items": "Items",
     "Kids": "Kids",
-    "KnownProxiesHelp": "Comma separated list of IP addresses/hostnames of known proxies used when connecting to your Jellyfin instance. This is required to make proper use of X-Forwarded-For headers. Requires a reboot after saving.",
+    "KnownProxiesHelp": "Comma separated list of IP addresses or hostnames of known proxies used when connecting to your Jellyfin instance. This is required to make proper use of X-Forwarded-For headers. Requires a reboot after saving.",
     "Label3DFormat": "3D format:",
     "LabelAbortedByServerShutdown": "(Aborted by server shutdown)",
     "LabelAccessDay": "Day of week:",
