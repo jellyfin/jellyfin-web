@@ -699,5 +699,12 @@
     "Smaller": "Plus petit",
     "SmallCaps": "Lettres minuscules",
     "Small": "Petit",
-    "SkipEpisodesAlreadyInMyLibraryHelp": "Les épisodes seront comparés en utilisant les saisons et les numéros d'épisodes, si disponibles."
+    "SkipEpisodesAlreadyInMyLibraryHelp": "Les épisodes seront comparés en utilisant les saisons et les numéros d'épisodes, si disponibles.",
+    "Schedule": "Planning",
+    "ScanLibrary": "Scanner la bibliothèque",
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Ces paramètres s'appliquent également à toute lecture Chromecast démarrée par cet appareil.",
+    "Subtitle": "Sous-titres",
+    "Studios": "Studios",
+    "StopRecording": "Arrêter d'enregistrer",
+    "Sports": "Sports"
 }
