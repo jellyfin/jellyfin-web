@@ -62,7 +62,7 @@
     "LabelCachePathHelp": "選擇指定所需的緩存文件路徑，如圖像。保留空白以使用默認設定。",
     "LabelCommunityRating": "討論區評分",
     "LabelContentType": "內容類型：",
-    "LabelCountry": "國家：",
+    "LabelCountry": "國家/地區：",
     "LabelCurrentPassword": "目前密碼：",
     "LabelCustomCss": "自訂 CSS：",
     "LabelCustomCssHelp": "應用自訂 CSS Web 界面。",
