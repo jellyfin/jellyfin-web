@@ -1465,7 +1465,7 @@
     "LabelTonemappingThresholdHelp": "Algoritmernas parametrar för tonmappning är finjusterade för varje scen. Ett tröskelvärde används för att upptäcka om scenen har ändrats eller ej. Om skillnaden mellan nuvarande bildrutas ljusstyrka och det nuvarande genomsnittliga ljusstyrkans värde överstiger tröskelvärdet så kommer scenens genomsnittsvärde och maximala ljusstyrka att beräknas om. De rekommenderade och förvalda värdena är 0.8 och 0.2.",
     "LabelTonemappingThreshold": "Tonmappning tröskelvärde:",
     "LabelTonemappingRange": "Tonmappning omfång:",
-    "LabelTonemappingPeakHelp": "Åsidosätt signal/nominal/reference peak med detta värde. Det är användbart när den inbäddade informationen i metadatan inte är tillförlitlig eller när man tonmappar från ett lägre till högre omfång. De förvalda värdena är 100 och 0.",
+    "LabelTonemappingPeakHelp": "Åsidosätta signal/nominal/referenstopp med detta värde. Det är användbart när den inbäddade informationen i metadatan inte är tillförlitlig eller när man tonmappar från ett lägre till högre omfång. De förvalda värdena är 100 och 0.",
     "LabelTonemappingPeak": "Tonmappning peak:",
     "LabelTonemappingParamHelp": "Ställ in algoritm för tonmappning. De rekommenderade och förvalda värdena är NaN. Vanligtvis kan man lämna det tomt.",
     "LabelTonemappingParam": "Tonmappning param:",
@@ -1480,5 +1480,10 @@
     "LabelAudioInfo": "Ljud-information",
     "LabelPlaybackInfo": "Uppspelnings information",
     "AspectRatioFill": "Fyll",
-    "EnableFallbackFont": "Aktivera reserv-gränssnitt"
+    "EnableFallbackFont": "Aktivera reserv-gränssnitt",
+    "LabelFallbackFontPathHelp": "Ange en sökväg som innehåller reservteckensnitt för renderningen av ASS/SSA undertexter. Den maximala totala tilllåtna filstorleken är 20 MB. Lättviktiga och webbvänliga filtyper t.ex. woff2 rekommenderas.",
+    "LabelFallbackFontPath": "Reservteckensnittmappens sökväg:",
+    "HeaderSelectFallbackFontPath": "Välja Reservteckensnittmappens Sökväg",
+    "HeaderSelectFallbackFontPathHelp": "Söka eller mata in sökvägen av reservteckensnittmappen för att använda i ASS/SSA undertexters renderingen.",
+    "AllowTonemappingHelp": "Tonmappning kan förvändla en videos dynamisk omfång från HDR till SDR (standard dynamiska omfång) när den bibehåller bildens detaljer och färger, som är mycket viktig information för att representera originalscenen. Fungerar för närvarande bara under transkodning av videor med inbäddad HDR10 eller HLG metedata. Om uppspelning är inte jämn eller misslyckas, vänligen överväg att avsluta den korresponderande maskinvarudekodaren."
 }
