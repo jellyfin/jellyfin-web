@@ -346,13 +346,7 @@ import browser from './browser';
         const canPlayAc3VideoAudioInHls = supportsAc3InHls(videoTestElement);
 
         // Transcoding codec is the first in hlsVideoAudioCodecs.
-        // Prefer AAC, MP3 to other codecs when audio transcoding.
-        if (canPlayAacVideoAudio) {
-            videoAudioCodecs.push('aac');
-            hlsInTsVideoAudioCodecs.push('aac');
-            hlsInFmp4VideoAudioCodecs.push('aac');
-        }
-
+        // Prefer MP3, AAC to other codecs when audio transcoding.
         if (supportsMp3VideoAudio) {
             videoAudioCodecs.push('mp3');
 
@@ -362,6 +356,12 @@ import browser from './browser';
             }
 
             hlsInFmp4VideoAudioCodecs.push('mp3');
+        }
+
+        if (canPlayAacVideoAudio) {
+            videoAudioCodecs.push('aac');
+            hlsInTsVideoAudioCodecs.push('aac');
+            hlsInFmp4VideoAudioCodecs.push('aac');
         }
 
         // For AC3/EAC3 remuxing.
