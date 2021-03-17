@@ -76,12 +76,13 @@ import ServerConnections from '../ServerConnections';
         return '';
     }
 
-    function getImageUrl(item, width) {
+    function getImageUrl(item, size) {
         const apiClient = ServerConnections.getApiClient(item.ServerId);
         let itemId;
 
         const options = {
-            maxWidth: width,
+            fillWidth: size,
+            fillHeight: size,
             type: 'Primary'
         };
 
@@ -105,10 +106,11 @@ import ServerConnections from '../ServerConnections';
         return null;
     }
 
-    function getChannelImageUrl(item, width) {
+    function getChannelImageUrl(item, size) {
         const apiClient = ServerConnections.getApiClient(item.ServerId);
         const options = {
-            maxWidth: width,
+            fillWidth: size,
+            fillHeight: size,
             type: 'Primary'
         };
 

@@ -71,7 +71,7 @@ function getBackdropImageUrl(item, options, apiClient) {
     options.type = options.type || 'Backdrop';
 
     // If not resizing, get the original image
-    if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
+    if (!options.maxWidth && !options.width && !options.maxHeight && !options.height && !options.fillWidth && !options.fillHeight) {
         options.quality = 100;
     }
 
