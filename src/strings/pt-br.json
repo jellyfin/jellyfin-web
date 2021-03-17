@@ -249,7 +249,7 @@
     "HeaderContainerProfile": "Perfil de Formato",
     "HeaderContainerProfileHelp": "Perfis de formato indicam as limitações de um dispositivo ao reproduzir formatos específicos. Se uma limitação ocorre, a mídia será transcodificada, mesmo se o formato estiver configurado para reprodução direta.",
     "HeaderContinueListening": "Continuar Escutando",
-    "HeaderContinueWatching": "Continuar Assistindo",
+    "HeaderContinueWatching": "Continuar assistindo",
     "HeaderCustomDlnaProfiles": "Perfis Personalizados",
     "HeaderDateIssued": "Data da Emissão",
     "HeaderDefaultRecordingSettings": "Configurações Padrão de Gravações",
@@ -307,8 +307,8 @@
     "HeaderMoreLikeThis": "Mais Disso",
     "HeaderMusicQuality": "Qualidade da Música",
     "HeaderMyDevice": "Meu Dispositivo",
-    "HeaderMyMedia": "Minha Mídia",
-    "HeaderMyMediaSmall": "Minha Mídia (pequeno)",
+    "HeaderMyMedia": "Minha mídia",
+    "HeaderMyMediaSmall": "Minha mídia (pequeno)",
     "HeaderNewApiKey": "Nova Chave de API",
     "HeaderNewDevices": "Novos Dispositivos",
     "HeaderNextEpisodePlayingInValue": "Reproduzindo Próximo Episódio em {0}",
@@ -816,7 +816,7 @@
     "NewEpisodesOnly": "Apenas novos episódios",
     "News": "Notícias",
     "Next": "Próximo",
-    "NextUp": "A Seguir",
+    "NextUp": "A seguir",
     "No": "Não",
     "NoNewDevicesFound": "Nenhum novo dispositivo encontrado. Para adicionar um novo sintonizador, feche esta mensagem e digite as informações do dispositivo manualmente.",
     "MessageNoNextUpItems": "Nada encontrado. Comece a assistir suas séries!",
@@ -1507,5 +1507,6 @@
     "EnablePlugin": "Habilitar",
     "DirectPlayHelp": "O arquivo de origem é totalmente compatível com este cliente e a sessão está recebendo o arquivo sem modificações.",
     "YoutubeBadRequest": "Requisição ruim.",
-    "AspectRatioFill": "Preencher"
+    "AspectRatioFill": "Preencher",
+    "LabelHDHomerunPortRange": "Intervalo de portas HDHomerun:"
 }
