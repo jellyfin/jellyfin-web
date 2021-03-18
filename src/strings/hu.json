@@ -1215,7 +1215,7 @@
     "LabelXDlnaCap": "X-DLNA cap:",
     "MapChannels": "Csatornák feltérképezése",
     "PasswordResetProviderHelp": "Válassz egy jelszó-visszaállítási szolgáltatót, amelyet akkor kell használni, amikor a felhasználó jelszó-visszaállítást kér.",
-    "OptionResElement": "res elem",
+    "OptionResElement": "Res elem",
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "Erre olyan készülékek esetében van szükség, amelyek időigénye nem nagyon jó.",
     "OptionPlainVideoItemsHelp": "Az összes videót a DIDL-ben \"object.item.videoItem\" -ként ábrázolja, nem pedig egy specifikusabb típusként, például \"object.item.videoItem.movie\" .",
     "OptionPlainStorageFoldersHelp": "Az összes mappa a DIDL-ben \"object.container.storageFolder\" lesz, nem pedig egy specifikusabb típusként, például \"object.container.person.musicArtist\".",
