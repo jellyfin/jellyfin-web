@@ -160,7 +160,7 @@ button::-moz-focus-inner {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    border-radius: 2px;
+    border-radius: 0.2em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -223,6 +223,7 @@ button::-moz-focus-inner {
 }
 
 .cardBox:not(.visualCardBox) .cardPadder {
+    border-radius: 0.2em;
     background-color: #242424;
 }
 
@@ -264,7 +265,7 @@ button::-moz-focus-inner {
 
 .visualCardBox {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    border-radius: 0.145em;
+    border-radius: 0.2em;
 }
 
 .innerCardFooter {
