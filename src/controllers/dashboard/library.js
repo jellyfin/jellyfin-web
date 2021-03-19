@@ -101,7 +101,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         menuItems.push({
             name: globalize.translate('ManageLibrary'),
             id: 'edit',
-            icon: 'folder_open'
+            icon: 'folder'
         });
         menuItems.push({
             name: globalize.translate('ButtonRemove'),
