@@ -416,7 +416,7 @@ import browser from './browser';
             hlsInFmp4VideoAudioCodecs.push('aac');
         }
 
-        if (!browser.ps4 && physicalAudioChannels > 2) {
+        if (supportsMp3VideoAudio && !browser.ps4 && physicalAudioChannels > 2) {
             hlsInTsVideoAudioCodecs.push('mp3');
             hlsInFmp4VideoAudioCodecs.push('mp3');
         }
