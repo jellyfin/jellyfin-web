@@ -66,6 +66,27 @@ import browser from './browser';
         return window.MediaSource != null; /* eslint-disable-line compat/compat */
     }
 
+    function canPlayHlsInFmp4() {
+        if (canPlayHlsWithMSE()) {
+            return true;
+        }
+
+        if (browser.tizenVersion >= 4) {
+            return true;
+        }
+
+        // TODO: Check Safari version
+        if (browser.iOSVersion >= 10 || browser.safari) {
+            return true;
+        }
+
+        if (browser.edgeUwp || browser.xboxOne) {
+            return true;
+        }
+
+        return false;
+    }
+
     function supportsAc3(videoTestElement) {
         if (browser.edgeUwp || browser.tizen || browser.web0s) {
             return true;
@@ -632,7 +653,7 @@ import browser from './browser';
         }
 
         if (canPlayHls() && options.enableHls !== false) {
-            if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && userSettings.preferFmp4HlsContainer() && (browser.safari || browser.tizen || browser.web0s)) {
+            if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && userSettings.preferFmp4HlsContainer() && canPlayHlsInFmp4()) {
                 profile.TranscodingProfiles.push({
                     Container: 'mp4',
                     Type: 'Video',

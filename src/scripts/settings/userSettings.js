@@ -138,7 +138,7 @@ export class UserSettings {
         }
 
         val = this.get('preferFmp4HlsContainer', false);
-        return val === 'true';
+        return val !== 'false';
     }
 
     /**
