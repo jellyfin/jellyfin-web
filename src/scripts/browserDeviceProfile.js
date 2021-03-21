@@ -294,12 +294,46 @@ import browser from './browser';
                     (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
+    function getSpeakerCount() {
+        const AudioContext = window.AudioContext || window.webkitAudioContext || false; /* eslint-disable-line compat/compat */
+
+        if (AudioContext) {
+            const audioCtx = new AudioContext();
+
+            return audioCtx.destination.maxChannelCount;
+        }
+
+        return -1;
+    }
+
+    function getPhysicalAudioChannels(options) {
+        const numChannels = getSpeakerCount();
+        const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox || browser.tv || browser.ps4 || browser.xboxOne || false;
+        const allowedAudioChannels = parseInt(userSettings.allowedAudioChannels() || '-1');
+
+        if (allowedAudioChannels > 0 && (allowedAudioChannels < numChannels || numChannels < 1 )) {
+            return allowedAudioChannels;
+        }
+
+        if (options.audioChannels) {
+            return options.audioChannels;
+        }
+
+        if (numChannels > 2 && !isSurroundSoundSupportedBrowser) {
+            return 2;
+        }
+
+        if (numChannels > 0) {
+            return numChannels;
+        }
+
+        return isSurroundSoundSupportedBrowser ? 6 : 2;
+    }
+
     export default function (options) {
         options = options || {};
 
-        const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox;
-        const allowedAudioChannels = parseInt(userSettings.allowedAudioChannels() || '-1');
-        const physicalAudioChannels = (allowedAudioChannels > 0 ? allowedAudioChannels : null) || options.audioChannels || (isSurroundSoundSupportedBrowser || browser.tv || browser.ps4 || browser.xboxOne ? 6 : 2);
+        const physicalAudioChannels = getPhysicalAudioChannels();
 
         const bitrateSetting = getMaxBitrate();
 
@@ -328,7 +362,7 @@ import browser from './browser';
                                     || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp3"').replace(/no/, '');
 
         // Not sure how to test for this
-        const supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s;
+        const supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium;
 
         /* eslint-disable compat/compat */
         let maxVideoWidth = browser.xboxOne ?
@@ -346,26 +380,19 @@ import browser from './browser';
         const canPlayAc3VideoAudioInHls = supportsAc3InHls(videoTestElement);
 
         // Transcoding codec is the first in hlsVideoAudioCodecs.
-        // Prefer MP3, AAC to other codecs when audio transcoding.
+        // AAC, MP3, AC-3 and EAC-3 are supported in HLS
+        // Here they are sorted based on the quality of their encoders in ffmpeg
         if (supportsMp3VideoAudio) {
             videoAudioCodecs.push('mp3');
 
-            // PS4 fails to load HLS with mp3 audio
-            if (!browser.ps4) {
+            // PS4 fails to load HLS with MP3 audio
+            // Only prefer MP3 when the client wants stereo or mono to prevent downmixing
+            if (!browser.ps4 && physicalAudioChannels <= 2) {
                 hlsInTsVideoAudioCodecs.push('mp3');
+                hlsInFmp4VideoAudioCodecs.push('mp3');
             }
-
-            hlsInFmp4VideoAudioCodecs.push('mp3');
         }
 
-        if (canPlayAacVideoAudio) {
-            videoAudioCodecs.push('aac');
-            hlsInTsVideoAudioCodecs.push('aac');
-            hlsInFmp4VideoAudioCodecs.push('aac');
-        }
-
-        // For AC3/EAC3 remuxing.
-        // Do not use AC3 for audio transcoding unless AAC and MP3 are not supported.
         if (canPlayAc3VideoAudio) {
             videoAudioCodecs.push('ac3');
             if (canPlayEac3VideoAudio) {
@@ -381,6 +408,17 @@ import browser from './browser';
                     hlsInFmp4VideoAudioCodecs.push('eac3');
                 }
             }
+        }
+
+        if (canPlayAacVideoAudio) {
+            videoAudioCodecs.push('aac');
+            hlsInTsVideoAudioCodecs.push('aac');
+            hlsInFmp4VideoAudioCodecs.push('aac');
+        }
+
+        if (!browser.ps4 && physicalAudioChannels > 2) {
+            hlsInTsVideoAudioCodecs.push('mp3');
+            hlsInFmp4VideoAudioCodecs.push('mp3');
         }
 
         if (supportsMp2VideoAudio) {
