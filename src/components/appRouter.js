@@ -503,23 +503,29 @@ class AppRouter {
         const firstResult = this.firstConnectionResult;
 
         this.firstConnectionResult = null;
-        if (firstResult && firstResult.State === 'ServerSignIn') {
-            const url = firstResult.ApiClient.serverAddress() + '/System/Info/Public';
-            fetch(url).then(response => {
-                if (!response.ok) return Promise.reject('fetch failed');
-                return response.json();
-            }).then(data => {
-                if (data !== null && data.StartupWizardCompleted === false) {
-                    ServerConnections.setLocalApiClient(firstResult.ApiClient);
-                    Dashboard.navigate('wizardstart.html');
-                } else {
-                    this.handleConnectionResult(firstResult);
-                }
-            }).catch(error => {
-                console.error(error);
-            });
+        if (firstResult) {
+            if (firstResult.State === 'ServerSelection') {
+                // FIXME: On single-server configuration (webui shipped with the server), we probably need to update server Id and re-connect. But server select also works
+                Dashboard.selectServer();
+                return;
+            } else if (firstResult.State === 'ServerSignIn') {
+                const url = firstResult.ApiClient.serverAddress() + '/System/Info/Public';
+                fetch(url).then(response => {
+                    if (!response.ok) return Promise.reject('fetch failed');
+                    return response.json();
+                }).then(data => {
+                    if (data !== null && data.StartupWizardCompleted === false) {
+                        ServerConnections.setLocalApiClient(firstResult.ApiClient);
+                        Dashboard.navigate('wizardstart.html');
+                    } else {
+                        this.handleConnectionResult(firstResult);
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
 
-            return;
+                return;
+            }
         }
 
         const apiClient = ServerConnections.currentApiClient();
