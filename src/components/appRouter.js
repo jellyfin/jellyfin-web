@@ -510,6 +510,7 @@ class AppRouter {
                 return response.json();
             }).then(data => {
                 if (data !== null && data.StartupWizardCompleted === false) {
+                    ServerConnections.setLocalApiClient(firstResult.ApiClient);
                     Dashboard.navigate('wizardstart.html');
                 } else {
                     this.handleConnectionResult(firstResult);
