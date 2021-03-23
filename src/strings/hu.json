@@ -1480,7 +1480,7 @@
     "LabelAutomaticDiscovery": "Az automatikus felfedezés engedélyezése:",
     "LabelAutoDiscoveryTracingHelp": "Ha engedélyezve van, az automatikus felfedező porton fogadott csomagok naplózásra kerülnek.",
     "LabelAutoDiscoveryTracing": "Engedélyezze az automatikus felfedezés nyomkövetését.",
-    "KnownProxiesHelp": "Vesszővel elválasztott lista az ismert IP-címeiről, amelyeket a Jellyfin példányhoz való csatlakozáskor használnak. Erre az X-Forwarded-For fejlécek megfelelő használatához van szükség. Mentés után újra kell indítani.",
+    "KnownProxiesHelp": "Vesszővel elválasztott lista az ismert IP-címeiről vagy gazdagép neveiről, amelyeket a Jellyfin példányhoz való csatlakozáskor használnak. Erre az X-Forwarded-For fejlécek megfelelő használatához van szükség. Mentés után újra kell indítani.",
     "HeaderUploadSubtitle": "Felirat Feltöltése",
     "HeaderPortRanges": "Tűzfal és Proxy beállítások",
     "HeaderNetworking": "IP protokollok",
