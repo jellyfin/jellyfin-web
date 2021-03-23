@@ -6,7 +6,7 @@ Release:        1%{?dist}
 Summary:        The Free Software Media System web client
 License:        GPLv3
 URL:            https://jellyfin.org
-# Jellyfin Server tarball created by `make -f .copr/Makefile srpm`, real URL ends with `v%{version}.tar.gz`
+# Jellyfin Server tarball created by `make -f .copr/Makefile srpm`, real URL ends with `v%%{version}.tar.gz`
 Source0:        jellyfin-web-%{version}.tar.gz
 
 %if 0%{?centos}
@@ -18,6 +18,9 @@ BuildRequires:  nodejs-yarn
 # ditto for Fedora's yarn RPM
 BuildRequires: git
 BuildArch:		noarch
+%if 0%{?fedora} >= 33
+BuildRequires: nodejs
+%endif
 
 # Disable Automatic Dependency Processing
 AutoReqProv:    no
@@ -38,7 +41,8 @@ mv dist %{buildroot}%{_datadir}/jellyfin-web
 %{__install} -D -m 0644 LICENSE %{buildroot}%{_datadir}/licenses/jellyfin/LICENSE
 
 %files
-%attr(755,root,root) %{_datadir}/jellyfin-web
+%defattr(644,root,root,755)
+%{_datadir}/jellyfin-web
 %{_datadir}/licenses/jellyfin/LICENSE
 
 %changelog
