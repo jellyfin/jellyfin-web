@@ -28,7 +28,7 @@ function createMediaElement(instance, options) {
         const dlg = document.querySelector('.youtubePlayerContainer');
 
         if (!dlg) {
-            import('./style.css').then(() => {
+            import('./style.scss').then(() => {
                 loading.show();
 
                 const dlg = document.createElement('div');

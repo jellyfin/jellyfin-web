@@ -12,7 +12,7 @@ import 'material-design-icons-iconfont';
 import '../../../assets/css/flexstyles.scss';
 import '../../../elements/emby-scroller/emby-scroller';
 import '../../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../../components/cardbuilder/card.css';
+import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../scripts/clientUtils';
 import ServerConnections from '../../../components/ServerConnections';

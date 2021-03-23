@@ -12,7 +12,7 @@ import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
-import '../formdialog.css';
+import '../formdialog.scss';
 import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */

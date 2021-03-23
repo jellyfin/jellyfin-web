@@ -2,7 +2,7 @@ import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
-import './emby-slider.css';
+import './emby-slider.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
 

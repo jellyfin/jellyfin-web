@@ -2,7 +2,7 @@ import loading from '../../components/loading/loading';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import '../../scripts/livetvcomponents';
-import '../../components/listview/listview.css';
+import '../../components/listview/listview.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import Dashboard from '../../scripts/clientUtils';
 

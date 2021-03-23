@@ -6,7 +6,7 @@ import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../scripts/globalize';
 import itemHelper from '../itemHelper';
-import './upnextdialog.css';
+import './upnextdialog.scss';
 import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.scss';
 

@@ -3,7 +3,7 @@ import datetime from '../../../scripts/datetime';
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import globalize from '../../../scripts/globalize';
-import '../../../components/listview/listview.css';
+import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/paper-icon-button-light';
 import toast from '../../../components/toast/toast';
 

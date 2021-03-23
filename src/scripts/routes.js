@@ -8,8 +8,8 @@ import '../elements/emby-select/emby-select';
 import '../elements/emby-checkbox/emby-checkbox';
 import '../elements/emby-slider/emby-slider';
 import '../assets/css/livetv.scss';
-import '../components/listview/listview.css';
-import '../assets/css/dashboard.css';
+import '../components/listview/listview.scss';
+import '../assets/css/dashboard.scss';
 import '../assets/css/detailtable.scss';
 import { appRouter } from '../components/appRouter';
 

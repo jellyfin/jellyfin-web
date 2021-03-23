@@ -9,7 +9,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-button/emby-button';
-import './homesections.css';
+import './homesections.scss';
 import Dashboard from '../../scripts/clientUtils';
 import ServerConnections from '../ServerConnections';
 

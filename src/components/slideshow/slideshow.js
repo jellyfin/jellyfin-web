@@ -9,7 +9,7 @@ import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
-import './style.css';
+import './style.scss';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 import ServerConnections from '../ServerConnections';

@@ -9,7 +9,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
-import '../formdialog.css';
+import '../formdialog.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 

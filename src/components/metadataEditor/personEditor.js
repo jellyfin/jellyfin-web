@@ -5,7 +5,7 @@ import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
-import '../formdialog.css';
+import '../formdialog.scss';
 import template from './personEditor.template.html';
 
 /* eslint-disable indent */

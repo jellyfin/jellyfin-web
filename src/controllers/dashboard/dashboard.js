@@ -13,7 +13,7 @@ import imageLoader from '../../components/images/imageLoader';
 import ActivityLog from '../../components/activitylog';
 import imageHelper from '../../scripts/imagehelper';
 import indicators from '../../components/indicators/indicators';
-import '../../components/listview/listview.css';
+import '../../components/listview/listview.scss';
 import '../../elements/emby-button/emby-button';
 import '../../assets/css/flexstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';

@@ -2,7 +2,7 @@ import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
 import dom from '../../scripts/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
-import './backdrop.css';
+import './backdrop.scss';
 import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */

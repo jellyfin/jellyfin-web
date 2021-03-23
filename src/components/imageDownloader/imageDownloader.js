@@ -10,8 +10,8 @@ import globalize from '../../scripts/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
-import '../formdialog.css';
-import '../cardbuilder/card.css';
+import '../formdialog.scss';
+import '../cardbuilder/card.scss';
 import ServerConnections from '../ServerConnections';
 import template from './imageDownloader.template.html';
 
