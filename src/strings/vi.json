@@ -770,7 +770,7 @@
     "MessageImageFileTypeAllowed": "Chỉ các tệp JPEG và PNG được hỗ trợ.",
     "LabelKnownProxies": "Các Proxy đã biết:",
     "LabelIconMaxResHelp": "Độ phân giải tối đa của các biểu tượng được hiển thị thông qua thuộc tính upnp:icon .",
-    "KnownProxiesHelp": "Phân tách bằng dấu phẩy danh sách địa chỉ IP của các proxy đã biết được sử dụng khi kết nối với Jellyfin. Đây là bắt buộc để sử dụng đúng các tiêu đề X-Forwarded-For. Yêu cầu khởi động lại sau khi lưu.",
+    "KnownProxiesHelp": "Danh sách địa chỉ IP hoặc tên máy chủ được phân tách bằng dấu phẩy của các proxy đã biết được sử dụng khi kết nối với Jellyfin. Đây là bắt buộc để sử dụng đúng các tiêu đề X-Forwarded-For. Yêu cầu khởi động lại sau khi lưu.",
     "Image": "Hình Ảnh",
     "LabelSyncPlayLeaveGroup": "Rời khỏi nhóm",
     "LabelSyncPlayNewGroupDescription": "Tạo một nhóm mới",
