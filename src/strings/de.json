@@ -1382,7 +1382,7 @@
     "TonemappingAlgorithmHelp": "Das Tonemapping kann fein abgestimmt werden. Wenn Sie mit diesen Optionen nicht vertraut sind, behalten Sie einfach den Standardwert bei. Der empfohlene Wert ist Hable.",
     "LabelTonemappingAlgorithm": "Wählen Sie den zu verwendenden Tonemapping-Algorithmus aus:",
     "LabelKnownProxies": "Bekannte Proxys:",
-    "KnownProxiesHelp": "Kommagetrennte Liste von IP-Adressen bekannter Proxys, die bei der Verbindung mit Ihrer Jellyfin-Instanz verwendet werden. Dies ist erforderlich, um die X-Forwarded-For-Header korrekt verwenden zu können. Erfordert nach dem Speichern einen Neustart.",
+    "KnownProxiesHelp": "Kommagetrennte Liste von IP-Adressen oder Hostnamen bekannter Proxys, die bei der Verbindung mit Ihrer Jellyfin-Instanz verwendet werden. Dies ist erforderlich, um die X-Forwarded-For-Header korrekt verwenden zu können. Erfordert nach dem Speichern einen Neustart.",
     "LabelMaxMuxingQueueSizeHelp": "Maximale Anzahl von Paketen, die gepuffert werden können, während auf die Initialisierung aller Streams gewartet wird. Versuchen Sie, sie zu erhöhen, wenn Sie in den ffmpeg-Protokollen immer noch auf den Fehler \"Zu viele Pakete für den Ausgabestrom gepuffert\" stoßen. Der empfohlene Wert ist 2048.",
     "LabelMaxMuxingQueueSize": "Maximale Größe der Muxing-Warteschlange:",
     "LabelTonemappingParamHelp": "Stimmen Sie den Tonemapping-Algorithmus ab. Die empfohlenen und Standardwerte sind NaN. Lassen Sie ihn im Allgemeinen leer.",
