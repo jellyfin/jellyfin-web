@@ -1394,5 +1394,7 @@
     "EnableAutoCast": "Задаване по подразбиране",
     "ButtonUseQuickConnect": "Бързо свързване",
     "ButtonActivate": "Задействане",
-    "Authorize": "Упълномощаване"
+    "Authorize": "Упълномощаване",
+    "DisablePlugin": "изключите",
+    "EnablePlugin": "включите"
 }
