@@ -466,17 +466,14 @@ import browser from './browser';
         const hlsInTsVideoCodecs = [];
         const hlsInFmp4VideoCodecs = [];
 
-        if ((browser.safari || browser.tizen || browser.web0s) && canPlayHevc(videoTestElement, options)) {
+        if (canPlayHevc(videoTestElement, options)) {
             hlsInFmp4VideoCodecs.push('hevc');
         }
 
         if (canPlayH264(videoTestElement)) {
             mp4VideoCodecs.push('h264');
             hlsInTsVideoCodecs.push('h264');
-
-            if (browser.safari || browser.tizen || browser.web0s) {
-                hlsInFmp4VideoCodecs.push('h264');
-            }
+            hlsInFmp4VideoCodecs.push('h264');
         }
 
         if (canPlayHevc(videoTestElement, options)) {
