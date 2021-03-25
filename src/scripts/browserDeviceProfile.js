@@ -333,7 +333,7 @@ import browser from './browser';
     export default function (options) {
         options = options || {};
 
-        const physicalAudioChannels = getPhysicalAudioChannels();
+        const physicalAudioChannels = getPhysicalAudioChannels(options);
 
         const bitrateSetting = getMaxBitrate();
 
