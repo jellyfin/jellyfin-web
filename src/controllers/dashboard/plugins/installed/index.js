@@ -66,7 +66,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     if (configPageUrl) {
         html += `<a class="cardImageContainer" is="emby-linkbutton" style="margin:0;padding:0" href="${configPageUrl}">`;
     } else {
-        html += '<div class="cardImageContainer noConfigPluginCard noHoverEffect emby-button">';
+        html += '<div class="cardImageContainer noConfigPluginCard noHoverEffect emby-button" style="margin:0;padding:0">';
     }
 
     if (plugin.HasImage) {

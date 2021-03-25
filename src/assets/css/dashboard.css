@@ -350,6 +350,10 @@ div[data-role=controlgroup] a.ui-btn-active {
     flex-direction: column;
 }
 
+.darkenContent {
+    background: rgba(0, 0, 0, 0.7);
+}
+
 .sessionAppName {
     vertical-align: top;
     max-width: 200px;
