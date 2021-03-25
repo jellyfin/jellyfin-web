@@ -949,7 +949,7 @@
     "PlayNextEpisodeAutomatically": "A következő epizód automatikus lejátszása",
     "ShowAdvancedSettings": "Speciális beállítások megjelenítése",
     "ValueSeconds": "{0} másodperc",
-    "AddToPlayQueue": "Hozzáadás a lejátszási sorhoz",
+    "AddToPlayQueue": "Hozzáadás lejátszási sorhoz",
     "AllowHWTranscodingHelp": "Lehetővé teszi a tuner számára, hogy át tudja kódolni a streameket valós időben. Ez segíthet csökkenteni a Szerver által igényelt átkódolást.",
     "AllowOnTheFlySubtitleExtraction": "Felirat kinyerésének engedélyezése valós időben",
     "MessageNoTrailersFound": "Telepítsd a Trailer csatornát, hogy javítsd a filmélményt az internetes előzetesek könyvtárának hozzáadásával.",
