@@ -264,6 +264,34 @@ import ServerConnections from '../components/ServerConnections';
             itemsContainer.getItemsHtml = getItemsHtmlFn(sections[i]).bind(instance);
             itemsContainer.parentContainer = dom.parentWithClass(itemsContainer, 'verticalSection');
         }
+
+    }
+
+    function toggleNoItemsMessage(apiClient, container) {
+
+        apiClient.getItems(apiClient.getCurrentUserId(), {Filters: 'IsFavorite', Recursive: 'true'})
+        .then((result) => {
+
+            let favoriteCount = result.Items.length;
+            
+            if (favoriteCount) {
+                container.classList.add("hide");
+            } 
+            
+            if (!favoriteCount) {
+                container.classList.remove("hide");
+            }
+
+        });
+    }
+
+    function createNoItemsMessage(container) {
+        
+        let html = '';
+        html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
+        html += '<p>' + globalize.translate('MessageNoFavoritesAvailable') + '</p>';
+        container.innerHTML = html;
+
     }
 
 class FavoritesTab {
@@ -272,23 +300,36 @@ class FavoritesTab {
         this.params = params;
         this.apiClient = ServerConnections.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
+        this.msgContainer = view.querySelector('.noItemsMessage');
         createSections(this, this.sectionsContainer, this.apiClient);
+        createNoItemsMessage(this.msgContainer);
+
+        // observe media section changes to check if noItemsMessage has to be shown
+        const mutationObserverConfig = {childList: true, subtree: true};
+        const observer = new MutationObserver(() => toggleNoItemsMessage(this.apiClient, this.msgContainer));
+        observer.observe(this.sectionsContainer, mutationObserverConfig);
+
     }
 
     onResume(options) {
+
         const promises = (this.apiClient, []);
         const view = this.view;
         const elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
+        const apiClient = this.apiClient;
+        const noItemsMessage = this.msgContainer;
 
         for (const elem of elems) {
             promises.push(elem.resume(options));
         }
 
-        Promise.all(promises).then(function () {
+        Promise.all(promises)
+        .then(function () {
             if (options.autoFocus) {
                 focusManager.autoFocus(view);
             }
-        });
+        })
+        .then(toggleNoItemsMessage(apiClient, noItemsMessage));
     }
 
     onPause() {

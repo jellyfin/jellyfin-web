@@ -1006,6 +1006,7 @@
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item or the global default value.",
     "MessageNoAvailablePlugins": "No available plugins.",
     "MessageNoCollectionsAvailable": "Collections allow you to enjoy personalized groupings of Movies, Series, and Albums. Click the + button to start creating collections.",
+    "MessageNoFavoritesAvailable": "Movies, music and other media can be marked as favorites. Get easy access to your favorites on this page!",
     "MessageNoGenresAvailable": "Enable some metadata providers to pull genres from the internet.",
     "MessageNoMovieSuggestionsAvailable": "No movie suggestions are currently available. Start watching and rating your movies, and then come back to view your recommendations.",
     "MessageNoNextUpItems": "None found. Start watching your shows!",
