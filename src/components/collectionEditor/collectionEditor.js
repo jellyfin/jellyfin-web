@@ -10,7 +10,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
-import '../formdialog.css';
+import '../formdialog.scss';
 import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';

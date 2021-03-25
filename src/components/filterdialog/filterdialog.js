@@ -4,7 +4,7 @@ import globalize from '../../scripts/globalize';
 import { Events } from 'jellyfin-apiclient';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
-import './style.css';
+import './style.scss';
 import ServerConnections from '../ServerConnections';
 import template from './filterdialog.template.html';
 

@@ -2,7 +2,7 @@
 import PlaybackSettings from '../../../components/playbackSettings/playbackSettings';
 import * as userSettings from '../../../scripts/settings/userSettings';
 import autoFocuser from '../../../components/autoFocuser';
-import '../../../components/listview/listview.css';
+import '../../../components/listview/listview.scss';
 
 /* eslint-disable indent */
 

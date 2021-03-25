@@ -7,10 +7,10 @@ import browser from '../scripts/browser';
 import focusManager from './focusManager';
 import scrollHelper from '../scripts/scrollHelper';
 import 'material-design-icons-iconfont';
-import './formdialog.css';
+import './formdialog.scss';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
-import './cardbuilder/card.css';
+import './cardbuilder/card.scss';
 import ServerConnections from './ServerConnections';
 
 const enableFocusTransform = !browser.slow && !browser.edge;

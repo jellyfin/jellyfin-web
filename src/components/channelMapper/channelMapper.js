@@ -6,9 +6,9 @@ import actionsheet from '../actionSheet/actionSheet';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
-import '../listview/listview.css';
+import '../listview/listview.scss';
 import 'material-design-icons-iconfont';
-import '../formdialog.css';
+import '../formdialog.scss';
 import ServerConnections from '../ServerConnections';
 
 export default class channelMapper {

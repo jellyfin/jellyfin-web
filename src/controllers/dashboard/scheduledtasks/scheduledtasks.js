@@ -5,7 +5,7 @@ import globalize from '../../../scripts/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
 import { getLocale, localeWithSuffix } from '../../../scripts/dfnshelper';
-import '../../../components/listview/listview.css';
+import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */

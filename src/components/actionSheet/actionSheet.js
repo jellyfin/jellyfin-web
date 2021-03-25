@@ -3,10 +3,10 @@ import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import '../../elements/emby-button/emby-button';
-import './actionSheet.css';
+import './actionSheet.scss';
 import 'material-design-icons-iconfont';
-import '../../assets/css/scrollstyles.css';
-import '../../components/listview/listview.css';
+import '../../assets/css/scrollstyles.scss';
+import '../../components/listview/listview.scss';
 
 function getOffsets(elems) {
     const results = [];

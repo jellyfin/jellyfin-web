@@ -1,4 +1,4 @@
-import './emby-progressring.css';
+import './emby-progressring.scss';
 import 'webcomponents.js/webcomponents-lite';
 import template from './emby-progressring.template.html';
 

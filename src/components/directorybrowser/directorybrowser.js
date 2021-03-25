@@ -2,11 +2,11 @@ import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import globalize from '../../scripts/globalize';
-import '../listview/listview.css';
+import '../listview/listview.scss';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/paper-icon-button-light';
-import './directorybrowser.css';
-import '../formdialog.css';
+import './directorybrowser.scss';
+import '../formdialog.scss';
 import '../../elements/emby-button/emby-button';
 import alert from '../alert';
 

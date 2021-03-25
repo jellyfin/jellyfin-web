@@ -118,7 +118,7 @@ function onGlobalizeInit() {
         import('../assets/css/fonts.scss');
     }
 
-    import('../assets/css/librarybrowser.css');
+    import('../assets/css/librarybrowser.scss');
 
     loadPlugins().then(function () {
         initSyncPlay();

@@ -4,8 +4,8 @@ import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
 import dom from '../../scripts/dom';
-import './dialoghelper.css';
-import '../../assets/css/scrollstyles.css';
+import './dialoghelper.scss';
+import '../../assets/css/scrollstyles.scss';
 
 /* eslint-disable indent */
 
@@ -106,6 +106,15 @@ import '../../assets/css/scrollstyles.css';
                     tryRemoveElement(dlg);
                 }
             }
+
+            //resolve();
+            // if we just called history.back(), then use a timeout to allow the history events to fire first
+            setTimeout(() => {
+                resolve({
+                    element: dlg,
+                    closedByBack: self.closedByBack
+                });
+            }, 1);
         }
 
         dlg.addEventListener('close', onDialogClosed);
