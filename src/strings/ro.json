@@ -1507,7 +1507,7 @@
     "EnableVppTonemapping": "Activați maparea tonului VPP",
     "EnableEnhancedNvdecDecoder": "Activați decodorul NVDEC îmbunătățit",
     "Framerate": "Rata frame-urilor",
-    "DisablePlugin": "Dezactivați Pluginul",
-    "EnablePlugin": "Activați Pluginul",
+    "DisablePlugin": "Dezactivează",
+    "EnablePlugin": "Activați",
     "DirectPlayHelp": "Fișierul sursă este pe deplin compatibil cu acest client, iar sesiunea primește fișierul fără modificări."
 }
