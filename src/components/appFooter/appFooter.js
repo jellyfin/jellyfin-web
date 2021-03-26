@@ -1,4 +1,4 @@
-import './appFooter.css';
+import './appFooter.scss';
 
 function render(options) {
     const elem = document.createElement('div');

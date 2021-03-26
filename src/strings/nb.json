@@ -1501,5 +1501,12 @@
     "LabelSelectStereo": "Stereo",
     "LabelSelectMono": "Mono",
     "LabelSelectAudioChannels": "Kanaler",
-    "LabelAllowedAudioChannels": "Maksimalt antall lydkanaler tillatt"
+    "LabelAllowedAudioChannels": "Maksimalt antall lydkanaler tillatt",
+    "AllowVppTonemappingHelp": "Full maskinvarebasert tonekartlegging uten bruk av OpenCL-filter. Fungerer for øyeblikket bare når du omkoder videoer med innebygd HDR10-metadata.",
+    "EnableVppTonemapping": "Aktiver VPP-tonekartlegging",
+    "EnableEnhancedNvdecDecoder": "Aktiver forbedret NVDEC-dekoder",
+    "Framerate": "Bildefrekvens",
+    "DisablePlugin": "Deaktiver programtillegg",
+    "EnablePlugin": "Aktiver",
+    "DirectPlayHelp": "Kildefilen er helt kompatibel med denne klienten, og økten mottar filen uten endringer."
 }

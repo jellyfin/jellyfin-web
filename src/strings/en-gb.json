@@ -1457,8 +1457,8 @@
     "LabelEnableIP4Help": "Enables IPv4 functionality.",
     "LabelEnableIP4": "Enable IPv4:",
     "HeaderNetworking": "IP Protocols",
-    "EnablePlugin": "Enable Plugin",
-    "DisablePlugin": "Disable Plugin",
+    "EnablePlugin": "Enable",
+    "DisablePlugin": "Disable",
     "YoutubeDenied": "Requested video is not allowed to be played in embedded players.",
     "YoutubeNotFound": "Video not found.",
     "YoutubePlaybackError": "Requested video cannot be played.",
@@ -1501,5 +1501,12 @@
     "LabelMinAudiobookResumeHelp": "Titles are assumed unplayed if stopped before this time.",
     "LabelMinAudiobookResume": "Minimum Audiobook resume in minutes:",
     "LabelMaxAudiobookResumeHelp": "Titles are assumed fully played if stopped after this time.",
-    "LabelMaxAudiobookResume": "Maximum Audiobook resume in minutes:"
+    "LabelMaxAudiobookResume": "Maximum Audiobook resume in minutes:",
+    "AllowVppTonemappingHelp": "Full hardware based tone mapping without using OpenCL filter. Currently works only when transcoding videos with enbedded HDR10 metadata.",
+    "EnableVppTonemapping": "Enable VPP Tone mapping",
+    "EnableEnhancedNvdecDecoder": "Enable enhanced NVDEC decoder",
+    "MessagePlaybackError": "There was an error playing this file on your Google Cast receiver.",
+    "MessageChromecastConnectionError": "Your Google Cast receiver is unable to contact the Jellyfin server. Please check the connection and try again.",
+    "Framerate": "Framerate",
+    "DirectPlayHelp": "The source file is entirely compatible with this client, and the session is receiving the file without modifications."
 }

@@ -1401,7 +1401,7 @@
     "LabelMaxMuxingQueueSizeHelp": "Maximální počet paketů, které je možné napřed načíst při čekání na spuštění všech proudů. Pokud se stále zobrazuje chyba \"Příliš mnoho paketů načtených napřed ve výstupním proudu\" v protokolech ffmpeg, zkuste hodnotu zvýšit. Doporučená hodnota je 2048.",
     "LabelMaxMuxingQueueSize": "Maximální velikost muxovací fronty:",
     "LabelKnownProxies": "Známé proxy servery:",
-    "KnownProxiesHelp": "Čárkami oddělený seznam IP adres známých proxy serverů pro připojení k instanci Jellyfin. Vyžadováno pro správné využití HTTP hlavičky X-Forwarded-For. Vyžaduje restart.",
+    "KnownProxiesHelp": "Čárkami oddělený seznam IP adres nebo jmen hostitelů známých proxy serverů pro připojení k instanci Jellyfin. Vyžadováno pro správné využití HTTP hlavičky X-Forwarded-For. Vyžaduje restart.",
     "QuickConnectNotActive": "Rychlé připojení k tomuto serveru není povoleno",
     "QuickConnectNotAvailable": "Požádejte správce serveru, aby rychlé připojení povolil",
     "QuickConnectInvalidCode": "Neplatný kód pro rychlé připojení",
@@ -1501,5 +1501,12 @@
     "LabelMaxAudiobookResumeHelp": "Položky jsou považovány za přehrané, pokud jsou zastaveny po tomto čase.",
     "LabelMaxAudiobookResume": "Maximální délka v minutách pro pokračování u audioknih:",
     "MessagePlaybackError": "Přehrání tohoto souboru na vašem zařízení Google Cast se nezdařilo.",
-    "MessageChromecastConnectionError": "Vašemu zařízení Google Cast se nezdařilo kontaktovat server Jellyfin. Zkontrolujte připojení a zkuste to znovu."
+    "MessageChromecastConnectionError": "Vašemu zařízení Google Cast se nezdařilo kontaktovat server Jellyfin. Zkontrolujte připojení a zkuste to znovu.",
+    "AllowVppTonemappingHelp": "Plně hardwarové mapování tónů bez použití filtru OpenCL. Momentálně funguje pouze při překódování videí, které obsahují metadata HDR10.",
+    "EnableVppTonemapping": "Povolit mapování tónů VPP",
+    "EnableEnhancedNvdecDecoder": "Povolit vylepšený dekodér NVDEC",
+    "Framerate": "Snímková frekvence",
+    "DisablePlugin": "Zakázat",
+    "EnablePlugin": "Povolit",
+    "DirectPlayHelp": "Zdrojový soubor je s klientem plně kompatibilní a relaci je tak soubor posílán bez úprav."
 }

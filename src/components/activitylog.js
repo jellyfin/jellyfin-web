@@ -5,7 +5,7 @@ import * as datefns from 'date-fns';
 import dfnshelper from '../scripts/dfnshelper';
 import serverNotifications from '../scripts/serverNotifications';
 import '../elements/emby-button/emby-button';
-import './listview/listview.css';
+import './listview/listview.scss';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
 

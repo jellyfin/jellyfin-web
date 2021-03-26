@@ -3,7 +3,7 @@ import loading from '../loading/loading';
 import globalize from '../../scripts/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
-import '../listview/listview.css';
+import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
@@ -112,7 +112,7 @@ export default function (page, providerId, options) {
             providerId = result.Id;
             reload();
         }, function () {
-            Dashboard.alert({ // ApiClient.ajax() error handler
+            Dashboard.alert({
                 message: globalize.translate('ErrorSavingTvProvider')
             });
         });

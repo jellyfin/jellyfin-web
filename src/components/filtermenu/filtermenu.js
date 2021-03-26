@@ -11,7 +11,7 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
-import '../formdialog.css';
+import '../formdialog.scss';
 import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
 import template from './filtermenu.template.html';

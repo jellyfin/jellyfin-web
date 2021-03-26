@@ -1117,5 +1117,19 @@
     "MusicVideos": "Müzik Videoları",
     "MusicVideo": "Müzik Videosu",
     "MusicAlbum": "Müzik Albümü",
-    "LabelSelectFolderGroups": "Aşağıdaki klasörlerdeki içeriği otomatik olarak Filmler, Müzik ve TV gibi görünümlerde gruplandırın:"
+    "LabelSelectFolderGroups": "Aşağıdaki klasörlerdeki içeriği otomatik olarak Filmler, Müzik ve TV gibi görünümlerde gruplandırın:",
+    "LabelPublicHttpsPort": "Genel HTTPS bağlantı noktası:",
+    "LabelPublicHttpPortHelp": "Yerel HTTP bağlantı noktası ile eşlenmesi gereken genel bağlantı noktası.",
+    "LabelPublicHttpPort": "Genel HTTP bağlantı noktası:",
+    "LabelProtocolInfo": "Protokol bilgisi:",
+    "LabelProtocol": "Protokol:",
+    "LabelProfileCodecsHelp": "Virgül kullanarak ayırınız. Tüm codec bileşenlerine uygulamak için boş bırakınız.",
+    "LabelPreferredDisplayLanguage": "Tercih edilen görüntüleme dili:",
+    "LabelPlayMethod": "Oynatma methodu:",
+    "LabelPlayerDimensions": "Oynatıcı boyutları:",
+    "LabelPlayDefaultAudioTrack": "Dilden bağımsız olarak varsayılan ses parçasını çal",
+    "LabelOpenclDevice": "OpenCL Cihazı:",
+    "Framerate": "Karehızı",
+    "DisablePlugin": "Aktif değil",
+    "EnablePlugin": "Aktif"
 }

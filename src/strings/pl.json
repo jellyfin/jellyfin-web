@@ -1347,7 +1347,7 @@
     "PreviousTrack": "Poprzedni",
     "NextTrack": "Następny",
     "LabelUnstable": "Niestabilny",
-    "Preview": "Zapowiedź",
+    "Preview": "Podgląd",
     "SubtitleVerticalPositionHelp": "Numer wiersza, w którym pojawia się tekst. Liczby dodatnie wskazują z góry na dół. Liczby ujemne wskazują od dołu do góry.",
     "LabelSubtitleVerticalPosition": "Pozycja pionowa:",
     "MessageGetInstalledPluginsError": "Wystąpił błąd podczas pobierania listy aktualnie zainstalowanych wtyczek.",
@@ -1504,5 +1504,9 @@
     "LabelH265Crf": "CRF kodowania H265:",
     "AllowVppTonemappingHelp": "W pełni sprzętowe mapowanie tonów bez użycia filtra OpenCL. Aktualnie działa wyłącznie w trakcie transkodowania wideo z wbudowanymi metadanymi HDR10.",
     "EnableVppTonemapping": "Włącz mapowanie tonów VPP",
-    "EnableEnhancedNvdecDecoder": "Włącz ulepszony dekoder NVDEC"
+    "EnableEnhancedNvdecDecoder": "Włącz ulepszony dekoder NVDEC",
+    "Framerate": "Częstotliwość wyświetlania klatek",
+    "DisablePlugin": "Wyłącz",
+    "EnablePlugin": "Włącz",
+    "DirectPlayHelp": "Plik źródłowy jest całkowicie zgodny z tym klientem, a sesja otrzymuje plik bez modyfikacji."
 }

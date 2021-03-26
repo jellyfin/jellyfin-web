@@ -33,14 +33,7 @@ import globalize from '../scripts/globalize';
             });
 
             options.buttons = items;
-
-            return dialog.show(options).then(function (result) {
-                if (result === 'ok') {
-                    return Promise.resolve();
-                }
-
-                return Promise.reject();
-            });
+            return dialog.show(options);
         }
 
         return Promise.resolve();

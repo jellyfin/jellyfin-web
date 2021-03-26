@@ -5,7 +5,7 @@ import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import imageHelper from '../../scripts/imagehelper';
-import '../../components/cardbuilder/card.css';
+import '../../components/cardbuilder/card.scss';
 import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 import Dashboard, { pageClassOn, pageIdOn } from '../../scripts/clientUtils';
 import confirm from '../../components/confirm/confirm';
@@ -101,7 +101,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
         menuItems.push({
             name: globalize.translate('ManageLibrary'),
             id: 'edit',
-            icon: 'folder_open'
+            icon: 'folder'
         });
         menuItems.push({
             name: globalize.translate('ButtonRemove'),
@@ -169,7 +169,8 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             showType: false,
             showLocations: false,
             showMenu: false,
-            showNameWithIcon: false
+            showNameWithIcon: false,
+            elementId: 'addLibrary'
         });
 
         for (let i = 0; i < virtualFolders.length; i++) {
@@ -255,11 +256,8 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
             style += 'min-width:33.3%;';
         }
 
-        if (virtualFolder.Locations.length == 0) {
-            html += '<div id="addLibrary" class="card backdropCard scalableCard backdropCard-scalable" style="' + style + '" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
-        } else {
-            html += '<div class="card backdropCard scalableCard backdropCard-scalable" style="' + style + '" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
-        }
+        const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
+        html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" style="' + style + '" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
 
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';

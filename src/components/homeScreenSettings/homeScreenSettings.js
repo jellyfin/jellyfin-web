@@ -6,7 +6,7 @@ import loading from '../loading/loading';
 import { Events } from 'jellyfin-apiclient';
 import homeSections from '../homesections/homesections';
 import dom from '../../scripts/dom';
-import '../listview/listview.css';
+import '../listview/listview.scss';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import ServerConnections from '../ServerConnections';

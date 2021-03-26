@@ -67,7 +67,7 @@
     "LabelCachePath": "快取路徑：",
     "LabelCollection": "收藏櫃：",
     "LabelContentType": "內容類型：",
-    "LabelCountry": "國家：",
+    "LabelCountry": "國家/地區：",
     "LabelCurrentPassword": "當前的密碼：",
     "LabelDay": "日：",
     "LabelEnableDlnaClientDiscoveryInterval": "尋找用戶端時間間隔",
@@ -1478,5 +1478,18 @@
     "LabelH265Crf": "H265 編碼 CRF:",
     "LabelEnableSSDPTracingHelp": "將 SSDP 追蹤詳細資料記錄至日誌。<br/><b>警告</ b>：這將導致效能嚴重損失。",
     "LabelEnableSSDPTracing": "啟用 SSDP 追蹤：",
-    "LabelAutoDiscoveryTracing": "開啟自動追蹤。"
+    "LabelAutoDiscoveryTracing": "開啟自動追蹤。",
+    "YoutubeNotFound": "找不到影片。",
+    "YoutubeBadRequest": "錯誤請求。",
+    "LabelSelectStereo": "雙聲道",
+    "LabelSelectMono": "單聲道",
+    "LabelSelectAudioChannels": "聲道",
+    "LabelDirectStreamingInfo": "直接串流資訊",
+    "LabelTranscodingInfo": "轉碼資訊",
+    "LabelVideoInfo": "影片資訊",
+    "LabelAudioInfo": "音檔資訊",
+    "LabelPlaybackInfo": "播放資訊",
+    "Framerate": "幀數",
+    "DisablePlugin": "停用",
+    "EnablePlugin": "啟用"
 }

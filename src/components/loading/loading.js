@@ -1,4 +1,4 @@
-import './loading.css';
+import './loading.scss';
 
 let loadingElem;
 let layer1;

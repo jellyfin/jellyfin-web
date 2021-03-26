@@ -6,7 +6,7 @@ import AlphaPicker from '../alphaPicker/alphaPicker';
 import '../../elements/emby-input/emby-input';
 import '../../assets/css/flexstyles.scss';
 import 'material-design-icons-iconfont';
-import './searchfields.css';
+import './searchfields.scss';
 import template from './searchfields.template.html';
 
 /* eslint-disable indent */

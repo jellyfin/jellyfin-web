@@ -28,5 +28,11 @@
     "Collections": "Kolektoj",
     "Channels": "Kanaloj",
     "Books": "Libroj",
-    "Artists": "Artistoj"
+    "Artists": "Artistoj",
+    "AlwaysPlaySubtitles": "",
+    "AllLibraries": "Ĉiaj libraroj",
+    "Songs": "Kantoj",
+    "Playlists": "Ludlistoj",
+    "Photos": "Fotoj",
+    "Genres": "Ĝenroj"
 }

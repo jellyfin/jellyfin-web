@@ -3,7 +3,7 @@ import { appHost } from '../apphost';
 import loading from '../loading/loading';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
-import './multiSelect.css';
+import './multiSelect.scss';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import playlistEditor from '../playlisteditor/playlisteditor';
@@ -319,6 +319,7 @@ import confirm from '../confirm/confirm';
             alert({
                 text: globalize.translate('PleaseSelectTwoItems')
             });
+
             return;
         }
 

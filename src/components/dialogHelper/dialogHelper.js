@@ -4,8 +4,8 @@ import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
 import dom from '../../scripts/dom';
-import './dialoghelper.css';
-import '../../assets/css/scrollstyles.css';
+import './dialoghelper.scss';
+import '../../assets/css/scrollstyles.scss';
 
 /* eslint-disable indent */
 
@@ -265,6 +265,7 @@ import '../../assets/css/scrollstyles.css';
             dom.addEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
                 once: true
             });
+
             return;
         }
 

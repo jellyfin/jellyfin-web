@@ -10,7 +10,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import * as mainTabsManager from '../../components/maintabsmanager';
 import globalize from '../../scripts/globalize';
-import '../../assets/css/scrollstyles.css';
+import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-button/emby-button';
 import Dashboard from '../../scripts/clientUtils';

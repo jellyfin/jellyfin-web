@@ -2,7 +2,7 @@ import loading from '../../../../components/loading/loading';
 import libraryMenu from '../../../../scripts/libraryMenu';
 import globalize from '../../../../scripts/globalize';
 import * as cardBuilder from '../../../../components/cardbuilder/cardBuilder.js';
-import '../../../../components/cardbuilder/card.css';
+import '../../../../components/cardbuilder/card.scss';
 import '../../../../elements/emby-button/emby-button';
 import '../../../../elements/emby-checkbox/emby-checkbox';
 import '../../../../elements/emby-select/emby-select';

@@ -1,5 +1,5 @@
 import { importModule } from '@uupaa/dynamic-import-polyfill';
-import './viewManager/viewContainer.css';
+import './viewManager/viewContainer.scss';
 import Dashboard from '../scripts/clientUtils';
 
 /* eslint-disable indent */
