@@ -1285,7 +1285,7 @@
     "LabelEnableHttpsHelp": "Ascultă pe portul HTTPS configurat. Un certificat valid trebuie de asemenea configurat pentru ca să funcţioneze.",
     "LabelEnableHttps": "Activați HTTPS",
     "HeaderServerAddressSettings": "Setările adresei serverului",
-    "HeaderRemoteAccessSettings": "Setări pentru aces remote",
+    "HeaderRemoteAccessSettings": "Setări pentru acces distant",
     "HeaderHttpsSettings": "Setări https",
     "SaveChanges": "Salvează modificările",
     "HeaderDVR": "DVR",
