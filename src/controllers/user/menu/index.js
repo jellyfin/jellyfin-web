@@ -59,6 +59,7 @@ export default function (view, params) {
         if (params.userId && params.userId !== Dashboard.getCurrentUserId) {
             page.querySelector('.userSection').classList.add('hide');
             page.querySelector('.adminSection').classList.add('hide');
+            page.querySelector('.lnkControlsPreferences').classList.add('hide');
         }
 
         import('../../../components/autoFocuser').then(({default: autoFocuser}) => {
