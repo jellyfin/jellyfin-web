@@ -85,6 +85,13 @@ import { appRouter } from '../components/appRouter';
     });
 
     defineRoute({
+        alias: '/mypreferencescontrols.html',
+        path: 'user/controls/index.html',
+        autoFocus: false,
+        controller: 'user/controls/index'
+    });
+
+    defineRoute({
         alias: '/mypreferencesdisplay.html',
         path: 'user/display/index.html',
         autoFocus: false,

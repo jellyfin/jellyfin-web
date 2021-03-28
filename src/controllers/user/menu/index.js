@@ -28,12 +28,15 @@ export default function (view, params) {
         page.querySelector('.lnkPlaybackPreferences').setAttribute('href', '#!/mypreferencesplayback.html?userId=' + userId);
         page.querySelector('.lnkSubtitlePreferences').setAttribute('href', '#!/mypreferencessubtitles.html?userId=' + userId);
         page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', '#!/mypreferencesquickconnect.html');
+        page.querySelector('.lnkControlsPreferences').setAttribute('href', '#!/mypreferencescontrols.html?userId=' + userId);
 
         const supportsClientSettings = appHost.supports('clientsettings');
         page.querySelector('.clientSettings').classList.toggle('hide', !supportsClientSettings);
 
         const supportsMultiServer = appHost.supports('multiserver');
         page.querySelector('.selectServer').classList.toggle('hide', !supportsMultiServer);
+
+        page.querySelector('.lnkControlsPreferences').classList.toggle('hide', layoutManager.mobile);
 
         ApiClient.getQuickConnect('Status')
             .then(status => {

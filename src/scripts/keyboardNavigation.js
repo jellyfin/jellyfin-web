@@ -5,6 +5,7 @@
 
 import inputManager from './inputManager';
 import layoutManager from '../components/layoutManager';
+import appSettings from './settings/appSettings';
 
 /**
  * Key name mapping.
@@ -160,7 +161,7 @@ function attachGamepadScript() {
 }
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that
-if (navigator.getGamepads) { /* eslint-disable-line compat/compat */
+if (navigator.getGamepads && appSettings.enableGamepad()) { /* eslint-disable-line compat/compat */
     window.addEventListener('gamepadconnected', attachGamepadScript);
 }
 
