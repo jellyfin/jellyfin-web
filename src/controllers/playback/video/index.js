@@ -992,9 +992,13 @@ import { appRouter } from '../../../components/appRouter';
 
             const key = keyboardnavigation.getKeyName(e);
             const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
+            const currentElement = document.activeElement;
 
-            if (!currentVisibleMenu && e.keyCode === 32) {
-                playbackManager.playPause(currentPlayer);
+            if (e.keyCode === 32) {
+                if (!currentElement.className.split(' ').includes('btnPause')) {
+                    // If the focused button is the pause button it will already play/pause it
+                    playbackManager.playPause(currentPlayer);
+                }
                 showOsd();
                 return;
             }
