@@ -308,6 +308,7 @@ class Manager {
      * @param {Object} apiClient The ApiClient.
      */
     resumeGroupPlayback(apiClient) {
+        // TODO: rename this method, it's not clear what it does.
         this.followGroupPlayback(apiClient).then(() => {
             this.queueCore.startPlayback(apiClient);
         });
@@ -318,6 +319,7 @@ class Manager {
      * @param {Object} apiClient The ApiClient.
      */
     haltGroupPlayback(apiClient) {
+        // TODO: rename this method, it's not clear what it does.
         this.followingGroupPlayback = false;
 
         apiClient.requestSyncPlaySetIgnoreWait({

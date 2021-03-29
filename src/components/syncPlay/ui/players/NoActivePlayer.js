@@ -4,6 +4,7 @@
  */
 
 import { playbackManager } from '../../../playback/playbackmanager';
+import playbackPermissionManager from '../playbackPermissionManager';
 import SyncPlay from '../../core';
 import QueueManager from './QueueManager';
 
@@ -333,7 +334,9 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Calls original PlaybackManager's play method.
      */
-    localPlay(options) {
+    async localPlay(options) {
+        await playbackPermissionManager.ask();
+
         if (playbackManager.syncPlayEnabled) {
             return playbackManager._localPlay(options);
         } else {
@@ -344,7 +347,9 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Calls original PlaybackManager's setCurrentPlaylistItem method.
      */
-    localSetCurrentPlaylistItem(playlistItemId) {
+    async localSetCurrentPlaylistItem(playlistItemId) {
+        await playbackPermissionManager.ask();
+
         if (playbackManager.syncPlayEnabled) {
             return playbackManager._localSetCurrentPlaylistItem(playlistItemId, this.player);
         } else {

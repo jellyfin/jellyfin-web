@@ -889,6 +889,8 @@
     "LabelSyncPlaySettingsSpeedToSyncHelp": "Sync correction method that consist in speeding up the playback. Sync Correction must be enabled.",
     "LabelSyncPlaySettingsSkipToSync": "Enable SkipToSync",
     "LabelSyncPlaySettingsSkipToSyncHelp": "Sync correction method that consist in seeking to the estimated position. Sync Correction must be enabled.",
+    "LabelSyncPlayAlmostReady": "Almost ready!",
+    "LabelSyncPlayMediaControlQuery": "Allow SyncPlay to control media playback?",
     "LabelTag": "Tag:",
     "LabelTagline": "Tagline:",
     "LabelTextBackgroundColor": "Text background color:",

@@ -176,9 +176,16 @@ class GroupSelectionMenu {
     show(button) {
         loading.show();
 
-        // TODO: should feature be disabled if playback permission is missing?
-        playbackPermissionManager.check().then(() => {
-            console.debug('Playback is allowed.');
+        // Grab playback permission from browser using user click event.
+        playbackPermissionManager.check().then((status) => {
+            if (status) {
+                console.debug('Playback is allowed.');
+            } else {
+                console.debug('Playback not allowed!');
+                toast({
+                    text: globalize.translate('MessageSyncPlayPlaybackPermissionRequired')
+                });
+            }
         }).catch((error) => {
             console.error('Playback not allowed!', error);
             toast({
