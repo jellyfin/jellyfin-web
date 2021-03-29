@@ -424,13 +424,12 @@ class AppRouter {
 
     onRequestFail(e, data) {
         const apiClient = this;
-        
+
         // 401 means the credentials are broken
         if (data.status === 401) {
             console.debug('Invalid stored credentials, redirecting to login');
             appRouter.showLocalLogin(apiClient.serverId());
-        }
-        else if (data.status === 403) {
+        } else if (data.status === 403) {
             if (data.errorCode === 'ParentalControl') {
                 const isCurrentAllowed = this.currentRouteInfo ? (this.currentRouteInfo.route.anonymous || this.currentRouteInfo.route.startup) : true;
 
