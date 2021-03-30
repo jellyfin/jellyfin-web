@@ -201,6 +201,19 @@ import layoutManager from './layoutManager';
      */
     const documentScroller = new DocumentScroller();
 
+    const scrollerHints = {
+        x: {
+            nameScroll: 'scrollWidth',
+            nameClient: 'clientWidth',
+            nameClass: ['scrollX', 'smoothScrollX']
+        },
+        y: {
+            nameScroll: 'scrollHeight',
+            nameClient: 'clientHeight',
+            nameClass: ['scrollY', 'smoothScrollY']
+        }
+    };
+
     /**
      * Returns parent element that can be scrolled. If no such, returns document scroller.
      *
@@ -210,22 +223,15 @@ import layoutManager from './layoutManager';
      */
     function getScrollableParent(element, vertical) {
         if (element) {
-            let nameScroll = 'scrollWidth';
-            let nameClient = 'clientWidth';
-            let nameClass = 'scrollX';
-
-            if (vertical) {
-                nameScroll = 'scrollHeight';
-                nameClient = 'clientHeight';
-                nameClass = 'scrollY';
-            }
+            const scrollerHint = vertical ? scrollerHints.y : scrollerHints.x;
 
             let parent = element.parentElement;
 
             while (parent) {
                 // Skip 'emby-scroller' because it scrolls by itself
                 if (!parent.classList.contains('emby-scroller') &&
-                    parent[nameScroll] > parent[nameClient] && parent.classList.contains(nameClass)) {
+                    parent[scrollerHint.nameScroll] > parent[scrollerHint.nameClient] &&
+                    scrollerHint.nameClass.some(c => parent.classList.contains(c))) {
                     return parent;
                 }
 
@@ -490,11 +496,14 @@ import layoutManager from './layoutManager';
 
         let scrollCenterX = true;
         let scrollCenterY = true;
+        let isFixed = false;
 
-        const offsetParent = element.offsetParent;
-
-        // In Firefox offsetParent.offsetParent is BODY
-        const isFixed = offsetParent && (!offsetParent.offsetParent || window.getComputedStyle(offsetParent).position === 'fixed');
+        // Dialogs are fixed, but they are always visible, and we can navigate freely within them
+        if (!dom.parentWithClass(element, 'dialogContainer')) {
+            const offsetParent = element.offsetParent;
+            // In Firefox offsetParent.offsetParent is BODY
+            isFixed = offsetParent && (!offsetParent.offsetParent || window.getComputedStyle(offsetParent).position === 'fixed');
+        }
 
         // Scroll fixed elements to nearest edge (or do not scroll at all)
         if (isFixed) {
