@@ -257,11 +257,19 @@ import '../../elements/emby-button/emby-button';
             if (item.Type === 'Audio') {
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             } else {
-                minutes = item.RunTimeTicks / 600000000;
-
-                minutes = minutes || 1;
-
-                miscInfo.push(`${Math.round(minutes)} mins`);
+                const ticksPerMinute = 600000000;
+                let totalMinutes = Math.floor(ticks/ticksPerMinute);
+                totalMinutes = totalMinutes || 1;
+                let totalHours = Math.floor(totalMinutes / 60);
+                let remainderMinutes = totalMinutes % 60;
+                result = [];
+                if (totalHours > 0) {
+                    result.push(`${totalHours} hrs`);
+                }
+                if (totalMinutes > 0) {
+                    result.push(`${remainderMinutes} mins`);
+                }
+                miscInfo.push(result.join(', '));
             }
         }
 
