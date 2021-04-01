@@ -1371,7 +1371,7 @@
     "Data": "Dati",
     "Bwdif": "BWDIF",
     "UseDoubleRateDeinterlacing": "Raddoppia il frame rate durante il deinterlacciamento",
-    "KnownProxiesHelp": "Lista degli IP separati da virgola dei proxy utilizzati per connettersi a Jellyfin. Ciò consente di gestire al meglio gli header X-Forwarded-For. Richiede il reboot.",
+    "KnownProxiesHelp": "Lista degli IP o hostname separati da virgola dei proxy utilizzati per connettersi a Jellyfin. Ciò consente di gestire al meglio gli header X-Forwarded-For. Richiede il reboot dopo il salvataggio.",
     "LabelKnownProxies": "Proxy conosciuti:",
     "LabelColorSpace": "Spazio colori:",
     "LabelVideoRange": "Intervallo video:",
