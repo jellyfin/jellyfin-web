@@ -236,7 +236,9 @@ import { appHost } from '../components/apphost';
             'repeatone': () => {
                 playbackManager.setRepeatMode('RepeatOne');
             },
-            'unknown': () => {}
+            'unknown': () => {
+                // This is the command given by 'notify', it's a no-op
+            }
         })[command];
 
         const action = keyActions(commandName);
