@@ -235,7 +235,8 @@ import { appHost } from '../components/apphost';
             },
             'repeatone': () => {
                 playbackManager.setRepeatMode('RepeatOne');
-            }
+            },
+            'unknown': () => {}
         })[command];
 
         const action = keyActions(commandName);
