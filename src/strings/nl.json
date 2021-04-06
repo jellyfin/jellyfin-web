@@ -401,7 +401,7 @@
     "LabelAirsAfterSeason": "Uitgezonden na seizoen:",
     "LabelAirsBeforeEpisode": "Uitgezonden voor aflevering:",
     "LabelAirsBeforeSeason": "Uitgezonden voor seizoen:",
-    "LabelAlbumArtHelp": "PN gebruikt voor  album art, binnen het DLNA: profileID attribuut op UPnP: albumArtURI. Sommige apparaten vereisen een specifieke waarde, ongeacht de grootte van het beeld.",
+    "LabelAlbumArtHelp": "PN gebruikt voor album art, binnen het DLNA: profileID attribuut op UPnP: albumArtURI. Sommige apparaten vereisen een specifieke waarde, ongeacht de grootte van het beeld.",
     "LabelAlbumArtMaxHeight": "Albumhoes max. hoogte:",
     "LabelAlbumArtMaxWidth": "Albumhoes max. breedte:",
     "LabelAlbumArtPN": "Albumhoes PN:",
