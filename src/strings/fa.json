@@ -1259,7 +1259,7 @@
     "MessageSyncPlayDisabled": "SyncPlay disabled.",
     "MessageSyncPlayUserJoined": "<b>{0}</b> has joined the group.",
     "MessageSyncPlayUserLeft": "<b>{0}</b> has left the group.",
-    "MessageSyncPlayGroupWait": "<b>{0}</b> is buffering...",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> is buffering…",
     "MessageSyncPlayNoGroupsAvailable": "No groups available. Start playing something first.",
     "MessageSyncPlayPlaybackPermissionRequired": "Playback permission required.",
     "MessageSyncPlayGroupDoesNotExist": "Failed to join group because it does not exist.",
