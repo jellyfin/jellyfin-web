@@ -428,7 +428,7 @@ class CastPlayer {
     /**
      * Callback function for media command success
      */
-    mediaCommandSuccessCallback(info, e) {
+    mediaCommandSuccessCallback(info) {
         console.debug(info);
     }
 }
@@ -507,7 +507,7 @@ function initializeChromecast() {
         }
     }));
 
-    Events.on(instance._castPlayer, 'connect', function (e) {
+    Events.on(instance._castPlayer, 'connect', function () {
         if (currentResolve) {
             sendConnectionResult(true);
         } else {
@@ -579,7 +579,7 @@ class ChromecastPlayer {
         new castSenderApiLoader().load().then(initializeChromecast.bind(this));
     }
 
-    tryPair(target) {
+    tryPair() {
         const castPlayer = this._castPlayer;
 
         if (castPlayer.deviceState !== DEVICE_STATE.ACTIVE && castPlayer.isInitialized) {
@@ -1058,11 +1058,11 @@ class ChromecastPlayer {
     getCurrentPlaylistItemId() {
     }
 
-    setCurrentPlaylistItem(playlistItemId) {
+    setCurrentPlaylistItem() {
         return Promise.resolve();
     }
 
-    removeFromPlaylist(playlistItemIds) {
+    removeFromPlaylist() {
         return Promise.resolve();
     }
 

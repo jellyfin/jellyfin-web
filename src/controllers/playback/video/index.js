@@ -28,7 +28,7 @@ import { appRouter } from '../../../components/appRouter';
         return document.querySelector('.dialogContainer .dialog.opened');
     }
 
-    export default function (view, params) {
+    export default function (view) {
         function getDisplayItem(item) {
             if (item.Type === 'TvChannel') {
                 const apiClient = ServerConnections.getApiClient(item.ServerId);
@@ -426,18 +426,18 @@ import { appRouter } from '../../../components/appRouter';
             if (state.NowPlayingItem) {
                 isEnabled = true;
                 updatePlayerStateInternal(event, player, state);
-                updatePlaylist(player);
+                updatePlaylist();
                 enableStopOnBack(true);
             }
         }
 
-        function onPlayPauseStateChanged(e) {
+        function onPlayPauseStateChanged() {
             if (isEnabled) {
                 updatePlayPauseState(this.paused());
             }
         }
 
-        function onVolumeChanged(e) {
+        function onVolumeChanged() {
             if (isEnabled) {
                 const player = this;
                 updatePlayerVolumeState(player, player.isMuted(), player.getVolume());
@@ -472,7 +472,7 @@ import { appRouter } from '../../../components/appRouter';
             }
         }
 
-        function onMediaStreamsChanged(e) {
+        function onMediaStreamsChanged() {
             const player = this;
             const state = playbackManager.getPlayerState(player);
             onStateChanged.call(player, {
@@ -534,7 +534,7 @@ import { appRouter } from '../../../components/appRouter';
             }
         }
 
-        function onTimeUpdate(e) {
+        function onTimeUpdate() {
             // Test for 'currentItem' is required for Firefox since its player spams 'timeupdate' events even being at breakpoint
             if (isEnabled && currentItem) {
                 const now = new Date().getTime();
@@ -794,7 +794,7 @@ import { appRouter } from '../../../components/appRouter';
             }
         }
 
-        function updatePlaylist(player) {
+        function updatePlaylist() {
             const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
             const btnNextTrack = view.querySelector('.btnNextTrack');
             btnPreviousTrack.classList.remove('hide');
@@ -818,7 +818,7 @@ import { appRouter } from '../../../components/appRouter';
             elem.innerHTML = html;
         }
 
-        function onSettingsButtonClick(e) {
+        function onSettingsButtonClick() {
             const btn = this;
 
             import('../../../components/playback/playersettingsmenu').then((playerSettingsMenu) => {
@@ -1261,11 +1261,11 @@ import { appRouter } from '../../../components/appRouter';
             nowPlayingPositionSlider.classList.add('focusable');
         }
 
-        view.addEventListener('viewbeforeshow', function (e) {
+        view.addEventListener('viewbeforeshow', function () {
             headerElement.classList.add('osdHeader');
             appRouter.setTransparency('full');
         });
-        view.addEventListener('viewshow', function (e) {
+        view.addEventListener('viewshow', function () {
             try {
                 Events.on(playbackManager, 'playerchange', onPlayerChange);
                 bindToPlayer(playbackManager.getCurrentPlayer());

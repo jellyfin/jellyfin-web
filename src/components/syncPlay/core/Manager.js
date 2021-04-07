@@ -130,7 +130,7 @@ class Manager {
     /**
      * Called when the player changes.
      */
-    onPlayerChange(newPlayer, newTarget, oldPlayer) {
+    onPlayerChange(newPlayer) {
         this.bindToPlayer(newPlayer);
     }
 
@@ -228,9 +228,8 @@ class Manager {
     /**
      * Handles a playback command from the server.
      * @param {Object} cmd The playback command.
-     * @param {Object} apiClient The ApiClient.
      */
-    processCommand(cmd, apiClient) {
+    processCommand(cmd) {
         if (cmd === null) return;
 
         if (typeof cmd.When === 'string') {
@@ -277,9 +276,8 @@ class Manager {
     /**
      * Handles a group state change.
      * @param {Object} update The group state update.
-     * @param {Object} apiClient The ApiClient.
      */
-    processStateChange(update, apiClient) {
+    processStateChange(update) {
         if (update === null || update.State === null || update.Reason === null) return;
 
         if (!this.isSyncPlayEnabled()) {

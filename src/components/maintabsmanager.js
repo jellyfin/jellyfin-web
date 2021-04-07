@@ -47,7 +47,7 @@ import '../elements/emby-button/emby-button';
         return true;
     }
 
-    function configureSwipeTabs(view, tabsElem, getTabContainersFn) {
+    function configureSwipeTabs(view, tabsElem) {
         if (!browser.touch) {
             return;
         }
@@ -142,7 +142,7 @@ import '../elements/emby-button/emby-button';
 
             tabsElem = tabsContainerElem.querySelector('[is="emby-tabs"]');
 
-            configureSwipeTabs(view, tabsElem, getTabContainersFn);
+            configureSwipeTabs(view, tabsElem);
 
             tabsElem.addEventListener('beforetabchange', function (e) {
                 const tabContainers = getTabContainersFn();

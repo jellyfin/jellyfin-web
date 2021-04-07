@@ -152,7 +152,7 @@ export function enable() {
 
 // Gamepad initialisation. No script is required if no gamepads are present at init time, saving a bit of resources.
 // Whenever the gamepad is connected, we hand all the control of the gamepad to gamepadtokey.js by removing the event handler
-function attachGamepadScript(e) {
+function attachGamepadScript() {
     console.log('Gamepad connected! Attaching gamepadtokey.js script');
     window.removeEventListener('gamepadconnected', attachGamepadScript);
     /* eslint-disable-next-line  @babel/no-unused-expressions */

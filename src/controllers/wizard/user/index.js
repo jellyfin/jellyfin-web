@@ -58,7 +58,7 @@ function onViewShow() {
     });
 }
 
-export default function (view, params) {
+export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');

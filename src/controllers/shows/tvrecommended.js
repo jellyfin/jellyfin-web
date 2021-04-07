@@ -354,7 +354,7 @@ import autoFocuser from '../../components/autoFocuser';
 
         const tabControllers = [];
         let renderedTabs = [];
-        view.addEventListener('viewshow', function (e) {
+        view.addEventListener('viewshow', function () {
             initTabs();
             if (!view.getAttribute('data-title')) {
                 const parentId = params.topParentId;
@@ -374,12 +374,12 @@ import autoFocuser from '../../components/autoFocuser';
             Events.on(ApiClient, 'message', onWebSocketMessage);
             inputManager.on(window, onInputCommand);
         });
-        view.addEventListener('viewbeforehide', function (e) {
+        view.addEventListener('viewbeforehide', function () {
             inputManager.off(window, onInputCommand);
             Events.off(playbackManager, 'playbackstop', onPlaybackStop);
             Events.off(ApiClient, 'message', onWebSocketMessage);
         });
-        view.addEventListener('viewdestroy', function (e) {
+        view.addEventListener('viewdestroy', function () {
             tabControllers.forEach(function (t) {
                 if (t.destroy) {
                     t.destroy();

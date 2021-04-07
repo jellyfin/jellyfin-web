@@ -5,7 +5,7 @@ import '../../elements/emby-button/emby-button';
 import './recordingfields.scss';
 import ServerConnections from '../ServerConnections';
 
-function onRecordingButtonClick(e) {
+function onRecordingButtonClick() {
     const item = this.item;
 
     if (item) {

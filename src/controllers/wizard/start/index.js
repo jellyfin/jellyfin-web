@@ -32,7 +32,7 @@ function onSubmit() {
     return false;
 }
 
-export default function (view, params) {
+export default function (view) {
     $('.wizardStartForm', view).on('submit', onSubmit);
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');

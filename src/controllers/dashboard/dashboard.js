@@ -218,17 +218,17 @@ import confirm from '../../components/confirm/confirm';
         });
     }
 
-    function renderInfo(view, sessions, forceUpdate) {
+    function renderInfo(view, sessions) {
         sessions = filterSessions(sessions);
         renderActiveConnections(view, sessions);
         loading.hide();
     }
 
-    function pollForInfo(view, apiClient, forceUpdate) {
+    function pollForInfo(view, apiClient) {
         apiClient.getSessions({
             ActiveWithinSeconds: 960
         }).then(function (sessions) {
-            renderInfo(view, sessions, forceUpdate);
+            renderInfo(view, sessions);
         });
         apiClient.getScheduledTasks().then(function (tasks) {
             renderRunningTasks(view, tasks);
@@ -730,7 +730,7 @@ import confirm from '../../components/confirm/confirm';
             });
         }
     };
-    export default function (view, params) {
+    export default function (view) {
         function onRestartRequired(evt, apiClient) {
             console.debug('onRestartRequired not implemented', evt, apiClient);
         }
@@ -745,14 +745,14 @@ import confirm from '../../components/confirm/confirm';
 
         function onPackageInstalling(evt, apiClient) {
             if (apiClient.serverId() === serverId) {
-                pollForInfo(view, apiClient, true);
+                pollForInfo(view, apiClient);
                 reloadSystemInfo(view, apiClient);
             }
         }
 
         function onPackageInstallationCompleted(evt, apiClient) {
             if (apiClient.serverId() === serverId) {
-                pollForInfo(view, apiClient, true);
+                pollForInfo(view, apiClient);
                 reloadSystemInfo(view, apiClient);
             }
         }

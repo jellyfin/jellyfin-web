@@ -161,7 +161,7 @@ import toast from '../../../components/toast/toast';
         });
     }
 
-    function onSaveComplete(page) {
+    function onSaveComplete() {
         loading.hide();
         toast(globalize.translate('SettingsSaved'));
     }
@@ -176,7 +176,7 @@ import toast from '../../../components/toast/toast';
         user.Policy.AccessSchedules = getSchedulesFromPage(page);
         user.Policy.BlockedTags = getBlockedTagsFromPage(page);
         ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-            onSaveComplete(page);
+            onSaveComplete();
         });
     }
 

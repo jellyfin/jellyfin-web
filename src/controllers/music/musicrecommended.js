@@ -373,7 +373,7 @@ import Dashboard from '../../scripts/clientUtils';
 
         const tabControllers = [];
         const renderedTabs = [];
-        view.addEventListener('viewshow', function (e) {
+        view.addEventListener('viewshow', function () {
             initTabs();
             if (!view.getAttribute('data-title')) {
                 const parentId = params.topParentId;
@@ -391,10 +391,10 @@ import Dashboard from '../../scripts/clientUtils';
 
             inputManager.on(window, onInputCommand);
         });
-        view.addEventListener('viewbeforehide', function (e) {
+        view.addEventListener('viewbeforehide', function () {
             inputManager.off(window, onInputCommand);
         });
-        view.addEventListener('viewdestroy', function (e) {
+        view.addEventListener('viewdestroy', function () {
             tabControllers.forEach(function (t) {
                 if (t.destroy) {
                     t.destroy();

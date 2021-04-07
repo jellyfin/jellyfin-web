@@ -31,7 +31,7 @@ function onSubmit(e) {
     return false;
 }
 
-export default function (view, params) {
+export default function (view) {
     view.querySelector('.wizardSettingsForm').addEventListener('submit', onSubmit);
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');

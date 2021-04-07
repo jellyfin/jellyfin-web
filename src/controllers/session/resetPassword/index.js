@@ -24,7 +24,7 @@ import Dashboard from '../../../scripts/clientUtils';
         });
     }
 
-    export default function (view, params) {
+    export default function (view) {
         function onSubmit(e) {
             ApiClient.ajax({
                 type: 'POST',

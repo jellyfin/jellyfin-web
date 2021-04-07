@@ -149,7 +149,7 @@ import confirm from '../../../components/confirm/confirm';
     }
 
     const canEdit = ApiClient.isMinServerVersion('3.4.1.31');
-    export default function (view, params) {
+    export default function (view) {
         view.querySelector('.devicesList').addEventListener('click', function (e) {
             const btnDeviceMenu = dom.parentWithClass(e.target, 'btnDeviceMenu');
 

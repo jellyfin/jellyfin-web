@@ -64,7 +64,7 @@ function renderRecordingFolders(context, promise) {
     });
 }
 
-function onMoreClick(e) {
+function onMoreClick() {
     const type = this.getAttribute('data-type');
     const serverId = ApiClient.serverId();
 

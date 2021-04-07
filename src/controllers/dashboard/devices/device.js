@@ -48,7 +48,7 @@ import Dashboard from '../../../scripts/clientUtils';
         return false;
     }
 
-    export default function (view, params) {
+    export default function (view) {
         view.querySelector('form').addEventListener('submit', onSubmit);
         view.addEventListener('viewshow', loadData);
     }

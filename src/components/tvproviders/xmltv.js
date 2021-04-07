@@ -88,7 +88,7 @@ export default function (page, providerId, options) {
                 }),
                 data: JSON.stringify(info),
                 contentType: 'application/json'
-            }).then(function (result) {
+            }).then(function () {
                 loading.hide();
 
                 if (options.showConfirmation !== false) {

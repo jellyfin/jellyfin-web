@@ -490,9 +490,7 @@ import '../../elements/emby-button/emby-button';
         })[0];
     }
 
-    export function getMediaInfoStats(item, options) {
-        options = options || {};
-
+    export function getMediaInfoStats(item) {
         const list = [];
 
         const mediaSource = (item.MediaSources || [])[0] || {};

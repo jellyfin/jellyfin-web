@@ -817,7 +817,7 @@ class ItemsView {
                 itemsContainer: self.itemsContainer
             });
         });
-        view.addEventListener('viewhide', function (e) {
+        view.addEventListener('viewhide', function () {
             const itemsContainer = self.itemsContainer;
 
             if (itemsContainer) {

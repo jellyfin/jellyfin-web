@@ -11,7 +11,6 @@ import './formdialog.scss';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import './cardbuilder/card.scss';
-import ServerConnections from './ServerConnections';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -106,7 +105,7 @@ function renderDevices(view, devices) {
     }
 }
 
-function discoverDevices(view, apiClient) {
+function discoverDevices(view) {
     loading.show();
     view.querySelector('.loadingContent').classList.remove('hide');
     return ApiClient.getJSON(ApiClient.getUrl('LiveTv/Tuners/Discvover', {
@@ -120,7 +119,7 @@ function discoverDevices(view, apiClient) {
 }
 
 function tunerPicker() {
-    this.show = function (options) {
+    this.show = function () {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -163,8 +162,7 @@ function tunerPicker() {
             scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
         }
 
-        const apiClient = ServerConnections.getApiClient(options.serverId);
-        discoverDevices(dlg, apiClient);
+        discoverDevices(dlg);
 
         if (layoutManager.tv) {
             scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);

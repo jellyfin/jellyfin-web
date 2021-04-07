@@ -219,7 +219,7 @@ import template from './homeScreenSettings.template.html';
         context.querySelector('.selectTVHomeScreen').value = userSettings.get('tvhome') || '';
     }
 
-    function getPerLibrarySettingsHtml(item, user, userSettings, apiClient) {
+    function getPerLibrarySettingsHtml(item, user, userSettings) {
         let html = '';
 
         let isChecked;
@@ -275,12 +275,12 @@ import template from './homeScreenSettings.template.html';
         return html;
     }
 
-    function renderPerLibrarySettings(context, user, userViews, userSettings, apiClient) {
+    function renderPerLibrarySettings(context, user, userViews) {
         const elem = context.querySelector('.perLibrarySettings');
         let html = '';
 
         for (let i = 0, length = userViews.length; i < length; i++) {
-            html += getPerLibrarySettingsHtml(userViews[i], user, userSettings, apiClient);
+            html += getPerLibrarySettingsHtml(userViews[i], user);
         }
 
         elem.innerHTML = html;
@@ -297,7 +297,7 @@ import template from './homeScreenSettings.template.html';
         Promise.all([promise1, promise2]).then(responses => {
             renderViewOrder(context, user, responses[0]);
 
-            renderPerLibrarySettings(context, user, responses[0].Items, userSettings, apiClient);
+            renderPerLibrarySettings(context, user, responses[0].Items);
 
             renderViews(context, user, responses[1]);
 

@@ -648,7 +648,7 @@ import { appRouter } from '../appRouter';
         }
     }
 
-    function onPlayPauseStateChanged(e) {
+    function onPlayPauseStateChanged() {
         if (!isEnabled) {
             return;
         }
@@ -682,7 +682,7 @@ import { appRouter } from '../appRouter';
         updatePlayerStateInternal(event, state, player);
     }
 
-    function onTimeUpdate(e) {
+    function onTimeUpdate() {
         if (!isEnabled) {
             return;
         }
@@ -718,7 +718,7 @@ import { appRouter } from '../appRouter';
         }
     }
 
-    function onVolumeChanged(e) {
+    function onVolumeChanged() {
         if (!isEnabled) {
             return;
         }

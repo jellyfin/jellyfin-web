@@ -84,7 +84,7 @@ import confirm from '../confirm/confirm';
         }
     }
 
-    function onSelectionChange(e) {
+    function onSelectionChange() {
         updateItemSelection(this, this.checked);
     }
 
@@ -440,13 +440,13 @@ import confirm from '../confirm/confirm';
                     deltaY = 100;
                 }
                 if (deltaX >= 5 || deltaY >= 5) {
-                    onMouseOut(e);
+                    onMouseOut();
                 }
             }
         }
 
-        function onTouchEnd(e) {
-            onMouseOut(e);
+        function onTouchEnd() {
+            onMouseOut();
         }
 
         function onMouseDown(e) {
@@ -459,7 +459,7 @@ import confirm from '../confirm/confirm';
             touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
         }
 
-        function onMouseOut(e) {
+        function onMouseOut() {
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;

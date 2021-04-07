@@ -61,7 +61,7 @@ import template from './searchfields.template.html';
         triggerSearch(searchFieldsInstance, value);
     }
 
-    function embed(elem, instance, options) {
+    function embed(elem, instance) {
         let html = globalize.translateHtml(template, 'core');
 
         if (browser.tizen || browser.orsay) {
@@ -89,7 +89,7 @@ import template from './searchfields.template.html';
 class SearchFields {
     constructor(options) {
         this.options = options;
-        embed(options.element, this, options);
+        embed(options.element, this);
     }
     focus() {
         this.options.element.querySelector('.searchfields-txtSearch').focus();

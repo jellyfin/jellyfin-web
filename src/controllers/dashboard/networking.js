@@ -131,7 +131,7 @@ import alert from '../../components/alert';
         }
     }
 
-    export default function (view, params) {
+    export default function (view) {
         function loadPage(page, config) {
             page.querySelector('#txtPortNumber').value = config.HttpServerPortNumber;
             page.querySelector('#txtPublicPort').value = config.PublicPort;
@@ -198,7 +198,7 @@ import alert from '../../components/alert';
             });
         });
         view.querySelector('.dashboardHostingForm').addEventListener('submit', onSubmit);
-        view.addEventListener('viewshow', function (e) {
+        view.addEventListener('viewshow', function () {
             loading.show();
             ApiClient.getNamedConfiguration('network').then(function (config) {
                 loadPage(view, config);

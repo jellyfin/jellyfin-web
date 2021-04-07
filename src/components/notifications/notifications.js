@@ -41,7 +41,7 @@ function resetRegistration() {
 
 resetRegistration();
 
-function showPersistentNotification(title, options, timeoutMs) {
+function showPersistentNotification(title, options) {
     serviceWorkerRegistration.showNotification(title, options);
 }
 
@@ -77,7 +77,7 @@ function showNotification(options, timeoutMs, apiClient) {
     resetRegistration();
 
     if (serviceWorkerRegistration) {
-        showPersistentNotification(title, options, timeoutMs);
+        showPersistentNotification(title, options);
         return;
     }
 
@@ -219,7 +219,7 @@ Events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data
     showPackageInstallNotification(apiClient, data, 'progress');
 });
 
-Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
+Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,
@@ -228,7 +228,7 @@ Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, dat
     showNotification(notification, 0, apiClient);
 });
 
-Events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
+Events.on(serverNotifications, 'ServerRestarting', function (e, apiClient) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,

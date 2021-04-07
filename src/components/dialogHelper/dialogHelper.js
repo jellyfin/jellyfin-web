@@ -48,7 +48,7 @@ import '../../assets/css/scrollstyles.scss';
         const activeElement = document.activeElement;
         let removeScrollLockOnClose = false;
 
-        function onHashChange(e) {
+        function onHashChange() {
             const isBack = self.originalUrl === window.location.href;
 
             if (isBack || !isOpened(dlg)) {
@@ -200,7 +200,7 @@ import '../../assets/css/scrollstyles.scss';
         dlg.dialogContainer = dialogContainer;
         document.body.appendChild(dialogContainer);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             new DialogHashHandler(dlg, `dlg${new Date().getTime()}`, resolve);
         });
     }

@@ -105,7 +105,7 @@ import '../emby-input/emby-input';
         });
     }
 
-    function updateBubble(range, value, bubble, bubbleText) {
+    function updateBubble(range, value, bubble) {
         requestAnimationFrame(function () {
             const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
             const bubbleRect = bubble.getBoundingClientRect();
@@ -189,7 +189,7 @@ import '../emby-input/emby-input';
 
         let hasHideClass = sliderBubble.classList.contains('hide');
 
-        dom.addEventListener(this, 'input', function (e) {
+        dom.addEventListener(this, 'input', function () {
             this.dragging = true;
 
             if (this.dataset.sliderKeepProgress !== 'true') {
@@ -284,7 +284,7 @@ import '../emby-input/emby-input';
                 passive: true
             });
 
-            dom.addEventListener(this, 'touchend', function (e) {
+            dom.addEventListener(this, 'touchend', function () {
                 const range = this;
 
                 setTimeout(function () {

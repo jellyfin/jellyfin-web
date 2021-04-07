@@ -11,7 +11,6 @@ import '../../../components/listview/listview.scss';
 
     export default function (view, params) {
         let settingsInstance;
-        let hasChanges;
 
         const userId = params.userId || ApiClient.getCurrentUserId();
         const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
@@ -30,10 +29,6 @@ import '../../../components/listview/listview.scss';
                     autoFocus: autoFocuser.isEnabled()
                 });
             }
-        });
-
-        view.addEventListener('change', function () {
-            hasChanges = true;
         });
 
         view.addEventListener('viewdestroy', function () {

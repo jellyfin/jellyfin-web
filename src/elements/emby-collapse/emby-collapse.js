@@ -54,7 +54,7 @@ import '../emby-button/emby-button';
         });
     }
 
-    function onButtonClick(e) {
+    function onButtonClick() {
         const button = this;
         const collapseContent = button.parentNode.querySelector('.collapseContent');
 

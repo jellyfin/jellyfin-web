@@ -208,7 +208,7 @@ function getMimeType(type, container) {
 }
 
 function getParam(name, url) {
-    name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
+    name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
     const regexS = '[\\?&]' + name + '=([^&#]*)';
     const regex = new RegExp(regexS, 'i');
 
@@ -270,7 +270,7 @@ function getIntros(firstItem, apiClient, options) {
 
     return apiClient.getIntros(firstItem.Id).then(function (result) {
         return result;
-    }, function (err) {
+    }, function () {
         return Promise.resolve({
             Items: []
         });
@@ -619,7 +619,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
                 return isHostReachable(mediaSource, apiClient);
             }
         } else if (mediaSource.Protocol === 'File') {
-            return new Promise(function (resolve, reject) {
+            return new Promise(function (resolve) {
                 // Determine if the file can be accessed directly
                 import('../../scripts/filesystem').then((filesystem) => {
                     const method = isFolderRip ?
@@ -1711,7 +1711,7 @@ class PlaybackManager {
             });
         }
 
-        function changeStreamToUrl(apiClient, player, playSessionId, streamInfo, newPositionTicks) {
+        function changeStreamToUrl(apiClient, player, playSessionId, streamInfo) {
             const playerData = getPlayerData(player);
 
             playerData.isChangingStream = true;
@@ -2037,7 +2037,7 @@ class PlaybackManager {
         // Only used internally
         self.getCurrentTicks = getCurrentTicks;
 
-        function playOther(items, options, user) {
+        function playOther(items, options) {
             const playStartIndex = options.startIndex || 0;
             const player = getPlayer(items[playStartIndex], options);
 
@@ -2048,7 +2048,7 @@ class PlaybackManager {
             return player.play(options);
         }
 
-        function playWithIntros(items, options, user) {
+        function playWithIntros(items, options) {
             let playStartIndex = options.startIndex || 0;
             let firstItem = items[playStartIndex];
 
@@ -2065,7 +2065,7 @@ class PlaybackManager {
             }
 
             if (firstItem.MediaType === 'Photo' || firstItem.MediaType === 'Book') {
-                return playOther(items, options, user);
+                return playOther(items, options);
             }
 
             const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
@@ -3030,27 +3030,27 @@ class PlaybackManager {
             }
         }
 
-        function onPlaybackTimeUpdate(e) {
+        function onPlaybackTimeUpdate() {
             const player = this;
             sendProgressUpdate(player, 'timeupdate');
         }
 
-        function onPlaybackPause(e) {
+        function onPlaybackPause() {
             const player = this;
             sendProgressUpdate(player, 'pause');
         }
 
-        function onPlaybackUnpause(e) {
+        function onPlaybackUnpause() {
             const player = this;
             sendProgressUpdate(player, 'unpause');
         }
 
-        function onPlaybackVolumeChange(e) {
+        function onPlaybackVolumeChange() {
             const player = this;
             sendProgressUpdate(player, 'volumechange');
         }
 
-        function onRepeatModeChange(e) {
+        function onRepeatModeChange() {
             const player = this;
             sendProgressUpdate(player, 'repeatmodechange');
         }
@@ -3060,17 +3060,17 @@ class PlaybackManager {
             sendProgressUpdate(player, 'shufflequeuemodechange');
         }
 
-        function onPlaylistItemMove(e) {
+        function onPlaylistItemMove() {
             const player = this;
             sendProgressUpdate(player, 'playlistitemmove', true);
         }
 
-        function onPlaylistItemRemove(e) {
+        function onPlaylistItemRemove() {
             const player = this;
             sendProgressUpdate(player, 'playlistitemremove', true);
         }
 
-        function onPlaylistItemAdd(e) {
+        function onPlaylistItemAdd() {
             const player = this;
             sendProgressUpdate(player, 'playlistitemadd', true);
         }

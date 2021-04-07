@@ -138,19 +138,19 @@ function supportsCssAnimation(allowPrefix) {
 const uaMatch = function (ua) {
     ua = ua.toLowerCase();
 
-    const match = /(edg)[ \/]([\w.]+)/.exec(ua) ||
-        /(edga)[ \/]([\w.]+)/.exec(ua) ||
-        /(edgios)[ \/]([\w.]+)/.exec(ua) ||
-        /(edge)[ \/]([\w.]+)/.exec(ua) ||
-        /(opera)[ \/]([\w.]+)/.exec(ua) ||
-        /(opr)[ \/]([\w.]+)/.exec(ua) ||
-        /(chrome)[ \/]([\w.]+)/.exec(ua) ||
-        /(safari)[ \/]([\w.]+)/.exec(ua) ||
-        /(firefox)[ \/]([\w.]+)/.exec(ua) ||
+    const match = /(edg)[ /]([\w.]+)/.exec(ua) ||
+        /(edga)[ /]([\w.]+)/.exec(ua) ||
+        /(edgios)[ /]([\w.]+)/.exec(ua) ||
+        /(edge)[ /]([\w.]+)/.exec(ua) ||
+        /(opera)[ /]([\w.]+)/.exec(ua) ||
+        /(opr)[ /]([\w.]+)/.exec(ua) ||
+        /(chrome)[ /]([\w.]+)/.exec(ua) ||
+        /(safari)[ /]([\w.]+)/.exec(ua) ||
+        /(firefox)[ /]([\w.]+)/.exec(ua) ||
         ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
         [];
 
-    const versionMatch = /(version)[ \/]([\w.]+)/.exec(ua);
+    const versionMatch = /(version)[ /]([\w.]+)/.exec(ua);
 
     let platform_match = /(ipad)/.exec(ua) ||
         /(iphone)/.exec(ua) ||
