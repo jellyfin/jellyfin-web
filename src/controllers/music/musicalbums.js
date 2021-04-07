@@ -24,7 +24,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         function shuffle() {
             ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
                 getQuery();
-                playbackManager.shuffle(item, null);
+                playbackManager.shuffle(item);
             });
         }
 
