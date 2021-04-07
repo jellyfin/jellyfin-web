@@ -99,14 +99,17 @@
     "Firefox ESR"
   ],
   "scripts": {
-    "start": "yarn serve",
+    "start": "npm run serve",
     "serve": "webpack serve --config webpack.dev.js",
     "prepare": "node ./scripts/prepare.js",
     "build:development": "webpack --config webpack.dev.js",
     "build:production": "webpack --config webpack.prod.js",
     "lint": "eslint \"src/\"",
-    "stylelint": "yarn stylelint:css && yarn stylelint:scss",
+    "stylelint": "npm run stylelint:css && npm run stylelint:scss",
     "stylelint:css": "stylelint \"src/**/*.css\"",
     "stylelint:scss": "stylelint --config=\".stylelintrc.scss.json\" \"src/**/*.scss\""
+  },
+  "engines": {
+    "yarn": "YARN NO LONGER USED - use npm instead."
   }
 }
