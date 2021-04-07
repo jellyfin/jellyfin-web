@@ -30,7 +30,7 @@
     "file-loader": "^6.2.0",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^5.3.1",
-    "postcss-loader": "^3.0.0",
+    "postcss-loader": "^5.2.0",
     "postcss-preset-env": "^6.7.0",
     "sass": "^1.32.8",
     "sass-loader": "^11.0.1",
