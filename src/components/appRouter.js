@@ -425,14 +425,18 @@ class AppRouter {
     onRequestFail(e, data) {
         const apiClient = this;
 
-        if (data.status === 403) {
+        // 401 means the credentials are broken
+        if (data.status === 401) {
+            console.debug('Invalid stored credentials, redirecting to login');
+            appRouter.showLocalLogin(apiClient.serverId());
+        } else if (data.status === 403) {
             if (data.errorCode === 'ParentalControl') {
-                const isCurrentAllowed = this.currentRouteInfo ? (this.currentRouteInfo.route.anonymous || this.currentRouteInfo.route.startup) : true;
+                const isCurrentAllowed = appRouter.currentRouteInfo ? (appRouter.currentRouteInfo.route.anonymous || appRouter.currentRouteInfo.route.startup) : true;
 
                 // Bounce to the login screen, but not if a password entry fails, obviously
                 if (!isCurrentAllowed) {
-                    this.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
-                    this.showLocalLogin(apiClient.serverId());
+                    appRouter.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
+                    appRouter.showLocalLogin(apiClient.serverId());
                 }
             }
         }
