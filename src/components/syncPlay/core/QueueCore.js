@@ -165,14 +165,16 @@ class QueueCore {
      * @param {string} origin The origin of the wait call, used for debug.
      */
     scheduleReadyRequestOnPlaybackStart(apiClient, origin) {
-        Helper.waitForEventOnce(this.manager, 'playbackstart', Helper.WaitForEventDefaultTimeout, ['playbackerror']).then(() => {
+        Helper.waitForEventOnce(this.manager, 'playbackstart', Helper.WaitForEventDefaultTimeout, ['playbackerror']).then(async () => {
             console.debug('SyncPlay scheduleReadyRequestOnPlaybackStart: local pause and notify server.');
             const playerWrapper = this.manager.getPlayerWrapper();
             playerWrapper.localPause();
 
             const currentTime = new Date();
             const now = this.manager.timeSyncCore.localDateToRemote(currentTime);
-            const currentPosition = playerWrapper.currentTime();
+            const currentPosition = (playerWrapper.currentTimeAsync
+                ? await playerWrapper.currentTimeAsync()
+                : playerWrapper.currentTime());
             const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
             const isPlaying = playerWrapper.isPlaying();
 

@@ -79,6 +79,15 @@ export function getMultiServer() {
     });
 }
 
+export function getIgnorePlayPermission() {
+    return getConfig().then(config => {
+        return !!config.ignorePlayPermission;
+    }).catch(error => {
+        console.log('cannot get web config:', error);
+        return false;
+    });
+}
+
 export function getServers() {
     return getConfig().then(config => {
         return config.servers || [];

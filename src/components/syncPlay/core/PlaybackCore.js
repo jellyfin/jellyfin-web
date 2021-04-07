@@ -118,9 +118,11 @@ class PlaybackCore {
      * Sends a buffering request to the server.
      * @param {boolean} isBuffering Whether this client is buffering or not.
      */
-    sendBufferingRequest(isBuffering = true) {
+     async sendBufferingRequest(isBuffering = true) {
         const playerWrapper = this.manager.getPlayerWrapper();
-        const currentPosition = playerWrapper.currentTime();
+        const currentPosition = (playerWrapper.currentTimeAsync
+            ? await playerWrapper.currentTimeAsync()
+            : playerWrapper.currentTime());
         const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
         const isPlaying = playerWrapper.isPlaying();
 
@@ -155,7 +157,7 @@ class PlaybackCore {
      * Applies a command and checks the playback state if a duplicate command is received.
      * @param {Object} command The playback command.
      */
-    applyCommand(command) {
+    async applyCommand(command) {
         // Check if duplicate.
         if (this.lastCommand &&
             this.lastCommand.When.getTime() === command.When.getTime() &&
@@ -177,7 +179,9 @@ class PlaybackCore {
             } else {
                 // Check if playback state matches requested command.
                 const playerWrapper = this.manager.getPlayerWrapper();
-                const currentPositionTicks = Math.round(playerWrapper.currentTime() * Helper.TicksPerMillisecond);
+                const currentPositionTicks = Math.round((playerWrapper.currentTimeAsync
+                    ? await playerWrapper.currentTimeAsync()
+                    : playerWrapper.currentTime()) * Helper.TicksPerMillisecond);
                 const isPlaying = playerWrapper.isPlaying();
 
                 switch (command.Command) {
@@ -255,14 +259,16 @@ class PlaybackCore {
      * @param {Date} playAtTime The server's UTC time at which to resume playback.
      * @param {number} positionTicks The PositionTicks from where to resume.
      */
-    scheduleUnpause(playAtTime, positionTicks) {
+    async scheduleUnpause(playAtTime, positionTicks) {
         this.clearScheduledCommand();
         const enableSyncTimeout = this.maxDelaySpeedToSync / 2.0;
         const currentTime = new Date();
         const playAtTimeLocal = this.timeSyncCore.remoteDateToLocal(playAtTime);
 
         const playerWrapper = this.manager.getPlayerWrapper();
-        const currentPositionTicks = playerWrapper.currentTime() * Helper.TicksPerMillisecond;
+        const currentPositionTicks = (playerWrapper.currentTimeAsync
+            ? await playerWrapper.currentTimeAsync()
+            : playerWrapper.currentTime()) * Helper.TicksPerMillisecond;
 
         if (playAtTimeLocal > currentTime) {
             const playTimeout = playAtTimeLocal - currentTime;
