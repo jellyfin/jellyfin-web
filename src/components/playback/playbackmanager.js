@@ -2350,7 +2350,7 @@ class PlaybackManager {
             let directOptions;
 
             if (mediaSource.MediaStreams && player.useFullSubtitleUrls) {
-                mediaSource.MediaStreams.map(stream => {
+                mediaSource.MediaStreams.forEach(stream => {
                     if (stream.DeliveryUrl && stream.DeliveryUrl.startsWith('/')) {
                         stream.DeliveryUrl = apiClient.getUrl(stream.DeliveryUrl);
                     }

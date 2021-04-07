@@ -34,7 +34,7 @@ class PlaybackPermissionManager {
      * Tests playback permission. Grabs the permission when called inside a click event (or any other valid user interaction).
      * @returns {Promise} Promise that resolves succesfully if playback permission is allowed.
      */
-     async check () {
+    async check () {
         if (await getIgnorePlayPermission()) {
             return true;
         }

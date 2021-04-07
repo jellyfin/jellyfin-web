@@ -118,7 +118,7 @@ class PlaybackCore {
      * Sends a buffering request to the server.
      * @param {boolean} isBuffering Whether this client is buffering or not.
      */
-     async sendBufferingRequest(isBuffering = true) {
+    async sendBufferingRequest(isBuffering = true) {
         const playerWrapper = this.manager.getPlayerWrapper();
         const currentPosition = (playerWrapper.currentTimeAsync
             ? await playerWrapper.currentTimeAsync()
