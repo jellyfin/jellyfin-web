@@ -8163,10 +8163,10 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swiper@^6.4.15:
-  version "6.4.15"
-  resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.4.15.tgz#0fb153b3000c0dd26ab21ea9e8d1ab0ebe9e33cb"
-  integrity sha512-FuURJ7hE9lCxPnXIJRKu2QCe+roE8CZV2WYsZxz+dcEd3kebgK0JRvV32HpM3LmFOz7UW+k2Dkdfxekk2kTfMg==
+swiper@^6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.5.0.tgz#4ca2243b44fccef47ee28199377666607d8c5141"
+  integrity sha512-cSx1SpfgrHlgwku++3Ce3cjPBpXgB7P+bGik5S3+F+j6ID0NUeV6qtmedFdr3C8jXR/W+TJPVNIT9fH/cwVAiA==
   dependencies:
     dom7 "^3.0.0"
     ssr-window "^3.0.0"
