@@ -68,7 +68,6 @@ class HtmlAudioPlayer {
         self.type = 'mediaplayer';
         self.id = 'htmlaudioplayer';
         self.useServerPlaybackInfoForAudio = true;
-        self.mustDestroy = true;
 
         self._duration = undefined;
         self._currentTime = undefined;

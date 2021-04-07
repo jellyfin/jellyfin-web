@@ -60,7 +60,6 @@ async function getApi() {
          */
         id = 'htmlvideoplayer';
         useFullSubtitleUrls = true;
-        mustDestroy = true;
         /**
          * @type {boolean}
          */
@@ -196,6 +195,7 @@ async function getApi() {
         setCurrentSrc(elem, options) {
             return new Promise((resolve) => {
                 const val = options.url;
+                this.#currentSrc = val;
                 console.debug(`playing url: ${val}`);
 
                 // Convert to seconds
@@ -284,13 +284,13 @@ async function getApi() {
 
         onEndedInternal() {
             const stopInfo = {
-                src: this._currentSrc
+                src: this.#currentSrc
             };
 
             Events.trigger(this, 'stopped', [stopInfo]);
 
-            this._currentTime = null;
-            this._currentSrc = null;
+            this.#currentTime = null;
+            this.#currentSrc = null;
             this._currentPlayOptions = null;
         }
 
