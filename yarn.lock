@@ -889,10 +889,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/noto-sans-hk@^4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-hk/-/noto-sans-hk-4.2.1.tgz#d60c52751559a34ac383f5ff52bd05bbd27445da"
-  integrity sha512-N16iwzklcinsTmU26Jfm/MhZFrgwU9oUgWIcQyJp5XCsj0m1vHniuB3QY8Ug+LdggK2f/Xp7v7zns1Jf3Pa6Rw==
+"@fontsource/noto-sans-hk@^4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-hk/-/noto-sans-hk-4.2.2.tgz#9a580966aa5160d84e6c6a6a5fb701aa48ef526f"
+  integrity sha512-pe2MphRPw2kQqzvfPvSiE4+u5gbxjnDv3hjsdhgeDhFV7FlWutdhu5ZhmFNH58jxCdkIi/Z5NYdkoRsHV+r6Yg==
 
 "@fontsource/noto-sans-jp@^4.2.1":
   version "4.2.1"
