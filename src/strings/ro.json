@@ -39,7 +39,7 @@
     "HeaderUsers": "Utilizatori",
     "Help": "Ajutor",
     "LabelArtists": "Artisti:",
-    "LabelArtistsHelp": "Separară înșiruirea artiștilor utilizând ;",
+    "LabelArtistsHelp": "Separară înșiruirea artiștilor utilizând (;).",
     "LabelAudioLanguagePreference": "Preferințe de limbă pentru audio:",
     "LabelCachePath": "Cale pentru depozit:",
     "LabelCachePathHelp": "Specificați o locație specială pentru fișierele de tip depozit, precum imagini etc. Lasați gol pentru a folosi setarea implicită.",
