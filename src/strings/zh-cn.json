@@ -672,7 +672,7 @@
     "LabelTrackNumber": "音轨号码：",
     "LabelTranscodingTempPathHelp": "设置转码文件存储目录。留空以使用服务器默认文件夹。",
     "LabelTranscodingThreadCount": "转码线程数：",
-    "LabelTranscodingThreadCountHelp": "选择转码时使用的最大线程数。\n减少线程数量将会降低CPU使用率，可能无法快速进行转换并流畅的播放。",
+    "LabelTranscodingThreadCountHelp": "选择转码时使用的最大线程数。减少线程数量将会降低CPU使用率，可能无法快速进行转换并流畅的播放。",
     "LabelTriggerType": "触发类型：",
     "LabelTunerIpAddress": "调谐器 IP 地址：",
     "LabelTunerType": "调谐器类型：",
