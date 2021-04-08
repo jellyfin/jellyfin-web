@@ -404,7 +404,7 @@
     "LabelMethod": "Način:",
     "LabelMinBackdropDownloadWidth": "Minimalna širina pozadine za preuzimanje:",
     "LabelMinResumeDuration": "Minimalno trajanje za nastavak (sekunda):",
-    "LabelMinResumeDurationHelp": "Naslovi kraći od ovog neće imati mogućnost nastavka",
+    "LabelMinResumeDurationHelp": "Naslovi kraći od ovog neće imati mogućnost nastavka.",
     "LabelMinResumePercentage": "Minimalni postotak za nastavak:",
     "LabelMinResumePercentageHelp": "Naslovi će biti označeni kao ne reproducirani ako se zaustave prije ovog vremena.",
     "LabelMinScreenshotDownloadWidth": "Minimalna širina isječka za preuzimanje:",
