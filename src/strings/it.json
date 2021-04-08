@@ -411,7 +411,7 @@
     "LabelAppName": "Nome app",
     "LabelAppNameExample": "Esempio: Sickbeart, Sonarr",
     "LabelArtists": "Artisti:",
-    "LabelArtistsHelp": "Separa più artisti usando il simbolo ;",
+    "LabelArtistsHelp": "Separa più artisti usando il simbolo (;).",
     "LabelAudioLanguagePreference": "Lingua audio preferita:",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Aggiorna automaticamente i metadati da Internet:",
     "LabelBindToLocalNetworkAddress": "Assegna ad indirizzo di rete locale:",
