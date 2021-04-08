@@ -19,9 +19,6 @@ export async function serverAddress() {
         return Promise.resolve(apiClient.serverAddress());
     }
 
-    // TODO this makes things faster but it also blocks the wizard in some scenarios
-    // if (current) return Promise.resolve(current);
-
     // Use servers specified in config.json
     const urls = await webSettings.getServers();
 
