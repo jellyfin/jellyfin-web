@@ -663,7 +663,8 @@ import ServerConnections from '../ServerConnections';
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-                EnableTotalRecordCount: false
+                EnableTotalRecordCount: false,
+                DisableFirstEpisode: true
             });
         };
     }
