@@ -146,7 +146,7 @@ function renderSection(page, item, element, type) {
                 Limit: 10,
                 SortBy: 'SortName'
             }, {
-                shape: 'overflowPortrait',
+                shape: 'overflowBackdrop',
                 showTitle: true,
                 centerText: true,
                 overlayPlayButton: true
@@ -327,7 +327,7 @@ function addCurrentItemToQuery(query, item) {
     } else if (item.Type === 'Studio') {
         query.StudioIds = item.Id;
     } else if (item.Type === 'MusicArtist') {
-        query.AlbumArtistIds = item.Id;
+        query.ArtistIds = item.Id;
     }
 }
 
