@@ -1795,7 +1795,7 @@ function renderMusicVideos(page, item, user) {
     }).then(function (result) {
         if (result.Items.length) {
             page.querySelector('#musicVideosCollapsible').classList.remove('hide');
-            const musicVideosContent = page.querySelector('.musicVideosContent');
+            const musicVideosContent = page.querySelector('#musicVideosContent');
             musicVideosContent.innerHTML = getVideosHtml(result.Items);
             imageLoader.lazyChildren(musicVideosContent);
         } else {
