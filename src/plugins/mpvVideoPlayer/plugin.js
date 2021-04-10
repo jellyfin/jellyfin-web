@@ -191,8 +191,8 @@ async function getApi() {
 
         tryGetFramerate(options) {
             if (options.mediaSource && options.mediaSource.MediaStreams) {
-                for (let stream of options.mediaSource.MediaStreams) {
-                    if (stream.Type == "Video") {
+                for (const stream of options.mediaSource.MediaStreams) {
+                    if (stream.Type == 'Video') {
                         return stream.RealFrameRate || stream.AverageFrameRate || null;
                     }
                 }
