@@ -113,7 +113,7 @@ class HtmlAudioPlayer {
 
                 self.api.player.load(val,
                     { startMilliseconds: ms, autoplay: true },
-                    {type: 'music', headers: {'User-Agent': 'JellyfinMediaPlayer'}, frameRate: 0, media: {}},
+                    {type: 'music', headers: {'User-Agent': 'JellyfinMediaPlayer'}, media: {}},
                     '#1',
                     '',
                     resolve);

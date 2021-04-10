@@ -189,6 +189,16 @@ async function getApi() {
             return '#' + this.#subtitleTrackIndexToSetOnPlaying;
         }
 
+        tryGetFramerate(options) {
+            if (options.mediaSource && options.mediaSource.MediaStreams) {
+                for (let stream of options.mediaSource.MediaStreams) {
+                    if (stream.Type == "Video") {
+                        return stream.RealFrameRate || stream.AverageFrameRate || null;
+                    }
+                }
+            }
+        }
+
         /**
          * @private
          */
@@ -204,10 +214,16 @@ async function getApi() {
                 this.#subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
                 this.#audioTrackIndexToSetOnPlaying = options.playMethod === 'Transcode' ? null : options.mediaSource.DefaultAudioStreamIndex;
 
+                const streamdata = {type: 'video', headers: {'User-Agent': 'JellyfinMediaPlayer'}, media: {}};
+                const fps = this.tryGetFramerate(options);
+                if (fps) {
+                    streamdata.frameRate = fps;
+                }
+
                 const player = this.#api.player;
                 player.load(val,
                     { startMilliseconds: ms, autoplay: true },
-                    {type: 'video', headers: {'User-Agent': 'JellyfinMediaPlayer'}, frameRate: 0, media: {}},
+                    streamdata,
                     (this.#audioTrackIndexToSetOnPlaying != null)
                      ? '#' + this.#audioTrackIndexToSetOnPlaying : '#1',
                     this.getSubtitleParam(),
