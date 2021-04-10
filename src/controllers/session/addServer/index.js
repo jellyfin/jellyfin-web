@@ -64,7 +64,7 @@ import ServerConnections from '../../../components/ServerConnections';
         }
 
         function goBack() {
-            import('../../../components/appRouter').then(({default: appRouter}) => {
+            import('../../../components/appRouter').then(({appRouter}) => {
                 appRouter.back();
             });
         }
