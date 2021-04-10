@@ -12,7 +12,9 @@ ENV IS_DOCKER=YES
 
 # Prepare Debian build environment
 RUN apt-get update \
-  && apt-get install -y debhelper mmv npm git
+  && apt-get install -y debhelper mmv git curl \
+  && curl -fsSL https://deb.nodesource.com/setup_12.x | bash - \
+  && apt-get install -y nodejs
 
 
 # Link to build script

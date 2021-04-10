@@ -11,7 +11,9 @@ ENV IS_DOCKER=YES
 
 # Prepare Debian build environment
 RUN apt-get update \
-  && apt-get install -y mmv npm git
+  && apt-get install -y mmv curl git \
+  && curl -fsSL https://deb.nodesource.com/setup_12.x | bash - \
+  && apt-get install -y nodejs
 
 # Link to build script
 RUN ln -sf ${SOURCE_DIR}/deployment/build.portable /build.sh
