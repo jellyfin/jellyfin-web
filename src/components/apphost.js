@@ -275,7 +275,7 @@ const supportedFeatures = function () {
      */
 function doExit() {
     try {
-        if (window.NativeShell) {
+        if (window.NativeShell && window.NativeShell.AppHost.exit) {
             window.NativeShell.AppHost.exit();
         } else if (browser.tizen) {
             tizen.application.getCurrentApplication().exit();
@@ -360,10 +360,12 @@ export const appHost = {
         };
     },
     deviceName: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.deviceName() : getDeviceName();
+        return window.NativeShell && window.NativeShell.AppHost.deviceName
+         ? window.NativeShell.AppHost.deviceName() : getDeviceName();
     },
     deviceId: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.deviceId() : getDeviceId();
+        return window.NativeShell && window.NativeShell.AppHost.deviceId
+         ? window.NativeShell.AppHost.deviceId() : getDeviceId();
     },
     appName: function () {
         return window.NativeShell ? window.NativeShell.AppHost.appName() : appName;

@@ -3,6 +3,8 @@ import globalize from '../scripts/globalize';
 import loading from './loading/loading';
 import appSettings from '../scripts/settings/appSettings';
 import { playbackManager } from './playback/playbackmanager';
+import { appHost } from '../components/apphost';
+import { appRouter } from '../components/appRouter';
 
 /* eslint-disable indent */
 
@@ -90,7 +92,10 @@ import { playbackManager } from './playback/playbackmanager';
                         events: Events,
                         loading,
                         appSettings,
-                        playbackManager
+                        playbackManager,
+                        globalize,
+                        appHost,
+                        appRouter
                     });
                 } else {
                     console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);

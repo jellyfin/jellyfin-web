@@ -1,10 +1,14 @@
 // TODO: This seems like a good candidate for deprecation
 export default {
     enableFullscreen: function() {
-        window.NativeShell?.enableFullscreen();
+        if (window.NativeShell && window.NativeShell.enableFullscreen) {
+            window.NativeShell.enableFullscreen();
+        }
     },
     disableFullscreen: function() {
-        window.NativeShell?.disableFullscreen();
+        if (window.NativeShell && window.NativeShell.disableFullscreen) {
+            window.NativeShell.disableFullscreen();
+        }
     },
     openUrl: function(url, target) {
         if (window.NativeShell) {
@@ -14,17 +18,23 @@ export default {
         }
     },
     updateMediaSession(mediaInfo) {
-        window.NativeShell?.updateMediaSession(mediaInfo);
+        if (window.NativeShell && window.NativeShell.updateMediaSession) {
+            window.NativeShell.updateMediaSession(mediaInfo);
+        }
     },
     hideMediaSession() {
-        window.NativeShell?.hideMediaSession();
+        if (window.NativeShell && window.NativeShell.hideMediaSession) {
+            window.NativeShell.hideMediaSession();
+        }
     },
     /**
      * Notify the NativeShell about volume level changes.
      * Useful for e.g. remote playback.
      */
     updateVolumeLevel(volume) {
-        window.NativeShell?.updateVolumeLevel(volume);
+        if (window.NativeShell && window.NativeShell.updateVolumeLevel) {
+            window.NativeShell.updateVolumeLevel(volume);
+        }
     },
     /**
      * Download specified files with NativeShell if possible
