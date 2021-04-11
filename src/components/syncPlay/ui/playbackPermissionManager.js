@@ -1,4 +1,4 @@
-import { getIgnorePlayPermission } from '../../../scripts/settings/webSettings';
+import { appHost } from '../../apphost';
 
 /**
  * Creates an audio element that plays a silent sound.
@@ -35,7 +35,7 @@ class PlaybackPermissionManager {
      * @returns {Promise} Promise that resolves succesfully if playback permission is allowed.
      */
     async check () {
-        if (await getIgnorePlayPermission()) {
+        if (appHost.supports("htmlaudioautoplay")) {
             return true;
         }
 
