@@ -822,6 +822,8 @@
     "LabelSkipIfAudioTrackPresentHelp": "Uncheck this to ensure all videos have subtitles, regardless of audio language.",
     "LabelSkipIfGraphicalSubsPresent": "Skip if the video already contains embedded subtitles",
     "LabelSkipIfGraphicalSubsPresentHelp": "Keeping text versions of subtitles will result in more efficient delivery and decrease the likelihood of video transcoding.",
+    "LabelSlowResponseEnabled": "Log warning if server response was slow",
+    "LabelSlowResponseTime": "Time in ms after which a response is considered slow",
     "LabelSonyAggregationFlags": "Sony aggregation flags:",
     "LabelSonyAggregationFlagsHelp": "Determines the content of the aggregationFlags element in the urn:schemas-sonycom:av namespace.",
     "LabelSortBy": "Sort by:",

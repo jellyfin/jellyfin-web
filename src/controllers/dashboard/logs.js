@@ -1,12 +1,30 @@
 import datetime from '../../scripts/datetime';
 import loading from '../../components/loading/loading';
+import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/emby-button';
 import '../../components/listview/listview.scss';
 import '../../assets/css/flexstyles.scss';
 
 /* eslint-disable indent */
 
+    function onSubmit() {
+        loading.show();
+        const form = this;
+        ApiClient.getServerConfiguration().then(function (config) {
+            config.EnableSlowResponseWarning = form.querySelector('#chkSlowResponseWarning').checked;
+            config.SlowResponseThresholdMs = form.querySelector('#txtSlowResponseWarning').value;
+            ApiClient.updateServerConfiguration(config).then(function() {
+                Dashboard.processServerConfigurationUpdateResult();
+            }, function () {
+                alert(globalize.translate('ErrorDefault'));
+                Dashboard.processServerConfigurationUpdateResult();
+            });
+        });
+        return false;
+    }
+
     export default function(view) {
+        view.querySelector('.logsForm').addEventListener('submit', onSubmit);
         view.addEventListener('viewbeforeshow', function() {
             loading.show();
             const apiClient = ApiClient;
@@ -32,8 +50,14 @@ import '../../assets/css/flexstyles.scss';
                 }).join('');
                 html += '</div>';
                 view.querySelector('.serverLogs').innerHTML = html;
-                loading.hide();
             });
+
+            apiClient.getServerConfiguration().then(function (config) {
+                view.querySelector('#chkSlowResponseWarning').checked = config.EnableSlowResponseWarning;
+                view.querySelector('#txtSlowResponseWarning').value = config.SlowResponseThresholdMs;
+            });
+
+            loading.hide();
         });
     }
 
