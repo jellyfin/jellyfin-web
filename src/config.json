@@ -1,7 +1,6 @@
 {
   "includeCorsCredentials": false,
   "multiserver": false,
-  "ignorePlayPermission": false,
   "themes": [
     {
       "name": "Apple TV",
