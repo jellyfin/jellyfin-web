@@ -361,11 +361,11 @@ export const appHost = {
     },
     deviceName: function () {
         return window.NativeShell && window.NativeShell.AppHost.deviceName
-         ? window.NativeShell.AppHost.deviceName() : getDeviceName();
+            ? window.NativeShell.AppHost.deviceName() : getDeviceName();
     },
     deviceId: function () {
         return window.NativeShell && window.NativeShell.AppHost.deviceId
-         ? window.NativeShell.AppHost.deviceId() : getDeviceId();
+            ? window.NativeShell.AppHost.deviceId() : getDeviceId();
     },
     appName: function () {
         return window.NativeShell ? window.NativeShell.AppHost.appName() : appName;

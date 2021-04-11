@@ -35,7 +35,7 @@ class PlaybackPermissionManager {
      * @returns {Promise} Promise that resolves succesfully if playback permission is allowed.
      */
     async check () {
-        if (appHost.supports("htmlaudioautoplay")) {
+        if (appHost.supports('htmlaudioautoplay')) {
             return true;
         }
 
