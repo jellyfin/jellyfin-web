@@ -615,8 +615,8 @@ import ServerConnections from '../ServerConnections';
             if (imgTag && imgType) {
                 imgUrl = apiClient.getScaledImageUrl(itemId, {
                     type: imgType,
-                    maxHeight: height,
-                    maxWidth: width,
+                    fillHeight: height,
+                    fillWidth: width,
                     tag: imgTag
                 });
             }

@@ -446,7 +446,7 @@ class AppRouter {
 
     normalizeImageOptions(options) {
         let setQuality;
-        if (options.maxWidth || options.width || options.maxHeight || options.height) {
+        if (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight) {
             setQuality = true;
         }
 
