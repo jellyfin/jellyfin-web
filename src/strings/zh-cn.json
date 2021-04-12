@@ -1454,7 +1454,7 @@
     "LabelSelectAudioChannels": "声道",
     "LabelSelectMono": "单声道",
     "LabelSelectStereo": "立体声",
-    "LabelEnableSSDPTracingHelp": "启用详细信息以记录 SSDP 网络跟踪。<br/><b>警告:<b> 这将导致严重的性能下降。",
+    "LabelEnableSSDPTracingHelp": "启用详细信息以记录 SSDP 网络跟踪。<br/><b>警告:</b> 这将导致严重的性能下降。",
     "LabelSSDPTracingFilter": "SSDP 过滤器：",
     "LabelPublishedServerUri": "已发布的服务器 URIs：",
     "YoutubeDenied": "所请求的视频不允许在嵌入式播放器中播放。",
