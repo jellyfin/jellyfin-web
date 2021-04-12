@@ -1248,7 +1248,7 @@
     "LabelLibraryPageSize": "Biblioteks størrelse:",
     "LabelFolder": "Mappe:",
     "LabelBaseUrl": "Base URL:",
-    "LabelBaseUrlHelp": "Du kan tilføje en speciel undermappe her for, at have adgang til serveren fra en mere unik URL",
+    "LabelBaseUrlHelp": "Føj en brugerdefineret underkatalog til serverens URL. For eksempel: <code>http://example.com/<b>&lt;baseurl&gt;</b> </code>",
     "LabelDroppedFrames": "Tabte frames:",
     "LabelDeinterlaceMethod": "Konventerings metode:",
     "LabelCorruptedFrames": "Korrupte frames:",
