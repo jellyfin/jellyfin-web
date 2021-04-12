@@ -110,6 +110,7 @@ button::-moz-focus-inner {
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
     border: 0.5em solid transparent;
+    border-radius: 0.7em; /* card border + card border-radius */
 }
 
 .card.show-animation:focus > .cardBox {
