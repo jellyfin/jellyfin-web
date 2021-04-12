@@ -258,10 +258,10 @@ import '../../elements/emby-button/emby-button';
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             } else {
                 const ticksPerMinute = 600000000;
-                const totalMinutes = Math.floor(item.RunTimeTicks/ticksPerMinute) || 1;
+                const totalMinutes = Math.floor(item.RunTimeTicks / ticksPerMinute) || 1;
                 const totalHours = Math.floor(totalMinutes / 60);
                 const remainderMinutes = totalMinutes % 60;
-                result = [];
+                const result = [];
                 if (totalHours > 0) {
                     result.push(`${totalHours} hrs`);
                 }
