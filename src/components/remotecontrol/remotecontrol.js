@@ -24,7 +24,7 @@ import { appRouter } from '../appRouter';
 let showMuteButton = true;
 let showVolumeSlider = true;
 
-function showAudioMenu(context, player, button, item) {
+function showAudioMenu(context, player, button) {
     const currentIndex = playbackManager.getAudioStreamIndex(player);
     const streams = playbackManager.audioTracks(player);
     const menuItems = streams.map(function (s) {
@@ -51,7 +51,7 @@ function showAudioMenu(context, player, button, item) {
     });
 }
 
-function showSubtitleMenu(context, player, button, item) {
+function showSubtitleMenu(context, player, button) {
     const currentIndex = playbackManager.getSubtitleStreamIndex(player);
     const streams = playbackManager.subtitleTracks(player);
     const menuItems = streams.map(function (s) {
@@ -572,7 +572,7 @@ export default function () {
         }
     }
 
-    function onPlaylistUpdate(e) {
+    function onPlaylistUpdate() {
         loadPlaylist(dlg, this);
     }
 
@@ -603,7 +603,7 @@ export default function () {
         }
     }
 
-    function onPlayPauseStateChanged(e) {
+    function onPlayPauseStateChanged() {
         updatePlayPauseState(this.paused(), true);
     }
 
@@ -613,7 +613,7 @@ export default function () {
         onPlaylistUpdate();
     }
 
-    function onTimeUpdate(e) {
+    function onTimeUpdate() {
         const now = new Date().getTime();
 
         if (!(now - lastUpdateTime < 700)) {
@@ -624,7 +624,7 @@ export default function () {
         }
     }
 
-    function onVolumeChanged(e) {
+    function onVolumeChanged() {
         const player = this;
         updatePlayerVolumeState(dlg, player.isMuted(), player.getVolume());
     }
@@ -727,12 +727,12 @@ export default function () {
         });
         context.querySelector('.btnAudioTracks').addEventListener('click', function (e) {
             if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
-                showAudioMenu(context, currentPlayer, e.target, lastPlayerState.NowPlayingItem);
+                showAudioMenu(context, currentPlayer, e.target);
             }
         });
         context.querySelector('.btnSubtitles').addEventListener('click', function (e) {
             if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
-                showSubtitleMenu(context, currentPlayer, e.target, lastPlayerState.NowPlayingItem);
+                showSubtitleMenu(context, currentPlayer, e.target);
             }
         });
         context.querySelector('.btnStop').addEventListener('click', function () {
@@ -922,13 +922,13 @@ export default function () {
         }
     }
 
-    function onDialogClosed(e) {
+    function onDialogClosed() {
         releaseCurrentPlayer();
         Events.off(playbackManager, 'playerchange', onPlayerChange);
         lastPlayerState = null;
     }
 
-    function onShow(context, tab) {
+    function onShow(context) {
         bindToPlayer(context, playbackManager.getCurrentPlayer());
     }
 
@@ -946,7 +946,7 @@ export default function () {
     };
 
     self.onShow = function () {
-        onShow(dlg, window.location.hash);
+        onShow(dlg);
     };
 
     self.destroy = function () {

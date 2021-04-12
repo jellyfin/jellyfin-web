@@ -9,7 +9,7 @@ export default class PhotoPlayer {
     }
 
     play(options) {
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             import('../../components/slideshow/slideshow').then(({default: Slideshow}) => {
                 const index = options.startIndex || 0;
 

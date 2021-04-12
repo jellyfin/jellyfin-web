@@ -164,7 +164,7 @@ import Headroom from 'headroom.js';
         inputManager.handleCommand('search');
     }
 
-    function onHeaderUserButtonClick(e) {
+    function onHeaderUserButtonClick() {
         Dashboard.navigate('mypreferencesmenu.html');
     }
 
@@ -206,7 +206,7 @@ import Headroom from 'headroom.js';
         Events.on(playbackManager, 'playbackstop', onPlaybackStop);
     }
 
-    function onPlaybackStart(e) {
+    function onPlaybackStart() {
         if (playbackManager.isPlayingAudio() && layoutManager.tv) {
             headerAudioPlayerButton.classList.remove('hide');
         } else {
@@ -243,7 +243,7 @@ import Headroom from 'headroom.js';
         }
     }
 
-    function onSyncPlaySyncing(event, is_syncing, syncMethod) {
+    function onSyncPlaySyncing(event, is_syncing) {
         const icon = headerSyncButton.querySelector('span');
         icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
         if (is_syncing) {
@@ -281,7 +281,7 @@ import Headroom from 'headroom.js';
         navDrawerInstance.close();
     }
 
-    function onMainDrawerSelect(e) {
+    function onMainDrawerSelect() {
         if (navDrawerInstance.isVisible) {
             onMainDrawerOpened();
         } else {
@@ -289,7 +289,7 @@ import Headroom from 'headroom.js';
         }
     }
 
-    function refreshLibraryInfoInDrawer(user, drawer) {
+    function refreshLibraryInfoInDrawer(user) {
         let html = '';
         html += '<div style="height:.5em;"></div>';
         html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#!/home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
@@ -538,7 +538,7 @@ import Headroom from 'headroom.js';
     }
 
     function getToolsMenuLinks(apiClient) {
-        return apiClient.getJSON(apiClient.getUrl('web/configurationpages') + '?pageType=PluginConfiguration&EnableInMainMenu=true').then(createToolsMenuList, function (err) {
+        return apiClient.getJSON(apiClient.getUrl('web/configurationpages') + '?pageType=PluginConfiguration&EnableInMainMenu=true').then(createToolsMenuList, function () {
             return createToolsMenuList([]);
         });
     }
@@ -862,7 +862,7 @@ import Headroom from 'headroom.js';
         navDrawerElement = document.querySelector('.mainDrawer');
         navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             import('../libraries/navdrawer/navdrawer').then(({ NavigationDrawer }) => {
                 navDrawerInstance = new NavigationDrawer(getNavDrawerOptions());
 
@@ -955,7 +955,7 @@ import Headroom from 'headroom.js';
     }
 
     let currentPageType;
-    pageClassOn('pagebeforeshow', 'page', function (e) {
+    pageClassOn('pagebeforeshow', 'page', function () {
         if (!this.classList.contains('withTabs')) {
             LibraryMenu.setTabs(null);
         }

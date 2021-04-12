@@ -118,7 +118,7 @@ function releaseCurrentPlayer() {
     }
 }
 
-function onVolumeChanged(e) {
+function onVolumeChanged() {
     const player = this;
 
     ensureOsdElement();

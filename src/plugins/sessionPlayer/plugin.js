@@ -101,7 +101,7 @@ function processUpdatedSessions(instance, sessions, apiClient) {
     if (session) {
         normalizeImages(session, apiClient);
 
-        const eventNames = getChangedEvents(instance.lastPlayerData, session);
+        const eventNames = getChangedEvents(instance.lastPlayerData);
         instance.lastPlayerData = session;
 
         for (let i = 0, length = eventNames.length; i < length; i++) {
@@ -114,7 +114,7 @@ function processUpdatedSessions(instance, sessions, apiClient) {
     }
 }
 
-function getChangedEvents(state1, state2) {
+function getChangedEvents(state1) {
     const names = [];
 
     if (!state1) {
@@ -490,15 +490,15 @@ class SessionPlayer {
     getCurrentPlaylistItemId() {
     }
 
-    setCurrentPlaylistItem(playlistItemId) {
+    setCurrentPlaylistItem() {
         return Promise.resolve();
     }
 
-    removeFromPlaylist(playlistItemIds) {
+    removeFromPlaylist() {
         return Promise.resolve();
     }
 
-    tryPair(target) {
+    tryPair() {
         return Promise.resolve();
     }
 }

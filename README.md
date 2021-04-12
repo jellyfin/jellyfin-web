@@ -42,7 +42,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 ### Dependencies
 
 - [Node.js](https://nodejs.org/en/download)
-- [Yarn 1.22.5](https://classic.yarnpkg.com/en/docs/install)
+- npm (included in Node.js)
 
 ### Getting Started
 
@@ -56,17 +56,17 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 2. Install build dependencies in the project directory.
 
    ```sh
-   yarn install
+   npm install
    ```
 
 3. Run the web client with webpack for local development.
 
    ```sh
-   yarn serve
+   npm start
    ```
 
 4. Build the client with sourcemaps available.
 
    ```sh
-   yarn build:development
+   npm run build:development
    ```

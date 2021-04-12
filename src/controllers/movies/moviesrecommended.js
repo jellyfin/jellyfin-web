@@ -155,7 +155,7 @@ import Dashboard from '../../scripts/clientUtils';
         return html;
     }
 
-    function loadSuggestions(page, userId, parentId) {
+    function loadSuggestions(page, userId) {
         const screenWidth = dom.getWindowSize().innerWidth;
         const url = ApiClient.getUrl('Movies/Recommendations', {
             userId: userId,
@@ -222,7 +222,7 @@ import Dashboard from '../../scripts/clientUtils';
         const userId = ApiClient.getCurrentUserId();
         loadResume(tabContent, userId, parentId);
         loadLatest(tabContent, userId, parentId);
-        loadSuggestions(tabContent, userId, parentId);
+        loadSuggestions(tabContent, userId);
     }
 
     function getTabs() {
@@ -389,7 +389,7 @@ import Dashboard from '../../scripts/clientUtils';
 
         const tabControllers = [];
         let renderedTabs = [];
-        view.addEventListener('viewshow', function (e) {
+        view.addEventListener('viewshow', function () {
             initTabs();
             if (!view.getAttribute('data-title')) {
                 const parentId = params.topParentId;

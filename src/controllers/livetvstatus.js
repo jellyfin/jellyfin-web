@@ -246,7 +246,7 @@ function addProvider(button) {
     });
 }
 
-function addDevice(button) {
+function addDevice() {
     Dashboard.navigate('livetvtuner.html');
 }
 
@@ -296,7 +296,7 @@ function onDevicesListClick(e) {
 $(document).on('pageinit', '#liveTvStatusPage', function () {
     const page = this;
     $('.btnAddDevice', page).on('click', function () {
-        addDevice(this);
+        addDevice();
     });
     $('.formAddDevice', page).on('submit', function () {
         submitAddDeviceForm(page);

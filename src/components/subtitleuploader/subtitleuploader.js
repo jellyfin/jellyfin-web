@@ -108,7 +108,7 @@ function initEditor(page) {
     });
 }
 
-function showEditor(options, resolve, reject) {
+function showEditor(options, resolve) {
     options = options || {};
     currentItemId = options.itemId;
     currentServerId = options.serverId;
@@ -161,9 +161,9 @@ function showEditor(options, resolve, reject) {
 }
 
 export function show(options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         hasChanges = false;
-        showEditor(options, resolve, reject);
+        showEditor(options, resolve);
     });
 }
 

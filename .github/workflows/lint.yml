@@ -15,24 +15,32 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
+      - name: Setup node environment
+        uses: actions/setup-node@v2.1.5
         with:
           node-version: 12
+          check-latest: true
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
+      - name: Get npm cache directory path
+        id: npm-cache-dir-path
+        run: echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Cache node_modules
+        uses: actions/cache@v2.1.4
+        id: npm-cache
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
       - name: Install Node.js dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci --no-audit
         env:
           SKIP_PREPARE: true
 
       - name: Run eslint
-        run: yarn lint
+        run: npm run lint
 
   run-stylelint-css:
     name: Run stylelint (css)
@@ -42,27 +50,35 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
+      - name: Setup node environment
+        uses: actions/setup-node@v2.1.5
         with:
           node-version: 12
+          check-latest: true
+
+      - name: Get npm cache directory path
+        id: npm-cache-dir-path
+        run: echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Cache node_modules
+        uses: actions/cache@v2.1.4
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
       - name: Set up stylelint matcher
         uses: xt0rted/stylelint-problem-matcher@v1
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
       - name: Install Node.js dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci --no-audit
         env:
           SKIP_PREPARE: true
 
       - name: Run stylelint
-        run: yarn stylelint:css
+        run: npm run stylelint:css
 
   run-stylelint-scss:
     name: Run stylelint (scss)
@@ -72,24 +88,32 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
+      - name: Setup node environment
+        uses: actions/setup-node@v2.1.5
         with:
           node-version: 12
+          check-latest: true
+
+      - name: Get npm cache directory path
+        id: npm-cache-dir-path
+        run: echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Cache node_modules
+        uses: actions/cache@v2.1.4
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
       - name: Set up stylelint matcher
         uses: xt0rted/stylelint-problem-matcher@v1
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
       - name: Install Node.js dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci --no-audit
         env:
           SKIP_PREPARE: true
 
       - name: Run stylelint
-        run: yarn stylelint:scss
+        run: npm run stylelint:scss

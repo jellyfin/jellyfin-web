@@ -365,7 +365,7 @@ function isGamepadConnected() {
     return false;
 }
 
-function onFocusOrGamepadAttach(e) {
+function onFocusOrGamepadAttach() {
     /* eslint-disable-next-line compat/compat */
     if (isGamepadConnected() && document.hasFocus()) {
         console.log('Gamepad connected! Starting input loop');
@@ -373,7 +373,7 @@ function onFocusOrGamepadAttach(e) {
     }
 }
 
-function onFocusOrGamepadDetach(e) {
+function onFocusOrGamepadDetach() {
     /* eslint-disable-next-line compat/compat */
     if (!isGamepadConnected() || !document.hasFocus()) {
         console.log('Gamepad disconnected! No other gamepads are connected, stopping input loop');

@@ -91,7 +91,7 @@ function submitForm(page) {
         url: ApiClient.getUrl('LiveTv/TunerHosts'),
         data: JSON.stringify(info),
         contentType: 'application/json'
-    }).then(function (result) {
+    }).then(function () {
         Dashboard.processServerConfigurationUpdateResult();
         Dashboard.navigate('livetvstatus.html');
     }, function () {

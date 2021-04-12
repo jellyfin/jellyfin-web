@@ -155,7 +155,7 @@ import { Events } from 'jellyfin-apiclient';
             });
         }
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             if (!filtered.length) {
                 resolve();
                 return;

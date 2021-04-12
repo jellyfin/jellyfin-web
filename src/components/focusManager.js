@@ -8,7 +8,7 @@ import scrollManager from './scrollManager';
         scopes.push(elem);
     }
 
-    function popScope(elem) {
+    function popScope() {
         if (scopes.length) {
             scopes.length -= 1;
         }

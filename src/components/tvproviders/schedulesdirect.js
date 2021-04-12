@@ -149,7 +149,7 @@ export default function (page, providerId, options) {
                 }),
                 data: JSON.stringify(info),
                 contentType: 'application/json'
-            }).then(function (result) {
+            }).then(function () {
                 loading.hide();
 
                 if (options.showConfirmation) {
@@ -190,7 +190,7 @@ export default function (page, providerId, options) {
             }
 
             loading.hide();
-        }, function (result) {
+        }, function () {
             Dashboard.alert({
                 message: globalize.translate('ErrorGettingTvLineups')
             });

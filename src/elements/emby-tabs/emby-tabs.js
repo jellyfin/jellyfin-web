@@ -15,12 +15,12 @@ import '../../assets/css/scrollstyles.scss';
         newButton.classList.add(activeButtonClass);
     }
 
-    function getTabPanel(tabs, index) {
+    function getTabPanel() {
         return null;
     }
 
-    function removeActivePanelClass(tabs, index) {
-        const tabPanel = getTabPanel(tabs, index);
+    function removeActivePanelClass() {
+        const tabPanel = getTabPanel();
         if (tabPanel) {
             tabPanel.classList.remove('is-active');
         }
@@ -48,10 +48,10 @@ import '../../assets/css/scrollstyles.scss';
             }
         }));
         if (previousIndex != null && previousIndex !== index) {
-            removeActivePanelClass(tabs, previousIndex);
+            removeActivePanelClass();
         }
 
-        const newPanel = getTabPanel(tabs, index);
+        const newPanel = getTabPanel();
 
         if (newPanel) {
             // animate new panel ?
@@ -291,13 +291,13 @@ import '../../assets/css/scrollstyles.scss';
         }
     };
 
-    EmbyTabs.triggerBeforeTabChange = function (selected) {
+    EmbyTabs.triggerBeforeTabChange = function () {
         const tabs = this;
 
         triggerBeforeTabChange(tabs, tabs.selectedIndex());
     };
 
-    EmbyTabs.triggerTabChange = function (selected) {
+    EmbyTabs.triggerTabChange = function () {
         const tabs = this;
 
         tabs.dispatchEvent(new CustomEvent('tabchange', {

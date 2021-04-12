@@ -632,7 +632,7 @@
     "LabelSkipIfGraphicalSubsPresent": "Hoppa över om videofilen redan innehåller inbäddade undertexter",
     "LabelSkipIfGraphicalSubsPresentHelp": "Att även ha externa undertexter resulterar i en effektivare uppspelning och minskar risken för omkodning.",
     "LabelSonyAggregationFlags": "\"Aggregation flags\" för Sony:",
-    "LabelSonyAggregationFlagsHelp": "Anger innehållet i elementet  aggregationFlags  i namnutrymmet urn:schemas-sonycom:av.",
+    "LabelSonyAggregationFlagsHelp": "Anger innehållet i elementet aggregationFlags i namnutrymmet urn:schemas-sonycom:av.",
     "LabelSortBy": "Sortera efter:",
     "LabelSortOrder": "Sortering:",
     "LabelSortTitle": "Sorteringstitel:",

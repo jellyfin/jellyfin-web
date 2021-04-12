@@ -4,7 +4,7 @@ import layoutManager from '../layoutManager';
 import '../../elements/emby-tabs/emby-tabs';
 import { appRouter } from '../appRouter';
 
-function onViewDestroy(e) {
+function onViewDestroy() {
     const tabControllers = this.tabControllers;
 
     if (tabControllers) {
@@ -78,7 +78,7 @@ class TabbedView {
 
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
-        view.addEventListener('viewbeforeshow', function (e) {
+        view.addEventListener('viewbeforeshow', function () {
             mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, onBeforeTabChange, onTabChange, false);
         });
 
@@ -89,7 +89,7 @@ class TabbedView {
         view.addEventListener('viewdestroy', onViewDestroy.bind(this));
     }
 
-    onResume(options) {
+    onResume() {
         this.setTitle();
         backdrop.clearBackdrop();
 

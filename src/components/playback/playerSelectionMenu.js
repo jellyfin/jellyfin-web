@@ -301,15 +301,15 @@ Events.on(appSettings, 'change', function (e, name) {
     }
 });
 
-Events.on(playbackManager, 'pairing', function (e) {
+Events.on(playbackManager, 'pairing', function () {
     loading.show();
 });
 
-Events.on(playbackManager, 'paired', function (e) {
+Events.on(playbackManager, 'paired', function () {
     loading.hide();
 });
 
-Events.on(playbackManager, 'pairerror', function (e) {
+Events.on(playbackManager, 'pairerror', function () {
     loading.hide();
 });
 

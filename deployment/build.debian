@@ -6,7 +6,7 @@ set -o xtrace
 # move to source directory
 pushd ${SOURCE_DIR}
 
-cp -a yarn.lock /tmp/yarn.lock
+cp -a package-lock.json /tmp/package-lock.json
 
 # modify changelog to unstable configuration if IS_UNSTABLE
 if [[ ${IS_UNSTABLE} == 'yes' ]]; then
@@ -30,7 +30,7 @@ dpkg-buildpackage -us -uc --pre-clean --post-clean
 mkdir -p ${ARTIFACT_DIR}
 mv ../jellyfin*.{deb,dsc,tar.gz,buildinfo,changes} ${ARTIFACT_DIR}
 
-cp -a /tmp/yarn.lock yarn.lock
+cp -a /tmp/package-lock.json package-lock.json
 
 if [[ ${IS_DOCKER} == YES ]]; then
     chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}

@@ -14,7 +14,7 @@ import template from './recordingfields.template.html';
 
 /*eslint prefer-const: "error"*/
 
-function loadData(parent, program, apiClient) {
+function loadData(parent, program) {
     if (program.IsSeries) {
         parent.querySelector('.recordSeriesContainer').classList.remove('hide');
     } else {
@@ -55,7 +55,7 @@ function fetchData(instance) {
         instance.TimerId = program.TimerId;
         instance.Status = program.Status;
         instance.SeriesTimerId = program.SeriesTimerId;
-        loadData(options.parent, program, apiClient);
+        loadData(options.parent, program);
     });
 }
 
@@ -119,7 +119,7 @@ class RecordingEditor {
 
     embed() {
         const self = this;
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             const options = self.options;
             const context = options.parent;
             context.innerHTML = globalize.translateHtml(template, 'core');
@@ -156,7 +156,7 @@ class RecordingEditor {
     }
 }
 
-function onManageRecordingClick(e) {
+function onManageRecordingClick() {
     const options = this.options;
     if (!this.TimerId || this.Status === 'Cancelled') {
         return;
@@ -172,7 +172,7 @@ function onManageRecordingClick(e) {
     });
 }
 
-function onManageSeriesRecordingClick(e) {
+function onManageSeriesRecordingClick() {
     const options = this.options;
 
     if (!this.SeriesTimerId) {

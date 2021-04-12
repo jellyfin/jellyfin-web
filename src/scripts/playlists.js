@@ -8,7 +8,7 @@ import * as userSettings from './settings/userSettings';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import Dashboard from './clientUtils';
 
-export default function (view, params) {
+export default function (view) {
     function getPageData(context) {
         const key = getSavedQueryKey(context);
         let pageData = data[key];

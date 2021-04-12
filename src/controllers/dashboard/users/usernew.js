@@ -89,7 +89,7 @@ import toast from '../../../components/toast/toast';
             ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
                 Dashboard.navigate('useredit.html?userId=' + user.Id);
             });
-        }, function (response) {
+        }, function () {
             toast(globalize.translate('ErrorDefault'));
             loading.hide();
         });

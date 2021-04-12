@@ -9,7 +9,6 @@ import autoFocuser from '../../../components/autoFocuser';
 
     export default function (view, params) {
         let subtitleSettingsInstance;
-        let hasChanges;
 
         const userId = params.userId || ApiClient.getCurrentUserId();
         const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
@@ -28,10 +27,6 @@ import autoFocuser from '../../../components/autoFocuser';
                     autoFocus: autoFocuser.isEnabled()
                 });
             }
-        });
-
-        view.addEventListener('change', function () {
-            hasChanges = true;
         });
 
         view.addEventListener('viewdestroy', function () {

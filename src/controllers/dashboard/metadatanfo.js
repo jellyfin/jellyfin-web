@@ -31,13 +31,13 @@ import alert from '../../components/alert';
             config.EnableExtraThumbsDuplication = form.querySelector('#chkEnableExtraThumbs').checked;
             ApiClient.updateNamedConfiguration(metadataKey, config).then(function () {
                 Dashboard.processServerConfigurationUpdateResult();
-                showConfirmMessage(config);
+                showConfirmMessage();
             });
         });
         return false;
     }
 
-    function showConfirmMessage(config) {
+    function showConfirmMessage() {
         const msg = [];
         msg.push(globalize.translate('MetadataSettingChangeHelp'));
         alert({

@@ -63,14 +63,14 @@ import 'webcomponents.js/webcomponents-lite';
         return elem;
     }
 
-    function onFocus(e) {
+    function onFocus() {
         const label = getLabel(this);
         if (label) {
             label.classList.add('selectLabelFocused');
         }
     }
 
-    function onBlur(e) {
+    function onBlur() {
         const label = getLabel(this);
         if (label) {
             label.classList.remove('selectLabelFocused');

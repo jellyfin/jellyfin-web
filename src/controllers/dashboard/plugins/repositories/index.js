@@ -19,7 +19,7 @@ function reloadList(page) {
             noneElement: page.querySelector('#none'),
             repositories: repositories
         });
-    }).catch(error => {
+    }).catch(() => {
         console.error('error loading repositories');
         page.querySelector('#none').classList.remove('hide');
         loading.hide();
@@ -33,9 +33,9 @@ function saveList(page) {
         url: ApiClient.getUrl('Repositories'),
         data: JSON.stringify(repositories),
         contentType: 'application/json'
-    }).then(response => {
+    }).then(() => {
         reloadList(page);
-    }).catch(error => {
+    }).catch(() => {
         console.error('error saving repositories');
         loading.hide();
     });
@@ -90,7 +90,7 @@ function getTabs() {
     }];
 }
 
-export default function(view, params) {
+export default function(view) {
     view.addEventListener('viewshow', function () {
         libraryMenu.setTabs('plugins', 2, getTabs);
         reloadList(this);

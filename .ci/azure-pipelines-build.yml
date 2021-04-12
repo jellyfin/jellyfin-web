@@ -21,19 +21,19 @@ jobs:
   - task: Cache@2
     displayName: 'Cache node_modules'
     inputs:
-      key: 'yarn | yarn.lock'
+      key: 'npm | package-lock.json'
       path: 'node_modules'
 
-  - script: 'yarn install --frozen-lockfile'
+  - script: 'npm ci --no-audit'
     displayName: 'Install Dependencies'
     env:
       SKIP_PREPARE: 'true'
 
-  - script: 'yarn build:development'
+  - script: 'npm run build:development'
     displayName: 'Build Development'
     condition: eq(variables['BuildConfiguration'], 'development')
 
-  - script: 'yarn build:production'
+  - script: 'npm run build:production'
     displayName: 'Build Production'
     condition: eq(variables['BuildConfiguration'], 'production')
 

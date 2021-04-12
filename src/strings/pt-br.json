@@ -713,7 +713,7 @@
     "LabelZipCode": "CEP:",
     "LabelffmpegPath": "Local do FFmpeg:",
     "LabelffmpegPathHelp": "O local para o arquivo de aplicação ffmpeg, ou pasta contendo ffmpeg.",
-    "LanNetworksHelp": "Lista separada por vírgula de endereços IP ou entradas IP/máscara de rede para redes que serão consideradas como redes locais ao forçar restrições de banda. Se definida, todos os outros endereços  IP serão considerados como estando em uma rede externa e estarão sujeitos a restrições de banda externa. Se deixada em branco, apenas a sub-rede do servidor é considerada como rede local.",
+    "LanNetworksHelp": "Lista separada por vírgula de endereços IP ou entradas IP/máscara de rede para redes que serão consideradas como redes locais ao forçar restrições de banda. Se definida, todos os outros endereços IP serão considerados como estando em uma rede externa e estarão sujeitos a restrições de banda externa. Se deixada em branco, apenas a sub-rede do servidor é considerada como rede local.",
     "Large": "Grande",
     "LatestFromLibrary": "{0} recentes",
     "LearnHowYouCanContribute": "Saiba como você pode contribuir.",

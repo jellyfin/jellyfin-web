@@ -155,7 +155,7 @@ class RefreshDialog {
             centerFocus(dlg.querySelector('.formDialogContent'), false, true);
         }
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }

@@ -1359,7 +1359,7 @@
     "Authorize": "Autorizar",
     "LabelCurrentStatus": "Estado actual:",
     "LabelAlbumArtMaxResHelp": "Resolución maxima expuesta por medio de la función upnp:albumArtURI.",
-    "KnownProxiesHelp": "Lista de direcciones IP de proxies conocidos separada por comas a ser utilizados para conectarse a esta instancia de Jellyfin. Esto es requerido para hacer uso correcto de la cabecera X-Forwarded-For. Requiere un reinicio después de guardar.",
+    "KnownProxiesHelp": "Lista de direcciones IP o hostnames de proxies conocidos separada por comas a ser utilizados para conectarse a esta instancia de Jellyfin. Esto es requerido para hacer uso correcto de la cabecera X-Forwarded-For. Requiere un reinicio después de guardar.",
     "Image": "Imágen",
     "Other": "Otros",
     "EnableQuickConnect": "Habilitar conexión rápida en este servidor",
@@ -1505,6 +1505,8 @@
     "AllowVppTonemappingHelp": "Mapeo de tonos completo basado en hardware sin usar el filtro OpenCL. Actualmente solo funciona al transcodificar videos con metadatos HDR10 incrustados.",
     "EnableVppTonemapping": "Habilitar mapeo de tonos VPP",
     "EnableEnhancedNvdecDecoder": "Habilitar decodificador NVDEC mejorado",
-    "DisablePlugin": "Deshabilitar Extensión",
-    "EnablePlugin": "Habilitar Extensión"
+    "DisablePlugin": "Deshabilitar",
+    "EnablePlugin": "Habilitar",
+    "Framerate": "Cuadros por segundo",
+    "DirectPlayHelp": "El archivo de origen es totalmente compatible con este cliente y la sesión esta recibiendo el archivo sin modificaciones."
 }
