@@ -8,6 +8,7 @@ import focusManager from '../components/focusManager';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
 import ServerConnections from '../components/ServerConnections';
+import imageLoader from '../components/images/imageLoader';
 
 /* eslint-disable indent */
 
@@ -264,34 +265,74 @@ import ServerConnections from '../components/ServerConnections';
             itemsContainer.getItemsHtml = getItemsHtmlFn(sections[i]).bind(instance);
             itemsContainer.parentContainer = dom.parentWithClass(itemsContainer, 'verticalSection');
         }
-
     }
 
-    function toggleNoItemsMessage(apiClient, container) {
+    function createRecommendations(apiClient, container) {
+        let html = '';
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
+        if (layoutManager.tv) {
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('FavoriteRecommendations') + '</h2>';
+        } else {
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
+            html += globalize.translate('FavoriteRecommendations');
+            html += '</h2>';
+        }
+        html += '</div>';
+        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="markfavorite">';
+        html += '</div>';
+        html += '</div>';
+
+        container.innerHTML = '';
+        container.innerHTML = html;
+
+        const itemsContainer = container.querySelector('.itemsContainer');
+        const options = {
+            Filters: 'IsNotFolder',
+            SortBy: 'PlayCount',
+            SortOrder: 'Descending',
+            Recursive: true,
+            Limit: 10
+        };
+
+        apiClient.getItems(apiClient.getCurrentUserId(), options)
+        .then((result) => {
+            const cardsHtml = cardBuilder.getCardsHtml({
+                items: result.Items,
+                preferThumb: false,
+                showTitle: true,
+                overlayText: false,
+                showParentTitle: true,
+                centerText: true,
+                overlayMoreButton: true,
+                coverImage: true
+            });
+            itemsContainer.innerHTML = cardsHtml;
+            imageLoader.lazyChildren(itemsContainer);
+        });
+
+        itemsContainer.parentContainer = container;
+    }
+
+    function toggleNoItemsContent(apiClient, container) {
         apiClient.getItems(apiClient.getCurrentUserId(), {Filters: 'IsFavorite', Recursive: 'true'})
         .then((result) => {
-
-            let favoriteCount = result.Items.length;
-            
+            const favoriteCount = result.Items.length;
             if (favoriteCount) {
-                container.classList.add("hide");
-            } 
-            
-            if (!favoriteCount) {
-                container.classList.remove("hide");
+                container.classList.add('hide');
             }
-
+            if (!favoriteCount) {
+                container.classList.remove('hide');
+            }
         });
     }
 
     function createNoItemsMessage(container) {
-        
         let html = '';
         html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
         html += '<p>' + globalize.translate('MessageNoFavoritesAvailable') + '</p>';
         container.innerHTML = html;
-
     }
 
 class FavoritesTab {
@@ -301,23 +342,24 @@ class FavoritesTab {
         this.apiClient = ServerConnections.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
         this.msgContainer = view.querySelector('.noItemsMessage');
+        this.recommendationsContainer = view.querySelector('.recommendations');
         createSections(this, this.sectionsContainer, this.apiClient);
         createNoItemsMessage(this.msgContainer);
+        createRecommendations(this.apiClient, this.recommendationsContainer);
 
-        // observe media section changes to check if noItemsMessage has to be shown
+        // observe media section changes to check if noItemsContent has to be shown
+        this.noItemsContent = view.querySelector('.noItemsContent');
         const mutationObserverConfig = {childList: true, subtree: true};
-        const observer = new MutationObserver(() => toggleNoItemsMessage(this.apiClient, this.msgContainer));
+        const observer = new MutationObserver(() => toggleNoItemsContent(this.apiClient, this.noItemsContent));
         observer.observe(this.sectionsContainer, mutationObserverConfig);
-
     }
 
     onResume(options) {
-
         const promises = (this.apiClient, []);
         const view = this.view;
         const elems = this.sectionsContainer.querySelectorAll('.itemsContainer');
         const apiClient = this.apiClient;
-        const noItemsMessage = this.msgContainer;
+        const noItemsContent = this.noItemsContent;
 
         for (const elem of elems) {
             promises.push(elem.resume(options));
@@ -329,7 +371,7 @@ class FavoritesTab {
                 focusManager.autoFocus(view);
             }
         })
-        .then(toggleNoItemsMessage(apiClient, noItemsMessage));
+        .then(() => toggleNoItemsContent(apiClient, noItemsContent));
     }
 
     onPause() {
