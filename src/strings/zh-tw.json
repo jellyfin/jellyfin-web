@@ -1476,7 +1476,7 @@
     "LabelHDHomerunPortRangeHelp": "將HD Homerun UDP 端口範圍限制至該值內。（預設值為 1024 - 645535）。",
     "LabelHDHomerunPortRange": "HD Homerun 端口範圍:",
     "LabelH265Crf": "H265 編碼 CRF:",
-    "LabelEnableSSDPTracingHelp": "將 SSDP 追蹤詳細資料記錄至日誌。<br/><b>警告</ b>：這將導致效能嚴重損失。",
+    "LabelEnableSSDPTracingHelp": "將 SSDP 追蹤詳細資料記錄至日誌。<br /><b>警告</b>：這將導致效能嚴重損失。",
     "LabelEnableSSDPTracing": "啟用 SSDP 追蹤：",
     "LabelAutoDiscoveryTracing": "開啟自動追蹤。",
     "YoutubeNotFound": "找不到影片。",
