@@ -228,9 +228,17 @@ button::-moz-focus-inner {
     background-color: #242424;
 }
 
-.visualCardBox .cardContent {
-    border-top-left-radius: 0.2em;
-    border-top-right-radius: 0.2em;
+.blurhash-canvas,
+.cardContent,
+.cardOverlayContainer {
+    border-radius: 0.2em;
+}
+
+.visualCardBox .blurhash-canvas,
+.visualCardBox .cardContent,
+.visualCardBox .cardOverlayContainer {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .cardContent-shadow,
