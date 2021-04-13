@@ -196,6 +196,7 @@ button::-moz-focus-inner {
     left: 0;
     right: 0;
     bottom: 0;
+    border-radius: 0.2em;
 
     /* Needed in case this is a button */
     display: block;
@@ -228,17 +229,8 @@ button::-moz-focus-inner {
     background-color: #242424;
 }
 
-.blurhash-canvas,
-.cardContent,
-.cardOverlayContainer {
+.blurhash-canvas {
     border-radius: 0.2em;
-}
-
-.visualCardBox .blurhash-canvas,
-.visualCardBox .cardContent,
-.visualCardBox .cardOverlayContainer {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
 }
 
 .cardContent-shadow,
@@ -780,6 +772,14 @@ button::-moz-focus-inner {
     bottom: 0;
     right: 0;
     user-select: none;
+    border-radius: 0.2em;
+}
+
+.visualCardBox .blurhash-canvas,
+.visualCardBox .cardContent,
+.visualCardBox .cardOverlayContainer {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .card-hoverable:hover .cardOverlayContainer {
