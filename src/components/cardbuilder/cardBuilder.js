@@ -498,7 +498,7 @@ import ServerConnections from '../ServerConnections';
             let imgUrl = null;
             let imgTag = null;
             let coverImage = false;
-            let uiAspect = null;
+            let uiAspect = getDesiredAspect(shape);
             let imgType = null;
             let itemId = null;
 
@@ -543,11 +543,8 @@ import ServerConnections from '../ServerConnections';
                     forceName = true;
                 }
 
-                if (primaryImageAspectRatio) {
-                    uiAspect = getDesiredAspect(shape);
-                    if (uiAspect) {
-                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
-                    }
+                if (primaryImageAspectRatio && uiAspect) {
+                    coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                 }
             } else if (item.SeriesPrimaryImageTag) {
                 imgType = 'Primary';
@@ -563,11 +560,8 @@ import ServerConnections from '../ServerConnections';
                     forceName = true;
                 }
 
-                if (primaryImageAspectRatio) {
-                    uiAspect = getDesiredAspect(shape);
-                    if (uiAspect) {
-                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
-                    }
+                if (primaryImageAspectRatio && uiAspect) {
+                    coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                 }
             } else if (item.ParentPrimaryImageTag) {
                 imgType = 'Primary';
@@ -579,11 +573,8 @@ import ServerConnections from '../ServerConnections';
                 itemId = item.AlbumId;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
-                if (primaryImageAspectRatio) {
-                    uiAspect = getDesiredAspect(shape);
-                    if (uiAspect) {
-                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
-                    }
+                if (primaryImageAspectRatio && uiAspect) {
+                    coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                 }
             } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
                 imgType = 'Thumb';
@@ -613,10 +604,15 @@ import ServerConnections from '../ServerConnections';
             }
 
             if (imgTag && imgType) {
+                // TODO: This place is a mess. Could do with a good spring cleaning.
+                if (!height && width && uiAspect) {
+                    height = width / uiAspect;
+                }
                 imgUrl = apiClient.getScaledImageUrl(itemId, {
                     type: imgType,
                     fillHeight: height,
                     fillWidth: width,
+                    quality: 96,
                     tag: imgTag
                 });
             }
