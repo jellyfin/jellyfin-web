@@ -154,7 +154,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
             html += '<div class="' + cardBoxCssClass + '">';
             html += '<div class="cardScalable">';
             html += '<div class="cardPadder cardPadder-square"></div>';
-            html += `<div class="cardContent" style="border-radius:0.2em" data-haspw="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
+            html += `<div class="cardContent" data-haspw="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
             let imgUrl;
 
             if (user.PrimaryImageTag) {
