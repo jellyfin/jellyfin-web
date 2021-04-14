@@ -1,18 +1,17 @@
-name: "Merge Conflicts"
+name: 'Merge Conflicts'
 
 on:
   push:
     branches:
       - master
-  pull_request:
+  pull_request_target:
     types:
       - synchronize
 jobs:
   triage:
     runs-on: ubuntu-latest
-    if: github.repository == 'jellyfin/jellyfin-web'
     steps:
-      - uses: mschilde/auto-label-merge-conflicts@master
+      - uses: eps1lon/actions-label-merge-conflict@v2.0.1
         with:
-          CONFLICT_LABEL_NAME: "merge conflict"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          dirtyLabel: 'merge conflict'
+          repoToken: ${{ secrets.GH_TOKEN }}
