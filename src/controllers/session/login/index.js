@@ -1,5 +1,4 @@
 import { appHost } from '../../../components/apphost';
-import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../scripts/dom';
 import loading from '../../../components/loading/loading';
 import layoutManager from '../../../components/layoutManager';
@@ -19,9 +18,9 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
     const enableFocusTransform = !browser.slow && !browser.edge;
 
-    function authenticateUserByName(page, apiClient, username, password) {
+    function authenticateUserByName(page, apiClient, username, password, rememberMe) {
         loading.show();
-        apiClient.authenticateUserByName(username, password).then(function (result) {
+        apiClient.authenticateUserByName(username, password, rememberMe).then(function (result) {
             const user = result.User;
             loading.hide();
 
@@ -76,7 +75,8 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
                         dialogHelper.close(dlg);
                     }
 
-                    const result = await apiClient.quickConnect(data.Authentication);
+                    // FIXME: Save token for now. 'Remember Me' for Quick Connect?
+                    const result = await apiClient.quickConnect(data.Authentication, true);
                     onLoginSuccessful(result.User.Id, result.AccessToken, apiClient);
                 }, function (e) {
                     clearInterval(interval);
@@ -114,7 +114,6 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
     }
 
     function showManualForm(context, showCancel, focusPassword) {
-        context.querySelector('.chkRememberLogin').checked = appSettings.enableAutoLogin();
         context.querySelector('.manualLoginForm').classList.remove('hide');
         context.querySelector('.visualLoginForm').classList.add('hide');
         context.querySelector('.btnManual').classList.add('hide');
@@ -218,7 +217,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
                     context.querySelector('#txtManualName').value = '';
                     showManualForm(context, true);
                 } else if (haspw == 'false') {
-                    authenticateUserByName(context, getApiClient(), name, '');
+                    authenticateUserByName(context, getApiClient(), name, '', false);
                 } else {
                     context.querySelector('#txtManualName').value = name;
                     context.querySelector('#txtManualPassword').value = '';
@@ -227,9 +226,8 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
             }
         });
         view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
-            appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
             const apiClient = getApiClient();
-            authenticateUserByName(view, apiClient, view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
+            authenticateUserByName(view, apiClient, view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value, view.querySelector('.chkRememberLogin').checked);
             e.preventDefault();
             return false;
         });

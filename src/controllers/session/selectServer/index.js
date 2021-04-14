@@ -2,7 +2,6 @@ import loading from '../../../components/loading/loading';
 import { appRouter } from '../../../components/appRouter';
 import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
-import appSettings from '../../../scripts/settings/appSettings';
 import focusManager from '../../../components/focusManager';
 import globalize from '../../../scripts/globalize';
 import actionSheet from '../../../components/actionSheet/actionSheet';
@@ -114,9 +113,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
     export default function (view, params) {
         function connectToServer(server) {
             loading.show();
-            ServerConnections.connectToServer(server, {
-                enableAutoLogin: appSettings.enableAutoLogin()
-            }).then(function (result) {
+            ServerConnections.connectToServer(server).then(function (result) {
                 loading.hide();
                 const apiClient = result.ApiClient;
 
