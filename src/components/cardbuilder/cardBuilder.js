@@ -498,7 +498,7 @@ import ServerConnections from '../ServerConnections';
             let imgUrl = null;
             let imgTag = null;
             let coverImage = false;
-            let uiAspect = getDesiredAspect(shape);
+            const uiAspect = getDesiredAspect(shape);
             let imgType = null;
             let itemId = null;
 
