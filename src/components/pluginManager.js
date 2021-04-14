@@ -5,6 +5,7 @@ import appSettings from '../scripts/settings/appSettings';
 import { playbackManager } from './playback/playbackmanager';
 import { appHost } from '../components/apphost';
 import { appRouter } from '../components/appRouter';
+import * as inputManager from '../scripts/inputManager';
 
 /* eslint-disable indent */
 
@@ -95,7 +96,8 @@ import { appRouter } from '../components/appRouter';
                         playbackManager,
                         globalize,
                         appHost,
-                        appRouter
+                        appRouter,
+                        inputManager
                     });
                 } else {
                     console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
