@@ -24,7 +24,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         function shuffle() {
             ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
                 getQuery();
-                playbackManager.shuffle(item, null);
+                playbackManager.shuffle(item);
             });
         }
 
@@ -84,7 +84,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             itemsContainer.innerHTML = '';
         };
 
-        const reloadItems = (page) => {
+        const reloadItems = () => {
             loading.show();
             isLoading = true;
             const query = getQuery();
@@ -97,7 +97,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     if (userSettings.libraryPageSize() > 0) {
                         query.StartIndex += query.Limit;
                     }
-                    reloadItems(tabContent);
+                    reloadItems();
                 }
 
                 function onPreviousPageClick() {
@@ -108,11 +108,11 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     if (userSettings.libraryPageSize() > 0) {
                         query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
                     }
-                    reloadItems(tabContent);
+                    reloadItems();
                 }
 
                 window.scrollTo(0, 0);
-                updateFilterControls(page);
+                updateFilterControls();
                 let html;
                 const pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
@@ -185,7 +185,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             });
         };
 
-        const updateFilterControls = (tabContent) => {
+        const updateFilterControls = () => {
             const query = getQuery();
 
             if (this.alphaPicker) {
@@ -212,7 +212,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 });
                 Events.on(filterDialog, 'filterchange', function () {
                     getQuery().StartIndex = 0;
-                    reloadItems(tabContent);
+                    reloadItems();
                 });
 
                 filterDialog.show();
@@ -232,7 +232,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 const query = getQuery();
                 query.NameStartsWith = newValue;
                 query.StartIndex = 0;
-                reloadItems(tabContent);
+                reloadItems();
             });
 
             this.alphaPicker = new AlphaPicker({
@@ -274,7 +274,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                     }],
                     callback: function () {
                         getQuery().StartIndex = 0;
-                        reloadItems(tabContent);
+                        reloadItems();
                     },
                     query: getQuery(),
                     button: e.target
@@ -292,7 +292,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
                 getQuery().StartIndex = 0;
                 onViewStyleChange();
-                reloadItems(tabContent);
+                reloadItems();
             });
 
             tabContent.querySelector('.btnPlayAll').addEventListener('click', playAll);
@@ -303,8 +303,8 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
         onViewStyleChange();
 
         this.renderTab = function () {
-            reloadItems(tabContent);
-            updateFilterControls(tabContent);
+            reloadItems();
+            updateFilterControls();
         };
 
         this.destroy = function () {};

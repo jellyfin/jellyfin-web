@@ -48,13 +48,13 @@ import alert from '../../components/alert';
         loading.hide();
     }
 
-    function onSaveEncodingPathFailure(response) {
+    function onSaveEncodingPathFailure() {
         loading.hide();
         alert(globalize.translate('FFmpegSavePathNotFound'));
     }
 
     function updateEncoder(form) {
-        return ApiClient.getSystemInfo().then(function (systemInfo) {
+        return ApiClient.getSystemInfo().then(function () {
             return ApiClient.ajax({
                 url: ApiClient.getUrl('System/MediaEncoder/Path'),
                 type: 'POST',

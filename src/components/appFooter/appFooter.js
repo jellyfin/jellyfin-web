@@ -1,6 +1,6 @@
 import './appFooter.scss';
 
-function render(options) {
+function render() {
     const elem = document.createElement('div');
     elem.classList.add('appfooter');
 
@@ -10,10 +10,10 @@ function render(options) {
 }
 
 class appFooter {
-    constructor(options) {
+    constructor() {
         const self = this;
 
-        self.element = render(options);
+        self.element = render();
         self.add = function (elem) {
             self.element.appendChild(elem);
         };
@@ -33,4 +33,4 @@ class appFooter {
     }
 }
 
-export default new appFooter({});
+export default new appFooter();

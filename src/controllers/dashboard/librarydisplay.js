@@ -23,7 +23,7 @@ import Dashboard from '../../scripts/clientUtils';
         }];
     }
 
-    export default function(view, params) {
+    export default function(view) {
         function loadData() {
             ApiClient.getServerConfiguration().then(function(config) {
                 view.querySelector('.chkFolderView').checked = config.EnableFolderView;

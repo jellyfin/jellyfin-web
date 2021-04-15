@@ -21,14 +21,14 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    setPlaylist(items) {
+    setPlaylist() {
         // Do nothing.
     }
 
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    queue(items) {
+    queue() {
         // Do nothing.
     }
 
@@ -49,14 +49,14 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    clearPlaylist(clearCurrentItem = false) {
+    clearPlaylist() {
         // Do nothing.
     }
 
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    queueNext(items) {
+    queueNext() {
         // Do nothing.
     }
 
@@ -90,28 +90,28 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    setPlaylistState(playlistItemId, playlistIndex) {
+    setPlaylistState() {
         // Do nothing.
     }
 
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    setPlaylistIndex(playlistIndex) {
+    setPlaylistIndex() {
         // Do nothing.
     }
 
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    removeFromPlaylist(playlistItemIds) {
+    removeFromPlaylist() {
         // Do nothing.
     }
 
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    movePlaylistItem(playlistItemId, newIndex) {
+    movePlaylistItem() {
         // Do nothing.
         return {
             result: 'noop'
@@ -128,7 +128,7 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    setRepeatMode(value) {
+    setRepeatMode() {
         // Do nothing.
     }
 
@@ -142,7 +142,7 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    setShuffleMode(value) {
+    setShuffleMode() {
         // Do nothing.
     }
 

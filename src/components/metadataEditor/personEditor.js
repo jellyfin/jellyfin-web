@@ -63,7 +63,7 @@ import template from './personEditor.template.html';
                 }
             });
 
-            dlg.querySelector('.selectPersonType').addEventListener('change', function (e) {
+            dlg.querySelector('.selectPersonType').addEventListener('change', function () {
                 if (this.value === 'Actor') {
                     dlg.querySelector('.fldRole').classList.remove('hide');
                 } else {
@@ -71,7 +71,7 @@ import template from './personEditor.template.html';
                 }
             });
 
-            dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+            dlg.querySelector('.btnCancel').addEventListener('click', function () {
                 dialogHelper.close(dlg);
             });
 

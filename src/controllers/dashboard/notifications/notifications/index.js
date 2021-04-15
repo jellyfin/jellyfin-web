@@ -54,7 +54,7 @@ function reload(page) {
     });
 }
 
-export default function (view, params) {
+export default function (view) {
     view.addEventListener('viewshow', function () {
         reload(view);
     });

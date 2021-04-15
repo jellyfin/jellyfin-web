@@ -135,7 +135,7 @@ class HtmlAudioPlayer {
 
                         const hls = new Hls({
                             manifestLoadingTimeOut: 20000,
-                            xhrSetup: function (xhr, url) {
+                            xhrSetup: function (xhr) {
                                 xhr.withCredentials = includeCorsCredentials;
                             }
                         });
@@ -280,7 +280,7 @@ class HtmlAudioPlayer {
             Events.trigger(self, 'playing');
         }
 
-        function onPlay(e) {
+        function onPlay() {
             Events.trigger(self, 'unpause');
         }
 
@@ -365,7 +365,7 @@ class HtmlAudioPlayer {
         }
     }
 
-    duration(val) {
+    duration() {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
             const duration = mediaElement.duration;

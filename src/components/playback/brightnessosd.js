@@ -127,7 +127,7 @@ function releaseCurrentPlayer() {
     }
 }
 
-function onBrightnessChanged(e) {
+function onBrightnessChanged() {
     const player = this;
 
     ensureOsdElement();

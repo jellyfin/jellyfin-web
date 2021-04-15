@@ -15,7 +15,7 @@ import template from './emby-progressring.template.html';
         if (window.MutationObserver) {
             // create an observer instance
             const observer = new MutationObserver(function (mutations) {
-                mutations.forEach(function (mutation) {
+                mutations.forEach(function () {
                     instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
                 });
             });

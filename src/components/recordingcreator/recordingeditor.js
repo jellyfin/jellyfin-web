@@ -28,7 +28,7 @@ function deleteTimer(apiClient, timerId) {
     });
 }
 
-function renderTimer(context, item, apiClient) {
+function renderTimer(context, item) {
     context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
     context.querySelector('#txtPostPaddingMinutes').value = item.PostPaddingSeconds / 60;
 
@@ -79,13 +79,13 @@ function reload(context, id) {
 
     const apiClient = ServerConnections.getApiClient(currentServerId);
     apiClient.getLiveTvTimer(id).then(function (result) {
-        renderTimer(context, result, apiClient);
+        renderTimer(context, result);
         loading.hide();
     });
 }
 
 function showEditor(itemId, serverId, options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         recordingDeleted = false;
         currentServerId = serverId;
         loading.show();

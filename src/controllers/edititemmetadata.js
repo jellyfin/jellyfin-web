@@ -14,7 +14,7 @@ function reload(context, itemId) {
     }
 }
 
-export default function (view, params) {
+export default function (view) {
     view.addEventListener('viewshow', function () {
         reload(this, MetadataEditor.getCurrentItemId());
     });

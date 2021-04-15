@@ -19,15 +19,6 @@ export async function serverAddress() {
         return Promise.resolve(apiClient.serverAddress());
     }
 
-    const current = await ServerConnections.getAvailableServers().then(servers => {
-        if (servers.length !== 0) {
-            return Promise.resolve(servers[0].ManualAddress);
-        }
-    });
-
-    // TODO this makes things faster but it also blocks the wizard in some scenarios
-    // if (current) return Promise.resolve(current);
-
     // Use servers specified in config.json
     const urls = await webSettings.getServers();
 
@@ -50,7 +41,7 @@ export async function serverAddress() {
                 url: url,
                 response: resp
             };
-        }).catch(error => {
+        }).catch(() => {
             return Promise.resolve();
         });
     });
@@ -117,7 +108,7 @@ export function processPluginConfigurationUpdateResult() {
     toast(globalize.translate('SettingsSaved'));
 }
 
-export function processServerConfigurationUpdateResult(result) {
+export function processServerConfigurationUpdateResult() {
     loading.hide();
     toast(globalize.translate('SettingsSaved'));
 }

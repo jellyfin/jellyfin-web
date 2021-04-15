@@ -1381,7 +1381,7 @@
     "LabelAutoDiscoveryTracingHelp": "Pokiaľ je povolené, tak pakety prijaté na porte automatického rozpoznania budú zaznamenané.",
     "LabelAutoDiscoveryTracing": "Povoliť trasovanie automatického rozpoznania.",
     "LabelAlbumArtMaxResHelp": "Maximálne rozlíšenie obrázku albumu vo vlastnosti upnp:albumArtURI.",
-    "KnownProxiesHelp": "Čiarkami oddelený zoznam IP adries známych proxy serverov použitých pri pripojení k vašej inštancií Jellyfinu. Toto je vyžadované pre správne využitie hlavičky X-Forwarded-For. Vyžaduje reštart.",
+    "KnownProxiesHelp": "Čiarkami oddelený zoznam IP adries alebo hostiteľov známych proxy serverov použitých pri pripojení k vašej inštancií Jellyfinu. Toto je vyžadované pre správne využitie hlavičky X-Forwarded-For. Vyžaduje reštart.",
     "Image": "Obrázok",
     "HeaderUploadSubtitle": "Nahrať titulky",
     "HeaderPortRanges": "Nastavenia firewallu a proxy",
@@ -1505,6 +1505,8 @@
     "EnableVppTonemapping": "Povoliť VPP mapovanie tónov",
     "EnableEnhancedNvdecDecoder": "Povoliť vylepšený NVDEC dekóder",
     "AllowVppTonemappingHelp": "Plne hardvérovo založené mapovanie tónov bez použitia OpenCL filtra. V súčastnosti funguje iba pri videách, ktoré sa prekódovajú a obsahujú vložené HDR10 metadáta.",
-    "DisablePlugin": "Zakázať zásuvné moduly",
-    "EnablePlugin": "Povoliť zásuvné moduly"
+    "DisablePlugin": "Zakázať",
+    "EnablePlugin": "Povoliť",
+    "Framerate": "Snímková frekvencia",
+    "DirectPlayHelp": "Zdrojový súbor je s klientom plne kompatibilný a relácia ho preto prijíma bez dodatočných modifikácií."
 }

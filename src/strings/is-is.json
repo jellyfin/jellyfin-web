@@ -203,7 +203,7 @@
     "AskAdminToCreateLibrary": "Biðjið stjórnanda að gera nýtt gagnasafn.",
     "MoreFromValue": "Meira frá {0}",
     "AlwaysPlaySubtitlesHelp": "Allir textar sem samsvara við túngumáli valið verða alltaf hlaðnir óháð hljóðmáls túngumáli.",
-    "AllowedRemoteAddressesHelp": "Kommu aðskilinn listi yfir ip tölur eða ip-númeramát fyrir net sem mega fjartengjas. Ef þetta er autt eru  allar fjartengingar leyfðar.",
+    "AllowedRemoteAddressesHelp": "Kommu aðskilinn listi yfir ip tölur eða ip-númeramát fyrir net sem mega fjartengjas. Ef þetta er autt eru allar fjartengingar leyfðar.",
     "AllowHWTranscodingHelp": "Leyfa viðtæki að umbreyta straumi í rauntíma.Þetta getur minnkað álag á þjón.",
     "ValueSpecialEpisodeName": "Sérstakt - {0}",
     "Shows": "Sýningar",

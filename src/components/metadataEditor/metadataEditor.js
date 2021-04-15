@@ -31,7 +31,7 @@ import template from './metadataEditor.template.html';
         return currentContext.classList.contains('dialog');
     }
 
-    function closeDialog(isSubmitted) {
+    function closeDialog() {
         if (isDialog()) {
             dialogHelper.close(currentContext);
         }
@@ -42,7 +42,7 @@ import template from './metadataEditor.template.html';
             toast(globalize.translate('MessageItemSaved'));
 
             loading.hide();
-            closeDialog(true);
+            closeDialog();
         }
 
         const apiClient = getApiClient();
@@ -298,7 +298,7 @@ import template from './metadataEditor.template.html';
         }
     }
 
-    function init(context, apiClient) {
+    function init(context) {
         context.querySelector('.externalIds').addEventListener('click', function (e) {
             const btnOpenExternalId = dom.parentWithClass(e.target, 'btnOpenExternalId');
             if (btnOpenExternalId) {
@@ -319,7 +319,7 @@ import template from './metadataEditor.template.html';
 
         bindAll(context.querySelectorAll('.btnCancel'), 'click', function (event) {
             event.preventDefault();
-            closeDialog(false);
+            closeDialog();
         });
 
         context.querySelector('.btnMore').addEventListener('click', function (e) {
@@ -328,7 +328,7 @@ import template from './metadataEditor.template.html';
             });
         });
 
-        context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
+        context.querySelector('.btnHeaderSave').addEventListener('click', function () {
             context.querySelector('.btnSave').click();
         });
 
@@ -347,7 +347,7 @@ import template from './metadataEditor.template.html';
         form.removeEventListener('submit', onSubmit);
         form.addEventListener('submit', onSubmit);
 
-        context.querySelector('#btnAddPerson').addEventListener('click', function (event, data) {
+        context.querySelector('#btnAddPerson').addEventListener('click', function () {
             editPerson(context, {}, -1);
         });
 
@@ -1026,7 +1026,7 @@ import template from './metadataEditor.template.html';
         });
     }
 
-    function show(itemId, serverId, resolve, reject) {
+    function show(itemId, serverId, resolve) {
         loading.show();
 
         const dialogOptions = {
@@ -1066,20 +1066,20 @@ import template from './metadataEditor.template.html';
 
         currentContext = dlg;
 
-        init(dlg, ServerConnections.getApiClient(serverId));
+        init(dlg);
 
         reload(dlg, itemId, serverId);
     }
 
     export default {
         show: function (itemId, serverId) {
-            return new Promise(function (resolve, reject) {
-                return show(itemId, serverId, resolve, reject);
+            return new Promise(function (resolve) {
+                return show(itemId, serverId, resolve);
             });
         },
 
         embed: function (elem, itemId, serverId) {
-            return new Promise(function (resolve, reject) {
+            return new Promise(function () {
                 loading.show();
 
                 elem.innerHTML = globalize.translateHtml(template, 'core');
@@ -1091,7 +1091,7 @@ import template from './metadataEditor.template.html';
 
                 currentContext = elem;
 
-                init(elem, ServerConnections.getApiClient(serverId));
+                init(elem);
                 reload(elem, itemId, serverId);
 
                 focusManager.autoFocus(elem);

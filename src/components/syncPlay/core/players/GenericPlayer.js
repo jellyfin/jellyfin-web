@@ -158,6 +158,7 @@ class GenericPlayer {
      * Sets the playback rate, if supported.
      * @param {number} value The playback rate.
      */
+    // eslint-disable-next-line no-unused-vars
     setPlaybackRate(value) {
         // Do nothing.
     }
@@ -196,6 +197,7 @@ class GenericPlayer {
      * Seeks the player to the specified position.
      * @param {number} positionTicks The new position.
      */
+    // eslint-disable-next-line no-unused-vars
     localSeek(positionTicks) {
 
     }
@@ -211,6 +213,7 @@ class GenericPlayer {
      * Sends a command to the player.
      * @param {Object} command The command.
      */
+    // eslint-disable-next-line no-unused-vars
     localSendCommand(command) {
 
     }
@@ -219,6 +222,7 @@ class GenericPlayer {
      * Starts playback.
      * @param {Object} options Playback data.
      */
+    // eslint-disable-next-line no-unused-vars
     localPlay(options) {
 
     }
@@ -227,6 +231,7 @@ class GenericPlayer {
      * Sets playing item from playlist.
      * @param {string} playlistItemId The item to play.
      */
+    // eslint-disable-next-line no-unused-vars
     localSetCurrentPlaylistItem(playlistItemId) {
 
     }
@@ -235,6 +240,7 @@ class GenericPlayer {
      * Removes items from playlist.
      * @param {Array} playlistItemIds The items to remove.
      */
+    // eslint-disable-next-line no-unused-vars
     localRemoveFromPlaylist(playlistItemIds) {
 
     }
@@ -244,6 +250,7 @@ class GenericPlayer {
      * @param {string} playlistItemId The item to move.
      * @param {number} newIndex The new position.
      */
+    // eslint-disable-next-line no-unused-vars
     localMovePlaylistItem(playlistItemId, newIndex) {
 
     }
@@ -252,6 +259,7 @@ class GenericPlayer {
      * Queues in the playlist.
      * @param {Object} options Queue data.
      */
+    // eslint-disable-next-line no-unused-vars
     localQueue(options) {
 
     }
@@ -260,6 +268,7 @@ class GenericPlayer {
      * Queues after the playing item in the playlist.
      * @param {Object} options Queue data.
      */
+    // eslint-disable-next-line no-unused-vars
     localQueueNext(options) {
 
     }
@@ -282,6 +291,7 @@ class GenericPlayer {
      * Sets repeat mode.
      * @param {string} value The repeat mode.
      */
+    // eslint-disable-next-line no-unused-vars
     localSetRepeatMode(value) {
 
     }
@@ -290,6 +300,7 @@ class GenericPlayer {
      * Sets shuffle mode.
      * @param {string} value The shuffle mode.
      */
+    // eslint-disable-next-line no-unused-vars
     localSetQueueShuffleMode(value) {
 
     }

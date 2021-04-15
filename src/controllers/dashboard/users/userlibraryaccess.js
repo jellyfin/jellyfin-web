@@ -91,7 +91,7 @@ import toast from '../../../components/toast/toast';
         loading.hide();
     }
 
-    function onSaveComplete(page) {
+    function onSaveComplete() {
         loading.hide();
         toast(globalize.translate('SettingsSaved'));
     }
@@ -118,7 +118,7 @@ import toast from '../../../components/toast/toast';
         user.Policy.BlockedChannels = null;
         user.Policy.BlockedMediaFolders = null;
         ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-            onSaveComplete(page);
+            onSaveComplete();
         });
     }
 

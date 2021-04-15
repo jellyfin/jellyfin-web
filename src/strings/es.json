@@ -1084,7 +1084,7 @@
     "DropShadow": "Eliminar sombra",
     "EditMetadata": "Editar etiquetas",
     "EnableBackdropsHelp": "Mostrar imágenes de fondo en algunas páginas mientras se explora la biblioteca.",
-    "EnableColorCodedBackgrounds": "Fondos  con código de colores",
+    "EnableColorCodedBackgrounds": "Fondos con código de colores",
     "EnableExternalVideoPlayersHelp": "Se mostrará un menú para reproductor externo cuando comience la reproducción del vídeo.",
     "EnableNextVideoInfoOverlayHelp": "Al finalizar un vídeo, mostrar información sobre el siguiente de la lista de reproducción actual.",
     "EnableThemeSongsHelp": "Reproducir las canciones temáticas de fondo mientras se explora la biblioteca.",
@@ -1169,7 +1169,7 @@
     "MusicVideo": "Vídeo musical",
     "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
     "OptionLoginAttemptsBeforeLockout": "Determina cuántos intentos de inicio de sesión fallidos se pueden realizar antes de que se produzca el bloqueo.",
-    "OptionLoginAttemptsBeforeLockoutHelp": "El valor cero implica heredar el valor por defecto de tres intentos para usuarios y cinco intentos para administradores. El valor -1  desactiva esta funcionalidad.",
+    "OptionLoginAttemptsBeforeLockoutHelp": "El valor cero implica heredar el valor por defecto de tres intentos para usuarios y cinco intentos para administradores. El valor -1 desactiva esta funcionalidad.",
     "OptionProtocolHttp": "HTTP",
     "OptionRegex": "Regex (expresión regular)",
     "OptionSubstring": "Subcadena",
@@ -1505,8 +1505,8 @@
     "AllowVppTonemappingHelp": "Mapeo de tonos completo basado en hardware sin usar el filtro OpenCL. Actualmente solo funciona al transcodificar videos con metadatos HDR10 incrustados.",
     "EnableVppTonemapping": "Habilitar mapeo de tonos VPP",
     "EnableEnhancedNvdecDecoder": "Habilitar decodificador NVDEC mejorado",
-    "DisablePlugin": "Deshabilitar Extensión",
-    "EnablePlugin": "Habilitar Extensión",
+    "DisablePlugin": "Deshabilitar",
+    "EnablePlugin": "Habilitar",
     "Framerate": "Tasa de cuadros",
     "DirectPlayHelp": "El archivo origen es totalmente compatible con este cliente, y la sesión está recibiendo el archivo sin modificaciones."
 }

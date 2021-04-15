@@ -401,7 +401,7 @@
     "LabelAirsAfterSeason": "Uitgezonden na seizoen:",
     "LabelAirsBeforeEpisode": "Uitgezonden voor aflevering:",
     "LabelAirsBeforeSeason": "Uitgezonden voor seizoen:",
-    "LabelAlbumArtHelp": "PN gebruikt voor  album art, binnen het DLNA: profileID attribuut op UPnP: albumArtURI. Sommige apparaten vereisen een specifieke waarde, ongeacht de grootte van het beeld.",
+    "LabelAlbumArtHelp": "PN gebruikt voor album art, binnen het DLNA: profileID attribuut op UPnP: albumArtURI. Sommige apparaten vereisen een specifieke waarde, ongeacht de grootte van het beeld.",
     "LabelAlbumArtMaxHeight": "Albumhoes max. hoogte:",
     "LabelAlbumArtMaxWidth": "Albumhoes max. breedte:",
     "LabelAlbumArtPN": "Albumhoes PN:",
@@ -1385,7 +1385,7 @@
     "QuickConnectActivationSuccessful": "Succesvol geactiveerd",
     "LabelKnownProxies": "Bekende proxies:",
     "LabelCurrentStatus": "Huidige status:",
-    "KnownProxiesHelp": "Een door komma gescheiden lijst van IP adressen van bekende proxies, die gebruikt worden bij het verbinden met je Jellyfin instantie. Dit is nodig om goed gebruik te maken van X-Forwarded-For headers. Reboot nodig na opslaan.",
+    "KnownProxiesHelp": "Een door komma gescheiden lijst van IP adressen of hostnamen van proxies, die gebruikt worden bij het verbinden met je Jellyfin instantie. Dit is nodig om goed gebruik te maken van X-Forwarded-For headers. Reboot nodig na opslaan.",
     "EnableQuickConnect": "Schakel Quick Connect in op deze server",
     "ButtonUseQuickConnect": "Gebruik Quick Connect",
     "LabelMaxMuxingQueueSizeHelp": "Maximaal aantal pakketten dat kan worden gebufferd terwijl wordt gewacht tot alle streams zijn geïnitialiseerd. Probeer het te verhogen als u nog steeds de fout \"Te veel pakketten gebufferd voor uitvoerstroom\" tegenkomt in ffmpeg-logboeken. De aanbevolen waarde is 2048.",
@@ -1504,5 +1504,9 @@
     "LabelMinAudiobookResumeHelp": "Titels worden als niet afgespeeld beschouwd indien gestopt voor deze tijd.",
     "AllowVppTonemappingHelp": "Volledige hardware-gebaseerde tonemapping zonder OpenCL-filter. Werkt momenteel alleen bij het transcoderen van video's met ingesloten HDR10-metadata.",
     "EnableVppTonemapping": "VPP Tone mapping aanzetten",
-    "EnableEnhancedNvdecDecoder": "Verbeterde NVDEC decoder aanzetten"
+    "EnableEnhancedNvdecDecoder": "Verbeterde NVDEC decoder aanzetten",
+    "Framerate": "Beeldsnelheid",
+    "DisablePlugin": "Uitschakelen",
+    "EnablePlugin": "Inschakelen",
+    "DirectPlayHelp": "Het bronbestand is volledig compatibel met deze client, en de sessie ontvangt het bestand zonder wijzigingen."
 }

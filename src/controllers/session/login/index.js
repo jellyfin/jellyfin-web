@@ -250,7 +250,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
             Dashboard.selectServer();
         });
 
-        view.addEventListener('viewshow', function (e) {
+        view.addEventListener('viewshow', function () {
             loading.show();
             libraryMenu.setTransparentMenu(true);
 
@@ -285,7 +285,7 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
                 view.querySelector('.disclaimer').textContent = options.LoginDisclaimer || '';
             });
         });
-        view.addEventListener('viewhide', function (e) {
+        view.addEventListener('viewhide', function () {
             libraryMenu.setTransparentMenu(false);
         });
     }

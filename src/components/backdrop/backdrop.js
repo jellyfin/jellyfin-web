@@ -7,7 +7,7 @@ import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
-    function enableAnimation(elem) {
+    function enableAnimation() {
         if (browser.slow) {
             return false;
         }
@@ -47,7 +47,7 @@ import ServerConnections from '../ServerConnections';
                 backdropImage.classList.add('backdropImageFadeIn');
                 parent.appendChild(backdropImage);
 
-                if (!enableAnimation(backdropImage)) {
+                if (!enableAnimation()) {
                     if (existingBackdropImage && existingBackdropImage.parentNode) {
                         existingBackdropImage.parentNode.removeChild(existingBackdropImage);
                     }

@@ -123,7 +123,7 @@ import '../../../elements/emby-button/emby-button';
         $(elem).parents('.listItem')[0].setAttribute('data-status', state);
     }
 
-    export default function(view, params) {
+    export default function(view) {
         function updateTasks(tasks) {
             for (let i = 0; i < tasks.length; i++) {
                 const task = tasks[i];

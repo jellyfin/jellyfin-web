@@ -188,7 +188,7 @@ import Sortable from 'sortablejs';
         });
     }
 
-    function onSeriesTimerCreated(e, apiClient, data) {
+    function onSeriesTimerCreated() {
         const itemsContainer = this;
         if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
             itemsContainer.notifyRefreshNeeded();

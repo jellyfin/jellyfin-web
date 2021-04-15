@@ -1057,7 +1057,7 @@ function Guide(options) {
         }
     }
 
-    function onSeriesTimerCreated(e, apiClient, data) {
+    function onSeriesTimerCreated() {
     }
 
     function onTimerCancelled(e, apiClient, data) {
@@ -1116,7 +1116,7 @@ function Guide(options) {
         programGrid.classList.add('noRubberBanding');
     }
 
-    dom.addEventListener(programGrid, 'scroll', function (e) {
+    dom.addEventListener(programGrid, 'scroll', function () {
         onProgramGridScroll(guideContext, this, timeslotHeaders);
     }, {
         passive: true

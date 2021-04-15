@@ -14,7 +14,7 @@ function onOrientationChangeError(err) {
     console.error('error locking orientation: ' + err);
 }
 
-Events.on(playbackManager, 'playbackstart', function (e, player, state) {
+Events.on(playbackManager, 'playbackstart', function (e, player) {
     const isLocalVideo = player.isLocalPlayer && !player.isExternalPlayer && playbackManager.isPlayingVideo(player);
 
     if (isLocalVideo && layoutManager.mobile) {

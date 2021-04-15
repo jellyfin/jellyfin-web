@@ -49,7 +49,7 @@ import ServerConnections from '../../../components/ServerConnections';
         });
     }
 
-    export default function(view, params) {
+    export default function(view) {
         view.querySelector('.addServerForm').addEventListener('submit', onServerSubmit);
         view.querySelector('.btnCancel').addEventListener('click', goBack);
 
@@ -64,7 +64,7 @@ import ServerConnections from '../../../components/ServerConnections';
         }
 
         function goBack() {
-            import('../../../components/appRouter').then(({default: appRouter}) => {
+            import('../../../components/appRouter').then(({appRouter}) => {
                 appRouter.back();
             });
         }

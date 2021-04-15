@@ -207,7 +207,7 @@ import confirm from '../../../components/confirm/confirm';
             return trigger;
         }
     };
-    export default function (view, params) {
+    export default function (view) {
         function onSubmit(e) {
             loading.show();
             const id = getParameterByName('id');

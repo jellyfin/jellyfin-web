@@ -55,7 +55,7 @@ window.getWindowLocationSearch = function(win) {
 
 // TODO: Move this elsewhere
 window.getParameterByName = function(name, url) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
     const regexS = '[\\?&]' + name + '=([^&#]*)';
     const regex = new RegExp(regexS, 'i');
     const results = regex.exec(url || getWindowLocationSearch());
