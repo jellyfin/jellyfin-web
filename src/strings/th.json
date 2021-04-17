@@ -99,5 +99,17 @@
     "ClearQueue": "ล้างคิว",
     "ButtonUninstall": "ถอนการติดตั้ง",
     "ButtonStart": "เริ่มเล่น",
-    "ButtonStop": "หยุด"
+    "ButtonStop": "หยุด",
+    "MusicVideos": "มิวสิควิดีโอ",
+    "ValueSpecialEpisodeName": "พิเศษ - {0}",
+    "Sync": "ซิงค์",
+    "Songs": "เพลง",
+    "Shows": "รายการ",
+    "Photos": "รูปภาพ",
+    "Movies": "ภาพยนตร์",
+    "HeaderContinueWatching": "ดูต่อ",
+    "Genres": "ประเภท",
+    "MediaInfoChannels": "ช่อง",
+    "Channels": "ช่อง",
+    "LabelSelectAudioChannels": "ช่อง"
 }
