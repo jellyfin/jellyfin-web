@@ -6,6 +6,8 @@ import { playbackManager } from './playback/playbackmanager';
 import { appHost } from '../components/apphost';
 import { appRouter } from '../components/appRouter';
 import * as inputManager from '../scripts/inputManager';
+import toast from '../components/toast/toast';
+import confirm from '../components/confirm/confirm';
 
 /* eslint-disable indent */
 
@@ -97,7 +99,9 @@ import * as inputManager from '../scripts/inputManager';
                         globalize,
                         appHost,
                         appRouter,
-                        inputManager
+                        inputManager,
+                        toast,
+                        confirm
                     });
                 } else {
                     console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
