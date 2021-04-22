@@ -24,12 +24,14 @@ import ServerConnections from '../ServerConnections';
             case 2:
                 return 'resumeaudio';
             case 3:
-                return 'livetv';
+                return 'resumebook';
             case 4:
-                return 'nextup';
+                return 'livetv';
             case 5:
-                return 'latestmedia';
+                return 'nextup';
             case 6:
+                return 'latestmedia';
+            case 7:
                 return 'none';
             default:
                 return '';
@@ -142,15 +144,17 @@ import ServerConnections from '../ServerConnections';
         } else if (section === 'librarybuttons') {
             loadlibraryButtons(elem, apiClient, user, userSettings, userViews);
         } else if (section === 'resume') {
-            loadResumeVideo(elem, apiClient);
+            return loadResume(elem, apiClient, 'HeaderContinueWatching', 'Video');
         } else if (section === 'resumeaudio') {
-            loadResumeAudio(elem, apiClient);
+            return loadResume(elem, apiClient, 'HeaderContinueListening', 'Audio');
         } else if (section === 'activerecordings') {
             loadLatestLiveTvRecordings(elem, true, apiClient);
         } else if (section === 'nextup') {
             loadNextUp(elem, apiClient);
         } else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
+        } else if (section == 'resumebook') {
+            return loadResume(elem, apiClient, 'HeaderContinueReading', 'Book');
         } else {
             elem.innerHTML = '';
             return Promise.resolve();
@@ -365,58 +369,10 @@ import ServerConnections from '../ServerConnections';
         imageLoader.lazyChildren(elem);
     }
 
-    function getContinueWatchingFetchFn(serverId) {
-        return function () {
-            const apiClient = ServerConnections.getApiClient(serverId);
-            const screenWidth = dom.getWindowSize().innerWidth;
-
-            let limit;
-            if (enableScrollX()) {
-                limit = 12;
-            } else {
-                limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
-                limit = Math.min(limit, 5);
-            }
-
-            const options = {
-                Limit: limit,
-                Recursive: true,
-                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
-                ImageTypeLimit: 1,
-                EnableImageTypes: 'Primary,Backdrop,Thumb',
-                EnableTotalRecordCount: false,
-                MediaTypes: 'Video'
-            };
-
-            return apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
-        };
-    }
-
-    function getContinueWatchingItemsHtml(items) {
-        const cardLayout = false;
-        return cardBuilder.getCardsHtml({
-            items: items,
-            preferThumb: true,
-            shape: getThumbShape(),
-            overlayText: false,
-            showTitle: true,
-            showParentTitle: true,
-            lazy: true,
-            showDetailsMenu: true,
-            overlayPlayButton: true,
-            context: 'home',
-            centerText: !cardLayout,
-            allowBottomPadding: false,
-            cardLayout: cardLayout,
-            showYear: true,
-            lines: 2
-        });
-    }
-
-    function loadResumeVideo(elem, apiClient) {
+    function loadResume(elem, apiClient, headerText, mediaType) {
         let html = '';
 
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate(headerText) + '</h2>';
         if (enableScrollX()) {
             html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
@@ -433,12 +389,12 @@ import ServerConnections from '../ServerConnections';
         elem.innerHTML = html;
 
         const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.fetchData = getContinueWatchingFetchFn(apiClient.serverId());
-        itemsContainer.getItemsHtml = getContinueWatchingItemsHtml;
+        itemsContainer.fetchData = getItemsToResumeFn(mediaType, apiClient.serverId());
+        itemsContainer.getItemsHtml = getItemsToResumeHtml;
         itemsContainer.parentContainer = elem;
     }
 
-    function getContinueListeningFetchFn(serverId) {
+    function getItemsToResumeFn(mediaType, serverId) {
         return function () {
             const apiClient = ServerConnections.getApiClient(serverId);
             const screenWidth = dom.getWindowSize().innerWidth;
@@ -458,14 +414,14 @@ import ServerConnections from '../ServerConnections';
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Thumb',
                 EnableTotalRecordCount: false,
-                MediaTypes: 'Audio'
+                MediaTypes: mediaType
             };
 
             return apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
         };
     }
 
-    function getContinueListeningItemsHtml(items) {
+    function getItemsToResumeHtml(items) {
         const cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
@@ -484,31 +440,6 @@ import ServerConnections from '../ServerConnections';
             showYear: true,
             lines: 2
         });
-    }
-
-    function loadResumeAudio(elem, apiClient) {
-        let html = '';
-
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueListening') + '</h2>';
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="audioplayback,markplayed">';
-        } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="audioplayback,markplayed">';
-        }
-
-        if (enableScrollX()) {
-            html += '</div>';
-        }
-        html += '</div>';
-
-        elem.classList.add('hide');
-        elem.innerHTML = html;
-
-        const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.fetchData = getContinueListeningFetchFn(apiClient.serverId());
-        itemsContainer.getItemsHtml = getContinueListeningItemsHtml;
-        itemsContainer.parentContainer = elem;
     }
 
     function getOnNowFetchFn(serverId) {

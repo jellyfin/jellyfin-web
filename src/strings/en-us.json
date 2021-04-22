@@ -321,6 +321,7 @@
     "HeaderContainerProfileHelp": "Container profiles indicate the limitations of a device when playing specific formats. If a limitation applies then the media will be transcoded, even if the format is configured for direct play.",
     "HeaderContinueListening": "Continue Listening",
     "HeaderContinueWatching": "Continue Watching",
+    "HeaderContinueReading": "Continue Reading",
     "HeaderCustomDlnaProfiles": "Custom Profiles",
     "HeaderDateIssued": "Date Issued",
     "HeaderDebugging": "Debugging and Tracing",
