@@ -931,7 +931,7 @@
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "To jest wymagane tylko dla niektórych urządzeń które nie wspierają przeszukiwania zbyt dobrze.",
     "OptionRequirePerfectSubtitleMatch": "Pobieraj tylko napisy, które pasują idealnie do plików wideo",
     "OptionRequirePerfectSubtitleMatchHelp": "Wymaganie perfekcyjnego dopasowania ograniczy listę napisów tylko do tych, które zostały przetestowane i zweryfikowane jako dokładnie pasujące. Odznaczenie tej opcji zwiększy szansę pobrania napisów, ale zwiększy także szansę na pobranie napisów błędnych lub o błędnej sygnaturze czasowej.",
-    "OptionResElement": "Element res",
+    "OptionResElement": "Element rozdzielczości",
     "OptionResumable": "Do wznowienia",
     "OptionSaveMetadataAsHidden": "Zapisuj metadane i obrazy jako pliki ukryte",
     "OptionSaveMetadataAsHiddenHelp": "Zmiana ta będzie miała zastosowanie do nowych metadanych zapisanych w przyszłości. Istniejące pliki metadanych zostaną zaktualizowane przy następnym zapisie przez serwer.",
