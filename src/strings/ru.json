@@ -326,7 +326,7 @@
     "HeaderMyMediaSmall": "Мои медиаданные (компактно)",
     "HeaderNewApiKey": "Новый API-ключ",
     "HeaderNewDevices": "Новые устройства",
-    "HeaderNextEpisodePlayingInValue": "Следующий эпизод воспроизводится через {0}",
+    "HeaderNextEpisodePlayingInValue": "Следующий эпизод начнётся через {0}",
     "HeaderNextVideoPlayingInValue": "Следующее видео воспроизводится через {0}",
     "HeaderOnNow": "В эфире",
     "HeaderOtherItems": "Прочие элементы",
