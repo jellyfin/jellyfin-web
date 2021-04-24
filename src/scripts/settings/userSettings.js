@@ -179,7 +179,7 @@ export class UserSettings {
             return this.set('enableSetUsingLastTracks', val.toString());
         }
 
-        return this.get('enableSetUsingLastTracks', false) === 'true';
+        return this.get('enableSetUsingLastTracks', false) !== 'false';
     }
 
     /**
