@@ -1325,6 +1325,8 @@
     "Settings": "Settings",
     "SettingsSaved": "Settings saved.",
     "SettingsWarning": "Changing these values may cause instability or connectivity failures. If you experience any problems, we recommend changing them back to default.",
+    "SetUsingLastTracks": "Set Subtitle/Audio Tracks with Previous Item",
+    "SetUsingLastTracksHelp": "Attempts to set the Subtitle/Audio track to the closest match to the last video.",
     "Share": "Share",
     "ShowAdvancedSettings": "Show advanced settings",
     "ShowIndicatorsFor": "Show indicators for:",
