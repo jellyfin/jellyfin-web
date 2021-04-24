@@ -217,30 +217,42 @@ function onAppReady() {
         }
     }
 
+    let cssHasLoadedTrigger;
+    const cssHasLoadedPromise = new Promise(resolve => {
+        cssHasLoadedTrigger = resolve;
+    });
+
+    const apiClient = ServerConnections.currentApiClient();
+    if (apiClient) {
+        fetch(apiClient.getUrl('Branding/Css'))
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error(response.status + ' ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(function(css) {
+                let style = document.querySelector('#cssBranding');
+                if (!style) {
+                    // Inject the branding css as a dom element in body so it will take
+                    // precedence over other stylesheets
+                    style = document.createElement('style');
+                    style.id = 'cssBranding';
+                    document.body.appendChild(style);
+                }
+                style.textContent = css;
+                cssHasLoadedTrigger(style);
+            })
+            .catch(function(err) {
+                console.warn('Error applying custom css', err);
+            });
+    }
+
     currentSettings.userIsSet().then(() => {
-        const apiClient = ServerConnections.currentApiClient();
-        if (apiClient && !currentSettings.disableCustomCss()) {
-            fetch(apiClient.getUrl('Branding/Css'))
-                .then(function(response) {
-                    if (!response.ok) {
-                        throw new Error(response.status + ' ' + response.statusText);
-                    }
-                    return response.text();
-                })
-                .then(function(css) {
-                    let style = document.querySelector('#cssBranding');
-                    if (!style) {
-                        // Inject the branding css as a dom element in body so it will take
-                        // precedence over other stylesheets
-                        style = document.createElement('style');
-                        style.id = 'cssBranding';
-                        document.body.appendChild(style);
-                    }
-                    style.textContent = css;
-                })
-                .catch(function(err) {
-                    console.warn('Error applying custom css', err);
-                });
+        if (currentSettings.disableCustomCss()) {
+            cssHasLoadedPromise.then(style => {
+                style.textContent = '';
+            });
         }
 
         const localCss = currentSettings.customCss();
