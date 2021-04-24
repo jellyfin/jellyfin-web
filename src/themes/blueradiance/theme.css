@@ -476,9 +476,10 @@ html {
     background-color: #3b3b3b;
 }
 
-.layout-desktop ::-webkit-scrollbar {
-    width: 1em;
-    height: 1em;
+.layout-desktop ::-webkit-scrollbar,
+.layout-tv ::-webkit-scrollbar {
+    width: 0.4em;
+    height: 0.4em;
 }
 
 ::-webkit-scrollbar-thumb:horizontal,
