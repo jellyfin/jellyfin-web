@@ -229,7 +229,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
             alphaPickerElement.classList.add('alphaPicker-fixed-right');
             itemsContainer.classList.add('padded-right-withalphapicker');
 
-            tabContent.querySelector('.btnFilter').addEventListener('click', function () {
+            tabContent.querySelector('.btnFilter').addEventListener('click', () => {
                 this.showFilterMenu();
             });
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {

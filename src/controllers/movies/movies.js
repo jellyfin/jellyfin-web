@@ -238,8 +238,8 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
                 });
             }
             const btnSelectView = tabContent.querySelector('.btnSelectView');
-            btnSelectView.addEventListener('click', function (e) {
-                libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle, 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
+            btnSelectView.addEventListener('click', (e) => {
+                libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
             btnSelectView.addEventListener('layoutchange', function (e) {
                 const viewStyle = e.detail.viewStyle;
