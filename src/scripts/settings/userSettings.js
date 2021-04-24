@@ -21,6 +21,9 @@ const defaultSubtitleAppearanceSettings = {
 
 export class UserSettings {
     constructor() {
+        this._userSetPromise = new Promise(resolve => {
+            this._userSetPromiseResolve = resolve;
+        });
     }
 
     /**
@@ -35,6 +38,11 @@ export class UserSettings {
 
         this.currentUserId = userId;
         this.currentApiClient = apiClient;
+
+        if (this._userSetPromiseResolve) {
+            this._userSetPromiseResolve();
+            this._userSetPromiseResolve = null;
+        }
 
         if (!userId) {
             this.displayPrefs = null;
@@ -57,6 +65,14 @@ export class UserSettings {
     // FIXME: Seems unused
     importFrom(instance) {
         this.displayPrefs = instance.getData();
+    }
+
+    /**
+     * Allows waiting until the user id is set.
+     * @returns {Promise}
+     */
+    userIsSet() {
+        return this._userSetPromise;
     }
 
     // FIXME: 'appSettings.set' doesn't return any value
@@ -237,6 +253,33 @@ export class UserSettings {
 
         val = this.get('enableBackdrops', false);
         return val === 'true';
+    }
+
+    /**
+     * Get or set 'disableCustomCss' state.
+     * @param {boolean|undefined} val - Flag to enable 'disableCustomCss' or undefined.
+     * @return {boolean} 'disableCustomCss' state.
+     */
+    disableCustomCss(val) {
+        if (val !== undefined) {
+            return this.set('disableCustomCss', val.toString(), false);
+        }
+
+        val = this.get('disableCustomCss', false);
+        return val === 'true';
+    }
+
+    /**
+     * Get or set customCss.
+     * @param {string|undefined} val - Language.
+     * @return {string} Language.
+     */
+    customCss(val) {
+        if (val !== undefined) {
+            return this.set('customCss', val.toString(), false);
+        }
+
+        return this.get('customCss', false);
     }
 
     /**
@@ -511,3 +554,5 @@ export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearan
 export const setSubtitleAppearanceSettings = currentSettings.setSubtitleAppearanceSettings.bind(currentSettings);
 export const setFilter = currentSettings.setFilter.bind(currentSettings);
 export const getFilter = currentSettings.getFilter.bind(currentSettings);
+export const customCss = currentSettings.customCss.bind(currentSettings);
+export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSettings);

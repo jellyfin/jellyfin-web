@@ -37,6 +37,7 @@ import SyncPlayToasts from '../components/syncPlay/ui/syncPlayToasts';
 import SyncPlayNoActivePlayer from '../components/syncPlay/ui/players/NoActivePlayer';
 import SyncPlayHtmlVideoPlayer from '../components/syncPlay/ui/players/HtmlVideoPlayer';
 import SyncPlayHtmlAudioPlayer from '../components/syncPlay/ui/players/HtmlAudioPlayer';
+import { currentSettings } from './settings/userSettings';
 
 // TODO: Move this elsewhere
 window.getWindowLocationSearch = function(win) {
@@ -216,30 +217,45 @@ function onAppReady() {
         }
     }
 
-    const apiClient = ServerConnections.currentApiClient();
-    if (apiClient) {
-        fetch(apiClient.getUrl('Branding/Css'))
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error(response.status + ' ' + response.statusText);
-                }
-                return response.text();
-            })
-            .then(function(css) {
-                let style = document.querySelector('#cssBranding');
-                if (!style) {
-                    // Inject the branding css as a dom element in body so it will take
-                    // precedence over other stylesheets
-                    style = document.createElement('style');
-                    style.id = 'cssBranding';
-                    document.body.appendChild(style);
-                }
-                style.textContent = css;
-            })
-            .catch(function(err) {
-                console.warn('Error applying custom css', err);
-            });
-    }
+    currentSettings.userIsSet().then(() => {
+        const apiClient = ServerConnections.currentApiClient();
+        if (apiClient && !currentSettings.disableCustomCss()) {
+            fetch(apiClient.getUrl('Branding/Css'))
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error(response.status + ' ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(function(css) {
+                    let style = document.querySelector('#cssBranding');
+                    if (!style) {
+                        // Inject the branding css as a dom element in body so it will take
+                        // precedence over other stylesheets
+                        style = document.createElement('style');
+                        style.id = 'cssBranding';
+                        document.body.appendChild(style);
+                    }
+                    style.textContent = css;
+                })
+                .catch(function(err) {
+                    console.warn('Error applying custom css', err);
+                });
+        }
+
+        const localCss = currentSettings.customCss();
+        if (localCss) {
+            let style = document.querySelector('#localCssBranding');
+            if (!style) {
+                // Inject the branding css as a dom element in body so it will take
+                // precedence over other stylesheets
+                style = document.createElement('style');
+                style.id = 'localCssBranding';
+                document.body.appendChild(style);
+            }
+            style.textContent = localCss;
+        }
+    });
 }
 
 function registerServiceWorker() {
