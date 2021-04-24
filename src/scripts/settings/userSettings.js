@@ -21,9 +21,6 @@ const defaultSubtitleAppearanceSettings = {
 
 export class UserSettings {
     constructor() {
-        this._userSetPromise = new Promise(resolve => {
-            this._userSetPromiseResolve = resolve;
-        });
     }
 
     /**
@@ -38,11 +35,6 @@ export class UserSettings {
 
         this.currentUserId = userId;
         this.currentApiClient = apiClient;
-
-        if (this._userSetPromiseResolve) {
-            this._userSetPromiseResolve();
-            this._userSetPromiseResolve = null;
-        }
 
         if (!userId) {
             this.displayPrefs = null;
@@ -65,14 +57,6 @@ export class UserSettings {
     // FIXME: Seems unused
     importFrom(instance) {
         this.displayPrefs = instance.getData();
-    }
-
-    /**
-     * Allows waiting until the user id is set.
-     * @returns {Promise}
-     */
-    userIsSet() {
-        return this._userSetPromise;
     }
 
     // FIXME: 'appSettings.set' doesn't return any value
