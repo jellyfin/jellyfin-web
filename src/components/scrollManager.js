@@ -174,6 +174,15 @@ import layoutManager from './layoutManager';
         }
 
         /**
+         * Returns attribute value.
+         * @param {string} attributeName - Attibute name.
+         * @return {string} Attibute value.
+         */
+        getAttribute(attributeName) {
+            return document.body.getAttribute(attributeName);
+        }
+
+        /**
          * Returns bounding client rect.
          * @return {Rect} Bounding client rect.
          */
@@ -205,12 +214,14 @@ import layoutManager from './layoutManager';
         x: {
             nameScroll: 'scrollWidth',
             nameClient: 'clientWidth',
-            nameStyle: 'overflowX'
+            nameStyle: 'overflowX',
+            nameScrollMode: 'data-scroll-mode-x'
         },
         y: {
             nameScroll: 'scrollHeight',
             nameClient: 'clientHeight',
-            nameStyle: 'overflowY'
+            nameStyle: 'overflowY',
+            nameScrollMode: 'data-scroll-mode-y'
         }
     };
 
@@ -228,21 +239,24 @@ import layoutManager from './layoutManager';
             let parent = element.parentElement;
 
             while (parent && parent !== document.body) {
-                // Skip 'emby-scroller' and 'emby-tabs' because they scroll by themselves
-                if (!parent.classList.contains('emby-scroller') &&
-                    !parent.classList.contains('emby-tabs')) {
-                    const styles = window.getComputedStyle(parent);
+                const scrollMode = parent.getAttribute(scrollerHint.nameScrollMode);
 
-                    // Stop on fixed parent
-                    if (styles.position === 'fixed') {
-                        return parent;
-                    }
+                // Stop on self-scrolled containers
+                if (scrollMode === 'custom') {
+                    return parent;
+                }
 
-                    const overflow = styles[scrollerHint.nameStyle];
+                const styles = window.getComputedStyle(parent);
 
-                    if (overflow === 'scroll' || overflow === 'auto' && parent[scrollerHint.nameScroll] > parent[scrollerHint.nameClient]) {
-                        return parent;
-                    }
+                // Stop on fixed parent
+                if (styles.position === 'fixed') {
+                    return parent;
+                }
+
+                const overflow = styles[scrollerHint.nameStyle];
+
+                if (overflow === 'scroll' || overflow === 'auto' && parent[scrollerHint.nameScroll] > parent[scrollerHint.nameClient]) {
+                    return parent;
                 }
 
                 parent = parent.parentElement;
@@ -257,6 +271,8 @@ import layoutManager from './layoutManager';
      * @property {number} scrollPos - Current scroll position.
      * @property {number} scrollSize - Scroll size.
      * @property {number} clientSize - Client size.
+     * @property {string} mode - Scrolling mode.
+     * @property {boolean} custom - Custom scrolling mode.
      */
 
     /**
@@ -273,11 +289,15 @@ import layoutManager from './layoutManager';
             data.scrollPos = scroller.scrollLeft;
             data.scrollSize = scroller.scrollWidth;
             data.clientSize = scroller.clientWidth;
+            data.mode = scroller.getAttribute(scrollerHints.x.nameScrollMode);
         } else {
             data.scrollPos = scroller.scrollTop;
             data.scrollSize = scroller.scrollHeight;
             data.clientSize = scroller.clientHeight;
+            data.mode = scroller.getAttribute(scrollerHints.y.nameScrollMode);
         }
+
+        data.custom = data.mode === 'custom';
 
         return data;
     }
@@ -363,9 +383,13 @@ import layoutManager from './layoutManager';
         const scrollBehavior = smooth ? 'smooth' : 'instant';
 
         if (xScroller !== yScroller) {
-            scrollToHelper(xScroller, {left: scrollX, behavior: scrollBehavior});
-            scrollToHelper(yScroller, {top: scrollY, behavior: scrollBehavior});
-        } else {
+            if (xScroller) {
+                scrollToHelper(xScroller, {left: scrollX, behavior: scrollBehavior});
+            }
+            if (yScroller) {
+                scrollToHelper(yScroller, {top: scrollY, behavior: scrollBehavior});
+            }
+        } else if (xScroller) {
             scrollToHelper(xScroller, {left: scrollX, top: scrollY, behavior: scrollBehavior});
         }
     }
@@ -392,8 +416,8 @@ import layoutManager from './layoutManager';
      * @param {number} scrollY - Vertical coordinate.
      */
     function animateScroll(xScroller, scrollX, yScroller, scrollY) {
-        const ox = xScroller.scrollLeft;
-        const oy = yScroller.scrollTop;
+        const ox = xScroller ? xScroller.scrollLeft : scrollX;
+        const oy = yScroller ? yScroller.scrollTop : scrollY;
         const dx = scrollX - ox;
         const dy = scrollY - oy;
 
@@ -517,30 +541,51 @@ import layoutManager from './layoutManager';
             scrollCenterX = scrollCenterY = false;
         }
 
-        const xScroller = getScrollableParent(element, false);
-        const yScroller = getScrollableParent(element, true);
-
-        const elementRect = element.getBoundingClientRect();
+        let xScroller = getScrollableParent(element, false);
+        let yScroller = getScrollableParent(element, true);
 
         const xScrollerData = getScrollerData(xScroller, false);
         const yScrollerData = getScrollerData(yScroller, true);
 
-        const xPos = getScrollerChildPos(xScroller, element, false);
-        const yPos = getScrollerChildPos(yScroller, element, true);
-
-        const scrollX = calcScroll(xScrollerData, xPos, elementRect.width, scrollCenterX);
-        let scrollY = calcScroll(yScrollerData, yPos, elementRect.height, scrollCenterY);
-
-        // HACK: Scroll to top for top menu because it is hidden
-        // FIXME: Need a marker to scroll top/bottom
-        if (isFixed && elementRect.bottom < 0) {
-            scrollY = 0;
+        // Exit, since we have no control over scrolling in this container
+        if (xScroller === yScroller && (xScrollerData.custom || yScrollerData.custom)) {
+            return;
         }
 
-        // HACK: Ensure we are at the top
-        // FIXME: Need a marker to scroll top/bottom
-        if (scrollY < minimumScrollY() && yScroller === documentScroller) {
-            scrollY = 0;
+        // Exit, since we have no control over scrolling in these containers
+        if (xScrollerData.custom && yScrollerData.custom) {
+            return;
+        }
+
+        const elementRect = element.getBoundingClientRect();
+
+        let scrollX = 0;
+        let scrollY = 0;
+
+        if (!xScrollerData.custom) {
+            const xPos = getScrollerChildPos(xScroller, element, false);
+            scrollX = calcScroll(xScrollerData, xPos, elementRect.width, scrollCenterX);
+        } else {
+            xScroller = null;
+        }
+
+        if (!yScrollerData.custom) {
+            const yPos = getScrollerChildPos(yScroller, element, true);
+            scrollY = calcScroll(yScrollerData, yPos, elementRect.height, scrollCenterY);
+
+            // HACK: Scroll to top for top menu because it is hidden
+            // FIXME: Need a marker to scroll top/bottom
+            if (isFixed && elementRect.bottom < 0) {
+                scrollY = 0;
+            }
+
+            // HACK: Ensure we are at the top
+            // FIXME: Need a marker to scroll top/bottom
+            if (scrollY < minimumScrollY() && yScroller === documentScroller) {
+                scrollY = 0;
+            }
+        } else {
+            yScroller = null;
         }
 
         doScroll(xScroller, scrollX, yScroller, scrollY, smooth);
