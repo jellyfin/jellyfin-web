@@ -265,8 +265,7 @@ export class UserSettings {
             return this.set('disableCustomCss', val.toString(), false);
         }
 
-        val = this.get('disableCustomCss', false);
-        return val === 'true';
+        return this.get('disableCustomCss', false) === 'true';
     }
 
     /**
