@@ -223,8 +223,9 @@ import layoutManager from './layoutManager';
             let parent = element.parentElement;
 
             while (parent) {
-                // Skip 'emby-scroller' because it scrolls by itself
+                // Skip 'emby-scroller' and 'emby-tabs' because they scroll by themselves
                 if (!parent.classList.contains('emby-scroller') &&
+                    !parent.classList.contains('emby-tabs') &&
                     parent[nameScroll] > parent[nameClient] && parent.classList.contains(nameClass)) {
                     return parent;
                 }
