@@ -944,21 +944,23 @@ import browser from './browser';
         // Subtitle profiles
         // External vtt or burn in
         profile.SubtitleProfiles = [];
-        if (supportsTextTracks()) {
-            profile.SubtitleProfiles.push({
-                Format: 'vtt',
-                Method: 'External'
-            });
-        }
-        if (options.enableSsaRender !== false && (!options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats')) {
-            profile.SubtitleProfiles.push({
-                Format: 'ass',
-                Method: 'External'
-            });
-            profile.SubtitleProfiles.push({
-                Format: 'ssa',
-                Method: 'External'
-            });
+        if (!options.isRetry && appSettings.get('subtitleburnin') !== 'all') {
+            if (supportsTextTracks()) {
+                profile.SubtitleProfiles.push({
+                    Format: 'vtt',
+                    Method: 'External'
+                });
+            }
+            if (options.enableSsaRender !== false && appSettings.get('subtitleburnin') !== 'allcomplexformats') {
+                profile.SubtitleProfiles.push({
+                    Format: 'ass',
+                    Method: 'External'
+                });
+                profile.SubtitleProfiles.push({
+                    Format: 'ssa',
+                    Method: 'External'
+                });
+            }
         }
 
         profile.ResponseProfiles = [];
