@@ -1255,5 +1255,9 @@
     "LabelLineup": "Kokoonpano:",
     "LabelKodiMetadataSaveImagePathsHelp": "Tämä on suositeltavaa, jos kuvatiedostojesi nimet eivät noudata Kodin ohjeistuksia.",
     "LabelKodiMetadataEnableExtraThumbsHelp": "Ladattaessa mediakuvituksia, voidaan ne tallentaa sekä extrafanart, että extrathumbs -mediakuvituksina parasta Kodin ulkoasujen yhteensopivuutta varten.",
-    "LabelKodiMetadataEnableExtraThumbs": "Kopioi extrafanart-mediakuvitukset extrathumbs-mediakuvitusten kenttään"
+    "LabelKodiMetadataEnableExtraThumbs": "Kopioi extrafanart-mediakuvitukset extrathumbs-mediakuvitusten kenttään",
+    "Framerate": "Virkistystaajuus",
+    "DisablePlugin": "Poista käytöstä",
+    "EnablePlugin": "Ota käyttöön",
+    "DirectPlayHelp": "Lähde on täysin yhteensopiva asiakassovelluksen kanssa ja istunto vastaanottaa tiedoston ilman muutoksia."
 }
