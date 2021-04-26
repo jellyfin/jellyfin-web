@@ -62,19 +62,13 @@ import template from './searchfields.template.html';
     }
 
     function embed(elem, instance, options) {
-        let html = globalize.translateHtml(template, 'core');
-
-        if (browser.tizen || browser.orsay) {
-            html = html.replace('<input ', '<input readonly ');
-        }
-
-        elem.innerHTML = html;
+        elem.innerHTML = globalize.translateHtml(template, 'core');
 
         elem.classList.add('searchFields');
 
         const txtSearch = elem.querySelector('.searchfields-txtSearch');
 
-        if (layoutManager.tv) {
+        if (layoutManager.tv && !browser.tv) {
             const alphaPickerElement = elem.querySelector('.alphaPicker');
 
             elem.querySelector('.alphaPicker').classList.remove('hide');
