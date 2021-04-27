@@ -944,14 +944,15 @@ import browser from './browser';
         // Subtitle profiles
         // External vtt or burn in
         profile.SubtitleProfiles = [];
-        if (!options.isRetry && appSettings.get('subtitleburnin') !== 'all') {
+        const subtitleBurninSetting = appSettings.get('subtitleburnin');
+        if (!options.isRetry && subtitleBurninSetting !== 'all') {
             if (supportsTextTracks()) {
                 profile.SubtitleProfiles.push({
                     Format: 'vtt',
                     Method: 'External'
                 });
             }
-            if (options.enableSsaRender !== false && appSettings.get('subtitleburnin') !== 'allcomplexformats') {
+            if (options.enableSsaRender !== false && subtitleBurninSetting !== 'allcomplexformats') {
                 profile.SubtitleProfiles.push({
                     Format: 'ass',
                     Method: 'External'
