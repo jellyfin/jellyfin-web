@@ -1496,7 +1496,7 @@
     "LabelSyncPlayResumePlayback": "Setze lokale Wiedergabe fort",
     "LabelSyncPlayHaltPlaybackDescription": "Und ignoriere aktuelle Änderungen der Wiedergabeliste",
     "LabelSyncPlayHaltPlayback": "Stoppe lokale Wiedergabe",
-    "LabelMaxAudiobookResumeHelp": "Titel werden als vollständig abgespielt angenommen, wenn sie nach dieser Abspieldauer gestoppt werden.",
+    "LabelMaxAudiobookResumeHelp": "Titel werden als vollständig abgespielt angenommen, wenn beim Stoppen die verbleibende Dauer kleiner als dieser Wert ist.",
     "MessageChromecastConnectionError": "Dein Google Cast-Empfänger kann sich nicht mit dem Jellyfin Server verbinden. Bitte überprüfe die Verbindung und versuche es erneut.",
     "MessagePlaybackError": "Es gab einen Fehler während dem Abspielen dieser Datei auf deinem Google Cast-Empfänger.",
     "LabelMinAudiobookResumeHelp": "Titel gelten bis zu diesem Zeitpunkt als nicht abgespielt.",
