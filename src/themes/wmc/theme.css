@@ -456,7 +456,8 @@ html {
     background-color: #081b3b;
 }
 
-.layout-desktop ::-webkit-scrollbar {
+.layout-desktop ::-webkit-scrollbar,
+.layout-tv ::-webkit-scrollbar {
     width: 1em;
     height: 1em;
 }

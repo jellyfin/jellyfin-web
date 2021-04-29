@@ -595,7 +595,8 @@ a[data-role=button] {
     background-color: rgba(59, 59, 59, 0.5);
 }
 
-.layout-desktop ::-webkit-scrollbar {
+.layout-desktop ::-webkit-scrollbar,
+.layout-tv ::-webkit-scrollbar {
     width: 0.4em;
     height: 1em;
 }
