@@ -275,12 +275,12 @@ import template from './homeScreenSettings.template.html';
         return html;
     }
 
-    function renderPerLibrarySettings(context, user, userViews) {
+    function renderPerLibrarySettings(context, user, userViews, userSettings) {
         const elem = context.querySelector('.perLibrarySettings');
         let html = '';
 
         for (let i = 0, length = userViews.length; i < length; i++) {
-            html += getPerLibrarySettingsHtml(userViews[i], user);
+            html += getPerLibrarySettingsHtml(userViews[i], user, userSettings);
         }
 
         elem.innerHTML = html;
@@ -297,7 +297,7 @@ import template from './homeScreenSettings.template.html';
         Promise.all([promise1, promise2]).then(responses => {
             renderViewOrder(context, user, responses[0]);
 
-            renderPerLibrarySettings(context, user, responses[0].Items);
+            renderPerLibrarySettings(context, user, responses[0].Items, userSettings);
 
             renderViews(context, user, responses[1]);
 
