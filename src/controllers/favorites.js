@@ -256,6 +256,8 @@ import ServerConnections from '../components/ServerConnections';
         }
 
         elem.innerHTML = html;
+        window.CustomElements.upgradeSubtree(elem);
+
         const elems = elem.querySelectorAll('.itemsContainer');
 
         for (let i = 0, length = elems.length; i < length; i++) {
