@@ -1385,7 +1385,7 @@
     "QuickConnectNotActive": "Quick Connect 尚未於該伺服器上啟用",
     "QuickConnectNotAvailable": "聯繫伺服器管理員以啟用 Quick Connect",
     "QuickConnectInvalidCode": "Quick Connect 代號無效",
-    "KnownProxiesHelp": "連接到 Jellyfin 時使用的已知 Proxy IP 位址之逗號分隔列表。正確使用 X-Forwarded-For 標頭需要此列表。儲存後需要重新啟動。",
+    "KnownProxiesHelp": "連接到 Jellyfin 的代理伺服器的 IP 位址或主機名稱之列表，以逗號分隔，以使 X-Forwarded-For 標頭能正常運作。本設定儲存後需要重新啟動。",
     "LabelMaxMuxingQueueSize": "最大混合器佇列大小：",
     "VideoAudio": "影片音訊",
     "Video": "影片",
