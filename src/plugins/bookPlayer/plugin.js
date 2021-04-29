@@ -172,7 +172,7 @@ export class BookPlayer {
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('#btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
         elem.querySelector('#btnBookplayerToc').removeEventListener('click', this.openTableOfContents);
-        elem.querySelector('#btnBookplayerFullscreen').removeEventListener('click', this.toggleFullscreen)
+        elem.querySelector('#btnBookplayerFullscreen').removeEventListener('click', this.toggleFullscreen);
         elem.querySelector('#btnBookplayerPrev')?.removeEventListener('click', this.previous);
         elem.querySelector('#btnBookplayerNext')?.removeEventListener('click', this.next);
     }
@@ -259,7 +259,7 @@ export class BookPlayer {
         const apiClient = ServerConnections.getApiClient(serverId);
 
         if (!Screenfull.isEnabled) {
-            document.getElementById("btnBookplayerFullscreen").display = 'none';
+            document.getElementById('btnBookplayerFullscreen').display = 'none';
         }
 
         return new Promise((resolve, reject) => {
