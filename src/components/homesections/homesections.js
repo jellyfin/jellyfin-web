@@ -372,12 +372,20 @@ import ServerConnections from '../ServerConnections';
     function loadResume(elem, apiClient, headerText, mediaType) {
         let html = '';
 
+        let dataMonitor = 'data-monitor="';
+        if (mediaType == 'Video') {
+            dataMonitor += 'videoplayback,'
+        } else if (mediaType == 'Audio') {
+            dataMonitor += 'audioplayback,'
+        }
+        dataMonitor += 'markplayed">';
+
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate(headerText) + '</h2>';
         if (enableScrollX()) {
             html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" ' + dataMonitor;
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" '+ dataMonitor;
         }
 
         if (enableScrollX()) {
