@@ -153,7 +153,7 @@ import ServerConnections from '../ServerConnections';
             loadNextUp(elem, apiClient);
         } else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
-        } else if (section == 'resumebook') {
+        } else if (section === 'resumebook') {
             return loadResume(elem, apiClient, 'HeaderContinueReading', 'Book');
         } else {
             elem.innerHTML = '';
@@ -369,23 +369,22 @@ import ServerConnections from '../ServerConnections';
         imageLoader.lazyChildren(elem);
     }
 
+    const dataMonitorHints = {
+        'Audio': 'audioplayback,markplayed',
+        'Video': 'videoplayback,markplayed'
+    };
+
     function loadResume(elem, apiClient, headerText, mediaType) {
         let html = '';
 
-        let dataMonitor = 'data-monitor="';
-        if (mediaType == 'Video') {
-            dataMonitor += 'videoplayback,'
-        } else if (mediaType == 'Audio') {
-            dataMonitor += 'audioplayback,'
-        }
-        dataMonitor += 'markplayed">';
+        const dataMonitor = dataMonitorHints[mediaType] || 'markplayed';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate(headerText) + '</h2>';
         if (enableScrollX()) {
             html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" ' + dataMonitor;
+            html += `<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="${dataMonitor}">`;
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" '+ dataMonitor;
+            html += `<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="${dataMonitor}">`;
         }
 
         if (enableScrollX()) {
