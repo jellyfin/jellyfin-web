@@ -2294,25 +2294,29 @@ class PlaybackManager {
         }
 
         function autoSetNextTracks(prevSource, mediaSource) {
-            if (!prevSource) return;
+            try {
+                if (!prevSource) return;
 
-            if (!mediaSource) {
-                console.warn('AutoSet - No mediaSource');
-                return;
+                if (!mediaSource) {
+                    console.warn('AutoSet - No mediaSource');
+                    return;
+                }
+
+                if (typeof prevSource.DefaultAudioStreamIndex != 'number'
+                    || typeof prevSource.DefaultSubtitleStreamIndex != 'number')
+                    return;
+
+                if (typeof mediaSource.DefaultAudioStreamIndex != 'number'
+                    || typeof mediaSource.DefaultSubtitleStreamIndex != 'number') {
+                    console.warn('AutoSet - No stream indexes (but prevSource has them)');
+                    return;
+                }
+
+                rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
+                rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
+            } catch (e) {
+                console.error(`AutoSet - Caught unexpected error: ${e}`);
             }
-
-            if (typeof prevSource.DefaultAudioStreamIndex != 'number'
-                || typeof prevSource.DefaultSubtitleStreamIndex != 'number')
-                return;
-
-            if (typeof mediaSource.DefaultAudioStreamIndex != 'number'
-                || typeof mediaSource.DefaultSubtitleStreamIndex != 'number') {
-                console.warn('AutoSet - No stream indexes (but prevSource has them)');
-                return;
-            }
-
-            rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
-            rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
         }
 
         function playAfterBitrateDetect(maxBitrate, item, playOptions, onPlaybackStartedFn, prevSource) {
