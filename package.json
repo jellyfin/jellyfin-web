@@ -56,7 +56,7 @@
     "@fontsource/noto-sans-sc": "^4.2.1",
     "blurhash": "^1.1.3",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
-    "core-js": "^3.9.1",
+    "core-js": "^3.11.1",
     "date-fns": "^2.17.0",
     "epubjs": "^0.3.85",
     "fast-text-encoding": "^1.0.3",
