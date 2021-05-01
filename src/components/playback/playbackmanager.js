@@ -2230,9 +2230,19 @@ class PlaybackManager {
                 return;
             }
 
+            if (!prevSource.MediaStreams || !mediaSource.MediaStreams) {
+                console.debug(`AutoSet ${streamType} - No MediaStreams`);
+                return;
+            }
+
             let bestStreamIndex = null;
             let bestStreamScore = 0;
             const prevStream = prevSource.MediaStreams[prevIndex];
+
+            if (!prevStream) {
+                console.debug(`AutoSet ${streamType} - No prevStream`);
+                return;
+            }
 
             console.debug(`AutoSet ${streamType} - Previous was ${prevStream.Index} - ${prevStream.DisplayTitle}`);
 
@@ -2284,12 +2294,22 @@ class PlaybackManager {
         }
 
         function autoSetNextTracks(prevSource, mediaSource) {
-            if (!prevSource
-                || typeof prevSource.DefaultAudioStreamIndex != 'number'
-                || typeof mediaSource.DefaultAudioStreamIndex != 'number'
-                || typeof prevSource.DefaultSubtitleStreamIndex != 'number'
-                || typeof mediaSource.DefaultSubtitleStreamIndex != 'number')
+            if (!prevSource) return;
+
+            if (!mediaSource) {
+                console.warn('AutoSet - No mediaSource');
                 return;
+            }
+
+            if (typeof prevSource.DefaultAudioStreamIndex != 'number'
+                || typeof prevSource.DefaultSubtitleStreamIndex != 'number')
+                return;
+
+            if (typeof mediaSource.DefaultAudioStreamIndex != 'number'
+                || typeof mediaSource.DefaultSubtitleStreamIndex != 'number') {
+                console.warn('AutoSet - No stream indexes (but prevSource has them)');
+                return;
+            }
 
             rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
             rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
