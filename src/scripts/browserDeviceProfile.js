@@ -945,14 +945,14 @@ import browser from './browser';
         // External vtt or burn in
         profile.SubtitleProfiles = [];
         const subtitleBurninSetting = appSettings.get('subtitleburnin');
-        if (!options.isRetry && subtitleBurninSetting !== 'all') {
+        if (subtitleBurninSetting !== 'all') {
             if (supportsTextTracks()) {
                 profile.SubtitleProfiles.push({
                     Format: 'vtt',
                     Method: 'External'
                 });
             }
-            if (options.enableSsaRender !== false && subtitleBurninSetting !== 'allcomplexformats') {
+            if (options.enableSsaRender !== false && !options.isRetry && subtitleBurninSetting !== 'allcomplexformats') {
                 profile.SubtitleProfiles.push({
                     Format: 'ass',
                     Method: 'External'
