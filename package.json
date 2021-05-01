@@ -80,7 +80,7 @@
     "webcomponents.js": "^0.7.24",
     "whatwg-fetch": "^3.6.2",
     "workbox-core": "^5.1.4",
-    "workbox-precaching": "^5.1.4"
+    "workbox-precaching": "^6.1.5"
   },
   "browserslist": [
     "last 2 Firefox versions",
