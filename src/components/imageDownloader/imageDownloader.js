@@ -79,7 +79,7 @@ import template from './imageDownloader.template.html';
         let html = '';
 
         for (let i = 0, length = imagesResult.Images.length; i < length; i++) {
-            html += getRemoteImageHtml(imagesResult.Images[i], imageType, apiClient);
+            html += getRemoteImageHtml(imagesResult.Images[i], imageType);
         }
 
         const availableImagesList = page.querySelector('.availableImagesList');
@@ -150,11 +150,7 @@ import template from './imageDownloader.template.html';
         });
     }
 
-    function getDisplayUrl(url, apiClient) {
-        return apiClient.getUrl('Images/Remote', { imageUrl: url });
-    }
-
-    function getRemoteImageHtml(image, imageType, apiClient) {
+    function getRemoteImageHtml(image, imageType) {
         const tagName = layoutManager.tv ? 'button' : 'div';
         const enableFooterButtons = !layoutManager.tv;
 
@@ -209,9 +205,9 @@ import template from './imageDownloader.template.html';
         html += '<div class="cardContent">';
 
         if (layoutManager.tv || !appHost.supports('externallinks')) {
-            html += '<div class="cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center center;background-size:contain;"></div>';
+            html += '<div class="cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain;"></div>';
         } else {
-            html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center center;background-size:contain"></a>';
+            html += '<a is="emby-linkbutton" target="_blank" href="' + image.Url + '" class="button-link cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain"></a>';
         }
 
         html += '</div>';
