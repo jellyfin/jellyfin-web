@@ -79,7 +79,7 @@ import template from './imageDownloader.template.html';
         let html = '';
 
         for (let i = 0, length = imagesResult.Images.length; i < length; i++) {
-            html += getRemoteImageHtml(imagesResult.Images[i], imageType, apiClient);
+            html += getRemoteImageHtml(imagesResult.Images[i], imageType);
         }
 
         const availableImagesList = page.querySelector('.availableImagesList');
@@ -150,7 +150,7 @@ import template from './imageDownloader.template.html';
         });
     }
 
-    function getRemoteImageHtml(image, imageType, apiClient) {
+    function getRemoteImageHtml(image, imageType) {
         const tagName = layoutManager.tv ? 'button' : 'div';
         const enableFooterButtons = !layoutManager.tv;
 

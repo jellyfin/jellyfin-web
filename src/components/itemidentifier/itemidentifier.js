@@ -171,7 +171,6 @@ import template from './itemidentifier.template.html';
         let resultHtml = lines.join('<br/>');
 
         if (identifyResult.ImageUrl) {
-
             resultHtml = `<div style="display:flex;align-items:center;"><img src="${identifyResult.ImageUrl}" style="max-height:240px;" /><div style="margin-left:1em;">${resultHtml}</div>`;
         }
 
