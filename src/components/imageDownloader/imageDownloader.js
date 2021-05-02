@@ -150,10 +150,6 @@ import template from './imageDownloader.template.html';
         });
     }
 
-    function getDisplayUrl(url, apiClient) {
-        return apiClient.getUrl('Images/Remote', { imageUrl: url });
-    }
-
     function getRemoteImageHtml(image, imageType, apiClient) {
         const tagName = layoutManager.tv ? 'button' : 'div';
         const enableFooterButtons = !layoutManager.tv;
@@ -209,9 +205,9 @@ import template from './imageDownloader.template.html';
         html += '<div class="cardContent">';
 
         if (layoutManager.tv || !appHost.supports('externallinks')) {
-            html += '<div class="cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center center;background-size:contain;"></div>';
+            html += '<div class="cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain;"></div>';
         } else {
-            html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center center;background-size:contain"></a>';
+            html += '<a is="emby-linkbutton" target="_blank" href="' + image.Url + '" class="button-link cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain"></a>';
         }
 
         html += '</div>';

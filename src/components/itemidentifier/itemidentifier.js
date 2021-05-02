@@ -171,9 +171,8 @@ import template from './itemidentifier.template.html';
         let resultHtml = lines.join('<br/>');
 
         if (identifyResult.ImageUrl) {
-            const displayUrl = getSearchImageDisplayUrl(identifyResult.ImageUrl, identifyResult.SearchProviderName);
 
-            resultHtml = `<div style="display:flex;align-items:center;"><img src="${displayUrl}" style="max-height:240px;" /><div style="margin-left:1em;">${resultHtml}</div>`;
+            resultHtml = `<div style="display:flex;align-items:center;"><img src="${identifyResult.ImageUrl}" style="max-height:240px;" /><div style="margin-left:1em;">${resultHtml}</div>`;
         }
 
         page.querySelector('.selectedSearchResult').innerHTML = resultHtml;
@@ -218,9 +217,7 @@ import template from './itemidentifier.template.html';
         html += '<div class="cardContent searchImage">';
 
         if (result.ImageUrl) {
-            const displayUrl = getSearchImageDisplayUrl(result.ImageUrl, result.SearchProviderName);
-
-            html += `<div class="cardImageContainer coveredImage" style="background-image:url('${displayUrl}');"></div>`;
+            html += `<div class="cardImageContainer coveredImage" style="background-image:url('${result.ImageUrl}');"></div>`;
         } else {
             html += `<div class="cardImageContainer coveredImage defaultCardBackground defaultCardBackground1"><div class="cardText cardCenteredText">${result.Name}</div></div>`;
         }
@@ -256,16 +253,6 @@ import template from './itemidentifier.template.html';
         html += '</div>';
         html += '</button>';
         return html;
-    }
-
-    function getSearchImageDisplayUrl(url, provider) {
-        const apiClient = getApiClient();
-
-        return apiClient.getUrl('Items/RemoteSearch/Image', {
-            imageUrl: url,
-            ProviderName: provider,
-            api_key: apiClient.accessToken()
-        });
     }
 
     function submitIdentficationResult(page) {
