@@ -463,6 +463,10 @@ import browser from './browser';
             if (!browser.safari) {
                 mp4VideoCodecs.push('hevc');
             }
+
+            if (browser.tizen || browser.web0s) {
+                hlsInTsVideoCodecs.push('hevc');
+            }
         }
 
         if (supportsMpeg2Video()) {
