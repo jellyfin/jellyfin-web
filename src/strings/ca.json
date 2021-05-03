@@ -1,5 +1,5 @@
 {
-    "AccessRestrictedTryAgainLater": "L'accés està restringit actualment. Intenta-ho de nou més tard si et plau.",
+    "AccessRestrictedTryAgainLater": "L'accés està restringit actualment. Intenta-ho de nou més tard si us plau.",
     "Add": "Afegeix",
     "AddToCollection": "Afegeix a col·lecció",
     "AddToPlayQueue": "Afegeix a la llista de reproducció",
@@ -736,5 +736,9 @@
     "Data": "Dades",
     "ButtonUseQuickConnect": "Utilitzeu la connexió ràpida",
     "ButtonActivate": "Activa",
-    "Authorize": "Autoritzar"
+    "Authorize": "Autoritzar",
+    "LabelServerName": "Nom del servidor:",
+    "MessageChromecastConnectionError": "El receptor de Google Cast no pot contactar el servidor de Jellyfin. Si us plau, comprova la connexió i torna-ho a provar.",
+    "MessagePlaybackError": "Hi ha hagut un problema reproduïnt aquest arxiu al teu receptor de Google Cast.",
+    "EnableEnhancedNvdecDecoder": "Activa el decodificador NVDEC millorat"
 }
