@@ -1501,7 +1501,7 @@
     "MessagePlaybackError": "Es gab einen Fehler während dem Abspielen dieser Datei auf deinem Google Cast-Empfänger.",
     "LabelMinAudiobookResumeHelp": "Titel gelten bis zu diesem Zeitpunkt als nicht abgespielt.",
     "LabelMinAudiobookResume": "Minimale Hörbuch-Fortsetzung in Minuten:",
-    "LabelMaxAudiobookResume": "Maximale Hörbuch-Fortsetzung in Minuten:",
+    "LabelMaxAudiobookResume": "Verbleibende Minuten des Hörbuches zum Fortsetzen:",
     "AllowVppTonemappingHelp": "Vollständig hardwarebasiertes Tone-Mapping ohne Verwendung von OpenCL-Filter. Funktioniert derzeit nur bei der Transcodierung von Videos mit eingebetteten HDR10-Metadaten.",
     "EnableVppTonemapping": "VPP-Tone-Mapping einschalten",
     "EnableEnhancedNvdecDecoder": "Erweiterten NVDEC-Decoder einschalten",
