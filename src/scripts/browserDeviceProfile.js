@@ -228,7 +228,7 @@ import browser from './browser';
                 supported = browser.tizen;
                 break;
             case 'mov':
-                supported = browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
+                supported = browser.safari || browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
                 videoCodecs.push('h264');
                 break;
             case 'm2ts':
