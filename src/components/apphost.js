@@ -275,7 +275,7 @@ const supportedFeatures = function () {
      */
 function doExit() {
     try {
-        if (window.NativeShell && window.NativeShell.AppHost.exit) {
+        if (window.NativeShell?.AppHost?.exit) {
             window.NativeShell.AppHost.exit();
         } else if (browser.tizen) {
             tizen.application.getCurrentApplication().exit();
