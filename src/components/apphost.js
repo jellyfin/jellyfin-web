@@ -360,18 +360,20 @@ export const appHost = {
         };
     },
     deviceName: function () {
-        return window.NativeShell && window.NativeShell.AppHost.deviceName
+        return window.NativeShell?.AppHost?.deviceName
             ? window.NativeShell.AppHost.deviceName() : getDeviceName();
     },
     deviceId: function () {
-        return window.NativeShell && window.NativeShell.AppHost.deviceId
+        return window.NativeShell?.AppHost?.deviceId
             ? window.NativeShell.AppHost.deviceId() : getDeviceId();
     },
     appName: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.appName() : appName;
+        return window.NativeShell?.AppHost?.appName
+            ? window.NativeShell.AppHost.appName() : appName;
     },
     appVersion: function () {
-        return window.NativeShell ? window.NativeShell.AppHost.appVersion() : appVersion;
+        return window.NativeShell?.AppHost?.appVersion
+            ? window.NativeShell.AppHost.appVersion() : appVersion;
     },
     getPushTokenInfo: function () {
         return {};
