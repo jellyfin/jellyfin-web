@@ -110,6 +110,7 @@ button::-moz-focus-inner {
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
     border: 0.5em solid transparent;
+    border-radius: 0.7em; /* card border + card border-radius */
 }
 
 .card.show-animation:focus > .cardBox {
@@ -160,6 +161,7 @@ button::-moz-focus-inner {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    border-radius: 0.2em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -194,6 +196,7 @@ button::-moz-focus-inner {
     left: 0;
     right: 0;
     bottom: 0;
+    border-radius: 0.2em;
 
     /* Needed in case this is a button */
     display: block;
@@ -222,12 +225,12 @@ button::-moz-focus-inner {
 }
 
 .cardBox:not(.visualCardBox) .cardPadder {
+    border-radius: 0.2em;
     background-color: #242424;
 }
 
-.visualCardBox .cardContent {
-    border-top-left-radius: 0.2em;
-    border-top-right-radius: 0.2em;
+.blurhash-canvas {
+    border-radius: 0.2em;
 }
 
 .cardContent-shadow,
@@ -263,7 +266,7 @@ button::-moz-focus-inner {
 
 .visualCardBox {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    border-radius: 0.145em;
+    border-radius: 0.2em;
 }
 
 .innerCardFooter {
@@ -769,6 +772,14 @@ button::-moz-focus-inner {
     bottom: 0;
     right: 0;
     user-select: none;
+    border-radius: 0.2em;
+}
+
+.visualCardBox .blurhash-canvas,
+.visualCardBox .cardContent,
+.visualCardBox .cardOverlayContainer {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .card-hoverable:hover .cardOverlayContainer {

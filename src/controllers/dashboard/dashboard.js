@@ -270,7 +270,7 @@ import confirm from '../../components/confirm/confirm';
                     html += '<div class="sessionNowPlayingContent"></div>';
                 }
 
-                html += '<div class="sessionNowPlayingInnerContent">';
+                html += `<div class="sessionNowPlayingInnerContent ${imgUrl ? 'darkenContent' : ''}">`;
                 html += '<div class="sessionAppInfo">';
                 const clientImage = DashboardPage.getClientImage(session);
 
@@ -608,8 +608,10 @@ import confirm from '../../components/confirm/confirm';
 
                 if (imgUrl) {
                     imgElem.classList.add('sessionNowPlayingContent-withbackground');
+                    row.querySelector('.sessionNowPlayingInnerContent').classList.add('darkenContent');
                 } else {
                     imgElem.classList.remove('sessionNowPlayingContent-withbackground');
+                    row.querySelector('.sessionNowPlayingInnerContent').classList.remove('darkenContent');
                 }
             }
         },
