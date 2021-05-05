@@ -1496,7 +1496,7 @@
     "LabelSyncPlayResumePlaybackDescription": "Rejoindre le groupe de lecture",
     "LabelSyncPlayResumePlayback": "Relancer la lecture",
     "LabelSyncPlayHaltPlaybackDescription": "Et ignorer les mises à jour de la liste de lecture",
-    "LabelMaxAudiobookResume": "Temps de reprise maximum pour les livres audio :",
+    "LabelMaxAudiobookResume": "Temps restant pour la reprise des livres audio :",
     "LabelMinAudiobookResumeHelp": "Les titres seront considérés comme non-lus si stoppés avant ce temps.",
     "LabelMinAudiobookResume": "Temps de reprise minimum pour les livres audio :",
     "LabelMaxAudiobookResumeHelp": "Les titres seront considérés comme lus entièrement si stoppés après ce temps.",
