@@ -63,7 +63,8 @@ class GroupSelectionMenu {
                     items: menuItems,
                     positionTo: button,
                     resolveOnClick: true,
-                    border: true
+                    border: true,
+                    enableHistory: false
                 };
 
                 actionsheet.show(menuOptions).then(function (id) {
@@ -132,7 +133,8 @@ class GroupSelectionMenu {
             items: menuItems,
             positionTo: button,
             resolveOnClick: true,
-            border: true
+            border: true,
+            enableHistory: false
         };
 
         actionsheet.show(menuOptions).then(function (id) {
