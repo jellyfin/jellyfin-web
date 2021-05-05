@@ -8,7 +8,7 @@ import globalize from '../scripts/globalize';
 import profileBuilder from '../scripts/browserDeviceProfile';
 
 const appName = 'Jellyfin Web';
-const appVersion = '10.7.3';
+const appVersion = '10.7.4';
 
 function getBaseProfileOptions(item) {
     const disableHlsVideoAudioCodecs = [];
