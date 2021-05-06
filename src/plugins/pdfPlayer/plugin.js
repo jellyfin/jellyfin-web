@@ -203,7 +203,7 @@ export class PdfPlayer {
 
                 const percentageTicks = options.startPositionTicks / 10000;
                 if (percentageTicks !== 0) {
-                    this.loadPage(percentageTicks);
+                    this.loadPage(percentageTicks + 1);
                     this.progress = percentageTicks;
                 } else {
                     this.loadPage(1);
