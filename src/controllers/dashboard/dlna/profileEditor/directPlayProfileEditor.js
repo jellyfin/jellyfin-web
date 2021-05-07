@@ -61,7 +61,7 @@ export function show(directPlayProfile) {
             }
         });
 
-        dlg.querySelector('#selectDirectPlayProfileType').addEventListener('change', function (e) {
+        dlg.querySelector('#selectDirectPlayProfileType').addEventListener('change', function () {
             if (this.value == 'Video') {
                 dlg.querySelector('#fldDirectPlayVideoCodec').classList.remove('hide');
             } else {
@@ -75,7 +75,7 @@ export function show(directPlayProfile) {
             }
         });
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
             dialogHelper.close(dlg);
         });
 

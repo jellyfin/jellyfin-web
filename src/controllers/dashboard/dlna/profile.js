@@ -566,7 +566,7 @@ function onSubmit(e) {
     return false;
 }
 
-export default function (view, params) {
+export default function (view) {
     const page = view;
     const viewTabButton = view.querySelectorAll('.viewTabButton');
     const viewTab = view.querySelectorAll('.viewTab');

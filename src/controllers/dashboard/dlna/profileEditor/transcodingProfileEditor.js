@@ -67,7 +67,7 @@ export function show(transcodingProfile) {
             }
         });
 
-        dlg.querySelector('.chkAdvanced').addEventListener('change', function (e) {
+        dlg.querySelector('.chkAdvanced').addEventListener('change', function () {
             if (this.checked) {
                 dlg.querySelector('.tabTranscodingBasics').classList.add('hide');
                 dlg.querySelector('.tabTranscodingAdvanced').classList.remove('hide');
@@ -77,7 +77,7 @@ export function show(transcodingProfile) {
             }
         });
 
-        dlg.querySelector('#selectTranscodingProfileType').addEventListener('change', function (e) {
+        dlg.querySelector('#selectTranscodingProfileType').addEventListener('change', function () {
             if (this.value == 'Video') {
                 dlg.querySelector('#fldTranscodingVideoCodec').classList.remove('hide');
                 dlg.querySelector('#fldTranscodingProtocol').classList.remove('hide');
@@ -99,7 +99,7 @@ export function show(transcodingProfile) {
             }
         });
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
             dialogHelper.close(dlg);
         });
 

@@ -59,7 +59,7 @@ export function show(containerProfile) {
             }
         });
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
             dialogHelper.close(dlg);
         });
 

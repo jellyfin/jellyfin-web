@@ -89,7 +89,7 @@ function getTabs() {
         name: globalize.translate('TabProfiles')
     }];
 }
-export default function (view, params) {
+export default function (view) {
     view.addEventListener('viewshow', function () {
         libraryMenu.setTabs('dlna', 1, getTabs);
         loadProfiles(this);

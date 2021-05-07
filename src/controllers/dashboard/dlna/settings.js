@@ -46,7 +46,7 @@ function getTabs() {
         name: globalize.translate('TabProfiles')
     }];
 }
-export default function (view, params) {
+export default function (view) {
     view.querySelector('form').addEventListener('submit', onSubmit);
 
     view.addEventListener('viewshow', function () {

@@ -61,7 +61,7 @@ export function show(responseProfile) {
             }
         });
 
-        dlg.querySelector('#selectResponseProfileType').addEventListener('change', function (e) {
+        dlg.querySelector('#selectResponseProfileType').addEventListener('change', function () {
             if (this.value == 'Video') {
                 dlg.querySelector('#fldResponseProfileVideoCodec').classList.remove('hide');
             } else {
@@ -75,7 +75,7 @@ export function show(responseProfile) {
             }
         });
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
             dialogHelper.close(dlg);
         });
 
