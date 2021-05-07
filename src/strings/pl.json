@@ -1427,7 +1427,7 @@
     "LabelMinAudiobookResumeHelp": "Tytuły są uważane za nieodtworzone jeśli zostały zatrzymane przed tym czasem.",
     "LabelMinAudiobookResume": "Minimalne wznowienie Audiobooka w minutach:",
     "LabelMaxMuxingQueueSizeHelp": "Maksymalna długość pakietów jakie mogą być buforowane w trakcie czekania aż wszystkie streamy się zainicjalizują. Spróbuj zwiększyć tę wartość jeśli wciąż otrzymujesz logi \"Too many packets buffered for output stream\" w logach ffmpeg. Zalecana wartość to 2048.",
-    "LabelMaxAudiobookResumeHelp": "Tytuły są uważane za w pełni odtworzone po tym czasie.",
+    "LabelMaxAudiobookResumeHelp": "Zakłada się, że tytuły zostały w pełni odtworzone, jeśli zostały zatrzymane, gdy pozostały czas jest krótszy niż ta wartość.",
     "LabelMaxAudiobookResume": "Pozostały czas w minutach do wznowienia audiobooka:",
     "LabelEnableSSDPTracingHelp": "Włącza logowanie szczegółów SSDP.<br/><b>OSTRZEŻENIE:</b> Powoduje poważny spadek wydajności.",
     "LabelEnableSSDPTracing": "Włącz Śledzenie SSDP:",
