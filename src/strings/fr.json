@@ -1499,7 +1499,7 @@
     "LabelMaxAudiobookResume": "Temps restant pour la reprise des livres audio :",
     "LabelMinAudiobookResumeHelp": "Les titres seront considérés comme non-lus si stoppés avant ce temps.",
     "LabelMinAudiobookResume": "Temps de reprise minimum pour les livres audio :",
-    "LabelMaxAudiobookResumeHelp": "Les titres seront considérés comme lus entièrement si stoppés après ce temps.",
+    "LabelMaxAudiobookResumeHelp": "Les titres seront considérés comme lus entièrement si le temps restant est inférieur à cette valeur.",
     "MessagePlaybackError": "Une erreur s'est produite lors de la lecture de ce fichier sur votre récepteur Google Cast.",
     "MessageChromecastConnectionError": "Votre récepteur Google Cast ne parvient pas à contacter le serveur Jellyfin. Veuillez vérifier la connexion et réessayer.",
     "AllowVppTonemappingHelp": "Mappage de ton local purement matériel et n'utilisant pas de filtre OpenCL. Ne fonctionne actuellement que lors du transcodage de vidéos contenant des métadonnées HDR10.",
