@@ -37,7 +37,7 @@ function getThemeStylesheetInfo(id) {
 }
 
 function setTheme(id) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         if (currentThemeId && currentThemeId === id) {
             resolve();
             return;

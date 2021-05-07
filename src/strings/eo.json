@@ -19,5 +19,20 @@
     "AddToPlaylist": "aldoni al playlist",
     "AddToPlayQueue": "Aldonu ludi voston",
     "Add": "Aldoni",
-    "AccessRestrictedTryAgainLater": "Aliro nuntempe estas restriktita. Bonvolu reprovi poste."
+    "AccessRestrictedTryAgainLater": "Aliro nuntempe estas restriktita. Bonvolu reprovi poste.",
+    "Movies": "Filmoj",
+    "HeaderContinueWatching": "Daŭrigi Spektado",
+    "HeaderAlbumArtists": "Artistoj de Albumo",
+    "Folders": "Dosierujoj",
+    "Default": "Defaŭlte",
+    "Collections": "Kolektoj",
+    "Channels": "Kanaloj",
+    "Books": "Libroj",
+    "Artists": "Artistoj",
+    "AlwaysPlaySubtitles": "",
+    "AllLibraries": "Ĉiaj libraroj",
+    "Songs": "Kantoj",
+    "Playlists": "Ludlistoj",
+    "Photos": "Fotoj",
+    "Genres": "Ĝenroj"
 }

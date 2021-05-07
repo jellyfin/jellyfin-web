@@ -4,12 +4,13 @@ import globalize from '../../../scripts/globalize';
 import { formatDistanceToNow } from 'date-fns';
 import { localeWithSuffix } from '../../../scripts/dfnshelper';
 import '../../../elements/emby-button/paper-icon-button-light';
-import '../../../components/cardbuilder/card.css';
+import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-button/emby-button';
-import '../../../components/indicators/indicators.css';
+import '../../../components/indicators/indicators.scss';
 import '../../../assets/css/flexstyles.scss';
 import Dashboard, { pageIdOn } from '../../../scripts/clientUtils';
 import confirm from '../../../components/confirm/confirm';
+import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
 /* eslint-disable indent */
 
@@ -81,7 +82,7 @@ import confirm from '../../../components/confirm/confirm';
         });
     }
 
-    function getUserHtml(user, addConnectIndicator) {
+    function getUserHtml(user) {
         let html = '';
         let cssClass = 'card squareCard scalableCard squareCard-scalable';
 
@@ -93,7 +94,7 @@ import confirm from '../../../components/confirm/confirm';
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
-        html += '<a is="emby-linkbutton" class="cardContent" href="#!/useredit.html?userId=' + user.Id + '">';
+        html += `<a is="emby-linkbutton" class="cardContent ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()}" href="#!/useredit.html?userId=${user.Id}">`;
         let imgUrl;
 
         if (user.PrimaryImageTag) {
@@ -113,7 +114,7 @@ import confirm from '../../../components/confirm/confirm';
         if (imgUrl) {
             html += '<div class="' + imageClass + '" style="background-image:url(\'' + imgUrl + "');\">";
         } else {
-            html += '<div class="' + imageClass + ' flex align-items-center justify-content-center">';
+            html += `<div class="${imageClass} ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()} flex align-items-center justify-content-center">`;
             html += '<span class="material-icons cardImageIcon person"></span>';
         }
 
@@ -145,14 +146,14 @@ import confirm from '../../../components/confirm/confirm';
         return '';
     }
 
-    function getUserSectionHtml(users, addConnectIndicator) {
+    function getUserSectionHtml(users) {
         return users.map(function (u__q) {
-            return getUserHtml(u__q, addConnectIndicator);
+            return getUserHtml(u__q);
         }).join('');
     }
 
     function renderUsers(page, users) {
-        page.querySelector('.localUsers').innerHTML = getUserSectionHtml(users, true);
+        page.querySelector('.localUsers').innerHTML = getUserSectionHtml(users);
     }
 
     function loadData(page) {

@@ -44,6 +44,7 @@
  - [Orry Verducci](https://github.com/orryverducci)
  - [Camc314](https://github.com/camc314)
  - [danieladov](https://github.com/danieladov)
+ - [Stephane Senart](https://github.com/ssenart)
 
 # Emby Contributors
 

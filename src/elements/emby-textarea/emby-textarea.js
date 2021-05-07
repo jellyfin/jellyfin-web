@@ -1,4 +1,4 @@
-import './emby-textarea.css';
+import './emby-textarea.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
 

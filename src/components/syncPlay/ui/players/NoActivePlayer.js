@@ -135,7 +135,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's seek method.
      */
-    seekRequest(positionTicks, player) {
+    seekRequest(positionTicks) {
         const controller = syncPlayManager.getController();
         controller.seek(positionTicks);
     }
@@ -148,19 +148,19 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         const controller = syncPlayManager.getController();
         const playerWrapper = syncPlayManager.getPlayerWrapper();
 
-        const defaultAction = (_command, _player) => {
+        const defaultAction = (_command) => {
             playerWrapper.localSendCommand(_command);
         };
 
-        const ignoreCallback = (_command, _player) => {
+        const ignoreCallback = () => {
             // Do nothing.
         };
 
-        const SetRepeatModeCallback = (_command, _player) => {
+        const SetRepeatModeCallback = (_command) => {
             controller.setRepeatMode(_command.Arguments.RepeatMode);
         };
 
-        const SetShuffleQueueCallback = (_command, _player) => {
+        const SetShuffleQueueCallback = (_command) => {
             controller.setShuffleMode(_command.Arguments.ShuffleMode);
         };
 
@@ -176,7 +176,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         if (typeof commandHandler === 'function') {
             commandHandler(command, player);
         } else {
-            defaultAction(command, player);
+            defaultAction(command);
         }
     }
 
@@ -242,7 +242,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's setCurrentPlaylistItem method.
      */
-    setCurrentPlaylistItemRequest(playlistItemId, player) {
+    setCurrentPlaylistItemRequest(playlistItemId) {
         const controller = syncPlayManager.getController();
         controller.setCurrentPlaylistItem(playlistItemId);
     }
@@ -250,7 +250,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's removeFromPlaylist method.
      */
-    removeFromPlaylistRequest(playlistItemIds, player) {
+    removeFromPlaylistRequest(playlistItemIds) {
         const controller = syncPlayManager.getController();
         controller.removeFromPlaylist(playlistItemIds);
     }
@@ -258,7 +258,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's movePlaylistItem method.
      */
-    movePlaylistItemRequest(playlistItemId, newIndex, player) {
+    movePlaylistItemRequest(playlistItemId, newIndex) {
         const controller = syncPlayManager.getController();
         controller.movePlaylistItem(playlistItemId, newIndex);
     }
@@ -266,7 +266,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's queue method.
      */
-    queueRequest(options, player) {
+    queueRequest(options) {
         const controller = syncPlayManager.getController();
         controller.queue(options);
     }
@@ -274,7 +274,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's queueNext method.
      */
-    queueNextRequest(options, player) {
+    queueNextRequest(options) {
         const controller = syncPlayManager.getController();
         controller.queueNext(options);
     }
@@ -282,7 +282,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's nextTrack method.
      */
-    nextTrackRequest(player) {
+    nextTrackRequest() {
         const controller = syncPlayManager.getController();
         controller.nextItem();
     }
@@ -290,7 +290,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's previousTrack method.
      */
-    previousTrackRequest(player) {
+    previousTrackRequest() {
         const controller = syncPlayManager.getController();
         controller.previousItem();
     }
@@ -298,7 +298,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's setRepeatMode method.
      */
-    setRepeatModeRequest(mode, player) {
+    setRepeatModeRequest(mode) {
         const controller = syncPlayManager.getController();
         controller.setRepeatMode(mode);
     }
@@ -306,7 +306,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's setQueueShuffleMode method.
      */
-    setQueueShuffleModeRequest(mode, player) {
+    setQueueShuffleModeRequest(mode) {
         const controller = syncPlayManager.getController();
         controller.setShuffleMode(mode);
     }
@@ -314,7 +314,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's toggleQueueShuffleMode method.
      */
-    toggleQueueShuffleModeRequest(player) {
+    toggleQueueShuffleModeRequest() {
         const controller = syncPlayManager.getController();
         controller.toggleShuffleMode();
     }

@@ -1,7 +1,7 @@
 import HomescreenSettings from '../../../components/homeScreenSettings/homeScreenSettings';
 import * as userSettings from '../../../scripts/settings/userSettings';
 import autoFocuser from '../../../components/autoFocuser';
-import '../../../components/listview/listview.css';
+import '../../../components/listview/listview.scss';
 
 /* eslint-disable indent */
 
@@ -10,7 +10,6 @@ import '../../../components/listview/listview.css';
 
     export default function (view, params) {
         let homescreenSettingsInstance;
-        let hasChanges;
 
         const userId = params.userId || ApiClient.getCurrentUserId();
         const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
@@ -29,10 +28,6 @@ import '../../../components/listview/listview.css';
                     autoFocus: autoFocuser.isEnabled()
                 });
             }
-        });
-
-        view.addEventListener('change', function () {
-            hasChanges = true;
         });
 
         view.addEventListener('viewdestroy', function () {

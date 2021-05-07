@@ -7,7 +7,7 @@ import '../../../elements/emby-select/emby-select';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-checkbox/emby-checkbox';
-import '../../../components/listview/listview.css';
+import '../../../components/listview/listview.scss';
 
 function loadProfile(page) {
     loading.show();

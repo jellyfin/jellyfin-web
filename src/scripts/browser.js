@@ -138,19 +138,19 @@ function supportsCssAnimation(allowPrefix) {
 const uaMatch = function (ua) {
     ua = ua.toLowerCase();
 
-    const match = /(edg)[ \/]([\w.]+)/.exec(ua) ||
-        /(edga)[ \/]([\w.]+)/.exec(ua) ||
-        /(edgios)[ \/]([\w.]+)/.exec(ua) ||
-        /(edge)[ \/]([\w.]+)/.exec(ua) ||
-        /(opera)[ \/]([\w.]+)/.exec(ua) ||
-        /(opr)[ \/]([\w.]+)/.exec(ua) ||
-        /(chrome)[ \/]([\w.]+)/.exec(ua) ||
-        /(safari)[ \/]([\w.]+)/.exec(ua) ||
-        /(firefox)[ \/]([\w.]+)/.exec(ua) ||
+    const match = /(edg)[ /]([\w.]+)/.exec(ua) ||
+        /(edga)[ /]([\w.]+)/.exec(ua) ||
+        /(edgios)[ /]([\w.]+)/.exec(ua) ||
+        /(edge)[ /]([\w.]+)/.exec(ua) ||
+        /(opera)[ /]([\w.]+)/.exec(ua) ||
+        /(opr)[ /]([\w.]+)/.exec(ua) ||
+        /(chrome)[ /]([\w.]+)/.exec(ua) ||
+        /(safari)[ /]([\w.]+)/.exec(ua) ||
+        /(firefox)[ /]([\w.]+)/.exec(ua) ||
         ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
         [];
 
-    const versionMatch = /(version)[ \/]([\w.]+)/.exec(ua);
+    const versionMatch = /(version)[ /]([\w.]+)/.exec(ua);
 
     let platform_match = /(ipad)/.exec(ua) ||
         /(iphone)/.exec(ua) ||
@@ -210,7 +210,7 @@ if (!browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera 
     browser.safari = true;
 }
 
-browser.osx = userAgent.toLowerCase().indexOf('os x') !== -1;
+browser.osx = userAgent.toLowerCase().indexOf('mac os x') !== -1;
 
 // This is a workaround to detect iPads on iOS 13+ that report as desktop Safari
 // This may break in the future if Apple releases a touchscreen Mac
@@ -240,6 +240,9 @@ browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') 
 if (!browser.tizen) {
     browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
 } else {
+    // UserAgent string contains 'Safari' and 'safari' is set by matched browser, but we only want 'tizen' to be true
+    delete browser.safari;
+
     const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
     browser.tizenVersion = parseInt(v[1]);
 }

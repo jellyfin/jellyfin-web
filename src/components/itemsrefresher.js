@@ -2,7 +2,7 @@ import { playbackManager } from './playback/playbackmanager';
 import serverNotifications from '../scripts/serverNotifications';
 import { Events } from 'jellyfin-apiclient';
 
-function onUserDataChanged(e, apiClient, userData) {
+function onUserDataChanged() {
     const instance = this;
 
     const eventsToMonitor = getEventsToMonitor(instance);
@@ -25,7 +25,7 @@ function getEventsToMonitor(instance) {
     return [];
 }
 
-function onTimerCreated(e, apiClient, data) {
+function onTimerCreated() {
     const instance = this;
 
     if (getEventsToMonitor(instance).indexOf('timers') !== -1) {
@@ -34,7 +34,7 @@ function onTimerCreated(e, apiClient, data) {
     }
 }
 
-function onSeriesTimerCreated(e, apiClient, data) {
+function onSeriesTimerCreated() {
     const instance = this;
     if (getEventsToMonitor(instance).indexOf('seriestimers') !== -1) {
         instance.notifyRefreshNeeded();
@@ -42,7 +42,7 @@ function onSeriesTimerCreated(e, apiClient, data) {
     }
 }
 
-function onTimerCancelled(e, apiClient, data) {
+function onTimerCancelled() {
     const instance = this;
 
     if (getEventsToMonitor(instance).indexOf('timers') !== -1) {
@@ -51,7 +51,7 @@ function onTimerCancelled(e, apiClient, data) {
     }
 }
 
-function onSeriesTimerCancelled(e, apiClient, data) {
+function onSeriesTimerCancelled() {
     const instance = this;
     if (getEventsToMonitor(instance).indexOf('seriestimers') !== -1) {
         instance.notifyRefreshNeeded();

@@ -1,4 +1,4 @@
-import './emby-collapse.css';
+import './emby-collapse.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-button/emby-button';
 
@@ -54,7 +54,7 @@ import '../emby-button/emby-button';
         });
     }
 
-    function onButtonClick(e) {
+    function onButtonClick() {
         const button = this;
         const collapseContent = button.parentNode.querySelector('.collapseContent');
 

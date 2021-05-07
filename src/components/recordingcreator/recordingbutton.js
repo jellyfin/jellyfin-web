@@ -2,10 +2,10 @@ import dom from '../../scripts/dom';
 import recordingHelper from './recordinghelper';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
-import './recordingfields.css';
+import './recordingfields.scss';
 import ServerConnections from '../ServerConnections';
 
-function onRecordingButtonClick(e) {
+function onRecordingButtonClick() {
     const item = this.item;
 
     if (item) {

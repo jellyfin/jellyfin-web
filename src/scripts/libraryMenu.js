@@ -13,7 +13,7 @@ import globalize from './globalize';
 import imageHelper from './imagehelper';
 import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
-import '../assets/css/scrollstyles.css';
+import '../assets/css/scrollstyles.scss';
 import '../assets/css/flexstyles.scss';
 import Dashboard, { pageClassOn } from './clientUtils';
 import ServerConnections from '../components/ServerConnections';
@@ -164,7 +164,7 @@ import Headroom from 'headroom.js';
         inputManager.handleCommand('search');
     }
 
-    function onHeaderUserButtonClick(e) {
+    function onHeaderUserButtonClick() {
         Dashboard.navigate('mypreferencesmenu.html');
     }
 
@@ -206,7 +206,7 @@ import Headroom from 'headroom.js';
         Events.on(playbackManager, 'playbackstop', onPlaybackStop);
     }
 
-    function onPlaybackStart(e) {
+    function onPlaybackStart() {
         if (playbackManager.isPlayingAudio() && layoutManager.tv) {
             headerAudioPlayerButton.classList.remove('hide');
         } else {
@@ -243,7 +243,7 @@ import Headroom from 'headroom.js';
         }
     }
 
-    function onSyncPlaySyncing(event, is_syncing, syncMethod) {
+    function onSyncPlaySyncing(event, is_syncing) {
         const icon = headerSyncButton.querySelector('span');
         icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
         if (is_syncing) {
@@ -281,7 +281,7 @@ import Headroom from 'headroom.js';
         navDrawerInstance.close();
     }
 
-    function onMainDrawerSelect(e) {
+    function onMainDrawerSelect() {
         if (navDrawerInstance.isVisible) {
             onMainDrawerOpened();
         } else {
@@ -289,7 +289,7 @@ import Headroom from 'headroom.js';
         }
     }
 
-    function refreshLibraryInfoInDrawer(user, drawer) {
+    function refreshLibraryInfoInDrawer(user) {
         let html = '';
         html += '<div style="height:.5em;"></div>';
         html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#!/home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
@@ -464,6 +464,7 @@ import Headroom from 'headroom.js';
             pageIds: ['liveTvSettingsPage'],
             icon: 'dvr'
         });
+        addPluginPagesToMainMenu(links, pluginItems, 'livetv');
         links.push({
             divider: true,
             name: globalize.translate('TabAdvanced')
@@ -504,14 +505,27 @@ import Headroom from 'headroom.js';
             pageIds: ['scheduledTasksPage', 'scheduledTaskPage'],
             icon: 'schedule'
         });
-        addPluginPagesToMainMenu(links, pluginItems);
+        if (hasUnsortedPlugins(pluginItems)) {
+            links.push({
+                divider: true,
+                name: globalize.translate('TabPlugins')
+            });
+            addPluginPagesToMainMenu(links, pluginItems);
+        }
         return links;
     }
 
-    function addPluginPagesToMainMenu(links, pluginItems, section) {
-        for (let i = 0, length = pluginItems.length; i < length; i++) {
-            const pluginItem = pluginItems[i];
+    function hasUnsortedPlugins(pluginItems) {
+        for (const pluginItem of pluginItems) {
+            if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === undefined) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    function addPluginPagesToMainMenu(links, pluginItems, section) {
+        for (const pluginItem of pluginItems) {
             if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
                 links.push({
                     name: pluginItem.DisplayName,
@@ -524,7 +538,7 @@ import Headroom from 'headroom.js';
     }
 
     function getToolsMenuLinks(apiClient) {
-        return apiClient.getJSON(apiClient.getUrl('web/configurationpages') + '?pageType=PluginConfiguration&EnableInMainMenu=true').then(createToolsMenuList, function (err) {
+        return apiClient.getJSON(apiClient.getUrl('web/configurationpages') + '?pageType=PluginConfiguration&EnableInMainMenu=true').then(createToolsMenuList, function () {
             return createToolsMenuList([]);
         });
     }
@@ -848,7 +862,7 @@ import Headroom from 'headroom.js';
         navDrawerElement = document.querySelector('.mainDrawer');
         navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
         navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             import('../libraries/navdrawer/navdrawer').then(({ NavigationDrawer }) => {
                 navDrawerInstance = new NavigationDrawer(getNavDrawerOptions());
 
@@ -941,7 +955,7 @@ import Headroom from 'headroom.js';
     }
 
     let currentPageType;
-    pageClassOn('pagebeforeshow', 'page', function (e) {
+    pageClassOn('pagebeforeshow', 'page', function () {
         if (!this.classList.contains('withTabs')) {
             LibraryMenu.setTabs(null);
         }

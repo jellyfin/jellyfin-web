@@ -1,12 +1,12 @@
 import datetime from '../../scripts/datetime';
 import loading from '../../components/loading/loading';
 import '../../elements/emby-button/emby-button';
-import '../../components/listview/listview.css';
+import '../../components/listview/listview.scss';
 import '../../assets/css/flexstyles.scss';
 
 /* eslint-disable indent */
 
-    export default function(view, params) {
+    export default function(view) {
         view.addEventListener('viewbeforeshow', function() {
             loading.show();
             const apiClient = ApiClient;

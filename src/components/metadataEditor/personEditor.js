@@ -5,7 +5,7 @@ import globalize from '../../scripts/globalize';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
-import '../formdialog.css';
+import '../formdialog.scss';
 import template from './personEditor.template.html';
 
 /* eslint-disable indent */
@@ -63,7 +63,7 @@ import template from './personEditor.template.html';
                 }
             });
 
-            dlg.querySelector('.selectPersonType').addEventListener('change', function (e) {
+            dlg.querySelector('.selectPersonType').addEventListener('change', function () {
                 if (this.value === 'Actor') {
                     dlg.querySelector('.fldRole').classList.remove('hide');
                 } else {
@@ -71,7 +71,7 @@ import template from './personEditor.template.html';
                 }
             });
 
-            dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+            dlg.querySelector('.btnCancel').addEventListener('click', function () {
                 dialogHelper.close(dlg);
             });
 

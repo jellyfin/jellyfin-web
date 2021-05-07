@@ -3,7 +3,7 @@ import { appHost } from '../apphost';
 import loading from '../loading/loading';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
-import './multiSelect.css';
+import './multiSelect.scss';
 import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import playlistEditor from '../playlisteditor/playlisteditor';
@@ -84,7 +84,7 @@ import confirm from '../confirm/confirm';
         }
     }
 
-    function onSelectionChange(e) {
+    function onSelectionChange() {
         updateItemSelection(this, this.checked);
     }
 
@@ -319,6 +319,7 @@ import confirm from '../confirm/confirm';
             alert({
                 text: globalize.translate('PleaseSelectTwoItems')
             });
+
             return;
         }
 
@@ -439,13 +440,13 @@ import confirm from '../confirm/confirm';
                     deltaY = 100;
                 }
                 if (deltaX >= 5 || deltaY >= 5) {
-                    onMouseOut(e);
+                    onMouseOut();
                 }
             }
         }
 
-        function onTouchEnd(e) {
-            onMouseOut(e);
+        function onTouchEnd() {
+            onMouseOut();
         }
 
         function onMouseDown(e) {
@@ -458,7 +459,7 @@ import confirm from '../confirm/confirm';
             touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
         }
 
-        function onMouseOut(e) {
+        function onMouseOut() {
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;

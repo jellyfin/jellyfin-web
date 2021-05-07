@@ -5,7 +5,7 @@ import * as datefns from 'date-fns';
 import dfnshelper from '../scripts/dfnshelper';
 import serverNotifications from '../scripts/serverNotifications';
 import '../elements/emby-button/emby-button';
-import './listview/listview.css';
+import './listview/listview.scss';
 import ServerConnections from './ServerConnections';
 import alert from './alert';
 
@@ -54,7 +54,7 @@ import alert from './alert';
         return html;
     }
 
-    function renderList(elem, apiClient, result, startIndex, limit) {
+    function renderList(elem, apiClient, result) {
         elem.innerHTML = result.Items.map(function (i) {
             return getEntryHtml(i, apiClient);
         }).join('');
@@ -97,11 +97,11 @@ import alert from './alert';
             }
 
             instance.items = result.Items;
-            renderList(elem, apiClient, result, startIndex, limit);
+            renderList(elem, apiClient, result);
         });
     }
 
-    function onActivityLogUpdate(e, apiClient, data) {
+    function onActivityLogUpdate(e, apiClient) {
         const options = this.options;
 
         if (options && options.serverId === apiClient.serverId()) {

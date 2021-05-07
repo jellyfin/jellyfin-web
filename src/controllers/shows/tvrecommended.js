@@ -10,7 +10,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import * as mainTabsManager from '../../components/maintabsmanager';
 import globalize from '../../scripts/globalize';
-import '../../assets/css/scrollstyles.css';
+import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-button/emby-button';
 import Dashboard from '../../scripts/clientUtils';
@@ -354,7 +354,7 @@ import autoFocuser from '../../components/autoFocuser';
 
         const tabControllers = [];
         let renderedTabs = [];
-        view.addEventListener('viewshow', function (e) {
+        view.addEventListener('viewshow', function () {
             initTabs();
             if (!view.getAttribute('data-title')) {
                 const parentId = params.topParentId;
@@ -374,12 +374,12 @@ import autoFocuser from '../../components/autoFocuser';
             Events.on(ApiClient, 'message', onWebSocketMessage);
             inputManager.on(window, onInputCommand);
         });
-        view.addEventListener('viewbeforehide', function (e) {
+        view.addEventListener('viewbeforehide', function () {
             inputManager.off(window, onInputCommand);
             Events.off(playbackManager, 'playbackstop', onPlaybackStop);
             Events.off(ApiClient, 'message', onWebSocketMessage);
         });
-        view.addEventListener('viewdestroy', function (e) {
+        view.addEventListener('viewdestroy', function () {
             tabControllers.forEach(function (t) {
                 if (t.destroy) {
                     t.destroy();

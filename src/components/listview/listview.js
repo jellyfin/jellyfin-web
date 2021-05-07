@@ -12,7 +12,7 @@ import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import datetime from '../../scripts/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
-import './listview.css';
+import './listview.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-playstatebutton/emby-playstatebutton';
 import ServerConnections from '../ServerConnections';
@@ -76,12 +76,13 @@ import ServerConnections from '../ServerConnections';
         return '';
     }
 
-    function getImageUrl(item, width) {
+    function getImageUrl(item, size) {
         const apiClient = ServerConnections.getApiClient(item.ServerId);
         let itemId;
 
         const options = {
-            maxWidth: width,
+            fillWidth: size,
+            fillHeight: size,
             type: 'Primary'
         };
 
@@ -105,10 +106,11 @@ import ServerConnections from '../ServerConnections';
         return null;
     }
 
-    function getChannelImageUrl(item, width) {
+    function getChannelImageUrl(item, size) {
         const apiClient = ServerConnections.getApiClient(item.ServerId);
         const options = {
-            maxWidth: width,
+            fillWidth: size,
+            fillHeight: size,
             type: 'Primary'
         };
 
@@ -163,10 +165,6 @@ import ServerConnections from '../ServerConnections';
         return html;
     }
 
-    function getId(item) {
-        return item.Id;
-    }
-
     export function getListViewHtml(options) {
         const items = options.items;
 
@@ -183,7 +181,6 @@ import ServerConnections from '../ServerConnections';
         let outerHtml = '';
 
         const enableContentWrapper = options.enableOverview && !layoutManager.tv;
-        const containerAlbumArtistIds = (options.containerAlbumArtists || []).map(getId);
 
         for (let i = 0, length = items.length; i < length; i++) {
             const item = items[i];

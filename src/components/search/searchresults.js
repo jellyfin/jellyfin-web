@@ -585,7 +585,7 @@ import template from './searchresults.template.html';
         return originalString.replace(reg, strWith);
     }
 
-    function embed(elem, instance, options) {
+    function embed(elem, instance) {
         let workingTemplate = template;
         if (!enableScrollX()) {
             workingTemplate = replaceAll(workingTemplate, 'data-horizontal="true"', 'data-horizontal="false"');
@@ -603,7 +603,7 @@ import template from './searchresults.template.html';
 class SearchResults {
     constructor(options) {
         this.options = options;
-        embed(options.element, this, options);
+        embed(options.element, this);
     }
     search(value) {
         const apiClient = ServerConnections.getApiClient(this.options.serverId);

@@ -7,7 +7,7 @@ import layoutManager from '../components/layoutManager';
 import dom from '../scripts/dom';
 import focusManager from '../components/focusManager';
 import ResizeObserver from 'resize-observer-polyfill';
-import '../assets/css/scrollstyles.css';
+import '../assets/css/scrollstyles.scss';
 
 /**
 * Return type of the value.

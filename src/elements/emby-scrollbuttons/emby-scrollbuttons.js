@@ -1,4 +1,4 @@
-import './emby-scrollbuttons.css';
+import './emby-scrollbuttons.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-button/paper-icon-button-light';
 
@@ -57,7 +57,7 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
         }
     }
 
-    function onScroll(e) {
+    function onScroll() {
         const scrollButtons = this;
         const scroller = this.scroller;
 
@@ -117,7 +117,7 @@ const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
         return scrollSize;
     }
 
-    function onScrollButtonClick(e) {
+    function onScrollButtonClick() {
         const scroller = this.parentNode.nextSibling;
 
         const direction = this.getAttribute('data-direction');

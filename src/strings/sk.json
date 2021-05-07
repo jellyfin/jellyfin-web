@@ -1381,7 +1381,7 @@
     "LabelAutoDiscoveryTracingHelp": "Pokiaľ je povolené, tak pakety prijaté na porte automatického rozpoznania budú zaznamenané.",
     "LabelAutoDiscoveryTracing": "Povoliť trasovanie automatického rozpoznania.",
     "LabelAlbumArtMaxResHelp": "Maximálne rozlíšenie obrázku albumu vo vlastnosti upnp:albumArtURI.",
-    "KnownProxiesHelp": "Čiarkami oddelený zoznam IP adries známych proxy serverov použitých pri pripojení k vašej inštancií Jellyfinu. Toto je vyžadované pre správne využitie hlavičky X-Forwarded-For. Vyžaduje reštart.",
+    "KnownProxiesHelp": "Čiarkami oddelený zoznam IP adries alebo hostiteľov známych proxy serverov použitých pri pripojení k vašej inštancií Jellyfinu. Toto je vyžadované pre správne využitie hlavičky X-Forwarded-For. Vyžaduje reštart.",
     "Image": "Obrázok",
     "HeaderUploadSubtitle": "Nahrať titulky",
     "HeaderPortRanges": "Nastavenia firewallu a proxy",
@@ -1495,5 +1495,18 @@
     "LabelSyncPlayResumePlaybackDescription": "Pripojiť sa späť ku skupinovému prehrávaniu",
     "LabelSyncPlayResumePlayback": "Pokračovať v lokálnom prehrávaní",
     "LabelSyncPlayHaltPlaybackDescription": "A ignorovať aktualizácie aktuálneho playlistu",
-    "LabelSyncPlayHaltPlayback": "Zastaviť lokálne prehrávanie"
+    "LabelSyncPlayHaltPlayback": "Zastaviť lokálne prehrávanie",
+    "MessagePlaybackError": "Nastala chyba pri prehrávaní tohoto súboru na vašom zariadení Google Cast.",
+    "MessageChromecastConnectionError": "Vášmu zariadeniu Google Cast sa nepodarilo kontaktovať Jellyfin server. Prosím, skontrolujte spojenie a skúste to znovu.",
+    "LabelMinAudiobookResumeHelp": "Tituly sú považované za neprehrané, pokiaľ sú zastavené pred týmto časom.",
+    "LabelMinAudiobookResume": "Minimálna dĺžka pre pokračovanie audiokníh v minútach:",
+    "LabelMaxAudiobookResumeHelp": "Tituly sú považované za prehrané, pokiaľ sú zastavené po tomto čase.",
+    "LabelMaxAudiobookResume": "Maximálna dĺžka pre pokračovanie audiokníh v minútach:",
+    "EnableVppTonemapping": "Povoliť VPP mapovanie tónov",
+    "EnableEnhancedNvdecDecoder": "Povoliť vylepšený NVDEC dekóder",
+    "AllowVppTonemappingHelp": "Plne hardvérovo založené mapovanie tónov bez použitia OpenCL filtra. V súčastnosti funguje iba pri videách, ktoré sa prekódovajú a obsahujú vložené HDR10 metadáta.",
+    "DisablePlugin": "Zakázať",
+    "EnablePlugin": "Povoliť",
+    "Framerate": "Snímková frekvencia",
+    "DirectPlayHelp": "Zdrojový súbor je s klientom plne kompatibilný a relácia ho preto prijíma bez dodatočných modifikácií."
 }

@@ -1498,8 +1498,15 @@
     "LabelSyncPlayHaltPlayback": "Detener la reproducción local",
     "LabelMinAudiobookResumeHelp": "Se asume que los títulos no se reproducen si se detienen antes de este tiempo.",
     "LabelMinAudiobookResume": "Reanudación mínima de audiolibros en minutos:",
-    "LabelMaxAudiobookResumeHelp": "Se asume que los títulos están completamente reproducidos si se detienen después de este tiempo.",
-    "LabelMaxAudiobookResume": "Reanudación máxima de audiolibros en minutos:",
+    "LabelMaxAudiobookResumeHelp": "Se asumirá que los títulos están completamente reproducidos si se detienen cuando el tiempo restante es menor a este valor.",
+    "LabelMaxAudiobookResume": "Reanudación de audiolibros en minutos:",
     "MessagePlaybackError": "Se produjo un error al reproducir este archivo en su receptor Google Cast.",
-    "MessageChromecastConnectionError": "Su receptor de Google Cast no puede comunicarse con el servidor de Jellyfin. Compruebe la conexión y vuelve a intentarlo."
+    "MessageChromecastConnectionError": "Su receptor de Google Cast no puede comunicarse con el servidor de Jellyfin. Compruebe la conexión y vuelve a intentarlo.",
+    "AllowVppTonemappingHelp": "Mapeo de tonos completo basado en hardware sin usar el filtro OpenCL. Actualmente solo funciona al transcodificar videos con metadatos HDR10 incrustados.",
+    "EnableVppTonemapping": "Habilitar el mapeo de tonos VPP",
+    "EnableEnhancedNvdecDecoder": "Habilitar decodificador NVDEC mejorado",
+    "DisablePlugin": "Deshabilitar Plugin",
+    "EnablePlugin": "Habilitar Plugin",
+    "Framerate": "Tasa de Cuadros",
+    "DirectPlayHelp": "El Archivo fuente es enteramente compatible con este cliente y la sesión esta recibiendo el archivo sin modificaciones."
 }

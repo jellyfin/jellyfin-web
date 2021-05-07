@@ -2,7 +2,7 @@ import globalize from '../../../scripts/globalize';
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import confirm from '../../../components/confirm/confirm';
-import '../../../components/listview/listview.css';
+import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
 
 function loadProfiles(page) {

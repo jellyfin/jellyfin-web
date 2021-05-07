@@ -5,7 +5,7 @@ import globalize from '../../../scripts/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
 import { getLocale, localeWithSuffix } from '../../../scripts/dfnshelper';
-import '../../../components/listview/listview.css';
+import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
@@ -123,7 +123,7 @@ import '../../../elements/emby-button/emby-button';
         $(elem).parents('.listItem')[0].setAttribute('data-status', state);
     }
 
-    export default function(view, params) {
+    export default function(view) {
         function updateTasks(tasks) {
             for (let i = 0; i < tasks.length; i++) {
                 const task = tasks[i];

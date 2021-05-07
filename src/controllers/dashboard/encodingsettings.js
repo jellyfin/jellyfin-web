@@ -14,6 +14,7 @@ import alert from '../../components/alert';
         });
         page.querySelector('#chkDecodingColorDepth10Hevc').checked = config.EnableDecodingColorDepth10Hevc;
         page.querySelector('#chkDecodingColorDepth10Vp9').checked = config.EnableDecodingColorDepth10Vp9;
+        page.querySelector('#chkEnhancedNvdecDecoder').checked = config.EnableEnhancedNvdecDecoder;
         page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
         page.querySelector('#chkAllowHevcEncoding').checked = config.AllowHevcEncoding;
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
@@ -26,6 +27,7 @@ import alert from '../../components/alert';
         page.querySelector('#chkEnableFallbackFont').checked = config.EnableFallbackFont;
         $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
         page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
+        page.querySelector('#chkVppTonemapping').checked = config.EnableVppTonemapping;
         page.querySelector('#txtOpenclDevice').value = config.OpenclDevice || '';
         page.querySelector('#selectTonemappingAlgorithm').value = config.TonemappingAlgorithm;
         page.querySelector('#selectTonemappingRange').value = config.TonemappingRange;
@@ -46,13 +48,13 @@ import alert from '../../components/alert';
         loading.hide();
     }
 
-    function onSaveEncodingPathFailure(response) {
+    function onSaveEncodingPathFailure() {
         loading.hide();
         alert(globalize.translate('FFmpegSavePathNotFound'));
     }
 
     function updateEncoder(form) {
-        return ApiClient.getSystemInfo().then(function (systemInfo) {
+        return ApiClient.getSystemInfo().then(function () {
             return ApiClient.ajax({
                 url: ApiClient.getUrl('System/MediaEncoder/Path'),
                 type: 'POST',
@@ -81,6 +83,7 @@ import alert from '../../components/alert';
                 config.VaapiDevice = $('#txtVaapiDevice', form).val();
                 config.OpenclDevice = form.querySelector('#txtOpenclDevice').value;
                 config.EnableTonemapping = form.querySelector('#chkTonemapping').checked;
+                config.EnableVppTonemapping = form.querySelector('#chkVppTonemapping').checked;
                 config.TonemappingAlgorithm = form.querySelector('#selectTonemappingAlgorithm').value;
                 config.TonemappingRange = form.querySelector('#selectTonemappingRange').value;
                 config.TonemappingDesat = form.querySelector('#txtTonemappingDesat').value;
@@ -101,6 +104,7 @@ import alert from '../../components/alert';
                 });
                 config.EnableDecodingColorDepth10Hevc = form.querySelector('#chkDecodingColorDepth10Hevc').checked;
                 config.EnableDecodingColorDepth10Vp9 = form.querySelector('#chkDecodingColorDepth10Vp9').checked;
+                config.EnableEnhancedNvdecDecoder = form.querySelector('#chkEnhancedNvdecDecoder').checked;
                 config.EnableHardwareEncoding = form.querySelector('#chkHardwareEncoding').checked;
                 config.AllowHevcEncoding = form.querySelector('#chkAllowHevcEncoding').checked;
                 ApiClient.updateNamedConfiguration('encoding', config).then(function () {
@@ -156,8 +160,19 @@ import alert from '../../components/alert';
         }];
     }
 
+    let systemInfo;
+    function getSystemInfo() {
+        return systemInfo ? Promise.resolve(systemInfo) : ApiClient.getPublicSystemInfo().then(
+            info => {
+                systemInfo = info;
+                return info;
+            }
+        );
+    }
+
     $(document).on('pageinit', '#encodingSettingsPage', function () {
         const page = this;
+        getSystemInfo();
         page.querySelector('#selectVideoDecoder').addEventListener('change', function () {
             if (this.value == 'vaapi') {
                 page.querySelector('.fldVaapiDevice').classList.remove('hide');
@@ -179,6 +194,18 @@ import alert from '../../components/alert';
                 page.querySelector('.fldOpenclDevice').classList.add('hide');
                 page.querySelector('#txtOpenclDevice').removeAttribute('required');
                 page.querySelector('.tonemappingOptions').classList.add('hide');
+            }
+
+            if (this.value == 'nvenc') {
+                page.querySelector('.fldEnhancedNvdec').classList.remove('hide');
+            } else {
+                page.querySelector('.fldEnhancedNvdec').classList.add('hide');
+            }
+
+            if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'vaapi' || this.value == 'qsv')) {
+                page.querySelector('.fldVppTonemapping').classList.remove('hide');
+            } else {
+                page.querySelector('.fldVppTonemapping').classList.add('hide');
             }
 
             if (this.value) {

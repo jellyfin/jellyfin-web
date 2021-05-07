@@ -4,8 +4,8 @@ import { appRouter } from '../appRouter';
 import itemHelper from '../itemHelper';
 import indicators from '../indicators/indicators';
 import 'material-design-icons-iconfont';
-import './mediainfo.css';
-import '../guide/programs.css';
+import './mediainfo.scss';
+import '../guide/programs.scss';
 import '../../elements/emby-button/emby-button';
 
 /* eslint-disable indent */
@@ -490,9 +490,7 @@ import '../../elements/emby-button/emby-button';
         })[0];
     }
 
-    export function getMediaInfoStats(item, options) {
-        options = options || {};
-
+    export function getMediaInfoStats(item) {
         const list = [];
 
         const mediaSource = (item.MediaSources || [])[0] || {};

@@ -18,7 +18,7 @@ import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../../components/playback/playbackmanager';
-import '../../assets/css/scrollstyles.css';
+import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
@@ -351,9 +351,13 @@ function reloadPlayButtons(page, item) {
         const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
         hideAll(page, 'btnResume', isResumable);
 
-        if (isResumable) {
-            for (const elem of page.querySelectorAll('.btnPlay')) {
-                elem.querySelector('.detailButton-icon').classList.replace('play_arrow', 'replay');
+        for (const elem of page.querySelectorAll('.btnPlay')) {
+            const btnPlay = elem.querySelector('.detailButton-icon');
+
+            if (isResumable) {
+                btnPlay.classList.replace('play_arrow', 'replay');
+            } else {
+                btnPlay.classList.replace('replay', 'play_arrow');
             }
         }
     } else {
@@ -741,9 +745,7 @@ function renderLogo(page, item, apiClient) {
 
     const url = logoImageUrl(item, apiClient, {});
 
-    if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
-        detailLogo.classList.add('hide');
-    } else if (url) {
+    if (url) {
         detailLogo.classList.remove('hide');
         imageLoader.setLazyImage(detailLogo, url);
     } else {
@@ -1793,7 +1795,7 @@ function renderMusicVideos(page, item, user) {
     }).then(function (result) {
         if (result.Items.length) {
             page.querySelector('#musicVideosCollapsible').classList.remove('hide');
-            const musicVideosContent = page.querySelector('.musicVideosContent');
+            const musicVideosContent = page.querySelector('#musicVideosContent');
             musicVideosContent.innerHTML = getVideosHtml(result.Items);
             imageLoader.lazyChildren(musicVideosContent);
         } else {

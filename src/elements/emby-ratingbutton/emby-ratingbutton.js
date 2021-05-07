@@ -24,7 +24,7 @@ import ServerConnections from '../../components/ServerConnections';
         return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
     }
 
-    function onClick(e) {
+    function onClick() {
         const button = this;
         const id = button.getAttribute('data-id');
         const serverId = button.getAttribute('data-serverid');

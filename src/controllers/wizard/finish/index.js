@@ -11,6 +11,6 @@ function onFinish() {
     });
 }
 
-export default function (view, params) {
+export default function (view) {
     view.querySelector('.btnWizardNext').addEventListener('click', onFinish);
 }

@@ -427,12 +427,12 @@ class AppRouter {
 
         if (data.status === 403) {
             if (data.errorCode === 'ParentalControl') {
-                const isCurrentAllowed = this.currentRouteInfo ? (this.currentRouteInfo.route.anonymous || this.currentRouteInfo.route.startup) : true;
+                const isCurrentAllowed = appRouter.currentRouteInfo ? (appRouter.currentRouteInfo.route.anonymous || appRouter.currentRouteInfo.route.startup) : true;
 
                 // Bounce to the login screen, but not if a password entry fails, obviously
                 if (!isCurrentAllowed) {
-                    this.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
-                    this.showLocalLogin(apiClient.serverId());
+                    appRouter.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
+                    appRouter.showLocalLogin(apiClient.serverId());
                 }
             }
         }
@@ -446,7 +446,7 @@ class AppRouter {
 
     normalizeImageOptions(options) {
         let setQuality;
-        if (options.maxWidth || options.width || options.maxHeight || options.height) {
+        if (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight) {
             setQuality = true;
         }
 
@@ -471,18 +471,9 @@ class AppRouter {
         return null;
     }
 
-    getMaxBandwidthIOS() {
-        return 800000;
-    }
-
     onApiClientCreated(e, newApiClient) {
         newApiClient.normalizeImageOptions = this.normalizeImageOptions;
-
-        if (browser.iOS) {
-            newApiClient.getMaxBandwidth = this.getMaxBandwidthIOS;
-        } else {
-            newApiClient.getMaxBandwidth = this.getMaxBandwidth;
-        }
+        newApiClient.getMaxBandwidth = this.getMaxBandwidth;
 
         Events.off(newApiClient, 'requestfail', this.onRequestFail);
         Events.on(newApiClient, 'requestfail', this.onRequestFail);
@@ -519,6 +510,7 @@ class AppRouter {
                 return response.json();
             }).then(data => {
                 if (data !== null && data.StartupWizardCompleted === false) {
+                    ServerConnections.setLocalApiClient(firstResult.ApiClient);
                     Dashboard.navigate('wizardstart.html');
                 } else {
                     this.handleConnectionResult(firstResult);
@@ -821,14 +813,20 @@ class AppRouter {
                 url = '#!/tv.html?topParentId=' + item.Id;
 
                 if (options && options.section === 'latest') {
-                    url += '&tab=2';
+                    url += '&tab=1';
                 }
 
                 return url;
             }
 
             if (item.CollectionType == 'music') {
-                return '#!/music.html?topParentId=' + item.Id;
+                url = '#!/music.html?topParentId=' + item.Id;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
+
+                return url;
             }
         }
 

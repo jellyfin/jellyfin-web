@@ -5,7 +5,7 @@ import template from './responseProfileEditor.template.html';
 import '../../../../elements/emby-button/paper-icon-button-light';
 import '../../../../elements/emby-input/emby-input';
 import '../../../../elements/emby-select/emby-select';
-import '../../../../components/formdialog.css';
+import '../../../../components/formdialog.scss';
 
 function centerFocus(elem, horiz, on) {
     import('../../../../scripts/scrollHelper').then((scrollHelper) => {

@@ -26,7 +26,8 @@ function getBackdropItemIds(apiClient, userId, types, parentId) {
         IncludeItemTypes: types,
         ImageTypes: 'Backdrop',
         ParentId: parentId,
-        EnableTotalRecordCount: false
+        EnableTotalRecordCount: false,
+        MaxOfficialRating: parentId ? '' : 'PG-13'
     };
     return apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
         const images = result.Items.map(function (i) {

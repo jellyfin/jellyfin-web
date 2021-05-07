@@ -9,7 +9,7 @@ import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
-import './style.css';
+import './style.scss';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 import ServerConnections from '../ServerConnections';
@@ -71,7 +71,7 @@ function getBackdropImageUrl(item, options, apiClient) {
     options.type = options.type || 'Backdrop';
 
     // If not resizing, get the original image
-    if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
+    if (!options.maxWidth && !options.width && !options.maxHeight && !options.height && !options.fillWidth && !options.fillHeight) {
         options.quality = 100;
     }
 
@@ -210,7 +210,7 @@ export default function (options) {
         dialog.innerHTML = html;
 
         if (options.interactive && !layoutManager.tv) {
-            dialog.querySelector('.btnSlideshowExit').addEventListener('click', function (e) {
+            dialog.querySelector('.btnSlideshowExit').addEventListener('click', function () {
                 dialogHelper.close(dialog);
             });
 
@@ -381,10 +381,9 @@ export default function (options) {
     /**
      * Renders the HTML markup of a slide for an item or a slide.
      * @param {Object} item - The item used to render the slide.
-     * @param {number} index - The index of the item in the Swiper instance.
      * @returns {string} The HTML markup of the slide.
      */
-    function getSwiperSlideHtml(item, index) {
+    function getSwiperSlideHtml(item) {
         if (currentOptions.slides) {
             return getSwiperSlideHtmlFromSlide(item);
         } else {

@@ -13,7 +13,7 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import ServerConnections from '../ServerConnections';
 import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
-import './nowPlayingBar.css';
+import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
 import { appRouter } from '../appRouter';
 
@@ -648,7 +648,7 @@ import { appRouter } from '../appRouter';
         }
     }
 
-    function onPlayPauseStateChanged(e) {
+    function onPlayPauseStateChanged() {
         if (!isEnabled) {
             return;
         }
@@ -682,7 +682,7 @@ import { appRouter } from '../appRouter';
         updatePlayerStateInternal(event, state, player);
     }
 
-    function onTimeUpdate(e) {
+    function onTimeUpdate() {
         if (!isEnabled) {
             return;
         }
@@ -718,7 +718,7 @@ import { appRouter } from '../appRouter';
         }
     }
 
-    function onVolumeChanged(e) {
+    function onVolumeChanged() {
         if (!isEnabled) {
             return;
         }

@@ -1,6 +1,6 @@
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
-import '../../../assets/css/dashboard.css';
+import '../../../assets/css/dashboard.scss';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../scripts/clientUtils';
@@ -58,7 +58,7 @@ function onViewShow() {
     });
 }
 
-export default function (view, params) {
+export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');

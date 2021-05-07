@@ -3,7 +3,7 @@ import datetime from '../../../scripts/datetime';
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import globalize from '../../../scripts/globalize';
-import '../../../components/listview/listview.css';
+import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/paper-icon-button-light';
 import toast from '../../../components/toast/toast';
 
@@ -161,7 +161,7 @@ import toast from '../../../components/toast/toast';
         });
     }
 
-    function onSaveComplete(page) {
+    function onSaveComplete() {
         loading.hide();
         toast(globalize.translate('SettingsSaved'));
     }
@@ -176,7 +176,7 @@ import toast from '../../../components/toast/toast';
         user.Policy.AccessSchedules = getSchedulesFromPage(page);
         user.Policy.BlockedTags = getBlockedTagsFromPage(page);
         ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-            onSaveComplete(page);
+            onSaveComplete();
         });
     }
 

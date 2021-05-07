@@ -1,6 +1,6 @@
 import loading from '../../../../components/loading/loading';
 import globalize from '../../../../scripts/globalize';
-import '../../../../components/listview/listview.css';
+import '../../../../components/listview/listview.scss';
 import '../../../../elements/emby-button/emby-button';
 
 function reload(page) {
@@ -54,7 +54,7 @@ function reload(page) {
     });
 }
 
-export default function (view, params) {
+export default function (view) {
     view.addEventListener('viewshow', function () {
         reload(view);
     });

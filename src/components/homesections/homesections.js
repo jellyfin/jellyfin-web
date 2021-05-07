@@ -9,7 +9,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-button/emby-button';
-import './homesections.css';
+import './homesections.scss';
 import Dashboard from '../../scripts/clientUtils';
 import ServerConnections from '../ServerConnections';
 
@@ -133,24 +133,22 @@ import ServerConnections from '../ServerConnections';
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
         const section = allSections[index];
-        const userId = user.Id;
-
         const elem = page.querySelector('.section' + index);
 
         if (section === 'latestmedia') {
             loadRecentlyAdded(elem, apiClient, user, userViews);
         } else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
-            loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews, allSections);
+            loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews);
         } else if (section === 'librarybuttons') {
             loadlibraryButtons(elem, apiClient, user, userSettings, userViews);
         } else if (section === 'resume') {
-            loadResumeVideo(elem, apiClient, userId);
+            loadResumeVideo(elem, apiClient);
         } else if (section === 'resumeaudio') {
-            loadResumeAudio(elem, apiClient, userId);
+            loadResumeAudio(elem, apiClient);
         } else if (section === 'activerecordings') {
-            loadLatestLiveTvRecordings(elem, true, apiClient, userId);
+            loadLatestLiveTvRecordings(elem, true, apiClient);
         } else if (section === 'nextup') {
-            loadNextUp(elem, apiClient, userId);
+            loadNextUp(elem, apiClient);
         } else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
         } else {
@@ -335,7 +333,7 @@ import ServerConnections from '../ServerConnections';
         }
     }
 
-    export function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
+    export function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews) {
         let html = '';
         if (userViews.length) {
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
@@ -415,7 +413,7 @@ import ServerConnections from '../ServerConnections';
         });
     }
 
-    function loadResumeVideo(elem, apiClient, userId) {
+    function loadResumeVideo(elem, apiClient) {
         let html = '';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
@@ -488,7 +486,7 @@ import ServerConnections from '../ServerConnections';
         });
     }
 
-    function loadResumeAudio(elem, apiClient, userId) {
+    function loadResumeAudio(elem, apiClient) {
         let html = '';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueListening') + '</h2>';
@@ -665,7 +663,8 @@ import ServerConnections from '../ServerConnections';
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-                EnableTotalRecordCount: false
+                EnableTotalRecordCount: false,
+                DisableFirstEpisode: true
             });
         };
     }
@@ -688,7 +687,7 @@ import ServerConnections from '../ServerConnections';
         });
     }
 
-    function loadNextUp(elem, apiClient, userId) {
+    function loadNextUp(elem, apiClient) {
         let html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
@@ -766,7 +765,7 @@ import ServerConnections from '../ServerConnections';
         };
     }
 
-    function loadLatestLiveTvRecordings(elem, activeRecordingsOnly, apiClient, userId) {
+    function loadLatestLiveTvRecordings(elem, activeRecordingsOnly, apiClient) {
         const title = activeRecordingsOnly ?
             globalize.translate('HeaderActiveRecordings') :
             globalize.translate('HeaderLatestRecordings');

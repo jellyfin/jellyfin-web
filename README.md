@@ -23,9 +23,6 @@
 <a href="https://features.jellyfin.org">
 <img alt="Feature Requests" src="https://img.shields.io/badge/fider-vote%20on%20features-success.svg"/>
 </a>
-<a href="https://forum.jellyfin.org">
-<img alt="Discuss on our Forum" src="https://img.shields.io/discourse/https/forum.jellyfin.org/users.svg"/>
-</a>
 <a href="https://matrix.to/#/+jellyfin:matrix.org">
 <img alt="Chat on Matrix" src="https://img.shields.io/matrix/jellyfin:matrix.org.svg?logo=matrix"/>
 </a>
@@ -45,7 +42,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 ### Dependencies
 
 - [Node.js](https://nodejs.org/en/download)
-- [Yarn 1.22.5](https://classic.yarnpkg.com/en/docs/install)
+- npm (included in Node.js)
 
 ### Getting Started
 
@@ -59,17 +56,17 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 2. Install build dependencies in the project directory.
 
    ```sh
-   yarn install
+   npm install
    ```
 
 3. Run the web client with webpack for local development.
 
    ```sh
-   yarn serve
+   npm start
    ```
 
 4. Build the client with sourcemaps available.
 
    ```sh
-   yarn build:development
+   npm run build:development
    ```

@@ -287,7 +287,7 @@
     "DefaultSubtitlesHelp": "Onderskrifte word gelaai gebasseer op die standaard en geforseerde verstellings in die ingeboude metadata. Taal-voorkeure word in ag geneem wanneer verskeie opsies beskikbaar is.",
     "DefaultMetadataLangaugeDescription": "Hierdie is jou standaard-verstellings en kan gespesifiseer word op 'n per-versameling basis.",
     "ErrorDefault": "Daar was 'n probleem met die verwerking van die versoek. Probeer asseblief later weer.",
-    "Default": "Standaard",
+    "Default": "Oorspronklik",
     "DeathDateValue": "Oorlede: {0}",
     "DatePlayed": "Datum gespeel",
     "DateAdded": "Datum toegevoeg",

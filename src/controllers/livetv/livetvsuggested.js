@@ -6,7 +6,7 @@ import globalize from '../../scripts/globalize';
 import * as mainTabsManager from '../../components/maintabsmanager';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
-import '../../assets/css/scrollstyles.css';
+import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-button/emby-button';

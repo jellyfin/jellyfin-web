@@ -31,6 +31,7 @@ export const activate = () => {
             title: globalize.translate('HeaderError'),
             message: globalize.translate('DefaultErrorMessage')
         });
+
         throw e;
     });
 };

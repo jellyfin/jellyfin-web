@@ -22,13 +22,6 @@ export class BookPlayer {
         this.id = 'bookplayer';
         this.priority = 1;
 
-        this.epubOptions = {
-            width: '100%',
-            height: '100%',
-            // TODO: Add option for scrolled-doc
-            flow: 'paginated'
-        };
-
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.openTableOfContents = this.openTableOfContents.bind(this);
         this.previous = this.previous.bind(this);
@@ -257,7 +250,14 @@ export class BookPlayer {
             import('epubjs').then(({default: epubjs}) => {
                 const downloadHref = apiClient.getItemDownloadUrl(item.Id);
                 const book = epubjs(downloadHref, {openAs: 'epub'});
-                const rendition = book.renderTo('bookPlayerContainer', this.epubOptions);
+
+                const rendition = book.renderTo('bookPlayerContainer', {
+                    width: '100%',
+                    // Calculate the height of the window because using 100% is not accurate when the dialog is opening
+                    height: document.body.clientHeight,
+                    // TODO: Add option for scrolled-doc
+                    flow: 'paginated'
+                });
 
                 this.currentSrc = downloadHref;
                 this.rendition = rendition;

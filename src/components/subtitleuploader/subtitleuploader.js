@@ -9,8 +9,8 @@ import template from './subtitleuploader.template.html';
 import toast from '../toast/toast';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
-import '../formdialog.css';
-import './style.css';
+import '../formdialog.scss';
+import './style.scss';
 
 let currentItemId;
 let currentServerId;
@@ -108,7 +108,7 @@ function initEditor(page) {
     });
 }
 
-function showEditor(options, resolve, reject) {
+function showEditor(options, resolve) {
     options = options || {};
     currentItemId = options.itemId;
     currentServerId = options.serverId;
@@ -161,9 +161,9 @@ function showEditor(options, resolve, reject) {
 }
 
 export function show(options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         hasChanges = false;
-        showEditor(options, resolve, reject);
+        showEditor(options, resolve);
     });
 }
 

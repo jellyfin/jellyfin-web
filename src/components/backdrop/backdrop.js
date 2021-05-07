@@ -2,12 +2,12 @@ import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
 import dom from '../../scripts/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
-import './backdrop.css';
+import './backdrop.scss';
 import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
 
-    function enableAnimation(elem) {
+    function enableAnimation() {
         if (browser.slow) {
             return false;
         }
@@ -47,7 +47,7 @@ import ServerConnections from '../ServerConnections';
                 backdropImage.classList.add('backdropImageFadeIn');
                 parent.appendChild(backdropImage);
 
-                if (!enableAnimation(backdropImage)) {
+                if (!enableAnimation()) {
                     if (existingBackdropImage && existingBackdropImage.parentNode) {
                         existingBackdropImage.parentNode.removeChild(existingBackdropImage);
                     }

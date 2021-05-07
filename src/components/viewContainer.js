@@ -1,5 +1,5 @@
 import { importModule } from '@uupaa/dynamic-import-polyfill';
-import './viewManager/viewContainer.css';
+import './viewManager/viewContainer.scss';
 import Dashboard from '../scripts/clientUtils';
 
 /* eslint-disable indent */
@@ -119,7 +119,7 @@ import Dashboard from '../scripts/clientUtils';
     function parseHtml(html, hasScript) {
         if (hasScript) {
             html = replaceAll(html, '\x3c!--<script', '<script');
-            html = replaceAll(html, '<\/script>--\x3e', '<\/script>');
+            html = replaceAll(html, '</script>--\x3e', '</script>');
         }
 
         const wrapper = document.createElement('div');

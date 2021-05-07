@@ -8,16 +8,15 @@ import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
 import { Events } from 'jellyfin-apiclient';
-import browser from '../../../scripts/browser';
 import globalize from '../../../scripts/globalize';
 import { appHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
 import * as userSettings from '../../../scripts/settings/userSettings';
 import keyboardnavigation from '../../../scripts/keyboardNavigation';
-import '../../../assets/css/scrollstyles.css';
+import '../../../assets/css/scrollstyles.scss';
 import '../../../elements/emby-slider/emby-slider';
 import '../../../elements/emby-button/paper-icon-button-light';
-import '../../../assets/css/videoosd.css';
+import '../../../assets/css/videoosd.scss';
 import ServerConnections from '../../../components/ServerConnections';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
@@ -29,53 +28,7 @@ import { appRouter } from '../../../components/appRouter';
         return document.querySelector('.dialogContainer .dialog.opened');
     }
 
-    export default function (view, params) {
-        function onVerticalSwipe(e, elem, data) {
-            const player = currentPlayer;
-
-            if (player) {
-                const deltaY = data.currentDeltaY;
-                const windowSize = dom.getWindowSize();
-
-                if (supportsBrightnessChange && data.clientX < windowSize.innerWidth / 2) {
-                    return void doBrightnessTouch(deltaY, player, windowSize.innerHeight);
-                }
-
-                doVolumeTouch(deltaY, player, windowSize.innerHeight);
-            }
-        }
-
-        function doBrightnessTouch(deltaY, player, viewHeight) {
-            const delta = -deltaY / viewHeight * 100;
-            let newValue = playbackManager.getBrightness(player) + delta;
-            newValue = Math.min(newValue, 100);
-            newValue = Math.max(newValue, 0);
-            playbackManager.setBrightness(newValue, player);
-        }
-
-        function doVolumeTouch(deltaY, player, viewHeight) {
-            const delta = -deltaY / viewHeight * 100;
-            let newValue = playbackManager.getVolume(player) + delta;
-            newValue = Math.min(newValue, 100);
-            newValue = Math.max(newValue, 0);
-            playbackManager.setVolume(newValue, player);
-        }
-
-        function onDoubleClick(e) {
-            const clientX = e.clientX;
-
-            if (clientX != null) {
-                if (clientX < dom.getWindowSize().innerWidth / 2) {
-                    playbackManager.rewind(currentPlayer);
-                } else {
-                    playbackManager.fastForward(currentPlayer);
-                }
-
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        }
-
+    export default function (view) {
         function getDisplayItem(item) {
             if (item.Type === 'TvChannel') {
                 const apiClient = ServerConnections.getApiClient(item.ServerId);
@@ -473,18 +426,18 @@ import { appRouter } from '../../../components/appRouter';
             if (state.NowPlayingItem) {
                 isEnabled = true;
                 updatePlayerStateInternal(event, player, state);
-                updatePlaylist(player);
+                updatePlaylist();
                 enableStopOnBack(true);
             }
         }
 
-        function onPlayPauseStateChanged(e) {
+        function onPlayPauseStateChanged() {
             if (isEnabled) {
                 updatePlayPauseState(this.paused());
             }
         }
 
-        function onVolumeChanged(e) {
+        function onVolumeChanged() {
             if (isEnabled) {
                 const player = this;
                 updatePlayerVolumeState(player, player.isMuted(), player.getVolume());
@@ -519,7 +472,7 @@ import { appRouter } from '../../../components/appRouter';
             }
         }
 
-        function onMediaStreamsChanged(e) {
+        function onMediaStreamsChanged() {
             const player = this;
             const state = playbackManager.getPlayerState(player);
             onStateChanged.call(player, {
@@ -581,7 +534,7 @@ import { appRouter } from '../../../components/appRouter';
             }
         }
 
-        function onTimeUpdate(e) {
+        function onTimeUpdate() {
             // Test for 'currentItem' is required for Firefox since its player spams 'timeupdate' events even being at breakpoint
             if (isEnabled && currentItem) {
                 const now = new Date().getTime();
@@ -676,7 +629,6 @@ import { appRouter } from '../../../components/appRouter';
             updatePlayPauseState(playState.IsPaused);
             const supportedCommands = playbackManager.getSupportedCommands(player);
             currentPlayerSupportedCommands = supportedCommands;
-            supportsBrightnessChange = supportedCommands.indexOf('SetBrightness') !== -1;
             updatePlayerVolumeState(player, playState.IsMuted, playState.VolumeLevel);
 
             if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
@@ -842,7 +794,7 @@ import { appRouter } from '../../../components/appRouter';
             }
         }
 
-        function updatePlaylist(player) {
+        function updatePlaylist() {
             const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
             const btnNextTrack = view.querySelector('.btnNextTrack');
             btnPreviousTrack.classList.remove('hide');
@@ -866,7 +818,7 @@ import { appRouter } from '../../../components/appRouter';
             elem.innerHTML = html;
         }
 
-        function onSettingsButtonClick(e) {
+        function onSettingsButtonClick() {
             const btn = this;
 
             import('../../../components/playback/playersettingsmenu').then((playerSettingsMenu) => {
@@ -1156,6 +1108,12 @@ import { appRouter } from '../../../components/appRouter';
                 case '<':
                     playbackManager.decreasePlaybackRate(currentPlayer);
                     break;
+                case 'PageUp':
+                    playbackManager.nextChapter(currentPlayer);
+                    break;
+                case 'PageDown':
+                    playbackManager.previousChapter(currentPlayer);
+                    break;
             }
         }
 
@@ -1270,7 +1228,6 @@ import { appRouter } from '../../../components/appRouter';
         let currentItem;
         let recordingButtonManager;
         let enableProgressByTimeOfDay;
-        let supportsBrightnessChange;
         let currentVisibleMenu;
         let statsOverlay;
         let osdHideTimeout;
@@ -1304,11 +1261,11 @@ import { appRouter } from '../../../components/appRouter';
             nowPlayingPositionSlider.classList.add('focusable');
         }
 
-        view.addEventListener('viewbeforeshow', function (e) {
+        view.addEventListener('viewbeforeshow', function () {
             headerElement.classList.add('osdHeader');
             appRouter.setTransparency('full');
         });
-        view.addEventListener('viewshow', function (e) {
+        view.addEventListener('viewshow', function () {
             try {
                 Events.on(playbackManager, 'playerchange', onPlayerChange);
                 bindToPlayer(playbackManager.getCurrentPlayer());
@@ -1466,15 +1423,10 @@ import { appRouter } from '../../../components/appRouter';
             passive: true
         });
 
-        if (browser.touch) {
-            dom.addEventListener(view, 'dblclick', onDoubleClick, {});
-        } else {
-            const options = { passive: true };
-            dom.addEventListener(view, 'dblclick', (e) => {
-                if (e.target !== view) return;
-                playbackManager.toggleFullscreen(currentPlayer);
-            }, options);
-        }
+        dom.addEventListener(view, 'dblclick', (e) => {
+            if (e.target !== view) return;
+            playbackManager.toggleFullscreen(currentPlayer);
+        });
 
         view.querySelector('.buttonMute').addEventListener('click', function () {
             playbackManager.toggleMute(currentPlayer);
@@ -1555,21 +1507,6 @@ import { appRouter } from '../../../components/appRouter';
         });
         view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
         view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
-
-        if (browser.touch) {
-            (function () {
-                import('../../../scripts/touchHelper').then(({default: TouchHelper}) => {
-                    self.touchHelper = new TouchHelper(view, {
-                        swipeYThreshold: 30,
-                        triggerOnMove: true,
-                        preventDefaultOnMove: true,
-                        ignoreTagNames: ['BUTTON', 'INPUT', 'TEXTAREA']
-                    });
-                    Events.on(self.touchHelper, 'swipeup', onVerticalSwipe);
-                    Events.on(self.touchHelper, 'swipedown', onVerticalSwipe);
-                });
-            })();
-        }
 
         // Register to SyncPlay playback events and show big animated icon
         const showIcon = (action) => {

@@ -108,7 +108,7 @@ import toast from '../../../components/toast/toast';
         loading.hide();
     }
 
-    function onSaveComplete(page, user) {
+    function onSaveComplete() {
         Dashboard.navigate('userprofiles.html');
         loading.hide();
         toast(globalize.translate('SettingsSaved'));
@@ -146,7 +146,7 @@ import toast from '../../../components/toast/toast';
         }
         ApiClient.updateUser(user).then(function () {
             ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                onSaveComplete(page, user);
+                onSaveComplete();
             });
         });
     }

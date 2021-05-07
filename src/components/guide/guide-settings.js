@@ -5,7 +5,7 @@ import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-radio/emby-radio';
-import '../formdialog.css';
+import '../formdialog.scss';
 import 'material-design-icons-iconfont';
 import template from './guide-settings.template.html';
 

@@ -44,12 +44,14 @@ module.exports = {
                 {
                     from: 'assets/**',
                     globOptions: {
+                        dot: true,
                         ignore: ['**/css/*']
                     }
                 },
                 {
                     from: '*.*',
                     globOptions: {
+                        dot: true,
                         ignore: ['**.js', '**.html']
                     }
                 }
@@ -77,8 +79,9 @@ module.exports = {
         })
     ],
     output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: '[name].[contenthash].bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: ''
     },
     module: {
         rules: [

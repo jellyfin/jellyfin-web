@@ -6,7 +6,7 @@ import AlphaPicker from '../alphaPicker/alphaPicker';
 import '../../elements/emby-input/emby-input';
 import '../../assets/css/flexstyles.scss';
 import 'material-design-icons-iconfont';
-import './searchfields.css';
+import './searchfields.scss';
 import template from './searchfields.template.html';
 
 /* eslint-disable indent */
@@ -61,20 +61,14 @@ import template from './searchfields.template.html';
         triggerSearch(searchFieldsInstance, value);
     }
 
-    function embed(elem, instance, options) {
-        let html = globalize.translateHtml(template, 'core');
-
-        if (browser.tizen || browser.orsay) {
-            html = html.replace('<input ', '<input readonly ');
-        }
-
-        elem.innerHTML = html;
+    function embed(elem, instance) {
+        elem.innerHTML = globalize.translateHtml(template, 'core');
 
         elem.classList.add('searchFields');
 
         const txtSearch = elem.querySelector('.searchfields-txtSearch');
 
-        if (layoutManager.tv) {
+        if (layoutManager.tv && !browser.tv) {
             const alphaPickerElement = elem.querySelector('.alphaPicker');
 
             elem.querySelector('.alphaPicker').classList.remove('hide');
@@ -89,7 +83,7 @@ import template from './searchfields.template.html';
 class SearchFields {
     constructor(options) {
         this.options = options;
-        embed(options.element, this, options);
+        embed(options.element, this);
     }
     focus() {
         this.options.element.querySelector('.searchfields-txtSearch').focus();

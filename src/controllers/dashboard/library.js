@@ -5,10 +5,11 @@ import libraryMenu from '../../scripts/libraryMenu';
 import globalize from '../../scripts/globalize';
 import dom from '../../scripts/dom';
 import imageHelper from '../../scripts/imagehelper';
-import '../../components/cardbuilder/card.css';
+import '../../components/cardbuilder/card.scss';
 import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 import Dashboard, { pageClassOn, pageIdOn } from '../../scripts/clientUtils';
 import confirm from '../../components/confirm/confirm';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
 /* eslint-disable indent */
 
@@ -100,7 +101,7 @@ import confirm from '../../components/confirm/confirm';
         menuItems.push({
             name: globalize.translate('ManageLibrary'),
             id: 'edit',
-            icon: 'folder_open'
+            icon: 'folder'
         });
         menuItems.push({
             name: globalize.translate('ButtonRemove'),
@@ -168,7 +169,8 @@ import confirm from '../../components/confirm/confirm';
             showType: false,
             showLocations: false,
             showMenu: false,
-            showNameWithIcon: false
+            showNameWithIcon: false,
+            elementId: 'addLibrary'
         });
 
         for (let i = 0; i < virtualFolders.length; i++) {
@@ -254,11 +256,8 @@ import confirm from '../../components/confirm/confirm';
             style += 'min-width:33.3%;';
         }
 
-        if (virtualFolder.Locations.length == 0) {
-            html += '<div id="addLibrary" class="card backdropCard scalableCard backdropCard-scalable" style="' + style + '" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
-        } else {
-            html += '<div class="card backdropCard scalableCard backdropCard-scalable" style="' + style + '" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
-        }
+        const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
+        html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" style="' + style + '" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
 
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
@@ -276,11 +275,12 @@ import confirm from '../../components/confirm/confirm';
         let hasCardImageContainer;
 
         if (imgUrl) {
-            html += '<div class="cardImageContainer editLibrary" style="cursor:pointer;background-image:url(\'' + imgUrl + "');\">";
+            html += `<div class="cardImageContainer editLibrary ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer">`;
+            html += `<img src="${imgUrl}" style="width:100%" />`;
             hasCardImageContainer = true;
         } else if (!virtualFolder.showNameWithIcon) {
-            html += '<div class="cardImageContainer editLibrary" style="cursor:pointer;">';
-            html += '<span class="cardImageIcon-small material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></span>';
+            html += `<div class="cardImageContainer editLibrary ${cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer;">`;
+            html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></span>';
             hasCardImageContainer = true;
         }
 
@@ -293,7 +293,7 @@ import confirm from '../../components/confirm/confirm';
 
         if (!imgUrl && virtualFolder.showNameWithIcon) {
             html += '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
-            html += '<span class="cardImageIcon-small material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></span>';
+            html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></span>';
 
             if (virtualFolder.showNameWithIcon) {
                 html += '<div style="margin:1em 0;position:width:100%;">';

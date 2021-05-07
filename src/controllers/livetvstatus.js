@@ -5,10 +5,10 @@ import dom from '../scripts/dom';
 import layoutManager from '../components/layoutManager';
 import loading from '../components/loading/loading';
 import browser from '../scripts/browser';
-import '../components/listview/listview.css';
+import '../components/listview/listview.scss';
 import '../assets/css/flexstyles.scss';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
-import '../components/cardbuilder/card.css';
+import '../components/cardbuilder/card.scss';
 import 'material-design-icons-iconfont';
 import '../elements/emby-button/emby-button';
 import Dashboard from '../scripts/clientUtils';
@@ -246,7 +246,7 @@ function addProvider(button) {
     });
 }
 
-function addDevice(button) {
+function addDevice() {
     Dashboard.navigate('livetvtuner.html');
 }
 
@@ -296,7 +296,7 @@ function onDevicesListClick(e) {
 $(document).on('pageinit', '#liveTvStatusPage', function () {
     const page = this;
     $('.btnAddDevice', page).on('click', function () {
-        addDevice(this);
+        addDevice();
     });
     $('.formAddDevice', page).on('submit', function () {
         submitAddDeviceForm(page);

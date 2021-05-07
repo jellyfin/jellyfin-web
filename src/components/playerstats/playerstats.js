@@ -5,7 +5,7 @@ import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import playMethodHelper from '../playback/playmethodhelper';
 import SyncPlay from '../../components/syncPlay/core';
-import './playerstats.css';
+import './playerstats.scss';
 import ServerConnections from '../ServerConnections';
 
 /* eslint-disable indent */
@@ -142,14 +142,13 @@ import ServerConnections from '../ServerConnections';
             });
         }
 
-        if (audioChannels) {
-            sessionStats.push({
-                label: globalize.translate('LabelAudioChannels'),
-                value: audioChannels
-            });
-        }
-
         if (displayPlayMethod === 'Transcode') {
+            if (audioChannels) {
+                sessionStats.push({
+                    label: globalize.translate('LabelAudioChannels'),
+                    value: audioChannels
+                });
+            }
             if (totalBitrate) {
                 sessionStats.push({
                     label: globalize.translate('LabelBitrate'),
@@ -197,7 +196,7 @@ import ServerConnections from '../ServerConnections';
         }
     }
 
-    function getMediaSourceStats(session, player, displayPlayMethod) {
+    function getMediaSourceStats(session, player) {
         const sessionStats = [];
 
         const mediaSource = playbackManager.currentMediaSource(player) || {};

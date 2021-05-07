@@ -2,7 +2,7 @@ import { Events } from 'jellyfin-apiclient';
 import { playbackManager } from './playbackmanager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
-import './iconosd.css';
+import './iconosd.scss';
 import 'material-design-icons-iconfont';
 
 let currentPlayer;
@@ -127,7 +127,7 @@ function releaseCurrentPlayer() {
     }
 }
 
-function onBrightnessChanged(e) {
+function onBrightnessChanged() {
     const player = this;
 
     ensureOsdElement();

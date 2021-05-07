@@ -4,7 +4,7 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import { appRouter } from '../../components/appRouter';
-import './style.css';
+import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import { Events } from 'jellyfin-apiclient';
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
@@ -189,7 +189,7 @@ export class PdfPlayer {
         const serverId = item.ServerId;
         const apiClient = ServerConnections.getApiClient(serverId);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const downloadHref = apiClient.getItemDownloadUrl(item.Id);
 
             this.bindEvents();

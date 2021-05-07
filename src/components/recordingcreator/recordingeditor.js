@@ -4,13 +4,13 @@ import globalize from '../../scripts/globalize';
 import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
-import '../../assets/css/scrollstyles.css';
+import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-collapse/emby-collapse';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/paper-icon-button-light';
-import '../formdialog.css';
-import './recordingcreator.css';
+import '../formdialog.scss';
+import './recordingcreator.scss';
 import 'material-design-icons-iconfont';
 import '../../assets/css/flexstyles.scss';
 import ServerConnections from '../ServerConnections';
@@ -28,7 +28,7 @@ function deleteTimer(apiClient, timerId) {
     });
 }
 
-function renderTimer(context, item, apiClient) {
+function renderTimer(context, item) {
     context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
     context.querySelector('#txtPostPaddingMinutes').value = item.PostPaddingSeconds / 60;
 
@@ -79,13 +79,13 @@ function reload(context, id) {
 
     const apiClient = ServerConnections.getApiClient(currentServerId);
     apiClient.getLiveTvTimer(id).then(function (result) {
-        renderTimer(context, result, apiClient);
+        renderTimer(context, result);
         loading.hide();
     });
 }
 
 function showEditor(itemId, serverId, options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         recordingDeleted = false;
         currentServerId = serverId;
         loading.show();

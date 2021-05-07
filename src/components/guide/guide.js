@@ -13,10 +13,10 @@ import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import itemShortcuts from '../shortcuts';
 import dom from '../../scripts/dom';
-import './guide.css';
-import './programs.css';
+import './guide.scss';
+import './programs.scss';
 import 'material-design-icons-iconfont';
-import '../../assets/css/scrollstyles.css';
+import '../../assets/css/scrollstyles.scss';
 import '../../elements/emby-programcell/emby-programcell';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -1057,7 +1057,7 @@ function Guide(options) {
         }
     }
 
-    function onSeriesTimerCreated(e, apiClient, data) {
+    function onSeriesTimerCreated() {
     }
 
     function onTimerCancelled(e, apiClient, data) {
@@ -1116,7 +1116,7 @@ function Guide(options) {
         programGrid.classList.add('noRubberBanding');
     }
 
-    dom.addEventListener(programGrid, 'scroll', function (e) {
+    dom.addEventListener(programGrid, 'scroll', function () {
         onProgramGridScroll(guideContext, this, timeslotHeaders);
     }, {
         passive: true
