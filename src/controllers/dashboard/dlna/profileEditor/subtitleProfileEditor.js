@@ -15,7 +15,7 @@ function centerFocus(elem, horiz, on) {
 }
 
 export function show(profile) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false

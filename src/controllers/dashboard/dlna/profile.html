@@ -16,7 +16,7 @@
                     <a href="#" is="emby-linkbutton" data-role="button" class="viewTabButton" id="radioMediaProfiles" data-value="tabMediaProfiles">${TabResponses}</a>
                 </div>
                 <br />
-                <div class="viewTab tabInfo">
+                <div id="tabInfo" class="viewTab">
                     <div class="inputContainer">
                         <input is="emby-input" type="text" id="txtName" required="required" label="${LabelName}" />
                     </div>
@@ -229,31 +229,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="viewTab tabDirectPlayProfiles hide">
+                <div id="tabDirectPlayProfiles" class="viewTab hide">
                     <p>${HeaderDirectPlayProfileHelp}</p>
                     <button is="emby-button" class="raised submit block btnAddDirectPlayProfile" type="button" data-mini="true" data-icon="plus">${New}</button>
                     <br />
                     <div id="directPlayProfiles"></div>
                 </div>
-                <div class="viewTab tabTranscodingProfiles hide">
+                <div id="tabTranscodingProfiles" class="viewTab hide">
                     <p>${HeaderTranscodingProfileHelp}</p>
                     <button is="emby-button" class="raised submit block btnAddTranscodingProfile" type="button" data-mini="true" data-icon="plus">${New}</button>
                     <br />
                     <div id="transcodingProfiles"></div>
                 </div>
-                <div class="viewTab tabContainerProfiles hide">
+                <div id="tabContainerProfiles" class="viewTab hide">
                     <p>${HeaderContainerProfileHelp}</p>
                     <button is="emby-button" class="raised submit block btnAddContainerProfile" type="button" data-mini="true" data-icon="plus">${New}</button>
                     <br />
                     <div id="containerProfiles"></div>
                 </div>
-                <div class="viewTab tabCodecProfiles hide">
+                <div id="tabCodecProfiles" class="viewTab hide">
                     <p>${HeaderCodecProfileHelp}</p>
                     <button is="emby-button" class="raised submit block btnAddCodecProfile" type="button" data-icon="plus">${New}</button>
                     <br />
                     <div id="codecProfiles"></div>
                 </div>
-                <div class="viewTab tabMediaProfiles hide">
+                <div id="tabMediaProfiles" class="viewTab hide">
                     <p>${HeaderResponseProfileHelp}</p>
                     <button is="emby-button" class="raised submit block btnAddResponseProfile" type="button" data-mini="true" data-icon="plus">${New}</button>
                     <br />

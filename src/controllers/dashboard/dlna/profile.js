@@ -568,31 +568,22 @@ function onSubmit(e) {
 
 export default function (view) {
     const page = view;
-    const viewTabButton = view.querySelectorAll('.viewTabButton');
-    const viewTab = view.querySelectorAll('.viewTab');
 
-    viewTabButton.forEach(function(el) {
-        el.addEventListener('click', openTabs);
+    const openTabs = ({ target }) => {
+        const { dataset: { value = '' }} = target;
+        view.querySelectorAll('.viewTabButton').forEach(t =>
+            t.classList.remove('ui-btn-active')
+        );
+        target.classList.add('ui-btn-active');
+        view.querySelectorAll('.viewTab').forEach(t =>
+            t.classList.add('hide')
+        );
+        view.querySelector(`#${value}`).classList.remove('hide');
+    };
+
+    view.querySelectorAll('.viewTabButton').forEach(tab => {
+        tab.addEventListener('click', openTabs);
     });
-
-    function openTabs(el) {
-        const btnTarget = el.currentTarget;
-        const value = this.tagName == 'A' ? this.getAttribute('data-value') : this.value;
-        const elems = view.querySelectorAll('.' + value);
-
-        viewTab.forEach(function(el) {
-            el.classList.add('hide');
-        });
-
-        viewTabButton.forEach(function(el) {
-            el.classList.remove('ui-btn-active');
-        });
-
-        elems.forEach(function(el) {
-            el.classList.remove('hide');
-        });
-        btnTarget.classList.add('ui-btn-active');
-    }
 
     view.querySelector('.btnAddIdentificationHttpHeader').addEventListener('click', function () {
         editIdentificationHeader(page, {}, -1);
@@ -707,7 +698,6 @@ export default function (view) {
     view.querySelector('.dlnaProfileForm').addEventListener('submit', onSubmit);
 
     view.addEventListener('viewshow', function () {
-        const page = this;
         loadProfile(page);
     });
 }
