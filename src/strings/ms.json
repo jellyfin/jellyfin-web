@@ -106,9 +106,10 @@
     "Songs": "Lagu-lagu",
     "Playlists": "Senarai main",
     "Photos": "Gambar-gambar",
-    "ButtonParentalControl": "Kawalan ibubapa",
+    "ButtonParentalControl": "Kawalan penjaga",
     "ButtonOpen": "Buka",
     "ButtonOk": "Ok",
     "ButtonPreviousTrack": "Runut sebelumnya",
-    "ButtonPause": "Henti Sejenak"
+    "ButtonPause": "Henti Sejenak",
+    "ButtonPlayer": "Pemain"
 }
