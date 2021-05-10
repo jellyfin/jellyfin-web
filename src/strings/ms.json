@@ -111,5 +111,8 @@
     "ButtonOk": "Ok",
     "ButtonPreviousTrack": "Runut sebelumnya",
     "ButtonPause": "Henti Sejenak",
-    "ButtonPlayer": "Pemain"
+    "ButtonPlayer": "Pemain",
+    "ButtonRename": "Nama Semula",
+    "ButtonRemove": "Keluarkan",
+    "ButtonQuickStartGuide": "Panduan Mula Segera"
 }
