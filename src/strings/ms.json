@@ -161,5 +161,6 @@
     "ButtonSelectDirectory": "Pilih Direktori",
     "ButtonScanAllLibraries": "Imbas Semua Perpustakaan",
     "ButtonRevoke": "Membatalkan",
-    "ButtonResume": "Sambung semula"
+    "ButtonResume": "Sambung semula",
+    "ButtonResetEasyPassword": "Tetapkan semula kod pin mudah"
 }
