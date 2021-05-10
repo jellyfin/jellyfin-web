@@ -89,5 +89,6 @@
     "AllowFfmpegThrottling": "Membatasi transkod",
     "AllowFfmpegThrottlingHelp": "Apabila transkod atau remux cukup jauh dari kedudukan main balik semasa, jeda prosesnya sehingga ia akan menggunakan lebih sedikit sumber. Ini paling berguna ketika menonton tanpa sering mencari. Matikan ini jika anda mengalami masalah main balik.",
     "AlbumArtist": "Album Artis",
-    "Album": "Album"
+    "Album": "Album",
+    "Default": "Asal"
 }
