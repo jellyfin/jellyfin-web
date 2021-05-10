@@ -105,5 +105,8 @@
     "AllowTonemappingHelp": "Pemetaan nada dapat mengubah rentang dinamik video dari HDR ke SDR sambil mengekalkan perincian dan warna gambar, yang merupakan maklumat yang sangat penting untuk mewakili pemandangan asal. Pada masa ini hanya berfungsi semasa transkod video dengan metadata HDR10 atau HLG yang disematkan. Sekiranya pemutaran tidak lancar atau gagal, pertimbangkan untuk mematikan penyahkod perkakasan yang sesuai.",
     "Songs": "Lagu-lagu",
     "Playlists": "Senarai main",
-    "Photos": "Gambar-gambar"
+    "Photos": "Gambar-gambar",
+    "ButtonParentalControl": "Kawalan ibubapa",
+    "ButtonOpen": "Buka",
+    "ButtonOk": "Ok"
 }
