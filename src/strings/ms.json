@@ -109,10 +109,11 @@
     "ButtonParentalControl": "Kawalan penjaga",
     "ButtonOpen": "Buka",
     "ButtonOk": "Ok",
-    "ButtonPreviousTrack": "Runut sebelumnya",
+    "ButtonPreviousTrack": "trek sebelumnya",
     "ButtonPause": "Henti Sejenak",
     "ButtonPlayer": "Pemain",
     "ButtonRename": "Nama Semula",
     "ButtonRemove": "Keluarkan",
-    "ButtonQuickStartGuide": "Panduan Mula Segera"
+    "ButtonQuickStartGuide": "Panduan Mula Segera",
+    "ButtonRefreshGuideData": "Segarkan Data Panduan"
 }
