@@ -94,5 +94,16 @@
     "ButtonNextTrack": "Runut seterusnya",
     "ButtonNetwork": "Rangkaian",
     "ButtonMore": "Lagi",
-    "ButtonManualLogin": "Log Masuk Secara Manual"
+    "ButtonManualLogin": "Log Masuk Secara Manual",
+    "ButtonCast": "Pelakon",
+    "ButtonActivate": "Aktifkan",
+    "BoxSet": "Set kotak",
+    "Authorize": "Memberi kebenaran",
+    "AskAdminToCreateLibrary": "Minta pentadbir untuk membuat perpustakaan.",
+    "Artist": "Artis",
+    "ApiKeysCaption": "Senarai kunci API yang diaktifkan sekarang",
+    "AllowTonemappingHelp": "Pemetaan nada dapat mengubah rentang dinamik video dari HDR ke SDR sambil mengekalkan perincian dan warna gambar, yang merupakan maklumat yang sangat penting untuk mewakili pemandangan asal. Pada masa ini hanya berfungsi semasa transkod video dengan metadata HDR10 atau HLG yang disematkan. Sekiranya pemutaran tidak lancar atau gagal, pertimbangkan untuk mematikan penyahkod perkakasan yang sesuai.",
+    "Songs": "Lagu-lagu",
+    "Playlists": "Senarai main",
+    "Photos": "Gambar-gambar"
 }
