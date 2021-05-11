@@ -1477,7 +1477,7 @@
     "LabelMinAudiobookResume": "Ripresa minima degli Audiolibri in minuti:",
     "LabelMaxMuxingQueueSize": "Massima grandezza della coda di muxing:",
     "LabelMaxAudiobookResumeHelp": "Gli Audiolibri vengono segnati come riprodotti interamente dopo questo tempo.",
-    "LabelMaxAudiobookResume": "Ripresa massima degli Audiolibri in minuti:",
+    "LabelMaxAudiobookResume": "Minuti di attesa per la riproduzione dell'audiolibro:",
     "LabelHDHomerunPortRangeHelp": "Restringi il range delle porte UDP di HD Homerun a questo valore. (Default è 1024 - 645535).",
     "LabelHDHomerunPortRange": "Range porte di HD Homerun:",
     "LabelH265Crf": "CRF di codifica H265:",
