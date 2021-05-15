@@ -1490,11 +1490,17 @@ import { appRouter } from '../../../components/appRouter';
         view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
             playbackManager.previousTrack(currentPlayer);
         });
+        view.querySelector('.btnPreviousChapter').addEventListener('click', function () {
+            playbackManager.previousChapter(currentPlayer);
+        });
         view.querySelector('.btnPause').addEventListener('click', function () {
             // Ignore 'click' if another element was originally clicked (Firefox/Edge issue)
             if (this.contains(clickedElement)) {
                 playbackManager.playPause(currentPlayer);
             }
+        });
+        view.querySelector('.btnNextChapter').addEventListener('click', function () {
+            playbackManager.nextChapter(currentPlayer);
         });
         view.querySelector('.btnNextTrack').addEventListener('click', function () {
             playbackManager.nextTrack(currentPlayer);
