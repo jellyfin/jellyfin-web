@@ -238,6 +238,9 @@ import template from './itemidentifier.template.html';
         if (result.ProductionYear) {
             lines.push(result.ProductionYear);
         }
+        if (result.EpisodeGroupName) {
+            lines.push(result.EpisodeGroupName);
+        }
 
         for (let i = 0; i < numLines; i++) {
             if (i === 0) {
