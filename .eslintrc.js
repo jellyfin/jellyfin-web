@@ -93,6 +93,7 @@ module.exports = {
                 'LibraryMenu': 'writable',
                 'LinkParser': 'writable',
                 'LiveTvHelpers': 'writable',
+                'Loading': 'writable',
                 'MetadataEditor': 'writable',
                 'PlaylistViewer': 'writable',
                 'UserParentalControlPage': 'writable',
