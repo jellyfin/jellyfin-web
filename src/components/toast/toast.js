@@ -22,7 +22,7 @@ export default function (options) {
 
     const elem = document.createElement('div');
     elem.classList.add('toast');
-    elem.innerHTML = options.text;
+    elem.textContent = options.text;
 
     document.body.appendChild(elem);
 
