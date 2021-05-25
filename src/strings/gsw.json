@@ -119,5 +119,8 @@
     "AlbumArtist": "Album Artist",
     "Album": "Album",
     "Aired": "Usgstrahlt",
-    "AirDate": "AirDrop"
+    "AirDate": "AirDrop",
+    "AllowOnTheFlySubtitleExtraction": "Parallels extrahiere vo Untertitle erlaube",
+    "AllowMediaConversionHelp": "Zuegriff zum kovertiere vo Media erlaube oder ablehne",
+    "AllowMediaConversion": "Mediäumwandlig erlaube"
 }
