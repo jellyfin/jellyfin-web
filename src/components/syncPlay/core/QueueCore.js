@@ -185,7 +185,11 @@ class QueueCore {
         }).catch((error) => {
             console.error('Error while waiting for `playbackstart` event!', origin, error);
             if (!this.manager.isSyncPlayEnabled()) {
-                Helper.showMessage(this.manager, 'MessageSyncPlayErrorMedia');
+                if (error.message === 'MediaControlNotAllowed') {
+                    Helper.showMessage(this.manager, 'MessageSyncPlayPlaybackPermissionRequired');
+                } else {
+                    Helper.showMessage(this.manager, 'MessageSyncPlayErrorMedia');
+                }
             }
 
             this.manager.haltGroupPlayback(apiClient);
@@ -214,12 +218,20 @@ class QueueCore {
 
         if (playbackCommand && playbackCommand.EmittedAt.getTime() >= this.getLastUpdateTime()) {
             // Prefer playback commands as they're more frequent (and also because playback position is PlaybackCore's concern).
-            startPositionTicks = this.manager.getPlaybackCore().estimateCurrentTicks(playbackCommand.PositionTicks, playbackCommand.When);
+            if (playbackCommand.Command === 'Unpause') {
+                startPositionTicks = this.manager.getPlaybackCore().estimateCurrentTicks(playbackCommand.PositionTicks, playbackCommand.When);
+            } else {
+                startPositionTicks = playbackCommand.PositionTicks;
+            }
         } else {
             // A PlayQueueUpdate is emited only on queue changes so it's less reliable for playback position syncing.
-            const oldStartPositionTicks = this.getStartPositionTicks();
-            const lastQueueUpdateDate = this.getLastUpdate();
-            startPositionTicks = this.manager.getPlaybackCore().estimateCurrentTicks(oldStartPositionTicks, lastQueueUpdateDate);
+            if (this.getIsPlaying()) {
+                const oldStartPositionTicks = this.getStartPositionTicks();
+                const lastQueueUpdateDate = this.getLastUpdate();
+                startPositionTicks = this.manager.getPlaybackCore().estimateCurrentTicks(oldStartPositionTicks, lastQueueUpdateDate);
+            } else {
+                startPositionTicks = this.getStartPositionTicks();
+            }
         }
 
         const serverId = apiClient.serverInfo().Id;
@@ -234,7 +246,14 @@ class QueueCore {
             this.scheduleReadyRequestOnPlaybackStart(apiClient, 'startPlayback');
         }).catch((error) => {
             console.error(error);
-            Helper.showMessage(this.manager, 'MessageSyncPlayErrorMedia');
+            if (error.message === 'MediaControlNotAllowed') {
+                Helper.showMessage(this.manager, 'MessageSyncPlayPlaybackPermissionRequired');
+            } else {
+                Helper.showMessage(this.manager, 'MessageSyncPlayErrorMedia');
+            }
+
+            // Allow others to use the group in the meanwhile.
+            this.manager.haltGroupPlayback(apiClient);
         });
     }
 
@@ -329,6 +348,18 @@ class QueueCore {
             return this.lastPlayQueueUpdate.StartPositionTicks;
         } else {
             return 0;
+        }
+    }
+
+    /**
+     * Gets the last reported status of playing item.
+     * @returns {boolean} _true_ if current item is playing, _false_ otherwise.
+     */
+    getIsPlaying() {
+        if (this.lastPlayQueueUpdate) {
+            return this.lastPlayQueueUpdate.IsPlaying;
+        } else {
+            return false;
         }
     }
 

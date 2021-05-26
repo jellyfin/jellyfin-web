@@ -859,6 +859,8 @@
     "LabelSyncPlaySyncMethod": "Sync method:",
     "LabelSyncPlayTimeSyncDevice": "Time syncing with:",
     "LabelSyncPlayTimeSyncOffset": "Time offset:",
+    "LabelSyncPlayAlmostReady": "Almost ready!",
+    "LabelSyncPlayMediaControlQuery": "Allow SyncPlay to control media playback?",
     "LabelTag": "Tag:",
     "LabelTagline": "Tagline:",
     "LabelTextBackgroundColor": "Text background color:",
