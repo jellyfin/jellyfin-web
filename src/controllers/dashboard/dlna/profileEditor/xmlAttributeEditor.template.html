@@ -1,0 +1,23 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${HeaderXmlDocumentAttribute}
+    </h3>
+</div>
+
+<div class="formDialogContent smoothScrollY" style="padding-top:2em;">
+    <form class="popupEditxmlAttributeForm dialogContentInner dialog-content-centered">
+        <div class="inputContainer">
+            <input is="emby-input" type="text" id="txtXmlAttributeName" label="${LabelName}" />
+        </div>
+        <div class="inputContainer">
+            <input is="emby-input" type="text" id="txtXmlAttributeValue" label="${LabelValue}" />
+        </div>
+
+        <div class="formDialogFooter">
+            <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
+                <span>${Save}</span>
+            </button>
+        </div>
+    </form>
+</div>
