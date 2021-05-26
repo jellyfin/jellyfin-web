@@ -122,9 +122,9 @@ export function processErrorResponse(response) {
         status = response.statusText;
     }
 
-    alert({
+    baseAlert({
         title: status,
-        message: response.headers ? response.headers.get('X-Application-Error-Code') : null
+        text: response.headers ? response.headers.get('X-Application-Error-Code') : null
     });
 }
 
