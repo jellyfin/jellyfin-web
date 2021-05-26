@@ -16,7 +16,7 @@ function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCanc
             return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (timerDefaults) {
                 return apiClient.createLiveTvSeriesTimer(timerDefaults).then(function () {
                     loading.hide();
-                    sendToast(globalize.translate('SeriesRecordingScheduled'));
+                    toast(globalize.translate('SeriesRecordingScheduled'));
                 });
             });
         } else {
@@ -76,7 +76,7 @@ function cancelTimer(apiClient, timerId, hideLoading) {
     return apiClient.cancelLiveTvTimer(timerId).then(function () {
         if (hideLoading !== false) {
             loading.hide();
-            sendToast(globalize.translate('RecordingCancelled'));
+            toast(globalize.translate('RecordingCancelled'));
         }
     });
 }
@@ -90,13 +90,9 @@ function createRecording(apiClient, programId, isSeries) {
 
         return promise.then(function () {
             loading.hide();
-            sendToast(globalize.translate('RecordingScheduled'));
+            toast(globalize.translate('RecordingScheduled'));
         });
     });
-}
-
-function sendToast(msg) {
-    toast(msg);
 }
 
 function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId) {

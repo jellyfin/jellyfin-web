@@ -225,10 +225,6 @@ function onRecordChange(e) {
     }
 }
 
-function sendToast(msg) {
-    toast(msg);
-}
-
 function onRecordSeriesChange(e) {
     this.changed = true;
 
@@ -252,7 +248,7 @@ function onRecordSeriesChange(e) {
     } else {
         if (this.SeriesTimerId) {
             apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {
-                sendToast(globalize.translate('RecordingCancelled'));
+                toast(globalize.translate('RecordingCancelled'));
                 fetchData(self);
             });
         }
