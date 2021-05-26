@@ -890,7 +890,7 @@
     "MessageNoPluginsInstalled": "Bạn chưa cài đặt plugin nào.",
     "MessageNoMovieSuggestionsAvailable": "Hiện tại không có phim nào được đề xuất. Hãy xem và đánh giá các phim của bạn, sau đó quay lại đây để xem các đề xuất của bạn.",
     "MessageNoGenresAvailable": "Kích hoạt cho phép một số bên cung cấp dữ liệu mô tả lấy các thể loại từ internet.",
-    "MessageNoCollectionsAvailable": "Bộ sưu tập giúp bạn thưởng thức các nhóm Phim, Phim Bộ và Tuyển Tập được tùy chỉnh theo cách của bạn. Bấm nút + để tạo bộ sưu tập.",
+    "MessageNoCollectionsAvailable": "Bộ sưu tập giúp bạn thưởng thức các nhóm Phim, Phim Bộ và Tuyển Tập được được cá nhân hóa. Bấm nút + để tạo bộ sưu tập.",
     "MessageAddRepository": "Nếu bạn muốn thêm kho lưu trữ, hãy nhấp vào nút bên cạnh tiêu đề và điền thông tin được yêu cầu.",
     "LabelRepositoryNameHelp": "Tên tùy chỉnh để phân biệt giữa các kho lưu trữ đã thêm vào máy chủ của bạn.",
     "LabelRepositoryName": "Tên kho lưu trữ",
