@@ -865,7 +865,7 @@ export default function () {
         }, currentPlayer);
         form.querySelector('input').value = '';
 
-        toast('Message sent.');
+        toast(globalize.translate('MessageSent'));
 
         e.preventDefault();
         e.stopPropagation();
@@ -882,7 +882,7 @@ export default function () {
         }, currentPlayer);
         form.querySelector('input').value = '';
 
-        toast('Text sent.');
+        toast(globalize.translate('TextSent'));
 
         e.preventDefault();
         e.stopPropagation();

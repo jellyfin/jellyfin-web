@@ -167,10 +167,6 @@ import toast from './toast/toast';
         });
     }
 
-    function sendToast(text) {
-        toast(text);
-    }
-
     function executeAction(card, target, action) {
         target = target || card;
 
@@ -222,7 +218,7 @@ import toast from './toast/toast';
                     ids: [playableItemId],
                     serverId: serverId
                 });
-                sendToast(globalize.translate('MediaQueued'));
+                toast(globalize.translate('MediaQueued'));
             } else {
                 playbackManager.queue({
                     ids: [playableItemId],

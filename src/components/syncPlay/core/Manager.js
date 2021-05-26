@@ -9,6 +9,8 @@ import TimeSyncCore from './timeSync/TimeSyncCore';
 import PlaybackCore from './PlaybackCore';
 import QueueCore from './QueueCore';
 import Controller from './Controller';
+import toast from '../../toast/toast';
+import globalize from '../../../scripts/globalize';
 
 /**
  * Class that manages the SyncPlay feature.
@@ -183,17 +185,17 @@ class Manager {
                 this.queueCore.updatePlayQueue(apiClient, cmd.Data);
                 break;
             case 'UserJoined':
-                Helper.showMessage(this, 'MessageSyncPlayUserJoined', [cmd.Data]);
+                toast(globalize.translate('MessageSyncPlayUserJoined', cmd.Data));
                 break;
             case 'UserLeft':
-                Helper.showMessage(this, 'MessageSyncPlayUserLeft', [cmd.Data]);
+                toast(globalize.translate('MessageSyncPlayUserLeft', cmd.Data));
                 break;
             case 'GroupJoined':
                 cmd.Data.LastUpdatedAt = new Date(cmd.Data.LastUpdatedAt);
                 this.enableSyncPlay(apiClient, cmd.Data, true);
                 break;
             case 'SyncPlayIsDisabled':
-                Helper.showMessage(this, 'MessageSyncPlayIsDisabled');
+                toast(globalize.translate('MessageSyncPlayIsDisabled'));
                 break;
             case 'NotInGroup':
             case 'GroupLeft':
@@ -208,16 +210,16 @@ class Manager {
                 console.debug(`SyncPlay processGroupUpdate: state changed to ${cmd.Data.State} because ${cmd.Data.Reason}.`);
                 break;
             case 'GroupDoesNotExist':
-                Helper.showMessage(this, 'MessageSyncPlayGroupDoesNotExist');
+                toast(globalize.translate('MessageSyncPlayGroupDoesNotExist'));
                 break;
             case 'CreateGroupDenied':
-                Helper.showMessage(this, 'MessageSyncPlayCreateGroupDenied');
+                toast(globalize.translate('MessageSyncPlayCreateGroupDenied'));
                 break;
             case 'JoinGroupDenied':
-                Helper.showMessage(this, 'MessageSyncPlayJoinGroupDenied');
+                toast(globalize.translate('MessageSyncPlayJoinGroupDenied'));
                 break;
             case 'LibraryAccessDenied':
-                Helper.showMessage(this, 'MessageSyncPlayLibraryAccessDenied');
+                toast(globalize.translate('MessageSyncPlayLibraryAccessDenied'));
                 break;
             default:
                 console.error(`SyncPlay processGroupUpdate: command ${cmd.Type} not recognised.`);
@@ -371,7 +373,7 @@ class Manager {
         this.timeSyncCore.forceUpdate();
 
         if (showMessage) {
-            Helper.showMessage(this, 'MessageSyncPlayEnabled');
+            toast(globalize.translate('MessageSyncPlayEnabled'));
         }
     }
 
@@ -390,7 +392,7 @@ class Manager {
         this.playerWrapper.unbindFromPlayer();
 
         if (showMessage) {
-            Helper.showMessage(this, 'MessageSyncPlayDisabled');
+            toast(globalize.translate('MessageSyncPlayDisabled'));
         }
     }
 

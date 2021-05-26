@@ -3,6 +3,8 @@
  * @module components/syncPlay/core/QueueCore
  */
 
+import globalize from '../../../scripts/globalize';
+import toast from '../../toast/toast';
 import * as Helper from './Helper';
 
 /**
@@ -185,7 +187,7 @@ class QueueCore {
         }).catch((error) => {
             console.error('Error while waiting for `playbackstart` event!', origin, error);
             if (!this.manager.isSyncPlayEnabled()) {
-                Helper.showMessage(this.manager, 'MessageSyncPlayErrorMedia');
+                toast(globalize.translate('MessageSyncPlayErrorMedia'));
             }
 
             this.manager.haltGroupPlayback(apiClient);
@@ -234,7 +236,7 @@ class QueueCore {
             this.scheduleReadyRequestOnPlaybackStart(apiClient, 'startPlayback');
         }).catch((error) => {
             console.error(error);
-            Helper.showMessage(this.manager, 'MessageSyncPlayErrorMedia');
+            toast(globalize.translate('MessageSyncPlayErrorMedia'));
         });
     }
 
