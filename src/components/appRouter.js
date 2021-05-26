@@ -503,23 +503,28 @@ class AppRouter {
         const firstResult = this.firstConnectionResult;
 
         this.firstConnectionResult = null;
-        if (firstResult && firstResult.State === 'ServerSignIn') {
-            const url = firstResult.ApiClient.serverAddress() + '/System/Info/Public';
-            fetch(url).then(response => {
-                if (!response.ok) return Promise.reject('fetch failed');
-                return response.json();
-            }).then(data => {
-                if (data !== null && data.StartupWizardCompleted === false) {
-                    ServerConnections.setLocalApiClient(firstResult.ApiClient);
-                    Dashboard.navigate('wizardstart.html');
-                } else {
-                    this.handleConnectionResult(firstResult);
-                }
-            }).catch(error => {
-                console.error(error);
-            });
+        if (firstResult) {
+            if (firstResult.State === 'ServerSignIn') {
+                const url = firstResult.ApiClient.serverAddress() + '/System/Info/Public';
+                fetch(url).then(response => {
+                    if (!response.ok) return Promise.reject('fetch failed');
+                    return response.json();
+                }).then(data => {
+                    if (data !== null && data.StartupWizardCompleted === false) {
+                        ServerConnections.setLocalApiClient(firstResult.ApiClient);
+                        Dashboard.navigate('wizardstart.html');
+                    } else {
+                        this.handleConnectionResult(firstResult);
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
 
-            return;
+                return;
+            } else if (firstResult.State !== 'SignedIn') {
+                this.handleConnectionResult(firstResult);
+                return;
+            }
         }
 
         const apiClient = ServerConnections.currentApiClient();
