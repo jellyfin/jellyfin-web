@@ -414,8 +414,10 @@ import browser from './browser';
 
         if (canPlayAudioFormat('opus')) {
             videoAudioCodecs.push('opus');
-            hlsInTsVideoAudioCodecs.push('opus');
             webmAudioCodecs.push('opus');
+            if (browser.tizen) {
+                hlsInTsVideoAudioCodecs.push('opus');
+            }
         }
 
         if (canPlayAudioFormat('flac')) {
