@@ -1262,5 +1262,7 @@
     "DirectPlayHelp": "Lähde on täysin yhteensopiva asiakassovelluksen kanssa ja istunto vastaanottaa tiedoston ilman muutoksia.",
     "LabelMaxStreamingBitrateHelp": "Aseta maksimibittinopeus suoratoistolle.",
     "LabelMinAudiobookResumeHelp": "Kohteita pidetään toistamattomina, jos toisto keskeytetään ennen tätä aikaa.",
-    "LabelMaxStreamingBitrate": "Maksimi suoratoiston laatu:"
+    "LabelMaxStreamingBitrate": "Maksimi suoratoiston laatu:",
+    "MoreFromValue": "Lisää kohteesta {0}",
+    "LatestFromLibrary": "Viimeisimmät {0}"
 }
