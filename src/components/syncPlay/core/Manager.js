@@ -184,9 +184,17 @@ class Manager {
                 break;
             case 'UserJoined':
                 Helper.showMessage(this, 'MessageSyncPlayUserJoined', [cmd.Data]);
+                if (!this.groupInfo.Participants) {
+                    this.groupInfo.Participants = [cmd.Data];
+                } else {
+                    this.groupInfo.Participants.push(cmd.Data);
+                }
                 break;
             case 'UserLeft':
                 Helper.showMessage(this, 'MessageSyncPlayUserLeft', [cmd.Data]);
+                if (this.groupInfo.Participants) {
+                    this.groupInfo.Participants = this.groupInfo.Participants.filter((user) => user !== cmd.Data);
+                }
                 break;
             case 'GroupJoined':
                 cmd.Data.LastUpdatedAt = new Date(cmd.Data.LastUpdatedAt);
