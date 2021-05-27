@@ -18,7 +18,8 @@ module.exports = {
         ecmaVersion: 2020,
         sourceType: 'module',
         ecmaFeatures: {
-            impliedStrict: true
+            impliedStrict: true,
+            jsx: true
         }
     },
     extends: [
