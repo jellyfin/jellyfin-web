@@ -1508,5 +1508,6 @@
     "DisablePlugin": "Letiltás",
     "EnablePlugin": "Engedélyezés",
     "Framerate": "Filmkocka szám",
-    "DirectPlayHelp": "A forrásfájl teljes mértékben kompatibilis ezzel az klienssel, és a munkamenet módosítások nélkül fogadja a fájlt."
+    "DirectPlayHelp": "A forrásfájl teljes mértékben kompatibilis ezzel az klienssel, és a munkamenet módosítások nélkül fogadja a fájlt.",
+    "HeaderContinueReading": "Olvasás Folytatása"
 }
