@@ -1508,5 +1508,6 @@
     "Framerate": "Images par seconde",
     "DisablePlugin": "Désactiver",
     "EnablePlugin": "Activer",
-    "DirectPlayHelp": "Le fichier source est entièrement compatible avec le client et la session reçoit le fichier sans modifications."
+    "DirectPlayHelp": "Le fichier source est entièrement compatible avec le client et la session reçoit le fichier sans modifications.",
+    "HeaderContinueReading": "Continuer à lire"
 }
