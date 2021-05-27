@@ -328,6 +328,7 @@
     .nowPlayingPageImageContainer {
         width: 100%;
         margin: auto auto 0.5em;
+        height: calc(100% - 20vh - 4.2em);
     }
 
     .nowPlayingPageImageContainerNoAlbum .cardImageContainer .cardImageIcon {
@@ -399,7 +400,12 @@
     }
 
     .nowPlayingPageImage.nowPlayingPageImageAudio {
-        width: 100%;
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        max-height: 100%;
+        filter: drop-shadow(0px 0px 1px grey);
+        object-fit: scale-down;
     }
 
     .nowPlayingPageImageContainer.nowPlayingPageImagePoster {
