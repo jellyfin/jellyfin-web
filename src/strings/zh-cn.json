@@ -1508,5 +1508,6 @@
     "DisablePlugin": "禁用",
     "EnablePlugin": "激活",
     "DirectPlayHelp": "源文件与此客户端完全兼容，会话正在接收文件而未做任何修改。",
-    "Framerate": "帧率"
+    "Framerate": "帧率",
+    "HeaderContinueReading": "继续阅读"
 }
