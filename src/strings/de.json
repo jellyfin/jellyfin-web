@@ -1508,5 +1508,6 @@
     "DisablePlugin": "Deaktivieren",
     "EnablePlugin": "Aktivieren",
     "Framerate": "Bildrate",
-    "DirectPlayHelp": "Die Quelldatei ist vollständig mit diesem Client kompatibel, und die Sitzung empfängt die Datei ohne Änderungen."
+    "DirectPlayHelp": "Die Quelldatei ist vollständig mit diesem Client kompatibel, und die Sitzung empfängt die Datei ohne Änderungen.",
+    "HeaderContinueReading": "Weiterlesen"
 }
