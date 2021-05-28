@@ -7,7 +7,7 @@ export default (view, params, { detail }) => {
     if (detail.options?.pageComponent) {
         import(/* webpackChunkName: "[request]" */ `./pages/${detail.options.pageComponent}`)
             .then(({ default: component }) => {
-                ReactDOM.render(React.createElement(component), view);
+                ReactDOM.render(React.createElement(component, params), view);
             });
     }
 };
