@@ -25,12 +25,6 @@ import { appRouter } from '../components/appRouter';
     }
 
     defineRoute({
-        alias: '/reactTest.html',
-        path: 'reactTest.html',
-        pageComponent: 'TestPage'
-    });
-
-    defineRoute({
         alias: '/addserver.html',
         path: 'session/addServer/index.html',
         autoFocus: false,
