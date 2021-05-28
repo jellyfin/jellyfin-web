@@ -9,76 +9,74 @@ import 'material-design-icons-iconfont';
 import './searchfields.scss';
 import template from './searchfields.template.html';
 
-/* eslint-disable indent */
+function onSearchTimeout() {
+    const instance = this;
+    let value = instance.nextSearchValue;
 
-    function onSearchTimeout() {
-        const instance = this;
-        let value = instance.nextSearchValue;
+    value = (value || '').trim();
+    Events.trigger(instance, 'search', [value]);
+}
 
-        value = (value || '').trim();
-        Events.trigger(instance, 'search', [value]);
+function triggerSearch(instance, value) {
+    if (instance.searchTimeout) {
+        clearTimeout(instance.searchTimeout);
     }
 
-    function triggerSearch(instance, value) {
-        if (instance.searchTimeout) {
-            clearTimeout(instance.searchTimeout);
-        }
+    instance.nextSearchValue = value;
+    instance.searchTimeout = setTimeout(onSearchTimeout.bind(instance), 400);
+}
 
-        instance.nextSearchValue = value;
-        instance.searchTimeout = setTimeout(onSearchTimeout.bind(instance), 400);
+function onAlphaValueClicked(e) {
+    const value = e.detail.value;
+    const searchFieldsInstance = this;
+
+    const txtSearch = searchFieldsInstance.options.element.querySelector('.searchfields-txtSearch');
+
+    if (value === 'backspace') {
+        const val = txtSearch.value;
+        txtSearch.value = val.length ? val.substring(0, val.length - 1) : '';
+    } else {
+        txtSearch.value += value;
     }
 
-    function onAlphaValueClicked(e) {
-        const value = e.detail.value;
-        const searchFieldsInstance = this;
+    txtSearch.dispatchEvent(new CustomEvent('input', {
+        bubbles: true
+    }));
+}
 
-        const txtSearch = searchFieldsInstance.options.element.querySelector('.searchfields-txtSearch');
+function initAlphaPicker(alphaPickerElement, instance) {
+    instance.alphaPicker = new AlphaPicker({
+        element: alphaPickerElement,
+        mode: 'keyboard'
+    });
 
-        if (value === 'backspace') {
-            const val = txtSearch.value;
-            txtSearch.value = val.length ? val.substring(0, val.length - 1) : '';
-        } else {
-            txtSearch.value += value;
-        }
+    alphaPickerElement.addEventListener('alphavalueclicked', onAlphaValueClicked.bind(instance));
+}
 
-        txtSearch.dispatchEvent(new CustomEvent('input', {
-            bubbles: true
-        }));
+function onSearchInput(e) {
+    const value = e.target.value;
+    const searchFieldsInstance = this;
+    triggerSearch(searchFieldsInstance, value);
+}
+
+function embed(elem, instance) {
+    elem.innerHTML = globalize.translateHtml(template, 'core');
+
+    elem.classList.add('searchFields');
+
+    const txtSearch = elem.querySelector('.searchfields-txtSearch');
+
+    if (layoutManager.tv && !browser.tv) {
+        const alphaPickerElement = elem.querySelector('.alphaPicker');
+
+        elem.querySelector('.alphaPicker').classList.remove('hide');
+        initAlphaPicker(alphaPickerElement, instance);
     }
 
-    function initAlphaPicker(alphaPickerElement, instance) {
-        instance.alphaPicker = new AlphaPicker({
-            element: alphaPickerElement,
-            mode: 'keyboard'
-        });
+    txtSearch.addEventListener('input', onSearchInput.bind(instance));
 
-        alphaPickerElement.addEventListener('alphavalueclicked', onAlphaValueClicked.bind(instance));
-    }
-
-    function onSearchInput(e) {
-        const value = e.target.value;
-        const searchFieldsInstance = this;
-        triggerSearch(searchFieldsInstance, value);
-    }
-
-    function embed(elem, instance) {
-        elem.innerHTML = globalize.translateHtml(template, 'core');
-
-        elem.classList.add('searchFields');
-
-        const txtSearch = elem.querySelector('.searchfields-txtSearch');
-
-        if (layoutManager.tv && !browser.tv) {
-            const alphaPickerElement = elem.querySelector('.alphaPicker');
-
-            elem.querySelector('.alphaPicker').classList.remove('hide');
-            initAlphaPicker(alphaPickerElement, instance);
-        }
-
-        txtSearch.addEventListener('input', onSearchInput.bind(instance));
-
-        instance.focus();
-    }
+    instance.focus();
+}
 
 class SearchFields {
     constructor(options) {
@@ -111,5 +109,3 @@ class SearchFields {
 }
 
 export default SearchFields;
-
-/* eslint-enable indent */
