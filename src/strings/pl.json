@@ -1508,5 +1508,6 @@
     "Framerate": "Częstotliwość wyświetlania klatek",
     "DisablePlugin": "Wyłącz",
     "EnablePlugin": "Włącz",
-    "DirectPlayHelp": "Plik źródłowy jest całkowicie zgodny z tym klientem, a sesja otrzymuje plik bez modyfikacji."
+    "DirectPlayHelp": "Plik źródłowy jest całkowicie zgodny z tym klientem, a sesja otrzymuje plik bez modyfikacji.",
+    "HeaderContinueReading": "Kontynuuj czytanie"
 }
