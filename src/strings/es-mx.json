@@ -1508,5 +1508,6 @@
     "LabelMaxAudiobookResumeHelp": "Se asume que los títulos están completamente reproducidos si se detienen cuando el tiempo restante es inferior a este valor.",
     "LabelMaxAudiobookResume": "Minutos restantes para reanudación de audiolibros:",
     "Framerate": "Cuadros por segundo",
-    "DirectPlayHelp": "El archivo de origen es totalmente compatible con este cliente y la sesión recibe el archivo sin modificaciones."
+    "DirectPlayHelp": "El archivo de origen es totalmente compatible con este cliente y la sesión recibe el archivo sin modificaciones.",
+    "HeaderContinueReading": "Continuar Leyendo"
 }
