@@ -1508,5 +1508,6 @@
     "LabelDirectStreamingInfo": "Direktströmningsinfo",
     "LabelTranscodingInfo": "Omkodningsinfo",
     "RemuxHelp2": "Ommultiplexering använder väldigt lite resurser med en helt förlustfri kvalitet.",
-    "Remuxing": "Ommultiplexering"
+    "Remuxing": "Ommultiplexering",
+    "HeaderContinueReading": "Fortsätt läsa"
 }
