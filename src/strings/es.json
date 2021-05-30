@@ -1508,5 +1508,6 @@
     "DisablePlugin": "Desactivar",
     "EnablePlugin": "Habilitar",
     "Framerate": "Tasa de cuadros",
-    "DirectPlayHelp": "El archivo origen es totalmente compatible con este cliente, y la sesión está recibiendo el archivo sin modificaciones."
+    "DirectPlayHelp": "El archivo origen es totalmente compatible con este cliente, y la sesión está recibiendo el archivo sin modificaciones.",
+    "HeaderContinueReading": "Continuar Leyendo"
 }
