@@ -31,7 +31,7 @@ const createInputElement = () => ({
 
 const normalizeInput = (value = '') => value.trim();
 
-const SearchFieldsComponent = ({ onSearch = () => {} }) => {
+const SearchFields = ({ onSearch = () => {} }) => {
     const element = useRef(null);
 
     const getSearchInput = () => element?.current?.querySelector('.searchfields-txtSearch');
@@ -83,8 +83,8 @@ const SearchFieldsComponent = ({ onSearch = () => {} }) => {
     );
 };
 
-SearchFieldsComponent.propTypes = {
+SearchFields.propTypes = {
     onSearch: PropTypes.func
 };
 
-export default SearchFieldsComponent;
+export default SearchFields;
