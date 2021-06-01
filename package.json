@@ -34,7 +34,7 @@
     "postcss-preset-env": "^6.7.0",
     "sass": "^1.32.12",
     "sass-loader": "^11.0.1",
-    "source-map-loader": "^2.0.1",
+    "source-map-loader": "^3.0.0",
     "style-loader": "^2.0.0",
     "stylelint": "^13.13.1",
     "stylelint-config-rational-order": "^0.1.2",
