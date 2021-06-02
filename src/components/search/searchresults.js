@@ -1,48 +1,11 @@
 import layoutManager from '../layoutManager';
 import globalize from '../../scripts/globalize';
 import cardBuilder from '../cardbuilder/cardBuilder';
-import { appRouter } from '../appRouter';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../elements/emby-button/emby-button';
 import ServerConnections from '../ServerConnections';
 import template from './searchresults.template.html';
-
-function loadSuggestions(instance, context, apiClient) {
-    const options = {
-
-        SortBy: 'IsFavoriteOrLiked,Random',
-        IncludeItemTypes: 'Movie,Series,MusicArtist',
-        Limit: 20,
-        Recursive: true,
-        ImageTypeLimit: 0,
-        EnableImages: false,
-        ParentId: instance.options.parentId,
-        EnableTotalRecordCount: false
-    };
-
-    apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-        if (instance.mode !== 'suggestions') {
-            result.Items = [];
-        }
-
-        const html = result.Items.map(function (i) {
-            const href = appRouter.getRouteUrl(i);
-
-            let itemHtml = '<div><a is="emby-linkbutton" class="button-link" style="display:inline-block;padding:.5em 1em;" href="' + href + '">';
-            itemHtml += i.Name;
-            itemHtml += '</a></div>';
-            return itemHtml;
-        }).join('');
-
-        const searchSuggestions = context.querySelector('.searchSuggestions');
-        searchSuggestions.querySelector('.searchSuggestionsList').innerHTML = html;
-
-        if (result.Items.length) {
-            searchSuggestions.classList.remove('hide');
-        }
-    });
-}
 
 function getSearchHints(instance, apiClient, query) {
     if (!query.searchTerm) {
@@ -149,10 +112,8 @@ function getSearchHints(instance, apiClient, query) {
 function search(instance, apiClient, context, value) {
     if (value || layoutManager.tv) {
         instance.mode = 'search';
-        context.querySelector('.searchSuggestions').classList.add('hide');
     } else {
         instance.mode = 'suggestions';
-        loadSuggestions(instance, context, apiClient);
     }
 
     if (instance.options.collectionType === 'livetv') {
