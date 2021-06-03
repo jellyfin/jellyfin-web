@@ -3,6 +3,8 @@ const common = require('./webpack.common');
 const merge = require('webpack-merge');
 
 module.exports = merge(common, {
+    // In order for live reload to work we must use "web" as the target not "browserlist"
+    target: 'web',
     mode: 'development',
     entry: './scripts/site.js',
     devtool: 'source-map',
