@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 import SearchFields from '../search/SearchFields';
-import SearchResults from '../search/SearchResultsComponent';
+import SearchResults from '../search/SearchResults';
 import SearchSuggestions from '../search/SearchSuggestions';
+import LiveTVSearchResults from '../search/LiveTVSearchResults';
 
 const SearchPage = ({ serverId, parentId, collectionType }) => {
     const [ query, setQuery ] = useState(null);
@@ -18,6 +19,12 @@ const SearchPage = ({ serverId, parentId, collectionType }) => {
                 />
             }
             <SearchResults
+                serverId={serverId || ApiClient.serverId()}
+                parentId={parentId}
+                collectionType={collectionType}
+                query={query}
+            />
+            <LiveTVSearchResults
                 serverId={serverId || ApiClient.serverId()}
                 parentId={parentId}
                 collectionType={collectionType}
