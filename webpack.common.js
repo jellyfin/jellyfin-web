@@ -1,7 +1,6 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const Assets = [
@@ -72,10 +71,6 @@ module.exports = {
                     to: path.resolve(__dirname, './dist/libraries/wasm-gen')
                 };
             })
-        }),
-        new WorkboxPlugin.InjectManifest({
-            swSrc: path.resolve(__dirname, 'src/serviceworker.js'),
-            swDest: 'serviceworker.js'
         })
     ],
     output: {
