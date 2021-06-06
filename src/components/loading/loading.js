@@ -68,7 +68,11 @@ export function hide() {
     }
 }
 
-export default {
-    show: show,
-    hide: hide
+const loading = {
+    show,
+    hide
 };
+
+window.Loading = loading;
+
+export default loading;
