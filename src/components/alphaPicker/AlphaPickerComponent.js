@@ -21,10 +21,6 @@ const AlphaPickerComponent = ({ onAlphaPicked = () => {} }) => {
         };
     }, []);
 
-    useEffect(() => {
-
-    }, [ alphaPicker ]);
-
     return (
         <div
             ref={element}

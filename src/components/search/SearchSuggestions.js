@@ -5,6 +5,8 @@ import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
 
+import '../../elements/emby-button/emby-button';
+
 // There seems to be some compatibility issues here between
 // React and our legacy web components, so we need to inject
 // them as an html string for now =/

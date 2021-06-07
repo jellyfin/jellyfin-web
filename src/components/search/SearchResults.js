@@ -6,8 +6,10 @@ import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
 import SearchResultsRow from './SearchResultsRow';
 
-const SearchResultsComponent = ({ serverId, parentId, collectionType, query }) => {
-    const [ apiClient, setApiClient ] = useState();
+/*
+ * React component to display search result rows for global search and non-live tv library search
+ */
+const SearchResults = ({ serverId, parentId, collectionType, query }) => {
     const [ movies, setMovies ] = useState([]);
     const [ shows, setShows ] = useState([]);
     const [ episodes, setEpisodes ] = useState([]);
@@ -72,10 +74,6 @@ const SearchResultsComponent = ({ serverId, parentId, collectionType, query }) =
     const isTVShows = () => collectionType === 'tvshows' || collectionType === 'tv';
 
     useEffect(() => {
-        if (serverId) setApiClient(ServerConnections.getApiClient(serverId));
-    }, [ serverId ]);
-
-    useEffect(() => {
         // Reset state
         setMovies([]);
         setShows([]);
@@ -93,6 +91,8 @@ const SearchResultsComponent = ({ serverId, parentId, collectionType, query }) =
         setPeople([]);
 
         if (query) {
+            const apiClient = ServerConnections.getApiClient(serverId);
+
             // Movie libraries
             if (!collectionType || isMovies()) {
                 // Movies row
@@ -248,11 +248,11 @@ const SearchResultsComponent = ({ serverId, parentId, collectionType, query }) =
     );
 };
 
-SearchResultsComponent.propTypes = {
+SearchResults.propTypes = {
     serverId: PropTypes.string,
     parentId: PropTypes.string,
     collectionType: PropTypes.string,
     query: PropTypes.string
 };
 
-export default SearchResultsComponent;
+export default SearchResults;

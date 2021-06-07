@@ -3,6 +3,9 @@ import React, { useEffect, useRef } from 'react';
 
 import cardBuilder from '../cardbuilder/cardBuilder';
 
+import '../../elements/emby-scroller/emby-scroller';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+
 // There seems to be some compatibility issues here between
 // React and our legacy web components, so we need to inject
 // them as an html string for now =/

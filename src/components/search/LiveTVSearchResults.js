@@ -18,8 +18,10 @@ const CARD_OPTIONS = {
     showChannelName: true
 };
 
+/*
+ * React component to display search result rows for live tv library search
+ */
 const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
-    const [ apiClient, setApiClient ] = useState();
     const [ movies, setMovies ] = useState([]);
     const [ episodes, setEpisodes ] = useState([]);
     const [ sports, setSports ] = useState([]);
@@ -56,10 +58,6 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
     const isLiveTV = () => collectionType === 'livetv';
 
     useEffect(() => {
-        if (serverId) setApiClient(ServerConnections.getApiClient(serverId));
-    }, [ serverId ]);
-
-    useEffect(() => {
         // Reset state
         setMovies([]);
         setEpisodes([]);
@@ -70,6 +68,8 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
         setVideos([]);
 
         if (query && isLiveTV()) {
+            const apiClient = ServerConnections.getApiClient(serverId);
+
             // Movies row
             fetchItems(apiClient, {
                 IncludeItemTypes: 'LiveTvProgram',
