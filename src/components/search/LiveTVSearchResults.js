@@ -177,7 +177,7 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
                 cardOptions={CARD_OPTIONS}
             />
             <SearchResultsRow
-                title={globalize.translate('Videos')}
+                title={globalize.translate('HeaderVideos')}
                 items={videos}
                 cardOptions={{ showParentTitle: true }}
             />

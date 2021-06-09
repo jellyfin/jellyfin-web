@@ -200,7 +200,7 @@ const SearchResults = ({ serverId, parentId, collectionType, query }) => {
                 }}
             />
             <SearchResultsRow
-                title={globalize.translate('Videos')}
+                title={globalize.translate('HeaderVideos')}
                 items={videos}
                 cardOptions={{ showParentTitle: true }}
             />
