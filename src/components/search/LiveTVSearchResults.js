@@ -28,7 +28,7 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
     const [ kids, setKids ] = useState([]);
     const [ news, setNews ] = useState([]);
     const [ programs, setPrograms ] = useState([]);
-    const [ videos, setVideos ] = useState([]);
+    const [ channels, setChannels ] = useState([]);
 
     const getDefaultParameters = () => ({
         ParentId: parentId,
@@ -65,7 +65,7 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
         setKids([]);
         setNews([]);
         setPrograms([]);
-        setVideos([]);
+        setChannels([]);
 
         if (query && isLiveTV()) {
             const apiClient = ServerConnections.getApiClient(serverId);
@@ -124,13 +124,9 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
                 IsKids: false,
                 IsNews: false
             }).then(result => setPrograms(result.Items));
-            // NOTE: I believe this is supposed to be home videos, but it
-            // includes TV channels so it should probably be included for Live TV
-            // Videos row
-            fetchItems(apiClient, {
-                MediaTypes: 'Video',
-                ExcludeItemTypes: 'Movie,Episode'
-            }).then(result => setVideos(result.Items));
+            // Channels row
+            fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
+                .then(result => setChannels(result.Items));
         }
     }, [ query ]);
 
@@ -177,9 +173,9 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
                 cardOptions={CARD_OPTIONS}
             />
             <SearchResultsRow
-                title={globalize.translate('HeaderVideos')}
-                items={videos}
-                cardOptions={{ showParentTitle: true }}
+                title={globalize.translate('Channels')}
+                items={channels}
+                cardOptions={{ shape: 'square' }}
             />
         </div>
     );

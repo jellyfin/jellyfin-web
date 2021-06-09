@@ -13,8 +13,9 @@ const SearchResults = ({ serverId, parentId, collectionType, query }) => {
     const [ movies, setMovies ] = useState([]);
     const [ shows, setShows ] = useState([]);
     const [ episodes, setEpisodes ] = useState([]);
-    const [ programs, setPrograms ] = useState([]);
     const [ videos, setVideos ] = useState([]);
+    const [ programs, setPrograms ] = useState([]);
+    const [ channels, setChannels ] = useState([]);
     const [ playlists, setPlaylists ] = useState([]);
     const [ artists, setArtists ] = useState([]);
     const [ albums, setAlbums ] = useState([]);
@@ -78,8 +79,9 @@ const SearchResults = ({ serverId, parentId, collectionType, query }) => {
         setMovies([]);
         setShows([]);
         setEpisodes([]);
-        setPrograms([]);
         setVideos([]);
+        setPrograms([]);
+        setChannels([]);
         setPlaylists([]);
         setArtists([]);
         setAlbums([]);
@@ -133,14 +135,17 @@ const SearchResults = ({ serverId, parentId, collectionType, query }) => {
 
             // Other libraries do not support in-library search currently
             if (!collectionType) {
-                // Programs row
-                fetchItems(apiClient, { IncludeItemTypes: 'LiveTvProgram' })
-                    .then(result => setPrograms(result.Items));
                 // Videos row
                 fetchItems(apiClient, {
                     MediaTypes: 'Video',
-                    ExcludeItemTypes: 'Movie,Episode'
+                    ExcludeItemTypes: 'Movie,Episode,TvChannel'
                 }).then(result => setVideos(result.Items));
+                // Programs row
+                fetchItems(apiClient, { IncludeItemTypes: 'LiveTvProgram' })
+                    .then(result => setPrograms(result.Items));
+                // Channels row
+                fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
+                    .then(result => setChannels(result.Items));
                 // Photo Albums row
                 fetchItems(apiClient, { IncludeItemTypes: 'PhotoAlbum' })
                     .then(results => setPhotoAlbums(results.Items));
@@ -185,6 +190,11 @@ const SearchResults = ({ serverId, parentId, collectionType, query }) => {
                 }}
             />
             <SearchResultsRow
+                title={globalize.translate('HeaderVideos')}
+                items={videos}
+                cardOptions={{ showParentTitle: true }}
+            />
+            <SearchResultsRow
                 title={globalize.translate('Programs')}
                 items={programs}
                 cardOptions={{
@@ -200,9 +210,9 @@ const SearchResults = ({ serverId, parentId, collectionType, query }) => {
                 }}
             />
             <SearchResultsRow
-                title={globalize.translate('HeaderVideos')}
-                items={videos}
-                cardOptions={{ showParentTitle: true }}
+                title={globalize.translate('Channels')}
+                items={channels}
+                cardOptions={{ shape: 'square' }}
             />
             <SearchResultsRow
                 title={globalize.translate('Playlists')}
