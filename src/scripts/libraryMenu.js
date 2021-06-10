@@ -6,7 +6,6 @@ import viewManager from '../components/viewManager/viewManager';
 import { appRouter } from '../components/appRouter';
 import { appHost } from '../components/apphost';
 import { playbackManager } from '../components/playback/playbackmanager';
-import SyncPlay from '../components/syncPlay/core';
 import groupSelectionMenu from '../components/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
 import globalize from './globalize';
@@ -32,7 +31,7 @@ import Headroom from 'headroom.js';
         html += '</div>';
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
-        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons sync_disabled"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups"></span></button>';
         html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
         html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast"></span></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search"></span></button>';
@@ -134,7 +133,7 @@ import Headroom from 'headroom.js';
             const policy = user.Policy ? user.Policy : user.localUser.Policy;
 
             const apiClient = getCurrentApiClient();
-            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
+            if (headerSyncButton && policy?.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
                 headerSyncButton.classList.remove('hide');
             }
         } else {
@@ -231,26 +230,6 @@ import Headroom from 'headroom.js';
     function onSyncButtonClicked() {
         const btn = this;
         groupSelectionMenu.show(btn);
-    }
-
-    function onSyncPlayEnabled(event, enabled) {
-        const icon = headerSyncButton.querySelector('span');
-        icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
-        if (enabled) {
-            icon.classList.add('sync');
-        } else {
-            icon.classList.add('sync_disabled');
-        }
-    }
-
-    function onSyncPlaySyncing(event, is_syncing) {
-        const icon = headerSyncButton.querySelector('span');
-        icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
-        if (is_syncing) {
-            icon.classList.add('sync_problem');
-        } else {
-            icon.classList.add('sync');
-        }
     }
 
     function getItemHref(item, context) {
@@ -1022,9 +1001,6 @@ import Headroom from 'headroom.js';
     });
 
     Events.on(playbackManager, 'playerchange', updateCastIcon);
-
-    Events.on(SyncPlay.Manager, 'enabled', onSyncPlayEnabled);
-    Events.on(SyncPlay.Manager, 'syncing', onSyncPlaySyncing);
 
     loadNavDrawer();
 
