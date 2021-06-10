@@ -433,7 +433,7 @@ import ServerConnections from '../ServerConnections';
         return cardBuilder.getCardsHtml({
             items: items,
             preferThumb: true,
-            shape: getThumbShape(),
+            defaultShape: getThumbShape(),
             overlayText: false,
             showTitle: true,
             showParentTitle: true,
