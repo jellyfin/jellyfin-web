@@ -11,6 +11,7 @@ import groupSelectionMenu from '../components/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
 import globalize from './globalize';
 import imageHelper from './imagehelper';
+import { getMenuLinks } from '../scripts/settings/webSettings';
 import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../assets/css/scrollstyles.scss';
@@ -294,9 +295,11 @@ import Headroom from 'headroom.js';
         html += '<div style="height:.5em;"></div>';
         html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#!/home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('Home') + '</span></a>';
 
+        // placeholder for custom menu links
+        html += '<div class="customMenuOptions"></div>';
+
         // libraries are added here
-        html += '<div class="libraryMenuOptions">';
-        html += '</div>';
+        html += '<div class="libraryMenuOptions"></div>';
 
         if (user.localUser && user.localUser.Policy.IsAdministrator) {
             html += '<div class="adminMenuOptions">';
@@ -659,6 +662,32 @@ import Headroom from 'headroom.js';
 
         const userId = Dashboard.getCurrentUserId();
         const apiClient = getCurrentApiClient();
+
+        const customMenuOptions = document.querySelector('.customMenuOptions');
+        if (customMenuOptions) {
+            getMenuLinks().then(links => {
+                links.forEach(link => {
+                    const option = document.createElement('a');
+                    option.setAttribute('is', 'emby-linkbutton');
+                    option.className = 'navMenuOption lnkMediaFolder';
+                    option.rel = 'noopener noreferrer';
+                    option.target = '_blank';
+                    option.href = link.url;
+
+                    const icon = document.createElement('span');
+                    icon.className = `material-icons navMenuOptionIcon ${link.icon || 'link'}`;
+                    option.appendChild(icon);
+
+                    const label = document.createElement('span');
+                    label.className = 'navMenuOptionText';
+                    label.textContent = link.name;
+                    option.appendChild(label);
+
+                    customMenuOptions.appendChild(option);
+                });
+            });
+        }
+
         const libraryMenuOptions = document.querySelector('.libraryMenuOptions');
 
         if (libraryMenuOptions) {
