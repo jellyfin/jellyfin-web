@@ -23,6 +23,7 @@
       "id": "wmc"
     }
   ],
+  "menuLinks": [],
   "servers": [],
   "plugins": [
     "playAccessValidation/plugin",
