@@ -5,7 +5,7 @@ import globalize from '../scripts/globalize';
 import '../elements/emby-button/emby-button';
 import ServerConnections from '../components/ServerConnections';
 
-export default function (options) {
+function taskbutton(options) {
     function pollTasks() {
         ServerConnections.getApiClient(serverId).getScheduledTasks({
             IsEnabled: true
@@ -120,3 +120,6 @@ export default function (options) {
         Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
     }
 }
+
+window.TaskButton = taskbutton;
+export default taskbutton;

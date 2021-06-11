@@ -9,6 +9,7 @@ import * as webSettings from './settings/webSettings';
 import datetime from '../scripts/datetime';
 import { DirectoryBrowser } from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
+import itemIdentifier from '../components/itemidentifier/itemidentifier';
 import { Events } from 'jellyfin-apiclient';
 
 export function getCurrentUser() {
@@ -218,7 +219,8 @@ const Dashboard = {
     datetime,
     Events,
     DirectoryBrowser,
-    dialogHelper
+    dialogHelper,
+    itemIdentifier
 };
 
 // This is used in plugins and templates, so keep it defined for now.
