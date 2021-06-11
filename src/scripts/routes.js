@@ -304,7 +304,7 @@ import { appRouter } from '../components/appRouter';
     defineRoute({
         alias: '/search.html',
         path: 'search.html',
-        controller: 'searchpage'
+        pageComponent: 'SearchPage'
     });
 
     defineRoute({

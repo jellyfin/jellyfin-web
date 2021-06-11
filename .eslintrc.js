@@ -4,6 +4,7 @@ module.exports = {
     root: true,
     plugins: [
         '@babel',
+        'react',
         'promise',
         'import',
         'eslint-comments'
@@ -18,11 +19,13 @@ module.exports = {
         ecmaVersion: 2020,
         sourceType: 'module',
         ecmaFeatures: {
-            impliedStrict: true
+            impliedStrict: true,
+            jsx: true
         }
     },
     extends: [
         'eslint:recommended',
+        'plugin:react/recommended',
         // 'plugin:promise/recommended',
         'plugin:import/errors',
         'plugin:eslint-comments/recommended',
@@ -36,6 +39,7 @@ module.exports = {
         'comma-spacing': ['error'],
         'eol-last': ['error'],
         'indent': ['error', 4, { 'SwitchCase': 1 }],
+        'jsx-quotes': ['error', 'prefer-single'],
         'keyword-spacing': ['error'],
         'max-statements-per-line': ['error'],
         'no-floating-decimal': ['error'],
@@ -53,6 +57,11 @@ module.exports = {
         'space-before-blocks': ['error'],
         'space-infix-ops': 'error',
         'yoda': 'error'
+    },
+    settings: {
+        react: {
+            version: 'detect'
+        }
     },
     overrides: [
         {

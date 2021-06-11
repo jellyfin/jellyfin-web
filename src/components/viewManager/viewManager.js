@@ -21,9 +21,9 @@ viewContainer.setOnBeforeChange(function (newView, isRestored, options) {
         newView.initComplete = true;
 
         if (typeof options.controllerFactory === 'function') {
-            new options.controllerFactory(newView, eventDetail.detail.params);
+            new options.controllerFactory(newView, eventDetail.detail.params, eventDetail);
         } else if (options.controllerFactory && typeof options.controllerFactory.default === 'function') {
-            new options.controllerFactory.default(newView, eventDetail.detail.params);
+            new options.controllerFactory.default(newView, eventDetail.detail.params, eventDetail);
         }
 
         if (!options.controllerFactory || dispatchPageEvents) {
