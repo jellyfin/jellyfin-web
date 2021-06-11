@@ -12,7 +12,7 @@
     "@babel/plugin-proposal-private-methods": "^7.14.5",
     "@babel/plugin-transform-modules-umd": "^7.14.0",
     "@babel/preset-env": "^7.14.1",
-    "@babel/preset-react": "^7.13.13",
+    "@babel/preset-react": "^7.14.5",
     "@uupaa/dynamic-import-polyfill": "^1.0.2",
     "autoprefixer": "^9.8.6",
     "babel-loader": "^8.2.2",
@@ -51,7 +51,7 @@
     "worker-plugin": "^5.0.0"
   },
   "dependencies": {
-    "@fontsource/noto-sans": "^4.2.1",
+    "@fontsource/noto-sans": "^4.4.5",
     "@fontsource/noto-sans-hk": "^4.4.2",
     "@fontsource/noto-sans-jp": "^4.2.1",
     "@fontsource/noto-sans-kr": "^4.2.2",
