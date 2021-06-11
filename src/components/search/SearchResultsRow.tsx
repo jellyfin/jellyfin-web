@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useRef } from 'react';
 
 import cardBuilder from '../cardbuilder/cardBuilder';
 
@@ -16,7 +16,13 @@ const createScroller = ({ title = '' }) => ({
 </div>`
 });
 
-const SearchResultsRow = ({ title, items = [], cardOptions = {} }) => {
+type SearchResultsRowProps = {
+    title: string;
+    items: Array<any>; // TODO: Should be Array<BaseItemDto> once we have a typed API client
+    cardOptions: Record<string, any>;
+}
+
+const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }) => {
     const element = useRef(null);
 
     useEffect(() => {
@@ -31,7 +37,7 @@ const SearchResultsRow = ({ title, items = [], cardOptions = {} }) => {
             allowBottomPadding: false,
             ...cardOptions
         });
-    }, [ items ]);
+    }, [cardOptions, items]);
 
     return (
         <div

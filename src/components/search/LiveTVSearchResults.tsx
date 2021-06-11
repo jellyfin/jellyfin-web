@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
@@ -18,10 +18,17 @@ const CARD_OPTIONS = {
     showChannelName: true
 };
 
+type LiveTVSearchResultsProps = {
+    serverId: string;
+    parentId: string;
+    collectionType: string;
+    query: string;
+}
+
 /*
  * React component to display search result rows for live tv library search
  */
-const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
+const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serverId, parentId, collectionType, query }) => {
     const [ movies, setMovies ] = useState([]);
     const [ episodes, setEpisodes ] = useState([]);
     const [ sports, setSports ] = useState([]);
@@ -30,34 +37,32 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
     const [ programs, setPrograms ] = useState([]);
     const [ channels, setChannels ] = useState([]);
 
-    const getDefaultParameters = () => ({
-        ParentId: parentId,
-        searchTerm: query,
-        Limit: 24,
-        Fields: 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount',
-        Recursive: true,
-        EnableTotalRecordCount: false,
-        ImageTypeLimit: 1,
-        IncludePeople: false,
-        IncludeMedia: false,
-        IncludeGenres: false,
-        IncludeStudios: false,
-        IncludeArtists: false
-    });
-
-    // FIXME: This query does not support Live TV filters
-    const fetchItems = (apiClient, params = {}) => apiClient?.getItems(
-        apiClient?.getCurrentUserId(),
-        {
-            ...getDefaultParameters(),
-            IncludeMedia: true,
-            ...params
-        }
-    );
-
-    const isLiveTV = () => collectionType === 'livetv';
-
     useEffect(() => {
+        const getDefaultParameters = () => ({
+            ParentId: parentId,
+            searchTerm: query,
+            Limit: 24,
+            Fields: 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount',
+            Recursive: true,
+            EnableTotalRecordCount: false,
+            ImageTypeLimit: 1,
+            IncludePeople: false,
+            IncludeMedia: false,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false
+        });
+
+        // FIXME: This query does not support Live TV filters
+        const fetchItems = (apiClient, params = {}) => apiClient?.getItems(
+            apiClient?.getCurrentUserId(),
+            {
+                ...getDefaultParameters(),
+                IncludeMedia: true,
+                ...params
+            }
+        );
+
         // Reset state
         setMovies([]);
         setEpisodes([]);
@@ -67,8 +72,9 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
         setPrograms([]);
         setChannels([]);
 
-        if (query && isLiveTV()) {
-            const apiClient = ServerConnections.getApiClient(serverId);
+        if (query && collectionType === 'livetv') {
+            // TODO: Remove type casting once we're using a properly typed API client
+            const apiClient = (ServerConnections as any).getApiClient(serverId);
 
             // Movies row
             fetchItems(apiClient, {
@@ -128,7 +134,7 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
             fetchItems(apiClient, { IncludeItemTypes: 'TvChannel' })
                 .then(result => setChannels(result.Items));
         }
-    }, [ query ]);
+    }, [collectionType, parentId, query, serverId]);
 
     return (
         <div
@@ -136,7 +142,7 @@ const LiveTVSearchResults = ({ serverId, parentId, collectionType, query }) => {
                 'searchResults',
                 'padded-bottom-page',
                 'padded-top',
-                { 'hide': !query || !isLiveTV() }
+                { 'hide': !query || !(collectionType === 'livetv') }
             )}
         >
             <SearchResultsRow

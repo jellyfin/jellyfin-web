@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import { appRouter } from '../appRouter';
 import globalize from '../../scripts/globalize';
@@ -19,11 +19,17 @@ const createSuggestionLink = ({name, href}) => ({
 >${name}</a>`
 });
 
-const SearchSuggestions = ({ serverId, parentId }) => {
+type SearchSuggestionsProps = {
+    serverId: string;
+    parentId: string;
+}
+
+const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId, parentId }) => {
     const [ suggestions, setSuggestions ] = useState([]);
 
     useEffect(() => {
-        const apiClient = ServerConnections.getApiClient(serverId);
+        // TODO: Remove type casting once we're using a properly typed API client
+        const apiClient = (ServerConnections as any).getApiClient(serverId);
 
         apiClient.getItems(apiClient.getCurrentUserId(), {
             SortBy: 'IsFavoriteOrLiked,Random',
@@ -35,7 +41,7 @@ const SearchSuggestions = ({ serverId, parentId }) => {
             ParentId: parentId,
             EnableTotalRecordCount: false
         }).then(result => setSuggestions(result.Items));
-    }, []);
+    }, [parentId, serverId]);
 
     return (
         <div

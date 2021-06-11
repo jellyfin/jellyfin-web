@@ -24,6 +24,7 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
         modules: [
             path.resolve(__dirname, 'node_modules')
         ]
@@ -87,10 +88,17 @@ module.exports = {
                 }
             },
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules[\\/](?!@uupaa[\\/]dynamic-import-polyfill|date-fns|epubjs|flv.js|libarchive.js)/,
                 use: [{
                     loader: 'babel-loader'
+                }]
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                use: [{
+                    loader: 'ts-loader'
                 }]
             },
             /* modules that Babel breaks when transforming to ESM */

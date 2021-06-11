@@ -1,12 +1,18 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 
 import SearchFields from '../search/SearchFields';
 import SearchResults from '../search/SearchResults';
 import SearchSuggestions from '../search/SearchSuggestions';
 import LiveTVSearchResults from '../search/LiveTVSearchResults';
 
-const SearchPage = ({ serverId, parentId, collectionType }) => {
+type SearchProps = {
+    serverId: string,
+    parentId: string,
+    collectionType: string
+};
+
+const SearchPage: FunctionComponent<SearchProps> = ({ serverId, parentId, collectionType }: SearchProps) => {
     const [ query, setQuery ] = useState(null);
 
     return (
@@ -14,18 +20,18 @@ const SearchPage = ({ serverId, parentId, collectionType }) => {
             <SearchFields onSearch={setQuery} />
             {!query &&
                 <SearchSuggestions
-                    serverId={serverId || ApiClient.serverId()}
+                    serverId={serverId || window.ApiClient.serverId()}
                     parentId={parentId}
                 />
             }
             <SearchResults
-                serverId={serverId || ApiClient.serverId()}
+                serverId={serverId || window.ApiClient.serverId()}
                 parentId={parentId}
                 collectionType={collectionType}
                 query={query}
             />
             <LiveTVSearchResults
-                serverId={serverId || ApiClient.serverId()}
+                serverId={serverId || window.ApiClient.serverId()}
                 parentId={parentId}
                 collectionType={collectionType}
                 query={query}

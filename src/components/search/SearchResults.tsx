@@ -1,15 +1,22 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import globalize from '../../scripts/globalize';
 import ServerConnections from '../ServerConnections';
 import SearchResultsRow from './SearchResultsRow';
 
+type SearchResultsProps = {
+    serverId: string;
+    parentId: string;
+    collectionType: string;
+    query: string;
+}
+
 /*
  * React component to display search result rows for global search and non-live tv library search
  */
-const SearchResults = ({ serverId, parentId, collectionType, query }) => {
+const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId, parentId, collectionType, query }) => {
     const [ movies, setMovies ] = useState([]);
     const [ shows, setShows ] = useState([]);
     const [ episodes, setEpisodes ] = useState([]);
@@ -26,55 +33,55 @@ const SearchResults = ({ serverId, parentId, collectionType, query }) => {
     const [ books, setBooks ] = useState([]);
     const [ people, setPeople ] = useState([]);
 
-    const getDefaultParameters = () => ({
-        ParentId: parentId,
-        searchTerm: query,
-        Limit: 24,
-        Fields: 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount',
-        Recursive: true,
-        EnableTotalRecordCount: false,
-        ImageTypeLimit: 1,
-        IncludePeople: false,
-        IncludeMedia: false,
-        IncludeGenres: false,
-        IncludeStudios: false,
-        IncludeArtists: false
-    });
-
-    const fetchArtists = (apiClient, params = {}) => apiClient?.getArtists(
-        apiClient?.getCurrentUserId(),
-        {
-            ...getDefaultParameters(),
-            IncludeArtists: true,
-            ...params
-        }
-    );
-
-    const fetchItems = (apiClient, params = {}) => apiClient?.getItems(
-        apiClient?.getCurrentUserId(),
-        {
-            ...getDefaultParameters(),
-            IncludeMedia: true,
-            ...params
-        }
-    );
-
-    const fetchPeople = (apiClient, params = {}) => apiClient?.getPeople(
-        apiClient?.getCurrentUserId(),
-        {
-            ...getDefaultParameters(),
-            IncludePeople: true,
-            ...params
-        }
-    );
-
-    const isMovies = () => collectionType === 'movies';
-
-    const isMusic = () => collectionType === 'music';
-
-    const isTVShows = () => collectionType === 'tvshows' || collectionType === 'tv';
-
     useEffect(() => {
+        const getDefaultParameters = () => ({
+            ParentId: parentId,
+            searchTerm: query,
+            Limit: 24,
+            Fields: 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount',
+            Recursive: true,
+            EnableTotalRecordCount: false,
+            ImageTypeLimit: 1,
+            IncludePeople: false,
+            IncludeMedia: false,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false
+        });
+
+        const fetchArtists = (apiClient, params = {}) => apiClient?.getArtists(
+            apiClient?.getCurrentUserId(),
+            {
+                ...getDefaultParameters(),
+                IncludeArtists: true,
+                ...params
+            }
+        );
+
+        const fetchItems = (apiClient, params = {}) => apiClient?.getItems(
+            apiClient?.getCurrentUserId(),
+            {
+                ...getDefaultParameters(),
+                IncludeMedia: true,
+                ...params
+            }
+        );
+
+        const fetchPeople = (apiClient, params = {}) => apiClient?.getPeople(
+            apiClient?.getCurrentUserId(),
+            {
+                ...getDefaultParameters(),
+                IncludePeople: true,
+                ...params
+            }
+        );
+
+        const isMovies = () => collectionType === 'movies';
+
+        const isMusic = () => collectionType === 'music';
+
+        const isTVShows = () => collectionType === 'tvshows' || collectionType === 'tv';
+
         // Reset state
         setMovies([]);
         setShows([]);
@@ -93,7 +100,8 @@ const SearchResults = ({ serverId, parentId, collectionType, query }) => {
         setPeople([]);
 
         if (query) {
-            const apiClient = ServerConnections.getApiClient(serverId);
+            // TODO: Remove type casting once we're using a properly typed API client
+            const apiClient = (ServerConnections as any).getApiClient(serverId);
 
             // Movie libraries
             if (!collectionType || isMovies()) {
@@ -160,7 +168,7 @@ const SearchResults = ({ serverId, parentId, collectionType, query }) => {
                     .then(results => setBooks(results.Items));
             }
         }
-    }, [ query ]);
+    }, [collectionType, parentId, query, serverId]);
 
     return (
         <div

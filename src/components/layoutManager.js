@@ -15,6 +15,10 @@ function setLayout(instance, layout, selectedLayout) {
 }
 
 class LayoutManager {
+    tv = false;
+    mobile = false;
+    desktop = false;
+
     setLayout(layout, save) {
         if (!layout || layout === 'auto') {
             this.autoLayout();
