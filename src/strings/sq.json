@@ -23,5 +23,7 @@
     "Add": "Shto",
     "Actor": "Aktor",
     "AccessRestrictedTryAgainLater": "Aksesi aktualisht është i kufizuar. Ju lutemi provoni përsëri më vonë.",
-    "Absolute": "Absolut"
+    "Absolute": "Absolut",
+    "AllowedRemoteAddressesHelp": "Lista e dhënë me adresat IP ose IP/netmask të ndara me presje për rrjetet që do lejohen te lidhen në distancë. Nëse lihet bosh, të gjitha adresat do të lejohen.",
+    "Default": "Parazgjedhur"
 }
