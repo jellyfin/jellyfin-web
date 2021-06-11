@@ -102,8 +102,8 @@ import template from './mediaLibraryCreator.template.html';
     function onAddButtonClick() {
         const page = dom.parentWithClass(this, 'dlg-librarycreator');
 
-        import('../directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
-            const picker = new directoryBrowser();
+        import('../directorybrowser/directorybrowser').then((Module) => {
+            const picker = new Module.DirectoryBrowser();
             picker.show({
                 enableNetworkSharePath: true,
                 callback: function (path, networkSharePath) {

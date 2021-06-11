@@ -7,7 +7,7 @@ import baseConfirm from '../components/confirm/confirm';
 import globalize from '../scripts/globalize';
 import * as webSettings from './settings/webSettings';
 import datetime from '../scripts/datetime';
-import directorybrowser from '../components/directorybrowser/directorybrowser';
+import { DirectoryBrowser } from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import { Events } from 'jellyfin-apiclient';
 
@@ -217,7 +217,7 @@ const Dashboard = {
     showLoadingMsg,
     datetime,
     Events,
-    directorybrowser,
+    DirectoryBrowser,
     dialogHelper
 };
 

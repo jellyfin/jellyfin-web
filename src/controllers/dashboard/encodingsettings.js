@@ -217,8 +217,8 @@ import alert from '../../components/alert';
             setDecodingCodecsVisible(page, this.value);
         });
         $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
+            import('../../components/directorybrowser/directorybrowser').then((Module) => {
+                const picker = new Module.DirectoryBrowser();
                 picker.show({
                     includeFiles: true,
                     callback: function (path) {
@@ -232,8 +232,8 @@ import alert from '../../components/alert';
             });
         });
         $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
+            import('../../components/directorybrowser/directorybrowser').then((Module) => {
+                const picker = new Module.DirectoryBrowser();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -249,8 +249,8 @@ import alert from '../../components/alert';
             });
         });
         $('#btnSelectFallbackFontPath', page).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
+            import('../../components/directorybrowser/directorybrowser').then((Module) => {
+                const picker = new Module.DirectoryBrowser();
                 picker.show({
                     includeDirectories: true,
                     callback: function (path) {

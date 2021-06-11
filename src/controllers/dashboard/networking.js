@@ -181,8 +181,8 @@ import alert from '../../components/alert';
             }
         });
         view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
+            import('../../components/directorybrowser/directorybrowser').then((Module) => {
+                const picker = new Module.DirectoryBrowser();
                 picker.show({
                     includeFiles: true,
                     includeDirectories: true,

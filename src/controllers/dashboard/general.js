@@ -53,8 +53,8 @@ import alert from '../../components/alert';
     const brandingConfigKey = 'branding';
     export default function (view) {
         $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
+            import('../../components/directorybrowser/directorybrowser').then((Module) => {
+                const picker = new Module.DirectoryBrowser();
                 picker.show({
                     callback: function (path) {
                         if (path) {
@@ -70,8 +70,8 @@ import alert from '../../components/alert';
             });
         });
         $('#btnSelectMetadataPath', view).on('click.selectDirectory', function () {
-            import('../../components/directorybrowser/directorybrowser').then(({default: directoryBrowser}) => {
-                const picker = new directoryBrowser();
+            import('../../components/directorybrowser/directorybrowser').then((Module) => {
+                const picker = new Module.DirectoryBrowser();
                 picker.show({
                     path: $('#txtMetadataPath', view).val(),
                     networkSharePath: $('#txtMetadataNetworkPath', view).val(),

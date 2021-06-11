@@ -212,8 +212,8 @@ export default function (view, params) {
         });
     });
     view.querySelector('.btnSelectPath').addEventListener('click', function () {
-        import('../components/directorybrowser/directorybrowser').then(({default: directorybrowser}) => {
-            const picker = new directorybrowser();
+        import('../components/directorybrowser/directorybrowser').then((Module) => {
+            const picker = new Module.DirectoryBrowser();
             picker.show({
                 includeFiles: true,
                 callback: function (path) {
