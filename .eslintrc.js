@@ -96,6 +96,7 @@ module.exports = {
                 'Loading': 'writable',
                 'MetadataEditor': 'writable',
                 'PlaylistViewer': 'writable',
+                'ServerNotifications': 'writable',
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly'
             },
