@@ -6,6 +6,10 @@ import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
 import globalize from '../scripts/globalize';
 import * as webSettings from './settings/webSettings';
+import datetime from '../scripts/datetime';
+import directorybrowser from '../components/directorybrowser/directorybrowser';
+import dialogHelper from '../components/dialogHelper/dialogHelper';
+import { Events } from 'jellyfin-apiclient';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -210,7 +214,11 @@ const Dashboard = {
     processServerConfigurationUpdateResult,
     selectServer,
     serverAddress,
-    showLoadingMsg
+    showLoadingMsg,
+    datetime,
+    Events,
+    directorybrowser,
+    dialogHelper
 };
 
 // This is used in plugins and templates, so keep it defined for now.
