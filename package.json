@@ -28,7 +28,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.23.2",
-    "expose-loader": "^2.0.0",
+    "expose-loader": "^3.0.0",
     "file-loader": "^6.2.0",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^5.3.1",
