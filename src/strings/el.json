@@ -1065,5 +1065,19 @@
     "ApiKeysCaption": "Λίστα με τα τρέχοντα ενεργοποιημένα κλειδιά API",
     "DailyAt": "Καθημερινά στις",
     "ButtonPlayer": "Player",
-    "ButtonCast": "Μετάδοση"
+    "ButtonCast": "Μετάδοση",
+    "HeaderDeleteDevices": "Διαγραφή Όλων των Συσκευών",
+    "HeaderContinueReading": "Συνέχεια Διαβάσματος",
+    "HeaderAddUser": "Προσθήκη Χρήστη",
+    "HeaderAddUpdateSubtitle": "Προσθήκη/Ενημέρωση Υποτίτλου",
+    "Filter": "Φιλτράρισμα",
+    "EveryXMinutes": "Κάθε {0} λεπτά",
+    "EveryXHours": "Κάθε [0] ώρες",
+    "EveryHour": "Κάθε ώρα",
+    "ErrorSavingTvProvider": "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση του παρόχου τηλεόρασης. Παρακαλώ σιγουρέψτε ότι είναι προσβάσιμη και πρασπαθήστε ξανά.",
+    "EnableFasterAnimationsHelp": "Χρησιμοποίηση γρηγορότερων απεικονήσεων και μεταβάσεων",
+    "EnableFasterAnimations": "Πιό γρήγορη απεικόνηση",
+    "EnableBlurHashHelp": "Κατά την διάρκεια της φόρτωσης τους, οι εικόνες θα αναπαρίστανται από μία συγκεκριμένη αντικαταστάτρια εικόνα.",
+    "DisablePlugin": "Απενεργοποίηση",
+    "EnablePlugin": "Ενεργοποίηση"
 }
