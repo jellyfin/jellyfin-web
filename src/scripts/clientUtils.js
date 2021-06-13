@@ -94,6 +94,12 @@ export function getPluginUrl(name) {
     return 'configurationpage?name=' + encodeURIComponent(name);
 }
 
+export function getConfigurationResourceUrl(name) {
+    return ApiClient.getUrl('web/ConfigurationPage', {
+        name: name
+    });
+}
+
 export function navigate(url, preserveQueryString) {
     if (!url) {
         throw new Error('url cannot be null or empty');
@@ -204,6 +210,7 @@ const Dashboard = {
     capabilities,
     confirm,
     getPluginUrl,
+    getConfigurationResourceUrl,
     getCurrentUser,
     getCurrentUserId,
     hideLoadingMsg,
