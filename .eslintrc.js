@@ -81,6 +81,7 @@ module.exports = {
                 'jQuery': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'writable',
+                'events': 'writable',
                 'chrome': 'writable',
                 'DlnaProfilePage': 'writable',
                 'DashboardPage': 'writable',
