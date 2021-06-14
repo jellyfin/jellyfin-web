@@ -10,7 +10,6 @@ import datetime from '../scripts/datetime';
 import { DirectoryBrowser } from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
-import { Events } from 'jellyfin-apiclient';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -224,7 +223,6 @@ const Dashboard = {
     serverAddress,
     showLoadingMsg,
     datetime,
-    Events,
     DirectoryBrowser,
     dialogHelper,
     itemIdentifier

@@ -121,5 +121,4 @@ function taskbutton(options) {
     }
 }
 
-window.TaskButton = taskbutton;
 export default taskbutton;
