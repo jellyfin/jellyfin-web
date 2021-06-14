@@ -25,7 +25,7 @@
     "eslint": "^7.28.0",
     "eslint-plugin-compat": "^3.9.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.23.2",
     "expose-loader": "^3.0.0",
