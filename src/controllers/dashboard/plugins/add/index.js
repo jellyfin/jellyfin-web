@@ -13,7 +13,7 @@ function populateHistory(packageInfo, page) {
     for (let i = 0; i < length; i++) {
         const version = packageInfo.versions[i];
         html += '<h2 style="margin:.5em 0;">' + version.version + '</h2>';
-        html += '<div style="margin-bottom:1.5em;">' + version.changelog + '</div>';
+        html += '<div style="margin-bottom:1.5em;">' + version.changelog.replace(/(?:\r\n|\r|\n)/g, '<br>') + '</div>';
     }
 
     $('#revisionHistory', page).html(html);
