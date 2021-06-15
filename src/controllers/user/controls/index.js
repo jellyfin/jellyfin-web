@@ -3,7 +3,7 @@ import toast from '../../../components/toast/toast';
 import globalize from '../../../scripts/globalize';
 import appSettings from '../../../scripts/settings/appSettings';
 
-export default function (view, params) {
+export default function (view) {
     function submit(e) {
         appSettings.enableGamepad(view.querySelector('.chkEnableGamepad').checked);
 
