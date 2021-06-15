@@ -11,7 +11,7 @@ export default function (view, params) {
 
         Events.trigger(view, 'saved');
 
-        if (e) e.preventDefault();
+        e?.preventDefault();
 
         return false;
     }
