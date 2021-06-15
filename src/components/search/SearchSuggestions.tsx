@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import { appRouter } from '../appRouter';
@@ -24,7 +23,7 @@ type SearchSuggestionsProps = {
     parentId: string;
 }
 
-const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId, parentId }) => {
+const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId, parentId }: SearchSuggestionsProps) => {
     const [ suggestions, setSuggestions ] = useState([]);
 
     useEffect(() => {
@@ -67,11 +66,6 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId
             </div>
         </div>
     );
-};
-
-SearchSuggestions.propTypes = {
-    parentId: PropTypes.string,
-    serverId: PropTypes.string
 };
 
 export default SearchSuggestions;

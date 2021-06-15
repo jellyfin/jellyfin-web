@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { FunctionComponent, useState } from 'react';
 
 import SearchFields from '../search/SearchFields';
@@ -38,12 +37,6 @@ const SearchPage: FunctionComponent<SearchProps> = ({ serverId, parentId, collec
             />
         </>
     );
-};
-
-SearchPage.propTypes = {
-    serverId: PropTypes.string,
-    parentId: PropTypes.string,
-    collectionType: PropTypes.string
 };
 
 export default SearchPage;

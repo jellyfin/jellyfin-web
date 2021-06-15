@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import globalize from '../../scripts/globalize';
@@ -28,7 +27,7 @@ type LiveTVSearchResultsProps = {
 /*
  * React component to display search result rows for live tv library search
  */
-const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serverId, parentId, collectionType, query }) => {
+const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serverId, parentId, collectionType, query }: LiveTVSearchResultsProps) => {
     const [ movies, setMovies ] = useState([]);
     const [ episodes, setEpisodes ] = useState([]);
     const [ sports, setSports ] = useState([]);
@@ -185,13 +184,6 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
             />
         </div>
     );
-};
-
-LiveTVSearchResults.propTypes = {
-    serverId: PropTypes.string,
-    parentId: PropTypes.string,
-    collectionType: PropTypes.string,
-    query: PropTypes.string
 };
 
 export default LiveTVSearchResults;

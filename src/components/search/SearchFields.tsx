@@ -1,5 +1,4 @@
 import debounce from 'lodash-es/debounce';
-import PropTypes from 'prop-types';
 import React, { FunctionComponent, useEffect, useMemo, useRef } from 'react';
 
 import AlphaPicker from '../alphaPicker/AlphaPickerComponent';
@@ -36,7 +35,7 @@ type SearchFieldsProps = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {} }) => {
+const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {} }: SearchFieldsProps) => {
     const element = useRef(null);
 
     const getSearchInput = () => element?.current?.querySelector('.searchfields-txtSearch');
@@ -86,10 +85,6 @@ const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {
             }
         </div>
     );
-};
-
-SearchFields.propTypes = {
-    onSearch: PropTypes.func
 };
 
 export default SearchFields;

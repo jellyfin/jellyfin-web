@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 
 import cardBuilder from '../cardbuilder/cardBuilder';
@@ -22,7 +21,7 @@ type SearchResultsRowProps = {
     cardOptions: Record<string, any>;
 }
 
-const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }) => {
+const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }: SearchResultsRowProps) => {
     const element = useRef(null);
 
     useEffect(() => {
@@ -46,12 +45,6 @@ const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, ite
             dangerouslySetInnerHTML={createScroller({ title })}
         />
     );
-};
-
-SearchResultsRow.propTypes = {
-    title: PropTypes.string,
-    items: PropTypes.array,
-    cardOptions: PropTypes.object
 };
 
 export default SearchResultsRow;
