@@ -1,9 +1,9 @@
 {
     "Absolute": "Absoluut",
-    "AccessRestrictedTryAgainLater": "Toegang is momenteel beperkt, probeer later opnieuw.",
+    "AccessRestrictedTryAgainLater": "Toegang is momenteel beperkt. Probeer het later opnieuw.",
     "Actor": "Acteur",
     "Add": "Toevoegen",
-    "AddToCollection": "Toevoegen aan Collectie",
+    "AddToCollection": "Toevoegen aan collectie",
     "AddToPlayQueue": "Toevoegen aan wachtrij",
     "AddToPlaylist": "Toevoegen aan afspeellijst",
     "AddedOnValue": "{0} toegevoegd",
@@ -1508,5 +1508,6 @@
     "Framerate": "Beeldsnelheid",
     "DisablePlugin": "Uitschakelen",
     "EnablePlugin": "Inschakelen",
-    "DirectPlayHelp": "Het bronbestand is volledig compatibel met deze client, en de sessie ontvangt het bestand zonder wijzigingen."
+    "DirectPlayHelp": "Het bronbestand is volledig compatibel met deze client, en de sessie ontvangt het bestand zonder wijzigingen.",
+    "HeaderContinueReading": "Verder lezen"
 }
