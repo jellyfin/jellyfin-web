@@ -1,4 +1,3 @@
-import 'jquery';
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
 import globalize from '../../../scripts/globalize';
@@ -45,12 +44,13 @@ import toast from '../../../components/toast/toast';
         }
 
         html += '</div>';
-        $('.channelAccess', page).show().html(html);
+        const channelAccess = page.querySelector('.channelAccess');
+        channelAccess.innerHTML = html;
 
         if (channels.length) {
-            $('.channelAccessContainer', page).show();
+            page.querySelector('.channelAccessContainer').classList.remove('hide');
         } else {
-            $('.channelAccessContainer', page).hide();
+            page.querySelector('.channelAccessContainer').classList.add('hide');
         }
 
         const chkEnableAllChannels = page.querySelector('#chkEnableAllChannels');
@@ -70,7 +70,10 @@ import toast from '../../../components/toast/toast';
         }
 
         html += '</div>';
-        $('.deviceAccess', page).show().html(html);
+
+        const deviceAccess = page.querySelector('.deviceAccess');
+        deviceAccess.innerHTML = html;
+
         const chkEnableAllDevices = page.querySelector('#chkEnableAllDevices');
         chkEnableAllDevices.checked = user.Policy.EnableAllDevices;
         triggerChange(chkEnableAllDevices);
@@ -97,20 +100,20 @@ import toast from '../../../components/toast/toast';
     }
 
     function saveUser(user, page) {
-        user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).is(':checked');
-        user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : $('.chkFolder', page).get().filter(function (c) {
+        user.Policy.EnableAllFolders = page.querySelector('#chkEnableAllFolders').checked;
+        user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
         });
-        user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).is(':checked');
-        user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : $('.chkChannel', page).get().filter(function (c) {
+        user.Policy.EnableAllChannels = page.querySelector('#chkEnableAllChannels').checked;
+        user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
         });
-        user.Policy.EnableAllDevices = $('#chkEnableAllDevices', page).is(':checked');
-        user.Policy.EnabledDevices = user.Policy.EnableAllDevices ? [] : $('.chkDevice', page).get().filter(function (c) {
+        user.Policy.EnableAllDevices = page.querySelector('#chkEnableAllDevices').checked;
+        user.Policy.EnabledDevices = user.Policy.EnableAllDevices ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkDevice'), function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
@@ -122,65 +125,67 @@ import toast from '../../../components/toast/toast';
         });
     }
 
-    function onSubmit() {
-        const page = $(this).parents('.page');
+    function onSubmit(e) {
+        const page = this.closest('#userLibraryAccessPage');
         loading.show();
         const userId = getParameterByName('userId');
         ApiClient.getUser(userId).then(function (result) {
             saveUser(result, page);
         });
+        e.preventDefault();
+        e.stopPropagation();
         return false;
     }
 
-    $(document).on('pageinit', '#userLibraryAccessPage', function () {
-        const page = this;
-        $('#chkEnableAllDevices', page).on('change', function () {
+    export default function (view) {
+        view.querySelector('#chkEnableAllDevices').addEventListener('change', function () {
             if (this.checked) {
-                $('.deviceAccessListContainer', page).hide();
+                view.querySelector('.deviceAccessListContainer').classList.add('hide');
             } else {
-                $('.deviceAccessListContainer', page).show();
+                view.querySelector('.deviceAccessListContainer').classList.remove('hide');
             }
         });
-        $('#chkEnableAllChannels', page).on('change', function () {
+        view.querySelector('#chkEnableAllChannels').addEventListener('change', function () {
             if (this.checked) {
-                $('.channelAccessListContainer', page).hide();
+                view.querySelector('.channelAccessListContainer').classList.add('hide');
             } else {
-                $('.channelAccessListContainer', page).show();
+                view.querySelector('.channelAccessListContainer').classList.remove('hide');
             }
         });
-        page.querySelector('#chkEnableAllFolders').addEventListener('change', function () {
+        view.querySelector('#chkEnableAllFolders').addEventListener('change', function () {
             if (this.checked) {
-                page.querySelector('.folderAccessListContainer').classList.add('hide');
+                view.querySelector('.folderAccessListContainer').classList.add('hide');
             } else {
-                page.querySelector('.folderAccessListContainer').classList.remove('hide');
+                view.querySelector('.folderAccessListContainer').classList.remove('hide');
             }
         });
-        $('.userLibraryAccessForm').off('submit', onSubmit).on('submit', onSubmit);
-    }).on('pageshow', '#userLibraryAccessPage', function () {
-        const page = this;
-        loading.show();
-        let promise1;
-        const userId = getParameterByName('userId');
 
-        if (userId) {
-            promise1 = ApiClient.getUser(userId);
-        } else {
-            const deferred = $.Deferred();
-            deferred.resolveWith(null, [{
-                Configuration: {}
-            }]);
-            promise1 = deferred.promise();
-        }
+        view.querySelector('.userLibraryAccessForm').addEventListener('submit', onSubmit);
 
-        const promise2 = Dashboard.getCurrentUser();
-        const promise4 = ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders', {
-            IsHidden: false
-        }));
-        const promise5 = ApiClient.getJSON(ApiClient.getUrl('Channels'));
-        const promise6 = ApiClient.getJSON(ApiClient.getUrl('Devices'));
-        Promise.all([promise1, promise2, promise4, promise5, promise6]).then(function (responses) {
-            loadUser(page, responses[0], responses[1], responses[2].Items, responses[3].Items, responses[4].Items);
+        view.addEventListener('viewshow', function () {
+            const page = this;
+            loading.show();
+            let promise1;
+            const userId = getParameterByName('userId');
+
+            if (userId) {
+                promise1 = ApiClient.getUser(userId);
+            } else {
+                promise1 = Promise.resolve({
+                    Configuration: {}
+                });
+            }
+
+            const promise2 = Dashboard.getCurrentUser();
+            const promise4 = ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders', {
+                IsHidden: false
+            }));
+            const promise5 = ApiClient.getJSON(ApiClient.getUrl('Channels'));
+            const promise6 = ApiClient.getJSON(ApiClient.getUrl('Devices'));
+            Promise.all([promise1, promise2, promise4, promise5, promise6]).then(function (responses) {
+                loadUser(page, responses[0], responses[1], responses[2].Items, responses[3].Items, responses[4].Items);
+            });
         });
-    });
+    }
 
 /* eslint-enable indent */
