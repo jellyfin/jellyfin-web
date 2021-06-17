@@ -1,4 +1,3 @@
-import 'jquery';
 import loading from '../../../components/loading/loading';
 import globalize from '../../../scripts/globalize';
 import '../../../elements/emby-checkbox/emby-checkbox';
@@ -18,8 +17,12 @@ import toast from '../../../components/toast/toast';
         }
 
         html += '</div>';
-        $('.folderAccess', page).html(html).trigger('create');
-        $('#chkEnableAllFolders', page).prop('checked', false);
+
+        const folderAccess = page.querySelector('.folderAccess');
+        folderAccess.innerHTML = html;
+        folderAccess.dispatchEvent(new CustomEvent('create'));
+
+        page.querySelector('#chkEnableAllFolders').checked = false;
     }
 
     function loadChannels(page, channels) {
@@ -33,20 +36,23 @@ import toast from '../../../components/toast/toast';
         }
 
         html += '</div>';
-        $('.channelAccess', page).show().html(html).trigger('create');
+
+        const channelAccess = page.querySelector('.channelAccess');
+        channelAccess.innerHTML = html;
+        channelAccess.dispatchEvent(new CustomEvent('create'));
 
         if (channels.length) {
-            $('.channelAccessContainer', page).show();
+            page.querySelector('.channelAccessContainer').classList.remove('hide');
         } else {
-            $('.channelAccessContainer', page).hide();
+            page.querySelector('.channelAccessContainer').classList.add('hide');
         }
 
-        $('#chkEnableAllChannels', page).prop('checked', false);
+        page.querySelector('#chkEnableAllChannels').checked = false;
     }
 
     function loadUser(page) {
-        $('#txtUsername', page).val('');
-        $('#txtPassword', page).val('');
+        page.querySelector('#txtUsername').value = '';
+        page.querySelector('#txtPassword').value = '';
         loading.show();
         const promiseFolders = ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
@@ -61,30 +67,23 @@ import toast from '../../../components/toast/toast';
 
     function saveUser(page) {
         const user = {};
-        user.Name = $('#txtUsername', page).val();
-        user.Password = $('#txtPassword', page).val();
+        user.Name = page.querySelector('#txtUsername').value;
+        user.Password = page.querySelector('#txtPassword').value;
         ApiClient.createUser(user).then(function (user) {
-            user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).is(':checked');
-            user.Policy.EnabledFolders = [];
+            user.Policy.EnableAllFolders = page.querySelector('#chkEnableAllChannels').checked;
+            user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
+                return c.checked;
+            }).map(function (c) {
+                return c.getAttribute('data-id');
+            });
 
-            if (!user.Policy.EnableAllFolders) {
-                user.Policy.EnabledFolders = $('.chkFolder', page).get().filter(function (i) {
-                    return i.checked;
-                }).map(function (i) {
-                    return i.getAttribute('data-id');
-                });
-            }
+            user.Policy.EnabledChannels = page.querySelector('#chkEnableAllChannels').checked;
 
-            user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).is(':checked');
-            user.Policy.EnabledChannels = [];
-
-            if (!user.Policy.EnableAllChannels) {
-                user.Policy.EnabledChannels = $('.chkChannel', page).get().filter(function (i) {
-                    return i.checked;
-                }).map(function (i) {
-                    return i.getAttribute('data-id');
-                });
-            }
+            user.Policy.EnabledChannels = user.Policy.EnabledChannels ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (c) {
+                return c.checked;
+            }).map(function (c) {
+                return c.getAttribute('data-id');
+            });
 
             ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
                 Dashboard.navigate('useredit.html?userId=' + user.Id);
@@ -95,10 +94,12 @@ import toast from '../../../components/toast/toast';
         });
     }
 
-    function onSubmit() {
-        const page = $(this).parents('.page')[0];
+    function onSubmit(e) {
+        const page = this.closest('#newUserPage');
         loading.show();
         saveUser(page);
+        e.preventDefault();
+        e.stopPropagation();
         return false;
     }
 
@@ -106,25 +107,28 @@ import toast from '../../../components/toast/toast';
         loadUser(page);
     }
 
-    $(document).on('pageinit', '#newUserPage', function () {
-        const page = this;
-        $('#chkEnableAllChannels', page).on('change', function () {
+    export default function (view) {
+        view.querySelector('#chkEnableAllChannels').addEventListener('change', function () {
             if (this.checked) {
-                $('.channelAccessListContainer', page).hide();
+                view.querySelector('.channelAccessListContainer').classList.add('hide');
             } else {
-                $('.channelAccessListContainer', page).show();
+                view.querySelector('.channelAccessListContainer').classList.remove('hide');
             }
         });
-        $('#chkEnableAllFolders', page).on('change', function () {
+
+        view.querySelector('#chkEnableAllFolders').addEventListener('change', function () {
             if (this.checked) {
-                $('.folderAccessListContainer', page).hide();
+                view.querySelector('.folderAccessListContainer').classList.add('hide');
             } else {
-                $('.folderAccessListContainer', page).show();
+                view.querySelector('.folderAccessListContainer').classList.remove('hide');
             }
         });
-        $('.newUserProfileForm').off('submit', onSubmit).on('submit', onSubmit);
-    }).on('pageshow', '#newUserPage', function () {
-        loadData(this);
-    });
+
+        view.querySelector('.newUserProfileForm').addEventListener('submit', onSubmit);
+
+        view.addEventListener('viewshow', function () {
+            loadData(this);
+        });
+    }
 
 /* eslint-enable indent */
