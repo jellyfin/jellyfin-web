@@ -8,7 +8,7 @@ import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-button/emby-button';
 import '../../../components/indicators/indicators.scss';
 import '../../../assets/css/flexstyles.scss';
-import Dashboard, { pageIdOn } from '../../../scripts/clientUtils';
+import Dashboard from '../../../scripts/clientUtils';
 import confirm from '../../../components/confirm/confirm';
 import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 
@@ -164,22 +164,22 @@ import cardBuilder from '../../../components/cardbuilder/cardBuilder';
         });
     }
 
-    pageIdOn('pageinit', 'userProfilesPage', function () {
-        const page = this;
-        page.querySelector('.btnAddUser').addEventListener('click', function() {
+    export default function (view) {
+        view.querySelector('.btnAddUser').addEventListener('click', function() {
             Dashboard.navigate('usernew.html');
         });
-        page.querySelector('.localUsers').addEventListener('click', function (e__e) {
-            const btnUserMenu = dom.parentWithClass(e__e.target, 'btnUserMenu');
+
+        view.querySelector('.localUsers').addEventListener('click', function (e) {
+            const btnUserMenu = dom.parentWithClass(e.target, 'btnUserMenu');
 
             if (btnUserMenu) {
                 showUserMenu(btnUserMenu);
             }
         });
-    });
 
-    pageIdOn('pagebeforeshow', 'userProfilesPage', function () {
-        loadData(this);
-    });
+        view.addEventListener('viewbeforeshow', function () {
+            loadData(this);
+        });
+    }
 
 /* eslint-enable indent */
