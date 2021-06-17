@@ -82,7 +82,6 @@ import toast from '../../../components/toast/toast';
         const txtUserName = page.querySelector('#txtUserName');
         txtUserName.disabled = '';
         txtUserName.removeAttribute('disabled');
-        page.querySelector('#fldConnectInfo').classList.remove('hide');
 
         const lnkEditUserPreferences = page.querySelector('.lnkEditUserPreferences');
         lnkEditUserPreferences.setAttribute('href', 'mypreferencesmenu.html?userId=' + user.Id);
