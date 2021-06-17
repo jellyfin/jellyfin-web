@@ -1,4 +1,3 @@
-import 'jquery';
 import datetime from '../../../scripts/datetime';
 import loading from '../../../components/loading/loading';
 import libraryMenu from '../../../scripts/libraryMenu';
@@ -36,7 +35,8 @@ import toast from '../../../components/toast/toast';
             html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
         }
 
-        $('#selectMaxParentalRating', page).html(html);
+        const selectMaxParentalRating = page.querySelector('#selectMaxParentalRating');
+        selectMaxParentalRating.innerHTML = html;
     }
 
     function loadUnratedItems(page, user) {
@@ -73,7 +73,10 @@ import toast from '../../../components/toast/toast';
         }
 
         html += '</div>';
-        $('.blockUnratedItems', page).html(html).trigger('create');
+
+        const blockUnratedItems = page.querySelector('.blockUnratedItems');
+        blockUnratedItems.innerHTML = html;
+        blockUnratedItems.dispatchEvent(new CustomEvent('create'));
     }
 
     function loadUser(page, user, allParentalRatings) {
@@ -94,12 +97,12 @@ import toast from '../../../components/toast/toast';
             }
         }
 
-        $('#selectMaxParentalRating', page).val(ratingValue);
+        page.querySelector('#selectMaxParentalRating').value = ratingValue;
 
         if (user.Policy.IsAdministrator) {
-            $('.accessScheduleSection', page).hide();
+            page.querySelector('.accessScheduleSection').classList.add('hide');
         } else {
-            $('.accessScheduleSection', page).show();
+            page.querySelector('.accessScheduleSection').classList.remove('hide');
         }
 
         renderAccessSchedule(page, user.Policy.AccessSchedules || []);
@@ -122,14 +125,18 @@ import toast from '../../../components/toast/toast';
             html = '<div class="paperList">' + html + '</div>';
         }
 
-        const elem = $('.blockedTags', page).html(html).trigger('create');
-        $('.btnDeleteTag', elem).on('click', function () {
-            const tag = this.getAttribute('data-tag');
-            const newTags = tags.filter(function (t) {
-                return t != tag;
+        const blockedTags = page.querySelector('.blockedTags');
+        blockedTags.innerHTML = html;
+
+        for (const btnDeleteTag of blockedTags.querySelectorAll('.btnDeleteTag')) {
+            btnDeleteTag.addEventListener('click', function () {
+                const tag = this.getAttribute('data-tag');
+                const newTags = tags.filter(function (t) {
+                    return t != tag;
+                });
+                loadBlockedTags(page, newTags);
             });
-            loadBlockedTags(page, newTags);
-        });
+        }
     }
 
     function deleteAccessSchedule(page, schedules, index) {
@@ -156,9 +163,11 @@ import toast from '../../../components/toast/toast';
         }).join('');
         const accessScheduleList = page.querySelector('.accessScheduleList');
         accessScheduleList.innerHTML = html;
-        $('.btnDelete', accessScheduleList).on('click', function () {
-            deleteAccessSchedule(page, schedules, parseInt(this.getAttribute('data-index')));
-        });
+        for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
+            btnDelete.addEventListener('click', function () {
+                deleteAccessSchedule(page, schedules, parseInt(this.getAttribute('data-index')));
+            });
+        }
     }
 
     function onSaveComplete() {
@@ -167,8 +176,8 @@ import toast from '../../../components/toast/toast';
     }
 
     function saveUser(user, page) {
-        user.Policy.MaxParentalRating = $('#selectMaxParentalRating', page).val() || null;
-        user.Policy.BlockUnratedItems = $('.chkUnratedItem', page).get().filter(function (i) {
+        user.Policy.MaxParentalRating = page.querySelector('#selectMaxParentalRating').value || null;
+        user.Policy.BlockUnratedItems = Array.prototype.filter.call(page.querySelectorAll('.chkUnratedItem'), function (i) {
             return i.checked;
         }).map(function (i) {
             return i.getAttribute('data-itemtype');
@@ -210,19 +219,19 @@ import toast from '../../../components/toast/toast';
     }
 
     function getSchedulesFromPage(page) {
-        return $('.liSchedule', page).map(function () {
+        return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), function (elem) {
             return {
-                DayOfWeek: this.getAttribute('data-day'),
-                StartHour: this.getAttribute('data-start'),
-                EndHour: this.getAttribute('data-end')
+                DayOfWeek: elem.getAttribute('data-day'),
+                StartHour: elem.getAttribute('data-start'),
+                EndHour: elem.getAttribute('data-end')
             };
-        }).get();
+        });
     }
 
     function getBlockedTagsFromPage(page) {
-        return $('.blockedTag', page).map(function () {
-            return this.getAttribute('data-tag');
-        }).get();
+        return Array.prototype.map.call(page.querySelectorAll('.blockedTag'), function (elem) {
+            return elem.getAttribute('data-tag');
+        });
     }
 
     function showBlockedTagPopup(page) {
@@ -241,34 +250,40 @@ import toast from '../../../components/toast/toast';
     }
 
     window.UserParentalControlPage = {
-        onSubmit: function () {
-            const page = $(this).parents('.page');
+        onSubmit: function (e) {
+            const page = this.closest('#userParentalControlPage');
             loading.show();
             const userId = getParameterByName('userId');
             ApiClient.getUser(userId).then(function (result) {
                 saveUser(result, page);
             });
+            e.preventDefault();
+            e.stopPropagation();
             return false;
         }
     };
-    $(document).on('pageinit', '#userParentalControlPage', function () {
-        const page = this;
-        $('.btnAddSchedule', page).on('click', function () {
-            showSchedulePopup(page, {}, -1);
+
+    export default function (view) {
+        view.querySelector('.btnAddSchedule').addEventListener('click', function () {
+            showSchedulePopup(view, {}, -1);
         });
-        $('.btnAddBlockedTag', page).on('click', function () {
-            showBlockedTagPopup(page);
+
+        view.querySelector('.btnAddBlockedTag').addEventListener('click', function () {
+            showBlockedTagPopup(view);
         });
-        $('.userParentalControlForm').off('submit', UserParentalControlPage.onSubmit).on('submit', UserParentalControlPage.onSubmit);
-    }).on('pageshow', '#userParentalControlPage', function () {
-        const page = this;
-        loading.show();
-        const userId = getParameterByName('userId');
-        const promise1 = ApiClient.getUser(userId);
-        const promise2 = ApiClient.getParentalRatings();
-        Promise.all([promise1, promise2]).then(function (responses) {
-            loadUser(page, responses[0], responses[1]);
+
+        view.querySelector('.userParentalControlForm').addEventListener('submit', UserParentalControlPage.onSubmit);
+
+        view.addEventListener('viewshow', function () {
+            const page = this;
+            loading.show();
+            const userId = getParameterByName('userId');
+            const promise1 = ApiClient.getUser(userId);
+            const promise2 = ApiClient.getParentalRatings();
+            Promise.all([promise1, promise2]).then(function (responses) {
+                loadUser(page, responses[0], responses[1]);
+            });
         });
-    });
+    }
 
 /* eslint-enable indent */
