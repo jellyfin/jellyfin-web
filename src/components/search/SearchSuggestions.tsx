@@ -12,8 +12,8 @@ import '../../elements/emby-button/emby-button';
 const createSuggestionLink = ({name, href}) => ({
     __html: `<a
     is='emby-linkbutton'
-    class='button-link'
-    style='display: inline-block; padding: 0.5em 1em;'
+    class='button-link inline-block'
+    style='padding: 0.5em 1em;'
     href='${href}'
 >${name}</a>`
 });
