@@ -1,10 +1,10 @@
 <div class="formDialogHeader">
-    <button is="paper-icon-button-light" class="btnCancel btnBack autoSize hide" tabindex="-1"><span class="material-icons arrow_back"></span></button>
+    <button is="paper-icon-button-light" class="btnCancel btnBack autoSize hidden" tabindex="-1"><span class="material-icons arrow_back"></span></button>
     <h3 class="formDialogHeaderTitle">
         ${Edit}
     </h3>
     <div style="margin-left: auto;" class="flex items-center justify-center">
-        <button is="emby-button" type="button" class="btnHeaderSave button-accent-flat button-flat hide" tabindex="-1">
+        <button is="emby-button" type="button" class="btnHeaderSave button-accent-flat button-flat hidden" tabindex="-1">
             <span class="material-icons check"></span>
             <span>${Save}</span>
         </button>
@@ -23,7 +23,7 @@
         <div class="metadataFormFields">
 
             <div style="padding: 0 0 10px;">
-                <div id="fldContentType" class="selectContainer hide">
+                <div id="fldContentType" class="selectContainer hidden">
                     <select is="emby-select" id="selectContentType" label="${LabelContentType}"></select>
                 </div>
                 <div id="fldPath" class="inputContainer">
@@ -42,57 +42,57 @@
                 <div class="inputContainer">
                     <input is="emby-input" id="txtSortName" type="text" label="${LabelSortTitle}" />
                 </div>
-                <div id="fldDateAdded" class="hide inputContainer">
+                <div id="fldDateAdded" class="hidden inputContainer">
                     <input is="emby-input" id="txtDateAdded" type="date" label="${LabelDateAdded}" />
                     <div class="fieldDescription">${ConfigureDateAdded}</div>
                 </div>
-                <div id="fldStatus" class="hide selectContainer">
+                <div id="fldStatus" class="hidden selectContainer">
                     <select is="emby-select" id="selectStatus" label="${LabelStatus}"></select>
                 </div>
-                <div id="fldArtist" class="hide inputContainer">
+                <div id="fldArtist" class="hidden inputContainer">
                     <input is="emby-input" id="txtArtist" type="text" label="${LabelArtists}" />
                     <div class="fieldDescription">${LabelArtistsHelp}</div>
                 </div>
-                <div id="fldAlbumArtist" class="hide inputContainer">
+                <div id="fldAlbumArtist" class="hidden inputContainer">
                     <input is="emby-input" id="txtAlbumArtist" type="text" label="${LabelAlbumArtists}" />
                     <div class="fieldDescription">${LabelArtistsHelp}</div>
                 </div>
-                <div id="fldAlbum" class="hide inputContainer">
+                <div id="fldAlbum" class="hidden inputContainer">
                     <input is="emby-input" id="txtAlbum" type="text" label="${LabelAlbum}" />
                 </div>
                 <div class="inlineForm">
-                    <div id="fldParentIndexNumber" class="hide inputContainer">
+                    <div id="fldParentIndexNumber" class="hidden inputContainer">
                         <input is="emby-input" id="txtParentIndexNumber" type="number" />
                     </div>
-                    <div id="fldIndexNumber" class="hide inputContainer">
+                    <div id="fldIndexNumber" class="hidden inputContainer">
                         <input is="emby-input" id="txtIndexNumber" type="number" pattern="[0-9]*" />
                     </div>
                 </div>
-                <div id="fldCommunityRating" class="hide inputContainer">
+                <div id="fldCommunityRating" class="hidden inputContainer">
                     <input is="emby-input" id="txtCommunityRating" type="number" step=".1" min="0" max="10" label="${LabelCommunityRating}" />
                 </div>
-                <div id="fldCriticRating" class="hide inputContainer">
+                <div id="fldCriticRating" class="hidden inputContainer">
                     <input is="emby-input" id="txtCriticRating" type="number" step=".1" label="${LabelCriticRating}" />
                 </div>
-                <div id="fldTagline" class="hide inputContainer">
+                <div id="fldTagline" class="hidden inputContainer">
                     <input is="emby-input" id="txtTagline" type="text" label="${LabelTagline}" />
                 </div>
-                <div class="inputContainer overviewContainer hide">
+                <div class="inputContainer overviewContainer hidden">
                     <textarea is="emby-textarea" id="txtOverview" label="${LabelOverview}"></textarea>
                 </div>
                 <div id="fldPremiereDate" class="inputContainer">
                     <input is="emby-input" id="txtPremiereDate" label="${LabelReleaseDate}" type="date" />
                 </div>
-                <div id="fldYear" class="hide inputContainer">
+                <div id="fldYear" class="hidden inputContainer">
                     <input is="emby-input" id="txtProductionYear" type="number" label="${LabelYear}" />
                 </div>
-                <div id="fldPlaceOfBirth" class="hide inputContainer">
+                <div id="fldPlaceOfBirth" class="hidden inputContainer">
                     <input is="emby-input" id="txtPlaceOfBirth" type="text" label="${LabelPlaceOfBirth}" />
                 </div>
                 <div id="fldEndDate" class="inputContainer">
                     <input is="emby-input" id="txtEndDate" label="${LabelEndDate}" type="date" />
                 </div>
-                <div id="fldAirDays" class="hide">
+                <div id="fldAirDays" class="hidden">
                     <p>${LabelAirDays}</p>
 
                     <div class="checkboxList">
@@ -128,25 +128,25 @@
                     <br />
 
                 </div>
-                <div id="fldAirTime" class="inputContainer hide">
+                <div id="fldAirTime" class="inputContainer hidden">
                     <input is="emby-input" id="txtAirTime" type="text" label="${LabelAirTime}" />
                 </div>
-                <div id="fldSeriesRuntime" class="inputContainer hide">
+                <div id="fldSeriesRuntime" class="inputContainer hidden">
                     <input is="emby-input" id="txtSeriesRuntime" type="number" label="${LabelRuntimeMinutes}" />
                 </div>
                 <div class="inlineForm">
-                    <div id="fldOfficialRating" class="selectContainer hide">
+                    <div id="fldOfficialRating" class="selectContainer hidden">
                         <select is="emby-select" id="selectOfficialRating" label="${LabelParentalRating}"></select>
                     </div>
-                    <div id="fldCustomRating" class="selectContainer hide">
+                    <div id="fldCustomRating" class="selectContainer hidden">
                         <select is="emby-select" id="selectCustomRating" label="${LabelCustomRating}"></select>
                     </div>
                 </div>
                 <div class="inlineForm">
-                    <div id="fldOriginalAspectRatio" class="inputContainer hide">
+                    <div id="fldOriginalAspectRatio" class="inputContainer hidden">
                         <input is="emby-input" id="txtOriginalAspectRatio" type="text" label="${LabelOriginalAspectRatio}" />
                     </div>
-                    <div id="fld3dFormat" class="selectContainer hide">
+                    <div id="fld3dFormat" class="selectContainer hidden">
                         <select is="emby-select" id="select3dFormat" label="${Label3DFormat}">
                             <option value=""></option>
                             <option value="HalfSideBySide">HSBS</option>
@@ -158,14 +158,14 @@
                     </div>
                 </div>
 
-                <div id="fldDisplayOrder" class="fldDisplaySetting selectContainer hide">
+                <div id="fldDisplayOrder" class="fldDisplaySetting selectContainer hidden">
                     <select is="emby-select" id="selectDisplayOrder" label="${LabelDisplayOrder}"></select>
                     <div class="fieldDescription seriesDisplayOrderDescription">${SeriesDisplayOrderHelp}</div>
                 </div>
 
             </div>
 
-            <div class="detailSection hide" id="collapsibleSpecialEpisodeInfo">
+            <div class="detailSection hidden" id="collapsibleSpecialEpisodeInfo">
                 <h2>
                     ${HeaderSpecialEpisodeInfo}
                 </h2>
@@ -182,7 +182,7 @@
                 </div>
             </div>
 
-            <div class="detailSection externalIdsSection hide">
+            <div class="detailSection externalIdsSection hidden">
                 <h2>
                     ${HeaderExternalIds}
                 </h2>
@@ -190,7 +190,7 @@
                 </div>
             </div>
 
-            <div id="genresCollapsible" class="editableListviewContainer hide" style="margin-top: 3em;">
+            <div id="genresCollapsible" class="editableListviewContainer hidden" style="margin-top: 3em;">
                 <h2 style="margin:.6em 0;vertical-align:middle;display:inline-block;">
                     ${Genres}
                 </h2>
@@ -199,7 +199,7 @@
                 </button>
                 <div class="paperList" id="listGenres"></div>
             </div>
-            <div id="peopleCollapsible" style="margin-top: 3em;" class="hide">
+            <div id="peopleCollapsible" style="margin-top: 3em;" class="hidden">
                 <h2 style="margin:.6em 0;vertical-align:middle;display:inline-block;">
                     ${People}
                 </h2>
@@ -209,7 +209,7 @@
                 <div id="peopleList" class="paperList">
                 </div>
             </div>
-            <div id="studiosCollapsible" class="editableListviewContainer hide" style="margin-top: 3em;">
+            <div id="studiosCollapsible" class="editableListviewContainer hidden" style="margin-top: 3em;">
                 <h2 style="margin:.6em 0;vertical-align:middle;display:inline-block;">
                     ${Studios}
                 </h2>
@@ -218,7 +218,7 @@
                 </button>
                 <div class="paperList" id="listStudios"></div>
             </div>
-            <div id="tagsCollapsible" class="editableListviewContainer hide" style="margin-top: 3em;">
+            <div id="tagsCollapsible" class="editableListviewContainer hidden" style="margin-top: 3em;">
                 <h2 style="margin:.6em 0;vertical-align:middle;display:inline-block;">
                     ${Tags}
                 </h2>
@@ -227,7 +227,7 @@
                 </button>
                 <div class="paperList" id="listTags"></div>
             </div>
-            <div id="metadataSettingsCollapsible" style="margin-top: 3em;" class="hide">
+            <div id="metadataSettingsCollapsible" style="margin-top: 3em;" class="hidden">
                 <h2>${HeaderMetadataSettings}</h2>
                 <div>
                     <div class="selectContainer">
@@ -245,7 +245,7 @@
                         <span>${LabelLockItemToPreventChanges}</span>
                     </label>
 
-                    <div class="providerSettingsContainer checkboxList hide">
+                    <div class="providerSettingsContainer checkboxList hidden">
                     </div>
                 </div>
             </div>

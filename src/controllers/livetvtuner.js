@@ -127,70 +127,70 @@ function onTypeChange() {
 
     if (supportsTunerIpAddress) {
         txtDevicePath.label(globalize.translate('LabelTunerIpAddress'));
-        view.querySelector('.fldPath').classList.remove('hide');
+        view.querySelector('.fldPath').classList.remove('hidden');
     } else if (supportsTunerFileOrUrl) {
         txtDevicePath.label(globalize.translate('LabelFileOrUrl'));
-        view.querySelector('.fldPath').classList.remove('hide');
+        view.querySelector('.fldPath').classList.remove('hidden');
     } else {
-        view.querySelector('.fldPath').classList.add('hide');
+        view.querySelector('.fldPath').classList.add('hidden');
     }
 
     if (supportsSelectablePath) {
-        view.querySelector('.btnSelectPath').classList.remove('hide');
+        view.querySelector('.btnSelectPath').classList.remove('hidden');
         view.querySelector('.txtDevicePath').setAttribute('required', 'required');
     } else {
-        view.querySelector('.btnSelectPath').classList.add('hide');
+        view.querySelector('.btnSelectPath').classList.add('hidden');
         view.querySelector('.txtDevicePath').removeAttribute('required');
     }
 
     if (supportsUserAgent) {
-        view.querySelector('.fldUserAgent').classList.remove('hide');
+        view.querySelector('.fldUserAgent').classList.remove('hidden');
     } else {
-        view.querySelector('.fldUserAgent').classList.add('hide');
+        view.querySelector('.fldUserAgent').classList.add('hidden');
     }
 
     if (supportsFavorites) {
-        view.querySelector('.fldFavorites').classList.remove('hide');
+        view.querySelector('.fldFavorites').classList.remove('hidden');
     } else {
-        view.querySelector('.fldFavorites').classList.add('hide');
+        view.querySelector('.fldFavorites').classList.add('hidden');
     }
 
     if (supportsTranscoding) {
-        view.querySelector('.fldTranscode').classList.remove('hide');
+        view.querySelector('.fldTranscode').classList.remove('hidden');
     } else {
-        view.querySelector('.fldTranscode').classList.add('hide');
+        view.querySelector('.fldTranscode').classList.add('hidden');
     }
 
     if (supportsStreamLooping) {
-        view.querySelector('.fldStreamLoop').classList.remove('hide');
+        view.querySelector('.fldStreamLoop').classList.remove('hidden');
     } else {
-        view.querySelector('.fldStreamLoop').classList.add('hide');
+        view.querySelector('.fldStreamLoop').classList.add('hidden');
     }
 
     if (supportsTunerCount) {
-        view.querySelector('.fldTunerCount').classList.remove('hide');
+        view.querySelector('.fldTunerCount').classList.remove('hidden');
         view.querySelector('.txtTunerCount').setAttribute('required', 'required');
     } else {
-        view.querySelector('.fldTunerCount').classList.add('hide');
+        view.querySelector('.fldTunerCount').classList.add('hidden');
         view.querySelector('.txtTunerCount').removeAttribute('required');
     }
 
     if (mayIncludeUnsupportedDrmChannels) {
-        view.querySelector('.drmMessage').classList.remove('hide');
+        view.querySelector('.drmMessage').classList.remove('hidden');
     } else {
-        view.querySelector('.drmMessage').classList.add('hide');
+        view.querySelector('.drmMessage').classList.add('hidden');
     }
 
     if (suppportsSubmit) {
-        view.querySelector('.button-submit').classList.remove('hide');
+        view.querySelector('.button-submit').classList.remove('hidden');
     } else {
-        view.querySelector('.button-submit').classList.add('hide');
+        view.querySelector('.button-submit').classList.add('hidden');
     }
 }
 
 export default function (view, params) {
     if (!params.id) {
-        view.querySelector('.btnDetect').classList.remove('hide');
+        view.querySelector('.btnDetect').classList.remove('hidden');
     }
 
     view.addEventListener('viewshow', function () {

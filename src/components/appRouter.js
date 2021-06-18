@@ -247,17 +247,17 @@ class AppRouter {
             backdrop.clearBackdrop(true);
             document.documentElement.classList.add('transparentDocument');
             this.backgroundContainer.classList.add('backgroundContainer-transparent');
-            this.backdropContainer.classList.add('hide');
+            this.backdropContainer.classList.add('hidden');
         } else if (level === 'backdrop' || level === 1) {
             backdrop.externalBackdrop(true);
             document.documentElement.classList.add('transparentDocument');
             this.backgroundContainer.classList.add('backgroundContainer-transparent');
-            this.backdropContainer.classList.add('hide');
+            this.backdropContainer.classList.add('hidden');
         } else {
             backdrop.externalBackdrop(false);
             document.documentElement.classList.remove('transparentDocument');
             this.backgroundContainer.classList.remove('backgroundContainer-transparent');
-            this.backdropContainer.classList.remove('hide');
+            this.backdropContainer.classList.remove('hidden');
         }
     }
 

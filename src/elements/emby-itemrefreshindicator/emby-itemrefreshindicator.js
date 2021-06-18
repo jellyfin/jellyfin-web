@@ -31,9 +31,9 @@ import 'webcomponents.js/webcomponents-lite';
             const progress = parseFloat(info.Progress);
 
             if (progress && progress < 100) {
-                this.classList.remove('hide');
+                this.classList.remove('hidden');
             } else {
-                this.classList.add('hide');
+                this.classList.add('hidden');
             }
 
             this.setAttribute('data-progress', progress);

@@ -273,7 +273,7 @@ import '../../assets/css/scrollstyles.scss';
 
         while (sibling) {
             if (sibling.classList.contains(buttonClass)) {
-                if (!sibling.classList.contains('hide')) {
+                if (!sibling.classList.contains('hidden')) {
                     return sibling;
                 }
             }
@@ -328,7 +328,7 @@ import '../../assets/css/scrollstyles.scss';
         const btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
 
         if (enabled) {
-            btn.classList.remove('hide');
+            btn.classList.remove('hidden');
         } else {
             btn.classList.remove('add');
         }

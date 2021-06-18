@@ -106,7 +106,7 @@ import ServerConnections from '../ServerConnections';
 
         loading.hide();
 
-        panel.querySelector('.newPlaylistInfo').classList.add('hide');
+        panel.querySelector('.newPlaylistInfo').classList.add('hidden');
 
         const options = {
             Recursive: true,
@@ -186,10 +186,10 @@ import ServerConnections from '../ServerConnections';
     function initEditor(content, options, items) {
         content.querySelector('#selectPlaylistToAddTo').addEventListener('change', function () {
             if (this.value) {
-                content.querySelector('.newPlaylistInfo').classList.add('hide');
+                content.querySelector('.newPlaylistInfo').classList.add('hidden');
                 content.querySelector('#txtNewPlaylistName').removeAttribute('required');
             } else {
-                content.querySelector('.newPlaylistInfo').classList.remove('hide');
+                content.querySelector('.newPlaylistInfo').classList.remove('hidden');
                 content.querySelector('#txtNewPlaylistName').setAttribute('required', 'required');
             }
         });
@@ -199,10 +199,10 @@ import ServerConnections from '../ServerConnections';
         content.querySelector('.fldSelectedItemIds', content).value = items.join(',');
 
         if (items.length) {
-            content.querySelector('.fldSelectPlaylist').classList.remove('hide');
+            content.querySelector('.fldSelectPlaylist').classList.remove('hidden');
             populatePlaylists(options, content);
         } else {
-            content.querySelector('.fldSelectPlaylist').classList.add('hide');
+            content.querySelector('.fldSelectPlaylist').classList.add('hidden');
 
             const selectPlaylistToAddTo = content.querySelector('#selectPlaylistToAddTo');
             selectPlaylistToAddTo.innerHTML = '';

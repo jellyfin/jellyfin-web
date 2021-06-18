@@ -44,7 +44,7 @@ import template from './imageUploader.template.html';
 
         if (!file || !file.type.match('image.*')) {
             page.querySelector('#imageOutput').innerHTML = '';
-            page.querySelector('#fldUpload').classList.add('hide');
+            page.querySelector('#fldUpload').classList.add('hidden');
             currentFile = null;
             return;
         }
@@ -55,7 +55,7 @@ import template from './imageUploader.template.html';
 
         reader.onerror = onFileReaderError;
         reader.onloadstart = () => {
-            page.querySelector('#fldUpload').classList.add('hide');
+            page.querySelector('#fldUpload').classList.add('hidden');
         };
         reader.onabort = () => {
             loading.hide();
@@ -69,8 +69,8 @@ import template from './imageUploader.template.html';
                 const html = ['<img style="max-width:100%;max-height:100%;" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
 
                 page.querySelector('#imageOutput').innerHTML = html;
-                page.querySelector('#dropImageText').classList.add('hide');
-                page.querySelector('#fldUpload').classList.remove('hide');
+                page.querySelector('#dropImageText').classList.add('hidden');
+                page.querySelector('#fldUpload').classList.remove('hidden');
             };
         })(file);
 

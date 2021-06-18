@@ -24,21 +24,21 @@ import Headroom from 'headroom.js';
         let html = '';
         html += '<div class="flex items-center flex-grow headerTop">';
         html += '<div class="headerLeft">';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><span class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '"></span></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><span class="material-icons home"></span></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><span class="material-icons menu"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hidden"><span class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hidden barsMenuButton headerButtonLeft"><span class="material-icons home"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hidden"><span class="material-icons menu"></span></button>';
         html += '<h3 class="pageTitle"></h3>';
         html += '</div>';
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
-        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups"></span></button>';
-        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
-        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast"></span></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search"></span></button>';
-        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hidden"><span class="material-icons groups"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hidden"><span class="material-icons music_note"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hidden"><span class="material-icons cast"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hidden"><span class="material-icons search"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hidden"><span class="material-icons person"></span></button>';
         html += '</div>';
         html += '</div>';
-        html += '<div class="headerTabs sectionTabs hide">';
+        html += '<div class="headerTabs sectionTabs hidden">';
         html += '</div>';
 
         skinHeader.classList.add('skinHeader-withBackground');
@@ -108,9 +108,9 @@ import Headroom from 'headroom.js';
                 hasImage = true;
             }
             headerUserButton.title = user.name;
-            headerUserButton.classList.remove('hide');
+            headerUserButton.classList.remove('hidden');
         } else {
-            headerUserButton.classList.add('hide');
+            headerUserButton.classList.add('hidden');
         }
 
         if (!hasImage) {
@@ -119,30 +119,30 @@ import Headroom from 'headroom.js';
 
         if (user && user.localUser) {
             if (headerHomeButton) {
-                headerHomeButton.classList.remove('hide');
+                headerHomeButton.classList.remove('hidden');
             }
 
             if (headerSearchButton) {
-                headerSearchButton.classList.remove('hide');
+                headerSearchButton.classList.remove('hidden');
             }
 
             if (!layoutManager.tv) {
-                headerCastButton.classList.remove('hide');
+                headerCastButton.classList.remove('hidden');
             }
 
             const policy = user.Policy ? user.Policy : user.localUser.Policy;
 
             const apiClient = getCurrentApiClient();
             if (headerSyncButton && policy?.SyncPlayAccess !== 'None' && apiClient.isMinServerVersion('10.6.0')) {
-                headerSyncButton.classList.remove('hide');
+                headerSyncButton.classList.remove('hidden');
             }
         } else {
-            headerHomeButton.classList.add('hide');
-            headerCastButton.classList.add('hide');
-            headerSyncButton.classList.add('hide');
+            headerHomeButton.classList.add('hidden');
+            headerCastButton.classList.add('hidden');
+            headerSyncButton.classList.add('hidden');
 
             if (headerSearchButton) {
-                headerSearchButton.classList.add('hide');
+                headerSearchButton.classList.add('hidden');
             }
         }
 
@@ -207,15 +207,15 @@ import Headroom from 'headroom.js';
 
     function onPlaybackStart() {
         if (playbackManager.isPlayingAudio() && layoutManager.tv) {
-            headerAudioPlayerButton.classList.remove('hide');
+            headerAudioPlayerButton.classList.remove('hidden');
         } else {
-            headerAudioPlayerButton.classList.add('hide');
+            headerAudioPlayerButton.classList.add('hidden');
         }
     }
 
     function onPlaybackStop(e, stopInfo) {
         if (stopInfo.nextMediaType != 'Audio') {
-            headerAudioPlayerButton.classList.add('hide');
+            headerAudioPlayerButton.classList.add('hidden');
         }
     }
 
@@ -606,9 +606,9 @@ import Headroom from 'headroom.js';
 
         if (elem) {
             if (show) {
-                elem.classList.remove('hide');
+                elem.classList.remove('hidden');
             } else {
-                elem.classList.add('hide');
+                elem.classList.add('hidden');
             }
         }
     }
@@ -818,9 +818,9 @@ import Headroom from 'headroom.js';
     function updateBackButton(page) {
         if (headerBackButton) {
             if (page.getAttribute('data-backbutton') !== 'false' && appRouter.canGoBack()) {
-                headerBackButton.classList.remove('hide');
+                headerBackButton.classList.remove('hidden');
             } else {
-                headerBackButton.classList.add('hide');
+                headerBackButton.classList.add('hidden');
             }
         }
     }
@@ -868,7 +868,7 @@ import Headroom from 'headroom.js';
                 navDrawerInstance = new NavigationDrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {
-                    navDrawerElement.classList.remove('hide');
+                    navDrawerElement.classList.remove('hidden');
                 }
 
                 resolve(navDrawerInstance);
@@ -971,16 +971,16 @@ import Headroom from 'headroom.js';
 
         if (isDashboardPage) {
             if (mainDrawerButton) {
-                mainDrawerButton.classList.remove('hide');
+                mainDrawerButton.classList.remove('hidden');
             }
 
             refreshDashboardInfoInDrawer(apiClient);
         } else {
             if (mainDrawerButton) {
                 if (enableLibraryNavDrawer || (isHomePage && enableLibraryNavDrawerHome)) {
-                    mainDrawerButton.classList.remove('hide');
+                    mainDrawerButton.classList.remove('hidden');
                 } else {
-                    mainDrawerButton.classList.add('hide');
+                    mainDrawerButton.classList.add('hidden');
                 }
             }
 

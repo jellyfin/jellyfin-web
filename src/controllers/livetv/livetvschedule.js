@@ -13,9 +13,9 @@ function enableScrollX() {
 
 function renderRecordings(elem, recordings, cardOptions) {
     if (recordings.length) {
-        elem.classList.remove('hide');
+        elem.classList.remove('hidden');
     } else {
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
     }
 
     const recordingItems = elem.querySelector('.recordingItems');
@@ -77,9 +77,9 @@ function renderTimers(context, timers, options) {
         const elem = context;
 
         if (html) {
-            elem.classList.remove('hide');
+            elem.classList.remove('hidden');
         } else {
-            elem.classList.add('hide');
+            elem.classList.add('hidden');
         }
 
         elem.querySelector('.recordingItems').innerHTML = html;

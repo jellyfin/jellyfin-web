@@ -163,7 +163,7 @@ import Dashboard from '../scripts/clientUtils';
     function beforeAnimate(allPages, newPageIndex, oldPageIndex) {
         for (let index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index && oldPageIndex !== index) {
-                allPages[index].classList.add('hide');
+                allPages[index].classList.add('hidden');
             }
         }
     }
@@ -171,7 +171,7 @@ import Dashboard from '../scripts/clientUtils';
     function afterAnimate(allPages, newPageIndex) {
         for (let index = 0, length = allPages.length; index < length; index++) {
             if (newPageIndex !== index) {
-                allPages[index].classList.add('hide');
+                allPages[index].classList.add('hidden');
             }
         }
     }
@@ -201,7 +201,7 @@ import Dashboard from '../scripts/clientUtils';
                     }
 
                     beforeAnimate(allPages, index, selected);
-                    animatable.classList.remove('hide');
+                    animatable.classList.remove('hidden');
                     selectedPageIndex = index;
 
                     if (!options.cancel && previousAnimatable) {
@@ -239,7 +239,7 @@ import Dashboard from '../scripts/clientUtils';
     const pageContainerCount = 3;
     let selectedPageIndex = -1;
     reset();
-    mainAnimatedPages.classList.remove('hide');
+    mainAnimatedPages.classList.remove('hidden');
 
 /* eslint-enable indent */
 

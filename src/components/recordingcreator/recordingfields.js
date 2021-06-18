@@ -15,23 +15,23 @@ import template from './recordingfields.template.html';
 
 function loadData(parent, program) {
     if (program.IsSeries) {
-        parent.querySelector('.recordSeriesContainer').classList.remove('hide');
+        parent.querySelector('.recordSeriesContainer').classList.remove('hidden');
     } else {
-        parent.querySelector('.recordSeriesContainer').classList.add('hide');
+        parent.querySelector('.recordSeriesContainer').classList.add('hidden');
     }
 
     if (program.SeriesTimerId) {
-        parent.querySelector('.btnManageSeriesRecording').classList.remove('hide');
+        parent.querySelector('.btnManageSeriesRecording').classList.remove('hidden');
         parent.querySelector('.seriesRecordingButton .recordingIcon').classList.add('recordingIcon-active');
         parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('CancelSeries');
     } else {
-        parent.querySelector('.btnManageSeriesRecording').classList.add('hide');
+        parent.querySelector('.btnManageSeriesRecording').classList.add('hidden');
         parent.querySelector('.seriesRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
         parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('RecordSeries');
     }
 
     if (program.TimerId && program.Status !== 'Cancelled') {
-        parent.querySelector('.btnManageRecording').classList.remove('hide');
+        parent.querySelector('.btnManageRecording').classList.remove('hidden');
         parent.querySelector('.singleRecordingButton .recordingIcon').classList.add('recordingIcon-active');
         if (program.Status === 'InProgress') {
             parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('StopRecording');
@@ -39,7 +39,7 @@ function loadData(parent, program) {
             parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('DoNotRecord');
         }
     } else {
-        parent.querySelector('.btnManageRecording').classList.add('hide');
+        parent.querySelector('.btnManageRecording').classList.add('hidden');
         parent.querySelector('.singleRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
         parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('Record');
     }
@@ -49,7 +49,7 @@ function fetchData(instance) {
     const options = instance.options;
     const apiClient = ServerConnections.getApiClient(options.serverId);
 
-    options.parent.querySelector('.recordingFields').classList.remove('hide');
+    options.parent.querySelector('.recordingFields').classList.remove('hidden');
     return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then(function (program) {
         instance.TimerId = program.TimerId;
         instance.Status = program.Status;
@@ -235,7 +235,7 @@ function onRecordSeriesChange(e) {
     const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
 
     if (isChecked) {
-        options.parent.querySelector('.recordSeriesContainer').classList.remove('hide');
+        options.parent.querySelector('.recordSeriesContainer').classList.remove('hidden');
         if (!this.SeriesTimerId) {
             const promise = this.TimerId ?
                 recordingHelper.changeRecordingToSeries(apiClient, this.TimerId, options.programId) :

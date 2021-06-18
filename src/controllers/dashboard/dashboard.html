@@ -19,7 +19,7 @@
                         <button is="emby-button" type="button" class="raised btnRefresh">
                             <span>${ButtonScanAllLibraries}</span>
                         </button>
-                        <button is="emby-button" type="button" id="btnRestartServer" class="raised hide" onclick="DashboardPage.restart(this);">
+                        <button is="emby-button" type="button" id="btnRestartServer" class="raised hidden" onclick="DashboardPage.restart(this);">
                             <span>${Restart}</span>
                         </button>
                         <button is="emby-button" type="button" id="btnShutdown" class="raised" onclick="DashboardPage.shutdown(this);">
@@ -27,7 +27,7 @@
                         </button>
                     </div>
 
-                    <div style="margin-top: 2em;" class="runningTasksContainer hide">
+                    <div style="margin-top: 2em;" class="runningTasksContainer hidden">
                         <h3 class="my-2">${HeaderRunningTasks}</h3>
                         <div id="divRunningTasks" class="paperList" style="padding: 1em;">
                         </div>
@@ -56,13 +56,13 @@
             </div>
             <div class="flex flex-col flex-shrink-0 flex-grow">
 
-                <div class="flex-shrink-0 mb-8 dashboardSection activeRecordingsSection hide">
+                <div class="flex-shrink-0 mb-8 dashboardSection activeRecordingsSection hidden">
                     <h3 class="my-2">${HeaderActiveRecordings}</h3>
                     <div class="my-2 activeRecordingItems vertical-wrap" is="emby-itemscontainer">
                     </div>
                 </div>
 
-                <div class="flex-shrink-0 mb-8 dashboardSection serverActivitySection hide activityContainer">
+                <div class="flex-shrink-0 mb-8 dashboardSection serverActivitySection hidden activityContainer">
                     <a is="emby-linkbutton" href="#!/serveractivity.html?useractivity=false" class="m-0 button-flat sectionTitleTextButton">
                         <h3 class="my-2">${Alerts}</h3>
                         <span class="my-2 pt-0 material-icons chevron_right"></span>

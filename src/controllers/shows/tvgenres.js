@@ -128,7 +128,7 @@ import '../../elements/emby-button/emby-button';
                     });
                 }
                 if (result.Items.length >= query.Limit) {
-                    tabContent.querySelector('.btnMoreFromGenre' + id + ' .material-icons').classList.remove('hide');
+                    tabContent.querySelector('.btnMoreFromGenre' + id + ' .material-icons').classList.remove('hidden');
                 }
             });
         }
@@ -150,7 +150,7 @@ import '../../elements/emby-button/emby-button';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += item.Name;
                     html += '</h2>';
-                    html += '<span class="material-icons hide chevron_right"></span>';
+                    html += '<span class="material-icons hidden chevron_right"></span>';
                     html += '</a>';
                     html += '</div>';
                     if (enableScrollX()) {

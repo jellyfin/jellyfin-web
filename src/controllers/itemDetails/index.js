@@ -61,9 +61,9 @@ function getPromise(apiClient, params) {
 function hideAll(page, className, show) {
     for (const elem of page.querySelectorAll('.' + className)) {
         if (show) {
-            elem.classList.remove('hide');
+            elem.classList.remove('hidden');
         } else {
-            elem.classList.add('hide');
+            elem.classList.add('hidden');
         }
     }
 }
@@ -150,12 +150,12 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
             });
         });
 
-        page.querySelector('.seriesTimerScheduleSection').classList.remove('hide');
+        page.querySelector('.seriesTimerScheduleSection').classList.remove('hidden');
         hideAll(page, 'btnCancelSeriesTimer', true);
         return void renderSeriesTimerSchedule(page, apiClient, item.Id);
     }
 
-    page.querySelector('.seriesTimerScheduleSection').classList.add('hide');
+    page.querySelector('.seriesTimerScheduleSection').classList.add('hidden');
     return void hideAll(page, 'btnCancelSeriesTimer');
 }
 
@@ -163,7 +163,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
     const select = page.querySelector('.selectSource');
 
     if (!item.MediaSources || !itemHelper.supportsMediaSourceSelection(item) || playbackManager.getSupportedCommands().indexOf('PlayMediaSource') === -1 || !playbackManager.canPlay(item)) {
-        page.querySelector('.trackSelections').classList.add('hide');
+        page.querySelector('.trackSelections').classList.add('hidden');
         select.innerHTML = '';
         page.querySelector('.selectVideo').innerHTML = '';
         page.querySelector('.selectAudio').innerHTML = '';
@@ -197,7 +197,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
 
     instance._currentPlaybackMediaSources = mediaSources;
 
-    page.querySelector('.trackSelections').classList.remove('hide');
+    page.querySelector('.trackSelections').classList.remove('hidden');
     select.setLabel(globalize.translate('LabelVersion'));
 
     const currentValue = select.value;
@@ -209,9 +209,9 @@ function renderTrackSelections(page, instance, item, forceReload) {
     }).join('');
 
     if (mediaSources.length > 1) {
-        page.querySelector('.selectSourceContainer').classList.remove('hide');
+        page.querySelector('.selectSourceContainer').classList.remove('hidden');
     } else {
-        page.querySelector('.selectSourceContainer').classList.add('hide');
+        page.querySelector('.selectSourceContainer').classList.add('hidden');
     }
 
     if (select.value !== currentValue || forceReload) {
@@ -252,9 +252,9 @@ function renderVideoSelections(page, mediaSources) {
     select.setAttribute('disabled', 'disabled');
 
     if (tracks.length) {
-        page.querySelector('.selectVideoContainer').classList.remove('hide');
+        page.querySelector('.selectVideoContainer').classList.remove('hidden');
     } else {
-        page.querySelector('.selectVideoContainer').classList.add('hide');
+        page.querySelector('.selectVideoContainer').classList.add('hidden');
     }
 }
 
@@ -281,9 +281,9 @@ function renderAudioSelections(page, mediaSources) {
     }
 
     if (tracks.length) {
-        page.querySelector('.selectAudioContainer').classList.remove('hide');
+        page.querySelector('.selectAudioContainer').classList.remove('hidden');
     } else {
-        page.querySelector('.selectAudioContainer').classList.add('hide');
+        page.querySelector('.selectAudioContainer').classList.add('hidden');
     }
 }
 
@@ -317,10 +317,10 @@ function renderSubtitleSelections(page, mediaSources) {
             select.setAttribute('disabled', 'disabled');
         }
 
-        page.querySelector('.selectSubtitlesContainer').classList.remove('hide');
+        page.querySelector('.selectSubtitlesContainer').classList.remove('hidden');
     } else {
         select.innerHTML = '';
-        page.querySelector('.selectSubtitlesContainer').classList.add('hide');
+        page.querySelector('.selectSubtitlesContainer').classList.add('hidden');
     }
 }
 
@@ -379,10 +379,10 @@ function reloadUserDataButtons(page, item) {
         const btnPlaystate = btnPlaystates[i];
 
         if (itemHelper.canMarkPlayed(item)) {
-            btnPlaystate.classList.remove('hide');
+            btnPlaystate.classList.remove('hidden');
             btnPlaystate.setItem(item);
         } else {
-            btnPlaystate.classList.add('hide');
+            btnPlaystate.classList.add('hidden');
             btnPlaystate.setItem(null);
         }
     }
@@ -393,10 +393,10 @@ function reloadUserDataButtons(page, item) {
         const btnUserRating = btnUserRatings[i];
 
         if (itemHelper.canRate(item)) {
-            btnUserRating.classList.remove('hide');
+            btnUserRating.classList.remove('hidden');
             btnUserRating.setItem(item);
         } else {
-            btnUserRating.classList.add('hide');
+            btnUserRating.classList.add('hidden');
             btnUserRating.setItem(null);
         }
     }
@@ -529,9 +529,9 @@ function renderName(item, container, context) {
     container.innerHTML = html;
 
     if (html.length) {
-        container.classList.remove('hide');
+        container.classList.remove('hidden');
     } else {
-        container.classList.add('hide');
+        container.classList.add('hidden');
     }
 }
 
@@ -607,7 +607,7 @@ function renderPrimaryImage(page, item, apiClient) {
         if (item.PrimaryImageAspectRatio === 1) {
             imageElem.classList.add('aspect-square');
         }
-        page.querySelector('.primaryImageWrapper')?.classList.remove('hide');
+        page.querySelector('.primaryImageWrapper')?.classList.remove('hidden');
     }
 }
 
@@ -659,9 +659,9 @@ function reloadFromItem(instance, page, params, item, user) {
     });
 
     if (user.Policy.IsAdministrator && groupedVersions.length) {
-        page.querySelector('.btnSplitVersions').classList.remove('hide');
+        page.querySelector('.btnSplitVersions').classList.remove('hidden');
     } else {
-        page.querySelector('.btnSplitVersions').classList.add('hide');
+        page.querySelector('.btnSplitVersions').classList.add('hidden');
     }
 
     if (itemContextMenu.getCommands(getContextMenuOptions(item, user)).length) {
@@ -675,13 +675,13 @@ function reloadFromItem(instance, page, params, item, user) {
     if (item.Type == 'Person' && item.PremiereDate) {
         try {
             const birthday = datetime.parseISO8601Date(item.PremiereDate, true).toDateString();
-            itemBirthday.classList.remove('hide');
+            itemBirthday.classList.remove('hidden');
             itemBirthday.innerHTML = globalize.translate('BirthDateValue', birthday);
         } catch (err) {
-            itemBirthday.classList.add('hide');
+            itemBirthday.classList.add('hidden');
         }
     } else {
-        itemBirthday.classList.add('hide');
+        itemBirthday.classList.add('hidden');
     }
 
     const itemDeathDate = page.querySelector('#itemDeathDate');
@@ -689,13 +689,13 @@ function reloadFromItem(instance, page, params, item, user) {
     if (item.Type == 'Person' && item.EndDate) {
         try {
             const deathday = datetime.parseISO8601Date(item.EndDate, true).toDateString();
-            itemDeathDate.classList.remove('hide');
+            itemDeathDate.classList.remove('hidden');
             itemDeathDate.innerHTML = globalize.translate('DeathDateValue', deathday);
         } catch (err) {
-            itemDeathDate.classList.add('hide');
+            itemDeathDate.classList.add('hidden');
         }
     } else {
-        itemDeathDate.classList.add('hide');
+        itemDeathDate.classList.add('hidden');
     }
 
     const itemBirthLocation = page.querySelector('#itemBirthLocation');
@@ -705,10 +705,10 @@ function reloadFromItem(instance, page, params, item, user) {
         if (!layoutManager.tv && appHost.supports('externallinks')) {
             location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${location}</a>`;
         }
-        itemBirthLocation.classList.remove('hide');
+        itemBirthLocation.classList.remove('hidden');
         itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', location);
     } else {
-        itemBirthLocation.classList.add('hide');
+        itemBirthLocation.classList.add('hidden');
     }
 
     setPeopleHeader(page, item);
@@ -746,10 +746,10 @@ function renderLogo(page, item, apiClient) {
     const url = logoImageUrl(item, apiClient, {});
 
     if (url) {
-        detailLogo.classList.remove('hide');
+        detailLogo.classList.remove('hidden');
         imageLoader.setLazyImage(detailLogo, url);
     } else {
-        detailLogo.classList.add('hide');
+        detailLogo.classList.add('hidden');
     }
 }
 
@@ -764,10 +764,10 @@ function showRecordingFields(instance, page, item, user) {
                     programId: item.Id,
                     serverId: item.ServerId
                 });
-                recordingFieldsElement.classList.remove('hide');
+                recordingFieldsElement.classList.remove('hidden');
             });
         } else {
-            recordingFieldsElement.classList.add('hide');
+            recordingFieldsElement.classList.add('hidden');
             recordingFieldsElement.innerHTML = '';
         }
     }
@@ -796,9 +796,9 @@ function renderLinks(page, item) {
     externalLinksElem.innerHTML = html.join(', ');
 
     if (html.length) {
-        externalLinksElem.classList.remove('hide');
+        externalLinksElem.classList.remove('hidden');
     } else {
-        externalLinksElem.classList.add('hide');
+        externalLinksElem.classList.add('hidden');
     }
 }
 
@@ -856,7 +856,7 @@ function renderNextUp(page, item, user) {
     const section = page.querySelector('.nextUpSection');
 
     if (item.Type != 'Series') {
-        return void section.classList.add('hide');
+        return void section.classList.add('hidden');
     }
 
     ServerConnections.getApiClient(item.ServerId).getNextUpEpisodes({
@@ -864,9 +864,9 @@ function renderNextUp(page, item, user) {
         UserId: user.Id
     }).then(function (result) {
         if (result.Items.length) {
-            section.classList.remove('hide');
+            section.classList.remove('hidden');
         } else {
-            section.classList.add('hide');
+            section.classList.add('hidden');
         }
 
         const html = cardBuilder.getCardsHtml({
@@ -888,50 +888,50 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
     page.querySelector('.collectionItems').innerHTML = '';
 
     if (item.Type == 'Playlist') {
-        page.querySelector('#childrenCollapsible').classList.remove('hide');
+        page.querySelector('#childrenCollapsible').classList.remove('hidden');
         renderPlaylistItems(page, item);
     } else if (item.Type == 'Studio' || item.Type == 'Person' || item.Type == 'Genre' || item.Type == 'MusicGenre' || item.Type == 'MusicArtist') {
-        page.querySelector('#childrenCollapsible').classList.remove('hide');
+        page.querySelector('#childrenCollapsible').classList.remove('hidden');
         renderItemsByName(page, item);
     } else if (item.IsFolder) {
         if (item.Type == 'BoxSet') {
-            page.querySelector('#childrenCollapsible').classList.add('hide');
+            page.querySelector('#childrenCollapsible').classList.add('hidden');
         }
 
         renderChildren(page, item);
     } else {
-        page.querySelector('#childrenCollapsible').classList.add('hide');
+        page.querySelector('#childrenCollapsible').classList.add('hidden');
     }
 
     if (item.Type == 'Series') {
         renderSeriesSchedule(page, item);
         renderNextUp(page, item, user);
     } else {
-        page.querySelector('.nextUpSection').classList.add('hide');
+        page.querySelector('.nextUpSection').classList.add('hidden');
     }
 
     renderScenes(page, item);
 
     if (item.SpecialFeatureCount && item.SpecialFeatureCount != 0 && item.Type != 'Series') {
-        page.querySelector('#specialsCollapsible').classList.remove('hide');
+        page.querySelector('#specialsCollapsible').classList.remove('hidden');
         renderSpecials(page, item, user);
     } else {
-        page.querySelector('#specialsCollapsible').classList.add('hide');
+        page.querySelector('#specialsCollapsible').classList.add('hidden');
     }
 
     renderCast(page, item);
 
     if (item.PartCount && item.PartCount > 1) {
-        page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
+        page.querySelector('#additionalPartsCollapsible').classList.remove('hidden');
         renderAdditionalParts(page, item, user);
     } else {
-        page.querySelector('#additionalPartsCollapsible').classList.add('hide');
+        page.querySelector('#additionalPartsCollapsible').classList.add('hidden');
     }
 
     if (item.Type == 'MusicAlbum') {
         renderMusicVideos(page, item, user);
     } else {
-        page.querySelector('#musicVideosCollapsible').classList.add('hide');
+        page.querySelector('#musicVideosCollapsible').classList.add('hidden');
     }
 }
 
@@ -954,7 +954,7 @@ function renderOverview(page, item) {
 
         if (overview) {
             overviewElemnt.innerHTML = overview;
-            overviewElemnt.classList.remove('hide');
+            overviewElemnt.classList.remove('hidden');
             overviewElemnt.classList.add('detail-clamp-text');
 
             // Grab the sibling element to control the expand state
@@ -963,9 +963,9 @@ function renderOverview(page, item) {
             // Detect if we have overflow of text. Based on this StackOverflow answer
             // https://stackoverflow.com/a/35157976
             if (Math.abs(overviewElemnt.scrollHeight - overviewElemnt.offsetHeight) > 2) {
-                expandButton.classList.remove('hide');
+                expandButton.classList.remove('hidden');
             } else {
-                expandButton.classList.add('hide');
+                expandButton.classList.add('hidden');
             }
 
             expandButton.addEventListener('click', toggleLineClamp.bind(null, overviewElemnt));
@@ -975,7 +975,7 @@ function renderOverview(page, item) {
             }
         } else {
             overviewElemnt.innerHTML = '';
-            overviewElemnt.classList.add('hide');
+            overviewElemnt.classList.add('hidden');
         }
     }
 }
@@ -1002,9 +1002,9 @@ function renderGenres(page, item, context = inferContext(item)) {
 
     const genresGroup = page.querySelector('.genresGroup');
     if (genres.length) {
-        genresGroup.classList.remove('hide');
+        genresGroup.classList.remove('hidden');
     } else {
-        genresGroup.classList.add('hide');
+        genresGroup.classList.add('hidden');
     }
 }
 
@@ -1031,9 +1031,9 @@ function renderWriter(page, item, context) {
 
     const writersGroup = page.querySelector('.writersGroup');
     if (writers.length) {
-        writersGroup.classList.remove('hide');
+        writersGroup.classList.remove('hidden');
     } else {
-        writersGroup.classList.add('hide');
+        writersGroup.classList.add('hidden');
     }
 }
 
@@ -1060,9 +1060,9 @@ function renderDirector(page, item, context) {
 
     const directorsGroup = page.querySelector('.directorsGroup');
     if (directors.length) {
-        directorsGroup.classList.remove('hide');
+        directorsGroup.classList.remove('hidden');
     } else {
-        directorsGroup.classList.add('hide');
+        directorsGroup.classList.add('hidden');
     }
 }
 
@@ -1077,9 +1077,9 @@ function renderMiscInfo(page, item) {
         });
 
         if (miscInfo.innerHTML && item.Type !== 'SeriesTimer') {
-            miscInfo.classList.remove('hide');
+            miscInfo.classList.remove('hidden');
         } else {
-            miscInfo.classList.add('hide');
+            miscInfo.classList.add('hidden');
         }
     }
 
@@ -1091,9 +1091,9 @@ function renderMiscInfo(page, item) {
         });
 
         if (miscInfo.innerHTML && item.Type !== 'SeriesTimer') {
-            miscInfo.classList.remove('hide');
+            miscInfo.classList.remove('hidden');
         } else {
-            miscInfo.classList.add('hide');
+            miscInfo.classList.add('hidden');
         }
     }
 }
@@ -1102,10 +1102,10 @@ function renderTagline(page, item) {
     const taglineElement = page.querySelector('.tagline');
 
     if (item.Taglines && item.Taglines.length) {
-        taglineElement.classList.remove('hide');
+        taglineElement.classList.remove('hidden');
         taglineElement.innerHTML = item.Taglines[0];
     } else {
-        taglineElement.classList.add('hide');
+        taglineElement.classList.add('hidden');
     }
 }
 
@@ -1156,7 +1156,7 @@ function renderMoreFromSeason(view, item, apiClient) {
 
     if (section) {
         if (item.Type !== 'Episode' || !item.SeasonId || !item.SeriesId) {
-            return void section.classList.add('hide');
+            return void section.classList.add('hidden');
         }
 
         const userId = apiClient.getCurrentUserId();
@@ -1166,10 +1166,10 @@ function renderMoreFromSeason(view, item, apiClient) {
             Fields: 'ItemCounts,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount'
         }).then(function (result) {
             if (result.Items.length < 2) {
-                return void section.classList.add('hide');
+                return void section.classList.add('hidden');
             }
 
-            section.classList.remove('hide');
+            section.classList.remove('hidden');
             section.querySelector('h2').innerHTML = globalize.translate('MoreFromValue', item.SeasonName);
             const itemsContainer = section.querySelector('.itemsContainer');
             cardBuilder.buildCards(result.Items, {
@@ -1201,10 +1201,10 @@ function renderMoreFromArtist(view, item, apiClient) {
     if (section) {
         if (item.Type === 'MusicArtist') {
             if (!apiClient.isMinServerVersion('3.4.1.19')) {
-                return void section.classList.add('hide');
+                return void section.classList.add('hidden');
             }
         } else if (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length) {
-            return void section.classList.add('hide');
+            return void section.classList.add('hidden');
         }
 
         const query = {
@@ -1225,10 +1225,10 @@ function renderMoreFromArtist(view, item, apiClient) {
 
         apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
             if (!result.Items.length) {
-                return void section.classList.add('hide');
+                return void section.classList.add('hidden');
             }
 
-            section.classList.remove('hide');
+            section.classList.remove('hidden');
 
             if (item.Type === 'MusicArtist') {
                 section.querySelector('h2').innerHTML = globalize.translate('HeaderAppearsOn');
@@ -1259,10 +1259,10 @@ function renderSimilarItems(page, item, context) {
 
     if (similarCollapsible) {
         if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist') {
-            return void similarCollapsible.classList.add('hide');
+            return void similarCollapsible.classList.add('hidden');
         }
 
-        similarCollapsible.classList.remove('hide');
+        similarCollapsible.classList.remove('hidden');
         const apiClient = ServerConnections.getApiClient(item.ServerId);
         const options = {
             userId: apiClient.getCurrentUserId(),
@@ -1276,10 +1276,10 @@ function renderSimilarItems(page, item, context) {
 
         apiClient.getSimilarItems(item.Id, options).then(function (result) {
             if (!result.Items.length) {
-                return void similarCollapsible.classList.add('hide');
+                return void similarCollapsible.classList.add('hidden');
             }
 
-            similarCollapsible.classList.remove('hide');
+            similarCollapsible.classList.remove('hidden');
             let html = '';
             html += cardBuilder.getCardsHtml({
                 items: result.Items,
@@ -1305,7 +1305,7 @@ function renderSimilarItems(page, item, context) {
 function renderSeriesAirTime(page, item, isStatic) {
     const seriesAirTime = page.querySelector('#seriesAirTime');
     if (item.Type != 'Series') {
-        seriesAirTime.classList.add('hide');
+        seriesAirTime.classList.add('hidden');
         return;
     }
     let html = '';
@@ -1337,9 +1337,9 @@ function renderSeriesAirTime(page, item, isStatic) {
     if (html) {
         html = (item.Status == 'Ended' ? 'Aired ' : 'Airs ') + html;
         seriesAirTime.innerHTML = html;
-        seriesAirTime.classList.remove('hide');
+        seriesAirTime.classList.remove('hidden');
     } else {
-        seriesAirTime.classList.add('hide');
+        seriesAirTime.classList.add('hidden');
     }
 }
 
@@ -1358,10 +1358,10 @@ function renderTags(page, item) {
 
     if (tagElements.length) {
         itemTags.innerHTML = globalize.translate('TagsValue', tagElements.join(', '));
-        itemTags.classList.remove('hide');
+        itemTags.classList.remove('hidden');
     } else {
         itemTags.innerHTML = '';
-        itemTags.classList.add('hide');
+        itemTags.classList.add('hidden');
     }
 }
 
@@ -1478,7 +1478,7 @@ function renderChildren(page, item) {
         }
 
         if (item.Type !== 'BoxSet') {
-            page.querySelector('#childrenCollapsible').classList.remove('hide');
+            page.querySelector('#childrenCollapsible').classList.remove('hidden');
         }
         if (scrollX) {
             childrenItemsContainer.classList.add('scrollX');
@@ -1531,10 +1531,10 @@ function renderChildren(page, item) {
     }
 
     if (item.Type == 'MusicAlbum' || item.Type == 'Season') {
-        page.querySelector('.childrenSectionHeader').classList.add('hide');
+        page.querySelector('.childrenSectionHeader').classList.add('hidden');
         page.querySelector('#childrenCollapsible').classList.add('verticalSection-extrabottompadding');
     } else {
-        page.querySelector('.childrenSectionHeader').classList.remove('hide');
+        page.querySelector('.childrenSectionHeader').classList.remove('hidden');
     }
 }
 
@@ -1608,7 +1608,7 @@ function renderProgramsForChannel(page, result) {
 
 function renderChannelGuide(page, apiClient, item) {
     if (item.Type === 'TvChannel') {
-        page.querySelector('.programGuideSection').classList.remove('hide');
+        page.querySelector('.programGuideSection').classList.remove('hidden');
         apiClient.getLiveTvPrograms({
             ChannelIds: item.Id,
             UserId: apiClient.getCurrentUserId(),
@@ -1638,9 +1638,9 @@ function renderSeriesSchedule(page, item) {
         LibrarySeriesId: item.Id
     }).then(function (result) {
         if (result.Items.length) {
-            page.querySelector('#seriesScheduleSection').classList.remove('hide');
+            page.querySelector('#seriesScheduleSection').classList.remove('hidden');
         } else {
-            page.querySelector('#seriesScheduleSection').classList.add('hide');
+            page.querySelector('#seriesScheduleSection').classList.add('hidden');
         }
 
         page.querySelector('#seriesScheduleList').innerHTML = listView.getListViewHtml({
@@ -1701,7 +1701,7 @@ function canPlaySomeItemInCollection(items) {
 }
 
 function renderCollectionItems(page, parentItem, types, items) {
-    page.querySelector('.collectionItems').classList.remove('hide');
+    page.querySelector('.collectionItems').classList.remove('hidden');
     page.querySelector('.collectionItems').innerHTML = '';
 
     for (const type of types) {
@@ -1794,12 +1794,12 @@ function renderMusicVideos(page, item, user) {
         AlbumIds: item.Id
     }).then(function (result) {
         if (result.Items.length) {
-            page.querySelector('#musicVideosCollapsible').classList.remove('hide');
+            page.querySelector('#musicVideosCollapsible').classList.remove('hidden');
             const musicVideosContent = page.querySelector('#musicVideosContent');
             musicVideosContent.innerHTML = getVideosHtml(result.Items);
             imageLoader.lazyChildren(musicVideosContent);
         } else {
-            page.querySelector('#musicVideosCollapsible').classList.add('hide');
+            page.querySelector('#musicVideosCollapsible').classList.add('hidden');
         }
     });
 }
@@ -1807,12 +1807,12 @@ function renderMusicVideos(page, item, user) {
 function renderAdditionalParts(page, item, user) {
     ServerConnections.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
         if (result.Items.length) {
-            page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
+            page.querySelector('#additionalPartsCollapsible').classList.remove('hidden');
             const additionalPartsContent = page.querySelector('#additionalPartsContent');
             additionalPartsContent.innerHTML = getVideosHtml(result.Items);
             imageLoader.lazyChildren(additionalPartsContent);
         } else {
-            page.querySelector('#additionalPartsCollapsible').classList.add('hide');
+            page.querySelector('#additionalPartsCollapsible').classList.add('hidden');
         }
     });
 }
@@ -1821,7 +1821,7 @@ function renderScenes(page, item) {
     let chapters = item.Chapters || [];
 
     if (chapters.length && !chapters[0].ImageTag && (chapters = []), chapters.length) {
-        page.querySelector('#scenesCollapsible').classList.remove('hide');
+        page.querySelector('#scenesCollapsible').classList.remove('hidden');
         const scenesContent = page.querySelector('#scenesContent');
 
         import('../../components/cardbuilder/chaptercardbuilder').then(({ default: chaptercardbuilder }) => {
@@ -1833,7 +1833,7 @@ function renderScenes(page, item) {
             });
         });
     } else {
-        page.querySelector('#scenesCollapsible').classList.add('hide');
+        page.querySelector('#scenesCollapsible').classList.add('hidden');
     }
 }
 
@@ -1863,10 +1863,10 @@ function renderCast(page, item) {
     });
 
     if (!people.length) {
-        return void page.querySelector('#castCollapsible').classList.add('hide');
+        return void page.querySelector('#castCollapsible').classList.add('hidden');
     }
 
-    page.querySelector('#castCollapsible').classList.remove('hide');
+    page.querySelector('#castCollapsible').classList.remove('hidden');
     const castContent = page.querySelector('#castContent');
 
     import('../../components/cardbuilder/peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
@@ -2065,10 +2065,10 @@ export default function (view, params) {
 
         const btnResume = view.querySelector('.mainDetailButtons .btnResume');
         const btnPlay = view.querySelector('.mainDetailButtons .btnPlay');
-        if (layoutManager.tv && !btnResume.classList.contains('hide')) {
+        if (layoutManager.tv && !btnResume.classList.contains('hidden')) {
             btnResume.classList.add('fab');
             btnResume.classList.add('detailFloatingButton');
-        } else if (layoutManager.tv && btnResume.classList.contains('hide')) {
+        } else if (layoutManager.tv && btnResume.classList.contains('hidden')) {
             btnPlay.classList.add('fab');
             btnPlay.classList.add('detailFloatingButton');
         }

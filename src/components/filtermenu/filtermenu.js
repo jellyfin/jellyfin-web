@@ -23,9 +23,9 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
     const elem = context.querySelector(selector);
 
     if (items.length) {
-        elem.classList.remove('hide');
+        elem.classList.remove('hidden');
     } else {
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
     }
 
     let html = '';
@@ -181,16 +181,16 @@ function initEditor(context, settings) {
         elems[i].checked = seriesStatuses.indexOf(elems[i].getAttribute('data-filter')) !== -1;
     }
 
-    if (context.querySelector('.basicFilterSection .viewSetting:not(.hide)')) {
-        context.querySelector('.basicFilterSection').classList.remove('hide');
+    if (context.querySelector('.basicFilterSection .viewSetting:not(.hidden)')) {
+        context.querySelector('.basicFilterSection').classList.remove('hidden');
     } else {
-        context.querySelector('.basicFilterSection').classList.add('hide');
+        context.querySelector('.basicFilterSection').classList.add('hidden');
     }
 
-    if (context.querySelector('.featureSection .viewSetting:not(.hide)')) {
-        context.querySelector('.featureSection').classList.remove('hide');
+    if (context.querySelector('.featureSection .viewSetting:not(.hidden)')) {
+        context.querySelector('.featureSection').classList.remove('hidden');
     } else {
-        context.querySelector('.featureSection').classList.add('hide');
+        context.querySelector('.featureSection').classList.add('hidden');
     }
 }
 function loadDynamicFilters(context, options) {
@@ -239,9 +239,9 @@ class FilterMenu {
             const settingElements = dlg.querySelectorAll('.viewSetting');
             for (let i = 0, length = settingElements.length; i < length; i++) {
                 if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
-                    settingElements[i].classList.add('hide');
+                    settingElements[i].classList.add('hidden');
                 } else {
-                    settingElements[i].classList.remove('hide');
+                    settingElements[i].classList.remove('hidden');
                 }
             }
 

@@ -164,14 +164,14 @@ function embed(itemId, serverId, options) {
 
     const dlg = options.context;
 
-    dlg.classList.add('hide');
+    dlg.classList.add('hidden');
     dlg.innerHTML = globalize.translateHtml(template, 'core');
 
-    dlg.querySelector('.formDialogHeader').classList.add('hide');
-    dlg.querySelector('.formDialogFooter').classList.add('hide');
+    dlg.querySelector('.formDialogHeader').classList.add('hidden');
+    dlg.querySelector('.formDialogFooter').classList.add('hidden');
     dlg.querySelector('.formDialogContent').className = '';
     dlg.querySelector('.dialogContentInner').className = '';
-    dlg.classList.remove('hide');
+    dlg.classList.remove('hidden');
 
     dlg.removeEventListener('change', onFieldChange);
     dlg.addEventListener('change', onFieldChange);
@@ -218,7 +218,7 @@ function showEditor(itemId, serverId, options) {
         dlg.innerHTML = html;
 
         if (options.enableCancel === false) {
-            dlg.querySelector('.formDialogFooter').classList.add('hide');
+            dlg.querySelector('.formDialogFooter').classList.add('hidden');
         }
 
         currentDialog = dlg;

@@ -71,12 +71,12 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
 
         if (imgUrl) {
             imageContainer.innerHTML = '<img src="./empty.png" data-src="' + imgUrl + '" class="recordingDialog-img lazy" />';
-            imageContainer.classList.remove('hide');
+            imageContainer.classList.remove('hidden');
 
             imageLoader.lazyChildren(imageContainer);
         } else {
             imageContainer.innerHTML = '';
-            imageContainer.classList.add('hide');
+            imageContainer.classList.add('hidden');
         }
 
         context.querySelector('.recordingDialog-itemName').innerHTML = program.Name;
@@ -87,9 +87,9 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
         const formDialogFooter = context.querySelector('.formDialogFooter');
         const now = new Date();
         if (now >= datetime.parseISO8601Date(program.StartDate, true) && now < datetime.parseISO8601Date(program.EndDate, true)) {
-            formDialogFooter.classList.remove('hide');
+            formDialogFooter.classList.remove('hidden');
         } else {
-            formDialogFooter.classList.add('hide');
+            formDialogFooter.classList.add('hidden');
         }
 
         context.querySelector('.itemMiscInfoPrimary').innerHTML = mediaInfo.getPrimaryMediaInfoHtml(program);

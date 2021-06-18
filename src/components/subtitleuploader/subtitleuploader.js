@@ -38,8 +38,8 @@ function setFiles(page, files) {
 
     if (!isValidSubtitleFile(file)) {
         page.querySelector('#subtitleOutput').innerHTML = '';
-        page.querySelector('#fldUpload').classList.add('hide');
-        page.querySelector('#labelDropSubtitle').classList.remove('hide');
+        page.querySelector('#fldUpload').classList.add('hidden');
+        page.querySelector('#labelDropSubtitle').classList.remove('hidden');
         currentFile = null;
         return;
     }
@@ -50,7 +50,7 @@ function setFiles(page, files) {
 
     reader.onerror = onFileReaderError;
     reader.onloadstart = function () {
-        page.querySelector('#fldUpload').classList.add('hide');
+        page.querySelector('#fldUpload').classList.add('hidden');
     };
     reader.onabort = function () {
         loading.hide();
@@ -64,8 +64,8 @@ function setFiles(page, files) {
             const html = '<a><i class="material-icons" style="transform: translateY(25%);">subtitles</i><span>' + escape(theFile.name) + '</span><a/>';
 
             page.querySelector('#subtitleOutput').innerHTML = html;
-            page.querySelector('#fldUpload').classList.remove('hide');
-            page.querySelector('#labelDropSubtitle').classList.add('hide');
+            page.querySelector('#fldUpload').classList.remove('hidden');
+            page.querySelector('#labelDropSubtitle').classList.add('hidden');
         };
     })(file);
 

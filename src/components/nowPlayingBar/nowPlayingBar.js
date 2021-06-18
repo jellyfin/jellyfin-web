@@ -44,7 +44,7 @@ import { appRouter } from '../appRouter';
     function getNowPlayingBarHtml() {
         let html = '';
 
-        html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
+        html += '<div class="nowPlayingBar hidden nowPlayingBar-hidden">';
 
         html += '<div class="nowPlayingBarTop">';
         html += '<div class="nowPlayingBarPositionContainer sliderContainer">';
@@ -75,7 +75,7 @@ import { appRouter } from '../appRouter';
 
         html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><span class="material-icons volume_up"></span></button>';
 
-        html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
+        html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hidden" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
@@ -101,7 +101,7 @@ import { appRouter } from '../appRouter';
     }
 
     function onSlideDownComplete() {
-        this.classList.add('hide');
+        this.classList.add('hidden');
     }
 
     function slideDown(elem) {
@@ -120,7 +120,7 @@ import { appRouter } from '../appRouter';
             once: true
         });
 
-        elem.classList.remove('hide');
+        elem.classList.remove('hidden');
 
         // trigger reflow
         void elem.offsetWidth;
@@ -211,7 +211,7 @@ import { appRouter } from '../appRouter';
 
         toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
-        volumeSliderContainer.classList.toggle('hide', appHost.supports('physicalvolumecontrol'));
+        volumeSliderContainer.classList.toggle('hidden', appHost.supports('physicalvolumecontrol'));
 
         volumeSlider.addEventListener('input', (e) => {
             if (currentPlayer) {
@@ -288,11 +288,11 @@ import { appRouter } from '../appRouter';
     }
 
     function showButton(button) {
-        button.classList.remove('hide');
+        button.classList.remove('hidden');
     }
 
     function hideButton(button) {
-        button.classList.add('hide');
+        button.classList.add('hidden');
     }
 
     function updatePlayPauseState(isPaused) {
@@ -320,9 +320,9 @@ import { appRouter } from '../appRouter';
         currentPlayerSupportedCommands = supportedCommands;
 
         if (supportedCommands.indexOf('SetRepeatMode') === -1) {
-            toggleRepeatButton.classList.add('hide');
+            toggleRepeatButton.classList.add('hidden');
         } else {
-            toggleRepeatButton.classList.remove('hide');
+            toggleRepeatButton.classList.remove('hidden');
         }
 
         updateRepeatModeDisplay(playbackManager.getRepeatMode());
@@ -423,7 +423,7 @@ import { appRouter } from '../appRouter';
 
         // See bindEvents for why this is necessary
         if (volumeSlider) {
-            volumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
+            volumeSliderContainer.classList.toggle('hidden', !showVolumeSlider);
 
             if (!volumeSlider.dragging) {
                 volumeSlider.value = volumeLevel || 0;

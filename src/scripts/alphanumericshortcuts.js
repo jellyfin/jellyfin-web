@@ -38,7 +38,7 @@ function ensureInputDisplayElement() {
     if (!inputDisplayElement) {
         inputDisplayElement = document.createElement('div');
         inputDisplayElement.classList.add('alphanumeric-shortcut');
-        inputDisplayElement.classList.add('hide');
+        inputDisplayElement.classList.add('hidden');
 
         document.body.appendChild(inputDisplayElement);
     }
@@ -63,7 +63,7 @@ function onAlphanumericKeyPress(e, chr) {
     ensureInputDisplayElement();
     currentDisplayText += chr;
     inputDisplayElement.innerHTML = currentDisplayText;
-    inputDisplayElement.classList.remove('hide');
+    inputDisplayElement.classList.remove('hidden');
     resetAlphaNumericShortcutTimeout();
 }
 
@@ -74,7 +74,7 @@ function onAlphanumericShortcutTimeout() {
     currentDisplayText = '';
     currentDisplayTextContainer = null;
     inputDisplayElement.innerHTML = '';
-    inputDisplayElement.classList.add('hide');
+    inputDisplayElement.classList.add('hidden');
     clearAlphaNumericShortcutTimeout();
     selectByShortcutValue(container, value);
 }

@@ -75,9 +75,9 @@ import template from './mediaLibraryCreator.template.html';
             libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value == 'mixed' ? '' : value);
 
             if (value) {
-                dlg.querySelector('.libraryOptions').classList.remove('hide');
+                dlg.querySelector('.libraryOptions').classList.remove('hidden');
             } else {
-                dlg.querySelector('.libraryOptions').classList.add('hide');
+                dlg.querySelector('.libraryOptions').classList.add('hidden');
             }
 
             if (value != 'mixed') {
@@ -138,9 +138,9 @@ import template from './mediaLibraryCreator.template.html';
         folderList.innerHTML = foldersHtml;
 
         if (foldersHtml) {
-            folderList.classList.remove('hide');
+            folderList.classList.remove('hidden');
         } else {
-            folderList.classList.add('hide');
+            folderList.classList.add('hidden');
         }
     }
 

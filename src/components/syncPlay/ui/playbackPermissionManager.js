@@ -5,7 +5,7 @@
 function createTestMediaElement () {
     const elem = document.createElement('audio');
     elem.classList.add('testMediaPlayerAudio');
-    elem.classList.add('hide');
+    elem.classList.add('hidden');
 
     document.body.appendChild(elem);
 

@@ -189,9 +189,9 @@ function updateNowPlayingInfo(context, state, serverId) {
         }
 
         if (displayName.length > 0 && item.Type != 'Audio' && item.Type != 'Episode') {
-            context.querySelector('.nowPlayingPageTitle').classList.remove('hide');
+            context.querySelector('.nowPlayingPageTitle').classList.remove('hidden');
         } else {
-            context.querySelector('.nowPlayingPageTitle').classList.add('hide');
+            context.querySelector('.nowPlayingPageTitle').classList.add('hidden');
         }
 
         const url = seriesImageUrl(item, {
@@ -262,9 +262,9 @@ function setImageUrl(context, state, url) {
 
 function buttonVisible(btn, enabled) {
     if (enabled) {
-        btn.classList.remove('hide');
+        btn.classList.remove('hidden');
     } else {
-        btn.classList.add('hide');
+        btn.classList.add('hidden');
     }
 }
 
@@ -304,27 +304,27 @@ export default function () {
         updateSubtitleTracksDisplay(player, context);
 
         if (supportedCommands.includes('DisplayMessage') && !currentPlayer.isLocalPlayer) {
-            context.querySelector('.sendMessageSection').classList.remove('hide');
+            context.querySelector('.sendMessageSection').classList.remove('hidden');
         } else {
-            context.querySelector('.sendMessageSection').classList.add('hide');
+            context.querySelector('.sendMessageSection').classList.add('hidden');
         }
 
         if (supportedCommands.includes('SendString') && !currentPlayer.isLocalPlayer) {
-            context.querySelector('.sendTextSection').classList.remove('hide');
+            context.querySelector('.sendTextSection').classList.remove('hidden');
         } else {
-            context.querySelector('.sendTextSection').classList.add('hide');
+            context.querySelector('.sendTextSection').classList.add('hidden');
         }
 
         if (supportedCommands.includes('Select') && !currentPlayer.isLocalPlayer) {
-            context.querySelector('.navigationSection').classList.remove('hide');
+            context.querySelector('.navigationSection').classList.remove('hidden');
         } else {
-            context.querySelector('.navigationSection').classList.add('hide');
+            context.querySelector('.navigationSection').classList.add('hidden');
         }
 
         if (isSupportedCommands && !currentPlayer.isLocalPlayer) {
-            context.querySelector('.remoteControlSection').classList.remove('hide');
+            context.querySelector('.remoteControlSection').classList.remove('hidden');
         } else {
-            context.querySelector('.remoteControlSection').classList.add('hide');
+            context.querySelector('.remoteControlSection').classList.add('hidden');
         }
 
         buttonVisible(context.querySelector('.btnStop'), item != null);
@@ -437,15 +437,15 @@ export default function () {
         }
 
         if (!showMuteButton && !showVolumeSlider) {
-            context.querySelector('.volumecontrol').classList.add('hide');
+            context.querySelector('.volumecontrol').classList.add('hidden');
         } else {
-            buttonMute.classList.toggle('hide', !showMuteButton);
+            buttonMute.classList.toggle('hidden', !showMuteButton);
 
             const nowPlayingVolumeSlider = context.querySelector('.nowPlayingVolumeSlider');
             const nowPlayingVolumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
 
             if (nowPlayingVolumeSlider) {
-                nowPlayingVolumeSliderContainer.classList.toggle('hide', !showVolumeSlider);
+                nowPlayingVolumeSliderContainer.classList.toggle('hidden', !showVolumeSlider);
 
                 if (!nowPlayingVolumeSlider.dragging) {
                     nowPlayingVolumeSlider.value = volumeLevel || 0;
@@ -493,9 +493,9 @@ export default function () {
             let favoritesEnabled = true;
             if (layoutManager.mobile) {
                 if (items.length > 0) {
-                    context.querySelector('.btnTogglePlaylist').classList.remove('hide');
+                    context.querySelector('.btnTogglePlaylist').classList.remove('hidden');
                 } else {
-                    context.querySelector('.btnTogglePlaylist').classList.add('hide');
+                    context.querySelector('.btnTogglePlaylist').classList.add('hidden');
                 }
                 favoritesEnabled = false;
             }
@@ -830,18 +830,18 @@ export default function () {
         });
         context.querySelector('.btnSavePlaylist').addEventListener('click', savePlaylist);
         context.querySelector('.btnTogglePlaylist').addEventListener('click', function () {
-            if (context.querySelector('.playlist').classList.contains('hide')) {
-                context.querySelector('.playlist').classList.remove('hide');
-                context.querySelector('.btnSavePlaylist').classList.remove('hide');
-                context.querySelector('.volumecontrol').classList.add('hide');
+            if (context.querySelector('.playlist').classList.contains('hidden')) {
+                context.querySelector('.playlist').classList.remove('hidden');
+                context.querySelector('.btnSavePlaylist').classList.remove('hidden');
+                context.querySelector('.volumecontrol').classList.add('hidden');
                 if (layoutManager.mobile) {
                     context.querySelector('.playlistSectionButton').classList.remove('playlistSectionButtonTransparent');
                 }
             } else {
-                context.querySelector('.playlist').classList.add('hide');
-                context.querySelector('.btnSavePlaylist').classList.add('hide');
+                context.querySelector('.playlist').classList.add('hidden');
+                context.querySelector('.btnSavePlaylist').classList.add('hidden');
                 if (showMuteButton || showVolumeSlider) {
-                    context.querySelector('.volumecontrol').classList.remove('hide');
+                    context.querySelector('.volumecontrol').classList.remove('hidden');
                 }
                 if (layoutManager.mobile) {
                     context.querySelector('.playlistSectionButton').classList.add('playlistSectionButtonTransparent');
@@ -899,13 +899,13 @@ export default function () {
             context.querySelector('.nowPlayingSecondaryButtons').insertAdjacentHTML('beforeend', volumecontrolHtml);
             optionsSection.classList.remove('items-center', 'justify-center');
             optionsSection.classList.add('align-items-right', 'justify-end');
-            context.querySelector('.playlist').classList.remove('hide');
-            context.querySelector('.btnSavePlaylist').classList.remove('hide');
+            context.querySelector('.playlist').classList.remove('hidden');
+            context.querySelector('.btnSavePlaylist').classList.remove('hidden');
             context.classList.add('padded-bottom');
         } else {
             optionsSection.querySelector('.btnTogglePlaylist').insertAdjacentHTML('afterend', volumecontrolHtml);
             optionsSection.classList.add('playlistSectionButtonTransparent');
-            context.querySelector('.btnTogglePlaylist').classList.remove('hide');
+            context.querySelector('.btnTogglePlaylist').classList.remove('hidden');
             context.querySelector('.playlistSectionButton').classList.remove('justify-center');
             context.querySelector('.playlistSectionButton').classList.add('justify-between');
         }

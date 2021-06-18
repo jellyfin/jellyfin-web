@@ -172,11 +172,11 @@ import confirm from '../../components/confirm/confirm';
             const itemsContainer = view.querySelector('.activeRecordingItems');
 
             if (!result.Items.length) {
-                view.querySelector('.activeRecordingsSection').classList.add('hide');
+                view.querySelector('.activeRecordingsSection').classList.add('hidden');
                 return void(itemsContainer.innerHTML = '');
             }
 
-            view.querySelector('.activeRecordingsSection').classList.remove('hide');
+            view.querySelector('.activeRecordingsSection').classList.remove('hidden');
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 shape: 'auto',
@@ -204,9 +204,9 @@ import confirm from '../../components/confirm/confirm';
             view.querySelector('#architecture').innerHTML = globalize.translate('DashboardArchitecture', systemInfo.SystemArchitecture);
 
             if (systemInfo.CanSelfRestart) {
-                view.querySelector('#btnRestartServer').classList.remove('hide');
+                view.querySelector('#btnRestartServer').classList.remove('hidden');
             } else {
-                view.querySelector('#btnRestartServer').classList.add('hide');
+                view.querySelector('#btnRestartServer').classList.add('hidden');
             }
 
             view.querySelector('#cachePath').innerHTML = systemInfo.CachePath;
@@ -311,14 +311,14 @@ import confirm from '../../components/confirm/confirm';
                 html += '<div class="sessionCardFooter cardFooter">';
                 html += '<div class="sessionCardButtons flex items-center justify-center">';
 
-                let btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hide';
+                let btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hidden';
                 const playIcon = session.PlayState.IsPaused ? 'pause' : 'play_arrow';
 
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><span class="material-icons ' + playIcon + '"></span></button>';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><span class="material-icons stop"></span></button>';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('ViewPlaybackInfo') + '"><span class="material-icons info"></span></button>';
 
-                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== ServerConnections.deviceId() ? '' : ' hide';
+                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== ServerConnections.deviceId() ? '' : ' hidden';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('SendMessage') + '"><span class="material-icons message"></span></button>';
                 html += '</div>';
 
@@ -355,9 +355,9 @@ import confirm from '../../components/confirm/confirm';
         });
 
         if (tasks.length) {
-            view.querySelector('.runningTasksContainer').classList.remove('hide');
+            view.querySelector('.runningTasksContainer').classList.remove('hidden');
         } else {
-            view.querySelector('.runningTasksContainer').classList.add('hide');
+            view.querySelector('.runningTasksContainer').classList.add('hidden');
         }
 
         for (let i = 0, length = tasks.length; i < length; i++) {
@@ -548,26 +548,26 @@ import confirm from '../../components/confirm/confirm';
 
             if (nowPlayingItem) {
                 row.classList.add('playingSession');
-                row.querySelector('.btnSessionInfo').classList.remove('hide');
+                row.querySelector('.btnSessionInfo').classList.remove('hidden');
             } else {
                 row.classList.remove('playingSession');
-                row.querySelector('.btnSessionInfo').classList.add('hide');
+                row.querySelector('.btnSessionInfo').classList.add('hidden');
             }
 
             if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1) {
-                row.querySelector('.btnSessionSendMessage').classList.remove('hide');
+                row.querySelector('.btnSessionSendMessage').classList.remove('hidden');
             } else {
-                row.querySelector('.btnSessionSendMessage').classList.add('hide');
+                row.querySelector('.btnSessionSendMessage').classList.add('hidden');
             }
 
             const btnSessionPlayPause = row.querySelector('.btnSessionPlayPause');
 
             if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl) {
-                btnSessionPlayPause.classList.remove('hide');
-                row.querySelector('.btnSessionStop').classList.remove('hide');
+                btnSessionPlayPause.classList.remove('hidden');
+                row.querySelector('.btnSessionStop').classList.remove('hidden');
             } else {
-                btnSessionPlayPause.classList.add('hide');
-                row.querySelector('.btnSessionStop').classList.add('hide');
+                btnSessionPlayPause.classList.add('hidden');
+                row.querySelector('.btnSessionStop').classList.add('hidden');
             }
 
             const btnSessionPlayPauseIcon = btnSessionPlayPause.querySelector('.material-icons');

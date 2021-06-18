@@ -95,19 +95,19 @@ import template from './playbackSettings.template.html';
 
     function showHideQualityFields(context, user, apiClient) {
         if (user.Policy.EnableVideoPlaybackTranscoding) {
-            context.querySelector('.videoQualitySection').classList.remove('hide');
+            context.querySelector('.videoQualitySection').classList.remove('hidden');
         } else {
-            context.querySelector('.videoQualitySection').classList.add('hide');
+            context.querySelector('.videoQualitySection').classList.add('hidden');
         }
 
         if (appHost.supports('multiserver')) {
-            context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
-            context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
+            context.querySelector('.fldVideoInNetworkQuality').classList.remove('hidden');
+            context.querySelector('.fldVideoInternetQuality').classList.remove('hidden');
 
             if (user.Policy.EnableAudioPlaybackTranscoding) {
-                context.querySelector('.musicQualitySection').classList.remove('hide');
+                context.querySelector('.musicQualitySection').classList.remove('hidden');
             } else {
-                context.querySelector('.musicQualitySection').classList.add('hide');
+                context.querySelector('.musicQualitySection').classList.add('hidden');
             }
 
             return;
@@ -115,19 +115,19 @@ import template from './playbackSettings.template.html';
 
         apiClient.getEndpointInfo().then(endpointInfo => {
             if (endpointInfo.IsInNetwork) {
-                context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
+                context.querySelector('.fldVideoInNetworkQuality').classList.remove('hidden');
 
-                context.querySelector('.fldVideoInternetQuality').classList.add('hide');
-                context.querySelector('.musicQualitySection').classList.add('hide');
+                context.querySelector('.fldVideoInternetQuality').classList.add('hidden');
+                context.querySelector('.musicQualitySection').classList.add('hidden');
             } else {
-                context.querySelector('.fldVideoInNetworkQuality').classList.add('hide');
+                context.querySelector('.fldVideoInNetworkQuality').classList.add('hidden');
 
-                context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
+                context.querySelector('.fldVideoInternetQuality').classList.remove('hidden');
 
                 if (user.Policy.EnableAudioPlaybackTranscoding) {
-                    context.querySelector('.musicQualitySection').classList.remove('hide');
+                    context.querySelector('.musicQualitySection').classList.remove('hidden');
                 } else {
-                    context.querySelector('.musicQualitySection').classList.add('hide');
+                    context.querySelector('.musicQualitySection').classList.add('hidden');
                 }
             }
         });
@@ -135,11 +135,11 @@ import template from './playbackSettings.template.html';
 
     function showOrHideEpisodesField(context) {
         if (browser.tizen || browser.web0s) {
-            context.querySelector('.fldEpisodeAutoPlay').classList.add('hide');
+            context.querySelector('.fldEpisodeAutoPlay').classList.add('hidden');
             return;
         }
 
-        context.querySelector('.fldEpisodeAutoPlay').classList.remove('hide');
+        context.querySelector('.fldEpisodeAutoPlay').classList.remove('hidden');
     }
 
     function loadForm(context, user, userSettings, apiClient) {
@@ -160,35 +160,35 @@ import template from './playbackSettings.template.html';
         // hide cinema mode options if disabled at server level
         apiClient.getNamedConfiguration('cinemamode').then(cinemaConfig => {
             if (cinemaConfig.EnableIntrosForMovies || cinemaConfig.EnableIntrosForEpisodes) {
-                context.querySelector('.cinemaModeOptions').classList.remove('hide');
+                context.querySelector('.cinemaModeOptions').classList.remove('hidden');
             } else {
-                context.querySelector('.cinemaModeOptions').classList.add('hide');
+                context.querySelector('.cinemaModeOptions').classList.add('hidden');
             }
         });
 
         if (appHost.supports('externalplayerintent') && userId === loggedInUserId) {
-            context.querySelector('.fldExternalPlayer').classList.remove('hide');
+            context.querySelector('.fldExternalPlayer').classList.remove('hidden');
         } else {
-            context.querySelector('.fldExternalPlayer').classList.add('hide');
+            context.querySelector('.fldExternalPlayer').classList.add('hidden');
         }
 
         if (userId === loggedInUserId && (user.Policy.EnableVideoPlaybackTranscoding || user.Policy.EnableAudioPlaybackTranscoding)) {
-            context.querySelector('.qualitySections').classList.remove('hide');
+            context.querySelector('.qualitySections').classList.remove('hidden');
 
             if (appHost.supports('chromecast') && user.Policy.EnableVideoPlaybackTranscoding) {
-                context.querySelector('.fldChromecastQuality').classList.remove('hide');
+                context.querySelector('.fldChromecastQuality').classList.remove('hidden');
             } else {
-                context.querySelector('.fldChromecastQuality').classList.add('hide');
+                context.querySelector('.fldChromecastQuality').classList.add('hidden');
             }
         } else {
-            context.querySelector('.qualitySections').classList.add('hide');
-            context.querySelector('.fldChromecastQuality').classList.add('hide');
+            context.querySelector('.qualitySections').classList.add('hidden');
+            context.querySelector('.fldChromecastQuality').classList.add('hidden');
         }
 
         if (browser.tizen || browser.web0s) {
-            context.querySelector('.fldEnableNextVideoOverlay').classList.add('hide');
+            context.querySelector('.fldEnableNextVideoOverlay').classList.add('hidden');
         } else {
-            context.querySelector('.fldEnableNextVideoOverlay').classList.remove('hide');
+            context.querySelector('.fldEnableNextVideoOverlay').classList.remove('hidden');
         }
 
         context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
@@ -284,7 +284,7 @@ import template from './playbackSettings.template.html';
         options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
 
         if (options.enableSaveButton) {
-            options.element.querySelector('.btnSave').classList.remove('hide');
+            options.element.querySelector('.btnSave').classList.remove('hidden');
         }
 
         self.loadData();

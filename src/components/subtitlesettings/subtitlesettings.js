@@ -39,7 +39,7 @@ function getSubtitleAppearanceObject(context) {
 function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
     apiClient.getCultures().then(function (allCultures) {
         if (appHost.supports('subtitleburnsettings') && user.Policy.EnableVideoPlaybackTranscoding) {
-            context.querySelector('.fldBurnIn').classList.remove('hide');
+            context.querySelector('.fldBurnIn').classList.remove('hidden');
         }
 
         const selectSubtitleLanguage = context.querySelector('#selectSubtitleLanguage');
@@ -104,9 +104,9 @@ function onSubtitleModeChange(e) {
 
     const subtitlesHelp = view.querySelectorAll('.subtitlesHelp');
     for (let i = 0, length = subtitlesHelp.length; i < length; i++) {
-        subtitlesHelp[i].classList.add('hide');
+        subtitlesHelp[i].classList.add('hidden');
     }
-    view.querySelector('.subtitles' + this.value + 'Help').classList.remove('hide');
+    view.querySelector('.subtitles' + this.value + 'Help').classList.remove('hidden');
 }
 
 function onAppearanceFieldChange(e) {
@@ -171,11 +171,11 @@ function embed(options, self) {
     options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);
 
     if (options.enableSaveButton) {
-        options.element.querySelector('.btnSave').classList.remove('hide');
+        options.element.querySelector('.btnSave').classList.remove('hidden');
     }
 
     if (appHost.supports('subtitleappearancesettings')) {
-        options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
+        options.element.querySelector('.subtitleAppearanceSection').classList.remove('hidden');
 
         self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');
         self._refFullPreview = 0;

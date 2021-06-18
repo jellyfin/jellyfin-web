@@ -98,9 +98,9 @@ import Dashboard from '../../scripts/clientUtils';
             const elem = page.querySelector('#recentlyPlayed');
 
             if (result.Items.length) {
-                elem.classList.remove('hide');
+                elem.classList.remove('hidden');
             } else {
-                elem.classList.add('hide');
+                elem.classList.add('hidden');
             }
 
             const itemsContainer = elem.querySelector('.itemsContainer');
@@ -140,9 +140,9 @@ import Dashboard from '../../scripts/clientUtils';
             const elem = page.querySelector('#topPlayed');
 
             if (result.Items.length) {
-                elem.classList.remove('hide');
+                elem.classList.remove('hidden');
             } else {
-                elem.classList.add('hide');
+                elem.classList.add('hidden');
             }
 
             const itemsContainer = elem.querySelector('.itemsContainer');

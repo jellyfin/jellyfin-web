@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div data-role="popup" id="popupAddTrigger" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="popupAddTrigger" class="dialog dialog-fixedSize dialog-medium hidden" style="position: fixed; top: 10%;">
         <form class="addTriggerForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3>${ButtonAddScheduledTaskTrigger}</h3>
@@ -75,7 +75,7 @@
                     <button is="emby-button" type="submit" class="raised button-submit block" data-icon="check">
                         <span>${Add}</span>
                     </button>
-                    <button is="emby-button" type="button" class="raised button-cancel block" data-icon="delete" onclick="$(this).parents('.dialog').addClass('hide');">
+                    <button is="emby-button" type="button" class="raised button-cancel block" data-icon="delete" onclick="$(this).parents('.dialog').addClass('hidden');">
                         <span>${ButtonCancel}</span>
                     </button>
                 </div>

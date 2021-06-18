@@ -175,7 +175,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ serverId, parent
                 'searchResults',
                 'padded-bottom-page',
                 'padded-top',
-                { 'hide': !query || collectionType === 'livetv' }
+                { 'hidden': !query || collectionType === 'livetv' }
             )}
         >
             <SearchResultsRow

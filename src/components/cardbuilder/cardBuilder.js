@@ -1364,7 +1364,7 @@ import ServerConnections from '../ServerConnections';
                 }
 
                 if (item.Type === 'CollectionFolder' || item.CollectionType) {
-                    const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
+                    const refreshClass = item.RefreshProgress ? '' : ' class="hidden"';
                     indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
                     importRefreshIndicator();
                 }
@@ -1527,9 +1527,9 @@ import ServerConnections from '../ServerConnections';
 
             if (options.parentContainer) {
                 if (items.length) {
-                    options.parentContainer.classList.remove('hide');
+                    options.parentContainer.classList.remove('hidden');
                 } else {
-                    options.parentContainer.classList.add('hide');
+                    options.parentContainer.classList.add('hidden');
                     return;
                 }
             }

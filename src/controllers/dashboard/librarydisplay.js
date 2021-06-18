@@ -63,9 +63,9 @@ import Dashboard from '../../scripts/clientUtils';
             loadData();
             ApiClient.getSystemInfo().then(function(info) {
                 if (info.OperatingSystem === 'Windows') {
-                    view.querySelector('.fldSaveMetadataHidden').classList.remove('hide');
+                    view.querySelector('.fldSaveMetadataHidden').classList.remove('hidden');
                 } else {
-                    view.querySelector('.fldSaveMetadataHidden').classList.add('hide');
+                    view.querySelector('.fldSaveMetadataHidden').classList.add('hidden');
                 }
             });
         });

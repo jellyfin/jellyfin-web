@@ -141,7 +141,7 @@ const LiveTVSearchResults: FunctionComponent<LiveTVSearchResultsProps> = ({ serv
                 'searchResults',
                 'padded-bottom-page',
                 'padded-top',
-                { 'hide': !query || !(collectionType === 'livetv') }
+                { 'hidden': !query || !(collectionType === 'livetv') }
             )}
         >
             <SearchResultsRow

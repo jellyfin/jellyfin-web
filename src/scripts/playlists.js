@@ -137,9 +137,9 @@ export default function (view) {
                         overlayPlayButton: true
                     });
                 }
-                view.querySelector('.noItemsMessage').classList.add('hide');
+                view.querySelector('.noItemsMessage').classList.add('hidden');
             } else {
-                view.querySelector('.noItemsMessage').classList.remove('hide');
+                view.querySelector('.noItemsMessage').classList.remove('hidden');
             }
 
             const elem = view.querySelector('.itemsContainer');

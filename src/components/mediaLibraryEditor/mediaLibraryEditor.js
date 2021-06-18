@@ -148,9 +148,9 @@ import template from './mediaLibraryEditor.template.html';
         }
 
         if (options.library.CollectionType === 'boxsets') {
-            page.querySelector('.folders').classList.add('hide');
+            page.querySelector('.folders').classList.add('hidden');
         } else {
-            page.querySelector('.folders').classList.remove('hide');
+            page.querySelector('.folders').classList.remove('hidden');
         }
 
         page.querySelector('.folderList').innerHTML = pathInfos.map(getFolderHtml).join('');

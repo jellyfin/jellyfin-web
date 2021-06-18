@@ -65,9 +65,9 @@ import template from './personEditor.template.html';
 
             dlg.querySelector('.selectPersonType').addEventListener('change', function () {
                 if (this.value === 'Actor') {
-                    dlg.querySelector('.fldRole').classList.remove('hide');
+                    dlg.querySelector('.fldRole').classList.remove('hidden');
                 } else {
-                    dlg.querySelector('.fldRole').classList.add('hide');
+                    dlg.querySelector('.fldRole').classList.add('hidden');
                 }
             });
 

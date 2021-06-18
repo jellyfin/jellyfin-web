@@ -16,14 +16,14 @@
                 <option value="Always">${AlwaysPlaySubtitles}</option>
                 <option value="None">${None}</option>
             </select>
-            <div class="fieldDescription subtitlesDefaultHelp subtitlesHelp hide">${DefaultSubtitlesHelp}</div>
-            <div class="fieldDescription subtitlesSmartHelp subtitlesHelp hide">${SmartSubtitlesHelp}</div>
-            <div class="fieldDescription subtitlesAlwaysHelp subtitlesHelp hide">${AlwaysPlaySubtitlesHelp}</div>
-            <div class="fieldDescription subtitlesOnlyForcedHelp subtitlesHelp hide">${OnlyForcedSubtitlesHelp}</div>
-            <div class="fieldDescription subtitlesNoneHelp subtitlesHelp hide">${NoSubtitlesHelp}</div>
+            <div class="fieldDescription subtitlesDefaultHelp subtitlesHelp hidden">${DefaultSubtitlesHelp}</div>
+            <div class="fieldDescription subtitlesSmartHelp subtitlesHelp hidden">${SmartSubtitlesHelp}</div>
+            <div class="fieldDescription subtitlesAlwaysHelp subtitlesHelp hidden">${AlwaysPlaySubtitlesHelp}</div>
+            <div class="fieldDescription subtitlesOnlyForcedHelp subtitlesHelp hidden">${OnlyForcedSubtitlesHelp}</div>
+            <div class="fieldDescription subtitlesNoneHelp subtitlesHelp hidden">${NoSubtitlesHelp}</div>
         </div>
 
-        <div class="selectContainer fldBurnIn hide">
+        <div class="selectContainer fldBurnIn hidden">
             <select is="emby-select" id="selectSubtitleBurnIn" label="${LabelBurnSubtitles}">
                 <option value="">${Auto}</option>
                 <option value="onlyimageformats">${OnlyImageFormats}</option>
@@ -34,12 +34,12 @@
         </div>
     </div>
 
-    <div class="verticalSection subtitleAppearanceSection hide">
+    <div class="verticalSection subtitleAppearanceSection hidden">
         <h2 class="sectionTitle">
             ${HeaderSubtitleAppearance}
         </h2>
 
-        <div class="subtitleappearance-fullpreview subtitleappearance-fullpreview-hide">
+        <div class="subtitleappearance-fullpreview subtitleappearance-fullpreview-hidden">
             <div class="subtitleappearance-fullpreview-window">
                 <div class="subtitleappearance-fullpreview-text">
                     ${HeaderSubtitleAppearance}
@@ -83,11 +83,11 @@
             </select>
         </div>
 
-        <div class="inputContainer hide">
+        <div class="inputContainer hidden">
             <input is="emby-input" id="inputTextBackground" label="${LabelTextBackgroundColor}" type="text" />
         </div>
 
-        <div class="inputContainer hide">
+        <div class="inputContainer hidden">
             <input is="emby-input" id="inputTextColor" label="${LabelTextColor}" type="text" />
         </div>
 
@@ -116,7 +116,7 @@
         </div>
     </div>
 
-    <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
+    <button is="emby-button" type="submit" class="raised button-submit block btnSave hidden">
         <span>${Save}</span>
     </button>
 </form>

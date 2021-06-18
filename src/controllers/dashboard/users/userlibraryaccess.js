@@ -76,9 +76,9 @@ import toast from '../../../components/toast/toast';
         triggerChange(chkEnableAllDevices);
 
         if (user.Policy.IsAdministrator) {
-            page.querySelector('.deviceAccessContainer').classList.add('hide');
+            page.querySelector('.deviceAccessContainer').classList.add('hidden');
         } else {
-            page.querySelector('.deviceAccessContainer').classList.remove('hide');
+            page.querySelector('.deviceAccessContainer').classList.remove('hidden');
         }
     }
 
@@ -150,9 +150,9 @@ import toast from '../../../components/toast/toast';
         });
         page.querySelector('#chkEnableAllFolders').addEventListener('change', function () {
             if (this.checked) {
-                page.querySelector('.folderAccessListContainer').classList.add('hide');
+                page.querySelector('.folderAccessListContainer').classList.add('hidden');
             } else {
-                page.querySelector('.folderAccessListContainer').classList.remove('hide');
+                page.querySelector('.folderAccessListContainer').classList.remove('hidden');
             }
         });
         $('.userLibraryAccessForm').off('submit', onSubmit).on('submit', onSubmit);

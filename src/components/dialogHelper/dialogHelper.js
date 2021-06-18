@@ -124,7 +124,7 @@ import '../../assets/css/scrollstyles.scss';
             dlg.classList.add('centeredDialog');
         }
 
-        dlg.classList.remove('hide');
+        dlg.classList.remove('hidden');
 
         addBackdropOverlay(dlg);
 
@@ -207,7 +207,7 @@ import '../../assets/css/scrollstyles.scss';
 
     function isOpened(dlg) {
         //return dlg.opened;
-        return !dlg.classList.contains('hide');
+        return !dlg.classList.contains('hidden');
     }
 
     export function close(dlg) {
@@ -221,7 +221,7 @@ import '../../assets/css/scrollstyles.scss';
     }
 
     function closeDialog(dlg) {
-        if (!dlg.classList.contains('hide')) {
+        if (!dlg.classList.contains('hidden')) {
             dlg.dispatchEvent(new CustomEvent('closing', {
                 bubbles: false,
                 cancelable: false
@@ -230,7 +230,7 @@ import '../../assets/css/scrollstyles.scss';
             const onAnimationFinish = () => {
                 focusManager.popScope(dlg);
 
-                dlg.classList.add('hide');
+                dlg.classList.add('hidden');
                 dlg.dispatchEvent(new CustomEvent('close', {
                     bubbles: false,
                     cancelable: false
@@ -373,7 +373,7 @@ import '../../assets/css/scrollstyles.scss';
         }
 
         dlg.classList.add('focuscontainer');
-        dlg.classList.add('hide');
+        dlg.classList.add('hidden');
 
         if (shouldLockDocumentScroll(options)) {
             dlg.setAttribute('data-lockscroll', 'true');

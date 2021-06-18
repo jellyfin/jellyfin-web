@@ -150,7 +150,7 @@ export function NavigationDrawer(options) {
         const classList = mask.classList;
 
         if (!classList.contains('backdrop')) {
-            classList.add('hide');
+            classList.add('hidden');
         }
     }
 
@@ -186,7 +186,7 @@ export function NavigationDrawer(options) {
 
         if (!options.disableMask) {
             mask = document.createElement('div');
-            mask.className = 'tmla-mask hide';
+            mask.className = 'tmla-mask hidden';
             document.body.appendChild(mask);
             dom.addEventListener(mask, dom.whichTransitionEvent(), onMaskTransitionEnd, {
                 passive: true
@@ -266,12 +266,12 @@ export function NavigationDrawer(options) {
     let backgroundTouchStartTime;
 
     TouchMenuLA.prototype.showMask = function () {
-        mask.classList.remove('hide');
+        mask.classList.remove('hidden');
         mask.classList.add('backdrop');
     };
 
     TouchMenuLA.prototype.hideMask = function () {
-        mask.classList.add('hide');
+        mask.classList.add('hidden');
         mask.classList.remove('backdrop');
     };
 

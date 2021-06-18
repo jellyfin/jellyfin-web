@@ -79,7 +79,7 @@ function renderItems(page, item) {
         html += '<h2 class="sectionTitle sectionTitle-cards">';
         html += section.name;
         html += '</h2>';
-        html += '<a is="emby-linkbutton" href="#" class="clearLink hide" style="margin-left:1em;vertical-align:middle;"><button is="emby-button" type="button" class="raised more raised-mini noIcon">' + globalize.translate('ButtonMore') + '</button></a>';
+        html += '<a is="emby-linkbutton" href="#" class="clearLink hidden" style="margin-left:1em;vertical-align:middle;"><button is="emby-button" type="button" class="raised more raised-mini noIcon">' + globalize.translate('ButtonMore') + '</button></a>';
         html += '</div>';
         html += '<div is="emby-itemscontainer" class="itemsContainer padded-right">';
         html += '</div>';
@@ -269,10 +269,10 @@ function loadItems(element, item, type, query, listOptions) {
 
         if (query.Limit && result.TotalRecordCount > query.Limit) {
             const link = element.querySelector('a');
-            link.classList.remove('hide');
+            link.classList.remove('hidden');
             link.setAttribute('href', getMoreItemsHref(item, type));
         } else {
-            element.querySelector('a').classList.add('hide');
+            element.querySelector('a').classList.add('hidden');
         }
 
         listOptions.items = result.Items;

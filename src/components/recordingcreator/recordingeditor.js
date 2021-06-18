@@ -117,7 +117,7 @@ function showEditor(itemId, serverId, options) {
         dlg.innerHTML = html;
 
         if (options.enableCancel === false) {
-            dlg.querySelector('.formDialogFooter').classList.add('hide');
+            dlg.querySelector('.formDialogFooter').classList.add('hidden');
         }
 
         currentDialog = dlg;

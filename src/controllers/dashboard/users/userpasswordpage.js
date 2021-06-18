@@ -18,27 +18,27 @@ import confirm from '../../../components/confirm/confirm';
                 let showLocalAccessSection = false;
 
                 if (user.ConnectLinkType == 'Guest') {
-                    page.querySelector('.localAccessSection').classList.add('hide');
+                    page.querySelector('.localAccessSection').classList.add('hidden');
                     showPasswordSection = false;
                 } else if (user.HasConfiguredPassword) {
-                    page.querySelector('#btnResetPassword').classList.remove('hide');
-                    page.querySelector('#fldCurrentPassword').classList.remove('hide');
+                    page.querySelector('#btnResetPassword').classList.remove('hidden');
+                    page.querySelector('#fldCurrentPassword').classList.remove('hidden');
                     showLocalAccessSection = true;
                 } else {
-                    page.querySelector('#btnResetPassword').classList.add('hide');
-                    page.querySelector('#fldCurrentPassword').classList.add('hide');
+                    page.querySelector('#btnResetPassword').classList.add('hidden');
+                    page.querySelector('#fldCurrentPassword').classList.add('hidden');
                 }
 
                 if (showPasswordSection && (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
-                    page.querySelector('.passwordSection').classList.remove('hide');
+                    page.querySelector('.passwordSection').classList.remove('hidden');
                 } else {
-                    page.querySelector('.passwordSection').classList.add('hide');
+                    page.querySelector('.passwordSection').classList.add('hidden');
                 }
 
                 if (showLocalAccessSection && (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
-                    page.querySelector('.localAccessSection').classList.remove('hide');
+                    page.querySelector('.localAccessSection').classList.remove('hidden');
                 } else {
-                    page.querySelector('.localAccessSection').classList.add('hide');
+                    page.querySelector('.localAccessSection').classList.add('hidden');
                 }
 
                 const txtEasyPassword = page.querySelector('#txtEasyPassword');
@@ -46,11 +46,11 @@ import confirm from '../../../components/confirm/confirm';
 
                 if (user.HasConfiguredEasyPassword) {
                     txtEasyPassword.placeholder = '******';
-                    page.querySelector('#btnResetEasyPassword').classList.remove('hide');
+                    page.querySelector('#btnResetEasyPassword').classList.remove('hidden');
                 } else {
                     txtEasyPassword.removeAttribute('placeholder');
                     txtEasyPassword.placeholder = '';
-                    page.querySelector('#btnResetEasyPassword').classList.add('hide');
+                    page.querySelector('#btnResetEasyPassword').classList.add('hidden');
                 }
 
                 page.querySelector('.chkEnableLocalEasyPassword').checked = user.Configuration.EnableLocalPassword;
@@ -96,7 +96,7 @@ import confirm from '../../../components/confirm/confirm';
             let currentPassword = view.querySelector('#txtCurrentPassword').value;
             const newPassword = view.querySelector('#txtNewPassword').value;
 
-            if (view.querySelector('#fldCurrentPassword').classList.contains('hide')) {
+            if (view.querySelector('#fldCurrentPassword').classList.contains('hidden')) {
                 // Firefox does not respect autocomplete=off, so clear it if the field is supposed to be hidden (and blank)
                 // This should only happen when user.HasConfiguredPassword is false, but this information is not passed on
                 currentPassword = '';

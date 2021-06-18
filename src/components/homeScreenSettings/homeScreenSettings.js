@@ -435,9 +435,9 @@ import template from './homeScreenSettings.template.html';
         const fldIncludeInLatest = section.querySelector('.fldIncludeInLatest');
         if (fldIncludeInLatest) {
             if (chkIncludeInMyMedia.checked) {
-                fldIncludeInLatest.classList.remove('hide');
+                fldIncludeInLatest.classList.remove('hidden');
             } else {
-                fldIncludeInLatest.classList.add('hide');
+                fldIncludeInLatest.classList.add('hidden');
             }
         }
     }
@@ -455,13 +455,13 @@ import template from './homeScreenSettings.template.html';
         options.element.addEventListener('change', onChange);
 
         if (options.enableSaveButton) {
-            options.element.querySelector('.btnSave').classList.remove('hide');
+            options.element.querySelector('.btnSave').classList.remove('hidden');
         }
 
         if (layoutManager.tv) {
-            options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
+            options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hidden');
         } else {
-            options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
+            options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hidden');
         }
 
         self.loadData(options.autoFocus);

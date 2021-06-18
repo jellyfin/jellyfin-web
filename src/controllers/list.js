@@ -222,10 +222,10 @@ import { appRouter } from '../components/appRouter';
                 }
 
                 if (values.sortBy === 'SortName' && values.sortOrder === 'Ascending' && numItems > 40) {
-                    alphaPicker.classList.remove('hide');
+                    alphaPicker.classList.remove('hidden');
                     instance.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
                 } else {
-                    alphaPicker.classList.add('hide');
+                    alphaPicker.classList.add('hidden');
                     instance.itemsContainer.parentNode.classList.remove('padded-right-withalphapicker');
                 }
             }
@@ -408,9 +408,9 @@ import { appRouter } from '../components/appRouter';
     function hideOrShowAll(elems, hide) {
         for (const elem of elems) {
             if (hide) {
-                elem.classList.add('hide');
+                elem.classList.add('hidden');
             } else {
-                elem.classList.remove('hide');
+                elem.classList.remove('hidden');
             }
         }
     }
@@ -735,9 +735,9 @@ class ItemsView {
             btnFilter.addEventListener('click', showFilterMenu.bind(this));
 
             if (hasVisibleFilters) {
-                btnFilter.classList.remove('hide');
+                btnFilter.classList.remove('hidden');
             } else {
-                btnFilter.classList.add('hide');
+                btnFilter.classList.add('hidden');
             }
         }
 
@@ -748,7 +748,7 @@ class ItemsView {
             sortButton.addEventListener('click', showSortMenu.bind(this));
 
             if (params.type !== 'nextup') {
-                sortButton.classList.remove('hide');
+                sortButton.classList.remove('hidden');
             }
         }
 
@@ -1063,9 +1063,9 @@ class ItemsView {
                 }
 
                 if (hasFilters) {
-                    bubble.classList.remove('hide');
+                    bubble.classList.remove('hidden');
                 } else {
-                    bubble.classList.add('hide');
+                    bubble.classList.add('hidden');
                 }
             }
         }

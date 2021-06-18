@@ -312,8 +312,8 @@ import template from './metadataEditor.template.html';
         });
 
         if (!layoutManager.desktop) {
-            context.querySelector('.btnBack').classList.remove('hide');
-            context.querySelector('.btnClose').classList.add('hide');
+            context.querySelector('.btnBack').classList.remove('hidden');
+            context.querySelector('.btnClose').classList.add('hidden');
         }
 
         bindAll(context.querySelectorAll('.btnCancel'), 'click', function (event) {
@@ -470,9 +470,9 @@ import template from './metadataEditor.template.html';
         elem.innerHTML = html;
 
         if (externalIds.length) {
-            context.querySelector('.externalIdsSection').classList.remove('hide');
+            context.querySelector('.externalIdsSection').classList.remove('hidden');
         } else {
-            context.querySelector('.externalIdsSection').classList.add('hide');
+            context.querySelector('.externalIdsSection').classList.add('hidden');
         }
     }
 
@@ -486,11 +486,11 @@ import template from './metadataEditor.template.html';
 
             Array.prototype.forEach.call(elements, function (el) {
                 if (el) {
-                    el.classList.add('hide');
+                    el.classList.add('hidden');
                 }
             });
         } else {
-            selector.classList.add('hide');
+            selector.classList.add('hidden');
         }
     }
 
@@ -504,11 +504,11 @@ import template from './metadataEditor.template.html';
 
             Array.prototype.forEach.call(elements, function (el) {
                 if (el) {
-                    el.classList.remove('hide');
+                    el.classList.remove('hidden');
                 }
             });
         } else {
-            selector.classList.remove('hide');
+            selector.classList.remove('hidden');
         }
     }
 
@@ -1084,9 +1084,9 @@ import template from './metadataEditor.template.html';
                 elem.innerHTML = globalize.translateHtml(template, 'core');
 
                 elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
-                elem.querySelector('.btnClose').classList.add('hide');
-                elem.querySelector('.btnHeaderSave').classList.remove('hide');
-                elem.querySelector('.btnCancel').classList.add('hide');
+                elem.querySelector('.btnClose').classList.add('hidden');
+                elem.querySelector('.btnHeaderSave').classList.remove('hidden');
+                elem.querySelector('.btnCancel').classList.add('hidden');
 
                 currentContext = elem;
 

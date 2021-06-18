@@ -109,9 +109,9 @@ import autoFocuser from '../../components/autoFocuser';
         };
         ApiClient.getItems(userId, options).then(function (result) {
             if (result.Items.length) {
-                view.querySelector('#resumableSection').classList.remove('hide');
+                view.querySelector('#resumableSection').classList.remove('hidden');
             } else {
-                view.querySelector('#resumableSection').classList.add('hide');
+                view.querySelector('#resumableSection').classList.add('hidden');
             }
 
             const allowBottomPadding = !enableScrollX();
@@ -186,9 +186,9 @@ import autoFocuser from '../../components/autoFocuser';
         query.ParentId = libraryMenu.getTopParentId();
         ApiClient.getNextUpEpisodes(query).then(function (result) {
             if (result.Items.length) {
-                view.querySelector('.noNextUpItems').classList.add('hide');
+                view.querySelector('.noNextUpItems').classList.add('hidden');
             } else {
-                view.querySelector('.noNextUpItems').classList.remove('hide');
+                view.querySelector('.noNextUpItems').classList.remove('hidden');
             }
 
             const section = view.querySelector('#nextUpItemsSection');

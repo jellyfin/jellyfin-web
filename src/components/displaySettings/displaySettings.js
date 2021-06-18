@@ -59,54 +59,54 @@ import template from './displaySettings.template.html';
 
     function showOrHideMissingEpisodesField(context) {
         if (browser.tizen || browser.web0s) {
-            context.querySelector('.fldDisplayMissingEpisodes').classList.add('hide');
+            context.querySelector('.fldDisplayMissingEpisodes').classList.add('hidden');
             return;
         }
 
-        context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hide');
+        context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hidden');
     }
 
     function loadForm(context, user, userSettings) {
         if (appHost.supports('displaylanguage')) {
-            context.querySelector('.languageSection').classList.remove('hide');
+            context.querySelector('.languageSection').classList.remove('hidden');
         } else {
-            context.querySelector('.languageSection').classList.add('hide');
+            context.querySelector('.languageSection').classList.add('hidden');
         }
 
         if (appHost.supports('displaymode')) {
-            context.querySelector('.fldDisplayMode').classList.remove('hide');
+            context.querySelector('.fldDisplayMode').classList.remove('hidden');
         } else {
-            context.querySelector('.fldDisplayMode').classList.add('hide');
+            context.querySelector('.fldDisplayMode').classList.add('hidden');
         }
 
         if (appHost.supports('externallinks')) {
-            context.querySelector('.learnHowToContributeContainer').classList.remove('hide');
+            context.querySelector('.learnHowToContributeContainer').classList.remove('hidden');
         } else {
-            context.querySelector('.learnHowToContributeContainer').classList.add('hide');
+            context.querySelector('.learnHowToContributeContainer').classList.add('hidden');
         }
 
-        context.querySelector('.selectDashboardThemeContainer').classList.toggle('hide', !user.Policy.IsAdministrator);
+        context.querySelector('.selectDashboardThemeContainer').classList.toggle('hidden', !user.Policy.IsAdministrator);
 
         if (appHost.supports('screensaver')) {
-            context.querySelector('.selectScreensaverContainer').classList.remove('hide');
+            context.querySelector('.selectScreensaverContainer').classList.remove('hidden');
         } else {
-            context.querySelector('.selectScreensaverContainer').classList.add('hide');
+            context.querySelector('.selectScreensaverContainer').classList.add('hidden');
         }
 
         if (datetime.supportsLocalization()) {
-            context.querySelector('.fldDateTimeLocale').classList.remove('hide');
+            context.querySelector('.fldDateTimeLocale').classList.remove('hidden');
         } else {
-            context.querySelector('.fldDateTimeLocale').classList.add('hide');
+            context.querySelector('.fldDateTimeLocale').classList.add('hidden');
         }
 
         if (!browser.tizen && !browser.web0s) {
-            context.querySelector('.fldBackdrops').classList.remove('hide');
-            context.querySelector('.fldThemeSong').classList.remove('hide');
-            context.querySelector('.fldThemeVideo').classList.remove('hide');
+            context.querySelector('.fldBackdrops').classList.remove('hidden');
+            context.querySelector('.fldThemeSong').classList.remove('hidden');
+            context.querySelector('.fldThemeVideo').classList.remove('hidden');
         } else {
-            context.querySelector('.fldBackdrops').classList.add('hide');
-            context.querySelector('.fldThemeSong').classList.add('hide');
-            context.querySelector('.fldThemeVideo').classList.add('hide');
+            context.querySelector('.fldBackdrops').classList.add('hidden');
+            context.querySelector('.fldThemeSong').classList.add('hidden');
+            context.querySelector('.fldThemeVideo').classList.add('hidden');
         }
 
         fillThemes(context.querySelector('#selectTheme'), userSettings.theme());
@@ -203,7 +203,7 @@ import template from './displaySettings.template.html';
         options.element.innerHTML = globalize.translateHtml(template, 'core');
         options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
         if (options.enableSaveButton) {
-            options.element.querySelector('.btnSave').classList.remove('hide');
+            options.element.querySelector('.btnSave').classList.remove('hidden');
         }
         self.loadData(options.autoFocus);
     }

@@ -65,9 +65,9 @@ import template from './imageeditor.template.html';
             const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
             for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
                 if (providers.length) {
-                    btnBrowseAllImages[i].classList.remove('hide');
+                    btnBrowseAllImages[i].classList.remove('hidden');
                 } else {
-                    btnBrowseAllImages[i].classList.add('hide');
+                    btnBrowseAllImages[i].classList.add('hidden');
                 }
             }
 
@@ -256,10 +256,10 @@ import template from './imageeditor.template.html';
         });
 
         if (images.length) {
-            page.querySelector('#backdropsContainer', page).classList.remove('hide');
+            page.querySelector('#backdropsContainer', page).classList.remove('hidden');
             renderImages(page, item, apiClient, images, imageProviders, page.querySelector('#backdrops'));
         } else {
-            page.querySelector('#backdropsContainer', page).classList.add('hide');
+            page.querySelector('#backdropsContainer', page).classList.add('hidden');
         }
     }
 
@@ -271,10 +271,10 @@ import template from './imageeditor.template.html';
         });
 
         if (images.length) {
-            page.querySelector('#screenshotsContainer', page).classList.remove('hide');
+            page.querySelector('#screenshotsContainer', page).classList.remove('hidden');
             renderImages(page, item, apiClient, images, imageProviders, page.querySelector('#screenshots'));
         } else {
-            page.querySelector('#screenshotsContainer', page).classList.add('hide');
+            page.querySelector('#screenshotsContainer', page).classList.add('hidden');
         }
     }
 
@@ -359,9 +359,9 @@ import template from './imageeditor.template.html';
         const isFileInputSupported = appHost.supports('fileinput');
         for (let i = 0, length = uploadButtons.length; i < length; i++) {
             if (isFileInputSupported) {
-                uploadButtons[i].classList.remove('hide');
+                uploadButtons[i].classList.remove('hidden');
             } else {
-                uploadButtons[i].classList.add('hide');
+                uploadButtons[i].classList.add('hidden');
             }
         }
 

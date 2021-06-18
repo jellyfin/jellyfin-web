@@ -34,9 +34,9 @@ import toast from '../../../components/toast/toast';
 
     function loadAuthProviders(page, user, providers) {
         if (providers.length > 1) {
-            page.querySelector('.fldSelectLoginProvider').classList.remove('hide');
+            page.querySelector('.fldSelectLoginProvider').classList.remove('hidden');
         } else {
-            page.querySelector('.fldSelectLoginProvider').classList.add('hide');
+            page.querySelector('.fldSelectLoginProvider').classList.add('hidden');
         }
 
         const currentProviderId = user.Policy.AuthenticationProviderId;
@@ -48,9 +48,9 @@ import toast from '../../../components/toast/toast';
 
     function loadPasswordResetProviders(page, user, providers) {
         if (providers.length > 1) {
-            page.querySelector('.fldSelectPasswordResetProvider').classList.remove('hide');
+            page.querySelector('.fldSelectPasswordResetProvider').classList.remove('hidden');
         } else {
-            page.querySelector('.fldSelectPasswordResetProvider').classList.add('hide');
+            page.querySelector('.fldSelectPasswordResetProvider').classList.add('hidden');
         }
 
         const currentProviderId = user.Policy.PasswordResetProviderId;
@@ -184,9 +184,9 @@ import toast from '../../../components/toast/toast';
         });
         ApiClient.getServerConfiguration().then(function (config) {
             if (config.EnableRemoteAccess) {
-                page.querySelector('.fldRemoteAccess').classList.remove('hide');
+                page.querySelector('.fldRemoteAccess').classList.remove('hidden');
             } else {
-                page.querySelector('.fldRemoteAccess').classList.add('hide');
+                page.querySelector('.fldRemoteAccess').classList.add('hidden');
             }
         });
     }).on('pagebeforeshow', '#editUserPage', function () {

@@ -24,17 +24,17 @@ export default function (page, providerId, options) {
             page.querySelector('.txtZipCode').value = info.ZipCode || '';
 
             if (info.Username && info.Password) {
-                page.querySelector('.listingsSection').classList.remove('hide');
+                page.querySelector('.listingsSection').classList.remove('hidden');
             } else {
-                page.querySelector('.listingsSection').classList.add('hide');
+                page.querySelector('.listingsSection').classList.add('hidden');
             }
 
             page.querySelector('.chkAllTuners').checked = info.EnableAllTuners;
 
             if (info.EnableAllTuners) {
-                page.querySelector('.selectTunersSection').classList.add('hide');
+                page.querySelector('.selectTunersSection').classList.add('hidden');
             } else {
-                page.querySelector('.selectTunersSection').classList.remove('hide');
+                page.querySelector('.selectTunersSection').classList.remove('hidden');
             }
 
             setCountry(info);
@@ -248,10 +248,10 @@ export default function (page, providerId, options) {
         // Only hide the buttons if explicitly set to false; default to showing if undefined or null
         // FIXME: rename this option to clarify logic
         const hideCancelButton = options.showCancelButton === false;
-        page.querySelector('.btnCancel').classList.toggle('hide', hideCancelButton);
+        page.querySelector('.btnCancel').classList.toggle('hidden', hideCancelButton);
 
         const hideSubmitButton = options.showSubmitButton === false;
-        page.querySelector('.btnSubmitListings').classList.toggle('hide', hideSubmitButton);
+        page.querySelector('.btnSubmitListings').classList.toggle('hidden', hideSubmitButton);
 
         $('.formLogin', page).on('submit', function () {
             submitLoginForm();
@@ -266,9 +266,9 @@ export default function (page, providerId, options) {
         });
         page.querySelector('.chkAllTuners').addEventListener('change', function (e) {
             if (e.target.checked) {
-                page.querySelector('.selectTunersSection').classList.add('hide');
+                page.querySelector('.selectTunersSection').classList.add('hidden');
             } else {
-                page.querySelector('.selectTunersSection').classList.remove('hide');
+                page.querySelector('.selectTunersSection').classList.remove('hidden');
             }
         });
         $('.createAccountHelp', page).html(globalize.translate('MessageCreateAccountAt', '<a is="emby-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>'));

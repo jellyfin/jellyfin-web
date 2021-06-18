@@ -77,9 +77,9 @@ import Dashboard from '../../scripts/clientUtils';
         };
         ApiClient.getItems(userId, options).then(function (result) {
             if (result.Items.length) {
-                page.querySelector('#resumableSection').classList.remove('hide');
+                page.querySelector('#resumableSection').classList.remove('hidden');
             } else {
-                page.querySelector('#resumableSection').classList.add('hide');
+                page.querySelector('#resumableSection').classList.add('hidden');
             }
 
             const allowBottomPadding = !enableScrollX();
@@ -167,13 +167,13 @@ import Dashboard from '../../scripts/clientUtils';
         });
         ApiClient.getJSON(url).then(function (recommendations) {
             if (!recommendations.length) {
-                page.querySelector('.noItemsMessage').classList.remove('hide');
+                page.querySelector('.noItemsMessage').classList.remove('hidden');
                 page.querySelector('.recommendations').innerHTML = '';
                 return;
             }
 
             const html = recommendations.map(getRecommendationHtml).join('');
-            page.querySelector('.noItemsMessage').classList.add('hide');
+            page.querySelector('.noItemsMessage').classList.add('hidden');
             const recs = page.querySelector('.recommendations');
             recs.innerHTML = html;
             imageLoader.lazyChildren(recs);

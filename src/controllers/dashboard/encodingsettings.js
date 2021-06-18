@@ -133,17 +133,17 @@ import alert from '../../components/alert';
         let any;
         Array.prototype.forEach.call(context.querySelectorAll('.chkDecodeCodec'), function (c) {
             if (c.getAttribute('data-types').split(',').indexOf(value) === -1) {
-                dom.parentWithTag(c, 'LABEL').classList.add('hide');
+                dom.parentWithTag(c, 'LABEL').classList.add('hidden');
             } else {
-                dom.parentWithTag(c, 'LABEL').classList.remove('hide');
+                dom.parentWithTag(c, 'LABEL').classList.remove('hidden');
                 any = true;
             }
         });
 
         if (any) {
-            context.querySelector('.decodingCodecsList').classList.remove('hide');
+            context.querySelector('.decodingCodecsList').classList.remove('hidden');
         } else {
-            context.querySelector('.decodingCodecsList').classList.add('hide');
+            context.querySelector('.decodingCodecsList').classList.add('hidden');
         }
     }
 
@@ -175,43 +175,43 @@ import alert from '../../components/alert';
         getSystemInfo();
         page.querySelector('#selectVideoDecoder').addEventListener('change', function () {
             if (this.value == 'vaapi') {
-                page.querySelector('.fldVaapiDevice').classList.remove('hide');
+                page.querySelector('.fldVaapiDevice').classList.remove('hidden');
                 page.querySelector('#txtVaapiDevice').setAttribute('required', 'required');
             } else {
-                page.querySelector('.fldVaapiDevice').classList.add('hide');
+                page.querySelector('.fldVaapiDevice').classList.add('hidden');
                 page.querySelector('#txtVaapiDevice').removeAttribute('required');
             }
 
             if (this.value == 'nvenc' || this.value == 'amf') {
-                page.querySelector('.fldOpenclDevice').classList.remove('hide');
+                page.querySelector('.fldOpenclDevice').classList.remove('hidden');
                 page.querySelector('#txtOpenclDevice').setAttribute('required', 'required');
-                page.querySelector('.tonemappingOptions').classList.remove('hide');
+                page.querySelector('.tonemappingOptions').classList.remove('hidden');
             } else if (this.value == 'vaapi') {
-                page.querySelector('.fldOpenclDevice').classList.add('hide');
+                page.querySelector('.fldOpenclDevice').classList.add('hidden');
                 page.querySelector('#txtOpenclDevice').removeAttribute('required');
-                page.querySelector('.tonemappingOptions').classList.remove('hide');
+                page.querySelector('.tonemappingOptions').classList.remove('hidden');
             } else {
-                page.querySelector('.fldOpenclDevice').classList.add('hide');
+                page.querySelector('.fldOpenclDevice').classList.add('hidden');
                 page.querySelector('#txtOpenclDevice').removeAttribute('required');
-                page.querySelector('.tonemappingOptions').classList.add('hide');
+                page.querySelector('.tonemappingOptions').classList.add('hidden');
             }
 
             if (this.value == 'nvenc') {
-                page.querySelector('.fldEnhancedNvdec').classList.remove('hide');
+                page.querySelector('.fldEnhancedNvdec').classList.remove('hidden');
             } else {
-                page.querySelector('.fldEnhancedNvdec').classList.add('hide');
+                page.querySelector('.fldEnhancedNvdec').classList.add('hidden');
             }
 
             if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'vaapi' || this.value == 'qsv')) {
-                page.querySelector('.fldVppTonemapping').classList.remove('hide');
+                page.querySelector('.fldVppTonemapping').classList.remove('hidden');
             } else {
-                page.querySelector('.fldVppTonemapping').classList.add('hide');
+                page.querySelector('.fldVppTonemapping').classList.add('hidden');
             }
 
             if (this.value) {
-                page.querySelector('.hardwareAccelerationOptions').classList.remove('hide');
+                page.querySelector('.hardwareAccelerationOptions').classList.remove('hidden');
             } else {
-                page.querySelector('.hardwareAccelerationOptions').classList.add('hide');
+                page.querySelector('.hardwareAccelerationOptions').classList.add('hidden');
             }
 
             setDecodingCodecsVisible(page, this.value);

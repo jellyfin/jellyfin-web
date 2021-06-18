@@ -48,14 +48,14 @@ import template from './dialog.template.html';
         if (options.title) {
             dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.title || '';
         } else {
-            dlg.querySelector('.formDialogHeaderTitle').classList.add('hide');
+            dlg.querySelector('.formDialogHeaderTitle').classList.add('hidden');
         }
 
         const displayText = options.html || options.text || '';
         dlg.querySelector('.text').innerHTML = displayText;
 
         if (!displayText) {
-            dlg.querySelector('.dialogContentInner').classList.add('hide');
+            dlg.querySelector('.dialogContentInner').classList.add('hidden');
         }
 
         let i;

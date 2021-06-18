@@ -63,7 +63,7 @@ import template from './libraryoptionseditor.template.html';
         let html = '';
         const elem = page.querySelector('.metadataReaders');
 
-        if (plugins.length < 1) return elem.innerHTML = '', elem.classList.add('hide'), !1;
+        if (plugins.length < 1) return elem.innerHTML = '', elem.classList.add('hidden'), !1;
         html += `<h3 class="checkboxListLabel">${globalize.translate('LabelMetadataReaders')}</h3>`;
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (let i = 0; i < plugins.length; i++) {
@@ -85,9 +85,9 @@ import template from './libraryoptionseditor.template.html';
         html += '</div>';
         html += `<div class="fieldDescription">${globalize.translate('LabelMetadataReadersHelp')}</div>`;
         if (plugins.length < 2) {
-            elem.classList.add('hide');
+            elem.classList.add('hidden');
         } else {
-            elem.classList.remove('hide');
+            elem.classList.remove('hidden');
         }
         elem.innerHTML = html;
         return true;
@@ -96,7 +96,7 @@ import template from './libraryoptionseditor.template.html';
     function renderMetadataSavers(page, metadataSavers) {
         let html = '';
         const elem = page.querySelector('.metadataSavers');
-        if (!metadataSavers.length) return elem.innerHTML = '', elem.classList.add('hide'), false;
+        if (!metadataSavers.length) return elem.innerHTML = '', elem.classList.add('hidden'), false;
         html += `<h3 class="checkboxListLabel">${globalize.translate('LabelMetadataSavers')}</h3>`;
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (let i = 0; i < metadataSavers.length; i++) {
@@ -106,7 +106,7 @@ import template from './libraryoptionseditor.template.html';
         html += '</div>';
         html += `<div class="fieldDescription" style="margin-top:.25em;">${globalize.translate('LabelMetadataSaversHelp')}</div>`;
         elem.innerHTML = html;
-        elem.classList.remove('hide');
+        elem.classList.remove('hidden');
         return true;
     }
 
@@ -163,15 +163,15 @@ import template from './libraryoptionseditor.template.html';
         }
         elem.innerHTML = html;
         if (html) {
-            elem.classList.remove('hide');
-            page.querySelector('.fldAutoRefreshInterval').classList.remove('hide');
-            page.querySelector('.fldMetadataLanguage').classList.remove('hide');
-            page.querySelector('.fldMetadataCountry').classList.remove('hide');
+            elem.classList.remove('hidden');
+            page.querySelector('.fldAutoRefreshInterval').classList.remove('hidden');
+            page.querySelector('.fldMetadataLanguage').classList.remove('hidden');
+            page.querySelector('.fldMetadataCountry').classList.remove('hidden');
         } else {
-            elem.classList.add('hide');
-            page.querySelector('.fldAutoRefreshInterval').classList.add('hide');
-            page.querySelector('.fldMetadataLanguage').classList.add('hide');
-            page.querySelector('.fldMetadataCountry').classList.add('hide');
+            elem.classList.add('hidden');
+            page.querySelector('.fldAutoRefreshInterval').classList.add('hidden');
+            page.querySelector('.fldMetadataLanguage').classList.add('hidden');
+            page.querySelector('.fldMetadataCountry').classList.add('hidden');
         }
         return true;
     }
@@ -258,11 +258,11 @@ import template from './libraryoptionseditor.template.html';
         }
         elem.innerHTML = html;
         if (html) {
-            elem.classList.remove('hide');
-            page.querySelector('.chkSaveLocalContainer').classList.remove('hide');
+            elem.classList.remove('hidden');
+            page.querySelector('.chkSaveLocalContainer').classList.remove('hidden');
         } else {
-            elem.classList.add('hide');
-            page.querySelector('.chkSaveLocalContainer').classList.add('hide');
+            elem.classList.add('hidden');
+            page.querySelector('.chkSaveLocalContainer').classList.add('hidden');
         }
         return true;
     }
@@ -280,7 +280,7 @@ import template from './libraryoptionseditor.template.html';
             renderMetadataFetchers(parent, availableOptions, {});
             renderSubtitleFetchers(parent, availableOptions, {});
             renderImageFetchers(parent, availableOptions, {});
-            availableOptions.SubtitleFetchers.length ? parent.querySelector('.subtitleDownloadSettings').classList.remove('hide') : parent.querySelector('.subtitleDownloadSettings').classList.add('hide');
+            availableOptions.SubtitleFetchers.length ? parent.querySelector('.subtitleDownloadSettings').classList.remove('hidden') : parent.querySelector('.subtitleDownloadSettings').classList.add('hidden');
         }).catch(() => {
             return Promise.resolve();
         });
@@ -378,37 +378,37 @@ import template from './libraryoptionseditor.template.html';
 
     export function setContentType(parent, contentType) {
         if (contentType === 'homevideos' || contentType === 'photos') {
-            parent.querySelector('.chkEnablePhotosContainer').classList.remove('hide');
+            parent.querySelector('.chkEnablePhotosContainer').classList.remove('hidden');
         } else {
-            parent.querySelector('.chkEnablePhotosContainer').classList.add('hide');
+            parent.querySelector('.chkEnablePhotosContainer').classList.add('hidden');
         }
 
         if (contentType !== 'tvshows' && contentType !== 'movies' && contentType !== 'homevideos' && contentType !== 'musicvideos' && contentType !== 'mixed') {
-            parent.querySelector('.chapterSettingsSection').classList.add('hide');
+            parent.querySelector('.chapterSettingsSection').classList.add('hidden');
         } else {
-            parent.querySelector('.chapterSettingsSection').classList.remove('hide');
+            parent.querySelector('.chapterSettingsSection').classList.remove('hidden');
         }
 
         if (contentType === 'tvshows') {
-            parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.remove('hide');
-            parent.querySelector('.fldSeasonZeroDisplayName').classList.remove('hide');
+            parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.remove('hidden');
+            parent.querySelector('.fldSeasonZeroDisplayName').classList.remove('hidden');
             parent.querySelector('#txtSeasonZeroName').setAttribute('required', 'required');
         } else {
-            parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.add('hide');
-            parent.querySelector('.fldSeasonZeroDisplayName').classList.add('hide');
+            parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.add('hidden');
+            parent.querySelector('.fldSeasonZeroDisplayName').classList.add('hidden');
             parent.querySelector('#txtSeasonZeroName').removeAttribute('required');
         }
 
         if (contentType === 'books' || contentType === 'boxsets' || contentType === 'playlists' || contentType === 'music') {
-            parent.querySelector('.chkEnableEmbeddedTitlesContainer').classList.add('hide');
+            parent.querySelector('.chkEnableEmbeddedTitlesContainer').classList.add('hidden');
         } else {
-            parent.querySelector('.chkEnableEmbeddedTitlesContainer').classList.remove('hide');
+            parent.querySelector('.chkEnableEmbeddedTitlesContainer').classList.remove('hidden');
         }
 
         if (contentType === 'tvshows') {
-            parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.remove('hide');
+            parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.remove('hidden');
         } else {
-            parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.add('hide');
+            parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.add('hidden');
         }
 
         return populateMetadataSettings(parent, contentType);

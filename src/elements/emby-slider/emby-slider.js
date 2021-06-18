@@ -178,7 +178,7 @@ import '../emby-input/emby-input';
         htmlToInsert += '</div>';
         htmlToInsert += '</div>';
 
-        htmlToInsert += '<div class="sliderBubbleTrack"><div class="sliderBubble hide"></div></div>';
+        htmlToInsert += '<div class="sliderBubbleTrack"><div class="sliderBubble hidden"></div></div>';
 
         containerElement.insertAdjacentHTML('beforeend', htmlToInsert);
 
@@ -187,7 +187,7 @@ import '../emby-input/emby-input';
         this.backgroundUpper = containerElement.querySelector('.mdl-slider-background-upper');
         const sliderBubble = containerElement.querySelector('.sliderBubble');
 
-        let hasHideClass = sliderBubble.classList.contains('hide');
+        let hasHideClass = sliderBubble.classList.contains('hidden');
 
         dom.addEventListener(this, 'input', function () {
             this.dragging = true;
@@ -200,7 +200,7 @@ import '../emby-input/emby-input';
             updateBubble(this, bubbleValue, sliderBubble);
 
             if (hasHideClass) {
-                sliderBubble.classList.remove('hide');
+                sliderBubble.classList.remove('hidden');
                 hasHideClass = false;
             }
         }, {
@@ -214,7 +214,7 @@ import '../emby-input/emby-input';
                 updateValues.call(this);
             }
 
-            sliderBubble.classList.add('hide');
+            sliderBubble.classList.add('hidden');
             hasHideClass = true;
         }, {
             passive: true
@@ -228,7 +228,7 @@ import '../emby-input/emby-input';
                 updateBubble(this, bubbleValue, sliderBubble);
 
                 if (hasHideClass) {
-                    sliderBubble.classList.remove('hide');
+                    sliderBubble.classList.remove('hidden');
                     hasHideClass = false;
                 }
             }
@@ -238,7 +238,7 @@ import '../emby-input/emby-input';
 
         /* eslint-disable-next-line compat/compat */
         dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
-            sliderBubble.classList.add('hide');
+            sliderBubble.classList.add('hidden');
             hasHideClass = true;
         }, {
             passive: true

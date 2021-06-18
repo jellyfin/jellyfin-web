@@ -108,7 +108,7 @@ import '../../elements/emby-button/emby-button';
     function init(instance, options) {
         options.parent.innerHTML = getHtml();
 
-        options.parent.classList.add('hide');
+        options.parent.classList.add('hidden');
         options.parent.classList.add('upNextDialog');
         options.parent.classList.add('upNextDialog-hidden');
 
@@ -132,7 +132,7 @@ import '../../elements/emby-button/emby-button';
         const instance = this;
         const elem = e.target;
 
-        elem.classList.add('hide');
+        elem.classList.add('hidden');
 
         clearHideAnimationEventListeners(instance, elem);
         Events.trigger(instance, 'hide');
@@ -210,7 +210,7 @@ class UpNextDialog {
 
         clearHideAnimationEventListeners(this, elem);
 
-        elem.classList.remove('hide');
+        elem.classList.remove('hidden');
 
         // trigger a reflow to force it to animate again
         void elem.offsetWidth;
