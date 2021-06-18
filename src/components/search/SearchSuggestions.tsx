@@ -19,8 +19,8 @@ const createSuggestionLink = ({name, href}) => ({
 });
 
 type SearchSuggestionsProps = {
-    serverId: string;
-    parentId: string;
+    serverId?: string;
+    parentId?: string;
 }
 
 const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ serverId, parentId }: SearchSuggestionsProps) => {

@@ -18,10 +18,10 @@ const CARD_OPTIONS = {
 };
 
 type LiveTVSearchResultsProps = {
-    serverId: string;
-    parentId: string;
-    collectionType: string;
-    query: string;
+    serverId?: string;
+    parentId?: string;
+    collectionType?: string;
+    query?: string;
 }
 
 /*

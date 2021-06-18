@@ -6,10 +6,10 @@ import ServerConnections from '../ServerConnections';
 import SearchResultsRow from './SearchResultsRow';
 
 type SearchResultsProps = {
-    serverId: string;
-    parentId: string;
-    collectionType: string;
-    query: string;
+    serverId?: string;
+    parentId?: string;
+    collectionType?: string;
+    query?: string;
 }
 
 /*

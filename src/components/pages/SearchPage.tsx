@@ -6,9 +6,9 @@ import SearchSuggestions from '../search/SearchSuggestions';
 import LiveTVSearchResults from '../search/LiveTVSearchResults';
 
 type SearchProps = {
-    serverId: string,
-    parentId: string,
-    collectionType: string
+    serverId?: string,
+    parentId?: string,
+    collectionType?: string
 };
 
 const SearchPage: FunctionComponent<SearchProps> = ({ serverId, parentId, collectionType }: SearchProps) => {

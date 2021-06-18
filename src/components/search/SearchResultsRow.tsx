@@ -16,9 +16,9 @@ const createScroller = ({ title = '' }) => ({
 });
 
 type SearchResultsRowProps = {
-    title: string;
-    items: Array<any>; // TODO: Should be Array<BaseItemDto> once we have a typed API client
-    cardOptions: Record<string, any>;
+    title?: string;
+    items?: Array<any>; // TODO: Should be Array<BaseItemDto> once we have a typed API client
+    cardOptions?: Record<string, any>;
 }
 
 const SearchResultsRow: FunctionComponent<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }: SearchResultsRowProps) => {
