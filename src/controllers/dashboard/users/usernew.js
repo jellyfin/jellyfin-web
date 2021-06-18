@@ -75,9 +75,9 @@ function saveUser(page) {
             return c.getAttribute('data-id');
         });
 
-        user.Policy.EnabledChannels = page.querySelector('#chkEnableAllChannels').checked;
+        user.Policy.EnableAllChannels = page.querySelector('#chkEnableAllChannels').checked;
 
-        user.Policy.EnabledChannels = user.Policy.EnabledChannels ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (c) {
+        user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (c) {
             return c.checked;
         }).map(function (c) {
             return c.getAttribute('data-id');
