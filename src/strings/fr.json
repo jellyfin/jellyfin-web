@@ -1384,7 +1384,7 @@
     "LabelTonemappingRange": "Gamme de mappage tonal :",
     "TonemappingAlgorithmHelp": "Le mappage tonal peut être affiné. Si vous n'êtes pas familier avec ces options, gardez les valeurs par défaut. La valeur recommandée est Hable.",
     "LabelTonemappingAlgorithm": "Sélectionnez l'algorithme de mappage tonal à utiliser :",
-    "AllowTonemappingHelp": "Le mappage tonal peut transformer la gamme dynamique d'une vidéo de HDR à SDR tout en maintenant les détails et les couleurs d'image qui sont des informations importantes pour la représentation de la scène originale. Actuellement, ne fonctionne uniquement lorsque des vidéos avec des métadonnées HDR10 ou HLG sont transcodées. Si la lecture n'est pas fluide ou échoue, considérez d'éteindre le décodeur matériel correspondant.",
+    "AllowTonemappingHelp": "Le mappage tonal peut transformer la gamme dynamique d'une vidéo de HDR à SDR tout en maintenant les détails et les couleurs d'image qui sont des informations importantes pour représenter la scène originale. Actuellement, ne fonctionne uniquement lorsque des vidéos avec des métadonnées HDR10 ou HLG sont transcodées. Si la lecture n'est pas fluide ou échoue, envisagez de désactiver le décodeur matériel correspondant.",
     "EnableTonemapping": "Activer le mappage tonal",
     "LabelOpenclDeviceHelp": "Ce dispositif OpenCL est utilisé pour le mappage tonal. La partie à gauche du point est le numéro de plate-forme et la partie à droite est le numéro du dispositif sur la plate-forme. La valeur par défaut est 0.0. Le fichier de l'application ffmpeg contenant l'accélération matérielle OpenCL est nécessaire.",
     "LabelOpenclDevice": "Dispositif OpenCL :",
