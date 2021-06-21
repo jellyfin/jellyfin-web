@@ -1,6 +1,5 @@
 import debounce from 'lodash-es/debounce';
-import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useMemo, useRef } from 'react';
 
 import AlphaPicker from '../alphaPicker/AlphaPickerComponent';
 import globalize from '../../scripts/globalize';
@@ -31,12 +30,17 @@ const createInputElement = () => ({
 
 const normalizeInput = (value = '') => value.trim();
 
-const SearchFields = ({ onSearch = () => {} }) => {
+type SearchFieldsProps = {
+    onSearch?: () => void
+};
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const SearchFields: FunctionComponent<SearchFieldsProps> = ({ onSearch = () => {} }: SearchFieldsProps) => {
     const element = useRef(null);
 
     const getSearchInput = () => element?.current?.querySelector('.searchfields-txtSearch');
 
-    const debouncedOnSearch = useMemo(() => debounce(onSearch, 400), []);
+    const debouncedOnSearch = useMemo(() => debounce(onSearch, 400), [onSearch]);
 
     useEffect(() => {
         getSearchInput()?.addEventListener('input', e => {
@@ -47,7 +51,7 @@ const SearchFields = ({ onSearch = () => {} }) => {
         return () => {
             debouncedOnSearch.cancel();
         };
-    }, []);
+    }, [debouncedOnSearch]);
 
     const onAlphaPicked = e => {
         const value = e.detail.value;
@@ -81,10 +85,6 @@ const SearchFields = ({ onSearch = () => {} }) => {
             }
         </div>
     );
-};
-
-SearchFields.propTypes = {
-    onSearch: PropTypes.func
 };
 
 export default SearchFields;

@@ -61,12 +61,22 @@ module.exports = {
     settings: {
         react: {
             version: 'detect'
+        },
+        'import/extensions': [
+            '.js',
+            '.ts',
+            '.jsx',
+            '.tsx'
+        ],
+        'import/parsers': {
+            '@typescript-eslint/parser': [ '.ts', '.tsx' ]
         }
     },
     overrides: [
         {
             files: [
-                './src/**/*.js'
+                './src/**/*.js',
+                './src/**/*.ts'
             ],
             parser: '@babel/eslint-parser',
             env: {
@@ -197,6 +207,23 @@ module.exports = {
                     'document.querySelector'
                 ]
             }
+        },
+        {
+            files: [
+                './src/**/*.ts',
+                './src/**/*.tsx'
+            ],
+            parser: '@typescript-eslint/parser',
+            plugins: ['@typescript-eslint'],
+            extends: [
+                'eslint:recommended',
+                'plugin:import/typescript',
+                'plugin:@typescript-eslint/recommended',
+                'plugin:eslint-comments/recommended',
+                'plugin:react/recommended',
+                'plugin:react-hooks/recommended',
+                'plugin:jsx-a11y/recommended'
+            ]
         }
     ]
 };

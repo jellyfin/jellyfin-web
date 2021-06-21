@@ -1,10 +1,14 @@
-import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import AlphaPicker from './alphaPicker';
 
+type AlphaPickerProps = {
+    onAlphaPicked?: () => void
+};
+
 // React compatibility wrapper component for alphaPicker.js
-const AlphaPickerComponent = ({ onAlphaPicked = () => {} }) => {
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const AlphaPickerComponent: FunctionComponent<AlphaPickerProps> = ({ onAlphaPicked = () => {} }: AlphaPickerProps) => {
     const [ alphaPicker, setAlphaPicker ] = useState(null);
     const element = useRef(null);
 
@@ -19,6 +23,7 @@ const AlphaPickerComponent = ({ onAlphaPicked = () => {} }) => {
         return () => {
             alphaPicker?.destroy();
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Disabled for wrapper components
     }, []);
 
     return (
@@ -27,10 +32,6 @@ const AlphaPickerComponent = ({ onAlphaPicked = () => {} }) => {
             className='alphaPicker align-items-center'
         />
     );
-};
-
-AlphaPickerComponent.propTypes = {
-    onAlphaPicked: PropTypes.func
 };
 
 export default AlphaPickerComponent;
