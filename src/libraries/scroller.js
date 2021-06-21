@@ -630,6 +630,8 @@ const scrollerFactory = function (frame, options) {
             //passive: true
         });
 
+        scrollSource.removeAttribute(`data-scroll-mode-${o.horizontal ? 'x' : 'y'}`);
+
         // Reset initialized status and return the instance
         self.initialized = 0;
         return self;
@@ -750,6 +752,8 @@ const scrollerFactory = function (frame, options) {
                 slideeElement.classList.add('animatedScrollY');
             }
         }
+
+        scrollSource.setAttribute(`data-scroll-mode-${o.horizontal ? 'x' : 'y'}`, 'custom');
 
         if (transform || layoutManager.tv) {
             // This can prevent others from being able to listen to mouse events
