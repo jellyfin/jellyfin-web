@@ -132,6 +132,7 @@ import template from './displaySettings.template.html';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
 
         context.querySelector('#txtLibraryPageSize').value = userSettings.libraryPageSize();
+        context.querySelector('#txtMaxDaysForNextUp').value = userSettings.maxDaysForNextUp();
 
         context.querySelector('.selectLayout').value = layoutManager.getSavedLayout() || '';
 
@@ -156,6 +157,7 @@ import template from './displaySettings.template.html';
         userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
 
         userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
+        userSettingsInstance.maxDaysForNextUp(context.querySelector("#txtMaxDaysForNextUp").value);
 
         userSettingsInstance.enableFastFadein(context.querySelector('#chkFadein').checked);
         userSettingsInstance.enableBlurhash(context.querySelector('#chkBlurhash').checked);
