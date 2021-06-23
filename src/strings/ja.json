@@ -1482,5 +1482,9 @@
     "Framerate": "フレームレート",
     "DisablePlugin": "無効する",
     "EnablePlugin": "有効する",
-    "DirectPlayHelp": "元のファイルはこのクライアントと完全に互換性があり、セッションは変更なしでファイルを受信しています。"
+    "DirectPlayHelp": "元のファイルはこのクライアントと完全に互換性があり、セッションは変更なしでファイルを受信しています。",
+    "LabelSyncPlayHaltPlaybackDescription": "現在のプレイリストの更新を無視する",
+    "LabelSSDPTracingFilterHelp": "ログに記録されたSSDPトラフィックをフィルタリングするためのIPアドレス。",
+    "LabelPublishedServerUriHelp": "インタフェースやクライアントのIPアドレスに基づいて、Jellyfinが使用するURIをオーバーライドします。",
+    "HeaderContinueReading": "続きを読む"
 }
