@@ -1,5 +1,6 @@
 import { playbackManager } from '../../../components/playback/playbackmanager';
 import SyncPlay from '../../../components/syncPlay/core';
+import browser from '../../../scripts/browser';
 import dom from '../../../scripts/dom';
 import inputManager from '../../../scripts/inputManager';
 import mouseManager from '../../../scripts/mouseManager';
@@ -987,14 +988,30 @@ import { appRouter } from '../../../components/appRouter';
          */
         let clickedElement;
 
+        function onClickCapture(e) {
+            // Firefox/Edge emits `click` even if `preventDefault` was used on `keydown`
+            // Ignore 'click' if another element was originally clicked
+            if (!e.target.contains(clickedElement)) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }
+
         function onKeyDown(e) {
             clickedElement = e.target;
 
             const key = keyboardnavigation.getKeyName(e);
             const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
 
-            if (!currentVisibleMenu && e.keyCode === 32) {
-                playbackManager.playPause(currentPlayer);
+            if (e.keyCode === 32) {
+                if (e.target.tagName !== 'BUTTON' || !layoutManager.tv) {
+                    playbackManager.playPause(currentPlayer);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Trick Firefox with a null element to skip next click
+                    clickedElement = null;
+                }
                 showOsd();
                 return;
             }
@@ -1304,6 +1321,9 @@ import { appRouter } from '../../../components/appRouter';
                     capture: true,
                     passive: true
                 });
+                if (browser.firefox || browser.edge) {
+                    dom.addEventListener(document, 'click', onClickCapture, { capture: true });
+                }
             } catch (e) {
                 appRouter.goHome();
             }
@@ -1342,6 +1362,9 @@ import { appRouter } from '../../../components/appRouter';
                 capture: true,
                 passive: true
             });
+            if (browser.firefox || browser.edge) {
+                dom.removeEventListener(document, 'click', onClickCapture, { capture: true });
+            }
             stopOsdHideTimer();
             headerElement.classList.remove('osdHeader');
             headerElement.classList.remove('osdHeader-hidden');
@@ -1491,10 +1514,7 @@ import { appRouter } from '../../../components/appRouter';
             playbackManager.previousTrack(currentPlayer);
         });
         view.querySelector('.btnPause').addEventListener('click', function () {
-            // Ignore 'click' if another element was originally clicked (Firefox/Edge issue)
-            if (this.contains(clickedElement)) {
-                playbackManager.playPause(currentPlayer);
-            }
+            playbackManager.playPause(currentPlayer);
         });
         view.querySelector('.btnNextTrack').addEventListener('click', function () {
             playbackManager.nextTrack(currentPlayer);
