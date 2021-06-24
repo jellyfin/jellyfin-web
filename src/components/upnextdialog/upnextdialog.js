@@ -162,7 +162,7 @@ import '../../assets/css/flexstyles.scss';
         const fn = onHideAnimationComplete.bind(instance);
         instance._onHideAnimationComplete = fn;
 
-        const e = await new Promise((resolve) => {
+        const transitionEvent = await new Promise((resolve) => {
             dom.addEventListener(elem, transitionEndEventName, resolve, {
                 once: true
             });
@@ -173,7 +173,7 @@ import '../../assets/css/flexstyles.scss';
             elem.classList.add('upNextDialog-hidden');
         });
 
-        instance._onHideAnimationComplete(e);
+        instance._onHideAnimationComplete(transitionEvent);
     }
 
     function getTimeRemainingMs(instance) {

@@ -34,12 +34,12 @@ class PlaybackPermissionManager {
      * Tests playback permission. Grabs the permission when called inside a click event (or any other valid user interaction).
      * @returns {Promise} Promise that resolves succesfully if playback permission is allowed.
      */
-    async check () {
+    check () {
         if (appHost.supports('htmlaudioautoplay')) {
-            return true;
+            return Promise.resolve(true);
         }
 
-        return await new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const media = createTestMediaElement();
             media.play().then(() => {
                 resolve();
